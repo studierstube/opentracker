@@ -3,7 +3,7 @@
 // ===========================================================================
 //  NAME:      ConfigurationParser.h
 //  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  PROJECT:   TrackerServer
 //  CONTENT:   Declaration of class 'ConfigurationParser'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,11 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// July 22, 2000 19:30 Gerhard Reitmayr & added factory to ConfigurationParser
-//     Updated interface of method 'ConfigurationParser'
-// July 22, 2000 19:29 Gerhard Reitmayr & added factory to ConfigurationParser
-//     Added member 'factory'
-// July 22, 2000 18:56 Gerhard Reitmayr & updated some methods now returning pointers instead of references
+// August 10, 2000 10:22 Gerhard Reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _CONFIGURATIONPARSER_H

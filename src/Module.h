@@ -3,7 +3,7 @@
 // ===========================================================================
 //  NAME:      Module.h
 //  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  PROJECT:   TrackerServer
 //  CONTENT:   Declaration of class 'Module'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,9 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// July 22, 2000 19:12 Gerhard Reitmayr & changed reference to pointer
-//     Updated interface of method 'init'
-// July 22, 2000 18:56 Gerhard Reitmayr & updated some methods now returning pointers instead of references
+// August 10, 2000 10:22 Gerhard Reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _MODULE_H

@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      MaxConfidenceFilter.cxx
+//  NAME:      TestSource.cxx
 //  TYPE:      cxx header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Implementation of class 'MaxConfidenceFilter'
+//  CONTENT:   Implementation of class 'TestSource'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -12,8 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
-//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -30,73 +28,54 @@
 // Static members
 
 
-/*@NOTE_3772
-Constructor method.
+/*@NOTE_4801
+default constructor
 */
-MaxConfidenceFilter::MaxConfidenceFilter() //@INIT_3772
-    : TreeNode()
-{//@CODE_3772
+TestSource::TestSource() //@INIT_4801
+    : Node()
+    
+{//@CODE_4801
     ConstructorInclude();
 
     // Put in your own code
-}//@CODE_3772
+}//@CODE_4801
 
 
-/*@NOTE_331
+/*@NOTE_4796
 Destructor method.
 */
-MaxConfidenceFilter::~MaxConfidenceFilter()
-{//@CODE_331
+TestSource::~TestSource()
+{//@CODE_4796
     DestructorInclude();
 
     // Put in your own code
-}//@CODE_331
+}//@CODE_4796
 
 
-/*@NOTE_3588
+/*@NOTE_4803
 returns the current state of the node. This method will be overriden in any subclasses
 that provide real functionality. All processing of states will be done here.
 */
-State* MaxConfidenceFilter::getState()
-{//@CODE_3588
-    State* value, * comp;
-    if(children.empty())
-    {
-        // return some kind of invalid value ??
-        value = NULL;
-    } else 
-    {
-        NodeVector::iterator it = children.begin();
-        value = (*it)->getState();
-        it++;
-        while( it != children.end())
-        {
-	  comp = (*it)->getState();
-            if( value->confidence < comp->confidence )
-            {
-                value = comp;
-            }
-            it++;
-        }
-    }
-    return value;
-}//@CODE_3588
+State* TestSource::getState()
+{//@CODE_4803
+   return &state;
+}//@CODE_4803
 
 
 //{{AFX DO NOT EDIT CODE BELOW THIS LINE !!!
 
-/*@NOTE_330
+/*@NOTE_4795
 Method which must be called first in a constructor.
 */
-void MaxConfidenceFilter::ConstructorInclude()
+void TestSource::ConstructorInclude()
 {
 }
 
 
-/*@NOTE_332
+/*@NOTE_4797
 Method which must be called first in a destructor.
 */
-void MaxConfidenceFilter::DestructorInclude()
+void TestSource::DestructorInclude()
 {
 }
 

@@ -2,8 +2,8 @@
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
 //  NAME:      MathUtils.cxx
-//  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  TYPE:      cxx header file
+//  PROJECT:   TrackerServer
 //  CONTENT:   Implementation of class 'MathUtils'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 10, 2000 10:22 Gerhard Reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

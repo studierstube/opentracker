@@ -75,7 +75,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ws2_32.lib xerces-c_1.lib ar32.lib arvideowin32.lib strings32.lib /nologo /subsystem:console /debug /machine:I386 /nodefaultlib:"msvcrt.lib" /pdbtype:sept /libpath:"..\artool\lib" /libpath:"..\xerces\lib" /libpath:"..\vissdk\lib"
+# ADD LINK32 ws2_32.lib xerces-c_1D.lib ar32.lib arvideowin32.lib strings32.lib /nologo /subsystem:console /debug /machine:I386 /nodefaultlib:"msvcrt.lib" /pdbtype:sept /libpath:"..\artool\lib" /libpath:"..\xerces\lib" /libpath:"..\vissdk\lib"
 # SUBTRACT LINK32 /nodefaultlib
 
 !ENDIF 
@@ -247,6 +247,34 @@ SOURCE=.\src\VirtualTransformation.h
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# End Group
+# Begin Group "data files"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\data\camera_para.dat
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\maxwell.dtd
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\pen.tag
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\pip.tag
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\pip2.tag
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\test.xml
+# End Source File
 # End Group
 # End Target
 # End Project

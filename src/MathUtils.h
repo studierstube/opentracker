@@ -3,7 +3,7 @@
 // ===========================================================================
 //  NAME:      MathUtils.h
 //  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  PROJECT:   TrackerServer
 //  CONTENT:   Declaration of class 'MathUtils'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,7 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// July 22, 2000 18:56 Gerhard Reitmayr & updated some methods now returning pointers instead of references
+// August 10, 2000 10:22 Gerhard Reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _MATHUTILS_H

@@ -74,6 +74,8 @@ class NetworkDriver;
 class ConfigurationParser;
 class MathUtils;
 class Context;
+class TestSource;
+class TestModule;
 
 // Needed ClassBuilder include files
 
@@ -100,6 +102,8 @@ class Context;
 #include "ConfigurationParser.h"
 #include "MathUtils.h"
 #include "Context.h"
+#include "TestSource.h"
+#include "TestModule.h"
 
 
 // Include classes again, for inline implementation

@@ -12,19 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 01, 2000 13:18 Gerhard Reitmayr & implemented Context
-//     Added method 'DestructorInclude'
-//     Added method 'ConstructorInclude'
-//     Added method 'run'
-//     Added method 'parseConfiguration'
-//     Added method 'addModule'
-//     Added method 'addFactory'
-//     Added method '~Context'
-//     Added method 'Context'
-//     Added member 'parser'
-//     Added member 'factory'
-//     Added member 'rootNodes'
-//     Added member 'modules'
+// August 10, 2000 10:22 Gerhard Reitmayr
+//     Updated interface of method 'addFactory'
+//     Update comment header
 // ===========================================================================
 #ifndef _CONTEXT_H
 #define _CONTEXT_H
@@ -65,7 +55,7 @@ protected:
 public:
     Context();
     virtual ~Context();
-    void addFactory(NodeFactory& factory);
+    void addFactory(NodeFactory& newfactory);
     void addModule(const char* name, Module& module);
     void parseConfiguration(const char* filename);
     void run();

@@ -2,8 +2,8 @@
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
 //  NAME:      NodeFactoryContainer.cxx
-//  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  TYPE:      cxx header file
+//  PROJECT:   TrackerServer
 //  CONTENT:   Implementation of class 'NodeFactoryContainer'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,8 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// July 22, 2000 21:35 Gerhard Reitmayr & fixed bug with char * as keys, wrong comparison function
-//     Updated interface of method 'createNode'
+// August 10, 2000 10:22 Gerhard Reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

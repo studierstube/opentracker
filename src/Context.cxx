@@ -12,19 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 01, 2000 13:18 Gerhard Reitmayr & implemented Context
-//     Added method 'DestructorInclude'
-//     Added method 'ConstructorInclude'
-//     Added method 'run'
-//     Added method 'parseConfiguration'
-//     Added method 'addModule'
-//     Added method 'addFactory'
-//     Added method '~Context'
-//     Added method 'Context'
-//     Added member 'parser'
-//     Added member 'factory'
-//     Added member 'rootNodes'
-//     Added member 'modules'
+// August 10, 2000 10:22 Gerhard Reitmayr
+//     Updated interface of method 'addFactory'
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -80,7 +70,7 @@ Context::~Context()
 
 
 /*@NOTE_4761
-adds a new factory to the NodeFactoryContainer
+adds a new newfactory to the NodeFactoryContainer
 */
 void Context::addFactory(NodeFactory& newfactory)
 {//@CODE_4761
