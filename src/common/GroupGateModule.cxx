@@ -145,10 +145,10 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
         node->setNumber(NameList.size());
         NameList.push_back(cname);
 
-#ifndef _WIN32_WCE
+#ifdef _WIN32_WCE
 		// groupgate node not yet supported under wince
 		assert(false);
-
+#else
         stringstream neighborstream;
         neighborstream << cneighbors;
         while (true)

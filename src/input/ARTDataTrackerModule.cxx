@@ -56,7 +56,7 @@ static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
 // -------------------------------------------------------------------------------------------------------
 // constructor initializing the thread manager
-ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory(), stop(0)
+ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory(), stop(0), DataTracker(NULL)
 {
 	
 }

@@ -41,7 +41,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="aced.lib xerces-c_2d.lib"
+				AdditionalDependencies="aced.lib"
 				OutputFile="bin/opentrackerd.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -110,7 +110,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ace.lib xerces-c_2.lib"
+				AdditionalDependencies="ace.lib"
 				OutputFile="bin/opentracker.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
