@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.11 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.12 2003/06/11 15:43:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -109,8 +109,11 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
         }
 
         int station;
-        if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
+        if( attributes.get("station", &station ) == 0 ) 
             station = 0;                    
+
+        bool localTime = ( attributes.get("localtime").compare("true") == 0 );
+            
         // search for File
         map<string,File *>::iterator it = files.find( id );
         File * file;
@@ -135,10 +138,10 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
                 cout << "Allready another FileSource node for station " << station << endl;
                 return NULL;
             }
-            FileSource * source = new FileSource( station );
+            FileSource * source = new FileSource( station, localTime );
             vector.push_back( source );
             cout << "Built FileSource node reading from " << id << " with station " 
-                 << station << endl;       
+                 << station << " and localtime " << localTime << endl;       
             return source;
         } 
         cout << "FileSource referencing output file " << id << endl;
@@ -153,6 +156,9 @@ void FileModule::pushState()
     State state;
     int station;
     
+    // store a time stamp to use for all localTime file sources
+    double time = OSUtils::currentTime();
+
 	for( map<string, File*>::iterator it = files.begin(); it != files.end(); it++ )
     {
         if((*it).second->mode == File::IN )
@@ -161,7 +167,7 @@ void FileModule::pushState()
             NodeVector::iterator jt;
             for( jt = vector.begin(); jt != vector.end(); jt++ )
             {
-                ((FileSource*)(*jt))->changed = 0;
+                ((FileSource*)(*jt))->changed = false;
             }            
             while( 1 ){
                 if( (*it).second->read( state, &station ) == 0 )
@@ -172,13 +178,15 @@ void FileModule::pushState()
                 while( jt != vector.end())
                 {
                     if(((FileSource*)(*jt))->station == station && 
-                       ((FileSource*)(*jt))->changed == 0 )
+                       ((FileSource*)(*jt))->changed == false)
                         break;
                     jt++;
                 }        
                 if( jt != vector.end())
                 {
-                    ((FileSource*)(*jt))->changed = 1;
+                    ((FileSource*)(*jt))->changed = true;
+                    if(((FileSource*)(*jt))->localTime )
+                        state.time = time;
                     ((FileSource*)(*jt))->updateObservers( state );
                 }                    
                 else 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSource.h,v 1.1 2001/08/04 13:26:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSource.h,v 1.2 2003/06/11 15:43:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,10 +48,12 @@
  * A FileSource has the following attributes :
  * @li @c file the file name to use
  * @li @c station the station number to record
+ * @li @c localtime false (true|false) whether to use the local time as time stamp or
+ *                  the time recorded in the file
  *
  * An example element looks like this :
  * @verbatim
-<FileSource file="name" station="0"/>@endverbatim
+<FileSource file="name" station="0" localtime="false"/>@endverbatim
  */
 
 #ifndef _FILESOURCE_H
@@ -73,17 +75,20 @@ class OPENTRACKER_API FileSource : public Node
 public:
     /// station number
     int station;
+    /// flag whether timestamp should be taken from the file or generated locally
+    bool localTime;
     /// flag whether state was changed this round
-    int changed;	
+    bool changed;	
 
 // Methods
 protected:
     /** constructor method,sets the station number and other default values.    
      * @param station the station number to use.
      */
-    FileSource( int station_ = 0 ) :
+    FileSource( int station_ = 0, bool localTime_ = false ) :
         Node(), 
 		station( station_ ),
+        localTime( localTime_ ),
         changed( 0 )
     {}
 
