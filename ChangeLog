@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-20 17:36  reitmayr
+
+	* src/core/: Module.h, NodeFactory.h:
+	
+	added a nice virtual destructor to the module as it should be :)
+
 2003-03-19 23:42  tamer
 
 	* configure.ac:
