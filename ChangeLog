@@ -9,6 +9,30 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-03-19 10:29  reitmayr
+
+	* doc/changes.txt, VERSION.TXT:
+	
+	doc updates
+
+2004-03-19 09:08  reitmayr
+
+	* src/network/Makefile.am, src/network/VRPNModule.cxx,
+	src/network/VRPNModule.h, src/network/VRPNSink.cxx,
+	src/network/VRPNSink.h, src/network/VRPNSource.cxx,
+	src/network/VRPNSource.h, src/OpenTracker.h,
+	src/misc/OpenTracker.cxx, src/misc/test.cxx, config_win.h,
+	opentracker.dsp, data/opentracker.dtd, data/vrpntest.xml,
+	doc/changes.txt, doc/install.html, doc/ot.css:
+	
+	added VRPN support
+
+2004-03-19 09:08  reitmayr
+
+	* src/network/: DwarfSink.h, DwarfSource.h:
+	
+	fixed docu stuff
+
 2004-02-20 10:22  reitmayr
 
 	* opentracker.dsp:
