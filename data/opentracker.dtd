@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -23,8 +24,8 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FileConfig?">
-<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FileConfig?,FOBConfig?">
+<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FOBSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform">
@@ -312,6 +313,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT Callback (%EventNodes;)>
 <!ATTLIST Callback
 	name CDATA #REQUIRED
+	DEF ID #IMPLIED
 >
 <!-- Time Module configuration element, manages timing of the main loop -->
 <!ELEMENT TimeConfig EMPTY>
@@ -330,13 +332,32 @@ It implements the EventGenerator as well as the EventQueue interface. -->
       Right now only a simple sink is implemented, expect more to come -->
 <!ELEMENT File EMPTY>
 <!ATTLIST File
-    file CDATA #REQUIRED
-    io (in|out) "out"
-    id CDATA #REQUIRED
+	file CDATA #REQUIRED
+	io (in | out) "out"
+	id CDATA #REQUIRED
 >
 <!ELEMENT FileConfig (File*)>
 <!ELEMENT FileSink (%EventNodes;)>
 <!ATTLIST FileSink
-    id CDATA #REQUIRED
-    station CDATA "0"
+	id CDATA #REQUIRED
+	station CDATA "0"
+	DEF ID #IMPLIED
+>
+<!-- Flock of Birds Tracker -->
+<!ELEMENT Station EMPTY>
+<!ATTLIST Station
+	id CDATA #REQUIRED
+	number CDATA #IMPLIED
+	device CDATA #IMPLIED
+>
+<!ELEMENT FOBConfig (Station+)>
+<!ATTLIST FOBConfig
+	mode (multi | single) #REQUIRED
+	master CDATA #REQUIRED
+	erc CDATA #IMPLIED
+>
+<!ELEMENT FOBSource EMPTY>
+<!ATTLIST FOBSource
+	station CDATA #REQUIRED
+	DEF ID #IMPLIED
 >
