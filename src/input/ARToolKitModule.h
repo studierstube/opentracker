@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.15 2001/08/04 23:33:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.16 2001/09/19 16:26:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,10 +42,12 @@
  * @li @c treshhold 100 bounding value for treshholding the greyscale video
  *        image
  * @li @c framerate 10 a desired maximum framerate, the module will not exceed it.
+ * @li @c videomode a string selecting the videomode for ARToolKit. This depends on 
+ *        video interface linked with ARToolKit.
  *
  * An example configuration element looks like this :
  * @verbatim
-<ARToolKitConfig camera-parameter="../data/camera" treshhold="150" framerate="5"/>@endverbatim
+<ARToolKitConfig camera-parameter="../data/camera" treshhold="150" framerate="5" videomode="0,5,3"/>@endverbatim
  */
 
 /**
@@ -85,6 +87,8 @@ protected:
     std::string cameradata;
     /// desired maximal framerate
     double rate;
+    /// videomode string
+    std::string videomode;
 
 // methods
 protected:

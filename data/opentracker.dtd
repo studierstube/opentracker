@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -257,12 +257,14 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	camera-parameter CDATA #REQUIRED
 	treshhold CDATA "100"
 	framerate CDATA "10"
+	videomode CDATA #REQUIRED
 >
 <!ELEMENT ARToolKitSource EMPTY>
 <!ATTLIST ARToolKitSource
 	DEF ID #IMPLIED
 	tag-file CDATA #REQUIRED
-	vertex CDATA #REQUIRED
+	center CDATA #REQUIRED
+	size CDATA #REQUIRED
 >
 <!-- test source elements -->
 <!ELEMENT TestSource EMPTY>

@@ -38,6 +38,7 @@
 #include <AR/ar.h>
 #include <AR/video.h>
 #include <AR/param.h>
+
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based iostream library
 #else
@@ -67,24 +68,26 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("ARToolKitSource") == 0 )
     {
-        double vertex[4][2];
-        int num = sscanf( attributes.get("vertex").c_str(), " %lf %lf %lf %lf %lf %lf %lf %lf",
-                &vertex[0][0], &vertex[0][1],
-                &vertex[1][0], &vertex[1][1],
-                &vertex[2][0], &vertex[2][1],
-                &vertex[3][0], &vertex[3][1] );
-        if( num != 8 )
+        double center[2], size;
+        int num = sscanf( attributes.get("center").c_str(), " %lf %lf",
+                &center[0], &center[1]);
+        if( num != 2 )
         {
-            cout << "Wrong number of vertices : " << num << endl;
+            cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
             return NULL;
         }
+        num = sscanf( attributes.get("size").c_str(), " %lf", &size );
+        if( num != 1 )
+        {
+            cout << "ARToolKit Not a size" << endl;
+            return NULL;
         int id;
         if((id = arLoadPatt((char *)attributes.get("tag-file").c_str() )) < 0 )
         {
-            cout << "Error reading tag-file " << attributes.get("tag-file") << endl;
+            cout << "ARToolKit Error reading tag-file " << attributes.get("tag-file") << endl;
             return NULL;
         }
-        ARToolKitSource * source = new ARToolKitSource( id, vertex );
+        ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
         cout << "Build ARToolKitSource " << attributes.get("tag-file") << endl;
         return source;
@@ -106,7 +109,7 @@ void ARToolKitModule::start()
     
     if( sources.size() <= 0 )
         return;
-    if( arVideoOpen() < 0 )
+    if( arVideoOpen( videomode.c_str() ) < 0 )
     {
         cout << "Error opening video source !" << endl;
         exit(1);
@@ -211,8 +214,8 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         rate = rate / 1000;
     }    
+    videomode = attributes.get("videomode");
 }
-
 
 // the work method for the module thread
 
@@ -308,7 +311,7 @@ void ARToolKitModule::grab()
         if( k != -1 )                          
         {                   
             // if one found transform it to coordinates,
-            if( arGetTransMat( &markerInfo[k], (double(*)[2]) source->vertex, matrix ) >= 0 )
+            if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
             {
                 lock();
                 State & state = source->buffer;                    

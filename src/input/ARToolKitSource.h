@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.12 2001/07/23 14:08:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.13 2001/09/19 16:26:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,12 +38,12 @@
  * library. See the @ref artoolkitmodule for information about how to
  * configure the module as a whole. It has the following elements :
  * @li @c tag-file the file containing the marker pattern
- * @li @c vertex two dimensional array of the 4 vertices of the marker pattern. The 
- *        corners are given in millimeters with respect to the center of the pattern.
+ * @li @c center the center within the marker as two coordinates in millimeters
+ * @li @c size the size of the quadratic marker in millimeters
  *
  * An example element looks like this :
  * @verbatim
-<ARToolKitSource tag-file="pip.tag" vertex="-20 -20 -20 20 20 20 20 -20" />@endverbatim
+<ARToolKitSource tag-file="pip.tag" center="0,0" size="40" />@endverbatim
  */
 
 #ifndef _ARTOOLKITSOURCE_H
@@ -67,8 +67,10 @@ public:
         buffer;
     /// marker id from the artoolkit library
     int markerId;
-    /// coordinates of the marker
-    double vertex[4][2];
+    /// center of the marker
+    double center[2];
+    /// size of the marker
+    double size;
     /// is a new update ready in the buffer ?
     int modified;
 
@@ -77,16 +79,14 @@ protected:
      * @param markerId_ the id of the marker from artoolkit library
      * @param vertex_ vertex coordinates of the marker
      */
-    ARToolKitSource(int markerId_, double vertex_[4][2]) : 
+    ARToolKitSource(int markerId_, double center_[2], double size_) : 
         Node(),        
         markerId( markerId_ ),
+        size( size_ ),
         modified(0)
     {
-        for( int i = 0; i < 4; i ++ )
-        {
-            vertex[i][0] = vertex_[i][0];
-            vertex[i][1] = vertex_[i][1];
-        }
+        center[0] = center_[0];
+        center[1] = center_[1];
     };
 
 public:
