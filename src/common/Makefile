@@ -18,7 +18,9 @@ HFILES = \
         MergeNode.h \
         StaticTransformation.h \
         Transformation.h \
-        VirtualTransformation.h
+        VirtualTransformation.h \
+        CallbackNode.h \
+        CallbackModule.h        
 
         
 C++FILES = \
@@ -29,7 +31,8 @@ C++FILES = \
         MergeNode.cxx \
         StaticTransformation.cxx \
         Transformation.cxx \
-        VirtualTransformation.cxx
+        VirtualTransformation.cxx \
+        CallbackModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
