@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--OpenTracker Configuration file DTD
 	Vienna University of Technology
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
-<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Ref">
+<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Merge | Ref">
 <!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref">
 <!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
@@ -78,6 +78,14 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	DEF ID #IMPLIED
 	length CDATA "1"
 >
+<!--Merge Node and associated Wrapper nodes definitions-->
+<!ELEMENT MergeDefault ((%EventNodes;)+)>
+<!ELEMENT MergePosition ((%EventNodes;)+)>
+<!ELEMENT MergeOrientation ((%EventNodes;)+)>
+<!ELEMENT MergeButton ((%EventNodes;)+)>
+<!ELEMENT MergeTime ((%EventNodes;)+)>
+<!ELEMENT MergeConfidence ((%EventNodes;)+)>
+<!ELEMENT Merge (MergeDefault?, MergePosition?, MergeOrientation?, MergeButton?, MergeTime?, MergeConfidence?)>
 <!-- Source and Sink nodes grouped after functionality -->
 <!-- network sender elements -->
 <!ELEMENT NetworkSinkConfig EMPTY>
