@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.26 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.27 2003/03/24 12:28:46 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,6 +44,7 @@
 #include "ButtonFilterNode.h"
 #include "ButtonOpNode.h"
 #include "TimeGateNode.h"
+#include "ElasticFilterNode.h"
 
 #include <cmath>
 #include <cfloat>
