@@ -740,6 +740,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   debug (on | off) "off"
   logfile CDATA #IMPLIED
   rtcmdev CDATA #IMPLIED
+  DGPSmirror CDATA #IMPLIED
 >
 <!ELEMENT GPSSource EMPTY>
 <!ATTLIST GPSSource
