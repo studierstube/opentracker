@@ -1,15 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>Programmer's Guide</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
+<title>OpenTracker - Programmers Guide</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="ot.css" type="text/css">
+<link href="ot.css" rel="stylesheet" type="text/css">
+
 </head>
+<body bgcolor="#ffffff">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="http://www.studierstube.org/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="http://www.studierstube.org/"><img src="http://www.studierstube.org/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>OpenTracker Documentation Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/index.html">Main Page</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/modules.html">Modules</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/hierarchy.html">Class Hierarchy</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/classes.html">Alphabetical List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/annotated.html">Compound List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/files.html">File List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/functions.html">Compound Members</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/pages.html">Related Pages</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<div class="maincontent">
 
-<body bgcolor="#FFFFFF" text="#000000">        
-<h1>Programmer's Guide to OpenTracker</h1><p>This guide gives pointers about extending OpenTracker. It describes the core 
+
+       
+<h1>Programmers Guide to OpenTracker</h1><p>This guide gives pointers about extending OpenTracker. It describes the core 
     interfaces that hold the library together and how to use them to implement new 
-    functionality in the form of additional nodes and modules.</p><hr><h2>Introduction</h2><p>OpenTracker's functionality is provided by nodes that describe sources, transformations 
+    functionality in the form of additional nodes and modules.</p>
+    <h2>Introduction</h2><p>OpenTracker's functionality is provided by nodes that describe sources, transformations 
     and sinks of tracking data. Nodes are in turn supported by modules that implement 
     any special functions such as device drivers, computations and network code. 
     Extending OpenTracker is achieved by implemented such nodes and modules. The 
@@ -153,7 +218,7 @@
       input it corresponds to. Within <span class="name">Node::onEventGenerated()</span>, 
       typical code to distinguish between different inputs looks something like 
       this : 
-      <pre>if( generator.isWrapperNode() == 1 )  // this should always be the case
+      <div class="fragment"><pre>if( generator.isWrapperNode() == 1 )  // this should always be the case
 {
 	WrapperNode &amp; wrap = (WrapperNode &amp;)generator;
 	if( wrap.getTagName().compare(&quot;Input1&quot;) == 0 )
@@ -164,7 +229,7 @@
 	{
 		// ... do something specific for Input2
 	}
-}</pre>
+}</pre></div>
     </dd>
 </dl><h3>The Life of a Node</h3><h2>Modules</h2><p>A module is the basic element of functionality in the OpenTracker framework. 
     It implements anything that is needed by the application. All module classes 
@@ -220,5 +285,26 @@
     <li><span class="filename">TimeModule.{h|cxx}</span> in <span class="filename">src/common</span>. 
       A simple module that is not dealing with nodes. </li>
 </ul>
+</div>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6"><small>&nbsp;This page was generated at $datetime for $projectname by
+<a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>.<br>
+&nbsp;If you have any comments, please send a message to <a href="mailto:schmalstieg@ims.tuwien.ac.at">schmalstieg@ims.tuwien.ac.at</a>.
+</small>
+</td>
+        <td bgcolor="#F6F6F6"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+
 </body>
 </html>

@@ -1,28 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>User's Guide</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="ot.css" type="text/css">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
+<title>OpenTracker - User Guide</title>
+
+<link href="ot.css" rel="stylesheet" type="text/css">
+
 </head>
-<body bgcolor="#FFFFFF" text="#000000"> 
+<body bgcolor="#ffffff">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="http://www.studierstube.org/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="http://www.studierstube.org/"><img src="http://www.studierstube.org/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>OpenTracker Documentation Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/index.html">Main Page</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/modules.html">Modules</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/hierarchy.html">Class Hierarchy</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/classes.html">Alphabetical List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/annotated.html">Compound List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/files.html">File List</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/functions.html">Compound Members</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="http://www.studierstube.org/media/images/studierstube_dots_vert.gif"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a class="qindex navMain" href="html/pages.html">Related Pages</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<div class="maincontent">
+
+
+
 <h1>User Guide to OpenTracker</h1> 
 <p>This is a user's guide to essential features and of OpenTracker. It describes how configuration files work and how to use the standalone program.</p> 
-<hr> 
 <h2>Introduction ( or What is XML ? )</h2> 
 <p>OpenTracker uses a data flow graph to process tracking data. This graph is specified by a textual configuration file. The format of this file is defined in the <a href="http://www.w3c.org/">eXtensible Markup Language</a> ( XML ). XML is a language to specify the syntax of other languages. It allows us to specify hierarchical structures that are mapped onto our data flow graphs. The language itself is defined in Document Type Description stored in opentracker.dtd. It uses element tags ( like HTML ) and attributes of these tags ( again like HTML ) but no interim textual parts ( unlike HTML ). So it typically looks like a very dry HTML file using strange tags.</p> 
 <h2>Structure of an OpenTracker Configuration File</h2> 
 <p>The simplest configuration file looks like this :</p> 
-<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="fragment"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE OpenTracker SYSTEM <font color="#FF0000">&quot;opentracker.dtd&quot;</font>&gt;
 &lt;OpenTracker&gt;
    &lt;configuration/&gt;
 &lt;/OpenTracker&gt;
-</pre> 
+</pre> </div>
 <p>The first two lines are XML stuff and need to appear in every file. The important thing is that the file <span class="filename">opentracker.dtd</span> can actually be found where it says in the <span class="element">DOCTYPE</span> element. Then there is a general <span class="element">OpenTracker</span> element, framing the whole config file and then an empty element <span class="element">configuration</span>. General configuration options for modules are children of this element. These parts have to appear in every config file ! </p> 
 <p>A more interesting example :</p> 
 <table width="100%" border="0" cellspacing="2" cellpadding="5"> 
   <tr> 
-    <td valign="top"> <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    <td valign="top"> <div class="fragment"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE OpenTracker SYSTEM &quot;opentracker.dtd&quot;&gt;
 &lt;OpenTracker&gt;
   &lt;configuration&gt;
@@ -33,7 +98,7 @@
       &lt;TestSource/&gt;
     &lt;/EventTransform&gt;
   &lt;/ConsoleSink&gt;
-&lt;/OpenTracker&gt;</pre> </td> 
+&lt;/OpenTracker&gt;</pre></div> </td> 
     <td rowspan="2" align="center" valign="middle"><img src="images/example1.gif" width="150" alt="Data Flow Graph"></td> 
   </tr> 
   <tr> 
@@ -47,7 +112,7 @@
 <p>The output of one node, can also be reused as input for a second parent node. This is accomplished with reference nodes. They simply link to the whole subgraph referenced and do not have any children of their own. To use a reference node specify a <span class="element">DEF</span> attribute on the node you want to reference. The value must be unique. Then use a <span class="element">Ref</span> element and set it's <span class="element">USE</span> attribute to the same name. A name that is used in a <span class="element">USE</span> attribute has to be specified first in a <span class="element">DEF</span> attribute. The following table shows an example :</p> 
 <table width="100%" border="0" cellspacing="2" cellpadding="5"> 
   <tr> 
-    <td valign="top"> <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    <td valign="top"> <div class="fragment"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE OpenTracker SYSTEM &quot;opentracker.dtd&quot;&gt;
 &lt;OpenTracker&gt;
   &lt;configuration&gt;
@@ -61,7 +126,7 @@
   &lt;NetworkSink name=&quot;Test&quot; number=&quot;1&quot; <font color="#666666">...</font>&gt;
     <font color="#FF8040">&lt;Ref <font color="#FF0000">USE=&quot;transform&quot;</font>/&gt;</font>
   &lt;/NetworkSink&gt;
-&lt;/OpenTracker&gt;</pre> </td> 
+&lt;/OpenTracker&gt;</pre> </div></td> 
     <td rowspan="2" align="center" valign="middle"><img src="images/example2.gif" width="300" alt="Data Flow Graph" height="255"></td> 
   </tr> 
   <tr> 
@@ -74,7 +139,7 @@
 <p>Nodes may have several children grouped corresponding to input ports. For example a Merge node has input ports for position, orientation, button, confidence, time and default and each of these ports may link to several children. To specify such a structure we use wrapper elements as children of the Merge element that in turn contain the actual children. The Merge node can then distinguish the input by distinguishing between the wrapper elements.This is an example of how to use a Merge node :</p> 
 <table width="100%" border="0" cellspacing="2" cellpadding="5"> 
   <tr> 
-    <td valign="top"> <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    <td valign="top"><div class="fragment"> <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE OpenTracker SYSTEM &quot;opentracker.dtd&quot;&gt;
 &lt;OpenTracker&gt;
   &lt;configuration&gt;
@@ -95,7 +160,7 @@
       <font color="#FF0000">&lt;/MergeButton&gt;</font>
     <font color="#FF8040">&lt;/Merge&gt;</font>
   &lt;/ConsoleSink&gt;
-&lt;/OpenTracker&gt;</pre> </td> 
+&lt;/OpenTracker&gt;</pre> </div></td> 
     <td rowspan="2" align="center" valign="middle"><img src="images/example3.gif" width="400" alt="Data Flow Graph" height="302"></td> 
   </tr> 
   <tr> 
@@ -107,5 +172,26 @@
 <p>Besides the default use as a library, OpenTracker also provides a simple standalone program. called <span class="filename">opentracker</span>. It accepts a configuration file as input and then executes the data flow specified in the configuration file until stopped. The program has only one parameter, the filename of the configuration file. It outputs errors during parsing and building the data structure. An example execution looks like :</p> 
 <pre>opentracker test.xml</pre> 
 <p>Thats it, Have Fun !
+</div>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6"><small>&nbsp;This page was generated at $datetime for $projectname by
+<a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>.<br>
+&nbsp;If you have any comments, please send a message to <a href="mailto:schmalstieg@ims.tuwien.ac.at">schmalstieg@ims.tuwien.ac.at</a>.
+</small>
+</td>
+        <td bgcolor="#F6F6F6"><img src="http://www.studierstube.org/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="http://www.studierstube.org/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="http://www.studierstube.org/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+
 </body>
 </html>
