@@ -9,6 +9,33 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-10-16 11:01  tomp
+
+	* data/ButtonTest.xml:
+	
+	test file for radiobuttons
+
+2003-10-16 11:00  tomp
+
+	* data/opentracker.dtd, src/common/ButtonFilterNode.cxx,
+	src/common/ButtonFilterNode.h, src/common/CommonNodeFactory.cxx:
+	
+	had to add a fix for broken hardware. Documentation will follow
+
+2003-10-16 09:52  reitmayr
+
+	* src/input/ParButtonModule.cxx:
+	
+	removed debugging output
+
+2003-10-16 09:51  reitmayr
+
+	* src/input/GPSDriver.cxx, src/input/GPSDriver.h,
+	src/input/GPSModule.cxx, src/input/GPSModule.h,
+	data/opentracker.dtd:
+	
+	added optional second serial port to output rtcm data to the device
+
 2003-10-14 16:49  tomp
 
 	* src/input/ParButtonModule.cxx:
