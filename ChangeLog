@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-15 19:16  reitmayr
+
+	* src/: common/File.h, core/OSUtils.cxx:
+	
+	fixed use of ACE_Time_Value in gettimeofday to return non negative
+	values.  improved output in file node to be more useable.
+
 2003-04-09 22:48  tamer
 
 	* src/input/DGPSIP_Handler.cxx:
