@@ -177,4 +177,10 @@
       <Ref USE="C0"/>
     </ButtonFilter>
   </ConsoleSink>
+   <ConsoleSink comment="ButtonHoldFilter" active="off">
+    <ButtonHoldFilter offDuration="3" >
+      <Ref USE="C0"/>
+    </ButtonHoldFilter>
+  </ConsoleSink>
+
 </OpenTracker>

@@ -110,6 +110,14 @@ SOURCE=.\src\common\ButtonFilterNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ButtonHoldFilterModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ButtonHoldFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\ButtonOpNode.cxx
 # End Source File
 # Begin Source File
@@ -427,6 +435,14 @@ SOURCE=.\src\input\ARToolKitSource.h
 # Begin Source File
 
 SOURCE=.\src\common\ButtonFilterNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ButtonHoldFilterModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ButtonHoldFilterNode.h
 # End Source File
 # Begin Source File
 

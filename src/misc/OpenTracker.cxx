@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.33 2003/07/27 10:31:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.34 2003/11/13 10:01:31 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,6 +59,7 @@
 #include "../input/UltraTrakModule.h"
 #include "../common/GroupGateModule.h"
 #include "../common/InterpolatorModule.h"
+#include "../common/ButtonHoldFilterModule.h"
 #include "../input/GPSModule.h"
 #include "../input/DynaSightModule.h"
 #include "../input/MagicYModule.h"
@@ -203,6 +204,11 @@ void OPENTRACKER_API initializeContext( Context & context )
     // actually it doesn't have a configuration element
     context.addModule( "InterpolatorConfig", *ipol );
     
+    ButtonHoldFilterModule * buttonHoldFiler = new ButtonHoldFilterModule;
+    context.addFactory( *buttonHoldFiler );
+    // actually it doesn't have a configuration element
+    context.addModule( "ButtonHoldFilterConfig", *buttonHoldFiler );
+
 #ifdef USE_P5GLOVE
     P5GloveModule *p5glovemodule = new P5GloveModule;
     context.addFactory( *p5glovemodule );
