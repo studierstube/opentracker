@@ -26,9 +26,9 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FileConfig?,FOBConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FOBSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink">
-<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform">
-<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform">
+<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
+<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
@@ -196,6 +196,22 @@ Time prefix defines that the node implements an TimeDependend interface -->
 <!ELEMENT TimeInvertTransform (%TimeNodes;)>
 <!ATTLIST TimeInvertTransform
 	DEF ID #IMPLIED
+>
+<!-- general affine transformations for the points -->
+<!ELEMENT EventMatrixTransform (%EventNodes;)>
+<!ATTLIST EventMatrixTransform
+	DEF ID #IMPLIED
+	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
+>
+<!ELEMENT QueueMatrixTransform (%QueueNodes;)>
+<!ATTLIST QueueMatrixTransform
+	DEF ID #IMPLIED
+	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
+>
+<!ELEMENT TimeMatrixTransform (%TimeNodes;)>
+<!ATTLIST TimeMatrixTransform
+	DEF ID #IMPLIED
+	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
 >
 <!-- EventQueue stores a queue of size length of the last received events.
 It implements the EventGenerator as well as the EventQueue interface. -->
