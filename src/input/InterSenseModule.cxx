@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.10 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.11 2003/01/13 10:51:49 bara Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -37,9 +37,13 @@
 #include <cstdio>
 #include <iostream>
 
+#ifndef WIN32
 extern "C" {
 #include <isense.h>
 }
+#else
+#include <isense.h>
+#endif
 
 using namespace std;
 
