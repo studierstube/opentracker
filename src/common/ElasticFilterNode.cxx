@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.5 2003/06/25 13:23:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.6 2003/06/26 14:04:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,6 +55,9 @@ void ElasticFilterNode::onEventGenerated( State& event, Node & generator )
 
     }
     targetState = event;
+    // we have to pass on the other information as well
+    currentState.button = event.button;
+    currentState.confidence = event.confidence;
 }
 
 void ElasticFilterNode::push() {
