@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-28 15:35  knapp
+
+	* src/common/: GroupGateModule.cxx, GroupGateModule.h:
+	
+	activateGroupGate() added
+
 2003-04-27 20:49  tamer
 
 	* src/core/OSUtils.cxx:
