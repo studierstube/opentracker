@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.31 2003/05/21 15:48:59 reitmayr Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.32 2003/05/23 09:24:47 reitmayr Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -55,7 +55,6 @@
 
 // the following is just to get all the ARToolkit compile options that we need
 #include <GL/gl.h>
-#include <GL/glut.h>
 
 #include <AR/ar.h>
 #include <AR/param.h>
