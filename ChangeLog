@@ -9,6 +9,20 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-10-14 16:49  tomp
+
+	* src/input/ParButtonModule.cxx:
+	
+	added win32 debug info, if something goes wrong with parallel port
+	access.
+
+2003-10-14 16:47  tomp
+
+	* src/common/ButtonFilterNode.cxx, src/common/ButtonFilterNode.h,
+	src/common/CommonNodeFactory.cxx, data/opentracker.dtd:
+	
+	added radio button functionality
+
 2003-09-24 13:10  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
