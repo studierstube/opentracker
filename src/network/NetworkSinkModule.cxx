@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.22 2003/07/18 20:26:47 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.23 2003/08/06 08:17:41 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -57,9 +57,6 @@ const int revNum=0x0200;
  * network data buffer and a socket that is used to build the packets send to the
  * group, depending on the network interface to use. 
  * All NetworkSink nodes point to one of these. 
- *
- * @todo actually we could have one socket per interface and then differentiate
- * between groups sending to one interface or to all or to a subset of them :)
  */
 struct MulticastGroup {
     FlexibleTrackerDataRecord data;   

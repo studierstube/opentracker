@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MatrixTransformation.h,v 1.1 2001/07/23 15:41:24 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MatrixTransformation.h,v 1.2 2003/08/06 08:17:33 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,34 +34,22 @@
  * @page transform_nodes Transform Node Reference
  * @section matrixtransform MatrixTransformation
  *
- * @todo documentation for matrixTransformation
+ * This section describes the MatrixTransformation configuration element. It 
+ * transforms the data by applying an affine transformation to the 
+ * the child's position data as post transformations. The transformation itself is
+ * fixed and described by a 3x4 matrix which is set with the elements attributes. 
+ * Note that this node only acts on position information !!
  *
- * This section describes the Transformation configuration element. It 
- * transforms the data by applying a rotation, scale and translation to
- * the child's data as post transformations. The transformation itself is
- * fixed and set with the elements attributes. Note that only the rotational
- * part acts on the child's orientation data.
- *
- * There are three variants of this transformation. The @c PositionTransform
- * element acts only on the position data and all attributes can be specified. 
- * @c OrientationTransform acts only on the orientation data and therefore only
- * a rotation can be specified. Finally the simple @c Transform acts on both and
- * again a full transformation can be specified.
- *
- * The configuration elements are obtained by using one of the base names
- * @c PositionTransform|OrientationTransform|Transform 
- * and prepending it with one of the prefixes described before.
- * They have the following attributes:
- * @li @c translation   0 0 0    
- * @li @c scale         1 1 1    
- * @li @c rotationtype (quaternion|matrix|euler) quaternion
- * @li @c rotation        0 0 0 1 
+ * The configuration elements are obtained by using the base name
+ * @c MatrixTransformation and prepending it with one of the prefixes described before.
+ * They have the following attribute:
+ * @li @c matrix   a 3x4 matrix specifying an affine transformation    
  *
  * An example element looks like this :
  * @verbatim
- <EventTransform rotationtype="euler" rotation="1 2 3" translation="0 0 0">
+ <EventMatrixTransform matrix="1 0 1 1 0 0 1 1 1 1 1 2">
     <Any EventGenerator element type>
- </EventTransform>@endverbatim
+ </EventMatrixTransform>@endverbatim
  */
 
 #ifndef _MATRIXTRANSFORMATION_H
@@ -70,9 +58,8 @@
 #include "Transformation.h"
 
 /**
- * The StaticTransformation class implements a static post transformation on
- * the state of its child node. It also is the base for other static implementations
- * such as the VirtualTransformation as it implements the same fields.
+ * The MatrixTransformation class implements a static matrix post transformation on
+ * the state of its child node. It implements the @ref matrixtransform nodes.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
