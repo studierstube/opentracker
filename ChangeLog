@@ -9,6 +9,36 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-22 16:57  kaufmann
+
+	* opentracker.dsp:
+	
+	added P5Glove files to msvc project file
+
+2003-03-22 16:55  kaufmann
+
+	* src/misc/OpenTracker.cxx:
+	
+	added IFDEF to P5GloveModule
+
+2003-03-22 16:44  kaufmann
+
+	* src/input/P5GloveModule.h:
+	
+	fixed IFDEFs when compiling without P5 support
+
+2003-03-22 16:27  kaufmann
+
+	* src/misc/OpenTracker.cxx:
+	
+	P5GloveModule added
+
+2003-03-22 16:26  kaufmann
+
+	* config_win.h:
+	
+	P5 glove define added
+
 2003-03-21 23:32  tamer
 
 	* INSTALL:
