@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.4 2003/10/16 09:00:52 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.5 2003/11/13 11:51:30 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,14 @@
  * @section buttonfilternode ButtonFilter
  * The Button Filter allows the user to filter and re-map the individual buttons of an event.
  *
+ * WATCH OUT !! Button bits are leastsignificant first invert (10000000) with buttonin(00000000) will result in (00000001) !!
+ * sequence :
+ * validtrans, radiobuttons, invertstr, buttonmask, buttonmap 
+ *
  * The element has the following attributes :
+ * 
+ * @li @c validtrans (8bit) specify valid transmission bit for radio pen     (1_2_____) means radio pen 1 has VT on bit 0, radio pen 2 has VT on bit 2  
+ * @li @c radiobuttons (8bit) specify bits for radio pen (ref to validtrans) (_1_22___) means bit 1 is for radio-pen 1, bit 3&4  is for radio-pen 2 (has two buttons)
  * @li @c buttonmask binary mask to enable the individual buttons, e.g. "11110000" enables buttons 0-3
  * @li @c buttonmap 8-digit string, assigning an output number to every individual button input, e.g.
  * "01324567" swaps buttons 2 and 3. Multiple assignments ar ORed together, e.g "00001111" means button 
@@ -73,7 +80,7 @@
  * buttonmask (8bit) set bit to 0 if you want to disable the button (00000010) will enable only button 1
  * buttonmap  (8bit) rearrange buttons (01234567) is identity mapping (02134567) will change order of button 2 and 1
  * invertstr  (8bit) invert single button (00000010) button 1 is pressed if value reads 0
- 	 * @ingroup common
+ * @ingroup common
  */
 class OPENTRACKER_API ButtonFilterNode
     : public Node
