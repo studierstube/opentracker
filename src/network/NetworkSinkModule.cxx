@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.14 2002/01/24 17:31:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.15 2002/01/30 10:08:09 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -38,7 +38,7 @@
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
-#include <ace/SOCK_Dgram.h>
+#include <ace/SOCK_Dgram_Mcast.h>
 
 #include "NetworkSinkModule.h"
 
@@ -147,11 +147,11 @@ Node * NetworkSinkModule::createNode( const string& name,  StringTable& attribut
 
 void NetworkSinkModule::start()
 {
-	socket = new ACE_SOCK_Dgram;
+    socket = new ACE_SOCK_Dgram;
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket->open( ACE_INET_Addr( 6666, "localhost" ) , PF_INET, 0, 1) == -1 )
+        if( socket->open( ACE_INET_Addr((u_short)0)) == -1 )
         {
             cout << "Error opening socket in NetworkSinkModule !" << endl;
             exit(1);
