@@ -9,6 +9,138 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-20 22:34  feiler
+
+	* studierstube/src/apps/construct3d/: Object3dKit.cxx,
+	Object3dKit.h, SoBoolKit.cxx, SoBoolKit.h, SoCommandKit.cxx,
+	SoCommandKit.h, SoConeKit.cxx, SoConeKit.h, SoCubeKit.cxx,
+	SoCubeKit.h, SoCurveKit.cxx, SoCurveKit.h, SoCylinderKit.cxx,
+	SoCylinderKit.h, SoIntersectKit.cxx, SoIntersectKit.h,
+	SoLineKit.cxx, SoLineKit.h, SoPlaneKit.cxx, SoPlaneKit.h,
+	SoPointKit.cxx, SoPointKit.h, SoSphereKit.cxx, SoSphereKit.h,
+	SoSurfaceKit.cxx, SoSurfaceKit.h, SoUndoRedoListKit.cxx,
+	SoUndoRedoListKit.h, c3d.cxx, c3d.h:
+	
+	Klaus Feiler: new addObject functions in c3d and undo redo works
+	for all objects
+
+2003-05-20 19:36  flo
+
+	* studierstube/src/apps/showcase/: LightProjector.cxx,
+	LightProjector.h:
+	
+	new lightprojector implementation as a group node with hidden
+	children
+
+2003-05-20 17:41  flo
+
+	* studierstube/src/apps/showcase/: LightProjector.cxx,
+	LightProjector.h:
+	
+	tried to re-implement projector illumination with a nodekit...
+
+2003-05-20 16:29  reitmayr
+
+	* studierstube/src/stbapi/workspace/: SoContextKit.cxx,
+	SoContextKit.h, SoContextManagerKit.cxx:
+	
+	fixed an issue with pipsheet callbacks for users without pips !
+	added doc for SoContextKit
+
+2003-05-20 09:07  reitmayr
+
+	* studierstube/bin/workspace/graphix/TouchPip.iv:
+	
+	added aeki pip
+
+2003-05-20 09:01  reitmayr
+
+	* studierstube/bin/apps/aeki/config/: aeki_firefly_4mm_Camera.iv,
+	mobileTouch.xml:
+	
+	updated aeki demo config
+
+2003-05-16 18:11  reitmayr
+
+	* studierstube/bin/apps/ocar/: ocar-template.iv, ocar2-template.iv,
+	test2.bat, config/monoUser.iv, config/monoUserHudPip.iv,
+	config/monoUserHudPip2.iv:
+	
+	configuring for collaboration
+
+2003-05-16 17:59  reitmayr
+
+	* studierstube/src/apps/ocar/: CalibrationContext.h,
+	NavigationContext.h, UserContext.cxx, UserContext.h, ocar.dsp,
+	ocar.h:
+	
+	first version of UserContext for collaborative navigation
+
+2003-05-15 22:49  tamer
+
+	* studierstube/src/stbapi/div/divmain.cxx:
+	
+	workaround for Coin in the DIV code. DIV should now be operational
+	with latest Coin from CVS...
+
+2003-05-15 22:22  tamer
+
+	* studierstube/src/stbapi/workspace/SoClassLoader.cxx:
+	
+	reversed previous patch, as this didn't solve anything...
+
+2003-05-15 20:13  tamer
+
+	* studierstube/src/stbapi/workspace/SoClassLoader.cxx:
+	
+	added check if fileName doesn't already start with a relative or
+	absolute pathname otherwise the path gets added twice. general
+	cleanups...
+
+2003-05-15 19:35  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextKit.cxx:
+	
+	added a workaround for Coin in it not writing out the context and
+	windowGroup parts because of them being set to default == TRUE.
+	saving therefore works now in Coin3d.
+
+2003-05-15 18:29  tamer
+
+	* studierstube/bin/apps/construct3d/construct3d.iv:
+	
+	fixed fileName path to let it work with DIV.
+
+2003-05-15 11:09  kaufmann
+
+	* studierstube/src/apps/construct3d/: Object3dKit.cxx,
+	Object3dKit.h, SoCommandKit.cxx, SoCommandKit.h, SoPointKit.cxx,
+	SoPointKit.h, SoUndoRedoListKit.cxx, SoUndoRedoListKit.h, c3d.cxx,
+	c3d.h:
+	
+	- undo/redo works (for some objects) - preview works (for some
+	objects)
+
+2003-05-15 10:09  kaufmann
+
+	* studierstube/src/apps/construct3d/construct3d.dsp:
+	
+	updated project file
+
+2003-05-14 20:55  reitmayr
+
+	* studierstube/src/apps/ocar/: UserContext.cxx, UserContext.h:
+	
+	ocar work
+
+2003-05-14 18:19  reitmayr
+
+	* studierstube/: bin/apps/ocar/data/ocar.spp,
+	bin/apps/ocar/userpip.ui, src/apps/ocar/UserContext.cxx,
+	src/apps/ocar/UserContext.h:
+	
+	ocar work
+
 2003-05-14 13:47  reitmayr
 
 	* data/: opentracker.dtd, test.xml:
@@ -25,6 +157,166 @@ cvs2cl script used to generate this file.
 	new RangeFilter to filter events based on length of the position
 	part
 
+2003-05-14 11:01  kaufmann
+
+	* studierstube/src/stbapi/interaction/SoDragKit.cxx:
+	
+	Functions moved from SoDragKit to Object3dKit which were only used
+	in Construct3D
+
+2003-05-14 10:58  kaufmann
+
+	* studierstube/src/stbapi/interaction/: SoDragKit.cxx, SoDragKit.h:
+	
+	Functions moved from SoDragKit to Object3dKit which were only used
+	in Construct3D
+
+2003-05-14 10:57  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	Object3dKit.cxx, Object3dKit.h, SoPlaneKit.cxx, SoPlaneKit.h,
+	SoSphereKit.cxx, c3d.cxx, c3d.h, construct3d.dsp, SoSphereKit.h:
+	
+	Preview function added but NOT fully functioning yet!!! -
+	intermediate version!!! - Functions moved from SoDragKit to
+	Object3dKit - SphereKit and PlaneKit: only SoDrawStyle added for
+	preview function   (to switch to wireframe)
+
+2003-05-14 09:33  feiler
+
+	* studierstube/src/apps/construct3d/: SoCommandKit.cxx,
+	SoCommandKit.h, SoUndoRedoListKit.cxx, SoUndoRedoListKit.h,
+	c3d.cxx, c3d.h, construct3d.dsp:
+	
+	klaus feiler: new version of undo
+
+2003-05-12 21:58  reitmayr
+
+	* studierstube/bin/apps/ocar/: data/aml2ocar.xsl, navigationpip.ui,
+	prepare.bat, ocar.iv:
+	
+	added filtering of possible targets for more interesting paths
+
+2003-05-12 19:07  reitmayr
+
+	* studierstube/bin/apps/ocar/data/smallmodel.xml:
+	
+	added a smaller model that only contains the area we have 3d models
+	for. this will be the base for all experiments from now on.
+
+2003-05-12 19:06  reitmayr
+
+	* studierstube/bin/apps/ocar/data/mergeAddresses.pyw:
+	
+	finished address merge script
+
+2003-05-12 18:57  reitmayr
+
+	* studierstube/bin/apps/ocar/data/model.xml:
+	
+	fixed problem in the model with dublicate address
+
+2003-05-12 18:56  reitmayr
+
+	* studierstube/bin/apps/ocar/data/aml2ocar.xsl:
+	
+	fixed test for neighborhood to not rely on special id format
+	anymore
+
+2003-05-12 18:56  reitmayr
+
+	* studierstube/bin/apps/ocar/data/gml2aml.xslt:
+	
+	fixed generation of better ids
+
+2003-05-12 18:53  flo
+
+	* studierstube/tools/april/: april.xsd, april_stb-3.0.xslt,
+	demo/ShowcaseTracker-1.xml, demo/aprildemo.apr, demo/showcase.apr:
+	
+	getting april to run on the showcase
+
+2003-05-12 17:31  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	untabified source...
+
+2003-05-12 17:30  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	added a workaround for coin3d which triggers sensors too often. 
+	this lead to NULL pointers in group.
+
+2003-05-11 22:14  reitmayr
+
+	* studierstube/bin/apps/ocar/data/mergeAddresses.pyw:
+	
+	more work
+
+2003-05-10 21:03  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	Object3dKit.cxx, Object3dKit.h, SoPointKit.cxx, c3d.cxx, c3d.h:
+	
+	ongoing work on usability issues: - when a new point is generated,
+	it is selected by default - the object that is nearest to the pen
+	gets highlighted (in orange) - it is the   one that would be
+	selected in selection mode - if the pen is "near enough" an object
+	so that it can be dragged,   the object (point) gets highlighted in
+	green (green means "go for it")
+	
+	technically: - added highlight sensors to object3dKit so that
+	objects know   themselves in which state they are - changed
+	isInterested of object3dkit so that it sets dragging highlight	
+	(green color) automatically when pen gets into the "area of
+	interest"   = drag geometry
+
+2003-05-10 16:47  reitmayr
+
+	* studierstube/bin/apps/ocar/data/: mergeAddresses.pyw,
+	filteraml.xslt, ocar.spp, repairModel.xslt, transform.xslt:
+	
+	script to calculate new edges for address points that are not yet
+	in the wayfinding graph
+
+2003-05-10 12:27  reitmayr
+
+	* studierstube/bin/apps/ocar/data/: filteraml.xslt, ocar.spp,
+	repairModel.xslt:
+	
+	two new transformations to extract only part of the model
+
+2003-05-10 12:27  feiler
+
+	* studierstube/src/apps/construct3d/: Object3dKit.h,
+	SoIntersectKit.h, SoSurfaceKit.cxx, SoSurfaceKit.h, c3d.cxx:
+	
+	klaus feiler: update
+
+2003-05-09 20:10  reitmayr
+
+	* studierstube/bin/apps/ocar/data/: aml2ocar.xsl, gml2aml.xslt,
+	karlsgasse11.xml, model.xml:
+	
+	added address waypoints built a unified model file to work on
+
+2003-05-09 20:07  kaufmann
+
+	* studierstube/src/apps/construct3d/: c3d.cxx, c3d.h,
+	construct3d.dsp, contextcnd.h, contextcnd2.cxx:
+	
+	main construct3d source files (contextcnd2.cxx and .h) were renamed
+	to c3d.cxx and .h; project file updated
+
+2003-05-09 20:04  kaufmann
+
+	* studierstube/bin/workspace/SpeechConstruct.xml:
+	
+	more than one StbSink per station was defined - this was illegal.
+	corrected
+
 2003-05-09 17:50  tamer
 
 	* extras/intersense/Makefile.am,
@@ -34,6 +326,116 @@ cvs2cl script used to generate this file.
 	src/network/Makefile.am:
 	
 	detabified Makefile's and cleanups for the build system.
+
+2003-05-09 16:59  tamer
+
+	* studierstube/src/stbapi/: misc/Makefile.am, util/Makefile.am:
+	
+	bootstrap.
+
+2003-05-09 16:58  tamer
+
+	* studierstube/src/stbapi/misc/SoFactorRotation.cxx:
+	
+	added header include for coin3d.
+
+2003-05-09 14:59  reitmayr
+
+	* studierstube/src/apps/ocar/CalibrationContext.cxx:
+	
+	fixed wrong computation of position offset
+
+2003-05-09 14:55  reitmayr
+
+	* studierstube/src/stbapi/stbapi.dsp:
+	
+	added an engine to factor rotations into rotations around principal
+	axes and the remaining rotation
+
+2003-05-09 14:46  reitmayr
+
+	* studierstube/bin/apps/ocar/: ocar-template.iv, ocar.iv:
+	
+	probably made artificial horizon finally work :)
+
+2003-05-09 14:42  reitmayr
+
+	* studierstube/src/stbapi/: resource/SoPipKit.cxx,
+	resource/SoTrackedArtifactKit.cxx, workspace/SoLocaleKit.cxx:
+	
+	restructured pipkit to work better with timeout of
+	trackedartifactkit
+
+2003-05-09 14:42  reitmayr
+
+	* studierstube/src/stbapi/resource/viewer/: MultRotRot.cxx,
+	MultRotRot.h:
+	
+	added inverse ouput similar to the SoMultMatrix engine
+
+2003-05-09 14:18  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoFactorRotation.cxx,
+	misc/SoFactorRotation.h, util/ivutil.cxx:
+	
+	added an engine to factor rotations into rotations around principal
+	axes and the remaining rotation
+
+2003-05-09 14:15  flo
+
+	* studierstube/tools/april/opentracker.dtd:
+	
+	added opentracker.dtd for convenience
+
+2003-05-09 14:15  flo
+
+	* studierstube/tools/april/: april.spp, demo/ShowcaseTracker-1.xml,
+	demo/aprildemo.apr, demo/showcase.apr:
+	
+	updated demo to reflect different hardware setups
+
+2003-05-09 13:42  flo
+
+	* studierstube/tools/april/demo/: DeveloperTracker.xml,
+	aprildemo.apr, developer.apr, hardware.apr, tracker_config.xml:
+	
+	updated demo to refelct different hardware setups
+
+2003-05-09 09:55  flo
+
+	* studierstube/bin/workspace/opentracker.dtd:
+	
+	updated opentracker.dtd in /bin/workspace
+
+2003-05-08 16:51  reitmayr
+
+	* studierstube/bin/apps/ocar/config/absolute.xml:
+	
+	updated for more correct calibration
+
+2003-05-08 16:08  reitmayr
+
+	* studierstube/bin/apps/ocar/config/testHUD.xml:
+	
+	updated tracking calibration
+
+2003-05-08 12:14  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	Object3dKit.cxx, Object3dKit.h, SoCommandKit.cxx, SoCommandKit.h,
+	SoIntersectKit.cxx, SoIntersectKit.h, SoPointKit.cxx,
+	SoPolygonKit.cxx, SoPolygonKit.h, SoSurfaceKit.cxx, SoSurfaceKit.h,
+	construct3d.dsp, contextcnd.h, contextcnd2.cxx:
+	
+	new CommandKit added - recording undo and redo
+
+2003-05-08 11:19  reitmayr
+
+	* studierstube/src/stbapi/: stbapi.dsp, workspace/workspace.dsp,
+	workspace/version.h:
+	
+	made a working debug/release project config for stbapi and
+	workspace. It uses the dll runtime lib version and not mfc.
 
 2003-05-07 21:59  reitmayr
 
@@ -54,6 +456,17 @@ cvs2cl script used to generate this file.
 	
 	added specialized dynamic transforms for position and orientation
 	manipulation only
+
+2003-05-07 21:12  reitmayr
+
+	* studierstube/: src/stbapi/tracker/StbInputModule.cxx,
+	src/stbapi/tracker/StbInputModule.h,
+	src/stbapi/tracker/TrackerOT.cxx, bin/workspace/opentracker.dtd:
+	
+	fixed two issues with opentracker - stb connection: * only one
+	StbSink per station number is allowed, this is enforced now *
+	StbInputModule can be configured to pass keyboard events to the
+	scenegraph instead of always taking them
 
 2003-05-07 21:09  reitmayr
 
@@ -77,6 +490,113 @@ cvs2cl script used to generate this file.
 	
 	added intersense documentation
 
+2003-05-07 11:34  flo
+
+	* studierstube/src/stbapi/misc/SoRayPicker.cxx:
+	
+	now all modes of raypicking should be supported!
+
+2003-05-07 11:33  reitmayr
+
+	* studierstube/bin/apps/ocar/: ocar-template.iv, ocar.iv,
+	prepare.bat, test.bat, userpip.ui, config/monoUserHudPip.iv,
+	config/testHUD.xml, graphics/horizon.cdr, graphics/horizon.gif:
+	
+	UI work HUD PIP added better orientation display added navigation
+	info added to HUD
+
+2003-05-06 18:31  flo
+
+	* studierstube/src/stbapi/misc/SoRayPicker.cxx:
+	
+	checked in POSITION mode for raypicker
+
+2003-05-06 13:47  kaufmann
+
+	* studierstube/bin/apps/construct3d/skewpoly.gif:
+	
+	texture for polygon button
+
+2003-05-06 01:17  reitmayr
+
+	* studierstube/bin/apps/ocar/config/monoUserHudPip.iv:
+	
+	a real orthographic HUD PIP overlayed over the scene !
+
+2003-05-05 19:36  kaufmann
+
+	* studierstube/bin/apps/construct3d/construct3d.iv:
+	
+	button for Polygons added (currently in the measure menu - no space
+	elsewhere)
+
+2003-05-05 19:35  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	SoPolygonKit.cxx, SoPolygonKit.h, construct3d.dsp, contextcnd.h,
+	contextcnd2.cxx, todo.txt:
+	
+	work in progress on adding Polygons to C3D
+
+2003-05-05 17:03  feiler
+
+	* studierstube/src/apps/construct3d/: SoBoolKit.cxx,
+	SoCurveKit.cxx, SoIntersectKit.cxx, SoPlaneKit.cxx, SoPlaneKit.h,
+	SoSurfaceKit.cxx, SoSurfaceKit.h:
+	
+	update
+
+2003-05-05 09:53  reitmayr
+
+	* studierstube/bin/apps/ocar/data/gml2aml.xslt:
+	
+	added more data extraction from gml2
+
+2003-05-02 18:50  tamer
+
+	* studierstube/bin/apps/construct3d/construct3d.iv:
+	
+	path fixes to let it work with Coin3d (location of the .gif files).
+
+2003-05-02 18:42  tamer
+
+	* studierstube/src/apps/: chess/ChessManKit.cxx,
+	chess/ChessManKit.h, construct3d/Object3dKit.cxx,
+	construct3d/Object3dKit.h, construct3d/SoBoolKit.cxx,
+	construct3d/SoBoolKit.h, construct3d/SoConeKit.cxx,
+	construct3d/SoConeKit.h, construct3d/SoCubeKit.cxx,
+	construct3d/SoCubeKit.h, construct3d/SoCurveKit.cxx,
+	construct3d/SoCurveKit.h, construct3d/SoCylinderKit.cxx,
+	construct3d/SoCylinderKit.h, construct3d/SoIntersectKit.cxx,
+	construct3d/SoIntersectKit.h, construct3d/SoLineKit.cxx,
+	construct3d/SoPlaneKit.cxx, construct3d/SoPlaneKit.h,
+	construct3d/SoPointKit.cxx, construct3d/SoPointKit.h,
+	construct3d/SoSphereKit.cxx, construct3d/SoSphereKit.h,
+	construct3d/SoSurfaceKit.cxx, construct3d/SoSurfaceKit.h,
+	construct3d/SoTextKit.cxx, construct3d/SoTextKit.h,
+	fingerfarben/SoPrintKit.cxx, fingerfarben/SoPrintKit.h,
+	fingerfarben/SoSaveKit.cxx, fingerfarben/SoSaveKit.h,
+	fingerfarben/SoTemplateKit.cxx, fingerfarben/SoTemplateKit.h:
+	
+	removed BASE3D_ macros for classes that are indirectly derived by
+	Base3D.  (fix for Issue #7)
+
+2003-05-02 17:40  tamer
+
+	* studierstube/src/stbapi/widgets/: So3DButton.cxx, So3DButton.h,
+	So3DCheckBox.cxx, So3DCheckBox.h, So3DTouchButton.cxx,
+	So3DTouchButton.h, So3DTouchCheckBox.cxx, So3DTouchCheckBox.h:
+	
+	removed BASE3D_ macros for classes that are indirectly derived by
+	Base3D.  (fix for Issue #7)
+
+2003-05-02 17:38  tamer
+
+	* studierstube/src/stbapi/util/fileBrowser.cxx:
+	
+	check added for SoTimerSensor already being scheduled to get rid of
+	warning in Coin.
+
 2003-05-02 17:31  kaufmann
 
 	* src/input/P5GloveModule.cxx:
@@ -90,6 +610,28 @@ cvs2cl script used to generate this file.
 	
 	fixed newline at end warning.
 
+2003-04-30 21:22  tamer
+
+	* studierstube/src/stbapi/div/divmain.cxx:
+	
+	added a workaround for coin3d which triggers sensors too often.
+	this lead to NULL pointers in changedPath.
+
+2003-04-30 10:32  flo
+
+	* studierstube/tools/april/: april.dtd, april.xsd,
+	april_stb-3.0.xslt, demo/hardware.apr:
+	
+	forgot to change some occurences of 'vsml'
+
+2003-04-30 09:49  flo
+
+	* studierstube/tools/april/: april-spec.html, april.dtd, april.spp,
+	april.xsd, april_stb-3.0.xslt, demo/aprildemo.apr,
+	demo/hardware.apr, demo/tracker_config.xml, usecases/usecases.txt:
+	
+	VSML -> APRIL  name change
+
 2003-04-29 15:54  reitmayr
 
 	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h, GPSDriver.cxx,
@@ -98,17 +640,179 @@ cvs2cl script used to generate this file.
 	updated dgpsip part to send only a fraction of the position updates
 	back to the server to save bandwith
 
+2003-04-29 09:43  reitmayr
+
+	* studierstube/src/stbapi/: div/StbDiv.cxx, div/StbDiv.h,
+	div/diview.dsp, div/divmain.cxx, div/divmain.h, util/StbBuffer.cxx,
+	util/ivio.cxx, util/ivio.h,
+	workspace/distrManager/RemoteDistribution.cxx:
+	
+	some div cleanup for bettern coin3d testing
+
 2003-04-28 15:35  knapp
 
 	* src/common/: GroupGateModule.cxx, GroupGateModule.h:
 	
 	activateGroupGate() added
 
+2003-04-28 00:20  reitmayr
+
+	* studierstube/bin/apps/ocar/: calibration.iv, modelpip.ui,
+	navigationpip.ui, graphics/Calibration_high.gif,
+	graphics/Calibration_low.gif, graphics/Collaboration_high.gif,
+	graphics/Collaboration_low.gif, graphics/Information_high.gif,
+	graphics/Information_low.gif, graphics/Options_high.gif,
+	graphics/Options_low.gif:
+	
+	added tab and app icons (thanks to Alex !)
+
+2003-04-27 23:23  reitmayr
+
+	* studierstube/tools/qt2pip/: qt2pip.xsl, qt2pip_doc.html:
+	
+	added a way to specify tab textures for tab buttons
+
+2003-04-27 21:03  tamer
+
+	* studierstube/src/stbapi/misc/SoInt32FanIn.cxx:
+	
+	SO_ENGINE_ADD_INPUT(in0, (0.0)); -> SO_ENGINE_ADD_INPUT(in0, (0));
+	setValue() method takes integer instead of double.
+
+2003-04-27 21:02  tamer
+
+	* studierstube/src/stbapi/div/divmain.cxx:
+	
+	fixed warning about reordering.
+
+2003-04-27 20:55  tamer
+
+	* studierstube/src/stbapi/misc/Makefile.am:
+	
+	bootstraped build system.
+
 2003-04-27 20:49  tamer
 
 	* src/core/OSUtils.cxx:
 	
 	added const to make the compiler happy.
+
+2003-04-25 22:05  reitmayr
+
+	* studierstube/tools/qt2pip/qt2pip.xsl:
+	
+	fixed bugs with radio button groups and routes to text in labels
+
+2003-04-25 22:04  reitmayr
+
+	* studierstube/bin/apps/ocar/: calibrationpip.ui, modelpip.ui,
+	navigationpip.ui, ocar-template.iv, ocar.iv, test.bat:
+	
+	clean up * added different render styles to buildings * moved hud
+	to nav app
+
+2003-04-25 18:27  reitmayr
+
+	* studierstube/bin/apps/ocar/ocar.iv:
+	
+	a working version, not an empty one !
+
+2003-04-25 14:04  reitmayr
+
+	* studierstube/src/stbapi/div/divmain.cxx:
+	
+	fixed small memory leak
+
+2003-04-25 14:00  reitmayr
+
+	* studierstube/bin/apps/ocar/: achsen.iv, calibration.iv,
+	calibrationpip.ui, modelpip.ui, ocar-template.iv, ocar.iv,
+	prepare.bat, config/absolute.xml, config/monoUser.iv,
+	config/test.xml, data/aml2ocar.xsl, data/ocar.spp:
+	
+	ocar work * improving general interface with a HUD * some more
+	options for visualization * manual calibration clean up * camera
+	offset calibration added
+
+2003-04-25 13:53  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoInt32FanIn.cxx,
+	misc/SoInt32FanIn.h, util/ivutil.cxx, stbapi.dsp:
+	
+	added an SoInt32FanIn engine derived from Flo's implementation.
+
+2003-04-23 16:28  reitmayr
+
+	* studierstube/src/apps/ocar/: UserContext.cxx, UserContext.h:
+	
+	added collab app skeleton
+
+2003-04-22 22:31  reitmayr
+
+	* studierstube/src/stbapi/misc/SoMultiSwitch.cxx:
+	
+	fix for a strange NULL field case
+
+2003-04-22 22:29  reitmayr
+
+	* studierstube/: src/apps/ocar/CalibrationContext.cxx,
+	src/apps/ocar/CalibrationContext.h, bin/apps/ocar/calibration.iv,
+	bin/apps/ocar/ocar-template.iv, bin/apps/ocar/ocar.bat,
+	bin/apps/ocar/test.bat, bin/apps/ocar/config/test.xml:
+	
+	manual calibration working
+
+2003-04-22 17:39  reitmayr
+
+	* studierstube/bin/apps/ocar/config/: monoUser.iv, test.xml:
+	
+	ocar work
+
+2003-04-22 16:50  reitmayr
+
+	* studierstube/: bin/apps/ocar/calibration.iv,
+	bin/apps/ocar/ocar.iv, bin/apps/ocar/data/gml2aml.xslt,
+	bin/apps/ocar/data/ocar.spp, src/apps/ocar/CalibrationContext.cxx,
+	src/apps/ocar/CalibrationContext.h,
+	src/apps/ocar/NavigationContext.cxx, src/apps/ocar/ocar.dsp,
+	src/apps/ocar/tools/iv2bauml/iv2bauml.dsp:
+	
+	ocar work
+
+2003-04-21 22:44  reitmayr
+
+	* studierstube/: bin/apps/ocar/calibration.iv,
+	bin/apps/ocar/calibrationpip.ui, bin/apps/ocar/navigationpip.ui,
+	bin/apps/ocar/prepare.bat, bin/apps/ocar/test.bat,
+	bin/apps/ocar/data/ocar.spp, src/apps/ocar/CalibrationContext.cxx,
+	src/apps/ocar/CalibrationContext.h, src/apps/ocar/ocar.dsp:
+	
+	some ocar work, started calibration app for world pose calibration
+
+2003-04-21 15:24  flo
+
+	* studierstube/src/apps/APRIL/: ConditionalTrigger.cxx,
+	SAXReadHandler.cxx, StateEngine.cxx:
+	
+	no message
+
+2003-04-20 12:00  reitmayr
+
+	* studierstube/tools/qt2pip/: qt2pip.xsl, qt2pip_doc.html:
+	
+	improved text scaling, added vertical text, improved docu
+
+2003-04-17 17:38  reitmayr
+
+	* studierstube/bin/apps/ocar/config/absolute.xml:
+	
+	finished config for gps tracking
+
+2003-04-17 17:37  reitmayr
+
+	* studierstube/bin/apps/ocar/userpip.ui:
+	
+	pip sheet for user client app
 
 2003-04-17 17:37  reitmayr
 
@@ -137,6 +841,166 @@ cvs2cl script used to generate this file.
 	fixed use of ACE_Time_Value in gettimeofday to return non negative
 	values.  improved output in file node to be more useable.
 
+2003-04-15 16:02  flo
+
+	* studierstube/src/apps/APRIL/: SoStateEngine.cxx, SoStateEngine.h,
+	StateEngine.cxx, StateEngine.h:
+	
+	removed unimplemented methods/fields
+
+2003-04-14 21:02  flo
+
+	* studierstube/bin/apps/APRIL/: april_test.iv, engine.xml:
+	
+	update of state-engine test application and config file
+
+2003-04-14 21:00  flo
+
+	* studierstube/src/apps/APRIL/: EaseIn.cxx, EaseIn.h,
+	FloatFanIn.cxx, FloatFanIn.h, SoStateEngine.cxx, april.dsp:
+	
+	two new helper engines: FloatFanIn - for routing multiple float
+	inputs into one field EaseIn - for smooth starting and ending of
+	interpolator-based animations
+
+2003-04-14 19:54  reitmayr
+
+	* studierstube/: bin/apps/ocar/prepare.bat,
+	src/apps/ocar/NavigationContext.cxx:
+	
+	some parameter update
+
+2003-04-14 17:38  flo
+
+	* studierstube/src/apps/APRIL/: StateEngine.cxx, StateEngine.h:
+	
+	transitions to composite states and guards are working!
+
+2003-04-14 17:00  kaufmann
+
+	* studierstube/src/apps/construct3d/contextcnd2.cxx:
+	
+	fixed window handling - there was a problem when window existed
+	already
+
+2003-04-14 16:55  kaufmann
+
+	* studierstube/src/stbapi/util/ivio.cxx:
+	
+	left directories of last loaded files on stack - fixed addDirectory
+	and removeDirectory are static functions!
+
+2003-04-14 14:47  bornik
+
+	* studierstube/bin/apps/calibration/: Makefile.am,
+	hmdCalibration.iv:
+	
+	linux compatibility
+
+2003-04-13 20:14  reitmayr
+
+	* studierstube/bin/apps/ocar/: modelpip.ui, navigationpip.ui,
+	ocar-template.iv, ocar.iv:
+	
+	updated navigation app to support different visualization options. 
+	app file created fully automatically now.
+
+2003-04-13 20:12  reitmayr
+
+	* studierstube/src/apps/ocar/: NavigationContext.cxx,
+	NavigationContext.h:
+	
+	intelligent arrow updating not finished yet
+
+2003-04-13 20:12  reitmayr
+
+	* studierstube/tools/qt2pip/: qt2pip.xsl, qt2pip_doc.html:
+	
+	more features I needed : parameters to set font properties
+	specifying field connections for widget properties
+
+2003-04-11 23:07  reitmayr
+
+	* studierstube/src/stbapi/context/: SoContextSwitch.cxx,
+	SoContextSwitch.h:
+	
+	added defaultChild field to parametrize an otherwise fixed case of
+	the ContextSwitch
+
+2003-04-11 19:26  reitmayr
+
+	* studierstube/src/stbapi/widgets/: SoListBox.cxx, SoListBox.h:
+	
+	let listbox react correctly to changes in the selected values,
+	might still need some testing.
+
+2003-04-11 18:42  flo
+
+	* studierstube/src/apps/APRIL/: ConditionalTrigger.cxx,
+	ConditionalTrigger.h:
+	
+	added a boolOut field to see if the condition is currently true
+
+2003-04-11 18:41  flo
+
+	* studierstube/src/apps/APRIL/: SAXReadHandler.cxx,
+	SAXReadHandler.h:
+	
+	allow element names to be #define'd at compile-time
+
+2003-04-11 00:21  reitmayr
+
+	* studierstube/bin/apps/ocar/: ocar-template.iv, ocar.bat, ocar.iv,
+	prepare.bat, pym.py, data/aml2ocar.xsl:
+	
+	automated data conversion, first working navigation app
+
+2003-04-10 22:32  reitmayr
+
+	* studierstube/tools/qt2pip/qt2pip.xsl:
+	
+	fixed some line break issues
+
+2003-04-10 18:45  reitmayr
+
+	* studierstube/bin/apps/ocar/: modelpip.ui, navigationpip.ui:
+	
+	added pip sheet designer files for augmentation and navigation app
+
+2003-04-10 18:44  reitmayr
+
+	* studierstube/: src/apps/ocar/NavigationContext.cxx,
+	src/apps/ocar/ocar.dsp, bin/apps/ocar/data/aml2ocar.xsl,
+	bin/apps/ocar/data/gml2aml.xslt:
+	
+	fixed some bugs
+
+2003-04-10 13:12  reitmayr
+
+	* studierstube/src/stbapi/resource/SoPipKit.cxx:
+	
+	fixed bug with tabs _not_ showing up for default true values !
+
+2003-04-10 09:59  kaufmann
+
+	* studierstube/bin/apps/construct3d/construct3d.iv:
+	
+	removed windowKit definition from this file. Does not have to be in
+	here, window is generated by the application.
+
+2003-04-10 09:58  kaufmann
+
+	* studierstube/src/apps/construct3d/contextcnd2.cxx:
+	
+	removed comments and obsolete code from checkWindowGeometry cleared
+	loading and generating of a new window (there was some "Murks")
+
+2003-04-09 22:50  reitmayr
+
+	* studierstube/bin/apps/ocar/data/gml2aml.xslt:
+	
+	getting the path network works now
+
 2003-04-09 22:48  tamer
 
 	* src/input/DGPSIP_Handler.cxx:
@@ -149,11 +1013,39 @@ cvs2cl script used to generate this file.
 	
 	case sensitivity fix -> <ace/FILE.h>.
 
+2003-04-09 19:03  reitmayr
+
+	* studierstube/src/stbapi/resource/: SoPipKit.cxx, SoPipKit.h:
+	
+	fixed some issues with the sensor usage.  a sofieldsensor can only
+	observe _one_ field.  sensors need to be deleted, they are not
+	reference counted.
+
+2003-04-09 18:13  flo
+
+	* studierstube/src/apps/APRIL/: RotationFanIn.cxx, RotationFanIn.h,
+	Vec3fFanIn.cxx, Vec3fFanIn.h, april.dsp:
+	
+	added helper engines to fan in multiple positions & orientations
+
+2003-04-09 18:12  flo
+
+	* studierstube/src/stbapi/resource/SoPipKit.cxx:
+	
+	keep visibility of system bars also when pip is updated
+
 2003-04-09 16:11  reitmayr
 
 	* src/input/GPSDriver.cxx:
 	
 	fixed a null pointer bug
+
+2003-04-09 11:23  flo
+
+	* studierstube/src/stbapi/resource/: SoPipKit.cxx, SoPipKit.h:
+	
+	added two fields to be able to hide/show systemBar and windowBar by
+	scripting.
 
 2003-04-08 23:17  reitmayr
 
@@ -169,6 +1061,18 @@ cvs2cl script used to generate this file.
 	It allows modules to load files relative to the configuration file
 	directory or the working dir or any other dir they have in mind.
 
+2003-04-08 21:04  tamer
+
+	* studierstube/bin/apps/chess/chess_stb.iv:
+	
+	fixed path for module.
+
+2003-04-08 21:03  tamer
+
+	* studierstube/bin/apps/vtk/vtk.iv:
+	
+	fixed path for module
+
 2003-04-08 20:59  reitmayr
 
 	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h,
@@ -179,11 +1083,190 @@ cvs2cl script used to generate this file.
 	added connection reestablishment to DGPS connection still needs
 	testing
 
+2003-04-08 19:24  tamer
+
+	* studierstube/: bin/apps/vtk/Makefile.am, cfg/m4/ace.m4:
+	
+	build system fixes for rpath handling and additions to the vtk
+	Makefile.am.
+
+2003-04-08 19:21  tamer
+
+	* studierstube/src/apps/vtk/: SoVTKProxyCamera.cxx,
+	SoVTKProxyCamera.h, SoVTKProxyProp3D.cxx, SoVtkKit.cxx,
+	vtkOpenGLVolumeShearWarpMapper.cxx,
+	vtkOpenGLVolumeShearWarpMapper.h, vtkVolumeShearWarpMapper.cxx,
+	vtkVolumeShearWarpMapper.h:
+	
+	ShearWarpMapper fixes...
+
 2003-04-08 19:11  tamer
 
 	* cfg/m4/: ace.m4, artoolkit.m4, xerces.m4:
 	
 	build system fix for rpath handling.
+
+2003-04-08 17:56  reitmayr
+
+	* studierstube/bin/apps/ocar/: ocar.iv, config/absolute.xml,
+	config/monoUser.iv, data/gml2aml.xslt, data/ocar.spp,
+	data/transform.xslt, data/tuwien-map.gml, data/tuwien-map.png,
+	data/tuwien-map.xmp, data/tuwien-map.xsd:
+	
+	update to work in progress. I already get the way network into the
+	app, some details missing
+
+2003-04-08 17:24  kaufmann
+
+	* studierstube/src/stbapi/resource/viewer/: SoDisplayKit.cxx,
+	SoDisplayKit.h, SoStudierstubeViewer.cxx, SoStudierstubeViewer.h:
+	
+	added new windowOnTop flag. If set to TRUE, the window of that user
+	will always be on top of all other windows.  If more than one
+	window is specified as windowOnTop, the latest one is the topmost
+	one but the others are also on top of standard windows.
+
+2003-04-08 16:45  flo
+
+	* studierstube/: src/apps/APRIL/SAXReadHandler.cxx,
+	src/apps/APRIL/SoStateEngine.cxx, src/apps/APRIL/StateEngine.cxx,
+	src/apps/APRIL/StateEngine.h, bin/apps/APRIL/april_test.iv,
+	bin/apps/APRIL/engine.xml:
+	
+	further work on state engine class
+
+2003-04-08 14:28  flo
+
+	* studierstube/bin/workspace/opentracker.dtd:
+	
+	added xmlns attribute to OpenTracker element
+
+2003-04-08 14:27  flo
+
+	* studierstube/src/apps/APRIL/SAXReadHandler.cxx:
+	
+	no message
+
+2003-04-08 11:28  feiler
+
+	* studierstube/src/apps/construct3d/: SoBoolKit.cxx, SoConeKit.cxx,
+	SoCubeKit.cxx, SoCurveKit.cxx, SoCylinderKit.cxx,
+	SoIntersectKit.cxx, SoIntersectKit.h, SoLineKit.cxx,
+	SoPlaneKit.cxx, SoSphereKit.cxx, contextcnd2.cxx:
+	
+	Klaus Feiler: update
+
+2003-04-07 20:35  tamer
+
+	* studierstube/src/apps/vtk/: SoVtkKit.cxx, SoVtkKit.h,
+	vtkOpenGLVolumeShearWarpMapper.cxx,
+	vtkOpenGLVolumeShearWarpMapper.h, vtkVolumeShearWarpMapper.cxx,
+	vtkVolumeShearWarpMapper.h:
+	
+	added ShearWarpMapper implementation.
+
+2003-04-07 19:44  tamer
+
+	* studierstube/src/apps/vtk/SoVTKProxyCamera.cxx:
+	
+	removed offending glEnable( GL_SCISSOR_TEST ); line which spoiled
+	our day!
+
+2003-04-07 14:33  kaufmann
+
+	* studierstube/src/stbapi/window3d/SoWindowKit.cxx:
+	
+	if user = -1, focus handling was handled incorrectly; fixed
+
+2003-04-07 11:46  reitmayr
+
+	* studierstube/src/stbapi/stbapi.dsp:
+	
+	added SoStroke and SoListBox to project file
+
+2003-04-07 11:43  reitmayr
+
+	* studierstube/: src/stbapi/resource/viewer/SoDisplayKit.cxx,
+	src/stbapi/resource/viewer/SoDisplayKit.h,
+	src/stbapi/resource/viewer/SoMonoDisplayMode.cxx,
+	bin/workspace/howToConfigureAUser.iv:
+	
+	added a new flat windowBorder to SoDisplayKit. now windowBorder
+	switches window decorations and decoration switches viewer
+	decorations (buttons etc.). all independend of display modes.
+
+2003-04-06 23:11  reitmayr
+
+	* studierstube/: src/apps/ocar/NavigationContext.cxx,
+	src/apps/ocar/NavigationContext.h, src/apps/ocar/ocar.dsp,
+	src/apps/ocar/ocar.dsw, bin/apps/ocar/data/aml2ocar.xsl:
+	
+	progess in navigation application
+
+2003-04-06 23:06  reitmayr
+
+	* studierstube/src/stbapi/: misc/Makefile.am, misc/SoStroke.cxx,
+	misc/SoStroke.h, util/ivutil.cxx:
+	
+	added a new geometry kit that allows to use any shape like a stroke
+	between two points.
+
+2003-04-05 02:45  tamer
+
+	* studierstube/src/apps/vtk/feet.128.vtk:
+	
+	removed as it belongs to the bin path.
+
+2003-04-05 02:44  tamer
+
+	* studierstube/: configure.ac, bin/apps/Makefile.am,
+	lib/Makefile.am, src/Makefile.common:
+	
+	build system accomodations for the detection of VTK.
+
+2003-04-05 02:43  tamer
+
+	* studierstube/cfg/m4/vtk.m4:
+	
+	added vtk m4 macro for the build system.
+
+2003-04-05 02:41  tamer
+
+	* studierstube/bin/apps/vtk/: Makefile.am, artracker.xml,
+	feet.128.vtk, start.bat, start.sh, start_ar.bat, vtk.gif, vtk.iv,
+	vtktracker.xml:
+	
+	added vtk nodekit application support files.
+
+2003-04-05 02:39  tamer
+
+	* studierstube/src/apps/vtk/: SoVTKOpenGLRenderWindow.cxx,
+	SoVTKOpenGLRenderWindow.h, SoVTKOpenGLRenderer.cxx,
+	SoVTKOpenGLRenderer.h, SoVTKProxyCamera.cxx, SoVTKProxyCamera.h,
+	SoVTKProxyProp3D.cxx, SoVTKProxyProp3D.h, SoVtkKit.cxx, SoVtkKit.h,
+	feet.128.vtk, vtk.cxx, vtk.dsp, vtk.dsw, vtk.h,
+	vtk_application.html:
+	
+	added vtk nodekit application sources.
+
+2003-04-04 22:30  kaufmann
+
+	* studierstube/src/stbapi/resource/viewer/SoMonoDisplayMode.cxx:
+	
+	Originally decorations were always turned on in MonoDisplayMode. 
+	Now decorations can also be turned off, if configured in the
+	DisplayKit.
+
+2003-04-04 18:19  reitmayr
+
+	* studierstube/: src/apps/ocar/NavigationContext.cxx,
+	src/apps/ocar/NavigationContext.h, src/apps/ocar/ocar.cpp,
+	src/apps/ocar/ocar.dsp, src/apps/ocar/ocar.h,
+	src/apps/ocar/ocar.dsw, bin/apps/ocar/data/aml.xsd,
+	bin/apps/ocar/data/aml2ocar.xsl, bin/apps/ocar/data/model.xml,
+	bin/apps/ocar/data/ocar.spp:
+	
+	some work on outdoor navigation app started
 
 2003-04-04 15:12  reitmayr
 
@@ -237,12 +1320,66 @@ cvs2cl script used to generate this file.
 	added new classes. make use of new intersense code. ifdef'd ACE
 	code for win32.
 
+2003-04-03 09:37  reitmayr
+
+	* studierstube/: src/apps/ocar/ocar.dsw,
+	src/apps/ocar/tools/iv2bauml/iv2bauml.cpp,
+	src/apps/ocar/tools/iv2bauml/iv2bauml.dsp, bin/apps/ocar/ocar.iv,
+	bin/apps/ocar/pip.ui, bin/apps/ocar/data/aml.xsd,
+	bin/apps/ocar/data/aml2ocar.xsl, bin/apps/ocar/data/amldoc.html,
+	bin/apps/ocar/data/karlsgasse11.iv, bin/apps/ocar/data/ocar.spp,
+	bin/apps/ocar/data/xsdoc.xsl:
+	
+	add new ocar (outdoor coll. ar) app folders with some tools and
+	data
+
+2003-04-03 03:26  tamer
+
+	* studierstube/src/stbapi/resource/viewer/SoDisplayKit.cxx:
+	
+	added 2 new transparency types which are available in Coin.
+
+2003-04-02 21:17  tamer
+
+	* studierstube/src/stbapi/widgets/SoListBox.cxx:
+	
+	fixed ambiguous operator== overload in conjunction with Coin.
+
 2003-04-02 18:43  reitmayr
 
 	* src/input/ARToolKitModule.cxx, src/input/ARToolKitModule.h,
 	data/opentracker.dtd:
 	
 	added an optional pattern directory prefix for pattern filenames
+
+2003-04-02 16:08  reitmayr
+
+	* studierstube/: src/stbapi/widgets/Makefile.am,
+	src/stbapi/widgets/SoListBox.cxx, src/stbapi/widgets/SoListBox.h,
+	src/stbapi/util/ivutil.cxx, tools/qt2pip/qt2pip.xsl,
+	tools/qt2pip/qt2pip_doc.html, tools/qt2pip/test.ui:
+	
+	added a new general SoListBox widget. It is implemented using
+	SoPushButtons and SoToggleButtons as a sort of meta widget not
+	implementing any SoBehaviourKit or Base3D stuff.
+
+2003-04-02 06:14  tamer
+
+	* studierstube/src/stbapi/util/Makefile.am:
+	
+	boostrapped build system. (new class StbBuffer added)
+
+2003-04-02 06:08  tamer
+
+	* studierstube/src/stbapi/workspace/SoClassLoader.cxx:
+	
+	added missing SbPlist header
+
+2003-04-01 17:51  reitmayr
+
+	* studierstube/bin/mobile/: TouchPad.xml, mobileMonoTouchUser.iv:
+	
+	fixed transformation of InertiaCube2 output to OIV system
 
 2003-04-01 17:51  reitmayr
 
@@ -252,11 +1389,55 @@ cvs2cl script used to generate this file.
 	added a test for matrices being really pure rotational matrices
 	before being converted to quaternions.
 
+2003-04-01 16:11  reitmayr
+
+	* studierstube/src/apps/fingerfarben/: SoDisplayCalibrationKit.cxx,
+	SoDisplayCalibrationKit.h:
+	
+	fixed a wrong field use, some cleanup
+
+2003-04-01 16:10  reitmayr
+
+	* studierstube/src/stbapi/misc/SoMultiSwitch.cxx:
+	
+	debug output clean up
+
+2003-04-01 14:55  reitmayr
+
+	* studierstube/src/stbapi/workspace/: SoClassLoader.cxx,
+	SoClassLoader.h:
+	
+	updated SoClassLoader to search in the current input directories
+	for the shared library file. This allows to use pathnames relative
+	to the .iv file and generally extends the OpenInventor file name
+	rules to class loading.
+
+2003-04-01 01:14  reitmayr
+
+	* studierstube/tools/qt2pip/: qt2pip.xsl, qt2pip_doc.html:
+	
+	updated to convert a tabbed dialog into tabs for Studierstube
+	widgets
+
+2003-03-31 18:31  reitmayr
+
+	* studierstube/bin/mobile/: TouchPad.xml, calibration.iv,
+	hmdGlasstron.iv, mobileMonoTouchUser.iv, mobileTablet2DUI.xml,
+	mobileTabletUI.xml, geometry/TouchPip.iv:
+	
+	updated mobile standard config files
+
 2003-03-31 17:41  reitmayr
 
 	* data/opentracker.dtd:
 	
 	updated groupgate definition for more advanced stuff
+
+2003-03-31 16:44  kaufmann
+
+	* studierstube/src/apps/construct3d/SoCurveKit.cxx:
+	
+	CurveKit updates (Disabledivnode)
 
 2003-03-28 15:48  reitmayr
 
@@ -312,11 +1493,24 @@ cvs2cl script used to generate this file.
 	OpenTracker. big missing thing is unix support due to some ACE
 	troubles. next step are filters to get useful data.
 
+2003-03-26 18:47  reitmayr
+
+	* studierstube/bin/apps/aeki/config/: aekiTouchUserVideo.iv,
+	aeki_firefly_4mm_Camera.iv, mobileTouch.xml:
+	
+	updated aeki setup to new devices
+
 2003-03-26 18:46  reitmayr
 
 	* src/input/InterSenseModule.cxx:
 	
 	fix to get quaternion data in the right format
+
+2003-03-26 15:15  feiler
+
+	* studierstube/src/apps/construct3d/SoBoolKit.cxx:
+	
+	Klaus Feiler: update SoBoolKit
 
 2003-03-26 12:56  reitmayr
 
@@ -343,6 +1537,54 @@ cvs2cl script used to generate this file.
 	updated intersense drivers to latest version. because of old
 	agreement with intersense we include the binary drivers.
 
+2003-03-25 23:09  reitmayr
+
+	* studierstube/src/stbapi/util/Makefile.am:
+	
+	optimized memory handling in div. now (hopefully) only necessary
+	copies and allocations are made. every div object has a local
+	buffer to reuse for serialization.
+
+2003-03-25 22:54  reitmayr
+
+	* studierstube/src/stbapi/: util/StbBuffer.cxx, util/StbBuffer.h,
+	util/buffer.cxx, util/buffer.h, util/ivio.cxx, util/ivio.h,
+	div/divmain.cxx, div/divmain.h, stbapi.dsp:
+	
+	optimized memory handling in div. now (hopefully) only necessary
+	copies and allocations are made. every div object has a local
+	buffer to reuse for serialization.
+
+2003-03-25 17:29  kaufmann
+
+	* studierstube/src/apps/construct3d/SoCurveKit.cxx:
+	
+	Disabled distribution of VertexProperty nodes and LineSets. 
+	Calculation is done on remote pc and host. Too much data was
+	transmitted.
+
+2003-03-25 17:06  feiler
+
+	* studierstube/src/apps/construct3d/: SoCurveKit.cxx, SoCurveKit.h,
+	SoSurfaceKit.cxx:
+	
+	Klaus Feiler: Update SoSurfaceKit
+
+2003-03-25 16:46  kaufmann
+
+	* studierstube/src/apps/construct3d/: SoBoolKit.cxx,
+	SoSurfaceKit.cxx:
+	
+	Disabled distribution of SoFaceSet and Vertexproperties which are
+	calculated on the remote pc anyway. Too much data was distributed.
+
+2003-03-25 16:00  feiler
+
+	* studierstube/src/apps/construct3d/: Object3dKit.h,
+	SoCurveKit.cxx, SoCurveKit.h, SoIntersectKit.cxx, SoIntersectKit.h:
+	
+	Klaus Feiler: update
+
 2003-03-25 12:05  kaufmann
 
 	* src/input/: P5GloveModule.cxx, P5GloveModule.h:
@@ -357,9 +1599,31 @@ cvs2cl script used to generate this file.
 	
 	added ElasticFilterNode and InterpolatorNode to Makefile.am
 
+2003-03-24 22:33  reitmayr
+
+	* studierstube/src/stbapi/: util/ivio.cxx, util/ivio.h,
+	div/divmain.cxx, div/divmain.h:
+	
+	added a writeBuffer function that uses a user defined buffer
+	instead of allocating a new one.  used this function in div to
+	avoid frequent allocations and deallocations.
+
+2003-03-24 17:54  knapp
+
+	* studierstube/src/stbapi/misc/SoMultiSwitch.cxx:
+	
+	Michi Knapp: fixed problem with inheriting values of earlier
+	switches
+
 2003-03-24 16:24  kaufmann
 
 	* data/opentracker.dtd:
+	
+	P5glove configuration added
+
+2003-03-24 16:21  kaufmann
+
+	* studierstube/bin/workspace/opentracker.dtd:
 	
 	P5glove configuration added
 
@@ -369,12 +1633,32 @@ cvs2cl script used to generate this file.
 	
 	fixed some uninitialized pointer deletions
 
+2003-03-24 15:44  reitmayr
+
+	* studierstube/src/stbapi/: div/divmain.cxx, util/ivio.cxx:
+	
+	fixed a bug with initial transport of image data via DIV
+
 2003-03-24 14:25  flo
 
 	* opentracker.dsp:
 	
 	added the ElasticFilter and a corresponing InterpolatorModule to
 	opentracker, since some people want to use it.
+
+2003-03-24 13:32  flo
+
+	* studierstube/bin/workspace/opentracker.dtd:
+	
+	added the ElasticFilter and a corresponing InterpolatorModule to
+	opentracker, since some people want to use it.
+
+2003-03-24 13:26  feiler
+
+	* studierstube/src/apps/construct3d/: SoCurveKit.cxx, SoCurveKit.h,
+	SoIntersectKit.cxx, SoIntersectKit.h, SoPointKit.cxx:
+	
+	Klaus Feiler:update
 
 2003-03-24 13:26  flo
 
@@ -385,6 +1669,19 @@ cvs2cl script used to generate this file.
 	
 	added the ElasticFilter and a corresponing InterpolatorModule to
 	opentracker, since some people want to use it.
+
+2003-03-22 18:11  feiler
+
+	* studierstube/src/apps/construct3d/SoCurveKit.cxx:
+	
+	Klaus Feiler: update
+
+2003-03-22 17:55  feiler
+
+	* studierstube/src/apps/construct3d/: SoCurveKit.cxx, SoCurveKit.h,
+	SoCylinderKit.cxx, SoIntersectKit.cxx:
+	
+	Klaus Feiler: update
 
 2003-03-22 16:57  kaufmann
 
@@ -416,11 +1713,39 @@ cvs2cl script used to generate this file.
 	
 	P5 glove define added
 
+2003-03-22 14:23  feiler
+
+	* studierstube/src/apps/construct3d/: Object3dKit.h,
+	SoCurveKit.cxx, SoIntersectKit.cxx:
+	
+	Klaus Feiler: update
+
+2003-03-21 23:53  tamer
+
+	* studierstube/cfg/m4/opentracker.m4:
+	
+	fixed rpath handling for OpenTracker library.
+
 2003-03-21 23:32  tamer
 
 	* INSTALL:
 	
 	update INSTALL file reflecting the new changes.
+
+2003-03-21 23:30  tamer
+
+	* studierstube/: INSTALL, doc/BUILD_SYSTEM_HOWTO.txt:
+	
+	updated documentation to reflect the new changes.
+
+2003-03-21 23:21  tamer
+
+	* studierstube/: configure.ac, cfg/m4/opentracker.m4,
+	lib/Makefile.am, src/Makefile.common:
+	
+	OpenTracker needs to be installed into the system now as it is
+	common with any other package or lib. fixed build system in this
+	regard and made better use of the opentracker-config script.
 
 2003-03-21 23:19  tamer
 
@@ -443,6 +1768,39 @@ cvs2cl script used to generate this file.
 	directories out of it necessary to succesfully link against
 	libOpenTracker.
 
+2003-03-21 20:54  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoGroupSwitchElement.cxx,
+	misc/SoGroupSwitchElement.h, misc/SoMultiSwitch.cxx,
+	misc/SoMultiSwitchElement.cxx, misc/SoMultiSwitchElement.h,
+	context/SoContextElement.cxx, context/SoContextElement.h:
+	
+	fixed a bug with switch elements and inheriting between different
+	switch nodes. A note on the side: read the toolmaker VERY
+	carefully, if you go about stuff like elements :).
+
+2003-03-21 19:28  flo
+
+	* studierstube/bin/apps/APRIL/engine.xml:
+	
+	new test file for hierarchical state engine
+
+2003-03-21 19:28  flo
+
+	* studierstube/src/apps/APRIL/: SAXReadHandler.cxx,
+	SAXReadHandler.h, SoStateEngine.cxx, SoStateEngine.h,
+	StateEngine.cxx, StateEngine.h:
+	
+	extended the SoStateEngine class to support hierarchical &
+	concurrent state machines. it compiles, but is not tested yet...
+
+2003-03-21 17:26  feiler
+
+	* studierstube/src/apps/construct3d/: SoCurveKit.cxx, SoCurveKit.h,
+	SoIntersectKit.cxx:
+	
+	klaus feiler: update
+
 2003-03-21 15:52  kaufmann
 
 	* src/input/: P5GloveModule.cxx, P5GloveModule.h, P5GloveSource.h:
@@ -457,6 +1815,37 @@ cvs2cl script used to generate this file.
 	* src/core/: Module.h, NodeFactory.h:
 	
 	added a nice virtual destructor to the module as it should be :)
+
+2003-03-20 17:07  knapp
+
+	* studierstube/src/stbapi/: misc/SoMultiSwitch.cxx,
+	context/SoContextMultiSwitch.cxx:
+	
+	fixed bug with inherited values
+
+2003-03-20 15:21  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoGroupSwitch.cxx,
+	misc/SoMultiSwitch.cxx, context/SoContextMultiSwitch.cxx:
+	
+	fixed some crashes, if there are no children, but parameters are
+	set
+
+2003-03-19 23:50  tamer
+
+	* studierstube/: configure.ac, cfg/m4/opentracker.m4:
+	
+	- added support for the opentracker-config script to allow
+	additional libs   specified in OpenTracker to be passed to
+	StudierStube.  - a couple of build system fixes in regard to
+	ARToolKit support. (verified that   it works under linux -> works.
+	simplest way: do not specify any parameters to	 ARToolKitConfig,
+	like so:   <ARToolKitConfig camera-parameter="data/webcam.dat"
+	videomode="" framerate="30"		       treshhold="100"/>  
+	in your opentracker.xml file, the default would be 640x480_YUV,
+	just fiddle around   with the framerate) - documentation regarding
+	possible config strings under linux should and will be	 provided.
+	(on my todo list) - now up to the more fancy things... ;)
 
 2003-03-19 23:42  tamer
 
@@ -480,12 +1869,182 @@ cvs2cl script used to generate this file.
 	artoolkit if used with firewire cams) accessible in a convenient
 	fashion to programs using OpenTracker.
 
+2003-03-19 17:41  feiler
+
+	* studierstube/src/apps/construct3d/SoIntersectKit.cxx:
+	
+	Klaus Feiler: update
+
+2003-03-19 11:55  feiler
+
+	* studierstube/src/apps/construct3d/: SoIntersectKit.cxx,
+	SoSurfaceKit.cxx, SoSurfaceKit.h:
+	
+	Klaus Feiler: Update
+
+2003-03-19 10:12  feiler
+
+	* studierstube/src/apps/construct3d/: Object3dKit.h, SoConeKit.cxx,
+	SoCubeKit.cxx, SoCurveKit.cxx, SoCurveKit.h, SoCylinderKit.cxx,
+	SoIntersectKit.cxx, SoIntersectKit.h, SoSphereKit.cxx:
+	
+	Klaus Feiler Update
+
 2003-03-18 02:24  tamer
 
 	* doc/BUILD_SYSTEM_HOWTO.txt:
 	
 	added studierstube build system howto to opentracker as the same
 	principles apply here, too.
+
+2003-03-17 19:03  kaufmann
+
+	* studierstube/src/stbapi/interaction/SoDragKit.cxx:
+	
+	too much unscheduling of snapBackSensor caused Coin warning - fixed
+
+2003-03-17 17:25  reitmayr
+
+	* studierstube/src/stbapi/div/: diview.dsp, divtest.iv:
+	
+	updated div test project for coin3d testing and added a small test
+	iv file
+
+2003-03-17 16:16  kaufmann
+
+	*
+	studierstube/src/apps/calibration/hmdCalibration/hmdCalibration.dsp:
+	
+	updated project file to link with Qt 3.0.3 hmdcalibration works
+	with stb 3.x (ported by Gerhard)
+
+2003-03-16 17:13  reitmayr
+
+	* studierstube/: src/stbapi/div/ControlModule.h,
+	src/stbapi/tracker/StbInputModule.h,
+	src/stbapi/tracker/StbMouseSource.h, src/stbapi/tracker/StbSink.h,
+	src/stbapi/util/ReactorTask.h,
+	src/stbapi/workspace/SoLocaleManagerKit.h,
+	src/stbapi/workspace/distrManager/ConnectionHandler.h,
+	src/stbapi/workspace/distrManager/StbDistrManager.h,
+	tools/sman2/MonitorHandler.h, tools/sman2/SessionVisitorAdaptor.h,
+	tools/sman2/User.h:
+	
+	added some more documentation to various classes
+
+2003-03-16 17:13  reitmayr
+
+	* studierstube/src/stbapi/stbapi.h:
+	
+	added a module for deprecated classes
+
+2003-03-16 02:37  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoGroupSwitch.h,
+	misc/SoGroupSwitchElement.h, util/sockets.h, util/sound.cxx,
+	workspace/distrManager/AddUserMessage.h,
+	workspace/distrManager/ChangeFocusMessage.h,
+	workspace/distrManager/DistributionStrategy.h,
+	workspace/distrManager/JoinLocaleMessage.h,
+	workspace/distrManager/LeaveLocaleMessage.h,
+	workspace/distrManager/LocalDistribution.h,
+	workspace/distrManager/Message.h,
+	workspace/distrManager/MessageFactory.h,
+	workspace/distrManager/RemoteDistribution.h,
+	workspace/distrManager/RemoveUserMessage.h,
+	workspace/distrManager/SessionMessage.h,
+	workspace/distrManager/SessionVisitor.h,
+	workspace/distrManager/SetApplicationModeMessage.h,
+	workspace/distrManager/SetDIVParamMessage.h,
+	workspace/distrManager/SetFocusMessage.h,
+	workspace/distrManager/SheetBarMessage.h,
+	workspace/distrManager/StartApplicationMessage.h,
+	workspace/distrManager/StopApplicationMessage.h,
+	workspace/distrManager/SystemBarMessage.h,
+	workspace/distrManager/TaskBarMessage.h,
+	workspace/distrManager/UseResourcesMessage.h,
+	workspace/distrManager/UserKitMessage.h,
+	workspace/distrManager/UserKitMessageVisitor.h,
+	workspace/distrManager/WindowBarMessage.h:
+	
+	added module documentation according to Flo's great scheme.
+
+2003-03-16 02:34  reitmayr
+
+	* studierstube/: src/apps/aeki/AssemblyStep.h,
+	src/apps/aeki/ComponentInstance.h,
+	src/apps/aeki/FurnitureFactory.h,
+	src/apps/aeki/SoAekiFurnitureKit.h, src/apps/aeki/SoAekiKit.h,
+	src/apps/aeki/XmlHandler.h, src/apps/aeki/aeki.h,
+	src/apps/arlibrary/ARlibrary.h, src/apps/arlibrary/SoBookKit.cpp,
+	src/apps/arlibrary/SoBookKit.h, src/apps/arlibrary/SoLibKit.cpp,
+	src/apps/arlibrary/SoLibKit.h,
+	src/apps/arlibrary/GenMarker/main.cpp,
+	src/apps/memory/SoMemoryApp.h, src/apps/memory/SoMemoryCard.h,
+	src/apps/signpost/Path.h, src/apps/signpost/Pathfinder.h,
+	src/apps/signpost/PrioQueue.h, src/apps/signpost/SoARPortal.h,
+	src/apps/signpost/SoARPortalGeometry.h,
+	src/apps/signpost/SoARRoom.h, src/apps/signpost/SoARRoomGeometry.h,
+	src/apps/signpost/SoARStorey.h, src/apps/signpost/SoWegweiserKit.h,
+	src/apps/signpost/wegweiser.h,
+	src/extensions/Chromium/chromiumext.h, tools/sman2/Application.h,
+	tools/sman2/DIVAddressFactory.h, tools/sman2/Host.h,
+	tools/sman2/Locale.h, tools/sman2/MonitorHandler.h,
+	tools/sman2/SessionHandler.h, tools/sman2/SessionManager.h,
+	tools/sman2/SessionVisitorAdaptor.h, tools/sman2/User.h,
+	src/stbapi/div/SoDivGroup.h, src/stbapi/div/StbDiv.h:
+	
+	added module documentation according to Flo's great scheme.
+
+2003-03-14 18:57  flo
+
+	* studierstube/src/stbapi/misc/OnScreenRenderer.h:
+	
+	next try to fix comment bug...
+
+2003-03-14 18:52  flo
+
+	* studierstube/src/stbapi/misc/OnScreenRenderer.h:
+	
+	removing empty comment to make tamers pedantic compiler happy
+
+2003-03-14 05:17  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	turned out that SbString.findAll() was introduced in Coin-2, so old
+	OIV choked on it. rewrote the offending part in pure C++. now
+	waiting for VC++ to hurt me plenty! holy byte, it's just about
+	simple character replacement! *argh &*^#%!!!*
+
+2003-03-14 03:59  tamer
+
+	* studierstube/stb_env.sh:
+	
+	removed now obsolete path setting shell script.
+
+2003-03-14 03:57  tamer
+
+	* studierstube/INSTALL:
+	
+	updated INSTALL instructions to reflect the new changes.
+
+2003-03-14 03:52  tamer
+
+	* studierstube/: bootstrap, configure.ac, lib/Makefile.am,
+	bin/workspace/Makefile.am, tools/sman2/Makefile.am:
+	
+	accomodations for the new rpath handling.
+
+2003-03-14 03:51  tamer
+
+	* studierstube/cfg/m4/: ace.m4, opentracker.m4:
+	
+	added stb_ac_*_rpath flag to allow libtool to encode the path to
+	the library so that the dynamic linker/loader is able to find the
+	library without having to set the LD_LIBRARY_PATH environment if
+	the library is not installed in the linker search path on the
+	system.
 
 2003-03-14 03:49  tamer
 
@@ -521,11 +2080,573 @@ cvs2cl script used to generate this file.
 	the library is not installed in the linker search path on the
 	system.
 
+2003-03-13 22:51  tamer
+
+	* studierstube/doc/BUILD_SYSTEM_HOWTO.txt:
+	
+	fixed some typos.
+
+2003-03-13 22:47  tamer
+
+	* studierstube/doc/BUILD_SYSTEM_HOWTO.txt:
+	
+	added a studierstube build system howto. should be htmlized and
+	integrated in the doxygen doc generation chain.
+
+2003-03-13 18:05  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	*cough* now made it really work...
+
+2003-03-13 17:49  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	dots "." are not allowed in node names. Coin uttered a warning and
+	implicitly set the invalid characters to "_". made it explicit to
+	prohibit surprises...
+
+2003-03-13 12:10  kaufmann
+
+	* studierstube/bin/apps/construct3d/construct3d.iv:
+	
+	Rescaled PIP for Construct3D so that it fits into the user's field
+	of view, nothing else changed
+
+2003-03-13 12:06  bara
+
+	* studierstube/bin/workspace/graphix/: C3DPip.iv, skinWin.iv:
+	
+	Rescaled PIP for Construct3D so that it fits into the user's field
+	of view
+
+2003-03-13 12:03  bara
+
+	* studierstube/bin/setups/imsvrlab/construct3d/:
+	constructUserKit_1user.iv, constructUserKit_dual.iv,
+	run_faust_c3d_dual.bat, run_faust_c3d_oneuser.bat,
+	speechARTconstruct.xml:
+	
+	New setup for Construct3D in the VRLab 4th floor after calibration
+
+2003-03-13 12:02  bara
+
+	* studierstube/bin/setups/imsvrlab/: artTrackerServer.bat,
+	artTrackerServer.xml, faust1.bat, faust2.bat, faustDualUser.iv,
+	faustHMD1.iv, faustUser1.iv, faustUser2.iv, faustWallTracker.xml,
+	faustdual.bat:
+	
+	New setup for the VRLab 4th floor after calibration
+
+2003-03-11 21:00  flo
+
+	* studierstube/src/: stbapi/resource/SoPipKit.h,
+	stbapi/resource/SoUserKit.h, apps/vrss/vrss.h:
+	
+	furhter documentation cleanup - removed some doxygen warnings
+
+2003-03-11 20:47  flo
+
+	* studierstube/src/stbapi/: interaction/SoDraggerKit.cxx,
+	misc/OnScreenRenderer.h, resource/viewer/video_overlay.cxx,
+	util/ivio.h, widgets/SoAlphabetKit.h, window3d/SoWindowKit.h:
+	
+	furhter documentation cleanup - removed some doxygen warnings
+
+2003-03-11 20:43  flo
+
+	* studierstube/src/: apps/chess/ChessKit.h,
+	apps/chess/ChessManKit.h, apps/chess/gnuchess/gnuchess.h,
+	apps/fingerfarben/SoFingerfarbenAppKit.h, apps/signpost/Path.h,
+	apps/signpost/Pathfinder.h, apps/signpost/PrioQueue.h,
+	apps/signpost/SoARPortal.h, apps/signpost/SoARPortalGeometry.h,
+	apps/signpost/SoARRoom.h, apps/signpost/SoARRoomGeometry.h,
+	apps/signpost/SoARStorey.h, apps/signpost/SoWegweiserKit.cxx,
+	apps/vrss/vrss.h, stbapi/stbapi.h, stbapi/div/RMCast_Fragment.h,
+	stbapi/div/RMCast_Reliable_Factory.h,
+	stbapi/div/RMCast_Singleton_Factory.h,
+	stbapi/div/RMCast_UDP_Proxy.h:
+	
+	furhter documentation cleanup - removed some doxygen warnings
+
+2003-03-11 17:19  flo
+
+	* studierstube/src/: stbapi/workspace/SoApplicationKit.h,
+	stbapi/workspace/SoClassLoader.h, stbapi/workspace/SoContextKit.h,
+	stbapi/workspace/SoContextManagerKit.h,
+	stbapi/workspace/SoLinkApp.h, stbapi/workspace/SoLocaleKit.h,
+	stbapi/workspace/SoLocaleManagerKit.h,
+	stbapi/workspace/StbWorkspace.h,
+	stbapi/workspace/distrManager/DistributionStrategy.h,
+	stbapi/workspace/distrManager/JoinLocaleMessage.h,
+	stbapi/workspace/distrManager/LeaveLocaleMessage.h,
+	stbapi/workspace/distrManager/LocalDistribution.h,
+	stbapi/workspace/distrManager/Message.h,
+	stbapi/workspace/distrManager/MessageFactory.h,
+	stbapi/workspace/distrManager/RemoteDistribution.h,
+	stbapi/workspace/distrManager/RemoveUserMessage.h,
+	stbapi/workspace/distrManager/SessionMessage.h,
+	stbapi/workspace/distrManager/SessionVisitor.h,
+	stbapi/workspace/distrManager/SetApplicationModeMessage.h,
+	stbapi/workspace/distrManager/SetDIVParamMessage.h,
+	stbapi/workspace/distrManager/SetFocusMessage.h,
+	stbapi/workspace/distrManager/SheetBarMessage.h,
+	stbapi/workspace/distrManager/StartApplicationMessage.h,
+	stbapi/workspace/distrManager/StbDistrManager.h,
+	stbapi/workspace/distrManager/StopApplicationMessage.h,
+	stbapi/workspace/distrManager/SystemBarMessage.h,
+	stbapi/workspace/distrManager/TaskBarMessage.h,
+	stbapi/workspace/distrManager/UseResourcesMessage.h,
+	stbapi/workspace/distrManager/UserKitMessage.h,
+	stbapi/workspace/distrManager/UserKitMessageVisitor.h,
+	stbapi/workspace/distrManager/WindowBarMessage.h,
+	apps/APRIL/ConditionalTrigger.h, apps/APRIL/SAXReadHandler.h,
+	apps/APRIL/SoStateEngine.h, apps/APRIL/StateEngine.h,
+	apps/APRIL/StringFanIn.h, apps/APRIL/april.h,
+	apps/fingerfarben/SoFingerfarbenAppKit.h:
+	
+	added module definitions for documentation
+
+2003-03-11 17:16  flo
+
+	* studierstube/src/stbapi/: event3d/Base3D.h,
+	event3d/Sb3DEventHistory.h, event3d/So3DEvent.h,
+	event3d/So3DEventCB.h, event3d/SoHandle3DEventAction.h,
+	event3d/SoKeyToggle.h, event3d/Stb3DEventGenerator.h,
+	event3d/StbEventInspector.h, interaction/So3DSensor.h,
+	interaction/So3DSeparator.h, interaction/SoBehaviorKit.h,
+	interaction/SoButtonPressGesture.h,
+	interaction/SoButtonReleaseGesture.h, interaction/SoDragKit.h,
+	interaction/SoDragSeparator.h, interaction/SoDraggerKit.h,
+	interaction/SoEnterGesture.h, interaction/SoExitGesture.h,
+	interaction/SoGesture.h, interaction/SoMoveGesture.h,
+	interaction/SoSpeechGesture.h, misc/GLTweak.h, misc/IMGR.h,
+	misc/OnScreenRenderer.h, misc/SoArtifactKit.h, misc/SoAudio.h,
+	misc/SoAxisRotateConstraint.h, misc/SoBillboardKit.h,
+	misc/SoBoxConstraint.h, misc/SoConstraint.h, misc/SoGroupSwitch.h,
+	misc/SoGroupSwitchElement.h, misc/SoLineConstraint.h,
+	misc/SoMD2NodeKit.h, misc/SoMultMatrix.h, misc/SoMultiSwitch.h,
+	misc/SoMultiSwitchElement.h, misc/SoRayPicker.h,
+	misc/SoRenderSync.h, misc/SoStreamLine.h, misc/SoSwitchSelect.h,
+	misc/SoVisibleSwitchEngine.h, resource/SoPenKit.h,
+	resource/SoPipKit.h, resource/SoPipSheetKit.h,
+	resource/SoTrackedArtifactKit.h, resource/SoUserKit.h,
+	resource/SoUserManagerKit.h, resource/StbSkinLoader.h,
+	resource/viewer/MultRotRot.h,
+	resource/viewer/SoAnaglyphDisplayMode.h,
+	resource/viewer/SoCameraControlMode.h,
+	resource/viewer/SoDesktopControlMode.h,
+	resource/viewer/SoDisplayKit.h, resource/viewer/SoDisplayMode.h,
+	resource/viewer/SoDualChannelDisplayMode.h,
+	resource/viewer/SoFieldSequentialDisplayMode.h,
+	resource/viewer/SoLineSequentialDisplayMode.h,
+	resource/viewer/SoMonoDisplayMode.h,
+	resource/viewer/SoOffAxisCamera.h,
+	resource/viewer/SoRotateFromTo.h,
+	resource/viewer/SoStereoCameraKit.h,
+	resource/viewer/SoStudierstubeViewer.h,
+	resource/viewer/SoTrackedDisplayControlMode.h,
+	resource/viewer/SoTrackedViewpointControlMode.h,
+	resource/viewer/SoTrackedViewpointMobileDisplayControlMode.h,
+	seams/SoBBoxAbortGroup.h, seams/SoRenderAbortGroup.h,
+	seams/SoSeamKit.h, tracker/SoPartitionKit.h,
+	tracker/SoStationKit.h, tracker/SoTrakEngine.h,
+	tracker/StbInputModule.h, tracker/StbKeyboardSource.h,
+	tracker/StbMouseSource.h, tracker/StbSink.h, tracker/StbSource.h,
+	tracker/TrackerOT.h, util/fileBrowser.h, util/sockets.h,
+	widgets/So3DButton.h, widgets/So3DCheckBox.h, widgets/So3DDial.h,
+	widgets/So3DExpSlider.h, widgets/So3DIntDial.h,
+	widgets/So3DIntSlider.h, widgets/So3DLogSlider.h,
+	widgets/So3DRadioButton.h, widgets/So3DSlider.h,
+	widgets/So3DTouchButton.h, widgets/So3DTouchCheckBox.h,
+	widgets/So3DTouchRadioButton.h, widgets/So3DTouchSlider.h,
+	widgets/SoAlphabetKit.h, widgets/SoBase3DButton.h,
+	widgets/SoBase3DDial.h, widgets/SoBase3DSlider.h,
+	widgets/SoBase3DTouchSlider.h, widgets/SoButtonKit.h,
+	widgets/SoDial.h, widgets/SoGestureKit.h, widgets/SoPushButton.h,
+	widgets/SoRadioButton.h, widgets/SoSketchKit.h, widgets/SoSlider.h,
+	widgets/SoSpeechSlider.h, widgets/SoToggleButton.h,
+	window3d/EventAutomaton.h, window3d/SoCubeKit.h,
+	window3d/SoWindowKit.h:
+	
+	added module definitions for documentation
+
+2003-03-11 17:03  flo
+
+	* studierstube/src/stbapi/: stbapi.h, context/SoContext.h,
+	context/SoContextElement.h, context/SoContextMultiSwitch.h,
+	context/SoContextSwitch.h, context/StudierstubeContext.h,
+	div/SoDivGroup.h, div/StbDiv.h, div/divmain.h:
+	
+	added module definitions for documentation
+
+2003-03-11 16:17  kaufmann
+
+	* studierstube/src/stbapi/workspace/SoContextKit.cxx:
+	
+	fixed setUniqueNodeName and makeUniqueNodeName to work with Coin's
+	SbString. Adding integers to a string must look like this:
+	*nodeName+=SbString(uid);
+
+2003-03-11 13:01  flo
+
+	* studierstube/src/stbapi/window3d/EventAutomaton.h:
+	
+	corrected documentation tag.
+
+2003-03-10 18:01  flo
+
+	* studierstube/doc/: footer.html, header.html, stb.css,
+	studierstube.dxy:
+	
+	updated documentation generation files to resemble
+	www.studierstube.org style
+
+2003-03-10 18:01  flo
+
+	* studierstube/src/stbapi/stbapi.h:
+	
+	added some module definitions for doxygen
+
+2003-03-10 15:04  flo
+
+	* studierstube/src/: stbapi/stbapi.h,
+	apps/fingerfarben/SoFingerfarbenAppKit.h:
+	
+	added some module definitions for doxygen
+
+2003-03-10 10:49  feiler
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	Object3dKit.h, SoIntersectKit.cxx, SoIntersectKit.h, SoLineKit.cxx,
+	SoLineKit.h, SoPlaneKit.cxx, SoPlaneKit.h, contextcnd2.cxx:
+	
+	Klaus Feiler: update
+
+2003-03-10 10:00  flo
+
+	* studierstube/: src/apps/APRIL/ConditionalTrigger.cxx,
+	src/apps/APRIL/ConditionalTrigger.h,
+	src/apps/APRIL/SoStateEngine.cxx, src/apps/APRIL/StateEngine.cxx,
+	src/apps/APRIL/StringFanIn.cxx, bin/apps/APRIL/april_test.iv,
+	bin/apps/APRIL/engine.xml:
+	
+	debugged engines to fire trigger only once, even if multiple
+	updates cause the condition to become true.
+
+2003-03-07 19:01  flo
+
+	* studierstube/bin/apps/APRIL/: april_test.iv, engine.xml:
+	
+	extended state engine demo to read specification from file
+
+2003-03-07 19:00  flo
+
+	* studierstube/src/apps/APRIL/: ConditionalTrigger.cxx,
+	SAXReadHandler.cxx, SAXReadHandler.h, SoStateEngine.cxx,
+	SoStateEngine.h, StateEngine.cxx, StateEngine.h, StringFanIn.cxx,
+	april.dsp:
+	
+	state engine is now parsing XML specification file
+
+2003-03-07 11:15  flo
+
+	* studierstube/src/apps/APRIL/: SoStateEngine.cxx, StringFanIn.cxx,
+	StringFanIn.h:
+	
+	checking in because of fire alarm ;)
+
+2003-03-06 16:47  flo
+
+	* studierstube/studierstube.dsw:
+	
+	added the APRIL project to the workspace.
+
+2003-03-06 16:46  flo
+
+	* studierstube/bin/apps/APRIL/: april_test.iv, test.bat:
+	
+	added simple application for testing the APRIL support classes
+
+2003-03-06 16:44  flo
+
+	* studierstube/src/apps/APRIL/: ConditionalTrigger.cxx,
+	ConditionalTrigger.h, SoStateEngine.cxx, SoStateEngine.h,
+	StateEngine.cxx, StateEngine.h, april.dsp:
+	
+	added generic state engine OIV engine, as well as a universal
+	trigger engine. this is work in progress!
+
+2003-03-05 18:49  flo
+
+	* studierstube/src/apps/APRIL/: StateEngine.cxx, StateEngine.h,
+	april.cxx, april.dsp, april.h:
+	
+	added APRIL (aka VSML) Studierstube project to the repository. It
+	will hold helper classes to implement APRIL features in
+	OpenInventor.  APRIL istself can be found in /tools/vsml
+
+2003-03-03 15:58  flo
+
+	* studierstube/bin/apps/mirror/: mirrorApp.iv, readme.txt,
+	start.bat, config/mirrorCamKit.iv, config/mirrorTracker.xml,
+	config/mirrorUserKit.iv, config/pyrofirewire.dat,
+	content/beard1.iv, content/beard1.jpg, content/beard2.iv,
+	content/beard2.jpg, content/beard3.iv, content/beard3.jpg,
+	content/beard4.JPG, content/beard4.iv, content/cube.iv,
+	content/glasses1.JPG, content/glasses1.iv, content/glasses2.iv,
+	content/glasses2.jpg, content/glasses3.JPG, content/glasses3.iv,
+	content/glasses4.JPG, content/glasses4.iv, content/glasses5.JPG,
+	content/glasses5.iv, content/halo.iv, content/horn.JPG,
+	content/horn.iv, content/smiley.JPG, data/apfel.patt,
+	data/birne.patt, data/brille.patt, data/delphin.patt,
+	data/ding.patt, data/fuss.patt, data/pferd.patt,
+	data/schnecke.patt, data/schuh.patt, data/seehund.patt,
+	data/teddy.patt, data/wal.patt, data/non-mirrored/apfel.patt,
+	data/non-mirrored/birne.patt, data/non-mirrored/brille.patt,
+	data/non-mirrored/delphin.patt, data/non-mirrored/ding.patt,
+	data/non-mirrored/fuss.patt, data/non-mirrored/pferd.patt,
+	data/non-mirrored/schnecke.patt, data/non-mirrored/schuh.patt,
+	data/non-mirrored/seehund.patt, data/non-mirrored/teddy.patt,
+	data/non-mirrored/wal.patt, pattbmp/patt11_12.bmp,
+	pattbmp/patt13_14.bmp, pattbmp/patt15_16.bmp,
+	pattbmp/patt17_18.bmp, pattbmp/patt19_20.bmp, pattbmp/patt1_2.bmp,
+	pattbmp/patt21_xx.bmp, pattbmp/patt3_4.bmp, pattbmp/patt5_6.bmp,
+	pattbmp/patt7_8.bmp, pattbmp/patt9_10.bmp, pattbmp/patt_blank.bmp:
+	
+	added the mirror groups vrlu project to cvs
+
+2003-02-27 13:30  kaufmann
+
+	* studierstube/src/apps/construct3d/: SoPointKit.h,
+	construct3d.dsp, contextcnd2.cxx:
+	
+	IsetConeLineEngine and IsecCylLineEngine removed
+
+2003-02-27 13:30  kaufmann
+
+	* studierstube/src/apps/construct3d/: IsectCylLineEngine.cxx,
+	IsectCylLineEngine.h, IsectLineConeEngine.cxx,
+	IsectLineConeEngine.h:
+	
+	not needed anymore, functions substituted by SoIntersectKit
+
+2003-02-26 23:15  flo
+
+	* studierstube/studierstube.dsw:
+	
+	added showcase project to workspace
+
+2003-02-26 21:29  feiler
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	SoIntersectKit.cxx, SoIntersectKit.h, SoLineKit.cxx,
+	SoPointKit.cxx, SoPointKit.h, construct3d.dsp, contextcnd.h,
+	contextcnd2.cxx:
+	
+	no message
+
+2003-02-26 01:23  tamer
+
+	* studierstube/src/stbapi/widgets/SoAlphabetKit.cxx:
+	
+	removed SbStringList header again. will send patch to the coin
+	folks as this header should be really included in SbPList.h.
+
+2003-02-26 01:03  tamer
+
+	* studierstube/src/stbapi/resource/viewer/MultRotRot.cxx:
+	
+	replaced SbVec3f.h with SbLinear.h to make it SGI OIV conformant.
+
+2003-02-25 02:59  tamer
+
+	* studierstube/src/stbapi/: event3d/Stb3DEventGenerator.cxx,
+	workspace/StbWorkspace.cxx:
+	
+	the coin folks changed implementation of their SbPList yesterday,
+	which resulted in segmentation faults on our side.
+	
+	we were doing foo.set(i,NULL); in initializers in a for loop on an
+	empty list.
+	
+	<cite http://doc.coin3d.org/Coin-dev/classSbPList.html#a4> Index
+	operator to set element at index. Does not expand array bounds if
+	index is outside the list.  </cite>
+	
+	correct usage in our case is foo.append(bar) as this grows the list
+	if too small...  fixed it for 2 cases where it would lead to a
+	segfault on startup, not sure though in which other places we used
+	it wrongly, too. needs a code review...
+	
+	probably the segmentation fault we experienced on windows with coin
+	on studierstube shutdown is related to this as it happened on
+	delete tracker which never could have the chance to contain some
+	valid values with coin.
+
+2003-02-24 20:23  tamer
+
+	* studierstube/src/stbapi/window3d/SoWindowKit.cxx:
+	
+	second take to fix the debug statement issue.  #ifdef'ed every
+	single use of _PF*_ as i got annoying gcc3 warnings of empty
+	statements and removed the #else case of empty _PF*_ macro
+	definitions.  a perfect example of how urgent we need a proper
+	debug and messaging mechanism or policy.
+
+2003-02-24 20:08  tamer
+
+	* studierstube/src/stbapi/widgets/SoAlphabetKit.cxx:
+	
+	added missing include for SbStringList header.
+
+2003-02-24 20:01  tamer
+
+	* studierstube/src/stbapi/util/: fileBrowser.cxx, ivio.cxx:
+	
+	initialized unitialized variable to remove compiler warning.
+	restructured code in ivio.cxx to achieve the same and to get rid of
+	an unnecessary if statement.
+
+2003-02-24 19:49  tamer
+
+	* studierstube/src/stbapi/resource/viewer/MultRotRot.cxx:
+	
+	added missing include for SbVec3f header.
+
+2003-02-24 18:02  kaufmann
+
+	* studierstube/src/stbapi/event3d/Stb3DEventGenerator.cxx:
+	
+	removed offending line in destructor which caused a crash on exit
+	under Windows with Coin3D.  Added FIXME note
+
+2003-02-24 17:01  flo
+
+	* studierstube/src/apps/showcase/: LightProjector.cxx,
+	LightProjector.h:
+	
+	projector illumination cleanup
+
+2003-02-24 16:53  flo
+
+	* studierstube/bin/setups/showcase/: showcase_stb.iv,
+	config/ProjectorCamera.iv, config/ShowcaseTracker-1.xml,
+	config/ShowcaseUser-1.iv:
+	
+	projector illumination cleanup
+
+2003-02-24 11:44  flo
+
+	* studierstube/bin/setups/showcase/: trackerserver.bat,
+	config/trackerserver.xml:
+	
+	added trackerserver config files
+
+2003-02-23 17:52  flo
+
+	* studierstube/: src/apps/showcase/LightProjector.cxx,
+	bin/setups/showcase/showcase_stb.iv:
+	
+	phew... occlusion shadows working!
+
 2003-02-22 01:37  tamer
 
 	* lib/lib.txt:
 	
 	now obsolete, as directory is not empty anymore.
+
+2003-02-21 00:29  reitmayr
+
+	* studierstube/src/apps/aeki/XmlHandler.h:
+	
+	updated for namespace use in xerces 2.2
+
+2003-02-21 00:28  reitmayr
+
+	* studierstube/src/apps/worms/worms.cpp:
+	
+	exchanged inclusion of not existing precompiled headerfile with
+	windows.h
+
+2003-02-20 23:16  flo
+
+	* studierstube/: bin/setups/showcase/showcase_stb.iv,
+	bin/setups/showcase/config/ProjectorCamera.iv,
+	bin/setups/showcase/config/ShowcaseUser-1.iv,
+	src/apps/showcase/LightProjector.cxx:
+	
+	further work on projector-based illumination... it's *nearly*
+	working...
+
+2003-02-20 22:32  reitmayr
+
+	* studierstube/src/apps/viewer/SoAppControl.cxx:
+	
+	removed some debug output
+
+2003-02-20 16:28  flo
+
+	* studierstube/bin/setups/showcase/: showcase_stb.iv,
+	config/ProjectorCamera.iv, config/ShowcaseTracker-1.xml,
+	config/ShowcaseUser-1.iv:
+	
+	further work on showcase setup
+
+2003-02-20 16:27  flo
+
+	* studierstube/src/stbapi/resource/viewer/: SoDisplayKit.cxx,
+	SoDisplayKit.h:
+	
+	added a field to SoDisplayKit to enable the stencil buffer in our
+	openGL context.
+
+2003-02-19 19:30  flo
+
+	* studierstube/bin/setups/showcase/showcase_stb.iv:
+	
+	further work on projector-based illumination
+
+2003-02-19 19:26  flo
+
+	* studierstube/src/apps/showcase/: LightProjector.cxx,
+	LightProjector.h, showcase.cxx, showcase.dsp, showcase.h:
+	
+	further work on projector-based illumination
+
+2003-02-19 17:00  flo
+
+	* studierstube/bin/setups/showcase/showcase_stb.iv:
+	
+	further work on projector-based illumination
+
+2003-02-18 16:38  tamer
+
+	* studierstube/src/stbapi/resource/viewer/: SoDisplayMode.cxx,
+	SoDualChannelDisplayMode.cxx, SoLineSequentialDisplayMode.cxx,
+	SoMonoDisplayMode.cxx:
+	
+	removed unnecessary motif includes and X11 includes that broke
+	builds on systems without motif... the unified gui architecture
+	takes care of the necessary includes...
+
+2003-02-18 12:26  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	Object3dKit.h, SoBoolKit.cxx, SoBoolKit.h, SoCurveKit.cxx,
+	SoCurveKit.h, SoIntersectKit.cxx, SoIntersectKit.h,
+	SoSurfaceKit.cxx, SoSurfaceKit.h, construct3d.dsp, contextcnd.h,
+	contextcnd2.cxx:
+	
+	new functions added not working with Coin yet
+
+2003-02-18 11:07  kaufmann
+
+	* studierstube/bin/apps/construct3d/: construct3d.iv, ellipse.gif,
+	pointsoncurve.gif, pointsonsurface.gif:
+	
+	C3D Pipsheet updates
 
 2003-02-18 03:12  tamer
 
@@ -549,6 +2670,16 @@ cvs2cl script used to generate this file.
 	
 	improved xerces.m4 to output a more informative error string.
 
+2003-02-17 20:16  flo
+
+	* studierstube/bin/setups/showcase/: showcase_stb.iv, start-1.bat,
+	config/ProjectorCamera.iv, config/ShowcaseCamera-1.iv,
+	config/ShowcaseTracker-1.xml, config/ShowcaseUser-1.iv,
+	geometry/ShowcasePen.iv, geometry/ShowcasePip.iv:
+	
+	further work on showcase setup. one user fully configured, and
+	initial projector-illumination setup added.
+
 2003-02-17 18:46  tamer
 
 	* src/input/ParButtonModule.cxx:
@@ -561,6 +2692,30 @@ cvs2cl script used to generate this file.
 	* src/misc/: PortTalk_IOCTL.h, pt_ioctl.c:
 	
 	removed because of licensing issues...
+
+2003-02-17 14:18  flo
+
+	* studierstube/src/stbapi/resource/viewer/SoOffAxisCamera.cxx:
+	
+	added support for mirroring the image rendered by SoOffAxisCamera
+
+2003-02-14 00:09  reitmayr
+
+	* studierstube/bin/setups/soundtable/: camera.xml, data/sound1.tag,
+	data/sound2.tag, data/sound3.tag, data/sound4.tag, data/sound5.tag,
+	data/sound6.tag, data/sound7.tag, data/sound8.tag:
+	
+	added marker files and basic artoolkit tracking config
+
+2003-02-13 23:44  reitmayr
+
+	* studierstube/bin/setups/soundtable/: app1.iv, app3.iv, app4.iv,
+	app5.iv, run_1.bat, run_2.bat, run_3.bat, run_4.bat,
+	soundtable_3.iv, soundtable_4.iv, data/markers.cdr,
+	data/markers.pdf, sounds/congas.wav, sounds/drums.wav,
+	sounds/guitar.wav, sounds/organ.wav, sounds/trombone.wav:
+	
+	updated soundtable with more config files and final sound loops
 
 2003-02-13 18:09  tomp
 
@@ -576,6 +2731,122 @@ cvs2cl script used to generate this file.
 	
 	new version of ParButtonModule uses PortTalk2.2
 
+2003-02-13 04:24  reitmayr
+
+	* studierstube/bin/setups/soundtable/: UserKit.iv, app1.iv,
+	app2.iv, app3.iv, app4.iv, app5.iv, camera.xml, run_1.bat,
+	run_2.bat, soundtable_1.iv, soundtable_2.iv, start_app.iv,
+	geometry/bongos.iv, geometry/drums.iv, geometry/guitar.iv,
+	geometry/organ.iv, geometry/trombone.iv:
+	
+	updates to the soundtable setup. now having five instruments plus
+	setups for two computers and a test rig with manual tracking
+	working.
+
+2003-02-13 04:22  reitmayr
+
+	*
+	studierstube/src/stbapi/workspace/distrManager/RemoteDistribution.cxx:
+	
+	fixed a bug with local users in non shared locales. user message
+	events were distributed which would not work.
+
+2003-02-13 01:47  reitmayr
+
+	* studierstube/: src/apps/viewer/SoAppControl.cxx,
+	src/apps/viewer/SoAppControl.h, src/apps/viewer/viewer.dsp,
+	bin/setups/soundtable/soundtable_1.iv,
+	bin/setups/soundtable/soundtable_2.iv:
+	
+	updated SoAppControl to provide more control over stopping
+	applications
+
+2003-02-12 17:31  daniel
+
+	* studierstube/src/stbapi/misc/SoMD2NodeKit.h:
+	
+	fixed SoMD2Nodekit to work without studierstube (need to define
+	NO_STAPI)
+
+2003-02-12 04:41  reitmayr
+
+	* studierstube/src/stbapi/: tracker/TrackerOT.h, div/divmain.cxx:
+	
+	fixes to avoid doxygen complaints
+
+2003-02-12 04:39  reitmayr
+
+	* studierstube/bin/apps/crdemo/: UserKit.iv, aquarium.iv,
+	crdemo.conf, crdemo.iv, logitech_camera.iv, readme.txt, run.bat,
+	tracking.xml:
+	
+	added chromium demo application
+
+2003-02-12 04:25  reitmayr
+
+	* studierstube/bin/setups/soundtable/: UserKit.iv, app1.iv,
+	app2.iv, camera.xml, logitech_camera.iv, run_1.bat, run_2.bat,
+	run_camera.bat, run_sman.bat, soundtable_1.iv, soundtable_2.iv,
+	tracking.xml, data/camera_para_logitech, data/y.tag:
+	
+	setup for panorama screens with moving music instruments
+
+2003-02-12 04:23  reitmayr
+
+	* studierstube/src/apps/viewer/SoViewerAppKit.cxx:
+	
+	updated to current apis
+
+2003-02-11 17:40  flo
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	IsectLineConeEngine.cxx, Object3dKit.cxx, Object3dKit.h,
+	SoBoolKit.cxx, SoIntersectKit.cxx, SoSurfaceKit.cxx,
+	SoSurfaceKit.h, SoTextKit.cxx, construct3d.dsp:
+	
+	tamers fixes for c3d->coin
+
+2003-02-11 05:44  reitmayr
+
+	* studierstube/src/stbapi/tracker/SoStationKit.cxx:
+	
+	fixed behaviour of timeout after initialization of SoStationKit
+	node.
+
+2003-02-10 17:23  flo
+
+	* studierstube/src/stbapi/stbapi.dsp:
+	
+	updated project files to coin (& some cleanup)
+
+2003-02-10 16:24  flo
+
+	* studierstube/: src/stbapi/stbapi.dsp, extras/zlib/zlib.def,
+	extras/zlib/zlib.dsp, extras/zlib/zlibd.def:
+	
+	updated project files to coin (& some cleanup)
+
+2003-02-10 02:14  reitmayr
+
+	* studierstube/src/extensions/Chromium/: SoChromium.cxx,
+	SoChromium.h, chromium.dsp, crserver/server.h,
+	crserver/server_clear.c, crserver/server_dispatch.c,
+	crserver/server_dispatch.h, crserver/server_get.c,
+	crserver/server_main.c, crserver/server_retval.c,
+	crserver/server_simpleget.c, crserver/server_stb.cxx,
+	crserver/server_stb.h, crserver/server_stream.c, oivrender/oiv
+	render spu.dsp, oivrender/renderspu.c, oivrender/renderspu_init.c:
+	
+	updated Chromium extension. It is working now with Stb and can be
+	loaded via SoClassLoader.  Still only one node can be used. Not all
+	programs work nicely.
+
+2003-02-10 02:11  reitmayr
+
+	* studierstube/studierstube.dsw:
+	
+	added chromium and render spu projects
+
 2003-02-07 17:41  flo
 
 	* src/input/: SpeechModule.cxx, SpeechModule.h:
@@ -585,17 +2856,342 @@ cvs2cl script used to generate this file.
 	release configuration.	i think it is bad practice to specify
 	methods that use non-local information or calls as inline...
 
+2003-02-07 12:39  tamer
+
+	* studierstube/src/stbapi/workspace/SoClassLoader.cxx:
+	
+	added #ifndef WIN32 around lt_dlinit to make the windows department
+	happy.
+
+2003-02-07 12:29  daniel
+
+	* studierstube/src/stbapi/misc/: SoMD2NodeKit.cxx, SoMD2NodeKit.h:
+	
+	fixed animation name detection bug animation names can now be
+	queried
+
+2003-02-07 12:18  daniel
+
+	* studierstube/src/stbapi/misc/: SoMD2NodeKit.cxx, SoMD2NodeKit.h:
+	
+	changed SoMD2NodeKit to use SoIndexedFaceSet instead of SoFaceSet
+
+2003-02-07 09:42  daniel
+
+	* studierstube/: studierstube.dsw,
+	bin/apps/md2_art/md2_art_tracker.xml:
+	
+	no message
+
+2003-02-07 04:30  tamer
+
+	* studierstube/bin/workspace/desktopUserKit.iv:
+	
+	fixed iv file to have correct So prefixes for our extension
+	classes. (thx to Christian Sandor)
+
+2003-02-07 04:01  tamer
+
+	* studierstube/libltdl/configure.in:
+	
+	hopefully i got it right this time. there is some truth behind
+	'test PROPERLY before checkin'!
+
+2003-02-07 03:53  tamer
+
+	* studierstube/libltdl/: config-h.in, configure.in:
+	
+	updated libltdl configury to autoconf 2.53 as this caused some
+	problems.  those GNU people are strange - it's not that anybody
+	depends on that, no... *hmpf*
+
+2003-02-07 03:04  tamer
+
+	* studierstube/: Makefile.am, configure.ac, stb_env.sh,
+	bin/apps/animal/Makefile.am, bin/apps/chess/Makefile.am,
+	bin/apps/md2_art/Makefile.am, bin/workspace/Makefile.am,
+	bin/workspace/animal.iv, cfg/m4/libtool.m4, lib/Makefile.am,
+	src/Makefile.common, src/stbapi/workspace/SoClassLoader.cxx,
+	src/stbapi/workspace/SoClassLoader.h:
+	
+	* upgraded to libtool 1.4.3 to get the most recent version for
+	libltdl * remove Makefile.am hacks for the apps * added libtool
+	ldflags -no-undefined -avoid-version for libStbAPI to suppress
+	unnecessary version information and make sure there are no
+	unresolved symbols during linking.  * fixed up SoClassLoader for
+	new libltdl usage. as stated in the log message before, from now on
+	suffixes like .dll or .so must not be provided anymore.  * removed
+	some unnecessary environment variables from stb_env.sh so that the
+	environment of operating systems get less polluted...
+
+2003-02-07 02:56  tamer
+
+	* studierstube/libltdl/: COPYING.LIB, Makefile.am, README,
+	acinclude.m4, config-h.in, configure.in, ltdl.c, ltdl.h:
+	
+	added libltdl to the repository. this makes dlopen() etc. semantics
+	platform independent as one does not need to worry about the
+	platform specific calls and linker handling. libltdl takes care.
+	This makes porting to Irix, MacOSX, FreeBSD or other unix-like
+	platforms much easier and cleaner.  name mangling for different c++
+	compilers has still to be treated separately though.
+	
+	win32 is supported, too. but as we don't use configure on this
+	"platform" it is treated with special care as before...
+	
+	this issue came to my mind while i was writing the
+	BUILD_SYSTEM_SURVIVAL_GUIDE.  while i was ashamed about the ugly
+	Makefile.am hack for the apps and worried how i should determine
+	the suffixes and linking semantics for other platforms as this hit
+	me already hard during MacOSX testing. this is fixed with special
+	beauty now. :)
+	
+	!!!Please note that from now on you must _NOT_ specify a suffix for
+	the fileName field in SoClassLoader as this was optinal 'til now!!!
+
+2003-02-06 18:56  daniel
+
+	* studierstube/extras/zlib/zlibd.def:
+	
+	link bug removed
+
+2003-02-06 18:55  daniel
+
+	* studierstube/extras/zlib/zlib.dsp:
+	
+	no message
+
+2003-02-06 18:17  flo
+
+	* studierstube/: extras/zlib/zlib.dsp, tools/sman2/sman2.dsp:
+	
+	win32 compile targets cleanup...
+
+2003-02-06 18:15  daniel
+
+	* studierstube/bin/apps/worms/: worms.iv, worms_icon.jpg,
+	worms_tracker.xml, worms_userkit.iv, data/Heightmap.raw,
+	data/Ryla.jpg, data/Ryla.md2, data/TerrainTexSmall.jpg,
+	data/hito.patt:
+	
+	added worms binary directory stuff (incl. models, textures, etc...)
+
+2003-02-06 18:11  daniel
+
+	* studierstube/studierstube.dsw:
+	
+	added worms project (src/apps/worms/worms.dsp)
+
+2003-02-06 18:10  daniel
+
+	* studierstube/src/apps/worms/: SoTerrain.cpp, SoTerrain.h,
+	SoWormsKit.cxx, SoWormsKit.h, SoWormsScene.cpp, SoWormsScene.h,
+	worms.cpp, worms.dsp, worms.h:
+	
+	initial checkin of the worms3d game
+
+2003-02-06 18:09  daniel
+
+	* studierstube/bin/workspace/: start_md2_art.bat, start_worms.bat:
+	
+	startup batch files for md2_art & worms
+
+2003-02-06 18:04  daniel
+
+	* studierstube/src/stbapi/stbapi.dsp:
+	
+	no message
+
+2003-02-06 18:02  daniel
+
+	* studierstube/src/stbapi/misc/SoMD2NodeKit.h:
+	
+	forgot to export the class (STBAPI_API)
+
+2003-02-06 17:52  flo
+
+	* studierstube/extras/zlib/zlib.dsp:
+	
+	win32 compile targets cleanup...
+
+2003-02-06 17:48  flo
+
+	* studierstube/extras/zlib/zlib.dsp:
+	
+	win32 compile targets cleanup...
+
+2003-02-06 17:38  flo
+
+	* studierstube/extras/zlib/zlibd.def:
+	
+	win32 compile targets cleanup...
+
+2003-02-06 17:33  flo
+
+	* studierstube/extras/zlib/zlib.dsp:
+	
+	created new targets for compiling with Coin
+
+2003-02-06 17:29  flo
+
+	* studierstube/src/stbapi/: util/sound.cxx, util/sound.h,
+	misc/GLTweak.cxx, misc/SoMD2NodeKit.cxx, misc/SoMD2NodeKit.h,
+	resource/viewer/SoAnaglyphDisplayMode.cxx,
+	resource/viewer/SoOffAxisCamera.cxx,
+	resource/viewer/SoStudierstubeViewer.cxx, seams/SoCubeSeamKit.cxx,
+	seams/SoCubeSeamKit.h, seams/SoSeamKit.h,
+	workspace/SoClassLoader.h:
+	
+	added missing includes for compiling with Coin/windows
+
+2003-02-06 16:30  flo
+
+	* studierstube/src/stbapi/: context/SoContext.h,
+	misc/SoStreamLine.cxx:
+	
+	[flo] created new targets for compiling with Coin
+
+2003-02-06 16:05  flo
+
+	* studierstube/src/: stbapi/stbapi.dsp,
+	stbapi/workspace/workspace.dsp, apps/animal/animal.dsp,
+	apps/chess/chess.dsp:
+	
+	[flo] created new targets for compiling with Coin
+
+2003-02-05 16:11  daniel
+
+	* studierstube/src/stbapi/misc/: SoMD2NodeKit.cxx, SoMD2NodeKit.h:
+	
+	no message
+
+2003-02-05 05:31  tamer
+
+	* studierstube/src/stbapi/: event3d/Stb3DEventGenerator.cxx,
+	event3d/Stb3DEventGenerator.h, workspace/StbWorkspace.cxx:
+	
+	remove global fields on destruction to get rid of coin3d warnings
+	on exit.
+
+2003-02-04 23:35  tamer
+
+	* studierstube/src/stbapi/misc/GLTweak.cxx:
+	
+	initalized uninitalized variables to quiet down compiler
+
+2003-02-04 23:35  tamer
+
+	* studierstube/src/stbapi/resource/: SoPipSheetKit.cxx,
+	SoUserKit.cxx, viewer/SoStereoCameraKit.cxx:
+	
+	made necessary fields public as coin3d does stricter checks
+
+2003-02-04 22:38  tamer
+
+	* studierstube/src/stbapi/resource/viewer/video_overlay.cxx:
+	
+	added missing #include "video_overlay.h"
+
+2003-02-04 22:36  tamer
+
+	* studierstube/src/stbapi/resource/viewer/: Makefile.am,
+	video_overlay.h:
+	
+	reversed erroneous build system fix and included the missing
+	stbapi/stbapi.h which includes config.h that has the necessary
+	defines for PC_USBCAM...
+
+2003-02-04 11:01  bornik
+
+	* studierstube/src/stbapi/resource/viewer/Makefile.am:
+	
+	fixed make problem with linux USB cam
+
+2003-02-04 10:59  bornik
+
+	* studierstube/src/apps/calibration/hmdCalibration/:
+	SoHmdCalibrationKit.h, SoHmdCalibrationKit.cxx:
+	
+	linux compatibility fix
+
+2003-02-04 10:57  bornik
+
+	* studierstube/src/apps/calibration/utils/: cameraOptimizer.h,
+	SoSampler.cxx, cameraOptimizer.cxx:
+	
+	Linux compatibility fix
+
+2003-01-31 19:27  reitmayr
+
+	* studierstube/doc/studierstube.dxy:
+	
+	added extensions directory to search path
+
+2003-01-31 19:27  reitmayr
+
+	* studierstube/src/extensions/Chromium/: README, SoChromium.cxx,
+	SoChromium.h, chromium.cxx, chromium.dsp, chromium.h,
+	chromiumext.cxx, chromiumext.h, crserver/server.h, oivrender/oiv
+	render spu.dsp, oivrender/renderspu.c:
+	
+	some clean up work for the Chromium extension.
+
 2003-01-31 18:21  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
 	
 	bug fix by Murad Saeter for ARToolkit Linux API.
 
+2003-01-31 17:59  reitmayr
+
+	* studierstube/src/extensions/Chromium/: SoChromium.cxx,
+	SoChromium.h, chromium.cxx, chromium.dsp, chromium.h,
+	crserver/get_components.py, crserver/get_sizes.py,
+	crserver/server.h, crserver/server_boundsinfo.c,
+	crserver/server_clear.c, crserver/server_clip.c,
+	crserver/server_config.c, crserver/server_context.c,
+	crserver/server_dispatch.py, crserver/server_dispatch_header.py,
+	crserver/server_gentextures.c, crserver/server_get.py,
+	crserver/server_getmap.c, crserver/server_getpixelmap.c,
+	crserver/server_getpointer.c, crserver/server_getstring.c,
+	crserver/server_getteximage.c, crserver/server_main.c,
+	crserver/server_misc.c, crserver/server_papi.c,
+	crserver/server_projmatrix.c, crserver/server_readpixels.c,
+	crserver/server_retval.py, crserver/server_simpleget.py,
+	crserver/server_special, crserver/server_stream.c,
+	crserver/server_viewport.c, crserver/server_writeback.c,
+	oivrender/oiv render spu.dsp, oivrender/render.def,
+	oivrender/renderspu.c, oivrender/renderspu.h,
+	oivrender/renderspu_config.c, oivrender/renderspu_init.c,
+	oivrender/renderspu_wgl.c:
+	
+	added Chromium extension source code from the VRLU project. This
+	does not work yet. I still need to setup up the build stuff etc.
+
 2003-01-31 17:07  reitmayr
 
 	* tools/ipaq/buttonlistener/ConnectionListener.java:
 	
 	update to avoid busy waiting
+
+2003-01-31 05:29  tamer
+
+	* studierstube/EMACS.FOOTER:
+	
+	I could swear that i removed this file! 2nd try. swallowing
+	medicine against alzheimer...
+
+2003-01-30 18:59  tamer
+
+	* studierstube/stb_env.sh:
+	
+	corrected email address.
+
+2003-01-30 18:57  tamer
+
+	* studierstube/INSTALL:
+	
+	added some missing articles...
 
 2003-01-30 18:55  tamer
 
@@ -604,6 +3200,156 @@ cvs2cl script used to generate this file.
 	made the standalone executable be named opentracker and the test
 	tool ottest.  Wrote documentation that explains the building
 	process.
+
+2003-01-30 17:21  tamer
+
+	* studierstube/src/stbapi/div/: ControlModule.cxx, divmain.cxx:
+	
+	Added some methods that had sideeffects and were erroneously
+	removed.  Fixed 2 cut&paste errors.
+
+2003-01-29 14:52  tamer
+
+	* studierstube/: configure.ac, cfg/m4/sogtk.m4, cfg/m4/soqt.m4,
+	cfg/m4/soxt.m4:
+	
+	improved sogui configure checks, so that only the given sogui
+	binding is checked.  if the given binding is not found the others
+	will be probed.  if no --with-sogui option is given soqt is the
+	default.
+
+2003-01-29 01:57  tamer
+
+	* studierstube/INSTALL:
+	
+	fixed some typos.
+
+2003-01-29 01:24  tamer
+
+	* studierstube/INSTALL:
+	
+	Wrote documentation in how to configure and use Studierstube with
+	the new build system.
+
+2003-01-28 19:31  tamer
+
+	* studierstube/doc/EMACS.FOOTER:
+	
+	moved EMACS.FOOTER to the doc folder.
+
+2003-01-28 19:24  tamer
+
+	* studierstube/NEWS:
+	
+	updated NEWS files to reflect the fact that studierstube is now
+	operational with the most recent cvs version of coin3d.
+
+2003-01-28 02:15  tamer
+
+	* studierstube/: Makefile.am, configure.ac,
+	cfg/m4/compile_warnings.m4, cfg/m4/misc_compiler.m4:
+	
+	added 2 very useful m4 build system macros from the coin3d folks.
+	they add compiler warning flags by default. imho a compiler warning
+	is an error in the source that must be fixed and not smiled at as
+	it will hunt us later in the long run. do you want to be the packed
+	lunch for an ugly, stinky bug? answer yes now and be my guest. i
+	have some very hungry ones waiting for you...
+
+2003-01-28 00:53  tamer
+
+	* studierstube/: configure.ac, bin/apps/Makefile.am:
+	
+	added makefile for the bin/apps directory that allows to build the
+	supported apps by issuing just one make command instead of
+	descending each manually.
+
+2003-01-28 00:27  tamer
+
+	* studierstube/src/apps/chess/ChessManKit.cxx:
+	
+	commented out BASE3D_CONSTRUCTOR macro in ChessManKit's constructor
+	as this let the code hit an assertion in coin3d. (added FIXME note)
+	my favorite stb app now really works under coin3d! *operation
+	merge_the_main_cow accomplished* ;)
+
+2003-01-27 14:54  tamer
+
+	* studierstube/src/stbapi/misc/Makefile.am:
+	
+	bootstrapped build system for new sources.
+
+2003-01-27 14:51  reitmayr
+
+	* studierstube/bin/apps/aeki/config/: aekiTouchUserVideo.iv,
+	mobileTouch.xml:
+	
+	some updates from actual demo installation
+
+2003-01-27 14:30  reitmayr
+
+	* studierstube/src/stbapi/event3d/Stb3DEventGenerator.cxx:
+	
+	made releaseAllGrabbers more safe. This method is called a lot from
+	destructors. Sometimes the passed node is referenced again in the
+	search result and then deleted again by OpenInventor when it leaves
+	the scope. This would lead to inexplicable crashes during
+	Studierstube shutdown.
+
+2003-01-27 14:28  reitmayr
+
+	* studierstube/src/stbapi/resource/SoTabKit.cxx:
+	
+	fixed another getChild misuse.
+
+2003-01-27 13:57  reitmayr
+
+	* studierstube/src/stbapi/workspace/: SoLinkApp.cxx,
+	StbWorkspace.cxx:
+	
+	fixed query for first userkit without checking its existence.
+
+2003-01-27 13:54  reitmayr
+
+	* studierstube/src/stbapi/resource/SoUserManagerKit.cxx:
+	
+	fixed problem with userkit queries that would make the manager
+	believe, there is a userkit, when there is none (hard to describe).
+	 The problem lies with OpenInventor SoChildList. !!! Never call
+	getChild on an empty Group node, it can insert a NULL as child into
+	the Group !!!
+
+2003-01-27 12:42  reitmayr
+
+	* studierstube/src/stbapi/util/ivutil.cxx:
+	
+	added RayPicker implementation to Studierstube. This is the first
+	version from the iPAQ group. The changes and updates from the AR
+	Conference table group still need to be incorporated !
+
+2003-01-27 12:41  reitmayr
+
+	* studierstube/src/stbapi/: misc/SoMD2NodeKit.cxx,
+	misc/SoMD2NodeKit.h, event3d/SoKeyToggle.h:
+	
+	added file header
+
+2003-01-27 12:31  reitmayr
+
+	* studierstube/src/stbapi/: misc/Makefile.am, misc/SoRayPicker.cxx,
+	misc/SoRayPicker.h, stbapi.dsp:
+	
+	added RayPicker implementation to Studierstube. This is the first
+	version from the iPAQ group. The changes and updates from the AR
+	Conference table group still need to be incorporated !
+
+2003-01-27 12:29  reitmayr
+
+	* studierstube/bin/setups/raypickertest/: README.html,
+	Setup_Bluetooth-Verbindung_iPAQ-ger.html, ipaq.xml, ipaqUser.iv,
+	raypicker_test.iv, start.bat:
+	
+	added RayPicker demo application setup
 
 2003-01-27 12:28  reitmayr
 
@@ -629,6 +3375,381 @@ cvs2cl script used to generate this file.
 	
 	forgot to add StbSource to source node entity. fixed now
 
+2003-01-27 11:39  reitmayr
+
+	* studierstube/doc/header.html:
+	
+	added links to module page to header part of documentation. We want
+	to use this more in the future.
+
+2003-01-24 20:29  tamer
+
+	* studierstube/bin/workspace/select.iv:
+	
+	add default value to index -> index 0 to allow it to work with
+	coin3d.
+
+2003-01-21 21:35  tamer
+
+	* studierstube/Makefile.am:
+	
+	decoupled the build of tools/sman2 as it is rebuilded after every
+	change in the core lib. needs to be done now manually if needed by
+	going into tools/sman2 and typing make.
+
+2003-01-21 18:54  tamer
+
+	* studierstube/: tools/Makefile.am, configure.ac:
+	
+	decoupled the build of tools/sman2 as it is rebuilded after every
+	change in the core lib. needs to be done now manually if needed by
+	going into tools/sman2 and typing make.
+
+2003-01-21 18:47  tamer
+
+	* studierstube/src/stbapi/context/SoContextElement.cxx:
+	
+	removed now obsolete #ifdef for coin nodeIds handling as this has
+	been fixed in the recent coin cvs tree. (thx to morten)
+
+2003-01-21 17:38  tamer
+
+	* studierstube/src/stbapi/misc/SoMD2NodeKit.h:
+	
+	some include's added to let it work in standalone mode with coin3d.
+	:)
+
+2003-01-21 17:17  tamer
+
+	* studierstube/bin/apps/md2_art/md2_art_wraith.iv:
+	
+	added iv file for wraith md2 model.
+
+2003-01-21 17:09  tamer
+
+	* studierstube/src/stbapi/misc/SoRenderSync.cxx:
+	
+	fix to make getState() calls the action handlers again.
+
+2003-01-21 17:03  tamer
+
+	* studierstube/bin/apps/md2_art/Makefile.am:
+	
+	build system fix for md2_art.
+
+2003-01-21 16:54  daniel
+
+	* studierstube/studierstube.dsw:
+	
+	inserted md2_art project
+
+2003-01-21 16:52  daniel
+
+	* studierstube/: src/apps/md2_art/SoMD2AtArtKit.cxx,
+	src/apps/md2_art/SoMD2AtArtKit.h,
+	src/apps/md2_art/SoMD2_ArtKit.cxx, src/apps/md2_art/SoMD2_ArtKit.h,
+	src/apps/md2_art/md2_art.cxx, src/apps/md2_art/md2_art.dsp,
+	src/apps/md2_art/md2_art.h, src/apps/md2_art/md2atart.cxx,
+	src/apps/md2_art/md2atart.dsp, src/apps/md2_art/md2atart.h,
+	bin/apps/md2_art/md2_art.iv, bin/apps/md2_art/md2_art_tracker.xml,
+	bin/apps/md2_art/md2_art_userkit.iv, bin/apps/md2_art/md2atart.iv,
+	bin/apps/md2_art/md2atart_tracker.xml,
+	bin/apps/md2_art/md2atart_userkit.iv:
+	
+	renamed from md2atart to md2_art
+
+2003-01-21 16:50  daniel
+
+	* studierstube/src/stbapi/misc/SoMD2NodeKit.cxx:
+	
+	fixed to work with coin3d thanx to Peder Blekken
+
+2003-01-21 16:49  daniel
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	fixed to compile under windows
+
+2003-01-21 16:48  daniel
+
+	*
+	studierstube/src/apps/arlibrary/arlibconverter/arlibconverter.aps:
+	
+	no message
+
+2003-01-17 23:45  tamer
+
+	* studierstube/src/stbapi/misc/SoMD2NodeKit.cxx:
+	
+	fixed an issue to let it work with coin3d.
+
+2003-01-17 23:37  tamer
+
+	* studierstube/src/apps/md2_art/SoMD2AtArtKit.cxx:
+	
+	removed SoMD2NodeKit::initClass() call in SoMD2AtArtKit.cxx.
+
+2003-01-17 23:28  tamer
+
+	* studierstube/: configure.ac, bin/apps/md2_art/Makefile.am,
+	bin/apps/md2_art/md2atart.iv,
+	bin/apps/md2_art/md2atart_tracker.xml,
+	bin/apps/md2_art/md2atart_userkit.iv,
+	bin/apps/md2_art/data/Ryla_icon.jpg,
+	bin/apps/md2_art/data/Wraith.jpg, bin/apps/md2_art/data/Wraith.md2,
+	bin/apps/md2_art/data/daniel_Hito.tag, src/apps/md2_art/README.txt,
+	src/apps/md2_art/SoMD2AtArtKit.cxx,
+	src/apps/md2_art/SoMD2AtArtKit.h, src/apps/md2_art/md2atart.cxx,
+	src/apps/md2_art/md2atart.dsp, src/apps/md2_art/md2atart.h,
+	src/apps/md2_art/sample_screenshot.jpg,
+	src/stbapi/misc/SoMD2NodeKit.cxx, src/stbapi/misc/SoMD2NodeKit.h:
+	
+	added daniel's md2 quake model loader example! this is sooo cool!
+	:) (converted all text files with dos2unix before ci) updated
+	SoMD2NodeKit sources with newer versions from daniel.
+
+2003-01-17 21:17  tamer
+
+	* studierstube/: AUTHORS, THANKS:
+	
+	updated contributers and developers list. if anyone is missing (and
+	there certainly is) let me know...
+
+2003-01-17 21:16  tamer
+
+	* studierstube/src/stbapi/workspace/SoContextManagerKit.cxx:
+	
+	let SoContextManagerKit::saveApplicationAs(SbAppID appID) work
+	under Linux.
+
+2003-01-17 15:08  reitmayr
+
+	* studierstube/src/stbapi/misc/SoMultiSwitch.cxx:
+	
+	fixed a crash caused by an empty SoMultiSwitch trying to traverse
+	non-existing children
+
+2003-01-17 15:07  reitmayr
+
+	* studierstube/src/stbapi/stbapi.dsp:
+	
+	added SoMD2NodeKit to Visual Studio project file.
+
+2003-01-17 12:41  kaufmann
+
+	* studierstube/src/stbapi/widgets/SoRadioButton.cxx:
+	
+	removing bug which caused crashes when exiting studierstube history
+	was deleted twice
+
+2003-01-17 12:33  reitmayr
+
+	* studierstube/src/stbapi/misc/: SoMD2NodeKit.cxx, SoMD2NodeKit.h:
+	
+	corrected line endings for windows. DO NOT check in a windows file
+	under unix without changing that to the local platform style first.
+
+2003-01-17 12:19  reitmayr
+
+	* studierstube/extras/zlib/zlib.dsp:
+	
+	zlib project file updated to produce the correct dll.
+
+2003-01-17 12:06  kaufmann
+
+	* studierstube/src/stbapi/window3d/SoWindowKit.cxx:
+	
+	Macro definition using (...) does not work under windows removed
+	(...)
+
+2003-01-17 11:54  kaufmann
+
+	* studierstube/src/stbapi/util/multicast.cxx:
+	
+	inet_aton(address, &saddr) does not exist in Windows.  Reverted to
+	old version.
+
+2003-01-17 09:25  tamer
+
+	* studierstube/: bin/workspace/select.iv,
+	src/apps/animal/SoAnimalKit.cxx,
+	src/apps/chess/gnuchess/gnuchess.cxx,
+	src/apps/chess/gnuchess/nondsp.cxx,
+	src/stbapi/context/StudierstubeContext.h,
+	src/stbapi/div/ControlModule.cxx,
+	src/stbapi/div/RMCast_Membership.cxx,
+	src/stbapi/div/RMCast_UDP_Reliable_Transceiver.cxx,
+	src/stbapi/div/divmain.cxx, src/stbapi/div/divmain.h,
+	src/stbapi/event3d/Base3D.h, src/stbapi/event3d/So3DEvent.h,
+	src/stbapi/interaction/SoDragKit.cxx,
+	src/stbapi/interaction/SoDraggerKit.cxx,
+	src/stbapi/interaction/SoTouchButtonDragKit.cxx,
+	src/stbapi/interaction/SoTouchDragKit.cxx,
+	src/stbapi/misc/GRT_defs.h, src/stbapi/misc/SoFishnet.cxx,
+	src/stbapi/misc/SoMD2NodeKit.cxx, src/stbapi/misc/SoRenderSync.cxx,
+	src/stbapi/misc/SoRenderSync.h, src/stbapi/misc/SoStreamLine.cxx,
+	src/stbapi/misc/SoStreamLine.h, src/stbapi/resource/SoPipKit.cxx,
+	src/stbapi/resource/SoPipSheetKit.cxx,
+	src/stbapi/resource/SoTabButtonKit.cxx,
+	src/stbapi/resource/SoTabKit.cxx,
+	src/stbapi/resource/SoUserKit.cxx, src/stbapi/resource/SoUserKit.h,
+	src/stbapi/resource/StbSkinLoader.cxx,
+	src/stbapi/resource/StbSkinLoader.h,
+	src/stbapi/resource/viewer/SoDisplayKit.cxx,
+	src/stbapi/resource/viewer/SoOffAxisCamera.cxx,
+	src/stbapi/resource/viewer/SoStudierstubeViewer.cxx,
+	src/stbapi/resource/viewer/SoStudierstubeViewer.h,
+	src/stbapi/tracker/SoPartitionKit.cxx,
+	src/stbapi/tracker/StbInputModule.cxx,
+	src/stbapi/tracker/StbInputModule.h, src/stbapi/tracker/StbSink.h,
+	src/stbapi/tracker/StbSource.cxx, src/stbapi/tracker/StbSource.h,
+	src/stbapi/tracker/TrackerOT.cxx, src/stbapi/tracker/TrackerOT.h,
+	src/stbapi/util/container.cxx, src/stbapi/util/fileBrowser.cxx,
+	src/stbapi/util/ivio.cxx, src/stbapi/util/multicast.cxx,
+	src/stbapi/util/sockets.cxx, src/stbapi/util/timerutility.cxx,
+	src/stbapi/widgets/So3DIntSlider.cxx,
+	src/stbapi/widgets/So3DLogSlider.cxx,
+	src/stbapi/widgets/So3DSlider.cxx,
+	src/stbapi/widgets/So3DTouchRadioButton.cxx,
+	src/stbapi/widgets/So3DTouchSlider.cxx,
+	src/stbapi/widgets/SoAlphabetKit.cxx,
+	src/stbapi/widgets/SoBase3DButton.cxx,
+	src/stbapi/widgets/SoBase3DDial.cxx,
+	src/stbapi/widgets/SoBase3DSlider.cxx,
+	src/stbapi/widgets/SoBase3DTouchSlider.cxx,
+	src/stbapi/widgets/SoDial.cxx, src/stbapi/widgets/SoSketchKit.cxx,
+	src/stbapi/widgets/SoSlider.cxx,
+	src/stbapi/widgets/SoSpeechSlider.cxx,
+	src/stbapi/window3d/EventAutomaton.cxx,
+	src/stbapi/window3d/EventAutomaton.h,
+	src/stbapi/window3d/SoWindowKit.cxx,
+	src/stbapi/workspace/SoContextKit.cxx,
+	src/stbapi/workspace/SoContextManagerKit.cxx,
+	src/stbapi/workspace/SoLinkApp.cxx,
+	src/stbapi/workspace/StbWorkspace.cxx,
+	src/stbapi/workspace/distrManager/RemoteDistribution.cxx,
+	src/stbapi/workspace/distrManager/SetDIVParamMessage.cxx,
+	tools/sman2/Application.cxx, tools/sman2/SessionVisitorAdaptor.h:
+	
+	.: the good, the bad && the ugly :.
+	
+	there are times where a man simply has to do what a man has to do!
+	namely put his code in a washing machine and wash and wash and wash
+	until everything is so delightfully tidy.
+	
+	- configured studierstube to compile with "-Wall -pedantic -ansi"
+	and fixed   every warning. (no complaints anymore with gcc3.1
+	except for external   packages like ACE, where it complains about
+	the long long definition in   the ACE header files...; not my
+	terrain *shrug*)   ah and btw. never ever try this at home - my
+	hair is grey and my will is   broken...
+	
+	- now compiles cleanly even when massacred by those hardcore
+	options except	 for one little glitch: SoWindowKit's macro
+	definitions #define _PFS_(...)	 and the like which i added instead
+	of the #define _PFS_ // (which didn't	really remove the code as
+	was presumably expected) are used as a convenience   debug
+	mechanism. this unfortunately lets the compiler utter the warning: 
+	 "warning: anonymous variadic macros were introduced in C99".	 i
+	will try to live with this warning, otherwise i will wipe this
+	_PFS_ macro    thingie and rewrite them with SoDebugError::post()
+	etc.
+	
+	- call me crazy to do something like this so shortly before a major
+	release,   but imho it really had to be done and even earlier back
+	while i was still   operating in the coin branch. *hmpf*
+	
+	- during this effort i discovered and fixed a couple of bugs, cut &
+	paste	errors and possibly introcuced new ones or broke something.
+	   let's see if the "standard compliant" vc++ compiler can still
+	munch this    code...
+	
+	- this effort is not completely over yet as i touched just the
+	standard   stuff that got compiled in by default. one has to fiddle
+	with some #define   FLAGS in order to reach the other code pathes
+	in studierstube and clean   and clean and clean it! this i
+	scheduled for the next release...
+	
+	=> back to dreadful testing again. *sigh*
+	
+	i promise, that i will try to get a life... *argh*
+
+2003-01-16 19:01  tamer
+
+	* studierstube/src/stbapi/misc/: SoMD2NodeKit.cxx, SoMD2NodeKit.h:
+	
+	added daniel's sources to the cvs tree. you know, alzheimer and
+	such...
+
+2003-01-16 18:47  tamer
+
+	* studierstube/src/stbapi/util/ivutil.cxx:
+	
+	added SoMD2Nodekit::initClass() to ivutil.cxx
+
+2003-01-16 18:36  tamer
+
+	* studierstube/: NEWS, configure.ac,
+	bin/apps/md2_art/data/Ryla.jpg, bin/apps/md2_art/data/Ryla.md2,
+	src/apps/chess/ChessManKit.cxx, src/apps/md2_art/README.txt,
+	src/stbapi/misc/Makefile.am:
+	
+	o added Daniel's md2 quake model loader nodekit o fixed build
+	system to build with OPENTRACKER_VIDEO and ARTOOLKIT by default  
+	if the libccvt option is disabled o updated NEWS entry to reflect
+	the addition of daniel's work
+
+2003-01-15 23:34  tamer
+
+	* studierstube/src/stbapi/: event3d/Base3D.h,
+	workspace/SoApplicationKit.cxx, workspace/version.h:
+	
+	fixed bug in Base3D.h that was the reason for coin3d to assert in
+	the chess app.	renamed an image file reference in SoApplicationKit
+	to lowercase.  updated version string to 3.1.
+
+2003-01-15 20:42  reitmayr
+
+	* studierstube/tools/sman2/: Host.cxx, Host.h, SessionHandler.cxx,
+	SessionHandler.h, SessionManager.cxx, SessionManager.h,
+	SessionVisitorAdaptor.cxx, SessionVisitorAdaptor.h:
+	
+	modified sman2 to work multithreaded to avoid dead locks on writing
+	to tcp streams.
+
+2003-01-15 18:48  reitmayr
+
+	* studierstube/src/apps/chess/gnuchess/: gnuchess.cxx, gnuchess.h:
+	
+	exchanged some declarations with appropriate include files to avoid
+	linkage problems.
+
+2003-01-15 18:46  reitmayr
+
+	* studierstube/: src/stbapi/stbapi.dsp,
+	src/stbapi/workspace/workspace.dsp, src/apps/aeki/aeki.dsp,
+	src/apps/animal/animal.dsp, src/apps/chess/chess.dsp,
+	src/apps/construct3d/construct3d.dsp,
+	src/apps/fingerfarben/fingerfarben.dsp,
+	src/apps/signpost/signpost.dsp, studierstube.dsw:
+	
+	updated project files to work with new SoQt and Qt 3.0x and to
+	generally reflect changes in the environment
+
+2003-01-15 18:43  reitmayr
+
+	* studierstube/src/stbapi/resource/viewer/SoStudierstubeViewer.cxx:
+	
+	added parentheses to help Visual C++ do it right !
+
+2003-01-15 18:41  reitmayr
+
+	* studierstube/src/stbapi/window3d/: SoWindowKit.cxx,
+	SoWindowKit.h:
+	
+	fixed wrong usage of KIT_PARTs macros in SoWindowKit, which caused
+	problems in Coin3D
+
 2003-01-15 03:22  tamer
 
 	* doc/: ChangeLog.2000, ChangeLog.2001, ChangeLog.2002:
@@ -636,6 +3757,364 @@ cvs2cl script used to generate this file.
 	added automatically generated ChangeLog entries and created old
 	ChangeLog's for the past years in doc/ChangeLog.200?. have fun
 	reading the history of OpenTracker! *g*
+
+2003-01-15 02:42  tamer
+
+	* studierstube/src/: apps/chess/gnuchess/nondsp.cxx,
+	stbapi/window3d/SoWindowKit.cxx:
+	
+	added missing #include <string.h> to nondsp.cxx to be able to
+	compile chess at my homebox. *shrug* added explicit type specifier
+	to a constant to make stb compile with coin and gcc3 shut up.  (we
+	have choosen the wrong section while resolving a conflict during
+	"operation merge_the_main_cow(tm)")
+
+2003-01-14 22:51  tamer
+
+	* studierstube/: NEWS, README.TXT:
+	
+	added some news items to the NEWS file. plz. add your own notes to
+	this file to list the changes that lead from Studierstube 3.0 to
+	3.1.
+	
+	removed now obsolete README.TXT.
+
+2003-01-14 22:36  tamer
+
+	* studierstube/src/apps/construct3d/contextcnd2.cxx:
+	
+	removed now obsolete #ifndef USE_SOQT_LIB preprocessor directive.
+
+2003-01-14 22:16  tamer
+
+	* studierstube/: COPYING, LICENSE.TXT:
+	
+	Studierstube is LGPLed not GPLed.  mv LICENSE.TXT COPYING;
+
+2003-01-14 22:00  tamer
+
+	* studierstube/: AUTHORS, CHANGES.TXT, DIRECTORIES.TXT,
+	DOCUMENTATION.TXT, THANKS, doc/DIRECTORIES.TXT,
+	doc/OLD_CHANGES.TXT:
+	
+	mv CHANGES.TXT doc/OLD_CHANGES.TXT; mv DIRECTORIES.TXT
+	doc/DIRECTORIES.TXT; DOCUMENTATION.TXT == README -> rm
+	DOCUMENTATION.TXT;
+	
+	DIRECTORIES.TXT got updated in the regard that i consider the doc
+	directory also suitable for additional documentation.
+	
+	added people listed on
+	http://www.studierstube.org/stbintro/ack.html to resp. AUTHORS and
+	THANKS. [plz. feel free to add the names of people who contributed
+	something, as this will give them a warm and cosy feeling and
+	increases the likeliness of further contributions. other than that
+	it's a nice way to say "thank you" and makes clear whom to blame
+	for what! ;)]
+
+2003-01-14 21:37  tamer
+
+	* studierstube/doc/: ChangeLog.2000, ChangeLog.2001,
+	ChangeLog.2002:
+	
+	added automatically generated ChangeLog entries and created old
+	ChangeLog's for the past years in doc/ChangeLog.200?. have fun
+	reading the history of Studierstube! *g*
+
+2003-01-14 20:09  tamer
+
+	* studierstube/: bin/apps/chess/Makefile.am,
+	src/apps/chess/ChessKit.cxx, src/apps/chess/gnuchess/gnuchess.cxx,
+	src/apps/chess/gnuchess/gnuchess.h,
+	src/apps/chess/gnuchess/nondsp.cxx:
+	
+	fixed chess application case sensitivity issues.
+
+2003-01-14 19:44  tamer
+
+	* studierstube/src/: apps/calibration/hmdCalibration/Makefile,
+	stbapi/interaction/Makefile, stbapi/resource/viewer/Makefile,
+	stbapi/tracker/Makefile, stbapi/widgets/Makefile:
+	
+	removed now obsolete makefiles.
+
+2003-01-14 19:38  tamer
+
+	* studierstube/: AUTHORS, COPYING, Config.Irix, Config.Linux,
+	Config.global, INSTALL, Makefile, Makefile.am, NEWS, README,
+	SAMPLE_MAKEFILE, THANKS, VRCENTER.TXT, bootstrap, configure.ac,
+	stb_env.sh, bin/Makefile.am, bin/apps/animal/Makefile.am,
+	bin/apps/chess/Makefile.am, bin/apps/chess/chess_stb.iv,
+	bin/workspace/Makefile.am, bin/workspace/constructUserKit.iv,
+	bin/workspace/defaultUserKit.iv, bin/workspace/defaultUserKit2.iv,
+	bin/workspace/howToConfigureAUser.iv,
+	bin/workspace/opentracker.dtd, bin/workspace/systemsheet.iv,
+	bin/workspace/graphix/WCS.iv, bin/workspace/graphix/b_border.JPG,
+	bin/workspace/graphix/b_border.jpg,
+	bin/workspace/graphix/b_cube.JPG, bin/workspace/graphix/b_cube.jpg,
+	bin/workspace/graphix/b_exit.JPG, bin/workspace/graphix/b_exit.jpg,
+	bin/workspace/graphix/b_title.JPG,
+	bin/workspace/graphix/b_title.jpg,
+	bin/workspace/graphix/saveall.JPG,
+	bin/workspace/graphix/saveall.jpg,
+	bin/workspace/graphix/saveapp.JPG,
+	bin/workspace/graphix/saveapp.jpg,
+	bin/workspace/graphix/skinWS1.iv, bin/workspace/graphix/skinWin.iv,
+	cfg/depcomp, cfg/m4/ac_cxx_have_std.m4, cfg/m4/ac_cxx_have_stl.m4,
+	cfg/m4/ac_cxx_namespaces.m4, cfg/m4/ac_cxx_typename.m4,
+	cfg/m4/ace.m4, cfg/m4/configuration_summary.m4, cfg/m4/libtool.m4,
+	cfg/m4/opentracker.m4, cfg/m4/sogtk.m4, cfg/m4/soqt.m4,
+	cfg/m4/sowin.m4, cfg/m4/soxt.m4,
+	extras/IMGR/feature_deviation_pool.h, extras/IMGR/feature_space.h,
+	extras/IMGR/matrix.cpp, extras/IMGR/matrix.h,
+	extras/IMGR/sample_list.h, lib/Makefile.am, src/Makefile.am,
+	src/Makefile.common, src/apps/Makefile, src/apps/aeki/Makefile,
+	src/apps/aeki/SoAekiFurnitureKit.cxx, src/apps/aeki/SoAekiKit.cxx,
+	src/apps/aeki/SoAekiKit.h, src/apps/aeki/XmlHandler.cxx,
+	src/apps/aeki/XmlHandler.h, src/apps/animal/Makefile,
+	src/apps/animal/SoAnimalKit.cxx, src/apps/avsdisplay/Makefile,
+	src/apps/billiard3d/Makefile, src/apps/chess/ChessKit.cxx,
+	src/apps/chess/ChessKit.h, src/apps/chess/ChessManKit.cxx,
+	src/apps/chess/ChessManKit.h, src/apps/chess/Makefile,
+	src/apps/chevy/Makefile, src/apps/construct3d/Makefile,
+	src/apps/construct3d/SoPointKit.cxx,
+	src/apps/construct3d/SoPointKit.h, src/apps/contextloader/Makefile,
+	src/apps/fingerfarben/ConvertToSFPlane.cxx,
+	src/apps/fingerfarben/ConvertToSFPlane.h,
+	src/apps/fingerfarben/SoCalibrationKit.cxx,
+	src/apps/fingerfarben/SoCalibrationKit.h,
+	src/apps/fingerfarben/SoDisplayCalibrationKit.cxx,
+	src/apps/fingerfarben/SoDisplayCalibrationKit.h,
+	src/apps/fingerfarben/SoDropItem.cxx,
+	src/apps/fingerfarben/SoDropItem.h,
+	src/apps/fingerfarben/SoDropTarget.cxx,
+	src/apps/fingerfarben/SoDropTarget.h,
+	src/apps/fingerfarben/SoFingerfarbenAppKit.cxx,
+	src/apps/fingerfarben/SoFingerfarbenAppKit.h,
+	src/apps/fingerfarben/SoPrintKit.cxx,
+	src/apps/fingerfarben/SoPrintKit.h,
+	src/apps/fingerfarben/SoSaveKit.cxx,
+	src/apps/fingerfarben/SoSaveKit.h,
+	src/apps/fingerfarben/SoTemplateKit.cxx,
+	src/apps/fingerfarben/SoTemplateKit.h,
+	src/apps/landscaping/Makefile, src/apps/maze/Makefile,
+	src/apps/mediDesk/Makefile, src/apps/memory/Makefile,
+	src/apps/modeller/Makefile, src/apps/newWidgetTest/Makefile,
+	src/apps/objectCalibration/Makefile, src/apps/redandblue/Makefile,
+	src/apps/roentgen/Makefile, src/apps/sampleapp/Makefile,
+	src/apps/signpost/SoWegweiserKit.cxx,
+	src/apps/signpost/SoWegweiserKit.h, src/apps/spray/Makefile,
+	src/apps/storyboard/Makefile, src/apps/trainer/Makefile,
+	src/apps/vrss/Makefile, src/stbapi/Makefile,
+	src/stbapi/Makefile.am, src/stbapi/stbapi.h,
+	src/stbapi/context/Makefile, src/stbapi/context/Makefile.am,
+	src/stbapi/context/SoContext.cxx,
+	src/stbapi/context/SoContextElement.cxx,
+	src/stbapi/context/SoContextMultiSwitch.cxx,
+	src/stbapi/div/ControlModule.cxx, src/stbapi/div/Makefile,
+	src/stbapi/div/Makefile.am, src/stbapi/div/SoDivGroup.cxx,
+	src/stbapi/div/StbDiv.cxx, src/stbapi/div/StbDiv.h,
+	src/stbapi/div/divmain.cxx, src/stbapi/div/divmain.h,
+	src/stbapi/div/viewer.cxx, src/stbapi/event3d/Makefile,
+	src/stbapi/event3d/Makefile.am, src/stbapi/event3d/So3DEvent.h,
+	src/stbapi/event3d/SoHandle3DEventAction.cxx,
+	src/stbapi/event3d/Stb3DEventGenerator.cxx,
+	src/stbapi/event3d/StbEventInspector.cxx,
+	src/stbapi/event3d/StbEventInspector.h,
+	src/stbapi/interaction/Makefile.am,
+	src/stbapi/interaction/So3DSeparator.cxx,
+	src/stbapi/interaction/SoBehaviorKit.cxx,
+	src/stbapi/interaction/SoBehaviorKit.h,
+	src/stbapi/interaction/SoButtonPressGesture.cxx,
+	src/stbapi/interaction/SoButtonPressGesture.h,
+	src/stbapi/interaction/SoButtonReleaseGesture.cxx,
+	src/stbapi/interaction/SoButtonReleaseGesture.h,
+	src/stbapi/interaction/SoDragKit.cxx,
+	src/stbapi/interaction/SoDragKit.h,
+	src/stbapi/interaction/SoDraggerKit.cxx,
+	src/stbapi/interaction/SoEnterGesture.cxx,
+	src/stbapi/interaction/SoEnterGesture.h,
+	src/stbapi/interaction/SoExitGesture.cxx,
+	src/stbapi/interaction/SoExitGesture.h,
+	src/stbapi/interaction/SoGesture.cxx,
+	src/stbapi/interaction/SoGesture.h,
+	src/stbapi/interaction/SoMoveGesture.cxx,
+	src/stbapi/interaction/SoMoveGesture.h,
+	src/stbapi/interaction/SoSpeechGesture.cxx,
+	src/stbapi/interaction/SoSpeechGesture.h,
+	src/stbapi/interaction/SoTouchButtonDragKit.cxx,
+	src/stbapi/interaction/SoTouchDragKit.cxx,
+	src/stbapi/misc/GLTweak.cxx, src/stbapi/misc/GRT_defs.h,
+	src/stbapi/misc/Makefile, src/stbapi/misc/Makefile.am,
+	src/stbapi/misc/OnScreenRenderer.cxx,
+	src/stbapi/misc/OnScreenRenderer.h,
+	src/stbapi/misc/SoArtifactKit.cxx, src/stbapi/misc/SoArtifactKit.h,
+	src/stbapi/misc/SoFishnet.cxx, src/stbapi/misc/SoFishnet.h,
+	src/stbapi/misc/SoGroupSwitch.cxx,
+	src/stbapi/misc/SoGroupSwitchElement.cxx,
+	src/stbapi/misc/SoGroupSwitchElement.h,
+	src/stbapi/misc/SoMultiSwitch.cxx,
+	src/stbapi/misc/SoMultiSwitchElement.cxx,
+	src/stbapi/misc/SoMultiSwitchElement.h,
+	src/stbapi/misc/SoRenderSync.cxx, src/stbapi/misc/SoRenderSync.h,
+	src/stbapi/misc/SoSwitchSelect.cxx,
+	src/stbapi/misc/SoSwitchSelect.h,
+	src/stbapi/misc/wstudierstube.cxx, src/stbapi/misc/wstudierstube.h,
+	src/stbapi/resource/Makefile, src/stbapi/resource/Makefile.am,
+	src/stbapi/resource/SoPenKit.cxx, src/stbapi/resource/SoPipKit.cxx,
+	src/stbapi/resource/SoPipSheetKit.cxx,
+	src/stbapi/resource/SoPullDownKit.cxx,
+	src/stbapi/resource/SoTabButtonKit.cxx,
+	src/stbapi/resource/SoTabKit.cxx,
+	src/stbapi/resource/SoTrackedArtifactKit.cxx,
+	src/stbapi/resource/SoUserKit.cxx, src/stbapi/resource/SoUserKit.h,
+	src/stbapi/resource/SoUserManagerKit.cxx,
+	src/stbapi/resource/StbSkinLoader.cxx,
+	src/stbapi/resource/StbSkinLoader.h,
+	src/stbapi/resource/viewer/GLtools.cxx,
+	src/stbapi/resource/viewer/Makefile.am,
+	src/stbapi/resource/viewer/SoAnaglyphDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoAnaglyphDisplayMode.h,
+	src/stbapi/resource/viewer/SoCameraControlMode.cxx,
+	src/stbapi/resource/viewer/SoCameraControlMode.h,
+	src/stbapi/resource/viewer/SoDesktopControlMode.cxx,
+	src/stbapi/resource/viewer/SoDesktopControlMode.h,
+	src/stbapi/resource/viewer/SoDisplayKit.cxx,
+	src/stbapi/resource/viewer/SoDisplayKit.h,
+	src/stbapi/resource/viewer/SoDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoDisplayMode.h,
+	src/stbapi/resource/viewer/SoDualChannelDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoDualChannelDisplayMode.h,
+	src/stbapi/resource/viewer/SoFieldSequentialDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoFieldSequentialDisplayMode.h,
+	src/stbapi/resource/viewer/SoLineSequentialDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoLineSequentialDisplayMode.h,
+	src/stbapi/resource/viewer/SoMonoDisplayMode.cxx,
+	src/stbapi/resource/viewer/SoMonoDisplayMode.h,
+	src/stbapi/resource/viewer/SoOffAxisCamera.cxx,
+	src/stbapi/resource/viewer/SoRotateFromTo.cxx,
+	src/stbapi/resource/viewer/SoRotateFromTo.h,
+	src/stbapi/resource/viewer/SoStereoCameraKit.cxx,
+	src/stbapi/resource/viewer/SoStereoCameraKit.h,
+	src/stbapi/resource/viewer/SoStudierstubeViewer.cxx,
+	src/stbapi/resource/viewer/SoStudierstubeViewer.h,
+	src/stbapi/resource/viewer/SoTrackedDisplayControlMode.cxx,
+	src/stbapi/resource/viewer/SoTrackedViewpointControlMode.cxx,
+	src/stbapi/resource/viewer/SoTrackedViewpointMobileDisplayControlMode.cxx,
+	src/stbapi/resource/viewer/SoTrackedViewpointMobileDisplayControlMode.h,
+	src/stbapi/resource/viewer/VideoDevice.cxx,
+	src/stbapi/resource/viewer/VideoDevice.h,
+	src/stbapi/resource/viewer/video_overlay.cxx,
+	src/stbapi/resource/viewer/video_overlay.h,
+	src/stbapi/seams/Makefile, src/stbapi/seams/Makefile.am,
+	src/stbapi/seams/SoClipCube.h, src/stbapi/seams/SoCubeSeamKit.cxx,
+	src/stbapi/seams/SoCubeSeamKit.h, src/stbapi/seams/SoSeamKit.cxx,
+	src/stbapi/seams/SoSeamKit.h, src/stbapi/tracker/Makefile.am,
+	src/stbapi/tracker/SoPartitionKit.cxx,
+	src/stbapi/tracker/SoStationKit.h,
+	src/stbapi/tracker/SoTrakEngine.cxx,
+	src/stbapi/tracker/StbInputModule.cxx,
+	src/stbapi/tracker/StbInputModule.h, src/stbapi/tracker/StbSink.h,
+	src/stbapi/tracker/StbSource.cxx, src/stbapi/tracker/StbSource.h,
+	src/stbapi/tracker/TrackerOT.cxx, src/stbapi/tracker/TrackerOT.h,
+	src/stbapi/util/Makefile, src/stbapi/util/Makefile.am,
+	src/stbapi/util/Makefile.linux, src/stbapi/util/ReactorTask.cxx,
+	src/stbapi/util/buffer.cxx, src/stbapi/util/buffer.h,
+	src/stbapi/util/container.cxx, src/stbapi/util/dirent.h,
+	src/stbapi/util/dirport.cxx, src/stbapi/util/dirport.h,
+	src/stbapi/util/extkword.h, src/stbapi/util/fileBrowser.cxx,
+	src/stbapi/util/fileBrowser.h, src/stbapi/util/filnames.h,
+	src/stbapi/util/ivio.cxx, src/stbapi/util/ivutil.cxx,
+	src/stbapi/util/ivutil.h, src/stbapi/util/lock.cxx,
+	src/stbapi/util/multicast.h, src/stbapi/util/option.cxx,
+	src/stbapi/util/os.cxx, src/stbapi/util/posixdir.cxx,
+	src/stbapi/util/sniptype.h, src/stbapi/util/sockets.cxx,
+	src/stbapi/util/timerutility.cxx, src/stbapi/util/unix2dos.cxx,
+	src/stbapi/util/zpthread.cxx, src/stbapi/widgets/Makefile.am,
+	src/stbapi/widgets/So3DButton.cxx,
+	src/stbapi/widgets/So3DCheckBox.cxx,
+	src/stbapi/widgets/So3DDial.cxx,
+	src/stbapi/widgets/So3DExpSlider.cxx,
+	src/stbapi/widgets/So3DIntSlider.cxx,
+	src/stbapi/widgets/So3DLogSlider.cxx,
+	src/stbapi/widgets/So3DRadioButton.cxx,
+	src/stbapi/widgets/So3DSlider.cxx,
+	src/stbapi/widgets/So3DTouchRadioButton.cxx,
+	src/stbapi/widgets/SoBase3DButton.cxx,
+	src/stbapi/widgets/SoBase3DButton.h,
+	src/stbapi/widgets/SoBase3DDial.cxx,
+	src/stbapi/widgets/SoBase3DDial.h,
+	src/stbapi/widgets/SoBase3DSlider.cxx,
+	src/stbapi/widgets/SoBase3DSlider.h,
+	src/stbapi/widgets/SoBase3DTouchSlider.cxx,
+	src/stbapi/widgets/SoButtonKit.cxx,
+	src/stbapi/widgets/SoButtonKit.h, src/stbapi/widgets/SoDial.cxx,
+	src/stbapi/widgets/SoPushButton.cxx,
+	src/stbapi/widgets/SoRadioButton.cxx,
+	src/stbapi/widgets/SoSlider.cxx, src/stbapi/widgets/SoSlider.h,
+	src/stbapi/widgets/SoSpeechSlider.cxx,
+	src/stbapi/widgets/SoSpeechSlider.h,
+	src/stbapi/widgets/SoToggleButton.cxx,
+	src/stbapi/widgets/dialGeometry/highlightedString.h,
+	src/stbapi/widgets/dialGeometry/normalString.h,
+	src/stbapi/window3d/EventAutomaton.cxx,
+	src/stbapi/window3d/Makefile, src/stbapi/window3d/Makefile.am,
+	src/stbapi/window3d/SoWindowKit.cxx, src/stbapi/window3d/dbg.cxx,
+	src/stbapi/window3d/misc.h, src/stbapi/workspace/Makefile,
+	src/stbapi/workspace/Makefile.am,
+	src/stbapi/workspace/SoApplicationKit.cxx,
+	src/stbapi/workspace/SoApplicationKit.h,
+	src/stbapi/workspace/SoClassLoader.cxx,
+	src/stbapi/workspace/SoClassLoader.h,
+	src/stbapi/workspace/SoContextKit.cxx,
+	src/stbapi/workspace/SoContextKit.h,
+	src/stbapi/workspace/SoContextManagerKit.cxx,
+	src/stbapi/workspace/SoContextManagerKit.h,
+	src/stbapi/workspace/SoLinkApp.cxx,
+	src/stbapi/workspace/SoLocaleKit.cxx,
+	src/stbapi/workspace/SoLocaleManagerKit.cxx,
+	src/stbapi/workspace/StbWorkspace.cxx,
+	src/stbapi/workspace/StbWorkspace.h,
+	src/stbapi/workspace/appLoader.cxx,
+	src/stbapi/workspace/appLoaderNew.cxx,
+	src/stbapi/workspace/clipboard.cxx, src/stbapi/workspace/main.cxx,
+	src/stbapi/workspace/distrManager/AddUserMessage.cxx,
+	src/stbapi/workspace/distrManager/ConnectionHandler.cxx,
+	src/stbapi/workspace/distrManager/DistributionStrategy.h,
+	src/stbapi/workspace/distrManager/JoinLocaleMessage.cxx,
+	src/stbapi/workspace/distrManager/LeaveLocaleMessage.cxx,
+	src/stbapi/workspace/distrManager/Makefile,
+	src/stbapi/workspace/distrManager/Makefile.am,
+	src/stbapi/workspace/distrManager/Message.cxx,
+	src/stbapi/workspace/distrManager/RemoteDistribution.cxx,
+	src/stbapi/workspace/distrManager/RemoveUserMessage.cxx,
+	src/stbapi/workspace/distrManager/SetApplicationModeMessage.cxx,
+	src/stbapi/workspace/distrManager/SheetBarMessage.cxx,
+	src/stbapi/workspace/distrManager/StbDistrManager.cxx,
+	src/stbapi/workspace/distrManager/StopApplicationMessage.cxx,
+	src/stbapi/workspace/distrManager/UseResourcesMessage.cxx,
+	src/stbapi/workspace/distrManager/UserKitMessage.cxx,
+	src/stbapi/workspace/distrManager/WindowBarMessage.cxx,
+	tools/Makefile, tools/Makefile.am,
+	tools/sman2/DIVAddressFactory.cxx, tools/sman2/Host.cxx,
+	tools/sman2/Makefile, tools/sman2/Makefile.am,
+	tools/sman2/MonitorHandler.cxx, tools/sman2/SessionHandler.cxx,
+	tools/sman2/SessionManager.cxx,
+	tools/sman2/SessionVisitorAdaptor.cxx, tools/sman2/main.cxx:
+	
+	:: merge from coin tree to main tree ::
+	
+	* unified SoGUI architecture for different GUI buindings * update
+	of SoQt to current SoQt by Coin3D and Qt 3.0 libraries * improved
+	unix build system based on autotools * a lot of clean up work *
+	Coin3D compliant code, still not working due to Coin3D limitations
+
+2003-01-13 14:49  tamer
+
+	* studierstube/src/apps/chess/ChessKit.cxx (coin):
+	
+	chesskit fixes... made gnucall return THREADFUNC_NULL with
+	THREADFUNC_RETURN_TYPE as return type. *tralala*
 
 2003-01-13 11:51  bara
 
@@ -651,6 +4130,39 @@ cvs2cl script used to generate this file.
 	* configure.ac:
 	
 	build system fix for optional artoolkit handling.
+
+2003-01-09 05:31  tamer
+
+	* studierstube/bin/apps/chess/Makefile.am:
+	
+	file Makefile.am was initially added on branch coin.
+
+2003-01-09 05:31  tamer
+
+	* studierstube/bin/apps/chess/Makefile.am (coin):
+	
+	added missing Makefiles for ChessKit application.
+
+2003-01-09 05:30  tamer
+
+	* studierstube/: configure.ac, bin/workspace/Makefile.am,
+	cfg/m4/opentracker.m4, src/apps/chess/ChessKit.cxx,
+	src/stbapi/div/divmain.cxx, src/stbapi/interaction/Makefile.am,
+	src/stbapi/interaction/SoSpeechGesture.cxx,
+	src/stbapi/resource/viewer/Makefile.am, src/stbapi/util/ivutil.cxx,
+	src/stbapi/widgets/Makefile.am (coin):
+	
+	o build system cleanups and additions: - removed --enable-speech
+	option from the build system (this gets configured and	 handled
+	from within opentracker) - activated --enable-div - added
+	--enable-libccvt	use libccvt for video background
+	(default=no)   (removes the libccvt dependency for compiling,
+	functionality is either provided    from OpenTracker compiled with
+	ARToolkit or by a v4l implementation which    is currently under
+	construction).	- added SoSpeech* classes to the build system.	o
+	studierstube tree - fixed them to compile under unix.	   DWORD ->
+	unsigned long.	    #include <cctype> for toupper()  - working on
+	ChessKit integration under unix.
 
 2003-01-09 05:17  tamer
 
@@ -734,4 +4246,102 @@ cvs2cl script used to generate this file.
 	for unix is built in by default as part of libOpenTracker - after a
 	succesful build you will find 2 test applications in ./bin (main &&
 	test) - have fun! :)
+
+2003-01-08 16:42  kaufmann
+
+	* studierstube/src/apps/construct3d/: CnDconstants.h,
+	SoSurfaceKit.cxx, SoSurfaceKit.h:
+	
+	Surface update
+
+2003-01-07 20:00  bornik
+
+	* studierstube/src/stbapi/: interaction/Makefile,
+	interaction/SoSpeechGesture.cxx, resource/viewer/Makefile,
+	resource/viewer/SoRotateFromTo.cxx, widgets/Makefile:
+	
+	ab: Update of UNIX-Makefiles; gcc compatibility fix for
+	SoSpeechGesture
+
+2003-01-07 18:11  reitmayr
+
+	* studierstube/tools/qt2pip/: qt2pip.xsl, qt2pip_doc.html, test.ui:
+	
+	added qt2pip style sheet to transform Qt Designer 2.0 form files
+	into Studierstube PIP sheets. Check out the documentation in
+	qt2pip_doc.html for details
+
+2003-01-05 13:52  feiler
+
+	* studierstube/src/apps/construct3d/: SoSurfaceKit.cxx,
+	contextcnd.h, contextcnd2.cxx, todo.txt:
+	
+	new version of b spline surface
+
+2003-01-03 19:29  kaufmann
+
+	* studierstube/src/apps/construct3d/construct3d.dsp:
+	
+	added surfacekit
+
+2003-01-03 19:09  reitmayr
+
+	* studierstube/tools/sman2/: Host.h, Locale.h, SessionManager.cxx,
+	User.cxx, User.h:
+	
+	fixed a bug: sman2 does not handle one user from several clients
+	correctly, always deletes when the first leaves.
+
+2003-01-03 18:08  kaufmann
+
+	* studierstube/src/apps/construct3d/: SoSurfaceKit.cxx,
+	SoSurfaceKit.h, todo.txt:
+	
+	added surfacekit. files were missing todo updated
+
+2003-01-03 00:52  feiler
+
+	* studierstube/: bin/apps/construct3d/construct3d.iv,
+	bin/workspace/SpeechConstruct.xml,
+	src/apps/construct3d/CnDconstants.h,
+	src/apps/construct3d/SoCurveKit.cxx,
+	src/apps/construct3d/SoCurveKit.h,
+	src/apps/construct3d/SoPointKit.cxx,
+	src/apps/construct3d/SoPointKit.h,
+	src/apps/construct3d/construct3d.dsp,
+	src/apps/construct3d/contextcnd.h,
+	src/apps/construct3d/contextcnd2.cxx:
+	
+	new funktion is added: b spline surface
+
+2003-01-02 19:44  reitmayr
+
+	* studierstube/src/stbapi/: event3d/SoHandle3DEventAction.cxx,
+	event3d/Stb3DEventGenerator.cxx, resource/SoPipSheetKit.cxx:
+	
+	fixed the following bug:<br> * SoButtonKit highlight problems
+	!!<br> however, at a cost: the current integration of speech
+	requires that all events go to all (visible) widgets, no bounding
+	box checks (a check in the SoPipSheetKit was the problem). this
+	also obsoletes some mechanics by Zsolt Marx (EXIT events) because
+	this is tested in the gestures themselves. The best solution would
+	be to distinguish between different kinds of events.
+
+2003-01-01 22:25  reitmayr
+
+	* studierstube/src/stbapi/: workspace/SoApplicationKit.cxx,
+	workspace/SoApplicationKit.h, workspace/SoContextManagerKit.cxx,
+	resource/SoUserManagerKit.cxx:
+	
+	fixed the following bugs :<br> *
+	SoUserManagerKit::getUserKitFromNode(pipSheet) does not work ??<br>
+	* if master is switched by the sman, apps are not notified<br> *
+	fix crash with non existing app geometry and replace with default
+	icon
+
+2003-01-01 16:23  reitmayr
+
+	* studierstube/src/stbapi/div/viewer.cxx:
+	
+	some updates from last tests
 
