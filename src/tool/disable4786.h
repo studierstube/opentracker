@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #pragma warning(disable:4786)
 // http://support.microsoft.com/support/kb/articles/Q167/3/55.ASP 
 // states that yes, it's a compiler bug that
@@ -25,5 +27,7 @@ msVC6_4786WorkAround() {}
 
 static msVC6_4786WorkAround
 WowIWonderWhatCrapCodeMustBeInTheCompilerToMakeThisWorkaroundWork;
+
+#endif // WIN32
 
 // End of File

@@ -36,6 +36,7 @@
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
+#include <ace/Time_Value.h>
 #include <ace/Log_Msg.h>
 
 #include "ARTDataTrackerModule.h"

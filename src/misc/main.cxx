@@ -35,6 +35,7 @@
 #include <iostream>
 
 using namespace std;
+using namespace ot;
 
 /**
  * The main function for the standalone program. It expects a

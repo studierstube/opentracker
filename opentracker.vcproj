@@ -218,6 +218,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\input\ARToolKitPlusModule.cxx">
+			</File>
+			<File
 				RelativePath="src\common\ButtonFilterNode.cxx">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1229,6 +1232,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\tool\OT_ACE_Log.cxx">
+			</File>
+			<File
 				RelativePath="src\input\P5GloveModule.cxx">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1842,6 +1848,9 @@
 				RelativePath="src\input\ARToolKitModule.h">
 			</File>
 			<File
+				RelativePath=".\src\input\ARToolKitPlusModule.h">
+			</File>
+			<File
 				RelativePath="src\input\ARToolKitSource.h">
 			</File>
 			<File
@@ -1903,6 +1912,9 @@
 			</File>
 			<File
 				RelativePath="src\input\DGPSMirror_Handler.h">
+			</File>
+			<File
+				RelativePath=".\src\tool\disable4786.h">
 			</File>
 			<File
 				RelativePath="src\dllinclude.h">
@@ -2073,6 +2085,9 @@
 				RelativePath="src\core\OSUtils.h">
 			</File>
 			<File
+				RelativePath=".\src\tool\OT_ACE_Log.h">
+			</File>
+			<File
 				RelativePath="src\input\P5GloveModule.h">
 			</File>
 			<File
@@ -2140,6 +2155,12 @@
 			</File>
 			<File
 				RelativePath="src\common\StaticTransformation.h">
+			</File>
+			<File
+				RelativePath=".\src\tool\StringAligner.h">
+			</File>
+			<File
+				RelativePath=".\src\tool\StringFixer.h">
 			</File>
 			<File
 				RelativePath="src\core\StringTable.h">

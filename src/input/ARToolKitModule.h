@@ -198,8 +198,8 @@
 #ifdef USE_ARTOOLKIT
 
 #ifdef WIN32
-#ifndef __MEMORY_BUFFER_HANDLE__
-#define __MEMORY_BUFFER_HANDLE__
+//#ifndef __MEMORY_BUFFER_HANDLE__
+//#define __MEMORY_BUFFER_HANDLE__
 
 namespace ot {
 
@@ -211,7 +211,7 @@ namespace ot {
 
 } // namespace ot
 
-#endif
+//#endif
 #else
     typedef int MemoryBufferHandle;
 #endif

@@ -53,6 +53,8 @@ namespace DWARF {
     class PoseSenderService;
 }
 
+namespace ot {
+
 /**
  * The module and factory to drive the test source nodes. It constructs
  * TestSource nodes via the NodeFactory interface and pushes events into
@@ -111,6 +113,8 @@ public:
 
     virtual void pullState();
 };
+
+} // namespace ot
 
 #endif // USE_DWARF
 

@@ -48,6 +48,8 @@
 using namespace std;
 using namespace DWARF;
 
+namespace ot {
+
 // Destructor method
 
 DwarfModule::~DwarfModule()
@@ -211,6 +213,8 @@ void DwarfModule::pullState()
         }
     }
 }
+
+} // namespace ot
 
 #endif // USE_DWARF
 

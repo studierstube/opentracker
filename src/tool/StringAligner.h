@@ -10,7 +10,7 @@ class StringAligner
 public:
    StringAligner(const char* nPtr) : ptr(nPtr), myptr(0)
    {
-       if(reinterpret_cast<unsigned int>(nPtr)&0x03f != 0)
+       if((reinterpret_cast<unsigned int>(nPtr) & 0x03f) != 0)
            strcpy(myptr = new char[strlen(nPtr)+1], nPtr);
    }
 

@@ -38,6 +38,8 @@
 
 #ifdef USE_WACOMGRAPHIRE
 
+#include <ace/Log_Msg.h>
+
 #include <stdio.h>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
@@ -45,7 +47,6 @@
 #include <iostream.h>
 #endif
 
-#include <Windows.h>
 #pragma comment(lib,"wntab32x")
 #pragma comment(linker, "/NODEFAULTLIB:libc")
 
@@ -57,8 +58,6 @@
 
 #define	PACKETDATA	( PK_X | PK_Y | PK_Z | PK_CURSOR | PK_BUTTONS | PK_NORMAL_PRESSURE )
 #include "pktdef.h"
-
-#include <ace/Log_Msg.h>
 
 using namespace std;
 

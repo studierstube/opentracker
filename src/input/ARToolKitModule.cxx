@@ -33,13 +33,13 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 
-#include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
-
 #include "ARToolKitModule.h"
 #include "ARToolKitSource.h"
 
 #ifdef USE_ARTOOLKIT
+
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -591,7 +591,7 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle, int ster
     {
         unsigned char *pixel_data;
 #ifdef WIN32
-        pixel_data = arVideoLockBuffer(pHandle, (STEREO_BUFFER) stereo_buffer);
+        pixel_data = arVideoLockBuffer(reinterpret_cast<::MemoryBufferHandle *>(pHandle), (STEREO_BUFFER) stereo_buffer);
 #else
         pixel_data = frame;
 #endif
@@ -606,7 +606,10 @@ void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle, int stereo_buffer)
     lock();
     if(stop != 1)
     {
-        arVideoUnlockBuffer(Handle, (STEREO_BUFFER) stereo_buffer);
+        ::MemoryBufferHandle handle;
+        handle.n = Handle.n;
+        handle.t = Handle.t;
+        arVideoUnlockBuffer(handle, (STEREO_BUFFER) stereo_buffer);
     }
     unlock();
 #endif
