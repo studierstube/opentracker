@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-02 18:43  reitmayr
+
+	* src/input/ARToolKitModule.cxx, src/input/ARToolKitModule.h,
+	data/opentracker.dtd:
+	
+	added an optional pattern directory prefix for pattern filenames
+
 2003-04-01 17:51  reitmayr
 
 	* src/: common/CommonNodeFactory.cxx, core/MathUtils.cxx,
