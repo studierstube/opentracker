@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.5 2001/12/11 13:32:28 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.6 2002/10/31 20:01:41 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,3 +51,7 @@
 /** uncomment the following line to compile support for Joysticks.
   * Support for this is only available on windows. */
 // #define USE_JOYSTICK 1
+
+/** uncomment the following line to compile support for 3Dconnexion SpacMouse.
+  * Support for this is only available on windows. */
+// #define USE_SPACEMOUSE 1

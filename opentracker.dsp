@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=opentracker - Win32 Release
+CFG=opentracker - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,7 +13,7 @@ CFG=opentracker - Win32 Release
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "opentracker.mak" CFG="opentracker - Win32 Release"
+!MESSAGE NMAKE /f "opentracker.mak" CFG="opentracker - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /D "OS_WIN32" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /FR /FD /GZ /c
+# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /D "OS_WIN32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -246,6 +246,10 @@ SOURCE=.\src\misc\serialcomm.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\SpaceMouseModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\State.cxx
 # End Source File
 # Begin Source File
@@ -283,6 +287,10 @@ SOURCE=.\src\common\TimeModule.cxx
 # Begin Source File
 
 SOURCE=.\src\common\Transformation.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\UltraTrakModule.cxx
 # End Source File
 # Begin Source File
 
@@ -550,6 +558,14 @@ SOURCE=.\src\misc\serialcomm.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\SpaceMouseModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpaceMouseSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\State.h
 # End Source File
 # Begin Source File
@@ -595,6 +611,14 @@ SOURCE=.\src\common\TimeModule.h
 # Begin Source File
 
 SOURCE=.\src\common\Transformation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\UltraTrakModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\UltraTrakSource.h
 # End Source File
 # Begin Source File
 
