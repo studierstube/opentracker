@@ -26,7 +26,7 @@
   *
   * @author Hannes Kaufmann, Istvan Barakonyi
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.h,v 1.1 2003/03/21 14:52:51 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.h,v 1.2 2003/03/22 15:44:47 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,9 +41,9 @@
 
 #include "../OpenTracker.h"
 
-#include "P5dll.h"
-
 #ifdef USE_P5GLOVE
+
+#include "P5dll.h"
 
 /**
  * The module and factory to drive the P5GloveSource nodes. It constructs
