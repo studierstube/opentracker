@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.32 2003/05/23 09:24:47 reitmayr Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.33 2003/07/08 13:06:22 tamer Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -361,6 +361,10 @@ void ARToolKitModule::grab()
             return;
         }
 
+#ifndef WIN32
+        frame = frameData;
+#endif
+		
         if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
         {
             arVideoCapNext(); // release buffer
@@ -499,7 +503,7 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
 #ifdef WIN32
         pixel_data = arVideoLockBuffer(pHandle);
 #else
-        pixel_data = arVideoGetImage();
+        pixel_data = frame;
 #endif
         unlock();
         return(pixel_data);
@@ -508,16 +512,14 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
 
 void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle)
 {
+#ifdef WIN32
     lock();
     if(stop != 1)
     {
-#ifdef WIN32
         arVideoUnlockBuffer(Handle);
-#else
-        arVideoCapNext();
-#endif
     }
     unlock();
+#endif
 }
 
 // returns the OpenGL flag describing the pixel format
