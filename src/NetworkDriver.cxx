@@ -12,6 +12,11 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated interface of method 'init'
+//     Updated code of method 'createNode'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -117,7 +122,7 @@ number    a station number #REQUIRED
 
 name      a station name   #REQUIRED
 */
-Node* NetworkDriver::createNode(char* const name, StringMap& attributes)
+TreeNode* NetworkDriver::createNode(char* const name, StringMap& attributes)
 {//@CODE_3617
     std::string strName( name );
     if( strName.compare("Station") == 0 )        
@@ -254,7 +259,7 @@ multicast-address   a multicast group address #REQUIRED
 
 port                a port to bin to   #REQUIRED
 */
-void NetworkDriver::init(StringMap& attributes, const Node* localTree)
+void NetworkDriver::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_3842
 
     // initialize NetworkRecord

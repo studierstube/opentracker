@@ -12,6 +12,11 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated interface of method 'init'
+//     Updated code of method 'createNode'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -101,7 +106,7 @@ This method is called to construct a new Node. It takes the element name and
 any attribute name, value pairs and returns the new Node, if it is able to 
 construct the corresponding type. Otherwise it returns NULL.
 */
-Node* VideoSource::createNode(char* const name, StringMap& attributes)
+TreeNode* VideoSource::createNode(char* const name, StringMap& attributes)
 {//@CODE_3595
     std::string strName( name );
     if( strName.compare("Marker") == 0 )
@@ -140,7 +145,7 @@ camera-parameter filename with the camera parameters #REQUIRED
 
 treshhold               threshhold value for image processing #IMPLIED
 */
-void VideoSource::init(StringMap& attributes, const Node* localTree)
+void VideoSource::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_3593
     int sizeX, sizeY;
     ARParam cparam, wparam;

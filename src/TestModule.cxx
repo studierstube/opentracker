@@ -12,9 +12,11 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 12:51 implemented testmodule
-//     Updated code of method 'update'
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated code of method 'createNode'
+//     Updated member 'nodes'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -54,7 +56,7 @@ This method is called to construct a new Node. It takes the element name and
 any attribute name, value pairs and returns the new Node, if it is able to 
 construct the corresponding type. Otherwise it returns NULL.
 */
-Node* TestModule::createNode(char* const name, StringMap& attributes)
+TreeNode* TestModule::createNode(char* const name, StringMap& attributes)
 {//@CODE_4813
     std::string strName( name );
     if( strName.compare("TestSource") == 0 )        
@@ -92,7 +94,7 @@ This makes the modules independed of the order of their invocations.
 */
 void TestModule::update()
 {//@CODE_4812
-    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it ++)
+    for( TreeNodeVector::iterator it = nodes.begin(); it != nodes.end(); it ++)
     {
 		TestSource * source = (TestSource *)(*it);
 		if(((cycle - source->offset ) % source->frequency ) == 0 )

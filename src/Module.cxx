@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated interface of method 'init'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -85,7 +87,7 @@ subclasses not doing anything here. It takes the attributes of the element confi
 this module and a local tree consisting of the children of the element. This tree has to
 be made up of Nodes.
 */
-void Module::init(StringMap& attributes, const Node* localTree)
+void Module::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_739
 }//@CODE_739
 

@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

@@ -12,7 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _TRANSFORMATION_H
@@ -52,7 +52,6 @@ protected:
     float translation[3];
     float scale[3];
     float rotation[4];
-    State localState;
 
 public:
 

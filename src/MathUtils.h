@@ -12,7 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 21:43 gerhard reitmayr
+//     Added method 'axisAngleToQuaternion'
 //     Update comment header
 // ===========================================================================
 #ifndef _MATHUTILS_H
@@ -48,11 +49,11 @@ protected:
 
 public:
     virtual ~MathUtils();
+    static float* axisAngleToQuaternion(float* axisa, float* qResult);
     static float* eulerToQuaternion(float roll, float pitch, float yaw,
                                     float* qResult);
     static float* invertQuaternion(float* q, float* qResult);
     static float* matrixToQuaternion(float matrix[3][3], float* qResult);
-    static float* axisAngleToQuaternion( float *axisa, float *qResult );
     static float* multiplyQuaternion(float* q1, float* q2, float* qResult);
     static float* normalizeQuaternion(float* q);
     static float* rotateVector(float* q, float* v, float* vResult);

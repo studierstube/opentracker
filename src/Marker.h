@@ -12,7 +12,10 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Deleted inheritance 'Node'
+//     Added inheritance 'TreeNode'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _MARKER_H
@@ -27,7 +30,7 @@
 a marker represents a single marker that is tracked by the video library.
 */
 class Marker
-    : public Node
+    : public TreeNode
 {
 
 //@START_USER2

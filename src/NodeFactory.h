@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated return type of method 'createNode'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _NODEFACTORY_H
@@ -50,7 +52,7 @@ protected:
 public:
     NodeFactory();
     virtual ~NodeFactory();
-    virtual Node* createNode(char* const name, StringMap& attributes) = 0;
+    virtual TreeNode* createNode(char* const name, StringMap& attributes) = 0;
 };
 
 #endif

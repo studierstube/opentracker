@@ -12,7 +12,14 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Deleted inheritance 'Node'
+//     Added method 'getState'
+//     Updated interface of method 'removeChild'
+//     Updated interface of method 'addChild'
+//     Updated code of method 'TreeNode'
+//     Updated member 'children'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -61,9 +68,9 @@ TreeNode::~TreeNode()
 /*@NOTE_122
 adds a child to the TreeNode.
 */
-void TreeNode::addChild(Node& node)
+void TreeNode::addChild(TreeNode& node)
 {//@CODE_122
-    NodeVector::iterator result = std::find( children.begin(), children.end(), &node );
+    TreeNodeVector::iterator result = std::find( children.begin(), children.end(), &node );
     if( result == children.end())
     {
         children.push_back( &node );
@@ -71,12 +78,22 @@ void TreeNode::addChild(Node& node)
 }//@CODE_122
 
 
+/*@NOTE_7057
+returns the current state of the node. This method will be overriden in any subclasses
+that provide real functionality. All processing of states will be done here.
+*/
+State* TreeNode::getState()
+{//@CODE_7057
+   return NULL;
+}//@CODE_7057
+
+
 /*@NOTE_135
 removes a child from the TreeNode
 */
-void TreeNode::removeChild(Node& node)
+void TreeNode::removeChild(TreeNode& node)
 {//@CODE_135
-    NodeVector::iterator result = std::find( children.begin(), children.end(), &node );    
+    TreeNodeVector::iterator result = std::find( children.begin(), children.end(), &node );    
     if( result != children.end())
     {
         children.erase( result );

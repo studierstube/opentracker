@@ -12,7 +12,10 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated return type of method 'buildTree'
+//     Updated return type of method 'parseConfigurationFile'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _CONFIGURATIONPARSER_H
@@ -53,8 +56,8 @@ public:
     ConfigurationParser(NodeFactory* factory_);
     virtual ~ConfigurationParser();
     void addModule(const char* name, Module& module);
-    Node* buildTree(DOM_Element& element);
-    NodeVector* parseConfigurationFile(const char* filename);
+    TreeNode* buildTree(DOM_Element& element);
+    TreeNode* parseConfigurationFile(const char* filename);
     StringMap* parseElement(DOM_Element& element);
     void removeModule(const char* name);
 };

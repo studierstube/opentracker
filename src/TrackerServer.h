@@ -22,9 +22,9 @@ struct ltstr
 // Defines needed for relations between templated classes
 
 // Type declarations
-//@START_DECLARATION_99 NodeVector
-class Node;
-typedef std::vector<Node*> NodeVector;
+//@START_DECLARATION_99 TreeNodeVector
+class TreeNode;
+typedef std::vector<TreeNode*> TreeNodeVector;
 //@END_DECLARATION_99
 
 //@START_DECLARATION_1131 NodeFactoryVector

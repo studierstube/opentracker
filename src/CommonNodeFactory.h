@@ -12,7 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _COMMONNODEFACTORY_H
@@ -54,7 +54,7 @@ protected:
 public:
     CommonNodeFactory();
     virtual ~CommonNodeFactory();
-    virtual Node* createNode(char* const name, StringMap& attributes);
+    virtual TreeNode* createNode(char* const name, StringMap& attributes);
 };
 
 #endif

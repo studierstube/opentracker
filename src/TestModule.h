@@ -12,6 +12,10 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated member 'nodes'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 #ifndef _TESTMODULE_H
 #define _TESTMODULE_H
@@ -36,7 +40,7 @@ class TestModule
 private:
 
 protected:
-    NodeVector nodes;
+    TreeNodeVector nodes;
     int cycle;
 
 public:
@@ -50,7 +54,7 @@ protected:
 
 public:
     virtual ~TestModule();
-    virtual Node* createNode(char* const name, StringMap& attributes);
+    virtual TreeNode* createNode(char* const name, StringMap& attributes);
     virtual void update();
 };
 

@@ -12,6 +12,10 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated member 'rootNode'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -95,7 +99,7 @@ It parses the file and builds the tree.
 */
 void Context::parseConfiguration(const char* filename)
 {//@CODE_4765
-    rootNodes = parser->parseConfigurationFile( filename );
+    rootNode = parser->parseConfigurationFile( filename );
 }//@CODE_4765
 
 

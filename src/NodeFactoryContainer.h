@@ -12,7 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _NODEFACTORYCONTAINER_H
@@ -55,7 +55,7 @@ public:
     NodeFactoryContainer();
     virtual ~NodeFactoryContainer();
     void addFactory(NodeFactory& factory);
-    virtual Node* createNode(char* const name, StringMap& attributes);
+    virtual TreeNode* createNode(char* const name, StringMap& attributes);
     void removeFactory(NodeFactory& factory);
 };
 

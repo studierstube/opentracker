@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated code of method 'getState'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -62,19 +64,28 @@ State* MaxConfidenceFilter::getState()
     State* value, * comp;
     if(children.empty())
     {
-        // return some kind of invalid value ??
         value = NULL;
     } else 
     {
-        NodeVector::iterator it = children.begin();
+        TreeNodeVector::iterator it = children.begin();
         value = (*it)->getState();
         it++;
         while( it != children.end())
         {
-	  comp = (*it)->getState();
-            if( value->confidence < comp->confidence )
+            comp = (*it)->getState();
+            if( value == NULL )
             {
                 value = comp;
+            }
+            else 
+            {
+                if( comp != NULL )
+                {
+                    if( value->confidence < comp->confidence )
+                    {
+                        value = comp;
+                    }   
+                }
             }
             it++;
         }

@@ -12,7 +12,13 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Deleted inheritance 'Node'
+//     Added method 'getState'
+//     Updated interface of method 'removeChild'
+//     Updated interface of method 'addChild'
+//     Updated member 'children'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _TREENODE_H
@@ -30,7 +36,6 @@ will either use only the first child or all of them. Moreover the number of chil
 fixed by the DTD of the config file format, so there should be no problems here.
 */
 class TreeNode
-    : public Node
 {
 
 //@START_USER2
@@ -40,7 +45,7 @@ class TreeNode
 private:
 
 protected:
-    NodeVector children;
+    TreeNodeVector children;
 
 public:
 
@@ -54,8 +59,9 @@ protected:
 public:
     TreeNode();
     virtual ~TreeNode();
-    void addChild(Node& node);
-    void removeChild(Node& node);
+    void addChild(TreeNode& node);
+    virtual State* getState();
+    void removeChild(TreeNode& node);
 };
 
 #endif

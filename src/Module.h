@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated interface of method 'init'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _MODULE_H
@@ -53,7 +55,7 @@ public:
     virtual void beginUpdate();
     virtual void close();
     virtual void endUpdate();
-    virtual void init(StringMap& attributes, const Node* localTree);
+    virtual void init(StringMap& attributes, const TreeNode* localTree);
     virtual void update();
 };
 

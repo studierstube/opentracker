@@ -12,6 +12,11 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Deleted inheritance 'Node'
+//     Added inheritance 'TreeNode'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 #ifndef _TESTSOURCE_H
 #define _TESTSOURCE_H
@@ -25,7 +30,7 @@
 implements a simple source that sets its valid flag in regular intervals.
 */
 class TestSource
-    : public Node
+    : public TreeNode
 {
 
 //@START_USER2

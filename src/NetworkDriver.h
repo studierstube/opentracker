@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated interface of method 'init'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _NETWORKDRIVER_H
@@ -84,9 +86,9 @@ public:
     virtual void beginUpdate();
     virtual void close();
     void convertFloatsHToNl(float* floats, float* result, int num);
-    virtual Node* createNode(char* const name, StringMap& attributes);
+    virtual TreeNode* createNode(char* const name, StringMap& attributes);
     virtual void endUpdate();
-    virtual void init(StringMap& attributes, const Node* localTree);
+    virtual void init(StringMap& attributes, const TreeNode* localTree);
 };
 
 #endif

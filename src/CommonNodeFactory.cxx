@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated code of method 'createNode'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -160,7 +162,7 @@ This method is called to construct a new Node. It takes the element name and
 any attribute name, value pairs and returns the new Node, if it is able to 
 construct the corresponding type. Otherwise it returns NULL.
 */
-Node* CommonNodeFactory::createNode(char* const name, StringMap& attributes)
+TreeNode* CommonNodeFactory::createNode(char* const name, StringMap& attributes)
 {//@CODE_3612
     std::string strName( name );
     if( strName.compare("Transformation") == 0 )

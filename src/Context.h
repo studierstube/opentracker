@@ -12,8 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
-//     Updated interface of method 'addFactory'
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated member 'rootNode'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _CONTEXT_H
@@ -39,7 +40,7 @@ private:
 
 protected:
     ModuleVector modules;
-    NodeVector* rootNodes;
+    TreeNode* rootNode;
     NodeFactoryContainer factory;
     ConfigurationParser* parser;
 

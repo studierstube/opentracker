@@ -12,7 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated code of method 'getState'
+// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -86,7 +88,7 @@ State* Transformation::getState()
 {//@CODE_3557
     if( !children.empty())
     {
-        NodeVector::iterator it = children.begin();
+        TreeNodeVector::iterator it = children.begin();
         State *value = (*it)->getState();
         if( value != NULL )
         {

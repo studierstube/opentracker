@@ -12,6 +12,13 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+//     Updated code of method 'parseConfigurationFile'
+//     Updated code of method 'buildTree'
+//     Updated return type of method 'buildTree'
+//     Updated return type of method 'parseConfigurationFile'
+// August 16, 2000 21:43 gerhard reitmayr
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -90,9 +97,9 @@ void ConfigurationParser::addModule(const char* name, Module& module)
 builds the tracker tree starting from a certain DOM_Element. Is used recoursively to walk
 the DOMTree and create new nodes.
 */
-Node* ConfigurationParser::buildTree(DOM_Element& element)
+TreeNode* ConfigurationParser::buildTree(DOM_Element& element)
 {//@CODE_3746
-    Node* value;
+    TreeNode* value;
     StringMap * map = parseElement( element );
     value = factory->createNode( element.getTagName().transcode(), *map );
     delete map;
@@ -104,10 +111,10 @@ Node* ConfigurationParser::buildTree(DOM_Element& element)
 	        if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
     	    {   
   	            DOM_Element childElement = (DOM_Element&)list.item(i);
-		        Node * childNode = buildTree( childElement );
+		        TreeNode * childNode = buildTree( childElement );
     		    if( childNode != NULL )
     	    	{
-	    	        ((TreeNode *)value)->addChild( *childNode );
+	    	        value->addChild( *childNode );
     	    	}
 	        }
     	}
@@ -122,12 +129,12 @@ Node* ConfigurationParser::buildTree(DOM_Element& element)
 
 
 /*@NOTE_4636
-This method parses an XML configuration file. It returns a NodeVector with all the root nodes defined
+This method parses an XML configuration file. It returns a TreeNode as root with all the root nodes defined
 in the configuration file.
 */
-NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
+TreeNode* ConfigurationParser::parseConfigurationFile(const char* filename)
 {//@CODE_4636
-    NodeVector * value = new NodeVector;
+    TreeNode * value = new TreeNode;
 
      // read and parse configuration file
     DOMParser parser;
@@ -200,9 +207,9 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
         {
 	        continue;
         }
-    	Node * node = buildTree( element );
-	    if( node != NULL ){
-            value->push_back( node );
+    	TreeNode * node = buildTree( element );        
+	if( node != NULL ){
+            value->addChild( node );
     	}
     }
     return value;

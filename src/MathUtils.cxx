@@ -12,7 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
+// August 16, 2000 21:43 gerhard reitmayr
+//     Added method 'axisAngleToQuaternion'
 //     Update comment header
 // ===========================================================================
 //@START_USER1
@@ -40,6 +41,20 @@ MathUtils::~MathUtils()
 
     // Put in your own code
 }//@CODE_4570
+
+
+/*@NOTE_7054
+converts an axis angle representation into a quaternion
+*/
+float* MathUtils::axisAngleToQuaternion(float* axisa, float* qResult)
+{//@CODE_7054
+    float s = sin( axisa[3]/2 );
+    qResult[3] = cos( axisa[3]/2 );
+    qResult[0] = axisa[0]*s;
+    qResult[1] = axisa[1]*s;
+    qResult[2] = axisa[2]*s;        
+    return qResult;
+}//@CODE_7054
 
 
 /*@NOTE_4585
@@ -127,15 +142,6 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
     return qResult;
 }//@CODE_4582
 
-float* MathUtils::axisAngleToQuaternion( float *axisa, float *qResult )
-{
-    float s = sin( axisa[3]/2 );
-    qResult[3] = cos( axisa[3]/2 );
-    qResult[0] = axisa[0]*s;
-    qResult[1] = axisa[1]*s;
-    qResult[2] = axisa[2]*s;        
-    return qResult;
-}
 
 /*@NOTE_4575
 multiplies two quaternions and returns result in a third. Also returns pointer to
