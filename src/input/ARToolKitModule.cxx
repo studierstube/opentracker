@@ -119,7 +119,7 @@ ARToolKitModule::~ARToolKitModule()
 
 // constructs a new Node
 
-Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
+Node * ARToolKitModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("ARToolKitSource") == 0 )
     {
@@ -136,8 +136,8 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
             return NULL;
         }
         int id;
-        string filename = attributes.get("tag-file");
-        string fullname;
+        std::string filename = attributes.get("tag-file");
+        std::string fullname;
         
         if( patternDirectory.compare("") != 0)
             context->addDirectoryFirst( patternDirectory );
@@ -225,7 +225,7 @@ void ARToolKitModule::start()
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
     
-    string fullname;
+	std::string fullname;
     if( context->findFile(cameradata, fullname))
     {
         cameradata = fullname;

@@ -75,7 +75,7 @@ XMLWriter::~XMLWriter()
          
 void XMLWriter::write( const char * file )
 {
-    auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
+	std::auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
     writeNode( ((DOMNode *)(context.getRootNode()->parent))->getOwnerDocument(), 
                myFormatTarget.get());
 }

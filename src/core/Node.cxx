@@ -548,9 +548,9 @@ std::string Node::get( const std::string & key )
 	XMLString::release( &temp );
 	XMLString::release( &xmlspace );
     char * cres = XMLString::transcode( res );
-	string result( cres );
+	std::string result( cres );
 	XMLString::release( &cres );
-    return string( cres );
+    return std::string( cres );
 #endif //USE_XERCES
 
 #ifdef USE_TINYXML

@@ -82,16 +82,16 @@ InputSource * OpenTrackerResolver::resolveEntity( XMLResourceIdentifier * resour
         XMLCh * test = XMLString::transcode("opentracker.dtd");
         if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
         {
-            ACE_Env_Value<string> otroot(ACE_TEXT("OTROOT"), "");
-            string otrootvalue = (string)otroot;
-            string otdatadir;
+            ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
+            std::string otrootvalue = (std::string)otroot;
+            std::string otdatadir;
             if( otrootvalue.compare("") != 0 )
             {
                 otdatadir = otrootvalue + "/data";
                 context->addDirectoryLast(otdatadir);
             }        
             char * file = XMLString::transcode(resourceIdentifier->getSystemId());
-            string filename( file ), fullname;
+            std::string filename( file ), fullname;
             XMLString::release( &file );
             bool result = context->findFile( filename, fullname );
             if( otrootvalue.compare("") != 0 )
@@ -145,9 +145,9 @@ ConfigurationParser::~ConfigurationParser()
 ConfigNode * ConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
 {
 #ifdef USE_XERCES
-    auto_ptr<StringTable> map ( parseElement( element ));
+    std::auto_ptr<StringTable> map ( parseElement( element ));
 	char * tempName = XMLString::transcode( element->getLocalName());
-    string tagName = tempName;
+    std::string tagName = tempName;
 	XMLString::release( &tempName );
     ConfigNode * config = new ConfigNode( *map );
     config->setParent( element );
@@ -186,9 +186,9 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
 {
 #ifdef USE_XERCES
     char * tempName = XMLString::transcode( element->getLocalName());
-    string tagName = tempName;
+    std::string tagName = tempName;
 	XMLString::release( &tempName );
-    auto_ptr<StringTable> map ( parseElement( element ));
+    std::auto_ptr<StringTable> map ( parseElement( element ));
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
     {
@@ -368,9 +368,9 @@ Node * ConfigurationParser::parseConfigurationFile(const std::string& filename)
         if( configlist->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
         {
             DOMElement * configElement = (DOMElement *)configlist->item(i);
-            auto_ptr<StringTable> attributes( parseElement( configElement ));
+            std::auto_ptr<StringTable> attributes( parseElement( configElement ));
 			char * tempName = XMLString::transcode( configElement->getLocalName());
-            string tagName = tempName;
+            std::string tagName = tempName;
 			XMLString::release( &tempName );
 			ConfigNode * base = new ConfigNode( *attributes );
 			base->setParent( configElement );

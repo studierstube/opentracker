@@ -95,7 +95,7 @@ ARToolKitPlusModule::~ARToolKitPlusModule()
 
 Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
 {
-    if( name.compare("ARToolKitSource") == 0 )
+    if( name.compare("ARToolKitPlusSource") == 0 )
     {
         double center[2], size;
         int num;
@@ -189,7 +189,7 @@ Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& att
         return source;
     }
 
-    if( name.compare("ARToolKitMultiMarkerSource") == 0 )
+    if( name.compare("ARToolKitPlusMultiMarkerSource") == 0 )
     {
 		std::string filename = attributes.get("cfg-file");
         std::string fullname;
@@ -477,9 +477,9 @@ bool ARToolKitPlusModule::updateARToolKit()
 	        ARToolKitSource *sourceA = (ARToolKitSource*)source;
 			ARFloat source_center[2], source_size;
 			
-			source_center[0] = sourceA->center[0];
-			source_center[1] = sourceA->center[1];
-			source_size = sourceA->size;
+			source_center[0] = (ARFloat)sourceA->center[0];
+			source_center[1] = (ARFloat)sourceA->center[1];
+			source_size = (ARFloat)sourceA->size;
 
             if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
 				updateSource(sourceA, markerInfo[j].cf, matrix);

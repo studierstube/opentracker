@@ -83,28 +83,28 @@
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {
-    cerr << "Warning at file \"" << XMLString::transcode(toCatch.getSystemId())
+    std::cerr << "Warning at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::error(const SAXParseException& toCatch)
 {
-    cerr << "Error at file \"" << XMLString::transcode(toCatch.getSystemId())
+    std::cerr << "Error at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::fatalError(const SAXParseException& toCatch)
 {
-    cerr << "Fatal Error at file \"" << XMLString::transcode(toCatch.getSystemId())
+    std::cerr << "Fatal Error at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 

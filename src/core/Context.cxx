@@ -256,8 +256,8 @@ Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
         // add a correctly created DOM_Element to the node here and return
         DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
-        auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
+        std::auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
+        std::auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
         DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
         value->setParent( el );        
         // set attributes on the element node
@@ -266,8 +266,8 @@ Node * Context::createNode( const std::string & name, StringTable & attributes)
         {
             const std::string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
-			auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
-			auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
+			std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
+			std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
 			el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
         }
     }
@@ -340,7 +340,7 @@ Node * Context::findNode(const std::string & id)
 {
 #ifdef USE_XERCES
     // search for the right node via the DOM_Document API
-    auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
+    std::auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
     DOMElement * el = ((DOMNode *)(rootNode->parent))->getOwnerDocument()->getElementById( tempId.get());
     if( el != 0 )
         return (Node *)el->getUserData(ud_node);
