@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-01 16:05  tamer
+
+	* src/input/DynaSightModule.cxx:
+	
+	gcc3 fixes.
+
 2003-06-30 14:40  reitmayr
 
 	* doc/contributions.txt:
