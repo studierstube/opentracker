@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.17 2002/11/27 15:06:29 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.18 2002/11/28 14:20:57 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -182,13 +182,15 @@ void NetworkSinkModule::start()
         // sets maxStationNum to network byte order
         for( GroupVector::iterator it = groups.begin() ; it != groups.end(); it++ )
         {
-			if( (*it)->socket.open( ACE_INET_Addr((u_short)0)) == -1 )
+			if( (*it)->socket.open(ACE_Addr::sap_any) == -1 )
 			{
 				cout << "Error opening socket in NetworkSinkModule !" << endl;
 				exit(1);
+			}			
+			if((*it)->nic.compare("") != 0 )
+			{
+				(*it)->socket.set_nic((*it)->nic.c_str());
 			}
-			
-			(*it)->socket.set_nic((*it)->nic.c_str());
             (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);                
         }
     }
