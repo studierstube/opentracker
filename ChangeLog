@@ -1,3 +1,8 @@
+2004-11-29 08:50:33  Rev 787    reitmayr
+
+	* src/input/ParButtonModule.h, src/input/ParButtonSource.h: 
+	  documentation update, some hints on getting parallel port to work
+
 2004-11-27 15:32:26  Rev 785    daniel
 
 	* src/input/ARToolKitPlusModule.cxx: added support for new lens 
