@@ -26,11 +26,16 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.8 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.9 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ConfigurationParser.h"
+#ifdef WIN32
+#include <iostream>    // VisualC++ uses the STL based iostream lib
+#else
+#include <iostream.h>
+#endif
 
 #include <util/PlatformUtils.hpp>
 #include <parsers/DOMParser.hpp>
@@ -40,11 +45,6 @@
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_Text.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
-#ifdef WIN32
-#include <iostream>    // VisualC++ uses the STL based iostream lib
-#else
-#include <iostream.h>
-#endif
 #include "DOMTreeErrorReporter.h"
 
 // constructor method
@@ -82,9 +82,9 @@ void ConfigurationParser::addModule( string& name, Module& module)
 
 ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
 {
-    StringMap & map = parseElement( element );
+    StringTable & map = parseElement( element );
     string tagName = element.getTagName().transcode();
-    ConfigNode * config = new ConfigNode( tagName, & map );
+    ConfigNode * config = new ConfigNode( tagName, &map );
 	config->setParent( element );
     DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
     for( int i = 0; i < list.getLength(); i ++ )
@@ -103,11 +103,11 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
 Node * ConfigurationParser::buildTree( DOM_Element& element)
 {
     string tagName = element.getTagName().transcode();
-	StringMap & map = parseElement( element );
+	StringTable & map = parseElement( element );
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
     {
-        NodeMap::iterator find = references.find(map["USE"]);
+        NodeMap::iterator find = references.find(map.get("USE"));
         if( find != references.end()){
 			RefNode * ref = new RefNode( (*find).second );
 			ref->setParent( element );
@@ -115,7 +115,7 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
             return ref;
         } else
         {
-            cout << "Undefined reference " << map["USE"] << " !" << endl;
+            cout << "Undefined reference " << map.get("USE") << " !" << endl;
 			delete & map;
             return NULL;
         }
@@ -126,10 +126,10 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
     {
 		value->setParent( element );
         // Test for ID 
-        if( map.find("DEF") != map.end())
+        if( map.containsKey("DEF"))
         {
-            references[map["DEF"]] = value;
-            cout << "Storing Reference " << map["DEF"] << endl;
+            references[map.get("DEF")] = value;
+            cout << "Storing Reference " << map.get("DEF") << endl;
         }
         DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
         for( int i = 0; i < list.getLength(); i ++ )
@@ -201,7 +201,7 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
         if( configlist.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
             DOM_Element configElement = (DOM_Element &)configlist.item(i);
-            StringMap & attributes = parseElement( configElement );
+            StringTable & attributes = parseElement( configElement );
             string tagName = configElement.getTagName().transcode();
 			ConfigNode * base = new ConfigNode( tagName, & attributes );
 			base->setParent( configElement );
@@ -249,16 +249,16 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
 
 // parses an Elements attributes and returns a StringMap describing them.
 
-StringMap & ConfigurationParser::parseElement( DOM_Element& element)
+StringTable & ConfigurationParser::parseElement( DOM_Element& element)
 {
-    StringMap & value = *(new StringMap);
+    StringTable * value = new StringTable;
     DOM_NamedNodeMap map = element.getAttributes();
     for( int i = 0; i < map.getLength(); i++ )
     {
         DOM_Attr attribute = (DOM_Attr &)map.item( i );
-        value[attribute.getName().transcode()] = attribute.getValue().transcode();
+        value->put( attribute.getName().transcode(), attribute.getValue().transcode());
     }
-    return value;
+    return *value;
 }
 
 // removes a module with the given name from the ModuleMap

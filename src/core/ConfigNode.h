@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,15 +35,8 @@
 
 #include "../dllinclude.h"
 
-#include <map>
-
 #include "Node.h"
-
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-typedef OPENTRACKER_API std::map<string, string> StringMap;
+#include "StringTable.h"
 
 /**
  * This node implements a simple node containing the elements name and
@@ -58,15 +51,15 @@ class OPENTRACKER_API ConfigNode : public Node
 // Members
 protected:
     /// the wrapper element name
-    StringMap * attributes;
+    StringTable * attributes;
 // Methods
 public:
     /**
      * constructor method
      * @param name_ element name of the config node
-     * @param map_ string map with attribute values 
+     * @param map_ string table with attribute values 
      */
-    ConfigNode(const string& name_, StringMap * map_)
+    ConfigNode(const string& name_, StringTable * map_)
         : Node()
 	    , attributes( map_ )
     { 
@@ -79,18 +72,25 @@ public:
         delete attributes;
     };
     /**
-     * returns a reference to the attribute StringMap
-     * @return reference to the attribute StringMap */
-    StringMap & getAttributes()
+     * returns a reference to the attribute StringTable
+     * @return reference to the attribute StringTable */
+    StringTable & getAttributes()
     {
         return *attributes;
     }
 
+    /**
+     * returns the number of children nodes. This lets
+     * any module parse its configuration tree.
+     * @return number of children */
 	virtual unsigned int countChildren()
 	{
 		return Node::countChildren();
 	}
 
+    /**
+     * returns a child by index.
+     * @return pointer to the desired child or NULL */
 	virtual Node * getChild( unsigned int index )
 	{
 		return Node::getChild( index );

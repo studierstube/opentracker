@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -87,7 +87,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes);
+    virtual Node * createNode( string& name,  StringTable& attributes);
     /**
      * pushes events into the tracker tree. Checks all TestSources and
      * pushes new events, if a TestSource fires.

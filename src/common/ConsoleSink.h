@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,7 +73,7 @@ public:
 public:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
-    ConsoleSink( string & comment_ ) :
+    ConsoleSink( const string & comment_ ) :
         Node(), 
         comment( comment_ ),
         changed( 0 )

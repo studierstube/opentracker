@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,11 +34,6 @@
 #define _CONTEXT_H
 
 #include "../dllinclude.h"
-
-#include <vector>
-#include <string>
-
-using namespace std;
 
 #include "Node.h"
 #include "Module.h"

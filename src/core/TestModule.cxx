@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.2 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.3 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,27 +40,26 @@
 #include <iostream.h>
 #endif
 
-/// Destructor method
+// Destructor method
 
 TestModule::~TestModule()
 {
     nodes.clear();
 }
 
-/// This method is called to ruct a new Node.
+// This method is called to construct a new Node.
 
-Node * TestModule::createNode( string& name,
-                               StringMap& attributes)
+Node * TestModule::createNode( string& name, StringTable& attributes)
 {
     if( name.compare("TestSource") == 0 )
     {
         int frequency;
         int offset;
-        int num = sscanf(attributes.find("frequency")->second.c_str(), " %i", &frequency );
+        int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
         if( num == 0 ){
             frequency = 1;
         }
-        num = sscanf(attributes.find("offset")->second.c_str(), " %i", &offset );
+        num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
         if( num == 0 ){
             offset = 0;
         }
@@ -73,7 +72,7 @@ Node * TestModule::createNode( string& name,
     return NULL;
 }
 
-/// pushes events into the tracker tree.
+// pushes events into the tracker tree.
 
 void TestModule::pushState()
 {

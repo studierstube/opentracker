@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,17 +35,8 @@
 
 #include "../dllinclude.h"
 
-#include <map>
-
-using namespace std;
-
 #include "Node.h"
-
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-typedef std::map<string, string> StringMap;
+#include "StringTable.h"
 
 /**
  * interface class for node factories. These ruct new nodes based on
@@ -64,10 +55,10 @@ public:
      * element type for example ), it returns NULL. This method
      * has to be implemented by real NodeFactories.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringMap containing attribute values
+     * @param attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes) = 0;
+    virtual Node * createNode( string& name,  StringTable& attributes) = 0;
 };
 
 #endif

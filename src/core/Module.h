@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -111,17 +111,18 @@
 
 #include "../dllinclude.h"
 
-#include <map>
+//#include <map>
 
-using namespace std;
+//using namespace std;
 
 #include "Node.h"
+#include "StringTable.h"
 
 /**
  * maps a string to another string. Mostly used to map element attributes
  * to values.
  */
-typedef std::map<string, string> StringMap;
+//typedef map<string, string> StringMap;
 
 /**
  * Module is an abstract super class for all OpenTracker modules. A module
@@ -159,11 +160,11 @@ public:
      * method if they override this method. It takes the attributes of the
      * element configuring this module and a local tree consisting of the
      * children of the element. This tree must be build of Nodes.
-     * @param attributes StringMap of elements attribute values. Should be
+     * @param attributes StringTable of elements attribute values. Should be
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
-    virtual void init(StringMap& attributes,  Node * localTree)
+    virtual void init(StringTable& attributes,  Node * localTree)
     {
         initialized = 1;
     };

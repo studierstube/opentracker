@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.6 2001/03/27 06:08:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.7 2001/04/08 19:31:10 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -95,7 +95,7 @@ public:
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
-    virtual void init(StringMap& attributes,  Node * localTree);
+    virtual void init(StringTable& attributes,  Node * localTree);
 
     /** This method is called to construct a new Node. It compares
      * name to the NetworkSink element name, and if it matches
@@ -104,7 +104,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes);    
+    virtual Node * createNode( string& name,  StringTable& attributes);    
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. It opens the sockets needed for communication. */

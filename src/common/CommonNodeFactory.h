@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.7 2001/04/04 08:30:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.8 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,12 +37,6 @@
 #include "Transformation.h"
 #include "VirtualTransformation.h"
 #include "EventQueueNode.h"
-
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-typedef map<string, string> StringMap;
 
 /**
  * This class provides the general node types found in the configuration files.
@@ -83,7 +77,7 @@ protected:
     /** builds a EventQueueNode node.
      * @param attributes reference to StringMap of elements attribute values
      * @return pointer to EventQueueNode created on the heap */
-    EventQueueNode * buildEventQueue( StringMap& attributes);
+    EventQueueNode * buildEventQueue( StringTable& attributes);
 
 public:
     /** constructor method. Initalizes the wrapperNodes array.*/
@@ -94,7 +88,7 @@ public:
      * @param name reference to string containing element name
      * @param attributes reference to StringMap of elements attribute values
      * @return new Node or NULL, if element name was not recognized */
-    virtual Node * createNode( string& name,  StringMap& attributes);
+    virtual Node * createNode( string& name,  StringTable& attributes);
 };
 
 #endif

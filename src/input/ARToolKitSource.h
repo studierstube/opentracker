@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.7 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.8 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,8 @@
  * from tracking a visual marker in a video image by using the ARToolKit
  * library. It has the following elements :
  * @li @c tag-file the file containing the marker pattern
- * @li @c vertex two dimensional array of the 4 vertices of the marker pattern
+ * @li @c vertex two dimensional array of the 4 vertices of the marker pattern. The 
+ *        corners are given in millimeters with respect to the center of the pattern.
  *
  * An example element looks like this :
  * @verbatim

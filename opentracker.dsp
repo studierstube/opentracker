@@ -70,7 +70,8 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /GZ /c
+# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
+# SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "_DEBUG"
@@ -174,6 +175,10 @@ SOURCE=.\src\core\State.cxx
 # Begin Source File
 
 SOURCE=.\src\common\StaticTransformation.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\core\StringTable.cxx
 # End Source File
 # Begin Source File
 
@@ -346,6 +351,10 @@ SOURCE=.\src\core\State.h
 # Begin Source File
 
 SOURCE=.\src\common\StaticTransformation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\core\StringTable.h
 # End Source File
 # Begin Source File
 

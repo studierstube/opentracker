@@ -61,12 +61,12 @@ ARToolKitModule::~ARToolKitModule()
 
 // constructs a new Node
 
-Node * ARToolKitModule::createNode( string& name, StringMap& attributes)
+Node * ARToolKitModule::createNode( string& name, StringTable& attributes)
 {
     if( name.compare("ARToolKitSource") == 0 )
     {
         double vertex[4][2];
-        int num = sscanf( attributes["vertex"].c_str(), " %lf %lf %lf %lf %lf %lf %lf %lf",
+        int num = sscanf( attributes.get("vertex").c_str(), " %lf %lf %lf %lf %lf %lf %lf %lf",
                 &vertex[0][0], &vertex[0][1],
                 &vertex[1][0], &vertex[1][1],
                 &vertex[2][0], &vertex[2][1],
@@ -77,14 +77,14 @@ Node * ARToolKitModule::createNode( string& name, StringMap& attributes)
             return NULL;
         }
         int id;
-        if((id = arLoadPatt((char *)attributes["tag-file"].c_str() )) < 0 )
+        if((id = arLoadPatt(attributes.get("tag-file").c_str() )) < 0 )
         {
-            cout << "Error reading tag-file " << attributes["tag-file"] << endl;
+            cout << "Error reading tag-file " << attributes.get("tag-file") << endl;
             return NULL;
         }
         ARToolKitSource * source = new ARToolKitSource( id, vertex );
         sources.push_back( source );
-        cout << "Build ARToolKitSource " << attributes["tag-file"] << endl;
+        cout << "Build ARToolKitSource " << attributes.get("tag-file") << endl;
         return source;
     }
     return NULL;
@@ -181,12 +181,12 @@ void ARToolKitModule::pushState()
 
 // initializes the ARToolKit module
 
-void ARToolKitModule::init(StringMap& attributes, Node * localTree)
+void ARToolKitModule::init(StringTable& attributes, Node * localTree)
 {
     ThreadModule::init( attributes, localTree );
     cameradata = attributes["camera-parameter"];
 
-    int num = sscanf(attributes["treshhold"].c_str(), " %i", &treshhold );
+    int num = sscanf(attributes.get("treshhold").c_str(), " %i", &treshhold );
     if( num == 0 )
     {
         treshhold = 100;

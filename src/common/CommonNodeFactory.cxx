@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.9 2001/04/04 08:30:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -146,10 +146,10 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
 // build a new EventQueue node
 
 EventQueueNode * CommonNodeFactory::buildEventQueue(
-                     StringMap& attributes)
+                     StringTable& attributes)
 {
     int num, length;
-    num = sscanf((*attributes.find("length")).second.c_str(), " %i", &length );
+    num = sscanf(attributes.get("length").c_str(), " %i", &length );
     if( num != 1 )
     {
         length = 1;
@@ -160,23 +160,23 @@ EventQueueNode * CommonNodeFactory::buildEventQueue(
 // constructs a new Node.
 
 Node * CommonNodeFactory::createNode(  string& name,
-                                      StringMap& attributes)
+                                      StringTable& attributes)
 {
     float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
     if( name.compare("EventPositionTransform") == 0 ||
         name.compare("QueuePositionTransform") == 0 ||
         name.compare("TimePositionTransform") == 0 )
     {        
-        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
         }
-        if( parseVector((*attributes.find("scale")).second, scale ) != 0 )
+        if( parseVector(attributes.get("scale"), scale ) != 0 )
         {
             cout << "Error parsing scale !" << endl;
         }
-        if( parseRotation((*attributes.find("rotation")).second, 
-                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        if( parseRotation(attributes.get("rotation"), 
+                           attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
@@ -187,8 +187,8 @@ Node * CommonNodeFactory::createNode(  string& name,
         name.compare("QueueOrientationTransform") == 0 ||
         name.compare("TimeOrientationTransform") == 0 )
     {        
-        if( parseRotation((*attributes.find("rotation")).second, 
-                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        if( parseRotation(attributes.get("rotation"), 
+                           attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
@@ -199,16 +199,16 @@ Node * CommonNodeFactory::createNode(  string& name,
         name.compare("QueueTransform") == 0 ||
         name.compare("TimeTransform") == 0 )
     {        
-        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
         }
-        if( parseVector((*attributes.find("scale")).second, scale ) != 0 )
+        if( parseVector(attributes.get("scale"), scale ) != 0 )
         {
             cout << "Error parsing scale !" << endl;
         }
-        if( parseRotation((*attributes.find("rotation")).second, 
-                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        if( parseRotation(attributes.get("rotation"), 
+                           attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
@@ -219,12 +219,12 @@ Node * CommonNodeFactory::createNode(  string& name,
              name.compare("QueueVirtualTransform") == 0 ||
              name.compare("TimeVirtualTransform") == 0 )
     {
-        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
         }  
-        if( parseRotation((*attributes.find("rotation")).second, 
-                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        if( parseRotation(attributes.get("rotation"), 
+                           attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
@@ -235,7 +235,7 @@ Node * CommonNodeFactory::createNode(  string& name,
         name.compare("QueueVirtualPositionTransform") == 0 ||
         name.compare("TimeVirtualPositionTransform") == 0 )
     {        
-        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
         }
@@ -246,8 +246,8 @@ Node * CommonNodeFactory::createNode(  string& name,
         name.compare("QueueVirtualOrientationTransform") == 0 ||
         name.compare("TimeVirtualOrientationTransform") == 0 )
     {        
-        if( parseRotation((*attributes.find("rotation")).second, 
-                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        if( parseRotation(attributes.get("rotation"), 
+                           attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }

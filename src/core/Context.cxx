@@ -26,14 +26,10 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.7 2001/04/04 08:30:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.8 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-// a trick to avoid warnings when ace includes the STL headers
-#include <vector>
-
-#include <ace/OS.h>
 #include "Context.h"
 
 #ifndef WIN32

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.9 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -68,7 +68,7 @@ const short MOVE_X_PLUS = 1,
            RESET = 30,
            QUIT = 31;
 
-StringVector ConsoleModule::functionMap;
+vector<string> ConsoleModule::functionMap;
           
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
@@ -174,18 +174,18 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 // This method is called to construct a new Node.
 
 Node * ConsoleModule::createNode( string& name,
-                               StringMap& attributes)
+                               StringTable& attributes)
 {
     if( name.compare("ConsoleSink") == 0 )
     {
-        ConsoleSink * sink = new ConsoleSink( attributes["comment"] );
+        ConsoleSink * sink = new ConsoleSink( attributes.get("comment"));
         sinks.push_back( sink );
         cout << "Built ConsoleSink node." << endl;       
         return sink;
     } else if( name.compare("ConsoleSource") == 0 )
     {
         int number;
-        if( sscanf( (*attributes.find("number")).second.c_str()," %i", &number ) == 1 )
+        if( sscanf( attributes.get("number").c_str()," %i", &number ) == 1 )
         {
             if( number >= 0 && number < 10 )
             {
@@ -551,13 +551,13 @@ void ConsoleModule::pullState()
 
 // initializes ConsoleModule
 
-void ConsoleModule::init(StringMap& attributes,  Node * localTree)
+void ConsoleModule::init(StringTable& attributes,  Node * localTree)
 {
-    int num = sscanf(attributes["interval"].c_str(), " %i", &interval );
+    int num = sscanf(attributes.get("interval").c_str(), " %i", &interval );
     if( num == 0 ){
         interval = 10;
     }
-    headerline = attributes["headerline"];
+    headerline = attributes.get("headerline");
     if( localTree != NULL )
     {
         ConfigNode * base = (ConfigNode *)localTree;
@@ -566,9 +566,9 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
             ConfigNode * config = (ConfigNode *)base->getChild( i );
             if( config->getName().compare("KeyDefinition") == 0 )
             {
-                string & function = config->getAttributes()["function"];
-                string & key = config->getAttributes()["key"];
-                StringVector::iterator funcIt = find( functionMap.begin(), functionMap.end(), function );                                
+                string function = config->getAttributes().get("function");
+                string key = config->getAttributes().get("key");
+                vector<string>::iterator funcIt = find( functionMap.begin(), functionMap.end(), function );                                
                 if( funcIt != functionMap.end() )
                 {
                     int index = funcIt - functionMap.begin();                    

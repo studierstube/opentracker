@@ -26,21 +26,19 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.8 2001/04/03 21:44:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.9 2001/04/08 19:31:10 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
 // a trick to avoid warnings when ace includes the STL headers
 #pragma warning(disable:4786)
-#include <vector>
+#include <string>
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 
 #include "NetworkSinkModule.h"
-
-#include <string.h>
 
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
@@ -70,11 +68,11 @@ struct MulticastGroup {
 
 // initializes ConsoleModule
 
-void NetworkSinkModule::init(StringMap& attributes,  Node * localTree)
+void NetworkSinkModule::init(StringTable& attributes,  Node * localTree)
 {
-    if( attributes.find("name") != attributes.end())
+    if( attributes.containsKey("name"))
     {
-        serverName = attributes["name"];
+        serverName = attributes.get("name");
     } else
     {
         serverName = "OpenTracker";
@@ -84,19 +82,19 @@ void NetworkSinkModule::init(StringMap& attributes,  Node * localTree)
 
 // This method is called to construct a new Node.
 
-Node * NetworkSinkModule::createNode( string& name,  StringMap& attributes)
+Node * NetworkSinkModule::createNode( string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSink") == 0 )
     {
-        string name = attributes["name"];
+        string name = attributes.get("name");
         int number, port;
-        int num = sscanf(attributes["number"].c_str(), " %i", &number );
+        int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
             cout << "Error in converting NetworkSink number !" << endl;
             return NULL;
         }
-        string group = attributes["multicast-address"];
-        num = sscanf(attributes["port"].c_str(), " %i", &port );
+        string group = attributes.get("multicast-address");
+        num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
             cout << "Error in converting NetworkSink port number !" << endl;
             return NULL;

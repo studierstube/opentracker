@@ -26,13 +26,12 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "InterTraxSource.h"
 #include "InterTraxModule.h"
-#include "../core/MathUtils.h"
 
 #ifdef USE_INTERTRAX
 
@@ -50,7 +49,7 @@ InterTraxModule::~InterTraxModule()
 }
 
 // This method is called to construct a new Node.
-Node * InterTraxModule::createNode( string& name, StringMap& attributes)
+Node * InterTraxModule::createNode( string& name, StringTable& attributes)
 {
     if( name.compare("InterTraxSource") == 0 )
     {       

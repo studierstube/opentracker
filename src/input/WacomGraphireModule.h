@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -68,10 +68,10 @@ public:
      * name to the WacomGraphireSource element name, and if it matches
      * creates a new WacomGraphireSource node.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringMap containing attribute values
+     * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes);
+    virtual Node * createNode( string& name,  StringTable& attributes);
 	/**
      * closes WacomGraphire static library */
     virtual void close();

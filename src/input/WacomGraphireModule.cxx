@@ -67,12 +67,12 @@ WacomGraphireModule::~WacomGraphireModule()
 }
 
 // This method is called to construct a new Node.
-Node * WacomGraphireModule::createNode( string& name, StringMap& attributes)
+Node * WacomGraphireModule::createNode( string& name, StringTable& attributes)
 {
     if( name.compare("WacomGraphireSource") == 0 )
     {       
         int device;
-        int num = sscanf(attributes.find("device")->second.c_str(), " %i", &device );
+        int num = sscanf(attributes.get("device").c_str(), " %i", &device );
         if (num == 0) device = 1;
         WacomGraphireSource * source = new WacomGraphireSource(device);
         nodes.push_back( source );

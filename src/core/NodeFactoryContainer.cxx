@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.cxx,v 1.2 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.cxx,v 1.3 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,14 +38,14 @@
 #include <algorithm>
 #endif
 
-/// Destructor method.
+// Destructor method.
 
 NodeFactoryContainer::~NodeFactoryContainer()
 {
     factories.clear();
 }
 
-/// adds a NodeFactory to the container.
+// adds a NodeFactory to the container.
 
 void NodeFactoryContainer::addFactory(NodeFactory& factory)
 {
@@ -56,10 +56,10 @@ void NodeFactoryContainer::addFactory(NodeFactory& factory)
     }
 }
 
-/// ructs a new Node.
+// constructs a new Node.
 
 Node * NodeFactoryContainer::createNode( string& name,
-                                         StringMap& attributes)
+                                         StringTable& attributes)
 {
     Node * value = NULL;
     NodeFactoryVector::iterator it = factories.begin();
@@ -71,7 +71,7 @@ Node * NodeFactoryContainer::createNode( string& name,
     return value;
 }
 
-/// removes a NodeFactory from the container.
+// removes a NodeFactory from the container.
 
 void NodeFactoryContainer::removeFactory(NodeFactory& factory)
 {

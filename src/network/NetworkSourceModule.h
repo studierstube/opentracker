@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.7 2001/04/04 08:30:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.8 2001/04/08 19:31:10 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -53,8 +53,6 @@ struct Station
     int modified;
     NetworkSource * source;
 };
-
-typedef std::vector<Station *> StationVector;
 
 struct MulticastReceiver;
 
@@ -105,10 +103,10 @@ public:
      * name to the NetworkSource element name, and if it matches
      * creates a new NetworkSource node.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringMap containing attribute values
+     * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes);        
+    virtual Node * createNode( string& name,  StringTable& attributes);        
     /**
      * opens the sockets needed for communication and
      * starts the receive thread. It is called after initialisation is done.*/

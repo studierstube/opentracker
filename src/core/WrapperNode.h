@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/WrapperNode.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/WrapperNode.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,8 +47,13 @@
 class OPENTRACKER_API WrapperNode : public Node
 {
 protected:
+    /// the name of the wrapper nodes element element
 	string tagname;
 
+    /** sets the DOM element that corresponds to this
+     * node. 
+     * @param parElement the DOM element parent
+     */
 	virtual void setParent( DOM_Element & parElement );
 // Methods
 public:
@@ -80,6 +85,9 @@ public:
 		updateObservers( event );
 	}
 
+    /** returns the elements name, the so called tag name
+     * @return reference to string
+     */     
 	string & getTagName()
 	{
 		return tagname;

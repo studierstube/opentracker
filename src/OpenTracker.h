@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.9 2001/04/04 08:30:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -70,35 +70,24 @@
 
 #include "dllinclude.h"
 
-#include <string>
-#include <vector>
-#include <map>
-#include <deque>
-
-using namespace std;
-
 #include "core/ThreadModule.h"
-#include "core/Node.h"
 #include "core/NodeFactory.h"
 #include "core/Context.h"
 #include "core/MathUtils.h"
-
-// Some types used throughout OpenTracker
-// some forward declarations to be able to declare containers
-class OPENTRACKER_API Node;
+#include "core/StringTable.h"
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
-typedef OPENTRACKER_API vector<Node *> NodeVector;
+typedef vector<Node *> NodeVector;
 
 /**
  * maps a string to another string. Mostly used to map element attributes
  * to values.
  */
-typedef OPENTRACKER_API map<string, string> StringMap;
+// typedef map<string, string> StringMap;
 
 /** initializes a context by instantiating the available modules and factories
  * and registering them with the given context. So for each passed context 
@@ -109,6 +98,6 @@ typedef OPENTRACKER_API map<string, string> StringMap;
  *
  * @param context reference of the context to be initialized.
  */
-void OPENTRACKER_API initializeContext( Context & context );
+OPENTRACKER_API void  initializeContext( Context & context );
 
 #endif

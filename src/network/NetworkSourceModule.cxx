@@ -27,13 +27,13 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.10 2001/04/04 08:30:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.11 2001/04/08 19:31:10 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
 // a trick to avoid warnings when ace includes the STL headers
 #pragma warning(disable:4786)
-#include <vector>
+#include <string>
 
 #include <ace/Thread_Manager.h>
 #include <ace/Synch.h>
@@ -42,13 +42,13 @@
  
 #include "NetworkSourceModule.h"
 
-#include <string.h>
-
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
 #include <iostream.h>
 #endif
+
+typedef std::vector<Station *> StationVector;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;
@@ -206,18 +206,18 @@ void NetworkSourceModule::run( void * data )
  
 //  constructs a new Node
 
-Node * NetworkSourceModule::createNode( string& name,  StringMap& attributes)
+Node * NetworkSourceModule::createNode( string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSource") == 0 )
     { 
         int number, port;
-        int num = sscanf(attributes["number"].c_str(), " %i", &number );
+        int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
             cout << "Error in converting NetworkSource number !" << endl;
             return NULL;
         }
-        string group = attributes["multicast-address"];
-        num = sscanf(attributes["port"].c_str(), " %i", &port );
+        string group = attributes.get("multicast-address");
+        num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
             cout << "Error in converting NetworkSource port number !" << endl;
             return NULL;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.3 2001/04/04 08:30:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.4 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,12 +45,16 @@
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
 
-static DOM_Element dummy;
+// static DOM_Element dummy;
+
+// constructor
 
 Node::Node()
 {
 	parent = new DOM_Element();	
 }
+
+// desctructor
 
 Node::~Node()
 {
@@ -59,16 +63,22 @@ Node::~Node()
 	delete parent;
 }
 
+// sets the DOM_Element this node belongs to ( not the parent in OT )
+
 void Node::setParent( DOM_Element & parElement )
 {
 	*parent = parElement;
 	parent->setUserData( this );
 }
 
+// adds a reference to the node
+
 void Node::addReference( Node * reference )
 {
 	references.push_back( reference );
 }
+
+// removes a reference from the node
 
 void Node::removeReference( Node * reference )
 {
@@ -80,11 +90,15 @@ void Node::removeReference( Node * reference )
 	}
 }
 
+// returns the number of children
+
 unsigned int Node::countChildren()
 {
 	DOM_NodeList list = parent->getChildNodes();
 	return list.getLength();
 }
+
+// iterates through the children by returning the child by index
 
 Node * Node::getChild( unsigned int index )
 {
@@ -95,6 +109,8 @@ Node * Node::getChild( unsigned int index )
 	}
 	return NULL;
 }
+
+// returns number of wrapped children by name
 
 unsigned int Node::countWrappedChildren( string & name )
 {
@@ -110,6 +126,8 @@ unsigned int Node::countWrappedChildren( string & name )
 	}
 	return 0;
 }
+
+// iterates through the children by returning the child by index and name
 
 Node * Node::getWrappedChild( string & name, unsigned int index )
 {
@@ -129,6 +147,8 @@ Node * Node::getWrappedChild( string & name, unsigned int index )
 	}
 	return NULL;
 }
+
+// updates any observers ( the parent and the references ) 
 
 void Node::updateObservers( State &data )
 {

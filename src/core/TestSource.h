@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.4 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -74,8 +74,8 @@ public:
      * @param offset_ initial value for member offset */
     TestSource( int frequency_, int offset_ ) : 
         Node(),
-	frequency( frequency_ ),
-	offset( offset_ )
+	    frequency( frequency_ ),
+	    offset( offset_ )
     {}
         
     /** tests for EventGenerator interface being present. Is overriden to

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.6 2001/04/03 21:44:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.7 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,12 +35,7 @@
 
 #include "../dllinclude.h"
 
-// #include <ace/Thread.h>
-// #include <ace/Synch.h>
-
 class ACE_Thread_Mutex;
-
-//typedef ACE_thread_t;
 
 #include "Module.h"
 
@@ -92,6 +87,8 @@ protected:
 public:
 	/** constructor */
 	ThreadModule();
+    /** destructor */
+    ~ThreadModule();
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. In this implementation it starts the thread. Be

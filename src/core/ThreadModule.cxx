@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.3 2001/04/03 21:44:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.4 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 // a trick to avoid warnings when ace includes the STL headers
 #pragma warning(disable:4786)
-#include <vector>
+#include <string>
 
 #include <ace/Thread.h>
 #include <ace/Synch.h>
@@ -60,6 +60,13 @@ ThreadModule::ThreadModule()
 	mutex = new ACE_Thread_Mutex;
 }
 
+// destructor clears everything 
+
+ThreadModule::~ThreadModule()
+{
+    delete mutex;
+}
+
 // starts the thread
 
 void ThreadModule::start()
@@ -75,5 +82,6 @@ void ThreadModule::start()
 
 void ThreadModule::close()
 {
-	ACE_Thread::cancel( *(ACE_thread_t *)thread );    
+	ACE_Thread::cancel( *(ACE_thread_t *)thread );
+    delete ((ACE_thread_t *)thread);
 }

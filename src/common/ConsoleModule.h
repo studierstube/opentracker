@@ -27,7 +27,7 @@
   * @author Gerhard Reitmayr
   * @todo a lot of documentation needed !
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.6 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.7 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,8 +52,6 @@
 #define _CONSOLEMODULE_H
 
 #include "../OpenTracker.h"
-
-typedef vector<string> StringVector;
 
 /**
  * The module and factory to drive the console output sink nodes. 
@@ -85,7 +83,7 @@ protected:
     int quit;
 
     /// maps the function names in the config file to indices
-    static StringVector functionMap;
+    static vector<string> functionMap;
     /// maps key chars to indices
     vector<char> keyMap;
 
@@ -126,19 +124,19 @@ public:
     virtual ~ConsoleModule();
     /**
      * initializes the tracker module. 
-     * @param attributes StringMap of elements attribute values. Should be
+     * @param attributes StringTable of elements attribute values. Should be
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
-    virtual void init(StringMap& attributes,  Node * localTree);
+    virtual void init(StringTable& attributes,  Node * localTree);
     /** This method is called to ruct a new Node. It compares
      * name to the ConsoleSink element name, and if it matches
      * creates a new ConsoleSink node.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringMap containing attribute values
+     * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringMap& attributes);
+    virtual Node * createNode( string& name,  StringTable& attributes);
     /**
      * checks the console for keyboard input and updates any
      * ConsoleSource nodes accordingly. This happens every cycle 

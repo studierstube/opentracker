@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,8 +73,12 @@ public:
     /**
      * implements abstract method from NodeFactory. it loops through the known
      * NodeFactories and calls createNode on them until it receives a non NULL
-     * result. It then returns this node. */
-    virtual Node * createNode( string& name,  StringMap& attributes);
+     * result. It then returns this node.
+     * @param name reference to string containing element name
+     * @param attributes refenrence to StringTable containing attribute values
+     * @return pointer to new Node or NULL. The new Node must be
+     *         allocated with new ! */
+    virtual Node * createNode( string& name,  StringTable& attributes);
 };
 
 #endif

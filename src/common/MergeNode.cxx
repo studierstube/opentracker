@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,6 +42,8 @@ unsigned DEFAULT = 1,
          BUTTON = 8,
          CONFIDENCE = 16, 
          TIME = 32;
+
+// generates a new data item upon receiving an event
 
 void MergeNode::onEventGenerated( State& event, Node & generator)
 {

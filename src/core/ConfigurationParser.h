@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,30 +35,22 @@
 
 #include "../dllinclude.h"
 
-#include <string>
-#include <map>
-
 #include "Node.h"
 #include "Module.h"
 #include "NodeFactory.h"
 #include "WrapperNode.h"
 #include "ConfigNode.h"
 #include "RefNode.h"
+#include "StringTable.h"
 
 class DOM_Element;
 class DOM_Document;
 
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-typedef std::map<string, string> StringMap;
-
 /** Used to map a XML element to a Module. */
-typedef std::map<string, Module *> ModuleMap;
+typedef map<string, Module *> ModuleMap;
 
 /// used to map a string to a node
-typedef std::map<string, Node *> NodeMap;
+typedef map<string, Node *> NodeMap;
 
 /**
  * parses the XML configuration file. This class reads the configuration file
@@ -100,11 +92,11 @@ protected:
      */
     Node * buildTree( DOM_Element& element);
    /**
-     * parses an Elements attributes and returns a StringMap describing them.
+     * parses an Elements attributes and returns a StringTable describing them.
      * @param element reference to the element
      * @return a StringMap mapping attribute names to attribute values
      */
-    StringMap & parseElement( DOM_Element& element);
+    StringTable & parseElement( DOM_Element& element);
 
 public:
     /**

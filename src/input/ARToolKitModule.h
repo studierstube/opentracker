@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.8 2001/04/04 08:30:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.9 2001/04/08 19:31:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -97,7 +97,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name, StringMap& attributes);
+    virtual Node * createNode( string& name, StringTable& attributes);
 
     /**
      * This method is called after initialisation is finished and before the
@@ -119,7 +119,7 @@ public:
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
-    virtual void init(StringMap& attributes, Node * localTree);
+    virtual void init(StringTable& attributes, Node * localTree);
 
 };
 
