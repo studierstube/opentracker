@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.2 2001/06/13 16:42:27 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,6 +63,8 @@ double OSUtils::currentTime()
 #endif
 }
 
+#include <iostream.h>
+
 //sleeps the specified amount of time ...
 void OSUtils::sleep( double time )
 {
@@ -71,6 +73,14 @@ void OSUtils::sleep( double time )
 #else
 #ifdef _SGI_SOURCE
     sginap((long)( time * CLK_TCK / 1000.0 ));
+#else // LINUX Code
+    // This is a workaround for a bug in the kernel, that always adds
+    // a tick to the specified amount of sleep time.
+    if( time >= 10 )
+    	time -= 10;
+    else 
+    	return;
+    usleep((unsigned long)(time*1000));
 #endif
 #endif
 }
