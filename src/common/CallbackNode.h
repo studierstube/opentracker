@@ -53,7 +53,9 @@
 
 namespace ot {
 
-typedef void CallbackFunction(const Node &, const State &, void *);
+class CallbackNode;
+
+typedef void CallbackFunction(const CallbackNode &, const State &, void *);
 
 /**
  * This class implements a simple node that stores a function pointer
@@ -66,7 +68,10 @@ class OPENTRACKER_API CallbackNode : public Node
 {
 // Members
 public:
-    /// name
+    /** name of the CallbackNode for retrieving it from the module. 
+     * Note that this is not the name returned by getName(), rather the value
+     * set by the attribute name. 
+     */
     std::string name;
     /// callback function
     CallbackFunction * function;
@@ -94,7 +99,7 @@ public:
     }
     
     /**
-     * this method notifies the object that a new event was generated.
+     * This method notifies the object that a new event was generated.
      * It stores a copy of the received event and passes the event on
      * to its observers.
      * @param event reference to the new event. Do not change the
@@ -110,6 +115,17 @@ public:
         }
         updateObservers( event );
     }
+
+    /** 
+     * This method returns the value set by the name attribute of the CallbackNode.
+     * This is a different value then the one returned by getName() which is the
+     * value set by the attribute DEF.
+     * @return reference to the name string.
+     */
+    const std::string & getCallbackName(void)
+    {
+        return CallbackNode::name;
+    };
 
     friend class CallbackModule;
 };
