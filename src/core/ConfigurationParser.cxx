@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.12 2001/06/13 17:09:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.13 2001/06/13 19:58:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -197,7 +197,8 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     // parse configuration elements subelements
     DOM_Element config = (const DOM_Element &)list.item(0);
     DOM_NodeList configlist = (DOM_NodeList)config.getChildNodes();
-    for( int i = 0; i < configlist.getLength(); i ++ )
+    int i;
+    for( i = 0; i < configlist.getLength(); i ++ )
     {
         if( configlist.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
@@ -232,7 +233,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();
 	Node * node = new Node();
 	node->setParent( root );
-    for(int i = 0; i < rootlist.getLength(); i++ )
+    for( i = 0; i < rootlist.getLength(); i++ )
     {
         if( rootlist.item(i).getNodeType() != DOM_Node::ELEMENT_NODE )   // not an element node !
         {

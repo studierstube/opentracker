@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.18 2001/06/13 17:09:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.19 2001/06/13 19:58:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -531,7 +531,7 @@ void ConsoleModule::pullState()
     cycle = (cycle+1) % interval;
     if( cycle == 0 ){
         int display = 0;
-	NodeVector::iterator it;
+        NodeVector::iterator it;
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {  
             display |= ((ConsoleSink *)(*it))->changed;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.3 2001/06/13 16:43:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.4 2001/06/13 19:58:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,12 +35,12 @@
  * @section timemodule TimeModule
  * The TimeModule controls the timing of the OpenTracker main loop. It does 
  * not provide any functionality related to nodes and events. There are two
- * operating modes. In @i Sleep mode the TimeModule sleeps after each turn
- * of the main loop a specified amount of time. In @i Framerate mode it tries
+ * operating modes. In @e Sleep mode the TimeModule sleeps after each turn
+ * of the main loop a specified amount of time. In @e Framerate mode it tries
  * to achieve a certain framerate of loops per second. Both modes are limited
  * by the underlying implementation of OSUtils. That means that sleeps shorter
  * then 1/100 of a second are not possible, which obvious implications for the
- * @i Sleep mode. The @i Framerate mode works by inserting short sleeps after
+ * @e Sleep mode. The @e Framerate mode works by inserting short sleeps after
  * a number of loops to achieve the desired overall framerate ! 
  *
  * The configuration element is called @c TimeConfig and has the following attributes :
@@ -48,7 +48,7 @@
  * @li @c sleep number of milliseconds to sleep each loop
  * @li @c display false either true or false, displays the framerate at the end.
  * If both @c rate and @c sleep are specified the @c rate attribute takes precedence and the 
- * @i Framerate mode is used. If no configuration element is present, the module
+ * @e Framerate mode is used. If no configuration element is present, the module
  * is not activated and the main loop runs at full speed.
  *
  * An example configuration element looks like this :
@@ -72,9 +72,11 @@ class OPENTRACKER_API TimeModule : public Module
 {
 // Members
 protected:
-    // number of milliseconds to sleep in @i Sleep mode
-   int sleep, display;
-   // start time to calculate the frame rate in @i Framerate mode
+    // number of milliseconds to sleep in @e Sleep mode
+   int sleep, 
+    // flag for displaying of frame rate
+       display;
+   // start time to calculate the frame rate in @e Framerate mode
    double startTime, 
    // the desired frame rate in frames / millisecond for computational purposes
        rate, 
