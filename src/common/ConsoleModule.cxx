@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.20 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.21 2001/12/06 11:53:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -111,6 +111,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
     station = 0;
     quit = 0;
     interval = 10;
+    display = 1;
 
     // initialize function map and keycode map,
     // if no one has done it yet 
@@ -247,14 +248,17 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("ConsoleSink") == 0 )
     {
-        ConsoleSink * sink = new ConsoleSink( attributes.get("comment"));
+        int val = 1;        
+        if( attributes.get("active").compare("off") == 0)
+            val = 0;
+        ConsoleSink * sink = new ConsoleSink( attributes.get("comment"), val );
         sinks.push_back( sink );
         cout << "Built ConsoleSink node." << endl;       
         return sink;
     } else if( name.compare("ConsoleSource") == 0 )
     {
         int number;
-        if( sscanf( attributes.get("number").c_str()," %i", &number ) == 1 )
+        if( sscanf( attributes.get("number").c_str()," %i", &number ) != 1 )
         {
             if( number >= 0 && number < 10 )
             {
@@ -529,18 +533,19 @@ void ConsoleModule::reset( int station )
 
 void ConsoleModule::pullState()
 {
-    if( sinks.size() <= 0 || isInitialized() == 0 )
+    if( sinks.size() <= 0 || isInitialized() == 0 || display == 0 )
     {
         return;
     }
     cycle = (cycle+1) % interval;
     if( cycle == 0 ){
-        int display = 0;
+        int display = 0, count = 0;
         NodeVector::iterator it;
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {  
             display |= ((ConsoleSink *)(*it))->changed;
             ((ConsoleSink *)(*it))->changed = 0;
+            count += ((ConsoleSink *)(*it))->active;
         }
         if( !display )
             return;
@@ -559,7 +564,7 @@ void ConsoleModule::pullState()
             cout << "Could not get console size !" << endl;
             return;
         }
-        int lines = sinks.size() * 6 + 2;
+        int lines = count * 6 + 2;
         COORD origin;
         origin.X = 0;
         origin.Y = 0;
@@ -585,6 +590,8 @@ void ConsoleModule::pullState()
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {
             ConsoleSink * sink = (ConsoleSink *) *it;
+            if( sink->active == 0 )
+                continue;
             State & state = sink->state;
 #ifdef WIN32            
             cout.fill(' ');
@@ -617,12 +624,13 @@ void ConsoleModule::pullState()
 // initializes ConsoleModule
 
 void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
-{
-    int num = sscanf(attributes.get("interval").c_str(), " %i", &interval );
-    if( num == 0 ){
+{    
+    if( attributes.get("interval", &interval ) == 0 ){
         interval = 10;
     }
-    headerline = attributes.get("headerline");
+    headerline = attributes.get("headerline");    
+    if( attributes.get("display").compare( "off" ) == 0 )
+        display = 0;
     if( localTree != NULL )
     {
         ConfigNode * base = localTree;

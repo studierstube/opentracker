@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.15 2001/12/06 11:53:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,8 @@
  * The configuration element is called @c ConsoleConfig and has the following attributes :
  * @li @c interval 10 number of cycles to wait between displaying data.
  * @li @c headerline "" a single line used as headerline in the display.
+ * @li @c display on (on|off) either on or off, flag defining whether data 
+ *        should be displayed at all.
  *
  * Moreover the keys for simulating tracking events can be configured freely.
  * The module supports 10 stations, numbered from 0 to 9. The input allows
@@ -136,8 +138,8 @@ Quit            q               signals to quit OpenTracker
 #define _CONSOLEMODULE_H
 
 #include "../OpenTracker.h"
-#include "ConsoleSource.h"
-#include "ConsoleSink.h"
+// #include "ConsoleSource.h"
+// #include "ConsoleSink.h"
 
 /**
  * The module and factory to drive the console output sink nodes. 
@@ -168,6 +170,8 @@ protected:
     int station;
     /// should the module quit ?
     int quit;
+    /// is the console module displaying values ?
+    int display;
 
     /// maps key chars to indices
     std::vector<int> keyMap;

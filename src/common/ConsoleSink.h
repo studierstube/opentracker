@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.9 2001/12/06 11:53:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,6 +38,8 @@
  * intervalls by the @ref consolemodule and its state is printed out to the console.
  * It has the following attributes :
  * @li @c comment a line of text describing the output
+ * @li @c active on (on|off) flag defining whether this sink should store and output
+ *        data.
  *
  * An example element looks like this :
  * @verbatim
@@ -69,15 +71,18 @@ public:
     State state;
     /// flag whether state was changed since last display
     int changed;
+    /// flag whether it is displayed or not
+    int active;
 
 // Methods
 protected:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
-    ConsoleSink( const std::string & comment_ ) :
+    ConsoleSink( const std::string & comment_, int active_ = 0 ) :
         Node(), 
         comment( comment_ ),
-        changed( 0 )
+        changed( 0 ),
+        active( active_ )
     {}
 
 public:
@@ -102,9 +107,12 @@ public:
      */
     virtual void onEventGenerated( State& event, Node& generator)
     {
-        state = event;
-        changed = 1;
-        updateObservers( state );
+        if( active )
+        {
+            state = event;
+            changed = 1;
+        }
+        updateObservers( event );
     }
 
     friend class ConsoleModule;
