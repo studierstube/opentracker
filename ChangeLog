@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-04-03 15:11  reitmayr
+
+	* config_win.h:
+	
+	fixed config file
+
 2004-03-19 10:29  reitmayr
 
 	* doc/changes.txt, VERSION.TXT:
