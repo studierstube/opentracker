@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.8 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.9 2003/07/15 16:23:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,11 +62,10 @@ int main(int argc, char **argv)
     // added allready.
     Context context( 1 );
     // initializeContext( context );
-    CallbackModule  * cbModule = new CallbackModule;
-    context.addFactory( *cbModule );
-    context.addModule( "CallbackConfig", *cbModule );
     
     cout << "Context established." << endl;
+
+    CallbackModule * cbModule = (CallbackModule *)context.getModule("CallbackConfig");
 
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );

@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.30 2003/06/30 12:31:24 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.31 2003/07/15 16:23:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,6 +62,7 @@
 #include "../input/GPSModule.h"
 #include "../input/DynaSightModule.h"
 #include "../input/MagicYModule.h"
+#include "../common/CallbackModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -187,35 +188,39 @@ void OPENTRACKER_API initializeContext( Context & context )
     UltraTrakModule * ultra = new UltraTrakModule;
     context.addFactory( * ultra );
     context.addModule( "UltraTrakConfig", *ultra );
-
-	GroupGateModule * groupgate = new GroupGateModule();
+    
+    GroupGateModule * groupgate = new GroupGateModule();
     context.addFactory( * groupgate );
     context.addModule( "GroupGateConfig", *groupgate ); 
-
+    
     SpeechModule *speechmodule = new SpeechModule;
     context.addFactory( *speechmodule );
     context.addModule( "SpeechRecoConfig", *speechmodule );
-
+    
     InterpolatorModule * ipol = new InterpolatorModule;
     context.addFactory( *ipol );
     // actually it doesn't have a configuration element
     context.addModule( "InterpolatorConfig", *ipol );
-
+    
 #ifdef USE_P5GLOVE
     P5GloveModule *p5glovemodule = new P5GloveModule;
     context.addFactory( *p5glovemodule );
     context.addModule( "P5GloveConfig", *p5glovemodule );
 #endif
-
-	GPSModule * gps = new GPSModule;
-	context.addFactory( * gps );
-	context.addModule( "GPSConfig", * gps );
-
+    
+    GPSModule * gps = new GPSModule;
+    context.addFactory( * gps );
+    context.addModule( "GPSConfig", * gps );
+    
     DynaSightModule * dynasight = new DynaSightModule;
     context.addFactory( * dynasight );
     context.addModule( "DynaSightConfig", *dynasight );
-
-	MagicYModule * magicY = new MagicYModule;
+    
+    MagicYModule * magicY = new MagicYModule;
     context.addFactory( * magicY );
     context.addModule( "MagicYConfig", *magicY );
+    
+    CallbackModule  * cbModule = new CallbackModule;
+    context.addFactory( *cbModule );
+    context.addModule( "CallbackConfig", *cbModule );    
 }
