@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.16 2002/09/26 13:56:26 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.17 2002/11/27 15:06:29 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -35,6 +35,7 @@
 #pragma warning(disable:4786)
 #endif
 #include <string>
+#include <algorithm>
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
@@ -58,16 +59,40 @@ const int positionMatrix=3;
 const int magicNum=0xbeef;
 const int revNum=0x0200;
 
-/** a simple struct to relate the address of a multicast group and a 
- * network data buffer that is used to build the packets send to the
- * group. All NetworkSink nodes point to one of these. 
+/** a simple struct to relate the address of a multicast group, a 
+ * network data buffer and a socket that is used to build the packets send to the
+ * group, depending on the network interface to use. 
+ * All NetworkSink nodes point to one of these. 
+ *
+ * @todo actually we could have one socket per interface and then differentiate
+ * between groups sending to one interface or to all or to a subset of them :)
  */
 struct MulticastGroup {
     FlexibleTrackerDataRecord data;   
     char * nextRecord;
     string group;
     int port;
+	string nic;
     ACE_INET_Addr address;
+	ACE_SOCK_Dgram socket;
+};
+
+/** simple functor to find the right multicast group. */
+struct FindGroup {
+	string group;
+	int port;
+	string nic;
+
+	FindGroup( string & group_, int & port_, string & nic_ ) :
+		group( group_ ), port( port_), nic( nic_ )
+	{};
+
+	bool operator()( MulticastGroup * other )
+	{
+		return (    group.compare( other->group ) == 0 
+			     && port == other->port 
+				 && nic.compare( other->nic ) == 0 );
+	};
 };
 
 // initializes ConsoleModule
@@ -103,20 +128,24 @@ Node * NetworkSinkModule::createNode( const string& name,  StringTable& attribut
             cout << "Error in converting NetworkSink port number !" << endl;
             return NULL;
         }
-        GroupVector::iterator it = groups.begin();
+		string nic = attributes.get("interface");
+
+        GroupVector::iterator it = find_if( groups.begin(), groups.end(), FindGroup( group, port, nic ));
+		/*
         for( ; it != groups.end(); it++)
         {
-            if((*it)->group.compare( group ) == 0 && (*it)->port == port )
+            if((*it)->group.compare( group ) == 0 && (*it)->port == port && (*it)->group.compare( )
                 break;
-        }
+        }*/
         MulticastGroup * groupData;
         if( groups.end() == it )
         {
             groupData = new MulticastGroup;
             groupData->group = group;
             groupData->port = port;
-            groupData->address.set( port, group.c_str() );                        
-            
+			groupData->nic = nic;
+            groupData->address.set( port, group.c_str() );
+		    
             // initialize Network data buffer
             groupData->data.headerId=htons(magicNum);
             groupData->data.revNum=htons(revNum);              
@@ -147,18 +176,19 @@ Node * NetworkSinkModule::createNode( const string& name,  StringTable& attribut
 
 void NetworkSinkModule::start()
 {
-    socket = new ACE_SOCK_Dgram;
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket->open( ACE_INET_Addr((u_short)0)) == -1 )
-        {
-            cout << "Error opening socket in NetworkSinkModule !" << endl;
-            exit(1);
-        }
         // sets maxStationNum to network byte order
         for( GroupVector::iterator it = groups.begin() ; it != groups.end(); it++ )
         {
+			if( (*it)->socket.open( ACE_INET_Addr((u_short)0)) == -1 )
+			{
+				cout << "Error opening socket in NetworkSinkModule !" << endl;
+				exit(1);
+			}
+			
+			(*it)->socket.set_nic((*it)->nic.c_str());
             (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);                
         }
     }
@@ -169,11 +199,15 @@ void NetworkSinkModule::start()
 
 void NetworkSinkModule::close()
 {
-    if( socket->close() == -1 )
-    {
-        cout << "Error closing socket !" << endl;
-    }
-	delete socket;
+	// sets maxStationNum to network byte order
+	for( GroupVector::iterator it = groups.begin() ; it != groups.end(); it++ )
+	{
+		if( (*it)->socket.close() == -1 )
+		{
+			cout << "Error closing socket in NetworkSinkModule !" << endl;
+		}
+		delete (*it);		
+	}
 }
  
 // checks the NetworkSink nodes and sends any new data to the network
@@ -250,7 +284,7 @@ void NetworkSinkModule::pullState()
         {
             (*gr_it)->data.numOfStations = htons( (*gr_it)->data.numOfStations );
             int size = (*gr_it)->nextRecord - (char*)&(*gr_it)->data;
-            if( socket->send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
+            if( (*gr_it)->socket.send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
             {
                 cout << "NetworkSinkModule : Error sending packet for " << 
                         (*gr_it)->group << endl;

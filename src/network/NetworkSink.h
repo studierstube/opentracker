@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.8 2002/01/24 17:31:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.9 2002/11/27 15:06:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,10 +42,11 @@
  * @li @c number the stations number, between 0 and any positive number
  * @li @c multicast-address the multicast group to send to
  * @li @c port port to send to
+ * @li @c interface ip address of the interface to work on 
  *  
  * An example element looks like this :
  * @verbatim
-<NetworkSink name="station name" number="1" multicast-address="224.0.0.10" port="12345">
+<NetworkSink name="station name" number="1" multicast-address="224.0.0.10" port="12345" interface="192.168.2.100">
     <Any EventGenerator element type>
 </NetworkSink>@endverbatim
  */

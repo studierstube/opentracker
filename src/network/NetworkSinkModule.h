@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.10 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.11 2002/11/27 15:06:29 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -52,8 +52,6 @@
 #include "Network.h"
 #include "NetworkSink.h"
 
-class ACE_SOCK_Dgram;
-
 /** a list of MulticastGroup records */
 typedef std::vector<MulticastGroup *> GroupVector;
 
@@ -78,9 +76,7 @@ protected:
     GroupVector groups;
     /// server name
     std::string serverName;
-    /// Datagram socket to use for sending data
-    ACE_SOCK_Dgram * socket;
-
+    
 //methods
 protected:    
     /** converts floats to network byte order.
