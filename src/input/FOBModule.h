@@ -24,9 +24,9 @@
   * ======================================================================== */
 /** header file for FOBModule module.
   *
-  * @author Gerhard Reitmayr
+  * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.8 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.9 2002/01/29 11:30:51 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

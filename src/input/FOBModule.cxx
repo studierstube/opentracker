@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.9 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.10 2002/01/29 11:30:51 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -50,7 +50,7 @@ using namespace std;
 /** This class is a datatype helper class for the FOBModule class. It stores 
  * the relevant data for a single bird station and provides buffer storage and
  * conversion routines.
- * @author Gerhard Reitmayr */
+ * @author Thomas Peterseil */
 class Bird {
 public:
 
@@ -757,12 +757,12 @@ void FOBModule::setXYZFrame()
 const float Bird::inchesToMeters = 0.0254f;
 
 // convert Bird data in buffer to OpenTracker State format
-void Bird::convert()
+inline void Bird::convert()
 {
     convert( buffer );
 }
 
-void Bird::convert( const char * data )
+inline void Bird::convert( const char * data )
 {
     int d,i;
     state.timeStamp();
@@ -785,7 +785,7 @@ void Bird::convert( const char * data )
     }
 }
 
-int Bird::parse( const char * data, int len, int framesize )
+inline int Bird::parse( const char * data, int len, int framesize )
 {
     int i = 0;
     if( count == 0 )  // we are still looking for the phasing bit
@@ -810,7 +810,7 @@ int Bird::parse( const char * data, int len, int framesize )
     return i+amount;
 }
 
-int Bird::open()
+inline int Bird::open()
 {
     SerialParams params;
     initSerialParams( &params );
@@ -825,22 +825,22 @@ int Bird::open()
     return openSerialPort( &port, &params );
 }
 
-int Bird::write( const char * data, int count )
+inline int Bird::write( const char * data, int count )
 {
     return writetoSerialPort( &port,(char *) data, count );
 }
 
-int Bird::read( char * data, int count )
+inline int Bird::read( char * data, int count )
 {
     return readfromSerialPort( &port, data, count );
 }
 
-int Bird::close()
+inline int Bird::close()
 {
     return closeSerialPort(&port);
 }
 
-int Bird::reset()
+inline int Bird::reset()
 {
     setRTSSerialPort( &port, 1);
     OSUtils::sleep(100);
@@ -848,7 +848,7 @@ int Bird::reset()
     OSUtils::sleep(100);
 }
 
-int Bird::setGroupMode( bool value )
+inline int Bird::setGroupMode( bool value )
 {
     char buffer[3];
     buffer[0] = 'P';
@@ -859,7 +859,7 @@ int Bird::setGroupMode( bool value )
     return getErrorCode();
 }
 
-int Bird::getErrorCode()
+inline int Bird::getErrorCode()
 {
     buffer[0] = 0x4f;
     buffer[1] = 10;
@@ -877,7 +877,7 @@ int Bird::getErrorCode()
     return buffer[0];
 }
 
-int Bird::autoConfig( const int number )
+inline int Bird::autoConfig( const int number )
 {
     char buffer[3];
     buffer[0] = 'P';
@@ -888,14 +888,14 @@ int Bird::autoConfig( const int number )
     return getErrorCode();
 }
 
-void Bird::sleep()
+inline void Bird::sleep()
 {
     char buffer[4] = "GGG";
     write( buffer, 3 );
     OSUtils::sleep(300);    
 }
 
-void Bird::setReportMode( const int toBird )
+inline void Bird::setReportMode( const int toBird )
 {
     char buffer[2];
     if( toBird == -1 || toBird == number )
@@ -911,7 +911,7 @@ void Bird::setReportMode( const int toBird )
     }
 }
 
-void Bird::setScale( const int scale, const int toBird )
+inline void Bird::setScale( const int scale, const int toBird )
 {
     char buffer[5];
     if( toBird == -1 || toBird == number )
@@ -933,7 +933,7 @@ void Bird::setScale( const int scale, const int toBird )
     }
 }
 
-void Bird::setXYZFrame( const bool useFrame, const int toBird )
+inline void Bird::setXYZFrame( const bool useFrame, const int toBird )
 {
     char buffer[4];
     if( toBird == -1 || toBird == number )
@@ -953,7 +953,7 @@ void Bird::setXYZFrame( const bool useFrame, const int toBird )
     }
 }
 
-void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird )
+inline void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird )
 {
     char buffer[4];
     if( hemisphere != FOBModule::FORWARD )
@@ -994,7 +994,7 @@ void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBi
     }
 }
 
-void Bird::setAngleAlign( const float * angles, const int toBird )
+inline void Bird::setAngleAlign( const float * angles, const int toBird )
 {
     char buffer[8];
     buffer[1] = 0x71;
@@ -1012,7 +1012,7 @@ void Bird::setAngleAlign( const float * angles, const int toBird )
     }
 }
 
-void Bird::setReferenceFrame( const float * angles, const int toBird )
+inline void Bird::setReferenceFrame( const float * angles, const int toBird )
 {
     char buffer[8];
     buffer[1] = 0x72;
@@ -1030,7 +1030,7 @@ void Bird::setReferenceFrame( const float * angles, const int toBird )
     }
 }
 
-int Bird::sendReset()
+inline int Bird::sendReset()
 {
     char buffer[1] = { 0x2F };
     write( buffer, 1 );

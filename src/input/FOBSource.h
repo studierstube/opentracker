@@ -24,9 +24,9 @@
   * ======================================================================== */
 /** header file for FOBSource Node.
   *
-  * @author Gerhard Reitmayr
+  * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.3 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.4 2002/01/29 11:30:51 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,9 @@
  * @page Nodes Node Reference
  * @section fobsource FOBSource 
  *
+ * This is a source node for the Flock of Birds magnetic tracking system. It
+ * is instantiated and managed by the @ref fobmodule. The number given in the
+ * attribute @c number specifies the bird to use. 
  * An example element looks like this :
  * @verbatim
 <FOBSource number="1"/>@endverbatim
@@ -47,7 +50,7 @@
 /**
  * This class implements a simple EventGenerator. It is updated by the
  * FOBModule.
- * @author Gerhard Reitmayr
+ * @author Thomas Peterseil
  * @ingroup input
  */
 class OPENTRACKER_API FOBSource : public Node
