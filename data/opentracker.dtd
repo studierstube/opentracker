@@ -151,8 +151,17 @@ Time prefix defines that the node implements an TimeDependend interface -->
 <!-- dynamic transformations and associated wrapper tag -->
 <!ELEMENT TransformBase (%EventNodes;)>
 <!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicTransform
+	DEF ID #IMPLIED
+>
 <!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicTransform
+	DEF ID #IMPLIED
+>
 <!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicTransform
+	DEF ID #IMPLIED
+>
 <!-- EventQueue stores a queue of size length of the last received events.
 It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT EventQueue (%EventNodes;)>

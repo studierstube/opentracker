@@ -3,6 +3,7 @@
 	<Folder FolderName="XML Files" ExtStr="xml;cml;math;mtx;rdf;smil;svg;wml">
 		<File FilePath=".\debug.xml" HomeFolder="Yes"/>
 		<File FilePath=".\magnetic.xml" HomeFolder="Yes"/>
+		<File FilePath=".\mobile.xml" HomeFolder="Yes"/>
 		<File FilePath=".\test.xml" HomeFolder="Yes"/>
 		<File FilePath=".\workstation.xml" HomeFolder="Yes"/>
 	</Folder>

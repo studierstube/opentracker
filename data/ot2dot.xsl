@@ -15,9 +15,12 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="*">
 		<xsl:param name="parent"/>
 		<xsl:number count="*" format="a" level="any"/>
-		<xsl:apply-templates select="." mode="node"/>; 
-		<xsl:if test="not(name(..)='OpenTracker')">
+		<xsl:apply-templates select="." mode="node"/>; 		
+		<xsl:if test="not(name(..) = 'OpenTracker')">
 			<xsl:number count="*" format="a" level="any"/> -> <xsl:copy-of select="$parent"/>; 
+		</xsl:if>
+		<xsl:if test="name(.) = 'Ref'">
+			<xsl:template match="//*[@DEF=@USE]"><xsl:number count="*" format="a" level="any"/></xsl:template> -> <xsl:number count="*" format="a" level="any"/>;
 		</xsl:if>
 		<xsl:apply-templates select="." mode="navigate"/>
 	</xsl:template>
@@ -29,16 +32,18 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="TestSource" name="TestSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="ConsoleSource" name="ConsoleSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="InterTraxSource" name="InterTraxSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>	
-	<xsl:template match="EventDynamicTransformation|QueueDynamicTransformation|TimeDynamicTransformation" mode="node">[shape=record,label="{{&lt;data&gt; Data | &lt;base&gt; Base } | &lt;bottom&gt; DynamicTransformation}"]</xsl:template>
-	<xsl:template match="Merge" name="Merge" mode="node">[shape=record, label="{{<xsl:apply-templates mode="merge"/>} | &lt;bottom&gt; <xsl:value-of select="name(.)"/>} "]</xsl:template>
+	<xsl:template match="EventDynamicTransform|QueueDynamicTransform|TimeDynamicTransform" mode="node">[shape=record,label="{{&lt;data&gt; Data | &lt;base&gt; Base } | &lt;bottom&gt; DynamicTransformation}"]</xsl:template>	
+	<xsl:template match="WacomGraphireSource" name="WacomGraphireSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+	<xsl:template match="Ref" name="Ref" mode="node"> [ label="<xsl:value-of select="name(.)"/>" , shape=box , height=0.3 , width=.45 ]</xsl:template>
 	<!-- merge sub node templates for defining node ports -->
+	<xsl:template match="Merge" name="Merge" mode="node">[shape=record, label="{{<xsl:apply-templates mode="merge"/>} | &lt;bottom&gt; <xsl:value-of select="name(.)"/>} "]</xsl:template>
 	<xsl:template match="MergeDefault" mode="merge">&lt;default&gt; Default <xsl:if test="not(position()=last())">|</xsl:if></xsl:template>
 	<xsl:template match="MergePosition" mode="merge">&lt;position&gt; Position <xsl:if test="not(position()=last())">|</xsl:if></xsl:template>
 	<xsl:template match="MergeOrientation" mode="merge">&lt;orientation&gt; Orientation <xsl:if test="not(position()=last())">|</xsl:if></xsl:template>
 	<xsl:template match="MergeButton" mode="merge">&lt;button&gt; Button <xsl:if test="not(position()=last())">|</xsl:if></xsl:template>
 	<xsl:template match="MergeConfidence" mode="merge">&lt;confidence&gt; Confidence <xsl:if test="not(position()=last())">|</xsl:if></xsl:template>
 	<!-- default node style -->
-	<xsl:template match="*" mode="node">[label="<xsl:value-of select="name(.)"/>",shape=box]</xsl:template>
+	<xsl:template match="*" mode="node"> [ label="<xsl:value-of select="name(.)"/>", shape=box ]</xsl:template>
 	<!-- templates for going down the children tree, this is needed to use dot node ports, these have mode navigate -->
 	<!-- Merge children tree templates -->
 	<xsl:template match="Merge" mode="navigate">
@@ -84,7 +89,7 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 		</xsl:apply-templates>
 	</xsl:template>
 	<!-- DynamicTransformation navigation behaviour -->
-	<xsl:template match="EventDynamicTransformation|QueueDynamicTransformation|TimeDynamicTransformation" mode="navigate">
+	<xsl:template match="EventDynamicTransform|QueueDynamicTransform|TimeDynamicTransform" mode="navigate">
 		<xsl:apply-templates mode="dynamic-navigate">
 			<xsl:with-param name="parent">
 				<xsl:number count="*" format="a" level="any"/>
