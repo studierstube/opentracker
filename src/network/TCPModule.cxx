@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.1 2001/11/09 22:07:45 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.2 2001/11/10 00:20:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -108,7 +108,7 @@ void TCPModule::pullState(){
             TCPSink * sink = (TCPSink*) (*it);
             State & state = sink->state;
             if( sink->changed == 1 ){
-                protocol = sink->posFlag || (sink->orientFlag << 1) || (sink->buttonFlag << 2) ||
+                protocol = sink->posFlag | (sink->orientFlag << 1) | (sink->buttonFlag << 2) |
                            (sink->timeFlag << 3);
                // size = sizeof(int)+sizeof(short unsigned)+sink->posFlag*sizeof(int)+
                //         sink->orientFlag*sizeof(int)+sink->buttonFlag*sizeof(short int)+
