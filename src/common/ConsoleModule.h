@@ -8,7 +8,7 @@
   * @author Gerhard Reitmayr
   * @todo a lot of documentation needed !
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.4 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.5 2001/03/24 23:50:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -85,7 +85,7 @@ protected:
      * @param station the number of the station to change
      * @param data array of 3 floats giving the movement vector
      */
-    void move( int station, float * data );
+    void movePos( int station, float * data );
     /** rotates the state by the given data on all sources that
      * are associated with station. Changes the changed flag on
      * the sources.

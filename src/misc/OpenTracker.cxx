@@ -8,27 +8,25 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.7 2001/03/06 18:09:28 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.1 2001/03/24 23:50:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include <ace/ACE.h>
 
-#include "config.h"
-
-#include "core/State.h"
-#include "core/Context.h"
-#include "common/CommonNodeFactory.h"
-#include "core/TestModule.h"
-#include "common/ConsoleModule.h"
-#include "network/NetworkSinkModule.h"
-#include "network/NetworkSourceModule.h"
+#include "../core/State.h"
+#include "../core/Context.h"
+#include "../common/CommonNodeFactory.h"
+#include "../core/TestModule.h"
+#include "../common/ConsoleModule.h"
+#include "../network/NetworkSinkModule.h"
+#include "../network/NetworkSourceModule.h"
 
 // these modules depend on compile options
-#include "input/InterTraxModule.h"
-#include "input/ARToolKitModule.h"
-#include "input/CyberMouseModule.h"
-#include "input/WacomGraphireModule.h"
+#include "../input/InterTraxModule.h"
+#include "../input/ARToolKitModule.h"
+#include "../input/CyberMouseModule.h"
+#include "../input/WacomGraphireModule.h"
 
 /** a global unique variable null, for typesafe null references as return
  *  values of methods.*/

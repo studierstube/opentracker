@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.3 2001/03/06 18:08:26 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.4 2001/03/24 23:50:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -105,7 +105,9 @@ void Context::run()
         newTime = currentTime();
         if( newTime - time < 20 )
         {            
+#ifdef WIN32            
             Sleep((DWORD)(newTime - time));
+#endif            
             time = newTime;
         }
     }

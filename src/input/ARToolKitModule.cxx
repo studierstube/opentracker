@@ -11,6 +11,10 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "ARToolKitModule.h"
+#include "ARToolKitSource.h"
+
+#ifdef USE_ARTOOLKIT
 
 #include <AR/ar.h>
 #include <AR/video.h>
@@ -25,11 +29,6 @@
 #ifdef __sgi
 #include <unistd.h>
 #endif
-
-#include "ARToolKitModule.h"
-#include "ARToolKitSource.h"
-
-#ifdef USE_ARTOOLKIT
 
 // constructs a new Node
 

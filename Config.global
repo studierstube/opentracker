@@ -1,0 +1,118 @@
+## ===========================================================================
+##  Copyright (c) 2001
+##  Vienna University of Technology
+##  
+##  This software is provided AS IS, without any express or implied
+##  warranty.  In no event will the authors or the Vienna University of
+##  Technology be held liable for any damages or loss of profit arising
+##  from the use or non-fitness for a particular purpose of this software.
+## ===========================================================================
+##  NAME:       Config
+##  TYPE:       makefile
+##  PROJECT:    OpenTracker
+##  CONTENT:    Global configurations
+## ===========================================================================
+##  AUTHORS:    jp      Jan Prikryl
+##              gr      Gerhard Reitmayr
+## ===========================================================================
+##  HISTORY:
+##
+##  24-Mar-01 22:00:00  gr      copied from studierstube
+## ===========================================================================
+
+## ---------------------------------------------------------------------------
+## OPENTRACKER DIRECTORIES
+## ---------------------------------------------------------------------------
+##
+## change the following line to your opentracker base dir
+##
+OT_DIR     = /projects/cg/dev/opentracker
+
+## set the location of your ACE library here
+##
+ACE_ROOT   = /projects/cg/dev/ACE_wrappers
+
+## set the location of your Xerces-C library here
+##
+XERCESC_ROOT = /projects/cg/dev/xerces
+
+##
+## this does not hopefully need any changes
+##
+OT_BIN_DIR = $(OT_DIR)/bin
+OT_INC_DIR = $(OT_DIR)/src
+OT_LIB_DIR = $(OT_DIR)/lib
+OT_SRC_DIR = $(OT_DIR)/src
+
+## Configuration options for device drivers etc.
+## uncomment the lines for devices and libraries you want to compile in
+## also add the correct path to the include files and libraries you will need
+##
+## ARToolKit ( uncomment, if you want to compile support for ARToolKit in )
+OT_USE_ARTOOLKIT = -DUSE_ARTOOLKIT \
+                   -I/projects/cg/dev/artool/include
+OT_ARTOOLKIT_LIB = -L/projects/cg/dev/artool/lib \
+                   -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lvl
+
+## InterTrax ( uncomment, if you want to compile support for InterTrax in )
+## OT_USE_INTERTRAX = -DUSE_INTERTRAX
+
+## put it all together
+OT_OPTIONAL_INC = $(OT_USE_ARTOOLKIT) \
+                  $(OT_USE_INTERTRAX)
+                
+OT_OPTIONAL_LIB = $(OT_ARTOOLKIT_LIB)
+               
+##
+OT_STD_INCLUDES = -I. -I$(OT_INC_DIR) -I$(ACE_ROOT) -I$(XERCESC_ROOT)/include
+
+
+## ---------------------------------------------------------------------------
+## COMMON RULES
+## ---------------------------------------------------------------------------
+
+## Always unsatisfied target
+_FORCE = _force
+
+cleanhere: $(_FORCE)
+	-rm -f *.o *.so *.a *.i core Makedepend so_locations
+	-rm -f *.ilk *.pch *.sbr *.exp
+	-rm -f *.ncb *.dll *.lib *.obj *.opt *.plg
+	-rm -f */*.ilk */*.pch */*.sbr */*.exp
+	-rm -f */*.ncb */*.dll */*.lib */*.obj */*.opt */*.plg
+	-rm -f *~ *.bak \#* .cghead~ *.\$$\$$\$$
+	-rm -rf .deps *Win32_Debug* *Win32_Release* ii_files
+
+clean: cleanhere
+	@if test "x$(SUBDIRS)" != "x" ; then \
+	  temp="$(SUBDIRS)" ; \
+	  for i in $$temp ; do \
+	    echo "--- $$i ---" ; \
+	    ( cd $$i && $(MAKE) $(NOPRINT) clean ) || exit 1 ; \
+	  done ; \
+	fi 
+
+clobberhere: $(_FORCE)
+	@if test "x$(TARGETS)" != "x" ; then \
+	  rm -f $(TARGETS) ; \
+	  temp="$(TARGETS)" ; \
+	  for i in $$temp ; do \
+	    base=`dirname $$i`/`basename $$i .so` ; \
+	    rm -f $$base.dll $$base.ilk $$base.exe ; \
+	  done ; \
+	fi 
+
+clobber: cleanhere clobberhere
+	@if test "x$(SUBDIRS)" != "x" ; then \
+	  temp="$(SUBDIRS)" ; \
+	  for i in $$temp ; do \
+	    echo "--- $$i ---" ; \
+	    ( cd $$i && $(MAKE) $(NOPRINT) clobber ) || exit 1 ; \
+	  done ; \
+	fi 
+
+_force:
+
+## ===========================================================================
+##  End of Config.global
+## ===========================================================================

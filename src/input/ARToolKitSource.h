@@ -35,7 +35,7 @@
 /** An ARToolKitSource represents a single marker that is tracked by the 
  * artoolkit library.
  */
-class ARToolKitSource : public Node, EventGenerator
+class ARToolKitSource : public Node, public EventGenerator
 {
 
 public:

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.5 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.6 2001/03/24 23:50:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -208,7 +208,8 @@ void ConsoleModule::pushState()
     {   
         char key = _getch();        
 #else
-    while()
+    int key;
+    while( (key = getch()) == ERR )
     {
 #endif
         int index = find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
@@ -273,37 +274,37 @@ void ConsoleModule::pushState()
                 data[0] = - posSpeed;
                 data[1] = 0;
                 data[2] = 0;
-                move( station, data );
+                movePos( station, data );
                 break;
             case MOVE_X_PLUS :
                 data[0] = posSpeed;
                 data[1] = 0;
                 data[2] = 0;
-                move( station, data );
+                movePos( station, data );
                 break;
             case MOVE_Y_MINUS :
                 data[0] = 0;
                 data[1] = - posSpeed;
                 data[2] = 0;
-                move( station, data );
+                movePos( station, data );
                 break;
             case MOVE_Y_PLUS :
                 data[0] = 0;
                 data[1] = posSpeed;
                 data[2] = 0;
-                move( station, data );
+                movePos( station, data );
                 break;
             case MOVE_Z_MINUS :
                 data[0] = 0;
                 data[1] = 0;
                 data[2] = - posSpeed;
-                move( station, data );
+                movePos( station, data );
                 break;
             case MOVE_Z_PLUS :
                 data[0] = 0;
                 data[1] = 0;
                 data[2] = posSpeed;
-                move( station, data );
+                movePos( station, data );
                 break;
             case ROT_X_PLUS :
                 data[0] = 1;
@@ -389,7 +390,7 @@ void ConsoleModule::setButton( int station , int button )
 
 // moves stations sources by given amount
 
-void ConsoleModule::move( int station , float * data )
+void ConsoleModule::movePos( int station , float * data )
 {
     ConsoleSource * source;
     for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
