@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.10 2003/07/31 07:55:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.11 2003/10/31 15:16:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,7 +61,7 @@ XMLWriter::~XMLWriter()
 void XMLWriter::write( const char * file )
 {
     auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
-    writeNode( ((DOMNode *)(context.getRootNode()->parent))->getOwnerDocument()->getFirstChild(), 
+    writeNode( ((DOMNode *)(context.getRootNode()->parent))->getOwnerDocument(), 
                myFormatTarget.get());
 }
     
