@@ -29,33 +29,47 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.8 2001/04/30 10:10:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
- * @page transform_nodes Transform Node Reference
+ * @page transform_nodes Transformation Node Reference
+ * This page describes the nodes implementing geometric transformations 
+ * available in OpenTracker. The currently implemented transformations are
+ * a specific subset of all affine transformations possible.
  *
+ * All transformations receive the event from a single child node, transform
+ * it and pass it on. To work with all interface types each transformation has
+ * three different configuration elements whose outputs and inputs are typed
+ * with the same interface. The configuration elements are distinguished by
+ * the following prefixes :
+ * @li @c Event - the child node and the output interface are of type EventGenerator
+ * @li @c Queue - the child node and the output interface are of type EventQueue
+ * @li @c Time  - the child node and the output interface are of type Timedependend
+ * The transformation nodes act transparently and actually exhibit the same type
+ * as their child node.
+ * 
+ * The following sections describe the different transformation nodes in detail.
+ * 
  * @section dynamictransform DynamicTransformation
- * This section describes the DynamicTransformation configuration element. 
- * A DynamicTransformation transforms the data child's state value by the base
- * child's state value. The base childs position and orientation are assumed
- * to be the affine base of the data childs values. Then the data childs values
- * are transformed to world coordinates. Note that there is no complement inverse
- * element, because te 
  *
- * There are three different Transformation elements to provide a strong structure
- * in the configuration file syntax. They have no attributes but use a single
- * wrapper tag to define the base child.
+ * This section describes the DynamicTransformation node and configuration element. 
+ * A DynamicTransformation transforms the data child's state value by the base
+ * child's state value. The base childs position and orientation define
+ * the affine base in which the data childs values are interpreted. Then the data childs values
+ * are transformed to world coordinates. The basic name of the configuration element
+ * is @c DynamicTransform , by prepending the prefixes above, one receives the
+ * actual element names. The @c TransformBase child must always be an EventGenerator.
  * 
  * An example element looks like this :
  * @verbatim
- <EventDynamicTransformation>
+ <EventDynamicTransform>
     <Any EventGenerator element type>
     <TransformBase>
         <Any EventGenerator element type>
     </TransformBase>
- </EventDynamicTransformation>@endverbatim
+ </EventDynamicTransform>@endverbatim
  */
 
 #ifndef _DYNAMICTRANSFORMATION_H

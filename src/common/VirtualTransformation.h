@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.8 2001/04/30 10:10:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,22 +34,37 @@
  * @page transform_nodes Transform Node Reference
  *
  * @section virtualtransform VirtualTransformation
- * This section describes the VirtualTransformation configuration element. 
- * There arethree different Transformation elements to provide a strong structure
- * in the configuration file syntax. It works similar to the Transformation element. 
+ *
+ * This section describes the VirtualTransformation configuration element. It 
+ * implements an offset in the child's affine space. That is the configured
+ * translation and rotation are post transformed with the child's position
+ * and orientation values. This effectively offsets the tracked point with
+ * respect to the tracked affine base. Note that there is no scale, as a 
+ * scaled base only makes sense, if there is a translational offset and in
+ * that case the scale could be precomputed on the translational offset anyway.
+ *
+ * There are three variants of this transformation. The @c VirtualPositionTransform
+ * element configures only a translational offset and accordingly only the
+ * translation attribute can be specified. 
+ * @c VirtualOrientationTransform configures a rotational offset and again only
+ * the rotation attributes can be specified. 
+ * Finally the simple @c VirtualTransform acts on both and
+ * again a full transformation can be specified.
+ * 
+ * The configuration elements are obtained by using one of the base names
+ * @c VirtualPositionTransform|VirtualOrientationTransform|VirtualTransform 
+ * and prepending it with one of the prefixes described before.
  * They have the following attributes:
  * @li @c translation   0 0 0    (T)
- * @li @c scale         1 1 1    (S)
  * @li @c rotationtype (quaternion|matrix|euler) quaternion
  * @li @c rotation        0 0 0 1 (R)
  * 
- * The Transformation is specified by T*S*R.
  *
  * An example element looks like this :
  * @verbatim
- <EventVirtualTransformation rotationtype="euler" rotation="1 2 3" translation="0 0 0">
+ <EventVirtualTransform rotationtype="euler" rotation="1 2 3" translation="0 0 0">
     <Any EventGenerator element type>
- </EventVirtualTransformation>@endverbatim
+ </EventVirtualTransform>@endverbatim
  */
 
 #ifndef _VIRTUALTRANSFORMATION_H

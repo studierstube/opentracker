@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.12 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.13 2001/04/30 10:10:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,11 +58,13 @@
  *
  * A node may implement several interfaces. However parent child relationships
  * are only allowed betweem nodes that understand each other. This is specified
- * in the configuration file format DTD. For a list currently implemented nodes
- * see the @ref Nodes page.
+ * in the configuration file format DTD. 
  *
- * There is more information about how to extend the framework. See  
- * @ref module, which explains how to implement a new module. 
+ * The following links point to a reference of all modules and nodes and
+ * how their configuration elements are specified :
+ * @li @ref module_ref - reference of modules
+ * @li @ref Nodes - reference of implemented nodes
+ * @li @ref transform_nodes - reference for geometric transformation nodes 
  *
  * @author Gerhard Reitmayr
  * @date 2001

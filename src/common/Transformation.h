@@ -26,16 +26,9 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.8 2001/04/30 10:10:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
-
-/**
- * @page transform_nodes Transformation Node Reference
- * This page describes the nodes implementing geometric transformations 
- * available in OpenTracker. The currently implemented transformations are
- * a specific subset of all affine transformations possible.
- */
 
 #ifndef _TRANSFORMATION_H
 #define _TRANSFORMATION_H
