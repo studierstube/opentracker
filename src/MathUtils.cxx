@@ -94,30 +94,33 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
     tr = matrix[0][0] + matrix[1][1] + matrix[2][2];
 
     // check the diagonal
-    if (tr > 0.0) {
-	s = fsqrt (tr + 1.0);
-	qResult[3] = s / 2.0;
-	s = 0.5 / s;
-	qResult[0] = (matrix[2][1] - matrix[1][2]) * s;
-	qResult[1] = (matrix[0][2] - matrix[2][0]) * s;
-	qResult[2] = (matrix[1][0] - matrix[0][1]) * s;
-    } else {		
-	// diagonal is negative
-	i = 0;
-	if (matrix[1][1] > matrix[0][0]) i = 1;
-	if (matrix[2][2] > matrix[i][i]) i = 2;
-	j = nxt[i];
-	k = nxt[j];
+    if (tr > 0.0)
+    {
+	    s = fsqrt (tr + 1.0);
+    	qResult[3] = s / 2.0;
+	    s = 0.5 / s;
+    	qResult[0] = (matrix[2][1] - matrix[1][2]) * s;
+	    qResult[1] = (matrix[0][2] - matrix[2][0]) * s;
+    	qResult[2] = (matrix[1][0] - matrix[0][1]) * s;
+    } 
+    else 
+    {		
+	    // diagonal is negative
+    	i = 0;
+	    if (matrix[1][1] > matrix[0][0]) i = 1;
+    	if (matrix[2][2] > matrix[i][i]) i = 2;
+	    j = nxt[i];
+    	k = nxt[j];
 
-	s = fsqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
+	    s = fsqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
 	
-	qResult[i] = s * 0.5;
+    	qResult[i] = s * 0.5;
 	
-	if (s != 0.0) s = 0.5 / s;
+	    if (s != 0.0) s = 0.5 / s;
 	
-	qResult[3] = (matrix[k][j] - matrix[j][k]) * s;
-	qResult[j] = (matrix[j][i] + matrix[i][j]) * s;
-	qResult[k] = (matrix[k][i] + matrix[i][k]) * s;
+    	qResult[3] = (matrix[k][j] - matrix[j][k]) * s;
+	    qResult[j] = (matrix[j][i] + matrix[i][j]) * s;
+    	qResult[k] = (matrix[k][i] + matrix[i][k]) * s;
     }
     return qResult;
 }//@CODE_4582

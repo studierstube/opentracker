@@ -101,21 +101,22 @@ Node* ConfigurationParser::buildTree(DOM_Element& element)
     Node* value;
     StringMap * map = parseElement( element );
     value = factory->createNode( element.getTagName().transcode(), *map );
+    delete map;
     if( value != NULL )
     {
         DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
-	for( int i = 0; i < list.getLength(); i ++ )
-	{
-	    if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+    	for( int i = 0; i < list.getLength(); i ++ )
 	    {
-  	        DOM_Element childElement = (DOM_Element&)list.item(i);
-		Node * childNode = buildTree( childElement );
-		if( childNode != NULL )
-		{
-		    ((TreeNode *)value)->addChild( *childNode );
-		}
-	    }
-	}
+	        if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+    	    {   
+  	            DOM_Element childElement = (DOM_Element&)list.item(i);
+		        Node * childNode = buildTree( childElement );
+    		    if( childNode != NULL )
+    	    	{
+	    	        ((TreeNode *)value)->addChild( *childNode );
+    	    	}
+	        }
+    	}
     }
     return value;
 }//@CODE_3746
@@ -132,25 +133,30 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
      // read and parse configuration file
     DOMParser parser;
     parser.setDoValidation( true );
-    try {
+    try 
+    {
         parser.parse( filename );
     }
-    catch (const XMLException& e){
+    catch (const XMLException& e)
+    {
       	cout << "An error occured during parsing\n   Message: "
-	     << DOMString(e.getMessage()).transcode() << endl;
-	exit(1);
+	         << DOMString(e.getMessage()).transcode() << endl;
+	    exit(1);
     }
     DOM_Document doc = parser.getDocument();
     DOM_Element root = doc.getDocumentElement();
 
     // get the configuration part
     DOM_NodeList &list = (DOM_NodeList&)root.getElementsByTagName( "configuration" );
-    if( list.getLength() != 1 ){
+    if( list.getLength() != 1 )
+    {
         cout << "not valid config file, not exactly one configuration tag" << endl;
-	cout << list.getLength() << " configurations." << endl;
-	exit(1);
+	    cout << list.getLength() << " configurations." << endl;
+    	exit(1);
     }
 
+    cout << "parsing config part" << endl;
+    
     // parse configuration elements subelements    
     DOM_Element config = (DOM_Element &)list.item(0);
     list = (DOM_NodeList&)config.getChildNodes();
@@ -158,16 +164,21 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
     {
         if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
-	    DOM_Element configElement = (DOM_Element &)list.item(i);
-	    StringMap * attributes = parseElement( configElement );
-	    if( modules.find(configElement.getTagName().transcode()) != modules.end())
+    	    DOM_Element configElement = (DOM_Element &)list.item(i);
+	        StringMap * attributes = parseElement( configElement );
+            
+            cout << "config for " << configElement.getTagName().transcode() << endl;
+            
+	        if( modules.find(configElement.getTagName().transcode()) != modules.end())
             {
-   	        modules[configElement.getTagName().transcode()]->init( *attributes, NULL );
-	    }
-	    delete attributes;
-	}
+   	            modules[configElement.getTagName().transcode()]->init( *attributes, NULL );
+    	    }
+	        delete attributes;
+    	}
     }
 
+    cout << "parsing children" << endl;
+    
     // parse the rest of the elements
     list = (DOM_NodeList&)root.getChildNodes();
     for( i = 0; i < list.getLength(); i++ )
@@ -179,14 +190,13 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
         DOM_Element element = (DOM_Element &)list.item(i);
         if( element.getTagName().equals("configuration" ))    // the configuration element, allready handled
         {
-	    continue;
+	        continue;
         }
-	Node * node = buildTree( element );
-	if( node != NULL ){
-	  value->push_back( node );
-	}
+    	Node * node = buildTree( element );
+	    if( node != NULL ){
+            value->push_back( node );
+    	}
     }
-
     return value;
 }//@CODE_4636
 
@@ -201,7 +211,7 @@ StringMap* ConfigurationParser::parseElement(DOM_Element& element)
     for( int i = 0; i < map.getLength(); i++ )
     {
         DOM_Attr attribute = (DOM_Attr &)map.item( i );
-	(*value)[attribute.getName().transcode()] = attribute.getValue().transcode();
+    	(*value)[attribute.getName().transcode()] = attribute.getValue().transcode();
     }
     return value;
 }//@CODE_3738

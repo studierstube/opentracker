@@ -3,7 +3,7 @@
 // ===========================================================================
 //  NAME:      main.cxx
 //  TYPE:      c++ source file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  PROJECT:   maxwell tracker server
 //  CONTENT:   Implementation main method
 //  VERSION:   1.0
 // ===========================================================================
@@ -23,40 +23,24 @@
  */
 int main(int argc, char **argv)
 {
-    if( argc != 2 ){
+    if( argc != 2 )
+    {
 	    cout << "Usage : " << argv[0] << " configfile" << endl;
     	return 1;
     }
 
     // important parts of the system
-    NodeFactoryContainer factory;
-    CommonNodeFactory common;
-    VideoSource video;
-    NetworkDriver driver;
+    // get a context, the default modules and factories are 
+    // added allready.
+    Context context;
+    cout << "Context established." << endl;
     
-    cout << "Initialized system." << endl;
-
-    // add factories to our main FactoryContainer
-    factory.addFactory( common );
-    factory.addFactory( video );
-    factory.addFactory( driver );
-
-    cout << "Added factories to container." << endl;
-
-    // configuration file parser
-    ConfigurationParser parser( &factory );
-
-    cout << "Initialized parser." << endl;
-
-    // add modules to the parser
-    parser.addModule( "Network", driver );
-    parser.addModule( "Video", video );
-
-    cout << "Added modules to parser." << endl;
-
-    NodeVector * vector = parser.parseConfigurationFile( argv[1] );
-
-    cout << "Got " << vector->size() << " root nodes." << endl;
-    cout << "Parsing complete." << endl;
+    // parse the configuration file, this initializes the modules
+    // and builds the tracker tree.
+    context.parseConfiguration( argv[1] );
+    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+    
+    // start the tracker main loop
+    context.run();
     return 0;
 }

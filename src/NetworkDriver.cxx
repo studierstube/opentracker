@@ -129,6 +129,7 @@ Node* NetworkDriver::createNode(char* const name, StringMap& attributes)
         }
         Station * station = new Station( stationNumber, attributes["name"] );
         stations.push_back( station );
+        cout << "Build station " << station->getName() << endl;
         return station;        
     }
     return NULL;               
@@ -150,7 +151,7 @@ void NetworkDriver::endUpdate()
     int size;
     int i;
     
-    size = ntohs( data.commentLength );
+    size = ntohs( data.headerLength );
     nR = data.data + ntohs( data.commentLength );
     StationVector::iterator it = stations.begin();
     while( it != stations.end())
@@ -218,10 +219,11 @@ void NetworkDriver::endUpdate()
     	    size += psize;
 	        data.numOfStations++;
     	}
+        it++;
     }
     if( data.numOfStations > 0 )
     {
-	    data.numOfStations = htons( data.numOfStations );
+        data.numOfStations = htons( data.numOfStations );
     	if( sendMulticastData( socket, (char *)&data, size ) < 0 )
 	    {
 	        if( errno != ECONNREFUSED )
@@ -256,7 +258,7 @@ void NetworkDriver::init(StringMap& attributes, const Node* localTree)
     const char * name = attributes["name"];
     data.commentLength = strlen( name );
     strcpy( data.data, name );
-    data.headerLength = strlen( name ) + (sizeof(short int))*6;
+    data.headerLength= strlen( name ) + (sizeof(short int))*6;
     data.commentLength=htons(data.commentLength);
     data.headerLength=htons(data.headerLength);
     
@@ -269,6 +271,7 @@ void NetworkDriver::init(StringMap& attributes, const Node* localTree)
 	    ", port: " << attributes["port"] << endl;
         exit(1);
     }      
+    cout << "Module NetworkDriver initialized." << endl;
 }//@CODE_3842
 
 

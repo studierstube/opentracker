@@ -102,10 +102,10 @@ construct the corresponding type. Otherwise it returns NULL.
 Node* VideoSource::createNode(char* const name, StringMap& attributes)
 {//@CODE_3595
     std::string strName( name );
-    if( strName.compare("marker") == 0 )
+    if( strName.compare("Marker") == 0 )
     {
         double vertex[4][2];
-        int num = sscanf( attributes["vertex-positions"], " %lf %lf %lf %lf %lf %lf %lf %lf",
+        int num = sscanf( attributes["vertex"], " %lf %lf %lf %lf %lf %lf %lf %lf",
                 &vertex[0][0], &vertex[0][1],
                 &vertex[1][0], &vertex[1][1],
                 &vertex[2][0], &vertex[2][1],
@@ -123,6 +123,7 @@ Node* VideoSource::createNode(char* const name, StringMap& attributes)
         }
         Marker * marker = new Marker( id, vertex );
         markers.push_back( marker );
+        cout << "Build marker " << attributes["tag-file"] << endl;
         return marker;
     }
     return NULL;
@@ -144,6 +145,7 @@ void VideoSource::init(StringMap& attributes, const Node* localTree)
 
     // checking for and reading of parameter treshhold    
     StringMap::iterator tresh = attributes.find("treshhold");
+ 
     if( tresh != attributes.end())
     {
         int num = sscanf(attributes["treshhold"], " %i", &treshhold );
@@ -159,7 +161,7 @@ void VideoSource::init(StringMap& attributes, const Node* localTree)
                 treshhold = 255;
         }
     } 
-    
+ 
     if( arVideoOpen() < 0 )
     {
         cout << "Error opening video source !" << endl;
@@ -180,6 +182,7 @@ void VideoSource::init(StringMap& attributes, const Node* localTree)
         cout << "Error querying video size !" << endl;
         exit(1);
     }
+    
     if( arParamLoad((char *) attributes["camera-parameter"], 1, &wparam ) < 0 )
     {
         cout << "Error loading camera parameters !" << endl;
@@ -197,6 +200,8 @@ void VideoSource::init(StringMap& attributes, const Node* localTree)
 #ifdef __sgi
     arVideoStart( did );
 #endif                
+    
+    cout << "Module VideoSource initialized." << endl;
 }//@CODE_3593
 
 
@@ -231,10 +236,10 @@ void VideoSource::update()
     {
         return;
     }
-        
+            
     MarkerVector::iterator it = markers.begin();    
     while( it != markers.end())
-    {
+    {        
         k = -1;
         for( j = 0; j < markerNum; j ++ )
         {
@@ -253,18 +258,9 @@ void VideoSource::update()
                 }
             }
         }
-        if( k == -1 )
+        if( k != -1 )                          
         {
-            continue;
-        }
-        else
-        {
-            if( arGetTransMat( &markerInfo[k], (double(*)[2])(*it)->getVertex(), 
-                    matrix ) < 0 )
-            {
-                continue;
-            }
-            else
+            if( arGetTransMat( &markerInfo[k], (double(*)[2])(*it)->getVertex(), matrix ) >= 0 )
             {
                 State * state = (*it)->getState();
                 state->isValid = 1;
@@ -281,9 +277,10 @@ void VideoSource::update()
                 state->position[0] = matrix[0][3];
                 state->position[1] = matrix[1][3];
                 state->position[2] = matrix[2][3];
+                cout << "Marker " << (*it)->getMarkerId() << " updated !" << endl;
             }
         }
-	it++;
+    	it++;
     }    
 }//@CODE_3594
 

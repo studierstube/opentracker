@@ -79,7 +79,7 @@ Node* NodeFactoryContainer::createNode(char* const name, StringMap& attributes)
     while( it != factories.end() && value == NULL )
     {
         value = (*it)->createNode( name, attributes );
-	it++;
+    	it++;
     }
     return value;
 }//@CODE_3608
