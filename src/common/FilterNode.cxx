@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo check implementation of quaternion interpolation and document
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.4 2002/12/06 18:01:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.5 2003/07/02 07:30:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,17 +52,17 @@ int FilterNode::isEventGenerator()
 void FilterNode::onEventGenerated( State& event, Node& generator)
 {
     Node * queue = getChild( 0 );
-    if( queue != NULL )
+    if( queue != NULL && queue->getSize() == weights.size() )
     {
-        if( queue->getSize() != weights.size())
-            return;
         double w,sum = 0;
         double pos[3] = {0, 0, 0 }, orient[3] = { 0, 0, 0 };
 		double conf = 0;
 
-        vector<float>::iterator it = weights.begin();
+        // referencerot for quaternion interpolation
+        float * referencerot= queue->getEvent( 0 ).orientation;
 
-        for( ; it != weights.end(); it++ )
+        vector<float>::iterator it;
+        for( it = weights.begin(); it != weights.end(); it++ )
         {
             State & state = queue->getEvent( it - weights.begin());
             w = (*it);
@@ -83,16 +83,25 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
 				orientations in the queue in log space. That is, they are transformed
 				to 3D vectors inside the unit hemisphere and averaged in this linear space.
 				The resulting vector is transformed back to a unit quaternion. */
-				double angle = acos( state.orientation[3] ) * 2;
-				double as = sin( angle / 2);
+
+                if( MathUtils::dot(referencerot, state.orientation, 4) < 0 )
+                {
+                    state.orientation[0] = -state.orientation[0];
+                    state.orientation[1] = -state.orientation[1];
+                    state.orientation[2] = -state.orientation[2];
+                    state.orientation[3] = -state.orientation[3];
+                }
+
+				double angle = acos( state.orientation[3] );
+				double as = sin( angle );
 				if( as != 0 )
 					as = angle * w / as;
 				else
-					as = 2 * w;					// lim x/(sin(x/2)) = 2 for x -> 0 ???
+					as = 0;					// lim x/(sin(x/2)) = 2 for x -> 0 ???
 				orient[0] += state.orientation[0] * as;
 				orient[1] += state.orientation[1] * as;
 				orient[2] += state.orientation[2] * as;
-			}            
+			}
 
 			/* confidence is also averaged */
 			conf += state.confidence * w;
@@ -107,11 +116,11 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
 			w = sqrt((orient[0]*orient[0] + orient[1]*orient[1] + orient[2]*orient[2])/(sum*sum));
 			double as = 0;
 			if( w != 0)
-				as = sin( w / 2 ) / w;
+				as = sin( w ) / w;
 			localState.orientation[0] = orient[0] * as;
 			localState.orientation[1] = orient[1] * as;
 			localState.orientation[2] = orient[2] * as;
-			localState.orientation[3] = cos( w / 2 );
+			localState.orientation[3] = cos( w );
 			MathUtils::normalizeQuaternion( localState.orientation );
 		}
 		else 
@@ -141,5 +150,9 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
         localState.time = event.time;
 		localState.button = event.button;
         updateObservers( localState );
+    }
+    else
+    {
+        updateObservers( event );
     }
 }
