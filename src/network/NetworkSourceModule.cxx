@@ -5,9 +5,10 @@
   * ======================================================================== */
 /** source file for NetworkSourceModule module.
   *
+  * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.3 2001/02/13 16:41:37 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  

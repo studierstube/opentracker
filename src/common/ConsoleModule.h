@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.2 2001/02/13 16:41:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,7 +52,8 @@ protected:
     int interval;
     /// headerline in display
     string headerline;
-
+    /// angular velocity and positional velocity
+    float angularSpeed, posSpeed;
 
 // Methods
 public:
@@ -60,6 +61,8 @@ public:
     ConsoleModule() : Module(), NodeFactory()
     {
         cycle = 0;
+        angularSpeed = 0.1;
+        posSpeed = 0.1;
     };
     /** Destructor method, clears nodes member. */
     virtual ~ConsoleModule();

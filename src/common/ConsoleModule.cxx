@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.2 2001/02/13 16:41:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -15,6 +15,38 @@
 #include "ConsoleSink.h"
 #include "ConsoleSource.h"
 
+
+// list of key symbols as ints to provide faster lookup
+
+static short MOVE_X_PLUS = 1,
+           MOVE_X_MINUS = 2,
+           MOVE_Y_PLUS = 3,
+           MOVE_Y_MINUS = 4,
+           MOVE_Z_PLUS = 5,
+           MOVE_Z_MINUS = 6,
+           ROT_X_PLUS = 7,
+           ROT_X_MINUS = 8,
+           ROT_Y_PLUS = 9,
+           ROT_Y_MINUS = 10,
+           ROT_Z_PLUS = 11,
+           ROT_Z_MINUS = 12,
+           ACCELL = 13,
+           BRAKE = 14,
+           BUTTON_1 = 15,
+           BUTTON_2 = 16,
+           BUTTON_3 = 17,
+           BUTTON_4 = 18,
+           STATION_0 = 20,
+           STATION_1 = 21,
+           STATION_2 = 22,
+           STATION_3 = 23,
+           STATION_4 = 24,
+           STATION_5 = 25,
+           STATION_6 = 26,
+           STATION_7 = 27,
+           STATION_8 = 28,
+           STATION_9 = 29;
+          
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
 
@@ -46,6 +78,22 @@ Node * ConsoleModule::createNode( string& name,
         sinks.push_back( sink );
         cout << "Built ConsoleSink node." << endl;       
         return sink;
+    } else if( name.compare("ConsoleSource") == 0 )
+    {
+        int number;
+        if( sscanf( (*attributes.find("number")).second.c_str()," %i", &number ) == 1 )
+        {
+            if( number >= 0 && number < 10 )
+            {
+                ConsoleSource * source = new ConsoleSource( number );
+                sources.push_back( source );
+                cout << "Build ConsoleSource node." << endl;
+                return source;
+            } else
+            {
+                cout << "ConsoleSource station number not in [0,9] : " << number << endl;
+            }
+        }
     }
     return NULL;
 }
