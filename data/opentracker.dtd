@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
+<!--OpenTracker Configuration file DTD
+	Vienna University of Technology
+	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
+<!-- Entitiy definitions for the different classes of elements
+      element names have to be seperated by |  -->
+<!ENTITY % ConfigElements "NetworkSinkConfig?,VideoConfig?,NetworkSourceConfig?,ConsoleConfig?,IntertraxConfig?">
+<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | VideoSource | TestSource | NetworkSource | EventQueue | ConsoleSink | IntertraxSource | Ref">
+<!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref">
+<!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref">
+<!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
+<!-- general elements that do not map to nodes -->
+<!ELEMENT OpenTracker (configuration, (%AllNodes;)+)>
+<!ELEMENT configuration (%ConfigElements;)>
+<!-- basic elements
+there are several versions for the different interfaces 
+Event prefix defines that the node implements an EventGenerator interface
+Queue prefix defines that the node implements an EventQueue interface
+Time prefix defines that the node implements an TimeDependend interface -->
+<!ELEMENT Ref EMPTY>
+<!ATTLIST Ref
+	USE IDREF #REQUIRED
+>
+<!-- general transformation elements -->
+<!ELEMENT EventTransformation (%EventNodes;)>
+<!ATTLIST EventTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventVirtualTransformation (%EventNodes;)>
+<!ATTLIST EventVirtualTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueTransformation (%QueueNodes;)>
+<!ATTLIST QueueTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueVirtualTransformation (%QueueNodes;)>
+<!ATTLIST QueueVirtualTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeTransformation (%TimeNodes;)>
+<!ATTLIST TimeTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeVirtualTransformation (%TimeNodes;)>
+<!ATTLIST TimeVirtualTransformation
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!-- EventQueue stores a queue of size length of the last received events.
+It implements the EventGenerator as well as the EventQueue interface. -->
+<!ELEMENT EventQueue (%EventNodes;)>
+<!ATTLIST EventQueue
+	DEF ID #IMPLIED
+	length CDATA "1"
+>
+<!-- Source and Sink nodes grouped after functionality -->
+<!-- network sender elements -->
+<!ELEMENT NetworkSinkConfig EMPTY>
+<!ATTLIST NetworkSinkConfig
+	name CDATA #REQUIRED
+>
+<!ELEMENT NetworkSink (%EventNodes;)>
+<!ATTLIST NetworkSink
+	DEF ID #IMPLIED
+	name CDATA #REQUIRED
+	number CDATA #REQUIRED
+	multicast-address CDATA #REQUIRED
+	port CDATA #REQUIRED
+>
+<!--network receiver elements, acting as sources-->
+<!ELEMENT NetworkSourceConfig EMPTY>
+<!ELEMENT NetworkSource EMPTY>
+<!ATTLIST NetworkSource
+	DEF ID #IMPLIED
+	number CDATA #REQUIRED
+	multicast-address CDATA #REQUIRED
+	port CDATA #REQUIRED
+>
+<!-- video source elements -->
+<!ELEMENT VideoConfig EMPTY>
+<!ATTLIST VideoConfig
+	camera-parameter CDATA #REQUIRED
+>
+<!ELEMENT VideoSource EMPTY>
+<!ATTLIST VideoSource
+	DEF ID #IMPLIED
+	tag-file CDATA #REQUIRED
+	vertex CDATA #REQUIRED
+>
+<!-- test source elements -->
+<!ELEMENT TestSource EMPTY>
+<!ATTLIST TestSource
+	DEF ID #IMPLIED
+	frequency CDATA "1"
+	offset CDATA "0"
+>
+<!-- console based output elements -->
+<!ELEMENT ConsoleConfig EMPTY>
+<!ATTLIST ConsoleConfig
+	headerline CDATA ""
+	interval CDATA "10"
+>
+<!ELEMENT ConsoleSink (%EventNodes;)>
+<!ATTLIST ConsoleSink
+	DEF ID #IMPLIED
+	comment CDATA ""
+>
+<!-- Intertrax source elements -->
+<!ELEMENT IntertraxConfig EMPTY>
+<!ELEMENT IntertraxSource EMPTY>
+<!ATTLIST IntertraxSource
+	DEF ID #IMPLIED
+>

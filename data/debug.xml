@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by  () -->
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--simple test configuration for the new tracker serve system-->
-<!DOCTYPE TrackerServer SYSTEM "maxwell.dtd">
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\reitmayr\My Documents\maxwell\data\maxwell2dot.xsl"?>
-<TrackerServer>
+<OpenTracker>
 	<configuration>
-		<Network name="Super Duper Server" multicast-address="224.100.200.101" port="6666"/>
+		<ConsoleConfig headerline="Receiver Test" interval="10"/>
 	</configuration>
-	<Station name="Pip" number="1">
-		<Transformation rotation="0.0 0.0 0.382683 0.92387953">
-			<Transformation translation="1 1 1">
-				<TestSource frequency="2"/>
-			</Transformation>
-		</Transformation>
-	</Station>
-</TrackerServer>
+	<ConsoleSink comment="Source 1">
+		<NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
+	</ConsoleSink>
+	<ConsoleSink comment="Source 2">
+		<NetworkSource number="1" multicast-address="224.100.200.102" port="12347"/>
+	</ConsoleSink>
+</OpenTracker>
