@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.2 2003/07/07 14:36:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.3 2003/07/10 13:34:38 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -46,231 +46,231 @@ using namespace std;
 // constructor initializing the thread manager
 MagicYModule::MagicYModule() : ThreadModule(), NodeFactory(), stop(0)
 {
-	
+    
 }
 
 // destructor cleans up any allocated memory
 MagicYModule::~MagicYModule()
 {
-	magicYs.clear();
-	points.clear();
-	screens.clear();
+    magicYs.clear();
+    points.clear();
+    screens.clear();
 }
 
 // open all sockets
 int MagicYModule::connect()
 {
-	int retval; 
-	char buffer[32];
-	ACE_Time_Value timeOut(1,0);
-
-	for(int i=0; i<screens.size(); i++)
-	{
-		retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
-		if(retval == -1 && errno != ETIME && errno != 0 )
-		{
-			cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
-			return -1;
-		}
-		else 
-		{
-			cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
-			sprintf(buffer, "GO\n\r");
-			retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
-			if(retval == -1 && errno != ETIME && errno != 0 )
-			{
-				cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
-				return -1;
-			}
-		}
-		screens[i]->connected = true;	
-	}
-	return 0;
+    int retval; 
+    char buffer[32];
+    ACE_Time_Value timeOut(1,0);
+    
+    for(int i=0; i<screens.size(); i++)
+    {
+        retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
+        if(retval == -1 && errno != ETIME && errno != 0 )
+        {
+            cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
+            return -1;
+        }
+        else 
+        {
+            cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
+            sprintf(buffer, "GO\n\r");
+            retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
+            if(retval == -1 && errno != ETIME && errno != 0 )
+            {
+                cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
+                return -1;
+            }
+        }
+        screens[i]->connected = true;	
+    }
+    return 0;
 }
 
 // set FD_SET for ACE::select function
 void MagicYModule::setSelect()
 {
-	readHandles.reset();
-	for(int i=0; i<screens.size(); i++)
-		if(screens[i]->connected)
-			readHandles.set_bit(screens[i]->socket.get_handle());
+    readHandles.reset();
+    for(int i=0; i<screens.size(); i++)
+        if(screens[i]->connected)
+            readHandles.set_bit(screens[i]->socket.get_handle());
 }
 
 // receive data from all active sockets
 int MagicYModule::receive()
 {
-	ACE_Time_Value timeOut(0,5000);
-	string message(""), accumulated("");
-	char buffer[32], t='X';
-	int retval, x, y, pos; 
-	unsigned int trans_bytes = 0;
-	bool complete, trigger;
-
-	points.clear();	
-	for(int i=0; i<screens.size(); i++)
-	{
-		complete = false;
-		message.erase(message.begin(), message.end());
-
-		if(readHandles.is_set(screens[i]->socket.get_handle()))
-		{
-			//cout << "Reading socket " << i << endl;
-			do
-			{
-				retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
-				if(retval == -1 && errno != ETIME && errno != 0)
-				{
-					cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
-					return -1;
-				}  
-				else
-				{
-					accumulated.append(buffer, trans_bytes); 
-					pos = accumulated.find("\n\r", 0);
-					if (pos < 0)
-						pos = accumulated.find("\r\n", 0);
-					
-					if (pos >= 0)	
-					{ 
-						message.assign(accumulated, 0, pos);
-						accumulated.erase(0, pos+2);
-						complete = true;
-					}
-				}
-			} while(!complete && stop == 0);
-
-		    //cout << "MESSAGE S" << i << ": " << message.c_str() << endl;	
-			if(message.compare("READY") && message.compare("0"))
-			{
-				pos = message.find(',', 0);
-				message.erase(0, pos+1);
-				//cout << "MESSAGE: " << message.c_str() << endl;
-				// extract state and points
-				while (1)
-				{		
-					if (sscanf(message.c_str(), "%c,%d,%d", &t, &x, &y) == 3)
-					{		
-						if(t == 'Y')
-							trigger = true;
-						else
-							trigger = false;
-
-						//cout << "POINT: (" << x << "," << y << "," << trigger << ")" << endl;
-						x += screens[i]->x_offset;
-						y += screens[i]->y_offset;
-
-						MagicPoint *magicPoint = new MagicPoint(x,y,trigger);
-						points.push_back(magicPoint);
-
-						pos = message.find(',', 0);
-						pos = message.find(',', pos+1);
-						pos = message.find(',', pos+1);
-						message.erase(0, pos+1);
-						
-						if (pos < 0)
-							break;
-					}
-					else
-						break;
-				}
-			}
-		}
-	}
-	return 0;
+    ACE_Time_Value timeOut(0,5000);
+    string message(""), accumulated("");
+    char buffer[32], t='X';
+    int retval, x, y, pos; 
+    unsigned int trans_bytes = 0;
+    bool complete, trigger;
+    
+    points.clear();	
+    for(int i=0; i<screens.size(); i++)
+    {
+        complete = false;
+        message.erase(message.begin(), message.end());
+        
+        if(readHandles.is_set(screens[i]->socket.get_handle()))
+        {
+            //cout << "Reading socket " << i << endl;
+            do
+            {
+                retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
+                if(retval == -1 && errno != ETIME && errno != 0)
+                {
+                    cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
+                    return -1;
+                }  
+                else
+                {
+                    accumulated.append(buffer, trans_bytes); 
+                    pos = accumulated.find("\n\r", 0);
+                    if (pos < 0)
+                        pos = accumulated.find("\r\n", 0);
+                    
+                    if (pos >= 0)	
+                    { 
+                        message.assign(accumulated, 0, pos);
+                        accumulated.erase(0, pos+2);
+                        complete = true;
+                    }
+                }
+            } while(!complete && stop == 0);
+            
+            //cout << "MESSAGE S" << i << ": " << message.c_str() << endl;	
+            if(message.compare("READY") && message.compare("0"))
+            {
+                pos = message.find(',', 0);
+                message.erase(0, pos+1);
+                //cout << "MESSAGE: " << message.c_str() << endl;
+                // extract state and points
+                while (1)
+                {		
+                    if (sscanf(message.c_str(), "%c,%d,%d", &t, &x, &y) == 3)
+                    {		
+                        if(t == 'Y')
+                            trigger = true;
+                        else
+                            trigger = false;
+                        
+                        //cout << "POINT: (" << x << "," << y << "," << trigger << ")" << endl;
+                        x += screens[i]->x_offset;
+                        y += screens[i]->y_offset;
+                        
+                        MagicPoint *magicPoint = new MagicPoint(x,y,trigger);
+                        points.push_back(magicPoint);
+                        
+                        pos = message.find(',', 0);
+                        pos = message.find(',', pos+1);
+                        pos = message.find(',', pos+1);
+                        message.erase(0, pos+1);
+                        
+                        if (pos < 0)
+                            break;
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 // checks if all sockets are still connected by sending a PING
 int MagicYModule::stillConnected() 
 {
-	ACE_Time_Value timeOut(1,0);
-	char buffer[16];
-	int retval;
-
-	sprintf(buffer, "PING\n\r");
-	for(int i=0; i<screens.size(); i++)
-	{
-		retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
-		if(retval == -1 && errno != ETIME && errno != 0 )
-		{
-			cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
-			return 0;
-		}
-	}
-	return 1;
+    ACE_Time_Value timeOut(1,0);
+    char buffer[16];
+    int retval;
+    
+    sprintf(buffer, "PING\n\r");
+    for(int i=0; i<screens.size(); i++)
+    {
+        retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
+        if(retval == -1 && errno != ETIME && errno != 0 )
+        {
+            cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
+            return 0;
+        }
+    }
+    return 1;
 }
 
 // close all sockets
 void MagicYModule::disconnect()
 {
-	for(int i=0; i<screens.size(); i++)
-	{
-		screens[i]->socket.close();
-		screens[i]->connected = false;
-	}
-	OSUtils::sleep(3000);
+    for(int i=0; i<screens.size(); i++)
+    {
+        screens[i]->socket.close();
+        screens[i]->connected = false;
+    }
+    OSUtils::sleep(3000);
 }
 
 // reads from the MagicY server and parses MagicY packages
 void MagicYModule::run()
 {
-	cout << "starting MagicY module thread" << endl;
-	
-	ACE_Time_Value timeOut(1,0);
-    int average_x=0, average_y=0, socks_active;	
-	bool connected = false;
+    cout << "starting MagicY module thread" << endl;
     
-	while(stop == 0)
+    ACE_Time_Value timeOut(1,0);
+    int average_x=0, average_y=0, socks_active;	
+    bool connected = false;
+    
+    while(stop == 0)
     {
-		// connecting
-		cout << "Trying to connect ... " << endl;
-		if(connect() == 0)
+        // connecting
+        cout << "Trying to connect ... " << endl;
+        if(connect() == 0)
         {
-			connected = true;
-			// do while no error occurs
-			while(stop == 0)
-			{	
-				average_x=0;
-				average_y=0;
-
-				//cout << "Active sockets: " << socks_active << endl;
-				if(! stillConnected())
-					break;
-
-				// build FD_SET
-				setSelect();
-				// wait for sockets to be ready for reading
-				socks_active = ACE::select(ACE_Handle_Set::MAXSIZE, readHandles, &timeOut);
-				if(! socks_active)
-				{
-					cout << "Error: Socket select time out" << endl;
-					break;
-				}
-				if(receive())
-					break;
-				// try to find source 1 to n for the n extracted points and fill their state
-				
-				// calculate average
-				for (int i=0; i < points.size(); i++)
-				{
-					average_x += points[i]->x;
-					average_y += points[i]->y;
-				}
-				if(points.size())
-				{
-					average_x /= points.size();
-					average_y /= points.size();
-				}
-
-				MagicYVector::iterator mY_it;
+            connected = true;
+            // do while no error occurs
+            while(stop == 0)
+            {	
+                average_x=0;
+                average_y=0;
+                
+                //cout << "Active sockets: " << socks_active << endl;
+                if(! stillConnected())
+                    break;
+                
+                // build FD_SET
+                setSelect();
+                // wait for sockets to be ready for reading
+                socks_active = ACE::select(ACE_Handle_Set::MAXSIZE, readHandles, &timeOut);
+                if(! socks_active)
+                {
+                    cout << "Error: Socket select time out" << endl;
+                    break;
+                }
+                if(receive())
+                    break;
+                
+                lock();
+                // calculate average
+                for (int i=0; i < points.size(); i++)
+                {
+                    average_x += points[i]->x;
+                    average_y += points[i]->y;
+                }
+                if(points.size())
+                {
+                    average_x /= points.size();
+                    average_y /= points.size();
+                }
+                
+                // try to find source 1 to n for the n extracted points and fill their state
+                MagicYVector::iterator mY_it;
                 for( mY_it = magicYs.begin(); mY_it != magicYs.end(); mY_it++ )
                 {
-                    State & state = (*mY_it)->state;
                     // critical section start, fill state
-                    lock();  
-                    if((*mY_it)->number >= 0 && (*mY_it)->number < points.size())
+                    State & state = (*mY_it)->state;
+                    if ((*mY_it)->average)
                     {
-                        if ((*mY_it)->average)
+                        if(points.size())
                         {
                             state.position[0] = float(average_x);
                             state.position[1] = float(average_y);
@@ -278,36 +278,44 @@ void MagicYModule::run()
                         }
                         else
                         {
+                            state.confidence = 0.0f;
+                        }
+                    }
+                    else
+                    {
+                        if((*mY_it)->number >= 0 && (*mY_it)->number < points.size()) 
+                        {
                             state.position[0] = float(points[(*mY_it)->number]->x);
                             state.position[1] = float(points[(*mY_it)->number]->y);
                             state.button = points[(*mY_it)->number]->trigger;
                             state.confidence = 1.0f;
+                        }                  
+                        else
+                        {
+                            state.confidence = 0.0f;
                         }
                     }
-                    else
-                        state.confidence = 0.0f;
-
-					state.position[2] = z_value;
-
-					correctData(state.position, positionMapping, invertPosition);
-
-					state.orientation[0] = orientation[0];
-					state.orientation[1] = orientation[1];
-					state.orientation[2] = orientation[2];
-					state.orientation[3] = orientation[3];
-					
-					(*mY_it)->modified = 1;
-					state.timeStamp();
-					// end of critical section
-					unlock();
-				}// for all MagicY sources
-			}// while no error 
-		}// if connected
-		disconnect();
-	} // forever
+                    state.position[2] = z_value;
+                    
+                    correctData(state.position, positionMapping, invertPosition);
+                    
+                    state.orientation[0] = orientation[0];
+                    state.orientation[1] = orientation[1];
+                    state.orientation[2] = orientation[2];
+                    state.orientation[3] = orientation[3];
+                    
+                    (*mY_it)->modified = 1;
+                    state.timeStamp();
+                    // end of critical section
+                }// for all MagicY sources
+                unlock();
+            }// while no error 
+        }// if connected
+        disconnect();
+    } // forever
     cout << "Stopping thread" << endl;
 }
-    
+
 
 //  constructs a new Node
 Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
@@ -315,32 +323,32 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
     if( name.compare("MagicYSource") == 0 )
     { 
         int number = atoi(attributes.get("number").c_str());
-		
-		bool average = false;
-		string avrg = attributes.get("average");
-		if(!avrg.empty() && !(avrg.compare("true") && avrg.compare("t") && avrg.compare("1")))
-			average = true;
-
-		MagicYVector::iterator it;
-		for( it = magicYs.begin(); it != magicYs.end(); it++ )
-		{
-			MagicY *mY = (MagicY*)(*it);
-			if( mY->number == number )
-			{
-				break;
-			}
-		}
-		if( it != magicYs.end())
-		{
-			cout << "Source with number "<< number << " exists allready \n";
-			return NULL;
-		}
-
-		MagicYSource *source = new MagicYSource; 
-		MagicY *magicY = new MagicY(number, average, source);
-		magicYs.push_back( magicY );
+        
+        bool average = false;
+        string avrg = attributes.get("average");
+        if(!avrg.empty() && !(avrg.compare("true") && avrg.compare("t") && avrg.compare("1")))
+            average = true;
+        
+        MagicYVector::iterator it;
+        for( it = magicYs.begin(); it != magicYs.end(); it++ )
+        {
+            MagicY *mY = (MagicY*)(*it);
+            if( mY->number == number )
+            {
+                break;
+            }
+        }
+        if( it != magicYs.end())
+        {
+            cout << "Source with number "<< number << " exists allready \n";
+            return NULL;
+        }
+        
+        MagicYSource *source = new MagicYSource; 
+        MagicY *magicY = new MagicY(number, average, source);
+        magicYs.push_back( magicY );
         cout << "Built MagicYSource node." << endl;
-
+        
         return source;
     }
     return NULL;
@@ -350,10 +358,10 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
 // opens the sockets needed for communication and starts the receive thread
 void MagicYModule::start()
 {
-	if (isInitialized() && !magicYs.empty())
-		ThreadModule::start();
+    if (isInitialized() && !magicYs.empty())
+        ThreadModule::start();
 }
- 
+
 // closes the module and closes any communication sockets and stops thread 
 void MagicYModule::close()
 {
@@ -366,24 +374,24 @@ void MagicYModule::close()
 // pushes state information into the tree
 void MagicYModule::pushState()
 {
-	if (magicYs.empty())
-		return;
-
-	for (MagicYVector::iterator it = magicYs.begin(); it != magicYs.end(); it++ )
-	{       
-		// critical section start
-		lock();
-		if((*it)->modified == 1 )
-		{
-			(*it)->source->state = (*it)->state;
-			(*it)->modified = 0;
-			unlock();
-			(*it)->source->updateObservers( (*it)->source->state );
-		}
-		else
-			unlock();
-		// end of critical section
-	}
+    if (magicYs.empty())
+        return;
+    
+    for (MagicYVector::iterator it = magicYs.begin(); it != magicYs.end(); it++ )
+    {       
+        // critical section start
+        lock();
+        if((*it)->modified == 1 )
+        {
+            (*it)->source->state = (*it)->state;
+            (*it)->modified = 0;
+            unlock();
+            (*it)->source->updateObservers( (*it)->source->state );
+        }
+        else
+            unlock();
+        // end of critical section
+    }
 }          
 
 
@@ -398,9 +406,9 @@ int MagicYModule::parseVector(const string & line, int * val )
     }
     val[0] = help[0];
     val[1] = help[1];
-	val[2] = help[2];
+    val[2] = help[2];
     
-	return 0;
+    return 0;
 }
 
 
@@ -413,13 +421,13 @@ int MagicYModule::parseVector(const string & line, float * val )
     {
         return 1;
     }
-
+    
     val[0] = help[0];
     val[1] = help[1];
-	val[2] = help[2];
-	val[3] = help[3];
+    val[2] = help[2];
+    val[3] = help[3];
     
-	return 0;
+    return 0;
 }
 
 // parse data for extra screens, format: "port x_offset y_offset"
@@ -427,25 +435,25 @@ int MagicYModule::parseVector(const string & line, float * val )
 
 int MagicYModule::parseScreens(const string & line)
 {
-	int port, x_off, y_off, pos=0;
-	string temp = line;
-
-	do { 
-		if(sscanf(temp.c_str(), "%d %d %d", &port, &x_off, &y_off) < 3)
-			return -1;
-
-		Screen *scr = new Screen(port, hostname, x_off, y_off);
-		screens.push_back(scr);
-
-		cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
-
-		pos = temp.find(' ', 0);
-		pos = temp.find(' ', pos+1);
-		pos = temp.find(' ', pos+1);
-		temp.erase(0, pos+1);
-	} while(pos >= 0); 
-
-	return 0;
+    int port, x_off, y_off, pos=0;
+    string temp = line;
+    
+    do { 
+        if(sscanf(temp.c_str(), "%d %d %d", &port, &x_off, &y_off) < 3)
+            return -1;
+        
+        Screen *scr = new Screen(port, hostname, x_off, y_off);
+        screens.push_back(scr);
+        
+        cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
+        
+        pos = temp.find(' ', 0);
+        pos = temp.find(' ', pos+1);
+        pos = temp.find(' ', pos+1);
+        temp.erase(0, pos+1);
+    } while(pos >= 0); 
+    
+    return 0;
 }
 
 void MagicYModule::correctData(float* d, int *mapping, int *inversion)
@@ -459,68 +467,68 @@ void MagicYModule::correctData(float* d, int *mapping, int *inversion)
 
 void MagicYModule::initMappping(int *mapping)
 {
-	for (int i=0; i<3; i++)
-		mapping[i] = i;
+    for (int i=0; i<3; i++)
+        mapping[i] = i;
 }
 
 void MagicYModule::initInversion(int *inversion)
 {
-	for (int i=0; i<3; i++)
-		inversion[i] = 1;
+    for (int i=0; i<3; i++)
+        inversion[i] = 1;
 }
 
 void MagicYModule::initOrientation(float *orientation)
 {
-	orientation[0] = 0.0f;
-	orientation[1] = 0.0f;
-	orientation[2] = 0.0f;
-	orientation[3] = 1.0f;
+    orientation[0] = 0.0f;
+    orientation[1] = 0.0f;
+    orientation[2] = 0.0f;
+    orientation[3] = 1.0f;
 }
 
 void MagicYModule::calcMapping(int *mapping)
 {
-	for (int i=0; i<3; i++)
-		if (mapping[i] > 2)
-			mapping[i] = 2;
-		else if (mapping[i] < 0)
-				mapping[i] = 0;
+    for (int i=0; i<3; i++)
+        if (mapping[i] > 2)
+            mapping[i] = 2;
+        else if (mapping[i] < 0)
+            mapping[i] = 0;
 }
 
 void MagicYModule::calcInversion(int *inversion)
 {
-	for (int i=0; i<3; i++)
-		inversion[i] = inversion[i] ? -1 : 1;
+    for (int i=0; i<3; i++)
+        inversion[i] = inversion[i] ? -1 : 1;
 }
 
 
 void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
 {
-	ThreadModule::init(attributes, localTree);
+    ThreadModule::init(attributes, localTree);
     
-	// Reading hostname and port number from XML-File
-	hostname = string(attributes.get("hostname"));
-
+    // Reading hostname and port number from XML-File
+    hostname = string(attributes.get("hostname"));
+    
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
-	{
-            cout << "Error parsing positionMapping !" << endl;
-			initMappping(positionMapping);
-	}
-	calcMapping(positionMapping);
+    {
+        cout << "Error parsing positionMapping !" << endl;
+        initMappping(positionMapping);
+    }
+    calcMapping(positionMapping);
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
-	{
-            cout << "Error parsing invertPosition !" << endl;
-			initInversion(invertPosition);
-	}
-	calcInversion(invertPosition);
-	if( parseVector(attributes.get("orientation"), orientation ) != 0 )
-	{
-            cout << "Error parsing orientation !" << endl;
-			initOrientation(orientation);
-	}
-	if( parseScreens(attributes.get("screens")) != 0 )
-	{
-            cout << "Error parsing extra screens !" << endl;
-	}
-	z_value = atof(attributes.get("z_value").c_str());
+    {
+        cout << "Error parsing invertPosition !" << endl;
+        initInversion(invertPosition);
+    }
+    calcInversion(invertPosition);
+    if( parseVector(attributes.get("orientation"), orientation ) != 0 )
+    {
+        cout << "Error parsing orientation !" << endl;
+        initOrientation(orientation);
+    }
+    if( parseScreens(attributes.get("screens")) != 0 )
+    {
+        cout << "Error parsing extra screens !" << endl;
+    }
+    z_value = atof(attributes.get("z_value").c_str());
 }
 
