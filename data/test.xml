@@ -147,15 +147,19 @@
   <ConsoleSink comment="SpeechSource" active="off">
     <SpeechRecoSource set="Set1" name="Set1"/>
   </ConsoleSink>
-  <ConsoleSink comment="Ellipsoid" active="off">
-    <EventEllipsoidTransform a="6378137" b="6356752.3142452" mode="toEllipsoid">
-      <ConsoleSink comment="Cart" active="off">
-        <EventEllipsoidTransform a="6378137" b="6356752.31424523" mode="toCartesian">
-          <ConsoleSink comment="Original" active="off">
-            <Ref USE="C0"/>
+  <ConsoleSink comment="GK" active="off">
+    <EventGKTransform a="6377397.155" b="6356078.963" mode="to" meridian="34" alpha="111120.6196" beta="15988.6385" gamma="16.73" delta="0.0218">
+      <ConsoleSink comment="Ellipsoid" active="off">
+        <EventEllipsoidTransform a="6378137" b="6356752.3142452" mode="toEllipsoid">
+          <ConsoleSink comment="Cart" active="off">
+            <EventEllipsoidTransform a="6378137" b="6356752.31424523" mode="toCartesian">
+              <ConsoleSink comment="Original" active="off">
+                <Ref USE="C0"/>
+              </ConsoleSink>
+            </EventEllipsoidTransform>
           </ConsoleSink>
-        </EventEllipsoidTransform>        
+        </EventEllipsoidTransform>
       </ConsoleSink>
-    </EventEllipsoidTransform>
+    </EventGKTransform>
   </ConsoleSink>
 </OpenTracker>

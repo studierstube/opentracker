@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.h,v 1.1 2003/03/28 13:07:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.h,v 1.2 2003/03/28 14:48:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -74,8 +74,9 @@
  * filter node for events, queues or time dependend nodes. 
  * @author Gerhard Reitmayr
  * @ingroup common
+ * @todo fix principal value tests for trigonometric calculations
  */
-class EllipsoidTransformNode : public Transformation  
+class OPENTRACKER_API EllipsoidTransformNode : public Transformation  
 {
 public:
 	/// the first semi diameter in meters

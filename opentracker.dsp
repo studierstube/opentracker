@@ -162,6 +162,10 @@ SOURCE=.\src\common\ElasticFilterNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\EllipsoidTransformNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\EventQueueImplementation.cxx
 # End Source File
 # Begin Source File
@@ -183,6 +187,10 @@ SOURCE=.\src\common\FilterNode.cxx
 # Begin Source File
 
 SOURCE=.\src\input\FOBModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\GKTransformNode.cxx
 # End Source File
 # Begin Source File
 
@@ -482,6 +490,10 @@ SOURCE=.\src\common\ElasticFilterNode.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\EllipsoidTransformNode.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\EventQueueImplementation.h
 # End Source File
 # Begin Source File
@@ -523,6 +535,10 @@ SOURCE=.\src\input\FOBModule.h
 # Begin Source File
 
 SOURCE=.\src\input\FOBSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\GKTransformNode.h
 # End Source File
 # Begin Source File
 

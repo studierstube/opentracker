@@ -23,6 +23,7 @@ otcommoninc_HEADERS = \
 		FileSink.h \
 		FileSource.h \
 		FilterNode.h \
+		GKTransformNode.h \
 		InterpolatorModule.h \
 		InvertTransformation.h \
 		MatrixTransformation.h \
@@ -71,6 +72,8 @@ libcommon_la_SOURCES = \
 		FileSource.h \
 		FilterNode.cxx \
 		FilterNode.h \
+		GKTransformNode.cxx \
+		GKTransformNode.h \
 		InterpolatorModule.cxx \
 		InvertTransformation.cxx \
 		InvertTransformation.h \

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.12 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.13 2003/03/28 14:48:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -83,11 +83,6 @@ protected:
      * @return 0 if ok, other value if error occured
      */
     static int parseRotation( const std::string & line, const std::string & type, float * val );
-
-    /** builds a EventQueueNode node.
-     * @param attributes reference to StringMap of elements attribute values
-     * @return pointer to EventQueueNode created on the heap */
-    EventQueueNode * buildEventQueue( StringTable& attributes);
 
 public:
     /** constructor method. Initalizes the wrapperNodes array.*/

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.28 2003/03/28 13:07:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.29 2003/03/28 14:48:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,6 +45,7 @@
 #include "ButtonOpNode.h"
 #include "TimeGateNode.h"
 #include "EllipsoidTransformNode.h"
+#include "GKTransformNode.h"
 
 #include <cmath>
 #include <cfloat>
@@ -159,20 +160,6 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
     return 0;
 }
 
-// build a new EventQueue node
-
-EventQueueNode * CommonNodeFactory::buildEventQueue(
-                     StringTable& attributes)
-{
-    int num, length;
-    num = sscanf(attributes.get("length").c_str(), " %i", &length );
-    if( num != 1 )
-    {
-        length = 1;
-    }
-    return new EventQueueNode( length );
-}
-
 // constructs a new Node.
 
 Node * CommonNodeFactory::createNode( const string& name, StringTable& attributes)
@@ -266,7 +253,12 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     }
     else if( name.compare("EventQueue") == 0 )
     {
-        result = buildEventQueue( attributes );
+		int length;
+		if( attributes.get("length", &length) != 1 )
+		{
+	        length = 1;
+		}
+		result = new EventQueueNode( length );
     }
     else if( name.compare("Merge") == 0 )
     {
@@ -400,6 +392,30 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
 		else
 			mode = EllipsoidTransformNode::toCartesian;
         result = new EllipsoidTransformNode( a, b, mode );
+    }
+	else if( name.compare("EventGKTransform") == 0 || 
+			 name.compare("QueueGKTransform") == 0 ||
+			 name.compare("TimeGKTransform") == 0 )
+    {
+        double a = 0, b = 0, meridian = 0, alpha = 0, beta = 0, gamma = 0, delta = 0;
+		GKTransformNode::Mode mode;
+        attributes.get("a", &a );
+		if( attributes.containsKey("b"))
+		{
+			attributes.get("b", &b );
+		}
+		else
+			b = a;
+		attributes.get("meridian", &meridian );
+		attributes.get("alpha", &alpha );
+		attributes.get("beta", &beta );
+		attributes.get("gamma", &gamma );
+		attributes.get("delta", &delta );		
+		if( attributes.get("mode").compare("to") == 0 )
+			mode = GKTransformNode::to;
+		else
+			mode = GKTransformNode::from;
+        result = new GKTransformNode( a, b, meridian, alpha, beta, gamma, delta, mode );
     }
     // the node ports are just looked up in a simple list
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
