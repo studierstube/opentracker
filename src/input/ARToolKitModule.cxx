@@ -203,6 +203,14 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
         else if( treshhold > 255 )
             treshhold = 255;
     }
+    num = sscanf(attributes.get("framerate").c_str(), " %lf", &rate );
+    if( num == 0 )
+    {
+        rate = 0.01;
+    } else 
+    {
+        rate = rate / 1000;
+    }    
 }
 
 
@@ -215,6 +223,9 @@ void ARToolKitModule::run()
 	{
 		return;
 	}
+ 
+    unsigned int count = 0;
+    double startTime = OSUtils::currentTime();    
     
     while(1)
     {
@@ -228,6 +239,13 @@ void ARToolKitModule::run()
             unlock();
         }
         grab();
+        
+        double s = count/rate - ( OSUtils::currentTime() - startTime );
+        if( s >= 10 )
+        {
+            OSUtils::sleep( s );
+        }
+        count ++;
     }
 #ifdef __sgi
     arVideoStop( did );

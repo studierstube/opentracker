@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.14 2001/07/23 14:08:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.15 2001/08/04 23:33:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,10 +41,11 @@
  * @li @c camera-parameter file containing camera calibration data
  * @li @c treshhold 100 bounding value for treshholding the greyscale video
  *        image
+ * @li @c framerate 10 a desired maximum framerate, the module will not exceed it.
  *
  * An example configuration element looks like this :
  * @verbatim
-<ARToolKitConfig camera-parameter="../data/camera" treshhold="150"/>@endverbatim
+<ARToolKitConfig camera-parameter="../data/camera" treshhold="150" framerate="5"/>@endverbatim
  */
 
 /**
@@ -73,11 +74,17 @@ class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 {
 // members
 protected:
+    /// stores the sources
     NodeVector sources;
     int did;
+    /// treshhold value to use in image processing
     int treshhold;
+    /// flag to stop image processing thread
     int stop;
+    /// file name of cameradata file
     std::string cameradata;
+    /// desired maximal framerate
+    double rate;
 
 // methods
 protected:
