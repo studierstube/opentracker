@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-28 15:04  reitmayr
+
+	* doc/contributions.txt:
+	
+	added dwarf guys for ot integration
+
+2003-07-28 14:56  reitmayr
+
+	* src/core/: Context.cxx, Context.h:
+	
+	fixed uninitialized member bug.  added some documentation.
+
 2003-07-27 12:48  reitmayr
 
 	* data/: dwarf.xml, opentracker.dtd:
