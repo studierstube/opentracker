@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-10 14:14  reitmayr
+
+	* src/common/File.h:
+	
+	improved output precision
+
 2003-06-06 15:14  reitmayr
 
 	* src/input/GPS_Handler.cxx:
