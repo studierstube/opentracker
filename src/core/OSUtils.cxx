@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.6 2003/04/15 17:16:19 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,7 +36,8 @@
 // returns the current time in milliseconds since ...
 double OSUtils::currentTime()
 {
-	return (double) ACE_OS::gettimeofday().msec();
+	ACE_Time_Value & time = ACE_OS::gettimeofday();
+	return  ((double)time.sec() * 10.0e3 + (double)time.usec() / 10.0e3);	
 }
 
 //sleeps the specified amount of time ...

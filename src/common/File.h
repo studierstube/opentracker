@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.11 2003/04/04 13:11:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.12 2003/04/15 17:16:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -117,13 +117,8 @@ public:
     {
         if( output != NULL )
         {
-#ifdef WIN32                        // some namespace differences
-            *output << station << " " << std::setprecision( 12 );
-            *output << state.time << " " << std::setprecision(6);
-#else
-            *output << station << " " << setprecision( 12 );
-            *output << state.time << " " << setprecision(6);
-#endif
+            *output << station << " " << setw(15) << setfill(' ') << setprecision( 15 );
+            *output << state.time << " " << setprecision(8);
             *output << state.position[0] << " " 
                 << state.position[1] << " " 
                 << state.position[2] << " "
