@@ -26,16 +26,16 @@
 ##
 ## change the following line to your opentracker base dir
 ##
-OT_DIR     = /projects/cg/dev/opentracker
+OT_DIR     = /home/reitmayr/dev/opentracker
 
 ## set the location of your ACE library here
 ##
-ACE_ROOT   = /projects/cg/dev/ACE_wrappers
+ACE_ROOT   = /home/reitmayr/dev/ACE_wrappers
 
-## set the location of your Xerces-C library here
+## set the location and name of your Xerces-C library here
 ##
-XERCESC_ROOT = /projects/cg/dev/xerces
-
+XERCESC_ROOT = /home/reitmayr/dev/xerces
+XERCESC_LIB = xerces-c1_4
 ##
 ## this does not hopefully need any changes
 ##
@@ -49,10 +49,10 @@ OT_SRC_DIR = $(OT_DIR)/src
 ## also add the correct path to the include files and libraries you will need
 ##
 ## ARToolKit ( uncomment, if you want to compile support for ARToolKit in )
-OT_USE_ARTOOLKIT = -DUSE_ARTOOLKIT \
-                   -I/projects/cg/dev/artool/include
-OT_ARTOOLKIT_LIB = -L/projects/cg/dev/artool/lib \
-                   -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lvl
+#OT_USE_ARTOOLKIT = -DUSE_ARTOOLKIT \
+#                   -I/projects/cg/dev/artool/include
+#OT_ARTOOLKIT_LIB = -L/projects/cg/dev/artool/lib \
+#                   -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lvl
 
 ## InterTrax ( uncomment, if you want to compile support for InterTrax in )
 ## OT_USE_INTERTRAX = -DUSE_INTERTRAX

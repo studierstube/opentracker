@@ -38,7 +38,7 @@ LD	= CC
 
 LDSHARED = $(LD) -shared -set_version sgi3.0
 CXXLINK	 = $(CXX)
-LDFLAGS	 = $(LD_LIBS)
+LDFLAGS	 = $(LD_SHARED_LIBS) $(LD_LIBS) 
 
 ## ---------------------------------------------------------------------------
 ##  C PREPROCESSOR PARAMETERS
@@ -62,19 +62,15 @@ CXXFLAGS = $(CXXWARN) $(CXXOPTS) $(CXXARCH) $(CXXPARMS)
 ## ---------------------------------------------------------------------------
 ##  LIBRARIES TO LINK WITH
 ## ---------------------------------------------------------------------------
-LD_LIBS = \
-	$(OT_LIB_DIR)/libOpenTracker.a \
+LD_LIBS = \	
         -L$(ACE_ROOT)/ace -L$(XERCESC_ROOT)/lib \
         $(OT_OPTIONAL_LIB) \
-	-lACE -lxerces-c1_4 -lcurses -lm        
-
+	-lACE -l$(XERCESC_LIB) -lcurses -lm        
 ## ---------------------------------------------------------------------------
-##  MISC
-##
-##  These are defined on Linux only.
+## EXTRA PARAMETERS TO CREATE SHARED LIB FROM STATIC LIB
 ## ---------------------------------------------------------------------------
-NOPRINT =
-INVENTOR_STUB_O = 
+LD_SHARED_LIBS = \
+        -all $(OT_LIB_DIR)/libOpenTracker.a
 
 ## ---------------------------------------------------------------------------
 ##  DEPFILES

@@ -79,9 +79,7 @@ docs:
 libs: $(_FORCE) sysconfig extras
 	@echo "=== Making OpenTracker libraries ==="
 	cd $(LIBSDIR) && $(MAKE) $(NOPRINT)
-	cd $(OT_LIB_DIR) && $(LDSHARED) -all -o libOpenTracker.so libOpenTracker.a \
-        -L$(ACE_ROOT)/ace -L$(XERCESC_ROOT)/lib $(OT_OPTIONAL_LIB) \
-        -lACE -lxerces-c1_4 -lcurses -lm
+	cd $(OT_LIB_DIR) && $(LDSHARED) -o libOpenTracker.so $(LDFLAGS)
 
 extras: $(_FORCE) sysconfig
 	@echo "=== Making extras ==="
