@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.27 2003/03/24 12:28:46 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.28 2003/03/28 13:07:43 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,14 +44,14 @@
 #include "ButtonFilterNode.h"
 #include "ButtonOpNode.h"
 #include "TimeGateNode.h"
-#include "ElasticFilterNode.h"
+#include "EllipsoidTransformNode.h"
 
 #include <cmath>
 #include <cfloat>
 #include <cstdio>
 #include <iostream>
 
-#include<algorithm>
+#include <algorithm>
 
 using namespace std;
 
@@ -380,6 +380,26 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         TimeGateNode::Mode mode = (attributes.get("mode").compare("pass") == 0)?
                                     (TimeGateNode::PASS):(TimeGateNode::BLOCK);
         result = new TimeGateNode( timeframe, mode );
+    }
+    else if( name.compare("EventEllipsoidTransform") == 0 || 
+			 name.compare("QueueEllipsoidTransform") == 0 ||
+			 name.compare("TimeEllipsoidTransform") == 0 )
+    {
+        double a;
+		double b;
+		EllipsoidTransformNode::Mode mode;
+        attributes.get("a", &a );
+		if( attributes.containsKey("b"))
+		{
+			attributes.get("b", &b );
+		}
+		else
+			b = a;
+		if( attributes.get("mode").compare("toEllipsoid") == 0 )
+			mode = EllipsoidTransformNode::toEllipsoid;
+		else
+			mode = EllipsoidTransformNode::toCartesian;
+        result = new EllipsoidTransformNode( a, b, mode );
     }
     // the node ports are just looked up in a simple list
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())

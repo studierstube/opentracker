@@ -16,6 +16,7 @@ otcommoninc_HEADERS = \
 		ConsoleSource.h \
 		DynamicTransformation.h \
 		ElasticFilterNode.h \
+		EllipsoidTransformNode.h \
 		EventQueueNode.h \
 		File.h \
 		FileModule.h \
@@ -58,6 +59,9 @@ libcommon_la_SOURCES = \
 		DynamicTransformation.cxx \
 		DynamicTransformation.h \
 		ElasticFilterNode.cxx \
+		ElasticFilterNode.h \		
+		EllipsoidTransformNode.cxx \
+		EllipsoidTransformNode.h \
 		EventQueueNode.cxx \
 		EventQueueNode.h \
 		File.h \
