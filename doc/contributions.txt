@@ -4,6 +4,11 @@
 
 We would like to thank the following people for contributing to OpenTracker :
 
+Dieter Schmalstieg \n 
+Toni Fuhrmann \n 
+Gerd Hesina \n 
+Jan Prikryl \n 
+Hannes Kaufmann
 Rainer Splechtna \n
 Ivan Viola \n
 Matej Mlejnek \n
