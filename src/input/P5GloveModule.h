@@ -26,7 +26,7 @@
   *
   * @author Hannes Kaufmann, Istvan Barakonyi
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.h,v 1.2 2003/03/22 15:44:47 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.h,v 1.3 2003/03/25 11:05:12 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,6 +63,10 @@ protected:
 public:
     CP5DLL *P5device;
     int P5Id;
+
+    /// Treshold in degrees for button activation. 
+    /// If the index finger is bent more than BEND_TRESHOLD degrees then the button is activated.
+    #define BEND_THRESHOLD 50
 
     #define P5MOTION_XYZFILTERSIZE	5
     #define P5MOTION_YPRFILTERSIZE	18

@@ -26,7 +26,7 @@
   *
   * @author Hannes Kaufmann, Istvan Barakonyi
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.cxx,v 1.1 2003/03/21 14:52:51 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.cxx,v 1.2 2003/03/25 11:05:12 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -166,14 +166,18 @@ void P5GloveModule::pushState()
             /// button not implemented yet
             /// if the button is pushed (changes state) in any state --> button clicked
 			/// there is only one button, so state.button = 0 OR 1
-/*			
-            if (it == nodes.begin() && buttonState!=glove->buttonState()){
+			
+            
+//            if (it == nodes.begin() && buttonState!=glove->buttonState()){
+            if (it == nodes.begin() && 
+                P5device->m_P5Devices[P5Id].m_byBendSensor_Data[P5_INDEX]>BEND_THRESHOLD)
+            {
 				source->state.button = 1;
 			}
-			else source->state.button = 0;
-			buttonState=glove->buttonState();
-*/
-            source->state.button = 0;
+			else 
+                source->state.button = 0;
+
+//            source->state.button = 0;
 
 			source->state.timeStamp();
 			source->updateObservers( source->state );			
