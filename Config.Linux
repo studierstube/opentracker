@@ -34,7 +34,7 @@ SUBDIRS_OSDEP = $(SUBDIRS_LINUX)
 
 CC      = gcc
 CXX     = g++
-LD      = ld
+LD      = g++
 
 LDSHARED        = $(LD) -shared 
 CXXLINK         = $(CXX) -rdynamic
@@ -57,7 +57,7 @@ PRVFLAGS = -DGCC3
 ##  CXXOPTS = -O3 -DNDEBUG 
 ##  CXXARCH  = -mieee-fp -malign-double -march=i686
 CXXWARN  = 
-CXXOPTS  = -g 
+CXXOPTS  = -g -fPIC
 CXXARCH  = 
 CXXPARMS = -Wp,-MD,.deps/$(*F).pp
 CXXFLAGS = $(CXXWARN) $(CXXOPTS) $(CXXARCH) $(CXXPARMS)
@@ -74,7 +74,7 @@ LD_LIBS = \
 ## EXTRA PARAMETERS TO CREATE SHARED LIB FROM STATIC LIB
 ## ---------------------------------------------------------------------------
 LD_SHARED_LIBS = \
-        --whole-archive $(OT_LIB_DIR)/libOpenTracker.a --no-whole-archive
+        -Wl,--whole-archive $(OT_LIB_DIR)/libOpenTracker.a -Wl,--no-whole-archive
 
 ## ---------------------------------------------------------------------------
 ##  SUFFIXES
