@@ -74,14 +74,21 @@ CURSES_INCLUDEDIR = @CURSES_INCLUDEDIR@
 CURSES_LIBS = @CURSES_LIBS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
+CXXFLAGS = @CXXFLAGS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 ECHO = @ECHO@
+HAVE_FEATURE_ARTOOLKIT = @HAVE_FEATURE_ARTOOLKIT@
+HAVE_FEATURE_JOYSTICK = @HAVE_FEATURE_JOYSTICK@
+HAVE_FEATURE_SAPISPEECH = @HAVE_FEATURE_SAPISPEECH@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 MAINT = @MAINT@
 OBJDUMP = @OBJDUMP@
+OT_VERSION = @OT_VERSION@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
@@ -107,7 +114,9 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
-noinst_PROGRAMS = opentracker ottest
+BUILT_SOURCES = opentracker-config
+
+noinst_PROGRAMS = opentracker ottest opentracker-config
 
 opentracker_SOURCES = $(top_srcdir)/src/misc/main.cxx
 opentracker_LDADD = $(top_builddir)/lib/libOpenTracker.la @stb_ac_ace_libs@ @stb_ac_xerces_libs@ @stb_ac_artoolkit_libs@
@@ -120,12 +129,18 @@ subdir = bin
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-noinst_PROGRAMS = opentracker$(EXEEXT) ottest$(EXEEXT)
+noinst_PROGRAMS = opentracker$(EXEEXT) ottest$(EXEEXT) \
+	opentracker-config$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_opentracker_OBJECTS = main.$(OBJEXT)
 opentracker_OBJECTS = $(am_opentracker_OBJECTS)
 opentracker_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
+opentracker_config_SOURCES = opentracker-config.c
+opentracker_config_OBJECTS = opentracker-config.$(OBJEXT)
+opentracker_config_LDADD = $(LDADD)
+opentracker_config_DEPENDENCIES =
+opentracker_config_LDFLAGS =
 am_ottest_OBJECTS = test.$(OBJEXT)
 ottest_OBJECTS = $(am_ottest_OBJECTS)
 ottest_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
@@ -133,11 +148,19 @@ ottest_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/main.Po ./$(DEPDIR)/test.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/main.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/opentracker-config.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/test.Po
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
+	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -146,15 +169,16 @@ LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-CXXFLAGS = @CXXFLAGS@
-DIST_SOURCES = $(opentracker_SOURCES) $(ottest_SOURCES)
+DIST_SOURCES = $(opentracker_SOURCES) opentracker-config.c \
+	$(ottest_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(opentracker_SOURCES) $(ottest_SOURCES)
+SOURCES = $(opentracker_SOURCES) opentracker-config.c $(ottest_SOURCES)
 
-all: all-am
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .cxx .lo .o .obj
+.SUFFIXES: .c .cxx .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/src/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  bin/Makefile
@@ -183,10 +207,30 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opentracker-config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
+
+.c.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `test -f '$<' || echo '$(srcdir)/'`$<
+
+.c.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `cygpath -w $<`
+
+.c.lo:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+CCDEPMODE = @CCDEPMODE@
 
 .cxx.o:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
@@ -344,6 +388,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
@@ -394,6 +439,12 @@ uninstall-am: uninstall-info-am
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	tags uninstall uninstall-am uninstall-info-am
 
+
+opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
+	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
+
+# sources needed to be generated must be created by this rule
+built-sources: $(BUILT_SOURCES)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
