@@ -28,6 +28,7 @@ otcommoninc_HEADERS = \
         InvertTransformation.h \
         MatrixTransformation.h \
         MergeNode.h \
+        RangeFilterNode.h \
         SelectionNode.h \
         StaticTransformation.h \
         ThresholdFilterNode.h \
@@ -82,6 +83,8 @@ libcommon_la_SOURCES = \
         MatrixTransformation.h \
         MergeNode.cxx \
         MergeNode.h \
+        RangeFilterNode.cxx \
+        RangeFilterNode.h \
         SelectionNode.cxx \
         SelectionNode.h \
         StaticTransformation.cxx \

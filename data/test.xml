@@ -167,7 +167,12 @@
       <TransformBase>
         <Ref USE="C0"/>
       </TransformBase>
-        <Ref USE="C1"/>
+      <Ref USE="C1"/>
     </EventDynamicTransform>
+  </ConsoleSink>
+  <ConsoleSink comment="RangeFilter" active="off">
+    <RangeFilter min="0.5" max="2">
+      <Ref USE="C0"/>
+    </RangeFilter>
   </ConsoleSink>
 </OpenTracker>

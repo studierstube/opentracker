@@ -290,6 +290,10 @@ SOURCE=.\src\misc\portio.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\RangeFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\rtcm.cxx
 # End Source File
 # Begin Source File
@@ -683,6 +687,10 @@ SOURCE=.\src\input\ParButtonSource.h
 # Begin Source File
 
 SOURCE=.\src\misc\portio.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\RangeFilterNode.h
 # End Source File
 # Begin Source File
 
