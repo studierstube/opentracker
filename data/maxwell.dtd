@@ -32,8 +32,8 @@
 <!ATTLIST Transformation
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
-	rotationtype (quaternion | matrix | euler) "quaternion"
-	rotation CDATA "0 0 0 1"
+	rotationtype (quaternion | matrix | euler | axisangle ) "quaternion"
+	rotation CDATA "0 0 1 0"
 >
 <!ELEMENT VirtualTransformation (%NodeElements;)>
 <!ATTLIST VirtualTransformation
