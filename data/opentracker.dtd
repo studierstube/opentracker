@@ -7,9 +7,9 @@
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransformation | StbSink">
-<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransformation">
-<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransformation">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink">
+<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform">
+<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
@@ -150,9 +150,9 @@ Time prefix defines that the node implements an TimeDependend interface -->
 >
 <!-- dynamic transformations and associated wrapper tag -->
 <!ELEMENT TransformBase (%EventNodes;)>
-<!ELEMENT EventDynamicTransformation ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
-<!ELEMENT QueueDynamicTransformation ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
-<!ELEMENT TimeDynamicTransformation ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!-- EventQueue stores a queue of size length of the last received events.
 It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT EventQueue (%EventNodes;)>
@@ -257,12 +257,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ISTracker
 	comport CDATA "0"
 	stations CDATA "1"
-	name CDATA #REQUIRED
 >
-<!ELEMENT InterSenseConfig (ISTracker*) >
+<!ELEMENT InterSenseConfig (ISTracker*)>
 <!ELEMENT InterSenseSource EMPTY>
 <!ATTLIST InterSenseSource
-	tracker CDATA #REQUIRED
+	comport CDATA #REQUIRED
 	station CDATA "1"
 >
- 
