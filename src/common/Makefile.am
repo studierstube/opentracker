@@ -5,6 +5,8 @@ include $(top_srcdir)/src/Makefile.common
 otcommonincdir = $(otincdir)/common
 otcommoninc_HEADERS = \
         ButtonFilterNode.h \
+        ButtonHoldFilterModule.h \
+        ButtonHoldFilterNode.h \
         ButtonOpNode.h \
         CallbackModule.h \
         CallbackNode.h \
@@ -43,6 +45,10 @@ noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
         ButtonFilterNode.cxx \
         ButtonFilterNode.h \
+        ButtonHoldFilterModule.cxx \
+        ButtonHoldFilterModule.h \
+        ButtonHoldFilterNode.cxx \
+        ButtonHoldFilterNode.h \
         ButtonOpNode.cxx \
         ButtonOpNode.h \
         CallbackModule.cxx \
