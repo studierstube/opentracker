@@ -9,6 +9,42 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-21 23:32  tamer
+
+	* INSTALL:
+	
+	update INSTALL file reflecting the new changes.
+
+2003-03-21 23:19  tamer
+
+	* configure.ac, bin/Makefile.am, bin/opentracker-config.in:
+	
+	fixed opentracker-config to gather the correct prefix. options
+	handling refined.  build system fixes in this regard. made the
+	script executable in opentracker/bin.
+
+2003-03-21 21:34  tamer
+
+	* bin/Makefile.am, bin/opentracker-config.in, lib/Makefile.am,
+	src/Makefile.am, src/Makefile.common, src/common/Makefile.am,
+	src/core/Makefile.am, src/input/Makefile.am, src/misc/Makefile.am,
+	src/misc/xml/Makefile.am, src/network/Makefile.am:
+	
+	added handling to allow OpenTracker to be installed into the
+	system.  boostrapped build system.  fixed opentracker-config to be
+	able to use it as a tool to get the necessary includes and lib
+	directories out of it necessary to succesfully link against
+	libOpenTracker.
+
+2003-03-21 15:52  kaufmann
+
+	* src/input/: P5GloveModule.cxx, P5GloveModule.h, P5GloveSource.h:
+	
+	New P5Glove Module. Supports the P5 Glove, sends position and
+	orientation of the whole hand correctly, no button support is
+	implemented yet.  Finger positions are not calculated seperately
+	yet.
+
 2003-03-20 17:36  reitmayr
 
 	* src/core/: Module.h, NodeFactory.h:
