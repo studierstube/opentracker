@@ -149,7 +149,6 @@ public class ConnectionListener {
 	}
         try{
           do{
-		if(myInStream.ready()){
       	  myChar = myInStream.read();
               switch (myChar){
                 case (VK_LEFT|KEY_PRESSED):
@@ -202,10 +201,7 @@ public class ConnectionListener {
 		  System.out.print("Sending packet with button states: ");
 		  System.out.println(myPackage[17]);
 		  mySender.send(new DatagramPacket(myPackage,33));
-		}
-		else {
-			// wait 10ms, or CPU is 100% used	
-		}
+
           }while (myChar!=VK_Q);
         }
         catch(Exception e){
