@@ -9,6 +9,19 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-02-20 10:22  reitmayr
+
+	* opentracker.dsp:
+	
+	adapted paths to work on both ACE 5.4 and earlier
+
+2004-02-20 09:59  reitmayr
+
+	* src/: input/ARTDataTrackerModule.cxx, input/GPSModule.cxx,
+	input/GPSSource.h, input/UltraTrakModule.cxx, core/Context.cxx:
+	
+	some additional includes for Ace 5.4
+
 2004-02-10 16:17  tamer
 
 	* cfg/m4/xerces.m4:
