@@ -48,7 +48,7 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-using namespace std;
+//using namespace std;
 
 #define SERVER_DATA_PRECISION 100
 #define SERVER_DATA_SHIFT     1000

@@ -51,7 +51,7 @@
 
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 #ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE
@@ -165,8 +165,8 @@ ConfigNode * ConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
 #endif //USE_XERCES
 
 #ifdef USE_TINYXML
-    auto_ptr<StringTable> map ( parseElement( element ));
-    string tagName = element->Value();
+    std::auto_ptr<StringTable> map ( parseElement( element ));
+    std::string tagName = element->Value();
     ConfigNode * config = new ConfigNode( *map );
     config->setParent( element );
 
@@ -236,8 +236,8 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
 #endif //USE_XERCES
 
 #ifdef USE_TINYXML
-    string tagName = element->Value();
-    auto_ptr<StringTable> map ( parseElement( element ));
+    std::string tagName = element->Value();
+    std::auto_ptr<StringTable> map ( parseElement( element ));
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
     {
@@ -285,7 +285,7 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
 
 // This method parses an XML configuration file.
 
-Node * ConfigurationParser::parseConfigurationFile(const string& filename)
+Node * ConfigurationParser::parseConfigurationFile(const std::string& filename)
 {
 #ifdef USE_XERCES
     // read and parse configuration file
@@ -460,8 +460,8 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 	TiXmlElement * configElement = config->FirstChildElement();
 	while(configElement)
 	{
-        auto_ptr<StringTable> attributes( parseElement( configElement ));
-        string tagName = configElement->Value();
+        std::auto_ptr<StringTable> attributes( parseElement( configElement ));
+        std::string tagName = configElement->Value();
 		ConfigNode * base = new ConfigNode( *attributes );
 		base->setParent( configElement );
 		LOG_ACE_INFO("ot:config for %s\n", tagName.c_str());

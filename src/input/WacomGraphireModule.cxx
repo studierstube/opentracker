@@ -59,7 +59,7 @@
 #define	PACKETDATA	( PK_X | PK_Y | PK_Z | PK_CURSOR | PK_BUTTONS | PK_NORMAL_PRESSURE )
 #include "pktdef.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

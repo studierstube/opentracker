@@ -79,7 +79,7 @@
 
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {

@@ -35,7 +35,7 @@
 
 #include "ButtonOpNode.h"
 
-using namespace std;
+//using namespace std;
 
 // constructor method.
 

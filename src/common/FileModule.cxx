@@ -43,7 +43,7 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -81,16 +81,16 @@ void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
 
 // This method is called to construct a new Node
 
-Node * FileModule::createNode( const string& name, StringTable& attributes)
+Node * FileModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("FileSink") == 0 )
     {
-        string id = attributes.get("file");
+        std::string id = attributes.get("file");
         int station;
         if( attributes.get("station", &station) != 1 ) 
             station = 0;                    
         // search for File
-        map<string,File *>::iterator it = files.find( id );
+        std::map<std::string,File *>::iterator it = files.find( id );
         File * file;
         if( it != files.end()) // found one or create a new one ? 
         {
@@ -114,9 +114,9 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
 
     } else if( name.compare("FileSource") == 0 )
     {
-		string id = attributes.get("file");
+		std::string id = attributes.get("file");
         // file source needs an existing file, therefore we can use the directory stack !
-        string fullname;
+        std::string fullname;
         if( context->findFile( id, fullname ))
         {
             id = fullname;
@@ -134,7 +134,7 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
         bool localTime = ( attributes.get("localtime").compare("true") == 0 );
             
         // search for File
-        map<string,File *>::iterator it = files.find( id );
+        std::map<std::string,File *>::iterator it = files.find( id );
         File * file;
         if( it != files.end()) // found one
         {
@@ -182,7 +182,7 @@ void FileModule::pushState()
 
     lastTime = time;
 
-	for( map<string, File*>::iterator it = files.begin(); it != files.end(); it++ )
+	for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
     {
         if((*it).second->mode == File::FILE_IN )
         {
@@ -223,7 +223,7 @@ void FileModule::pushState()
 
 void FileModule::close()
 {
-    for( map<string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
+    for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
 	{
         
 		File * file = (File*)(*it).second;

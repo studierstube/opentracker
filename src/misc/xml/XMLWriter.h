@@ -38,7 +38,7 @@
 #include <iostream>
 
 // need that to make it work with standard conformind stdc++ libs and older ones
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

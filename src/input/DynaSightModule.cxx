@@ -55,7 +55,7 @@
 #define FALSE 0
 #endif
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -116,7 +116,7 @@ void DynaSightModule::init(StringTable& attributes, ConfigNode * localTree)
 } // init
 
 //  constructs a new DynaSightSource node
-Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
+Node * DynaSightModule::createNode(const std::string& name,  StringTable& attributes)
 {
     int number = 0;
     

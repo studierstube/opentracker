@@ -41,7 +41,7 @@
 #include <stdio.h>
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 #include <ace/Log_Msg.h>
 
 // Destructor method
@@ -55,7 +55,7 @@ ButtonHoldFilterModule::~ButtonHoldFilterModule()
 
 // This method is called to construct a new Node.
 
-Node * ButtonHoldFilterModule::createNode( const string& name, StringTable& attributes)
+Node * ButtonHoldFilterModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("ButtonHoldFilter") == 0 )
     {

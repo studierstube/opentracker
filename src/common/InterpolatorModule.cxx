@@ -43,7 +43,7 @@
 
 #include <ace/Log_Msg.h>
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -56,7 +56,7 @@ InterpolatorModule::~InterpolatorModule()
 
 // This method is called to construct a new Node.
 
-Node * InterpolatorModule::createNode( const string& name, StringTable& attributes)
+Node * InterpolatorModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("ElasticFilter") == 0 )
     {

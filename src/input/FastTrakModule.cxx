@@ -47,7 +47,7 @@
 
 #include <ace/Log_Msg.h>
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

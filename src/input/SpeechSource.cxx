@@ -33,7 +33,7 @@
 
 
 #ifdef USE_SAPISPEECH
-using namespace std;
+//using namespace std;
 
 
 

@@ -55,7 +55,7 @@ XERCES_CPP_NAMESPACE_USE;
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 #endif //USE_XERCES
 
-using namespace std;
+//using namespace std;
 
 // constructor method.
 
@@ -109,7 +109,7 @@ void Context::removeFactory(NodeFactory & oldfactory)
 
 // adds a module to the contexts collection
 
-void Context::addModule(const string & name, Module & module)
+void Context::addModule(const std::string & name, Module & module)
 {
     modules[name] = &module;
     module.context = this;
@@ -117,7 +117,7 @@ void Context::addModule(const string & name, Module & module)
 
 // returns a module indexed by its configuration elements name
 
-Module * Context::getModule(const string & name)
+Module * Context::getModule(const std::string & name)
 {
     ModuleMap::iterator it = modules.find( name );
     if( it != modules.end())    
@@ -162,12 +162,12 @@ void Context::close()
 
 // parses the file and builds the tree.
 
-void Context::parseConfiguration(const string& filename)
+void Context::parseConfiguration(const std::string& filename)
 {
 #ifdef USE_XERCES
     file = filename;
-    string::size_type limit = file.find_last_of( "/\\" );
-    if( limit != string::npos )
+    std::string::size_type limit = file.find_last_of( "/\\" );
+    if( limit != std::string::npos )
         addDirectoryFirst( file.substr(0, limit));
     
     ConfigurationParser parser( *this );
@@ -189,8 +189,8 @@ void Context::parseConfiguration(const string& filename)
 
 #ifdef USE_TINYXML
     file = filename;
-    string::size_type limit = file.find_last_of( "/\\" );
-    if( limit != string::npos )
+    std::string::size_type limit = file.find_last_of( "/\\" );
+    if( limit != std::string::npos )
         addDirectoryFirst( file.substr(0, limit));
     
     ConfigurationParser parser( *this );
@@ -248,7 +248,7 @@ int Context::stop()
 
 // creates a new node from a given element name and an attribute table
 
-Node * Context::createNode( const string & name, StringTable & attributes)
+Node * Context::createNode( const std::string & name, StringTable & attributes)
 {
 #ifdef USE_XERCES
     Node * value = factory.createNode( name , attributes );
@@ -264,7 +264,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         KeyIterator keys(attributes);
         while( keys.hasMoreKeys())
         {
-            const string & key = keys.nextElement();
+            const std::string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
 			auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
 			auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
@@ -289,7 +289,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         KeyIterator keys(attributes);
         while( keys.hasMoreKeys())
         {
-            const string & key = keys.nextElement();
+            const std::string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
 			const char * attName = key.c_str();
 			const char * attVal = attributes.get( key ).c_str();
@@ -302,7 +302,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
 
 #ifdef USE_TINYXML
 TiXmlElement *
-findElementRecursive(TiXmlElement* element, const string & id)
+findElementRecursive(TiXmlElement* element, const std::string & id)
 {
 	// does this element have the attribute we search for?
 	if(element->Attribute(id.c_str()))
@@ -336,7 +336,7 @@ Node * Context::getRootNode()
     return rootNode;
 }
 
-Node * Context::findNode(const string & id)
+Node * Context::findNode(const std::string & id)
 {
 #ifdef USE_XERCES
     // search for the right node via the DOM_Document API
@@ -360,7 +360,7 @@ Node * Context::findNode(const string & id)
 
 void Context::addDirectoryFirst( const std::string & dir )
 {
-    if( find( directories.begin(), directories.end(), dir) == directories.end())
+    if( std::find( directories.begin(), directories.end(), dir) == directories.end())
     {
         directories.insert(directories.begin(), dir);
     }
@@ -370,7 +370,7 @@ void Context::addDirectoryFirst( const std::string & dir )
 
 void Context::addDirectoryLast( const std::string & dir )
 {
-    if( find( directories.begin(), directories.end(), dir) == directories.end())
+    if( std::find( directories.begin(), directories.end(), dir) == directories.end())
     {
         directories.push_back(dir);
     }    
@@ -380,7 +380,7 @@ void Context::addDirectoryLast( const std::string & dir )
 
 void Context::removeDirectory( const std::string & dir )
 {
-    vector<string>::iterator it = find( directories.begin(), directories.end(), dir);
+    std::vector<std::string>::iterator it = std::find( directories.begin(), directories.end(), dir);
     if( it != directories.end())
     {
         directories.erase(it);
@@ -401,10 +401,10 @@ bool Context::findFile( const std::string & filename, std::string & fullname )
         fullname = filename;
         return true;
     }
-    vector<string>::iterator it;
+    std::vector<std::string>::iterator it;
     for( it = directories.begin(); it != directories.end(); it++ )
     {
-        string name = (*it) + "/" + filename;
+        std::string name = (*it) + "/" + filename;
         if( ACE_OS::stat( ACE_TEXT_CHAR_TO_TCHAR(name.c_str()), &stat ) == 0 )
         {
             fullname = name;

@@ -45,7 +45,7 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -122,7 +122,7 @@ GroupGateModule::~GroupGateModule()
 
 // This method is called to construct a new Node.
 Node *
-GroupGateModule::createNode(const string &name, StringTable &attributes)
+GroupGateModule::createNode(const std::string &name, StringTable &attributes)
 {
     if(name.compare("GroupGate") == 0)
     {
@@ -149,11 +149,11 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
 		// groupgate node not yet supported under wince
 		assert(false);
 #else
-        stringstream neighborstream;
+        std::stringstream neighborstream;
         neighborstream << cneighbors;
         while (true)
         {
-            string neighbor;
+            std::string neighbor;
             neighborstream >> neighbor;
             if (neighbor == "") break;
             node->addNeighbor(neighbor.c_str());

@@ -59,7 +59,7 @@
 // right libraries etc.
 //#define _DLPORTIO
 
-using namespace std;
+//using namespace std;
 
 #ifdef WIN32
 #include <windows.h>
@@ -235,7 +235,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
     
 void ParButtonModule::close()
 {
-    for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
+    for( std::map<std::string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
 #ifndef WIN32
 #ifdef _SGI_SOURCE
@@ -255,7 +255,7 @@ void ParButtonModule::pushState()
 {
     unsigned short data;
     
-    for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
+    for( std::map<std::string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
 #ifdef WIN32

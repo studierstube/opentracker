@@ -3,7 +3,7 @@ Microsoft eMbedded Visual Tools Workspace File, Format Version 4.00
 
 ###############################################################################
 
-Project: "OTTest"=..\src\misc\wince\OTTest.vcp - Package Owner=<4>
+Project: "OTTest"=.\src\misc\wince\OTTest.vcp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -18,19 +18,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "TinyXML"=..\..\tinyxml\TinyXML.vcp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "libce"=..\..\libce\build\EVC4\libce.vcp - Package Owner=<4>
+Project: "libce"=..\libce\build\EVC4\libce.vcp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -54,8 +42,20 @@ Package=<4>
     Project_Dep_Name libce
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name TinyXML
+    Project_Dep_Name tinyxml_dll
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "tinyxml_dll"=..\tinyxml\tinyxml_dll.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################

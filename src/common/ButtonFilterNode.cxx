@@ -46,7 +46,7 @@
 #define DEBUG_CODE(a) {}
 #endif
 
-using namespace std;
+//using namespace std;
 
 // constructor method.
 
@@ -156,15 +156,15 @@ int ButtonFilterNode::isEventGenerator()
 }
 
 // this method is called by the EventGenerator to update it's observers.
-#define COUT_BINARY(bina) { for (int bi=0; bi <8; bi++) cout << (((bina)>>bi) & 1); }
+#define COUT_BINARY(bina) { for (int bi=0; bi <8; bi++) std::cout << (((bina)>>bi) & 1); }
 void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 {
 	int i;
 	unsigned char buttonbit = 1, buttonout = 0;
 
     lastState = event;
-	DEBUG_CODE(cout << endl;);
-	DEBUG_CODE(cout << "got button                  :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << std::endl;);
+	DEBUG_CODE(std::cout << "got button                  :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
     
 	unsigned char deleteButtonBitsNotValidTrans = 0x00; // delete no bits
 	unsigned char validTransSetButtonMask = 0x00; // change no bits
@@ -212,26 +212,26 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 	// if there are no deleteButtonBitsNotValidTrans (0x00) nothing is changed, all '1' within the deleteButtonBitsNotValidTrans
 	// will set the lastState.button to zero
 
-	DEBUG_CODE(cout << "validTransBits              :"; COUT_BINARY(validTransBits); cout << endl;);
-	DEBUG_CODE(cout << "set to 0 buttonbits         :"; COUT_BINARY(deleteButtonBitsNotValidTrans); cout << endl;);
+	DEBUG_CODE(std::cout << "validTransBits              :"; COUT_BINARY(validTransBits); std::cout << std::endl;);
+	DEBUG_CODE(std::cout << "set to 0 buttonbits         :"; COUT_BINARY(deleteButtonBitsNotValidTrans); std::cout << std::endl;);
 
 	deleteButtonBitsNotValidTrans = ~deleteButtonBitsNotValidTrans;
 	lastState.button &= deleteButtonBitsNotValidTrans;
-	DEBUG_CODE(cout << "buttonbits after no VT      :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << "buttonbits after no VT      :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
 
-	DEBUG_CODE(cout << "validTransSetButtonBit      :"; COUT_BINARY(validTransSetButtonBit); cout << endl;);
+	DEBUG_CODE(std::cout << "validTransSetButtonBit      :"; COUT_BINARY(validTransSetButtonBit); std::cout << std::endl;);
 	
 	lastState.button |= validTransSetButtonMask;
-	DEBUG_CODE(cout << "set buttonbits on VT        :"; COUT_BINARY(validTransSetButtonMask); cout << endl;);
-	DEBUG_CODE(cout << "buttonbits  after VT        :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << "set buttonbits on VT        :"; COUT_BINARY(validTransSetButtonMask); std::cout << std::endl;);
+	DEBUG_CODE(std::cout << "buttonbits  after VT        :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
 
 	lastState.button ^= invert;
-	DEBUG_CODE(cout << "invert with                 :"; COUT_BINARY(invert); cout << endl;);
-	DEBUG_CODE(cout << "buttonbits after invert     :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << "invert with                 :"; COUT_BINARY(invert); std::cout << std::endl;);
+	DEBUG_CODE(std::cout << "buttonbits after invert     :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
 
 	lastState.button &= buttonmask;
-	DEBUG_CODE(cout << "buttonmask                  :"; COUT_BINARY(buttonmask); cout << endl;);
-	DEBUG_CODE(cout << "buttonbits after buttonmask :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << "buttonmask                  :"; COUT_BINARY(buttonmask); std::cout << std::endl;);
+	DEBUG_CODE(std::cout << "buttonbits after buttonmask :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
 
 	
 	for (i=0; i<8; i++){
@@ -248,7 +248,7 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 
 	lastState.button = buttonout;
 
-	DEBUG_CODE(cout << "buttonbits after buttonmap  :"; COUT_BINARY(lastState.button); cout << endl;);
+	DEBUG_CODE(std::cout << "buttonbits after buttonmap  :"; COUT_BINARY(lastState.button); std::cout << std::endl;);
 
     updateObservers( lastState );
 }

@@ -89,7 +89,7 @@
 #define IMAGE_MODE GL_RGB
 #endif
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

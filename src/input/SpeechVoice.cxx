@@ -38,7 +38,7 @@
 #include "SpeechCore.h"
 
 #ifdef USE_SAPISPEECH
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

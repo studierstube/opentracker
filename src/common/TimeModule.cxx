@@ -36,7 +36,7 @@
 #include "TimeModule.h"
 #include <stdio.h>
 
-using namespace std;
+//using namespace std;
 
 #include <ace/Log_Msg.h>
 

@@ -20,6 +20,8 @@
 		// modified by Daniel Wagner
       #ifdef _DEBUG
         #pragma comment( lib, "tinyxml_dlld.lib" )
+      #elif DEBUG
+        #pragma comment( lib, "tinyxml_dlld.lib" )
       #else
         #pragma comment( lib, "tinyxml_dll.lib" )
       #endif 

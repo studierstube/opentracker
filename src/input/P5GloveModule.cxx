@@ -45,7 +45,7 @@
 #include <iostream.h>
 #endif
 
-using namespace std;
+//using namespace std;
 
 #include <math.h>
 #include "P5GloveSource.h"

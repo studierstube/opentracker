@@ -40,7 +40,7 @@
 #include <iomanip>
 #include <fstream>
 
-using namespace std;
+//using namespace std;
 
 /**
  * File class is a simple class that provides formatted input or output to a file.
@@ -72,7 +72,7 @@ protected :
 
 public :    
 	/// the full filename
-    const string filename;
+    const std::string filename;
     /// the mode i.e. input or output
     const enum modeFlags { FILE_OUT = 0, FILE_IN } mode;
 
@@ -85,7 +85,7 @@ public:
      * @param append if OUT mode clear file or append to it 
      * @param loop_ if IN mode loop input file or not 
      */
-    File(const string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false ) :
+    File(const std::string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false ) :
         filename( filename_), mode( mode_ ), loop( loop_ )
     {        
         if( mode == FILE_OUT ) // output mode

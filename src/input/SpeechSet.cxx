@@ -37,7 +37,7 @@
 #include "SpeechSet.h"
 #include "SpeechCore.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

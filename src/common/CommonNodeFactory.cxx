@@ -59,7 +59,7 @@
 
 #include <algorithm>
 
-using namespace std;
+//using namespace std;
 
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
@@ -88,7 +88,7 @@ CommonNodeFactory::~CommonNodeFactory()
     nodePorts.clear();
 }
 
-int CommonNodeFactory::parseVector(const string & line, float * val )
+int CommonNodeFactory::parseVector(const std::string & line, float * val )
 {
     float help[3];
     int num;
@@ -103,7 +103,7 @@ int CommonNodeFactory::parseVector(const string & line, float * val )
     return 0;
 }
 
-int CommonNodeFactory::parseRotation(const string & line,const string & type, float * val )
+int CommonNodeFactory::parseRotation(const std::string & line,const std::string & type, float * val )
 {
     int num;
     float matrix[3][3];
@@ -178,7 +178,7 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
 
 // constructs a new Node.
 
-Node * CommonNodeFactory::createNode( const string& name, StringTable& attributes)
+Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attributes)
 {
     float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
     Node * result = NULL;
@@ -346,7 +346,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     }
     else if( name.compare("Filter") == 0 )
     {
-        vector<float> weights;
+        std::vector<float> weights;
         const char * data = attributes.get("weight").c_str();
         char * end = (char *) data;
         weights.push_back((float) strtod( data, &end ));
@@ -478,7 +478,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
 
 
     // the node ports are just looked up in a simple list
-    else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
+    else if( std::find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
 		LOG_ACE_INFO("ot:Build NodePort %s.\n", name.c_str());
         return new NodePort();

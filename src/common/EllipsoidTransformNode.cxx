@@ -36,7 +36,7 @@
 #include "EllipsoidTransformNode.h"
 #include <math.h>
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

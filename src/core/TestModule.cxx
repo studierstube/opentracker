@@ -44,7 +44,7 @@
 
 #include <ace/Log_Msg.h>
 
-using namespace std;
+//using namespace std;
 
 // Destructor method
 
@@ -57,7 +57,7 @@ TestModule::~TestModule()
 
 // This method is called to construct a new Node.
 
-Node * TestModule::createNode( const string& name, StringTable& attributes)
+Node * TestModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("TestSource") == 0 )
     {

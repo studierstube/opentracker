@@ -47,7 +47,7 @@
 #include <iostream>
 
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -89,7 +89,7 @@ public:
     float angleAlign[3];
 
     /// constructor 
-    Bird( int number_, const string & device_, float scale_, float * anglealign_ = NULL ) :
+    Bird( int number_, const std::string & device_, float scale_, float * anglealign_ = NULL ) :
         number( number_ )
     {
         source = NULL;
@@ -194,7 +194,7 @@ FOBModule::FOBModule() : ThreadModule(), NodeFactory()
 // Destructor method, clears nodes member.
 FOBModule::~FOBModule()
 {
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     for( it = birds.begin(); it != birds.end(); it++)
     {
         delete it->second;
@@ -330,7 +330,7 @@ void FOBModule::start()
                 return;
             }
         } else {
-            map<int, Bird *>::iterator it;
+            std::map<int, Bird *>::iterator it;
             for( it = birds.begin(); it != birds.end(); it++ )
             {
                 if( it->second->open() < 0 )
@@ -431,7 +431,7 @@ void FOBModule::close()
         {
             birds[master]->close();
         } else {
-            map<int, Bird *>::iterator it;
+            std::map<int, Bird *>::iterator it;
             for( it = birds.begin(); it != birds.end(); it++ )
             {
                 it->second->close();
@@ -544,7 +544,7 @@ void FOBModule::run()
                 failure = 0;
             }
 
-            map<int,Bird *>::iterator it;
+            std::map<int,Bird *>::iterator it;
             for( it = birds.begin(); it != birds.end(); it++ )
             {
                 Bird * bird = it->second;
@@ -582,7 +582,7 @@ void FOBModule::pushState()
 {
     if( isInitialized() == 1 )
     {
-        map<int,Bird *>::iterator it;
+        std::map<int,Bird *>::iterator it;
         for( it = birds.begin(); it != birds.end(); it++ )
         {
             lock();
@@ -605,7 +605,7 @@ int FOBModule::resetBirds()
     	birds[master]->reset();
     else
     {
-        map<int, Bird *>::iterator it;
+        std::map<int, Bird *>::iterator it;
     	for( it = birds.begin(); it != birds.end(); it++ )
     	{
     		it->second->reset();
@@ -618,7 +618,7 @@ int FOBModule::resetBirds()
 // set report mode to POSITION/QUATERNION
 int FOBModule::setReportMode()
 { 
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     if( mode == MULTI )
     {
         for( it = birds.begin(); it != birds.end(); it++ )
@@ -665,7 +665,7 @@ int FOBModule::startStreamMode()
     } else {
         // to all
         buffer[0] = '@';
-        map<int, Bird *>::iterator it;
+        std::map<int, Bird *>::iterator it;
         for( it = birds.begin(); it != birds.end(); it++ )
         {
             it->second->write( buffer, 1 );
@@ -680,7 +680,7 @@ void FOBModule::setScale()
 {
     if( scale != 72 )
         return;
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     if( mode == SINGLE )
     {
         for( it = birds.begin(); it != birds.end(); it++ )
@@ -701,7 +701,7 @@ void FOBModule::setScale()
 
 void FOBModule::setAngleAlign()
 {
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     if( mode == SINGLE )
     {
         for( it = birds.begin(); it != birds.end(); it++ )
@@ -737,7 +737,7 @@ void FOBModule::setReferenceFrame()
     
 void FOBModule::setXYZFrame()
 {
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     if( mode == SINGLE )
     {
         for( it = birds.begin(); it != birds.end(); it++ )
@@ -758,7 +758,7 @@ void FOBModule::setXYZFrame()
 
 void FOBModule::setHemisphere()
 {
-    map<int, Bird *>::iterator it;
+    std::map<int, Bird *>::iterator it;
     if( mode == SINGLE )
     {
         for( it = birds.begin(); it != birds.end(); it++ )

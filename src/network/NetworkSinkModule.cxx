@@ -49,7 +49,7 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

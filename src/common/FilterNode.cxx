@@ -36,13 +36,13 @@
 #include "FilterNode.h"
 #include <math.h>
 
-using namespace std;
+//using namespace std;
 
 // constructor method.
 
 namespace ot {
 
-FilterNode::FilterNode( const vector<float> & weights_, const Type & type_ )
+FilterNode::FilterNode( const std::vector<float> & weights_, const Type & type_ )
     : Node(), weights( weights_ ), type( type_ )
 {
 }
@@ -66,7 +66,7 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
         // referencerot for quaternion interpolation
         float * referencerot= queue->getEvent( 0 ).orientation;
 
-        vector<float>::iterator it;
+        std::vector<float>::iterator it;
         for( it = weights.begin(); it != weights.end(); it++ )
         {
             State & state = queue->getEvent( it - weights.begin());

@@ -49,7 +49,7 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
-using namespace std;
+//using namespace std;
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,7 +93,7 @@ ARToolKitPlusModule::~ARToolKitPlusModule()
 
 // This method is called to construct a new Node.
 
-Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attributes)
+Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("ARToolKitSource") == 0 )
     {
@@ -114,11 +114,11 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
         }
 
         int id;
-        string filename = attributes.get("tag-file");
-		string markerid = attributes.get("tag-id");
-		string undistmode = attributes.get("undist-mode");
-		string detectmode = attributes.get("detect-mode");
-        string fullname;
+        std::string filename = attributes.get("tag-file");
+		std::string markerid = attributes.get("tag-id");
+		std::string undistmode = attributes.get("undist-mode");
+		std::string detectmode = attributes.get("detect-mode");
+        std::string fullname;
 
 		if(detectmode.length() && detectmode=="lite")
 			useMarkerDetectLite = true;
@@ -191,8 +191,8 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 
     if( name.compare("ARToolKitMultiMarkerSource") == 0 )
     {
-		string filename = attributes.get("cfg-file");
-        string fullname;
+		std::string filename = attributes.get("cfg-file");
+        std::string fullname;
 
 		if(patternDirectory.compare("") != 0)
 			context->addDirectoryFirst(patternDirectory);
@@ -291,7 +291,7 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
 
-    string fullname;
+    std::string fullname;
     if( context->findFile(cameradata, fullname))
     {
         cameradata = fullname;

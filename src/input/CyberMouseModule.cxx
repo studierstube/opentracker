@@ -49,7 +49,7 @@
 
 #include <ace/Log_Msg.h>
 
-using namespace std;
+//using namespace std;
 
 #define SZ_Get_FREED_Info   "Get_FREED_Info"
 #define SZ_OpenFREED        "OpenFREED"

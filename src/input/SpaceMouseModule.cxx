@@ -55,7 +55,7 @@
 
 #include "..\core\MathUtils.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 

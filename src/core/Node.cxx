@@ -52,7 +52,7 @@
 #include "StringTable.h"
 #include "Context.h"
 
-using namespace std;
+//using namespace std;
 
 #ifdef USE_XERCES
   #define ELEMENT(a) ((XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)a)
@@ -68,7 +68,7 @@ namespace ot {
 
 // emtpy string to be returned, if key is not in the map
 // the object itself is part of StringTable.cxx
-extern const string empty("");
+extern const std::string empty("");
 
 #ifdef USE_XERCES
   const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull }; 
@@ -134,7 +134,7 @@ void Node::addReference( Node * reference )
 
 void Node::removeReference( Node * reference )
 {
-	NodeVector::iterator result = find( references.begin(), references.end(), 
+	NodeVector::iterator result = std::find( references.begin(), references.end(), 
 		reference );
 	if( result != references.end())
 	{
@@ -343,7 +343,7 @@ unsigned int Node::countPorts()
 
 // returns a NodePort child object indexed by Name
 
-NodePort * Node::getPort( const string & name )
+NodePort * Node::getPort( const std::string & name )
 {
 #ifdef USE_XERCES
     XMLCh * temp = XMLString::transcode( name.c_str());
@@ -539,7 +539,7 @@ void Node::updateObservers( State &data )
 
 // returns a value to a given key
 
-string Node::get( const string & key )
+std::string Node::get( const std::string & key )
 {
 #ifdef USE_XERCES
     XMLCh * temp = XMLString::transcode( key.c_str() );
@@ -557,13 +557,13 @@ string Node::get( const string & key )
     const char* temp  = key.c_str();
     const char* xmlspace = getContext()->getRootNamespace().c_str();
     const char* res = ELEMENT(parent)->Attribute(temp);
-    return  string( res );
+    return  std::string( res );
 #endif //USE_TINYXML
 }
 
 // stores a key, value pair
 
-void Node::put( const string & key, const string & value )
+void Node::put( const std::string & key, const std::string & value )
 {
 #ifdef USE_XERCES
     XMLCh * tempKey = XMLString::transcode( key.c_str() );
@@ -585,7 +585,7 @@ void Node::put( const string & key, const string & value )
 
 // removes a key, value pair
 
-void Node::remove( const string & key )
+void Node::remove( const std::string & key )
 {
 #ifdef USE_XERCES
     XMLCh * tempKey = XMLString::transcode( key.c_str() );
@@ -604,7 +604,7 @@ void Node::remove( const string & key )
 
 // some put and get methods
 
-void Node::put(const string & key, const int value)
+void Node::put(const std::string & key, const int value)
 {
     char buffer[20];
     
@@ -612,7 +612,7 @@ void Node::put(const string & key, const int value)
 	put( key, buffer );
 }
 
-void Node::put(const string & key, const float value)
+void Node::put(const std::string & key, const float value)
 {
     char buffer[20];
     
@@ -620,7 +620,7 @@ void Node::put(const string & key, const float value)
 	put( key, buffer );
 }
 
-void Node::put(const string & key, const double value)
+void Node::put(const std::string & key, const double value)
 {
     char buffer[30];
     
@@ -628,10 +628,10 @@ void Node::put(const string & key, const double value)
 	put( key, buffer );
 }
 
-void Node::put(const string & key, const int * value, int len)
+void Node::put(const std::string & key, const int * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%i", value[0] );
     strvalue.append(buffer);
@@ -643,10 +643,10 @@ void Node::put(const string & key, const int * value, int len)
 	put( key, strvalue );
 }
 
-void Node::put(const string & key, const float * value, int len)
+void Node::put(const std::string & key, const float * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%f", value[0] );
     strvalue.append(buffer);
@@ -658,10 +658,10 @@ void Node::put(const string & key, const float * value, int len)
 	put( key, strvalue );
 }
 
-void Node::put(const string & key, const double * value, int len)
+void Node::put(const std::string & key, const double * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%lf", value[0] );
     strvalue.append(buffer);
@@ -673,9 +673,9 @@ void Node::put(const string & key, const double * value, int len)
 	put( key, strvalue );
 }
 
-int Node::get(const string & key, int * value, int len )
+int Node::get(const std::string & key, int * value, int len )
 {
-	string data = get( key );
+	std::string data = get( key );
     const char * start = data.c_str();
     char * end = (char *)start;
     int count = 0;
@@ -687,9 +687,9 @@ int Node::get(const string & key, int * value, int len )
     return count;
 }
 
-int Node::get(const string & key, float * value, int len )
+int Node::get(const std::string & key, float * value, int len )
 {
-	string data = get( key );
+	std::string data = get( key );
 	const char * start = data.c_str();
     char * end = (char *)start;
     int count = 0;
@@ -701,9 +701,9 @@ int Node::get(const string & key, float * value, int len )
     return count;
 }
 
-int Node::get(const string & key, double * value, int len )
+int Node::get(const std::string & key, double * value, int len )
 {
-	string data = get( key );    
+	std::string data = get( key );    
 	const char * start = data.c_str();
     char * end = (char *)start;
     int count = 0;

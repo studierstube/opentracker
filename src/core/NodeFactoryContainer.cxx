@@ -35,7 +35,7 @@
 
 #include <algorithm>
 
-using namespace std;
+//using namespace std;
 
 // Destructor method.
 
@@ -50,7 +50,7 @@ NodeFactoryContainer::~NodeFactoryContainer()
 
 void NodeFactoryContainer::addFactory(NodeFactory& factory)
 {
-    NodeFactoryVector::iterator result = find( factories.begin(), factories.end(), &factory );
+    NodeFactoryVector::iterator result = std::find( factories.begin(), factories.end(), &factory );
     if( result == factories.end())
     {
         factories.push_back( &factory );
@@ -59,7 +59,7 @@ void NodeFactoryContainer::addFactory(NodeFactory& factory)
 
 // constructs a new Node.
 
-Node * NodeFactoryContainer::createNode( const string& name, StringTable& attributes)
+Node * NodeFactoryContainer::createNode( const std::string& name, StringTable& attributes)
 {
     Node * value = NULL;
     NodeFactoryVector::iterator it = factories.begin();
@@ -75,7 +75,7 @@ Node * NodeFactoryContainer::createNode( const string& name, StringTable& attrib
 
 void NodeFactoryContainer::removeFactory(NodeFactory& factory)
 {
-    NodeFactoryVector::iterator result = find( factories.begin(), factories.end(), &factory );
+    NodeFactoryVector::iterator result = std::find( factories.begin(), factories.end(), &factory );
     if( result != factories.end())
     {
         factories.erase( result );

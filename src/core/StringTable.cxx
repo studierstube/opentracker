@@ -35,11 +35,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-using namespace std;
+//using namespace std;
 
 // emtpy string to be returned, if key is not in the map
 
-const string empty("");
+const std::string empty("");
 
 // initializes the map
 
@@ -61,7 +61,7 @@ StringTable::~StringTable()
 
 // returns a value to a given key
 
-const string & StringTable::get( const string & key )
+const std::string & StringTable::get( const std::string & key )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -71,14 +71,14 @@ const string & StringTable::get( const string & key )
 
 // stores a key, value pair
 
-void StringTable::put( const string & key, const string & value )
+void StringTable::put( const std::string & key, const std::string & value )
 {
     map[key] = value;
 }
 
 // removes a key, value pair
 
-void StringTable::remove( const string & key )
+void StringTable::remove( const std::string & key )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -88,7 +88,7 @@ void StringTable::remove( const string & key )
 
 // tests for a given key
 
-int StringTable::containsKey( const string & key )
+int StringTable::containsKey( const std::string & key )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -105,7 +105,7 @@ unsigned StringTable::size()
 
 // some put and get methods
 
-void StringTable::put(const string & key, const int value)
+void StringTable::put(const std::string & key, const int value)
 {
     char buffer[20];
     
@@ -113,7 +113,7 @@ void StringTable::put(const string & key, const int value)
     map[key] = buffer;
 }
 
-void StringTable::put(const string & key, const float value)
+void StringTable::put(const std::string & key, const float value)
 {
     char buffer[20];
     
@@ -121,7 +121,7 @@ void StringTable::put(const string & key, const float value)
     map[key] = buffer;
 }
 
-void StringTable::put(const string & key, const double value)
+void StringTable::put(const std::string & key, const double value)
 {
     char buffer[30];
     
@@ -129,10 +129,10 @@ void StringTable::put(const string & key, const double value)
     map[key] = buffer;
 }
 
-void StringTable::put(const string & key, const int * value, int len)
+void StringTable::put(const std::string & key, const int * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%i", value[0] );
     strvalue.append(buffer);
@@ -144,10 +144,10 @@ void StringTable::put(const string & key, const int * value, int len)
     map[key] = strvalue;
 }
 
-void StringTable::put(const string & key, const float * value, int len)
+void StringTable::put(const std::string & key, const float * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%f", value[0] );
     strvalue.append(buffer);
@@ -159,10 +159,10 @@ void StringTable::put(const string & key, const float * value, int len)
     map[key] = strvalue;
 }
 
-void StringTable::put(const string & key, const double * value, int len)
+void StringTable::put(const std::string & key, const double * value, int len)
 {
     char buffer[20];
-    string strvalue;
+    std::string strvalue;
     
     sprintf(buffer, "%lf", value[0] );
     strvalue.append(buffer);
@@ -174,7 +174,7 @@ void StringTable::put(const string & key, const double * value, int len)
     map[key] = strvalue;
 }
 
-int StringTable::get(const string & key, int * value, int len )
+int StringTable::get(const std::string & key, int * value, int len )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -191,7 +191,7 @@ int StringTable::get(const string & key, int * value, int len )
     return count;
 }
 
-int StringTable::get(const string & key, float * value, int len )
+int StringTable::get(const std::string & key, float * value, int len )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -208,7 +208,7 @@ int StringTable::get(const string & key, float * value, int len )
     return count;
 }
 
-int StringTable::get(const string & key, double * value, int len )
+int StringTable::get(const std::string & key, double * value, int len )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
@@ -230,10 +230,10 @@ int KeyIterator::hasMoreKeys() const
     return((int)(it != map.end())); 
 }
 
-const string & KeyIterator::nextElement()
+const std::string & KeyIterator::nextElement()
 {
     if( hasMoreKeys()){
-        const string & res = (*it).first;
+        const std::string & res = (*it).first;
         it++;
         return res;
     }

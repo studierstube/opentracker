@@ -36,6 +36,16 @@
 
 #include <algorithm>
 
+//
+// TODO(daniel): i did not manage to compile this file without using 
+//               'using namespace std;'. therefore i added 
+//               '#define ACE_HAS_STANDARD_CPP_LIBRARY 1' in here...
+//
+
+//#define ACE_HAS_STANDARD_CPP_LIBRARY 1
+
+//using namespace std;
+
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
@@ -43,7 +53,25 @@
 #include <Windows.h>
 #endif
 
-using namespace std;
+
+#include <algorithm>
+#include <stdio.h>
+#include <iostream>
+#include <iomanip>
+
+#ifdef WIN32
+#  include <conio.h>
+#else
+#  include <unistd.h>
+
+#  if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
+#     include <ncurses.h>
+#  else
+#     include <curses.h>
+#  endif
+
+#endif
+
 
 namespace ot {
 
@@ -89,23 +117,6 @@ ConsoleModule::~ConsoleModule()
     sources.clear();
 }
 
-#include <algorithm>
-#include <stdio.h>
-#include <iostream>
-#include <iomanip>
-
-#ifdef WIN32
-#include <conio.h>
-#else
-#include <unistd.h>
-
-#if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
-#include <ncurses.h>
-#else
-#include <curses.h>
-#endif
-
-#endif
 
 // constructor method.
 
@@ -253,7 +264,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 
 // This method is called to construct a new Node.
 
-Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
+Node * ConsoleModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("ConsoleSink") == 0 )
     {
@@ -313,7 +324,7 @@ void ConsoleModule::pushState()
     while( (key = getch()) != ERR )
     {
 #endif 
-        int index = find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
+        int index = std::find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
         switch( index )
         {
             case QUIT : 
@@ -668,13 +679,13 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
             ConfigNode * config = (ConfigNode *)base->getChild( i );
             if( config->getType().compare("KeyDefinition") == 0 )
             {
-                string function = config->getAttributes().get("function");
-                string key = config->getAttributes().get("key");
-                vector<string>::iterator funcIt = find( functionMap.begin(), functionMap.end(), function );                                
+                std::string function = config->getAttributes().get("function");
+                std::string key = config->getAttributes().get("key");
+                std::vector<std::string>::iterator funcIt = std::find( functionMap.begin(), functionMap.end(), function );                                
                 if( funcIt != functionMap.end() )
                 {
                     int index = funcIt - functionMap.begin();
-                    map<string,int>::iterator codeIt = keyCodeMap.find( key );
+                    std::map<std::string,int>::iterator codeIt = keyCodeMap.find( key );
                     int code;
                     if( codeIt == keyCodeMap.end())
                     {

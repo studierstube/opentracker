@@ -37,7 +37,7 @@
 #include "SpeechVoiceModule.h"
 #include "SpeechVoice.h"
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -71,7 +71,7 @@ DWORD SpeechVoiceModule::GetNumVoices()
 }
 
 
-const char* SpeechVoiceModule::GetVoiceName(DWORD p_Id, string &p_Name)
+const char* SpeechVoiceModule::GetVoiceName(DWORD p_Id, std::string &p_Name)
 {
   assert(m_Voice);
   return(m_Voice->GetVoiceName(p_Id, p_Name));

@@ -44,7 +44,7 @@
 #include <common/cpp/PoseSender.h>
 #include <middleware/helpers/corbainit_cpp/corbainit.h>
 
-using namespace std;
+//using namespace std;
 using namespace DWARF;
 
 namespace ot {

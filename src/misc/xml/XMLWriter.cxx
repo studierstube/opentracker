@@ -46,7 +46,7 @@
 #include "XMLWriter.h"
 #include "../../tool/OT_ACE_LOG.h"
 
-using namespace std;
+//using namespace std;
 
 #ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE

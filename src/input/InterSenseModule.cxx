@@ -44,7 +44,7 @@
 #include <iostream>
 #include <isense.h>
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -52,7 +52,7 @@ struct ISTracker {
     ISD_TRACKER_HANDLE handle;
     ISD_TRACKER_INFO_TYPE info;
     ISD_TRACKER_DATA_TYPE data;
-    string id;
+    std::string id;
     int comport;
     NodeVector sources;
 };
@@ -71,7 +71,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
         StringTable & trackerAttrib = trConfig->getAttributes();
-        const string & id = trackerAttrib.get("id");
+        const std::string & id = trackerAttrib.get("id");
         int comport = 0;
         int num = sscanf(trackerAttrib.get("comport").c_str(), " %i", &comport );
         if( num == 0 ){            
@@ -144,11 +144,11 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
 }
 
 // This method is called to construct a new Node.
-Node * InterSenseModule::createNode( const string& name, StringTable& attributes)
+Node * InterSenseModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("InterSenseSource") == 0 )
     {       
-        const string & id = attributes.get( "id" );
+        const std::string & id = attributes.get( "id" );
 	ISTrackerVector::iterator it;
         for(it = trackers.begin(); it != trackers.end(); it ++ )
         {

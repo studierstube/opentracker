@@ -44,7 +44,7 @@
 #pragma comment(lib, "winmm")
 #endif //_WIN32_WCE
 
-using namespace std;
+//using namespace std;
 
 
 namespace ot {

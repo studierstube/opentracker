@@ -223,7 +223,7 @@ void GPSDriver::removeClient( DGPSMirror_Handler * client )
 
 void GPSDriver::new_line( const char * line )
 {
-    auto_ptr<GPResult> result((GPResult *)GPSParser::parse(line));
+	std::auto_ptr<GPResult> result((GPResult *)GPSParser::parse(line));
     // for some messages we use some data on the side 
     if( result->type == GPResult::GPGGA )
     {

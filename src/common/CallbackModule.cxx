@@ -37,7 +37,7 @@
 
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
@@ -46,11 +46,11 @@ using namespace std;
 
 namespace ot {
 
-Node * CallbackModule::createNode( const string& name, StringTable& attributes)
+Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
 {
     if( name.compare("Callback") == 0 )
     {
-        const string & nameVal = attributes.get("name");
+        const std::string & nameVal = attributes.get("name");
         NodeMap::iterator it = nodes.find( nameVal );
         if( it == nodes.end())
         {
@@ -65,7 +65,7 @@ Node * CallbackModule::createNode( const string& name, StringTable& attributes)
 
 //  sets a callback on a certain node.
 
-void CallbackModule::setCallback( const string& name, CallbackFunction * function, void * data )
+void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
 {
     NodeMap::iterator it = nodes.find( name );
     if( it != nodes.end())

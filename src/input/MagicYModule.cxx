@@ -42,7 +42,7 @@
 
 #include <ace/Log_Msg.h>
 
-using namespace std;
+//using namespace std;
 
 namespace ot {
 
@@ -104,7 +104,7 @@ void MagicYModule::setSelect()
 int MagicYModule::receive()
 {
     ACE_Time_Value timeOut(0,5000);
-    string message(""), accumulated("");
+    std::string message(""), accumulated("");
     char buffer[32], t='X';
     int retval, x, y, pos; 
     unsigned int trans_bytes = 0;
@@ -315,14 +315,14 @@ void MagicYModule::run()
 
 
 //  constructs a new Node
-Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
+Node * MagicYModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("MagicYSource") == 0 )
     { 
         int number = atoi(attributes.get("number").c_str());
         
         bool average = false;
-        string avrg = attributes.get("average");
+        std::string avrg = attributes.get("average");
         if(!avrg.empty() && !(avrg.compare("true") && avrg.compare("t") && avrg.compare("1")))
             average = true;
         
@@ -392,7 +392,7 @@ void MagicYModule::pushState()
 }          
 
 
-int MagicYModule::parseVector(const string & line, int * val )
+int MagicYModule::parseVector(const std::string & line, int * val )
 {
     int help[3];
     int num;
@@ -409,7 +409,7 @@ int MagicYModule::parseVector(const string & line, int * val )
 }
 
 
-int MagicYModule::parseVector(const string & line, float * val )
+int MagicYModule::parseVector(const std::string & line, float * val )
 {
     float help[4];
     int num;
@@ -430,10 +430,10 @@ int MagicYModule::parseVector(const string & line, float * val )
 // parse data for extra screens, format: "port x_offset y_offset"
 // currently streams for extra screens must come from one and the same server
 
-int MagicYModule::parseScreens(const string & line)
+int MagicYModule::parseScreens(const std::string & line)
 {
     int port, x_off, y_off, pos=0;
-    string temp = line;
+    std::string temp = line;
     
     do { 
         if(sscanf(temp.c_str(), "%d %d %d", &port, &x_off, &y_off) < 3)
@@ -503,7 +503,7 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     ThreadModule::init(attributes, localTree);
     
     // Reading hostname and port number from XML-File
-    hostname = string(attributes.get("hostname"));
+    hostname = std::string(attributes.get("hostname"));
     
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
     {

@@ -36,7 +36,7 @@
 
 #include <assert.h>
 
-using namespace std;
+//using namespace std;
 using namespace ot;
 
 #include <vrpn_Tracker.h>
