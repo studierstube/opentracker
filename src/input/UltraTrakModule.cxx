@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.1 2002/10/31 19:53:06 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.2 2002/11/11 08:02:44 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -40,7 +40,7 @@
 
 #include "UltraTrakModule.h"
 
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
 #include <iostream.h>
