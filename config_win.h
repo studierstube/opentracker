@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.1 2003/01/09 04:14:09 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.2 2003/03/22 15:26:27 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -96,3 +96,7 @@
   * Support for this is only available on windows. Otherwise an empty implementation 
   * will be used */
 // #define USE_SAPISPEECH 1
+
+/** uncomment the following line to compile support for Essentialreality's P5 glove.
+  * Support for this is only available on windows yet. Linux support is in development.*/
+// #define USE_P5GLOVE 1
