@@ -30,9 +30,14 @@
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/framework/LocalFileFormatTarget.hpp>
+// selects between usage of XERCES and TinyXML
+#include "../../tool/XMLSelection.h"
+
+#ifdef USE_XERCES
+  #include <xercesc/dom/DOM.hpp>
+  #include <xercesc/util/XMLString.hpp>
+  #include <xercesc/framework/LocalFileFormatTarget.hpp>
+#endif //USE_XERCES
 
 #include <fstream>
 #include <memory>
@@ -40,9 +45,15 @@
 #include "XMLWriter.h"
 
 using namespace std;
+
+#ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE
+#endif //USE_XERCES
 
 namespace ot {
+
+
+#ifdef USE_XERCES
 
 /** internal method that writes out the graph recursively. This may change 
  * and therefore is not part of the interface.
@@ -66,12 +77,12 @@ void XMLWriter::write( const char * file )
     writeNode( ((DOMNode *)(context.getRootNode()->parent))->getOwnerDocument(), 
                myFormatTarget.get());
 }
-    
+/*
 void XMLWriter::write( ostream & stream )
 {
    // empty
 }
-
+*/
 void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target )
 {
     auto_ptr<XMLCh> lsCh ( XMLString::transcode("LS"));
@@ -100,5 +111,30 @@ void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAME
     }
     writer->release();
 }
+
+#endif //USE_XERCES
+
+
+#ifdef USE_TINYXML
+
+XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
+  context( context_ ), indent( indent_ )
+{}
+
+XMLWriter::~XMLWriter()
+{
+  
+}
+         
+void XMLWriter::write( const char * file )
+{
+	TiXmlNode* node = (TiXmlNode*)context.getRootNode()->parent;
+	TiXmlDocument* doc = node->GetDocument();
+
+	doc->SaveFile(file);
+}
+
+#endif //USE_TINYXML
+
 
 }  // namespace ot

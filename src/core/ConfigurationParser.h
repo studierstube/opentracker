@@ -36,7 +36,8 @@
 #include "../dllinclude.h"
 #include "../OpenTracker.h"
 
-#include <xercesc/dom/DOM.hpp>
+// selects between usage of XERCES and TinyXML
+#include "../tool/XMLSelection.h"
 
 
 namespace ot {
@@ -63,7 +64,7 @@ protected:
     /// maps IDs to nodes
     NodeMap references;
 	/// stores the parsed document tree
-	XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument * document;
+	OT_DOMDOCUMENT * document;
 protected:
 
 // Methods
@@ -76,21 +77,22 @@ protected:
      * @return pointer to the hew ConfigNode or NULL, if something
      *         went wrong.
      */
-    ConfigNode * buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element );
+	ConfigNode * buildConfigTree( OT_DOMELEMENT * element );
+
    /**
      * builds the tracker tree starting from a certain DOM_Element.
      * Is used recoursively to walk the DOMTree and create new nodes.
      * @param element pointer to the element to be parsed.
      * @return pointer to the new Node or NULL
      */
-    Node * buildTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element);
+	Node * buildTree( OT_DOMELEMENT * element);
    /**
      * parses an Elements attributes and returns a StringTable describing them.
      * @param element pointer to the element
      * @return a StringMap mapping attribute names to attribute values. This map
      *    was created on the heap and it is now owned by the caller.
      */
-    StringTable * parseElement( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element);
+	StringTable * parseElement( OT_DOMELEMENT * element);
 
 public:
     /**

@@ -30,21 +30,30 @@
   * @file                                                                   */     
  /* ======================================================================= */
 
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/XMLUniDefs.hpp>
-
-#include "../OpenTracker.h"
-#include "ConfigurationParser.h"
 
 #include <ace/OS.h>
 #include <ace/FILE.h>
 
 #include <algorithm>
+#include <algorithm>
 
+// selects between usage of XERCES and TinyXML
+#include "../tool/XMLSelection.h"
+
+#ifdef USE_XERCES
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
+#endif //USE_XERCES
+
+#include "../OpenTracker.h"
+#include "ConfigurationParser.h"
+
+
+#ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE;
-
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+#endif //USE_XERCES
 
 using namespace std;
 
@@ -153,6 +162,7 @@ void Context::close()
 
 void Context::parseConfiguration(const string& filename)
 {
+#ifdef USE_XERCES
     file = filename;
     string::size_type limit = file.find_last_of( "/\\" );
     if( limit != string::npos )
@@ -172,6 +182,20 @@ void Context::parseConfiguration(const string& filename)
     else {
         rootNamespace = "";
     }
+#endif //USE_XERCES
+
+
+#ifdef USE_TINYXML
+    file = filename;
+    string::size_type limit = file.find_last_of( "/\\" );
+    if( limit != string::npos )
+        addDirectoryFirst( file.substr(0, limit));
+    
+    ConfigurationParser parser( *this );
+    rootNode = parser.parseConfigurationFile( filename );
+    TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+    doc->SetUserData(this);
+#endif //USE_TINYXML
 }
 
 // calls pullState on all modules to get data out again.
@@ -224,6 +248,7 @@ int Context::stop()
 
 Node * Context::createNode( const string & name, StringTable & attributes)
 {
+#ifdef USE_XERCES
     Node * value = factory.createNode( name , attributes );
     if( value != NULL )
     {
@@ -245,7 +270,64 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         }
     }
     return value;
+#endif //USE_XERCES
+
+
+#ifdef USE_TINYXML
+    Node * value = factory.createNode( name , attributes );
+    if( value != NULL )
+    {
+        // add a correctly created DOM_Element to the node here and return
+        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+        const char * tempName = name.c_str();
+        const char * tempNS = rootNamespace.c_str();
+        TiXmlElement * el = new TiXmlElement(tempName);
+        value->setParent( el );        
+        // set attributes on the element node
+        KeyIterator keys(attributes);
+        while( keys.hasMoreKeys())
+        {
+            const string & key = keys.nextElement();
+            value->put( key, attributes.get( key ));
+			const char * attName = key.c_str();
+			const char * attVal = attributes.get( key ).c_str();
+			el->SetAttribute(attName, attVal);
+        }
+    }
+    return value;
+#endif //USE_TINYXML
 }
+
+#ifdef USE_TINYXML
+TiXmlElement *
+findElementRecursive(TiXmlElement* element, const string & id)
+{
+	// does this element have the attribute we search for?
+	if(element->Attribute(id.c_str()))
+		return element;
+
+	// walk through all children
+	TiXmlElement* child = element->FirstChildElement();
+	while(child)
+	{
+		if(TiXmlElement * found = findElementRecursive(child, id))
+			return found;
+		child = child->NextSiblingElement();
+	}
+
+	// walk through all siblings
+	TiXmlElement* sibling = element->NextSiblingElement();
+	while(sibling)
+	{
+		if(TiXmlElement * found = findElementRecursive(sibling, id))
+			return found;
+		sibling = sibling->NextSiblingElement();
+	}
+
+	// finally give up
+	return NULL;
+}
+#endif //USE_TINYXML
 
 Node * Context::getRootNode()
 {
@@ -254,12 +336,22 @@ Node * Context::getRootNode()
 
 Node * Context::findNode(const string & id)
 {
+#ifdef USE_XERCES
     // search for the right node via the DOM_Document API
     auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
     DOMElement * el = ((DOMNode *)(rootNode->parent))->getOwnerDocument()->getElementById( tempId.get());
     if( el != 0 )
         return (Node *)el->getUserData(ud_node);
     return NULL;
+#endif //USE_XERCES
+
+
+#ifdef USE_TINYXML
+	TiXmlElement* el = findElementRecursive(((TiXmlNode*)rootNode->parent)->GetDocument()->RootElement(), id);
+    if( el != 0 )
+        return (Node *)el->GetUserData();
+    return NULL;
+#endif //USE_TINYXML
 }
 
 // add a directory to the front of the directory stack 

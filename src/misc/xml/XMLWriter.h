@@ -76,7 +76,7 @@ public:
     
     /** writes the tracker graph and configuration to an output stream.
      * @param stream the stream to write to. */
-    void write( ostream & stream );            
+    //void write( ostream & stream );            
 
     /** returns the current indentation step
      * @return indentation step */

@@ -46,18 +46,22 @@
 #include "../common/CommonNodeFactory.h"
 #include "../core/TestModule.h"
 
+// the following modules are not supported under Windows CE
 #ifndef _WIN32_WCE
 #include "../common/ConsoleModule.h"
+#include "../input/InterSenseModule.h"
+#include "../input/ParButtonModule.h"
+#include "../input/XSensModule.h"
+#include "../input/DynaSightModule.h"
+#include "../input/FastTrakModule.h"
+#include "../input/FOBModule.h"
+#endif _WIN32_WCE
+
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
-#include "../input/InterSenseModule.h"
 #include "../common/TimeModule.h"
 #include "../common/FileModule.h"
-#include "../input/ParButtonModule.h"
-#include "../input/FOBModule.h"
 #include "../network/TCPModule.h"
-#include "../input/FastTrakModule.h"
-#endif _WIN32_WCE
 
 #include "../input/ARTDataTrackerModule.h"
 #include "../input/UltraTrakModule.h"
@@ -65,10 +69,8 @@
 #include "../common/InterpolatorModule.h"
 #include "../common/ButtonHoldFilterModule.h"
 #include "../input/GPSModule.h"
-#include "../input/DynaSightModule.h"
 #include "../input/MagicYModule.h"
 #include "../common/CallbackModule.h"
-#include "../input/XSensModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -190,22 +192,28 @@ void OPENTRACKER_API initializeContext( Context & context )
     FileModule * file = new FileModule();
     context.addFactory( * file );
     context.addModule( "FileConfig", * file );
-    
+
+#ifndef _WIN32_WCE
     ParButtonModule * parbutton = new ParButtonModule();
     context.addFactory( *parbutton );
     context.addModule( "ParButtonConfig", *parbutton );
+#endif //_WIN32_WCE
 
     TCPModule * tcp = new TCPModule();
     context.addFactory( *tcp );
     context.addModule( "TCPConfig", *tcp );
 
+#ifndef _WIN32_WCE
     FOBModule * fob = new FOBModule();
     context.addFactory( *fob );
     context.addModule( "FOBConfig", *fob );
+#endif //_WIN32_WCE
 
+#ifndef _WIN32_WCE
     FastTrakModule * ftrak = new FastTrakModule();
     context.addFactory( *ftrak );
     context.addModule( "FastTrakConfig", *ftrak );
+#endif //_WIN32_WCE
 
     ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
     context.addFactory( *dtrak );
@@ -242,11 +250,13 @@ void OPENTRACKER_API initializeContext( Context & context )
     GPSModule * gps = new GPSModule;
     context.addFactory( * gps );
     context.addModule( "GPSConfig", * gps );
-    
+
+#ifndef _WIN32_WCE
     DynaSightModule * dynasight = new DynaSightModule;
     context.addFactory( * dynasight );
     context.addModule( "DynaSightConfig", *dynasight );
-    
+#endif //_WIN32_WCE
+
     MagicYModule * magicY = new MagicYModule;
     context.addFactory( * magicY );
     context.addModule( "MagicYConfig", *magicY );
@@ -267,9 +277,11 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addModule( "VRPNConfig", *vrpn );
 #endif
 
+#ifndef _WIN32_WCE
     XSensModule * xsens = new XSensModule;
     context.addFactory( *xsens );
     context.addModule( "XSensConfig", *xsens );
+#endif //_WIN32_WCE
 }
 
 } // namespace ot

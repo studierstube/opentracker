@@ -46,6 +46,9 @@
 
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 using namespace std;
 
 
@@ -110,15 +113,17 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
         logFile = new ACE_FILE_IO;
         ACE_FILE_Connector connector; 
-        if( connector.connect( *logFile, ACE_FILE_Addr( attributes.get("logfile").c_str() ), 0, ACE_Addr::sap_any, 0, O_WRONLY|O_CREAT|O_APPEND))
+        if( connector.connect( *logFile, ACE_FILE_Addr(ACE_TEXT_CHAR_TO_TCHAR(attributes.get("logfile").c_str())), 0, ACE_Addr::sap_any, 0, O_WRONLY|O_CREAT|O_APPEND))
         {
             delete logFile;
             logFile = NULL;
-            std::cout << "DGPSModule error opening log file " << attributes.get("logfile") << endl;
+            //std::cout << "DGPSModule error opening log file " << attributes.get("logfile") << endl;
+			LOG_ACE_ERROR("ot:DGPSModule error opening log file %s\n", attributes.get("logfile").c_str());
         }
     }
     Module::init( attributes, localTree );
-    std::cout << "GPSModule initialized for port " << device << " and server " << dgpsServer << endl;
+    //std::cout << "GPSModule initialized for port " << device << " and server " << dgpsServer << endl;
+	LOG_ACE_INFO("ot:GPSModule initialized for port %s and server %s\n", device.c_str(), dgpsServer.c_str());
 }
 
 Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
@@ -127,80 +132,95 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
 	{
 		if( source != NULL )
 		{
-			std::cout << "Only one GPSSource can be build !" << endl;
+			//std::cout << "Only one GPSSource can be build !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSSource can be build !\n")));
 			return NULL;
 		}
 		if( !isInitialized() )
 		{
-			std::cout << "GPSModule is not initialized, cannot build GPSSource !" << endl;
+			//std::cout << "GPSModule is not initialized, cannot build GPSSource !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSSource !\n")));
 			return NULL;
 		}
 		source = new GPSSource;
-		std::cout << "Built GPSSource node." << endl;
+		//std::cout << "Built GPSSource node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSSource node.\n")));
 		return source;
 	}
     if( name.compare("GPSDirectionSource") == 0 )
     {
         if( dirSource != NULL )
         {
-            std::cout << "Only one GPSDirectionSource can be build !" << endl;
+            //std::cout << "Only one GPSDirectionSource can be build !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSDirectionSource can be build !\n")));
             return NULL;
         }
         if( !isInitialized() )
         {
-            std::cout << "GPSModule is not initialized, cannot build GPSDirectionSource !" << endl;
+            //std::cout << "GPSModule is not initialized, cannot build GPSDirectionSource !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSDirectionSource !\n")));
             return NULL;
         }
         dirSource = new GPSDirectionSource;
-        std::cout << "Built GPSDirectionSource node." << endl;
+        //std::cout << "Built GPSDirectionSource node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSDirectionSource node.\n")));
         return dirSource;
     }
     if( name.compare("GPSGarminCompass") == 0 )
     {
         if( compassSource != NULL )
         {
-            std::cout << "Only one GPSGarminCompass can be build !" << endl;
+            //std::cout << "Only one GPSGarminCompass can be build !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminCompass can be build !\n")));
             return NULL;
         }
         if( !isInitialized() )
         {
-            std::cout << "GPSModule is not initialized, cannot build GPSGarminCompass !" << endl;
+            //std::cout << "GPSModule is not initialized, cannot build GPSGarminCompass !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminCompass !\n")));
             return NULL;
         }
         compassSource = new GPSGarminCompass;
-        std::cout << "Built GPSGarminCompass node." << endl;
+        //std::cout << "Built GPSGarminCompass node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminCompass node.\n")));
         return compassSource;
     }
     if( name.compare("GPSGarminAltitude") == 0 )
     {
         if( altitudeSource != NULL )
         {
-            std::cout << "Only one GPSGarminAltitude can be build !" << endl;
+            //std::cout << "Only one GPSGarminAltitude can be build !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminAltitude can be build !\n")));
             return NULL;
         }
         if( !isInitialized() )
         {
-            std::cout << "GPSModule is not initialized, cannot build GPSGarminAltitude !" << endl;
+            //std::cout << "GPSModule is not initialized, cannot build GPSGarminAltitude !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminAltitude !\n")));
             return NULL;
         }
         altitudeSource = new GPSGarminAltitude;
-        std::cout << "Built GPSGarminAltitude node." << endl;
+        //std::cout << "Built GPSGarminAltitude node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminAltitude node.\n")));
         return altitudeSource;
     }
     if( name.compare("GPSInfoSource") == 0 )
     {
         if( infoSource != NULL )
         {
-            std::cout << "Only one GPSInfoSource can be build !" << endl;
+            //std::cout << "Only one GPSInfoSource can be build !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSInfoSource can be build !\n")));
             return NULL;
         }
         if( !isInitialized() )
         {
-            std::cout << "GPSModule is not initialized, cannot build GPSInfoSource !" << endl;
+            //std::cout << "GPSModule is not initialized, cannot build GPSInfoSource !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSInfoSource !\n")));
             return NULL;
         }
         infoSource = new GPSInfoSource;
-        std::cout << "Built GPSInfoSource node." << endl;
+        //std::cout << "Built GPSInfoSource node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSInfoSource node.\n")));
         return infoSource;
     }
 	return NULL;	
@@ -260,11 +280,15 @@ void GPSModule::run()
 	driver->getReactor()->owner(ACE_Thread::self());
 	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror, rtcmdev ) != 0 )
 	{
-		std::cout << "GPSModule could not start GPSDriver !\n";
+		//std::cout << "GPSModule could not start GPSDriver !\n";
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule could not start GPSDriver !\n")));
 		return;
 	}
     if( debug )
-        std::cout << "GPSModule started GPSDriver !\n";
+	{
+        //std::cout << "GPSModule started GPSDriver !\n";
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSModule started GPSDriver !\n")));
+	}
 	driver->getReactor()->run_reactor_event_loop();
 	driver->close();
 	delete driver;

@@ -36,7 +36,10 @@
 
 #include <stdio.h>
 #include <iostream>
+
+#ifndef _WIN32_WCE
 #include <sstream>
+#endif //_WIN32_WCE
 
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
@@ -141,6 +144,10 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
         node->setNumber(NameList.size());
         NameList.push_back(cname);
 
+#ifndef _WIN32_WCE
+		// groupgate node not yet supported under wince
+		assert(false);
+
         stringstream neighborstream;
         neighborstream << cneighbors;
         while (true)
@@ -151,6 +158,7 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
             node->addNeighbor(neighbor.c_str());
         }
         return node;
+#endif //_WIN32_WCE
     }
     else if (name.compare("ActiveGate") == 0)
     {

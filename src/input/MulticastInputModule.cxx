@@ -37,6 +37,7 @@
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 #include <ace/Time_Value.h>
+#include <ace/Log_Msg.h>
 
 #include "MulticastInputModule.h"
 #include "MulticastInputSource.h"
@@ -81,7 +82,8 @@ Node * MulticastInputModule::createNode( const std::string& name, StringTable& a
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 )
 		{
-            std::cout << "Error in converting MulticastInputSource number !" << endl;
+            //std::cout << "Error in converting MulticastInputSource number !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting MulticastInputSource number !\n")));
             return NULL;
         }
 		NodeVector::iterator it;
@@ -94,12 +96,14 @@ Node * MulticastInputModule::createNode( const std::string& name, StringTable& a
 		}
 		if( it != sources.end())
 		{
-			std::cout << "Source with number "<< number << " exists allready\n";
+			//std::cout << "Source with number "<< number << " exists allready\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d exists allready\n"), number));
 			return NULL;
 		}
         MulticastInputSource * source = new MulticastInputSource( number); 
 		sources.push_back( source );
-        std::cout << "Built MulticastInputSource node. Number: " << number << endl;
+        //std::cout << "Built MulticastInputSource node. Number: " << number << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built MulticastInputSource node. Number: %d\n"), number));
         return source;
 	}
     return NULL;
@@ -150,7 +154,8 @@ void MulticastInputModule::run()
 			{
 				if(errno != ETIME && errno != 0)
 				{
-					std::cout << "Error " << errno << " receiving data ! " << endl;
+					//std::cout << "Error " << errno << " receiving data ! " << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
 					exit( -1 );
 				}
 			}

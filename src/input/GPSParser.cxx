@@ -110,9 +110,9 @@ const GPResult * GPGGA::parse( const char * line )
     */   
     if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
 
-        ACE_Tokenizer tok( buffer );
+        ACE_Tokenizer tok(ACE_TEXT_CHAR_TO_TCHAR(buffer));
         tok.delimiter_replace(',', 0);
-        char * token, * oldtoken;
+        ACE_TCHAR * token, * oldtoken;
 
         token = tok.next();
         if (!token)
@@ -124,16 +124,16 @@ const GPResult * GPGGA::parse( const char * line )
             return new GPResult;
 
         // not all receivers output a time, if there is no fix !
-        if( token == buffer + 7 )
+        if( token == ACE_TEXT_CHAR_TO_TCHAR(buffer + 7) )
         {            
             oldtoken = token + ACE_OS::strlen( token ) + 1;
             
             /* 012345.0 --> 01:23:45.0 */
-            time = atof(token + 4);
+            time = atof(ACE_TEXT_ALWAYS_CHAR(token) + 4);
             token[4] = 0;
-            time += 60 * atoi(token + 2);
+            time += 60 * atoi(ACE_TEXT_ALWAYS_CHAR(token) + 2);
             token[2] = 0;
-            time += 3600 * atoi(token);
+            time += 3600 * atoi(ACE_TEXT_ALWAYS_CHAR(token));
             
             token = tok.next();
             if( !token )
@@ -144,9 +144,9 @@ const GPResult * GPGGA::parse( const char * line )
             {            
                 // we have a fix and parse the position
                 /* latitude */
-                lat = atof(token + 2) / 60.0;
+                lat = atof(ACE_TEXT_ALWAYS_CHAR(token) + 2) / 60.0;
                 token[2] = 0;
-                lat += atof(token);
+                lat += atof(ACE_TEXT_ALWAYS_CHAR(token));
                 
                 /* ns */
                 token = tok.next();
@@ -160,9 +160,9 @@ const GPResult * GPGGA::parse( const char * line )
                 token = tok.next();
                 if (!token)
                     return new GPResult;
-                lon = atof(token + 3) / 60.0;
+                lon = atof(ACE_TEXT_ALWAYS_CHAR(token) + 3) / 60.0;
                 token[3] = 0;
-                lon += atof(token);
+                lon += atof(ACE_TEXT_ALWAYS_CHAR(token));
                 
                 /* ew */
                 token = tok.next();
@@ -179,13 +179,13 @@ const GPResult * GPGGA::parse( const char * line )
         }
 
         /* fix 0,1,2 */
-        fix = atoi(token);
+        fix = ACE_OS::atoi(token);
         
         /* number of sats */
         token = tok.next();
         if (!token)
             return new GPResult;
-        numsats = atoi(token);
+        numsats = ACE_OS::atoi(token);
 
         // the following will be only valid, if we have a fix
         if( fix > 0 )
@@ -194,13 +194,13 @@ const GPResult * GPGGA::parse( const char * line )
             token = tok.next();
             if (!token)
                 return new GPResult;
-            hdop = atof(token);
+            hdop = atof(ACE_TEXT_ALWAYS_CHAR(token));
             
             /* altitude */
             token = tok.next();
             if (!token)
                 return new GPResult;
-            alt = atof(token);
+            alt = atof(ACE_TEXT_ALWAYS_CHAR(token));
             
             /* M - discard  */
             token = tok.next();
@@ -211,7 +211,7 @@ const GPResult * GPGGA::parse( const char * line )
             token = tok.next();
             if (!token)
                 return new GPResult;
-            height = atof(token);
+            height = atof(ACE_TEXT_ALWAYS_CHAR(token));
             
             /* M - discard */
             token = tok.next();
@@ -224,7 +224,7 @@ const GPResult * GPGGA::parse( const char * line )
                 return new GPResult;
             if( *token != '*' )
             {
-                diffdelay = atof(token);
+                diffdelay = atof(ACE_TEXT_ALWAYS_CHAR(token));
                 token = tok.next();
             }
             
@@ -233,7 +233,7 @@ const GPResult * GPGGA::parse( const char * line )
                 return new GPResult;
             if( *token != '*' )
             {
-                statid = atoi(token);
+                statid = ACE_OS::atoi(token);
                 token = tok.next();
             }
         }
@@ -358,9 +358,9 @@ const GPResult * HCHDG::parse( const char * line )
     */    
     if (ACE_OS::strncmp("$HCHDG,", buffer, 7) == 0)
     {        
-        ACE_Tokenizer tok( buffer );
+        ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
         tok.delimiter_replace(',', 0);
-        char * token;
+        ACE_TCHAR * token;
         double  heading,
             variation;
         
@@ -373,7 +373,7 @@ const GPResult * HCHDG::parse( const char * line )
         token = tok.next();
         if (!token)
             return new GPResult;
-        heading = atof( token );
+        heading = atof( ACE_TEXT_ALWAYS_CHAR(token) );
 
         /* next two ',' are skipped by tokenizing */
 
@@ -381,14 +381,14 @@ const GPResult * HCHDG::parse( const char * line )
         token = tok.next();
         if (!token)
             return new GPResult;
-        variation = atof( token );
+        variation = atof( ACE_TEXT_ALWAYS_CHAR(token) );
 
         /* direction */
         token = tok.next();
         if (!token)
             return new GPResult;
         
-        if( ACE_OS::strcmp(token, "E" ))
+        if( ACE_OS::strcmp(token,  ACE_TEXT_CHAR_TO_TCHAR("E") ))
         {
             variation = - variation;
         }
@@ -413,9 +413,9 @@ const GPResult * PGRMZ::parse( const char * line )
     */    
     if (ACE_OS::strncmp("$PGRMZ,", buffer, 7) == 0)
     {        
-        ACE_Tokenizer tok( buffer );
+        ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
         tok.delimiter_replace(',', 0);
-        char * token;
+        ACE_TCHAR * token;
         double altitude;
         
         /* skip header */
@@ -427,7 +427,7 @@ const GPResult * PGRMZ::parse( const char * line )
         token = tok.next();
         if (!token)
             return new GPResult;
-        altitude = atof( token );        
+        altitude = atof( ACE_TEXT_ALWAYS_CHAR(token) );        
         
         PGRMZ * result = new PGRMZ;
         result->altitude = altitude; 

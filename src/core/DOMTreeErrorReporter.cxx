@@ -61,6 +61,14 @@
 // ---------------------------------------------------------------------------
 //  Includes
 // ---------------------------------------------------------------------------
+
+// selects between usage of XERCES and TinyXML
+#include "../tool/XMLSelection.h"
+
+
+#ifdef USE_XERCES
+
+
 #include <xercesc/sax/SAXParseException.hpp>
 #include "DOMTreeErrorReporter.h"
 
@@ -107,3 +115,6 @@ int DOMTreeErrorReporter::errorsEncountered()
 {
     return errorNum;
 }
+
+
+#endif //USE_XERCES

@@ -40,14 +40,10 @@
 #include <algorithm>
 #include <memory>
 
-using namespace std;
-
 #include "GPSDriver.h"
 #include "GPS_Handler.h"
 #include "DGPSIP_Handler.h"
 #include "DGPSMirror_Handler.h"
-
-//using namespace std;
 
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"

@@ -58,6 +58,12 @@
  * $Id: DOMTreeErrorReporter.h,v 1.8 2003/07/18 17:27:58 tamer Exp $
  */
 
+// selects between usage of XERCES and TinyXML
+#include "../tool/XMLSelection.h"
+
+
+#ifdef USE_XERCES
+
 #include <xercesc/util/XercesDefs.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
 #include <iostream>
@@ -96,3 +102,6 @@ public:
 protected:
     int errorNum;
 };
+
+
+#endif //USE_XERCES

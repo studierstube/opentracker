@@ -275,7 +275,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 void ARTDataTrackerChomp::displayRecords()
 {
 	// Output
-	cout << "Contens of tempBodyRecord & tempMarkerRecord" << endl;
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Contens of tempBodyRecord & tempMarkerRecord\n")));
     std::map<int, BodyRecord>::iterator it;
     for ( it = tempBodyRecord.begin(); it != tempBodyRecord.end(); it++)
 	{
