@@ -56,7 +56,6 @@ Node * CallbackModule::createNode( const string& name, StringTable& attributes)
         {
             CallbackNode * node = new CallbackNode( nameVal );
             nodes[nameVal] = node;
-            //cout << "Build Callback node " << nameVal << "." << endl;
 			LOG_ACE_INFO("ot:Build Callback node %s.\n", nameVal.c_str());
             return node;
         }

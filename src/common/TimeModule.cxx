@@ -102,8 +102,7 @@ int TimeModule::stop()
 void TimeModule::close()
 {
     if( display == 1 )
-    {
-        //cout << "Framerate " << count * 1000 / ( OSUtils::currentTime() - startTime ) << endl;
+    {        
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Framerate %f\n"), count * 1000 / ( OSUtils::currentTime() - startTime )));
     }
 }

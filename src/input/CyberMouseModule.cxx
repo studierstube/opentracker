@@ -95,7 +95,6 @@ Node * CyberMouseModule::createNode( const string& name, StringTable& attributes
         CyberMouseSource * source = new CyberMouseSource;
 		source->state.confidence = 1.0f;
         nodes.push_back( source );
-        //cout << "Build CyberMouseSource node " << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build CyberMouseSource node\n")));
         initialized = 1;
         return source;
@@ -140,15 +139,11 @@ void CyberMouseModule::start()
 
         if (!hWndCyber)
         {
-                //cout << "Could not create message-only window." << endl
-                //     << "Fatal Error" << endl;
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Could not create message-only window.\nFatal Error\n")));
                 exit(1);
         }
 
         if ((hLibrary = LoadLibrary("FREEDDLL.DLL")) == NULL) {
-                //cout << "Error Loading FREEDDLL.DLL." << endl
-                //     << "FREED DLL" << endl;
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error Loading FREEDDLL.DLL.\nFatal Error\n")));
                 exit(1);
         }

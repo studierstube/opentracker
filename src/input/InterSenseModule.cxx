@@ -74,8 +74,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         const string & id = trackerAttrib.get("id");
         int comport = 0;
         int num = sscanf(trackerAttrib.get("comport").c_str(), " %i", &comport );
-        if( num == 0 ){
-            //cout << "Error in converting serial port number !" << endl;
+        if( num == 0 ){            
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting serial port number !\n")));
             comport = 0;
         }
@@ -89,8 +88,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         {
             ISD_TRACKER_HANDLE handle = ISD_OpenTracker( 0, comport, FALSE, verbose );
             if( handle <= 0 )
-            {
-                //cout << "Failed to open tracker " << id << endl;                
+            {                
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open tracker %d\n"), id));
             } 
             else {
@@ -101,8 +99,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 Bool res;
                 res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
-                {
-                    //cout << "Failed to get tracker config for " << id << endl;
+                {                    
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to get tracker config for %d\n"), id));
                 }
 				/* InterTrax does not support quaternions */
@@ -131,24 +128,16 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                         }               
                         if( error )
                         {
-                            //cout << "WARNING: InterSenseModule cannot "
-                            //     << ((error == 1 ) ? "get " : "set ")
-                            //     << "state for tracker " << id << " station "
-                            //     << j 
-                            //     << "\n - orientation measure may not be quaternion."
-                            //     << endl;
 							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s state for tracker %d station %d \n"), ((error == 1 ) ? "get " : "set "), id, j));
 							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:- orientation measure may not be quaternion.\n")));
                         }                       
                     }
                 }   // setup not intertrax
-                trackers.push_back( tracker );
-                //cout << "Configured tracker " << id << " of type " << tracker->info.TrackerType << endl;
+                trackers.push_back( tracker );                
 				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Configured tracker %d of %d\n"), id, tracker->info.TrackerType));
             }       // open tracker ok
         }           // got a new tracker
-        else {      // some conflict with another tracker
-            //cout << "Tracker " << id << " at port " << comport << " conflicts with " << (*it)->id << endl;
+        else {      // some conflict with another tracker            
 			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tracker %d at port %d conflicts with with %d\n"), id, comport, (*it)->id));
         }
     }               // all ConfigNodes
@@ -170,25 +159,21 @@ Node * InterSenseModule::createNode( const string& name, StringTable& attributes
         {
             int station;
             int num = sscanf(attributes.get("station").c_str(), " %i", &station );
-            if( num == 0 ){
-                //cout << "Error in converting station number !" << endl;
+            if( num == 0 ){                
 				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Error in converting station number !\n")));
                 return NULL;
             }
             if( station < 0 || station >= ISD_MAX_STATIONS )
             {
-                //cout << "Station number out of range [0,"<< ISD_MAX_STATIONS-1 << "] !" << endl;
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Station number out of range [0,%d] !\n"), ISD_MAX_STATIONS-1));
                 return NULL;
             }
             InterSenseSource * source = new InterSenseSource( station );
-            (*it)->sources.push_back( source );
-            //cout << "Build InterSenseSource node " << endl;
+            (*it)->sources.push_back( source );            
 			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build InterSenseSource node\n")));
             return source;
         }
-        else {
-            //cout << "No tracker " << id << " configured !" << endl;
+        else {            
 			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:No tracker %d configured !\n"), id));
         }
     }

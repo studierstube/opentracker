@@ -85,8 +85,7 @@ Node * TestModule::createNode( const string& name, StringTable& attributes)
             source->noise = -1;
         }
         nodes.push_back( source );
-        
-        //cout << "Build TestSource node " << endl;
+                
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));
         initialized = 1;
         return source;

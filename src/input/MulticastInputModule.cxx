@@ -82,7 +82,6 @@ Node * MulticastInputModule::createNode( const std::string& name, StringTable& a
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 )
 		{
-            //std::cout << "Error in converting MulticastInputSource number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting MulticastInputSource number !\n")));
             return NULL;
         }
@@ -96,13 +95,11 @@ Node * MulticastInputModule::createNode( const std::string& name, StringTable& a
 		}
 		if( it != sources.end())
 		{
-			//std::cout << "Source with number "<< number << " exists allready\n";
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d exists allready\n"), number));
 			return NULL;
 		}
         MulticastInputSource * source = new MulticastInputSource( number); 
 		sources.push_back( source );
-        //std::cout << "Built MulticastInputSource node. Number: " << number << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built MulticastInputSource node. Number: %d\n"), number));
         return source;
 	}
@@ -154,7 +151,6 @@ void MulticastInputModule::run()
 			{
 				if(errno != ETIME && errno != 0)
 				{
-					//std::cout << "Error " << errno << " receiving data ! " << endl;
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
 					exit( -1 );
 				}

@@ -72,19 +72,16 @@ int MagicYModule::connect()
         retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            //std::cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d connection failed for socket nr.: %d\n"), errno, i));
             return -1;
         }
         else 
         {
-            //std::cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
 			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:connected to socket nr.: %d - sending GO command\n"), i));
             sprintf(buffer, "GO\n\r");
             retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
             if(retval == -1 && errno != ETIME && errno != 0 )
             {
-                //std::cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d sending command for socket nr.: %d\n"), errno, i));
                 return -1;
             }
@@ -121,13 +118,11 @@ int MagicYModule::receive()
         
         if(readHandles.is_set(screens[i]->socket.get_handle()))
         {
-            //std::cout << "Reading socket " << i << endl;
             do
             {
                 retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
                 if(retval == -1 && errno != ETIME && errno != 0)
                 {
-                    //std::cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving command for socket nr.: %d\n"), errno, i));
                     return -1;
                 }  
@@ -147,12 +142,10 @@ int MagicYModule::receive()
                 }
             } while(!complete && stop == 0);
             
-            //std::cout << "MESSAGE S" << i << ": " << message.c_str() << endl;	
             if(message.compare("READY") && message.compare("0"))
             {
                 pos = message.find(',', 0);
                 message.erase(0, pos+1);
-                //std::cout << "MESSAGE: " << message.c_str() << endl;
                 // extract state and points
                 while (1)
                 {		
@@ -163,7 +156,6 @@ int MagicYModule::receive()
                         else
                             trigger = false;
                         
-                        //std::cout << "POINT: (" << x << "," << y << "," << trigger << ")" << endl;
                         x += screens[i]->x_offset;
                         y += screens[i]->y_offset;
                         
@@ -199,7 +191,6 @@ int MagicYModule::stillConnected()
         retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            //std::cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("Error %d connection broken for socket nr.: %d\n"), errno, i));
             return 0;
         }
@@ -221,7 +212,6 @@ void MagicYModule::disconnect()
 // reads from the MagicY server and parses MagicY packages
 void MagicYModule::run()
 {
-    //std::cout << "starting MagicY module thread" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("starting MagicY module thread\n")));
     
     ACE_Time_Value timeOut(1,0);
@@ -231,7 +221,6 @@ void MagicYModule::run()
     while(stop == 0)
     {
         // connecting
-        //std::cout << "Trying to connect ... " << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Trying to connect ... \n")));
         if(connect() == 0)
         {
@@ -242,7 +231,6 @@ void MagicYModule::run()
                 average_x=0;
                 average_y=0;
                 
-                //std::cout << "Active sockets: " << socks_active << endl;
                 if(! stillConnected())
                     break;
                 
@@ -252,7 +240,6 @@ void MagicYModule::run()
                 socks_active = ACE::select(ACE_Handle_Set::MAXSIZE, readHandles, &timeOut);
                 if(! socks_active)
                 {
-                    //std::cout << "Error: Socket select time out" << endl;
 					ACE_DEBUG((LM_INFO, ACE_TEXT("Error: Socket select time out\n")));
                     break;
                 }
@@ -323,7 +310,6 @@ void MagicYModule::run()
         }// if connected
         disconnect();
     } // forever
-    //std::cout << "Stopping thread" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("Stopping thread\n")));
 }
 
@@ -351,7 +337,6 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
         }
         if( it != magicYs.end())
         {
-            //std::cout << "Source with number "<< number << " exists allready \n";
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("Source with number %d already exists\n"), number));
             return NULL;
         }
@@ -359,7 +344,6 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
         MagicYSource *source = new MagicYSource; 
         MagicY *magicY = new MagicY(number, average, source);
         magicYs.push_back( magicY );
-        //std::cout << "Built MagicYSource node." << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Built MagicYSource node.\n")));
         
         return source;
@@ -458,7 +442,6 @@ int MagicYModule::parseScreens(const string & line)
         Screen *scr = new Screen(port, hostname, x_off, y_off);
         screens.push_back(scr);
         
-        //std::cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Extra screen %d : %d : %d\n"), port, x_off, y_off));
         
         pos = temp.find(' ', 0);
@@ -524,27 +507,23 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
     {
-        //std::cout << "Error parsing positionMapping !" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing positionMapping !")));
         initMappping(positionMapping);
     }
     calcMapping(positionMapping);
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
     {
-        //std::cout << "Error parsing invertPosition !" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing invertPosition!")));
         initInversion(invertPosition);
     }
     calcInversion(invertPosition);
     if( parseVector(attributes.get("orientation"), orientation ) != 0 )
     {
-        //std::cout << "Error parsing orientation !" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing orientation!")));
         initOrientation(orientation);
     }
     if( parseScreens(attributes.get("screens")) != 0 )
     {
-        //std::cout << "Error parsing extra screens !" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing extra screens!")));
     }
     if( attributes.get("z_value", &z_value) != 1 )

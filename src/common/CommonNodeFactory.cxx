@@ -188,18 +188,15 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
-            //cout << "Error parsing translation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
         }
         if( parseVector(attributes.get("scale"), scale ) != 0 )
         {
-            //cout << "Error parsing scale !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing scale !\n")));
         }
         if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
-            //cout << "Error parsing rotation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
         }
         result =  new StaticTransformation( translation, scale, rot, true, false );
@@ -211,7 +208,6 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
-            //cout << "Error parsing rotation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
         }
         result = new StaticTransformation( translation, scale, rot, false, true );
@@ -222,18 +218,15 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
-            //cout << "Error parsing translation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
         }
         if( parseVector(attributes.get("scale"), scale ) != 0 )
         {
-            //cout << "Error parsing scale !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing scale !\n")));
         }
         if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
-            //cout << "Error parsing rotation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
         }
         result = new StaticTransformation( translation, scale, rot, true, true );
@@ -244,13 +237,11 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
-            //cout << "Error parsing translation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
         }
         if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
-            //cout << "Error parsing rotation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
         }
         result = new VirtualTransformation( translation, scale, rot, 1, 1 );
@@ -261,7 +252,6 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
-            //cout << "Error parsing translation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
         }
         result = new VirtualTransformation( translation, scale, rot, 1, 0 );
@@ -273,7 +263,6 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
-            //cout << "Error parsing rotation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
         }
         result = new VirtualTransformation( translation, scale, rot, 0, 1 );
@@ -371,7 +360,6 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
 			type = FilterNode::POSITION;
 		else if( attributes.get("type").compare("orientation") == 0 )
 			type = FilterNode::ORIENTATION;
-        //cout << "FilterNode with " << weights.size() << " weights\n";
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:FilterNode with %d weights\n"), weights.size()));
         result = new FilterNode( weights, type );
     }
@@ -492,13 +480,11 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     // the node ports are just looked up in a simple list
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
-        //cout << "Build NodePort " << name << "." << endl;
 		LOG_ACE_INFO("ot:Build NodePort %s.\n", name.c_str());
         return new NodePort();
     }
     if( result != NULL )
 	{
-        //cout << "Build "<< name << " node." <<endl;
 		LOG_ACE_INFO("ot:Build %s node.\n", name.c_str());
 	}
     return result;

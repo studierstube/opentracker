@@ -75,7 +75,6 @@ void
 GroupGateNode::addNeighbor(const char *neighbor)
 {
     Neighbors.push_back(neighbor);
-//cout << "Neighbor: " << neighbor << endl;
 }
 
 bool
@@ -134,8 +133,7 @@ GroupGateNode::onEventGenerated(State &event, Node &generator)
                 GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
                 NeighborPtrs.push_back(node);
             }
-            if (Neighbors.size() != NeighborPtrs.size())
-				//cout << "ERROR: Problem with GroupGateNode\n";
+            if (Neighbors.size() != NeighborPtrs.size())				
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR: Problem with GroupGateNode\n")));
         }
         for (NeighborPtrsVector::iterator it = NeighborPtrs.begin(); it != NeighborPtrs.end(); it++)

@@ -82,7 +82,6 @@ void UltraTrakModule::convertFloatsNToHl(float* floats, float* result, int num)
 // reads from the Ultratrak and parses Ultratrak packages
 void UltraTrakModule::run()
 {
-	//std::cout << "starting ultratrak module thread" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:starting ultratrak module thread\n")));
 
 	ACE_INET_Addr local((u_short)port);
@@ -100,7 +99,6 @@ void UltraTrakModule::run()
             {
                 if( errno != ETIME && errno != 0 )
                 {
-                    //std::cout << "Error " << errno << " receiving data !" << endl;
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
                     exit( -1 );
                 }
@@ -163,7 +161,6 @@ void UltraTrakModule::run()
 	} // forever
 
     socket.close();
-    //std::cout << "Stopping thread" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
 }
     
@@ -176,7 +173,6 @@ Node * UltraTrakModule::createNode( const std::string& name,  StringTable& attri
         int number;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            //std::cout << "Error in converting UltratrakSource number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting UltratrakSource number !\n")));
             return NULL;
         }
@@ -192,7 +188,6 @@ Node * UltraTrakModule::createNode( const std::string& name,  StringTable& attri
 		}
 		if( it != stations.end())
 		{
-			//std::cout << "Source with number "<< number << " exists allready \n";
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d exists allready\n"), number));
 			return NULL;
 		}
@@ -200,7 +195,6 @@ Node * UltraTrakModule::createNode( const std::string& name,  StringTable& attri
 		UltraTrakSource * source = new UltraTrakSource; 
 		Station *station = new Station(number, source);
 		stations.push_back( station );
-		//std::cout << "Built UltratrakSource node." << endl;
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built UltratrakSource node.\n")));
 
         return source;
@@ -313,26 +307,22 @@ void UltraTrakModule::init(StringTable& attributes, ConfigNode * localTree)
 
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
 	{
-            //std::cout << "Error parsing positionMapping !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing positionMapping !\n")));
 			initMappping(positionMapping);
 	}
     if( parseVector(attributes.get("orientationMapping"), orientationMapping ) != 0 )
 	{
-            //std::cout << "Error parsing orientationMapping !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing orientationMapping !\n")));
 			initMappping(orientationMapping);
 	}
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
 	{
-            //std::cout << "Error parsing invertPosition !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing invertPosition !\n")));
 			initInversion(invertPosition);
 	}
 	calcInversion(invertPosition);
     if( parseVector(attributes.get("invertOrientation"), invertOrientation ) != 0 )
 	{
-            //std::cout << "Error parsing invertOrientation !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing invertOrientation!\n")));
 			initInversion(invertOrientation);
 	}

@@ -83,7 +83,6 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 )
 		{
-            //std::cout << "Error in converting ARTDataTrackerSource number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting ARTDataTrackerSource number !\n")));
             return NULL;
         }
@@ -97,13 +96,11 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
 		}
 		if( it != sources.end())
 		{
-			//std::cout << "Source with number "<< number << " exists allready\n";
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d exists allready\n"), number));
 			return NULL;
 		}
         ARTDataTrackerSource * source = new ARTDataTrackerSource( number); 
 		sources.push_back( source );
-        //std::cout << "Built ARTDataTrackerSource node. Number: " << number << endl;
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built ARTDataTrackerSource node. Number: %d\n"), number));
         return source;
 	}
@@ -152,7 +149,6 @@ void ARTDataTrackerModule::run()
 			{
 				if(errno != ETIME && errno != 0)
 				{
-					//std::cout << "Error " << errno << " receiving data ! " << endl;
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR %d receiving data\n"), errno));
 					exit( -1 );
 				}

@@ -127,13 +127,11 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         int num;
         if( (num = attributes.get("center", center, 2)) != 2 )
         {
-            //cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Wrong number of center coordinates : %d\n"), num));
             return NULL;
         }
         if( attributes.get("size", &size) != 1 )
         {
-            //cout << "ARToolKit Not a size" << endl;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Not a size\n")));
             return NULL;
         }
@@ -150,7 +148,6 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         }
         else
         {
-            //cout << "ARToolkit could not find tag file " << filename << endl;
 			LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
             return NULL;
         }
@@ -160,14 +157,11 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         
         if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
         {
-            //cout << "ARToolKit Error reading tag-file " <<
-            //    attributes.get("tag-file") << " or " << filename << endl;
 			LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
             return NULL;
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
-        //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
 		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %s\n", filename.c_str(), id);
         return source;
     }

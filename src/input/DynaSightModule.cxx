@@ -99,7 +99,6 @@ void DynaSightModule::init(StringTable& attributes, ConfigNode * localTree)
     
     // scanning port name from XML-File
     strncpy (port.pathname, attributes.get("device").c_str(), 255);
-    //cout << "use device on port: " << port.pathname << endl;
 	LOG_ACE_INFO("ot:use device on port: %s\n", port.pathname);
     
     // check if we need to calculate the orientation
@@ -108,8 +107,6 @@ void DynaSightModule::init(StringTable& attributes, ConfigNode * localTree)
     if (myResult == 3)
     {
         hasLookAt = TRUE;
-        //cout << "looking at point: " << lookAtVector[0];
-        //cout << " " << lookAtVector[1] << " " << lookAtVector[2] << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:looking at point: %f %f %f\n"), lookAtVector[0], lookAtVector[1], lookAtVector[2]));
     }
     else
@@ -130,14 +127,12 @@ Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
         if (attributes.get("target", &number ) != 1)
         {
             // error message
-            //cout << "Error in converting DynaSightSource target number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting DynaSightSource target number !\n")));
             return NULL;
         }
         else if ((number < 0) || (number > DYNASIGHT_MAX_TARGETS))
         {
             // error message
-            //cout << "The DynaSightSource target number is out of range !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:The DynaSightSource target number is out of range !\n")));
             return NULL;
         }
@@ -154,7 +149,6 @@ Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
         if (it != targets.end())
         {
             // error message
-            //cout << "DynaSight Source with number "<< number << " exists allready !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:DynaSight Source with number %d already exists !\n"), number));
             return NULL;
         }
@@ -166,8 +160,7 @@ Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
         Target *target = new Target(number, source);
         assert(target);
         targets.push_back(target);
-        
-        //cout << "Built DynaSightSource node - target " << number << "." << endl;
+                
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built DynaSightSource node - target %d\n"), number));
         
         // return pointer to the source node
@@ -204,7 +197,6 @@ void DynaSightModule::start()
         if (myResult < 0)
         {
             // error message
-            //cout << "DynaSightModule: error opening port " << port.pathname << endl;
 			LOG_ACE_ERROR("ot:DynaSightModule: error opening port %s\n", port.pathname);
             return;
         }
@@ -319,8 +311,7 @@ void DynaSightModule::run()
     // variables for the calculating of the orientation
     double diff_x = 0.0, diff_y = 0.0, diff_z = 0.0;
     float alpha = 0.0, beta = 0.0;
-    
-    //cout << "Starting DynaSight module thread" << endl;
+        
 	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Starting DynaSight module thread\n")));
     
     assert(serialportIsOpen == TRUE);
@@ -466,7 +457,6 @@ void DynaSightModule::run()
                     {
                         if ((*target) == NULL)
                         {
-                            //cout << "DynaSightModule::run ERROR iterator == NULL!" << endl;
 							ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:DynaSightModule::run ERROR iterator == NULL!\n")));
                         }
                         
@@ -541,7 +531,6 @@ void DynaSightModule::run()
         } // for
     } // while forever
     
-    //cout << "Stopping DynaSight module thread" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping DynaSight module thread\n")));
 } // run
 

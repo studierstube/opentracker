@@ -67,7 +67,6 @@ Node * ButtonHoldFilterModule::createNode( const string& name, StringTable& attr
 
         ButtonHoldFilterNode * source = new ButtonHoldFilterNode(offDuration  );
         nodes.push_back( source );
-        //cout << "Built ButtonHoldFilter node " << endl;
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Built ButtonHoldFilter node \n")));
 
         initialized = 1;

@@ -118,14 +118,12 @@ Node * NetworkSinkModule::createNode( const std::string& name,  StringTable& att
         int number, port;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            //std::cout << "Error in converting NetworkSink number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSink number !\n")));
             return NULL;
         }
         std::string group = attributes.get("multicast-address");
         num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
-            //std::cout << "Error in converting NetworkSink port number !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSink port number !\n")));
             return NULL;
         }
@@ -167,7 +165,6 @@ Node * NetworkSinkModule::createNode( const std::string& name,  StringTable& att
         
         NetworkSink * sink = new NetworkSink( name, number, groupData );
         nodes.push_back( sink );
-        //std::cout << "Built NetworkSink node " << name << "." << endl;
 		LOG_ACE_INFO("ot:Built NetworkSink node %s .\n", name.c_str());
         return sink;
     }
@@ -186,7 +183,6 @@ void NetworkSinkModule::start()
         {
 			if( (*it)->socket.open(ACE_Addr::sap_any) == -1 )
 			{
-				//std::cout << "Error opening socket in NetworkSinkModule !" << endl;
 				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
 				exit(1);
 			}			
@@ -209,7 +205,6 @@ void NetworkSinkModule::close()
 	{
 		if( (*it)->socket.close() == -1 )
 		{
-			//std::cout << "Error closing socket in NetworkSinkModule !" << endl;
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSinkModule !\n")));
 		}
 		delete (*it);		
@@ -293,7 +288,6 @@ void NetworkSinkModule::pullState()
             // send without blocking to avoid stalls in the mainloop, packet is thrown away !
             if( (*gr_it)->socket.send( &(*gr_it)->data, size, (*gr_it)->address,0, &ACE_Time_Value::zero ) < 0 )
             {
-                //std::cout << "NetworkSinkModule : Error sending packet for " << (*gr_it)->group << endl;
 				LOG_ACE_ERROR("ot:NetworkSinkModule : Error sending packet for %s\n", (*gr_it)->group.c_str());
             }
         }

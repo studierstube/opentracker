@@ -168,7 +168,6 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
         GroupMap::iterator find = Groups.find(cgroup);
         if (find != Groups.end()) 
         {
-			//cout << "*** ActiveGroup: " << cgroup << endl;
 			LOG_ACE_ERROR("ot:*** ActiveGroup: %s\n", cgroup);
             node =  (* find).second->setActiveGate(true);
         }
