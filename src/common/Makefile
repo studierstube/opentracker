@@ -29,7 +29,10 @@ HFILES = \
         FileSource.h \
         FileModule.h \
         MatrixTransformation.h \
-        ConfidenceFilterNode.h
+        ConfidenceFilterNode.h \
+        ConfidenceSelectNode.h \
+        FilterNode.h \
+        ThresholdFilterNode.h
 
 
 C++FILES = \
@@ -47,7 +50,10 @@ C++FILES = \
         SelectionNode.cxx \
         FileModule.cxx \
         MatrixTransformation.cxx \
-        ConfidenceFilterNode.cxx
+        ConfidenceFilterNode.cxx \
+        ConfidenceSelectNode.cxx \
+        FilterNode.cxx \
+        ThresholdFilterNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

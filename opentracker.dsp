@@ -246,6 +246,10 @@ SOURCE=.\src\core\ThreadModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ThresholdFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\TimeModule.cxx
 # End Source File
 # Begin Source File
@@ -519,6 +523,10 @@ SOURCE=.\src\core\TestSource.h
 # Begin Source File
 
 SOURCE=.\src\core\ThreadModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ThresholdFilterNode.h
 # End Source File
 # Begin Source File
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.19 2001/10/21 22:10:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.20 2001/11/22 16:52:24 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,8 +40,10 @@
 #include "ConfidenceFilterNode.h"
 #include "ConfidenceSelectNode.h"
 #include "FilterNode.h"
+#include "ThresholdFilterNode.h"
 
 #include<math.h>
+#include<float.h>
 #include<stdio.h>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
@@ -269,13 +271,8 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     }
     else if( name.compare("Selection") == 0 )
     {
-        int num;
-        double timeOut;
-        num = sscanf(attributes.get("timeout").c_str(), " %lf", &timeOut );
-        if( num != 1 )
-        {
-            timeOut = 100;
-        }
+        double timeOut = 100;
+        attributes.get("timeout", &timeOut, 1 );        
         result = new SelectionNode(timeOut);
     }
     else if( name.compare("EventDynamicTransform") == 0 ||
@@ -304,20 +301,15 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         result = new MatrixTransformation( data );
     }
     else if( name.compare("ConfidenceFilter") == 0 )
-    {
-        int num;
-        float treshhold;
+    {       
+        float treshold= 0.5;
         ConfidenceFilterNode::types type;
-        num = sscanf( attributes.get("treshhold").c_str(), " %f", &treshhold );
-        if( num != 1 )
-        {
-            treshhold = 0.5;
-        }
+        attributes.get("treshhold", &treshold, 1 );
         if( attributes.get("type").compare("high") == 0 )
             type = ConfidenceFilterNode::HIGH;
         else if( attributes.get("type").compare("low") == 0 )
             type = ConfidenceFilterNode::LOW;
-        result = new ConfidenceFilterNode( treshhold, type );
+        result = new ConfidenceFilterNode( treshold, type );
     }
     else if( name.compare("Filter") == 0 )
     {
@@ -334,19 +326,36 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     }
     else if( name.compare("ConfidenceSelect") == 0 )
     {
-        int num;
-        double timeout;
+        double timeout = 100;
         ConfidenceSelectNode::types type;
-        num = sscanf( attributes.get("timeout").c_str(), " %lf", &timeout );
-        if( num != 1 )
-        {
-            timeout = 100;
-        }
+        attributes.get("timeout", &timeout, 1 );        
         if( attributes.get("type").compare("high") == 0 )
             type = ConfidenceSelectNode::HIGH;
         else if( attributes.get("type").compare("low") == 0 )
             type = ConfidenceSelectNode::LOW;
         result = new ConfidenceSelectNode( timeout, type );
+    }
+    else if( name.compare("ThresholdFilter") == 0 )
+    {
+        float posmin = 0, posmax = FLT_MAX, rotmin = 0, rotmax = 3.141592654f;
+        if( attributes.get("positionmax").compare("inf") == 0 )
+            posmax = FLT_MAX;
+        else
+            attributes.get("positionmax", &posmax, 1 );
+        attributes.get("positionmin", &posmin, 1 );
+        attributes.get("rotationmin", &rotmin, 1 );
+        attributes.get("rotationmax", &rotmax, 1 );
+        if( posmin < 0 )
+            posmin = 0;
+        if( posmax < posmin )
+            posmax = posmin;
+        if( rotmin < 0 )
+            rotmin = 0;
+        if( rotmax < rotmin )
+            rotmax = rotmin;
+        if( rotmax > 3.141592654f )
+            rotmax = 3.141592654f;
+        result = new ThresholdFilterNode( posmin, posmax, rotmin, rotmax );
     }
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
