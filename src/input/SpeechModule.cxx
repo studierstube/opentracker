@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.4 2003/02/07 16:41:58 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -220,4 +220,12 @@ bool SpeechModule::GetCommand(DWORD p_CommandId, DWORD p_SpeechSetId, std::strin
   // retrieve the command via the CommandId from the speechset
   return(set->GetCommand(p_CommandId, p_Command));
 }
+
+
+void SpeechModule::Speak(const char *p_Sentence, bool p_Async)
+{
+  assert(m_Voice);
+  m_Voice->Speak(p_Sentence, p_Async);
+}
+
 

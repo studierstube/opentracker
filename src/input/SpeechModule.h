@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.5 2002/12/23 15:09:24 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.6 2003/02/07 16:41:58 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -168,11 +168,7 @@ public:
     /**
      * Speak a sentence with the default voice
      */
-    void Speak(const char *p_Sentence, bool p_Async = true)
-    {
-      assert(m_Voice);
-      m_Voice->Speak(p_Sentence, p_Async);
-    }
+    void Speak(const char *p_Sentence, bool p_Async = true);
 
     /**
      * Get a command string from a command id
