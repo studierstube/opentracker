@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.8 2003/01/09 04:14:12 tamer Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.9 2003/07/18 17:09:59 tamer Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -255,7 +255,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 		delete [] tempMarkerRecord;
 	}
 	*/
-};
+}
 
 
 void ARTDataTrackerChomp::displayRecords()
@@ -304,55 +304,45 @@ void ARTDataTrackerChomp::displayRecords()
 	{
 		cout << "Number of calibrated Bodies: " << numberTrackedCalBodies << endl;
 	}
-};
+}
 
 int ARTDataTrackerChomp::getFrameNumber()
 {
 	return frameNumber;
-};
+}
 
 int ARTDataTrackerChomp::getTrackedBodyNumber()
 {
 	return numberTrackedBodies;
-};
+}
 
 ARTDataTrackerChomp::BodyRecord* ARTDataTrackerChomp::getBodyRecord()
 {
 	return tempBodyRecord;
-};
+}
 
 int ARTDataTrackerChomp::getTrackedMarkerNumber()
 {
 	return numberTRackedMarkers;
-};
+}
 
 ARTDataTrackerChomp::MarkerRecord* ARTDataTrackerChomp::getMarkerRecord()
 {
 	return tempMarkerRecord;
-};
+}
 
 
 void ARTDataTrackerChomp::pushBodyRecord(ARTDataTrackerChomp::BodyRecord* bodyrecord)
 {
 	tempBodyRecord = bodyrecord;
-};
+}
 
 void ARTDataTrackerChomp::pushMarkerRecord(ARTDataTrackerChomp::MarkerRecord* markerrecord)
 {
 	tempMarkerRecord = markerrecord;
-};
+}
 
 int ARTDataTrackerChomp::getCalibratedTrackedBodyNumber()
 {
 	return numberTrackedCalBodies;
-};
-
-
-
-
-
-
-
-
-
-
+}
