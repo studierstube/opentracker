@@ -27,7 +27,8 @@ o ARToolkit - http://www.hitl.washington.edu/research/shared_space/download/
 
 To build the OpenTracker library you have to issue a 'configure' provided
 with all options (see below) followed by a 'make' in the OpenTracker build
-directory.
+directory. To install the OpenTracker headers, library and opentracker-config
+script issue a 'make install' afterwards.
 
 Configuration Options
 =====================
