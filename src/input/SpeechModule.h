@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.2 2002/12/12 17:31:02 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.3 2002/12/16 09:19:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,13 +34,33 @@
  * @page module_ref Module Reference
  * @section speechmodule SpeechModule
  * The SpeechModule provides and drives @ref speechsource nodes that generate
- * sr events. The appropriate speech sources are called when a command is
- * successfully recognised. The sr event is coded in the event translation
- * field, and the id´s could be resolved via the GetCommand method.
- * There is a TTS facility integrated into this module, so you could
- * quickly speak something via TTS and the system standard voice. 
- * if you want to use TTS with several options use the @ref SpeechVoiceModule
- * class.
+ * SR events. It uses several configuration elements, the root is @c SpeechRecoConfig.
+ * There you can define several @c CommandSet, with several @c Command.
+ * The @c SpeechRecoConfig element has the following attributes:
+ *
+ * @li @c language the language of the SR system.
+ *
+ * The @c CommandSet element has the following attributes:
+ *
+ * @li @c id the unique id of the command set
+ * 
+ * The @c Command element has the following attributes:
+ *
+ * @li @c id the unique id of the command (must be unique over the whole config, must be a number)
+ * @li @c name the command string the sr system should try to recognize
+ * @li @c weight the weight of the command string, default 1.0
+ *
+ * An example configuration element looks like this:
+ * @verbatim
+<SpeechRecoConfig language="english">
+  <CommandSet id="CmdSet1">
+    <Command id="1234" name="one"/>
+    <Command id="1235" name="two"/>
+    <Command id="1236" name="six"/>
+    <Command id="1237" name="seven"/>
+  </CommandSet>
+</SpeechRecoConfig>@endverbatim
+ * 
  */
 
 #ifndef _SPEECHMODULE_H
@@ -59,6 +79,18 @@
 #include "../Core/NodeFactory.h"
 
 typedef std::vector<Node*> NodeVector;
+
+
+/**
+ * The SpeechModule provides and drives @ref speechsource nodes that generate
+ * sr events. The appropriate speech sources are called when a command is
+ * successfully recognised. The sr event is coded in the event translation
+ * field, and the id´s could be resolved via the GetCommand method.
+ * There is a TTS facility integrated into this module, so you could
+ * quickly speak something via TTS and the system standard voice. 
+ * if you want to use TTS with several options use the @ref SpeechVoiceModule
+ * class.
+ */
 
 /**
  * The module and factory to drive the speech source nodes. It constructs

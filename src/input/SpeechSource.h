@@ -26,23 +26,35 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.2 2002/12/12 17:31:02 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.3 2002/12/16 09:19:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section speechsource SpeechSource
- * The SpeechSource node pushes speech events. A speech event 
+ *
+ * The SpeechSource node pushes speech events. It is instantiated
+ * and managed by the @ref speechmodule. A speech event 
  * is coded into the translation field. x holds the speech command id
  * as configured in the opentracker xml config file. y holds the 
- * speech set id. z is only used for help purposes.
+ * speech set id. z is only used for help purposes. An application
+ * has to use the additional API on the @ref SpeechModule class
+ * to retrieve the name of the command. 
+ *
  * This node always pushes 2 events, one speech "start" event,
  * and one speech "end" event. This is used for button press/release
  * actions. The start is coded as button 0 pressed, end as button 0
- * released.
- * The source only fires events when a command is successfully
- * recognised.
+ * released. The source only fires events when a command is successfully
+ * recognised. It has the following attributes :
+ * @li @c name is the name of the source node. 
+ * @li @c set specifies the name of the command set to
+ *            use in this node.
+ * 
+ * An example element looks like this:
+ * @verbatim
+<SpeechRecoSource name="numberset" set="CmdSet1"/>@endverbatim
+ *
  */
 
 #ifndef _SPEECHSOURCE_H
