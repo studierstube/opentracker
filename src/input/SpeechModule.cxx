@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.5 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.6 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -227,5 +227,3 @@ void SpeechModule::Speak(const char *p_Sentence, bool p_Async)
   assert(m_Voice);
   m_Voice->Speak(p_Sentence, p_Async);
 }
-
-

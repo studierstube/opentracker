@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.18 2003/05/07 19:59:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.19 2003/07/18 17:27:58 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -277,4 +277,3 @@ void InterSenseModule::pushState()
         } 
     } // for all trackers       
 }
-

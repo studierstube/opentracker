@@ -55,7 +55,7 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.h,v 1.7 2003/02/18 02:12:51 tamer Exp $
+ * $Id: DOMTreeErrorReporter.h,v 1.8 2003/07/18 17:27:58 tamer Exp $
  */
 
 #include <xercesc/util/XercesDefs.hpp>
@@ -96,4 +96,3 @@ public:
 protected:
     int errorNum;
 };
-

@@ -26,7 +26,7 @@
   *
   * @author Michael Woegerbauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.h,v 1.3 2002/11/08 21:03:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.h,v 1.4 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -184,5 +184,3 @@ private:
 #endif
 
 #endif
-
-

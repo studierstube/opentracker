@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.4 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.5 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -324,4 +324,3 @@ void UltraTrakModule::init(StringTable& attributes, ConfigNode * localTree)
 	}
 	calcInversion(invertOrientation);
 }
-

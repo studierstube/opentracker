@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.h,v 1.2 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.h,v 1.3 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -109,4 +109,3 @@ public:
 };
 
 #endif
-

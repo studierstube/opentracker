@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.3 2003/04/28 13:35:53 knapp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.4 2003/07/18 17:27:58 tamer Exp $
   *
   * @file                                                                    */
  /* ======================================================================= */
@@ -185,6 +185,3 @@ GroupGateModule::activateGroupGate(const char *groupname, const char *groupgaten
     group->deactivateAll();
     node->activate();
 }
-
-
-

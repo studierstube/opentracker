@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.5 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.6 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -216,4 +216,3 @@ void TCPModule::run(){
     }
     connections.clear();
 }
-

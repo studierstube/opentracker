@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.8 2003/04/27 18:49:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.9 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,4 +46,3 @@ void OSUtils::sleep( double time )
     ACE_Time_Value timeVal(0, (int)(1000*time) );
 	ACE_OS::sleep( timeVal );
 }
-

@@ -111,9 +111,3 @@ IS_BOOL itComUpdateSyncState( InterSenseTrackerType *tracker );
 
 
 #endif
-
-
-
-
-
-

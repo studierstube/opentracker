@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceFilterNode.h,v 1.1 2001/09/26 13:35:01 reitmayr Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceFilterNode.h,v 1.2 2003/07/18 17:27:58 tamer Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -93,4 +93,3 @@ public:
 };
 
 #endif
-

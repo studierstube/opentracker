@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.3 2003/07/10 13:34:38 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.4 2003/07/18 17:27:58 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -531,4 +531,3 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     }
     z_value = atof(attributes.get("z_value").c_str());
 }
-

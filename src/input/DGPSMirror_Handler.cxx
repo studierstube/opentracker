@@ -26,7 +26,7 @@
 *
 * @author Gerhard Reitmayr
 * 
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.cxx,v 1.2 2003/06/16 13:17:01 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.cxx,v 1.3 2003/07/18 17:27:58 tamer Exp $
 *
 * @file                                                                   */
 /* ======================================================================= */
@@ -70,4 +70,3 @@ int DGPSMirror_Handler::handle_input(ACE_HANDLE fd)
         printf("DGPSMirror_Handler received %i bytes\n", cnt);
     return 0;
 }
-

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.h,v 1.2 2001/10/21 22:10:56 reitmayr Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.h,v 1.3 2003/07/18 17:27:58 tamer Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -103,4 +103,3 @@ public:
 };
 
 #endif
-

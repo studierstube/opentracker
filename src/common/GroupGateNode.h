@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.h,v 1.1 2002/11/29 16:02:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.h,v 1.2 2003/07/18 17:27:58 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -194,4 +194,3 @@ public:
 
 
 #endif
-
