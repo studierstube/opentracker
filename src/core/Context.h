@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.9 2001/05/02 12:59:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.10 2001/06/08 16:57:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -118,7 +118,7 @@ public:
      * they need to stop.*/
     int stop();
     /** returns the current time in milliseconds since ... */
-    double currentTime();
+    static double currentTime();
 };
 
 #endif

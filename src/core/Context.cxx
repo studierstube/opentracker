@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.11 2001/05/28 12:53:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.12 2001/06/08 16:57:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -128,25 +128,33 @@ void Context::pushStates()
 
 // This method implements the main loop and runs until it is stopped somehow.
 
+#include <iostream>
+
 void Context::run()
 {
+ 
+    int frames = 0;
     start();
+    double startTime = currentTime();
     double time = currentTime(), newTime;
     while ( stop() == 0 )
     {
         // push and pull parts of the main loop
         pushStates();
         pullStates();
-        newTime = currentTime();
-        if( newTime - time < 20 )
+        newTime = currentTime();       
+        if((newTime - time ) < 9 )
         {            
 #ifdef WIN32            
-            Sleep((DWORD)(newTime - time));
-#endif            
-            time = newTime;
+        
+           Sleep(0);//(DWORD)(1 - (newTime - time)));            
+#endif                        
         }
+        time = currentTime();
+        frames++;
     }
-    close();
+    cout << "\nContext Framerate : " << ((double)frames)*1000/(currentTime() - startTime) << endl;
+    close();   
 }
 
 // calls start on all modules to do some initialization.
