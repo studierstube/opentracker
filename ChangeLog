@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-10 15:35  reitmayr
+
+	* src/common/ConsoleModule.cxx:
+	
+	final fix for curses bugs, while awaiting improvement
+
+2003-07-10 15:34  reitmayr
+
+	* src/input/MagicYModule.cxx:
+	
+	update from Chris Traxler
+
 2003-07-08 15:06  tamer
 
 	* src/input/ARToolKitModule.cxx:
