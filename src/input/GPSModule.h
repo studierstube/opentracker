@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.4 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.5 2003/06/23 11:45:02 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -117,8 +117,8 @@ protected:
 
     ACE_FILE_IO * logFile;
 
-    friend GPSSource;
-    friend GPSDirectionSource;
+    friend class GPSSource;
+    friend class GPSDirectionSource;
 };
 
 #endif // !defined(_GPSMODULE_H)
