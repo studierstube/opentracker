@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.19 2001/11/29 17:28:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.20 2002/01/12 13:49:53 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,6 +64,10 @@
 
 #ifdef USE_ARTOOLKIT
 
+#ifdef WIN32
+class ARFrameGrabber;
+#endif
+
 /**
  * A video tracking source module using the ARToolKit library to track a 
  * number of markers in a video image. It sets up the video library and acts
@@ -99,6 +103,10 @@ protected:
     /// size of the image in pixels
     int sizeX, sizeY;
 
+#ifdef WIN32
+    ARFrameGrabber * camera;
+#endif
+
 // methods
 protected:
     /** the work method for the module thread. This method grabs a frame
@@ -112,8 +120,8 @@ protected:
 
 public:
     /// constructor method
-    ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0)
-    {};
+    ARToolKitModule();
+
     /// destructor method
     virtual ~ARToolKitModule();
 

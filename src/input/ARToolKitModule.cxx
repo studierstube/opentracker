@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.20 2001/11/29 17:28:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.21 2002/01/12 13:49:53 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,8 +52,12 @@
 #include <GL/glut.h>
 
 #include <AR/ar.h>
-#include <AR/video.h>
 #include <AR/param.h>
+#ifdef WIN32
+#include <AR/ARFrameGrabber.h>
+#else
+#include <AR/video.h>
+#endif
 
 // definitions used by ARToolKit
 #ifndef GL_ABGR_EXT
@@ -77,6 +81,15 @@
 
 using namespace std;
 
+// constructor
+
+ARToolKitModule::ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0)
+{
+#ifdef WIN32
+    CoInitialize(NULL);
+#endif
+}
+
 // destructor clears any nodes
 ARToolKitModule::~ARToolKitModule()
 {
@@ -86,6 +99,9 @@ ARToolKitModule::~ARToolKitModule()
     }
     sources.clear();
     delete[] frame;
+#ifdef WIN32
+   	CoUninitialize();
+#endif
 }
 
 // constructs a new Node
@@ -116,7 +132,7 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
-        cout << "Build ARToolKitSource " << attributes.get("tag-file") << endl;
+        cout << "Build ARToolKitSource " << attributes.get("tag-file") << " id " << id << endl;
         return source;
     }
     return NULL;
@@ -131,10 +147,8 @@ void ARToolKitModule::start()
 	{
 		return;
 	}
-    ARParam cparam, wparam;
-    
-    if( sources.size() <= 0 )
-        return;
+
+#ifndef WIN32   // linux and IRIX version
     if( arVideoOpen((char *) videomode.c_str() ) < 0 )
     {
         cout << "Error opening video source !" << endl;
@@ -154,8 +168,27 @@ void ARToolKitModule::start()
     {
         cout << "Error querying video size !" << endl;
         exit(1);
-    }
-    
+    }   
+   
+#ifdef __sgi
+    arVideoStart( did );
+#endif                
+
+    arVideoCapStart();
+
+#else // WIN32 version using DirectX 8
+    sizeX = 320;
+    sizeY = 240;
+
+	//start the video capture
+    camera = new ARFrameGrabber;
+	camera->Init(0);
+//	camera->DisplayProperties();
+	camera->SetFlippedImageVertical(true);
+#endif
+
+    ARParam cparam, wparam;    
+
     if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
     {
         cout << "Error loading camera parameters !" << endl;
@@ -164,13 +197,8 @@ void ARToolKitModule::start()
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
     arInitCparam( &cparam );
+
     frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
-
-#ifdef __sgi
-    arVideoStart( did );
-#endif                
-
-    arVideoCapStart();
     ThreadModule::start();
     cout << "ARToolKitModule started" << endl;
 }
@@ -187,9 +215,13 @@ void ARToolKitModule::close()
     lock();
     stop = 1;
     unlock();
+#ifndef WIN32
     OSUtils::sleep(1000);
     arVideoCapStop();
     arVideoClose();
+#else
+    delete camera;
+#endif    
     cout << "ARToolkit stopped\n";
 }
 
@@ -277,11 +309,13 @@ void ARToolKitModule::run()
     }
     cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
 
+#ifndef WIN32
     arVideoCapStop();
     arVideoClose();
 #ifdef __sgi
     arVideoStop( did );
     arVideoCleanupDevice( did );
+#endif
 #endif
 }
 
@@ -295,6 +329,8 @@ void ARToolKitModule::grab()
     int j,k;    
     double matrix[3][4];
     float m[3][3];
+
+#ifndef WIN32
 #ifdef __sgi
     if((frameData = (ARUint8 *)arVideoGetImage(did)) == NULL )
     {
@@ -303,6 +339,10 @@ void ARToolKitModule::grab()
     if((frameData = (ARUint8 *)arVideoGetImage()) == NULL )
     {
 #endif
+#else 
+    camera->GrabFrame();
+    if((frameData = (ARUint8 *)camera->GetBuffer()) == NULL ) {
+#endif        
         return;
     }
 
@@ -316,8 +356,8 @@ void ARToolKitModule::grab()
     if( markerNum < 1 )
     {
         return;
-    }
-        
+    }       
+
     for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
     {        
         source = (ARToolKitSource *)*it;
