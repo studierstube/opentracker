@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.h,v 1.1 2001/11/22 12:37:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.h,v 1.2 2001/11/23 10:03:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,7 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
-#ifndef UNIX
+#ifdef WIN32
 #include <Windows.h>
 #endif
 
@@ -66,7 +66,7 @@ typedef struct
 typedef struct
 {
     char pathname[256];
-#ifdef UNIX
+#ifndef WIN32
 	int fd;
 #else
     HANDLE handle;

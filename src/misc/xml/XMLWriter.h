@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.3 2001/08/20 09:54:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.4 2001/11/23 10:03:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,6 +39,8 @@
 #else
 #include <iostream.h>
 #endif
+
+using namespace std;
 
 class DOM_Node;
 class XMLFormatter;
@@ -68,7 +70,7 @@ protected:
      * @param level indentation level to use, this is multiplied with indent to 
      *        get the number of spaces.
      */
-    void writeNode(DOM_Node& toWrite, std::ostream & target, XMLFormatter & gFormatter, int level);
+    void writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter, int level);
 
 public:
     /** constructor, takes a context to work with.
@@ -87,7 +89,7 @@ public:
     
     /** writes the tracker graph and configuration to an output stream.
      * @param stream the stream to write to. */
-    void write( std::ostream & stream );            
+    void write( ostream & stream );            
 
     /** returns the current indentation step
      * @return indentation step */
