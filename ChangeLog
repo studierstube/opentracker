@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-12-15 08:38  reitmayr
+
+	* src/input/: nmea.cxx, nmea.h:
+	
+	removed obsolete files
+
 2003-12-13 13:17  tamer
 
 	* src/: core/MathUtils.h, input/ParButtonModule.cxx:
