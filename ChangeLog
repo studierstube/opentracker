@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-31 17:41  reitmayr
+
+	* data/opentracker.dtd:
+	
+	updated groupgate definition for more advanced stuff
+
 2003-03-28 15:48  reitmayr
 
 	* src/common/CommonNodeFactory.cxx, src/common/CommonNodeFactory.h,
