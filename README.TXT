@@ -12,9 +12,9 @@ Currently we only have a version for Windows, tested on Windows2000 and
 Windows98, and Irix, tested on Irix 6.5.x only. We plan to make a
 Linux version too.
 
-Many thanks to Dieter Schmalstieg, Toni Fuhrmann, Jan Prikryl, Hannes Kaufmann,
-Ivan Viola and Matej Mlejnek for commends and code. And also InterSense for
-their tracker code.
+Many thanks to Dieter Schmalstieg, Toni Fuhrmann, Gerd Hesina, Jan Prikryl, 
+Hannes Kaufmann, Ivan Viola and Matej Mlejnek for comments and code. 
+And also InterSense for their tracker code.
 
 Contact:           Gerhard Reitmayr
 Email:             reitmayr@ims.tuwien.ac.at
