@@ -220,6 +220,12 @@ void VideoSource::update()
     double matrix[3][4];
     float m[3][3];
 
+	// if we have no markers to check for, forget about the whole thing
+	if( markers.size() == 0 )
+	{
+		return;
+	}
+
 #ifdef __sgi
     if((frameData = (ARUint8 *)arVideoGetImage(did)) == NULL )
     {

@@ -150,7 +150,13 @@ void NetworkDriver::endUpdate()
     float temp[4];
     int size;
     int i;
-    
+
+    // if we have no Stations to check for, forget about the whole thing
+	if( stations.size() == 0 )
+	{
+		return;
+	}
+
     size = ntohs( data.headerLength );
     nR = data.data + ntohs( data.commentLength );
     StationVector::iterator it = stations.begin();
