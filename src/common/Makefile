@@ -32,7 +32,9 @@ HFILES = \
         ConfidenceFilterNode.h \
         ConfidenceSelectNode.h \
         FilterNode.h \
-        ThresholdFilterNode.h
+        ThresholdFilterNode.h \
+        ButtonFilerNode.h \
+        ButtonOpNode.h
 
 
 C++FILES = \
@@ -53,7 +55,9 @@ C++FILES = \
         ConfidenceFilterNode.cxx \
         ConfidenceSelectNode.cxx \
         FilterNode.cxx \
-        ThresholdFilterNode.cxx
+        ThresholdFilterNode.cxx \
+        ButtonFilterNode.h \
+        ButtonOpNode.h
 
 LC++INCS= $(OT_STD_INCLUDES)
 

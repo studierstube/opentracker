@@ -26,17 +26,13 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.1 2002/01/24 10:54:04 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.2 2002/03/26 10:55:46 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
 #ifndef _ARTDATATRACKERCHOMP_H
 #define _ARTDATATRACKERCHOMP_H
 
-#include <stdlib.h>
-#include <iostream>
-#include <sys/types.h>
-#include <stdio.h>
 #include <string>
 
 /**

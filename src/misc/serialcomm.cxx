@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.cxx,v 1.2 2002/01/18 19:59:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -363,7 +363,7 @@ int writetoSerialPort(SerialPort *port, char *buf, int count)
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <string.h>
+#include <strings.h>
 #include <termios.h>
 #include <unistd.h>
 

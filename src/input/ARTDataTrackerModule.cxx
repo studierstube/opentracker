@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.2 2002/01/24 17:31:07 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -34,7 +34,7 @@
 #pragma warning(disable:4786)
 #endif
 #include <string>
-
+#include <math.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 #include <ace/SOCK_Dgram_Mcast.h>
@@ -50,6 +50,8 @@
 #else
 #include <iostream.h>
 #endif
+
+using namespace std;
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
@@ -132,7 +134,7 @@ void ARTDataTrackerModule::run()
 {
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
-	ACE_INET_Addr addr( port, hostname );
+	ACE_INET_Addr addr( port ); //, hostname );
 	ACE_Addr local( -1 , -1);
 	socket = new ACE_SOCK_Dgram( addr );
 	

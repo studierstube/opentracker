@@ -26,11 +26,21 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.2 2002/01/29 19:44:16 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
 #include "ARTDataTrackerChomp.h"
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <stdio.h>
+
+#ifdef WIN32
+#include <iostream>    // VisualC++ uses STL based IOStream lib
+#else
+#include <iostream.h>
+#endif
 
 using namespace std;
 
