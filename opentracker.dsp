@@ -238,6 +238,10 @@ SOURCE=.\src\core\OSUtils.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\P5GloveModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\ParButtonModule.cxx
 # End Source File
 # Begin Source File
@@ -571,6 +575,14 @@ SOURCE=.\src\OpenTracker.h
 # Begin Source File
 
 SOURCE=.\src\core\OSUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\P5GloveModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\P5GloveSource.h
 # End Source File
 # Begin Source File
 
