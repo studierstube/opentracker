@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDirectionSource.h,v 1.1 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDirectionSource.h,v 1.2 2003/06/18 11:59:17 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,8 @@
  * direction and velocity data. The direction is encoded in the orientation 
  * field as a mathematically positive rotation around the Y axis starting from 
  * the X axis. The velocity is encoded in the X component of the position field
- * in meters / second.
+ * in meters / second. It is managed by the @ref gpsmodule, see there for
+ * more information on how to configure GPS support.
  *
  * An example element looks like this :
  * @verbatim

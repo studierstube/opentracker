@@ -26,16 +26,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.2 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.3 2003/06/18 11:59:17 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section gpssource GPSSource
- * The GPSSource node is a simple EventGenerator tht outputs GPS position data encoded
+ * The GPSSource node is a simple EventGenerator that outputs GPS position data encoded
  * in the position part of the event. This data is in Latitue, Longitute, Height 
- * in the WGS84 coordinate system.
+ * in the WGS84 coordinate system. It is managed by the @ref gpsmodule, see there for
+ * more information on how to configure GPS support.
  * Use a filter after that to transform the data into your local coordinate system. The node
  * has no further attributes besides the ID attribute.
  *
