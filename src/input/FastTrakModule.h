@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.h,v 1.1 2001/12/11 13:28:14 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.h,v 1.2 2002/10/22 17:19:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,9 +49,8 @@
  *
  * An example configuration element looks like this :
  * @verbatim
- <FastTrakConfig>
-     type="isotrak" device="COM1" stations="2" hemisphere="-1,0,0"> 		
- </FastTrakConfig>@endverbatim
+ <FastTrakConfig type="isotrak" device="COM1" stations="2" hemisphere="-1,0,0"/>
+ @endverbatim
  *
  * Note that to date this driver was only tested with IsoTrak II and WIN32.
  */

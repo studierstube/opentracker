@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.3 2002/09/26 13:56:26 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.4 2002/10/22 17:19:14 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -138,7 +138,7 @@ void FastTrakModule::start()
         params.parity = 0;
         params.bits = 8;
         params.sbit = 1;
-        params.hwflow = 0;
+        params.hwflow = 1;
         params.swflow = 0;
         params.blocking = 0;
 
@@ -159,9 +159,9 @@ int FastTrakModule::initFastTrak()
     char buffer[256];
 
     // toggle reset
-    setRTSSerialPort( &port, 1);
-    OSUtils::sleep(100);
-    setRTSSerialPort( &port, 0);    
+    //setRTSSerialPort( &port, 1);
+    //OSUtils::sleep(100);
+    //setRTSSerialPort( &port, 0);    
 
     // ping 
     static char *PingString;

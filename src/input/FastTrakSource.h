@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakSource.h,v 1.1 2001/12/11 13:28:14 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakSource.h,v 1.2 2002/10/22 17:19:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,11 +37,11 @@
  * The FastTrakSource node is a simple EventGenerator that inserts events generated from
  * the tracker-device data into the tracker tree. The FastTrakSource element has the 
  * following attributes :
- * @li @c station the stations number
+ * @li @c number the stations number
  *
  * An example element looks like this :
  * @verbatim
-<FastTrakSource station="1"/>@endverbatim
+<FastTrakSource number="1"/>@endverbatim
  */
 
 #ifndef _FASTTRAKSOURCE_H
