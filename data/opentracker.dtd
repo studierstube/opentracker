@@ -24,8 +24,8 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?">
-<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?">
+<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
@@ -256,6 +256,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ARToolKitConfig
 	camera-parameter CDATA #REQUIRED
 	treshhold CDATA "100"
+    framerate CDATA "10"
 >
 <!ELEMENT ARToolKitSource EMPTY>
 <!ATTLIST ARToolKitSource
@@ -288,6 +289,13 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!ELEMENT ConsoleSource EMPTY>
 <!ATTLIST ConsoleSource
+	DEF ID #IMPLIED
+	number CDATA #REQUIRED
+>
+<!-- StbKeyboard definitions, similar to console input -->
+<!ELEMENT StbKeyboardConfig (KeyDefinition*)>
+<!ELEMENT StbKeyboardSource EMPTY>
+<!ATTLIST StbKeyboardSource
 	DEF ID #IMPLIED
 	number CDATA #REQUIRED
 >
@@ -381,4 +389,5 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ParButtonSource
     dev CDATA ""
     port CDATA ""
+    DEF ID #IMPLIED
 >
