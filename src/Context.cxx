@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 23:58 gr, added exit code test
+//     Updated code of method 'run'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated member 'rootNode'
 // August 16, 2000 21:43 gerhard reitmayr
@@ -109,7 +111,9 @@ Then it calls close() on all modules.
 */
 void Context::run()
 {//@CODE_4768
-    while (1)
+    int stop = 0;
+    
+    while ( stop == 0)
     {
         ModuleVector::iterator it = modules.begin();
         
@@ -135,7 +139,21 @@ void Context::run()
             (*it)->endUpdate();
             it++;
         }
+        // test for exit 
+        it = modules.begin();
+        while( it != modules.end())
+        {
+            if( (*it)->stop() == 1 )
+            {
+                stop = 1;
+            }
+            it++;
+        }
     }
+    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    {
+        (*it)->close();
+    }   
 }//@CODE_4768
 
 

@@ -56,8 +56,12 @@ class Module;
 typedef std::vector<Module *> ModuleVector;
 //@END_DECLARATION_4412
 
+//@START_DECLARATION_7216 CursesOutputVector
+class CursesOutput;
+typedef std::vector<CursesOutput *> CursesOutputVector;
+//@END_DECLARATION_7216
+
 // Forward class declarations
-class Node;
 class State;
 class TreeNode;
 class Transformation;
@@ -76,6 +80,8 @@ class MathUtils;
 class Context;
 class TestSource;
 class TestModule;
+class CursesModule;
+class CursesOutput;
 
 // Needed ClassBuilder include files
 
@@ -85,7 +91,6 @@ class TestModule;
 #endif
 
 // Include classes, for declarations
-#include "Node.h"
 #include "State.h"
 #include "TreeNode.h"
 #include "Transformation.h"
@@ -104,6 +109,8 @@ class TestModule;
 #include "Context.h"
 #include "TestSource.h"
 #include "TestModule.h"
+#include "CursesModule.h"
+#include "CursesOutput.h"
 
 
 // Include classes again, for inline implementation

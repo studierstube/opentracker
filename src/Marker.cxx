@@ -12,8 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 21:43 gerhard reitmayr
-//     Update comment header
+// August 16, 2000 22:57 gr, removed Node
+//     Deleted inheritance 'Node'
 // ===========================================================================
 //@START_USER1
 //@END_USER1

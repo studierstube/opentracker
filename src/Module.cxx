@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 23:53 gr, added curses based display
+//     Added method 'stop'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated interface of method 'init'
 // August 16, 2000 21:43 gerhard reitmayr
@@ -90,6 +92,15 @@ be made up of Nodes.
 void Module::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_739
 }//@CODE_739
+
+
+/*@NOTE_7198
+should the tracker be stopped ?
+*/
+int Module::stop()
+{//@CODE_7198
+    return 0;
+}//@CODE_7198
 
 
 /*@NOTE_1589

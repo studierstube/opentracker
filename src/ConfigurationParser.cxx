@@ -12,13 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated code of method 'parseConfigurationFile'
-//     Updated code of method 'buildTree'
-//     Updated return type of method 'buildTree'
-//     Updated return type of method 'parseConfigurationFile'
-// August 16, 2000 21:43 gerhard reitmayr
-//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      TestSource.cxx
+//  NAME:      CursesOutput.cxx
 //  TYPE:      cxx header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Implementation of class 'TestSource'
+//  CONTENT:   Implementation of class 'CursesOutput'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -12,8 +12,15 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 22:57 gr, removed Node
-//     Deleted inheritance 'Node'
+// August 16, 2000 23:53 gr, added curses based display
+//     Added method 'DestructorInclude'
+//     Added method 'ConstructorInclude'
+//     Added method 'getState'
+//     Added method 'getComment'
+//     Added method '~CursesOutput'
+//     Added method 'CursesOutput'
+//     Added inheritance 'TreeNode'
+//     Added member 'comment'
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -30,54 +37,68 @@
 // Static members
 
 
-/*@NOTE_4801
-default constructor
+/*@NOTE_7214
+Constructor method.
 */
-TestSource::TestSource() //@INIT_4801
+CursesOutput::CursesOutput(char* comment_) //@INIT_7214
     : TreeNode()
-    
-{//@CODE_4801
+    , comment(comment_)
+{//@CODE_7214
     ConstructorInclude();
 
     // Put in your own code
-}//@CODE_4801
+}//@CODE_7214
 
 
-/*@NOTE_4796
+/*@NOTE_7208
 Destructor method.
 */
-TestSource::~TestSource()
-{//@CODE_4796
+CursesOutput::~CursesOutput()
+{//@CODE_7208
     DestructorInclude();
 
     // Put in your own code
-}//@CODE_4796
+}//@CODE_7208
 
 
-/*@NOTE_4803
+/*@NOTE_7227
+returns the comment string
+*/
+char* CursesOutput::getComment()
+{//@CODE_7227
+    return comment;
+}//@CODE_7227
+
+
+/*@NOTE_7212
 returns the current state of the node. This method will be overriden in any subclasses
 that provide real functionality. All processing of states will be done here.
 */
-State* TestSource::getState()
-{//@CODE_4803
-   return &state;
-}//@CODE_4803
+State* CursesOutput::getState()
+{//@CODE_7212
+    if( !children.empty())
+    {
+        return (*children.begin())->getState();
+    } else {
+        return NULL;
+    }
+}//@CODE_7212
 
 
 //{{AFX DO NOT EDIT CODE BELOW THIS LINE !!!
 
-/*@NOTE_4795
+/*@NOTE_7207
 Method which must be called first in a constructor.
 */
-void TestSource::ConstructorInclude()
+void CursesOutput::ConstructorInclude()
 {
 }
 
 
-/*@NOTE_4797
+/*@NOTE_7209
 Method which must be called first in a destructor.
 */
-void TestSource::DestructorInclude()
+void CursesOutput::DestructorInclude()
 {
 }
 
