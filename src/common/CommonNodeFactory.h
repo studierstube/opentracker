@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.10 2001/06/11 22:00:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -53,6 +53,7 @@
  * \li VirtualTransformation, again all types of transformations
  * \li EventQueueNode
  * \li MergeNode
+ * \li SelectionNode
  * @author Gerhard Reitmayr
  * @ingroup common
  */

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.12 2001/05/28 15:24:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.13 2001/06/11 22:00:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,7 @@
 #include "MergeNode.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"
+#include "SelectionNode.h"
 
 #include<math.h>
 #include<stdio.h>
@@ -56,6 +57,7 @@ CommonNodeFactory::CommonNodeFactory()
     wrapperNodes.push_back("MergeTime");
     wrapperNodes.push_back("MergeDefault");
     wrapperNodes.push_back("TransformBase");
+    wrapperNodes.push_back("Select");
 }
 
 CommonNodeFactory::~CommonNodeFactory()
@@ -69,7 +71,7 @@ int CommonNodeFactory::parseVector(const string & line, float * val )
     int num;
     num = sscanf( line.c_str()," %f %f %f", &help[0], &help[1], &help[2] );
     if( num != 3 )
-    { 
+    {
         return 1;
     }
     val[0] = help[0];
@@ -137,7 +139,7 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
             MathUtils::axisAngleToQuaternion( axisa, val );
         }
     }
-    else 
+    else
     {
         return 1;
     }
@@ -167,7 +169,7 @@ Node * CommonNodeFactory::createNode(  string& name,
     if( name.compare("EventPositionTransform") == 0 ||
         name.compare("QueuePositionTransform") == 0 ||
         name.compare("TimePositionTransform") == 0 )
-    {        
+    {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
@@ -176,30 +178,30 @@ Node * CommonNodeFactory::createNode(  string& name,
         {
             cout << "Error parsing scale !" << endl;
         }
-        if( parseRotation(attributes.get("rotation"), 
+        if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 1, 0 );    
+        return new StaticTransformation( translation, scale, rot, 1, 0 );
     }
     else if( name.compare("EventOrientationTransform") == 0 ||
         name.compare("QueueOrientationTransform") == 0 ||
         name.compare("TimeOrientationTransform") == 0 )
-    {        
-        if( parseRotation(attributes.get("rotation"), 
+    {
+        if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 0, 1 );    
+        return new StaticTransformation( translation, scale, rot, 0, 1 );
     }
     else if( name.compare("EventTransform") == 0 ||
         name.compare("QueueTransform") == 0 ||
         name.compare("TimeTransform") == 0 )
-    {        
+    {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
@@ -208,14 +210,14 @@ Node * CommonNodeFactory::createNode(  string& name,
         {
             cout << "Error parsing scale !" << endl;
         }
-        if( parseRotation(attributes.get("rotation"), 
+        if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 1, 1 );    
-    } 
+        return new StaticTransformation( translation, scale, rot, 1, 1 );
+    }
     else if( name.compare("EventVirtualTransform") == 0 ||
              name.compare("QueueVirtualTransform") == 0 ||
              name.compare("TimeVirtualTransform") == 0 )
@@ -223,61 +225,72 @@ Node * CommonNodeFactory::createNode(  string& name,
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
-        }  
-        if( parseRotation(attributes.get("rotation"), 
+        }
+        if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
         return new VirtualTransformation( translation, scale, rot, 1, 1 );
-    } 
+    }
     else if( name.compare("EventVirtualPositionTransform") == 0 ||
         name.compare("QueueVirtualPositionTransform") == 0 ||
         name.compare("TimeVirtualPositionTransform") == 0 )
-    {        
+    {
         if( parseVector(attributes.get("translation"), translation ) != 0 )
         {
             cout << "Error parsing translation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
-        return new VirtualTransformation( translation, scale, rot, 1, 0 );    
+        return new VirtualTransformation( translation, scale, rot, 1, 0 );
     }
     else if( name.compare("EventVirtualOrientationTransform") == 0 ||
         name.compare("QueueVirtualOrientationTransform") == 0 ||
         name.compare("TimeVirtualOrientationTransform") == 0 )
-    {        
-        if( parseRotation(attributes.get("rotation"), 
+    {
+        if( parseRotation(attributes.get("rotation"),
                            attributes.get("rotationtype"), rot ) != 0 )
         {
             cout << "Error parsing rotation !" << endl;
         }
         cout << "Build "<< name << " node." <<endl;
-        return new VirtualTransformation( translation, scale, rot, 0, 1 );    
+        return new VirtualTransformation( translation, scale, rot, 0, 1 );
     }
     else if( name.compare("EventQueue") == 0 )
     {
         cout << "Build "<< name << " node." <<endl;
         return buildEventQueue( attributes );
-    } 
+    }
     else if( name.compare("Merge") == 0 )
     {
         cout << "Build "<< name << " node." << endl;
         return new MergeNode();
-    } 
+    }
+    else if( name.compare("Selection") == 0 )
+    {
+        int num;
+        double timeOut;
+        num = sscanf(attributes.get("timeout").c_str(), " %lf", &timeOut );
+        if( num != 1 )
+        {
+            timeOut = 100;
+        }
+        cout << "Build "<< name << " node." << endl;
+        return new SelectionNode(timeOut);
+    }
     else if( name.compare("EventDynamicTransform") == 0 ||
                name.compare("QueueDynamicTransform") == 0 ||
                name.compare("TimeDynamicTransform") == 0 )
     {
-		int baseEvent;
-		if( attributes.get("baseevent").compare("true") == 0 )
-			baseEvent = 1;	
-		else 
-			baseEvent = 0;
-
+        int baseEvent;
+        if( attributes.get("baseevent").compare("true") == 0 )
+            baseEvent = 1;
+        else
+            baseEvent = 0;
         cout << "Build " << name << " node." << endl;
         return new DynamicTransformation( baseEvent );
-    } 
+    }
     else if( name.compare("EventInvertTransform") == 0 ||
              name.compare("QueueInvertTransform") == 0 ||
              name.compare("TimeInvertTransform") == 0 )
@@ -289,6 +302,6 @@ Node * CommonNodeFactory::createNode(  string& name,
     {
         cout << "Build WrapperNode " << name << "." << endl;
         return new WrapperNode();
-    }              
+    }
     return NULL;
 }
