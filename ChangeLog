@@ -9,6 +9,40 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-14 03:49  tamer
+
+	* INSTALL:
+	
+	updated INSTALL instructions to reflect the new changes.
+
+2003-03-14 03:40  tamer
+
+	* opentracker_env.sh:
+	
+	removed now obsolete path setting shell script.
+
+2003-03-14 03:38  tamer
+
+	* bootstrap, configure.ac:
+	
+	accomodations for the new rpath handling.
+
+2003-03-14 03:37  tamer
+
+	* lib/Makefile.am:
+	
+	added the new stb_ac_*_rpath flags.
+
+2003-03-14 03:36  tamer
+
+	* cfg/m4/: ace.m4, artoolkit.m4, xerces.m4:
+	
+	added stb_ac_*_rpath flag to allow libtool to encode the path to
+	the library so that the dynamic linker/loader is able to find the
+	library without having to set the LD_LIBRARY_PATH environment if
+	the library is not installed in the linker search path on the
+	system.
+
 2003-02-22 01:37  tamer
 
 	* lib/lib.txt:
