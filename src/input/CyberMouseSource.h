@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.6 2001/06/11 22:02:22 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,9 +38,8 @@
  * the @ref cybermousemodule. 
  * If the mouse does not seem to work, press a button. This should initialize
  * it and it will work. The mouse buttons are mapped to button numbers in
- * the following way : middle button = 1, second button = 2, both = 3 ???
- *
- * @todo update cyber mouse button description !
+ * the following way : the middle button sets the LSB to 1 and the second 
+ * button sets the second to 1.
  *
  * An example element looks like this :
  * @verbatim

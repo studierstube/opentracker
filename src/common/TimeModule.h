@@ -26,18 +26,44 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.2 2001/06/11 22:01:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
+
+/**
+ * @page module_ref Module Reference
+ * @section timemodule TimeModule
+ * The TimeModule controls the timing of the OpenTracker main loop. It does 
+ * not provide any functionality related to nodes and events. There are two
+ * operating modes. In @i Sleep mode the TimeModule sleeps after each turn
+ * of the main loop a specified amount of time. In @i Framerate mode it tries
+ * to achieve a certain framerate of loops per second. Both modes are limited
+ * by the underlying implementation of OSUtils. That means that sleeps shorter
+ * then 1/100 of a second are not possible, which obvious implications for the
+ * @i Sleep mode. The @i Framerate mode works by inserting short sleeps after
+ * a number of loops to achieve the desired overall framerate ! 
+ *
+ * The configuration element is called @c TimeConfig and has the following attributes :
+ * @li @c rate float giving the desired frames per second (i.e. 100 )
+ * @li @c sleep number of milliseconds to sleep each loop
+ * If both are specified the @c rate attribute takes precedence and the 
+ * @i Framerate mode is used. If no configuration element is present, the module
+ * is not activated and the main loop runs at full speed.
+ *
+ * An example configuration element looks like this :
+ * @verbatim
+<TimeConfig rate="187"/>@endverbatim
+ */
 
 #ifndef _TIMEMODULE_H
 #define _TIMEMODULE_H
 
 #include "../OpenTracker.h"
 
-
 /**
- * 
+ * This class implements the TimeModule functionality. It sleeps the required time
+ * in the stop() method, which is executed after a loop to check for stopping
+ * conditions. At this point it should not interfere with any event processing.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
@@ -45,8 +71,14 @@ class OPENTRACKER_API TimeModule : public Module
 {
 // Members
 protected:
+    // number of milliseconds to sleep in @i Sleep mode
    int sleep;
-   double startTime, rate, count;
+   // start time to calculate the frame rate in @i Framerate mode
+   double startTime, 
+   // the desired frame rate in frames / millisecond for computational purposes
+       rate, 
+   // counting frames
+       count;
 
 // Methods
 public:
@@ -55,19 +87,19 @@ public:
     {};
   
     /**
-     * initializes the tracker module. This class provides an implementation
-     * that sets the initialization flag to true. Subclasses should call this
-     * method if they override this method. It takes the attributes of the
-     * element configuring this module and a local tree consisting of the
-     * children of the element. This tree must be build of Nodes.
+     * initializes the tracker module. Parses any @c sleep or @c rate attributes
      * @param attributes StringTable of elements attribute values. Should be
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
     void init( StringTable & attributes,  ConfigNode * localTree);
   
+    /** starts the module, stores startTime if in @i Framerate mode. */
     void start();
     
+    /** test for stopping the main loop. Here the actual sleeping is done
+     * if necessary.
+     * @return always 0*/
     int stop();
 };
 
