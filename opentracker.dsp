@@ -154,6 +154,10 @@ SOURCE=.\src\common\DynamicTransformation.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ElasticFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\EventQueueImplementation.cxx
 # End Source File
 # Begin Source File
@@ -183,6 +187,10 @@ SOURCE=.\src\common\GroupGateModule.cxx
 # Begin Source File
 
 SOURCE=.\src\common\GroupGateNode.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\InterpolatorModule.cxx
 # End Source File
 # Begin Source File
 
@@ -442,6 +450,10 @@ SOURCE=.\src\common\DynamicTransformation.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ElasticFilterNode.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\EventQueueImplementation.h
 # End Source File
 # Begin Source File
@@ -491,6 +503,10 @@ SOURCE=.\src\common\GroupGateModule.h
 # Begin Source File
 
 SOURCE=.\src\common\GroupGateNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\InterpolatorModule.h
 # End Source File
 # Begin Source File
 
