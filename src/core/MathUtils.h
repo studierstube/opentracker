@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.15 2003/06/25 13:43:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.16 2003/07/02 07:28:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -132,6 +132,15 @@ public:
      * @return angle between the two vectors
      */    
     static double angle( const float * v1, const float * v2, const int dim );
+
+    /**
+     * computes the dot product between two n-dimensional vectors.
+     * @param v1 float[n] first vector
+     * @param v2 float[n] second vector
+     * @param dim dimension n of the two vectors
+     * @return dot product between the two vectors
+     */ 
+    static double dot( const float * v1, const float * v2, const int dim );
     
     /**
      * computes the spherical linear interpolation between two quaternions. The

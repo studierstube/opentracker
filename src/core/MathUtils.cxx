@@ -1,4 +1,4 @@
-      /* ========================================================================
+       /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.13 2003/06/25 13:43:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.14 2003/07/02 07:28:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -231,12 +231,8 @@ float MathUtils::determinant( const float matrix[3][3] )
 
 double MathUtils::angle( const float * v1, const float * v2, const int dim )
 {
-	double dot = 0;
 	int i;
-	for( i = 0; i < dim; i++)
-	{
-		dot += v1[i] * v2[i];
-	}
+    double dot = MathUtils::dot( v1, v2, dim );
     /* Numerically stable implementation:
      *  if (dot(u,v) < 0.)
      *      return M_PI - 2*asin(|v+u)|/2)
@@ -439,4 +435,15 @@ float *MathUtils::quaternionToAxisAngle(const float q[4], float axisa[4])
 		axisa[3] = 0.0;
     }
 	return axisa;
+}
+
+double MathUtils::dot( const float * v1, const float * v2, const int dim )
+{
+    double result = 0;
+    int i;
+    for( i = 0; i < dim; i++ )
+    {
+        result += v1[i] * v2[i];
+    }
+    return result;
 }
