@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.22 2002/11/29 16:11:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.23 2002/12/10 17:24:32 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -65,6 +65,7 @@
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
 #include "../input/SpaceMouseModule.h"
+#include "../input/SpeechModule.h"
 
 // DLL main function
 
@@ -185,4 +186,10 @@ void OPENTRACKER_API initializeContext( Context & context )
 	GroupGateModule * groupgate = new GroupGateModule();
     context.addFactory( * groupgate );
     context.addModule( "GroupGateConfig", *groupgate ); 
+
+#ifdef USE_SAPISPEECH
+    SpeechModule *speechmodule = new SpeechModule;
+    context.addFactory( *speechmodule );
+    context.addModule( "SpeechRecoConfig", *speechmodule );
+#endif
 }

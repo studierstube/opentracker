@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.6 2002/10/31 20:01:41 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.7 2002/12/10 17:22:20 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,3 +55,7 @@
 /** uncomment the following line to compile support for 3Dconnexion SpacMouse.
   * Support for this is only available on windows. */
 // #define USE_SPACEMOUSE 1
+
+/** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
+  * Support for this is only available on windows. */
+// #define USE_SAPISPEECH 1

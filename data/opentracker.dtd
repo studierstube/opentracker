@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.52 2002/12/06 18:01:22 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.53 2002/12/10 17:22:51 kaufmann Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?">
@@ -558,4 +558,26 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ActiveGate
   DEF ID #IMPLIED
   group NMTOKEN #REQUIRED
+>
+
+<!-- SpeechRecoConfig definitions, similar to console input -->
+<!ELEMENT SpeechRecoConfig (CommandSet+)>
+<!ATTLIST SpeechRecoConfig
+	language CDATA #REQUIRED
+>
+<!ELEMENT CommandSet (Command+)>
+<!ATTLIST CommandSet
+	id CDATA #REQUIRED
+>
+<!ELEMENT Command EMPTY>
+<!ATTLIST Command
+	id CDATA #REQUIRED
+	name CDATA #REQUIRED
+	weight CDATA "1.0"
+>
+<!ELEMENT SpeechRecoSource EMPTY>
+<!ATTLIST SpeechRecoSource
+	DEF ID #IMPLIED
+	name CDATA #REQUIRED
+	set CDATA #REQUIRED
 >

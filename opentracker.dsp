@@ -258,6 +258,30 @@ SOURCE=.\src\input\SpaceMouseModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\SpeechCore.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechSet.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechSource.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechVoice.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechVoiceModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\State.cxx
 # End Source File
 # Begin Source File
@@ -579,6 +603,38 @@ SOURCE=.\src\input\SpaceMouseModule.h
 # Begin Source File
 
 SOURCE=.\src\input\SpaceMouseSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechCore.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechDef.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechInc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechSet.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechVoice.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\SpeechVoiceModule.h
 # End Source File
 # Begin Source File
 
