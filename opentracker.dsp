@@ -106,6 +106,10 @@ SOURCE=.\src\input\ARToolKitModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ButtonFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\CallbackModule.cxx
 # End Source File
 # Begin Source File
@@ -311,6 +315,10 @@ SOURCE=.\src\input\ARToolKitModule.h
 # Begin Source File
 
 SOURCE=.\src\input\ARToolKitSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ButtonFilterNode.h
 # End Source File
 # Begin Source File
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.20 2001/11/22 16:52:24 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.21 2002/01/30 11:24:16 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,6 +41,7 @@
 #include "ConfidenceSelectNode.h"
 #include "FilterNode.h"
 #include "ThresholdFilterNode.h"
+#include "ButtonFilterNode.h"
 
 #include<math.h>
 #include<float.h>
@@ -357,6 +358,10 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             rotmax = 3.141592654f;
         result = new ThresholdFilterNode( posmin, posmax, rotmin, rotmax );
     }
+	else if( name.compare("ButtonFilter") == 0 )
+	{
+		result = new ButtonFilterNode( attributes.get("buttonmask").data(), attributes.get("buttonmap").data() );
+	}
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
         cout << "Build NodePort " << name << "." << endl;
