@@ -10,7 +10,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.1 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.2 2001/03/06 18:06:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,6 +58,9 @@ protected:
 
     /// the data of this child defines the base affine space
     EventGenerator * baseChild;
+    /** stores the original event data to compute new values
+     * on base changes.*/
+    State store;
 
 public:
     /** constructor method. It sets default values on the

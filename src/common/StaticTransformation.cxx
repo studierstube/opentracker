@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.2 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.3 2001/03/06 18:06:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,7 +46,7 @@ StaticTransformation::StaticTransformation(float translation_[3], float scale_[3
 
 // transforms a state.
 
-State* StaticTransformation::transformState( State* state)
+State* StaticTransformation::transformState( State* state )
 {
     // transform the position of the state
     MathUtils::rotateVector( rotation,  state->position, localState.position );
