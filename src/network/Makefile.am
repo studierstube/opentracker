@@ -13,7 +13,10 @@ otnetworkinc_HEADERS = \
         TCPSink.h \
         DwarfModule.h \
         DwarfSink.h \
-        DwarfSource.h
+        DwarfSource.h \
+        VRPNModule.h \
+        VRPNSink.h \
+        VRPNSource.h
 
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
@@ -30,5 +33,11 @@ libnetwork_la_SOURCES = \
         DwarfModule.cxx \
         DwarfModule.h \
         DwarfSink.h \
-        DwarfSource.h
+        DwarfSource.h \
+        VRPNModule.cxx \
+        VRPNModule.h \
+        VRPNSink.cxx \
+        VRPNSink.h \
+        VRPNSource.cxx \
+        VRPNSource.h
 

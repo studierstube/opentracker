@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.34 2003/11/13 10:01:31 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.35 2004/03/19 08:09:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -74,6 +74,7 @@
 #include "../input/SpeechModule.h"
 #include "../input/P5GloveModule.h"
 #include "../network/DwarfModule.h"
+#include "../network/VRPNModule.h"
 
 // DLL main function
 
@@ -235,5 +236,11 @@ void OPENTRACKER_API initializeContext( Context & context )
     DwarfModule * dwarf = new DwarfModule;
     context.addFactory( *dwarf);
     context.addModule( "DwarfConfig", *dwarf );
+#endif
+
+#ifdef USE_VRPN
+    VRPNModule * vrpn = new VRPNModule;
+    context.addFactory( *vrpn );
+    context.addModule( "VRPNConfig", *vrpn );
 #endif
 }

@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.21 2003/11/23 18:28:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.22 2004/03/19 08:09:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -76,6 +76,8 @@
  * OpenTracker with your own modules.
  * @li <a href="../userguide.html">Users Guide</a> - How to configure and
  * run OpenTracker.
+ * @li @ref config - Lists different configuration options to include various
+ *                   device drivers and other libraries.
  *
  * Additional information regarding various modules can be found here :
  * @li @ref spacemouse - How to integrate the SpaceMouse support

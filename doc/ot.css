@@ -93,6 +93,10 @@ a:active
     {font-family: "Courier New", Courier, mono; background-color: #EEEEEE
     }
 
+.fragment
+   {
+   	background-color: #EEEEEE
+   }
 /* --------------------------------------------------------------------- */
 
 .niceTable th

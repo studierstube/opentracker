@@ -1,4 +1,4 @@
-  /* ========================================================================
+       /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.4 2003/07/27 10:32:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.5 2004/03/19 08:10:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,10 +79,17 @@
  *		\n enables interoperability of DWARF and OpenTracker. Using the @ref dwarfmodule
  *       allows you configure an OpenTracker process as a DWARF service where @ref 
  *       dwarfsink act as abilities and @ref dwarfsource act as needs.
+ * @li @b USE_VRPN 
+ *      \n enables interoperability with VRPN. OpenTracker can act both as a server and
+ *       as a client to other VRPN processes. There is @ref vrpnmodule which allows setting
+ *       the server parameters and two nodes @ref vrpnsource to receive data from a VRPN
+ *       server and @ref vrpnsink to act as a device in the server. On Windows, set the
+ *       environment variable @c VRPNROOT to the vrpn directory to configure the build system.
+ * 
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
-// #define USE_ARTOOLKIT 1
+#define USE_ARTOOLKIT 1
 
 /**
  * This define enables the correction of ARToolkit transformation matrices
@@ -125,3 +132,8 @@
 /** uncomment the following line to compile support for the DWARF.
   */
 // #define USE_DWARF 1
+
+/** uncomment the following line to compile support for VRPN. Don't forget to set the
+  * @c VRPNROOT environment variable !
+  */
+#define USE_VRPN 1

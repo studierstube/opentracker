@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.10 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.11 2004/03/19 08:09:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -74,6 +74,9 @@ int main(int argc, char **argv)
     cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;
     char foo;
     cin >> foo;
+
+    XMLWriter writer( context );
+    writer.write( "output.xml" );
     context.run();
     return 0;
 }

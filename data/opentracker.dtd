@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firefly (Vienna University of Technology) -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -22,12 +22,12 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.85 2003/11/30 17:40:41 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.86 2004/03/19 08:10:58 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | DynaSightSource | MagicYSource | DwarfSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | DwarfSink">
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | DwarfSink | VRPNSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate | Override">
@@ -550,7 +550,8 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT FileConfig EMPTY>
 <!ATTLIST FileConfig
   append (true | false) "false"
-  loop   (true | false) "true"
+  loop (true | false) "true"
+  interval CDATA #IMPLIED
 >
 <!ELEMENT FileSink (%EventNodes;)>
 <!ATTLIST FileSink
@@ -808,4 +809,24 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST DwarfSource
   DEF ID #IMPLIED
   name CDATA #REQUIRED
+>
+<!-- VRPN Source and sink nodes -->
+<!ELEMENT VRPNConfig EMPTY>
+<!ATTLIST VRPNConfig
+  port CDATA #IMPLIED
+  interface CDATA #IMPLIED
+>
+<!ELEMENT VRPNSink (%EventNodes;)>
+<!ATTLIST VRPNSink
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+  type (tracker | button) "tracker"
+  station CDATA "0"
+>
+<!ELEMENT VRPNSource EMPTY>
+<!ATTLIST VRPNSource
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+  type (tracker | button) "tracker"
+  station CDATA "0"
 >
