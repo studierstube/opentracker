@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.17 2003/10/31 14:53:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.18 2003/11/05 12:02:21 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -49,8 +49,8 @@ reactor( reactor_ ),
 receiver( NULL ),
 server( NULL ),
 acceptor( NULL ),
-fix( false ),
-rtcmdev( NULL )
+rtcmdev( NULL ),
+fix( false )
 {
 	if( NULL == reactor )
 		reactor = ACE_Reactor::instance();

@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.6 2003/10/31 14:55:03 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.7 2003/11/05 12:02:21 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -109,7 +109,7 @@ ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* button
 					validtrans[i] = vtId; // set position to given id 
 				}
 
-				if (strlen(validTransSetButtonStr) > i)
+				if (strlen(validTransSetButtonStr) > (unsigned int)i)
 				{
 					if (validTransSetButtonStr[i] >= '0' && validTransSetButtonStr[i] <= '7') 
 					{
