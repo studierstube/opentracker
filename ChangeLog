@@ -1,3 +1,25 @@
+2004-07-28 15:44:48  Rev 724    reitmayr
+
+	* src/input/XSensModule.h: doc update
+
+2004-07-28 15:37:25  Rev 723    reitmayr
+
+	* src/input/XSensModule.cxx: fix for multiple COM inits
+
+2004-07-28 13:49:23  Rev 722    reitmayr
+
+	* src/input/XSensSource.h, src/input/GPSGarminAltitude.h, 
+	  src/input/GPSGarminCompass.h: fixed $Id$ tags
+
+2004-07-28 13:47:32  Rev 721    reitmayr
+
+	* bin/MTObj.dll, src/input/XSensModule.cxx, src/input/XSensSource.h, 
+	  src/input/Makefile.am, data/opentracker.dtd, extras/xsens/IMTObj.h,
+	  src/misc/OpenTracker.cxx, opentracker.dsp, src/input/XSensModule.h,
+	  extras/xsens/IMTObj_i.c, extras/xsens, src/input/XSensSource.cxx: 
+	  added support for XSens MT9-B under windows. A Linux version 
+	  should be doable, drivers are included in the SDK.
+
 2004-07-27 11:56:12  Rev 719    reitmayr
 
 	* opentracker.dsp:
