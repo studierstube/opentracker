@@ -9,6 +9,35 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-24 16:24  kaufmann
+
+	* data/opentracker.dtd:
+	
+	P5glove configuration added
+
+2003-03-24 16:20  reitmayr
+
+	* src/input/: ARToolKitModule.cxx, FastTrakModule.cxx:
+	
+	fixed some uninitialized pointer deletions
+
+2003-03-24 14:25  flo
+
+	* opentracker.dsp:
+	
+	added the ElasticFilter and a corresponing InterpolatorModule to
+	opentracker, since some people want to use it.
+
+2003-03-24 13:26  flo
+
+	* data/opentracker.dtd, src/common/CommonNodeFactory.cxx,
+	src/common/ElasticFilterNode.cxx, src/common/ElasticFilterNode.h,
+	src/common/InterpolatorModule.cxx, src/common/InterpolatorModule.h,
+	src/misc/OpenTracker.cxx:
+	
+	added the ElasticFilter and a corresponing InterpolatorModule to
+	opentracker, since some people want to use it.
+
 2003-03-22 16:57  kaufmann
 
 	* opentracker.dsp:
