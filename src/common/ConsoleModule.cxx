@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.4 2001/02/20 22:50:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,7 +46,8 @@ static short MOVE_X_PLUS = 1,
            STATION_7 = 27,
            STATION_8 = 28,
            STATION_9 = 29,
-           RESET = 30;
+           RESET = 30,
+           QUIT = 31;
 
 vector<string> ConsoleModule::functionMap;
           
@@ -70,7 +71,8 @@ ConsoleModule::~ConsoleModule()
 #include <unistd.h>
 #endif
 
-/** constructor method. */
+// constructor method.
+
 ConsoleModule::ConsoleModule() : Module(), NodeFactory()
 {
     // initialize some variables
@@ -85,12 +87,12 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory()
     keyMap[MOVE_Y_MINUS] = 'ö';
     keyMap[MOVE_Z_PLUS] = 'ü';
     keyMap[MOVE_Z_MINUS] = 'ä';
-    keyMap[ROT_X_PLUS] = 'q';
-    keyMap[ROT_X_MINUS] = 'a';
-    keyMap[ROT_Y_PLUS] = 'w';
-    keyMap[ROT_Y_MINUS] = 's';
-    keyMap[ROT_Z_PLUS] = 'e';
-    keyMap[ROT_Z_MINUS] = 'd';
+    keyMap[ROT_X_PLUS] = 'e';
+    keyMap[ROT_X_MINUS] = 'd';
+    keyMap[ROT_Y_PLUS] = 'r';
+    keyMap[ROT_Y_MINUS] = 'f';
+    keyMap[ROT_Z_PLUS] = 't';
+    keyMap[ROT_Z_MINUS] = 'g';
     keyMap[ACCELL] = 'y';
     keyMap[BRAKE] = 'x';
     keyMap[BUTTON_1] = ' ';
@@ -108,6 +110,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory()
     keyMap[STATION_8] = '8';
     keyMap[STATION_9] = '9';
     keyMap[RESET] = 'ß';
+    keyMap[QUIT] = 'q';
 
     // initialize function map, if no one has done it yet 
     if( functionMap.size() == 0 )
@@ -141,6 +144,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory()
         functionMap[STATION_8] = "Station_8";
         functionMap[STATION_9] = "Station_9";
         functionMap[RESET] = "Reset";
+        functionMap[QUIT] = "Quit";
     }
 }
 
@@ -264,6 +268,19 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
         interval = 10;
     }
     headerline = attributes["headerline"];
+    if( localTree != NULL )
+    {
+        ConfigNode * base = (ConfigNode *)localTree;
+        NodeVector & nodes = base->getChildren();
+        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        {
+            ConfigNode * config = (*it);
+            if( config->getName().compare("KeyDefinition") == 0 )
+            {
+                
+            }
+        }
+    }
     Module::init( attributes, localTree );
 }
 
