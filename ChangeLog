@@ -1,3 +1,8 @@
+2004-11-02 08:47:01  Rev 758    reitmayr
+
+	* src/input/ARTDataTrackerModule.cxx, src/input/ARTDataTrackerChomp.
+	  cxx: minor code cleanup
+
 2004-10-28 14:30:27  Rev 756    kaufmann
 
 	* src/input/ARTDataTrackerModule.h, src/input/ARTDataTrackerModule.
