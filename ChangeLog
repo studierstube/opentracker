@@ -9,6 +9,46 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-13 15:45  tomp
+
+	* src/common/ButtonHoldFilterNode.cxx:
+	
+	fixed non initialization bug.
+
+2003-11-13 11:51  tomp
+
+	* src/common/ButtonFilterNode.h:
+	
+	updated documentation
+
+2003-11-13 10:07  tomp
+
+	* data/test.xml:
+	
+	added ButtonHoldFilter
+
+2003-11-13 10:01  tomp
+
+	* src/misc/OpenTracker.cxx, opentracker.dsp:
+	
+	added ButtonHoldFilter
+
+2003-11-13 09:56  tomp
+
+	* src/common/ButtonHoldFilterModule.cxx,
+	src/common/ButtonHoldFilterModule.h,
+	src/common/ButtonHoldFilterNode.cxx,
+	src/common/ButtonHoldFilterNode.h, data/ButtonTest.xml,
+	data/opentracker.dtd:
+	
+	added ButtonHoldFilter
+
+2003-11-13 09:55  tomp
+
+	* src/core/Node.cxx:
+	
+	removed warning
+
 2003-11-08 15:43  reitmayr
 
 	* src/core/: ConfigurationParser.cxx, Context.cxx, Context.h,
