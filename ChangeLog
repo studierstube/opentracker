@@ -1,3 +1,10 @@
+2004-10-01 10:37:17  Rev 753    reitmayr
+
+	* src/core/ConfigurationParser.cxx, src/core/Context.cxx, 
+	  src/input/SpeechVoice.cxx, src/core/Node.cxx, src/input/SpeechCore.
+	  cxx, src/input/SpeechSet.cxx: fixed a bug in the use of xerces and 
+	  some compiler warnings
+
 2004-09-28 17:04:49  Rev 751    reitmayr
 
 	* src/input/SpeechModule.cxx, src/input/SpeechSource.h, 
