@@ -9,6 +9,28 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-02-13 18:09  tomp
+
+	* opentracker.dsp:
+	
+	new version of ParButtonModule uses PortTalk2.2 (use instruction to
+	install) needs advapi32.lib to link without errors!
+
+2003-02-13 16:46  tomp
+
+	* extras/PortTalk/: porttalk.pdf, porttalk.reg, porttalk.sys,
+	uninstall.exe:
+	
+	new version of ParButtonModule uses PortTalk2.2 (use instruction to
+	install)
+
+2003-02-13 16:44  tomp
+
+	* src/: input/ParButtonModule.cxx, misc/PortTalk_IOCTL.h,
+	misc/pt_ioctl.c:
+	
+	new version of ParButtonModule uses PortTalk2.2
+
 2003-02-07 17:41  flo
 
 	* src/input/: SpeechModule.cxx, SpeechModule.h:
