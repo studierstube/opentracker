@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.2 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.3 2003/04/28 13:35:53 knapp Exp $
   *
   * @file                                                                    */
  /* ======================================================================= */
@@ -172,5 +172,19 @@ GroupGateModule::getGroupGateName(int groupgatenum)
 {
     return (NameList[groupgatenum].c_str());
 }
+
+void 
+GroupGateModule::activateGroupGate(const char *groupname, const char *groupgatename)
+{
+    GroupMap::iterator find = Groups.find(groupname);
+    if (find == Groups.end()) return;
+    GroupGateGroup *group = (*find).second;
+    if (group == 0) return;
+    GroupGateNode *node = (GroupGateNode *)(group->getNode(groupgatename));
+    if (node == 0) return;
+    group->deactivateAll();
+    node->activate();
+}
+
 
 

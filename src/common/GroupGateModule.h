@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.h,v 1.1 2002/11/29 16:02:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.h,v 1.2 2003/04/28 13:35:53 knapp Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -99,6 +99,7 @@ public:
     virtual Node *createNode(const std::string &name, StringTable &attributes);
 
     const char *getGroupGateName(int groupgatenum);
+    void activateGroupGate(const char *groupname, const char *groupgatename);
 };
 
 #endif
