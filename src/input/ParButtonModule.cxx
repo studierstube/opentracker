@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.5 2001/10/04 10:13:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.6 2001/11/22 12:35:30 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -50,46 +50,6 @@ using namespace std;
 #include <sys/plp.h> 
 #endif
 #endif
-
-/*
-#ifdef WIN32
-#include <Windows.h>
-
-
-void outport(UINT portid, UINT value)
-{
-  __asm mov edx,portid;
-  __asm mov eax,value;
-  __asm out dx,ax;
-}
-void outportb(UINT portid, BYTE value)
-{
-  __asm mov edx,portid
-  __asm mov al,value
-  __asm out dx,al
-}
-
-BYTE inportb(UINT portid)
-{
-  unsigned char value = 0;
-  
-  __asm mov edx,portid
-  __asm in al,dx
-  __asm mov value,al
-  return value;
-}
-
-UINT inport(UINT portid)
-{
-  int value=0;
-  __asm mov edx,portid
-  __asm in ax,dx
-  __asm mov value,eax
-  return value;
-}
-
-#endif
-*/
 
 // This method is called to construct a new Node
 
