@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.4 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.5 2001/05/28 15:23:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,6 +36,8 @@
 #include "../dllinclude.h"
 
 #include "Node.h"
+
+
 
 /**
  * A Reference Node contains the reference to another node and its subtree.

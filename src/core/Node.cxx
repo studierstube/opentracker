@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.8 2001/05/28 15:23:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -127,10 +127,12 @@ Node * Node::getChild( unsigned int index )
     while( !node.isNull())
     {
         myNode = (Node *)node.getUserData();
-        if( myNode != NULL )        
-            if( myNode->isWrapperNode() == 0 && index == 0 )
-                return myNode;
-        index--;
+        if( myNode != NULL )		
+            if( myNode->isWrapperNode() == 0 )
+				if( index == 0 )
+					return myNode;
+				else 
+					index--;
         node = node.getNextSibling();                
     }
     return NULL;
