@@ -1,3 +1,7 @@
+2005-02-19 15:36:30  Rev 799    reitmayr
+
+	* src/common/CallbackNode.h: more cleanup of callback interface
+
 2005-02-17 20:17:37  Rev 797    reitmayr
 
 	* src/common/CallbackNode.h: added accessor method and callback 
