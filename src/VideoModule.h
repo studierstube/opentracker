@@ -12,13 +12,17 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Updated member 'treshhold'
+//     Updated member 'did'
+//     Updated member 'markers'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated interface of method 'init'
 // August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
-#ifndef _VIDEOSOURCE_H
-#define _VIDEOSOURCE_H
+#ifndef _VIDEOMODULE_H
+#define _VIDEOMODULE_H
 
 
 //@START_USER1
@@ -32,7 +36,7 @@ It also keeps a vetor of the created nodes to update them.
 
 It also implements Source to provide the basic functionality of a tracker source.
 */
-class VideoSource
+class VideoModule
     : public Module
     , public NodeFactory
 {
@@ -58,8 +62,8 @@ private:
 protected:
 
 public:
-    VideoSource();
-    virtual ~VideoSource();
+    VideoModule();
+    virtual ~VideoModule();
     virtual void beginUpdate();
     virtual void close();
     virtual TreeNode* createNode(char* const name, StringMap& attributes);
@@ -71,8 +75,8 @@ public:
 
 
 #ifdef CB_INLINES
-#ifndef _VIDEOSOURCE_H_INLINES
-#define _VIDEOSOURCE_H_INLINES
+#ifndef _VIDEOMODULE_H_INLINES
+#define _VIDEOMODULE_H_INLINES
 
 //@START_USER3
 //@END_USER3

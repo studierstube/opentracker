@@ -68,13 +68,13 @@ class Transformation;
 class VirtualTransformation;
 class MaxConfidenceFilter;
 class Module;
-class VideoSource;
+class VideoModule;
 class NodeFactory;
 class CommonNodeFactory;
 class NodeFactoryContainer;
 class Marker;
 class Station;
-class NetworkDriver;
+class NetworkModule;
 class ConfigurationParser;
 class MathUtils;
 class Context;
@@ -98,12 +98,12 @@ class CursesOutput;
 #include "MaxConfidenceFilter.h"
 #include "Module.h"
 #include "NodeFactory.h"
-#include "VideoSource.h"
+#include "VideoModule.h"
 #include "CommonNodeFactory.h"
 #include "NodeFactoryContainer.h"
 #include "Marker.h"
 #include "Station.h"
-#include "NetworkDriver.h"
+#include "NetworkModule.h"
 #include "ConfigurationParser.h"
 #include "MathUtils.h"
 #include "Context.h"
@@ -115,6 +115,7 @@ class CursesOutput;
 
 // Include classes again, for inline implementation
 #define CB_INLINES
+#include "Module.h"
 #include "Station.h"
 
 //@START_USER2

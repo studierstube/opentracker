@@ -12,6 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Added method 'TestModule'
+//     Updated code of method 'createNode'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated code of method 'createNode'
 //     Updated member 'nodes'
@@ -38,6 +41,22 @@
 
 
 // Static members
+
+
+/*@NOTE_7717
+Constructor method.
+*/
+TestModule::TestModule() //@INIT_7717
+    : Module()
+    , NodeFactory()
+    , nodes(nodes)
+    , cycle(cycle)
+{//@CODE_7717
+    ConstructorInclude();
+
+    // Put in your own code
+    
+}//@CODE_7717
 
 
 /*@NOTE_4807
@@ -76,6 +95,7 @@ TreeNode* TestModule::createNode(char* const name, StringMap& attributes)
 		source->offset = offset;
         nodes.push_back( source );
         cout << "Build source node " << endl;
+        initialized = 1;
         return source;        
     }
     return NULL;
@@ -88,7 +108,7 @@ whatever the source needs to do to update any nodes in the tree with new data.
 
 It may seem overkill to have three methods called per update cycle. However the
 different functionality of the modules might call for that. For example, any sources 
-should do their work in update, whereas the NetworkDriver will gather the
+should do their work in update, whereas the NetworkModule will gather the
 stations updates in endUpdate to be sure that the new data was processed.
 This makes the modules independed of the order of their invocations.
 */

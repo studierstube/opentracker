@@ -12,6 +12,16 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Updated code of method 'update'
+//     Updated code of method 'init'
+//     Updated code of method 'close'
+//     Updated code of method 'beginUpdate'
+//     Updated code of method '~VideoModule'
+//     Updated code of method 'VideoModule'
+//     Updated member 'treshhold'
+//     Updated member 'did'
+//     Updated member 'markers'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated interface of method 'init'
 //     Updated code of method 'createNode'
@@ -49,7 +59,7 @@
 /*@NOTE_3778
 Constructor method.
 */
-VideoSource::VideoSource() //@INIT_3778
+VideoModule::VideoModule() //@INIT_3778
     : Module()
     , NodeFactory()
     , treshhold(100)
@@ -63,7 +73,7 @@ VideoSource::VideoSource() //@INIT_3778
 /*@NOTE_788
 Destructor method.
 */
-VideoSource::~VideoSource()
+VideoModule::~VideoModule()
 {//@CODE_788
     DestructorInclude();
 
@@ -75,7 +85,7 @@ VideoSource::~VideoSource()
 Called before the update cycle. Sets all markers to invalid, so they have a 
 reasonable state.
 */
-void VideoSource::beginUpdate()
+void VideoModule::beginUpdate()
 {//@CODE_4565
     MarkerVector::iterator it = markers.begin();
     while( it != markers.end())
@@ -91,7 +101,7 @@ closes the tracker source. a place for cleanup code etc.
 This class also provides an empty implementation for subclasses not doing
 anything here.
 */
-void VideoSource::close()
+void VideoModule::close()
 {//@CODE_3592
 #ifdef __sgi
     arVideoStop( did );
@@ -106,7 +116,7 @@ This method is called to construct a new Node. It takes the element name and
 any attribute name, value pairs and returns the new Node, if it is able to 
 construct the corresponding type. Otherwise it returns NULL.
 */
-TreeNode* VideoSource::createNode(char* const name, StringMap& attributes)
+TreeNode* VideoModule::createNode(char* const name, StringMap& attributes)
 {//@CODE_3595
     std::string strName( name );
     if( strName.compare("Marker") == 0 )
@@ -145,11 +155,13 @@ camera-parameter filename with the camera parameters #REQUIRED
 
 treshhold               threshhold value for image processing #IMPLIED
 */
-void VideoSource::init(StringMap& attributes, const TreeNode* localTree)
+void VideoModule::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_3593
     int sizeX, sizeY;
     ARParam cparam, wparam;
 
+    Module::init( attributes, localTree );
+    
     // checking for and reading of parameter treshhold    
     StringMap::iterator tresh = attributes.find("treshhold");
  
@@ -208,7 +220,7 @@ void VideoSource::init(StringMap& attributes, const TreeNode* localTree)
     arVideoStart( did );
 #endif                
     
-    cout << "Module VideoSource initialized." << endl;
+    cout << "Module VideoModule initialized." << endl;
 }//@CODE_3593
 
 
@@ -216,7 +228,7 @@ void VideoSource::init(StringMap& attributes, const TreeNode* localTree)
 This method does the main work. It graps a video frame and checks for any 
 recognizable markers. Then it updates the markers accordingly.
 */
-void VideoSource::update()
+void VideoModule::update()
 {//@CODE_3594
     ARUint8 * frameData;
     ARMarkerInfo * markerInfo;
@@ -303,7 +315,7 @@ void VideoSource::update()
 /*@NOTE_787
 Method which must be called first in a constructor.
 */
-void VideoSource::ConstructorInclude()
+void VideoModule::ConstructorInclude()
 {
 }
 
@@ -311,7 +323,7 @@ void VideoSource::ConstructorInclude()
 /*@NOTE_789
 Method which must be called first in a destructor.
 */
-void VideoSource::DestructorInclude()
+void VideoModule::DestructorInclude()
 {
 }
 

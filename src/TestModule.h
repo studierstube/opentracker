@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Added method 'TestModule'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated member 'nodes'
 // August 16, 2000 21:43 gerhard reitmayr
@@ -53,6 +55,7 @@ private:
 protected:
 
 public:
+    TestModule();
     virtual ~TestModule();
     virtual TreeNode* createNode(char* const name, StringMap& attributes);
     virtual void update();

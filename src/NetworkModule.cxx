@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      NetworkDriver.cxx
+//  NAME:      NetworkModule.cxx
 //  TYPE:      cxx header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Implementation of class 'NetworkDriver'
+//  CONTENT:   Implementation of class 'NetworkModule'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -12,11 +12,13 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated interface of method 'init'
-//     Updated code of method 'createNode'
-// August 16, 2000 21:43 gerhard reitmayr
-//     Update comment header
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Updated code of method 'init'
+//     Updated code of method 'beginUpdate'
+//     Updated code of method '~NetworkModule'
+//     Updated code of method 'NetworkModule'
+//     Updated member 'socket'
+//     Updated member 'stations'
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -52,7 +54,7 @@ const int revNum=0x0200;
 /*@NOTE_3781
 Constructor method.
 */
-NetworkDriver::NetworkDriver() //@INIT_3781
+NetworkModule::NetworkModule() //@INIT_3781
     : NodeFactory()
 {//@CODE_3781
     ConstructorInclude();
@@ -64,7 +66,7 @@ NetworkDriver::NetworkDriver() //@INIT_3781
 /*@NOTE_3204
 Destructor method.
 */
-NetworkDriver::~NetworkDriver()
+NetworkModule::~NetworkModule()
 {//@CODE_3204
     DestructorInclude();
 
@@ -75,7 +77,7 @@ NetworkDriver::~NetworkDriver()
 /*@NOTE_4424
 Called before the update cycle. Sets some variables in the NetworkData structure.
 */
-void NetworkDriver::beginUpdate()
+void NetworkModule::beginUpdate()
 {//@CODE_4424
     data.numOfStations = 0;
     data.maxStationNum = htons( stations.size()); 
@@ -83,9 +85,9 @@ void NetworkDriver::beginUpdate()
 
 
 /*@NOTE_3841
-Closes the NetworkDriver. Closes the multicast group.
+Closes the NetworkModule. Closes the multicast group.
 */
-void NetworkDriver::close()
+void NetworkModule::close()
 {//@CODE_3841
     closeMulticastSocket( socket );
 }//@CODE_3841
@@ -95,7 +97,7 @@ void NetworkDriver::close()
 Converts num floats to network byte order. Stores the converted floats in
 result.
 */
-void NetworkDriver::convertFloatsHToNl(float* floats, float* result, int num)
+void NetworkModule::convertFloatsHToNl(float* floats, float* result, int num)
 {//@CODE_4604
     int i;
     union
@@ -115,14 +117,14 @@ void NetworkDriver::convertFloatsHToNl(float* floats, float* result, int num)
 
 /*@NOTE_3617
 This method is called to construct a new Node. It constructs the Station nodes
-as the NetworkDriver keeps track of those nodes. A Station node has 
+as the NetworkModule keeps track of those nodes. A Station node has 
 the following parameters :
 
 number    a station number #REQUIRED
 
 name      a station name   #REQUIRED
 */
-TreeNode* NetworkDriver::createNode(char* const name, StringMap& attributes)
+TreeNode* NetworkModule::createNode(char* const name, StringMap& attributes)
 {//@CODE_3617
     std::string strName( name );
     if( strName.compare("Station") == 0 )        
@@ -148,7 +150,7 @@ Adds them to a network data package and sends it to the multicast group. This is
 so that all tracker sources are sure to have finished their stuff, because they do the
 tracking in update().
 */
-void NetworkDriver::endUpdate()
+void NetworkModule::endUpdate()
 {//@CODE_4422
     char * nR;
     short int si;
@@ -248,7 +250,7 @@ void NetworkDriver::endUpdate()
 
 
 /*@NOTE_3842
-Initializes the NetworkDriver. It sets the NetworkData structure and opens the multicast group.
+Initializes the NetworkModule. It sets the NetworkData structure and opens the multicast group.
 The local sub tree might contain additional nodes such as a transformation node to specify a 
 global transformation or even a tracked node etc. This is not yet supported.
 
@@ -260,9 +262,10 @@ multicast-address   a multicast group address #REQUIRED
 
 port                a port to bin to   #REQUIRED
 */
-void NetworkDriver::init(StringMap& attributes, const TreeNode* localTree)
+void NetworkModule::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_3842
-
+    Module::init( attributes, localTree );    
+    
     // initialize NetworkRecord
     data.headerId=htons(magicNum);
     data.revNum=htons(revNum);
@@ -283,7 +286,7 @@ void NetworkDriver::init(StringMap& attributes, const TreeNode* localTree)
 	    ", port: " << attributes["port"] << endl;
         exit(1);
     }      
-    cout << "Module NetworkDriver initialized." << endl;
+    cout << "Module NetworkModule initialized." << endl;
 }//@CODE_3842
 
 
@@ -292,7 +295,7 @@ void NetworkDriver::init(StringMap& attributes, const TreeNode* localTree)
 /*@NOTE_3203
 Method which must be called first in a constructor.
 */
-void NetworkDriver::ConstructorInclude()
+void NetworkModule::ConstructorInclude()
 {
 }
 
@@ -300,7 +303,7 @@ void NetworkDriver::ConstructorInclude()
 /*@NOTE_3205
 Method which must be called first in a destructor.
 */
-void NetworkDriver::DestructorInclude()
+void NetworkModule::DestructorInclude()
 {
 }
 

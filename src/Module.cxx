@@ -12,6 +12,13 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:06 gr, some docs
+//     Updated code of method 'init'
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Added method 'isInitialized'
+//     Added member 'initialized'
+//     Updated code of method 'init'
+//     Updated code of method 'Module'
 // August 16, 2000 23:53 gr, added curses based display
 //     Added method 'stop'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
@@ -38,6 +45,7 @@
 Constructor method.
 */
 Module::Module() //@INIT_3798
+    : initialized(0)
 {//@CODE_3798
     ConstructorInclude();
 
@@ -84,13 +92,14 @@ void Module::endUpdate()
 
 
 /*@NOTE_739
-initializes the tracker source. This class also provides an empty implementation for
-subclasses not doing anything here. It takes the attributes of the element configuring
+initializes the tracker source. This class also provides an implementation that sets the initialization flag to true.
+Subclasses should call this method if they override this method. It takes the attributes of the element configuring
 this module and a local tree consisting of the children of the element. This tree has to
 be made up of Nodes.
 */
 void Module::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_739
+    initialized = 1;
 }//@CODE_739
 
 
@@ -109,7 +118,7 @@ whatever the source needs to do to update any nodes in the tree with new data.
 
 It may seem overkill to have three methods called per update cycle. However the
 different functionality of the modules might call for that. For example, any sources 
-should do their work in update, whereas the NetworkDriver will gather the
+should do their work in update, whereas the NetworkModule will gather the
 stations updates in endUpdate to be sure that the new data was processed.
 This makes the modules independed of the order of their invocations.
 */

@@ -12,20 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 23:58 gr, added exit code test
-//     Added method 'close'
-// August 16, 2000 23:53 gr, added curses based display
-//     Added method 'DestructorInclude'
-//     Added method 'ConstructorInclude'
-//     Added method 'stop'
-//     Added method 'init'
-//     Added method 'endUpdate'
-//     Added method 'createNode'
-//     Added method '~CursesModule'
-//     Added inheritance 'Module'
-//     Added inheritance 'NodeFactory'
-//     Added member 'headerLine'
-//     Added member 'nodes'
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Update comment header
 // ===========================================================================
 #ifndef _CURSESMODULE_H
 #define _CURSESMODULE_H
@@ -64,7 +52,7 @@ private:
     void DestructorInclude();
 
 protected:
- 
+
 public:
     virtual ~CursesModule();
     virtual void close();

@@ -12,12 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 23:58 gr, added exit code test
+// August 18, 2000 23:04 gr, changed names and added init flag
 //     Updated code of method 'run'
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated member 'rootNode'
-// August 16, 2000 21:43 gerhard reitmayr
-//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -49,11 +45,11 @@ Context::Context() //@INIT_4782
     CommonNodeFactory * common = new CommonNodeFactory;
     addFactory( *common );
   
-    VideoSource * video = new VideoSource;
+    VideoModule * video = new VideoModule;
     addFactory( *video );
     addModule( "Video", *video );
     
-    NetworkDriver * driver = new NetworkDriver;
+    NetworkModule * driver = new NetworkModule;
     addFactory( *driver );
     addModule( "Network", *driver );
 
@@ -117,44 +113,47 @@ void Context::run()
 {//@CODE_4768
     int stop = 0;
     
+    ModuleVector activeModules;
+    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    {
+        if( (*it)->isInitialized())
+        {
+            activeModules.push_back( (*it));
+        }
+    }
+    
     while ( stop == 0)
     {
-        ModuleVector::iterator it = modules.begin();
+        ModuleVector::iterator it;
         
         // begin update cycle
-        while( it != modules.end())
+        for( it = activeModules.begin(); it != activeModules.end(); it ++ )  
         {
-            (*it)->beginUpdate();
-            it++;
+            (*it)->beginUpdate();            
         }
         
         // update cycle
-        it = modules.begin();
-        while( it != modules.end())
+        for( it = activeModules.begin(); it != activeModules.end(); it ++ )
         {
             (*it)->update();
-            it++;
         }
         
         // end update cycle
-        it = modules.begin();
-        while( it != modules.end())
+        for( it = activeModules.begin(); it != activeModules.end(); it ++ )
         {
-            (*it)->endUpdate();
-            it++;
+            (*it)->endUpdate();         
         }
+        
         // test for exit 
-        it = modules.begin();
-        while( it != modules.end())
+        for( it = activeModules.begin(); it != activeModules.end(); it ++ )
         {
             if( (*it)->stop() == 1 )
             {
                 stop = 1;
-            }
-            it++;
+            }     
         }
     }
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    for( ModuleVector::iterator it = activeModules.begin(); it != activeModules.end(); it++ )
     {
         (*it)->close();
     }   

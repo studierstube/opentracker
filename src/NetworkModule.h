@@ -12,13 +12,16 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Updated member 'socket'
+//     Updated member 'stations'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated interface of method 'init'
 // August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
-#ifndef _NETWORKDRIVER_H
-#define _NETWORKDRIVER_H
+#ifndef _NETWORKMODULE_H
+#define _NETWORKMODULE_H
 
 
 //@START_USER1
@@ -54,7 +57,7 @@ drives the network connection of the tracker. It keeps the stations and polls th
 for updates. Therefore it also acts as the NodeFactory for the stations. Any network
 code goes into this class as well.
 */
-class NetworkDriver
+class NetworkModule
     : public NodeFactory
     , public Module
 {
@@ -81,8 +84,8 @@ private:
 protected:
 
 public:
-    NetworkDriver();
-    virtual ~NetworkDriver();
+    NetworkModule();
+    virtual ~NetworkModule();
     virtual void beginUpdate();
     virtual void close();
     void convertFloatsHToNl(float* floats, float* result, int num);
@@ -95,8 +98,8 @@ public:
 
 
 #ifdef CB_INLINES
-#ifndef _NETWORKDRIVER_H_INLINES
-#define _NETWORKDRIVER_H_INLINES
+#ifndef _NETWORKMODULE_H_INLINES
+#define _NETWORKMODULE_H_INLINES
 
 //@START_USER3
 //@END_USER3

@@ -12,6 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Added method 'isInitialized'
+//     Added member 'initialized'
 // August 16, 2000 23:53 gr, added curses based display
 //     Added method 'stop'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
@@ -41,6 +44,7 @@ class Module
 private:
 
 protected:
+    int initialized;
 
 public:
 
@@ -60,6 +64,7 @@ public:
     virtual void init(StringMap& attributes, const TreeNode* localTree);
     virtual int stop();
     virtual void update();
+    int isInitialized() const;
 };
 
 #endif
@@ -68,6 +73,16 @@ public:
 #ifdef CB_INLINES
 #ifndef _MODULE_H_INLINES
 #define _MODULE_H_INLINES
+
+/*@NOTE_7714
+Returns the value of member 'initialized'.
+*/
+inline int Module::isInitialized() const
+{//@CODE_7714
+    return initialized;
+}//@CODE_7714
+
+
 
 //@START_USER3
 //@END_USER3

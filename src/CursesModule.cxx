@@ -12,20 +12,10 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 23:58 gr, added exit code test
-//     Added method 'close'
-// August 16, 2000 23:53 gr, added curses based display
-//     Added method 'DestructorInclude'
-//     Added method 'ConstructorInclude'
-//     Added method 'stop'
-//     Added method 'init'
-//     Added method 'endUpdate'
-//     Added method 'createNode'
-//     Added method '~CursesModule'
-//     Added inheritance 'Module'
-//     Added inheritance 'NodeFactory'
-//     Added member 'headerLine'
-//     Added member 'nodes'
+// August 18, 2000 23:05 gr, added setting of init flag
+//     Updated code of method 'init'
+// August 18, 2000 23:04 gr, changed names and added init flag
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -91,6 +81,7 @@ TreeNode* CursesModule::createNode(char* const name, StringMap& attributes)
 
 }//@CODE_7218
 
+
 /*@NOTE_7221
 after the update cycle. Any conclusion is done here. See update for more
 information
@@ -139,6 +130,8 @@ be made up of Nodes.
 */
 void CursesModule::init(StringMap& attributes, const TreeNode* localTree)
 {//@CODE_7222
+    Module::init( attributes, localTree );
+    
     initscr();
     cbreak();
     noecho();
