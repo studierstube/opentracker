@@ -27,7 +27,7 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.7 2001/03/27 06:08:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.8 2001/04/01 13:23:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -214,7 +214,6 @@ Node * NetworkSourceModule::createNode( string& name,  StringMap& attributes)
             receiver = new MulticastReceiver;
             receiver->group = group;
             receiver->port = port;
-//            receiver->address.set( port, group.c_str()); 
             receiver->stop = 0;            
             groups.push_back( receiver );
             Station * station = new Station;
