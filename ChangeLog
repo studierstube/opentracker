@@ -1,3 +1,14 @@
+2004-10-28 14:30:27  Rev 756    kaufmann
+
+	* src/input/ARTDataTrackerModule.h, src/input/ARTDataTrackerModule.
+	  cxx: more fixes
+
+2004-10-28 14:16:30  Rev 755    reitmayr
+
+	* src/input/ARTDataTrackerChomp.h, src/input/ARTDataTrackerModule.
+	  cxx, src/input/ARTDataTrackerChomp.cxx: fixes for ARTData driver 
+	  to accomodate variations in number of calibrated bodies
+
 2004-10-01 10:37:17  Rev 753    reitmayr
 
 	* src/core/ConfigurationParser.cxx, src/core/Context.cxx, 
