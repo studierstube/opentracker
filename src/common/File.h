@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.4 2001/07/17 18:00:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,6 +38,7 @@
 #include <string>
 
 #ifdef WIN32 
+#include <iomanip>
 #include <fstream>  // VisualC++ uses STL based IOStream lib
 #else
 #include <fstream.h>
@@ -110,8 +111,8 @@ public:
     {
         if( output != NULL )
         {
-            *output << station << " " << state.time << " " 
-                << state.position[0] << " " 
+            *output << station << " " << std::setprecision( 12 ) << state.time << " " 
+                << std::setprecision(6) << state.position[0] << " " 
                 << state.position[1] << " " 
                 << state.position[2] << " "
                 << state.orientation[0] << " " 
