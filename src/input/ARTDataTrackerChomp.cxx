@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.6 2002/10/31 20:05:35 splechtna Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.7 2002/12/09 16:17:17 splechtna Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -49,11 +49,18 @@ using namespace std;
 ARTDataTrackerChomp::~ARTDataTrackerChomp()
 {
 	delete [] tempBodyRecord;
-	delete [] tempMarkerRecord;
 }
 
-void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
+
+ARTDataTrackerChomp::ARTDataTrackerChomp(int maxBodyNumber_)
+: maxBodyNumber(maxBodyNumber_)
 {
+	tempBodyRecord = new BodyRecord[maxBodyNumber];
+}
+
+void ARTDataTrackerChomp::chomp(std::string datagramm)
+{
+	
 	positionStart = 0;
 	positionStart = datagramm.find("fr");
 	if (positionStart != 0)
@@ -130,12 +137,8 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 		exit ( -1 );
 	}
 	
-	
 	//-------------------------------
 	
-	
-	
-	tempBodyRecord = new BodyRecord[maxBodyNumber];
 	for ( i = 0; i < maxBodyNumber; i++)
 	{
 		tempBodyRecord[i].valid = false;
@@ -192,9 +195,9 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 		}
 		
 	}// end for i
-	
+
+	/*
 	// Markers
-	
 	// get position of substring for Number of Markers
 	positionStart = datagramm.find("3d");
 	if (positionStart >= 0)
@@ -253,15 +256,13 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 				positionStart = positionEnd;
 			}
 		}	
+		delete [] tempMarkerRecord;
 	}
-	
-	delete [] tempBodyRecord;
-	delete [] tempMarkerRecord;
-
+	*/
 };
 
 
-void ARTDataTrackerChomp::displayRecords(int maxBodyNumber)
+void ARTDataTrackerChomp::displayRecords()
 {
 	// Output
 	cout << "Contens of tempBodyRecord & tempMarkerRecord" << endl;

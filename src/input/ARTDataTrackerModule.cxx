@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.6 2002/09/26 13:56:26 bornik Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.7 2002/12/09 16:17:17 splechtna Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -36,7 +36,6 @@
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
-#include <ace/SOCK_Dgram_Mcast.h>
 
 #include "ARTDataTrackerModule.h"
 #include "ARTDataTrackerSource.h"
@@ -57,13 +56,13 @@ using namespace std;
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
-// create Instance of Class ARTDataTrackerChomp
-ARTDataTrackerChomp DataTracker;
-ARTDataTrackerChomp::BodyRecord *BodyRecordTemp;
+
+ARTDataTrackerChomp *DataTracker = NULL;
+ARTDataTrackerChomp::BodyRecord *BodyRecordTemp = NULL;
 
 // -------------------------------------------------------------------------------------------------------
 // constructor initializing the thread manager
-ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory()
+ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory(), stop(0)
 {
 	
 }
@@ -73,6 +72,8 @@ ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory()
 
 ARTDataTrackerModule::~ARTDataTrackerModule()
 {
+	if (DataTracker)
+		delete (DataTracker);
 	sources.clear();
 }
 
@@ -166,22 +167,19 @@ void ARTDataTrackerModule::run()
 		}
 		
 		// from here the String is in the Buffer!
-		//lock();
 		// converts c-String into String
 		receiveString = std::string(receiveBuffer, retval);
 		// call .chomp Method from DataTrackerInstance to bring the received  String into a Record
-		DataTracker.chomp(receiveString, maxBodyNumber);
+		DataTracker->chomp(receiveString);
 		// brings the Record from the ARTDataTrackerChomp class to the BodyRecordTemp Record
-		BodyRecordTemp = DataTracker.getBodyRecord();
-		//unlock();
-		
+		BodyRecordTemp = DataTracker->getBodyRecord();
+
 		NodeVector::iterator it;
 		
 		lock();
-		
-		
 		for( it = sources.begin(); it != sources.end(); it++)
 		{
+							
 			ARTDataTrackerSource * source = (ARTDataTrackerSource*)(*it);
 			bodyID = source->number;
 			if( BodyRecordTemp[bodyID].valid == true )
@@ -248,21 +246,17 @@ void ARTDataTrackerModule::pushState()
 {
     if( isInitialized() )
     {
-		for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-		{
-			ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
-			lock();
-			if( source->changed == 1 )
-			{			
-				source->updateObservers( source->state );
-				source->changed = 0;
-				unlock();            
-			}
-			else
-			{
-				unlock();
-			}
-		}
+	    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
+	    {
+		    ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
+		    lock();
+		    if( source->changed == 1 )
+		    {			
+			    source->updateObservers( source->state );
+			    source->changed = 0;
+		    }
+		    unlock();
+	    }
     }
 }
 
@@ -291,7 +285,6 @@ void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	}
 	
 	bodyID = 0;		// just to make the compiler happy
-	maxBodyNumber = maxbodies;
-	// generates Bodyrecordarray
-	BodyRecordTemp = new ARTDataTrackerChomp::BodyRecord[maxBodyNumber];
+
+	DataTracker = new ARTDataTrackerChomp(maxbodies);
 }
