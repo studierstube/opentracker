@@ -9,7 +9,7 @@
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">
-			<TestSource offset="0" frequency="10" />
+			<TestSource offset="0" frequency="10"/>
 		</EventTransform>
 	</ConsoleSink>
 	<ConsoleSink comment="VirtualTransformation">
@@ -33,20 +33,20 @@
 	<ConsoleSink comment="Merge Node">
 		<Merge>
 			<MergeDefault>
-				<EventTransform translation="2 0 0">				
+				<EventTransform translation="2 0 0">
 					<TestSource frequency="100"/>
 				</EventTransform>
 			</MergeDefault>
-			<MergePosition>
-				<EventPositionTransform translation="1 0 0">
-					<TestSource frequency="10"/>
-				</EventPositionTransform>
-			</MergePosition>
 			<MergeOrientation>
 				<EventOrientationTransform rotation="1 0 0 0">
 					<TestSource frequency="10"/>
 				</EventOrientationTransform>
 			</MergeOrientation>
+			<MergeButton>
+				<EventPositionTransform translation="1 0 0">
+					<TestSource frequency="10"/>
+				</EventPositionTransform>
+			</MergeButton>
 		</Merge>
 	</ConsoleSink>
 </OpenTracker>

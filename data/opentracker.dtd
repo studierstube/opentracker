@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
-<!--OpenTracker Configuration file DTD
-	Vienna University of Technology
-	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
+<!--
+OpenTracker Configuration file DTD
+Copyright (C) 2001  Vienna University of Technology
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+For further information please contact Gerhard Reitmayr under
+<reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
+Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
+-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?">
@@ -16,7 +34,7 @@
 <!ELEMENT OpenTracker (configuration, (%AllNodes;)+)>
 <!ELEMENT configuration (%ConfigElements;)>
 <!-- basic elements
-there are several versions for the different interfaces 
+there are several versions for the different interfaces
 Event prefix defines that the node implements an EventGenerator interface
 Queue prefix defines that the node implements an EventQueue interface
 Time prefix defines that the node implements an TimeDependend interface -->
