@@ -9,6 +9,32 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-10-31 15:16  reitmayr
+
+	* src/misc/xml/XMLWriter.cxx:
+	
+	fixed xmlwriter
+
+2003-10-31 14:55  reitmayr
+
+	* src/common/ButtonFilterNode.cxx:
+	
+	less debug output
+
+2003-10-31 14:54  reitmayr
+
+	* src/: input/ARTDataTrackerModule.cxx, input/GPSModule.cxx,
+	input/UltraTrakModule.cxx, network/NetworkSinkModule.cxx,
+	network/NetworkSourceModule.cxx, network/TCPModule.cxx:
+	
+	ACE 5.3.5 fixes
+
+2003-10-31 14:53  reitmayr
+
+	* src/input/GPSDriver.cxx:
+	
+	Linux fixes
+
 2003-10-20 08:12  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
