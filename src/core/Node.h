@@ -26,8 +26,10 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
-  * @file                                                                   */
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.6 2001/04/01 22:18:10 reitmayr Exp $
+  * @file  
+  * @todo implement documentation groups for code 
+  * @todo implement documentation groups for node / element documentation   */
  /* ======================================================================= */
 
 #ifndef _NODE_H

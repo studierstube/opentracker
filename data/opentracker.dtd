@@ -5,8 +5,8 @@
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
-<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource ">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?">
+<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransformation | StbSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransformation">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransformation">
@@ -252,3 +252,17 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST StbSink
 	station CDATA #REQUIRED
 >
+<!-- General InterSense source module, will also include InterTrax soon -->
+<!ELEMENT ISTracker EMPTY>
+<!ATTLIST ISTracker
+	comport CDATA "0"
+	stations CDATA "1"
+	name CDATA #REQUIRED
+>
+<!ELEMENT InterSenseConfig (ISTracker*) >
+<!ELEMENT InterSenseSource EMPTY>
+<!ATTLIST InterSenseSource
+	tracker CDATA #REQUIRED
+	station CDATA "1"
+>
+ 
