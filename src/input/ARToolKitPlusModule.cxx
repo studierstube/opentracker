@@ -70,6 +70,7 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 	trackerFar = 1000.0f;
 	tracker.init(NULL, trackerNear, trackerFar, this);
 	tracker.setThreshold(100);
+	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 }
 
 
@@ -103,7 +104,17 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
         int id;
         string filename = attributes.get("tag-file");
 		string markerid = attributes.get("tag-id");
+		string undistmode = attributes.get("undist-mode");
         string fullname;
+
+		if(undistmode.length())
+		{
+			if(undistmode=="none" || undistmode=="NONE")
+				tracker.setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
+			else
+			if(undistmode=="lut" || undistmode=="LUT")
+				tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+		}
 
 		if(markerid.length())
 		{
