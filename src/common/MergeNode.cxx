@@ -27,7 +27,7 @@
   * @author Gerhard Reitmayr
   * @todo optimize nodeport test, maybe by implementing special nodeports ?
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.9 2001/10/20 17:20:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.10 2002/02/08 15:55:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,12 +37,14 @@
  * EventGenerator. These are binary flags that can be or'd
  * together.
  */
-unsigned DEFAULT = 1, 
-         POSITION = 2, 
-         ORIENTATION = 4, 
-         BUTTON = 8,
-         CONFIDENCE = 16, 
-         TIME = 32;
+enum Flags { 
+    DEFAULT     = 1, 
+    POSITION    = 2, 
+    ORIENTATION = 4, 
+    BUTTON      = 8,
+    CONFIDENCE  = 16, 
+    TIME        = 32 
+};
 
 // generates a new data item upon receiving an event
 
@@ -65,21 +67,21 @@ void MergeNode::onEventGenerated( State& event, Node & generator)
 				flag |= BUTTON;
 			if((getPort("MergeConfidence") == NULL) || 
                (getPort("MergeConfidence")->countChildren() == 0 ))
-				flag |= CONFIDENCE;
-			if((getPort("MergeTime") == NULL) || 
-               (getPort("MergeTime")->countChildren() == 0 ))
-				flag |= TIME;
+				flag |= CONFIDENCE;			
 		} 
-		else if( wrap.getType().compare("MergePosition") == 0 )
-			flag |= POSITION;
+		else if( wrap.getType().compare("MergePosition") == 0 )        
+			flag |= POSITION;                    
 		else if( wrap.getType().compare("MergeOrientation") == 0 )
-			flag |= ORIENTATION;
+			flag |= ORIENTATION | TIME;
 		else if( wrap.getType().compare("MergeButton") == 0 )
-			flag |= BUTTON;
+			flag |= BUTTON | TIME;
 		else if( wrap.getType().compare("MergeConfidence") == 0 )
-			flag |= CONFIDENCE;
+			flag |= CONFIDENCE | TIME;
 		else if( wrap.getType().compare("MergeTime") == 0 )
 			flag |= TIME;			
+        // if there is no special time node, always propagate time !
+        if((getPort("MergeTime") == NULL) || (getPort("MergeTime")->countChildren() == 0 ))
+	        flag |= TIME;
 		if( flag & POSITION )
 		{
 			localState.position[0] = event.position[0];
@@ -98,7 +100,7 @@ void MergeNode::onEventGenerated( State& event, Node & generator)
 		if( flag & CONFIDENCE )
 			localState.confidence = event.confidence;
 		if( flag & TIME )        
-			localState.time = event.time;        
+		    localState.time = event.time;        
 		updateObservers( localState );
 	}
 }                                  

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.8 2002/02/08 15:55:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,10 @@
  * EventGenerator nodes and merges data from these. It has several inputs
  * that are marked with different wrapper tags. It stores an internal state
  * and updates it with parts of the data depending on the type of input. Then
- * it generates an event of its own. The following list shows the possible
+ * it generates an event of its own. Timestamps are treated specially. If no
+ * child node is connected to the MergeTime input, then the timestamp of the
+ * new event equals the timestamp of the last received event. Otherwise it
+ * behaves like other inputs. The following list shows the possible
  * inputs :
  * 
  * @li @c MergePosition only the position data is taken from events received
