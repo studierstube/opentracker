@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 	<xsl:output method="text"/>
+<!-- The basic part of a dot file -->	
 <xsl:template match="OpenTracker">
 digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>" 
 { 
@@ -8,54 +9,92 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 } 
 </xsl:template>
 
-<xsl:template match="configuration" priority="2"/>
+<!-- template removing configuration part -->
+	<xsl:template match="configuration" priority="2"/>
+	
+<!-- template counts elements to provide unique node names and passes the current node name as parent to its children 
+      after the node definition it calls the templates with mode node for any special definition -->
+	<xsl:template match="*">
+		<xsl:param name="parent"/>
+		<xsl:number count="*" format="a" level="any"/><xsl:apply-templates select="." mode="node"/>; 
+		<xsl:if test="not(name(..)='OpenTracker')">
+			<xsl:number count="*" format="a" level="any"/> -> <xsl:copy-of select="$parent"/>; 
+		</xsl:if>
+		<xsl:apply-templates select="." mode="navigate"/>		
+	</xsl:template>
+	
+<!-- templates for customization of nodes, these have the mode node -->
+<xsl:template match="NetworkSink" name="NetworkSink" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@name"/> - <xsl:value-of select="@number"/>"]</xsl:template>
+<xsl:template match="ARToolKitSource" name="ARToolKitSource" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@tag-file"/>"]</xsl:template>
+<xsl:template match="ConsoleSink" name="ConsoleSink" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@comment"/>"]</xsl:template>
+<xsl:template match="NetworkSource" name="NetworkSource" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@number"/>"]</xsl:template>
+<xsl:template match="TestSource" name="TestSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+<xsl:template match="ConsoleSource" name="ConsoleSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+<xsl:template match="InterTraxSource" name="InterTraxSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 
-<xsl:template name="options">
-	<xsl:choose>
-		<xsl:when test="name(.)='NetworkSink'">
-			<xsl:call-template name="NetworkSink"/>
-		</xsl:when>
-		<xsl:when test="name(.)='ARToolKitSource'">
-			<xsl:call-template name="ARToolKitSource"/>			
-		</xsl:when>
-		<xsl:when test="name(.)='ConsoleSink'">
-			<xsl:call-template name="ConsoleSink"/>			
-		</xsl:when>
-		<xsl:when test="name(.)='NetworkSource'">
-			<xsl:call-template name="NetworkSource"/>			
-		</xsl:when>
-		<xsl:when test="name(.)='TestSource'">
-			<xsl:call-template name="TestSource"/>
-		</xsl:when>
-		<xsl:when test="name(.)='ConsoleSource'">
-			<xsl:call-template name="ConsoleSource"/>
-		</xsl:when>
-		<xsl:otherwise>[label="<xsl:value-of select="name(.)"/>",shape=box]</xsl:otherwise>
-	</xsl:choose>
-</xsl:template>
+<xsl:template match="Merge" name="Merge" mode="node">[shape=record, label="{{<xsl:apply-templates mode="merge"/>} | &lt;bottom&gt; <xsl:value-of select="name(.)"/>} "]</xsl:template>
+<!-- merge sub node templates for defining node ports -->
+<xsl:template match="MergeDefault" mode="merge">&lt;default&gt; Default |</xsl:template>
+<xsl:template match="MergePosition" mode="merge">&lt;position&gt; Position |</xsl:template>
+<xsl:template match="MergeOrientation" mode="merge">&lt;orientation&gt; Orientation |</xsl:template>
+<xsl:template match="MergeButton" mode="merge">&lt;button&gt; Button |</xsl:template>
+<xsl:template match="MergeConfidence" mode="merge">&lt;confidence&gt; Confidence |</xsl:template>
 
-<xsl:template name="NetworkSink">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@name"/> - <xsl:value-of select="@number"/>"]</xsl:template>
+<!-- default node style -->
+<xsl:template match="*" mode="node">[label="<xsl:value-of select="name(.)"/>",shape=box]</xsl:template>
 
-<xsl:template name="ARToolKitSource">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@tag-file"/>"]</xsl:template>
-
-<xsl:template name="ConsoleSink">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@comment"/>"]</xsl:template>
-
-<xsl:template name="NetworkSource">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@number"/>"]</xsl:template>
-
-<xsl:template name="TestSource">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
-
-<xsl:template name="ConsoleSource">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
-
-<xsl:template match="*">
-	<xsl:param name="parent"/>
-	<xsl:number count="*" format="a" level="any"/><xsl:call-template name="options"/>; 
-	<xsl:if test="not(name(..)='OpenTracker')">
-		 <xsl:number count="*" format="a" level="any"/> -> <xsl:copy-of select="$parent"/>; 
-	</xsl:if>
-	<xsl:apply-templates>
-		<xsl:with-param name="parent">
-			<xsl:number count="*" format="a" level="any"/>
-		</xsl:with-param>
+<!-- templates for going down the children tree, this is needed to use dot node ports, these have mode navigate -->
+<xsl:template match="Merge" mode="navigate">
+     <xsl:param name="parent"/>
+	<xsl:apply-templates mode="merge-navigate">
+			<xsl:with-param name="parent">
+				<xsl:number count="*" format="a" level="any"/>
+			</xsl:with-param>
 	</xsl:apply-templates>
 </xsl:template>
+
+<xsl:template match="MergeDefault" mode="merge-navigate">
+      <xsl:param name="parent"/>
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:default</xsl:with-param>
+	</xsl:apply-templates>	
+</xsl:template>
+
+<xsl:template match="MergePosition" mode="merge-navigate">
+      <xsl:param name="parent"/>
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:position</xsl:with-param>
+	</xsl:apply-templates>	
+</xsl:template>
+
+<xsl:template match="MergeOrientation" mode="merge-navigate">
+      <xsl:param name="parent"/>
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:orientation</xsl:with-param>
+	</xsl:apply-templates>	
+</xsl:template>
+
+<xsl:template match="MergeButton" mode="merge-navigate">
+      <xsl:param name="parent"/>
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:button</xsl:with-param>
+	</xsl:apply-templates>	
+</xsl:template>
+
+<xsl:template match="MergeConfidence" mode="merge-navigate">
+      <xsl:param name="parent"/>
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:confidence</xsl:with-param>
+	</xsl:apply-templates>	
+</xsl:template>
+
+<!-- default navigate behaviour -->
+<xsl:template match="*" mode="navigate">
+	<xsl:apply-templates>
+			<xsl:with-param name="parent">
+				<xsl:number count="*" format="a" level="any"/>
+			</xsl:with-param>
+	</xsl:apply-templates>
+</xsl:template>
+
 </xsl:stylesheet>
