@@ -26,12 +26,13 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.11 2003/10/16 07:51:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.12 2003/10/31 14:54:22 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include <ace/Reactor.h>
+#include <ace/Thread.h>
 #include <ace/FILE_Connector.h>
 
 #include "GPSModule.h"
@@ -39,6 +40,8 @@
 #include "GPSDirectionSource.h"
 
 #include <iostream>
+
+using namespace std;
 
 ACE_Reactor gps_reactor;
 

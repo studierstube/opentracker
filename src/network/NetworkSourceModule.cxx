@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.22 2003/07/18 20:26:47 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.23 2003/10/31 14:54:46 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -44,6 +44,8 @@
 #include "NetworkSourceModule.h"
 
 #include <iostream>
+
+using namespace std;
 
 struct Station
 {

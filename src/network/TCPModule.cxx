@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.7 2003/07/18 20:26:47 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.8 2003/10/31 14:54:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,8 @@
 #include "TCPModule.h"
 
 #include <iostream>
+
+using namespace std;
 
 #define SERVER_DATA_PRECISION 100
 #define SERVER_DATA_SHIFT     1000

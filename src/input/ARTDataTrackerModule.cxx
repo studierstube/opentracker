@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.9 2003/07/18 20:26:46 tamer Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.10 2003/10/31 14:54:22 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -44,6 +44,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
+
+using namespace std;
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 

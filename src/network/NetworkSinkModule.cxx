@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.23 2003/08/06 08:17:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.24 2003/10/31 14:54:45 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -44,6 +44,8 @@
 #include "NetworkSinkModule.h"
 
 #include <iostream>
+
+using namespace std;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;

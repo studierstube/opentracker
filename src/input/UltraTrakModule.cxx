@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.7 2003/10/31 14:54:22 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -42,6 +42,7 @@
 
 #include <iostream>
 
+using namespace std;
 
 // constructor initializing the thread manager
 UltraTrakModule::UltraTrakModule() : ThreadModule(), NodeFactory(), stop(0)
