@@ -81,4 +81,7 @@
     <ConsoleSink comment="File Source Output">
         <FileSource file="test.in" station="1"/>
     </ConsoleSink>
+    <ConsoleSink comment="Parallel Button Output">
+        <ParButtonSource dev="/dev/plpbi"/>
+    </ConsoleSink>
 </OpenTracker>
