@@ -22,50 +22,58 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for DGPSIP_Handler
+/** header file for DGPSMirror_Handler
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.4 2003/04/08 18:59:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.h,v 1.1 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
-#ifndef _DGPSIP_HANDLER_H
-#define _DGPSIP_HANDLER_H
+#ifndef _DGPSMIRROR_HANDLER_H
+#define _DGPSMIRROR_HANDLER_H
 
 #include <ace/Svc_Handler.h>
-#include <ace/Connector.h>
+#include <ace/Acceptor.h>
+#include <ace/SOCK_Acceptor.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Connector.h>
 
 class GPSDriver;
 
-/**
- * This class retrieves RTCM correction data from a DGPSIP server and sends
- * the correction data to a connected GPS receiver. For debugging purposes, it 
- * can parse and output the RTCM data.
- * @ingroup input
- * @author Gerhard Reitmayr
- */
-class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
+class DGPSMirror_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 {
 public:
-	/// default constructor for ace framework. Do not use !
-	DGPSIP_Handler(){};
+	DGPSMirror_Handler();
+	virtual ~DGPSMirror_Handler();
 
-	DGPSIP_Handler( GPSDriver * parent_ );
-	virtual ~DGPSIP_Handler();
+    void setDriver( GPSDriver * driver_ )
+    {
+        driver = driver_;
+    }    
 
-	virtual int open( void * factory );
-	virtual int handle_input(ACE_HANDLE fd);
-
+    virtual int open( void * factory );
+    virtual int handle_input(ACE_HANDLE fd);    
+    
 protected:
-	GPSDriver * parent;
-
-    ACE_INET_Addr remoteAddr;
+    GPSDriver * driver;
 };
 
-typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_CONNECTOR> DGPSIP_Connector;
+class DGPSMirror_Acceptor : public ACE_Acceptor<DGPSMirror_Handler, ACE_SOCK_ACCEPTOR> 
+{
+public:
+    DGPSMirror_Acceptor( GPSDriver * driver_ )
+        
+    {};
 
-#endif // !defined(_DGPSIP_HANDLER_H)
+    GPSDriver * getDriver( void )
+    {
+        return driver;
+    }
+
+protected:
+    GPSDriver * driver;
+};
+
+#endif // !defined(_DGPSMIRROR_HANDLER_H)

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.2 2003/03/28 13:05:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.3 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -52,6 +52,8 @@
  * @li @c DGPSserver an optional DGPSIP server for DGPS correction data
  * @li @c DGPSport port of the DGPSIP port, default is 2101
  * @li @c debug on|off prints out RTCM and NMEA data for debugging
+ * @li @c DGPSmirror a port number to run a server on that mirrors the RTCM correction
+ *        data for other computers. If not specified, no server will be started.
  *
  * An example configuration element looks like this :
  * @verbatim
@@ -105,6 +107,7 @@ protected:
 	int dgpsPort;
 	bool changed;
 	State buffer;
+    int dgpsmirror;
 
 	GPSSource * source;
 	GPSDriver * driver;

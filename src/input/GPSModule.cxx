@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.4 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.5 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -68,6 +68,10 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
 	{
 		debug = false;
 	}
+    if( attributes.get("dgpsmirror", &dgpsmirror) != 1 )
+    {
+        dgpsmirror = -1;
+    }
     Module::init( attributes, localTree );
 	cout << "GPSModule initialized for port " << device << " and server " << dgpsServer << endl;
 }
@@ -138,7 +142,7 @@ void GPSModule::run()
 	driver->setDebug( debug ); // only for debug purposes ...
 	driver->addListener( this );
 	driver->getReactor()->owner(ACE_Thread::self());
-	if( driver->open( device, baudRate, dgpsServer, dgpsPort ) != 0 )
+	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror ) != 0 )
 	{
 		cout << "GPSModule could not start GPSDriver !\n";
 		return;

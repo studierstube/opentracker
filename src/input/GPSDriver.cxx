@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.7 2003/04/04 13:12:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.8 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,10 +34,12 @@
 #include "../OpenTracker.h"
 #include <ace/Reactor.h>
 #include <iostream>
+#include <algorithm>
 
 #include "GPSDriver.h"
 #include "GPS_Handler.h"
 #include "DGPSIP_Handler.h"
+#include "DGPSMirror_Handler.h"
 
 using namespace std;
 
@@ -57,9 +59,16 @@ GPSDriver::~GPSDriver()
 	if( receiver != NULL )
 		close();
 	listeners.clear();
+    vector<DGPSMirror_Handler *>::reverse_iterator it = clients.rbegin();
+    while( it != clients.rend())
+    {
+        (*it)->destroy();
+        it++;
+    }
+    clients.clear();
 }
 
-int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port )
+int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port, int dgpsmirror)
 {
 	// todo open everything here
 	int result;
@@ -97,6 +106,18 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
             cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
 		}		
 	}
+
+    // open a mirror if we have a DGPS handler
+    if( server != NULL && dgpsmirror != -1)
+    {
+        acceptor = new DGPSMirror_Acceptor( this );
+        if( acceptor->open( ACE_INET_Addr( dgpsmirror) , reactor ) != 0 )
+        {
+            delete acceptor;
+            acceptor = NULL;
+            cerr << "GPSDriver could not open DGPS mirror server on port " << dgpsmirror << " !\n";
+        }
+    }
 	return result;
 }
 
@@ -112,6 +133,11 @@ void GPSDriver::close()
 		receiver->destroy();
 		receiver = NULL;
 	}
+    if( acceptor != NULL )
+    {
+        delete acceptor;
+        acceptor = NULL;
+    }
 }
 
 void GPSDriver::addListener( GPSListener * listener, void * userData )
@@ -124,6 +150,19 @@ void GPSDriver::removeListener( GPSListener * listener, void * userData )
 	std::map<GPSListener *, void *>::iterator it = listeners.find( listener );
 	if( it != listeners.end())
 		listeners.erase( listener );
+}
+
+void GPSDriver::addClient( DGPSMirror_Handler * client )
+{
+    if( find( clients.begin(), clients.end(), client) == clients.end())
+        clients.push_back( client );
+}
+
+void GPSDriver::removeClient( DGPSMirror_Handler * client )
+{
+    vector<DGPSMirror_Handler *>::iterator it = find( clients.begin(), clients.end(), client);
+    if( it != clients.end())
+        clients.erase( it );
 }
 
 void GPSDriver::new_point( const GPSListener::GPSPoint & point )
@@ -143,6 +182,15 @@ void GPSDriver::send_rtcm( const char * buffer, const int len )
 {
 	if( NULL != receiver )
 		receiver->peer().send_n( buffer, len );
+    vector<DGPSMirror_Handler *>::iterator it;
+    for( it = clients.begin(); it != clients.end(); it ++ )
+    {
+        if( (*it)->peer().send_n( buffer, len ) < 0 )
+        {
+            (*it)->destroy();
+            it--;
+        }
+    }
 }
 
 void GPSDriver::setDebug( bool debug )

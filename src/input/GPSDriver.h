@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.2 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -37,9 +37,12 @@
 #include "nmea.h"
 #include <map>
 #include <string>
+#include <vector>
 
 class GPS_Handler;
 class DGPSIP_Handler;
+class DGPSMirror_Handler;
+class DGPSMirror_Acceptor;
 class ACE_Reactor;
 
 /**
@@ -73,7 +76,7 @@ public:
 	GPSDriver( ACE_Reactor * reactor_ = NULL );
 	virtual ~GPSDriver();
 
-	int open( const std::string & device, int baud, const std::string & serveraddr = "", int serverport = 2101 );
+	int open( const std::string & device, int baud, const std::string & serveraddr = "", int serverport = 2101, int dgpsmirror = -1 );
 	void close();
 
 	void setDebug( bool debug );
@@ -90,6 +93,9 @@ public:
 	void addListener( GPSListener * listener, void * userData = NULL );
 	void removeListener( GPSListener * listener, void * userData = NULL );
 
+    void addClient( DGPSMirror_Handler * client );
+    void removeClient( DGPSMirror_Handler * client );    
+
 protected:
 
 	void new_point( const GPSListener::GPSPoint & point );
@@ -99,9 +105,13 @@ protected:
 	ACE_Reactor * reactor;
 	GPS_Handler * receiver;
 	DGPSIP_Handler * server;
+    DGPSMirror_Acceptor * acceptor;
+
 	bool debugOn;
 
 	std::map<GPSListener *, void *> listeners;
+
+    std::vector<DGPSMirror_Handler *> clients;
 
 	friend class GPS_Handler;
 	friend class DGPSIP_Handler;

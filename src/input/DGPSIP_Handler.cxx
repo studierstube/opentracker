@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.3 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.4 2003/04/08 18:59:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -51,6 +51,7 @@ int DGPSIP_Handler::open( void * factory )
 	int result = ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>::open( factory );
 	if( result == 0)
 	{
+        peer().enable( ACE_NONBLOCK ); // don't need it here !
 		// send initialization string here 
 		char hn[1024];
 		char buf[4*1024];
@@ -59,6 +60,7 @@ int DGPSIP_Handler::open( void * factory )
 		// alternatively use "\r\nB" for bulk service
 		ACE_OS::snprintf(buf, sizeof(buf), "HELO %s %s %s%s\r\n", hn, "GPSDriver", "0.1", "\r\nR");
 		result = peer().send_n( buf, ACE_OS::strlen(buf));
+        peer().get_remote_addr( remoteAddr  );
 	}
 	return result;
 }
@@ -79,5 +81,26 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 		// send data to GPS receiver
 		parent->send_rtcm( buf, cnt );
 	}
+    if( cnt < 0 && errno != EWOULDBLOCK )  // try a reconnect !
+    {
+        // remove ourselves from the reactor
+        peer().close();
+        reactor()->remove_handler(fd, ACE_Event_Handler::READ_MASK | ACE_Event_Handler::DONT_CALL );
+        // try to reconnect
+        const size_t MAX_RETRIES = 5;
+        ACE_Time_Value timeout(1);
+        size_t i;
+        DGPSIP_Connector ipconnect( reactor() );
+        for( i = 0; i < MAX_RETRIES; ++i )
+        {
+            ACE_Synch_Options options (ACE_Synch_Options::USE_TIMEOUT, timeout);
+            if( i > 0 ) 
+                ACE_OS::sleep(timeout);
+            if( ipconnect.connect((DGPSIP_Handler *) this, remoteAddr, options ) == 0 )
+                break;
+            timeout *= 2;                
+        }
+        return i == MAX_RETRIES ? -1 : 0;
+    }
 	return 0;
 }
