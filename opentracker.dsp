@@ -162,6 +162,10 @@ SOURCE=.\src\core\MathUtils.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\MatrixTransformation.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\MergeNode.cxx
 # End Source File
 # Begin Source File
@@ -355,6 +359,10 @@ SOURCE=.\extras\intersense\win\isense.h
 # Begin Source File
 
 SOURCE=.\src\core\MathUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\MatrixTransformation.h
 # End Source File
 # Begin Source File
 
