@@ -9,6 +9,14 @@
     <NetworkSinkConfig name="Test Server"/>
     <ConsoleConfig interval="1" headerline="Test Server - active display of individual tests in file"/>
     <TimeConfig sleep="10" display="true"/>
+    <SpeechRecoConfig language="english">
+      <CommandSet id="Set1">
+        <Command id="1234" name="one"/>
+        <Command id="1235" name="two"/>
+        <Command id="1236" name="six"/>
+        <Command id="1237" name="seven"/>
+      </CommandSet>
+    </SpeechRecoConfig>
   </configuration>
   <ConsoleSink comment="Transformation" active="off">
     <EventTransform translation="1 1 1">
@@ -99,7 +107,7 @@
     </ConfidenceFilter>
   </ConsoleSink>
   <ConsoleSink comment="Filter - use 0 to enter events" active="off">
-    <Filter weight="0.333 0.333 0.333">
+    <Filter weight="0.333 0.333 0.333" type="orientation">
       <EventQueue length="3">
         <Ref USE="C0"/>
       </EventQueue>
@@ -135,5 +143,8 @@
   </ConsoleSink>
   <ConsoleSink comment="ActiveGate" active="off">
     <ActiveGate group="test"/>
+  </ConsoleSink>
+  <ConsoleSink comment="SpeechSource" active="on">
+    <SpeechRecoSource set="Set1" name="Set1"/>
   </ConsoleSink>
 </OpenTracker>
