@@ -26,11 +26,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.7 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.8 2001/04/12 06:41:12 reitmayr Exp $
   * @file  
   * @todo add source docu to some methods
   * @todo implement documentation groups for code 
-  * @todo implement documentation groups for node / element documentation   */
+  * @todo implement documentation groups for node / element documentation   
+  * @todo decide whether wrapper nodes appear in the children API or not    */
  /* ======================================================================= */
 
 #ifndef _NODE_H
@@ -110,13 +111,13 @@ protected:
 
 	// tree navigation interface
 		
-	unsigned int countChildren();
+	virtual unsigned int countChildren();
 
-	Node * getChild( unsigned int index );
+	virtual Node * getChild( unsigned int index );
 
-	unsigned int countWrappedChildren( string & name );
+	virtual unsigned int countWrappedChildren( string & name );
 
-	Node * getWrappedChild( string & name, unsigned int index );
+	virtual Node * getWrappedChild( string & name, unsigned int index );
 
 	// end tree navigation interface
 
