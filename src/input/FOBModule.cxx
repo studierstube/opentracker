@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.12 2002/09/26 13:56:26 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.13 2002/12/04 18:24:18 flo Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -804,6 +804,8 @@ inline void Bird::convert( const char * data )
                                                         // so (i+3)%4 should do the
                                                         // trick. scale ?????
     }
+	state.orientation[3] *= -1;	// for some reason we get the
+			                    // coordinates inverted, therefore we invert the scalar !
 }
 
 inline int Bird::parse( const char * data, int len, int framesize )
