@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.4 2003/09/15 12:15:50 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -97,6 +97,7 @@ struct MagicPoint
 
 	MagicPoint(const int x_, const int y_) : x(x_), y(y_), trigger(0) {};
 	MagicPoint(const int x_, const int y_, const bool trigger_) : x(x_), y(y_), trigger(trigger_) {};
+	MagicPoint(const MagicPoint &src) : x(src.x), y(src.y), trigger(src.trigger) {};
 };
 
 // struct to store ports and offsets for data streams for extra screens
@@ -117,8 +118,8 @@ struct Screen
 }; 
 
 typedef std::vector<MagicY *> MagicYVector;
-typedef std::vector<MagicPoint *> PointVector;
 typedef std::vector<Screen *> ScreenVector;
+typedef std::vector<MagicPoint> PointVector;
 
 /// maximum number of stations that can be processed
 const int magicYMaxUnits = 1000;
@@ -152,7 +153,7 @@ protected:
 	int positionMapping[3];
 	int invertPosition[3];
 	float z_value;
-	float orientation[3];
+	float orientation[4];
     
 // methods
 protected:

@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.7 2003/09/15 12:15:50 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -52,9 +52,9 @@ MagicYModule::MagicYModule() : ThreadModule(), NodeFactory(), stop(0)
 // destructor cleans up any allocated memory
 MagicYModule::~MagicYModule()
 {
-    magicYs.clear();
-    points.clear();
-    screens.clear();
+    int i;
+    for (i=0; i<magicYs.size(); i++) delete magicYs[i];
+    for (i=0; i<screens.size(); i++) delete screens[i];
 }
 
 // open all sockets
@@ -160,8 +160,7 @@ int MagicYModule::receive()
                         x += screens[i]->x_offset;
                         y += screens[i]->y_offset;
                         
-                        MagicPoint *magicPoint = new MagicPoint(x,y,trigger);
-                        points.push_back(magicPoint);
+                        points.push_back(MagicPoint(x,y,trigger));
                         
                         pos = message.find(',', 0);
                         pos = message.find(',', pos+1);
@@ -253,8 +252,8 @@ void MagicYModule::run()
                 // calculate average
                 for (unsigned int i=0; i < points.size(); i++)
                 {
-                    average_x += points[i]->x;
-                    average_y += points[i]->y;
+                    average_x += points[i].x;
+                    average_y += points[i].y;
                 }
                 if(points.size())
                 {
@@ -285,9 +284,9 @@ void MagicYModule::run()
                     {
                         if((*mY_it)->number >= 0 && (unsigned int)(*mY_it)->number < points.size()) 
                         {
-                            state.position[0] = float(points[(*mY_it)->number]->x);
-                            state.position[1] = float(points[(*mY_it)->number]->y);
-                            state.button = points[(*mY_it)->number]->trigger;
+                            state.position[0] = float(points[(*mY_it)->number].x);
+                            state.position[1] = float(points[(*mY_it)->number].y);
+                            state.button = points[(*mY_it)->number].trigger;
                             state.confidence = 1.0f;
                         }                  
                         else
