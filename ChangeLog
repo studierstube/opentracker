@@ -9,6 +9,48 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-07 21:59  reitmayr
+
+	* src/input/: InterSenseModule.cxx, InterSenseModule.h:
+	
+	pure orientation trackers will be reset to null heading upon
+	startup
+
+2003-05-07 21:36  reitmayr
+
+	* src/common/CommonNodeFactory.cxx,
+	src/common/DynamicTransformation.cxx,
+	src/common/DynamicTransformation.h,
+	src/common/StaticTransformation.cxx,
+	src/common/StaticTransformation.h,
+	src/common/VirtualTransformation.h, data/opentracker.dtd,
+	data/test.xml:
+	
+	added specialized dynamic transforms for position and orientation
+	manipulation only
+
+2003-05-07 21:09  reitmayr
+
+	* data/opentracker.dtd:
+	
+	added config for stbinputmodule
+
+2003-05-07 20:16  reitmayr
+
+	* src/common/ElasticFilterNode.cxx, src/input/ARToolKitModule.cxx,
+	src/input/JoystickModule.cxx, src/input/WacomGraphireModule.cxx,
+	src/misc/standalone.dsp, src/misc/test.dsp, src/tool/tool.dsp,
+	opentracker.dsp:
+	
+	updated project files and sources to automatically look for
+	necessary libs, removed linking with mfc
+
+2003-05-07 20:16  reitmayr
+
+	* doc/: intersense.txt, opentracker.dxy:
+	
+	added intersense documentation
+
 2003-05-02 17:31  kaufmann
 
 	* src/input/P5GloveModule.cxx:
