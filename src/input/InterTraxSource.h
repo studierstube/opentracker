@@ -26,13 +26,18 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.10 2001/06/15 21:12:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section intertraxsource InterTraxSource
+ *
+ * @deprecated This node is deprecated and should not be used anymore. A
+ * better alternative is the @ref intersensenode that supports all 
+ * InterSense devices.
+ *
  * The InterTraxSource node is a simple EventGenerator that outputs the
  * orientation of an InterTrax orientation sensor. It is driven by the
  * @ref intertraxmodule. It's element has not attributes.

@@ -26,13 +26,18 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.11 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.12 2001/06/15 21:12:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section intertraxmodule InterTraxModule
+ *
+ * @deprecated This module is deprecated and should not be used anymore. A
+ * better alternative is the @ref intersensemodule that supports all 
+ * InterSense devices.
+ *
  * The InterTraxModule provides and drives @ref intertraxsource nodes that 
  * generate standard events in certain intervals. It does not use a 
  * configuration elements but reserves the name 'InterTraxConfig'. 

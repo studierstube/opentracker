@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.3 2001/06/11 03:19:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.4 2001/06/15 21:11:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,9 +43,6 @@
 /** uncomment the following line to compile support for CyberMouse device.
   * Support for this is only available on windows. */
 // #define USE_CYBERMOUSE 1
-
-/** uncomment the following line to compile support for InterTrax2 inertial tracker*/
-// #define USE_INTERTRAX 1
 
 /** uncomment the following line to compile support for Wacom Graphire tablet.
   * Support for this is only available on windows. */
