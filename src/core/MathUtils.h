@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.12 2003/06/23 08:50:52 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.13 2003/06/25 06:42:32 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,9 +40,6 @@
 #define Q_Y    1
 #define Q_Z    2
 #define Q_W    3
-
-/* tolerance for quaternion operations */
-#define  Q_EPSILON   (1e-10)
 
 /**
  * This class implements some utility classes for matrix and quaternion
@@ -65,7 +62,9 @@ public:
     /// 4 double vector used as quaternion
     typedef double Quaternion[4];
 
-    /** converts an axis angle representation into a quaternion
+    /** converts an axis angle representation into a quaternion. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
      * @param axisa float[4] containing axis and angle in radiants
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
@@ -78,7 +77,9 @@ public:
      * @return pointer to result array */
     static float* eulerToQuaternion(float roll, float pitch, float yaw,
                                     float* qResult);
-    /** inverts a quaternion.
+    /** inverts a quaternion. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
      * @param q float[4] storing the quaternion
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
@@ -88,7 +89,9 @@ public:
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
     static float* matrixToQuaternion(float matrix[3][3], float* qResult);
-    /** multiplies two quaternions and stores result in a third.
+    /** multiplies two quaternions and stores result in a third. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
      * @param q1 float[4] storing first quaternion
      * @param q2 float[4] storing second quaternion
      * @param qResult float[4] where the result is stored
@@ -100,7 +103,9 @@ public:
      * @return pointer to result array */
     static float* normalizeQuaternion(float* q);
     /** rotates a vector using a given unit quaternion. It does
-     * not normalize the quaternion or check for unit length !
+     * not normalize the quaternion or check for unit length ! This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
      * @param q float[4] storing quaternion
      * @param v float[3] storing vector
      * @param vResult float[3] where the result is stored
@@ -111,7 +116,9 @@ public:
 	 * @return determinant of the matrix */
 	static float determinant( float matrix[3][3] );
 
-	/** computes the vector and angle representation of a quaternion
+    /** computes the vector and angle representation of a quaternion. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
 	 * @param q float[4] storing the quaternion
 	 * @param axisa float[4] storing the vector and angle of the given quaternion
 	 * @return pointer to result array (axisa) */
@@ -129,8 +136,10 @@ public:
     /**
      * computes the spherical linear interpolation between two quaternions. The
      * formulas used are probably only stable for t in [0,1], but it can be 
-     * used to calculate extrapolations as well. The following properties hold :
-     * slerp(q1,q2,0) = q1, slerp(q1,q2,1) = q2.
+     * used to calculate extrapolations as well. Moreover the slerp is always
+     * computed on the shorter path between the quaternions. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
      * @param q1 float[4] first quaternion 
      * @param q2 float[4] second quaternion
      * @param t interpolation parameter
@@ -175,7 +184,6 @@ public:
 
 	/// another nice constant to transform grad to radiants
 	static const double GradToRad;
-
 };
 
 #endif

@@ -26,18 +26,21 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.10 2003/06/23 08:50:52 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.11 2003/06/25 06:42:32 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "MathUtils.h"
 #include <math.h>
 
+/* tolerance for quaternion operations */
+#define  Q_EPSILON   (1e-10)
+
 /** 
  * a collection of numerically safer implementations of various terms.
  * The class is a template to provide inline implementations of the 
  * actual calculations. This allows maximum speed :). See
- * http://www.hardon.org/~hatch/rightway.php for details on the
+ * http://www.hadron.org/~hatch/rightway.php for details on the
  * formulas.
  * @ingroup core
  * @author Gerhard Reitmayr
@@ -264,12 +267,28 @@ double MathUtils::angle( float * v1, float * v2, int dim )
 float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
 {
 	double angle = MathUtils::angle( q1, q2, 4);
+    float temp[4];
+    if( angle < 0)
+    {
+        temp[0] = -q2[0];
+        temp[1] = -q2[1];
+        temp[2] = -q2[2];
+        temp[3] = -q2[3];
+        angle = MathUtils::angle( q1, temp, 4);
+    }
+    else
+    {
+        temp[0] = q2[0];
+        temp[1] = q2[1];
+        temp[2] = q2[2];
+        temp[3] = q2[3];
+    }
 	double c1 = MD::sin_over_x((1-t)*angle) * (t-1) / MD::sin_over_x(angle);
 	double c2 = MD::sin_over_x(t*angle) * t / MD::sin_over_x(angle);
 	int i;
 	for( i = 0; i < 4; i++)
 	{
-		qResult[i] = (float)(q1[i] * c1 + q2[i]*c2);
+		qResult[i] = (float)(q1[i] * c1 + temp[i]*c2);
 	}
 	return qResult;
 }
