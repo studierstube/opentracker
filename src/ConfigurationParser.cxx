@@ -35,6 +35,7 @@
 #else
 #include <iostream.h>
 #endif
+#include "DOMTreeErrorReporter.h"
 
 //@END_USER2
 
@@ -131,6 +132,8 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
      // read and parse configuration file
     DOMParser parser;
     parser.setDoValidation( true );
+    DOMTreeErrorReporter errReporter;
+    parser.setErrorHandler(&errReporter);
     try 
     {
         parser.parse( filename );
@@ -141,6 +144,13 @@ NodeVector* ConfigurationParser::parseConfigurationFile(const char* filename)
 	         << DOMString(e.getMessage()).transcode() << endl;
 	    exit(1);
     }
+    if( errReporter.errorsEncountered() > 0 )
+    {
+        cout << "There were non fatal errors in the configuration file !\n"
+             << "Please check the file and start again." << endl;
+        exit(1);
+    }
+        
     DOM_Document doc = parser.getDocument();
     DOM_Element root = doc.getDocumentElement();
 

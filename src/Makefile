@@ -40,6 +40,7 @@ HFILES = \
     Context.h  \
     TestModule.h \
     TestSource.h \
+    DOMTreeErrorReporter.h \
     
 C++FILES = \
     CommonNodeFactory.cxx  \
@@ -63,6 +64,7 @@ C++FILES = \
     Context.cxx \
     TestModule.cxx \
     TestSource.cxx \
+    DOMTreeErrorReporter.cxx \
 
 OFILES = $(C++FILES:.cxx=.o)
 
