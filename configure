@@ -9677,19 +9677,22 @@ else
 fi
 
 
-
-
-
-
-if $stb_ac_artoolkit_avail; then
+if test x"$stb_ac_artoolkit_avail" = xtrue; then
 
 cat >>confdefs.h <<\_ACEOF
 #define USE_ARTOOLKIT 1
 _ACEOF
 
 else
+  stb_ac_artoolkit_cppflags=
+  stb_ac_artoolkit_ldflags=
+  stb_ac_artoolkit_libs=
   stb_ac_artoolkit_root="not found"
 fi
+
+
+
+
 
 if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="ARToolkit root directory:$stb_ac_artoolkit_root"

@@ -69,15 +69,18 @@ SIM_AC_CONFIGURATION_SETTING([Xerces root directory], [$stb_ac_xerces_root])
 # Check for ARToolkit.
 STB_AC_HAVE_ARTOOLKIT_IFELSE([], [])
 
+if test x"$stb_ac_artoolkit_avail" = xtrue; then
+  AC_DEFINE(USE_ARTOOLKIT, 1, [Enable the use of the ARToolkit library])
+else
+  stb_ac_artoolkit_cppflags=
+  stb_ac_artoolkit_ldflags=
+  stb_ac_artoolkit_libs=
+  stb_ac_artoolkit_root="not found"
+fi
+
 AC_SUBST([stb_ac_artoolkit_cppflags])
 AC_SUBST([stb_ac_artoolkit_ldflags])
 AC_SUBST([stb_ac_artoolkit_libs])
-
-if $stb_ac_artoolkit_avail; then
-  AC_DEFINE(USE_ARTOOLKIT, 1, [Enable the use of the ARToolkit library])
-else
-  stb_ac_artoolkit_root="not found"
-fi
 
 SIM_AC_CONFIGURATION_SETTING([ARToolkit root directory], [$stb_ac_artoolkit_root])
 
