@@ -156,6 +156,8 @@ void Context::close()
     {
         (*it).second->close();
     }
+    // HACK: give some threads time to close down
+    OSUtils::sleep(1000);
 }
 
 // parses the file and builds the tree.

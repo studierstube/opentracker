@@ -162,7 +162,7 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
-		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %s\n", filename.c_str(), id);
+		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
         return source;
     }
     return NULL;
@@ -269,12 +269,10 @@ void ARToolKitModule::close()
     lock();
     stop = 1;
     unlock();
-    
-	arVideoCapStop();
-    arVideoClose();
-    
-    //OSUtils::sleep(1000);
-    
+
+    // join the thread to wait for proper cleanup
+    ThreadModule::close();
+
     LOG_ACE_INFO("ot:ARToolkit stopped\n");
 }
 
@@ -377,10 +375,11 @@ void ARToolKitModule::run()
         }
         count ++;
     }
+
+    arVideoCapStop();
+    arVideoClose();
+
     LOG_ACE_INFO("ot:ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
-    
-    //arVideoCapStop();
-    //arVideoClose();
 }
 
 // grabs a frame and processes the data
@@ -398,126 +397,124 @@ void ARToolKitModule::grab()
     {
         sginap(1);
 #else
-        if((frameData = (ARUint8 *)arVideoGetImage()) == NULL )
-        {
+    if((frameData = (ARUint8 *)arVideoGetImage()) == NULL )
+    {
 #endif
-            return;
-        }
+        return;
+    }
 
 #ifndef WIN32
-        frame = frameData;
+    frame = frameData;
 #endif
-		
-        if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
-        {
-            arVideoCapNext(); // release buffer
-            return;
-        }
-        if( markerNum < 1 )
-        {
-            arVideoCapNext(); // release buffer
-            return;
-        }
 
-        arVideoCapNext();
+    if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
+    {
+        arVideoCapNext(); // release buffer
+        return;
+    }
+    if( markerNum < 1 )
+    {
+        arVideoCapNext(); // release buffer
+        return;
+    }
 
-        for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    arVideoCapNext();
+
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ARToolKitSource *)*it;
+        k = -1;
+        // searches for the most confident marker matching the source's markerId
+        for( j = 0; j < markerNum; j ++ )
         {
-            source = (ARToolKitSource *)*it;
-            k = -1;
-            // searches for the most confident marker matching the source's markerId
-            for( j = 0; j < markerNum; j ++ )
+            if( source->markerId == markerInfo[j].id )
             {
-                if( source->markerId == markerInfo[j].id )
+                if( k == -1 )
                 {
-                    if( k == -1 )
+                    k = j;
+                }
+                else
+                {
+                    if( markerInfo[k].cf < markerInfo[j].cf )
                     {
                         k = j;
                     }
-                    else
-                    {
-                        if( markerInfo[k].cf < markerInfo[j].cf )
-                        {
-                            k = j;
-                        }
-                    }
                 }
             }
-            if( k != -1 )
+        }
+        if( k != -1 )
+        {
+            // if one found transform it to coordinates,
+            if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
             {
-                // if one found transform it to coordinates,
-                if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
-                {
-                    lock();
-                    State & state = source->buffer;
-                    state.confidence = (float)markerInfo[k].cf;
+                lock();
+                State & state = source->buffer;
+                state.confidence = (float)markerInfo[k].cf;
 
 #ifdef ARTOOLKIT_UNFLIP_V
 
-                    //  --- correct ARToolkit's vertical image mirroring ---
-                    
-                    MathUtils::Matrix4x4 matrix_4x4;
-                    for(int r = 0; r < 3; r ++ )
-                        for(int c = 0; c < 4; c ++ )
-                            matrix_4x4[r][c] = (float)matrix[r][c];
-                        
-                    matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
-                    matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
-                        
-                    MathUtils::Matrix4x4 matrix_4x4_corrected;
-                     
-                    // fix translation
-                    MathUtils::matrixMultiply(MathUtils::matrix4x4_flipY,matrix_4x4,matrix_4x4_corrected);
-                        
-                    MathUtils::Vector3 euler_angles;
-                    MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
-                    
-                    MathUtils::eulerToQuaternion((float)-euler_angles[Q_Z],(float)euler_angles[Q_Y],(float)-euler_angles[Q_X], state.orientation);
-                    
-                    state.position[0] = (float)matrix_4x4_corrected[0][3];
-                    state.position[1] = (float)matrix_4x4_corrected[1][3];
-                    state.position[2] = (float)matrix_4x4_corrected[2][3];
-                    //  -----------------------------------------------------------
-#else
-				//  --- DO NOT correct ARToolkit's vertical image mirroring ---
+                //  --- correct ARToolkit's vertical image mirroring ---
 
-				    float m[3][3];
-                    for( int r = 0; r < 3; r ++ )
+                MathUtils::Matrix4x4 matrix_4x4;
+                for(int r = 0; r < 3; r ++ )
+                    for(int c = 0; c < 4; c ++ )
+                        matrix_4x4[r][c] = (float)matrix[r][c];
+
+                matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
+                matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
+
+                MathUtils::Matrix4x4 matrix_4x4_corrected;
+
+                // fix translation
+                MathUtils::matrixMultiply(MathUtils::matrix4x4_flipY,matrix_4x4,matrix_4x4_corrected);
+
+                MathUtils::Vector3 euler_angles;
+                MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
+
+                MathUtils::eulerToQuaternion((float)-euler_angles[Q_Z],(float)euler_angles[Q_Y],(float)-euler_angles[Q_X], state.orientation);
+
+                state.position[0] = (float)matrix_4x4_corrected[0][3];
+                state.position[1] = (float)matrix_4x4_corrected[1][3];
+                state.position[2] = (float)matrix_4x4_corrected[2][3];
+                //  -----------------------------------------------------------
+#else
+                //  --- DO NOT correct ARToolkit's vertical image mirroring ---
+
+                float m[3][3];
+                for( int r = 0; r < 3; r ++ )
+                {
+                    for( int s = 0; s < 3; s ++ )
                     {
-                        for( int s = 0; s < 3; s ++ )
-                        {
-                            m[r][s] = (float)matrix[r][s];
-                        }
+                        m[r][s] = (float)matrix[r][s];
                     }
-                    MathUtils::matrixToQuaternion( m, state.orientation );
-                    state.position[0] = (float)matrix[0][3];
-                    state.position[1] = (float)matrix[1][3];
-                    state.position[2] = (float)matrix[2][3];
-				//  -----------------------------------------------------------
-#endif
-                    state.timeStamp();
-                    source->modified = 1;
-                    unlock();
                 }
-            } 
-			else  // marker not found 
-			{
-					// only if marker was found in the last grab (state.confidence > epsilon) set 
-					// confidence to 0.0!
-				    State & state = source->buffer;
-					if (state.confidence > 0.00000001f) 
-					{
-						lock();
-						state.confidence = 0.0f;
-						state.timeStamp();
-						source->modified = 1;
-	                    unlock();
-					}
-			}
+                MathUtils::matrixToQuaternion( m, state.orientation );
+                state.position[0] = (float)matrix[0][3];
+                state.position[1] = (float)matrix[1][3];
+                state.position[2] = (float)matrix[2][3];
+                //  -----------------------------------------------------------
+#endif
+                state.timeStamp();
+                source->modified = 1;
+                unlock();
+            }
+        } 
+        else  // marker not found 
+        {
+            // only if marker was found in the last grab (state.confidence > epsilon) set 
+            // confidence to 0.0!
+            State & state = source->buffer;
+            if (state.confidence > 0.00000001f) 
+            {
+                lock();
+                state.confidence = 0.0f;
+                state.timeStamp();
+                source->modified = 1;
+                unlock();
+            }
         }
     }
-
-
+}
 
 // returns whether two cameras are configured
 
