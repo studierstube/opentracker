@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.2 2001/08/19 20:04:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.3 2001/08/20 09:54:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -167,14 +167,8 @@ private:
     void operator=(const DOMPrintFormatTarget& rhs);
 };
 
-/*
-static const XMLCh gEncodingName[6] = { 'U', 'T', 'F', '-', '8', 0 };
-static DOMPrintFormatTarget formatTarget;
-static XMLFormatter gFormatter( gEncodingName, &formatTarget );
-*/
-
-XMLWriter::XMLWriter( Context & context_ ) :
-  context( context_ )
+XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
+  context( context_ ), indent( indent_ )
 {}
 
 XMLWriter::~XMLWriter()
@@ -210,22 +204,22 @@ void XMLWriter::write( ostream & stream )
     gEncodingName[lent] = 0;
     XMLFormatter gFormatter(gEncodingName, &formatTarget );
     
-    writeNode(doc, stream, gFormatter);
+    writeNode(doc, stream, gFormatter, -1);
 }
 
-// ---------------------------------------------------------------------------
-//  ostream << DOM_Node   
-//
-//  Stream out a DOM node, and, recursively, all of its children. This
-//  function is the heart of writing a DOM tree out as XML source. Give it
-//  a document node and it will do the whole thing.
-// ---------------------------------------------------------------------------
-void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter)
+
+void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter, int level)
 {
     // Get the name and value out for convenience
     DOMString   nodeName = toWrite.getNodeName();
     DOMString   nodeValue = toWrite.getNodeValue();
     unsigned long lent = nodeValue.length();
+
+    if( level > 0 )
+    {
+        string ind( level*indent, ' ' );
+        target << ind;
+    }
 
     switch (toWrite.getNodeType())
     {
@@ -255,8 +249,7 @@ void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gF
             DOM_Node child = toWrite.getFirstChild();
             while( child != 0)
             {
-//                target << child << endl;
-                writeNode( child, target, gFormatter ); 
+                writeNode( child, target, gFormatter, level+1 ); 
                 target << endl;
                 child = child.getNextSibling();
             }
@@ -306,14 +299,18 @@ void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gF
                 target << endl;
                 while( child != 0)
                 {
-//                   target << child;
-                    writeNode( child, target, gFormatter );
+                    writeNode( child, target, gFormatter, level+1 );
                     child = child.getNextSibling();
                 }
 
                 //
                 // Done with children.  Output the end tag.
                 //
+                if( level > 0 )
+                {
+                    string ind( level*indent, ' ' );
+                    target << ind;
+                }
                 gFormatter << XMLFormatter::NoEscapes << gEndElement
                             << nodeName << chCloseAngle;
             }
@@ -338,8 +335,7 @@ void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gF
                 child != 0;
                 child = child.getNextSibling())
                 {
-//                    target << child;
-                    writeNode( child, target, gFormatter );
+                    writeNode( child, target, gFormatter, level+1 );
                 }
 #else
                 //

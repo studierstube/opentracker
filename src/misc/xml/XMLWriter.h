@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.2 2001/08/19 20:04:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.3 2001/08/20 09:54:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,14 +57,25 @@ class OPENTRACKER_API XMLWriter {
 protected:
     /// the context to write out
     Context & context;
-
-    void writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter);
+    /// amount of indentation per level
+    unsigned int indent;
+    
+    /** internal method that writes out the graph recursively. This may change 
+     * and therefore is not part of the interface.
+     * @param toWrite the current XML element to write out
+     * @param target the output stream to write to
+     * @param gFormatter XML formatting object 
+     * @param level indentation level to use, this is multiplied with indent to 
+     *        get the number of spaces.
+     */
+    void writeNode(DOM_Node& toWrite, std::ostream & target, XMLFormatter & gFormatter, int level);
 
 public:
     /** constructor, takes a context to work with.
      * @param context_ the context to write out
+     * @param indent_ the indentation step to use, default value is 2
      */
-    XMLWriter( Context & context_ );      
+    XMLWriter( Context & context_ , unsigned int indent_ = 2);      
     
     virtual ~XMLWriter();
     
@@ -76,9 +87,21 @@ public:
     
     /** writes the tracker graph and configuration to an output stream.
      * @param stream the stream to write to. */
-    void write( ostream & stream );    
-    
-    
+    void write( std::ostream & stream );            
+
+    /** returns the current indentation step
+     * @return indentation step */
+    unsigned int getIndent()
+    {
+        return indent;
+    }
+
+    /** sets the indentation step
+     * @param ind the new value */
+    void setIndent( unsigned int ind )
+    {
+        indent = ind;
+    }
 };
 
 #endif
