@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.5 2003/10/16 09:00:52 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.6 2003/10/31 14:55:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,7 @@
 #include <iostream>
 
 #define DEBUG_BUTTONFILTER 
-#ifdef DEBUG_BUTTONFILTER
+#if defined(DEBUG_BUTTONFILTER) && defined(_DEBUG) 
 #define DEBUG_CODE(a) {a;}
 #else
 #define DEBUG_CODE(a) {}
