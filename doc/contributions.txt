@@ -1,0 +1,18 @@
+/**
+
+@page contributions Contributing People
+
+We would like to thank the following people for contributing to OpenTracker :
+
+Rainer Splechtna \n
+Ivan Viola \n
+Matej Mlejnek \n
+Christopher Schmidt \n
+Florian Ledermann \n
+Thomas Peterseil \n
+Berk Oezer \n
+Michael Woegerbauer \n
+Reinhard Steiner \n
+Christopher Schmidt \n
+
+*/

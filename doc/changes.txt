@@ -1,0 +1,26 @@
+/**
+
+@page changes OpenTracker Changes
+
+@section version11 Changes for Release 1.1
+
+@li added variety of trackers such as \n
+  ART Data \n
+  Ascension Flock of Birds \n
+  Ultratrack \n
+  Fasttrack \n
+  Joystick on Windows \n
+  SpaceMouse on Windows \n
+@li a number of transform nodes operating on buttons
+@li some other special operation nodes
+@li compilation with GCC 3.x on Linux
+
+@section version10 Changes for Release 1.0
+
+@li Linux port
+@li Generic InterSense support, build in per default
+@li new InverTransform, Selection nodes
+@li new TimeModule to control main loop timing
+@li lots of bug fixes and clean ups
+
+*/

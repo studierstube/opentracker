@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.17 2002/11/08 21:03:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.18 2002/11/11 12:56:53 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -69,6 +69,9 @@
  * Additional information regarding various modules can be found here :
  * @li @ref spacemouse - How to integrate the SpaceMouse support
  * 
+ * Also see a list of @ref changes between each version and a list of @ref contributions 
+ * we would like to thank. 
+ *
  * @author Gerhard Reitmayr
  * @date 2001, 2002
  */

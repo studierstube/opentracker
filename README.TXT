@@ -1,6 +1,6 @@
 OpenTracker
 
-(C) 2000,2001 Vienna University of Technology
+(C) 2000,2001,2002 Vienna University of Technology
 
 OpenTracker is distributed under the Lesser GNU Public License. See the file
 LICENSE.TXT for details. A short build and installation guide can be found
@@ -12,10 +12,8 @@ OpenTracker was compiled and tested on Windows2000 and Windows98,
 SGI Irix (6.5.x only), and Linux (SUSE 7.0). It should work on similar 
 platforms but might require some small porting changes.
 
-Many thanks go to the following people for comments and code :
-Dieter Schmalstieg, Toni Fuhrmann, Gerd Hesina, Jan Prikryl, 
-Hannes Kaufmann, Ivan Viola, Matej Mlejnek, Thomas Peterseil
-And also InterSense for their tracker code.
+Please see the contributing people page in the documentation for a list of
+people we would like to thank for their contributing work.
 
 Contact:           Gerhard Reitmayr
 Email:             reitmayr@ims.tuwien.ac.at
