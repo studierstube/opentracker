@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.71 2003/06/16 13:17:18 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.72 2003/06/18 12:31:46 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?">
@@ -607,7 +607,8 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- StbKeyboard definitions, similar to console input -->
 <!ELEMENT StbInputConfig (KeyDefinition*)>
 <!ATTLIST StbInputConfig
-  passevents (on | off) "off"
+  keyevents (on | off) "off"
+  mouseevents (on | off ) "on"
 >
 <!ELEMENT StbKeyboardSource EMPTY>
 <!ATTLIST StbKeyboardSource
