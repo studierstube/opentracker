@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.16 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.17 2001/09/26 13:35:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,7 @@
 #include "InvertTransformation.h"
 #include "MatrixTransformation.h"
 #include "SelectionNode.h"
+#include "ConfidenceFilterNode.h"
 
 #include<math.h>
 #include<stdio.h>
@@ -299,6 +300,22 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         float data[12];
         attributes.get( "matrix", data, 12 );
         result = new MatrixTransformation( data );
+    }
+    else if( name.compare("ConfidenceFilter") == 0 )
+    {
+        int num;
+        float treshhold;
+        ConfidenceFilterNode::types type;
+        num = sscanf( attributes.get("treshhold").c_str(), " %f", &treshhold );
+        if( num != 1 )
+        {
+            treshhold = 0.5;
+        }
+        if( attributes.get("type").compare("high") == 0 )
+            type = ConfidenceFilterNode::HIGH;
+        else if( attributes.get("type").compare("low") == 0 )
+            type = ConfidenceFilterNode::LOW;
+        result = new ConfidenceFilterNode( treshhold, type );
     }
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {

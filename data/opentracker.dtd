@@ -22,11 +22,12 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.30 2001/09/26 13:33:01 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
@@ -228,6 +229,13 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT MergeTime ((%EventNodes;)+)>
 <!ELEMENT MergeConfidence ((%EventNodes;)+)>
 <!ELEMENT Merge (MergeDefault?, MergePosition?, MergeOrientation?, MergeButton?, MergeTime?, MergeConfidence?)>
+<!-- Confidence Filter Node -->
+<!ELEMENT ConfidenceFilter (%EventNodes;)>
+<!ATTLIST ConfidenceFilter
+	DEF ID #IMPLIED
+	treshhold CDATA #REQUIRED
+	type ( high | low ) "high"
+ >	
 <!-- Source and Sink nodes grouped after functionality -->
 <!-- network sender elements -->
 <!ELEMENT NetworkSinkConfig EMPTY>

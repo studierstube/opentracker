@@ -28,7 +28,8 @@ HFILES = \
         FileSink.h \
         FileSource.h \
         FileModule.h \
-        MatrixTransformation.h
+        MatrixTransformation.h \
+        ConfidenceFilterNode.h
 
 
 C++FILES = \
@@ -45,7 +46,8 @@ C++FILES = \
         TimeModule.cxx \
         SelectionNode.cxx \
         FileModule.cxx \
-        MatrixTransformation.cxx
+        MatrixTransformation.cxx \
+        ConfidenceFilterNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

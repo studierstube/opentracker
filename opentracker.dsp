@@ -106,6 +106,10 @@ SOURCE=.\src\common\CommonNodeFactory.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ConfidenceFilterNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\ConfigurationParser.cxx
 # End Source File
 # Begin Source File
@@ -267,6 +271,10 @@ SOURCE=.\src\common\CallbackNode.h
 # Begin Source File
 
 SOURCE=.\src\common\CommonNodeFactory.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ConfidenceFilterNode.h
 # End Source File
 # Begin Source File
 
