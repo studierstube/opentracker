@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.7 2001/06/11 22:01:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,7 @@
 #define _STATE_H
 
 #include "../dllinclude.h"
+#include "OSUtils.h"
 
 #ifndef WIN32
 #include <unistd.h>
@@ -133,21 +134,7 @@ inline State::State( const State & other )
 // timestamp a state to current time
 inline void State::timeStamp()
 {
-#ifndef WIN32  // IRIX and Linux code
-#ifdef _SGI_SOURCE
-    struct timeval tp;
-    gettimeofday(&tp);
-    time = (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#else //LINUX code
-    struct timeval tp;
-    gettimeofday(&tp,NULL);
-    time = (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#endif
-#else  // WIN code
-    struct _timeb timeBuffer;
-    _ftime(&timeBuffer);
-    time = (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
-#endif
+    time = OSUtils::currentTime();
 }
 
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.h,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.h,v 1.2 2001/06/11 22:01:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,7 +36,9 @@
 #include "../dllinclude.h"
 
 /**
- * This class implements some utility f
+ * This class implements some utility functions, which are not provided by
+ * other libraries. Currently these include time related functions to get
+ * the current time and yield and sleep a specified amount of time.
  * @author Gerhard Reitmayr
  * @ingroup core
  */
@@ -45,13 +47,18 @@ class OPENTRACKER_API OSUtils
 
 public:
 
-    /** returns the current time in milliseconds since ... */
+    /** returns the current time in milliseconds since 1.1.1970. Someone said 
+     * this should probably be a long, I used a double because VRML does too.
+     * @note check whether double or long is better 
+     * @return double containing milliseconds since ...*/
     static double currentTime();
     
     /** sleeps for the specified amount of milliseconds 
      * and yields the execution to another thread. If 0 is specified, only
-     * a yield is perform. 
-     * ( implementation based on Sleep ( Win32 ), sginap ( SGI )
+     * a yield is performed (implementation based on Sleep (Win32), sginap (SGI)).
+     * The implementation is actually not accurate enough, because both systems
+     * provide only timeslices of 1/100 of a second. So all sleep times will
+     * actually be multiples of 1/100 of a second.
      * @arg time time to sleep in milliseconds
      */
      static void sleep( double time );
