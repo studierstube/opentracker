@@ -178,6 +178,14 @@ SOURCE=.\src\misc\OpenTracker.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\OSUtils.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\SelectionNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\State.cxx
 # End Source File
 # Begin Source File
@@ -195,6 +203,10 @@ SOURCE=.\src\core\TestModule.cxx
 # Begin Source File
 
 SOURCE=.\src\core\ThreadModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\TimeModule.cxx
 # End Source File
 # Begin Source File
 
@@ -362,7 +374,15 @@ SOURCE=.\src\OpenTracker.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\OSUtils.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\RefNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\SelectionNode.h
 # End Source File
 # Begin Source File
 
@@ -387,6 +407,10 @@ SOURCE=.\src\core\TestSource.h
 # Begin Source File
 
 SOURCE=.\src\core\ThreadModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\TimeModule.h
 # End Source File
 # Begin Source File
 
