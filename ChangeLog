@@ -9,6 +9,15 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-15 18:23  reitmayr
+
+	* src/misc/: OpenTracker.cxx, test.cxx:
+	
+	added CallbackModule to the default Context configuration, so that
+	a client application does not have to instantiate it itself. This
+	avoids problems with objects created on different heaps under
+	windows.
+
 2003-07-10 15:35  reitmayr
 
 	* src/common/ConsoleModule.cxx:
