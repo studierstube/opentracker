@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.4 2001/06/13 17:09:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.5 2001/06/13 19:48:48 reitmayr Exp $
   * @todo optimize compare and copy with mem* calls
   * @todo implement IRIX / Linux version with Stb code
   * @file                                                                   */
@@ -41,9 +41,8 @@
 #else
 #include <iostream.h>
 #endif
-extern "C" {
 #include <isense.h>
-}
+
 // an essential constant
 
 const double GradToRad = 3.141592654 / 180.0;

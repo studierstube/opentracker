@@ -33,6 +33,9 @@ OBJ = $(CFILES:.c=.o)
 
 LD_QUICKSTART_INFO=
 
+$(CFILES:.c=.o):
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ -c $(@:.o=.c)
+
 $(TARGETS): $(OBJ)
 	@echo "--- $(TARGETS) ---"
 	ar -cru $(TARGETS) $(OBJ)
