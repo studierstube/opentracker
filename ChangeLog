@@ -9,20 +9,25 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-02-17 18:46  tamer
+
+	* src/input/ParButtonModule.cxx:
+	
+	reversed PortTalk implementation because of licensing issues and
+	platform breakage.
+
+2003-02-17 18:42  tamer
+
+	* src/misc/: PortTalk_IOCTL.h, pt_ioctl.c:
+	
+	removed because of licensing issues...
+
 2003-02-13 18:09  tomp
 
 	* opentracker.dsp:
 	
 	new version of ParButtonModule uses PortTalk2.2 (use instruction to
 	install) needs advapi32.lib to link without errors!
-
-2003-02-13 16:46  tomp
-
-	* extras/PortTalk/: porttalk.pdf, porttalk.reg, porttalk.sys,
-	uninstall.exe:
-	
-	new version of ParButtonModule uses PortTalk2.2 (use instruction to
-	install)
 
 2003-02-13 16:44  tomp
 
