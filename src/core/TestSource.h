@@ -26,22 +26,30 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.7 2001/10/21 22:30:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.8 2003/07/02 07:29:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section testsource TestSource
- * The TestSource node is a simple EventGenerator that fires in fixed intervalls
+ * The TestSource node is a simple EventGenerator that fires in fixed intervals
  * standard events. The events can be customized to have other then the default 
- * values. It has the following elements :
+ * values. 
+ *
+ * It also supports simulation of noisy data. The parameter @c noise defines the 
+ * size of a uniform distribution used to perturb the given default position and
+ * orientation. In addition to that it also defines the probability that
+ * the orientation representation is using the negative representation.
+ *
+ * The node has the following elements :
  * @li @c frequency every freq. cycle it fires
  * @li @c offset starting after offset cycles
  * @li @c position position value of the event to fire as 3 floats
  * @li @c orientation orientation value of the event to fire as 4 floats representing a quaternion
  * @li @c button a 16 bit integer value representing the button states
  * @li @c confidence a float value in [0,1] to represent the confidence value
+ * @li @c noise a float value > 0, if present will output noisy data for simulations
  *
  * An example element looks like this :
  * @verbatim
@@ -69,8 +77,12 @@ public:
     int frequency;
     /// offset of first update relative to main loop start
     int offset;
-    /// the state that is posted to the EventObservers
+    /// use noise and noise level
+    double noise;    
+    /// the original state 
     State state;
+    /// the perturbed state posted to the observers
+    State perturbed;
 
 // Methods
 protected:
@@ -90,13 +102,12 @@ public:
     {
         return 1;
     }
+
     /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator */
-    void push()
-    {
-        state.timeStamp();
-        updateObservers( state );
-    }
+     * updateObservers method in EventGenerator. Note that the 
+     * implementation of this method is in the file TestModule.cxx !
+     */
+    void push(void);
 
     friend class TestModule;
 };

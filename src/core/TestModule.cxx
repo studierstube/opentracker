@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,14 +26,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.7 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.8 2003/07/02 07:29:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "TestModule.h"
 #include "TestSource.h"
 
+#include "MathUtils.h"
+
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -62,14 +65,20 @@ Node * TestModule::createNode( const string& name, StringTable& attributes)
             offset = 0;
         }
         TestSource * source = new TestSource( frequency, offset );
-        sscanf( attributes.get("position").c_str(), " %f %f %f", &(source->state.position[0]), 
-                &(source->state.position[1]), &(source->state.position[2])  );
-        sscanf( attributes.get("orientation").c_str(), " %f %f %f %f", 
-                &(source->state.orientation[0]),&(source->state.orientation[1]),
-                &(source->state.orientation[2]),&(source->state.orientation[3]) );
+        attributes.get("position", source->state.position, 3);
+        attributes.get("orientation", source->state.orientation, 4);
         sscanf( attributes.get("button").c_str(), " %hu", &(source->state.button) );
         sscanf( attributes.get("confidence").c_str(), " %f", &(source->state.confidence) );
+        if( attributes.containsKey("noise") )
+        {
+            attributes.get("noise",&source->noise);
+        }
+        else
+        {
+            source->noise = -1;
+        }
         nodes.push_back( source );
+        
         cout << "Build TestSource node " << endl;
         initialized = 1;
         return source;
@@ -90,4 +99,29 @@ void TestModule::pushState()
         } 
     }
     cycle++;
+}
+
+
+void TestSource::push(void)
+{
+    perturbed.timeStamp();
+    if( noise > 0 )
+    {
+        int i;
+        for( i = 0; i < 3; i++ )
+        {
+            perturbed.position[i] = state.position[i] + ((float)rand()/RAND_MAX)*noise - noise / 2;
+            perturbed.orientation[i] = state.orientation[i] + ((float)rand()/RAND_MAX)*noise - noise / 2;
+        }
+        perturbed.orientation[3] = state.orientation[3] + ((float)rand()/RAND_MAX)*noise - noise / 2;        
+        MathUtils::normalizeQuaternion( perturbed.orientation );
+        if( ((float)rand()/RAND_MAX) < noise  )
+        {
+            perturbed.orientation[0] = -perturbed.orientation[0];
+            perturbed.orientation[1] = -perturbed.orientation[1];
+            perturbed.orientation[2] = -perturbed.orientation[2];
+            perturbed.orientation[3] = -perturbed.orientation[3];
+        }        
+    }
+    updateObservers( perturbed );
 }
