@@ -453,7 +453,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   center CDATA #REQUIRED
   size CDATA #REQUIRED
 >
-<!-- video source elements for ARToolPlusKit library-->
+<!-- video source elements for ARToolKitPlus library-->
 <!ELEMENT ARToolKitPlusConfig EMPTY>
 <!ATTLIST ARToolKitPlusConfig
   camera-parameter CDATA #REQUIRED
