@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.28 2003/08/19 21:53:56 thomas Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.29 2003/08/20 00:51:24 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,6 +46,10 @@
  *        video interface linked with ARToolKit.
  * @li @c videomode2 a second string to configure a second camera for stereo mode.
  *        This is used in Studierstube to provide stereo video background.
+ * @li @c videolinuxmode a string specifically selecting the Linux videomode for ARToolKit.
+ *        It overrides the videomode attribute under Linux if provided. This allows to specifiy ARToolKit
+ *        videomode settings for Windows and Linux in one file as they currently differ.
+ * @li @c videolinuxmode2 the same as videomode2 but like the videolinuxmode attribute above just for Linux.
  * @li @c pattern-dir an optional string that is prefixed to any pattern filename or
  *        the camera data filename. It tries to find the file under the original as
  *        well the prefixed name, in that order.
