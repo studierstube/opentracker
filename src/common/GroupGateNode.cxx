@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.cxx,v 1.3 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.cxx,v 1.4 2003/09/17 12:52:51 knapp Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -68,7 +68,7 @@ void
 GroupGateNode::addNeighbor(const char *neighbor)
 {
     Neighbors.push_back(neighbor);
-cout << "Neighbor: " << neighbor << endl;
+//cout << "Neighbor: " << neighbor << endl;
 }
 
 bool
@@ -120,6 +120,29 @@ GroupGateNode::onEventGenerated(State &event, Node &generator)
     }
     else
     {
+        if (Neighbors.size() != NeighborPtrs.size())
+        {
+            for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
+            {
+                GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
+                NeighborPtrs.push_back(node);
+            }
+            if (Neighbors.size() != NeighborPtrs.size()) cout << "ERROR: Problem with GroupGateNode\n";
+        }
+        for (NeighborPtrsVector::iterator it = NeighborPtrs.begin(); it != NeighborPtrs.end(); it++)
+        {
+            GroupGateNode *node = (GroupGateNode *)(* it);
+            if (node->isActive())
+            {
+                node->deactivate();
+                activate();
+                Owner->setActiveGroupGate(this);
+                Owner->notifyActiveGate();
+        		updateObservers(event);
+                return;
+            }
+        }
+/*
         for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
         {
             GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
@@ -133,5 +156,6 @@ GroupGateNode::onEventGenerated(State &event, Node &generator)
                 return;
             }
         }
+*/
     }
 }

@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.h,v 1.2 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.h,v 1.3 2003/09/17 12:52:51 knapp Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -94,6 +94,7 @@
 #include <vector>
 
 typedef std::vector<std::string> NeighborsVector;
+typedef std::vector<Node *> NeighborPtrsVector;
 
 /**
  * A GroupGateNode is an EventGenerator node that ... TO DO
@@ -107,6 +108,7 @@ private:
     GroupGateGroup *Owner;
     std::string Name;
     NeighborsVector Neighbors;
+    NeighborPtrsVector NeighborPtrs;
     bool IsActive;
 
 protected:
