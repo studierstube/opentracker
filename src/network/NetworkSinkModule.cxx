@@ -184,7 +184,7 @@ void NetworkSinkModule::start()
 			{
 				(*it)->socket.set_nic((*it)->nic.c_str());
 			}
-            (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);                
+            (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);
         }
     }
     Module::start();
@@ -279,10 +279,14 @@ void NetworkSinkModule::pullState()
         {
             (*gr_it)->data.numOfStations = htons( (*gr_it)->data.numOfStations );
             int size = (*gr_it)->nextRecord - (char*)&(*gr_it)->data;
-            if( (*gr_it)->socket.send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
+            // send without blocking to avoid stalls in the mainloop, packet is thrown away !
+            if( (*gr_it)->socket.send( &(*gr_it)->data, size, (*gr_it)->address,0, &ACE_Time_Value::zero ) < 0 )
             {
-                std::cout << "NetworkSinkModule : Error sending packet for " << 
-                        (*gr_it)->group << endl;
+                if( errno != ETIME )
+                    std::cout << "NetworkSinkModule : Error sending packet for " << 
+                        (*gr_it)->group << endl;                
+                // else
+                //    std::cout << "NetworkSinkModule : sending would block, discarding package !\n";
             }
         }
     }
