@@ -41,7 +41,8 @@ if test -z "$stb_ac_ace_extrapath"; then ## search in --prefix
   stb_ac_ace_extrapath=$prefix/ACE_wrappers
 else
   case "$stb_ac_ace_extrapath" in
-    [[\\/]]* | ?:[[\\/]]* ) : ;;
+    [[\\/]]* | ?:[[\\/]]* ) : 
+        stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
     * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath
         stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
   esac

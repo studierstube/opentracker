@@ -41,7 +41,8 @@ if test -z "$stb_ac_artoolkit_extrapath"; then ## search in --prefix
   stb_ac_artoolkit_extrapath=$prefix/lib
 else
   case "$stb_ac_artoolkit_extrapath" in
-    [[\\/]]* | ?:[[\\/]]* ) : ;;
+    [[\\/]]* | ?:[[\\/]]* ) :
+        stb_ac_artoolkit_rpath="-R $stb_ac_artoolkit_extrapath/lib" ;;
     * ) stb_ac_artoolkit_extrapath="`pwd`/$stb_ac_artoolkit_extrapath"
         stb_ac_artoolkit_rpath="-R $stb_ac_artoolkit_extrapath/lib" ;;
   esac

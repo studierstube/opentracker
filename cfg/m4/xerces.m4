@@ -41,7 +41,8 @@ if test -z "$stb_ac_xerces_extrapath"; then ## search in --prefix
   stb_ac_xerces_extrapath=$prefix/lib
 else
   case "$stb_ac_xerces_extrapath" in
-    [[\\/]]* | ?:[[\\/]]* ) : ;;
+    [[\\/]]* | ?:[[\\/]]* ) : 
+        stb_ac_xerces_rpath="-R $stb_ac_xerces_extrapath/lib" ;;
     * ) stb_ac_xerces_extrapath="`pwd`/$stb_ac_xerces_extrapath"
         stb_ac_xerces_rpath="-R $stb_ac_xerces_extrapath/lib" ;;
   esac
