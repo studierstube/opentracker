@@ -60,7 +60,8 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="TestSource" name="TestSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="ConsoleSource" name="ConsoleSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="InterTraxSource" name="InterTraxSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>	
-	<xsl:template match="InterSenseSource" name="InterSenseSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>	
+	<xsl:template match="InterSenseSource" name="InterSenseSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+	<xsl:template match="StbSink" name="StbSink" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	
 	<xsl:template match="EventDynamicTransform|QueueDynamicTransform|TimeDynamicTransform" mode="node">[shape=record,label="{{&lt;data&gt; Data | &lt;base&gt; Base } | &lt;bottom&gt; DynamicTransformation}"]</xsl:template>	
 	<xsl:template match="WacomGraphireSource" name="WacomGraphireSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
