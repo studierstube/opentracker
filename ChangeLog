@@ -9,6 +9,20 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-25 12:05  kaufmann
+
+	* src/input/: P5GloveModule.cxx, P5GloveModule.h:
+	
+	Button activation implemented with P5 glove.  By bending the index
+	finger, button state 1 is set.	Therefore clicking and dragging is
+	supported.
+
+2003-03-25 08:10  bornik
+
+	* src/common/Makefile.am:
+	
+	added ElasticFilterNode and InterpolatorNode to Makefile.am
+
 2003-03-24 16:24  kaufmann
 
 	* data/opentracker.dtd:
