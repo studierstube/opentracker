@@ -36,6 +36,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <assert.h>
 
 #ifndef _WIN32_WCE
 #include <sstream>

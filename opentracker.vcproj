@@ -2229,6 +2229,9 @@
 				RelativePath="src\input\WacomGraphireSource.h">
 			</File>
 			<File
+				RelativePath=".\src\tool\XMLSelection.h">
+			</File>
+			<File
 				RelativePath="src\misc\xml\XMLWriter.h">
 			</File>
 			<File
