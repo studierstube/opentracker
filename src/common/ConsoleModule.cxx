@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.24 2002/03/26 14:02:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.25 2002/08/07 21:05:28 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,41 +43,36 @@ using namespace std;
 
 // list of key symbols as ints to provide faster lookup
 
-const short MOVE_X_PLUS = 1,
-           MOVE_X_MINUS = 2,
-           MOVE_Y_PLUS = 3,
-           MOVE_Y_MINUS = 4,
-           MOVE_Z_PLUS = 5,
-           MOVE_Z_MINUS = 6,
-           ROT_X_PLUS = 7,
-           ROT_X_MINUS = 8,
-           ROT_Y_PLUS = 9,
-           ROT_Y_MINUS = 10,
-           ROT_Z_PLUS = 11,
-           ROT_Z_MINUS = 12,
-           ACCELL = 13,
-           BRAKE = 14,
-           BUTTON_1 = 15,
-           BUTTON_2 = 16,
-           BUTTON_3 = 17,
-           BUTTON_4 = 18,
-           STATION_0 = 20,
-           STATION_1 = 21,
-           STATION_2 = 22,
-           STATION_3 = 23,
-           STATION_4 = 24,
-           STATION_5 = 25,
-           STATION_6 = 26,
-           STATION_7 = 27,
-           STATION_8 = 28,
-           STATION_9 = 29,
-           RESET = 30,
-           QUIT = 31;
-
-// maps the function names in the config file to indices
-static vector<string> functionMap;
-// maps the function key names in the config file to key codes 
-static map<string,int> keyCodeMap;
+const short ConsoleModule::MOVE_X_PLUS = 1;
+const short ConsoleModule::MOVE_X_MINUS = 2;
+const short ConsoleModule::MOVE_Y_PLUS = 3;
+const short ConsoleModule::MOVE_Y_MINUS = 4;
+const short ConsoleModule::MOVE_Z_PLUS = 5;
+const short ConsoleModule::MOVE_Z_MINUS = 6;
+const short ConsoleModule::ROT_X_PLUS = 7;
+const short ConsoleModule::ROT_X_MINUS = 8;
+const short ConsoleModule::ROT_Y_PLUS = 9;
+const short ConsoleModule::ROT_Y_MINUS = 10;
+const short ConsoleModule::ROT_Z_PLUS = 11;
+const short ConsoleModule::ROT_Z_MINUS = 12;
+const short ConsoleModule::ACCELL = 13;
+const short ConsoleModule::BRAKE = 14;
+const short ConsoleModule::BUTTON_1 = 15;
+const short ConsoleModule::BUTTON_2 = 16;
+const short ConsoleModule::BUTTON_3 = 17;
+const short ConsoleModule::BUTTON_4 = 18;
+const short ConsoleModule::STATION_0 = 20;
+const short ConsoleModule::STATION_1 = 21;
+const short ConsoleModule::STATION_2 = 22;
+const short ConsoleModule::STATION_3 = 23;
+const short ConsoleModule::STATION_4 = 24;
+const short ConsoleModule::STATION_5 = 25;
+const short ConsoleModule::STATION_6 = 26;
+const short ConsoleModule::STATION_7 = 27;
+const short ConsoleModule::STATION_8 = 28;
+const short ConsoleModule::STATION_9 = 29;
+const short ConsoleModule::RESET = 30;
+const short ConsoleModule::QUIT = 31;
           
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
@@ -99,6 +94,9 @@ ConsoleModule::~ConsoleModule()
 #include <curses.h>
 #include <unistd.h>
 #endif
+
+vector<string> ConsoleModule::functionMap;
+map<string,int> ConsoleModule::keyCodeMap;
 
 // constructor method.
 
@@ -180,6 +178,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 #else        
         // This keycode map reflects my german sgi keyboard !!
         // Not everything makes sense, but it works :)
+	keyCodeMap[string("down")] = 0x1;
         keyCodeMap["down"]  = KEY_DOWN;
         keyCodeMap["up"]    = KEY_UP;
         keyCodeMap["left"]  = KEY_LEFT;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.15 2001/12/06 11:53:29 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.16 2002/08/07 21:05:28 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -249,6 +249,44 @@ public:
      * tests whether a key was pressed, if so it stops.
      * @return 1 if main loop should stop, 0 otherwise. */
     virtual int stop();
+
+    // maps the function names in the config file to indices
+    static vector<string> functionMap;
+    // maps the function key names in the config file to key codes 
+    static map<string,int> keyCodeMap;
+
+    static const short MOVE_X_PLUS,
+      MOVE_X_MINUS,
+      MOVE_Y_PLUS,
+      MOVE_Y_MINUS,
+      MOVE_Z_PLUS,
+      MOVE_Z_MINUS,
+      ROT_X_PLUS,
+      ROT_X_MINUS,
+      ROT_Y_PLUS,
+      ROT_Y_MINUS,
+      ROT_Z_PLUS,
+      ROT_Z_MINUS,
+      ACCELL,
+      BRAKE,
+      BUTTON_1,
+      BUTTON_2,
+      BUTTON_3,
+      BUTTON_4,
+      STATION_0,
+      STATION_1,
+      STATION_2,
+      STATION_3,
+      STATION_4,
+      STATION_5,
+      STATION_6,
+      STATION_7,
+      STATION_8,
+      STATION_9,
+      RESET,
+      QUIT;
+      
+      
 };
 
 #endif
