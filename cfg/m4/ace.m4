@@ -65,8 +65,10 @@ AC_CACHE_CHECK(
   LIBS="$stb_ac_ace_libs $LIBS"
   AC_LANG_PUSH(C++)
   AC_TRY_LINK(
-    [#include <ace/Reactor.h>],
-    [ACE_Reactor *g_reactor; ACE_NEW_RETURN(g_reactor, ACE_Reactor, 1);],
+    [#include <ace/Reactor.h>
+     int ace_main_i(int argc, char *argv[]){ACE_Reactor *g_reactor;ACE_NEW_RETURN(g_reactor, ACE_Reactor, 1);return 0;}
+    ],
+    [char *argv[]={"foo"};ace_main_i(1,argv)],
     [stb_cv_ace_avail=true],
     [stb_cv_ace_avail=false])
   AC_LANG_POP
