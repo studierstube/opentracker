@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.2 2001/10/21 22:10:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.3 2002/06/13 13:43:53 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,7 @@
  * No normalization is done, so one can use this filter to calculate gain != 1. The
  * rotation is calculated in exponential space of the unit sphere of quaternions. 
  * Here the average is normalized to stay within the result space.
+ * Confidence values are also averaged and not normalized.
  *
  * The element has the following attributes :
  * @li @c  weight a number of float values giving the individual weights of the

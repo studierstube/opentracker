@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.12 2002/05/28 14:54:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.13 2002/06/13 13:43:53 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,6 +66,9 @@ void DynamicTransformation::onEventGenerated( State& event, Node& generator)
             rotation[i] = event.orientation[i];
         }
         this->rotation[3] = event.orientation[3];
+
+		confidence = event.confidence;
+
 		if( baseEvent == 1 )
 		{
             store.time = event.time;

@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.11 2002/02/05 11:11:53 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.12 2002/06/13 13:43:53 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -87,6 +87,8 @@
  * identity transformation. It builds upon the StaticTransformation by
  * setting the members of the StaticTransformation to the base childs
  * data. 
+ * The confidence value of the result event is the product of the confidence values
+ * of the two input events.
  * @author Gerhard Reitmayr
  * @ingroup common
  */

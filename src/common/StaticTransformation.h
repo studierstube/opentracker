@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.9 2001/08/18 20:12:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.10 2002/06/13 13:43:53 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -84,6 +84,8 @@ protected:
     float scale[3];
     /// stores rotational part of the transformation
     float rotation[4];
+	/// stores additional confidence value that is multiplied (used for DynamicTransforms)
+	float confidence;
     /// flag whether to compute position updates
     int usePos;
     /// flag whether to compute orientation updates

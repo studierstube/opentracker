@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo check implementation of quaternion interpolation and document
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.2 2001/10/21 22:10:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.3 2002/06/13 13:43:53 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,14 +58,10 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
             return;
         double w,sum = 0;
         double pos[3] = {0, 0, 0 }, orient[3] = { 0, 0, 0 };
+		double conf = 0;
+
         vector<float>::iterator it = weights.begin();
-  /*      localState.position[0] = 0;
-        localState.position[1] = 0;
-        localState.position[2] = 0;
-        localState.orientation[0] = 0;
-        localState.orientation[1] = 0;
-        localState.orientation[2] = 0;
-        localState.orientation[3] = 0;*/
+
         for( ; it != weights.end(); it++ )
         {
             State & state = queue->getEvent( it - weights.begin());
@@ -87,7 +83,12 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
             orient[0] += state.orientation[0] * as;
             orient[1] += state.orientation[1] * as;
             orient[2] += state.orientation[2] * as;
+
+			/* confidence is also averaged */
+			conf += state.confidence * w;
+
             sum += w;
+
         }
         // calculate the length of the summed vector in log space
         // this is the angle of the result quaternion
@@ -102,6 +103,9 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
         localState.position[0] = pos[0];
         localState.position[1] = pos[1];
         localState.position[2] = pos[2];
+
+		localState.confidence = conf;
+
         localState.time = event.time;
         updateObservers( localState );
     }
