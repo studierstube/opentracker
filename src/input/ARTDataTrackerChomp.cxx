@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.4 2002/06/05 19:12:32 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -58,7 +58,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 	positionStart = datagramm.find("fr");
 	if (positionStart != 0)
 	{
-		cout << "Error receiving correct Data!!!" << endl;
+		cout << "Error receiving correct Data!!! [#001]" << endl;
 		cout << "Check if Format in ARTTracker Software is set to ASCII !!!" << endl;
 		exit ( -1 );
 	}
@@ -86,7 +86,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 	tempChar = temp.c_str();
 	// convert c string to int
 	numberTrackedBodies = atol(tempChar);
-	// remove the [] from the bodie data and replace them with blanks
+	// remove the [] from the body data and replace them with blanks
 	// also check if there are two blanks in row. If so erase one of them
 	endj = 3 * numberTrackedBodies;
 	for (j = 0; j < endj; j++)
@@ -101,6 +101,40 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 			datagramm.erase(positionEnd, 1);
 		}
 	} // end for j
+	
+	//-------------------------------
+	// Find if extended Options are used the Number of calibrated Bodies
+	
+	positionStart = datagramm.find("6dcal");
+	if (positionStart >= 0)
+	{
+		positionStart = positionStart + 6;
+		positionEnd = datagramm.size();
+		subLength = positionEnd - positionStart;
+		temp = datagramm.substr(positionStart, subLength);
+		tempChar = temp.c_str();
+		numberTrackedCalBodies = (int)atof(tempChar);
+		if (numberTrackedCalBodies != maxBodyNumber)
+		{
+			cout << "Error receiving correct Data!!! [#002]" << endl;
+			cout << "Check if the No. of calibrated bodies is equal to maxbodies in XML !!!" << endl;
+			exit ( -1 );
+		}
+	}
+	else
+	{
+		numberTrackedCalBodies = 0;
+		cout << "Error receiving correct Data!!! [#003]" << endl;
+		cout << "Check if the Trackersoftware DTRacke is set to send the Number of calibrated bodies !!!" << endl;
+		cout << "Has to be set in ../Setup/system.ini" << endl;
+		cout << "at [SYSTEM] OutpuNoOf6DTargets=1 !!!!!" << endl;
+		exit ( -1 );
+	}
+	
+	
+	//-------------------------------
+	
+	
 	
 	tempBodyRecord = new BodyRecord[maxBodyNumber];
 	for ( i = 0; i < maxBodyNumber; i++)
@@ -220,23 +254,6 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 				positionStart = positionEnd;
 			}
 		}	
-	}
-	
-	// Find if extended Options are used the Number of calibrated Bodies
-	
-	positionStart = datagramm.find("6dcal");
-	if (positionStart >= 0)
-	{
-		positionStart = positionStart + 6;
-		positionEnd = datagramm.size();
-		subLength = positionEnd - positionStart;
-		temp = datagramm.substr(positionStart, subLength);
-		tempChar = temp.c_str();
-		numberTrackedCalBodies = (int)atof(tempChar);
-	}
-	else
-	{
-		numberTrackedCalBodies = 0;
 	}
 };
 

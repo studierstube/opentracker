@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.4 2002/03/26 14:02:37 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.5 2002/06/05 19:12:33 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -63,7 +63,7 @@ ARTDataTrackerChomp::BodyRecord *BodyRecordTemp;
 // constructor initializing the thread manager
 ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory()
 {
-
+	
 }
 // -------------------------------------------------------------------------------------------------------
 
@@ -143,23 +143,24 @@ void ARTDataTrackerModule::run()
     
 	std::string receiveString;
 	// mainloop for reading data from the port
-    while(1)
-    {
-        do
-        {	
+    
+	while(1)
+	{
+		do
+		{	
 			if( (retval = socket->recv( receiveBuffer, receiveBufferSize , addr, 0, &timeOut )) == -1 )
-            {
+			{
 				if(errno != ETIME && errno != 0)
-                {
+				{
 					cout << "Error " << errno << " receiving data ! " << endl;
-                    exit( -1 );
-                }
-            }
-        } while( retval < 0 && stop == 0);
+					exit( -1 );
+				}
+			}
+		} while( retval < 0 && stop == 0);
 		
 		if( stop != 0 )
 		{
-            break;
+			break;
 		}
 		
 		// from here the String is in the Buffer!
@@ -171,10 +172,11 @@ void ARTDataTrackerModule::run()
 		// brings the Record from the ARTDataTrackerChomp class to the BodyRecordTemp Record
 		BodyRecordTemp = DataTracker.getBodyRecord();
 		//unlock();
-
+		
 		NodeVector::iterator it;
 		
 		lock();
+		
 		
 		for( it = sources.begin(); it != sources.end(); it++)
 		{
@@ -200,15 +202,16 @@ void ARTDataTrackerModule::run()
 			}
 		}
 		unlock();
-    }
-    socket->close();
+	}
+	socket->close();
 }
+
 
 // -------------------------------------------------------------------------------------------------------
 
 void ARTDataTrackerModule::convert()
 {
-//	static const float DEG_TO_RAD = (3.14159/180.0);
+	//	static const float DEG_TO_RAD = (3.14159/180.0);
 	float m[3][3];
 	//	set the matrix m with the values from our BodyRecordTemp.rotationMatrix
 	//	as discribed in the DTrack Technical Appendix B the matrix is formed like this:
@@ -243,21 +246,21 @@ void ARTDataTrackerModule::pushState()
 {
     if( isInitialized() )
     {
-	    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-	    {
-		    ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
-		    lock();
-		    if( source->changed == 1 )
-		    {			
-			    source->updateObservers( source->state );
-			    source->changed = 0;
-			    unlock();            
-		    }
-		    else
-		    {
-			    unlock();
-		    }
-	    }
+		for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
+		{
+			ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
+			lock();
+			if( source->changed == 1 )
+			{			
+				source->updateObservers( source->state );
+				source->changed = 0;
+				unlock();            
+			}
+			else
+			{
+				unlock();
+			}
+		}
     }
 }
 
@@ -284,7 +287,7 @@ void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	{
 		port = 12345;
 	}
-			
+	
 	bodyID = 0;		// just to make the compiler happy
 	maxBodyNumber = maxbodies;
 	// generates Bodyrecordarray
