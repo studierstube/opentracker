@@ -10,29 +10,28 @@ body {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: smaller}
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000">
-<p class="elementCopy">&nbsp;</p>
 <h1>Installation HowTo</h1>
-<p>This is a step-by-step guide to configuring and compiling OpenTracker. After 
-  the General section, the guide splits into two parts - for a Windows and for 
+<p>This is a step-by-step guide to configuring and compiling OpenTracker. After
+  the General section, the guide splits into two parts - for a Windows and for
   a Unix environment. </p>
 <hr>
 <h2>General</h2>
 <ol>
-  <li>You will need the following libraries to compile OpenTracker. Download the 
-    libraries form the sites linked to and install them on your system. You might 
-    need to compile them, depending on the version you chose to download. Please 
-    refer to documentation of the respective library on how to do that. Follow 
+  <li>You will need the following libraries to compile OpenTracker. Download the
+    libraries form the sites linked to and install them on your system. You might
+    need to compile them, depending on the version you chose to download. Please
+    refer to documentation of the respective library on how to do that. Follow
     also the following guide lines to build these libraries correctly.</li>
 </ol>
 <ul>
-  <li><a href="http://xml.apache.org/">Xerces</a> - A validating XML parser library 
-    for C++ and Java. You can use the binary distribution for your system, if 
+  <li><a href="http://xml.apache.org/">Xerces</a> - A validating XML parser library
+    for C++ and Java. You can use the binary distribution for your system, if
     you want to avoid building it yourself.</li>
-  <li><a href="http://www.cs.wustl.edu/%7Eschmidt/ACE.html">ACE</a> - The Adaptive 
-    Communication Environment, a wrapper library for system services. You will 
-    have to build this library for your system. Get one of the recent beta versions. 
-    In the platform dependend configuration header file, define the definition 
-    for compiling ACE with the Standard C++ library. Currently the define is called 
+  <li><a href="http://www.cs.wustl.edu/%7Eschmidt/ACE.html">ACE</a> - The Adaptive
+    Communication Environment, a wrapper library for system services. You will
+    have to build this library for your system. Get one of the recent beta versions.
+    In the platform dependend configuration header file, define the definition
+    for compiling ACE with the Standard C++ library. Currently the define is called
     <span class="envars">ACE_HAS_STANDARD_CPP_LIBRARY</span>.</li>
 </ul>
 <ol start="2">
@@ -40,107 +39,114 @@ body {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: smaller}
 </ol>
 <h2><a name="windows"></a>Windows</h2>
 <ol start="3">
-  <li> 
-    <p>We recommend that you set up the following environment variables for your 
-      OpenTracker environment (under Windows 2000/NT, use the System control panel, 
+  <li>
+    <p>We recommend that you set up the following environment variables for your
+      OpenTracker environment (under Windows 2000/NT, use the System control panel,
       Advanced/Environment variables section to do this):</p>
     <ul type="disc">
-      <li>Set <span class="envars">OTROOT</span> to the root directory of your 
-        OpenTracker installation (<span class="filename">c:\dev\opentracker</span> 
+      <li>Set <span class="envars">OTROOT</span> to the root directory of your
+        OpenTracker installation (<span class="filename">c:\dev\opentracker</span>
         in our case). </li>
-      <li>Set <span class="envars">ACEROOT</span> to the root directory of your 
-        ACE_wrappers installation (<span class="filename">c:\dev\ace</span> in 
+      <li>Set <span class="envars">ACEROOT</span> to the root directory of your
+        ACE_wrappers installation (<span class="filename">c:\dev\ace</span> in
         our case).</li>
-      <li>Set <span class="envars">XERCESCROOT</span> to the root directory of 
-        your Xerces installation (<span class="filename">c:\dev\xerces</span> 
+      <li>Set <span class="envars">XERCESCROOT</span> to the root directory of
+        your Xerces installation (<span class="filename">c:\dev\xerces</span>
         in our case).</li>
-      <li>Make yourself sure that your <span class="envars">PATH</span> environment 
+      <li>Make yourself sure that your <span class="envars">PATH</span> environment
         variable contains <span class="filename">%ACEROOT%\bin</span> and <span class="filename">%XERCESCROOT%\bin</span>.</li>
     </ul>
     <p><br>
-      Of course you can work without this setup and edit your project files to 
-      fit your particular needs. However, we do not recommend this as we will 
-      continue to distribute pre-configured Visual C++ workspace files that you 
+      Of course you can work without this setup and edit your project files to
+      fit your particular needs. However, we do not recommend this as we will
+      continue to distribute pre-configured Visual C++ workspace files that you
       would need to manually edit for every new version of OpenTracker. </p>
   </li>
-  <li> 
-    <p>Open the file config.h and uncomment the defines for any additional code 
-      you want to compile. This may include device drivers or other nodes. Typically 
-      these classes depend on special libraries that need to be present. Look 
-      at the documentation of those classes to see how to setup the build process. 
-      Also make sure the include files and libraries can be found by the compiler. 
-      Either add them to the project files or better still to the following environment 
+  <li>
+    <p>Open the file config.h and uncomment the defines for any additional code
+      you want to compile. This may include device drivers or other nodes. Typically
+      these classes depend on special libraries that need to be present. Look
+      at the documentation of those classes to see how to setup the build process.
+      Also make sure the include files and libraries can be found by the compiler.
+      Either add them to the project files or better still to the following environment
       variables :</p>
     <ul type="disc">
-      <li>Set <span class="envars">INCLUDE</span> to any include directories you 
+      <li>Set <span class="envars">INCLUDE</span> to any include directories you
         will need to compile in for support of additional libraries.</li>
-      <li>Set <span class="envars">LIB</span> to any lib directories you will 
+      <li>Set <span class="envars">LIB</span> to any lib directories you will
         need to link with. </li>
     </ul>
     <p>&nbsp;</p>
   </li>
-  <li> Compiling the current version of OpenTracker should be a very straightforward 
-    task. If you have installed the necessary external libraries in proper places 
-    as specified above, the only step you need would be to open <span class="filename">opentracker.dsw</span> 
-    located in the topmost directory of the OpenTracker source tree and perform 
-    a Batch build that builds the OpenTracker library plus the standalone program. 
+  <li> Compiling the current version of OpenTracker should be a very straightforward
+    task. If you have installed the necessary external libraries in proper places
+    as specified above, the only step you need would be to open <span class="filename">opentracker.dsw</span>
+    located in the topmost directory of the OpenTracker source tree and perform
+    a Batch build that builds the OpenTracker library plus the standalone program.
   </li>
 </ol>
-<p>The build process builds a DLL for OpenTracker, either called <span class="filename">opentracker.dll</span> 
-  or <span class="filename">opentrackerd.dll</span> for the debug version and 
-  a standalone program called <span class="filename">opentracker.exe</span> to 
-  use as standalone tracking server. All output files will be in <span class="filename">%OTROOT%\bin</span> 
-  and the library files in <span class="filename">%OTROOT%\lib</span> in <span class="filename">$OTROOT\lib</span>. 
-  It also generates a standalone program callen <span class="filename">opentracker</span> 
-  in <span class="filename">$OTROOT\bin</span>..</p>
+<p>The build process builds a DLL for OpenTracker, either called <span class="filename">opentracker.dll</span>
+  or <span class="filename">opentrackerd.dll</span> for the debug version and
+  a standalone program called <span class="filename">opentracker.exe</span> to
+  use as standalone tracking server. All output files will be in <span class="filename">%OTROOT%\bin</span>
+  and the library files in <span class="filename">%OTROOT%\lib</span>.</p>
 <h2><a name="unix"></a>Unix</h2>
 <ol start="3">
-  <li> 
+  <li>
     <p>Go to the root directory of your OpenTracker installation.</p>
   </li>
-  <li> 
-    <p>Make sure the link <span class="filename">Config.site</span> points to 
-      the right OS-dependend file ( either <span class="filename">Config.Irix</span> 
-      or <span class="filename">Config.Linux</span> ).</p>
+  <li>
+    <p>Link or copy a platform dependend config file (named <span class="filename">Config.Something</span>)
+      to the file <span class="filename">Config.site</span>. Currently there are
+      <span class="filename">Config.Irix</span> and <span class="filename">Config.Linux</span>
+      available.</p>
   </li>
-  <li> 
-    <p>Edit the settings in <span class="filename">Config.global</span> and <span class="filename">Config.[YOUR_UNIX]</span> 
-      to reflect your particular development environment. The config file contains 
-      instructions what needs to be done. Make sure that the defines <span class="envars">ACEROOT</span> 
-      and <span class="envars">XERCESCROOT</span> point to the root directories 
-      of ACE and Xerces.</p>
+  <li>
+    <p>Edit the settings in <span class="filename">Config.global</span> and <span class="filename">Config.[YOUR_UNIX]</span>
+      (or <span class="filename">Config.site</span>) to reflect your particular
+      development environment. The config file contains instructions what needs
+      to be done. Make sure that the defines <span class="envars">ACEROOT</span>
+      and <span class="envars">XERCESCROOT</span> point to the root directories
+      of ACE and Xerces and to add the right name of the Xerces-C library. Also
+      check your local config file for the correct libraries (such as ncurses
+      vs. curses).</p>
   </li>
-  <li> 
-    <p>Open the file <span class="filename">config.h</span> and uncomment the 
-      defines for any additional code you want to compile. This may include device 
-      drivers or other nodes. Typically these classes depend on special libraries 
-      that need to be present. Also set the lines in <span class="filename">Config.[YOUR_UNIX]</span> 
+  <li>
+    <p>Open the file <span class="filename">config.h</span> and uncomment the
+      defines for any additional code you want to compile. This may include device
+      drivers or other nodes. Typically these classes depend on special libraries
+      that need to be present. Also set the lines in <span class="filename">Config.[YOUR_UNIX]</span>
       file to the correct paths to these libraries.</p>
   </li>
-  <li> 
-    <p>Execute &quot;make all&quot; to build the OpenTracker library and standalone 
+  <li>
+    <p>Execute &quot;make all&quot; to build the OpenTracker library and standalone
       program. </p>
   </li>
-  <li>Make sure that any shared libraries OpenTracker needs ( such as ACE and 
-    Xerces ) are accessible ( in a lib directory or in <span class="envars">LD_LIBRARY_PATH</span> 
+  <li>Make sure that any shared libraries OpenTracker needs ( such as ACE and
+    Xerces ) are accessible ( in a lib directory or in <span class="envars">LD_LIBRARY_PATH</span>
     ) so that the binaries will be able to execute.</li>
 </ol>
-<p>The build process generates a static and shared version of the library called 
-  <span class="filename">libOpenTracker</span> which will be</p>
+<p>The build process generates a static and shared version of the library called
+  <span class="filename">libOpenTracker</span> which will be in <span class="filename">$OTROOT\lib</span>.
+  It also generates a standalone program called <span class="filename">opentracker</span>
+  in <span class="filename">$OTROOT\bin</span>.</p>
 <h2>Documentation</h2>
-<p>The source documentation can be generated from the sources using doxygen. If 
-  you have installed doxygen in your path, you can let the build system do that 
+<p>The source documentation can be generated from the sources using doxygen. If
+  you have installed doxygen in your path, you can let the build system do that
   for you.</p>
-<p>On Unix execute &quot;make doc&quot; to build the source documentation. It 
+<p>On Unix execute &quot;make doc&quot; to build the source documentation. It
   will reside in <span class="filename">doc\html</span>.</p>
 <!-- #BeginLibraryItem "/Library/footer line.lbi" -->
 <hr>
 <!-- cg-maintained-by user=reitmayr -->
-<small>
-This page is maintained by <b>Gerhard Reitmayr</b>. It was last updated on <b>May 2, 2001</b>.<br>
-If you have any comments, please send a message to <a href="mailto:reitmayr@cg.tuwien.ac.at">reitmayr@cg.tuwien.ac.at</a>.
+<small> This page is maintained by <b>Gerhard Reitmayr</b>. It was last updated
+on <b>
+<!-- #BeginDate format:Am1 -->June 13, 2001<!-- #EndDate -->
+</b>.<br>
+If you have any comments, please send a message to <a href="mailto:reitmayr@ims.tuwien.ac.at">reitmayr@ims.tuwien.ac.at</a>.
 </small>
 <!-- /cg-maintained-by -->
-<!-- #EndLibraryItem --><p>&nbsp;</p>
+<!-- #EndLibraryItem -->
+<p>&nbsp;</p>
 </body>
 </html>
