@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-07 16:36  reitmayr
+
+	* src/input/MagicYModule.cxx:
+	
+	fix from Chris Traxler
+
 2003-07-02 09:30  reitmayr
 
 	* src/common/FilterNode.cxx:
