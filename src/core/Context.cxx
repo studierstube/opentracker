@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.10 2001/05/02 12:59:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.11 2001/05/28 12:53:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,7 +64,7 @@ Context::Context( int init )
 Context::~Context()
 {
     delete parser;
-    if( cleanUp = 1 )
+    if( cleanUp == 1 )
     {
         for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
         {

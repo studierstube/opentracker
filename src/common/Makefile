@@ -34,7 +34,7 @@ C++FILES = \
         Transformation.cxx \
         VirtualTransformation.cxx \
         CallbackModule.cxx \
-        InvertTranformation.cxx
+        InvertTransformation.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
