@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.19 2002/09/17 20:52:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.20 2002/10/31 20:02:56 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -56,12 +56,14 @@
 #include "../network/TCPModule.h"
 #include "../input/FastTrakModule.h"
 #include "../input/ARTDataTrackerModule.h"
+#include "../input/UltratrakModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
+#include "../input/SpaceMouseModule.h"
 
 // DLL main function
 
@@ -132,13 +134,25 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addModule( "CyberMouseConfig", * cmouse );
 #endif	
 
+#ifdef USE_JOYSTICK
+    JoystickModule * joy = new JoystickModule();
+    context.addFactory( *joy );
+    context.addModule( "JoystickConfig", *joy );
+#endif
+
+#ifdef USE_SPACEMOUSE
+    SpaceMouseModule * smouse = new SpaceMouseModule;
+    context.addFactory( * smouse );
+    context.addModule( "SpaceMouseConfig", * smouse );
+#endif	
+
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
     context.addModule( "InterSenseConfig", * intersense );
     
     TimeModule * time = new TimeModule();
     context.addModule( "TimeConfig", * time );
-    
+	
     FileModule * file = new FileModule();
     context.addFactory( * file );
     context.addModule( "FileConfig", * file );
@@ -155,12 +169,6 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *fob );
     context.addModule( "FOBConfig", *fob );
 
-#ifdef USE_JOYSTICK
-    JoystickModule * joy = new JoystickModule();
-    context.addFactory( *joy );
-    context.addModule( "JoystickConfig", *joy );
-#endif
-
     FastTrakModule * ftrak = new FastTrakModule();
     context.addFactory( *ftrak );
     context.addModule( "FastTrakConfig", *ftrak );
@@ -168,4 +176,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
     context.addFactory( *dtrak );
     context.addModule( "ARTDataTrackerConfig", *dtrak );
+
+    UltraTrakModule * ultra = new UltraTrakModule;
+    context.addFactory( * ultra );
+    context.addModule( "UltraTrakConfig", *ultra );    
 }
