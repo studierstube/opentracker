@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.11 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.12 2001/07/23 14:08:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -98,7 +98,7 @@ public:
         return 1;
     };  
 
-    friend Class ARToolKitModule;
+    friend class ARToolKitModule;
 };
 
 #endif

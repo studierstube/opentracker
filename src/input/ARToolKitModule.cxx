@@ -49,6 +49,8 @@
 #include <unistd.h>
 #endif
 
+using namespace std;
+
 // destructor clears any nodes
 ARToolKitModule::~ARToolKitModule()
 {

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.9 2001/07/23 14:08:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,7 +73,7 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( const string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
 	/**
      * closes CyberMouse dynamic library */
     virtual void close();

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.14 2001/07/23 14:08:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -77,7 +77,7 @@ protected:
     int did;
     int treshhold;
     int stop;
-    string cameradata;
+    std::string cameradata;
 
 // methods
 protected:
@@ -104,7 +104,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( const string& name, StringTable& attributes);
+    virtual Node * createNode( const std::string& name, StringTable& attributes);
 
     /**
      * This method is called after initialisation is finished and before the

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.7 2001/07/23 14:08:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,8 @@
 #endif
 
 #include "freeddll.h"
+
+using namespace std;
 
 #define SZ_Get_FREED_Info   "Get_FREED_Info"
 #define SZ_OpenFREED        "OpenFREED"
