@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.21 2002/01/12 13:49:53 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.22 2002/01/18 16:25:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -87,6 +87,7 @@ ARToolKitModule::ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(10
 {
 #ifdef WIN32
     CoInitialize(NULL);
+    camera = new ARFrameGrabber;
 #endif
 }
 
@@ -177,14 +178,12 @@ void ARToolKitModule::start()
     arVideoCapStart();
 
 #else // WIN32 version using DirectX 8
-    sizeX = 320;
-    sizeY = 240;
 
-	//start the video capture
-    camera = new ARFrameGrabber;
-	camera->Init(0);
-//	camera->DisplayProperties();
-	camera->SetFlippedImageVertical(true);
+    //start the video capture
+	camera->Init(did, sizeX, sizeY);
+	
+    sizeX = camera->GetWidth();
+    sizeY = camera->GetHeight();
 #endif
 
     ARParam cparam, wparam;    
@@ -273,6 +272,24 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
         rate = rate / 1000;
     }    
     videomode = attributes.get("videomode");
+
+#ifdef WIN32
+    int data[3];
+    num = attributes.get("videomode", data, 3);
+    if( num >= 1 )    
+        did = data[0];
+    if( num == 3 )
+    {
+        sizeX = data[1];
+        sizeY = data[2];
+    }
+    if( videomode.find("vertical") != string::npos )
+        camera->SetFlippedImageVertical(true);
+    else if( videomode.find("horizontal") != string::npos )
+        camera->SetFlippedImageHorizontal(true);
+    else if( videomode.find("rotate") != string::npos )
+        camera->SetFlippedImage(true);
+#endif
 }
 
 // the work method for the module thread

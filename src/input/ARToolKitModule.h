@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.20 2002/01/12 13:49:53 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.21 2002/01/18 16:25:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,6 +44,13 @@
  * @li @c framerate 10 a desired maximum framerate, the module will not exceed it.
  * @li @c videomode a string selecting the videomode for ARToolKit. This depends on 
  *        video interface linked with ARToolKit.
+ *
+ * The following videomode string options are possible :
+ * @li For Windows DirectShow : The string stores "device width height {vertical|horizontal|rotate}". Device is the
+ *     number of the video capture device to use. Width and
+ *     height give the desired dimensions of the video image to be used for tracking. The last string is null
+ *     or one of the three options, describing image operations necessary to get the right image. @c vertical
+ *     flips the image vertically, @c horizontal flips it horizontally and @c rotate rotates it about 180 degree.
  *
  * An example configuration element looks like this :
  * @verbatim
