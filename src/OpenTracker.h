@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.20 2003/01/13 10:51:48 bara Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.21 2003/11/23 18:28:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,6 +66,17 @@
  * @li @ref Nodes - reference of implemented nodes
  * @li @ref transform_nodes - reference for geometric transformation nodes 
  *
+ * More information on building, using and extending OpenTracker can be found 
+ * here :
+ * @li <a href="../install.html">Installation Guide</a> - How to compile and
+ * install OpenTracker.
+ * @li <a href="../integrationguide.html">Integration Guide</a> - How to use
+ * OpenTracker in your own programs.
+ * @li <a href="../progguide.html">Programmers Guide</a> - How to extend 
+ * OpenTracker with your own modules.
+ * @li <a href="../userguide.html">Users Guide</a> - How to configure and
+ * run OpenTracker.
+ *
  * Additional information regarding various modules can be found here :
  * @li @ref spacemouse - How to integrate the SpaceMouse support
  * 
@@ -73,7 +84,7 @@
  * we would like to thank. 
  *
  * @author Gerhard Reitmayr
- * @date 2001, 2002
+ * @date 2001, 2002, 2003
  */
 
 #include "dllinclude.h"
