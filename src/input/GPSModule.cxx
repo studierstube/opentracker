@@ -97,7 +97,7 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
 	{
 		debug = false;
 	}
-    if( attributes.get("dgpsmirror", &dgpsmirror) != 1 )
+    if( attributes.get("DGPSmirror", &dgpsmirror) != 1 )
     {
         dgpsmirror = -1;
     }

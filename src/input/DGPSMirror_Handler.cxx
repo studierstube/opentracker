@@ -55,7 +55,8 @@ int DGPSMirror_Handler::open( void * factory )
     if( result == 0)
     {
         DGPSMirror_Acceptor * acceptor = (DGPSMirror_Acceptor *)factory;
-        acceptor->getDriver()->addClient( this );
+        setDriver( acceptor->getDriver() );  
+        driver->addClient( this );
     }
     return result;
 }

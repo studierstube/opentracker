@@ -63,8 +63,8 @@ protected:
 class DGPSMirror_Acceptor : public ACE_Acceptor<DGPSMirror_Handler, ACE_SOCK_ACCEPTOR> 
 {
 public:
-    DGPSMirror_Acceptor( GPSDriver * driver_ )
-        
+    DGPSMirror_Acceptor( GPSDriver * driver_ ):
+    driver( driver_ ) 
     {};
 
     GPSDriver * getDriver( void )
