@@ -26,11 +26,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.2 2001/06/13 16:43:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "TimeModule.h"
+#include <stdio.h>
+#ifdef WIN32
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
 
 void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
 {
@@ -54,12 +60,16 @@ void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
         {
             rate = rate / 1000;
         }
-    }            
+    }
+    if( attributes.get("display").compare("true") == 0 )
+    {
+        display = 1;
+    }
 }
   
 void TimeModule::start()
 {
-    if( isInitialized() == 1 && rate != 0 )
+    if( isInitialized() == 1 )
     {
         count = 0;
         startTime = OSUtils::currentTime();
@@ -68,9 +78,9 @@ void TimeModule::start()
     
 int TimeModule::stop()
 {    
+    count++;
     if( rate != 0 )
-    {
-        count++;
+    {        
         double s = count/rate - ( OSUtils::currentTime() - startTime );
         if( s >= 10 )
         {
@@ -82,4 +92,13 @@ int TimeModule::stop()
         OSUtils::sleep( sleep );
     }
     return 0;
+}
+
+void TimeModule::close()
+{
+    if( display == 1 )
+    {
+        cout << "Framerate " << 
+          count * 1000 / ( OSUtils::currentTime() - startTime ) << endl;
+    }
 }

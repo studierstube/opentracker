@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.2 2001/06/11 22:01:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.3 2001/06/13 16:43:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,7 +46,8 @@
  * The configuration element is called @c TimeConfig and has the following attributes :
  * @li @c rate float giving the desired frames per second (i.e. 100 )
  * @li @c sleep number of milliseconds to sleep each loop
- * If both are specified the @c rate attribute takes precedence and the 
+ * @li @c display false either true or false, displays the framerate at the end.
+ * If both @c rate and @c sleep are specified the @c rate attribute takes precedence and the 
  * @i Framerate mode is used. If no configuration element is present, the module
  * is not activated and the main loop runs at full speed.
  *
@@ -72,7 +73,7 @@ class OPENTRACKER_API TimeModule : public Module
 // Members
 protected:
     // number of milliseconds to sleep in @i Sleep mode
-   int sleep;
+   int sleep, display;
    // start time to calculate the frame rate in @i Framerate mode
    double startTime, 
    // the desired frame rate in frames / millisecond for computational purposes
@@ -83,7 +84,7 @@ protected:
 // Methods
 public:
     /** constructor method. */
-    TimeModule() : Module(), sleep(0), rate(0)
+    TimeModule() : Module(), sleep(0), rate(0), display(0)
     {};
   
     /**
@@ -101,6 +102,9 @@ public:
      * if necessary.
      * @return always 0*/
     int stop();
+    
+    /** closes the module, prints out the framerate, if display is 1. */
+    void close();
 };
 
 #endif
