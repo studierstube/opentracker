@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by  () -->
+<!--TrackerServer Configuration file DTD
+	Vienna University of Technology
+	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
+<!ENTITY % ConfigElements "Network?,Video?">
+<!ENTITY % NodeElements "Station|Transformation|VirtualTransformation|MaxConfidenceFilter|Marker">
+<!ELEMENT TrackerServer (configuration, (%NodeElements;)+)>
+<!ELEMENT configuration (%ConfigElements;)>
+<!ELEMENT Network EMPTY>
+<!ATTLIST Network
+	name CDATA #REQUIRED
+	multicast-address CDATA #REQUIRED
+	port CDATA #REQUIRED
+>
+<!ELEMENT Station (%NodeElements;)>
+<!ATTLIST Station
+	name CDATA #REQUIRED
+	number CDATA #REQUIRED
+>
+<!ELEMENT Video EMPTY>
+<!ATTLIST Video
+	camera-parameter CDATA #REQUIRED
+>
+<!ELEMENT Marker EMPTY>
+<!ATTLIST Marker
+	tag-file CDATA #REQUIRED
+	vertex CDATA #REQUIRED
+>
+<!ELEMENT MaxConfidenceFilter (%NodeElements;)+>
+<!ELEMENT Transformation (%NodeElements;)>
+<!ATTLIST Transformation
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT VirtualTransformation (%NodeElements;)>
+<!ATTLIST VirtualTransformation
+	translation CDATA "0 0 0"
+	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
