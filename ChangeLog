@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-29 15:54  reitmayr
+
+	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h, GPSDriver.cxx,
+	GPSDriver.h, GPS_Handler.cxx:
+	
+	updated dgpsip part to send only a fraction of the position updates
+	back to the server to save bandwith
+
 2003-04-28 15:35  knapp
 
 	* src/common/: GroupGateModule.cxx, GroupGateModule.h:
