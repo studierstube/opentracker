@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.4 2003/02/07 16:41:58 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.5 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -120,6 +120,8 @@ Node* SpeechModule::createNode(const string& name, StringTable& attributes)
 
 void SpeechModule::init(StringTable& attributes, ConfigNode *localTree)
 {
+    Module::init( attributes, localTree );
+    
   // store the config node tree for later use
   m_ConfigTree = localTree;
 
@@ -153,8 +155,6 @@ void SpeechModule::init(StringTable& attributes, ConfigNode *localTree)
 
 
   //m_Voice->Speak("The SR system is initialized!");
-
-  initialized = 1;
 }
 
 

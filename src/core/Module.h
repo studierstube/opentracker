@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.11 2003/03/20 16:36:03 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.12 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,10 +57,15 @@ class OPENTRACKER_API Module
 protected:
     /// check if this module appeared in the configuration section
     int initialized;
+    /** pointer to the context this module is working in. It will be set
+     * by the initialize method.
+     */
+    Context * context;
+
 //methods
 public:
     /// constructor method
-    Module(): initialized(0)
+    Module(): initialized(0), context(NULL)
     {};
 
 	/// virtual destructor (as it befits any true class hierarchy)
@@ -76,7 +81,7 @@ public:
     /**
      * initializes the tracker module. This class provides an implementation
      * that sets the initialization flag to true. Subclasses should call this
-     * method if they override this method. It takes the attributes of the
+     * method, if they override it, before doing anything else. It takes the attributes of the
      * element configuring this module and a local tree consisting of the
      * children of the element. This tree must be build of Nodes.
      * @param attributes StringTable of elements attribute values. Should be
@@ -121,6 +126,8 @@ public:
     {
         return initialized;
     };
+
+    friend class Context;
 };
 
 #endif

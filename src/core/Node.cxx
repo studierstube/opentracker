@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.22 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.23 2003/04/08 21:17:23 reitmayr Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
@@ -107,6 +107,18 @@ Node * Node::getParent()
 	{
 		return (Node *)parentElement->getUserData(ud_node);
 	}
+    return NULL;
+}
+
+// returns the Context this node lives in
+
+Context * Node::getContext() const
+{    
+    DOMDocument * doc = parent->getOwnerDocument();
+    if( doc != 0)
+    {
+        return (Context *)doc->getUserData(ud_node);
+    }
     return NULL;
 }
 

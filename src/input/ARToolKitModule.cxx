@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.27 2003/04/02 16:43:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.28 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -128,15 +128,29 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         }
         int id;
 		string filename = attributes.get("tag-file");
+        string fullname;
+
+        if( patternDirectory.compare("") != 0)
+            context->addDirectoryFirst( patternDirectory );
+        
+        if( context->findFile(filename, fullname))
+        {
+            filename = fullname;
+        }
+        else
+        {
+            cout << "ARToolkit could not find tag file " << filename << endl;
+            return NULL;
+        }
+
+        if( patternDirectory.compare("") != 0)
+            context->removeDirectory( patternDirectory );        
+
         if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
         {
-			filename = patternDirectory + filename;
-			if((id = arLoadPatt((char *)filename.c_str())) < 0 )
-			{
-	            cout << "ARToolKit Error reading tag-file " << 
-					    attributes.get("tag-file") << " or " << filename << endl;
-		        return NULL;
-			}
+            cout << "ARToolKit Error reading tag-file " << 
+                attributes.get("tag-file") << " or " << filename << endl;
+            return NULL;
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
@@ -195,14 +209,29 @@ void ARToolKitModule::start()
 
     ARParam cparam, wparam;    
 
+    if( patternDirectory.compare("") != 0)
+        context->addDirectoryFirst( patternDirectory );
+    
+    string fullname;
+    if( context->findFile(cameradata, fullname))
+    {
+        cameradata = fullname;
+    }
+    else
+    {
+        cout << "ARToolkitModule could not find camera parameter file " << cameradata << endl;
+        initialized = 0;
+        return;
+    }
+
+    if( patternDirectory.compare("") != 0)
+        context->removeDirectory( patternDirectory );    
+
     if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
     {
-		cameradata = patternDirectory + cameradata;
-		if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0)
-		{
-			cout << "Error loading camera parameters from " << cameradata << endl;
-			exit(1);        
-		}
+        cout << "ARToolkitModule error loading camera parameters from " << cameradata << endl;
+        initialized = 0;
+        return;
     }
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
@@ -262,7 +291,7 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     ThreadModule::init( attributes, localTree );
     cameradata = attributes.get("camera-parameter");
-	patternDirectory = attributes.get("pattern-dir");
+    patternDirectory = attributes.get("pattern-dir");
 
     if( attributes.get("treshhold", &treshhold ) != 1 )
     {

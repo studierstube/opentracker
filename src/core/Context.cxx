@@ -26,19 +26,20 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.21 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.22 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
-
-#include <memory>
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/XMLUniDefs.hpp>
 
-#include "Context.h"
 #include "../OpenTracker.h"
 
+#include <ace/File.h>
+
+#include <memory>
+#include <algorithm>
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -58,6 +59,7 @@ Context::Context( int init )
     else {
         cleanUp = 0;
     }
+    directories.push_back(".");
 }
 
 // Destructor method.
@@ -92,6 +94,7 @@ void Context::removeFactory(NodeFactory & oldfactory)
 void Context::addModule(const string & name, Module & module)
 {
     modules[name] = &module;
+    module.context = this;
 }
 
 // returns a module indexed by its configuration elements name
@@ -141,6 +144,11 @@ void Context::close()
 
 void Context::parseConfiguration(const string& filename)
 {
+    file = filename;
+    string::size_type limit = file.find_last_of( "/\\" );
+    if( limit != string::npos )
+        addDirectoryFirst( file.substr(0, limit));
+    
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
     DOMDocument * doc = rootNode->parent->getOwnerDocument();
@@ -232,4 +240,62 @@ Node * Context::findNode(const string & id)
     if( el != 0 )
         return (Node *)el->getUserData(ud_node);
     return NULL;
+}
+
+// add a directory to the front of the directory stack 
+
+void Context::addDirectoryFirst( const std::string & dir )
+{
+    if( find( directories.begin(), directories.end(), dir) == directories.end())
+    {
+        directories.insert(directories.begin(), dir);
+    }
+}
+
+// add a directory to the end of the directory stack 
+
+void Context::addDirectoryLast( const std::string & dir )
+{
+    if( find( directories.begin(), directories.end(), dir) == directories.end())
+    {
+        directories.push_back(dir);
+    }    
+}
+
+// remove a directory from the directory stack 
+
+void Context::removeDirectory( const std::string & dir )
+{
+    vector<string>::iterator it = find( directories.begin(), directories.end(), dir);
+    if( it != directories.end())
+    {
+        directories.erase(it);
+    }        
+}
+
+// searches for a file by prepending a stack of directory names
+
+bool Context::findFile( const std::string & filename, std::string & fullname )
+{
+    ACE_stat stat;
+    if( filename.at(0) == '/' || filename.at(0) == '\\' ) // don't deal with paths from root ! 
+    {
+        if( ACE_OS::stat( filename.c_str(), &stat ) != 0 )
+        {
+            return false;
+        }
+        fullname = filename;
+        return true;
+    }
+    vector<string>::iterator it;
+    for( it = directories.begin(); it != directories.end(); it++ )
+    {
+        string name = (*it) + "/" + filename;
+        if( ACE_OS::stat( name.c_str(), &stat ) == 0 )
+        {
+            fullname = name;
+            return true;
+        }
+    }
+    return false;
 }

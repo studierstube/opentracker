@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.30 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.31 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -633,6 +633,8 @@ void ConsoleModule::pullState()
 
 void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
 {    
+    Module::init( attributes, localTree );
+    
     if( attributes.get("interval", &interval ) == 0 ){
         interval = 10;
     }
@@ -671,7 +673,6 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
             }
         }
     }
-    Module::init( attributes, localTree );
 }
 
 // start the module and init curses

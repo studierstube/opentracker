@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.16 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.17 2003/04/08 21:17:23 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -39,22 +39,6 @@
 #include <isense.h>
 
 using namespace std;
-
-// change the names from the Unix InterSense code to fit the Windows names
-/*
-#ifndef WIN32
-    #define BOOL                    IS_BOOL
-    #define ISD_TRACKER_INFO_TYPE   ISD_TRACKER_TYPE
-    #define ISD_STATION_INFO_TYPE   ISD_STATION_CONFIG_TYPE
-    #define ISLIB_OpenTracker       ISD_OpenTracker
-    #define ISLIB_CloseTracker      ISD_CloseTracker
-    #define ISLIB_GetTrackerConfig  ISD_GetTrackerState
-    #define ISLIB_SetStationConfig  ISD_SetStationState
-    #define ISLIB_GetStationConfig  ISD_GetStationState
-    #define ISLIB_GetTrackerData    ISD_GetTrackerData
-    #define ISD_MAX_BUTTONS         MAX_NUM_BUTTONS
-#endif
-*/
 
 struct ISTracker {
     ISD_TRACKER_HANDLE handle;
@@ -73,7 +57,8 @@ InterSenseModule::~InterSenseModule()
 // initializes trackers
 void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
 {
-	bool verbose = TRUE;
+    Module::init( attributes, localTree );
+    bool verbose = TRUE;
     for( unsigned i = 0; i < localTree->countChildren(); i++ )
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
@@ -152,7 +137,6 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
             cout << "Tracker " << id << " at port " << comport << " conflicts with " << (*it)->id << endl;
         }
     }               // all ConfigNodes
-    Module::init( attributes, localTree );
 }
 
 // This method is called to construct a new Node.

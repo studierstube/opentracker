@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.12 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.13 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,6 +63,14 @@ close();@endverbatim
  * The whole loop is implemented in the member function run, which can be used
  * instead of implementing it yourself.
  *
+ * The Context also keeps track of various information. The following items
+ * are stored and used by modules :
+ *
+ * The Context stores a stack of directories. Any module that needs to load
+ * a file can use the stack to find files relative to a number of directories.
+ * By default the stack contains the path component of the configuration file,
+ * followed by the current directory. See the method findFile for details.
+ *
  * @author Gerhard Reitmayr
  * @ingroup core
  */
@@ -78,7 +86,11 @@ protected:
     NodeFactoryContainer factory;
     /// flag to remember whether the Context is responsible for cleaning up the modules.
     int cleanUp;
-    
+    /// stores the filename of the current configuration.
+    std::string file;
+    /// stores a stack of directory names to search for files in
+    std::vector<std::string> directories;
+
 // Methods
 public:
    /** a constructor method. 
@@ -152,6 +164,31 @@ public:
 
     /** calls close on all modules to close any resources.*/
     void close();
+
+    /** add a directory to the front of the directory stack 
+     * @param dir directory to add 
+     */
+    void addDirectoryFirst( const std::string & dir );
+
+    /** add a directory to the end of the directory stack 
+     * @param dir directory to add 
+     */
+    void addDirectoryLast( const std::string & dir );
+
+    /** remove a directory from the directory stack 
+     * @param dir directory to add 
+     */
+    void removeDirectory( const std::string & dir );
+
+    /** tries to locate a file by prepending the directory names in the
+     * stack. If a file at that location is found, the full name is 
+     * returned in fullname and true will be returned. Otherwise fullname
+     * is not changed and false is returned.
+     * @param filename the partial filename of the file to look for
+     * @param fullname will contain the full filename upon successful return
+     * @return returns true, if a file could be found, false otherwise.
+     */
+    bool findFile( const std::string & filename, std::string & fullname );
 
     friend class ConfigurationParser;
 };

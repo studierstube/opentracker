@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.10 2003/04/04 13:11:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.11 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,11 +52,11 @@ FileModule::~FileModule()
 
 void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
+    Module::init(  attributes, localTree );    
     if( attributes.get("append").compare("true") == 0 )
         append = true;
     else
         append = false;
-    Module::init(  attributes, localTree );
 }
 
 // This method is called to construct a new Node
@@ -96,6 +96,18 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
     } else if( name.compare("FileSource") == 0 )
     {
 		string id = attributes.get("file");
+        // file source needs an existing file, therefore we can use the directory stack !
+        string fullname;
+        if( context->findFile( id, fullname ))
+        {
+            id = fullname;
+        }
+        else
+        {
+            cout << "FileModule could not find file " << id << " for FileSource !\n";
+            return NULL;
+        }
+
         int station;
         if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
             station = 0;                    

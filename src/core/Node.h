@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.20 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.21 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,6 +47,7 @@
 #include <string>
 #include <vector>
 
+class Context;
 class ConfigurationParser;
 class RefNode;
 class Node;
@@ -267,6 +268,12 @@ public:
     {
        return name;
     }
+
+    /** 
+     * returns a pointer to the Context this node lives in.
+     * @return pointer to Context
+     */
+    Context * getContext() const;
 
     /** @name Graph Navigation Interface
      * This set of methods allows to manipulate the data flow graph in a

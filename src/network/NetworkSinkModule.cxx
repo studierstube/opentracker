@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.20 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.21 2003/04/08 21:17:23 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -95,6 +95,7 @@ struct FindGroup {
 
 void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
+    Module::init( attributes, localTree );
     if( attributes.containsKey("name"))
     {
         serverName = attributes.get("name");
@@ -102,7 +103,6 @@ void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
         serverName = "OpenTracker";
     }
-    Module::init( attributes, localTree );
 }
 
 // This method is called to construct a new Node.
