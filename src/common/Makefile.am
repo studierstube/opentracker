@@ -40,7 +40,8 @@ otcommoninc_HEADERS = \
         Transformation.h \
         VirtualTransformation.h \
         GroupGateModule.h \
-        GroupGateNode.h
+        GroupGateNode.h \
+        LogModule.h
  
 noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
@@ -111,4 +112,5 @@ libcommon_la_SOURCES = \
         GroupGateModule.cxx \
         GroupGateModule.h \
         GroupGateNode.cxx \
-        GroupGateNode.h
+        GroupGateNode.h \
+        LogModule.cxx

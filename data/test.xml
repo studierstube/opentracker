@@ -6,6 +6,7 @@
 <?xml-stylesheet type="text/xsl" href="E:\opentracker\data\ot2dot.xsl"?>
 <OpenTracker>
   <configuration>
+    <LogConfig file="on" stderr="on" filename="log.txt" active="on" level="debug"/>
     <NetworkSinkConfig name="Test Server"/>
     <ConsoleConfig interval="1" headerline="Test Server - active display of individual tests in file"/>
     <TimeConfig sleep="10" display="true"/>
