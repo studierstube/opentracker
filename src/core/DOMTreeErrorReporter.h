@@ -55,12 +55,14 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.h,v 1.6 2003/01/09 04:14:12 tamer Exp $
+ * $Id: DOMTreeErrorReporter.h,v 1.7 2003/02/18 02:12:51 tamer Exp $
  */
 
 #include <xercesc/util/XercesDefs.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
 #include <iostream>
+
+XERCES_CPP_NAMESPACE_USE
 
 /**
  * This class registers as an ErrorHandler with the DOM parser and reports

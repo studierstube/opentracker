@@ -26,14 +26,10 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.21 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.22 2003/02/18 02:12:51 tamer Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
-
-#include "Node.h"
-#include "StringTable.h"
-#include "Context.h"
 
 #include <cstdio>
 #include <iostream>
@@ -45,7 +41,12 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/XMLUniDefs.hpp>
 
+#include "Node.h"
+#include "StringTable.h"
+#include "Context.h"
+
 using namespace std;
+XERCES_CPP_NAMESPACE_USE
 
 // emtpy string to be returned, if key is not in the map
 // the object itself is part of StringTable.cxx

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.9 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -83,8 +83,8 @@ public:
 // constructor method.
 
 inline State::State(double time_, float confidence_)
-    : time( time_ )
-    , confidence(confidence_)
+    : confidence(confidence_)
+    , time( time_ )
 {
     position[0] = 0;
     position[1] = 0;

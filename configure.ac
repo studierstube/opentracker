@@ -58,7 +58,9 @@ AC_SUBST([stb_ac_ace_libs])
 SIM_AC_CONFIGURATION_SETTING([ACE root directory], [$stb_ac_ace_root])
 
 # Check for Xerces.
-STB_AC_HAVE_XERCES_IFELSE([], [AC_MSG_ERROR([cannot link to the xerces library. consider --with-xerces=path_to_xerces])])
+STB_AC_HAVE_XERCES_IFELSE([],
+    [AC_MSG_ERROR([cannot link to the xerces library. consider --with-xerces=path_to_xerces
+     and make sure that you got the right xerces version as listed in INSTALL.])])
 
 AC_SUBST([stb_ac_xerces_cppflags])
 AC_SUBST([stb_ac_xerces_ldflags])

@@ -26,18 +26,21 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.20 2002/11/11 12:30:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.21 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */     
  /* ======================================================================= */
-
-#include "Context.h"
-#include "../OpenTracker.h"
 
 #include <memory>
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/XMLUniDefs.hpp>
+
+#include "Context.h"
+#include "../OpenTracker.h"
+
+
+XERCES_CPP_NAMESPACE_USE
 
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 

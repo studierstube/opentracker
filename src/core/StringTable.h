@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.5 2001/08/18 20:01:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.6 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -185,7 +185,7 @@ public:
      * @param table the StringTable to iterate through
      */
     KeyIterator( StringTable & table ) :
-        map( table.map ), it( table.map.begin())
+        it( table.map.begin()), map( table.map )
     {
     }
     /**

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.10 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,7 +89,7 @@ public:
     /** constructor */
 	ThreadModule();
     /** destructor */
-    ~ThreadModule();
+    virtual ~ThreadModule();
 
     /**
      * This method is called after initialisation is finished and before the

@@ -26,11 +26,9 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.8 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.9 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
-
-#include "XMLWriter.h"
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
@@ -39,7 +37,10 @@
 #include <fstream>
 #include <memory>
 
+#include "XMLWriter.h"
+
 using namespace std;
+XERCES_CPP_NAMESPACE_USE
 
 XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
   context( context_ ), indent( indent_ )
@@ -52,7 +53,7 @@ XMLWriter::~XMLWriter()
          
 void XMLWriter::write( const char * file )
 {
-    auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
+    auto_ptr<XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
     writeNode( context.getRootNode()->parent->getOwnerDocument()->getFirstChild(), 
                myFormatTarget.get());
 
@@ -64,7 +65,7 @@ void XMLWriter::write( ostream & stream )
 }
 
 
-void XMLWriter::writeNode(DOMNode * toWrite, XMLFormatTarget * target )
+void XMLWriter::writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target )
 {
     auto_ptr<XMLCh> lsCh ( XMLString::transcode("LS"));
     DOMImplementation * impl = DOMImplementationRegistry::getDOMImplementation(lsCh.get());

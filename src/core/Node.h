@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.19 2002/11/11 12:30:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.20 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,13 +47,24 @@
 #include <string>
 #include <vector>
 
-// using namespace std;
-
 class ConfigurationParser;
 class RefNode;
-class DOMElement;
 class Node;
 class NodePort;
+
+#if !defined(XERCES_CPP_NAMESPACE_BEGIN)
+#define OT_XERCES_CPP_NAMESPACE xercesc_2_2
+#define XERCES_CPP_NAMESPACE_BEGIN namespace OT_XERCES_CPP_NAMESPACE {
+#define XERCES_CPP_NAMESPACE_END  }
+#define XERCES_CPP_NAMESPACE_USE using namespace OT_XERCES_CPP_NAMESPACE;
+#define XERCES_CPP_NAMESPACE_QUALIFIER OT_XERCES_CPP_NAMESPACE::
+#endif
+
+XERCES_CPP_NAMESPACE_BEGIN
+class DOMElement;
+class DOMDocument;
+XERCES_CPP_NAMESPACE_END
+
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
@@ -77,7 +88,7 @@ class OPENTRACKER_API Node
 
 protected:    
 	/** Pointer to the parent XML element. */
-	DOMElement * parent;
+	XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * parent;
 
 	/**  A Vector of pointers to reference nodes referencing this node. */
 	NodeVector references;
@@ -99,7 +110,7 @@ public:
 
 protected:
 
-	virtual void setParent( DOMElement * parElement );
+	virtual void setParent( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * parElement );
 
 	/** 
 	 * adds a reference node to the list of references. Parents of 

@@ -26,13 +26,11 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.18 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.19 2003/02/18 02:12:51 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include "ConfigurationParser.h"
 #include <iostream>
-
 #include <memory>
 
 #include <xercesc/dom/DOM.hpp>
@@ -41,14 +39,13 @@
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
-
-using namespace std;
-
-const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
-
+#include "ConfigurationParser.h"
 #include "DOMTreeErrorReporter.h"
 
 using namespace std;
+XERCES_CPP_NAMESPACE_USE
+
+const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 
 // constructor method
 
@@ -76,7 +73,7 @@ ConfigurationParser::~ConfigurationParser()
 
 // builds a tree of configuration nodes. 
 
-ConfigNode * ConfigurationParser::buildConfigTree( DOMElement * element )
+ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element )
 {
     auto_ptr<StringTable> map ( parseElement( element ));
     auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
@@ -98,7 +95,7 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOMElement * element )
 
 // builds the tracker tree starting from a certain DOM_Element.
 
-Node * ConfigurationParser::buildTree( DOMElement * element)
+Node * ConfigurationParser::buildTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element)
 {
     auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
     string tagName = tempName.get();
@@ -137,7 +134,7 @@ Node * ConfigurationParser::buildTree( DOMElement * element)
         {
             if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
-                DOMElement * childElement = (DOMElement *)list->item(i);
+                XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * childElement = (XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)list->item(i);
                 Node * childNode = buildTree( childElement );
             }
         }
@@ -215,7 +212,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     {
         if( configlist->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
         {
-            DOMElement * configElement = (DOMElement *)configlist->item(i);
+            XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * configElement = (XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)configlist->item(i);
             auto_ptr<StringTable> attributes( parseElement( configElement ));
             auto_ptr<char> tempName( XMLString::transcode( configElement->getTagName()));
             string tagName = tempName.get();
@@ -267,7 +264,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 
 // parses an Elements attributes and returns a StringMap describing them.
 
-StringTable * ConfigurationParser::parseElement( DOMElement * element)
+StringTable * ConfigurationParser::parseElement( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element)
 {
     StringTable * value = new StringTable;
     // auto_ptr<DOMNamedNodeMap> map( element->getAttributes());   // is it still owned by the library ?
