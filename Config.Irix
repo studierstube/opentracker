@@ -66,8 +66,7 @@ LD_LIBS = \
 	$(OT_LIB_DIR)/libOpenTracker.a \
         -L$(ACE_ROOT)/ace -L$(XERCESC_ROOT)/lib \
         $(OT_OPTIONAL_LIB) \
-	-lACE -lxerces-c1_4 -lcurses -lm
-##	$(OT_LIB_DIR)/libInterSense.a \        
+	-lACE -lxerces-c1_4 -lcurses -lm        
 
 ## ---------------------------------------------------------------------------
 ##  MISC
@@ -76,16 +75,6 @@ LD_LIBS = \
 ## ---------------------------------------------------------------------------
 NOPRINT =
 INVENTOR_STUB_O = 
-
-## ---------------------------------------------------------------------------
-##  And these are defined on SGI only.
-## ---------------------------------------------------------------------------
-INTERSENSE_SRC_DIR = $(OT_DIR)/extras/intersense
-INTERSENSE_LIB     = $(OT_LIB_DIR)/libInterSense.a
-
-$(INTERSENSE_LIB):
-	@echo "=== Intersense library ==="
-	(cd $(INTERSENSE_SRC_DIR) && $(MAKE))
 
 ## ---------------------------------------------------------------------------
 ##  DEPFILES

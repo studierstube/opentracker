@@ -53,7 +53,6 @@ EXTRADIR = ./extras
 ## This is needed by the `clean' target. SUBDIRS contains all
 ## subdirectories that are to be visited
 
-# SUBDIRS_IRIX = $(INTERSENSE_SRC_DIR)
 SUBDIRS = $(LIBSDIR) $(EXTRADIR) $(SUBDIRS_OSDEP)
 
 ## ---------------------------------------------------------------------------
@@ -77,10 +76,12 @@ sysconfig:
 docs:
 	cd doc && doxygen opentracker.dxy
 
-libs: $(_FORCE) sysconfig
+libs: $(_FORCE) sysconfig extras
 	@echo "=== Making OpenTracker libraries ==="
 	cd $(LIBSDIR) && $(MAKE) $(NOPRINT)
-	cd $(OT_LIB_DIR) && $(LDSHARED) -all -o libOpenTracker.so libOpenTracker.a
+	cd $(OT_LIB_DIR) && $(LDSHARED) -all -o libOpenTracker.so libOpenTracker.a \
+        -L$(ACE_ROOT)/ace -L$(XERCESC_ROOT)/lib $(OT_OPTIONAL_LIB) \
+        -lACE -lxerces-c1_4 -lcurses -lm
 
 extras: $(_FORCE) sysconfig
 	@echo "=== Making extras ==="

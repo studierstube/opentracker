@@ -64,7 +64,8 @@ OT_OPTIONAL_INC = $(OT_USE_ARTOOLKIT) \
 OT_OPTIONAL_LIB = $(OT_ARTOOLKIT_LIB)
                
 ##
-OT_STD_INCLUDES = -I. -I$(OT_INC_DIR) -I$(ACE_ROOT) -I$(XERCESC_ROOT)/include
+OT_STD_INCLUDES = -I. -I$(OT_INC_DIR) -I$(ACE_ROOT) -I$(XERCESC_ROOT)/include \
+                  -I$(OT_DIR)/extras/intersense/unix
 
 
 ## ---------------------------------------------------------------------------
