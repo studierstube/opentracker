@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.38 2003/11/25 16:16:01 tomp Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.39 2004/02/10 11:36:29 thomas Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -262,7 +262,10 @@ void ARToolKitModule::close()
     stop = 1;
     unlock();
     
-    OSUtils::sleep(1000);
+	arVideoCapStop();
+    arVideoClose();
+    
+    //OSUtils::sleep(1000);
     
     cout << "ARToolkit stopped\n";
 }
@@ -368,8 +371,8 @@ void ARToolKitModule::run()
     }
     cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
     
-    arVideoCapStop();
-    arVideoClose();
+    //arVideoCapStop();
+    //arVideoClose();
 }
 
 // grabs a frame and processes the data
