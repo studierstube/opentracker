@@ -26,7 +26,7 @@
   *
   * @author Michael Woegerbauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.h,v 1.1 2002/10/31 19:53:06 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.h,v 1.2 2002/11/07 17:02:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,10 +41,11 @@
 #ifndef _SPACEMOUSEMODULE_H
 #define _SPACEMOUSEMODULE_H
 
-#include <Windows.h>
 #include "../OpenTracker.h"
 
 #ifdef USE_SPACEMOUSE
+
+#include <Windows.h>
 
 /**
  * The module and factory to drive the SpaceMouseSource nodes. It constructs
