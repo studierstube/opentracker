@@ -39,7 +39,8 @@
  * Currently only a single MT9-B attached a comport is supported. It has no
  * configuration element but reserves the name @c XSensConfig for it.
  *
- * @note The implementation for Linux is missing.
+ * @note The implementation for Linux is missing. To run it on Windows, one needs
+ * to install the MT9 SDK Software from Xsens. It will not work without it.
  */
 
 #ifndef _XSENSMODULE_H
