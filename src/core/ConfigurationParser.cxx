@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.10 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.11 2001/05/28 15:23:17 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -111,7 +111,8 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
         if( find != references.end()){
 			RefNode * ref = new RefNode( (*find).second );
 			ref->setParent( element );
-			delete & map;
+			cout << "Build Reference node -> " << map.get("USE") << "." << endl;
+			delete & map;			
             return ref;
         } else
         {
