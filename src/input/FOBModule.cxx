@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.2 2001/10/20 17:24:29 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.3 2001/10/21 22:12:49 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -45,12 +45,18 @@
 
 using namespace std;
 
+
+
 /** This class is a datatype helper class for the FOBModule class. It stores 
  * the relevant data for a single bird station and provides buffer storage and
  * conversion routines.
  * @author Gerhard Reitmayr */
 class Bird {
 public:
+
+    /// constant to convert inches to meters
+    static const float inchesToMeters ; //= 0.0254;
+
     /// the bird number
     int number;
     
@@ -58,10 +64,10 @@ public:
     SerialPort port;
 
     /// data buffer for incoming data
-    char buffer[1024];
+    char buffer[20];
 
-    /// pointer to the current position in the buffer
-    char * current;
+    /// number of the current position in the buffer
+    int count;
 
     /// associated source node
     FOBSource * source;
@@ -72,41 +78,58 @@ public:
     /// flag indicating a new value in state
     int newVal;
 
+    /// total range of positions
+    float scale;
+
     /// constructor 
-    Bird( int number_, const string & device_ ) :
+    Bird( int number_, const string & device_, float scale_ ) :
         number( number_ )
     {
         source = NULL;
-        current = buffer;
+        count = 0;
         newVal = 0;
+        scale = scale_ * inchesToMeters / 32767;
+        state.confidence = 1;
         strncpy( port.pathname, device_.c_str(), 255 );
     }
     
     /** converts the buffer data and writes it to
-      * the associated source node, if present */
-    void convert();
+      * the local state member */
+    inline void convert();
+
+    /** converts data from another buffer and writes it
+     * to the local state member. It assumes that data is
+     * in the POSITION/QUATERNION format.
+     * @param buffer pointer to the char buffer storing
+     * the input data. */
+    inline void convert( const char * buffer );
     
     /** opens the serial port associated with the bird.
-     * @returns the error value from the serial library. */
+     * @return the error value from the serial library. */
     inline int open();
 
     /** writes data to the serial port associated with the 
      * bird.
      * @param data pointer to the char data to write
      * @param count number of chars to write
-     * @returns the error value from the serial library. */
+     * @return the error value from the serial library. */
     inline int write( const char * data, int count );
 
     /** reads data from the serial port associated with the 
      * bird.
      * @param data pointer to the char data buffer to read into
      * @param count maximal number of chars to read
-     * @returns the error value from the serial library. */
+     * @return the error value from the serial library. */
     inline int read( char * data, int count );
 
     /** closes the serial port associated with the bird.
-     * @returns the error value from the serial library. */
+     * @return the error value from the serial library. */
     inline int close();
+
+    /** toggles some lines on the serial interface to 
+     * reset the bird. 
+     * @return the error value from the serial library. */
+    inline int reset();
 };
 
 // constructor method.
@@ -145,12 +168,15 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
     }
     
     // getting erc transmitter
+    float scale = 144;
 
     // getting hemisphere
 
     // getting reference frame
 
     // getting anglealign
+
+    // getting scale
 
     // parsing birds
     for( unsigned int i = 0; i < localTree->countChildren(); i++ )
@@ -165,7 +191,7 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
                  << childAttr.get("number").c_str() << endl;
             continue;
         }
-        Bird * bird = new Bird( number, childAttr.get("device"));
+        Bird * bird = new Bird( number, childAttr.get("device"), scale );
         birds[number] = bird;
     }
     
@@ -239,27 +265,67 @@ int FOBModule::initFoB()
 {
     vector<Bird *>::iterator it;
     Bird * masterBird = birds[master];
+    char buffer[5];
 
     // toggle reset on master bird
-
+    masterBird->reset();
+    
+    // set report mode
     if( mode == MULTI )
     {
         // send all birds the POSITION/QUATERNION command
+        buffer[0] = ']';
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-            (*it)->write( , );
+            (*it)->write( buffer, 1 );
         }
+        OSUtils::sleep(1000);
     } else {
         // send all birds the POSITION/QUATERNION command
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-            // TO FOB command
-            masterBird->write( , );
-            // POS/QUAT command
-            masterBird->write( , );
+            buffer[0] = 0xF0+(*it)->number;
+            buffer[1] = ']';
+            // TO FOB command and POS / QUAT command
+            masterBird->write( buffer, 2 );
+            OSUtils::sleep(600);
         }
     }
-    // start up birds
+    
+    // set all kinds of other parameters here
+
+
+    if( mode == SINGLE )
+    {
+        // GROUP mode to master bird
+        buffer[0] = 'P';
+        buffer[1] = 0x23;
+        buffer[2] = 1;
+        masterBird->write( buffer, 3 );
+        OSUtils::sleep( 600 );
+    }
+    // AUTOCONFIG to master bird
+    buffer[0] = 'P';
+    buffer[1] =  0x32;
+    buffer[2] = (*birds.end())->number;
+    masterBird->write( buffer, 3 );
+    OSUtils::sleep( 600 );
+    // start STREAM mode
+    buffer[1] = '@';
+    if( mode == SINGLE )
+    {
+        // only to master bird
+        buffer[0] = 0xF0+masterBird->number;
+        masterBird->write( buffer, 2 );
+    } else {
+        // to all
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            buffer[0] = 0xF0+(*it)->number;
+            (*it)->write( buffer, 2 );
+        }
+    }
+    return 0;
 }
 
 // closes FOBModule, closing all serial ports
@@ -295,7 +361,10 @@ void FOBModule::run()
     if( mode == SINGLE )
     {
         Bird * bird = birds[master];
-        char buffer[10000];
+        char buffer[100];
+        int count = 0;
+        int maxBytes = 15; // whatever is the correct number for pos/quat
+        int num;
         while(1)
         {
             lock();
@@ -306,26 +375,55 @@ void FOBModule::run()
             } else { 
                 unlock();
             }
-            if( waitforoneSerialPort( &bird->port, 1000 ) < 0 )
+   //         if( waitforoneSerialPort( &bird->port, 1000 ) < 0 )
             {
                 cout << "FOBModule : error waiting for port\n";
                 break;
             }
             // read in data and parse it 
+            if( bird->read( buffer + count, 1 ) < 0 )
+            {
+                cout << "FOBModule : error reading from port\n";
+                break;
+            }
+            // wait for phasing bit to start a full record
+            if( count == 0 && !( buffer[0] & 0x80))
+            {
+                continue;
+            }
+            // if we got a phasing bit before the whole record was read
+            // trash the old buffer and start again.
+            if( count > 0 && ( buffer[count] & 0x80 ))
+            {
+                buffer[0] = buffer[count];
+                count = 0;
+                continue;
+            }
+            count++;
+            if( count == maxBytes )
+            {
+                // we got a full buffer, set the data of the addressed bird
+                lock();
+                birds[buffer[count - 1]]->convert( buffer );
+                birds[buffer[count - 1]]->newVal = 1;
+                unlock();
+                count = 0;
+            }
         }
     } else {
         // prepare handles for the serial ports
         SerialPort * ports[32];
-        int count = 0;
-        int portSet;
+        int numBirds = 0;
+        int portSet, i;
+        int maxBytes = 14;
 
         vector<Bird *>::iterator it;
         for( it = birds.begin(); it != birds.end(); it++ )
         {
             if((*it) != NULL )
             {
-                ports[count] = &(*it)->port;
-                count ++;
+                ports[numBirds] = &(*it)->port;
+                numBirds ++;
             }
         }
         while(1)
@@ -339,12 +437,50 @@ void FOBModule::run()
                 unlock();
             }
             portSet = 0;
-            if( waitforallSerialPorts( ports, count, &portSet, 1000 ) < 0 )
+         //   if( waitforallSerialPorts( ports, numBirds, &portSet, 1000 ) < 0 )
             {
                 cout << "FOBModule : error waiting for port\n";
                 break;
             }
             // read in data and parse it 
+            for( i = 0; i < numBirds; i ++ )
+            {
+              /*  if( portSet & i )
+                {
+                    // get the right bird here, this is just an assumption
+                    Bird * bird = birds[i+1];
+                    // read in data and parse it 
+                    if( bird->read( bird->buffer + bird->count, 1 ) < 0 )
+                    {
+                        cout << "FOBModule : error reading from bird " << bird->number << endl;
+                        break;
+                    }
+                    // wait for phasing bit to start a full record
+                    if( bird->count == 0 && !( bird->buffer[0] & 0x80))
+                    {
+                        continue;
+                    }
+                    // if we got a phasing bit before the whole record was read
+                    // trash the old buffer and start again.
+                    if( bird->count > 0 && ( bird->buffer[bird->count] & 0x80 ))
+                    {
+                        bird->buffer[0] = bird->buffer[count];
+                        count = 0;
+                        continue;
+                    }
+                    count++;
+                    if( count == maxBytes )
+                    {
+                        // we got a full buffer, set the data of the addressed bird
+                        lock();
+                        birds[buffer[count - 1]].convert( buffer );
+                        birds[buffer[count - 1]].newVal = 1;
+                        unlock();
+                        count = 0;
+                    }                    
+                }
+                */
+            }
         }
     }
 
@@ -374,29 +510,64 @@ void FOBModule::pushState()
     }
 }
 
+const float Bird::inchesToMeters = 0.0254f;
+
 // convert Bird data to OpenTracker State format
 void Bird::convert()
 {
+    convert( buffer );
+}
+
+void Bird::convert( const char * data )
+{
+    int d,i;
+
+    for (i=0; i<3; i++)                         // x,y,z
+    {
+        d=(data[i*2]&0x7f)+(data[i*2+1]<<7);
+        if (d&0x2000) 
+            d|=0xffffc000;        // Extend signbit
+        state.position[i] = ((float)d)*scale;
+    }    
+    for (i=0; i<4; i++)                         // qa,qx,qy,qz
+    {
+        d=(data[6+2*i]&0x7f)+(data[7+2*i]<<7);
+        if (d&0x2000) 
+            d|=0xffffc000;        // Extend signbit
+        state.orientation[(i+3)%4] = ((float)d)/0x8000; // we need qx, qy, qz, qa
+                                                        // so (i+3)%4 should do the
+                                                        // trick. scale ?????
+    }
+    state.timeStamp();
 }
 
 int Bird::open()
 {
     SerialParams params;
-    initSerialParams( &params );
-    return openSerialPort( &port, &params );
+ //   initSerialParams( &params );
+ //   return openSerialPort( &port, &params );
+return 0;
 }
 
 int Bird::write( const char * data, int count )
 {
-    return readfromSerialPort( &port, data, count );
+ //   return writetoSerialPort( &port,(char *) data, count );
+return 0;
 }
 
 int Bird::read( char * data, int count )
 {
-    return readfromSerialPort( &port, data, count );
+ //   return readfromSerialPort( &port, data, count );
+return 0;
 }
 
 int Bird::close()
 {
-    return closeSerialPort(&port);
+ //   return closeSerialPort(&port);
+return 0;
+}
+
+int Bird::reset()
+{
+    return 0;
 }
