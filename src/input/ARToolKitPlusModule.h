@@ -74,7 +74,7 @@ public:
  * @ingroup core
  */
 
-class OPENTRACKER_API ARToolKitPlusModule : public Module, public NodeFactory
+class OPENTRACKER_API ARToolKitPlusModule : public Module, public NodeFactory, ARToolKitPlus::Logger
 {
 // Members
 protected:
@@ -98,6 +98,9 @@ protected:
 	/// an optional prefix for pattern filenames
 	std::string patternDirectory;
 
+	/// an optional camera device name
+	std::string cameraDeviceHint;
+
 	void init(StringTable& attributes, ConfigNode * localTree);
 
 	bool updateARToolKit();
@@ -110,10 +113,12 @@ protected:
 	ARToolKitPlus::TrackerSingleMarker tracker;
 	bool idbasedMarkers;
 
+	// implement ARToolKitPlus::Logger
+	virtual void artLog(const char* nStr);
+	virtual void artLogEx(const char* nStr, ...);
+
 // Methods
 public:
-	void initArtoolkit();
-
     /** constructor method. */
     ARToolKitPlusModule();
 
@@ -152,6 +157,17 @@ public:
 	void registerImageGrabber(ImageGrabber* nGrabber)  {  imageGrabber = nGrabber;  }
 
 	ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return &tracker;  }
+
+	/// Sets a camera device name
+	/**
+	 *  This device name can be used to select between several
+	 *  available camera files. This must be done before the 
+	 *  ARToolKitPlus::init() is called.
+	 *  If no camera hint is set or the config file does not contain
+	 *  any <CameraHint> sections, the standard 'camera-parameter' value
+	 *  is used.
+	 */
+	void setCameraDeviceHint(const char* nDeviceName)  {  cameraDeviceHint = nDeviceName;  }
 };
 
 } // namespace ot

@@ -58,16 +58,6 @@ using namespace std;
 namespace ot {
 
 
-/*
-void
-ARToolKitPlusModule::initArtoolkit()
-{
-	//if(marker_infoTWO==NULL)
-	//	marker_infoTWO = new ARMarkerInfo2[AR_SQUARE_MAX];
-}
-*/
-
-
 ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabber(NULL)
 {
 	//wparam = NULL;
@@ -78,7 +68,7 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 
 	trackerNear = 1.0f;
 	trackerFar = 1000.0f;
-	tracker.init(NULL, trackerNear, trackerFar, NULL);
+	tracker.init(NULL, trackerNear, trackerFar, this);
 	tracker.setThreshold(100);
 }
 
@@ -189,9 +179,23 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 		idbasedMarkers = true;
 
 
-	//if(wparam)
-	//	delete wparam;
-	//wparam = new char[sizeof(ARParam)];
+    // parsing camera config hints
+	if(cameraDeviceHint.length()>0)
+		for(unsigned int i = 0; i <localTree->countChildren(); i++)
+		{
+			ConfigNode * child = (ConfigNode *)localTree->getChild(i);
+			StringTable & childAttr = child->getAttributes();
+
+			std::string devName = childAttr.get("device-name"),
+						devFile = childAttr.get("camera-parameter");
+
+			if(devName.length()>0 && devFile.length()>0 && devName==cameraDeviceHint)
+			{
+				cameradata = devFile;
+				break;
+			}
+		}
+
 
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
@@ -211,16 +215,6 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
     if( patternDirectory.compare("") != 0)
         context->removeDirectory( patternDirectory );
-
-/*
-    if( arParamLoad((char *)cameradata.c_str(), 1, (ARParam*)wparam ) < 0 )
-    {
-        //cout << "ARToolkitModule error loading camera parameters from " << cameradata << endl;
-		LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
-        initialized = 0;
-        return;
-    }
-*/
 
 	if(!tracker.loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
 	{
@@ -403,6 +397,25 @@ bool ARToolKitPlusModule::updateARToolKit()
 	return true;
 }
 
+
+void
+ARToolKitPlusModule::artLog(const char* nStr)
+{
+	ACE_DEBUG((LM_INFO, ACE_TEXT(nStr)));
+}
+
+
+void
+ARToolKitPlusModule::artLogEx(const char* nStr, ...)
+{
+	char tmpString[512];
+    va_list marker;
+
+	va_start(marker, nStr);
+	vsprintf(tmpString, nStr, marker);
+
+	artLog(tmpString);
+}
 
 
 } //namespace ot
