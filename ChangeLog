@@ -1,3 +1,10 @@
+2005-02-17 20:17:37  Rev 797    reitmayr
+
+	* src/common/CallbackNode.h: added accessor method and callback 
+	  function signature to make the use of the name attribute clearer. 
+	  unfortunatly the name member overrides the name member in SoNode 
+	  which stores another value.
+
 2005-01-21 13:32:48  Rev 795    reitmayr
 
 	* data/faustflocktracker.xml: added configuration file for flock of 
