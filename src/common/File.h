@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.14 2003/11/30 17:37:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.15 2004/02/10 15:13:32 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,7 +79,7 @@ public:
      * @param loop_ if IN mode loop input file or not 
      */
     File(const string filename_ , modeFlags mode_ = OUT, bool append = false, bool loop_ = false ) :
-        filename( filename_), mode( mode_ ), loop( loop_ )
+    loop( loop_ ), filename( filename_), mode( mode_ )
     {        
         if( mode == OUT ) // output mode
 		{
