@@ -8,7 +8,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.6 2001/02/13 15:44:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.7 2001/03/06 18:09:28 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -23,12 +23,12 @@
 #include "common/ConsoleModule.h"
 #include "network/NetworkSinkModule.h"
 #include "network/NetworkSourceModule.h"
-#ifdef USE_INTERTRAX
+
+// these modules depend on compile options
 #include "input/InterTraxModule.h"
-#endif
-#ifdef USE_ARTOOLKIT
 #include "input/ARToolKitModule.h"
-#endif
+#include "input/CyberMouseModule.h"
+#include "input/WacomGraphireModule.h"
 
 /** a global unique variable null, for typesafe null references as return
  *  values of methods.*/
@@ -69,5 +69,17 @@ void initializeContext( Context & context )
     InterTraxModule * intertrax = new InterTraxModule;
     context.addFactory( * intertrax );
     context.addModule( (string)"InterTraxConfig", * intertrax );
+#endif
+
+#ifdef USE_WACOMGRAPHIRE
+    WacomGraphireModule * wacom = new WacomGraphireModule;
+    context.addFactory( * wacom );
+    context.addModule( (string)"WacomGraphireConfig", * wacom );
+#endif
+
+#ifdef USE_CYBERMOUSE
+    CyberMouseModule * cmouse = new CyberMouseModule;
+    context.addFactory( * cmouse );
+    context.addModule( (string)"CyberMouseConfig", * cmouse );
 #endif
 }
