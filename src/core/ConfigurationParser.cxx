@@ -26,12 +26,9 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.19 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.20 2003/03/26 11:56:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
-
-#include <iostream>
-#include <memory>
 
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
@@ -41,6 +38,9 @@
 
 #include "ConfigurationParser.h"
 #include "DOMTreeErrorReporter.h"
+
+#include <iostream>
+#include <memory>
 
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
