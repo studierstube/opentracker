@@ -1,3 +1,14 @@
+2004-09-28 17:04:49  Rev 751    reitmayr
+
+	* src/input/SpeechModule.cxx, src/input/SpeechSource.h, 
+	  src/input/ARToolKitModule.cxx, src/input/WacomGraphireModule.cxx, 
+	  src/input/DynaSightModule.cxx: fixed a couple of warnings on VC.Net.
+
+2004-09-28 10:03:45  Rev 750    reitmayr
+
+	* opentracker.vcproj, src/misc/standalone.vcproj: fixed vc.net 
+	  project files
+
 2004-09-10 12:56:13  Rev 748    reitmayr
 
 	* src/core/StringTable.cxx, src/input/GPSGarminAltitude.h, 
