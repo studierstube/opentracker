@@ -154,6 +154,10 @@ SOURCE=.\src\common\FilterNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\FOBModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\InterSenseModule.cxx
 # End Source File
 # Begin Source File
