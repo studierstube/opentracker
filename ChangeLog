@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-01-15 03:22  tamer
+
+	* doc/: ChangeLog.2000, ChangeLog.2001, ChangeLog.2002:
+	
+	added automatically generated ChangeLog entries and created old
+	ChangeLog's for the past years in doc/ChangeLog.200?. have fun
+	reading the history of OpenTracker! *g*
+
 2003-01-13 11:51  bara
 
 	* src/: OpenTracker.h, input/InterSenseModule.cxx,
