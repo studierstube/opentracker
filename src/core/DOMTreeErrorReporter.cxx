@@ -1,7 +1,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,47 +55,7 @@
  */
 
 /*
- * $Log: DOMTreeErrorReporter.cxx,v $
- * Revision 1.2  2002/05/28 14:54:21  reitmayr
- * updated for XercesC 1.7 (changed include paths)
- *
- * Revision 1.1  2000/12/11 10:46:41  reitmayr
- * checked in new source code
- *
- * Revision 1.3  2000/08/24 16:21:43  reitmayr
- * fixed bug in MaxConfidenceFilter,
- * fixed compile problem in DOMTreeError
- *
- * Revision 1.2  2000/08/24 08:45:23  reitmayr
- * modified to compile with VC++
- *
- * Revision 1.1  2000/08/16 14:51:31  reitmayr
- * added extended xml error handling, so only real valid configuration
- * files are used.
- *
- * Revision 1.5  2000/05/15 22:31:06  andyh
- * Replace #include<memory.h> with <string.h> everywhere.
- *
- * Revision 1.4  2000/03/02 19:53:40  roddey
- * This checkin includes many changes done while waiting for the
- * 1.1.0 code to be finished. I can't list them all here, but a list is
- * available elsewhere.
- *
- * Revision 1.3  2000/02/06 07:47:18  rahulj
- * Year 2K copyright swat.
- *
- * Revision 1.2  1999/12/03 00:14:53  andyh
- * Removed transcoding stuff, replaced with DOMString::transcode.
- *
- * Tweaked xml encoding= declaration to say ISO-8859-1.  Still wrong,
- * but not as wrong as utf-8
- *
- * Revision 1.1.1.1  1999/11/09 01:09:51  twl
- * Initial checkin
- *
- * Revision 1.6  1999/11/08 20:43:35  rahul
- * Swat for adding in Product name and CVS comment log variable.
- *
+ * $Id: DOMTreeErrorReporter.cxx,v 1.3 2002/09/17 17:59:40 reitmayr Exp $
  */
 
 // ---------------------------------------------------------------------------
@@ -111,32 +71,31 @@ using namespace std;
 #endif
 #include <stdlib.h>
 #include <string.h>
-#include <xercesc/dom/DOMString.hpp>
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {
-    cerr << "Warning at file \"" << DOMString(toCatch.getSystemId()).transcode()
+    cerr << "Warning at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << DOMString(toCatch.getMessage()).transcode() << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::error(const SAXParseException& toCatch)
 {
-    cerr << "Error at file \"" << DOMString(toCatch.getSystemId()).transcode()
+    cerr << "Error at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << DOMString(toCatch.getMessage()).transcode() << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::fatalError(const SAXParseException& toCatch)
 {
-    cerr << "Fatal Error at file \"" << DOMString(toCatch.getSystemId()).transcode()
+    cerr << "Fatal Error at file \"" << XMLString::transcode(toCatch.getSystemId())
          << "\", line " << toCatch.getLineNumber()
          << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << DOMString(toCatch.getMessage()).transcode() << endl;
+         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << endl;
     errorNum++;
 }
 

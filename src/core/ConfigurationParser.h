@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.9 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.10 2002/09/17 17:59:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,8 +43,8 @@
 #include "StringTable.h"
 #include "Context.h"
 
-class DOM_Element;
-class DOM_Document;
+class DOMElement;
+class DOMDocument;
 class Context;
 
 /// used to map a string to a node
@@ -65,7 +65,7 @@ protected:
     /// maps IDs to nodes
     NodeMap references;
 	/// stores the parsed document tree
-	DOM_Document * document;
+	DOMDocument * document;
 protected:
 
 // Methods
@@ -74,24 +74,25 @@ protected:
      * the structure of the XML document with ConfigNodes that 
      * just hold the element names and attributes. The resulting tree
      * is a parameter to the initialization method of modules.
-     * @param elements reference to the XML element to be parsed.
+     * @param elements pointer to the XML element to be parsed.
      * @return pointer to the hew ConfigNode or NULL, if something
      *         went wrong.
      */
-    ConfigNode * buildConfigTree( DOM_Element & element );
+    ConfigNode * buildConfigTree( DOMElement * element );
    /**
      * builds the tracker tree starting from a certain DOM_Element.
      * Is used recoursively to walk the DOMTree and create new nodes.
-     * @param element reference to the element to be parsed.
+     * @param element pointer to the element to be parsed.
      * @return pointer to the new Node or NULL
      */
-    Node * buildTree( DOM_Element& element);
+    Node * buildTree( DOMElement * element);
    /**
      * parses an Elements attributes and returns a StringTable describing them.
-     * @param element reference to the element
-     * @return a StringMap mapping attribute names to attribute values
+     * @param element pointer to the element
+     * @return a StringMap mapping attribute names to attribute values. This map
+     *    was created on the heap and it is now owned by the caller.
      */
-    StringTable & parseElement( DOM_Element& element);
+    StringTable * parseElement( DOMElement * element);
 
 public:
     /**

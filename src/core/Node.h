@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.17 2001/10/21 22:12:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.18 2002/09/17 17:59:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,7 +51,7 @@
 
 class ConfigurationParser;
 class RefNode;
-class DOM_Element;
+class DOMElement;
 class Node;
 class NodePort;
 
@@ -75,10 +75,9 @@ typedef std::vector<Node *> NodeVector;
 class OPENTRACKER_API Node
 {
 
-protected:
-	/** Pointer to the parent XML element. This is untyped to avoid
-	 * dependencies on XML parser library in this include file. */
-	DOM_Element * parent;
+protected:    
+	/** Pointer to the parent XML element. */
+	DOMElement * parent;
 
 	/**  A Vector of pointers to reference nodes referencing this node. */
 	NodeVector references;
@@ -94,7 +93,7 @@ public:
 
 protected:
 
-	virtual void setParent( DOM_Element & parElement );
+	virtual void setParent( DOMElement * parElement );
 
 	/** 
 	 * adds a reference node to the list of references. Parents of 

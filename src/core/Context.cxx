@@ -26,17 +26,20 @@
   *
   * @author Gerhard Reitmayr
   * @todo set attributes on the element in createNode
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.18 2002/05/28 14:54:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.19 2002/09/17 17:59:40 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
 #include "Context.h"
 #include "../OpenTracker.h"
 
-#include <xercesc/dom/DOM_Node.hpp>
-#include <xercesc/dom/DOM_NodeList.hpp>
-#include <xercesc/dom/DOM_Document.hpp>
-#include <xercesc/dom/DOM_Element.hpp>
+#include <memory>
+
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
+
+const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 
 using namespace std;
 
@@ -137,8 +140,8 @@ void Context::parseConfiguration(const string& filename)
 {
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
-    DOM_Document doc = rootNode->parent->getOwnerDocument();
-    doc.setUserData( this );
+    DOMDocument * doc = rootNode->parent->getOwnerDocument();
+    doc->setUserData( ud_node, this, NULL );
 }
 
 // calls pullState on all modules to get data out again.
@@ -195,15 +198,16 @@ Node * Context::createNode( const string & name, StringTable & attributes)
     if( value != NULL )
     {
         // add a correctly created DOM_Element to the node here and return
-        DOM_Document doc = rootNode->parent->getOwnerDocument();
-        DOM_Element el = doc.createElement(name.c_str());
+        DOMDocument * doc = rootNode->parent->getOwnerDocument();
+        auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
+        DOMElement * el = doc->createElement( tempName.get());
         value->setParent( el );        
         // set attributes on the element node
         KeyIterator keys(attributes);
         while( keys.hasMoreKeys())
         {
             const string & key = keys.nextElement();
-            el.setAttribute( key.c_str(), attributes.get( key ).c_str());
+            value->put( key, attributes.get( key ));
         }
     }
     return value;
@@ -217,8 +221,9 @@ Node * Context::getRootNode()
 Node * Context::findNode(const string & id)
 {
     // search for the right node via the DOM_Document API
-    DOM_Element el = rootNode->parent->getOwnerDocument().getElementById(id.c_str());
+    auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
+    DOMElement * el = rootNode->parent->getOwnerDocument()->getElementById( tempId.get());
     if( el != 0 )
-        return (Node *)el.getUserData();
+        return (Node *)el->getUserData(ud_node);
     return NULL;
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.17 2002/05/28 14:54:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.18 2002/09/17 17:59:40 reitmayr Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -41,14 +41,12 @@
 #include <iostream.h>
 #endif
 
+#include <memory>
 #include <algorithm>
 
-#include <xercesc/dom/DOM_Node.hpp>
-#include <xercesc/dom/DOM_NodeList.hpp>
-#include <xercesc/dom/DOM_Element.hpp>
-#include <xercesc/dom/DOM_NamedNodeMap.hpp>
-#include <xercesc/dom/DOM_Document.hpp>
-#include <xercesc/dom/DOM_DOMException.hpp>
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
 
 using namespace std;
 
@@ -56,10 +54,12 @@ using namespace std;
 // the object itself is part of StringTable.cxx
 extern const string empty("");
 
+const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+
 // constructor
 Node::Node() : name("")
 {
-	parent = new DOM_Element();	
+	parent = NULL;	
 }
 
 // destructor
@@ -67,17 +67,18 @@ Node::Node() : name("")
 Node::~Node()
 {
 	references.clear();
-	*parent = 0;
-	delete parent;
+    if( parent != NULL )
+        parent->release();
 }
 
 // sets the DOM_Element this node belongs to ( not the parent in OT )
 
-void Node::setParent( DOM_Element & parElement )
+void Node::setParent( DOMElement * parElement )
 {
-	*parent = parElement;
-	parent->setUserData( this );
-    type = parent->getTagName().transcode();
+	parent = parElement;
+	parent->setUserData( ud_node, this, NULL );
+    auto_ptr<char> temp( XMLString::transcode(parent->getTagName()));
+    type = temp.get();
 }
 
 // adds a reference to the node
@@ -103,10 +104,10 @@ void Node::removeReference( Node * reference )
 
 Node * Node::getParent()
 {
-    const DOM_Node & parentElement = parent->getParentNode();
+    DOMNode * parentElement = parent->getParentNode();
 	if( parentElement != 0 )
 	{
-		return (Node *)parentElement.getUserData();
+		return (Node *)parentElement->getUserData(ud_node);
 	}
     return NULL;
 }
@@ -115,17 +116,17 @@ Node * Node::getParent()
 
 unsigned int Node::countChildren()
 {
-    DOM_Node node = parent->getFirstChild();
+    DOMNode * node = parent->getFirstChild();
     unsigned int count = 0;
-    while( !node.isNull())
+    while( node != NULL )
     {
-        Node * myNode = (Node *)node.getUserData();
+        Node * myNode = (Node *)node->getUserData(ud_node);
         if( myNode != NULL )
         {
             if( myNode->isNodePort() == 0 )
                 count ++;
         }
-        node = node.getNextSibling();
+        node = node->getNextSibling();
     }
     return count;
 }
@@ -135,10 +136,12 @@ unsigned int Node::countChildren()
 Node::error Node::addChild(Node & child)
 {
     try {
-        parent->appendChild( *(child.parent));
+        parent->appendChild( child.parent );
     }
-    catch( DOM_DOMException& e )
-    {}
+    catch( DOMException e )
+    {
+        return GRAPH_CONSTRAINT;
+    }
     return OK;
 }
 
@@ -147,10 +150,12 @@ Node::error Node::addChild(Node & child)
 Node::error Node::removeChild(Node & child)
 {
     try {
-        parent->removeChild( *(child.parent));
+        parent->removeChild( child.parent );
     }
-    catch( DOM_DOMException e )
-    {}
+    catch( DOMException e )
+    {
+        return NOT_FOUND;
+    }
     return OK;
 }
 
@@ -159,17 +164,17 @@ Node::error Node::removeChild(Node & child)
 Node * Node::getChild( unsigned int index )
 {
     Node * myNode = NULL;
-    DOM_Node node = parent->getFirstChild();
-    while( !node.isNull())
+    DOMNode * node = parent->getFirstChild();
+    while( node != NULL )
     {
-        myNode = (Node *)node.getUserData();
+        myNode = (Node *)node->getUserData(ud_node);
         if( myNode != NULL )		
             if( myNode->isNodePort() == 0 )
 				if( index == 0 )
 					return myNode;
 				else 
 					index--;
-        node = node.getNextSibling();                
+        node = node->getNextSibling();                
     }
     return NULL;
 }
@@ -180,14 +185,14 @@ unsigned int Node::countPorts()
 {
     Node * myNode = NULL;
     unsigned int count = 0;
-    DOM_Node node = parent->getFirstChild();
-    while( !node.isNull())
+    DOMNode * node = parent->getFirstChild();
+    while( node != NULL )
     {
-        myNode = (Node *)node.getUserData();
+        myNode = (Node *)node->getUserData(ud_node);
         if( myNode != NULL )		
             if( myNode->isNodePort() == 1 )
                 count++;
-        node = node.getNextSibling();                
+        node = node->getNextSibling();                
     }
 	return count;
 }
@@ -196,16 +201,18 @@ unsigned int Node::countPorts()
 
 NodePort * Node::getPort( const string & name )
 {
-	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
-	if( list.getLength() > 0 )
+    auto_ptr<XMLCh> temp( XMLString::transcode( name.c_str()));
+	//auto_ptr<DOMNodeList> list( parent->getElementsByTagName( temp.get() ));
+    DOMNodeList * list = parent->getElementsByTagName( temp.get() );
+    if( list->getLength() > 0 )
 	{
-		DOM_Element portElement = (const DOM_Element &) list.item(0);
-		Node * port = (Node *)portElement.getUserData();
+		DOMElement * portElement = (DOMElement *) list->item(0);
+		Node * port = (Node *)portElement->getUserData(ud_node);
         if( port != NULL )
             if( port->isNodePort() == 1 )
                 return (NodePort *)port;
 	}
-	return NULL;
+    return NULL;
 }
 
 // returns a NodePort child object by index
@@ -213,17 +220,17 @@ NodePort * Node::getPort( const string & name )
 NodePort * Node::getPort( unsigned int index )
 {
     Node * myNode = NULL;
-    DOM_Node node = parent->getFirstChild();
-    while( !node.isNull())
+    DOMNode * node = parent->getFirstChild();
+    while( NULL != node )
     {
-        myNode = (Node *)node.getUserData();
+        myNode = (Node *)node->getUserData(ud_node);
         if( myNode != NULL )		
             if( myNode->isNodePort() == 1 )
 				if( index == 0 )
 					return (NodePort *) myNode;
 				else 
 					index--;
-        node = node.getNextSibling();                
+        node = node->getNextSibling();                
     }
     return NULL;
 }
@@ -232,10 +239,15 @@ NodePort * Node::getPort( unsigned int index )
 
 Node::error Node::addPort( const std::string & name )
 {
-    if( parent->getElementsByTagName( name.c_str()).getLength() > 0 )
+    auto_ptr<XMLCh> temp( XMLString::transcode( name.c_str()));
+	//auto_ptr<DOMNodeList> list( parent->getElementsByTagName( temp.get() ));
+    DOMNodeList * list = parent->getElementsByTagName( temp.get() );
+    if( list->getLength() > 0 )
+    {
         return GRAPH_CONSTRAINT;
-    DOM_Document doc = parent->getOwnerDocument();    
-    Context * context = (Context *)doc.getUserData();
+    }
+    DOMDocument * doc = parent->getOwnerDocument();    
+    Context * context = (Context *)doc->getUserData( ud_node );
     StringTable table;
     Node * node = context->createNode( name, table);
     if( node == NULL )
@@ -274,10 +286,10 @@ void Node::updateObservers( State &data )
 {
 	if( isEventGenerator() == 1 || isNodePort() == 1 )
 	{
-		const DOM_Node & parentElement = parent->getParentNode();
-		if( parentElement != 0 )
+		DOMNode * parentElement = parent->getParentNode();
+		if( NULL != parentElement  )
 		{
-			((Node *)parentElement.getUserData())->onEventGenerated( data, *this );
+			((Node *)parentElement->getUserData( ud_node ))->onEventGenerated( data, *this );
 		}
 		for( NodeVector::iterator it = references.begin(); it != references.end(); it++ )
 		{
@@ -290,25 +302,27 @@ void Node::updateObservers( State &data )
 
 string Node::get( const string & key )
 {
-    DOMString res = parent->getAttribute( key.c_str());
-    char * cres = res.transcode();
-    string sres( cres );
-    delete [] cres;
-    return sres;
+    auto_ptr<XMLCh> temp ( XMLString::transcode( key.c_str() ));
+    const XMLCh * res = parent->getAttribute( temp.get());
+    auto_ptr<char> cres ( XMLString::transcode( res ));
+    return  string( cres.get() );
 }
 
 // stores a key, value pair
 
 void Node::put( const string & key, const string & value )
 {
-    parent->setAttribute( key.c_str(), value.c_str());
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( value.c_str()));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 // removes a key, value pair
 
 void Node::remove( const string & key )
 {
-    parent->removeAttribute( key.c_str());
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    parent->removeAttribute( tempKey.get() );
 }
 
 // some put and get methods
@@ -318,7 +332,9 @@ void Node::put(const string & key, const int value)
     char buffer[20];
     
     sprintf( buffer, "%i", value );
-    parent->setAttribute( key.c_str(), buffer);
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const float value)
@@ -326,7 +342,9 @@ void Node::put(const string & key, const float value)
     char buffer[20];
     
     sprintf( buffer, "%f", value );
-    parent->setAttribute( key.c_str(), buffer);
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const double value)
@@ -334,7 +352,9 @@ void Node::put(const string & key, const double value)
     char buffer[30];
     
     sprintf( buffer, "%lf", value );
-    parent->setAttribute( key.c_str(), buffer);
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const int * value, int len)
@@ -349,7 +369,9 @@ void Node::put(const string & key, const int * value, int len)
         sprintf(buffer, " %i", value[i] );
         strvalue.append(buffer);
     }
-    parent->setAttribute( key.c_str(), strvalue.c_str());
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const float * value, int len)
@@ -364,7 +386,9 @@ void Node::put(const string & key, const float * value, int len)
         sprintf(buffer, " %f", value[i] );
         strvalue.append(buffer);
     }
-    parent->setAttribute( key.c_str(), strvalue.c_str());
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const double * value, int len)
@@ -379,50 +403,55 @@ void Node::put(const string & key, const double * value, int len)
         sprintf(buffer, " %lf", value[i] );
         strvalue.append(buffer);
     }
-    parent->setAttribute( key.c_str(), strvalue.c_str());
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
+    parent->setAttribute( tempKey.get(), tempValue.get());
 }
 
 int Node::get(const string & key, int * value, int len )
 {
-    DOMString val = parent->getAttribute( key.c_str());
-    char * data = val.transcode();      
-    char * end = data;
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    const XMLCh * val = parent->getAttribute( tempKey.get() );
+    auto_ptr<char> data ( XMLString::transcode( val ));
+    char * start = data.get();
+    char * end = data.get();
     int count = 0;
-    value[count++] = strtol( data, &end, 0 );    
-    while( end != data && count < len){        
-        data = end;
-        value[count++] = strtol( data, &end, 0 );
+    value[count++] = strtol( start, &end, 0 );    
+    while( end != start && count < len){        
+        start = end;
+        value[count++] = strtol( start, &end, 0 );
     }
-    delete [] data;
     return count;
 }
 
 int Node::get(const string & key, float * value, int len )
 {
-    DOMString val = parent->getAttribute( key.c_str());
-    char * data = val.transcode();
-    char * end = data;
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    const XMLCh * val = parent->getAttribute( tempKey.get() );
+    auto_ptr<char> data ( XMLString::transcode( val ));
+    char * start = data.get();
+    char * end = data.get();
     int count = 0;
-    value[count++] = strtod( data, &end );    
-    while( end != data && count < len){        
-        data = end;
-        value[count++] = strtod( data, &end );
+    value[count++] = strtod( start, &end );    
+    while( end != start && count < len){        
+        start = end;
+        value[count++] = strtod( start, &end );
     }
-    delete [] data;
     return count;
 }
 
 int Node::get(const string & key, double * value, int len )
 {
-    DOMString val = parent->getAttribute( key.c_str());
-    char * data = val.transcode();
-    char * end = data;
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    const XMLCh * val = parent->getAttribute( tempKey.get() );
+    auto_ptr<char> data ( XMLString::transcode( val ));
+    char * start = data.get();
+    char * end = data.get();
     int count = 0;
-    value[count++] = strtod( data, &end );    
-    while( end != data && count < len){        
-        data = end;
-        value[count++] = strtod( data, &end );
+    value[count++] = strtod( start, &end );    
+    while( end != start && count < len){        
+        start = end;
+        value[count++] = strtod( start, &end );
     }
-    delete [] data;
     return count;        
 }

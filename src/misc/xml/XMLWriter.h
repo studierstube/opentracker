@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.4 2001/11/23 10:03:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.5 2002/09/17 17:59:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,8 +42,8 @@
 
 using namespace std;
 
-class DOM_Node;
-class XMLFormatter;
+class DOMNode;
+class XMLFormatTarget;
 
 /**
  * This class writes out the contents of the Context as a valid XML file. 
@@ -66,11 +66,8 @@ protected:
      * and therefore is not part of the interface.
      * @param toWrite the current XML element to write out
      * @param target the output stream to write to
-     * @param gFormatter XML formatting object 
-     * @param level indentation level to use, this is multiplied with indent to 
-     *        get the number of spaces.
      */
-    void writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter, int level);
+    void writeNode(DOMNode * toWrite, XMLFormatTarget * target );
 
 public:
     /** constructor, takes a context to work with.

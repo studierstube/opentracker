@@ -1,7 +1,7 @@
 /*
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2000 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,44 +55,7 @@
  */
 
 /*
- * $Log: DOMTreeErrorReporter.h,v $
- * Revision 1.3  2002/05/28 14:54:21  reitmayr
- * updated for XercesC 1.7 (changed include paths)
- *
- * Revision 1.2  2001/04/18 16:38:18  reitmayr
- * added lots of documentation, interlinked the module and node reference pages.
- * This needs the latest doxygen version (1.2.6) to work.
- *
- * Revision 1.1  2000/12/11 10:46:41  reitmayr
- * checked in new source code
- *
- * Revision 1.2  2000/08/24 08:45:23  reitmayr
- * modified to compile with VC++
- *
- * Revision 1.1  2000/08/16 14:51:32  reitmayr
- * added extended xml error handling, so only real valid configuration
- * files are used.
- *
- * Revision 1.4  2000/03/02 19:53:40  roddey
- * This checkin includes many changes done while waiting for the
- * 1.1.0 code to be finished. I can't list them all here, but a list is
- * available elsewhere.
- *
- * Revision 1.3  2000/02/06 07:47:18  rahulj
- * Year 2K copyright swat.
- *
- * Revision 1.2  1999/12/03 00:14:53  andyh
- * Removed transcoding stuff, replaced with DOMString::transcode.
- *
- * Tweaked xml encoding= declaration to say ISO-8859-1.  Still wrong,
- * but not as wrong as utf-8
- *
- * Revision 1.1.1.1  1999/11/09 01:09:51  twl
- * Initial checkin
- *
- * Revision 1.4  1999/11/08 20:43:36  rahul
- * Swat for adding in Product name and CVS comment log variable.
- *
+ * $Id: DOMTreeErrorReporter.h,v 1.4 2002/09/17 17:59:40 reitmayr Exp $
  */
 
 #include <xercesc/util/XercesDefs.hpp>

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.15 2002/05/28 14:54:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.16 2002/09/17 17:59:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,14 +37,19 @@
 #include <iostream.h>
 #endif
 
+#include <memory>
+
+#include <xercesc/dom/DOM.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/XMLUniDefs.hpp>
+#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
-#include <xercesc/parsers/DOMParser.hpp>
-#include <xercesc/dom/DOM_Node.hpp>
-#include <xercesc/dom/DOM_NodeList.hpp>
-#include <xercesc/dom/DOM_Document.hpp>
-#include <xercesc/dom/DOM_Element.hpp>
-#include <xercesc/dom/DOM_Text.hpp>
-#include <xercesc/dom/DOM_NamedNodeMap.hpp>
+
+
+using namespace std;
+
+const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+
 #include "DOMTreeErrorReporter.h"
 
 using namespace std;
@@ -58,11 +63,12 @@ ConfigurationParser::ConfigurationParser( Context & context_)
     try {
         XMLPlatformUtils::Initialize();
     }
-    catch ( XMLException& toCatch){
+    catch (const XMLException& toCatch) {
+        auto_ptr<char> message( XMLString::transcode(toCatch.getMessage()));
         cout << "Error during initialization! :\n"
-             << DOMString(toCatch.getMessage()).transcode() << endl;
+            << message.get() << "\n";
         exit(1);
-    }
+    }    
 }
 
 // Destructor method.
@@ -74,20 +80,21 @@ ConfigurationParser::~ConfigurationParser()
 
 // builds a tree of configuration nodes. 
 
-ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
+ConfigNode * ConfigurationParser::buildConfigTree( DOMElement * element )
 {
-    StringTable & map = parseElement( element );
-    string tagName = element.getTagName().transcode();
-    ConfigNode * config = new ConfigNode( map );
-    delete &map;
-	config->setParent( element );
-    DOM_NodeList list = element.getChildNodes();
-    for( int i = 0; i < list.getLength(); i ++ )
+    auto_ptr<StringTable> map ( parseElement( element ));
+    auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
+    string tagName = tempName.get();
+    ConfigNode * config = new ConfigNode( *map );
+    config->setParent( element );
+    //auto_ptr<DOMNodeList> list( element->getChildNodes());
+    DOMNodeList * list = element->getChildNodes();
+    for( int i = 0; i < list->getLength(); i ++ )
     {
-        if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+        if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
         {
-            DOM_Element childElement = (const DOM_Element &)list.item(i);
-            ConfigNode * child = buildConfigTree( childElement );      
+            DOMElement * childElement = (DOMElement *)list->item(i);
+            ConfigNode * child = buildConfigTree( childElement );
         }
     }
     return config;
@@ -95,56 +102,54 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
 
 // builds the tracker tree starting from a certain DOM_Element.
 
-Node * ConfigurationParser::buildTree( DOM_Element& element)
+Node * ConfigurationParser::buildTree( DOMElement * element)
 {
-    string tagName = element.getTagName().transcode();
-	StringTable & map = parseElement( element );
+    auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
+    string tagName = tempName.get();
+    auto_ptr<StringTable> map ( parseElement( element ));
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
     {
-        NodeMap::iterator find = references.find(map.get("USE"));
+        NodeMap::iterator find = references.find(map->get("USE"));
         if( find != references.end()){
 			RefNode * ref = new RefNode( (*find).second );
             ref->type = tagName;
 			ref->setParent( element );
-			cout << "Build Reference node -> " << map.get("USE") << "." << endl;
-			delete & map;			
-            return ref;
+			cout << "Build Reference node -> " << map->get("USE") << "." << endl;
+	        return ref;
         } else
         {
-            cout << "Undefined reference " << map.get("USE") << " !" << endl;
-			delete & map;
-            return NULL;
+            cout << "Undefined reference " << map->get("USE") << " !" << endl;
+	        return NULL;
         }
     }
 
-    Node * value = context.factory.createNode( tagName , map );
+    Node * value = context.factory.createNode( tagName , *map );
     if( value != NULL )
     {
 		value->setParent( element );        
         // Test for ID 
-        if( map.containsKey("DEF"))
+        if( map->containsKey("DEF"))
         {
-            references[map.get("DEF")] = value;
-            value->name = map.get("DEF");
-            cout << "Storing Reference " << map.get("DEF") << endl;
+            references[map->get("DEF")] = value;
+            value->name = map->get("DEF");
+            cout << "Storing Reference " << map->get("DEF") << endl;
         }
-        DOM_NodeList list = element.getChildNodes();
-        for( int i = 0; i < list.getLength(); i ++ )
+        //auto_ptr<DOMNodeList> list ( element->getChildNodes());
+        DOMNodeList * list = element->getChildNodes();
+        for( int i = 0; i < list->getLength(); i ++ )
         {
-            if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+            if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
-                DOM_Element childElement = (const DOM_Element &)list.item(i);
+                DOMElement * childElement = (DOMElement *)list->item(i);
                 Node * childNode = buildTree( childElement );
             }
         }
     }
     else
     {
-        cout << "Warning : Could not parse element " <<
-            element.getTagName().transcode() << endl;
+        cout << "Warning : Could not parse element " << tagName << endl;
     }
-    delete & map;
     return value;
 }
 
@@ -153,19 +158,29 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
 Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 {
     // read and parse configuration file
-    DOMParser parser;
-    parser.setDoValidation( true );
+    XercesDOMParser * parser = new XercesDOMParser();
+    parser->setValidationScheme( XercesDOMParser::Val_Always );
+    parser->setIncludeIgnorableWhitespace( false );
+
     DOMTreeErrorReporter errReporter;
-    parser.setErrorHandler(&errReporter);
-	parser.setIncludeIgnorableWhitespace( false );
+    parser->setErrorHandler( &errReporter );
+	
     try
     {
-        parser.parse( filename.c_str() );
+        parser->parse( filename.c_str() );
     }
-    catch ( XMLException& e)
+    catch (const XMLException& e)
     {
+        auto_ptr<char> message ( XMLString::transcode( e.getMessage()));
         cout << "An error occured during parsing\n   Message: "
-             << DOMString(e.getMessage()).transcode() << endl;
+            << message.get() << endl;
+        exit(1);
+    }
+    catch (const DOMException& e)
+    {
+        auto_ptr<char> message ( XMLString::transcode( e.msg ));
+        cout << "An error occured during parsing\n   Message: "
+            << message.get() << endl;
         exit(1);
     }
     if( errReporter.errorsEncountered() > 0 )
@@ -175,69 +190,77 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         exit(1);
     }
 
-    DOM_Document doc = parser.getDocument();
-    DOM_Element root = doc.getDocumentElement();
+    DOMDocument * doc = parser->getDocument();
+    DOMElement * root = doc->getDocumentElement();
     Node * node = new Node();
 	node->setParent( root );
-	cout << "Root node is " << root.getTagName().transcode() << endl;
+    auto_ptr<char> tempName( XMLString::transcode( root->getTagName()));
+	cout << "Root node is " << tempName.get() << endl;
 
     // get the configuration part
-    DOM_NodeList list = (DOM_NodeList)root.getElementsByTagName( "configuration" );
-    if( list.getLength() != 1 )
+    auto_ptr<XMLCh> configurationCh( XMLString::transcode( "configuration" ));
+    //auto_ptr<DOMNodeList> list( root->getElementsByTagName( configurationCh.get() ));
+    DOMNodeList * list = root->getElementsByTagName( configurationCh.get());    
+    if( list->getLength() != 1 )
     {
         cout << "not valid config file, not exactly one configuration tag" << endl;
-        cout << list.getLength() << " configurations." << endl;
+        cout << list->getLength() << " configurations." << endl;
         exit(1);
     }
 
     cout << "parsing configuration section" << endl;
 
     // parse configuration elements subelements
-    DOM_Element config = (const DOM_Element &)list.item(0);
-    DOM_NodeList configlist = (DOM_NodeList)config.getChildNodes();
+    DOMElement * config = (DOMElement *)list->item(0);
+    //auto_ptr<DOMNodeList> configlist( config->getChildNodes());
+    DOMNodeList * configlist = config->getChildNodes();
     int i;
-    for( i = 0; i < configlist.getLength(); i ++ )
+    for( i = 0; i < configlist->getLength(); i ++ )
     {
-        if( configlist.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+        if( configlist->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
         {
-            DOM_Element configElement = (const DOM_Element &)configlist.item(i);
-            StringTable & attributes = parseElement( configElement );
-            string tagName = configElement.getTagName().transcode();
-			ConfigNode * base = new ConfigNode( attributes );
+            DOMElement * configElement = (DOMElement *)configlist->item(i);
+            auto_ptr<StringTable> attributes( parseElement( configElement ));
+            auto_ptr<char> tempName( XMLString::transcode( configElement->getTagName()));
+            string tagName = tempName.get();
+			ConfigNode * base = new ConfigNode( *attributes );
 			base->setParent( configElement );
             cout << "config for " << tagName  << endl;
 
-            DOM_NodeList nodelist = (DOM_NodeList)configElement.getChildNodes();
-            
-            for( int j = 0; j < nodelist.getLength(); j++ )
+            //auto_ptr<DOMNodeList> nodelist( configElement->getChildNodes());
+            DOMNodeList * nodelist = configElement->getChildNodes();
+
+            int j;
+            for( j = 0; j < nodelist->getLength(); j++ )
             {
-                if( nodelist.item(j).getNodeType() == DOM_Node::ELEMENT_NODE )
+                if( nodelist->item(j)->getNodeType() == DOMNode::ELEMENT_NODE )
                 {        
-                    DOM_Element element = (const DOM_Element &)nodelist.item(j);                    
-                    ConfigNode * child = buildConfigTree( element );              
+                    DOMElement * element = (DOMElement *)nodelist->item(j);
+                    ConfigNode * child = buildConfigTree( element ); 
                 }
-            }	
+            }
             Module * module = context.getModule( tagName );
             if( module != NULL )
             {
-                module->init( attributes, base );
-            }
-            delete &attributes;
+                module->init( *attributes, base );
+            }            
         }
     }
 
     cout << "parsing tracker tree section" << endl;
 
     // parse the rest of the elements
-    DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();
-    for( i = 0; i < rootlist.getLength(); i++ )
+    //auto_ptr<DOMNodeList> rootlist( root->getChildNodes());
+    DOMNodeList * rootlist = root->getChildNodes();
+    for( i = 0; i < rootlist->getLength(); i++ )
     {
-        if( rootlist.item(i).getNodeType() != DOM_Node::ELEMENT_NODE )   // not an element node !
+        if( rootlist->item(i)->getNodeType() != DOMNode::ELEMENT_NODE )   // not an element node !
         {
             continue;
         }
-        DOM_Element element = (const DOM_Element &)rootlist.item(i);
-        if( element.getTagName().equals("configuration" ))    // the configuration element, allready handled
+        DOMElement * element = (DOMElement *)rootlist->item(i);
+        auto_ptr<char> tempTagName( XMLString::transcode(element->getTagName()));
+        if( 0 == XMLString::compareString( tempTagName.get(), "configuration" ))    // the configuration element, already handled
         {
             continue;
         }
@@ -248,14 +271,17 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 
 // parses an Elements attributes and returns a StringMap describing them.
 
-StringTable & ConfigurationParser::parseElement( DOM_Element& element)
+StringTable * ConfigurationParser::parseElement( DOMElement * element)
 {
     StringTable * value = new StringTable;
-    DOM_NamedNodeMap map = element.getAttributes();
-    for( int i = 0; i < map.getLength(); i++ )
+    // auto_ptr<DOMNamedNodeMap> map( element->getAttributes());   // is it still owned by the library ?
+    DOMNamedNodeMap * map = element->getAttributes();
+    for( int i = 0; i < map->getLength(); i++ )
     {
-        DOM_Attr attribute = (const DOM_Attr &)map.item( i );
-        value->put( attribute.getName().transcode(), attribute.getValue().transcode());
+        DOMAttr * attribute = (DOMAttr *)map->item( i );
+        auto_ptr<char> nameTemp( XMLString::transcode( attribute->getName()));
+        auto_ptr<char> valueTemp( XMLString::transcode( attribute->getValue()));
+        value->put( nameTemp.get(), valueTemp.get() );
     }
-    return *value;
+    return value;
 }
