@@ -136,7 +136,7 @@ void Node::removeChild(Node & child)
     try {
         parent->removeChild( *(child.parent));
     }
-    catch( DOM_DOMException& e )
+    catch( DOM_DOMException e )
     {}
 }
 
@@ -209,7 +209,7 @@ void Node::addWrappedChild(const string & name, Node & child)
 		try {
             wrapElement.appendChild( *(child.parent));
         }
-        catch( DOM_DOMException& e )
+        catch( DOM_DOMException e )
         {}
 	}
 }
@@ -225,7 +225,7 @@ void Node::removeWrappedChild(const string & name, Node & child)
 		try {
             wrapElement.removeChild( *(child.parent));
         }
-        catch( DOM_DOMException& e )
+        catch( DOM_DOMException e )
         {}
 	}
 }

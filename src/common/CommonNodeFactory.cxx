@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.15 2001/07/23 15:41:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,7 @@
 #include "MergeNode.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"
+#include "MatrixTransformation.h"
 #include "SelectionNode.h"
 
 #include<math.h>
@@ -99,6 +100,7 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
         val[1] = help[1];
         val[2] = help[2];
         val[3] = help[3];
+        MathUtils::normalizeQuaternion( val );
     }
     else if( type.compare("matrix") == 0 )
     {
@@ -167,6 +169,7 @@ EventQueueNode * CommonNodeFactory::buildEventQueue(
 Node * CommonNodeFactory::createNode( const string& name, StringTable& attributes)
 {
     float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
+    Node * result = NULL;
     if( name.compare("EventPositionTransform") == 0 ||
         name.compare("QueuePositionTransform") == 0 ||
         name.compare("TimePositionTransform") == 0 )
@@ -184,8 +187,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 1, 0 );
+        result =  new StaticTransformation( translation, scale, rot, 1, 0 );
     }
     else if( name.compare("EventOrientationTransform") == 0 ||
         name.compare("QueueOrientationTransform") == 0 ||
@@ -196,8 +198,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 0, 1 );
+        result = new StaticTransformation( translation, scale, rot, 0, 1 );
     }
     else if( name.compare("EventTransform") == 0 ||
         name.compare("QueueTransform") == 0 ||
@@ -216,8 +217,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new StaticTransformation( translation, scale, rot, 1, 1 );
+        result = new StaticTransformation( translation, scale, rot, 1, 1 );
     }
     else if( name.compare("EventVirtualTransform") == 0 ||
              name.compare("QueueVirtualTransform") == 0 ||
@@ -232,8 +232,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new VirtualTransformation( translation, scale, rot, 1, 1 );
+        result = new VirtualTransformation( translation, scale, rot, 1, 1 );
     }
     else if( name.compare("EventVirtualPositionTransform") == 0 ||
         name.compare("QueueVirtualPositionTransform") == 0 ||
@@ -243,8 +242,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing translation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new VirtualTransformation( translation, scale, rot, 1, 0 );
+        result = new VirtualTransformation( translation, scale, rot, 1, 0 );
     }
     else if( name.compare("EventVirtualOrientationTransform") == 0 ||
         name.compare("QueueVirtualOrientationTransform") == 0 ||
@@ -255,18 +253,15 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        cout << "Build "<< name << " node." <<endl;
-        return new VirtualTransformation( translation, scale, rot, 0, 1 );
+        result = new VirtualTransformation( translation, scale, rot, 0, 1 );
     }
     else if( name.compare("EventQueue") == 0 )
     {
-        cout << "Build "<< name << " node." <<endl;
-        return buildEventQueue( attributes );
+        result = buildEventQueue( attributes );
     }
     else if( name.compare("Merge") == 0 )
     {
-        cout << "Build "<< name << " node." << endl;
-        return new MergeNode();
+        result = new MergeNode();
     }
     else if( name.compare("Selection") == 0 )
     {
@@ -277,8 +272,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             timeOut = 100;
         }
-        cout << "Build "<< name << " node." << endl;
-        return new SelectionNode(timeOut);
+        result = new SelectionNode(timeOut);
     }
     else if( name.compare("EventDynamicTransform") == 0 ||
                name.compare("QueueDynamicTransform") == 0 ||
@@ -289,20 +283,28 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             baseEvent = 1;
         else
             baseEvent = 0;
-        cout << "Build " << name << " node." << endl;
-        return new DynamicTransformation( baseEvent );
+        result = new DynamicTransformation( baseEvent );
     }
     else if( name.compare("EventInvertTransform") == 0 ||
              name.compare("QueueInvertTransform") == 0 ||
              name.compare("TimeInvertTransform") == 0 )
     {
-        cout << "Build " << name << "node." << endl;
-        return new InvertTransformation();
+        result = new InvertTransformation();
+    }
+    else if( name.compare("EventMatrixTransform") == 0 ||
+             name.compare("QueueMatrixTransform") == 0 ||
+             name.compare("TimeMatrixTransform") == 0 )
+    {
+        float data[12];
+        attributes.get( "matrix", data, 12 );
+        result = new MatrixTransformation( data );
     }
     else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;
         return new WrapperNode();
     }
-    return NULL;
+    if( result != NULL )
+        cout << "Build "<< name << " node." <<endl;
+    return result;
 }
