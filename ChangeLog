@@ -1,3 +1,8 @@
+2004-08-02 17:13:12  Rev 726    reitmayr
+
+	* src/input/GPS_Handler.cxx, src/input/DGPSIP_Handler.cxx, 
+	  src/input/GPSDriver.cxx: fixed bug in dgps code
+
 2004-07-28 15:44:48  Rev 724    reitmayr
 
 	* src/input/XSensModule.h: doc update
