@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.4 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.5 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -188,7 +188,7 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
         exit(1);
     }
 
-    cout << "parsing config part" << endl;
+    cout << "parsing configuration section" << endl;
 
     // parse configuration elements subelements
     DOM_Element config = (DOM_Element &)list.item(0);
@@ -206,13 +206,13 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
             ConfigNode * base = NULL;
             for( int j = 0; j < nodelist.getLength(); j++ )
             {
-                if( nodelist.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
+                if( nodelist.item(j).getNodeType() == DOM_Node::ELEMENT_NODE )
                 {
                     if( base == NULL )
                     {
                         base = new ConfigNode("", new StringMap );
                     }
-                    DOM_Element element = (DOM_Element &)nodelist.item(i);                    
+                    DOM_Element element = (DOM_Element &)nodelist.item(j);                    
                     ConfigNode * child = buildConfigTree( element );
                     if( child != NULL )
                     {
@@ -229,7 +229,7 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
         }
     }
 
-    cout << "parsing children" << endl;
+    cout << "parsing tracker tree section" << endl;
 
     // parse the rest of the elements
     DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();

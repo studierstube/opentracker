@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.2 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,6 +46,8 @@ public:
     int number;
     /// the state that is stored
     State state;
+    /// a flag to indicate whether it was changed during processing
+    int changed;
 
 // Methods
 public:
@@ -54,7 +56,8 @@ public:
     ConsoleSource( int number_ ) :
         Node(), 
         EventGenerator(),
-        number( number_ )
+        number( number_ ),
+        changed( 0 )
     {}
 
     /** tests for EventGenerator interface being present. Is overriden to

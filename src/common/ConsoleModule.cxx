@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.4 2001/02/20 22:50:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.5 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -18,7 +18,7 @@
 
 // list of key symbols as ints to provide faster lookup
 
-static short MOVE_X_PLUS = 1,
+const short MOVE_X_PLUS = 1,
            MOVE_X_MINUS = 2,
            MOVE_Y_PLUS = 3,
            MOVE_Y_MINUS = 4,
@@ -49,7 +49,7 @@ static short MOVE_X_PLUS = 1,
            RESET = 30,
            QUIT = 31;
 
-vector<string> ConsoleModule::functionMap;
+StringVector ConsoleModule::functionMap;
           
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
@@ -60,7 +60,8 @@ ConsoleModule::~ConsoleModule()
     sources.clear();
 }
 
-#include "stdio.h"
+#include <stdio.h>
+#include <algorithm>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #include <iomanip>
@@ -73,12 +74,14 @@ ConsoleModule::~ConsoleModule()
 
 // constructor method.
 
-ConsoleModule::ConsoleModule() : Module(), NodeFactory()
+ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), keyMap(32)
 {
     // initialize some variables
     cycle = 0;
     angularSpeed = 0.1;
     posSpeed = 0.1;
+    station = 0;
+    quit = 0;
 
     // initialize key map
     keyMap[MOVE_X_PLUS] = 'o';
@@ -109,12 +112,13 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory()
     keyMap[STATION_7] = '7';
     keyMap[STATION_8] = '8';
     keyMap[STATION_9] = '9';
-    keyMap[RESET] = 'ß';
+    keyMap[RESET] = 'w';
     keyMap[QUIT] = 'q';
 
     // initialize function map, if no one has done it yet 
     if( functionMap.size() == 0 )
     {
+        functionMap.resize( 32 );
         functionMap[MOVE_X_PLUS] = "Move_X_plus";
         functionMap[MOVE_X_MINUS] = "Move_X_minus";
         functionMap[MOVE_Y_PLUS] = "Move_Y_plus";
@@ -179,6 +183,263 @@ Node * ConsoleModule::createNode( string& name,
     return NULL;
 }
 
+// pushes new events into the tracker tree
+
+void ConsoleModule::pushState()
+{
+    ConsoleSource * source;
+    float data[4];
+
+    // clear all button states, mark as changed if an actuall change occured
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->state.button != 0 )
+        {
+            source->state.button = 0;
+            source->changed = 1;
+        }
+    }
+
+    // read all keyboard events and execute their functions
+    // this may change various sources
+#ifdef WIN32
+    while( _kbhit() )
+    {   
+        char key = _getch();        
+#else
+    while()
+    {
+#endif
+        int index = find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
+        switch( index )
+        {
+            case QUIT : 
+                quit = 1;
+                break;
+            case ACCELL : 
+                angularSpeed += 0.01;
+                posSpeed += 0.01;
+                break;
+            case BRAKE :
+                angularSpeed -= 0.01;
+                if( angularSpeed < 0 ) angularSpeed = 0;
+                posSpeed -= 0.01;
+                if( posSpeed < 0 ) posSpeed = 0;
+                break;
+            case STATION_0 :
+                station = 0;
+                break;
+            case STATION_1 :
+                station = 1;
+                break;
+            case STATION_2 :
+                station = 2;
+                break;
+            case STATION_3 :
+                station = 3;
+                break;
+            case STATION_4 :
+                station = 4;
+                break;
+            case STATION_5 :
+                station = 5;
+                break;
+            case STATION_6 :
+                station = 6;
+                break;
+            case STATION_7 :
+                station = 7;
+                break;
+            case STATION_8 :
+                station = 8;
+                break;
+            case STATION_9 :
+                station = 9;
+                break;
+            case BUTTON_1 :
+                setButton( station , 1 );
+                break;
+            case BUTTON_2 :
+                setButton( station , 2 );
+                break;
+            case BUTTON_3 :
+                setButton( station , 3 );
+                break;
+            case BUTTON_4 :
+                setButton( station , 4 );
+                break;
+            case MOVE_X_MINUS :
+                data[0] = - posSpeed;
+                data[1] = 0;
+                data[2] = 0;
+                move( station, data );
+                break;
+            case MOVE_X_PLUS :
+                data[0] = posSpeed;
+                data[1] = 0;
+                data[2] = 0;
+                move( station, data );
+                break;
+            case MOVE_Y_MINUS :
+                data[0] = 0;
+                data[1] = - posSpeed;
+                data[2] = 0;
+                move( station, data );
+                break;
+            case MOVE_Y_PLUS :
+                data[0] = 0;
+                data[1] = posSpeed;
+                data[2] = 0;
+                move( station, data );
+                break;
+            case MOVE_Z_MINUS :
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = - posSpeed;
+                move( station, data );
+                break;
+            case MOVE_Z_PLUS :
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = posSpeed;
+                move( station, data );
+                break;
+            case ROT_X_PLUS :
+                data[0] = 1;
+                data[1] = 0;
+                data[2] = 0;
+                data[3] = angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case ROT_X_MINUS :
+                data[0] = 1;
+                data[1] = 0;
+                data[2] = 0;
+                data[3] = -angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case ROT_Y_PLUS :
+                data[0] = 0;
+                data[1] = 1;
+                data[2] = 0;
+                data[3] = angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case ROT_Y_MINUS :
+                data[0] = 0;
+                data[1] = 1;
+                data[2] = 0;
+                data[3] = -angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case ROT_Z_PLUS :
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = 1;
+                data[3] = angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case ROT_Z_MINUS :
+                data[0] = 0;
+                data[1] = 0;
+                data[2] = 1;
+                data[3] = -angularSpeed;
+                MathUtils::axisAngleToQuaternion( data, data );
+                rotate( station, data );
+                break;
+            case RESET :
+                reset( station );
+                break;
+        }
+    }
+
+    // check for changed sources and let them generate events
+    for( it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->changed == 1 )
+        {          
+            source->push();
+            source->changed = 0;
+        }
+    }
+}
+
+// sets button values on stations sources
+
+void ConsoleModule::setButton( int station , int button )
+{
+    ConsoleSource * source;
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->number == station )
+        {
+            source->state.button |= ( 1 << ( button - 1 ));
+            source->changed = 1;
+        }
+    }
+}
+
+// moves stations sources by given amount
+
+void ConsoleModule::move( int station , float * data )
+{
+    ConsoleSource * source;
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->number == station )
+        {
+            source->state.position[0] += data[0];
+            source->state.position[1] += data[1];
+            source->state.position[2] += data[2];
+            source->changed = 1;
+        }
+    }
+}
+
+// rotates stations sources by given amount
+
+void ConsoleModule::rotate( int station, float * data )
+{
+    ConsoleSource * source;
+    float help[4];
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->number == station )
+        {
+            memcpy(help, source->state.orientation, sizeof( help ));
+            MathUtils::multiplyQuaternion( data, help, source->state.orientation );
+            source->changed = 1;
+        }
+    }
+}
+
+// resets a given stations sources to null position 
+
+void ConsoleModule::reset( int station )
+{
+    ConsoleSource * source;
+    State identity;
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    {
+        source = (ConsoleSource *)(*it);
+        if( source->number == station )
+        {
+            source->state = identity;
+            source->changed = 1;
+        }
+    }
+}
+
 // pulls events out of the tracker tree
 
 void ConsoleModule::pullState()
@@ -188,7 +449,15 @@ void ConsoleModule::pullState()
         return;
     }
     cycle = (cycle+1) % interval;
-    if( cycle == 0 ){    
+    if( cycle == 0 ){
+        int display = 0;
+        for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it++ )
+        {  
+            display |= ((ConsoleSink *)(*it))->changed;
+            ((ConsoleSink *)(*it))->changed = 0;
+        }
+        if( !display )
+            return;
 #ifndef WIN32
         move(1,1);            
 #else        
@@ -222,12 +491,13 @@ void ConsoleModule::pullState()
         }
 #endif
 #ifdef WIN32
-        cout << headerline << endl << endl;
+        cout << headerline << endl;
+        cout << "    Station : " << station << " PosSpeed : " << posSpeed << " RotSpeed : " << angularSpeed << endl;
 #else
         printw("%s", headerline.c_str());
         printw("");
 #endif
-        for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it++ )
+        for( it = sinks.begin(); it != sinks.end(); it++ )
         {
             ConsoleSink * sink = (ConsoleSink *) *it;
             State & state = sink->state;
@@ -274,14 +544,28 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
         NodeVector & nodes = base->getChildren();
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
         {
-            ConfigNode * config = (*it);
+            ConfigNode * config = (ConfigNode *)(*it);
             if( config->getName().compare("KeyDefinition") == 0 )
             {
-                
+                string & function = config->getAttributes()["function"];
+                string & key = config->getAttributes()["key"];
+                StringVector::iterator funcIt = find( functionMap.begin(), functionMap.end(), function );                                
+                if( funcIt != functionMap.end() )
+                {
+                    int index = funcIt - functionMap.begin();                    
+                    keyMap[index] = key[0];
+                }                 
             }
         }
     }
     Module::init( attributes, localTree );
+    /*
+    cout << "Current key map :" << endl;
+    for( int i = 1; i <= QUIT; i ++ )
+    {
+        cout << "Function " << functionMap[i] << " got key " << keyMap[i] << endl;
+    }
+    */
 }
 
 // start the module and init curses
@@ -289,7 +573,7 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
 void ConsoleModule::start()
 {
 #ifndef WIN32
-    if( sinks.size() > 0 )
+    if( sinks.size() > 0 || sources.size() > 0 )
     {
         initscr();
         cbreak();
@@ -316,10 +600,5 @@ void ConsoleModule::close()
 
 int ConsoleModule::stop()
 {
-#ifdef WIN32
-    if( _kbhit() )
-        return 1;
-#else
-#endif
-    return 0;
+    return quit;
 }

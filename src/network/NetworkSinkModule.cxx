@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.3 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  
@@ -81,7 +81,7 @@ Node * NetworkSinkModule::createNode( string& name,  StringMap& attributes)
             groupData->data.headerId=htons(magicNum);
             groupData->data.revNum=htons(revNum);              
             groupData->data.commentLength = serverName.length();
-            strcpy( groupData->data.data, name.c_str());
+            strcpy( groupData->data.data, serverName.c_str());
             groupData->data.headerLength= serverName.length() + (sizeof(short int))*6;
             groupData->data.commentLength=htons(groupData->data.commentLength);
             groupData->data.headerLength=htons(groupData->data.headerLength);
@@ -110,10 +110,15 @@ void NetworkSinkModule::start()
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket.open( ACE_INET_Addr( 12345, "localhost" )) == -1 )
+        if( socket.open( ACE_INET_Addr( 12346, "localhost" )) == -1 )
         {
             cout << "Error opening socket in NetworkSinkModule !" << endl;
             exit(1);
+        }
+        // sets maxStationNum to network byte order
+        for( GroupVector::iterator it = groups.begin() ; it != groups.end(); it++ )
+        {
+            (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);                
         }
     }
     Module::start();
@@ -224,8 +229,8 @@ void NetworkSinkModule::convertFloatsHToNl(float* floats, float* result, int num
 
     for (i=0; i<num; i++)                 
     {
-	convert.f = floats[i];
-	convert.l = htonl(convert.l);    // Convert host to network byte order
-	result[i] = convert.f;
+	    convert.f = floats[i];
+	    convert.l = htonl(convert.l);    // Convert host to network byte order
+	    result[i] = convert.f;
     }
 }

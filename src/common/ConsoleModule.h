@@ -6,8 +6,9 @@
 /** header file for ConsoleModule module.
   *
   * @author Gerhard Reitmayr
+  * @todo a lot of documentation needed !
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.4 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -19,16 +20,21 @@
  * to the console. On a unix system it uses curses to format display.
  * It has the following attributes :
  * @li @c interval 10 number of cycles to wait between displaying data.
+ * @li @c headerline "" a single line used as headerline in the display.
  *
  * An example configuration element looks like this :
  * @verbatim
-<ConsoleConfig interval="10"/>@endverbatim
+<ConsoleConfig interval="10" headerline="Tracker Test 1">
+    <KeyDefinition function="Move_X_plus" key="o"/>
+</ConsoleConfig>@endverbatim
  */
 
 #ifndef _CONSOLEMODULE_H
 #define _CONSOLEMODULE_H
 
 #include "../OpenTracker.h"
+
+typedef vector<string> StringVector;
 
 /**
  * The module and factory to drive the console output sink nodes. 
@@ -54,13 +60,45 @@ protected:
     string headerline;
     /// angular velocity and positional velocity
     float angularSpeed, posSpeed;
+    /// currently active station, must be in [0-9]
+    int station;
+    /// should the module quit ?
+    int quit;
 
     /// maps the function names in the config file to indices
-    static vector<string> functionMap;
+    static StringVector functionMap;
     /// maps key chars to indices
     vector<char> keyMap;
 
 // Methods
+protected:
+    /** sets the button bit of given button on all sources that
+     * are associated with station. Changes the changed flag on
+     * the sources.
+     * @param station the number of the station to change
+     * @param button the number of the button to set ( 1 - 4, where 1 corresponds to LSB )
+     */
+    void setButton( int station , int button );
+    /** moves the position by the given data on all sources that
+     * are associated with station. Changes the changed flag on
+     * the sources.
+     * @param station the number of the station to change
+     * @param data array of 3 floats giving the movement vector
+     */
+    void move( int station, float * data );
+    /** rotates the state by the given data on all sources that
+     * are associated with station. Changes the changed flag on
+     * the sources.
+     * @param station the number of the station to change
+     * @param data array of 4 floats giving rotational quaternion
+     */
+    void rotate( int station, float * data );
+    /** resets the data on all sources that are associated with
+     * the given station. Changes the changed flag on
+     * the sources.
+     * @param station the number of the station to change
+     */
+    void reset( int station );
 public:
     /** constructor method. initializes internal and static data
      * such as the functionMap and keyMap tables. */
@@ -74,7 +112,6 @@ public:
      * @param localTree pointer to root of configuration nodes tree
      */
     virtual void init(StringMap& attributes,  Node * localTree);
-
     /** This method is called to ruct a new Node. It compares
      * name to the ConsoleSink element name, and if it matches
      * creates a new ConsoleSink node.
@@ -83,6 +120,12 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( string& name,  StringMap& attributes);
+    /**
+     * checks the console for keyboard input and updates any
+     * ConsoleSource nodes accordingly. This happens every cycle 
+     * and all key presses recorded since are used.
+     */
+    virtual void pushState();
     /**
      * reads out the ConsoleSink nodes current state an prints it
      * to the console. This is done only each length cylce.

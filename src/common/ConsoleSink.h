@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.2 2001/03/05 17:21:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,6 +47,8 @@ public:
     string comment;
     /// the state that is stored
     State state;
+    /// flag whether state was changed since last display
+    int changed;
 
 // Methods
 public:
@@ -56,7 +58,8 @@ public:
         Node(), 
         EventGenerator(),
         EventObserver(),
-        comment( comment_ )
+        comment( comment_ ),
+        changed( 0 )
     {}
 
     /**
@@ -93,6 +96,7 @@ public:
                                    EventGenerator& generator)
     {
         state = event;
+        changed = 1;
         updateObservers( state );
     }
 };
