@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.1 2001/04/04 09:19:45 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.2 2001/05/28 12:54:25 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
