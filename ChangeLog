@@ -9,6 +9,30 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-01-27 12:28  reitmayr
+
+	* tools/ipaq/buttonlistener/: ButtonInputCatcher.java,
+	ConnectionListener.java, README.html,
+	Setup_Bluetooth-Verbindung_iPAQ-ger.html, startInputCatcher.java,
+	at/ac/tuwien/ims/vrlu/ButtonInputCatcher.class,
+	at/ac/tuwien/ims/vrlu/ConnectionListener.class,
+	at/ac/tuwien/ims/vrlu/startInputCatcher.class:
+	
+	added Java ButtonListener implementation as a tool to OpenTracker.
+	Documentation can also be found there.
+
+2003-01-27 11:57  reitmayr
+
+	* doc/: changes.txt, contributions.txt, opentracker.dxy:
+	
+	updated documentation files
+
+2003-01-27 11:55  reitmayr
+
+	* data/opentracker.dtd:
+	
+	forgot to add StbSource to source node entity. fixed now
+
 2003-01-15 03:22  tamer
 
 	* doc/: ChangeLog.2000, ChangeLog.2001, ChangeLog.2002:
