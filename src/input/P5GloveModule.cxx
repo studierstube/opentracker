@@ -26,7 +26,7 @@
   *
   * @author Hannes Kaufmann, Istvan Barakonyi
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.cxx,v 1.2 2003/03/25 11:05:12 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveModule.cxx,v 1.3 2003/05/02 15:31:47 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,7 +66,7 @@ P5GloveModule::P5GloveModule() : Module(), NodeFactory()
 // Destructor method
 P5GloveModule::~P5GloveModule()
 {
-    nodes.clear();
+	nodes.clear();
 }
 
 // initializes trackers
@@ -129,8 +129,12 @@ void P5GloveModule::start()
 // closes P5Glove library
 void P5GloveModule::close()
 {
-    P5device->P5_SetMouseState(0, true);
-    printf("Closing P5Glove \n");
+	// if P5 glove is turned ON and actually used by stb, than mouseState must be set back, 
+	// otherwise calling SetMouseState would cause a crash on exit
+	if( isInitialized() == 1 )
+		P5device->P5_SetMouseState(0, true);
+	P5device->P5_Close();
+	printf("Closing P5Glove \n");
 }
 
 // pushes events into the tracker tree.
