@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-09-24 13:10  reitmayr
+
+	* src/core/: MathUtils.cxx, MathUtils.h:
+	
+	added a general euler to quat conversion method
+
 2003-09-17 14:52  knapp
 
 	* src/common/: GroupGateNode.cxx, GroupGateNode.h:
