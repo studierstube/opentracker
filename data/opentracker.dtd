@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Firefly (YRG) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.76 2003/07/24 14:00:17 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.77 2003/07/27 10:48:51 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,MagicYConfig?,DwarfConfig?">
@@ -610,7 +610,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT StbInputConfig (KeyDefinition*)>
 <!ATTLIST StbInputConfig
   keyevents (on | off) "off"
-  mouseevents (on | off ) "on"
+  mouseevents (on | off) "on"
 >
 <!ELEMENT StbKeyboardSource EMPTY>
 <!ATTLIST StbKeyboardSource
@@ -736,7 +736,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!--MagicY Module and acting as source node-->
 <!ELEMENT MagicYConfig EMPTY>
-<!ATTLIST MagicYConfig 
+<!ATTLIST MagicYConfig
   hostname CDATA #REQUIRED
   screens CDATA #REQUIRED
   positionMapping CDATA "0 1 2"
@@ -745,23 +745,24 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   z_value CDATA "0.0"
 >
 <!ELEMENT MagicYSource EMPTY>
-<!ATTLIST MagicYSource 
+<!ATTLIST MagicYSource
   DEF ID #IMPLIED
   number CDATA #REQUIRED
   average (true | false) "false"
 >
 <!-- Dwarf service configuration elements -->
-<!ELEMENT DwarfConfig (attribute*,(need|ability)*)>
+<!ELEMENT DwarfConfig (attribute*, (need | ability)*)>
 <!ATTLIST DwarfConfig
   servicemanager CDATA #IMPLIED
   name CDATA #REQUIRED
+  senddescription (true | false) "true"
 >
 <!ELEMENT attribute EMPTY>
 <!ATTLIST attribute
   name CDATA #REQUIRED
   value CDATA #REQUIRED
 >
-<!ELEMENT need (attribute*,connector*)>
+<!ELEMENT need (attribute*, connector*)>
 <!ATTLIST need
   name CDATA #REQUIRED
   type CDATA #REQUIRED
@@ -774,7 +775,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST connector
   protocol CDATA #REQUIRED
 >
-<!ELEMENT ability (attribute*,connector*)>
+<!ELEMENT ability (attribute*, connector*)>
 <!ATTLIST ability
   name CDATA #REQUIRED
   type CDATA #REQUIRED
@@ -784,7 +785,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT DwarfSink (%EventNodes;)>
 <!ATTLIST DwarfSink
   DEF ID #IMPLIED
-  name CDATA #REQUIRED 
+  name CDATA #REQUIRED
 >
 <!ELEMENT DwarfSource EMPTY>
 <!ATTLIST DwarfSource
