@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.12 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.13 2001/04/24 19:58:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -480,7 +480,7 @@ void ConsoleModule::pullState()
         if( !display )
             return;
 #ifndef WIN32
-        move(1,1);            
+        move(0,0);            
 #else        
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         if( hStdout == INVALID_HANDLE_VALUE )
@@ -515,8 +515,7 @@ void ConsoleModule::pullState()
         cout << headerline << endl;
         cout << "    Station : " << station << " PosSpeed : " << posSpeed << " RotSpeed : " << angularSpeed << endl;
 #else
-        printw("%s", headerline.c_str());
-        printw("");
+        printw("%s\n\n", headerline.c_str());
 #endif
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {
@@ -536,7 +535,7 @@ void ConsoleModule::pullState()
             cout << "  Confidence : " << std::setw( 8 ) << std::setprecision( 3 ) << state.confidence << endl;
             cout << "  Time : " << std::setw( 8 ) << std::setprecision( 3 ) << state.time << endl << endl;            
 #else
-            printw(" %s : ",sink->comment);
+            printw("%s :\n",sink->comment.c_str());
             printw("  Pos : %f %f %f\n",state.position[0], 
                    state.position[1], state.position[2]);
             printw("  Rot : %f %f %f %f\n", state.orientation[0], 
