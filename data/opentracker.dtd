@@ -318,6 +318,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST TimeConfig
 	sleep CDATA #IMPLIED
 	rate CDATA #IMPLIED
+	display (true | false) "false"
 >
 <!-- Selection Node and associated wrapper tag -->
 <!ELEMENT Select (%EventNodes;)>

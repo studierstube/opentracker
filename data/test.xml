@@ -6,7 +6,7 @@
 	<configuration>
 		<NetworkSinkConfig name="Test Server"/>
 		<ConsoleConfig interval="1" headerline="Test Server"/>
-		<TimeConfig sleep="50"/>
+		<TimeConfig sleep="10" display="true"/>
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">
