@@ -26,16 +26,16 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.5 2003/04/09 20:48:18 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.6 2003/04/29 13:54:17 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "DGPSIP_Handler.h"
-#include "GPSDriver.h"
 #include "rtcm.h"
 
 DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
+counter( 0 ),
 parent( parent_ )
 {
 
@@ -43,7 +43,7 @@ parent( parent_ )
 
 DGPSIP_Handler::~DGPSIP_Handler()
 {
-
+	parent->removeListener(this);
 }
 
 int DGPSIP_Handler::open( void * factory )
@@ -61,6 +61,7 @@ int DGPSIP_Handler::open( void * factory )
 		ACE_OS::snprintf(buf, sizeof(buf), "HELO %s %s %s%s\r\n", hn, "GPSDriver", "0.1", "\r\nR");
 		result = peer().send_n( buf, ACE_OS::strlen(buf));
         peer().get_remote_addr( remoteAddr  );
+		parent->addListener( this );
 	}
 	return result;
 }
@@ -104,4 +105,21 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
         return i == MAX_RETRIES ? -1 : 0;
     }
 	return 0;
+}
+
+void DGPSIP_Handler::newPoint( const GPSPoint & point, void * userData )
+{
+	char rptbuf[1024];
+
+	++counter;
+	if( counter % 10 == 0)
+	{
+		// only send 2 digit on the wire to anonymize our position 
+		ACE_OS::snprintf(rptbuf, 1024,
+			"R %0.2f %0.2f %0.2f -- %d %0.2e %0.2e %0.2e %0.1f %0.1f\n",
+			point.lat, point.lon, point.height, (double)1.0, (double)1.0, 
+			(double)1.0, (double)1.0,(double)point.hdop,(double)point.numsats );				
+		peer().send_n( rptbuf, ACE_OS::strnlen( rptbuf, 1024 ));
+		counter = 0;
+	}	
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.9 2003/04/09 14:11:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.10 2003/04/29 13:54:17 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -105,7 +105,7 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		{
 			server = NULL;
             cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
-		}		
+		}
 	}
 
     // open a mirror if we have a DGPS handler
@@ -171,12 +171,6 @@ void GPSDriver::new_point( const GPSListener::GPSPoint & point )
 	std::map<GPSListener *, void *>::iterator it;
 	for( it = listeners.begin(); it != listeners.end(); it++ )
 		(*it).first->newPoint( point, (*it).second );
-}
-
-void GPSDriver::send_dgpsip( const char * buffer, const int len )
-{
-	if( NULL != server )
-		server->peer().send_n( buffer, len );
 }
 
 void GPSDriver::send_rtcm( const char * buffer, const int len )

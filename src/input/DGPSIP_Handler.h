@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.4 2003/04/08 18:59:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.5 2003/04/29 13:54:17 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -38,8 +38,7 @@
 #include <ace/Connector.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Connector.h>
-
-class GPSDriver;
+#include "GPSDriver.h"
 
 /**
  * This class retrieves RTCM correction data from a DGPSIP server and sends
@@ -48,7 +47,7 @@ class GPSDriver;
  * @ingroup input
  * @author Gerhard Reitmayr
  */
-class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
+class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>, GPSListener
 {
 public:
 	/// default constructor for ace framework. Do not use !
@@ -60,9 +59,11 @@ public:
 	virtual int open( void * factory );
 	virtual int handle_input(ACE_HANDLE fd);
 
+	virtual void newPoint( const GPSPoint & point, void * userData );
+
 protected:
 	GPSDriver * parent;
-
+	int counter;
     ACE_INET_Addr remoteAddr;
 };
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.3 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.4 2003/04/29 13:54:17 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -98,7 +98,6 @@ public:
 protected:
 
 	void new_point( const GPSListener::GPSPoint & point );
-	void send_dgpsip( const char * buffer, const int len );
 	void send_rtcm( const char * buffer, const int len );
 
 	ACE_Reactor * reactor;

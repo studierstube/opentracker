@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.2 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.3 2003/04/29 13:54:18 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -64,7 +64,6 @@ int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
 {
     int ncnt, rd;
 	GPSListener::GPSPoint point;
-	char rptbuf[NMEABUFSZ];
 
     ncnt = peer().recv( nmeabuf + nmeaind, NMEABUFSZ - nmeaind);
     if (ncnt > 0) {
@@ -77,18 +76,7 @@ int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
 						point.lat, point.lon, point.height,
 						point.hdop, point.numsats);
 				}
-				// copy data to opentracker sink here !
-				parent->new_point( point );
-
-				/* only send 2 digit on the wire */
-				ACE_OS::snprintf(rptbuf, NMEABUFSZ,
-					"R %0.2f %0.2f %0.2f -- %d %0.2e %0.2e %0.2e %0.1f %0.1f\n",
-					point.lat, point.lon, point.height, (double)1,
-					(double)1.0, (double)1.0, (double)1.0,
-					(double)point.hdop,
-					(double)point.numsats );				
-				// write to DGPSIP_Handler
-				parent->send_dgpsip( rptbuf, strlen(rptbuf));
+				parent->new_point( point );				
 			}
 			else
 			{
