@@ -125,9 +125,9 @@ public:
         state.button = 0x0001;
 
         // store command id at position[0], x coordinate
-        state.position[0] = m_SpeechSet->GetCommandId(command.c_str());
+        state.position[0] = (float)m_SpeechSet->GetCommandId(command.c_str());
         // store speech set id at position[1], y coordinate
-        state.position[1] = m_SpeechSet->GetId();
+        state.position[1] = (float)m_SpeechSet->GetId();
         // change the z position, so the event will continue
         state.position[2] = state.position[2] + 1;
         
@@ -147,9 +147,9 @@ public:
       state.button = 0x0000;
       
       // store command id at position[0], x coordinate
-      state.position[0] = m_SpeechSet->GetCommandId(command.c_str());
+      state.position[0] = (float)m_SpeechSet->GetCommandId(command.c_str());
       // store speech set id at position[1], y coordinate
-      state.position[1] = m_SpeechSet->GetId();
+      state.position[1] = (float)m_SpeechSet->GetId();
       // change the z position, so the event will continue
       state.position[2] = state.position[2] + 1;
       

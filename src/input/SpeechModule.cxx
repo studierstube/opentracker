@@ -103,7 +103,7 @@ Node* SpeechModule::createNode(const string& name, StringTable& attributes)
           CommandName = CommandNode->getAttributes().get("name");
           float CommandWeight = 1.0f;
           if(CommandNode->getAttributes().get("weight").size() > 0)
-            CommandWeight = atof(CommandNode->getAttributes().get("weight").c_str());
+            CommandWeight = (float)atof(CommandNode->getAttributes().get("weight").c_str());
           
           printf("SR:  Register CommandId = %i, Command = '%s', Weight = %.2f\n", CommandId, CommandName.c_str(), CommandWeight);
           speechset->AddCommand(CommandName.c_str(), CommandId, CommandWeight);

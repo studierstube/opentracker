@@ -179,9 +179,9 @@ void WacomGraphireModule::start()
 
         // output the data in screen coords
         lcMine.lcOutOrgX = lcMine.lcOutOrgY = 0;
-        lcMine.lcOutExtX = 127.6*40;//GetSystemMetrics(SM_CXSCREEN); //127.6
+        lcMine.lcOutExtX = (LONG)(127.6*40);//GetSystemMetrics(SM_CXSCREEN); //127.6
         // move origin to upper left 
-        lcMine.lcOutExtY = -92.8*40;//-GetSystemMetrics(SM_CYSCREEN); //92.8
+        lcMine.lcOutExtY = (LONG)(-92.8*40);//-GetSystemMetrics(SM_CYSCREEN); //92.8
 
         // open the region 
         if ((hTab = WTOpen(hWndWacom, &lcMine, TRUE)) == NULL)
@@ -222,9 +222,9 @@ void WacomGraphireModule::pushState()
             WacomGraphireSource * source = (WacomGraphireSource *)(*it);
             if (curNew==source->device)
             {
-                source->state.position[0] = ptNew.x/40.0/1000;
-                source->state.position[1] = ptNew.y/40.0/1000;
-                source->state.position[2] = prsNew; 
+                source->state.position[0] = (float)(ptNew.x/40.0/1000);
+                source->state.position[1] = (float)(ptNew.y/40.0/1000);
+                source->state.position[2] = (float)(prsNew); 
                 source->state.button = butNew;
                 source->state.timeStamp();
                 source->updateObservers( source->state );

@@ -442,7 +442,7 @@ void ARToolKitModule::grab()
                 {
                     lock();
                     State & state = source->buffer;
-                    state.confidence = markerInfo[k].cf;
+                    state.confidence = (float)markerInfo[k].cf;
 
 #ifdef ARTOOLKIT_UNFLIP_V
 
@@ -464,7 +464,7 @@ void ARToolKitModule::grab()
                     MathUtils::Vector3 euler_angles;
                     MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
                     
-                    MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], state.orientation);
+                    MathUtils::eulerToQuaternion((float)-euler_angles[Q_Z],(float)euler_angles[Q_Y],(float)-euler_angles[Q_X], state.orientation);
                     
                     state.position[0] = (float)matrix_4x4_corrected[0][3];
                     state.position[1] = (float)matrix_4x4_corrected[1][3];

@@ -471,9 +471,9 @@ void DynaSightModule::run()
                         x_meter = x / SCALE_TO_METER;
                         y_meter = y / SCALE_TO_METER;
                         z_meter = z / SCALE_TO_METER;
-                        myState.position[0] = x_meter;
-                        myState.position[1] = y_meter;
-                        myState.position[2] = z_meter;
+                        myState.position[0] = (float)x_meter;
+                        myState.position[1] = (float)y_meter;
+                        myState.position[2] = (float)z_meter;
                         
                         // set the orientation
                         if (hasLookAt)
@@ -484,8 +484,8 @@ void DynaSightModule::run()
                             diff_y = y_meter - lookAtVector[1];
                             diff_z = z_meter - lookAtVector[2];
                             
-                            alpha = atan2(diff_x, diff_z);
-                            beta = -atan2(diff_y, diff_z);
+                            alpha = (float)atan2(diff_x, diff_z);
+                            beta = (float)-atan2(diff_y, diff_z);
                             
                             // DEBUG
                             /*
@@ -511,7 +511,7 @@ void DynaSightModule::run()
                         }
                         
                         // set the confidence value
-                        myState.confidence = (status == TRACK) ? 1.0 : 0.5;
+                        myState.confidence = (status == TRACK) ? 1.0f : 0.5f;
                         
                         myState.timeStamp();
                         unlock();
