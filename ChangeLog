@@ -9,6 +9,22 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-14 13:47  reitmayr
+
+	* data/: opentracker.dtd, test.xml:
+	
+	new RangeFilter to filter events based on length of the position
+	part
+
+2003-05-14 13:43  reitmayr
+
+	* src/common/CommonNodeFactory.cxx, src/common/Makefile.am,
+	src/common/RangeFilterNode.cxx, src/common/RangeFilterNode.h,
+	opentracker.dsp:
+	
+	new RangeFilter to filter events based on length of the position
+	part
+
 2003-05-09 17:50  tamer
 
 	* extras/intersense/Makefile.am,
