@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.15 2003/08/06 10:22:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.16 2003/10/16 07:51:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -47,7 +47,8 @@ reactor( reactor_ ),
 receiver( NULL ),
 server( NULL ),
 acceptor( NULL ),
-fix( false )
+fix( false ),
+rtcmdev( NULL )
 {
 	if( NULL == reactor )
 		reactor = ACE_Reactor::instance();
@@ -67,7 +68,7 @@ GPSDriver::~GPSDriver()
     clients.clear();
 }
 
-int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port, int dgpsmirror)
+int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port, int dgpsmirror, const std::string & rtcmdev )
 {
     if( getDebug())
         std::cout << "GPSDriver open\n";
@@ -125,6 +126,32 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
         if( getDebug())
             std::cout << "GPSDriver opened mirror listener.\n";
     }
+
+    // open a dedicated serial port for RTCM output, if we have one
+    // it assumes the same baud rate as the serial port
+    if( rtcmdev.compare("") != 0)
+    {
+        this->rtcmdev = new ACE_TTY_IO;
+        ACE_DEV_Connector connector( *this->rtcmdev, ACE_DEV_Addr(rtcmdev.c_str()));
+        // set the appropriate parameters
+        ACE_TTY_IO::Serial_Params params;		
+        result = this->rtcmdev->control( ACE_TTY_IO::GETPARAMS, &params);
+        params.baudrate = baud;
+        params.databits = 8;
+        params.stopbits = 1;
+        params.parityenb = 0;
+        params.rtsenb = 1;
+        params.ctsenb = 1;
+        result = this->rtcmdev->control(ACE_TTY_IO::SETPARAMS, &params );			
+        if( result != 0 )
+        {
+            delete this->rtcmdev;
+            this->rtcmdev = NULL;
+            std::cerr << "GPSDriver could not open serial port " << rtcmdev << " !\n";
+        }
+        if( getDebug())
+            std::cout << "GPSDriver opened serial port " << rtcmdev << endl;
+    }    
 	return result;
 }
 
@@ -145,6 +172,11 @@ void GPSDriver::close()
         delete acceptor;
         acceptor = NULL;
     }
+    if( rtcmdev != NULL )
+    {
+        delete rtcmdev;
+        rtcmdev = NULL;
+    }    
 }
 
 void GPSDriver::addListener( GPSListener * listener, void * userData )
@@ -189,7 +221,9 @@ void GPSDriver::new_line( const char * line )
 
 void GPSDriver::send_rtcm( const char * buffer, const int len )
 {
-	if( NULL != receiver )
+    if( NULL != this->rtcmdev )
+        rtcmdev->send_n( buffer, len );
+	else if( NULL != receiver )
 		receiver->peer().send_n( buffer, len );
     std::vector<DGPSMirror_Handler *>::iterator it;
     for( it = clients.begin(); it != clients.end(); it ++ )

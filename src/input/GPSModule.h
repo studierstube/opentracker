@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.5 2003/06/23 11:45:02 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.6 2003/10/16 07:51:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -110,6 +110,7 @@ protected:
 	std::string dgpsServer;
 	int dgpsPort;
     int dgpsmirror;
+    std::string rtcmdev;
 
 	GPSSource * source;
     GPSDirectionSource * dirSource;

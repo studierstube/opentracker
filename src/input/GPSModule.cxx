@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.10 2003/08/06 10:22:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.11 2003/10/16 07:51:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -64,6 +64,7 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
 	device = attributes.get("dev");
 	dgpsServer = attributes.get("DGPSserver");
+    rtcmdev = attributes.get("rtcmdev");
 	if( attributes.get( "baudrate", &baudRate ) != 1 )
 	{
 		baudRate = 9600;		// default GPS receiver baud rate
@@ -198,7 +199,7 @@ void GPSModule::run()
     if( logFile != NULL )
         driver->addListener( this );
 	driver->getReactor()->owner(ACE_Thread::self());
-	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror ) != 0 )
+	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror, rtcmdev ) != 0 )
 	{
 		std::cout << "GPSModule could not start GPSDriver !\n";
 		return;

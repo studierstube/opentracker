@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.7 2003/08/06 08:17:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.8 2003/10/16 07:51:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -45,6 +45,7 @@ class DGPSIP_Handler;
 class DGPSMirror_Handler;
 class DGPSMirror_Acceptor;
 class ACE_Reactor;
+class ACE_TTY_IO;
 
 /**
  * This is an abstract interface for the clients of the GPSDriver class.
@@ -79,7 +80,7 @@ public:
 	GPSDriver( ACE_Reactor * reactor_ = NULL );
 	virtual ~GPSDriver();
 
-	int open( const std::string & device, int baud, const std::string & serveraddr = "", int serverport = 2101, int dgpsmirror = -1 );
+	int open( const std::string & device, int baud, const std::string & serveraddr = "", int serverport = 2101, int dgpsmirror = -1, const std::string & rtcmdevice = "" );
 	void close();
 
 	void setDebug( bool debug );
@@ -123,6 +124,7 @@ protected:
 	GPS_Handler * receiver;
 	DGPSIP_Handler * server;
     DGPSMirror_Acceptor * acceptor;
+    ACE_TTY_IO * rtcmdev;
 
 	bool debugOn;
     bool fix;
