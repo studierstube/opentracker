@@ -382,7 +382,7 @@ void ARToolKitPlusModule::pushState()
 
 bool ARToolKitPlusModule::updateARToolKit()
 {
-	if(!initialized)
+	if(!initialized || maxMarkerId==-1)
 		return false;
 
 	ARToolKitPlus::ARUint8 * frameData = NULL;
@@ -509,7 +509,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 		//
 		visibleMarkers.push_back(source);
 
-		if(source->getType()=="ARToolKitSource")
+		if(source->getType()=="ARToolKitPlusSource")
 		{
 	        ARToolKitSource *sourceA = (ARToolKitSource*)source;
 			ARFloat source_center[2], source_size;
@@ -522,7 +522,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 				updateSource(sourceA, markerInfo[j].cf, matrix);
 		}
 		else
-		if(source->getType()=="ARToolKitMultiMarkerSource")
+		if(source->getType()=="ARToolKitPlusMultiMarkerSource")
 		{
 			bool alreadyProcessed = false;
 
