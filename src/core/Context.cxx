@@ -26,11 +26,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.9 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.10 2001/05/02 12:59:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "Context.h"
+#include "../OpenTracker.h"
 
 #ifndef WIN32
 #include <unistd.h>
@@ -44,10 +45,18 @@
 
 // constructor method.
 
-Context::Context()
+Context::Context( int init )
 {
     // Build a parser
     parser = new ConfigurationParser( factory );
+    if( init != 0 )
+    {
+        initializeContext( *this );
+        cleanUp = 1;
+    }
+    else {
+        cleanUp = 0;
+    }
 }
 
 // Destructor method.
@@ -55,9 +64,12 @@ Context::Context()
 Context::~Context()
 {
     delete parser;
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    if( cleanUp = 1 )
     {
-        delete (*it);
+        for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+        {
+            delete (*it);
+        }
     }
     modules.clear();
 }

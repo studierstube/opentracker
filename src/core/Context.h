@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.8 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.9 2001/05/02 12:59:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,8 +44,25 @@
 typedef std::vector<Module *> ModuleVector;
 
 /**
- * This class represents one context. It keeps its own modules and tracker tree. Furthermore
- * it implements the main loop driving the tracker.
+ * This class represents one context. It keeps its own modules and tracker tree. Using
+ * a ConfigurationParser it builds the tree from a given configuration file. Any 
+ * factories and modules need to be added before the parsing happens, otherwise
+ * the nodes can not be parsed and the modules will not be initialized with
+ * their respective configuration elements. 
+ *
+ * Finally it implements the main loop driving the tracker. This consists of
+ * the following basic algorithm described in pseudo code here :
+ *@verbatim
+start();
+while( !stop())
+{
+    pushState();
+    pullState();
+}
+close();@endverbatim
+ * The whole loop is implemented in the member function run, which can be used
+ * instead of implementing it yourself.
+ *
  * @author Gerhard Reitmayr
  * @ingroup core
  */
@@ -61,13 +78,18 @@ protected:
     NodeFactoryContainer factory;
     /// Pointer to a local ConfigurationParser used to build the tracker tree.
     ConfigurationParser * parser;
+    /// flag to remember whether the Context is responsible for cleaning up the modules.
+    int cleanUp;
 
 // Methods
 public:
-   /** a constructor method. It instantiates all known modules and factories and
-    * adds them to its local containers. */
-    Context();
-   /** destructor method clears containers */
+   /** a constructor method. 
+    * @param init If init is not equal to 0, it instantiates all known modules and 
+    *        factories, adds them to its local containers and also takes care of 
+    *        removing them again in the destructor.*/
+    Context( int init = 0 );
+   /** destructor method clears containers and removes any modules instantiated in
+    * the default setup, if cleanUp is st. */
     virtual ~Context();
    /** adds a new newfactory to the NodeFactoryContainer.
     * @param newfactory reference to the new factory */

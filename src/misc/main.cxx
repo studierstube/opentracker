@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.7 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.8 2001/05/02 12:59:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -53,9 +53,9 @@ int main(int argc, char **argv)
 
     // important parts of the system
     // get a context, the default modules and factories are
-    // added allready.
-    Context context;
-    initializeContext( context );
+    // added allready ( because of the parameter 1 )
+    Context context( 1 );
+
     cout << "Context established." << endl;
 
     // parse the configuration file, builds the tracker tree
