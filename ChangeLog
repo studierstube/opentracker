@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-01-30 18:55  tamer
+
+	* INSTALL, opentracker_env.sh, bin/Makefile.am:
+	
+	made the standalone executable be named opentracker and the test
+	tool ottest.  Wrote documentation that explains the building
+	process.
+
 2003-01-27 12:28  reitmayr
 
 	* tools/ipaq/buttonlistener/: ButtonInputCatcher.java,
