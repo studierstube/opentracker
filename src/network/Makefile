@@ -16,11 +16,14 @@ HFILES = \
         NetworkSinkModule.h \
         NetworkSink.h \
         NetworkSourceModule.h \
-        NetworkSource.h
+        NetworkSource.h \
+        TCPSink.h \
+        TCPModule.h
 
 C++FILES = \
         NetworkSinkModule.cxx \
-        NetworkSourceModule.cxx
+        NetworkSourceModule.cxx \
+        TCPModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
