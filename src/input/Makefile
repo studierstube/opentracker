@@ -20,21 +20,24 @@ HFILES = \
         InterTraxSource.h \
         WacomGraphireModule.h \
         WacomGraphireSource.h \
-	InterSenseSource.h \
-	InterSenseModule.h \
+        InterSenseSource.h \
+        InterSenseModule.h \
         FOBModule.h \
         FOBSource.h \
         ParButtonSource.h \
-        ParButtonModule.h
+        ParButtonModule.h \
+        FastTrakModule.h \
+        FastTrakSource.h
         
 C++FILES = \
         ARToolKitModule.cxx \
         CyberMouseModule.cxx \
         InterTraxModule.cxx \
         WacomGraphireModule.cxx \
-	InterSenseModule.cxx \
+        InterSenseModule.cxx \
         FOBModule.cxx \
-        ParButtonModule.cxx
+        ParButtonModule.cxx \
+        FastTrakModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
