@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.15 2001/11/09 22:07:45 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.16 2001/12/11 13:40:00 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,13 +52,16 @@
 #include "../common/TimeModule.h"
 #include "../common/FileModule.h"
 #include "../input/ParButtonModule.h"
+#include "../input/FOBModule.h"
 #include "../network/TCPModule.h"
+#include "../input/FastTrakModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
 #include "../input/ARToolKitModule.h"
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
+#include "../input/JoystickModule.h"
 
 // DLL main function
 
@@ -151,4 +154,19 @@ void OPENTRACKER_API initializeContext( Context & context )
     TCPModule * tcp = new TCPModule();
     context.addFactory( *tcp );
     context.addModule( "TCPConfig", *tcp );
+
+    FOBModule * fob = new FOBModule();
+    context.addFactory( *fob );
+    context.addModule( "FOBConfig", *fob );
+
+#ifdef USE_JOYSTICK
+    JoystickModule * joy = new JoystickModule();
+    context.addFactory( *joy );
+    context.addModule( "JoystickConfig", *joy );
+#endif
+
+    FastTrakModule * ftrak = new FastTrakModule();
+    context.addFactory( *ftrak );
+    context.addModule( "FastTrakConfig", *ftrak );
+
 }
