@@ -92,7 +92,16 @@
 // #define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-//#define USE_ARTOOLKITPLUS 1
+#define USE_ARTOOLKITPLUS 1
+
+
+/** uncomment the following line to compile ARToolKitPlusModule be a video source
+ * as the ARToolKitModule does it too. this is a very bad design choice and was only
+ * added to ARToolKitPlusModule to remain compatibility with Studierstube3 which relies
+ * on this feature in the ARToolKitModule
+ */
+//#define ARTOOLKITPLUS_IS_CAMERASOURCE
+
 
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 //#define USE_TINYXML 1
@@ -108,7 +117,7 @@
 //#define TINYXML_STATIC
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
-//#define USE_MSDEV_DEBUGOUTPUT 1
+#define USE_MSDEV_DEBUGOUTPUT 1
 
 /**
  * This define enables the correction of ARToolkit transformation matrices

@@ -39,6 +39,8 @@
 #ifndef _ARTOOLKITMODULEPLUS_H
 #define _ARTOOLKITMODULEPLUS_H
 
+//#define ARTOOLKITPLUS_IS_CAMERASOURCE
+
 #include "../dllinclude.h"
 
 #include <vector>
@@ -47,6 +49,23 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_ARTOOLKITPLUS
+
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+
+class MemoryBufferHandle
+{
+};
+
+class CVVidCapture;
+
+#define STEREO_L 0
+#define STEREO_R 1
+
+class CVImage;
+
+#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+
 
 #include <ARToolKitPlus/TrackerSingleMarker.h>
 
@@ -189,6 +208,57 @@ public:
 	void setCameraDeviceHint(const char* nDeviceName)  {  cameraDeviceHint = nDeviceName;  }
 
 	NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
+
+
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+	virtual void start();
+
+	virtual void close();
+
+
+    /** returns whether two cameras are configured */
+    bool isStereo();
+
+    /** returns the width of the grabbed image in pixels */
+    int getSizeX(int stereo_buffer = STEREO_L);
+
+    /** returns the height of the grabbed image in pixels */
+    int getSizeY(int stereo_buffer = STEREO_L);
+
+    /** returns whether the grabbed image is flipped horizontally
+	  * or vertically */
+    void getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer = STEREO_L);
+
+    /** returns a pointer to the grabbed image. The image format
+     * is depending on the pixel format and typically RGB or RGBA 
+     * times X times Y bytes. 
+     * @return pointer to image buffer */
+    unsigned char * lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer = STEREO_L);
+	// formerly getFrame()
+
+    /** releases the pointer to the grabbed image.
+     * @release frame pointer */
+    void unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer = STEREO_L);
+
+    /** 
+     * returns the OpenGL flag that is used by ARToolkit to describe
+     * the pixel format in the frame buffer. This is a simple way to 
+     * pass the necessary information to use the image data in GL calls. */
+    int getImageFormat(int stereo_buffer = STEREO_L);
+
+	void setCapturedImage(CVImage* nImage);
+
+protected:
+	CVVidCapture* vidCap;
+	CVImage* curCapImage;
+
+	std::string videomode;
+	int			videoWidth, videoHeight;
+	bool		didLockImage;
+	CRITICAL_SECTION CriticalSection; 
+
+#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
 };
 
 } // namespace ot

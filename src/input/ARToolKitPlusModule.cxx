@@ -49,6 +49,32 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+
+#include <VidCapture.h>
+
+  // we don't want to include opengl.h here...
+#  ifndef GL_RGB
+#    define GL_RGB 0x1907
+#  endif
+
+namespace ot {
+	bool capCallback(CVRES status, CVImage* imagePtr, void* userParam);
+}
+
+#  pragma comment ( lib, "Strmiids.lib" )
+#  pragma comment ( lib, "Quartz.lib" )
+
+#ifdef _DEBUG
+#  pragma comment ( lib, "VidCapLib_db.lib" )
+#else
+#  pragma comment ( lib, "VidCapLib.lib" )
+#endif //_DEBUG
+
+
+#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+
 //using namespace std;
 
 #include <stdio.h>
@@ -82,6 +108,13 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 	bestCFs = NULL;
 	maxMarkerId = -1;
 	useMarkerDetectLite = false;
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+	vidCap = NULL;
+	curCapImage = NULL;
+	videoWidth = videoHeight = 0;
+	didLockImage = false;
+#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
 }
 
 
@@ -260,6 +293,10 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
             tmpThreshold = 255;
     }
 	tracker->setThreshold(tmpThreshold);
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+	videomode = attributes.get("videomode");
+#endif
 
 	if( attributes.get("flipX").compare("true") == 0 )
 		flipX = true;
@@ -655,6 +692,251 @@ ARToolKitPlusModule::getARToolKitPlusDescription() const
 {
 	return tracker->getDescription();
 }
+
+
+
+
+
+
+#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+
+
+void
+ARToolKitPlusModule::start()
+{
+	vidCap = CVPlatform::GetPlatform()->AcquireVideoCapture();
+
+	if(!CVSUCCESS(vidCap->Init()))
+	{
+		CVPlatform::GetPlatform()->Release(vidCap);
+		LOG_ACE_ERROR("ERROR: initializing video capture object failed.\n");
+		return;
+	}
+
+	LOG_ACE_ERROR("Initialized video capture object.\n");
+
+	if(!CVSUCCESS(vidCap->Connect(0)))
+	{
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);      
+		LOG_ACE_ERROR("ERROR: connecting to camera failed.\n");
+		return;
+	}
+
+	int numDev = 0, useDev = -1;;
+	vidCap->GetNumDevices(numDev);
+
+	const char* cfgCamName = "NO_CAMERA_NAME";
+
+	for(int i=0; i<numDev; i++)
+	{
+		int devNameLen = 0;
+		vidCap->GetDeviceName(0,devNameLen);
+		devNameLen++;
+		char* cameraName = new char[devNameLen];
+		vidCap->GetDeviceName(cameraName,devNameLen);
+
+		// TODO: get camera name from config file
+		if(!strcmp(cameraName, cfgCamName))
+			useDev = i;
+		delete cameraName;
+
+		if(i!=0)
+			break;
+	}
+
+	if(useDev == -1)
+	{
+		LOG_ACE_ERROR("WARNING: camera '%s' not found. using default camera\n", cfgCamName);
+		useDev = 0;
+	}
+
+
+	// find the specified video mode
+	//
+	int firstSpace = videomode.find(" ");
+	int lastSpace = videomode.rfind(" ");
+
+	if(firstSpace!=-1 && lastSpace!=-1)
+	{
+		std::string widthStr = videomode.substr(0, firstSpace);
+		std::string heightStr = videomode.substr(lastSpace, videomode.length());
+
+		videoWidth = atoi(widthStr.c_str());
+		videoHeight = atoi(heightStr.c_str());
+	}
+
+	if(videoWidth==0 || videoHeight==0)
+	{
+		videoWidth = 320;
+		videoHeight = 240;
+	}
+
+
+	CVVidCapture::VIDCAP_MODE modeInfo;
+	int numModes = 0, videoModeId = -1;
+	vidCap->GetNumSupportedModes(numModes);
+
+	// Check each mode 
+	for(int curmode=0; curmode<numModes; curmode++)
+		if(CVSUCCESS(vidCap->GetModeInfo(curmode, modeInfo)))
+			if(modeInfo.XRes==videoWidth && modeInfo.YRes==videoHeight)
+			{
+				videoModeId = curmode;
+				break;
+			}
+
+	if(videoModeId==-1)
+	{
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		LOG_ACE_ERROR("ERROR: could not find specified video mode\n");
+		return;
+	}
+
+
+	if(CVFAILED(vidCap->SetMode(videoModeId)))
+	{
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		LOG_ACE_ERROR("ERROR: failed to set camera mode.\nIf the application crashes please restart with the next mode!\n");
+		return;
+	}
+
+	InitializeCriticalSection(&CriticalSection);
+	didLockImage = false;
+
+	if(!CVSUCCESS(vidCap->StartImageCap(CVImage::CVIMAGE_RGB24, ot::capCallback, this)))
+	{
+		LOG_ACE_ERROR("ERROR: failed to start capturing.\nIf the application crashes please restart with the next mode!\n");
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		DeleteCriticalSection(&CriticalSection);
+		return;
+	}
+}
+
+
+void
+ARToolKitPlusModule::close()
+{
+	if(vidCap)
+	{
+		vidCap->Stop();
+		vidCap->Disconnect();
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		vidCap = NULL;
+		DeleteCriticalSection(&CriticalSection);
+	}
+}
+
+
+bool
+ARToolKitPlusModule::isStereo()
+{
+	return false;
+}
+
+
+int
+ARToolKitPlusModule::getSizeX(int stereo_buffer)
+{
+	return -1;
+}
+
+
+
+int 
+ARToolKitPlusModule::getSizeY(int stereo_buffer)
+{
+	return -1;
+}
+
+
+void
+ARToolKitPlusModule::getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer)
+{
+	*isFlippedH = false;
+	*isFlippedV = false;
+}
+
+
+unsigned char *
+ARToolKitPlusModule::lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer)
+{
+	if(!curCapImage)
+		return NULL;
+
+	if(curCapImage->Width()!=videoWidth || curCapImage->Height()!=videoHeight)
+		return NULL;
+
+	didLockImage = true;
+	EnterCriticalSection(&CriticalSection); 
+	return curCapImage->GetRawDataPtr();
+}
+
+
+void
+ARToolKitPlusModule::unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer)
+{
+	if(didLockImage)
+		LeaveCriticalSection(&CriticalSection);
+	didLockImage = false;
+}
+
+
+int
+ARToolKitPlusModule::getImageFormat(int stereo_buffer)
+{
+	return GL_RGB;
+}
+
+
+void
+ARToolKitPlusModule::setCapturedImage(CVImage* nImage)
+{
+	__try 
+    {
+        EnterCriticalSection(&CriticalSection); 
+
+		if(curCapImage)
+			CVImage::ReleaseImage(curCapImage);
+
+		if(nImage)
+		{
+			curCapImage = nImage;
+			curCapImage->AddRef();
+		}
+    }
+    __finally 
+    {
+        LeaveCriticalSection(&CriticalSection);
+    }
+}
+
+
+bool
+capCallback(CVRES status, CVImage* imagePtr, void* userParam)
+{
+	// Only try to work with the image pointer if the
+	// status is successful!
+	if(CVSUCCESS(status))
+	{
+		reinterpret_cast<ARToolKitPlusModule*>(userParam)->setCapturedImage(imagePtr);
+	}
+	else
+	{
+		printf("ERROR: could not retrieve video image\n");
+	}
+
+	return true;
+}
+
+
+#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+
+
 
 
 } //namespace ot
