@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.3 2003/04/29 13:54:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.4 2003/06/06 13:14:46 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -89,5 +89,9 @@ int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
 			memmove(nmeabuf, nmeabuf + rd, nmeaind);
 		}
 	}
+#ifdef WIN32
+    else // this is a hack to avoid high resource consumption on windows !
+        ACE_OS::sleep(ACE_Time_Value(0,20000));
+#endif
 	return 0;
 }
