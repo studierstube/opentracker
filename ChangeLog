@@ -9,6 +9,15 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-02-07 17:41  flo
+
+	* src/input/: SpeechModule.cxx, SpeechModule.h:
+	
+	moved implementation of Speak() method from headerfile (inline)  to
+	cxx file  - this causes an linker error when linking stbapi in
+	release configuration.	i think it is bad practice to specify
+	methods that use non-local information or calls as inline...
+
 2003-01-31 18:21  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
