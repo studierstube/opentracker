@@ -71,6 +71,7 @@
 #include "../input/GPSModule.h"
 #include "../input/MagicYModule.h"
 #include "../common/CallbackModule.h"
+#include "../common/LogModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -120,6 +121,9 @@ void OPENTRACKER_API initializeContext( Context & context )
     // Instance the default modules and add to factory and parser
     CommonNodeFactory * common = new CommonNodeFactory;
     context.addFactory( *common );
+
+    LogModule * log = new LogModule;
+    context.addModule( "LogConfig", *log );
 
     TestModule * test = new TestModule;
     context.addFactory( *test );

@@ -1019,6 +1019,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\common\LogModule.cxx">
+			</File>
+			<File
 				RelativePath="src\input\MagicYModule.cxx">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -2035,6 +2038,9 @@
 			</File>
 			<File
 				RelativePath="src\input\JoystickSource.h">
+			</File>
+			<File
+				RelativePath=".\src\common\LogModule.h">
 			</File>
 			<File
 				RelativePath="src\input\MagicYModule.h">
