@@ -182,10 +182,6 @@ SOURCE=.\src\input\InterSenseModule.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\InterTraxModule.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\common\InvertTransformation.cxx
 # End Source File
 # Begin Source File
@@ -447,14 +443,6 @@ SOURCE=.\src\input\InterSenseModule.h
 # Begin Source File
 
 SOURCE=.\src\input\InterSenseSource.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\InterTraxModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\InterTraxSource.h
 # End Source File
 # Begin Source File
 
