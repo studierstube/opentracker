@@ -240,6 +240,10 @@ SOURCE=.\src\common\VirtualTransformation.cxx
 
 SOURCE=.\src\input\WacomGraphireModule.cxx
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\xml\XMLWriter.cxx
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -491,6 +495,10 @@ SOURCE=.\src\input\WacomGraphireModule.h
 # Begin Source File
 
 SOURCE=.\src\input\WacomGraphireSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\xml\XMLWriter.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
