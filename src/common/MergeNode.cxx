@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.6 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,7 +51,7 @@ void MergeNode::onEventGenerated( State& event, Node & generator)
 	if( generator.isWrapperNode() == 1 )  // this should always be the case
 	{
 		WrapperNode & wrap = (WrapperNode &)generator;
-		if( wrap.getTagName().compare("MergeDefault") == 0 )
+		if( wrap.getType().compare("MergeDefault") == 0 )
 		{
 			if( countWrappedChildren("MergePosition") == 0 )
 				flag |= POSITION;
@@ -64,15 +64,15 @@ void MergeNode::onEventGenerated( State& event, Node & generator)
 			if( countWrappedChildren("MergeTime") == 0 )
 				flag |= TIME;
 		} 
-		else if( wrap.getTagName().compare("MergePosition") == 0 )
+		else if( wrap.getType().compare("MergePosition") == 0 )
 			flag |= POSITION;
-		else if( wrap.getTagName().compare("MergeOrientation") == 0 )
+		else if( wrap.getType().compare("MergeOrientation") == 0 )
 			flag |= ORIENTATION;
-		else if( wrap.getTagName().compare("MergeButton") == 0 )
+		else if( wrap.getType().compare("MergeButton") == 0 )
 			flag |= BUTTON;
-		else if( wrap.getTagName().compare("MergeConfidence") == 0 )
+		else if( wrap.getType().compare("MergeConfidence") == 0 )
 			flag |= CONFIDENCE;
-		else if( wrap.getTagName().compare("MergeTime") == 0 )
+		else if( wrap.getType().compare("MergeTime") == 0 )
 			flag |= TIME;			
 		if( flag & POSITION )
 		{

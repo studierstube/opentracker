@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.5 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,7 +79,7 @@ CyberMouseModule::~CyberMouseModule()
 }
 
 // This method is called to construct a new Node.
-Node * CyberMouseModule::createNode( string& name, StringMap& attributes)
+Node * CyberMouseModule::createNode( const string& name, StringMap& attributes)
 {
     if( name.compare("CyberMouseSource") == 0 )
     {       

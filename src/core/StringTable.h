@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.2 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,9 +38,9 @@
 #include<string>
 #include<map>
 
-using namespace std;
+// using namespace std;
 
-typedef map<string,string> StringMap;
+typedef std::map<std::string,std::string> StringMap;
 
 
 /**
@@ -58,28 +58,45 @@ protected:
 public:
     /** constructor */
     StringTable();
+    /** copy constructor, builds a new table by copying another
+     * @param table StringTable to copy from
+     */
+    StringTable( const StringTable & table );
     /** destructor */
     ~StringTable();
     /** returns a value stored in the map
      * @param key the key the value is for 
      * @returns the string value or an empty string, if the key is not found */
-    const string & get( const string & key );
+    const std::string & get( const std::string & key );
     /** stores a key value pair in the table, overwritting a possible prior 
      * value
      * @param key the key to store it under
      * @param value the value to store */
-    void put( const string &key, const string &value );
+    void put( const std::string &key, const std::string &value );
     /**
      * removes a key value pair from the table
      * @param key the key to the pair */
-    void remove( const string &key );
+    void remove( const std::string &key );
     /**
      * tests, whether the table contains a certain key
      * @param the key to test for */
-    int containsKey( const string & );
+    int containsKey( const std::string & );
     /** returns the number of pairs stored 
      * @returns unsigned with the number of pairs */
     unsigned size();
+ 
+    void put(const std::string & key, const int value);
+    void put(const std::string & key, const float value);
+    void put(const std::string & key, const double value);
+
+    void put(const std::string & key, const int * value, int len);
+    void put(const std::string & key, const float * value, int len);
+    void put(const std::string & key, const double * value, int len);
+
+    int get(const std::string & key, int * value, int len );
+    int get(const std::string & key, float * value, int len );
+    int get(const std::string & key, double * value, int len );
+
 };
 
 #endif

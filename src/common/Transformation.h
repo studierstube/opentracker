@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.8 2001/04/30 10:10:15 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.9 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,11 +64,11 @@ protected:
      */
     virtual State* transformState( State* state) = 0;
 
-public:
     /** constructor method
      */
     Transformation();
 
+public:
     /**
      * returns the event number n back in time starting with the
      * newest for n = 0

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSink.h,v 1.1 2001/07/09 16:00:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSink.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,7 +71,7 @@ public:
     int changed;	
 
 // Methods
-public:
+protected:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
     FileSink( File & file_, int station_ = 0 ) :
@@ -81,7 +81,7 @@ public:
         changed( 0 )
     {}
 
-    
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -105,6 +105,8 @@ public:
         changed = 1;
         updateObservers( state );
     }
+
+    friend class FileModule;
 };
 
 #endif

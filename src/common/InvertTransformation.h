@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/InvertTransformation.h,v 1.1 2001/05/22 08:36:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/InvertTransformation.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -72,12 +72,12 @@ protected:
      */
     virtual State* transformState( State* state) ;
 
-public:
-
     /** default constructor method sets values to implement identity 
      * transformation */
     InvertTransformation()
     {}
+
+    friend class CommonNodeFactory;
 };
 
 #endif

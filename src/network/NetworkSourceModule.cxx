@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.14 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.15 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -49,7 +49,9 @@
 #include <iostream.h>
 #endif
 
-typedef std::vector<Station *> StationVector;
+using namespace std;
+
+typedef vector<Station *> StationVector;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;
@@ -212,7 +214,7 @@ void NetworkSourceModule::run( void * data )
     
  
 //  constructs a new Node
-Node * NetworkSourceModule::createNode( string& name,  StringTable& attributes)
+Node * NetworkSourceModule::createNode( const string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSource") == 0 )
     { 

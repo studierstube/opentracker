@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.13 2001/06/13 19:58:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,12 +47,14 @@
 #include <dom/DOM_NamedNodeMap.hpp>
 #include "DOMTreeErrorReporter.h"
 
+using namespace std;
+
 // constructor method
 
-ConfigurationParser::ConfigurationParser( NodeFactory& factory_)
-  : factory( factory_ )
+ConfigurationParser::ConfigurationParser( Context & context_)
+  : context( context_ )
 {
-    // Initialize the XML4C system
+    // Initialize the XercesC system
     try {
         XMLPlatformUtils::Initialize();
     }
@@ -67,15 +69,7 @@ ConfigurationParser::ConfigurationParser( NodeFactory& factory_)
 
 ConfigurationParser::~ConfigurationParser()
 {
-  modules.clear();
-  references.clear();
-}
-
-// adds a named module to the internal ModuleMap.
-
-void ConfigurationParser::addModule(const string& name, Module& module)
-{
-    modules[name] = &module;
+    references.clear();
 }
 
 // builds a tree of configuration nodes. 
@@ -84,7 +78,8 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
 {
     StringTable & map = parseElement( element );
     string tagName = element.getTagName().transcode();
-    ConfigNode * config = new ConfigNode( tagName, &map );
+    ConfigNode * config = new ConfigNode( map );
+    delete &map;
 	config->setParent( element );
     DOM_NodeList list = element.getChildNodes();
     for( int i = 0; i < list.getLength(); i ++ )
@@ -110,6 +105,7 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
         NodeMap::iterator find = references.find(map.get("USE"));
         if( find != references.end()){
 			RefNode * ref = new RefNode( (*find).second );
+            ref->type = tagName;
 			ref->setParent( element );
 			cout << "Build Reference node -> " << map.get("USE") << "." << endl;
 			delete & map;			
@@ -122,14 +118,15 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
         }
     }
 
-    Node * value = factory.createNode( tagName , map );
+    Node * value = context.factory.createNode( tagName , map );
     if( value != NULL )
     {
-		value->setParent( element );
+		value->setParent( element );        
         // Test for ID 
         if( map.containsKey("DEF"))
         {
             references[map.get("DEF")] = value;
+            value->name = map.get("DEF");
             cout << "Storing Reference " << map.get("DEF") << endl;
         }
         DOM_NodeList list = element.getChildNodes();
@@ -179,8 +176,9 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     }
 
     DOM_Document doc = parser.getDocument();
-	document = new DOM_Document( doc );
     DOM_Element root = doc.getDocumentElement();
+    Node * node = new Node();
+	node->setParent( root );
 	cout << "Root node is " << root.getTagName().transcode() << endl;
 
     // get the configuration part
@@ -205,7 +203,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             DOM_Element configElement = (const DOM_Element &)configlist.item(i);
             StringTable & attributes = parseElement( configElement );
             string tagName = configElement.getTagName().transcode();
-			ConfigNode * base = new ConfigNode( tagName, & attributes );
+			ConfigNode * base = new ConfigNode( attributes );
 			base->setParent( configElement );
             cout << "config for " << tagName  << endl;
 
@@ -219,9 +217,10 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
                     ConfigNode * child = buildConfigTree( element );              
                 }
             }	
-            if( modules.find(tagName) != modules.end())
+            Module * module = context.getModule( tagName );
+            if( module != NULL )
             {
-                modules.find(tagName)->second->init( attributes, base );
+                module->init( attributes, base );
             }
             delete &attributes;
         }
@@ -231,8 +230,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 
     // parse the rest of the elements
     DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();
-	Node * node = new Node();
-	node->setParent( root );
     for( i = 0; i < rootlist.getLength(); i++ )
     {
         if( rootlist.item(i).getNodeType() != DOM_Node::ELEMENT_NODE )   // not an element node !
@@ -261,14 +258,4 @@ StringTable & ConfigurationParser::parseElement( DOM_Element& element)
         value->put( attribute.getName().transcode(), attribute.getValue().transcode());
     }
     return *value;
-}
-
-// removes a module with the given name from the ModuleMap
-
-void ConfigurationParser::removeModule(const string& name)
-{
-    if( modules.find(name) != modules.end())
-    {
-        modules.erase( name );
-    }
 }

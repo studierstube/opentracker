@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.h,v 1.1 2001/04/29 16:32:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,7 +47,7 @@
 #include "../OpenTracker.h"
 #include "CallbackNode.h"
 
-typedef std::map<string, Node*> NodeMap;
+typedef std::map<std::string, Node*> NodeMap;
 
 /**
  * The module and factory to drive the callback nodes. It constructs
@@ -77,7 +77,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
  
     /** sets a callback on a certain node. The node is identified by its
      * unique name. Any present callback function in the node is overwritten
@@ -85,7 +85,7 @@ public:
      * @param name the unique name of the callback node 
      * @param function the new callback function to set on the node
      */
-    void setCallback( const string& name, CallbackFunction * function );
+    void setCallback( const std::string& name, CallbackFunction * function );
 };
 
 #endif

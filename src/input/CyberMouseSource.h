@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.6 2001/06/11 22:02:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -67,10 +67,13 @@ public:
     State state;
 
 // Methods
-public:
+protected:
     /** simple constructor, sets members to initial values */
     CyberMouseSource() : Node()
-    {};
+    {}
+
+public:
+    
         
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -79,6 +82,8 @@ public:
     {
         return 1;
     }
+
+    friend class CyberMouseModule;
 };
 
 #endif

@@ -26,9 +26,28 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.5 2001/05/28 15:23:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
+
+/**
+ * @page Nodes Node Reference
+ * @section refnode Ref
+ * A Ref element allows to use the output of a node in another place in the
+ * data flow graph. Every element can have a DEF attribute specified that
+ * contains a unique id. This id can then be referenced in a Ref element
+ * specifing the node the Ref element should mimik. The Ref node will then
+ * resemble the referenced node in any way. 
+ *
+ * However it cannot have any children, as the referenced node would have no
+ * information about these children. The Ref node is simply a way to reuse
+ * the output of a node somewhere else. It has the following attribute :
+ * @li @c USE unique id of the referenced node, this id must exist !
+ *
+ * An example element looks like this :
+ * @verbatim
+<Ref USE="id"/>@endverbatim
+ */
 
 #ifndef _REFNODE_H
 #define _REFNODE_H
@@ -36,8 +55,6 @@
 #include "../dllinclude.h"
 
 #include "Node.h"
-
-
 
 /**
  * A Reference Node contains the reference to another node and its subtree.
@@ -54,7 +71,6 @@ protected:
 	/** pointer to the referenced node */
 	Node * reference;
  
-public:
    /**
     * basic constructor.
     */
@@ -64,6 +80,8 @@ public:
     {
 		reference->addReference( this );  
 	}
+
+public:   
    /**
     * basic destructor.
     */
@@ -72,6 +90,14 @@ public:
 		reference->removeReference( this );
 	}
 	
+    /** returns the referenced node
+     * @returns pointer to the referenced node.
+     */
+    Node * getReferenced()
+    {
+        return reference;
+    }
+    
 	// begin EventGenerator & EventObserver interface
 
 	/**
@@ -91,7 +117,7 @@ public:
     /**
      * tests for EventGenerator interface being implemented. This has to
      * be overriden in classes that subclass EventGenerator. Due to
-     * inheritance raints it cannot be done automatically.
+     * inheritance constraints it cannot be done automatically.
      * @returns a pointer to the EventGenerator interface, or NULL if it
      *   is not implemented
      */
@@ -166,6 +192,7 @@ public:
 	}
 
 	// end TimeDependend interface
+    friend class ConfigurationParser;
 };
 
 #endif

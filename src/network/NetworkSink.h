@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,7 +71,7 @@ class OPENTRACKER_API NetworkSink : public Node
 // Members
 public:
     /// station name
-    string stationName;
+    std::string stationName;
     /// station number
     short int stationNumber;
     /// multicast group pointer
@@ -82,27 +82,28 @@ public:
     State state;
 
 // Methods
-public:
+protected:
     /** constructor method,sets members 
      * @param name_ the station name 
      * @param number_ the station number
      * @param group_ pointer of the multicast group this station belongs to
      */
-    NetworkSink( string & name_,short int number_, MulticastGroup * group_ ) :
+    NetworkSink( std::string & name_,short int number_, MulticastGroup * group_ ) :
         Node(),     
         stationName( name_ ),
         stationNumber( number_ ),
         group( group_ ),
         modified( 0 )
-    {};
+    {}
     
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
     virtual int isEventGenerator()
     {
         return 1;
-    };
+    }
     
     /**
      * this method notifies the object that a new event was generated.
@@ -118,7 +119,9 @@ public:
         state = event;
         modified = 1;
         updateObservers( state );
-    };
+    }
+
+    friend class NetworkSinkModule;
 };
 
 #endif

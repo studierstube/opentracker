@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.7 2001/04/29 16:31:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,22 +64,24 @@ class OPENTRACKER_API ConsoleSink : public Node
 // Members
 public:
     /// comment line
-    string comment;
+    std::string comment;
     /// the state that is stored
     State state;
     /// flag whether state was changed since last display
     int changed;
 
 // Methods
-public:
+protected:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
-    ConsoleSink( const string & comment_ ) :
+    ConsoleSink( const std::string & comment_ ) :
         Node(), 
         comment( comment_ ),
         changed( 0 )
     {}
 
+public:
+    
     
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -104,6 +106,8 @@ public:
         changed = 1;
         updateObservers( state );
     }
+
+    friend class ConsoleModule;
 };
 
 #endif

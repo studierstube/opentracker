@@ -27,7 +27,7 @@
   * @author Gerhard Reitmayr
   * @todo finish documentation about file module
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.2 2001/07/11 22:34:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -60,7 +60,7 @@ protected:
     /// list of ConsoleSource nodes  in the tree
     NodeVector sources;
     /// vector of File objects
-    std::map<string, File *> files;
+    std::map<std::string, File *> files;
 
 public:
     /** constructor method. initializes internal and static data
@@ -82,7 +82,7 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name, StringTable& attributes);
     /**
      * reads from the input files and fires new events, if necessary.
      */

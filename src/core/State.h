@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.7 2001/06/11 22:01:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,16 +35,6 @@
 
 #include "../dllinclude.h"
 #include "OSUtils.h"
-
-#ifndef WIN32
-#include <unistd.h>
-#include <sys/time.h>
-#else
-#include <windows.h>
-#include <sys/timeb.h>
-#include <time.h>
-#endif
-#include <sys/types.h>
 
 /**
  * A single state passing through the tree. It encodes the full information

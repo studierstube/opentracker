@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.12 2001/06/13 17:09:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -47,6 +47,8 @@
 #else
 #include <iostream.h>
 #endif
+
+using namespace std;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;
@@ -84,7 +86,7 @@ void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
 
 // This method is called to construct a new Node.
 
-Node * NetworkSinkModule::createNode( string& name,  StringTable& attributes)
+Node * NetworkSinkModule::createNode( const string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSink") == 0 )
     {

@@ -67,7 +67,7 @@ WacomGraphireModule::~WacomGraphireModule()
 }
 
 // This method is called to construct a new Node.
-Node * WacomGraphireModule::createNode( string& name, StringTable& attributes)
+Node * WacomGraphireModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("WacomGraphireSource") == 0 )
     {       

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.13 2001/06/11 22:00:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,6 +45,8 @@
 #endif
 
 #include<algorithm>
+
+using namespace std;
 
 // Constructor
 
@@ -162,8 +164,7 @@ EventQueueNode * CommonNodeFactory::buildEventQueue(
 
 // constructs a new Node.
 
-Node * CommonNodeFactory::createNode(  string& name,
-                                      StringTable& attributes)
+Node * CommonNodeFactory::createNode( const string& name, StringTable& attributes)
 {
     float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
     if( name.compare("EventPositionTransform") == 0 ||

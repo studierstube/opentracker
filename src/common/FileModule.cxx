@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.3 2001/07/12 16:56:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,8 @@
 #ifdef WIN32
 #include <iostream>
 #endif
+
+using namespace std;
 
 FileModule::FileModule()
 {
@@ -59,7 +61,7 @@ void FileModule::init(StringTable& attributes, ConfigNode * localTree)
         for( unsigned int i = 0; i < base->countChildren(); i++ )
         {
             ConfigNode * config = (ConfigNode *)base->getChild( i );
-            if( config->getName().compare("File") == 0 )
+            if( config->getType().compare("File") == 0 )
             {
                 string file = config->getAttributes().get("file");
                 string id = config->getAttributes().get("id");
@@ -71,7 +73,7 @@ void FileModule::init(StringTable& attributes, ConfigNode * localTree)
 }
 
 
-Node * FileModule::createNode( string& name,  StringTable& attributes)
+Node * FileModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("FileSink") == 0 )
     {

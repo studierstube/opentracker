@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.10 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.11 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -72,7 +72,7 @@ public:
     /// is a new update ready in the buffer ?
     int modified;
 
-public:
+protected:
     /** constructor method
      * @param markerId_ the id of the marker from artoolkit library
      * @param vertex_ vertex coordinates of the marker
@@ -89,13 +89,16 @@ public:
         }
     };
 
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
     virtual int isEventGenerator()
     {
         return 1;
-    }  
+    };  
+
+    friend Class ARToolKitModule;
 };
 
 #endif

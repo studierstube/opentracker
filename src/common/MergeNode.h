@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -93,11 +93,12 @@ protected:
     /// State variable to put transformed state into
     State localState;
     
-public:
     /** constructor method
      */
     MergeNode()
-    {}; 
+    {}
+
+public: 
 
     /** tests for EventGenerator interface being present and returns
      * 1, if present.
@@ -115,6 +116,8 @@ public:
 	 * @param generator the node generating the event
      */
     virtual void onEventGenerated( State& event, Node & generator);                                
+
+    friend class CommonNodeFactory;
 };
 
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.12 2001/06/15 21:12:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -92,7 +92,7 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const string& name,  StringTable& attributes);
 	/**
      * closes InterTrax dynamic library */
     virtual void close();

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.6 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,7 +49,7 @@ InterTraxModule::~InterTraxModule()
 }
 
 // This method is called to construct a new Node.
-Node * InterTraxModule::createNode( string& name, StringTable& attributes)
+Node * InterTraxModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("InterTraxSource") == 0 )
     {       

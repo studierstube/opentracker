@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,32 +51,27 @@ class OPENTRACKER_API ConfigNode : public Node
 // Members
 protected:
     /// the wrapper element name
-    StringTable * attributes;
+    StringTable attributes;
+
 // Methods
-public:
+protected:
     /**
      * constructor method
      * @param name_ element name of the config node
      * @param map_ string table with attribute values 
      */
-    ConfigNode(const string& name_, StringTable * map_)
+    ConfigNode( const StringTable & map_)
         : Node()
 	    , attributes( map_ )
-    { 
-        setName( name_ );
-    };
+    {}
 
-    /// destructor method
-    virtual ~ConfigNode()
-    {
-        delete attributes;
-    };
+public:   
     /**
      * returns a reference to the attribute StringTable
      * @return reference to the attribute StringTable */
     StringTable & getAttributes()
     {
-        return *attributes;
+        return attributes;
     }
 
     /**
@@ -95,6 +90,8 @@ public:
 	{
 		return Node::getChild( index );
 	}
+
+    friend class ConfigurationParser;
 };
 
 #endif

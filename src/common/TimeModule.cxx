@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.2 2001/06/13 16:43:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,8 @@
 #else
 #include <iostream.h>
 #endif
+
+using namespace std;
 
 void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
 {

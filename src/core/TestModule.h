@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,7 +49,7 @@
 #include "Module.h"
 #include "NodeFactory.h"
 
-typedef vector<Node*> NodeVector;
+typedef std::vector<Node*> NodeVector;
 
 /**
  * The module and factory to drive the test source nodes. It constructs
@@ -83,7 +83,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
     /**
      * pushes events into the tracker tree. Checks all TestSources and
      * pushes new events, if a TestSource fires.

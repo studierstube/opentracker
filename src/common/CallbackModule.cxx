@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.2 2001/06/27 20:06:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,10 +38,11 @@
 #include <iostream.h>
 #endif
 
+using namespace std;
+
 // called to construct a new Node.
 
-Node * CallbackModule::createNode( string& name,
-                               StringTable& attributes)
+Node * CallbackModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("Callback") == 0 )
     {

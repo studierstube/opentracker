@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackNode.h,v 1.1 2001/04/29 16:32:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackNode.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -65,20 +65,21 @@ class OPENTRACKER_API CallbackNode : public Node
 // Members
 public:
     /// name
-    string name;
+    std::string name;
     /// callback function
     CallbackFunction * function;
 
 // Methods
-public:
-    /** constructor method,sets commend member
+protected:
+/** constructor method,sets commend member
      * @param name_ the name of the Callback node */
-    CallbackNode( const string & name_ ) :
+    CallbackNode( const std::string & name_ ) :
         Node(), 
         name( name_ ),
         function( NULL )
     {}
-    
+
+public:        
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -104,6 +105,8 @@ public:
         }
         updateObservers( event );
     }
+
+    friend class CallbackModule;
 };
 
 #endif

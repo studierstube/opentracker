@@ -26,11 +26,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.2 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "StringTable.h"
+#include <stdlib.h>
+
+using namespace std;
 
 // emtpy string to be returned, if key is not in the map
 
@@ -39,6 +42,10 @@ const string empty("");
 // initializes the map
 
 StringTable::StringTable() : map()
+{}
+  
+// copy constructor
+StringTable::StringTable(const StringTable& table ) : map(table.map)
 {}
   
 // clears the map
@@ -91,3 +98,126 @@ unsigned StringTable::size()
 {
     return map.size();
 }
+
+// some put and get methods
+
+void StringTable::put(const string & key, const int value)
+{
+    char buffer[20];
+    
+    sprintf( buffer, "%i", value );
+    map[key] = buffer;
+}
+
+void StringTable::put(const string & key, const float value)
+{
+    char buffer[20];
+    
+    sprintf( buffer, "%f", value );
+    map[key] = buffer;
+}
+
+void StringTable::put(const string & key, const double value)
+{
+    char buffer[30];
+    
+    sprintf( buffer, "%lf", value );
+    map[key] = buffer;
+}
+
+void StringTable::put(const string & key, const int * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%i", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %i", value[i] );
+        strvalue.append(buffer);
+    }
+    map[key] = strvalue;
+}
+
+void StringTable::put(const string & key, const float * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%f", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %f", value[i] );
+        strvalue.append(buffer);
+    }
+    map[key] = strvalue;
+}
+
+void StringTable::put(const string & key, const double * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%lf", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %lf", value[i] );
+        strvalue.append(buffer);
+    }
+    map[key] = strvalue;
+}
+
+int StringTable::get(const string & key, int * value, int len )
+{
+    StringMap::iterator it = map.find( key );
+    if( it == map.end())
+        return 0;    
+        
+    char * data = (char *)(*it).second.c_str();
+    char * end = data;
+    int count = 0;
+    value[count++] = strtol( data, &end, 0 );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtol( data, &end, 0 );
+    }
+    return count;
+}
+
+int StringTable::get(const string & key, float * value, int len )
+{
+    StringMap::iterator it = map.find( key );
+    if( it == map.end())
+        return 0;
+        
+    char * data = (char *)(*it).second.c_str();
+    char * end = data;
+    int count = 0;
+    value[count++] = strtod( data, &end );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtod( data, &end );
+    }
+    return count;
+}
+
+int StringTable::get(const string & key, double * value, int len )
+{
+    StringMap::iterator it = map.find( key );
+    if( it == map.end())
+        return 0;
+        
+    char * data = (char *)(*it).second.c_str();
+    char * end = data;
+    int count = 0;
+    value[count++] = strtod( data, &end );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtod( data, &end );
+    }
+    return count;        
+}
+

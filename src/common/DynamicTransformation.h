@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.9 2001/05/28 15:24:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.10 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -100,11 +100,12 @@ protected:
 	/** flag, whether a change in the base should generate an event or not */
 	int baseEvent;
 
-public:
     /** constructor method. It sets default values on the
      * underlying StaticTransformation. */
     DynamicTransformation( int baseEvent_ = 1 );
 
+public:
+    
     /**
      * this method is called by the EventGenerator to update it's observers.
      * This class computes a transformed state, stores it in its local variable
@@ -113,6 +114,8 @@ public:
      * underlying StaticTransformation fields, to change the transformation itself.
      */
     virtual void onEventGenerated( State& event, Node& generator);
+
+    friend class CommonNodeFactory;
 
 };
 

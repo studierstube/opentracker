@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -69,7 +69,7 @@ public:
     State state;
 
 // Methods
-public:
+protected:
     /** simple constructor, sets members to initial values
      * @param frequency_ initial value for member frequency 
      * @param offset_ initial value for member offset */
@@ -78,7 +78,7 @@ public:
 	    frequency( frequency_ ),
 	    offset( offset_ )
     {}
-        
+public:            
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -93,6 +93,8 @@ public:
         state.timeStamp();
         updateObservers( state );
     }
+
+    friend class TestModule;
 };
 
 #endif

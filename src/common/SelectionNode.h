@@ -80,10 +80,10 @@ protected:
 	/// Variable for the last event timestamp from the prefered input node
 	double lastTimeStamp;
     
-public:
-	/** constructor method. It sets initial values for the timeout. */
+    /** constructor method. It sets initial values for the timeout. */
     SelectionNode( double t );
 
+public:
     /** tests for EventGenerator interface being present and returns
      * 1, if present.
      * @return always 1 */
@@ -101,6 +101,8 @@ public:
 	 * @param generator the node generating the event
      */
     virtual void onEventGenerated( State& event, Node & generator);                                
+
+    friend class CommonNodeFactory;
 };
 
 #endif

@@ -26,13 +26,19 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.19 2001/06/13 19:58:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.20 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ConsoleModule.h"
 #include "ConsoleSink.h"
 #include "ConsoleSource.h"
+
+#ifdef WIN32
+#include <Windows.h>
+#endif
+
+using namespace std;
 
 
 // list of key symbols as ints to provide faster lookup
@@ -237,8 +243,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 
 // This method is called to construct a new Node.
 
-Node * ConsoleModule::createNode( string& name,
-                               StringTable& attributes)
+Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("ConsoleSink") == 0 )
     {
@@ -624,7 +629,7 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
         for( unsigned int i = 0; i < base->countChildren(); i++ )
         {
             ConfigNode * config = (ConfigNode *)base->getChild( i );
-            if( config->getName().compare("KeyDefinition") == 0 )
+            if( config->getType().compare("KeyDefinition") == 0 )
             {
                 string function = config->getAttributes().get("function");
                 string key = config->getAttributes().get("key");

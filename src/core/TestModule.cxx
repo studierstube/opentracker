@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.3 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,6 +40,8 @@
 #include <iostream.h>
 #endif
 
+using namespace std;
+
 // Destructor method
 
 TestModule::~TestModule()
@@ -49,7 +51,7 @@ TestModule::~TestModule()
 
 // This method is called to construct a new Node.
 
-Node * TestModule::createNode( string& name, StringTable& attributes)
+Node * TestModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("TestSource") == 0 )
     {

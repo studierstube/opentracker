@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.1 2001/07/13 23:06:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -81,7 +81,7 @@ public:
         ThreadModule(), 
         NodeFactory()        
     { 
-    };
+    }
     /** Destructor method, clears nodes member. */
     virtual ~FOBModule();
     /**
@@ -99,7 +99,7 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);    
+    virtual Node * createNode( std::string& name,  StringTable& attributes);    
     
     virtual void start();
 	/**

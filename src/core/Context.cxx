@@ -22,32 +22,22 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for Context class
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.13 2001/06/11 03:22:37 reitmayr Exp $
-  * @file                                                                   */
  /* ======================================================================= */
 
 #include "Context.h"
 #include "../OpenTracker.h"
 
-#ifndef WIN32
-#include <unistd.h>
-#include <sys/time.h>
-#else
-#include <windows.h>
-#include <sys/timeb.h>
-#include <time.h>
-#endif
-#include <sys/types.h>
+#include <dom/DOM_Node.hpp>
+#include <dom/DOM_NodeList.hpp>
+#include <dom/DOM_Document.hpp>
+#include <dom/DOM_Element.hpp>
+
+using namespace std;
 
 // constructor method.
+
 Context::Context( int init )
 {
-    // Build a parser
-    parser = new ConfigurationParser( factory );
     if( init != 0 )
     {
         initializeContext( *this );
@@ -61,64 +51,110 @@ Context::Context( int init )
 // Destructor method.
 Context::~Context()
 {
-    delete parser;
     if( cleanUp == 1 )
     {
-        for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+        for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
-            delete (*it);
+            delete (*it).second;
         }
     }
     modules.clear();
 }
 
-// adds a new newfactory to the NodeFactoryContainer
+// adds a new factory to the NodeFactoryContainer
+
 void Context::addFactory(NodeFactory& newfactory)
 {
     factory.addFactory( newfactory );
 }
 
-// adds a module to the contexts collection
-void Context::addModule(const string& name, Module& module)
+// removes a factory from the NodeFactoryContainer
+
+void Context::removeFactory(NodeFactory & oldfactory)
 {
-    modules.push_back( &module );
-    parser->addModule( name, module );
+    factory.removeFactory( oldfactory );
+}
+
+// adds a module to the contexts collection
+
+void Context::addModule(const string & name, Module & module)
+{
+    modules[name] = &module;
+}
+
+// returns a module indexed by its configuration elements name
+
+Module * Context::getModule(const string & name)
+{
+    ModuleMap::iterator it = modules.find( name );
+    if( it != modules.end())    
+        return (*it).second;
+    return NULL;
+}
+
+// removes a module
+
+void Context::removeModule(Module & module)
+{
+    ModuleMap::iterator it = modules.begin();
+    while( it != modules.end())
+    {
+        if((*it).second == &module )        
+            modules.erase( it );
+        it++;
+    }  
+}
+
+// calls start on all modules to do some initialization.
+
+void Context::start()
+{
+    for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
+    {
+        (*it).second->start();
+    }
 }
 
 // calls close on all modules to close any resources.
+
 void Context::close()
 {
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
     {
-        (*it)->close();
+        (*it).second->close();
     }
 }
 
 // parses the file and builds the tree.
+
 void Context::parseConfiguration(const string& filename)
 {
-    rootNode = parser->parseConfigurationFile( filename );
+    ConfigurationParser parser( *this );
+    rootNode = parser.parseConfigurationFile( filename );
 }
 
 // calls pullState on all modules to get data out again.
+
 void Context::pullStates()
 {
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
     {
-        (*it)->pullState();
+        (*it).second->pullState();
     }
 }
 
 // This method calls pushState on all modules to get new data into the shared data tree.
+
 void Context::pushStates()
 {
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
     {
-        (*it)->pushState();
+        (*it).second->pushState();
     }
 }
 
 // This method implements the main loop and runs until it is stopped somehow.
+
 void Context::run()
 {
     start();
@@ -131,22 +167,44 @@ void Context::run()
     close();   
 }
 
-// calls start on all modules to do some initialization.
-void Context::start()
-{
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
-        (*it)->start();
-    }
-}
-
 // tests all modules for stopping
+
 int Context::stop()
 {
     int value = 0;
-    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
     {
-        value |= (*it)->stop();
+        value |= (*it).second->stop();
     }
     return value;
+}
+
+// creates a new node from a given element name and an attribute table
+
+Node * Context::createNode( const string & name, StringTable & attributes)
+{
+    Node * value = factory.createNode( name , attributes );
+    if( value != NULL )
+    {
+        // add a correctly created DOM_Element to the node here and return
+        DOM_Document doc = rootNode->parent->getOwnerDocument();
+        DOM_Element el = doc.createElement(name.c_str());
+        value->setParent( el );
+        // TODO: set attributes on the element
+    }
+    return value;
+}
+
+Node * Context::getRootNode()
+{
+    return rootNode;
+}
+
+Node * Context::findNode(const string & id)
+{
+    // search for the right node via the DOM_Document API
+    DOM_Element el = rootNode->parent->getOwnerDocument().getElementById(id.c_str());
+    if( el != 0 )
+        return (Node *)el.getUserData();
+    return NULL;
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.9 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.10 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -77,7 +77,7 @@ protected:
     /// list of MulticastGroup objects
     GroupVector groups;
     /// server name
-    string serverName;
+    std::string serverName;
     /// Datagram socket to use for sending data
     ACE_SOCK_Dgram * socket;
 
@@ -105,7 +105,7 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);    
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);    
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. It opens the sockets needed for communication. */

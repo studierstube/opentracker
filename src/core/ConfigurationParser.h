@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.7 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,15 +42,14 @@
 #include "ConfigNode.h"
 #include "RefNode.h"
 #include "StringTable.h"
+#include "Context.h"
 
 class DOM_Element;
 class DOM_Document;
-
-/** Used to map a XML element to a Module. */
-typedef map<string, Module *> ModuleMap;
+class Context;
 
 /// used to map a string to a node
-typedef map<string, Node *> NodeMap;
+typedef std::map<std::string, Node *> NodeMap;
 
 /**
  * parses the XML configuration file. This class reads the configuration file
@@ -62,18 +61,15 @@ class OPENTRACKER_API ConfigurationParser
 {
 // Members
 protected:
-    /// maps configuration element names to modules
-    ModuleMap modules;
-    /// pointer to a NodeFactory used to create new Nodes.
-    NodeFactory & factory;
+    /// reference to the Context to use its modules and factories
+    Context & context;
     /// maps IDs to nodes
     NodeMap references;
 	/// stores the parsed document tree
 	DOM_Document * document;
-
+protected:
 
 // Methods
-protected:
    /**
      * builds a tree of configuration nodes. This is just mirroring
      * the structure of the XML document with ConfigNodes that 
@@ -103,28 +99,16 @@ public:
      * ructor method. The Xerces XML parser library is initialized here.
      * @param factory_ pointer to set the member factory
      */
-    ConfigurationParser( NodeFactory & factory_);
+    ConfigurationParser( Context & context_);
     /** Destructor method.*/
     virtual ~ConfigurationParser();
-    /**
-     * adds a named module to the internal ModuleMap. It replaces an
-     * existing module of the same name.
-     * @param name the elements name
-     * @param module reference to the new module
-     */
-    void addModule(const string& name, Module& module);
     /**
      * This method parses an XML configuration file. It returns a Node as
      * root with all the root nodes defined in the configuration file.
      * @param filename the name and path of the configuration file
      * @return pointer to the root Node or NULL
      */
-    Node * parseConfigurationFile(const string& filename);
-    /**
-     * removes a module with the given name from the ModuleMap.
-     * @param name the elements name
-     */
-    void removeModule(const string& name);
+    Node * parseConfigurationFile(const std::string& filename);
 };
 
 #endif

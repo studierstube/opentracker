@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.14 2001/06/11 03:22:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.15 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,7 +46,7 @@
  * Its functionality is divided into modules that implement specific functions
  * like device drivers, network interfaces etc. This simplifies adding new
  * functionality. For a list of currently implemented modules see the 
- * @ref modules page.
+ * @ref module_ref page.
  *
  * Modules exchange data via a shared memory that is structured into a tree.
  * Different nodes of the tree are managed and observed by different modules.
@@ -84,7 +84,7 @@
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
-typedef vector<Node *> NodeVector;
+typedef std::vector<Node *> NodeVector;
 
 /** initializes a context by instantiating the available modules and factories
  * and registering them with the given context. So for each passed context 

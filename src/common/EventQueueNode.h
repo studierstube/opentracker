@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.4 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.5 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -67,14 +67,14 @@ protected:
     int length;
 
 // Methods
-public:
+protected:
     /** constructor method.
      * @param maximum length of the queue */
     EventQueueNode(int length_) : Node(), EventQueueImplementation()
     {
         length = length_;
     }
-
+public:    
     /** tests for EventGenerator interface being present. Overriden in this
      * node to return this.
      * @return always this */
@@ -93,6 +93,8 @@ public:
      * @param event new event
      * @param generator the calling EventGenerator */
     virtual void onEventGenerated( State& event, Node& generator);
+
+    friend class CommonNodeFactory;
 };
 
 #endif

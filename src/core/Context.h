@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.11 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.12 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,8 +40,8 @@
 #include "NodeFactoryContainer.h"
 #include "ConfigurationParser.h"
 
-/// A vector of module pointers to store them
-typedef std::vector<Module *> ModuleVector;
+/// a string map to store modules in
+typedef std::map<std::string, Module *> ModuleMap;
 
 /**
  * This class represents one context. It keeps its own modules and tracker tree. Using
@@ -70,17 +70,15 @@ class OPENTRACKER_API Context
 {
 
 protected:
-    /// A vector of the modules this context works with
-    ModuleVector modules;
+    /// A map of the modules this context works with
+    ModuleMap modules;
     /// Pointer to the root node of the local tracker tree
     Node* rootNode;
     /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
     NodeFactoryContainer factory;
-    /// Pointer to a local ConfigurationParser used to build the tracker tree.
-    ConfigurationParser * parser;
     /// flag to remember whether the Context is responsible for cleaning up the modules.
     int cleanUp;
-
+    
 // Methods
 public:
    /** a constructor method. 
@@ -91,32 +89,71 @@ public:
    /** destructor method clears containers and removes any modules instantiated in
     * the default setup, if cleanUp is st. */
     virtual ~Context();
-   /** adds a new newfactory to the NodeFactoryContainer.
+
+   /** adds a new factory to the NodeFactoryContainer.
     * @param newfactory reference to the new factory */
     void addFactory(NodeFactory& newfactory);
+   /** removes a factory from the NodeFactoryContainer.
+    * @param factory reference to the factory to remove */
+    void removeFactory(NodeFactory & factory);
+
     /** adds a module to the contexts container.
      * @param name the element name of the modules configuration element
      * @param module reference to the module */
-    void addModule(const string& name, Module& module);
-    /** calls close on all modules to close any resources.*/
-    void close();
+    void addModule(const std::string & name, Module & module);
+
+    /** returns the module associated with a certain configuration element
+     * @param name the element name
+     * @returns pointer to the module or NULL, if name does not exist */
+    Module * getModule(const std::string & name);
+
+    /** removes a module from the map
+     * @param reference to the module */
+    void removeModule(Module & module);
+
+
+    Node * createNode(const std::string & name, StringTable & attributes);
+
+    /** returns the root node, that contains the tracker tree. This node
+     * is an instance of the generic node class and only deal with the
+     * children API. It does also contain the configuration element in the first node. 
+     * @returns pointer to the root node */
+    Node * getRootNode();
+
+    /** returns the node with the given unique ID tag. If none is found
+     * NULL is returned.
+     * @param id string containing the value of the ID tag
+     * @returns pointer to the found node, or NULL.
+     */
+    Node * findNode(const std::string & id);
+
     /** This method initialies the context with a tracker tree described by
      * a configuration file. It parses the file and builds the tree.
      * @param filename the path and name of the configuration file */
-    void parseConfiguration(const string& filename);
-    /** calls pullState on all modules to get data out again.*/
-    void pullStates();
+    void parseConfiguration(const std::string& filename);
+
+    /** calls start on all modules to do some initialization. */
+    void start();
+
     /** This method calls pushState on all modules to get new data into the
      * shared data tree. */
     void pushStates();
+
+    /** calls pullState on all modules to get data out again.*/
+    void pullStates();
+
     /** This method implements the main loop and runs until it is stopped
      * somehow. Then it calls close() on all modules. */
     void run();
-    /** calls start on all modules to do some initialization. */
-    void start();
+
     /** tests whether the mainloop should stop, by asking all modules whether
      * they need to stop.*/
     int stop();
+
+    /** calls close on all modules to close any resources.*/
+    void close();
+
+    friend class ConfigurationParser;
 };
 
 #endif

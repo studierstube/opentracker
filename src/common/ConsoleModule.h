@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.13 2001/07/09 16:00:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -161,7 +161,7 @@ protected:
     /// cycle interval to use for printing out states
     int interval;
     /// headerline in display
-    string headerline;
+    std::string headerline;
     /// angular velocity and positional velocity
     float angularSpeed, posSpeed;
     /// currently active station, must be in [0-9]
@@ -170,7 +170,7 @@ protected:
     int quit;
 
     /// maps key chars to indices
-    vector<int> keyMap;
+    std::vector<int> keyMap;
 
 protected:
 
@@ -222,7 +222,7 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name, StringTable& attributes);
     /**
      * checks the console for keyboard input and updates any
      * ConsoleSource nodes accordingly. This happens every cycle 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.10 2001/06/11 22:00:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.11 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,7 +63,7 @@ class CommonNodeFactory : public NodeFactory
 // members 
 protected:
     /// stores names of known WrapperNodes, to make instantiation more generic
-    vector<string> wrapperNodes;
+    std::vector<std::string> wrapperNodes;
 
 protected:
     
@@ -73,7 +73,7 @@ protected:
      * @param val pointer to three floats
      * @return 0 if ok, other value if error occured
      */
-    static int parseVector( const string & line, float * val );
+    static int parseVector( const std::string & line, float * val );
     /** parses a string for a rotation, where the type is defined by
      * a second string, returns int value indicating an error. If an error occurs, 
      * the val values are not changed.
@@ -82,7 +82,7 @@ protected:
      * @param val pointer to four floats, rotation will be stored in quaternion format
      * @return 0 if ok, other value if error occured
      */
-    static int parseRotation( const string & line, const string & type, float * val );
+    static int parseRotation( const std::string & line, const std::string & type, float * val );
 
     /** builds a EventQueueNode node.
      * @param attributes reference to StringMap of elements attribute values
@@ -98,7 +98,7 @@ public:
      * @param name reference to string containing element name
      * @param attributes reference to StringMap of elements attribute values
      * @return new Node or NULL, if element name was not recognized */
-    virtual Node * createNode( string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
 };
 
 #endif

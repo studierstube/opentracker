@@ -22,18 +22,12 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** The source file for the basic Node class.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.9 2001/06/13 17:09:06 reitmayr Exp $
-  * @file                                                                   */
  /* ======================================================================= */
 
 #include "Node.h"
 
 #ifdef WIN32
-#include <iostream>    // VisualC++ uses STL based IOStream lib
+#include <iostream>// VisualC++ uses STL based IOStream lib
 #else
 #include <iostream.h>
 #endif
@@ -44,17 +38,17 @@
 #include <dom/DOM_NodeList.hpp>
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
+#include <dom/DOM_DOMException.hpp>
 
-// static DOM_Element dummy;
+using namespace std;
 
 // constructor
-
-Node::Node()
+Node::Node() : name("")
 {
 	parent = new DOM_Element();	
 }
 
-// desctructor
+// destructor
 
 Node::~Node()
 {
@@ -69,6 +63,7 @@ void Node::setParent( DOM_Element & parElement )
 {
 	*parent = parElement;
 	parent->setUserData( this );
+    type = parent->getTagName().transcode();
 }
 
 // adds a reference to the node
@@ -88,6 +83,18 @@ void Node::removeReference( Node * reference )
 	{
 		references.erase( result );
 	}
+}
+
+// returns a pointer to the parent node
+
+Node * Node::getParent()
+{
+    const DOM_Node & parentElement = parent->getParentNode();
+	if( parentElement != 0 )
+	{
+		return (Node *)parentElement.getUserData();
+	}
+    return NULL;
 }
 
 // returns the number of children
@@ -111,17 +118,32 @@ unsigned int Node::countChildren()
     return count;
 }
 
+// adds a new child
+
+void Node::addChild(Node & child)
+{
+//    try {
+        parent->appendChild( *(child.parent));
+/*    }
+    catch( DOMException& e )
+    {}*/
+}
+
+// removes a child
+
+void Node::removeChild(Node & child)
+{
+    try {
+        parent->removeChild( *(child.parent));
+    }
+    catch( DOM_DOMException& e )
+    {}
+}
+
 // iterates through the children by returning the child by index
 
 Node * Node::getChild( unsigned int index )
 {
-    /* DOM_NodeList list = parent->getChildNodes();
-	if( index < list.getLength())
-	{
-		return (Node *)list.item( index ).getUserData();
-	}
-	return NULL;
-    */
     Node * myNode = NULL;
     DOM_Node node = parent->getFirstChild();
     while( !node.isNull())
@@ -145,7 +167,7 @@ unsigned int Node::countWrappedChildren( const string & name )
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element wrapElement = (const DOM_Element &) list.item(0);
+		DOM_Element wrapElement = (DOM_Element &) list.item(0);
 		Node * wrapper = (Node *)wrapElement.getUserData();
 		if( wrapper->isWrapperNode() == 1 )
 		{
@@ -162,7 +184,7 @@ Node * Node::getWrappedChild( const string & name, unsigned int index )
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element wrapElement = (const DOM_Element &) list.item(0);
+		DOM_Element wrapElement = (DOM_Element &) list.item(0);
 		Node * wrapper = (Node *)wrapElement.getUserData();
 		if( wrapper->isWrapperNode() == 1 )
 		{
@@ -174,6 +196,38 @@ Node * Node::getWrappedChild( const string & name, unsigned int index )
 		}
 	}
 	return NULL;
+}
+
+// adds a child to a marked input
+
+void Node::addWrappedChild(const string & name, Node & child)
+{
+    DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
+	if( list.getLength() > 0 )
+	{
+		DOM_Element wrapElement = (DOM_Element &) list.item(0);
+		try {
+            wrapElement.appendChild( *(child.parent));
+        }
+        catch( DOM_DOMException& e )
+        {}
+	}
+}
+
+// removes a child from a marked input
+
+void Node::removeWrappedChild(const string & name, Node & child)
+{
+    DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
+	if( list.getLength() > 0 )
+	{
+		DOM_Element wrapElement = (DOM_Element &) list.item(0);
+		try {
+            wrapElement.removeChild( *(child.parent));
+        }
+        catch( DOM_DOMException& e )
+        {}
+	}
 }
 
 // updates any observers ( the parent and the references ) 

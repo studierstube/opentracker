@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseSource.h,v 1.1 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseSource.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,13 +71,13 @@ public:
     /// the station of the tracker
     unsigned station;
 
-
 // Methods
-public:
+protected:
     /** simple constructor, sets members to initial values */
     InterSenseSource(unsigned station_) : Node(), station(station_)
-    {};
-        
+    {}
+
+public:            
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -85,6 +85,8 @@ public:
     {
         return 1;
     }
+
+    friend class InterSenseModule;
 };
 
 #endif

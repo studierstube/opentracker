@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.1 2001/07/13 23:06:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,11 +58,12 @@ public:
     State state;
 
 // Methods
-public:
+protected:
     /** simple constructor, sets members to initial values */
     FOBSource() : Node()
-    {};
-        
+    {}
+
+public:            
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -70,6 +71,8 @@ public:
     {
         return 1;
     }
+
+    friend class FOBModule;
 };
 
 #endif

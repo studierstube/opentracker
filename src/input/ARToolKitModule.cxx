@@ -61,7 +61,7 @@ ARToolKitModule::~ARToolKitModule()
 
 // constructs a new Node
 
-Node * ARToolKitModule::createNode( string& name, StringTable& attributes)
+Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("ARToolKitSource") == 0 )
     {

@@ -26,17 +26,15 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.cxx,v 1.3 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.cxx,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "NodeFactoryContainer.h"
 
-#ifdef __sgi
-#include <algo.h>
-#else
 #include <algorithm>
-#endif
+
+using namespace std;
 
 // Destructor method.
 
@@ -49,7 +47,7 @@ NodeFactoryContainer::~NodeFactoryContainer()
 
 void NodeFactoryContainer::addFactory(NodeFactory& factory)
 {
-    NodeFactoryVector::iterator result = std::find( factories.begin(), factories.end(), &factory );
+    NodeFactoryVector::iterator result = find( factories.begin(), factories.end(), &factory );
     if( result == factories.end())
     {
         factories.push_back( &factory );
@@ -58,8 +56,7 @@ void NodeFactoryContainer::addFactory(NodeFactory& factory)
 
 // constructs a new Node.
 
-Node * NodeFactoryContainer::createNode( string& name,
-                                         StringTable& attributes)
+Node * NodeFactoryContainer::createNode( const string& name, StringTable& attributes)
 {
     Node * value = NULL;
     NodeFactoryVector::iterator it = factories.begin();
@@ -75,7 +72,7 @@ Node * NodeFactoryContainer::createNode( string& name,
 
 void NodeFactoryContainer::removeFactory(NodeFactory& factory)
 {
-    NodeFactoryVector::iterator result = std::find( factories.begin(), factories.end(), &factory );
+    NodeFactoryVector::iterator result = find( factories.begin(), factories.end(), &factory );
     if( result != factories.end())
     {
         factories.erase( result );

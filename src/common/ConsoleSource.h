@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -70,7 +70,7 @@ public:
     int changed;
 
 // Methods
-public:
+protected:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
     ConsoleSource( int number_ ) :
@@ -79,13 +79,16 @@ public:
         changed( 0 )
     {}
 
+public:    
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
     virtual int isEventGenerator()
     {
         return 1;
-    }    
+    }  
+    
+    friend class ConsoleModule;
 };
 
 #endif

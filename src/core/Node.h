@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.12 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,7 +47,7 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+// using namespace std;
 
 class ConfigurationParser;
 class RefNode;
@@ -59,13 +59,15 @@ class Node;
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
-typedef vector<Node *> NodeVector;
+typedef std::vector<Node *> NodeVector;
 
 #include "State.h"
 
 /**
- * The basic superclass for all nodes. Moreover a name
- * attribute for a unique ID is there but not used yet.
+ * The basic superclass for all nodes. It implements several interfaces
+ * necessary to deal with nodes. Moreover it provides the link to the
+ * underlying XML Document tree and stores information such as the
+ * type (i.e. element name) and a name (i.e. unique ID) of the node.
  * @author Gerhard Reitmayr
  * @ingroup core
  */
@@ -81,17 +83,12 @@ protected:
 	NodeVector references;
 
     /// the unique ID given in the XML configuration file.
-    string name;
+    std::string name;
+    
+    /// the type of the node, equals the name of the configuration element
+    std::string type;
 
 protected:
-   /**
-    * sets the value of name.
-    * @param rName reference to a string object containing the new name
-    */
-    void setName(const string& rName)
-    {
-        name = rName;
-    }			 
 
 	virtual void setParent( DOM_Element & parElement );
 
@@ -108,50 +105,146 @@ protected:
 	 */
 	void removeReference( Node * reference );
 
-	// tree navigation interface
-	
+    /**
+     * empty basic constructor. The constructors of any nodes should be
+     * protected to avoid application code to directly construct new
+     * instances. Any new nodes should be generated via valid API
+     * calls such as Context::createNode() to ensure that internal
+     * data is correct. Any NodeFactories needing access should be
+     * declared friend classes of the nodes.
+     */
+    Node();
+
+public:
+
+   /**
+    * basic destructor.
+    */
+    virtual ~Node();
+
+    /**
+     * returns the type of the node, that is the element name of the underlying
+     * configuration element. An implementation can then use this information 
+     * to down cast a node reference or pointer to the correct class. 
+     * @return string containing the node type
+     */
+    const std::string & getType() const
+    {
+        return type;
+    }
+
+    /**
+     * returns the value of a unique ID set on the node. If no
+     * ID is set, this method returns an empty string
+     * @return string containing the unique ID
+     */
+    const std::string & getName() const
+    {
+       return name;
+    }
+
+    /** @name Graph Navigation Interface
+     * This set of methods allows to manipulate the data flow graph in a
+     * rather safe manner.*/
+    //@{
+
+    /**
+     * returns a pointer to the parent node of the current node. This can
+     * be a wrapper node to mark a certain input port of a real node. In this
+     * case, getting the wrapper nodes parent will yield the true parent. The
+     * root node will return NULL, because it has no parent.
+     * @return pointer to parent node
+     */
+     Node * getParent();
+
     /**
      * returns the number of children that are not wrapped, nor wrapper nodes.
      * That is the direct children a node may work with.
-     * @returns unsigned number of children */
+     * @return unsigned number of children */
 	unsigned int countChildren();
 
     /**
      * returns a child indicated by the index. This only returns children
      * that are not wrapped or Wrapper nodes themselves.
      * @param index unsigned number => 0 and < countChildren()
-     * @returns pointer to the child node or NULL if index is out of range.
+     * @return pointer to the child node or NULL if index is out of range.
      */
 	Node * getChild( unsigned int index );
 
-    /**
-     * returns the number of children contained by a certain wrapper node.
-     * @param name the element name of the wrapper element
-     * @returns unsigned number of children */
-    unsigned int countWrappedChildren( const string & name );
+    /** 
+     * adds a new child to the direct children of the node. This method
+     * will only work, if it does not violate any rules for the graph.
+     * @todo add detailed rules
+     * @param child the new child node to add
+     */
+    void addChild(Node & child);
 
     /**
-     * returns a wrapped child by index.
+     * removes a child from the direct children of a node. This method
+     * will only work, if the passed node is actually a child of the
+     * node.
+     * @param child the child node to remove 
+     */
+    void removeChild(Node & child);
+
+    /**
+     * returns the number of children contained by a certain wrapper node.
+     * It is similar to countChildren(), but will work on the marked
+     * children associated with a certain input and therefore wrapped
+     * by a wrapper node.
+     * @param name the element name of the wrapper element
+     * @returns unsigned number of children */
+    unsigned int countWrappedChildren( const std::string & name );
+
+    /**
+     * returns a wrapped child by index. Again similar to getChild(), but for
+     * wrapped nodes.
      * @param name the element name of the wrapper element
      * @param index unsigned number => 0 and < countWrappedChildren
      * @returns pointer to the child node or NULL if index is out of range.
      */
-	Node * getWrappedChild( const string & name, unsigned int index );
+	Node * getWrappedChild( const std::string & name, unsigned int index );
 
-	// end tree navigation interface
+    /**
+     * adds a new wrapped child node. Again similar to addChild(), but
+     * for adding it to a special input. It will also only work, if
+     * it does not violate any rules for the graph.
+     * @param name the name of the wrapper element
+     * @param child the new child node to add
+     */
+    void addWrappedChild(const std::string & name, Node & child);
 
-public:
-   /**
-    * empty basic constructor.
-    */
-    Node();
-    
-   /**
-    * basic destructor.
-    */
-    virtual ~Node();
+    /**
+     * removes a wrapped child node. Again similar to removeChild(), but
+     * for adding it to a special input. This method
+     * will only work, if the passed node is actually a child of the
+     * associated wrapper node.
+     * @param name the name of the wrapper element
+     * @param child the child node to remove
+     */ 
+    void removeWrappedChild(const std::string & name, Node & child);
+
+    //@}
 	
-	// begin EventGenerator & EventObserver interface
+    /** @name EventGenerator & EventObserver Interface
+     * This is the classic event passing interface, working from children nodes
+     * up to parent nodes. A child node creates a new event and its parent node 
+     * is automatically notified of the event. 
+     * The type of an event is of class State. 
+     */
+    //@{
+
+    /**
+     * tests for EventGenerator interface being implemented. This has to
+     * be overriden in classes that subclass EventGenerator. Due to
+     * inheritance raints it cannot be done automatically.
+     * @returns a pointer to the EventGenerator interface, or NULL if it
+     *   is not implemented
+     */
+    virtual int isEventGenerator()
+    {
+        return 0;
+    }
 
 	/**
      * this method notifies the object that a new event was generated.
@@ -171,23 +264,18 @@ public:
      * used to propagate new events, as it implements correctly the
      * event behaviour.
      * @param data reference to the event value */
-	void updateObservers( State &data );	
+	void updateObservers( State &data );
 
-    /**
-     * tests for EventGenerator interface being implemented. This has to
-     * be overriden in classes that subclass EventGenerator. Due to
-     * inheritance raints it cannot be done automatically.
-     * @returns a pointer to the EventGenerator interface, or NULL if it
-     *   is not implemented
+	//@}
+
+	/** @name EventQueue Interface
+     * The EventQueue interface allows access to a queue of events, ordered
+     * by their timestamps, with the latest event coming first, at slot 0. 
+     * This works from parents to children, i.e. parents query their children 
+     * for a certain event in the queue.
      */
-    virtual int isEventGenerator()
-    {
-        return 0;
-    }
-
-	// end EventGenerator interface
-
-	// begin EventQueue interface
+     
+    //@{
 
     /**
      * tests for EventQueue interface being present. This has to be overriden in
@@ -225,9 +313,14 @@ public:
 		return 0;
 	}
 
-	// end EventQueue interface
+	//@}
 
-	// begin TimeDependend interface
+	/** qname TimeDependend Interface
+     * The TimeDependend Interface allows access to a continous function of 
+     * states in time. It also works from parents to children, i.e. a parent 
+     * queries a child for the state at a given point in time.
+     */
+    //@{
 
     /**
      * tests for TimeDependend interface being present. This has to be overriden
@@ -250,7 +343,7 @@ public:
 		return State::null;
 	}
 
-	// end TimeDependend interface
+	//@}
 
     /**
      * tests whether the node is a wrapper node. This method is only
@@ -264,14 +357,7 @@ public:
         return 0;
     }
 
-   /**
-    * returns the value of member name.
-    * @return reference to string object containing the name
-    */
-     string & getName() {
-        return name;
-    }
-
+    friend class Context;
 	friend class ConfigurationParser;
 	friend class RefNode;
 };

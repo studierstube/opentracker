@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.7 2001/04/30 10:10:15 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -95,11 +95,11 @@ protected:
      */
     virtual State* transformState( State* state) ;
 
-public:
-
     /** default constructor method sets values to implement identity 
      * transformation */
     StaticTransformation();
+
+public:
 
     /** constructor method
      * @param translation_ sets translation
@@ -108,21 +108,65 @@ public:
      */
     StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], int usePos_, int useOrient_);
 
-    /** returns the rotational part of the Transformation */
+    /** returns the rotational part of the Transformation as a Quaternion.
+     * @return float pointer to 4 floats containing quaternion
+     */
     float* getRotation()
     {
         return (float*)rotation;
     }
-    /** returns the scaling part of the Transformation */
+
+    /** returns the scaling part of the Transformation 
+     * @return float pointer to 3 floats 
+    */
     float* getScale()
     {
         return (float *)scale;
     }
-    /** returns the translational part of this Transformation */
+
+    /** returns the translational part of this Transformation 
+     * @return float pointer to 3 float 
+     */
     float* getTranslation()
     {
         return (float *)translation;
     }
+
+    /** sets the rotation of the transformation. It copies the
+     * passed float array into an internal structure.
+     * @param data a 4 float array containing the rotation in
+     *             quaternion format.
+     */
+    void setRotation(float * data)
+    {
+        memcpy( rotation, data, sizeof(float)*4 );
+    }
+
+    /** sets the scale of the transformation. It is only
+     * executed, if the transformation is of type to 
+     * change the position of any events. It copies the
+     * passed float array into an internal structure.
+     * @param data a 3 float array containing the scale
+     */
+    void setScale(float * data)
+    {
+        if( usePos )
+            memcpy( scale, data, sizeof(float)*3 );
+    }
+
+    /** sets the translation of the transformation. It is only
+     * executed, if the transformation is of type to 
+     * change the position of any events. It copies the
+     * passed float array into an internal structure.
+     * @param data a 3 float array containing the translation
+     */
+    void setTranslation(float * data)
+    {
+        if( usePos )
+            memcpy( translation, data, sizeof(float)*3 );
+    }
+
+    friend class CommonNodeFactory;
 };
 
 #endif
