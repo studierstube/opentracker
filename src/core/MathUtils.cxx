@@ -1,4 +1,4 @@
-  /* ========================================================================
+   /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.11 2003/06/25 06:42:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.12 2003/06/25 13:23:56 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -266,6 +266,48 @@ double MathUtils::angle( float * v1, float * v2, int dim )
 
 float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
 {
+
+    const float*    r1q = q2;
+    
+    float           rot1q[4];
+    double          omega, cosom, sinom;
+    double          scalerot0, scalerot1;
+    int             i;
+    
+    // Calculate the cosine
+    cosom = q1[0]*q2[0] + q1[1]*q2[1]
+        + q1[2]*q2[2] + q1[3]*q2[3];
+    
+    // adjust signs if necessary
+    if ( cosom < 0.0 ) {
+        cosom = -cosom;
+        for ( int j = 0; j < 4; j++ )
+            rot1q[j] = -r1q[j];
+    } else  {
+        for ( int j = 0; j < 4; j++ )
+            rot1q[j] = r1q[j];
+    }
+    
+    // calculate interpolating coeffs
+    if ( (1.0 - cosom) > 0.00001 ) {
+        // standard case
+        omega = acos(cosom);
+        sinom = sin(omega);
+        scalerot0 = sin((1.0 - t) * omega) / sinom;
+        scalerot1 = sin(t * omega) / sinom;
+    } else {        
+        // rot0 and rot1 very close - just do linear interp.
+        scalerot0 = 1.0 - t;
+        scalerot1 = t;
+    }
+    
+    // build the new quarternion
+    for (i = 0; i <4; i++)
+        qResult[i] = scalerot0 * q1[i] + scalerot1 * rot1q[i];
+    
+        return qResult;
+
+        /*
 	double angle = MathUtils::angle( q1, q2, 4);
     float temp[4];
     if( angle < 0)
@@ -290,6 +332,8 @@ float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
 	{
 		qResult[i] = (float)(q1[i] * c1 + temp[i]*c2);
 	}
+    */
+
 	return qResult;
 }
 
