@@ -1,3 +1,11 @@
+2004-12-02 17:28:29  Rev 789    daniel
+
+	* src/input/ARToolKitPlusModule.h, 
+	  src/input/ARToolKitMultiMarkerSource.h, 
+	  src/input/ARToolKitPlusModule.cxx: ARToolKitPlusModule:   added 
+	  support for multi-marker tracking (still untested)   improved 
+	  performance when many markers are visible
+
 2004-11-29 08:50:33  Rev 787    reitmayr
 
 	* src/input/ParButtonModule.h, src/input/ParButtonSource.h: 
