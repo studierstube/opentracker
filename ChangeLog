@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-06-01 14:37  tomp
+
+	* src/common/CommonNodeFactory.cxx,
+	src/common/PositionFilterNode.cxx, src/common/PositionFilterNode.h,
+	opentracker.dsp:
+	
+	added PositionFilterNode.
+
 2004-05-18 16:36  flo
 
 	* src/input/MulticastInputModule.cxx:
