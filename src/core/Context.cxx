@@ -7,13 +7,23 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.3 2001/03/06 18:08:26 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 
 #include <ace/OS.h>
 #include "Context.h"
+
+#ifndef WIN32
+#include <unistd.h>
+#include <sys/time.h>
+#else
+#include <windows.h>
+#include <sys/timeb.h>
+#include <time.h>
+#endif
+#include <sys/types.h>
 
 // constructor method.
 
@@ -86,11 +96,18 @@ void Context::pushStates()
 void Context::run()
 {
     start();
+    double time = currentTime(), newTime;
     while ( stop() == 0 )
     {
         // push and pull parts of the main loop
         pushStates();
         pullStates();
+        newTime = currentTime();
+        if( newTime - time < 20 )
+        {            
+            Sleep((DWORD)(newTime - time));
+            time = newTime;
+        }
     }
     close();
 }
@@ -115,4 +132,25 @@ int Context::stop()
         value |= (*it)->stop();
     }
     return value;
+}
+
+// returns the current time in milliseconds since ...
+
+double Context::currentTime()
+{
+ #ifndef WIN32  // IRIX and Linux code
+#ifdef _SGI_SOURCE
+    struct timeval tp;
+    gettimeofday(&tp);
+    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
+#else //LINUX code
+    struct timeval tp;
+    gettimeofday(&tp,NULL);
+    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
+#endif
+#else  // WIN code
+    struct _timeb timeBuffer;
+    _ftime(&timeBuffer);
+    return (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
+#endif
 }
