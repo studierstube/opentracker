@@ -65,6 +65,7 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="EventDynamicTransform|QueueDynamicTransform|TimeDynamicTransform" mode="node">[shape=record,label="{{&lt;data&gt; Data | &lt;base&gt; Base } | &lt;bottom&gt; DynamicTransformation}"]</xsl:template>	
 	<xsl:template match="WacomGraphireSource" name="WacomGraphireSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="Ref" name="Ref" mode="node"> [ label="<xsl:value-of select="name(.)"/>" , shape=box , height=0.3 , width=.45 ]</xsl:template>
+	<xsl:template match="Selection" mode="node">[shape=record,label="{{&lt;select&gt; Select | &lt;default&gt; Default } |&lt;bottom&gt; Selection}"]</xsl:template>
 
 	<!-- merge sub node templates for defining node ports -->
 	<xsl:template match="Merge" name="Merge" mode="node">[shape=record, label="{{<xsl:apply-templates mode="merge"/>} | &lt;bottom&gt; <xsl:value-of select="name(.)"/>} "]</xsl:template>
@@ -143,6 +144,28 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:data</xsl:with-param>
 		</xsl:apply-templates>
 	</xsl:template> 
+	
+	<!-- Selection navigation behaviour -->
+	<xsl:template match="Selection" mode="navigate">
+		<xsl:apply-templates mode="dynamic-navigate-selection">
+			<xsl:with-param name="parent">
+				<xsl:number count="*" format="a" level="any"/>
+			</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>	
+	<xsl:template match="Select" mode="dynamic-navigate-selection">
+		<xsl:param name="parent"/>
+		<xsl:apply-templates>
+			<xsl:with-param name="parent">
+				<xsl:copy-of select="$parent"/>:select</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<xsl:template match="*" mode="dynamic-navigate-selection">
+		<xsl:param name="parent"/>
+		<xsl:apply-templates select=".">			
+			<xsl:with-param name="parent">	<xsl:copy-of select="$parent"/>:default</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
 	
 	<!-- default navigate behaviour -->
 	<xsl:template match="*" mode="navigate">

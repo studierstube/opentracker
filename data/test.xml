@@ -6,7 +6,7 @@
 	<configuration>
 		<NetworkSinkConfig name="Test Server"/>
 		<ConsoleConfig interval="1" headerline="Test Server"/>
-        <TimeConfig rate="157" />
+		<TimeConfig sleep="50"/>
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">
@@ -58,5 +58,16 @@
 				<TestSource frequency="20"/>
 			</EventTransform>
 		</EventInvertTransform>
+	</ConsoleSink>
+	<ConsoleSink comment="Console Source - use 0 to test">
+		<ConsoleSource number="0"/>
+	</ConsoleSink>
+	<ConsoleSink comment="Selection - use 1 for select, 2 for default input">
+		<Selection timeout="5000" >
+			<Select>
+				<ConsoleSource number="1"/>
+			</Select>
+				<ConsoleSource number="2"/>
+		</Selection>
 	</ConsoleSink>
 </OpenTracker>

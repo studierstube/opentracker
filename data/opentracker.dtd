@@ -25,7 +25,7 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
@@ -171,17 +171,17 @@ Time prefix defines that the node implements an TimeDependend interface -->
 <!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
 <!ATTLIST EventDynamicTransform
 	DEF ID #IMPLIED
-	baseevent (true|false) "true"
+	baseevent (true | false) "true"
 >
 <!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicTransform
 	DEF ID #IMPLIED
-	baseevent (true|false) "true"
+	baseevent (true | false) "true"
 >
 <!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicTransform
 	DEF ID #IMPLIED
-	baseevent (true|false) "true"
+	baseevent (true | false) "true"
 >
 <!-- inverting the described space -->
 <!ELEMENT EventInvertTransform (%EventNodes;)>
@@ -316,6 +316,12 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- Time Module configuration element, manages timing of the main loop -->
 <!ELEMENT TimeConfig EMPTY>
 <!ATTLIST TimeConfig
-    sleep CDATA #IMPLIED
-    rate CDATA #IMPLIED
+	sleep CDATA #IMPLIED
+	rate CDATA #IMPLIED
+>
+<!-- Selection Node and associated wrapper tag -->
+<!ELEMENT Select (%EventNodes;)>
+<!ELEMENT Selection ((Select, (%EventNodes;)) | ((%EventNodes;), Select))>
+<!ATTLIST Selection
+	timeout CDATA "100"
 >
