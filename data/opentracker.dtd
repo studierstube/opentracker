@@ -21,11 +21,11 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.48 2002/09/26 21:32:17 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.49 2002/10/31 20:04:09 splechtna Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource">
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
@@ -302,10 +302,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT NetworkSourceConfig EMPTY>
 <!ELEMENT NetworkSource EMPTY>
 <!ATTLIST NetworkSource
-  DEF ID #IMPLIED
-  number CDATA #REQUIRED
-  multicast-address CDATA #REQUIRED
-  port CDATA #REQUIRED
+	DEF ID #IMPLIED
+	number CDATA #REQUIRED
+	multicast-address CDATA #REQUIRED
+	port CDATA #REQUIRED
 >
 <!-- video source elements for ARToolKit library-->
 <!ELEMENT ARToolKitConfig EMPTY>
@@ -381,7 +381,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- CyberMouse source elements -->
 <!ELEMENT CyberMouseSource EMPTY>
 <!ATTLIST CyberMouseSource
-  DEF ID #IMPLIED
+	DEF ID #IMPLIED
 >
 <!-- Wacom Graphire tablet source elements -->
 <!ELEMENT WacomGraphireSource EMPTY>
@@ -511,4 +511,24 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   station CDATA #REQUIRED
   event (on | off) "off"
+>
+<!-- SpaceMouse source elements -->
+<!ELEMENT SpaceMouseSource EMPTY>
+<!ATTLIST SpaceMouseSource
+	DEF ID #IMPLIED
+>
+<!--ultratrak receiver acting as sources-->
+<!ELEMENT UltraTrakConfig EMPTY>
+<!ATTLIST UltraTrakConfig
+	DEF ID #IMPLIED
+	port CDATA #REQUIRED
+	positionMapping CDATA "0 1 2"
+	invertPosition CDATA "0 0 0"
+	orientationMapping CDATA "0 1 2"
+	invertOrientation CDATA "0 0 0"
+>
+<!ELEMENT UltraTrakSource EMPTY>
+<!ATTLIST UltraTrakSource
+	DEF ID #IMPLIED
+	number CDATA #REQUIRED
 >
