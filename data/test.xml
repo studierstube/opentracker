@@ -7,9 +7,6 @@
 		<NetworkSinkConfig name="Test Server"/>
 		<ConsoleConfig interval="1" headerline="Test Server"/>
 		<TimeConfig sleep="10" display="true"/>
-		<FileConfig>
-			<File file="test.out" id="test.out"/>
-		</FileConfig>
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">
@@ -72,10 +69,16 @@
 			</Select>
 			<ConsoleSource number="2"/>
 		</Selection>
-	</ConsoleSink>
+	</ConsoleSink> 
 	<ConsoleSink comment="File Sink output">
-		<FileSink id="test.out">
+		<FileSink file="test.out">
 			<Ref USE="test1"/>
-		</FileSink>
+		</FileSink>        
 	</ConsoleSink>
+    <FileSink file="test.out" station="1">
+        <TestSource />
+    </FileSink>
+    <ConsoleSink comment="File Source Output">
+        <FileSource file="test.in" station="1"/>
+    </ConsoleSink>
 </OpenTracker>
