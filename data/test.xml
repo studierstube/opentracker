@@ -82,7 +82,7 @@
   </ConsoleSink>
   <ConsoleSink comment="File Sink output" active="off">
     <FileSink file="test.out">
-      <Ref USE="test1"/>
+      <Ref USE="C1"/>
     </FileSink>
   </ConsoleSink>
   <ConsoleSink comment="MatrixTransform" active="off">
@@ -92,9 +92,6 @@
       </EventPositionTransform>
     </EventMatrixTransform>
   </ConsoleSink>
-  <FileSink file="test.out" station="1">
-    <TestSource/>
-  </FileSink>
   <ConsoleSink comment="File Source Output" active="off">
     <FileSource file="test.in" station="1"/>
   </ConsoleSink>
@@ -174,5 +171,10 @@
     <RangeFilter min="0.5" max="2">
       <Ref USE="C0"/>
     </RangeFilter>
+  </ConsoleSink>
+ <ConsoleSink comment="ButtonFilter" active="off">
+    <ButtonFilter buttonmap="10" buttonmask="01111111" invert="01000000">
+      <Ref USE="C0"/>
+    </ButtonFilter>
   </ConsoleSink>
 </OpenTracker>

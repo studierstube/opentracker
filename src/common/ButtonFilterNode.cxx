@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.2 2002/02/11 10:41:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.3 2003/06/13 09:16:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,7 +36,7 @@ using namespace std;
 
 // constructor method.
 
-ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr )
+ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr )
     : Node()
 {
 	int i;
@@ -44,6 +44,7 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 	
 	// initialize neutral
 	buttonmask = 0xff;
+    invert = 0;
 	for (i=0;i<8;i++){
 		buttonmap[i] = i;
 	}
@@ -63,6 +64,14 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 		else buttonmap[i] = i;
 	}
 
+    // set invertmask
+    buttonbit = 1;
+    for (i=0; i<8; i++){
+        if (invertstr[i] == '\0') break;
+        if (invertstr[i] == '1') invert = invert ^ buttonbit;
+        
+        buttonbit = buttonbit << 1;
+	}
 }
 
 int ButtonFilterNode::isEventGenerator()
@@ -79,6 +88,7 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 
     lastState = event;
 
+    lastState.button ^= invert;
 	lastState.button &= buttonmask;
 
 	for (i=0; i<8; i++){

@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.1 2002/01/30 11:24:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.2 2003/06/13 09:16:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,10 +40,12 @@
  * @li @c buttonmap 8-digit string, assigning an output number to every individual button input, e.g.
  * "01324567" swaps buttons 2 and 3. Multiple assignments ar ORed together, e.g "00001111" means button 
  * 0=true if one (or more) of buttons 0-3 is pressed, button 1=true if one of buttons 4-7 is pressed.
+ * @li @c invert binary mask for inverting individual buttons. 0 stands for leave alone, 1 for invert. 
+ *        this is applied before the button mapping !
  *
  * An example element looks like this :
  * @verbatim
-<ButtonFilter buttonmask="11110000" buttonmap="32107777">
+<ButtonFilter buttonmask="11110000" buttonmap="32107777" invert="00100000">
     <ParButtonSource dev="0x378" DEF="buttons"/>
 </ButtonFilter>@endverbatim
  * outputs buttons 0-3 in reverse order, ignoring the others. (note that button 7 is never TRUE because buttons
@@ -70,13 +72,14 @@ protected:
 
 	unsigned char buttonmap[8];
 	unsigned char buttonmask;
+    unsigned char invert;
 
 // Methods
 protected:
 
     /** constructor method
      */
-    ButtonFilterNode( const char* buttonmask, const char* buttonmap );
+    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr );
 
 public:
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.33 2003/05/14 11:43:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.34 2003/06/13 09:16:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -389,7 +389,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     }
 	else if( name.compare("ButtonFilter") == 0 )
 	{
-		result = new ButtonFilterNode( attributes.get("buttonmask").data(), attributes.get("buttonmap").data() );
+		result = new ButtonFilterNode( attributes.get("buttonmask").data(), attributes.get("buttonmap").data(), attributes.get("invert").data() );
 	}
     else if( name.compare("ButtonOp") == 0 )
     {
