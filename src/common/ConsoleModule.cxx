@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.6 2001/03/24 23:50:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.7 2001/03/25 10:47:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -209,7 +209,7 @@ void ConsoleModule::pushState()
         char key = _getch();        
 #else
     int key;
-    while( (key = getch()) == ERR )
+    while( (key = getch()) != ERR )
     {
 #endif
         int index = find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();

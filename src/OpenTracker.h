@@ -9,7 +9,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.3 2001/02/13 15:11:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.4 2001/03/25 10:47:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,7 +52,7 @@
 // some problems with Windows.h file.
 #include <ace/ACE.h>
 
-#include "config.h"
+// #include "config.h"
 
 #include <string>
 #include <vector>
