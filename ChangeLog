@@ -9,6 +9,34 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-02 09:30  reitmayr
+
+	* src/common/FilterNode.cxx:
+	
+	filter node now works correctly with orientations, avoiding jumps
+	and strange loops
+
+2003-07-02 09:29  reitmayr
+
+	* src/core/TestModule.cxx, src/core/TestSource.h,
+	data/opentracker.dtd:
+	
+	added noise simulation to testsource
+
+2003-07-02 09:28  reitmayr
+
+	* src/core/: MathUtils.cxx, MathUtils.h:
+	
+	implementation of dot product
+
+2003-07-02 09:28  reitmayr
+
+	* src/input/: DynaSightModule.h, GPSDirectionSource.h,
+	GPSDriver.cxx, GPSDriver.h, GPSModule.cxx, MagicYModule.h,
+	UltraTrakModule.h:
+	
+	gps fixes and some docu clean up
+
 2003-07-01 16:05  tamer
 
 	* src/input/DynaSightModule.cxx:
