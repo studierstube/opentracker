@@ -15,12 +15,14 @@ otcommoninc_HEADERS = \
 		ConsoleSink.h \
 		ConsoleSource.h \
 		DynamicTransformation.h \
+		ElasticFilterNode.h \
 		EventQueueNode.h \
 		File.h \
 		FileModule.h \
 		FileSink.h \
 		FileSource.h \
 		FilterNode.h \
+		InterpolatorModule.h \
 		InvertTransformation.h \
 		MatrixTransformation.h \
 		MergeNode.h \
@@ -55,6 +57,7 @@ libcommon_la_SOURCES = \
 		ConsoleSource.h \
 		DynamicTransformation.cxx \
 		DynamicTransformation.h \
+		ElasticFilterNode.cxx \
 		EventQueueNode.cxx \
 		EventQueueNode.h \
 		File.h \
@@ -64,6 +67,7 @@ libcommon_la_SOURCES = \
 		FileSource.h \
 		FilterNode.cxx \
 		FilterNode.h \
+		InterpolatorModule.cxx \
 		InvertTransformation.cxx \
 		InvertTransformation.h \
 		MatrixTransformation.cxx \
