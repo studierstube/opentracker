@@ -96,64 +96,64 @@ class ACE_FILE_IO;
  */
 class OPENTRACKER_API GPSModule : public ThreadModule , public NodeFactory, public GPSListener
 {
- public:
-  GPSModule();
-  virtual ~GPSModule();
-
-  virtual void init(StringTable& attributes,  ConfigNode * localTree);
-	
-  virtual Node * createNode( const std::string & name, StringTable & attributes );
-	
-  virtual void pushState();
-
-  virtual void start();
-
-  virtual void close();
-
-  virtual void newData( const GPResult * point, const char * line, void * userData );
-
- protected:
-
-  virtual void run();
-
-  template<class T> void updateSource(T * source)
+public:
+    GPSModule();
+    virtual ~GPSModule();
+    
+    virtual void init(StringTable& attributes,  ConfigNode * localTree);
+    
+    virtual Node * createNode( const std::string & name, StringTable & attributes );
+    
+    virtual void pushState();
+    
+    virtual void start();
+    
+    virtual void close();
+    
+    virtual void newData( const GPResult * point, const char * line, void * userData );
+    
+protected:
+    
+    virtual void run();
+    
+    template<class T> void updateSource(T * source)
     {
-      if( source != NULL )
+        if( source != NULL )
         {
-          lock();
-          if( source->state.time < source->buffer.time )
+            lock();
+            if( source->state.time < source->buffer.time )
             {
-              source->state = source->buffer;
-              unlock();
-              source->updateObservers( source->state );
+                source->state = source->buffer;
+                unlock();
+                source->updateObservers( source->state );
             }
-          else
-            unlock();
+            else
+                unlock();
         }
     };
-
-  bool debug;
-  std::string device;
-  int baudRate;
-  std::string dgpsServer;
-  int dgpsPort;
-  int dgpsmirror;
-  std::string rtcmdev;
-
-  GPSSource * source;
-  GPSDirectionSource * dirSource;
-  GPSGarminCompass * compassSource;
-  GPSGarminAltitude * altitudeSource;
-  GPSInfoSource * infoSource;
-  GPSDriver * driver;
-
-  ACE_FILE_IO * logFile;
-
-  friend class GPSSource;
-  friend class GPSDirectionSource;
-  friend class GPSGarminCompass;
-  friend class GPSGarminAltitude;
-  friend class GPSInfoSource;
+    
+    bool debug;
+    std::string device;
+    int baudRate;
+    std::string dgpsServer;
+    int dgpsPort;
+    int dgpsmirror;
+    std::string rtcmdev;
+    
+    GPSSource * source;
+    GPSDirectionSource * dirSource;
+    GPSGarminCompass * compassSource;
+    GPSGarminAltitude * altitudeSource;
+    GPSInfoSource * infoSource;
+    GPSDriver * driver;
+    
+    ACE_FILE_IO * logFile;
+    
+    friend class GPSSource;
+    friend class GPSDirectionSource;
+    friend class GPSGarminCompass;
+    friend class GPSGarminAltitude;
+    friend class GPSInfoSource;
 };
 
 #endif // !defined(_GPSMODULE_H)
