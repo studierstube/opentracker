@@ -1,3 +1,14 @@
+2004-07-23 13:28:41  Rev 715    reitmayr
+
+	* src/input/InterSenseModule.h, src/input/InterSenseSource.h: 
+	  documentation updates
+
+2004-07-23 12:57:29  Rev 714    reitmayr
+
+	* src/input/InterSenseModule.cxx: simplified use of InterTrax2 by 
+	  directly converting the rotation to standard Open Inventor 
+	  coordinate system
+
 2004-07-14 12:44:50  Rev 712    tamer
 
 	* src/common/InterpolatorModule.h, src/core/ThreadModule.cxx, 
