@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.7 2003/10/31 14:54:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.8 2004/02/20 08:59:07 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -37,6 +37,7 @@
 #include <string>
 
 #include <ace/INET_Addr.h>
+#include <ace/Time_Value.h>
 
 #include "UltraTrakModule.h"
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.28 2003/11/08 15:43:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.29 2004/02/20 08:59:54 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -37,6 +37,7 @@
 #include "../OpenTracker.h"
 #include "ConfigurationParser.h"
 
+#include <ace/OS.h>
 #include <ace/FILE.h>
 
 #include <memory>

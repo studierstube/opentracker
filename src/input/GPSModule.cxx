@@ -26,11 +26,12 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.12 2003/10/31 14:54:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.13 2004/02/20 08:59:07 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <ace/OS.h>
 #include <ace/Reactor.h>
 #include <ace/Thread.h>
 #include <ace/FILE_Connector.h>

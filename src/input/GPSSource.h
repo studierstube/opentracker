@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.3 2003/06/18 11:59:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.4 2004/02/20 08:59:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,6 +47,8 @@
 
 #ifndef _GPSSOURCE_H
 #define _GPSSOURCE_H
+
+#include <assert.h>
 
 #include "../OpenTracker.h"
 #include "GPSDriver.h"

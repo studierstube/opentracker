@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.11 2003/11/25 16:16:01 tomp Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.12 2004/02/20 08:59:07 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -36,6 +36,7 @@
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
+#include <ace/Time_Value.h>
 
 #include "ARTDataTrackerModule.h"
 #include "ARTDataTrackerSource.h"
