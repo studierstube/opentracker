@@ -111,6 +111,11 @@ Node* ConfigurationParser::buildTree(DOM_Element& element)
 	        }
     	}
     }
+    else
+    {
+        cout << "Warning : Could not parse element " << 
+	        element.getTagName().transcode() << endl;
+    }
     return value;
 }//@CODE_3746
 

@@ -50,7 +50,11 @@ Context::Context() //@INIT_4782
     NetworkDriver * driver = new NetworkDriver;
     addFactory( *driver );
     addModule( "Network", *driver );
-       
+
+    TestModule * test = new TestModule;
+    addFactory( *test );
+    // actually it doesn't have a configuration element
+    addModule( "Test", *test );
     
 }//@CODE_4782
 
