@@ -228,10 +228,6 @@ SOURCE=.\src\common\VirtualTransformation.cxx
 
 SOURCE=.\src\input\WacomGraphireModule.cxx
 # End Source File
-# Begin Source File
-
-SOURCE=.\src\core\WrapperNode.cxx
-# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -323,6 +319,14 @@ SOURCE=.\src\common\FileModule.h
 # Begin Source File
 
 SOURCE=.\src\common\FileSink.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\FOBModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\FOBSource.h
 # End Source File
 # Begin Source File
 
