@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.29 2003/11/08 15:43:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.30 2003/11/13 09:55:51 tomp Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
@@ -73,7 +73,7 @@ Node::~Node()
 		try {
 			ELEMENT(parent)->release();
 		}
-		catch(DOMException &e)
+		catch(DOMException &)
 		{
 		}
 	}
