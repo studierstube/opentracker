@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.3 2003/07/24 15:37:47 anonymous Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.4 2003/07/24 16:46:50 anonymous Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,7 +59,7 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
 {
     char * argv = "";
 	int argc = 1;
-    myOrbConnection = CorbaInit::initializeOrb( argc, argv); //parameters here ! 
+    myOrbConnection = CorbaInit::initializeOrb( argc, & argv); //parameters here ! 
                                                  // -Dservicemanager=atbruegge34
     ServiceManager_var smgr = myOrbConnection->getServiceManager();
     
@@ -190,9 +190,9 @@ void DwarfModule::pullState()
             if( sender != NULL )
             {
                 // FIXME: better to use the array copy, after switch to doubles !!
-                sender->setPos( 0, sink->state.orientation[0]);
-                sender->setPos( 1, sink->state.orientation[1]);
-                sender->setPos( 2, sink->state.orientation[2]);
+                sender->setPos( 0, sink->state.position[0]);
+                sender->setPos( 1, sink->state.position[1]);
+                sender->setPos( 2, sink->state.position[2]);
                 sender->setOri( 0, sink->state.orientation[0]);
                 sender->setOri( 1, sink->state.orientation[1]);
                 sender->setOri( 2, sink->state.orientation[2]);
@@ -201,6 +201,7 @@ void DwarfModule::pullState()
                 // FIXME: use opentracker time with setTimestamp
                 sender->updateTimestamp();
 
+                sender->sendPoseData();
             }
             //  create event here and send it !
             sink->changed = false;

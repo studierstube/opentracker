@@ -10,7 +10,10 @@ otnetworkinc_HEADERS = \
         NetworkSource.h \
         NetworkSourceModule.h \
         TCPModule.h \
-        TCPSink.h
+        TCPSink.h \
+		DwarfModule.h \
+		DwarfSink.h \
+		DwarfSource.h
 
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
@@ -23,4 +26,8 @@ libnetwork_la_SOURCES = \
         NetworkSourceModule.h \
         TCPModule.cxx \
         TCPModule.h \
-        TCPSink.h
+        TCPSink.h \
+		DwarfModule.cxx \
+		DwarfModule.h \
+		DwarfSink.h \
+		DwarfSource.h
