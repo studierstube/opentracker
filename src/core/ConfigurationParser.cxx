@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.5 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.6 2001/03/06 18:08:08 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -104,9 +104,10 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
     if( value != NULL )
     {
         // Test for ID 
-        if( map.find("REF") != map.end())
+        if( map.find("DEF") != map.end())
         {
-            references[map["REF"]] = value;
+            references[map["DEF"]] = value;
+            cout << "Storing Reference " << map["DEF"] << endl;
         }
         DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
         for( int i = 0; i < list.getLength(); i ++ )
