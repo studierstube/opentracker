@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.17 2001/10/04 10:13:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.18 2001/10/20 17:23:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -249,6 +249,7 @@ void ARToolKitModule::run()
         }
         count ++;
     }
+    cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
 #ifdef __sgi
     arVideoStop( did );
     arVideoCleanupDevice( did );
@@ -275,6 +276,11 @@ void ARToolKitModule::grab()
 #endif
         return;
     }
+
+    // copy info to internal pointer
+    frame = frameData;
+    
+
     if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
     {
         return;
@@ -333,4 +339,8 @@ void ARToolKitModule::grab()
     } 
 }
 
+unsigned char * ARToolKitModule::getFrame()
+{
+    return frame;
+}
 #endif

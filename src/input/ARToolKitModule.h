@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.16 2001/09/19 16:26:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.17 2001/10/20 17:23:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -90,6 +90,10 @@ protected:
     /// videomode string
     std::string videomode;
 
+    /// pointer to the buffer map
+    unsigned char * frame;
+
+
 // methods
 protected:
     /** the work method for the module thread. This method grabs a frame
@@ -139,6 +143,7 @@ public:
      */
     virtual void init(StringTable& attributes, ConfigNode * localTree);
 
+    unsigned char * getFrame();
 };
 
 #endif
