@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.10 2003/05/21 15:06:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.11 2003/06/18 11:51:26 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -111,6 +111,28 @@ public:
 	 * @return determinant of the matrix */
 	static float determinant( float matrix[3][3] );
     
+    /**
+     * computes the angle between two n-dimensional vectors.
+     * @param v1 float[n] first vector
+     * @param v2 float[n] second vector
+     * @param dim dimension n of the two vectors
+     * @return angle between the two vectors
+     */    
+    double angle( float * v1, float * v2, int dim );
+    
+    /**
+     * computes the spherical linear interpolation between two quaternions. The
+     * formulas used are probably only stable for t in [0,1], but it can be 
+     * used to calculate extrapolations as well. The following properties hold :
+     * slerp(q1,q2,0) = q1, slerp(q1,q2,1) = q2.
+     * @param q1 float[4] first quaternion 
+     * @param q2 float[4] second quaternion
+     * @param t interpolation parameter
+     * @param qResult float[4] stores result
+     * @return pointer to result = qResult
+     */
+    float * slerp( float * q1, float *q2, float t, float * qResult );
+
 	static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
 	static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);
 	
@@ -147,10 +169,6 @@ public:
 
 	/// another nice constant to transform grad to radiants
 	static const double GradToRad;
-
-    double angle( float * v1, float * v2, int dim );
-
-    float * slerp( float * q1, float *q2, float t, float * qResult );
 
 };
 

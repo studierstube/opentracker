@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.8 2003/05/21 15:06:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.9 2003/06/18 11:51:26 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,7 @@
  * a collection of numerically safer implementations of various terms.
  * The class is a template to provide inline implementations of the 
  * actual calculations. This allows maximum speed :). See
- * http://www.hardon.org/~hatch/rightway.php for details on the 
+ * http://www.hardon.org/~hatch/rightway.php for details on the
  * formulas.
  * @ingroup core
  * @author Gerhard Reitmayr
@@ -234,11 +234,17 @@ double MathUtils::angle( float * v1, float * v2, int dim )
 	{
 		dot += v1[i] * v2[i];
 	}
+    /* Numerically stable implementation:
+     *  if (dot(u,v) < 0.)
+     *      return M_PI - 2*asin(|v+u)|/2)
+     *  else
+     *      return 2*asin(|v-u|/2) 
+     */
 	if(dot < 0.0)
 	{
 		dot = 0;
 		for( i = 0; i < dim; i++)
-			dot += (v2[i]-v1[i])*(v2[i]-v1[i]);
+			dot += (v2[i]+v1[i])*(v2[i]+v1[i]);
 		dot = sqrt(dot) / 2.0;
 		return MathUtils::Pi - 2*asin( dot );
 	}

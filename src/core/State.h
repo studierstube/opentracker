@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.9 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.10 2003/06/18 11:51:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,7 +52,9 @@ class OPENTRACKER_API State
 public:
     /// the position value of the state
     float position[3];
-    /// orientation value stored as unit quaternion
+    /** orientation value stored as unit quaternion. The vector component are
+     * the first three entries and the scalar component is the forth entry.
+     */
     float orientation[4];
     /// button states, each bit represents a button
     unsigned short button;
