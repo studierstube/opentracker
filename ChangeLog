@@ -9,6 +9,45 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-03 18:04  tamer
+
+	* src/input/GPS_Handler.h:
+	
+	added #ifdef to let it compile under linux.
+
+2003-04-03 18:04  reitmayr
+
+	* src/input/GPSDriver.cxx:
+	
+	fixed another crash problem
+
+2003-04-03 17:50  reitmayr
+
+	* src/: common/CommonNodeFactory.cxx,
+	common/EllipsoidTransformNode.h, common/GKTransformNode.cxx,
+	common/GKTransformNode.h, input/DGPSIP_Handler.cxx,
+	input/DGPSIP_Handler.h, input/GPSDriver.cxx, input/GPSModule.cxx,
+	input/GPS_Handler.h, input/InterSenseModule.cxx,
+	input/SpaceMouseModule.cxx, input/UltraTrakModule.cxx,
+	network/NetworkSourceModule.cxx:
+	
+	some fixes across the bench : - correct ace template use - tighter
+	locking for copying between the threads - more transform code for
+	GPS (not correct yet ?)
+
+2003-04-03 16:45  tamer
+
+	* extras/intersense/Makefile.am, lib/Makefile.am,
+	src/Makefile.common, src/common/Makefile.am,
+	src/core/MathUtils.cxx, src/core/ThreadModule.cxx,
+	src/input/DGPSIP_Handler.cxx, src/input/DGPSIP_Handler.h,
+	src/input/GPSDriver.cxx, src/input/GPS_Handler.cxx,
+	src/input/GPS_Handler.h, src/input/InterSenseModule.cxx,
+	src/input/Makefile.am, src/misc/OpenTracker.cxx:
+	
+	added new classes. make use of new intersense code. ifdef'd ACE
+	code for win32.
+
 2003-04-02 18:43  reitmayr
 
 	* src/input/ARToolKitModule.cxx, src/input/ARToolKitModule.h,
