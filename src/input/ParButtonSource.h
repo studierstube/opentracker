@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.3 2002/09/19 16:50:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.4 2002/11/28 14:21:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,9 @@
  * An example element looks like this :
  * @verbatim
 <ParButtonSource dev="0x378"/>@endverbatim
+ *
+ * See the UserPort driver on http://www.studierstube.org/opentracker/libs.html 
+ * to get it working under WindowsNT/2000/XP. 
  */
 
 #ifndef _PARBUTTONSOURCE_H
