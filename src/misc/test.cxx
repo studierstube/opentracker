@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.4 2001/08/18 21:51:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.5 2001/10/21 22:13:22 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -123,6 +123,6 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void testCB( const State & event ){
-    cout << "Got event !\n";
+void testCB( const Node & node, const State & event, void * data ){
+    cout << "Got event from " << node.getName() << endl;
 }
