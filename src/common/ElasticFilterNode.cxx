@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.4 2003/06/25 12:38:57 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.5 2003/06/25 13:23:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,10 +43,6 @@ ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_,
     damp = damp_;
 
     init = false;
-	slerpT = 0;
-
-    //State vState;
-    //State currentState;
 } 
 
 // tests the confidence value and only forwards passing events
@@ -58,9 +54,7 @@ void ElasticFilterNode::onEventGenerated( State& event, Node & generator )
         init = true;
 
     }
-
     targetState = event;
-	slerpT = 0;
 }
 
 void ElasticFilterNode::push() {
@@ -91,18 +85,8 @@ void ElasticFilterNode::push() {
         currentState.position[0] += vState.position[0];
         currentState.position[1] += vState.position[1];
         currentState.position[2] += vState.position[2];
-		
-		// try the same for the quaternion
-		// slerp factor is independent from distance.
-		// try to create a velocity for slerpT
-
-		slerpT += (1.0-slerpT) * force;
-        if (slerpT <0.0) slerpT  = 0.0;
-		else if (slerpT >1.0) slerpT  = 1.0;
-
-	// 	slerpT * = (1.0 - damp);
-
-		MathUtils::slerp(currentState.orientation, targetState.orientation, slerpT, dState.orientation);
+				
+		MathUtils::slerp(currentState.orientation, targetState.orientation, force*(1-damp)*0.1, dState.orientation);
 		
         for (int i=0; i< 4; i++)
 			currentState.orientation[i] = dState.orientation[i]; // copy ??
@@ -111,4 +95,3 @@ void ElasticFilterNode::push() {
         updateObservers(currentState);
     }
 }
-

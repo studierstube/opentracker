@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann ledermann@ims.tuwien.ac.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.3 2003/06/25 12:38:57 tomp Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.4 2003/06/25 13:23:40 reitmayr Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,14 +66,13 @@ protected:
     /// offset of first update relative to main loop start
     int offset;
     /// the state that is posted to the EventObservers
-    float damp;     /// damping factor
-    float force;    /// the strength of the spring in our model
+    float damp;     ///< damping factor
+    float force;    ///< the strength of the spring in our model
 
 	// internal variables
     State currentState; ///
     State targetState;  ///
     State vState;       ///
-	float slerpT;       ///
 
     /** constructor method. It sets initial values for the treshhold and type */
     ElasticFilterNode( float force_ = 0.02, float damp_ = 0.5, int frequency_ = 1, int offset_ = 0);
