@@ -8,7 +8,7 @@ Dieter Schmalstieg \n
 Toni Fuhrmann \n 
 Gerd Hesina \n 
 Jan Prikryl \n 
-Hannes Kaufmann
+Hannes Kaufmann \n
 Rainer Splechtna \n
 Ivan Viola \n
 Matej Mlejnek \n
@@ -19,5 +19,6 @@ Berk Oezer \n
 Michael Woegerbauer \n
 Reinhard Steiner \n
 Christopher Schmidt \n
-
+Alexander Bornik \n
+Michael Knapp \n
 */
