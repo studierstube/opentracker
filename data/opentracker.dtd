@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.61 2003/03/28 14:48:59 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.62 2003/03/31 15:41:17 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?">
@@ -319,10 +319,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   a CDATA #REQUIRED
   b CDATA #IMPLIED
-  alpha CDATA #REQUIRED  
-  beta CDATA #REQUIRED  
-  gamma CDATA #REQUIRED  
-  delta CDATA #REQUIRED  
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
   meridian CDATA "34"
   mode (to | from) "to"
 >
@@ -331,10 +331,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   a CDATA #REQUIRED
   b CDATA #IMPLIED
-  alpha CDATA #REQUIRED  
-  beta CDATA #REQUIRED  
-  gamma CDATA #REQUIRED  
-  delta CDATA #REQUIRED  
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
   meridian CDATA "34"
   mode (to | from) "to"
 >
@@ -343,10 +343,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   a CDATA #REQUIRED
   b CDATA #IMPLIED
-  alpha CDATA #REQUIRED  
-  beta CDATA #REQUIRED  
-  gamma CDATA #REQUIRED  
-  delta CDATA #REQUIRED  
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
   meridian CDATA "34"
   mode (to | from) "to"
 >
@@ -612,8 +612,9 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!-- Group gate nodes. It will only open one or more members of a set of nodes to let data pass through. The ActiveGate node
       outputs the currently active GroupGate node for a set of nodes. -->
+<!ELEMENT GroupGateConfig ANY>
 <!ELEMENT Override (%EventNodes;)>
-<!ELEMENT GroupGate ((Override?, (%EventNodes;)) | ((%EventNodes;), Override?))>
+<!ELEMENT GroupGate ((Override?, (%EventNodes;)?) | ((%EventNodes;)?, Override?))>
 <!ATTLIST GroupGate
   DEF ID #IMPLIED
   group NMTOKEN #REQUIRED
