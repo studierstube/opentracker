@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.5 2001/04/01 13:24:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.6 2001/04/03 20:29:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,15 +49,14 @@
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
 
-#include <iostream>
-
 // DLL main function
 
-// local object manager
-
-ACE_Object_Manager * objectManager;
 
 #ifdef WIN32
+
+// local object manager
+ACE_Object_Manager * objectManager;
+
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
