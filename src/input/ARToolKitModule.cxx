@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.23 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.24 2003/01/31 17:21:25 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -317,6 +317,9 @@ void ARToolKitModule::run()
         }
         grab();
       
+#ifndef WIN32
+		arVideoCapNext();
+#endif
         double s = count/rate - ( OSUtils::currentTime() - startTime );
         if( s >= 10 )
         {
