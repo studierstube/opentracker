@@ -101,6 +101,10 @@ SOURCE=.\src\Context.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\DOMTreeErrorReporter.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\main.cxx
 # End Source File
 # Begin Source File
@@ -125,11 +129,7 @@ SOURCE=.\src\multicast.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NetworkDriver.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Node.cxx
+SOURCE=.\src\NetworkModule.cxx
 # End Source File
 # Begin Source File
 
@@ -165,7 +165,7 @@ SOURCE=.\src\TreeNode.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\VideoSource.cxx
+SOURCE=.\src\VideoModule.cxx
 # End Source File
 # Begin Source File
 
@@ -189,6 +189,10 @@ SOURCE=.\src\Context.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\DOMTreeErrorReporter.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\Marker.h
 # End Source File
 # Begin Source File
@@ -209,11 +213,7 @@ SOURCE=.\src\multicast.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NetworkDriver.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Node.h
+SOURCE=.\src\NetworkModule.h
 # End Source File
 # Begin Source File
 
@@ -253,7 +253,7 @@ SOURCE=.\src\TreeNode.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\VideoSource.h
+SOURCE=.\src\VideoModule.h
 # End Source File
 # Begin Source File
 

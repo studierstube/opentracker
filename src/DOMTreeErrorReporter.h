@@ -57,6 +57,9 @@
 
 /*
  * $Log: DOMTreeErrorReporter.h,v $
+ * Revision 1.2  2000/08/24 08:45:23  reitmayr
+ * modified to compile with VC++
+ *
  * Revision 1.1  2000/08/16 14:51:32  reitmayr
  * added extended xml error handling, so only real valid configuration
  * files are used.
@@ -85,7 +88,11 @@
 
 #include <util/XercesDefs.hpp>
 #include <sax/ErrorHandler.hpp>
+#ifdef WIN32
+#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+#else
 #include <iostream.h>
+#endif
 
 class DOMTreeErrorReporter : public ErrorHandler
 {

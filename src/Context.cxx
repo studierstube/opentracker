@@ -56,9 +56,11 @@ Context::Context() //@INIT_4782
     // actually it doesn't have a configuration element
     addModule( "Test", *test );
 
+#ifndef WIN32
     CursesModule * output = new CursesModule;
     addFactory( *output );
     addModule( "CursesModule", *output );
+#endif
     
 }//@CODE_4782
 

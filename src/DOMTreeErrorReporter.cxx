@@ -56,6 +56,9 @@
 
 /*
  * $Log: DOMTreeErrorReporter.cxx,v $
+ * Revision 1.2  2000/08/24 08:45:23  reitmayr
+ * modified to compile with VC++
+ *
  * Revision 1.1  2000/08/16 14:51:31  reitmayr
  * added extended xml error handling, so only real valid configuration
  * files are used.
@@ -98,6 +101,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dom/DOMString.hpp>
+
+using namespace std;
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {

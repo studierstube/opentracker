@@ -49,7 +49,6 @@ Constructor method.
 TestModule::TestModule() //@INIT_7717
     : Module()
     , NodeFactory()
-    , nodes(nodes)
     , cycle(cycle)
 {//@CODE_7717
     ConstructorInclude();
