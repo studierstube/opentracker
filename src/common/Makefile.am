@@ -60,7 +60,7 @@ libcommon_la_SOURCES = \
 		DynamicTransformation.cxx \
 		DynamicTransformation.h \
 		ElasticFilterNode.cxx \
-		ElasticFilterNode.h \		
+		ElasticFilterNode.h \
 		EllipsoidTransformNode.cxx \
 		EllipsoidTransformNode.h \
 		EventQueueNode.cxx \
@@ -75,6 +75,7 @@ libcommon_la_SOURCES = \
 		GKTransformNode.cxx \
 		GKTransformNode.h \
 		InterpolatorModule.cxx \
+		InterpolatorModule.h \
 		InvertTransformation.cxx \
 		InvertTransformation.h \
 		MatrixTransformation.cxx \

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.6 2003/03/27 18:26:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.7 2003/04/03 14:45:57 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -85,7 +85,11 @@ void ThreadModule::start()
 
 void ThreadModule::close()
 {
-	ACE_Thread::join( (ACE_thread_t *)thread );
+#ifdef WIN32
+	ACE_Thread::join( (ACE_thread_t*)thread );
+#else
+	ACE_Thread::join( (ACE_thread_t)thread );
+#endif
 	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
     delete ((ACE_thread_t *)thread);
 }

@@ -112,7 +112,7 @@ stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            @stb_ac_ace_cppflags@ @stb_ac_xerces_cppflags@ @stb_ac_artoolkit_cppflags@ \
-           -I$(top_srcdir)/extras/intersense/unix/
+           -I$(top_srcdir)/extras/intersense/
 
 
 otincdir = $(includedir)/OpenTracker

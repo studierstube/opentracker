@@ -112,7 +112,7 @@ stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            @stb_ac_ace_cppflags@ @stb_ac_xerces_cppflags@ @stb_ac_artoolkit_cppflags@ \
-           -I$(top_srcdir)/extras/intersense/unix/
+           -I$(top_srcdir)/extras/intersense/
 
 
 otincdir = $(includedir)/OpenTracker
@@ -466,7 +466,7 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 
 opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
 	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
-	chmod 755 opentracker-config
+	@chmod 755 opentracker-config
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -112,7 +112,7 @@ stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            @stb_ac_ace_cppflags@ @stb_ac_xerces_cppflags@ @stb_ac_artoolkit_cppflags@ \
-           -I$(top_srcdir)/extras/intersense/unix/
+           -I$(top_srcdir)/extras/intersense/
 
 
 otincdir = $(includedir)/OpenTracker
@@ -130,12 +130,16 @@ otcommoninc_HEADERS = \
 		ConsoleSink.h \
 		ConsoleSource.h \
 		DynamicTransformation.h \
+		ElasticFilterNode.h \
+		EllipsoidTransformNode.h \
 		EventQueueNode.h \
 		File.h \
 		FileModule.h \
 		FileSink.h \
 		FileSource.h \
 		FilterNode.h \
+		GKTransformNode.h \
+		InterpolatorModule.h \
 		InvertTransformation.h \
 		MatrixTransformation.h \
 		MergeNode.h \
@@ -171,6 +175,10 @@ libcommon_la_SOURCES = \
 		ConsoleSource.h \
 		DynamicTransformation.cxx \
 		DynamicTransformation.h \
+		ElasticFilterNode.cxx \
+		ElasticFilterNode.h \
+		EllipsoidTransformNode.cxx \
+		EllipsoidTransformNode.h \
 		EventQueueNode.cxx \
 		EventQueueNode.h \
 		File.h \
@@ -180,6 +188,10 @@ libcommon_la_SOURCES = \
 		FileSource.h \
 		FilterNode.cxx \
 		FilterNode.h \
+		GKTransformNode.cxx \
+		GKTransformNode.h \
+		InterpolatorModule.cxx \
+		InterpolatorModule.h \
 		InvertTransformation.cxx \
 		InvertTransformation.h \
 		MatrixTransformation.cxx \
@@ -216,12 +228,13 @@ libcommon_la_LIBADD =
 am_libcommon_la_OBJECTS = ButtonFilterNode.lo ButtonOpNode.lo \
 	CallbackModule.lo CommonNodeFactory.lo ConfidenceFilterNode.lo \
 	ConfidenceSelectNode.lo ConsoleModule.lo \
-	DynamicTransformation.lo EventQueueNode.lo FileModule.lo \
-	FilterNode.lo InvertTransformation.lo MatrixTransformation.lo \
-	MergeNode.lo SelectionNode.lo StaticTransformation.lo \
-	ThresholdFilterNode.lo TimeGateNode.lo TimeModule.lo \
-	Transformation.lo VirtualTransformation.lo GroupGateModule.lo \
-	GroupGateNode.lo
+	DynamicTransformation.lo ElasticFilterNode.lo \
+	EllipsoidTransformNode.lo EventQueueNode.lo FileModule.lo \
+	FilterNode.lo GKTransformNode.lo InterpolatorModule.lo \
+	InvertTransformation.lo MatrixTransformation.lo MergeNode.lo \
+	SelectionNode.lo StaticTransformation.lo ThresholdFilterNode.lo \
+	TimeGateNode.lo TimeModule.lo Transformation.lo \
+	VirtualTransformation.lo GroupGateModule.lo GroupGateNode.lo
 libcommon_la_OBJECTS = $(am_libcommon_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -236,11 +249,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ConfidenceSelectNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ConsoleModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/DynamicTransformation.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ElasticFilterNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/EllipsoidTransformNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/EventQueueNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FileModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FilterNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/GKTransformNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GroupGateModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GroupGateNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/InterpolatorModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/InvertTransformation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/MatrixTransformation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/MergeNode.Plo \
@@ -308,11 +325,15 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConfidenceSelectNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConsoleModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DynamicTransformation.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ElasticFilterNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EllipsoidTransformNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EventQueueNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FileModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FilterNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GKTransformNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GroupGateModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GroupGateNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InterpolatorModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InvertTransformation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MatrixTransformation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MergeNode.Plo@am__quote@

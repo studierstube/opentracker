@@ -112,7 +112,7 @@ stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            @stb_ac_ace_cppflags@ @stb_ac_xerces_cppflags@ @stb_ac_artoolkit_cppflags@ \
-           -I$(top_srcdir)/extras/intersense/unix/
+           -I$(top_srcdir)/extras/intersense/
 
 
 otincdir = $(includedir)/OpenTracker
@@ -126,10 +126,15 @@ otinputinc_HEADERS = \
 		ARToolKitSource.h \
 		CyberMouseModule.h \
 		CyberMouseSource.h \
+		DGPSIP_Handler.h \
 		FOBModule.h \
 		FOBSource.h \
 		FastTrakModule.h \
 		FastTrakSource.h \
+		GPSDriver.h \
+		GPS_Handler.h \
+		GPSModule.h \
+		GPSSource.h \
 		InterSenseModule.h \
 		InterSenseSource.h \
 		JoystickModule.h \
@@ -149,7 +154,9 @@ otinputinc_HEADERS = \
 		SpeechVoice.h \
 		SpeechVoiceModule.h \
 		UltraTrakModule.h \
-		UltraTrakSource.h
+		UltraTrakSource.h \
+		nmea.h \
+		rtcm.h
 
 
 noinst_LTLIBRARIES = libinput.la
@@ -165,12 +172,21 @@ libinput_la_SOURCES = \
 		CyberMouseModule.cxx \
 		CyberMouseModule.h \
 		CyberMouseSource.h \
+		DGPSIP_Handler.h \
+		DGPSIP_Handler.cxx \
 		FOBModule.cxx \
 		FOBModule.h \
 		FOBSource.h \
 		FastTrakModule.cxx \
 		FastTrakModule.h \
 		FastTrakSource.h \
+		GPSDriver.h \
+		GPSDriver.cxx \
+		GPS_Handler.h \
+		GPS_Handler.cxx \
+		GPSModule.h \
+		GPSModule.cxx \
+		GPSSource.h \
 		InterSenseModule.cxx \
 		InterSenseModule.h \
 		InterSenseSource.h \
@@ -202,7 +218,11 @@ libinput_la_SOURCES = \
 		SpeechVoiceModule.h \
 		UltraTrakModule.cxx \
 		UltraTrakModule.h \
-		UltraTrakSource.h
+		UltraTrakSource.h \
+		nmea.h \
+		nmea.cxx \
+		rtcm.h \
+		rtcm.cxx
 
 subdir = src/input
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -213,11 +233,13 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libinput_la_LDFLAGS =
 libinput_la_LIBADD =
 am_libinput_la_OBJECTS = ARTDataTrackerChomp.lo ARTDataTrackerModule.lo \
-	ARToolKitModule.lo CyberMouseModule.lo FOBModule.lo \
-	FastTrakModule.lo InterSenseModule.lo JoystickModule.lo \
+	ARToolKitModule.lo CyberMouseModule.lo DGPSIP_Handler.lo \
+	FOBModule.lo FastTrakModule.lo GPSDriver.lo GPS_Handler.lo \
+	GPSModule.lo InterSenseModule.lo JoystickModule.lo \
 	ParButtonModule.lo WacomGraphireModule.lo SpaceMouseModule.lo \
 	SpeechCore.lo SpeechModule.lo SpeechSet.lo SpeechSource.lo \
-	SpeechVoice.lo SpeechVoiceModule.lo UltraTrakModule.lo
+	SpeechVoice.lo SpeechVoiceModule.lo UltraTrakModule.lo nmea.lo \
+	rtcm.lo
 libinput_la_OBJECTS = $(am_libinput_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -228,8 +250,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ARTDataTrackerModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ARToolKitModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/CyberMouseModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/DGPSIP_Handler.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FOBModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FastTrakModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/GPSDriver.Plo ./$(DEPDIR)/GPSModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/GPS_Handler.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/InterSenseModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/JoystickModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ParButtonModule.Plo \
@@ -241,7 +266,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SpeechVoice.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SpeechVoiceModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/UltraTrakModule.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/WacomGraphireModule.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/WacomGraphireModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/nmea.Plo ./$(DEPDIR)/rtcm.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -295,8 +321,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ARTDataTrackerModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ARToolKitModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CyberMouseModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DGPSIP_Handler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FOBModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FastTrakModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GPSDriver.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GPSModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GPS_Handler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InterSenseModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JoystickModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ParButtonModule.Plo@am__quote@
@@ -309,6 +339,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpeechVoiceModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UltraTrakModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/WacomGraphireModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nmea.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtcm.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

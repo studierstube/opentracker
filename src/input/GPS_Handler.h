@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.h,v 1.2 2003/04/03 14:45:57 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -50,7 +50,11 @@ class GPSDriver;
  * @ingroup input
  * @author Gerhard Reitmayr
  */
+#ifdef WIN32
 class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_Null_Mutex, ACE_NULL_SYNCH>
+#else
+class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_NULL_SYNCH>
+#endif
 {
 public:
 	/// default constructor for ace framework. Do not use !
@@ -60,6 +64,7 @@ public:
 	virtual ~GPS_Handler();
 	
 	virtual int open( void * factory );
+	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 	virtual int handle_signal( int, siginfo_t *, ucontext_t * );
 
 protected:
@@ -68,6 +73,10 @@ protected:
 	char nmeabuf[NMEABUFSZ];
 };
 
+#ifdef WIN32
 typedef ACE_Connector<GPS_Handler, ACE_DEV_Connector, ACE_DEV_Connector::PEER_ADDR> GPS_Connector;
+#else
+typedef ACE_Connector<GPS_Handler, ACE_DEV_Connector> GPS_Connector;
+#endif
 
 #endif // !defined(_GPS_HANDLER_H)

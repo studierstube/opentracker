@@ -18,7 +18,7 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/src/misc/libmisc.la \
         $(top_builddir)/src/misc/xml/libxml.la \
         $(top_builddir)/src/network/libnetwork.la \
-        $(top_builddir)/extras/intersense/unix/libintersense.la
+        $(top_builddir)/extras/intersense/libintersense.la
 
 libOpenTracker_la_LDFLAGS = \
         -no-undefined -version-info 0:1:0 \

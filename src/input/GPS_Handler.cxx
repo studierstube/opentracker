@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.2 2003/04/03 14:45:57 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -48,7 +48,16 @@ GPS_Handler::~GPS_Handler()
 
 int GPS_Handler::open( void * factory )
 {
+#ifdef WIN32
 	return reactor()->register_handler(this);
+#else
+	return reactor()->register_handler(this, ACE_Event_Handler::READ_MASK);
+#endif
+}
+
+int	GPS_Handler::handle_input(ACE_HANDLE fd)
+{
+  return handle_signal(0, NULL, NULL);
 }
 
 int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )

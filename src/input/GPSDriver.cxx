@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.3 2003/03/28 13:05:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.4 2003/04/03 14:45:57 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -147,4 +147,3 @@ void GPSDriver::setDebug( bool debug )
 	debugOn = debug;
 	verbose = (debugOn) ? (10) : (0);
 }
-	

@@ -39,7 +39,9 @@ otinputinc_HEADERS = \
 		SpeechVoice.h \
 		SpeechVoiceModule.h \
 		UltraTrakModule.h \
-		UltraTrakSource.h
+		UltraTrakSource.h \
+		nmea.h \
+		rtcm.h
 
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
@@ -75,13 +77,9 @@ libinput_la_SOURCES = \
 		JoystickModule.cxx \
 		JoystickModule.h \
 		JoystickSource.h \
-		nmea.h \
-		nmea.cxx \
 		ParButtonModule.cxx \
 		ParButtonModule.h \
 		ParButtonSource.h \
-		rtcm.h \
-		rtcm.cxx \
 		WacomGraphireModule.cxx \
 		WacomGraphireModule.h \
 		WacomGraphireSource.h \
@@ -104,4 +102,8 @@ libinput_la_SOURCES = \
 		SpeechVoiceModule.h \
 		UltraTrakModule.cxx \
 		UltraTrakModule.h \
-		UltraTrakSource.h
+		UltraTrakSource.h \
+		nmea.h \
+		nmea.cxx \
+		rtcm.h \
+		rtcm.cxx

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.14 2003/03/26 17:46:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.15 2003/04/03 14:45:57 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -73,7 +73,7 @@ InterSenseModule::~InterSenseModule()
 // initializes trackers
 void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
 {
-	BOOL verbose = TRUE;
+	bool verbose = TRUE;
     for( unsigned i = 0; i < localTree->countChildren(); i++ )
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
@@ -93,7 +93,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         }
         if(it == trackers.end())  // we got a truly new tracker
         {
-            ISD_TRACKER_HANDLE handle = ISD_OpenTracker( NULL, comport, FALSE, verbose );
+            ISD_TRACKER_HANDLE handle = ISD_OpenTracker( 0, comport, FALSE, verbose );
             if( handle <= 0 )
             {
                 cout << "Failed to open tracker " << id << endl;                
@@ -103,7 +103,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 tracker->id = id;
                 tracker->comport = comport;
                 tracker->handle = handle;
-                BOOL res;
+                bool res;
                 res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
                 {
