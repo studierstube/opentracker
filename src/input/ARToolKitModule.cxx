@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.28 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.29 2003/05/07 18:16:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,17 @@
 
 #ifdef WIN32
 #include <windows.h>
+// simplifies project setting handling in Visual Studio
+#ifdef _DEBUG
+#pragma comment(lib, "ar32d")
+#pragma comment(lib, "arframegrabberd")
+#pragma comment(linker, "/NODEFAULTLIB:libcd")
+#else
+#pragma comment(lib, "ar32")
+#pragma comment(lib, "arframegrabber")
+#pragma comment(linker, "/NODEFAULTLIB:libc")
+#endif
+#pragma comment(lib, "strmiids")
 #endif
 
 #include <iostream>

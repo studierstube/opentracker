@@ -43,6 +43,8 @@
 #endif
 
 #include <Windows.h>
+#pragma comment(lib,"wntab32x")
+#pragma comment(linker, "/NODEFAULTLIB:libc")
 
 #include "wintab.h"
 /* What Wintab packet data items we want.  PK_CURSOR identifies which cursor 

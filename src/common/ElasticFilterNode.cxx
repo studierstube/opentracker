@@ -26,12 +26,11 @@
   *
   * @author Flo Ledermann
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.1 2003/03/24 12:28:46 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.2 2003/05/07 18:16:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ElasticFilterNode.h"
-//#include "OSUtils.h"
 
 // constructor method
 ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_, int offset_ )
@@ -109,7 +108,7 @@ void ElasticFilterNode::push() {
         currentState.orientation[1] += vState.orientation[1];
         currentState.orientation[2] += vState.orientation[2];
         currentState.orientation[3] += vState.orientation[3];
-
+        MathUtils::normalizeQuaternion( currentState.orientation );
 
         currentState.timeStamp();
         updateObservers(currentState);

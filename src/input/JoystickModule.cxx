@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.4 2003/05/07 18:16:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,6 +38,8 @@
 
 #include <stdio.h>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
+
+#pragma comment(lib, "winmm")
 
 using namespace std;
 
