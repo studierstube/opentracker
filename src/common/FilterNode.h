@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.3 2002/06/13 13:43:53 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.4 2002/12/06 18:01:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -50,10 +50,14 @@
  *         events averaged. The number of events used from the queue are equal
  *         to the number of weights specified here. The first weight relates to the
  *         newest event. If less events are stored in the queue, no new event is generated.
+ * @li @c  type @c all @c (all|position|orientation) a mode attribute that specifies to 
+ *         which part of the event data the filter should be applied to. @c position will
+ *         apply it only to the position part, @c orientation to the orientation and
+ *         @all to both.
  *
  * An example element looks like this :
  * @verbatim
-<Filter weight="0.5 0.5 0.5">
+<Filter weight="0.5 0.5 0.5" type="all">
     <EventQueue>...</EventQueue>
 </Filter>@endverbatim
  */
@@ -85,12 +89,14 @@ protected:
     /// array of weights
     std::vector<float> weights;
 
+	enum Type { ALL = 0, POSITION, ORIENTATION } type;
+
 // Methods
 protected:
 
     /** constructor method
      */
-    FilterNode( const std::vector<float> & weights_ );
+    FilterNode( const std::vector<float> & weights_, const Type & type_ );
 
 public:
 

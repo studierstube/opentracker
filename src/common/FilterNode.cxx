@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo check implementation of quaternion interpolation and document
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.3 2002/06/13 13:43:53 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.4 2002/12/06 18:01:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,8 +37,8 @@ using namespace std;
 
 // constructor method.
 
-FilterNode::FilterNode( const vector<float> & weights_ )
-    : Node(), weights( weights_ )
+FilterNode::FilterNode( const vector<float> & weights_, const Type & type_ )
+    : Node(), weights( weights_ ), type( type_ )
 {
 }
 
@@ -67,22 +67,32 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
             State & state = queue->getEvent( it - weights.begin());
             w = (*it);
 
-            /* The position is computed as the weighted average of the
-               positions in the queue. The average is not normalized, to
-               yield a more general filter.*/
-            pos[0] += state.position[0] * w;
-            pos[1] += state.position[1] * w;
-            pos[2] += state.position[2] * w;
+			if( type != ORIENTATION )
+			{
+			/*  The position is computed as the weighted average of the
+				positions in the queue. The average is not normalized, to
+				yield a more general filter.*/
+				pos[0] += state.position[0] * w;
+				pos[1] += state.position[1] * w;
+				pos[2] += state.position[2] * w;
+			}
 
-            /* The orientation is computed as the normalized weighted average of the
-               orientations in the queue in log space. That is, they are transformed
-               to 3D vectors inside the unit hemisphere and averaged in this linear space.
-               The resulting vector is transformed back to a unit quaternion. */
-            double angle = acos( state.orientation[3] ) * 2;
-            double as = angle * w / sin( angle / 2 );
-            orient[0] += state.orientation[0] * as;
-            orient[1] += state.orientation[1] * as;
-            orient[2] += state.orientation[2] * as;
+			if( type != POSITION )
+			{
+			/* The orientation is computed as the normalized weighted average of the
+				orientations in the queue in log space. That is, they are transformed
+				to 3D vectors inside the unit hemisphere and averaged in this linear space.
+				The resulting vector is transformed back to a unit quaternion. */
+				double angle = acos( state.orientation[3] ) * 2;
+				double as = sin( angle / 2);
+				if( as != 0 )
+					as = angle * w / as;
+				else
+					as = 2 * w;					// lim x/(sin(x/2)) = 2 for x -> 0 ???
+				orient[0] += state.orientation[0] * as;
+				orient[1] += state.orientation[1] * as;
+				orient[2] += state.orientation[2] * as;
+			}            
 
 			/* confidence is also averaged */
 			conf += state.confidence * w;
@@ -90,23 +100,46 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
             sum += w;
 
         }
-        // calculate the length of the summed vector in log space
-        // this is the angle of the result quaternion
-        w = sqrt((orient[0]*orient[0] + orient[1]*orient[1] + orient[2]*orient[2])/(sum*sum));
-        double as = sin( w / 2 ) / w;
-        localState.orientation[0] = orient[0] * as;
-        localState.orientation[1] = orient[1] * as;
-        localState.orientation[2] = orient[2] * as;
-        localState.orientation[3] = cos( w / 2 );
-        MathUtils::normalizeQuaternion( localState.orientation );
-        // copy pos to state.position
-        localState.position[0] = pos[0];
-        localState.position[1] = pos[1];
-        localState.position[2] = pos[2];
-
+		if( type != POSITION )
+		{
+			// calculate the length of the summed vector in log space
+			// this is the angle of the result quaternion
+			w = sqrt((orient[0]*orient[0] + orient[1]*orient[1] + orient[2]*orient[2])/(sum*sum));
+			double as = 0;
+			if( w != 0)
+				as = sin( w / 2 ) / w;
+			localState.orientation[0] = orient[0] * as;
+			localState.orientation[1] = orient[1] * as;
+			localState.orientation[2] = orient[2] * as;
+			localState.orientation[3] = cos( w / 2 );
+			MathUtils::normalizeQuaternion( localState.orientation );
+		}
+		else 
+		{
+			localState.orientation[0] = event.orientation[0];
+			localState.orientation[1] = event.orientation[1];
+			localState.orientation[2] = event.orientation[2];
+			localState.orientation[3] = event.orientation[3];
+		}
+        
+		if( type != ORIENTATION )
+		{
+			// copy pos to state.position
+			localState.position[0] = pos[0];
+			localState.position[1] = pos[1];
+			localState.position[2] = pos[2];
+		}
+		else
+		{
+			localState.position[0] = event.position[0];
+			localState.position[1] = event.position[1];
+			localState.position[2] = event.position[2];			
+		}
+        
 		localState.confidence = conf;
 
         localState.time = event.time;
+		localState.button = event.button;
         updateObservers( localState );
     }
 }

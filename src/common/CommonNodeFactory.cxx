@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.24 2002/09/26 21:32:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.25 2002/12/06 18:01:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -330,8 +330,13 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             data = end;
             weights.push_back((float) strtod( data, &end ));
         }
+		FilterNode::Type type = FilterNode::ALL;
+		if( attributes.get("type").compare("position") == 0)
+			type = FilterNode::POSITION;
+		else if( attributes.get("type").compare("orientation") == 0 )
+			type = FilterNode::ORIENTATION;
         cout << "FilterNode with " << weights.size() << " weights\n";
-        result = new FilterNode( weights );
+        result = new FilterNode( weights, type );
     }
     else if( name.compare("ConfidenceSelect") == 0 )
     {
