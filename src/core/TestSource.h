@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.7 2001/10/21 22:30:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,10 +34,14 @@
  * @page Nodes Node Reference
  * @section testsource TestSource
  * The TestSource node is a simple EventGenerator that fires in fixed intervalls
- * standard events. it can be configured with the following attributes. It has the 
- * following elements :
+ * standard events. The events can be customized to have other then the default 
+ * values. It has the following elements :
  * @li @c frequency every freq. cycle it fires
  * @li @c offset starting after offset cycles
+ * @li @c position position value of the event to fire as 3 floats
+ * @li @c orientation orientation value of the event to fire as 4 floats representing a quaternion
+ * @li @c button a 16 bit integer value representing the button states
+ * @li @c confidence a float value in [0,1] to represent the confidence value
  *
  * An example element looks like this :
  * @verbatim
@@ -52,7 +56,7 @@
 #include "Node.h"
 
 /**
- * This class implements a simple source that sets its valid flag in
+ * This class implements a simple source that is fired by its module in 
  * regular intervals and updates any EventObservers.
  * @ingroup core
  * @author Gerhard Reitmayr

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.5 2001/10/21 22:30:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,8 +66,15 @@ Node * TestModule::createNode( const string& name, StringTable& attributes)
             offset = 0;
         }
         TestSource * source = new TestSource( frequency, offset );
+        sscanf( attributes.get("position").c_str(), " %f %f %f", &(source->state.position[0]), 
+                &(source->state.position[1]), &(source->state.position[2])  );
+        sscanf( attributes.get("orientation").c_str(), " %f %f %f %f", 
+                &(source->state.orientation[0]),&(source->state.orientation[1]),
+                &(source->state.orientation[2]),&(source->state.orientation[3]) );
+        sscanf( attributes.get("button").c_str(), " %hu", &(source->state.button) );
+        sscanf( attributes.get("confidence").c_str(), " %f", &(source->state.confidence) );
         nodes.push_back( source );
-        cout << "Build source node " << endl;
+        cout << "Build TestSource node " << endl;
         initialized = 1;
         return source;
     }
