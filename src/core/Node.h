@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.16 2001/08/18 21:51:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.17 2001/10/21 22:12:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -433,7 +433,7 @@ public:
 
 	//@}
 
-	/** qname TimeDependend Interface
+	/** @name TimeDependend Interface
      * The TimeDependend Interface allows access to a continous function of 
      * states in time. It also works from parents to children, i.e. a parent 
      * queries a child for the state at a given point in time.
