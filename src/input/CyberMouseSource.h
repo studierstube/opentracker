@@ -1,41 +1,45 @@
- /* ========================================================================
+  /* ========================================================================
   * (C) 2000 Vienna University of Technology
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for InterTraxSource Node.
+/** header file for CyberMouseSource Node.
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.5 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.1 2001/03/05 17:53:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section intertraxsource InterTraxSource
- * The InterTraxSource node is a simple EventGenerator that fires in fixed intervalls
- * standard events. It has the following element :
- * @li @c state, stores information of current orientation
+ * @section cybermousesource CyberMouseSource
+ * The CyberMouseSource node is a simple EventGenerator that outputs the
+ * current position, orientation and button state of the CyberMouse. If
+ * the mouse does not seem to work, press a button. This should initialize
+ * it and it will work. The mouse buttons are mapped to button numbers in
+ * the following way : middle button = 1, second button = 2, both = 3 ???
+ *
+ * @todo update cyber mouse button description !
  *
  * An example element looks like this :
  * @verbatim
-<InterTraxSource/>@endverbatim
+<CyberMouseSource/>@endverbatim
  */
 
-#ifndef _INTERTRAXSOURCE_H
-#define _INTERTRAXSOURCE_H
+#ifndef _CYBERMOUSESOURCE_H
+#define _CYBERMOUSESOURCE_H
 
 #include "../OpenTracker.h"
 
-#ifdef USE_INTERTRAX
+#ifdef USE_CYBERMOUSE
 
 /**
- * This class implements a simple source that sets its valid flag in
+* This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
  * @author Ivan Viola, Matej Mlejnek
  */
-class InterTraxSource : public Node, public EventGenerator
+class CyberMouseSource : public Node, public EventGenerator
 {
 // Members
 public: 
@@ -45,9 +49,9 @@ public:
 // Methods
 public:
     /** simple constructor, sets members to initial values */
-    InterTraxSource() : 
+    CyberMouseSource() : 
         Node(),
-	    EventGenerator()
+	EventGenerator()
     {};
         
     /** tests for EventGenerator interface being present. Is overriden to
@@ -57,7 +61,6 @@ public:
     {
         return this;
     }
-
     /** pushes event down the line. Needed to access protected
      * updateObservers method in EventGenerator */
     void push()
