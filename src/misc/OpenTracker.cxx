@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.35 2004/03/19 08:09:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.36 2004/04/19 14:26:45 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,6 +73,7 @@
 #include "../input/SpaceMouseModule.h"
 #include "../input/SpeechModule.h"
 #include "../input/P5GloveModule.h"
+#include "../input/MulticastInputModule.h"
 #include "../network/DwarfModule.h"
 #include "../network/VRPNModule.h"
 
@@ -156,6 +157,10 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( * smouse );
     context.addModule( "SpaceMouseConfig", * smouse );
 #endif	
+
+	MulticastInputModule *mcinput = new MulticastInputModule;
+    context.addFactory( * mcinput );
+    context.addModule( "MulticastInputConfig", * mcinput );
 
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
