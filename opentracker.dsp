@@ -278,14 +278,6 @@ SOURCE=.\src\input\MulticastInputModule.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\MulticastInputModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\MulticastInputSource.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\network\NetworkSinkModule.cxx
 # End Source File
 # Begin Source File
@@ -642,6 +634,14 @@ SOURCE=.\src\input\GPSDriver.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\GPSGarminAltitude.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSGarminCompass.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\GPSModule.h
 # End Source File
 # Begin Source File
@@ -711,6 +711,14 @@ SOURCE=.\src\common\MergeNode.h
 # Begin Source File
 
 SOURCE=.\src\core\Module.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MulticastInputModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MulticastInputSource.h
 # End Source File
 # Begin Source File
 
