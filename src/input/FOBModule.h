@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.9 2002/01/29 11:30:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.10 2002/01/29 19:44:16 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -185,6 +185,8 @@ private :
     /** starts the stream mode to receive data from the birds.
      * @return the FOB error code */
     int startStreamMode();
+
+    void setHemisphere();
 
     void setScale();
 

@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.1 2002/01/24 10:54:04 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.2 2002/01/29 19:44:16 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -222,7 +222,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 		subLength = positionEnd - positionStart;
 		temp = datagramm.substr(positionStart, subLength);
 		tempChar = temp.c_str();
-		numberTrackedCalBodies = atof(tempChar);
+		numberTrackedCalBodies = (int)atof(tempChar);
 	}
 	else
 	{
@@ -235,7 +235,8 @@ void ARTDataTrackerChomp::displayRecords(int maxBodyNumber)
 {
 	// Output
 	cout << "Contens of tempBodyRecord & tempMarkerRecord" << endl;
-	for(int i=0; i < maxBodyNumber; i++)
+	int i;
+	for(i=0; i < maxBodyNumber; i++)
 	{
 		cout << "Framenumber of Datagramm is: " << frameNumber << endl;
 		cout << "Numer of  Tracked Bodies for 6d: " << numberTrackedBodies << endl;
@@ -243,7 +244,8 @@ void ARTDataTrackerChomp::displayRecords(int maxBodyNumber)
 		{
 			cout <<	"tempBodyRecord[" << i << "].id " << tempBodyRecord[i].id << endl;
 			cout <<	"tempBodyRecord[" << i << "].quality " << tempBodyRecord[i].quality << endl;
-			for(int j=0; j < 3; j++)
+			int j;
+			for(j=0; j < 3; j++)
 			{
 				cout <<	"tempBodyRecord[" << i << "].location[" << j << "]: " << tempBodyRecord[i].location[j] << endl;
 			}
