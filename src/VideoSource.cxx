@@ -29,7 +29,11 @@
 #include <AR/ar.h>
 #include <AR/video.h>
 #include <AR/param.h>
-#include <iostream>
+#ifdef WIN32
+#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+#else
+#include <iostream.h>
+#endif
 #include <string>
 #include <stdio.h>
 #ifdef __sgi

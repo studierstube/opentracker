@@ -28,7 +28,11 @@
 //@START_USER2
 #include <string>
 #include <stdio.h>
-#include <iostream>
+#ifdef WIN32
+#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+#else
+#include <iostream.h>
+#endif
 #include "multicast.h"
 
 // definitions for the Network Data protocol

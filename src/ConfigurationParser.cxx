@@ -42,7 +42,12 @@
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_Text.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
-#include <iostream>
+#ifdef WIN32
+#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+#else
+#include <iostream.h>
+#endif
+
 //@END_USER2
 
 

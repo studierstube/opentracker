@@ -14,6 +14,7 @@ TARGET: default
 include /usr/include/make/commondefs
 
 ARTOOL_HOME = ../../artool
+XERCES_HOME = ../../xerces
 
 PROGRAM = ../bin/maxwell
 
@@ -61,7 +62,7 @@ C++FILES = \
 
 OFILES = $(C++FILES:.cxx=.o)
 
-LC++INCS= -I$(ARTOOL_HOME)/include  -I${XERCESCROOT}/include -DIRIX
+LC++INCS= -I$(ARTOOL_HOME)/include  -I$(XERCES_HOME)/include -DIRIX
 
 LC++OPTS= -g -O2 -woff 1171,1401
 
@@ -71,7 +72,7 @@ TARGETS = $(PROGRAM)
 
 # Libraries to link with:
 
-LLDLIBS = -L$(ARTOOL_HOME)/lib -L${XERCESCROOT}/lib -lxerces-c1_2 -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lm -lvl
+LLDLIBS = -L$(ARTOOL_HOME)/lib -L$(XERCES_HOME)/lib -lxerces-c1_2 -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lm -lvl
 
 LLDOPTS =  -no_prelink 
 
