@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.33 2003/07/10 13:35:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.34 2003/07/18 17:17:39 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -113,6 +113,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
     quit = 0;
     interval = 10;
     display = 1;
+    curses = 1;
 
     // initialize function map and keycode map,
     // if no one has done it yet 
@@ -282,7 +283,7 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
 
 void ConsoleModule::pushState()
 {
-	if(!isInitialized())
+	if(!isInitialized() || !curses)
     {
         return;
     }
@@ -541,7 +542,7 @@ void ConsoleModule::reset( int station )
 
 void ConsoleModule::pullState()
 {
-    if( sinks.size() <= 0 || isInitialized() == 0 || display == 0 )
+    if( sinks.size() <= 0 || isInitialized() == 0 || display == 0 || curses == 0 )
     {
         return;
     }
@@ -641,6 +642,8 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
     headerline = attributes.get("headerline");    
     if( attributes.get("display").compare( "off" ) == 0 )
         display = 0;
+    if( attributes.get("curses").compare( "off" ) == 0 )
+        curses = 0;
     if( localTree != NULL )
     {
         ConfigNode * base = localTree;
@@ -673,30 +676,34 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
             }
         }
     }
+
+#ifndef WIN32
+    if( curses ) {
+       initscr();
+       cbreak();
+       noecho();
+       nonl();
+       intrflush(stdscr,FALSE);
+       keypad(stdscr,TRUE);
+       nodelay(stdscr, TRUE);
+       leaveok(stdscr, TRUE);
+    }
+#endif
 }
 
 // start the module and init curses
 
 void ConsoleModule::start()
-{
-#ifndef WIN32
-    initscr();
-    cbreak();
-    noecho();
-    nonl();
-    intrflush(stdscr,FALSE);
-    keypad(stdscr,TRUE);
-    nodelay(stdscr, TRUE);
-    leaveok(stdscr, TRUE);
-#endif
-}
+{}
 
 // close ConsoleModule 
 
 void ConsoleModule::close()
 {
 #ifndef WIN32
-    endwin();
+    if( curses ) {
+       endwin();
+    }
 #endif
 }
 
