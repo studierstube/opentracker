@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann ledermann@ims.tuwien.ac.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.1 2003/03/24 12:28:46 flo Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.2 2003/06/13 13:51:29 flo Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,14 @@
  * the data that is sent out to the parent nodes. It also interpolates the values between two
  * updates from the source, so this is also useful if you have a low update rate from
  * your tracking and still want smooth animation.
+
+  Example usage/defaults:
+
+  @verbatim
+\<ElasticFilter force="0.02" damp="0.5" frequency="1" offset="0">
+    ... (any Event Source)
+\</ElasticFilter>
+@endverbatim
 */
 
 #ifndef _ELASTICFILTERNODE_H
@@ -58,8 +66,8 @@ protected:
     /// offset of first update relative to main loop start
     int offset;
     /// the state that is posted to the EventObservers
-    float damp;
-    float force;
+    float damp;     /// damping factor
+    float force;    /// the strength of the spring in our model
 
     State currentState;
     State targetState;
