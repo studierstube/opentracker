@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo set attributes on the element in createNode
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.15 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.16 2001/08/14 10:27:56 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -197,8 +197,14 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         // add a correctly created DOM_Element to the node here and return
         DOM_Document doc = rootNode->parent->getOwnerDocument();
         DOM_Element el = doc.createElement(name.c_str());
-        value->setParent( el );
-        // TODO: set attributes on the element
+        value->setParent( el );        
+        // set attributes on the element node
+        KeyIterator keys(attributes);
+        while( keys.hasMoreKeys())
+        {
+            const string & key = keys.nextElement();
+            el.setAttribute( key.c_str(), attributes.get( key ).c_str());
+        }
     }
     return value;
 }

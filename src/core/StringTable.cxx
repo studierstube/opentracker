@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.4 2001/08/07 13:28:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.5 2001/08/14 10:27:56 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -222,3 +222,17 @@ int StringTable::get(const string & key, double * value, int len )
     return count;        
 }
 
+int KeyIterator::hasMoreKeys() const
+{
+    return((int)(it != map.end())); 
+}
+
+const string & KeyIterator::nextElement()
+{
+    if( hasMoreKeys()){
+        const string & res = (*it).first;
+        it++;
+        return res;
+    }
+    return empty;
+}

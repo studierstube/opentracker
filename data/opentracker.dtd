@@ -256,7 +256,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ARToolKitConfig
 	camera-parameter CDATA #REQUIRED
 	treshhold CDATA "100"
-    framerate CDATA "10"
+	framerate CDATA "10"
 >
 <!ELEMENT ARToolKitSource EMPTY>
 <!ATTLIST ARToolKitSource
@@ -369,7 +369,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- Flock of Birds Tracker -->
 <!ELEMENT Station EMPTY>
 <!ATTLIST Station
-	id CDATA #REQUIRED
 	number CDATA #IMPLIED
 	device CDATA #IMPLIED
 >
@@ -377,17 +376,20 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST FOBConfig
 	mode (multi | single) #REQUIRED
 	master CDATA #REQUIRED
-	erc CDATA #IMPLIED
+	transmitter CDATA #IMPLIED
+	hemisphere (forward | rear | upper | lower | left | right) #IMPLIED
+	referenceframe CDATA #IMPLIED
+	anglealign CDATA #IMPLIED
 >
 <!ELEMENT FOBSource EMPTY>
 <!ATTLIST FOBSource
-	station CDATA #REQUIRED
+	number CDATA #REQUIRED
 	DEF ID #IMPLIED
 >
 <!-- Parallel Button Interface -->
 <!ELEMENT ParButtonSource EMPTY>
 <!ATTLIST ParButtonSource
-    dev CDATA ""
-    port CDATA ""
-    DEF ID #IMPLIED
+	dev CDATA ""
+	port CDATA ""
+	DEF ID #IMPLIED
 >

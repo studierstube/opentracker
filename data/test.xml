@@ -73,7 +73,14 @@
 	<ConsoleSink comment="File Sink output">
 		<FileSink file="test.out">
 			<Ref USE="test1"/>
-		</FileSink>        
+		</FileSink>
+	</ConsoleSink>
+	<ConsoleSink comment="MatrixTransform">
+		<EventMatrixTransform matrix="0.29855846e-2  -0.8833553755  0.7011090309  0.1547780083  0.9525757961  -0.3835134396e-2 -0.379397242e-1 -0.4346676769e-2 0.2732702445e-1  0.4359116759 1.356763370  0.877962742e-1" >
+			<EventPositionTransform translation="1 0 0">
+				<TestSource frequency="10"/>
+			</EventPositionTransform>		
+		</EventMatrixTransform>
 	</ConsoleSink>
     <FileSink file="test.out" station="1">
         <TestSource />

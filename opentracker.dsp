@@ -194,6 +194,14 @@ SOURCE=.\src\core\OSUtils.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\ParButtonModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\portio.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\SelectionNode.cxx
 # End Source File
 # Begin Source File
@@ -326,6 +334,10 @@ SOURCE=.\src\common\FileSink.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\FileSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\FOBModule.h
 # End Source File
 # Begin Source File
@@ -406,11 +418,27 @@ SOURCE=.\src\core\NodeFactoryContainer.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\NodePort.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\OpenTracker.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\core\OSUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\ParButtonModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\ParButtonSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\portio.h
 # End Source File
 # Begin Source File
 
@@ -463,10 +491,6 @@ SOURCE=.\src\input\WacomGraphireModule.h
 # Begin Source File
 
 SOURCE=.\src\input\WacomGraphireSource.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\core\WrapperNode.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

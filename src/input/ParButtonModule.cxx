@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.3 2001/08/07 13:28:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.4 2001/08/14 10:27:56 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -72,17 +72,8 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         }
         cout << "address found " << addr << " in " << dev << endl;
         // setting parallel port for input
-        // outportb( addr+0x402, 0x20);
-        /*
         outportb(addr, 0x00 );
         outportb(addr+2, 0x20); 
-        cout << "testing bi-dir " << endl;
-        outportb( addr, 0x0f );
-        cout << "0x0f is " << (int)inportb( addr ) << endl;
-        outportb( addr,0xf0 );
-        cout << "0xf0 is " << (int)inportb( addr ) << endl;
-        Sleep( 5000 );
-        */
         ParButtonSource * source = new ParButtonSource( addr );
 #else
 #ifdef _SGI_SOURCE       
@@ -144,7 +135,6 @@ void ParButtonModule::pushState()
         ParButtonSource * source = (ParButtonSource*)(*it).second;
 #ifdef WIN32
         data = inportb( source->handle+1 );
-        cout << "got " << data << " at " << source->handle+1 << endl;
         if( data != source->state.button )
         {
             source->state.button = data;
