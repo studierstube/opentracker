@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE TrackerServer SYSTEM "opentracker.dtd">
 <OpenTracker>
 	<configuration>
