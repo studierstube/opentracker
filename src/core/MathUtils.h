@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.14 2003/06/25 12:32:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.15 2003/06/25 13:43:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -68,14 +68,14 @@ public:
      * @param axisa float[4] containing axis and angle in radiants
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
-    static float* axisAngleToQuaternion(float* axisa, float* qResult);
+    static float* axisAngleToQuaternion(const float* axisa, float* qResult);
     /** computes a quaternion from euler angles representing a rotation.
      * @param roll rotation around looking axis
      * @param pitch rotation around up axis
      * @param yaw rotation around side axis
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
-    static float* eulerToQuaternion(float roll, float pitch, float yaw,
+    static float* eulerToQuaternion(const float roll, const float pitch, const float yaw,
                                     float* qResult);
     /** inverts a quaternion. This method
      * operates directly on the arguments. Therefore using the same pointers
@@ -83,12 +83,12 @@ public:
      * @param q float[4] storing the quaternion
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
-    static float* invertQuaternion(float* q, float* qResult);
+    static float* invertQuaternion(const float* q, float* qResult);
     /** converts a rotational matrix to a quaternion.
      * @param matrix float[3][3] storing the rotational matrix
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
-    static float* matrixToQuaternion(float matrix[3][3], float* qResult);
+    static float* matrixToQuaternion(const float matrix[3][3], float* qResult);
     /** multiplies two quaternions and stores result in a third. This method
      * operates directly on the arguments. Therefore using the same pointers
      * for several arguments will produce wrong results !
@@ -96,7 +96,7 @@ public:
      * @param q2 float[4] storing second quaternion
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
-    static float* multiplyQuaternion(float* q1, float* q2, float* qResult);
+    static float* multiplyQuaternion(const float* q1, const float* q2, float* qResult);
     /** normalizes quaternion to unit length. Here the computation is
      * done in place and the parameter is changed !
      * @param q float[4] storing quaternion
@@ -110,11 +110,11 @@ public:
      * @param v float[3] storing vector
      * @param vResult float[3] where the result is stored
      * @return pointer to result array */
-    static float* rotateVector(float* q, float* v, float* vResult);
+    static float* rotateVector(const float* q, const float* v, float* vResult);
 	/** computes the determinant of a 3x3 matrix.
 	 * @param matrix the 3x3 matrix to use
 	 * @return determinant of the matrix */
-	static float determinant( float matrix[3][3] );
+	static float determinant( const float matrix[3][3] );
 
     /** computes the vector and angle representation of a quaternion. This method
      * operates directly on the arguments. Therefore using the same pointers
@@ -122,7 +122,7 @@ public:
 	 * @param q float[4] storing the quaternion
 	 * @param axisa float[4] storing the vector and angle of the given quaternion
 	 * @return pointer to result array (axisa) */
-	static float* quaternionToAxisAngle(float *q, float *axisa);
+	static float* quaternionToAxisAngle(const float *q, float *axisa);
     
     /**
      * computes the angle between two n-dimensional vectors.
@@ -131,7 +131,7 @@ public:
      * @param dim dimension n of the two vectors
      * @return angle between the two vectors
      */    
-    static double angle( float * v1, float * v2, int dim );
+    static double angle( const float * v1, const float * v2, const int dim );
     
     /**
      * computes the spherical linear interpolation between two quaternions. The
@@ -146,7 +146,7 @@ public:
      * @param qResult float[4] stores result
      * @return pointer to result = qResult
      */
-    static float * slerp( float * q1, float *q2, float t, float * qResult );
+    static float * slerp( const float * q1, const float *q2, const float t, float * qResult );
 
 	static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
 	static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);

@@ -1,4 +1,4 @@
-   /* ========================================================================
+      /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.12 2003/06/25 13:23:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.13 2003/06/25 13:43:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -77,7 +77,7 @@ const MathUtils::Matrix4x4 MathUtils::matrix4x4_identity =	{ 1, 0, 0, 0,
 
 // converts an axis angle representation into a quaternion
 
-float* MathUtils::axisAngleToQuaternion(float* axisa, float* qResult)
+float* MathUtils::axisAngleToQuaternion(const float* axisa, float* qResult)
 {
     double s = sin( axisa[3]/2 );
     qResult[3] = (float)cos( axisa[3]/2 );
@@ -89,7 +89,7 @@ float* MathUtils::axisAngleToQuaternion(float* axisa, float* qResult)
 
 // computes a quaternion from euler angles representing a rotation.
 
-float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
+float* MathUtils::eulerToQuaternion(const float roll, const float pitch, const float yaw,
                                     float* qResult)
 {
     double cr, cp, cy, sr, sp, sy, cpcy, spsy;
@@ -115,7 +115,7 @@ float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
 
 // Inverts a Quaternion. Returns result in the second parameter.
 
-float* MathUtils::invertQuaternion(float* q, float* qResult)
+float* MathUtils::invertQuaternion(const float* q, float* qResult)
 {
     double mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
     qResult[0] = (float)( -q[0] / mod );
@@ -127,7 +127,7 @@ float* MathUtils::invertQuaternion(float* q, float* qResult)
 
 // computes a quaternion from a passed rotation matrix.
 
-float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
+float* MathUtils::matrixToQuaternion(const float matrix[3][3], float* qResult)
 {
     double tr, s;
     int i, j, k;
@@ -169,7 +169,7 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
 
 // multiplies two quaternions and returns result in a third.
 
-float* MathUtils::multiplyQuaternion(float* q1, float* q2, float* qResult)
+float* MathUtils::multiplyQuaternion(const float* q1,const float* q2, float* qResult)
 {
     qResult[0] = q1[3]*q2[0]+q1[0]*q2[3]+q1[1]*q2[2]-q1[2]*q2[1];
     qResult[1] = q1[3]*q2[1]-q1[0]*q2[2]+q1[1]*q2[3]+q1[2]*q2[0];
@@ -192,7 +192,7 @@ float* MathUtils::normalizeQuaternion(float* q)
 
 // rotates a vector by a given quaternion.
 
-float* MathUtils::rotateVector(float* q, float* v, float* vResult)
+float* MathUtils::rotateVector(const float* q, const float* v, float* vResult)
 {
     float t1[4], t2[4], t3[4];
     // vector in t2
@@ -215,7 +215,7 @@ float* MathUtils::rotateVector(float* q, float* v, float* vResult)
 
 // computes determinant of a matrix
 
-float MathUtils::determinant( float matrix[3][3] )
+float MathUtils::determinant( const float matrix[3][3] )
 {
 	double res = 0;
 	res += matrix[0][0]*matrix[1][1]*matrix[2][2];
@@ -229,7 +229,7 @@ float MathUtils::determinant( float matrix[3][3] )
 
 // compute angle in a more robust fashion
 
-double MathUtils::angle( float * v1, float * v2, int dim )
+double MathUtils::angle( const float * v1, const float * v2, const int dim )
 {
 	double dot = 0;
 	int i;
@@ -264,7 +264,7 @@ double MathUtils::angle( float * v1, float * v2, int dim )
 
 // computes slerp 
 
-float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
+float * MathUtils::slerp( const float * q1, const float *q2, const float t, float * qResult )
 {
 
     const float*    r1q = q2;
@@ -303,9 +303,11 @@ float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
     
     // build the new quarternion
     for (i = 0; i <4; i++)
-        qResult[i] = scalerot0 * q1[i] + scalerot1 * rot1q[i];
+        qResult[i] = (float)(scalerot0 * q1[i] + scalerot1 * rot1q[i]);
+
+    MathUtils::normalizeQuaternion( qResult );
     
-        return qResult;
+     return qResult;
 
         /*
 	double angle = MathUtils::angle( q1, q2, 4);
@@ -412,7 +414,7 @@ void MathUtils::MatrixToEuler(Vector3 angles, const Matrix4x4 colMatrix)
 ////////////////////////////////////////////////////////////////////////
 //
 //   Heavily based on code by Ken Shoemake and code by Gavin Bell
-float *MathUtils::quaternionToAxisAngle(float q[4], float axisa[4])
+float *MathUtils::quaternionToAxisAngle(const float q[4], float axisa[4])
 {
     double	len;
 
