@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.32 2003/06/30 11:49:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.33 2003/07/10 13:35:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -680,17 +680,14 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
 void ConsoleModule::start()
 {
 #ifndef WIN32
-    if(( sinks.size() > 0 || sources.size() > 0 ) && display != 0 && isInitialized() != 0)
-    {
-        initscr();
-        cbreak();
-        noecho();
-        nonl();
-        intrflush(stdscr,FALSE);
-        keypad(stdscr,TRUE);
-        nodelay(stdscr, TRUE);
-        leaveok(stdscr, TRUE);
-    }
+    initscr();
+    cbreak();
+    noecho();
+    nonl();
+    intrflush(stdscr,FALSE);
+    keypad(stdscr,TRUE);
+    nodelay(stdscr, TRUE);
+    leaveok(stdscr, TRUE);
 #endif
 }
 
@@ -699,10 +696,7 @@ void ConsoleModule::start()
 void ConsoleModule::close()
 {
 #ifndef WIN32
-    if(( sinks.size() > 0 || sources.size() > 0 ) && display != 0 && isInitialized() != 0)
-    {
-        endwin();
-    }
+    endwin();
 #endif
 }
 
