@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.12 2003/04/15 17:16:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.13 2003/06/10 12:14:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -118,7 +118,7 @@ public:
         if( output != NULL )
         {
             *output << station << " " << setw(15) << setfill(' ') << setprecision( 15 );
-            *output << state.time << " " << setprecision(8);
+            *output << state.time << " ";
             *output << state.position[0] << " " 
                 << state.position[1] << " " 
                 << state.position[2] << " "
