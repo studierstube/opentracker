@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.24 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.25 2003/03/22 15:27:38 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,6 +66,7 @@
 #include "../input/JoystickModule.h"
 #include "../input/SpaceMouseModule.h"
 #include "../input/SpeechModule.h"
+#include "../input/P5GloveModule.h"
 
 // DLL main function
 
@@ -190,4 +191,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     SpeechModule *speechmodule = new SpeechModule;
     context.addFactory( *speechmodule );
     context.addModule( "SpeechRecoConfig", *speechmodule );
+
+    P5GloveModule *p5glovemodule = new P5GloveModule;
+    context.addFactory( *p5glovemodule );
+    context.addModule( "P5GloveConfig", *p5glovemodule );
 }
