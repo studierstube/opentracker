@@ -20,7 +20,7 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/extras/intersense/libintersense.la
 
 libOpenTracker_la_LDFLAGS = \
-        -no-undefined -version-info 0:1:0 \
+        -no-undefined -version-info 1:0:0 \
         @stb_ac_ace_rpath@ \
         @stb_ac_artoolkit_rpath@ \
         @stb_ac_xerces_rpath@
