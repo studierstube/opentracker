@@ -12,13 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 18, 2000 23:04 gr, changed names and added init flag
-//     Updated code of method 'init'
-//     Updated code of method 'beginUpdate'
-//     Updated code of method '~NetworkModule'
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Updated code of method 'NetworkModule'
-//     Updated member 'socket'
-//     Updated member 'stations'
+//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -55,7 +51,8 @@ const int revNum=0x0200;
 Constructor method.
 */
 NetworkModule::NetworkModule() //@INIT_3781
-    : NodeFactory()
+    : NodeFactory(),
+      Module()
 {//@CODE_3781
     ConstructorInclude();
 
@@ -187,7 +184,7 @@ void NetworkModule::endUpdate()
 	        */
     	    psize=psize+strlen((*it)->getName())+sizeof(short int)*5;
 	    
-    	    si=htons((*it)->GetStationNumber());            // Stationnumber
+    	    si=htons((*it)->getStationNumber());            // Stationnumber
     	    memcpy(nR,&si,sizeof(short int));
 	    
 	        si=htons(positionQuaternion);                  // Output mode  (Pos_Quat|Matrix|Angles)

@@ -12,15 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 23:53 gr, added curses based display
-//     Added method 'DestructorInclude'
-//     Added method 'ConstructorInclude'
-//     Added method 'getState'
-//     Added method 'getComment'
-//     Added method '~CursesOutput'
-//     Added method 'CursesOutput'
-//     Added inheritance 'TreeNode'
-//     Added member 'comment'
+// August 25, 2000 13:44 gr added NetworkSource classes
+//     Update comment header
 // ===========================================================================
 #ifndef _CURSESOUTPUT_H
 #define _CURSESOUTPUT_H

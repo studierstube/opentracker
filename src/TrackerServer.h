@@ -61,6 +61,26 @@ class CursesOutput;
 typedef std::vector<CursesOutput *> CursesOutputVector;
 //@END_DECLARATION_7216
 
+//@START_DECLARATION_13363 StateVector
+class State;
+typedef std::vector<State *> StateVector;
+//@END_DECLARATION_13363
+
+//@START_DECLARATION_13371 NetworkSourceBuffer
+class NetworkSource;
+class State;
+
+typedef struct {
+    NetworkSource * source;
+    State * buffer;
+    int active;
+} NetworkSourceBuffer;
+//@END_DECLARATION_13371
+
+//@START_DECLARATION_13372 NetworkSourceBufferVector
+typedef std::vector<NetworkSourceBuffer *> NetworkSourceBufferVector;
+//@END_DECLARATION_13372
+
 // Forward class declarations
 class State;
 class TreeNode;
@@ -82,6 +102,8 @@ class TestSource;
 class TestModule;
 class CursesModule;
 class CursesOutput;
+class NetworkSourceModule;
+class NetworkSource;
 
 // Needed ClassBuilder include files
 
@@ -111,12 +133,15 @@ class CursesOutput;
 #include "TestModule.h"
 #include "CursesModule.h"
 #include "CursesOutput.h"
+#include "NetworkSourceModule.h"
+#include "NetworkSource.h"
 
 
 // Include classes again, for inline implementation
 #define CB_INLINES
 #include "Module.h"
 #include "Station.h"
+#include "NetworkSource.h"
 
 //@START_USER2
 //@END_USER2

@@ -12,9 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Updated return type of method 'createNode'
-// August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
 #ifndef _NODEFACTORY_H

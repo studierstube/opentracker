@@ -56,6 +56,9 @@ Context::Context() //@INIT_4782
     // actually it doesn't have a configuration element
     addModule( "Test", *test );
 
+	NetworkSourceModule * network = new NetworkSourceModule;
+	addFactory( * network );
+	addModule( "NetworkSourceModule", *network );
 #ifndef WIN32
     CursesModule * output = new CursesModule;
     addFactory( *output );

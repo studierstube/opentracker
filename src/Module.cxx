@@ -12,18 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 18, 2000 23:06 gr, some docs
-//     Updated code of method 'init'
-// August 18, 2000 23:04 gr, changed names and added init flag
-//     Added method 'isInitialized'
-//     Added member 'initialized'
-//     Updated code of method 'init'
-//     Updated code of method 'Module'
-// August 16, 2000 23:53 gr, added curses based display
-//     Added method 'stop'
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated interface of method 'init'
-// August 16, 2000 21:43 gerhard reitmayr
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Update comment header
 // ===========================================================================
 //@START_USER1

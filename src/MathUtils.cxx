@@ -12,8 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 21:43 gerhard reitmayr
-//     Added method 'axisAngleToQuaternion'
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Update comment header
 // ===========================================================================
 //@START_USER1

@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      VideoSource.cxx
+//  NAME:      VideoModule.cxx
 //  TYPE:      cxx header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Implementation of class 'VideoSource'
+//  CONTENT:   Implementation of class 'VideoModule'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -12,20 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 18, 2000 23:04 gr, changed names and added init flag
-//     Updated code of method 'update'
-//     Updated code of method 'init'
-//     Updated code of method 'close'
-//     Updated code of method 'beginUpdate'
-//     Updated code of method '~VideoModule'
-//     Updated code of method 'VideoModule'
-//     Updated member 'treshhold'
-//     Updated member 'did'
-//     Updated member 'markers'
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated interface of method 'init'
-//     Updated code of method 'createNode'
-// August 16, 2000 21:43 gerhard reitmayr
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Update comment header
 // ===========================================================================
 //@START_USER1

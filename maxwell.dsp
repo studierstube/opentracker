@@ -133,6 +133,14 @@ SOURCE=.\src\NetworkModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\NetworkSource.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\NetworkSourceModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\NodeFactory.cxx
 # End Source File
 # Begin Source File
@@ -170,6 +178,10 @@ SOURCE=.\src\VideoModule.cxx
 # Begin Source File
 
 SOURCE=.\src\VirtualTransformation.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\zpthread.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -217,6 +229,14 @@ SOURCE=.\src\NetworkModule.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\NetworkSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\NetworkSourceModule.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\NodeFactory.h
 # End Source File
 # Begin Source File
@@ -258,6 +278,10 @@ SOURCE=.\src\VideoModule.h
 # Begin Source File
 
 SOURCE=.\src\VirtualTransformation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\zpthread.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -12,11 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 16, 2000 22:44 gr, added localState to Transformation
-//     Added member 'localState'
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated code of method 'getState'
-// August 16, 2000 21:43 gerhard reitmayr
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Update comment header
 // ===========================================================================
 //@START_USER1

@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      State.cxx
+//  NAME:      NetworkSource.cxx
 //  TYPE:      cxx header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Implementation of class 'State'
+//  CONTENT:   Implementation of class 'NetworkSource'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -12,8 +12,18 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 25, 2000 14:28 gr added StateVector type
+//     Updated code of method 'getState'
 // August 25, 2000 13:44 gr added NetworkSource classes
-//     Update comment header
+//     Added method 'DestructorInclude'
+//     Added method 'ConstructorInclude'
+//     Added method 'getStationNumber'
+//     Added method 'getState'
+//     Added method '~NetworkSource'
+//     Added method 'NetworkSource'
+//     Added inheritance 'TreeNode'
+//     Added member 'stationNumber'
+//     Added member 'state'
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -30,52 +40,54 @@
 // Static members
 
 
-/*@NOTE_3789
+/*@NOTE_13352
 Constructor method.
 */
-State::State(unsigned short button_, int isValid_,
-             float confidence_) //@INIT_3789
-    : button(button_)
-    , isValid(isValid_)
-    , confidence(confidence_)
-{//@CODE_3789
+NetworkSource::NetworkSource(int stationNumber_) //@INIT_13352
+    : TreeNode()
+    , stationNumber(stationNumber_)
+{//@CODE_13352
     ConstructorInclude();
-    position[0] = 0;
-    position[1] = 0;
-    position[2] = 0;
-    orientation[0] = 0;
-    orientation[1] = 0;
-    orientation[2] = 0;
-    orientation[3] = 1;
+
     // Put in your own code
-}//@CODE_3789
+}//@CODE_13352
 
 
-/*@NOTE_50
+/*@NOTE_12986
 Destructor method.
 */
-State::~State()
-{//@CODE_50
+NetworkSource::~NetworkSource()
+{//@CODE_12986
     DestructorInclude();
 
     // Put in your own code
-}//@CODE_50
+}//@CODE_12986
+
+
+/*@NOTE_13000
+returns the current state of the node. This method will be overriden in any subclasses
+that provide real functionality. All processing of states will be done here.
+*/
+State* NetworkSource::getState()
+{//@CODE_13000
+   return &state;
+}//@CODE_13000
 
 
 //{{AFX DO NOT EDIT CODE BELOW THIS LINE !!!
 
-/*@NOTE_49
+/*@NOTE_12985
 Method which must be called first in a constructor.
 */
-void State::ConstructorInclude()
+void NetworkSource::ConstructorInclude()
 {
 }
 
 
-/*@NOTE_51
+/*@NOTE_12987
 Method which must be called first in a destructor.
 */
-void State::DestructorInclude()
+void NetworkSource::DestructorInclude()
 {
 }
 

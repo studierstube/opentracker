@@ -12,11 +12,7 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 18, 2000 23:04 gr, changed names and added init flag
-//     Added method 'TestModule'
-// August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
-//     Updated member 'nodes'
-// August 16, 2000 21:43 gerhard reitmayr
+// August 25, 2000 13:44 gr added NetworkSource classes
 //     Update comment header
 // ===========================================================================
 #ifndef _TESTMODULE_H

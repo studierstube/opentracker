@@ -1,10 +1,10 @@
 // ===========================================================================
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
-//  NAME:      Station.h
+//  NAME:      NetworkSource.h
 //  TYPE:      h header file
 //  PROJECT:   TrackerServer
-//  CONTENT:   Declaration of class 'Station'
+//  CONTENT:   Declaration of class 'NetworkSource'
 //  VERSION:   1.0
 // ===========================================================================
 //  Author:    reitmayr  Gerhard Reitmayr
@@ -13,22 +13,29 @@
 //
 //  @INSERT_MODIFICATIONS(// )
 // August 25, 2000 13:44 gr added NetworkSource classes
-//     Update comment header
+//     Added method 'DestructorInclude'
+//     Added method 'ConstructorInclude'
+//     Added method 'getStationNumber'
+//     Added method 'getState'
+//     Added method '~NetworkSource'
+//     Added method 'NetworkSource'
+//     Added inheritance 'TreeNode'
+//     Added member 'stationNumber'
+//     Added member 'state'
 // ===========================================================================
-#ifndef _STATION_H
-#define _STATION_H
+#ifndef _NETWORKSOURCE_H
+#define _NETWORKSOURCE_H
 
 
 //@START_USER1
 //@END_USER1
 
 
-/*@NOTE_3147
-represents a trackerstation. it is also part of the tree but will be polled
-for new updates. It drives the propagation of the states through the tree and
-updates the tree that way.
+/*@NOTE_12984
+This class is a source for tracker states coming from a network multicast group. It
+implements the node handled by the NetworkSourceModule.
 */
-class Station
+class NetworkSource
     : public TreeNode
 {
 
@@ -39,7 +46,7 @@ class Station
 private:
 
 protected:
-    char name[256];
+    State state;
     int stationNumber;
 
 public:
@@ -52,9 +59,8 @@ private:
 protected:
 
 public:
-    Station(int stationNumber_, const char* name_);
-    virtual ~Station();
-    char* getName();
+    NetworkSource(int stationNumber_);
+    virtual ~NetworkSource();
     virtual State* getState();
     int getStationNumber() const;
 };
@@ -63,16 +69,16 @@ public:
 
 
 #ifdef CB_INLINES
-#ifndef _STATION_H_INLINES
-#define _STATION_H_INLINES
+#ifndef _NETWORKSOURCE_H_INLINES
+#define _NETWORKSOURCE_H_INLINES
 
-/*@NOTE_3545
+/*@NOTE_13003
 Returns the value of member 'stationNumber'.
 */
-inline int Station::getStationNumber() const
-{//@CODE_3545
+inline int NetworkSource::getStationNumber() const
+{//@CODE_13003
     return stationNumber;
-}//@CODE_3545
+}//@CODE_13003
 
 
 
