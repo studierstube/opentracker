@@ -89,10 +89,10 @@
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
-// #define USE_ARTOOLKIT 1
+#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-#define USE_ARTOOLKITPLUS 1
+//#define USE_ARTOOLKITPLUS 1
 
 
 /** uncomment the following line to compile ARToolKitPlusModule be a video source
