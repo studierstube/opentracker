@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.3 2003/07/24 15:37:47 anonymous Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,18 +34,20 @@
 #include "DwarfSource.h"
 #include "DwarfSink.h"
 
-#include "MathUtils.h"
-
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 
+#define __x86__
+
 #include <DWARF/Service.h>
 #include <DWARF/PoseData.h>
+#include <PoseSender.h>
 #include <corbainit_cpp/corbainit.h>
 #include <debug.h>
 
 using namespace std;
+using namespace DWARF;
 
 // Destructor method
 
@@ -55,7 +57,9 @@ DwarfModule::~DwarfModule()
 
 void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
 {
-    myOrbConnection = CorbaInit::initializeOrb() //parameters here ! 
+    char * argv = "";
+	int argc = 1;
+    myOrbConnection = CorbaInit::initializeOrb( argc, argv); //parameters here ! 
                                                  // -Dservicemanager=atbruegge34
     ServiceManager_var smgr = myOrbConnection->getServiceManager();
     
@@ -63,7 +67,7 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
     NeedDescription_var nd;
     AbilityDescription_var ad;
     ConnectorDescription_var pd;
-    AttributeDescription_var atd;
+    Attributes_var atd;
 
     DEBUGSTREAM(10,  "Describing Service");
     sd=smgr->newServiceDescription(attributes.get("name").c_str());
@@ -73,31 +77,32 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
     unsigned int i;
     for( i = 0;i < localTree->countChildren(); i++)
     {
-        ConfigNode * child = localTree->getChild(i);
+        ConfigNode * child = (ConfigNode*)localTree->getChild(i);
+		StringTable & strTab = child->getAttributes();
         if( child->getType().compare("ability") == 0)
         {
-            ad = sd->newAbility(child->get("name").c_str());
-            ad->setType(child->get("type").c_str());
+            ad = sd->newAbility(strTab.get("name").c_str());
+            ad->setType(strTab.get("type").c_str());
             
-            thingIdMap[child->getName("name")] = child->get("thingid");
-            thingTypeMap[child->getName("name")] = child->get("thingtype");
+            thingIdMap[strTab.get("name")] = strTab.get("thingid");
+            thingTypeMap[strTab.get("name")] = strTab.get("thingtype");
 
             unsigned int j;
             for( j = 0; j < child->countChildren(); j++)
             {
-                ConfigNode * subChild = child->getChild(j);
+                ConfigNode * subChild = (ConfigNode *) child->getChild(j);
+				StringTable & strTab = subChild->getAttributes();
                 if( subChild->getType().compare("attribute") == 0)
                 {
-                    atd = ad->newAttribute();
-                    atd->setName(subChild->get("name").c_str());
-                    atd->setValue(subChild->get("value").c_str());
+                    ad->setAttribute(strTab.get("name").c_str(), strTab.get("value").c_str());
                 }
                 else if( subChild->getType().compare("connector") == 0)
                 {
-                    pd=ad->newConnector(subChild->get("protocol").c_str());                    
+                    pd=ad->newConnector(strTab.get("protocol").c_str());                    
                 }
             }
         }
+		/*
         else if( child->getType().compare("need") == 0)
         {
             nd = sd->newNeed(child->get("name").c_str());
@@ -121,6 +126,7 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
                 }
             }
         }
+		*/
         else
             cout << "DwarfModule: got something strange here !\n";
 
@@ -129,6 +135,7 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
     smgr->activateServiceDescription(attributes.get("name").c_str());  
     
     service = new PoseSenderService(attributes.get("name").c_str());
+    myOrbConnection->registerService(attributes.get("name").c_str(), service->_this());
 
     service->blockUntilRunning();
 
@@ -157,8 +164,8 @@ Node * DwarfModule::createNode( const string& name, StringTable& attributes)
             sender->setPosAccuracy(0);
             sender->setOriAccuracy(0);
             
-            sender->setThingID( thingIdMap[attributes.get("name")] );
-            sender->setThingType( thingTypeMap[attributes.get("name")] );
+            sender->setThingID(& thingIdMap[attributes.get("name")] );
+            sender->setThingType(& thingTypeMap[attributes.get("name")] );
         }
         return sink;
     }
@@ -192,7 +199,7 @@ void DwarfModule::pullState()
                 sender->setOri( 3, sink->state.orientation[3]);
 
                 // FIXME: use opentracker time with setTimestamp
-                sender->updateTimeStamp();
+                sender->updateTimestamp();
 
             }
             //  create event here and send it !

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.3 2003/07/24 15:37:47 anonymous Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,7 +44,7 @@
 
 #include "../dllinclude.h"
 
-#include "Node.h"
+#include "../core/Node.h"
 
 /**
  * This class implements a simple source that is fired by its module in 

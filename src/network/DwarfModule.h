@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.h,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.h,v 1.3 2003/07/24 15:37:47 anonymous Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,12 +47,12 @@
 #include <vector>
 #include <map>
 
-#include "Module.h"
-#include "NodeFactory.h"
+#include "../core/Module.h"
+#include "../core/NodeFactory.h"
 
 class DwarfSink;
 class DwarfSource;
-class PoseSenderService;
+namespace DWARF{class PoseSenderService;}
 class CorbaInit;
 
 /**
@@ -75,7 +75,7 @@ protected:
 
     std::map<std::string, std::string> thingTypeMap;
 
-    PoseSenderService * service;
+    DWARF::PoseSenderService * service;
 
     CorbaInit * myOrbConnection;
 
