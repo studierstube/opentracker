@@ -1,3 +1,8 @@
+2005-01-21 13:32:48  Rev 795    reitmayr
+
+	* data/faustflocktracker.xml: added configuration file for flock of 
+	  birds setup in hallway lab.
+
 2005-01-04 13:01:50  Rev 793    reitmayr
 
 	* src/input/GPS_Handler.h: fixed ACE macro use in templates to work 
