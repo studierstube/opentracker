@@ -22,7 +22,8 @@ HFILES = \
         CallbackNode.h \
         CallbackModule.h \
         InvertTransformation.h \
-        TimeModule.h
+        TimeModule.h \
+        SelectionNode.h
 
 
 C++FILES = \
@@ -36,7 +37,8 @@ C++FILES = \
         VirtualTransformation.cxx \
         CallbackModule.cxx \
         InvertTransformation.cxx \
-        TimeModule.cxx
+        TimeModule.cxx \
+        SelectionNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
