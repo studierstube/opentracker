@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.1 2000/12/13 11:43:05 viola Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.2 2001/01/03 14:45:50 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -28,7 +28,7 @@
 #ifndef _INTERTRAXSOURCE_H
 #define _INTERTRAXSOURCE_H
 
-#include "..\core\OpenTracker.h"
+#include "../OpenTracker.h"
 
 /**
  * This class implements a simple source that sets its valid flag in

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.1 2000/12/13 11:43:05 viola Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.2 2001/01/03 14:45:50 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -23,9 +23,7 @@
 #ifndef _INTERTRAXMODULE_H
 #define _INTERTRAXMODULE_H
 
-#include "../core/OpenTracker.h"
-#include "../core/Module.h"
-#include "../core/NodeFactory.h"
+#include "../OpenTracker.h"
 #include "isense.h"
 
 /**
