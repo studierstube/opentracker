@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.5 2001/04/01 13:22:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,13 +46,15 @@ StaticTransformation::StaticTransformation()
     scale[0] = 1;
     scale[1] = 1;
     scale[2] = 1;
+    usePos = 0;
+    useOrient = 0;
 }
 
 // constructor method.
 
 StaticTransformation::StaticTransformation(float translation_[3], float scale_[3],
-                               float rotation_[4])
-    : Transformation()
+                               float rotation_[4], int usePos_, int useOrient_ )
+    : Transformation(), usePos( usePos_ ), useOrient( useOrient_ )
 {
     for( int i = 0; i < 3; i ++ )
     {
@@ -68,14 +70,30 @@ StaticTransformation::StaticTransformation(float translation_[3], float scale_[3
 State* StaticTransformation::transformState( State* state )
 {
     // transform the position of the state
-    MathUtils::rotateVector( rotation,  state->position, localState.position );
-    localState.position[0] = localState.position[0]*scale[0] + translation[0];
-    localState.position[1] = localState.position[1]*scale[1] + translation[1];
-    localState.position[2] = localState.position[2]*scale[2] + translation[2];
+    if( usePos )
+    {
+        MathUtils::rotateVector( rotation,  state->position, localState.position );
+        localState.position[0] = localState.position[0]*scale[0] + translation[0];
+        localState.position[1] = localState.position[1]*scale[1] + translation[1];
+        localState.position[2] = localState.position[2]*scale[2] + translation[2];
+    }
+    else {
+        localState.position[0] = state->position[0];
+        localState.position[1] = state->position[1];
+        localState.position[2] = state->position[2];
+    }
     // transform the orientation of the state
-    MathUtils::multiplyQuaternion( rotation,
-                                   state->orientation,
-                                   localState.orientation );
+    if( useOrient )
+    {
+        MathUtils::multiplyQuaternion( rotation, state->orientation,
+                                       localState.orientation );
+    } 
+    else {
+        localState.orientation[0] = state->orientation[0];
+        localState.orientation[1] = state->orientation[1];
+        localState.orientation[2] = state->orientation[2];
+        localState.orientation[3] = state->orientation[3];
+    }
     // copy other state fields
     localState.button = state->button;
     localState.confidence = state->confidence;

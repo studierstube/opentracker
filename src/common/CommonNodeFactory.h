@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.6 2001/04/01 13:22:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,15 +62,24 @@ protected:
     vector<string> wrapperNodes;
 
 protected:
+    
+    /** parses a string for a three component vector, returns int value
+     * indicating an error. If an error occurs, the val values are not changed.
+     * @param line string to parse
+     * @param val pointer to three floats
+     * @return 0 if ok, other value if error occured
+     */
+    static int parseVector( const string & line, float * val );
+    /** parses a string for a rotation, where the type is defined by
+     * a second string, returns int value indicating an error. If an error occurs, 
+     * the val values are not changed.
+     * @param line string to parse
+     * @param type string defining type of rotation (quaternion|matrix|axisangle|euler)
+     * @param val pointer to four floats, rotation will be stored in quaternion format
+     * @return 0 if ok, other value if error occured
+     */
+    static int parseRotation( const string & line, const string & type, float * val );
 
-    /** builds a Transformation node.
-     * @param attributes reference to StringMap of elements attribute values
-     * @return pointer to Transformation created on the heap */
-     StaticTransformation * buildTransformation( StringMap& attributes);
-    /** builds a VirtualTransformation node.
-     * @param attributes reference to StringMap of elements attribute values
-     * @return pointer to VirtualTransformation created on the heap */
-    VirtualTransformation * buildVirtualTransformation( StringMap& attributes);
     /** builds a EventQueueNode node.
      * @param attributes reference to StringMap of elements attribute values
      * @return pointer to EventQueueNode created on the heap */

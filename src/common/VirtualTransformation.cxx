@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.5 2001/04/01 13:22:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,17 +36,32 @@
 
 State* VirtualTransformation::transformState( State* state)
 {
-  // transform the position of the state
-    MathUtils::rotateVector( state->orientation,
-                             translation,
-                             localState.position );
-    localState.position[0] += state->position[0];
-    localState.position[1] += state->position[1];
-    localState.position[2] += state->position[2];
+    // transform the position of the state
+    if( usePos )
+    {
+        MathUtils::rotateVector( state->orientation, translation,
+                                 localState.position );
+        localState.position[0] += state->position[0];
+        localState.position[1] += state->position[1];
+        localState.position[2] += state->position[2];
+    }
+    else {
+        localState.position[0] = state->position[0];
+        localState.position[1] = state->position[1];
+        localState.position[2] = state->position[2];
+    }
     // transform the orientation of the state
-    MathUtils::multiplyQuaternion( state->orientation,
-                                   rotation,
-                                   localState.orientation );
+    if( useOrient )
+    {
+        MathUtils::multiplyQuaternion( state->orientation, rotation,
+                                       localState.orientation );
+    }
+    else {
+        localState.orientation[0] = state->orientation[0];
+        localState.orientation[1] = state->orientation[1];
+        localState.orientation[2] = state->orientation[2];
+        localState.orientation[3] = state->orientation[3];
+    }
     // copy other state fields
     localState.button = state->button;
     localState.confidence = state->confidence;

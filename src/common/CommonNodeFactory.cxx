@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.6 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.7 2001/04/01 13:22:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,110 +57,85 @@ CommonNodeFactory::CommonNodeFactory()
     wrapperNodes.push_back("TransformBase");
 }
 
-// builds and returns a new Transformation node
-
-StaticTransformation * CommonNodeFactory::buildTransformation(
-                                          StringMap& attributes)
+int CommonNodeFactory::parseVector(const string & line, float * val )
 {
-    float translation[3], scale[3], rotation[4];
-    float matrix[3][3];
+    float help[3];
     int num;
-    num = sscanf( (*attributes.find("translation")).second.c_str(),
-            " %f %f %f", &translation[0], &translation[1], &translation[2] );
+    num = sscanf( line.c_str()," %f %f %f", &help[0], &help[1], &help[2] );
     if( num != 3 )
-    {
-        translation[0] = 0;
-        translation[1] = 0;
-        translation[2] = 0;
+    { 
+        return 1;
     }
-    num = sscanf( (*attributes.find("scale")).second.c_str(),
-            " %f %f %f", &scale[0], &scale[1], &scale[2] );
-    if( num != 3 )
-    {
-        scale[0] = 1;
-        scale[1] = 1;
-        scale[2] = 1;
-    }
-     std::string &type = (*attributes.find("rotationtype")).second;
+    val[0] = help[0];
+    val[1] = help[1];
+    val[2] = help[2];
+    return 0;
+}
+
+int CommonNodeFactory::parseRotation(const string & line,const string & type, float * val )
+{
+    int num;
+    float matrix[3][3];
+
     if( type.compare("quaternion") == 0 )
     {
-        num = sscanf((*attributes.find("rotation")).second.c_str(),
-                " %f %f %f %f", &rotation[0], &rotation[1], &rotation[2], &rotation[3] );
+        float help[4];
+        num = sscanf(line.c_str()," %f %f %f %f",&help[0], &help[1], &help[2], &help[3]);
         if( num != 4 )
         {
-            rotation[0] = 0;
-            rotation[1] = 0;
-            rotation[2] = 0;
-            rotation[3] = 1;
+            return 1;
         }
+        val[0] = help[0];
+        val[1] = help[1];
+        val[2] = help[2];
+        val[3] = help[3];
     }
     else if( type.compare("matrix") == 0 )
     {
-        num = sscanf((*attributes.find("rotation")).second.c_str(),
-                " %f %f %f %f %f %f %f %f %f",
+        num = sscanf(line.c_str()," %f %f %f %f %f %f %f %f %f",
                 &matrix[0][0], &matrix[0][1], &matrix[0][2],
                 &matrix[1][0], &matrix[1][1], &matrix[1][2],
                 &matrix[2][0], &matrix[2][1], &matrix[2][2] );
         if( num != 9 )
         {
-            rotation[0] = 0;
-            rotation[1] = 0;
-            rotation[2] = 0;
-            rotation[3] = 1;
+            return 1;
         }
         else
         {
-            MathUtils::matrixToQuaternion( matrix, rotation );
+            MathUtils::matrixToQuaternion( matrix, val );
         }
     }
     else if( type.compare("euler") == 0 )
     {
         float roll, pitch, yaw;
-        num = sscanf((*attributes.find("rotation")).second.c_str(),
-                " %f %f %f", &roll, &pitch, &yaw );
+        num = sscanf(line.c_str()," %f %f %f", &roll, &pitch, &yaw );
         if( num != 3 )
         {
-            rotation[0] = 0;
-            rotation[1] = 0;
-            rotation[2] = 0;
-            rotation[3] = 1;
+            return 1;
         }
         else
         {
-            MathUtils::eulerToQuaternion( roll, pitch, yaw, rotation );
+            MathUtils::eulerToQuaternion( roll, pitch, yaw, val );
         }
     }
     else if( type.compare("axisangle") == 0 )
     {
         float axisa[4];
-        num = sscanf((*attributes.find("rotation")).second.c_str(),
-                " %f %f %f %f", &axisa[0], &axisa[1], &axisa[2], &axisa[3] );
+        num = sscanf(line.c_str()," %f %f %f %f", &axisa[0], &axisa[1], &axisa[2], &axisa[3] );
         if( num != 4 )
         {
-            rotation[0] = 0;
-            rotation[1] = 0;
-            rotation[2] = 0;
-            rotation[3] = 1;
+            return 1;
         }
         else
         {
-            MathUtils::axisAngleToQuaternion( axisa, rotation );
+            MathUtils::axisAngleToQuaternion( axisa, val );
         }
     }
-    return new StaticTransformation( translation, scale, rotation );
-}
-
-// builds a new VirtualTransformation node
-
-VirtualTransformation * CommonNodeFactory::buildVirtualTransformation(
-                 StringMap& attributes)
-{
-    // little helper
-    StaticTransformation * help = buildTransformation( attributes );
-    VirtualTransformation *result = new VirtualTransformation( help->getTranslation(),
-            help->getScale(), help->getRotation());
-    delete help;
-    return result;
+    else 
+    {
+        return 1;
+    }
+    return 0;
 }
 
 // build a new EventQueue node
@@ -182,33 +157,116 @@ EventQueueNode * CommonNodeFactory::buildEventQueue(
 Node * CommonNodeFactory::createNode(  string& name,
                                       StringMap& attributes)
 {
-    if( name.compare("EventTransformation") == 0 ||
-        name.compare("QueueTransformation") == 0 ||
-        name.compare("TimeTransformation") == 0 )
-    {
+    float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
+    if( name.compare("EventPositionTransform") == 0 ||
+        name.compare("QueuePositionTransform") == 0 ||
+        name.compare("TimePositionTransform") == 0 )
+    {        
+        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        {
+            cout << "Error parsing translation !" << endl;
+        }
+        if( parseVector((*attributes.find("scale")).second, scale ) != 0 )
+        {
+            cout << "Error parsing scale !" << endl;
+        }
+        if( parseRotation((*attributes.find("rotation")).second, 
+                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        {
+            cout << "Error parsing rotation !" << endl;
+        }
         cout << "Build "<< name << " node." <<endl;
-        return buildTransformation( attributes );
-    } else if( name.compare("EventVirtualTransformation") == 0 ||
-               name.compare("QueueVirtualTransformation") == 0 ||
-               name.compare("TimeVirtualTransformation") == 0 )
-    {
+        return new StaticTransformation( translation, scale, rot, 1, 0 );    
+    }
+    else if( name.compare("EventOrientationTransform") == 0 ||
+        name.compare("QueueOrientationTransform") == 0 ||
+        name.compare("TimeOrientationTransform") == 0 )
+    {        
+        if( parseRotation((*attributes.find("rotation")).second, 
+                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        {
+            cout << "Error parsing rotation !" << endl;
+        }
         cout << "Build "<< name << " node." <<endl;
-        return buildVirtualTransformation( attributes );
-    } else if( name.compare("EventQueue") == 0 )
+        return new StaticTransformation( translation, scale, rot, 0, 1 );    
+    }
+    else if( name.compare("EventTransform") == 0 ||
+        name.compare("QueueTransform") == 0 ||
+        name.compare("TimeTransform") == 0 )
+    {        
+        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        {
+            cout << "Error parsing translation !" << endl;
+        }
+        if( parseVector((*attributes.find("scale")).second, scale ) != 0 )
+        {
+            cout << "Error parsing scale !" << endl;
+        }
+        if( parseRotation((*attributes.find("rotation")).second, 
+                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        {
+            cout << "Error parsing rotation !" << endl;
+        }
+        cout << "Build "<< name << " node." <<endl;
+        return new StaticTransformation( translation, scale, rot, 1, 1 );    
+    } 
+    else if( name.compare("EventVirtualTransform") == 0 ||
+             name.compare("QueueVirtualTransform") == 0 ||
+             name.compare("TimeVirtualTransform") == 0 )
+    {
+        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        {
+            cout << "Error parsing translation !" << endl;
+        }  
+        if( parseRotation((*attributes.find("rotation")).second, 
+                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        {
+            cout << "Error parsing rotation !" << endl;
+        }
+        cout << "Build "<< name << " node." <<endl;
+        return new VirtualTransformation( translation, scale, rot, 1, 1 );
+    } 
+    else if( name.compare("EventVirtualPositionTransform") == 0 ||
+        name.compare("QueueVirtualPositionTransform") == 0 ||
+        name.compare("TimeVirtualPositionTransform") == 0 )
+    {        
+        if( parseVector((*attributes.find("translation")).second, translation ) != 0 )
+        {
+            cout << "Error parsing translation !" << endl;
+        }
+        cout << "Build "<< name << " node." <<endl;
+        return new VirtualTransformation( translation, scale, rot, 1, 0 );    
+    }
+    else if( name.compare("EventVirtualOrientationTransform") == 0 ||
+        name.compare("QueueVirtualOrientationTransform") == 0 ||
+        name.compare("TimeVirtualOrientationTransform") == 0 )
+    {        
+        if( parseRotation((*attributes.find("rotation")).second, 
+                           (*attributes.find("rotationtype")).second, rot ) != 0 )
+        {
+            cout << "Error parsing rotation !" << endl;
+        }
+        cout << "Build "<< name << " node." <<endl;
+        return new VirtualTransformation( translation, scale, rot, 0, 1 );    
+    }
+    else if( name.compare("EventQueue") == 0 )
     {
         cout << "Build "<< name << " node." <<endl;
         return buildEventQueue( attributes );
-    } else if( name.compare("Merge") == 0 )
+    } 
+    else if( name.compare("Merge") == 0 )
     {
         cout << "Build "<< name << " node." << endl;
         return new MergeNode();
-    } else if( name.compare("EventDynamicTransformation") == 0 ||
+    } 
+    else if( name.compare("EventDynamicTransformation") == 0 ||
                name.compare("QueueDynamicTransformation") == 0 ||
                name.compare("TimeDynamicTransformation") == 0 )
     {
         cout << "Build " << name << " node." << endl;
         return new DynamicTransformation();
-    } else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
+    } 
+    else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;
         return new WrapperNode();

@@ -26,12 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
-  * @file                                                                   */
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.5 2001/04/01 13:22:40 reitmayr Exp $
+  * @file                           
+  * @todo lots of documentation for Transformations                         */
  /* ======================================================================= */
 
 /**
- * @page Nodes Node Reference
+ * @page transform_nodes Transform Node Reference
  * @section transform Transformation
  * This section describes the Transformation configuration element. 
  * There are three different Transformation elements to provide a strong structure
@@ -72,6 +73,10 @@ protected:
     float scale[3];
     /// stores rotational part of the transformation
     float rotation[4];
+    /// flag whether to compute position updates
+    int usePos;
+    /// flag whether to compute orientation updates
+    int useOrient;
     
     /**
      * transforms a state. Overrides the Transformation implementation
@@ -90,7 +95,7 @@ public:
      * @param scale_ sets scale
      * @param rotation_ sets rotation
      */
-    StaticTransformation(float translation_[3], float scale_[3], float rotation_[4]);
+    StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], int usePos_, int useOrient_);
 
     /** returns the rotational part of the Transformation */
     float* getRotation()

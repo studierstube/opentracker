@@ -26,12 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.6 2001/04/01 13:22:40 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
- * @page Nodes Node Reference
+ * @page transform_nodes Transform Node Reference
+ *
  * @section virtualtransform VirtualTransformation
  * This section describes the VirtualTransformation configuration element. 
  * There arethree different Transformation elements to provide a strong structure
@@ -80,8 +81,8 @@ public:
 
     /** constructor method. */
     VirtualTransformation(float translation_[3], float scale_[3],
-                          float rotation_[4])
-        : StaticTransformation(translation_, scale_, rotation_ )
+                          float rotation_[4], int usePos_, int useOrient_ )
+        : StaticTransformation(translation_, scale_, rotation_, usePos_, useOrient_ )
     {}
 };
 
