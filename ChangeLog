@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-30 17:40  reitmayr
+
+	* data/opentracker.dtd:
+	
+	added looping of input files to file module.
+
+2003-11-30 17:37  reitmayr
+
+	* src/common/: File.h, FileModule.cxx, FileModule.h:
+	
+	added looping of input files to file module.
+
 2003-11-26 09:48  reitmayr
 
 	* src/common/ButtonFilterNode.cxx:
