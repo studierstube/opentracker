@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-11 17:43  reitmayr
+
+	* src/common/FileModule.cxx, src/common/FileSource.h,
+	data/opentracker.dtd:
+	
+	added localtime flag to FileSource to enable using local timestamps
+	instead of recorded ones
+
 2003-06-10 14:14  reitmayr
 
 	* src/common/File.h:
