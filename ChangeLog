@@ -9,6 +9,30 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-12-13 13:17  tamer
+
+	* src/: core/MathUtils.h, input/ParButtonModule.cxx:
+	
+	small fixes for Intel C++ compiler.
+
+2003-12-13 06:44  tamer
+
+	* README:
+	
+	added 2003 to copyright header.
+
+2003-12-13 06:41  tamer
+
+	* INSTALL:
+	
+	updated xerces version information.
+
+2003-12-13 06:37  tamer
+
+	* src/common/Makefile.am:
+	
+	added new classes.
+
 2003-12-01 13:53  reitmayr
 
 	* src/common/FileModule.h:
