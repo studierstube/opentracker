@@ -130,7 +130,7 @@ InputPath=.\ToolAppWin.h
 InputName=ToolAppWin
 
 "moc_$(InputName).cxx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	c:\programme\qt\bin\moc $(InputPath) -o moc_$(InputName).cxx
+	$(QTDIR)\bin\moc $(InputPath) -o moc_$(InputName).cxx
 
 # End Custom Build
 
@@ -150,7 +150,7 @@ InputPath=.\ToolForm.h
 InputName=ToolForm
 
 "moc_$(InputName).cxx" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	c:\programme\qt\bin\moc $(InputPath) -o moc_$(InputName).cxx
+	$(QTDIR)\bin\moc $(InputPath) -o moc_$(InputName).cxx
 
 # End Custom Build
 
@@ -190,8 +190,8 @@ InputPath=.\ToolForm.ui
 InputName=ToolForm
 
 BuildCmds= \
-	c:\programme\qt\bin\uic -o $(InputName).h $(InputPath) \
-	c:\programme\qt\bin\uic -i $(InputName).h -o $(InputName).cxx $(InputPath) \
+	$(QTDIR)\bin\uic -o $(InputName).h $(InputPath) \
+	$(QTDIR)\bin\uic -i $(InputName).h -o $(InputName).cxx $(InputPath) \
 	
 
 "$(InputName).h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
