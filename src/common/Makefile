@@ -26,6 +26,7 @@ HFILES = \
         SelectionNode.h \
         File.h \
         FileSink.h \
+        FileSource.h \
         FileModule.h \
         MatrixTransformation.h
 

@@ -25,19 +25,20 @@
 /** header file for FileModule module.
   *
   * @author Gerhard Reitmayr
-  * @todo finish documentation about file module
+  * @todo implement constraint to have only one source per (file,station) pair
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.4 2001/08/04 13:26:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section filemodule FileModule
- 
-<FileConfig>
-    <File name="path/name" io="out" id="test" />
-</FileConfig>@endverbatim
+ * The FileModule allows to read or write events from or to files. Every file can
+ * contain several input or output streams identified by station numbers. However,
+ * a single file can only serve as input or output at any given time. There is no
+ * configuration section as all information is stored in the @ref filesink and 
+ * @ref filesource nodes. However it reserves the name @c FileConfig for future use.
  */
 
 #ifndef _FILEMODULE_H
@@ -47,7 +48,9 @@
 #include "File.h"
 
 /**
- *
+ * This class manages the files and FileSink and FileSource objects. FileSources are
+ * driven by the main loop, whereas FileSinks write directly to the associated file,
+ * whenever they receive an event.
  * @ingroup common
  * @author Gerhard Reitmayr
  */
@@ -55,29 +58,21 @@ class OPENTRACKER_API FileModule: public Module, public NodeFactory
 {
 // Members
 protected:
-    /// list of ConsoleSink nodes in the tree
-    NodeVector sinks;
-    /// list of ConsoleSource nodes  in the tree
-    NodeVector sources;
-    /// vector of File objects
+    /// map of name to list of either FileSink or FileSource nodes    
+    std::map<std::string, NodeVector> nodes;
+    /// map of name to File objects
     std::map<std::string, File *> files;
 
 public:
     /** constructor method. initializes internal and static data
      * such as the functionMap and keyMap tables. */
-    FileModule(); 
+    FileModule()
+    {} 
     /** Destructor method, clears nodes member. */
     virtual ~FileModule();
-    /**
-     * initializes the tracker module. 
-     * @param attributes StringTable of elements attribute values. Should be
-     *        possibly , but is not for convenience.
-     * @param localTree pointer to root of configuration nodes tree
-     */
-    virtual void init(StringTable& attributes, ConfigNode * localTree);
-    /** This method is called to ruct a new Node. It compares
-     * name to the ConsoleSink element name, and if it matches
-     * creates a new ConsoleSink node.
+    /** This method is called to construct a new Node. It compares
+     * name to the FileSink or FileSource element name, and if it matches
+     * creates the necessary File and Node objects.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -88,15 +83,7 @@ public:
      */
     virtual void pushState();
     /**
-     * reads out the FileSink nodes and writes them to the files, if
-	 * they changed.
-     */
-    virtual void pullState();
-     /**
-     * Opens configured files, if some sinks and sources where built.*/
-    virtual void start();
-    /**
-     * Closes the files.*/
+     * Closes the files and cleans up datastructures.*/
     virtual void close();
 };
 

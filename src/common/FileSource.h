@@ -22,63 +22,69 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for FileSink Node.
+/** header file for FileSource Node.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSink.h,v 1.3 2001/08/04 13:26:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSource.h,v 1.1 2001/08/04 13:26:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section filesink FileSink 
- * The FileSink node writes incoming event data to an output file. It is created
- * and controlled by the @ref filemodule. It associates its output stream with 
- * a station number, that is written into the file to multiplex different sinks
- * into one file. There may be more then one FileSink using the same station number
- * and / or output file. However the file may only be used for output.
- * It has the following attributes :
+ * @section filesource FileSource 
+ * The FileSource node reads event data from an input file and passes new
+ * events into the graph. It is created and controlled by the @ref filemodule. 
+ * It associates its input stream with 
+ * a station number, that is contained in the input file to demultiplex different input
+ * streams from one file. There may be more then one FileSource using the same input file, 
+ * however they need to use different station numbers. Moreover the file may 
+ * only be used for input.
+ *
+ * The event data is processed in the order appearing in the file. During each cycle, 
+ * each source fires at most once. Data that has a station number which is not used
+ * by any FileSource is dropped. 
+ *
+ * A FileSource has the following attributes :
  * @li @c file the file name to use
  * @li @c station the station number to record
  *
  * An example element looks like this :
  * @verbatim
-<FileSink file="test.out" station="0">
-    <Any EventGenerator element type>
-</FileSink>@endverbatim
+<FileSource file="name" station="0"/>@endverbatim
  */
 
-#ifndef _FILESINK_H
-#define _FILESINK_H
+#ifndef _FILESOURCE_H
+#define _FILESOURCE_H
 
 #include "../OpenTracker.h"
 #include "File.h"
 
 /**
- * This class implements a simple EventGenerator that writes any incoming events
- * to the associated file.
+ * This class implements a simple EventGenerator source node. It is driven by the
+ * FileModule class which reads the data from the file and passes it to the
+ * right FileSource object.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
-class OPENTRACKER_API FileSink : public Node
+class OPENTRACKER_API FileSource : public Node
 {
 // Members
 public:
-   	/// Output File object associated with this node.
-    File & file;
     /// station number
-    int station;	
+    int station;
+    /// flag whether state was changed this round
+    int changed;	
 
 // Methods
 protected:
-    /** constructor method,sets commend member
-     * @param file_ the File object to write to
-     * @param station_ the station number to use */
-    FileSink( File & file_, int station_ = 0 ) :
+    /** constructor method,sets the station number and other default values.    
+     * @param station the station number to use.
+     */
+    FileSource( int station_ = 0 ) :
         Node(), 
-        file( file_ ),
-		station( station_ )
+		station( station_ ),
+        changed( 0 )
     {}
 
 public:
@@ -88,22 +94,7 @@ public:
     virtual int isEventGenerator()
     {
         return 1;
-    }
-    
-    /**
-     * this method notifies the object that a new event was generated.
-     * It writes the event value out to the file and passes it
-     * on to its parent.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
-     * @param generator reference to the EventGenerator object that
-     *        notified the EventObserver.
-     */
-    virtual void onEventGenerated( State& event, Node& generator)
-    {
-        file.write( event, station );
-        updateObservers( event );
-    }
+    }   
 
     friend class FileModule;
 };

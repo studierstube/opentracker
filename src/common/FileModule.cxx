@@ -26,107 +26,146 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.5 2001/08/04 13:26:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "FileModule.h"
 #include "FileSink.h"
-//#include "FileSource.h"
+#include "FileSource.h"
 
 #ifdef WIN32
 #include <iostream>
+#else
+#include <iostream.h>
 #endif
 
 using namespace std;
 
-FileModule::FileModule()
-{
-//...
-}
- 
+// Destructor method, clears nodes member
+
 FileModule::~FileModule()
 {
     // clear containers
-    sinks.clear();
-    sources.clear();
+    nodes.clear();
 	files.clear();
 }
 
-void FileModule::init(StringTable& attributes, ConfigNode * localTree)
-{
-    if( localTree != NULL )
-    {
-        ConfigNode * base = localTree;
-        for( unsigned int i = 0; i < base->countChildren(); i++ )
-        {
-            ConfigNode * config = (ConfigNode *)base->getChild( i );
-            if( config->getType().compare("File") == 0 )
-            {
-                string file = config->getAttributes().get("file");
-                string id = config->getAttributes().get("id");
-				files[id] = new File(file);
-            }
-        }
-    }
-    Module::init( attributes, localTree );
-}
-
+// This method is called to construct a new Node
 
 Node * FileModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("FileSink") == 0 )
     {
-        string id;
-        id = attributes.get("id");
+        string id = attributes.get("file");
         int station;
         if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
             station = 0;                    
-        // search for File otherwise return NULL and print out an error
-        map<string,File *>::iterator file = files.find( id );
-        if( file != files.end())
+        // search for File
+        map<string,File *>::iterator it = files.find( id );
+        if( it != files.end()) // found one, test for right direction and add to store
         {
-            FileSink * sink = new FileSink(*(*file).second, station );
-            sinks.push_back( sink );
+            File * file = (*it).second;
+            if( file->mode == File::OUT )
+            {
+                NodeVector & vector = nodes[id];
+                FileSink * sink = new FileSink(*file, station );
+                vector.push_back( sink );
+                cout << "Built FileSink node writting into " << id << " with station " 
+                     << station << endl;       
+                return sink;
+            } 
+            cout << "FileSink referencing input file " << id << endl;
+        } else // create a new one
+        {
+            File * file = new File( id, File::OUT );
+            files[id] = file;
+            NodeVector & vector = nodes[id];
+            FileSink * sink = new FileSink(*file, station );
+            vector.push_back( sink );
             cout << "Built FileSink node writting into " << id << " with station " 
                  << station << endl;       
             return sink;
         }
-        cout << "FileSink referencing non-existing file " << id << endl;
     } else if( name.compare("FileSource") == 0 )
     {
-		//...
+		string id = attributes.get("file");
+        int station;
+        if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
+            station = 0;                    
+        // search for File
+        map<string,File *>::iterator it = files.find( id );
+        if( it != files.end()) // found one, test for right direction and add to store
+        {
+            File * file = (*it).second;
+            if( file->mode == File::IN )
+            {
+                NodeVector & vector = nodes[id];
+                FileSource * source = new FileSource( station );
+                vector.push_back( source );
+                cout << "Built FileSource node reading from " << id << " with station " 
+                     << station << endl;       
+                return source;
+            } 
+            cout << "FileSource referencing output file " << id << endl;
+        } else // create a new one
+        {
+            File * file = new File( id, File::IN );
+            files[id] = file;
+            NodeVector & vector = nodes[id];
+            FileSource * source = new FileSource( station );
+            vector.push_back( source );
+            cout << "Built FileSource node reading from " << id << " with station " 
+                 << station << endl;       
+            return source;
+        }
     }
     return NULL;
 }
 
+// reads from the input files and fires new events, if necessary
+
 void FileModule::pushState()
 {
-	//...
-}
-
-void FileModule::pullState()
-{
-    for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it ++ )
-	{
-		FileSink * sink = (FileSink*)(*it);
-	    if( sink->changed == 1 ) 
+    State state;
+    int station;
+    
+	for( map<string, File*>::iterator it = files.begin(); it != files.end(); it++ )
+    {
+        if((*it).second->mode == File::IN )
         {
-			sink->file.write( sink->state, sink->station );
-		    sink->changed = 0;
+            NodeVector & vector = nodes[(*it).first];
+            NodeVector::iterator jt;
+            for( jt = vector.begin(); jt != vector.end(); jt++ )
+            {
+                ((FileSource*)(*jt))->changed = 0;
+            }            
+            while( 1 ){
+                if( (*it).second->read( state, &station ) == 0 )
+                {
+                    break;
+                }
+                jt = vector.begin();
+                while( jt != vector.end())
+                {
+                    if(((FileSource*)(*jt))->station == station && 
+                       ((FileSource*)(*jt))->changed == 0 )
+                        break;
+                    jt++;
+                }        
+                if( jt != vector.end())
+                {
+                    ((FileSource*)(*jt))->changed = 1;
+                    ((FileSource*)(*jt))->updateObservers( state );
+                }                    
+                else 
+                    break;
+           }
         }
-	}
+    }
 }
 
-void FileModule::start()
-{
-    for( map<string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
-	{
-        
-		File * file = (File*)(*it).second;
-		file->open( 0 );
-	}
-}
+// Closes the files and cleans up datastructures
 
 void FileModule::close()
 {

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.5 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.6 2001/08/04 13:26:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,32 +48,53 @@
 using namespace std;
 
 /**
- *
+ * File class is a simple class that provides formatted input or output to a file.
+ * It defines in which format the station data is written to the file and read
+ * again. Right now the data has a csv format where spaces are used as separators :
+ * @verbatim 
+station timestamp position[0] position[1] position[2] orientation[0] ... orientation[3]
+...@endverbatim
  * @author Gerhard Reitmayr
  * @ingroup common
  */
 class OPENTRACKER_API File
 {
 // Members
-
 protected :
-	/// Output stream
+	/// Output stream for output mode
     ofstream * output;
-	/// Input stream
+	/// Input stream for input mode
     ifstream * input;
+    
+public :    
 	/// the full filename
-    string filename;
+    const string filename;
+    /// the mode i.e. input or output
+    const enum modeFlags { OUT = 0, IN } mode;
 
 // Methods
 public:
-    /** constructor method, sets some default values*/
-    File(const string filename_)
-    {
-        filename = filename_;
-        input = NULL;
-        output = NULL;
+    /** constructor method, sets some default values and opens the
+     * file in the correct mode.
+     * @param filename_ the filename of the file to open
+     * @param mode the mode to open (either IN or OUT )*/
+    File(const string filename_ , modeFlags mode_ = OUT ) :
+        filename( filename_), mode( mode_ )
+    {        
+        if( mode == OUT ) // output mode
+		{
+            output = new ofstream( filename.c_str());
+			input = NULL;
+		} 
+		else {          // otherwise input mode
+            input = new ifstream( filename.c_str());
+            input->setf( ios::skipws );
+			output = NULL;
+		} 
     }
 
+    /** destructor, closes the streams and deletes them again
+     */
     ~File()
     {
         if( input != NULL )
@@ -87,20 +108,6 @@ public:
             delete output;
         }
     }
-
-    void open(int mode = 0 )
-    {
-
-		if( mode == 0 ) // output mode
-		{
-            output = new ofstream( filename.c_str());
-			input = NULL;
-		} 
-		else {          // otherwise input mode
-            input = new ifstream( filename.c_str());
-			output = NULL;
-		}
-	}
 
     /** writes a state to the output stream, only useable
      * if File object was opened in output mode. Here you
@@ -131,11 +138,16 @@ public:
      * @param station pointer to an int containing the station
      * @returns 1 if a new station could be read, otherwise 0.
      */
-    int read( State & state, int * station )
+    int read( State & state, int * station )    
     {
-        return 0;
-    }
-  
+        input->clear(0);
+        *input >> *station;
+        *input >> state.time;
+        *input >> state.position[0] >> state.position[1] >> state.position[2];
+        *input >> state.orientation[0] >> state.orientation[1] 
+               >> state.orientation[2] >> state.orientation[3];
+        return !input->fail();
+    }  
 };
 
 #endif
