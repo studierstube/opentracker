@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackNode.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackNode.h,v 1.3 2001/10/20 17:18:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,7 +51,7 @@
 
 #include "../OpenTracker.h"
 
-typedef void CallbackFunction(const State &);
+typedef void CallbackFunction(const Node &, const State &, void *);
 
 /**
  * This class implements a simple node that stores a function pointer
@@ -68,6 +68,8 @@ public:
     std::string name;
     /// callback function
     CallbackFunction * function;
+    /// data pointer
+    void * data;
 
 // Methods
 protected:
@@ -76,7 +78,8 @@ protected:
     CallbackNode( const std::string & name_ ) :
         Node(), 
         name( name_ ),
-        function( NULL )
+        function( NULL ),
+        data( NULL )
     {}
 
 public:        
@@ -101,7 +104,7 @@ public:
     {
         if( function != NULL )
         {
-            (*function)( event );
+            (*function)(*this,  event, data );
         }
         updateObservers( event );
     }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.h,v 1.3 2001/10/20 17:18:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -84,8 +84,9 @@ public:
      * by the new one.
      * @param name the unique name of the callback node 
      * @param function the new callback function to set on the node
+     * @param data pointer to data that is passed to the callback function
      */
-    void setCallback( const std::string& name, CallbackFunction * function );
+    void setCallback( const std::string& name, CallbackFunction * function, void * data );
 };
 
 #endif

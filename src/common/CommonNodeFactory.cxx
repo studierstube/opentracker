@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.17 2001/09/26 13:35:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.18 2001/10/20 17:18:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,6 +38,8 @@
 #include "MatrixTransformation.h"
 #include "SelectionNode.h"
 #include "ConfidenceFilterNode.h"
+#include "ConfidenceSelectNode.h"
+#include "FilterNode.h"
 
 #include<math.h>
 #include<stdio.h>
@@ -317,9 +319,38 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             type = ConfidenceFilterNode::LOW;
         result = new ConfidenceFilterNode( treshhold, type );
     }
+    else if( name.compare("Filter") == 0 )
+    {
+        vector<float> weights;
+        const char * data = attributes.get("weight").c_str();
+        char * end = (char *) data;
+        weights.push_back((float) strtod( data, &end ));    
+        while( end != data ){        
+            data = end;
+            weights.push_back((float) strtod( data, &end ));
+        }
+        cout << "FilterNode with " << weights.size() << " weights ";
+        result = new FilterNode( weights );
+    }
+    else if( name.compare("ConfidenceSelect") == 0 )
+    {
+        int num;
+        double timeout;
+        ConfidenceSelectNode::types type;
+        num = sscanf( attributes.get("timeout").c_str(), " %lf", &timeout );
+        if( num != 1 )
+        {
+            timeout = 100;
+        }
+        if( attributes.get("type").compare("high") == 0 )
+            type = ConfidenceSelectNode::HIGH;
+        else if( attributes.get("type").compare("low") == 0 )
+            type = ConfidenceSelectNode::LOW;
+        result = new ConfidenceSelectNode( timeout, type );
+    }
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
-        cout << "Build WrapperNode " << name << "." << endl;
+        cout << "Build NodePort " << name << "." << endl;
         return new NodePort();
     }
     if( result != NULL )

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.4 2001/10/20 17:18:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,11 +61,12 @@ Node * CallbackModule::createNode( const string& name, StringTable& attributes)
 
 //  sets a callback on a certain node.
 
-void CallbackModule::setCallback( const string& name, CallbackFunction * function )
+void CallbackModule::setCallback( const string& name, CallbackFunction * function, void * data )
 {
     NodeMap::iterator it = nodes.find( name );
     if( it != nodes.end())
     {
         ((CallbackNode *)(*it).second)->function = function;
+        ((CallbackNode *)(*it).second)->data = data;
     }
 }
