@@ -40,7 +40,6 @@
 
 #include "ARTDataTrackerModule.h"
 #include "ARTDataTrackerSource.h"
-#include "ARTDataTrackerChomp.h"
 
 #include <math.h>
 #include <stdio.h>

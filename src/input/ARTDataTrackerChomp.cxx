@@ -60,7 +60,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 	{
 		cout << "Error receiving correct Data!!! [#001]" << endl;
 		cout << "Check if Format in ARTTracker Software is set to ASCII !!!" << endl;
-		// exit ( -1 );
+        return;
 	}
 	
 	// get the frame number
