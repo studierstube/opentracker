@@ -73,12 +73,21 @@
 
 class GPSSource;
 class GPSDirectionSource;
+class GPSGarminCompass;
+class GPSGarminAltitude;
 class ACE_FILE_IO;
 
 /**
  * This module supports a GPS receiver with optional DGPS correction data
- * from an DGPSIP server. It drives a single GPSSource node. Currently it
- * only supports one device.
+ * from an DGPSIP server. It drives all the different GPS source nodes associated with it, but only
+ * one instance per type. Currently it only supports one device.
+ *
+ * It uses the GPSDriver class to operate the GPS device and any DGPSIP servers. Any required
+ * transformations are implemented in the individual GPS source nodes. 
+ * 
+ * @see GPSSource, GPSDirectionSource, GPSGarminCompass, GPSGarminAltitude for more information
+ * on the individual source nodes.
+ *
  * @ingroup input
  * @author Gerhard Reitmayr
  */
@@ -114,12 +123,16 @@ protected:
 
 	GPSSource * source;
     GPSDirectionSource * dirSource;
+    GPSGarminCompass * compassSource;
+    GPSGarminAltitude * altitudeSource;
 	GPSDriver * driver;
 
     ACE_FILE_IO * logFile;
 
     friend class GPSSource;
     friend class GPSDirectionSource;
+    friend class GPSGarminCompass;
+    friend class GPSGarminAltitude;
 };
 
 #endif // !defined(_GPSMODULE_H)

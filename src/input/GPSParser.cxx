@@ -31,20 +31,30 @@
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <string.h>
-#include <stdlib.h>
+#include <ace/SString.h>
 
 const int NMEABUFSZ = 1024;
 
 #include "GPSParser.h"
 
+const GPResult * (* GPSParser::parsers[])(const char *) = {
+    GPGGA::parse,
+    GPVTG::parse,
+    HCHDG::parse,
+    PGRMZ::parse
+};
+
 const GPResult * GPSParser::parse( const char * line )
 {
-    if (strncmp("$GPGGA,", line, 7) == 0) {
-        return parseGPGGA( line );
-    } 
-    else if (strncmp("$GPVTG,", line, 7) == 0) {
-        return parseGPVTG( line );
+    if( checkSum( line ) )
+    {
+        const GPResult * result = NULL;
+        for( int i = 0; i < 4; i++ )
+        {
+            result = parsers[i](line);
+            if( result != NULL )
+                return result;
+        }
     }
     return new GPResult;
 }
@@ -57,7 +67,7 @@ bool GPSParser::checkSum( const char * line )
     cp = strchr(line, '*');
     if (cp) {
         cp++;
-        csum = strtol(cp, NULL, 16);
+        csum = ACE_OS::strtol(cp, NULL, 16);
         
         checksum = 0;
         for (cp = line + 1; *cp; cp++) {
@@ -70,7 +80,7 @@ bool GPSParser::checkSum( const char * line )
     return false;
 }
 
-const GPResult * GPSParser::parseGPGGA( const char * line )
+const GPResult * GPGGA::parse( const char * line )
 {
     char         *cp,
                  *ep;
@@ -87,7 +97,7 @@ const GPResult * GPSParser::parseGPGGA( const char * line )
                  diffdelay;
     
     // copy string into work buffer
-    strncpy( buffer, line, NMEABUFSZ);
+    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
     /*
     * $GPGGA,011243,3743.000,N,12214.000,W,2,07,0.4,2.8,M,-27.9,M,0,0269*4
     * 5
@@ -96,9 +106,8 @@ const GPResult * GPSParser::parseGPGGA( const char * line )
     *
     * time, lat, ns, lon, ew, fix, numsats, hdop, alt, M, height, M,
     * diff-delay, statid, csum
-    */    
-    if( checkSum( buffer) )
-    {        
+    */   
+    if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
         cp = ep = (char *) buffer;
         ep = strchr(cp, ',');
         if (!ep)
@@ -249,10 +258,11 @@ const GPResult * GPSParser::parseGPGGA( const char * line )
 
         return result;
     }
-    return new GPResult;
+    // only return null, if we this is not for us.
+    return NULL;
 }
 
-const GPResult * GPSParser::parseGPVTG( const char * line )
+const GPResult * GPVTG::parse( const char * line )
 {
     char    *cp,
             *ep;
@@ -263,12 +273,12 @@ const GPResult * GPSParser::parseGPVTG( const char * line )
             speedKlm;
     
     // copy string into work buffer
-    strncpy( buffer, line, NMEABUFSZ);
+    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
     
     /*
     * $GPVTG,360.0,T,348.7,M,000.0,N,000.0,K*43
     */    
-    if( checkSum(buffer) )
+    if (ACE_OS::strncmp("$GPVTG,", buffer, 7) == 0)
     {        
         /* header */
         cp = ep = (char *)buffer;
@@ -337,5 +347,95 @@ const GPResult * GPSParser::parseGPVTG( const char * line )
         result->speedKlm = speedKlm;
         return result;
     }
-    return new GPResult;
+    return NULL;
+}
+
+const GPResult * HCHDG::parse( const char * line )
+{
+    char    buffer[NMEABUFSZ];
+    
+    // copy string into work buffer
+    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+    
+   /*
+    * $HCHDG,101.1,,,7.1,W*3C
+    */    
+    if (ACE_OS::strncmp("$HCHDG,", buffer, 7) == 0)
+    {        
+        ACE_Tokenizer tok( buffer );
+        tok.delimiter_replace(',', 0);
+        char * token;
+        double  heading,
+            variation;
+        
+        /* skip header */
+        token = tok.next();
+        if( !token )
+            return new GPResult;
+
+        /* heading */
+        token = tok.next();
+        if (!token)
+            return new GPResult;
+        heading = atof( token );
+
+        /* next two ',' are skipped by tokenizing */
+
+        /* variation */
+        token = tok.next();
+        if (!token)
+            return new GPResult;
+        variation = atof( token );
+
+        /* direction */
+        token = tok.next();
+        if (!token)
+            return new GPResult;
+        
+        if( ACE_OS::strcmp(token, "E" ))
+        {
+            variation = - variation;
+        }
+
+        HCHDG * result = new HCHDG;
+        result->heading = heading;
+        result->variation = variation;
+        return result;
+    }
+    return NULL;
+}
+
+const GPResult * PGRMZ::parse( const char * line )
+{
+    char    buffer[NMEABUFSZ];
+    
+    // copy string into work buffer
+    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+    
+   /*
+    * $PGRMZ,246,f,3*1B
+    */    
+    if (ACE_OS::strncmp("$PGRMZ,", buffer, 7) == 0)
+    {        
+        ACE_Tokenizer tok( buffer );
+        tok.delimiter_replace(',', 0);
+        char * token;
+        double altitude;
+        
+        /* skip header */
+        token = tok.next();
+        if( !token )
+            return new GPResult;
+
+        /* altitude in feet */
+        token = tok.next();
+        if (!token)
+            return new GPResult;
+        altitude = atof( token );        
+        
+        PGRMZ * result = new PGRMZ;
+        result->altitude = altitude; 
+        return result;
+    }
+    return NULL;
 }

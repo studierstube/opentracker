@@ -22,6 +22,8 @@ otinputinc_HEADERS = \
         GPSDirectionSource.h \
         GPSDriver.h \
         GPS_Handler.h \
+        GPSGarminAltitude.h \
+        GPSGarminCompass.h \
         GPSModule.h \
         GPSParser.h \
         GPSSource.h \

@@ -48,6 +48,8 @@ public :
     enum Type {
         GPGGA,
         GPVTG, 
+        HCHDG, 
+        PGRMZ,
         INVALID
     } type;
        
@@ -69,6 +71,9 @@ public :
     double  diffdelay;
     int     statid;
 
+    static const GPResult * parse( const char * );
+
+protected:
     GPGGA(){
         type = GPResult::GPGGA;
     }
@@ -81,16 +86,44 @@ public :
     double  speedKnots;
     double  speedKlm;
 
+    static const GPResult * parse( const char * );
+
+protected:
     GPVTG(){
         type = GPResult::GPVTG;
+    }
+};
+
+class HCHDG : public GPResult {
+public :
+    double  heading;
+    double  variation;
+    
+    static const GPResult * parse( const char * );
+    
+protected:
+    HCHDG(){
+        type = GPResult::HCHDG;
+    }
+};
+
+class PGRMZ: public GPResult {
+public :
+    double  altitude;
+    
+    static const GPResult * parse( const char * );
+    
+protected:
+    PGRMZ(){
+        type = GPResult::PGRMZ;
     }
 };
 
 /**
  * This is a GPS helper class for parsing the different output strings returned
  * by the GPS receiver module. It will output a class that represents the result
- * and needs to be tested for the correct type. See GPResult. Currently it only
- * implements two NMEA messages GPGGA, GPVTG.
+ * and needs to be tested for the correct type. See GPResult. It 
+ * implements the following NMEA and extension messages: GPGGA, GPVTG. PGRMZ, HCHDG.
  *
  * @ingroup input
  * @author Gerhard Reitmayr
@@ -99,11 +132,10 @@ class GPSParser
 {
 public :
     static const GPResult * parse( const char * line );
-    static const GPResult * parseGPGGA( const char * line );
-    static const GPResult * parseGPVTG( const char * line );
     static bool checkSum( const char * line );
 private:
     GPSParser(){};
+    static const GPResult * (*parsers[])(const char *);
 };
 
 #endif // !defined(_GPSPARSER_H_)

@@ -39,6 +39,8 @@
 #include "GPSModule.h"
 #include "GPSSource.h"
 #include "GPSDirectionSource.h"
+#include "GPSGarminCompass.h"
+#include "GPSGarminAltitude.h"
 
 #include <iostream>
 
@@ -50,7 +52,9 @@ GPSModule::GPSModule() :
 source( NULL ),
 dirSource( NULL ),
 driver( NULL ),
-logFile( NULL )
+logFile( NULL ), 
+compassSource( NULL ),
+altitudeSource( NULL )
 {
 }
 
@@ -60,6 +64,10 @@ GPSModule::~GPSModule()
         delete source;
     if( dirSource != NULL )
         delete dirSource;
+    if( compassSource != NULL )
+        delete compassSource;
+    if( altitudeSource != NULL )
+        delete altitudeSource;    
     if( logFile != NULL )
         delete logFile;
 }
@@ -138,7 +146,38 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
         std::cout << "Built GPSDirectionSource node." << endl;
         return dirSource;
     }
-
+    if( name.compare("GPSGarminCompass") == 0 )
+    {
+        if( compassSource != NULL )
+        {
+            std::cout << "Only one GPSGarminCompass can be build !" << endl;
+            return NULL;
+        }
+        if( !isInitialized() )
+        {
+            std::cout << "GPSModule is not initialized, cannot build GPSGarminCompass !" << endl;
+            return NULL;
+        }
+        compassSource = new GPSGarminCompass;
+        std::cout << "Built GPSGarminCompass node." << endl;
+        return compassSource;
+    }
+    if( name.compare("GPSGarminAltitude") == 0 )
+    {
+        if( altitudeSource != NULL )
+        {
+            std::cout << "Only one GPSGarminAltitude can be build !" << endl;
+            return NULL;
+        }
+        if( !isInitialized() )
+        {
+            std::cout << "GPSModule is not initialized, cannot build GPSGarminAltitude !" << endl;
+            return NULL;
+        }
+        altitudeSource = new GPSGarminAltitude;
+        std::cout << "Built GPSGarminAltitude node." << endl;
+        return altitudeSource;
+    }
 	return NULL;	
 }
 
@@ -167,6 +206,30 @@ void GPSModule::pushState()
         }
         else
 			unlock();
+	}
+    if( compassSource != NULL )
+    {
+        lock();
+        if( compassSource->state.time < compassSource->buffer.time )
+        {
+            compassSource->state = compassSource->buffer;
+            unlock();
+            compassSource->updateObservers( compassSource->state );
+        }
+        else
+            unlock();
+	}
+    if( altitudeSource != NULL )
+    {
+        lock();
+        if( altitudeSource->state.time < altitudeSource->buffer.time )
+        {
+            altitudeSource->state = altitudeSource->buffer;
+            unlock();
+            altitudeSource->updateObservers( altitudeSource->state );
+        }
+        else
+            unlock();
 	}
 }
 
@@ -200,6 +263,11 @@ void GPSModule::run()
         driver->addListener( source, this );
     if( dirSource != NULL )
         driver->addListener( dirSource, this );
+    if( compassSource != NULL )
+        driver->addListener( compassSource, this );
+    if( altitudeSource != NULL )
+        driver->addListener( altitudeSource, this );
+    
     if( logFile != NULL )
         driver->addListener( this );
 	driver->getReactor()->owner(ACE_Thread::self());

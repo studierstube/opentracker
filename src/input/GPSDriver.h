@@ -69,7 +69,12 @@ public:
 /**
  * The GPSDriver class encapsulates the whole GPS and ACE framework code
  * for reading data from the GPS receiver and also supplying it with
- * correction data from a DGPSIP host.
+ * correction data from a DGPSIP host. It contains GPS parsing functionality via
+ * the GPSParser class. The data provided to listeners is the original GPS data 
+ * without any transformations such as feet to meters etc. All such operations
+ * are left to the client code.
+ *
+ * @see GPSParser on how to extend the parsing functions.
  *
  * @ingroup input
  * @author Gerhard Reitmayr
