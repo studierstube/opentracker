@@ -29,6 +29,11 @@
 #else
 #include <iostream.h>
 #endif
+#ifdef _SGI_SOURCE
+#include <sys/types.h>
+#include <sys/resource.h>
+#include <sys/prctl.h>
+#endif
 #include "multicast.h"
 
 // definitions for the Network Data protocol
@@ -82,7 +87,7 @@ void NetworkSourceModule::beginUpdate()
 {//@CODE_12994
 	if(isInitialized() && threadPID == -1 )
 	{
-		threadPID = createThread(entryThread, (void*)this, 0);
+		threadPID = createThread(NetworkSourceModule::entryThread, (void*)this, 0);
 	}
 }//@CODE_12994
 
@@ -380,7 +385,7 @@ void NetworkSourceModule::update()
 {//@CODE_13366
     semid->wait();	
     for( NetworkSourceBufferVector::iterator it = sources.begin();
-           it = sources.end(); it++ )
+           it != sources.end(); it++ )
     {
         State * state = (*it)->source->getState();
         State * buffer = (*it)->buffer;

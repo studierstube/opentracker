@@ -42,6 +42,9 @@ HFILES = \
     DOMTreeErrorReporter.h \
     CursesModule.h \
     CursesOutput.h \
+    NetworkSource.h \
+    NetworkSourceModule.h \
+    zpthread.h \
 
 C++FILES = \
     CommonNodeFactory.cxx  \
@@ -67,6 +70,9 @@ C++FILES = \
     DOMTreeErrorReporter.cxx \
     CursesModule.cxx \
     CursesOutput.cxx \
+    NetworkSource.cxx \
+    NetworkSourceModule.cxx \
+    zpthread.cxx \
 
 OFILES = $(C++FILES:.cxx=.o)
 

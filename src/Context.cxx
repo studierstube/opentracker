@@ -22,6 +22,7 @@
 
 
 //@START_USER2
+#include <unistd.h>
 //@END_USER2
 
 
@@ -153,6 +154,7 @@ void Context::run()
                 stop = 1;
             }     
         }
+        sginap(20);
     }
     for( it = activeModules.begin(); it != activeModules.end(); it++ )
     {
