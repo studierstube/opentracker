@@ -31,6 +31,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#define ACE_NLOGGING
+
 #include "../OpenTracker.h"
 #include <ace/Reactor.h>
 #include <iostream>
@@ -89,11 +91,11 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		params.databits = 8;
 		params.stopbits = 1;
 		params.parityenb = 0;
-		params.rtsenb = 1;
-		params.ctsenb = 1;
+		params.ctsenb = 0;
         params.rcvenb = 1;
-        params.dsrenb = 1;
-		result = receiver->peer().control(ACE_TTY_IO::SETPARAMS, &params );			
+        params.rtsenb = 1;
+        params.dsrenb = 0;
+		result = receiver->peer().control(ACE_TTY_IO::SETPARAMS, &params );
 		if( result != 0 )
 		{
 			receiver = NULL;
@@ -144,10 +146,10 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
         params.databits = 8;
         params.stopbits = 1;
         params.parityenb = 0;
-        params.rtsenb = 1;
-        params.ctsenb = 1;
+        params.ctsenb = 0;
         params.rcvenb = 1;
-        params.dsrenb = 1;
+        params.rtsenb = 1;
+        params.dsrenb = 0;
         result = this->rtcmdev->control(ACE_TTY_IO::SETPARAMS, &params );			
         if( result != 0 )
         {
@@ -228,12 +230,19 @@ void GPSDriver::new_line( const char * line )
 void GPSDriver::send_rtcm( const char * buffer, const int len )
 {
     if( NULL != this->rtcmdev )
+    {
+        ACE_DEBUG((LM_DEBUG, "GPSDriver::send_rtcm send to device\n"));
         rtcmdev->send_n( buffer, len );
+    }
 	else if( NULL != receiver )
+    {
+        ACE_DEBUG((LM_DEBUG, "GPSDriver::send_rtcm send to receiver\n"));
 		receiver->peer().send_n( buffer, len );
+    }
     std::vector<DGPSMirror_Handler *>::iterator it;
     for( it = clients.begin(); it != clients.end(); it ++ )
     {
+        ACE_DEBUG((LM_DEBUG, "GPSDriver::send_rtcm send to peer\n"));
         if( (*it)->peer().send_n( buffer, len ) < 0 )
         {
             (*it)->destroy();

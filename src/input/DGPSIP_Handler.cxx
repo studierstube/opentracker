@@ -1,4 +1,4 @@
-   /* ========================================================================
+    /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -30,6 +30,8 @@
   *
   * @file                                                                   */
  /* ======================================================================= */
+
+#define ACE_NLOGGING
 
 #ifdef WIN32
 #pragma warning(disable:4786)
@@ -66,6 +68,7 @@ int DGPSIP_Handler::open( void * factory )
 		result = peer().send_n( buf, ACE_OS::strlen(buf));
         peer().get_remote_addr( remoteAddr  );
 		parent->addListener( this );
+        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::open succeeded\n"));
 	}
 	return result;
 }
@@ -76,6 +79,7 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 	char buf[4*1024];
 	int cnt;	
 	while ((cnt = peer().recv( buf, sizeof(buf))) > 0) {
+        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input received %i bytes\n", cnt));
 		// this is the rtcm decoder, use for debug purposes		
 		if ( parent->getDebug() ) {
 			int i;
@@ -83,11 +87,13 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 				new_byte(buf[i]);
 			}
 		}
+        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input send to rtcm\n"));
 		// send data to GPS receiver
 		parent->send_rtcm( buf, cnt );
 	}
     if( cnt < 0 && errno != EWOULDBLOCK )  // try a reconnect !
     {
+        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input trying to reconnect..."));
         // remove ourselves from the reactor
         peer().close();
         reactor()->remove_handler(fd, ACE_Event_Handler::READ_MASK | ACE_Event_Handler::DONT_CALL );
@@ -102,12 +108,15 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
             if( i > 0 ) 
                 ACE_OS::sleep(timeout);
             DGPSIP_Handler * This = (DGPSIP_Handler *) this;
+            ACE_DEBUG((LM_DEBUG, "%i...",i));
             if( ipconnect.connect(This, remoteAddr, options ) == 0 )
                 break;
             timeout *= 2;                
         }
+        ACE_DEBUG((LM_DEBUG, "done %i\n",i));
         return i == MAX_RETRIES ? -1 : 0;
     }
+    ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input returned\n"));
 	return 0;
 }
 
@@ -120,6 +129,7 @@ void DGPSIP_Handler::newData( const GPResult * res, const char *, void * userDat
         ++counter;
         if( counter % 10 == 0)
         {
+            ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::newData send data to server\n"));
             GPGGA * point = (GPGGA *) res;
             // only send 2 digit on the wire to anonymize our position 
             ACE_OS::snprintf(rptbuf, 1024,
