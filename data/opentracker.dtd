@@ -22,14 +22,14 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.65 2003/05/07 19:09:51 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.66 2003/05/07 19:37:05 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?">
 <!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | EventEllipsoidTransform | EventGKTransform">
-<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
-<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | EventEllipsoidTransform | EventGKTransform">
+<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
+<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate | Override">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
@@ -175,13 +175,43 @@ Time prefix defines that the node implements an TimeDependend interface -->
   DEF ID #IMPLIED
   baseevent (true | false) "true"
 >
+<!ELEMENT EventDynamicPositionTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT EventDynamicOrientationTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicOrientationTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
 <!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicTransform
   DEF ID #IMPLIED
   baseevent (true | false) "true"
 >
+<!ELEMENT QueueDynamicPositionTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT QueueDynamicOrientationTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicOrientationTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
 <!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT TimeDynamicPositionTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT TimeDynamicOrientationTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicOrientationTransform
   DEF ID #IMPLIED
   baseevent (true | false) "true"
 >

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.7 2002/06/13 13:43:53 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.8 2003/05/07 19:36:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,14 +47,14 @@ StaticTransformation::StaticTransformation()
     scale[1] = 1;
     scale[2] = 1;
 	confidence = 1;
-    usePos = 0;
-    useOrient = 0;
+    usePos = false;
+    useOrient = false;
 }
 
 // constructor method.
 
 StaticTransformation::StaticTransformation(float translation_[3], float scale_[3],
-                               float rotation_[4], int usePos_, int useOrient_ )
+                               float rotation_[4], bool usePos_, bool useOrient_ )
     : Transformation(), usePos( usePos_ ), useOrient( useOrient_ )
 {
     for( int i = 0; i < 3; i ++ )

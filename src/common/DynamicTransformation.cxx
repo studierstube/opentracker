@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.16 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.17 2003/05/07 19:36:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,12 +36,12 @@
 
 // Constructor
 
-DynamicTransformation::DynamicTransformation( int baseEvent_ ) :
+DynamicTransformation::DynamicTransformation( int baseEvent_, bool usePos_, bool useOrient_ ) :
 	StaticTransformation(),
 		baseEvent( baseEvent_ )
 {
-    usePos = 1;
-    useOrient = 1;
+    usePos = usePos_;
+    useOrient = useOrient_;            
 }
 
 // this method is called by the EventGenerator to update it's observers.

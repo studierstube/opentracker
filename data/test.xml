@@ -162,4 +162,12 @@
       </ConsoleSink>
     </EventGKTransform>
   </ConsoleSink>
+  <ConsoleSink comment="DynamicTransform" active="off">
+    <EventDynamicTransform>
+      <TransformBase>
+        <Ref USE="C0"/>
+      </TransformBase>
+        <Ref USE="C1"/>
+    </EventDynamicTransform>
+  </ConsoleSink>
 </OpenTracker>

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.31 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.32 2003/05/07 19:36:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -189,7 +189,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        result =  new StaticTransformation( translation, scale, rot, 1, 0 );
+        result =  new StaticTransformation( translation, scale, rot, true, false );
     }
     else if( name.compare("EventOrientationTransform") == 0 ||
         name.compare("QueueOrientationTransform") == 0 ||
@@ -200,7 +200,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        result = new StaticTransformation( translation, scale, rot, 0, 1 );
+        result = new StaticTransformation( translation, scale, rot, false, true );
     }
     else if( name.compare("EventTransform") == 0 ||
         name.compare("QueueTransform") == 0 ||
@@ -219,7 +219,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         {
             cout << "Error parsing rotation !" << endl;
         }
-        result = new StaticTransformation( translation, scale, rot, 1, 1 );
+        result = new StaticTransformation( translation, scale, rot, true, true );
     }
     else if( name.compare("EventVirtualTransform") == 0 ||
              name.compare("QueueVirtualTransform") == 0 ||
@@ -285,7 +285,29 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             baseEvent = 1;
         else
             baseEvent = 0;
-        result = new DynamicTransformation( baseEvent );
+        result = new DynamicTransformation( baseEvent, true, true );
+    }
+    else if( name.compare("EventDynamicPositionTransform") == 0 ||
+        name.compare("QueueDynamicPositionTransform") == 0 ||
+        name.compare("TimeDynamicPositionTransform") == 0 )
+    {
+        int baseEvent;
+        if( attributes.get("baseevent").compare("true") == 0 )
+            baseEvent = 1;
+        else
+            baseEvent = 0;
+        result = new DynamicTransformation( baseEvent, true, false );
+    }
+    else if( name.compare("EventDynamicOrientationTransform") == 0 ||
+        name.compare("QueueDynamicOrientationTransform") == 0 ||
+        name.compare("TimeDynamicOrientationTransform") == 0 )
+    {
+        int baseEvent;
+        if( attributes.get("baseevent").compare("true") == 0 )
+            baseEvent = 1;
+        else
+            baseEvent = 0;
+        result = new DynamicTransformation( baseEvent, false, true );
     }
     else if( name.compare("EventInvertTransform") == 0 ||
              name.compare("QueueInvertTransform") == 0 ||

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.9 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.10 2003/05/07 19:36:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -97,7 +97,7 @@ protected:
 public:
     /** constructor method. */
     VirtualTransformation(float translation_[3], float scale_[3],
-                          float rotation_[4], int usePos_, int useOrient_ )
+                          float rotation_[4], bool usePos_, bool useOrient_ )
         : StaticTransformation(translation_, scale_, rotation_, usePos_, useOrient_ )
     {}
 

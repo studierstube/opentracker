@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.10 2002/06/13 13:43:53 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.11 2003/05/07 19:36:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -87,9 +87,9 @@ protected:
 	/// stores additional confidence value that is multiplied (used for DynamicTransforms)
 	float confidence;
     /// flag whether to compute position updates
-    int usePos;
+    bool usePos;
     /// flag whether to compute orientation updates
-    int useOrient;
+    bool useOrient;
     
     /**
      * transforms a state. Overrides the Transformation implementation
@@ -108,7 +108,7 @@ public:
      * @param scale_ sets scale
      * @param rotation_ sets rotation
      */
-    StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], int usePos_, int useOrient_);
+    StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], bool usePos_, bool useOrient_);
 
     /** returns the rotational part of the Transformation as a Quaternion.
      * @return float pointer to 4 floats containing quaternion
