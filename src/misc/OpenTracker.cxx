@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.25 2003/03/22 15:27:38 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.26 2003/03/22 15:55:48 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -192,7 +192,9 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *speechmodule );
     context.addModule( "SpeechRecoConfig", *speechmodule );
 
+#ifdef USE_P5GLOVE
     P5GloveModule *p5glovemodule = new P5GloveModule;
     context.addFactory( *p5glovemodule );
     context.addModule( "P5GloveConfig", *p5glovemodule );
+#endif
 }
