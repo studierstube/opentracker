@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.6 2001/04/17 10:40:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.7 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     cout << "Context established." << endl;
 
     // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( string(argv[1]) );
+    context.parseConfiguration( argv[1] );
     cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
 
     // initializes the modules and starts the tracker main loop

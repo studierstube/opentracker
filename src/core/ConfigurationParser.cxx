@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.9 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.10 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,7 +73,7 @@ ConfigurationParser::~ConfigurationParser()
 
 // adds a named module to the internal ModuleMap.
 
-void ConfigurationParser::addModule( string& name, Module& module)
+void ConfigurationParser::addModule(const string& name, Module& module)
 {
     modules[name] = &module;
 }
@@ -152,7 +152,7 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
 
 // This method parses an XML configuration file.
 
-Node * ConfigurationParser::parseConfigurationFile( string& filename)
+Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 {
     // read and parse configuration file
     DOMParser parser;
@@ -263,7 +263,7 @@ StringTable & ConfigurationParser::parseElement( DOM_Element& element)
 
 // removes a module with the given name from the ModuleMap
 
-void ConfigurationParser::removeModule( string& name)
+void ConfigurationParser::removeModule(const string& name)
 {
     if( modules.find(name) != modules.end())
     {

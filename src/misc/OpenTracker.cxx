@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.10 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.11 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -92,45 +92,45 @@ void OPENTRACKER_API initializeContext( Context & context )
     TestModule * test = new TestModule;
     context.addFactory( *test );
     // actually it doesn't have a configuration element
-    context.addModule( ( string)"TestConfig", *test );
+    context.addModule( "TestConfig", *test );
 
     NetworkSinkModule * networksink = new NetworkSinkModule;
     context.addFactory( *networksink );
-    context.addModule( (string)"NetworkSinkConfig", *networksink );
+    context.addModule( "NetworkSinkConfig", *networksink );
 	
     ConsoleModule * console = new ConsoleModule ;
     context.addFactory( *console );
-    context.addModule( (string)"ConsoleConfig", *console );
+    context.addModule( "ConsoleConfig", *console );
 
     NetworkSourceModule * network = new NetworkSourceModule;
     context.addFactory( * network );
-    context.addModule( (string)"NetworkSourceConfig", *network );    
+    context.addModule( "NetworkSourceConfig", *network );    
 
 #ifdef USE_ARTOOLKIT
     ARToolKitModule * artool = new ARToolKitModule;
     context.addFactory( * artool );
-    context.addModule( (string)"ARToolKitConfig", *artool );
+    context.addModule( "ARToolKitConfig", *artool );
 #endif
 
 #ifdef USE_INTERTRAX
     InterTraxModule * intertrax = new InterTraxModule;
     context.addFactory( * intertrax );
-    context.addModule( (string)"InterTraxConfig", * intertrax );
+    context.addModule( "InterTraxConfig", * intertrax );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
     WacomGraphireModule * wacom = new WacomGraphireModule;
     context.addFactory( * wacom );
-    context.addModule( (string)"WacomGraphireConfig", * wacom );
+    context.addModule( "WacomGraphireConfig", * wacom );
 #endif
 
 #ifdef USE_CYBERMOUSE
     CyberMouseModule * cmouse = new CyberMouseModule;
     context.addFactory( * cmouse );
-    context.addModule( (string)"CyberMouseConfig", * cmouse );
+    context.addModule( "CyberMouseConfig", * cmouse );
 #endif	
 
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
-    context.addModule( (string)"InterSenseConfig", * intersense );
+    context.addModule( "InterSenseConfig", * intersense );
 }

@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.8 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.9 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,7 +71,7 @@ void Context::addFactory(NodeFactory& newfactory)
 
 // adds a module to the contexts collection
 
-void Context::addModule(string& name, Module& module)
+void Context::addModule(const string& name, Module& module)
 {
     modules.push_back( &module );
     parser->addModule( name, module );
@@ -89,7 +89,7 @@ void Context::close()
 
 // parses the file and builds the tree.
 
-void Context::parseConfiguration(string& filename)
+void Context::parseConfiguration(const string& filename)
 {
     rootNode = parser->parseConfigurationFile( filename );
 }

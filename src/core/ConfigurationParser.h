@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.7 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -112,19 +112,19 @@ public:
      * @param name the elements name
      * @param module reference to the new module
      */
-    void addModule( string& name, Module& module);
+    void addModule(const string& name, Module& module);
     /**
      * This method parses an XML configuration file. It returns a Node as
      * root with all the root nodes defined in the configuration file.
      * @param filename the name and path of the configuration file
      * @return pointer to the root Node or NULL
      */
-    Node * parseConfigurationFile( string& filename);
+    Node * parseConfigurationFile(const string& filename);
     /**
      * removes a module with the given name from the ModuleMap.
      * @param name the elements name
      */
-    void removeModule( string& name);
+    void removeModule(const string& name);
 };
 
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.7 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.8 2001/04/29 16:34:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,7 +64,7 @@ protected:
 
 // Methods
 public:
-   /** a ructor method. It instantiates all known modules and factories and
+   /** a constructor method. It instantiates all known modules and factories and
     * adds them to its local containers. */
     Context();
    /** destructor method clears containers */
@@ -75,13 +75,13 @@ public:
     /** adds a module to the contexts container.
      * @param name the element name of the modules configuration element
      * @param module reference to the module */
-    void addModule(string& name, Module& module);
+    void addModule(const string& name, Module& module);
     /** calls close on all modules to close any resources.*/
     void close();
     /** This method initialies the context with a tracker tree described by
      * a configuration file. It parses the file and builds the tree.
      * @param filename the path and name of the configuration file */
-    void parseConfiguration(string& filename);
+    void parseConfiguration(const string& filename);
     /** calls pullState on all modules to get data out again.*/
     void pullStates();
     /** This method calls pushState on all modules to get new data into the
