@@ -40,8 +40,11 @@
  * in the configuration section to operate. However, it reserves the name 
  * @c ParButtonConfig as configuration element.
  *
- * See the UserPort driver on http://www.studierstube.org/opentracker/libs.html 
- * to get it working under WindowsNT/2000/XP.
+ * Some hints to get it working:
+ * @li See the UserPort driver on http://www.studierstube.org/opentracker/libs.html
+ *     to get it working under WindowsNT/2000/XP.
+ * @li Set the type of parallel port to EPP in the bios. Not ECP or EPP/ECP etc.
+ * @li Restart machine after attaching the plug for Windows OS.
  */
 
 #ifndef _PARBUTTONMODULE_H
@@ -49,15 +52,13 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
 /**
- * developer level information and implementation specifics here
+ * Implements a set of buttons triggered via the parallel port.
  *
  * @author Gerhard Reitmayr
  * @ingroup input
  */
-
-namespace ot {
-
 class OPENTRACKER_API ParButtonModule : public Module, public NodeFactory
 {
 // Members

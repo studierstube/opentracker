@@ -44,8 +44,8 @@
  * @verbatim
 <ParButtonSource dev="0x378"/>@endverbatim
  *
- * See the UserPort driver on http://www.studierstube.org/opentracker/libs.html 
- * to get it working under WindowsNT/2000/XP. 
+ * See the @ref parbuttonmodule for information on how to get it to work on different
+ * operating systems.
  */
 
 #ifndef _PARBUTTONSOURCE_H
@@ -53,15 +53,14 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 /**
  * This class implements a simple EventGenerator. It is updated by the
  * ParButtonModule.
  * @author Gerhard Reitmayr
  * @ingroup input
  */
-
-namespace ot {
-
 class OPENTRACKER_API ParButtonSource : public Node
 {
 // Members
