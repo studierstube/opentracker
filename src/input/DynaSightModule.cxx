@@ -26,7 +26,7 @@
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.cxx,v 1.1 2003/06/30 12:30:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.cxx,v 1.2 2003/07/01 14:05:30 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -35,11 +35,7 @@
 
 #include "../misc/serialcomm.h"
 
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <iostream>
 
 using namespace std;
 
@@ -204,7 +200,7 @@ void DynaSightModule::run()
     char *characterPointer;
     char newCharacter;
     bool isMarker;
-    bool packetSyncError = FALSE;
+    bool packetSyncError = false;
     // status of the state machine
     int packetState = 0;
     // number of target
@@ -259,7 +255,7 @@ void DynaSightModule::run()
                     packetBuffer[packetState++] = newCharacter;
                 }
                 else 
-                    packetSyncError = TRUE;
+                    packetSyncError = true;
                 break;
                 
             case 1:
@@ -272,7 +268,7 @@ void DynaSightModule::run()
                 {
                     // loss of synchronization -> reset
                     packetState = 0;
-                    packetSyncError = TRUE;
+                    packetSyncError = true;
                 }
                 break;
                 
@@ -282,7 +278,7 @@ void DynaSightModule::run()
                     // unexpected marker -> shift back
                     packetBuffer[0] = packetBuffer[1];
                     packetBuffer[1] = newCharacter;
-                    packetSyncError = TRUE;
+                    packetSyncError = true;
                     // leave packetState at 2;
                 }
                 else
@@ -303,7 +299,7 @@ void DynaSightModule::run()
                     // unexpected marker -> reset state machine
                     packetBuffer[0] = newCharacter;
                     packetState = 1;
-                    packetSyncError = TRUE;
+                    packetSyncError = true;
                 }
                 else
                 {
@@ -323,7 +319,7 @@ void DynaSightModule::run()
                     // unexpected marker -> reset state machine
                     packetBuffer[0] = newCharacter;
                     packetState = 1;
-                    packetSyncError = TRUE;
+                    packetSyncError = true;
                 }
                 else
                 {
