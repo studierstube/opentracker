@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-09-17 14:52  knapp
+
+	* src/common/: GroupGateNode.cxx, GroupGateNode.h:
+	
+	some improvements
+
 2003-09-15 14:15  reitmayr
 
 	* src/input/: MagicYModule.cxx, MagicYModule.h:
