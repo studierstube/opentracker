@@ -114,6 +114,19 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
+otincdir = $(includedir)/OpenTracker
+
+otnetworkincdir = $(otincdir)/network
+otnetworkinc_HEADERS = \
+		Network.h \
+		NetworkSink.h \
+		NetworkSinkModule.h \
+		NetworkSource.h \
+		NetworkSourceModule.h \
+		TCPModule.h \
+		TCPSink.h
+
+
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
 		Network.h \
@@ -164,7 +177,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libnetwork_la_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(otnetworkinc_HEADERS)
+
+DIST_COMMON = $(otnetworkinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(libnetwork_la_SOURCES)
 
 all: all-am
@@ -229,6 +244,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+otnetworkincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-otnetworkincHEADERS: $(otnetworkinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(otnetworkincdir)
+	@list='$(otnetworkinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(otnetworkincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otnetworkincdir)/$$f"; \
+	  $(otnetworkincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otnetworkincdir)/$$f; \
+	done
+
+uninstall-otnetworkincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(otnetworkinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(otnetworkincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(otnetworkincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -293,9 +326,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(otnetworkincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -339,7 +373,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-otnetworkincHEADERS
 
 install-exec-am:
 
@@ -358,7 +392,7 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-otnetworkincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLTLIBRARIES distclean \
@@ -366,11 +400,11 @@ uninstall-am: uninstall-info-am
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool tags uninstall uninstall-am \
-	uninstall-info-am
+	install-man install-otnetworkincHEADERS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-am uninstall-info-am uninstall-otnetworkincHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

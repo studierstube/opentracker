@@ -2,6 +2,27 @@
 
 include $(top_srcdir)/src/Makefile.common
 
+otcoreincdir = $(otincdir)/core
+otcoreinc_HEADERS = \
+		ConfigNode.h \
+		ConfigurationParser.h \
+		Context.h \
+		DOMTreeErrorReporter.h \
+		EventQueueImplementation.h \
+		MathUtils.h \
+		Module.h \
+		Node.h \
+		NodeFactory.h \
+		NodeFactoryContainer.h \
+		NodePort.h \
+		OSUtils.h \
+		RefNode.h \
+		State.h \
+		StringTable.h \
+		TestModule.h \
+		TestSource.h \
+		ThreadModule.h
+
 noinst_LTLIBRARIES = libcore.la
 libcore_la_SOURCES = \
 		ConfigNode.h \

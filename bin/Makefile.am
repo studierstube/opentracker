@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/src/Makefile.common
 
-BUILT_SOURCES = opentracker-config
+bin_SCRIPTS = opentracker-config
 
 noinst_PROGRAMS = opentracker ottest opentracker-config
 
@@ -16,6 +16,3 @@ ottest_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldfla
 
 opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
 	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
-
-# sources needed to be generated must be created by this rule
-built-sources: $(BUILT_SOURCES)

@@ -114,7 +114,9 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
-BUILT_SOURCES = opentracker-config
+otincdir = $(includedir)/OpenTracker
+
+bin_SCRIPTS = opentracker-config
 
 noinst_PROGRAMS = opentracker ottest opentracker-config
 
@@ -144,6 +146,8 @@ opentracker_config_LDFLAGS =
 am_ottest_OBJECTS = test.$(OBJEXT)
 ottest_OBJECTS = $(am_ottest_OBJECTS)
 ottest_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
+SCRIPTS = $(bin_SCRIPTS)
+
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -174,8 +178,7 @@ DIST_SOURCES = $(opentracker_SOURCES) opentracker-config.c \
 DIST_COMMON = Makefile.am Makefile.in
 SOURCES = $(opentracker_SOURCES) opentracker-config.c $(ottest_SOURCES)
 
-all: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .cxx .lo .o .obj
@@ -199,6 +202,26 @@ test.$(OBJEXT): $(top_srcdir)/src/misc/test.cxx
 ottest$(EXEEXT): $(ottest_OBJECTS) $(ottest_DEPENDENCIES) 
 	@rm -f ottest$(EXEEXT)
 	$(CXXLINK) $(ottest_LDFLAGS) $(ottest_OBJECTS) $(ottest_LDADD) $(LIBS)
+binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -360,9 +383,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 
 install: install-am
 install-exec: install-exec-am
@@ -388,7 +412,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
@@ -409,7 +432,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
+install-exec-am: install-binSCRIPTS
 
 install-info: install-info-am
 
@@ -426,25 +449,23 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstPROGRAMS distclean distclean-compile \
 	distclean-depend distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am info info-am install \
-	install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	tags uninstall uninstall-am uninstall-info-am
+	install-am install-binSCRIPTS install-data install-data-am \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool tags uninstall uninstall-am \
+	uninstall-binSCRIPTS uninstall-info-am
 
 
 opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
 	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
-
-# sources needed to be generated must be created by this rule
-built-sources: $(BUILT_SOURCES)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

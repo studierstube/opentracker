@@ -114,6 +114,8 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
+otincdir = $(includedir)/OpenTracker
+
 noinst_LTLIBRARIES = libintersense.la
 libintersense_la_SOURCES = \
 		isdriver.c \

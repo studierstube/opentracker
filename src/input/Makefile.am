@@ -2,6 +2,40 @@
 
 include $(top_srcdir)/src/Makefile.common
 
+otinputincdir = $(otincdir)/input
+otinputinc_HEADERS = \
+		ARTDataTrackerChomp.h \
+		ARTDataTrackerModule.h \
+		ARTDataTrackerSource.h \
+		ARToolKitModule.h \
+		ARToolKitSource.h \
+		CyberMouseModule.h \
+		CyberMouseSource.h \
+		FOBModule.h \
+		FOBSource.h \
+		FastTrakModule.h \
+		FastTrakSource.h \
+		InterSenseModule.h \
+		InterSenseSource.h \
+		JoystickModule.h \
+		JoystickSource.h \
+		ParButtonModule.h \
+		ParButtonSource.h \
+		WacomGraphireModule.h \
+		WacomGraphireSource.h \
+		SpaceMouseModule.h \
+		SpaceMouseSource.h \
+		SpeechCore.h \
+		SpeechDef.h \
+		SpeechInc.h \
+		SpeechModule.h \
+		SpeechSet.h \
+		SpeechSource.h \
+		SpeechVoice.h \
+		SpeechVoiceModule.h \
+		UltraTrakModule.h \
+		UltraTrakSource.h
+
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
 		ARTDataTrackerChomp.cxx \

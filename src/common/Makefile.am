@@ -2,6 +2,38 @@
 
 include $(top_srcdir)/src/Makefile.common
 
+otcommonincdir = $(otincdir)/common
+otcommoninc_HEADERS = \
+		ButtonFilterNode.h \
+		ButtonOpNode.h \
+		CallbackModule.h \
+		CallbackNode.h \
+		CommonNodeFactory.h \
+		ConfidenceFilterNode.h \
+		ConfidenceSelectNode.h \
+		ConsoleModule.h \
+		ConsoleSink.h \
+		ConsoleSource.h \
+		DynamicTransformation.h \
+		EventQueueNode.h \
+		File.h \
+		FileModule.h \
+		FileSink.h \
+		FileSource.h \
+		FilterNode.h \
+		InvertTransformation.h \
+		MatrixTransformation.h \
+		MergeNode.h \
+		SelectionNode.h \
+		StaticTransformation.h \
+		ThresholdFilterNode.h \
+		TimeGateNode.h \
+		TimeModule.h \
+		Transformation.h \
+		VirtualTransformation.h \
+		GroupGateModule.h \
+		GroupGateNode.h
+
 noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
 		ButtonFilterNode.cxx \

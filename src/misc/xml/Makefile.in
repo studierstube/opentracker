@@ -114,6 +114,13 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
+otincdir = $(includedir)/OpenTracker
+
+otmiscxmlincdir = $(otincdir)/misc/xml
+otmiscxmlinc_HEADERS = \
+		XMLWriter.h
+
+
 noinst_LTLIBRARIES = libxml.la
 libxml_la_SOURCES = \
 		XMLWriter.cxx \
@@ -153,7 +160,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libxml_la_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(otmiscxmlinc_HEADERS)
+
+DIST_COMMON = $(otmiscxmlinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(libxml_la_SOURCES)
 
 all: all-am
@@ -216,6 +225,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+otmiscxmlincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-otmiscxmlincHEADERS: $(otmiscxmlinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(otmiscxmlincdir)
+	@list='$(otmiscxmlinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(otmiscxmlincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otmiscxmlincdir)/$$f"; \
+	  $(otmiscxmlincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otmiscxmlincdir)/$$f; \
+	done
+
+uninstall-otmiscxmlincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(otmiscxmlinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(otmiscxmlincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(otmiscxmlincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -280,9 +307,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(otmiscxmlincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -326,7 +354,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-otmiscxmlincHEADERS
 
 install-exec-am:
 
@@ -345,7 +373,7 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-otmiscxmlincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLTLIBRARIES distclean \
@@ -353,11 +381,11 @@ uninstall-am: uninstall-info-am
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool tags uninstall uninstall-am \
-	uninstall-info-am
+	install-man install-otmiscxmlincHEADERS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-am uninstall-info-am uninstall-otmiscxmlincHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -114,6 +114,41 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
+otincdir = $(includedir)/OpenTracker
+
+otcommonincdir = $(otincdir)/common
+otcommoninc_HEADERS = \
+		ButtonFilterNode.h \
+		ButtonOpNode.h \
+		CallbackModule.h \
+		CallbackNode.h \
+		CommonNodeFactory.h \
+		ConfidenceFilterNode.h \
+		ConfidenceSelectNode.h \
+		ConsoleModule.h \
+		ConsoleSink.h \
+		ConsoleSource.h \
+		DynamicTransformation.h \
+		EventQueueNode.h \
+		File.h \
+		FileModule.h \
+		FileSink.h \
+		FileSource.h \
+		FilterNode.h \
+		InvertTransformation.h \
+		MatrixTransformation.h \
+		MergeNode.h \
+		SelectionNode.h \
+		StaticTransformation.h \
+		ThresholdFilterNode.h \
+		TimeGateNode.h \
+		TimeModule.h \
+		Transformation.h \
+		VirtualTransformation.h \
+		GroupGateModule.h \
+		GroupGateNode.h
+
+
 noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
 		ButtonFilterNode.cxx \
@@ -233,7 +268,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libcommon_la_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(otcommoninc_HEADERS)
+
+DIST_COMMON = $(otcommoninc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(libcommon_la_SOURCES)
 
 all: all-am
@@ -318,6 +355,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+otcommonincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-otcommonincHEADERS: $(otcommoninc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(otcommonincdir)
+	@list='$(otcommoninc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(otcommonincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otcommonincdir)/$$f"; \
+	  $(otcommonincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otcommonincdir)/$$f; \
+	done
+
+uninstall-otcommonincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(otcommoninc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(otcommonincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(otcommonincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -382,9 +437,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(otcommonincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -428,7 +484,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-otcommonincHEADERS
 
 install-exec-am:
 
@@ -447,7 +503,7 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-otcommonincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLTLIBRARIES distclean \
@@ -455,11 +511,11 @@ uninstall-am: uninstall-info-am
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool tags uninstall uninstall-am \
-	uninstall-info-am
+	install-man install-otcommonincHEADERS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-am uninstall-info-am uninstall-otcommonincHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

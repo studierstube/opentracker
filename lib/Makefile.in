@@ -129,7 +129,7 @@ libOpenTracker_la_LIBADD = \
 
 
 libOpenTracker_la_LDFLAGS = \
-        -no-undefined -avoid-version \
+        -no-undefined -version-info 0:1:0 \
         @stb_ac_ace_rpath@ \
         @stb_ac_artoolkit_rpath@ \
         @stb_ac_xerces_rpath@
@@ -331,9 +331,6 @@ uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES
 
 
 include $(top_builddir)/src/Makefile.common
-
-all: all-am
-	cp -pv .libs/*.so .
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

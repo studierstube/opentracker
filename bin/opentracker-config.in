@@ -8,69 +8,49 @@
 #     shell script to retrieve config options for OpenTracker
 #
 
-prefix=/usr
-exec_prefix=/usr
-exec_prefix_set=no
+program="$0"
+me=`echo "$0" | sed 's,^.*[/\\],,g'`
+wd=`echo "$0" | sed 's,/[^/]*$,,'`
+prefix=`cd "$wd/.."; pwd`
 
 usage="\
-Usage: opentracker-config [--prefix[=DIR]] [--exec-prefix[=DIR]] [--version] \
-[--have-feature <featurename>] [--libs] [--cxxflags] [--ldflags]"
+Usage: $me [OPTIONS]
+Options:
+  --version
+  --have-feature <featurename> 
+  --cxxflags
+  --ldflags
+  --libs"
 
 if test $# -eq 0 ; then
 	echo "${usage}" 1>&2
 	exit 1
 fi
 
+# never changing facts
+OTLIBS=-lOpenTracker
+OTINCS=-I$prefix/include/OpenTracker
+OTLDFLAGS=-L$prefix/lib
+
 # features indicators determined during configure
 have_speech=@HAVE_FEATURE_SAPISPEECH@
 have_artoolkit=@HAVE_FEATURE_ARTOOLKIT@
 have_joystick=@HAVE_FEATURE_JOYSTICK@
 
-while test $# -gt 0 ; do
-	case "$1" in
-	-*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
-	*) optarg= ;;
-	esac
-
-	case $1 in
-	--prefix=*)
-		prefix=$optarg
-		if test $exec_prefix_set = no ; then
-			exec_prefix=$optarg
-		fi
-	;;
-	--prefix)
-		echo $prefix
-	;;
-	--exec-prefix=*)
-		exec_prefix=$optarg
-		exec_prefix_set=yes
-	;;
-	--exec-prefix)
-		echo $exec_prefix
-	;;
-	--version)
-		echo @OT_VERSION@
-	;;
-	--cxxflags)
-		echo @CXXFLAGS@
-	;;
-	--ldflags)
-		echo @LDFLAGS@
-	;;
-	--libs)
-		echo @LIBS@
-	;;
+while test $# -gt 0
+do
+  case $1 in    
+	--version)  echo @OT_VERSION@          ;;
+	--cxxflags)	echo $OTINCS @CXXFLAGS@    ;;
+	--ldflags)	echo $OTLDFLAGS @LDFLAGS@  ;;
+	--libs) 	echo $OTLIBS @LIBS@        ;;
 	--have-feature)
 		exitcode=1
 		feature="`echo $2 | tr '-' '_'`"
 		eval "test x\${have_$feature} = x1 && exitcode=0"
 		exit $exitcode
 	;;
-	*)
-		echo "${usage}" 1>&2
-		exit 1
-	;;
+	*) echo "${usage}" 1>&2; exit 1 ;;
 	esac
 	shift
 done

@@ -2,9 +2,6 @@
 
 include $(top_builddir)/src/Makefile.common
 
-all: all-am
-	cp -pv .libs/*.so .
-
 LIBS = \
         @CURSES_LIBS@ \
 		@stb_ac_ace_ldflags@ @stb_ac_ace_libs@ \
@@ -24,7 +21,7 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/extras/intersense/unix/libintersense.la
 
 libOpenTracker_la_LDFLAGS = \
-        -no-undefined -avoid-version \
+        -no-undefined -version-info 0:1:0 \
         @stb_ac_ace_rpath@ \
         @stb_ac_artoolkit_rpath@ \
         @stb_ac_xerces_rpath@

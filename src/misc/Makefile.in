@@ -114,7 +114,14 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
+otincdir = $(includedir)/OpenTracker
+
 SUBDIRS = xml
+
+otmiscincdir = $(otincdir)/misc
+otmiscinc_HEADERS = \
+		serialcomm.h
+
 
 noinst_LTLIBRARIES = libmisc.la
 libmisc_la_SOURCES = \
@@ -157,12 +164,14 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libmisc_la_SOURCES)
+HEADERS = $(otmiscinc_HEADERS)
+
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = Makefile.am Makefile.in
+DIST_COMMON = $(otmiscinc_HEADERS) Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(libmisc_la_SOURCES)
 
@@ -227,6 +236,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+otmiscincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-otmiscincHEADERS: $(otmiscinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(otmiscincdir)
+	@list='$(otmiscinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(otmiscincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otmiscincdir)/$$f"; \
+	  $(otmiscincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(otmiscincdir)/$$f; \
+	done
+
+uninstall-otmiscincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(otmiscinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(otmiscincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(otmiscincdir)/$$f; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -364,9 +391,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(otmiscincdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -410,7 +438,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-otmiscincHEADERS
 
 install-exec-am:
 
@@ -429,7 +457,7 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-otmiscincHEADERS
 
 uninstall-info: uninstall-info-recursive
 
@@ -441,13 +469,14 @@ uninstall-info: uninstall-info-recursive
 	info-recursive install install-am install-data install-data-am \
 	install-data-recursive install-exec install-exec-am \
 	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	mostlyclean-recursive tags tags-recursive uninstall \
-	uninstall-am uninstall-info-am uninstall-info-recursive \
+	install-info-recursive install-man install-otmiscincHEADERS \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	uninstall-info-recursive uninstall-otmiscincHEADERS \
 	uninstall-recursive
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
