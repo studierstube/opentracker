@@ -22,21 +22,21 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for FOBModule module.
+/** header file for ParButton module.
   *
-  * @author
+  * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.3 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.h,v 1.1 2001/08/04 18:07:31 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section fobmodule FOBModule (Flock of Birds)
+ * @section parbuttonmodule ParButtonModule (Parallel Button Input)
  * 
  * User guide description of what it does here
  * list of configuration attributes :
-  *
+ *
  * @li @c id a unique id to identify the tracker, this the same as the id 
  *           attribute of the @ref intersensesource nodes.
  * @li @c comport the serial port the tracker is connected to. If 0 then
@@ -53,45 +53,29 @@
  * more advanced configuration options in the future.
  */
 
-#ifndef _FOBMODULE_H
-#define _FOBMODULE_H
+#ifndef _PARBUTTONMODULE_H
+#define _PARBUTTONMODULE_H
 
 #include "../OpenTracker.h"
 
 /**
  * developer level information and implementation specifics here
  *
- * @author 
+ * @author Gerhard Reitmayr
  * @ingroup input
  */
-class OPENTRACKER_API FOBModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API ParButtonModule : public Module, public NodeFactory
 {
 // Members
 protected:
-
-// Methods
-protected:
-    /** this method is the code executed in its own thread, see
-     * ARToolKitModule for an example of such a module. */
-    virtual void run();
-
+    /// maps devices to nodes
+    std::map<std::string, Node *> nodes;
 public:
     /** constructor method. */
-    FOBModule() : 
-        ThreadModule(), 
+    ParButtonModule() : 
+        Module(), 
         NodeFactory()        
-    { 
-    }
-    /** Destructor method, clears nodes member. */
-    virtual ~FOBModule();
-    /**
-     * initializes the tracker module. For each configured tracker it
-     * allocates an ISTracker structure and initializes the tracker.
-     * @param attributes StringTable of elements attribute values. Should be
-     *        possibly , but is not for convenience.
-     * @param localTree pointer to root of configuration nodes tree
-     */
-    virtual void init(StringTable& attributes,  ConfigNode * localTree);
+    {}
     /** This method is called to construct a new Node. It compares
      * name to the InterTraxSource element name, and if it matches
      * creates a new InterTraxSource node.
@@ -100,14 +84,12 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);    
-    
-    virtual void start();
 	/**
-     * closes InterSense library */
+     * closes devices */
     virtual void close();
     /**
-     * pushes events into the tracker tree. Checks all trackers for new data
-     * and fires the InterSenseSources, if new data is present.
+     * pushes events into the tracker tree. Tries to read data from the
+     * opened parallel ports and passes the events on.
      */
     virtual void pushState();
 };

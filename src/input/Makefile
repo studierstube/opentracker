@@ -23,7 +23,9 @@ HFILES = \
 	InterSenseSource.h \
 	InterSenseModule.h \
         FOBModule.h \
-        FOBSource.h
+        FOBSource.h \
+        ParButtonSource.h \
+        ParButtonModule.h
         
 C++FILES = \
         ARToolKitModule.cxx \
@@ -31,7 +33,8 @@ C++FILES = \
         InterTraxModule.cxx \
         WacomGraphireModule.cxx \
 	InterSenseModule.cxx \
-        FOBModule.cxx
+        FOBModule.cxx \
+        ParButtonModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
