@@ -70,6 +70,7 @@ AS = @AS@
 AWK = @AWK@
 CC = @CC@
 CPP = @CPP@
+CPPFLAGS = @CPPFLAGS@
 CURSES_INCLUDEDIR = @CURSES_INCLUDEDIR@
 CURSES_LIBS = @CURSES_LIBS@
 CXX = @CXX@
@@ -151,7 +152,6 @@ SCRIPTS = $(bin_SCRIPTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
-CPPFLAGS = @CPPFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/main.Po \
@@ -466,6 +466,7 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 
 opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
 	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
+	chmod 755 opentracker-config
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

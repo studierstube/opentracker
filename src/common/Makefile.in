@@ -70,6 +70,7 @@ AS = @AS@
 AWK = @AWK@
 CC = @CC@
 CPP = @CPP@
+CPPFLAGS = @CPPFLAGS@
 CURSES_INCLUDEDIR = @CURSES_INCLUDEDIR@
 CURSES_LIBS = @CURSES_LIBS@
 CXX = @CXX@
@@ -225,7 +226,6 @@ libcommon_la_OBJECTS = $(am_libcommon_la_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
-CPPFLAGS = @CPPFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ButtonFilterNode.Plo \

@@ -18,14 +18,10 @@ Usage: $me [OPTIONS]
 Options:
   --version
   --have-feature <featurename> 
-  --cxxflags
+  --cppflags
   --ldflags
-  --libs"
-
-if test $# -eq 0 ; then
-	echo "${usage}" 1>&2
-	exit 1
-fi
+  --libs
+  --usage | --help"
 
 # never changing facts
 OTLIBS=-lOpenTracker
@@ -40,8 +36,9 @@ have_joystick=@HAVE_FEATURE_JOYSTICK@
 while test $# -gt 0
 do
   case $1 in    
+    --usage | --help)  echo "$usage"       ;;
 	--version)  echo @OT_VERSION@          ;;
-	--cxxflags)	echo $OTINCS @CXXFLAGS@    ;;
+	--cppflags)	echo $OTINCS @CPPFLAGS@    ;;
 	--ldflags)	echo $OTLDFLAGS @LDFLAGS@  ;;
 	--libs) 	echo $OTLIBS @LIBS@        ;;
 	--have-feature)
@@ -50,8 +47,12 @@ do
 		eval "test x\${have_$feature} = x1 && exitcode=0"
 		exit $exitcode
 	;;
-	*) echo "${usage}" 1>&2; exit 1 ;;
-	esac
-	shift
+	*)
+      echo >&2 "$me: Invalid option: \"$1\""
+      echo >&2 "$usage"
+      exit 1
+      ;;
+  esac
+  shift
 done
 

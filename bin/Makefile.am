@@ -16,3 +16,4 @@ ottest_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldfla
 
 opentracker-config$(EXEEXT): $(top_builddir)/config.status opentracker-config.in
 	@$(SHELL) $(top_builddir)/config.status --file=$@:opentracker-config.in
+	@chmod 755 opentracker-config
