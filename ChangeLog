@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-08-14 13:36  tamer
+
+	* src/input/DynaSightModule.cxx:
+	
+	define TRUE, FALSE in case they are not defined.
+
 2003-08-12 10:49  reitmayr
 
 	* src/input/DynaSightModule.cxx, src/input/DynaSightModule.h,
