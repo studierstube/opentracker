@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header1$
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.6 2001/03/27 05:35:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

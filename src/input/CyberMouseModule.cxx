@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.cxx,v 1.3 2001/03/27 05:35:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -168,7 +168,7 @@ void CyberMouseModule::pushState()
         //middle button = 1, second button = 2, both = 3
         source->state.button = (FREED_Info.Status & 0x3);
         source->state.timeStamp();
-        source->push();
+        source->updateObservers( source->state );
     }
 }
 

@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.3 2001/03/27 05:35:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -32,7 +32,7 @@
  * the tracker tree according to the nodes configuration.
  * @author Ivan Viola, Matej Mlejnek
  */
-class CyberMouseModule : public Module, public NodeFactory
+class OPENTRACKER_API CyberMouseModule : public Module, public NodeFactory
 {
 // Members
 protected:

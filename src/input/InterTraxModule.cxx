@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.3 2001/03/27 05:35:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -95,7 +95,7 @@ void InterTraxModule::pushState()
             source->state.orientation[2] = quat[2];
             source->state.orientation[3] = quat[3];
             source->state.timeStamp();
-            source->push();
+            source->updateObservers( source->state );
         }
     }
 }

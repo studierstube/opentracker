@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.1 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.2 2001/03/27 05:35:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,7 +39,7 @@
  * regular intervals and updates any EventObservers. 
  * @author Ivan Viola, Matej Mlejnek
  */
-class CyberMouseSource : public Node, public EventGenerator
+class OPENTRACKER_API CyberMouseSource : public Node
 {
 // Members
 public: 
@@ -49,23 +49,15 @@ public:
 // Methods
 public:
     /** simple constructor, sets members to initial values */
-    CyberMouseSource() : 
-        Node(),
-	EventGenerator()
+    CyberMouseSource() : Node()
     {};
         
     /** tests for EventGenerator interface being present. Is overriden to
-     * return this always.
-     * @return always this */
-    EventGenerator * isEventGenerator()
+     * return 1 always.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-        return this;
-    }
-    /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator */
-    void push()
-    {
-        updateObservers( state );
+        return 1;
     }
 };
 

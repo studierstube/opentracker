@@ -202,7 +202,7 @@ void WacomGraphireModule::pushState()
                 source->state.position[2] = prsNew; 
                 source->state.button = butNew;
                 source->state.timeStamp();
-                source->push();
+                source->updateObservers( source->state );
             }
         }
     }
