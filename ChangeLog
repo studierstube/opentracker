@@ -1,0 +1,109 @@
+ChangeLog
+=========
+
+This is the ChangeLog file for OpenTracker. This file is automatically
+generated. Entries are in reversed chronological order.
+
+See http://www.red-bean.com/cvs2cl/ for information about the
+cvs2cl script used to generate this file.
+
+============================================================================
+
+2003-01-13 11:51  bara
+
+	* src/: OpenTracker.h, input/InterSenseModule.cxx,
+	input/SpeechCore.h, input/SpeechSet.h, input/SpeechVoice.h,
+	input/SpeechVoiceModule.h:
+	
+	fixed some include paths to make it work under windows again<br>
+	removed the double inclusion of config*.h
+
+2003-01-09 21:39  tamer
+
+	* configure.ac:
+	
+	build system fix for optional artoolkit handling.
+
+2003-01-09 05:17  tamer
+
+	* COPYING, LICENSE.txt:
+	
+	renamed LICENSE.txt to COPYING.
+
+2003-01-09 05:15  tamer
+
+	* config.h:
+	
+	removed now obsolete file. autocreated by the configure build
+	machinery.
+
+2003-01-09 05:14  tamer
+
+	* AUTHORS, COPYING, Config.Irix, Config.Linux, Config.global,
+	Makefile, Makefile.am, NEWS, README, README.TXT, bootstrap,
+	config_win.h, configure.ac, opentracker_env.sh, bin/Makefile.am,
+	cfg/depcomp, cfg/m4/ac_cxx_have_std.m4, cfg/m4/ac_cxx_have_stl.m4,
+	cfg/m4/ac_cxx_namespaces.m4, cfg/m4/ac_cxx_typename.m4,
+	cfg/m4/ace.m4, cfg/m4/artoolkit.m4,
+	cfg/m4/configuration_summary.m4, cfg/m4/curses.m4,
+	cfg/m4/libtool.m4, cfg/m4/sogtk.m4, cfg/m4/soqt.m4,
+	cfg/m4/sowin.m4, cfg/m4/soxt.m4, cfg/m4/xerces.m4, extras/Makefile,
+	extras/Makefile.am, extras/intersense/Makefile.am,
+	extras/intersense/unix/Makefile,
+	extras/intersense/unix/Makefile.am, lib/Makefile.am, src/Makefile,
+	src/Makefile.am, src/Makefile.common, src/OpenTracker.h,
+	src/dllinclude.h, src/common/CallbackModule.cxx,
+	src/common/CommonNodeFactory.cxx, src/common/ConsoleModule.cxx,
+	src/common/DynamicTransformation.cxx,
+	src/common/EventQueueNode.cxx, src/common/File.h,
+	src/common/FileModule.cxx, src/common/GroupGateModule.cxx,
+	src/common/GroupGateNode.cxx, src/common/Makefile,
+	src/common/Makefile.am, src/common/TimeModule.cxx,
+	src/core/ConfigurationParser.cxx,
+	src/core/DOMTreeErrorReporter.cxx, src/core/DOMTreeErrorReporter.h,
+	src/core/Makefile, src/core/Makefile.am, src/core/Node.cxx,
+	src/core/OSUtils.cxx, src/core/TestModule.cxx,
+	src/input/ARTDataTrackerChomp.cxx,
+	src/input/ARTDataTrackerModule.cxx, src/input/ARToolKitModule.cxx,
+	src/input/FOBModule.cxx, src/input/FastTrakModule.cxx,
+	src/input/InterSenseModule.cxx, src/input/JoystickModule.cxx,
+	src/input/JoystickSource.h, src/input/Makefile,
+	src/input/Makefile.am, src/input/ParButtonModule.cxx,
+	src/input/SpeechCore.cxx, src/input/SpeechCore.h,
+	src/input/SpeechModule.cxx, src/input/SpeechSet.cxx,
+	src/input/SpeechSet.h, src/input/SpeechSource.cxx,
+	src/input/SpeechVoice.cxx, src/input/SpeechVoice.h,
+	src/input/SpeechVoiceModule.cxx, src/input/SpeechVoiceModule.h,
+	src/input/UltraTrakModule.cxx, src/misc/Makefile,
+	src/misc/Makefile.am, src/misc/main.cxx, src/misc/test.cxx,
+	src/misc/xml/Makefile, src/misc/xml/Makefile.am,
+	src/misc/xml/XMLWriter.cxx, src/misc/xml/XMLWriter.h,
+	src/network/Makefile, src/network/Makefile.am,
+	src/network/NetworkSinkModule.cxx,
+	src/network/NetworkSourceModule.cxx, src/network/TCPModule.cxx,
+	src/network/TCPModule.h:
+	
+	- Changed Opentracker build system to the GNU configure machinery. 
+	- renamed config.h to config_win.h and made the appropriate changes
+	in the src files   in regard to windows.  - cleanups for gcc3 to
+	compile without warnings.    (gcc3 is agreed to be the default
+	compiler for unix - so no more #ifdef's needed to     handle
+	special #include cases)  - configure options:	checks for curses
+	by default - can let it work for any unix curses implementation  
+	with some #ifdef's if ever needed (ncurses is our friend!)  
+	--enable-speech 	enable the Speech recognition (default=no) 
+	 --enable-joystick	 enable the use of joysticks (default=no)  
+	--with-ace=DIR		give prefix location of ACE  
+	--with-xerces=DIR	give prefix location of Xerces	
+	--with-artoolkit=DIR	give prefix location of ARToolkit (<- this
+	is optional but 						   
+		 issues a warning if missing) - added opentracker_env.sh to
+	allow easy setting of the environment variables   call it like .
+	./opentracker_env.sh from your shell - configure style is like the
+	studierstube intree. no install targets have been   specified.
+	(i.e. no need to call make install afterwards, you work in the	
+	source tree and the lib gets built in ./lib) - intersense driver
+	for unix is built in by default as part of libOpenTracker - after a
+	succesful build you will find 2 test applications in ./bin (main &&
+	test) - have fun! :)
+
