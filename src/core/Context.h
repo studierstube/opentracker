@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.14 2003/07/18 15:17:14 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.15 2003/07/28 12:56:22 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -85,7 +85,7 @@ protected:
     /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
     NodeFactoryContainer factory;
     /// flag to remember whether the Context is responsible for cleaning up the modules.
-    int cleanUp;
+    bool cleanUp;
     /// stores the filename of the current configuration.
     std::string file;
     /// stores a stack of directory names to search for files in
@@ -125,7 +125,16 @@ public:
      * @param reference to the module */
     void removeModule(Module & module);
 
-
+    /** This method creates a new node based on a given element name and 
+     * a table of attributes. It will delegate the construction to the
+     * stored NodeFactory list and return a new Node, if one of the
+     * factories can create the desired type. Otherwise it returns NULL.
+     * It makes sure that the node is associated with this context, therefore
+     * this is the only way to create new nodes for the user.
+     * @param name the name of the element 
+     * @param attributes a StringTable containing the attributes of the element
+     * @return pointer to the new node or NULL
+     */
     Node * createNode(const std::string & name, StringTable & attributes);
 
     /** returns the root node, that contains the tracker tree. This node

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.25 2003/07/18 15:17:14 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.26 2003/07/28 12:56:22 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -49,15 +49,17 @@ using namespace std;
 
 // constructor method.
 
-Context::Context( int init )
+Context::Context( int init ) :
+    rootNode( NULL ),
+    cleanUp( false )
 {
     if( init != 0 )
     {
         initializeContext( *this );
-        cleanUp = 1;
+        cleanUp = true;
     }
     else {
-        cleanUp = 0;
+        cleanUp = false;
     }
     directories.push_back(".");
     xmlspace = "";
@@ -66,7 +68,7 @@ Context::Context( int init )
 // Destructor method.
 Context::~Context()
 {
-    if( cleanUp == 1 )
+    if( cleanUp )
     {
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
