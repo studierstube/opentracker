@@ -58,7 +58,7 @@ void CSpeechVoice::Initialize()
 void CSpeechVoice::Destroy()
 {
   // Release all voice tokens
-  for(int i = 0; i < m_VoiceToken.size(); ++i)
+  for(unsigned int i = 0; i < m_VoiceToken.size(); ++i)
     m_VoiceToken[i].Release();
 
   // Release voice, if created
@@ -104,7 +104,7 @@ void CSpeechVoice::SetVoice(const char *p_Name)
   if(!m_Voice)
     return;
 
-  for(int i = 0; i < m_VoiceName.size(); ++i)
+  for(unsigned int i = 0; i < m_VoiceName.size(); ++i)
     if(!strcmp(m_VoiceName[i].c_str(), p_Name))
     {
       SetVoice(i);
@@ -150,7 +150,7 @@ void CSpeechVoice::GetVoices()
     throw CSpeechException("Unable to count Speakers");
   
   // Obtain a list of available voice tokens, set the voice to the token, and call Speak
-  for(int i = 0; i < Count; ++i)
+  for(unsigned int i = 0; i < Count; ++i)
   {
     VoiceToken.Release();
     hr = Enum->Item(i, &VoiceToken);

@@ -34,7 +34,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#include <memory>
 #include <algorithm>
 
 #include <xercesc/dom/DOM.hpp>

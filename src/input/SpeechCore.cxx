@@ -250,7 +250,7 @@ SpeechSetBase* CSpeechCore::GetSpeechSet(const char *p_Name, bool p_Create)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!strcmp(m_SpeechSets[i]->GetName(), p_Name))
       return(m_SpeechSets[i]);
@@ -271,7 +271,7 @@ SpeechSetBase* CSpeechCore::GetSpeechSet(DWORD p_Id)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(m_SpeechSets[i]->GetId() == p_Id)
       return(m_SpeechSets[i]);
@@ -317,7 +317,7 @@ SpeechSetBase* CSpeechCore::FindSpeechSet(const char *p_Command, bool p_Active)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!p_Active || m_SpeechSets[i]->IsActive())
       if(m_SpeechSets[i]->IsCommandRegistered(p_Command))
@@ -332,7 +332,7 @@ SpeechSetBase* CSpeechCore::FindSpeechSet(DWORD p_CommandId, bool p_Active)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!p_Active || m_SpeechSets[i]->IsActive())
       if(m_SpeechSets[i]->IsCommandIdRegistered(p_CommandId))
@@ -396,7 +396,7 @@ bool CSpeechCore::GetReco(string &p_Result, string &p_SpeechSet)
   if(!m_Initialized)
     return(false);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(m_SpeechSets[i]->GetReco(p_Result))
     {

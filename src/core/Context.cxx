@@ -40,7 +40,6 @@
 #include <ace/OS.h>
 #include <ace/FILE.h>
 
-#include <memory>
 #include <algorithm>
 
 XERCES_CPP_NAMESPACE_USE;
@@ -164,8 +163,9 @@ void Context::parseConfiguration(const string& filename)
 
     const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
     if (xmlspace != NULL) {
-        auto_ptr<char> temp(XMLString::transcode( xmlspace ));
-        rootNamespace = temp.get();
+        char * tempName = XMLString::transcode( xmlspace );
+        rootNamespace = tempName;
+        XMLString::release( &tempName );
     }
     else {
         rootNamespace = "";

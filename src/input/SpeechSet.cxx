@@ -227,7 +227,7 @@ const char* CSpeechSet::GetName()
 
 bool CSpeechSet::IsCommandRegistered(const char *p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
       return(true);
@@ -238,7 +238,7 @@ bool CSpeechSet::IsCommandRegistered(const char *p_Command)
 
 bool CSpeechSet::IsCommandIdRegistered(DWORD p_CommandId)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
       return(true);
@@ -249,7 +249,7 @@ bool CSpeechSet::IsCommandIdRegistered(DWORD p_CommandId)
 
 long CSpeechSet::GetCommandId(const char *p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
       return(m_RegisteredCommands[i].m_CommandId);
@@ -260,7 +260,7 @@ long CSpeechSet::GetCommandId(const char *p_Command)
 
 bool CSpeechSet::GetCommand(DWORD p_CommandId, std::string &p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
     {
@@ -385,7 +385,7 @@ void CSpeechSet::RebuildRule()
     throw CSpeechException("Unable to clear Rule");
   }
 
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     CSpeechCore::StrToWide(m_RegisteredCommands[i].m_Command.c_str(), wCommand);
     CSpeechCore::StrToWide(m_RegisteredCommands[i].m_Seperator.c_str(), wSeperator);

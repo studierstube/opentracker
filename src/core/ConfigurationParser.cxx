@@ -41,7 +41,6 @@
 #include "RefNode.h"
 
 #include <iostream>
-#include <memory>
 
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
