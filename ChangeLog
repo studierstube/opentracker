@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-06 15:46  reitmayr
+
+	* src/common/DynamicTransformation.h:
+	
+	doc update
+
 2003-11-05 12:02  tamer
 
 	* src/: common/ButtonFilterNode.cxx, input/GPSDriver.cxx:
