@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.10 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.11 2003/08/08 15:17:33 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -104,9 +104,9 @@ void TestModule::pushState()
 
 void TestSource::push(void)
 {
-    perturbed.timeStamp();
     if( noise > 0 )
     {
+        perturbed.timeStamp();
         int i;
         for( i = 0; i < 3; i++ )
         {
@@ -121,7 +121,12 @@ void TestSource::push(void)
             perturbed.orientation[1] = -perturbed.orientation[1];
             perturbed.orientation[2] = -perturbed.orientation[2];
             perturbed.orientation[3] = -perturbed.orientation[3];
-        }        
+        }
+        updateObservers( perturbed );
     }
-    updateObservers( perturbed );
+    else
+    {
+        state.timeStamp();
+        updateObservers( state );
+    }
 }
