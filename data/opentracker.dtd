@@ -454,8 +454,8 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   size CDATA #REQUIRED
 >
 <!-- video source elements for ARToolPlusKit library-->
-<!ELEMENT ARToolPlusKitConfig EMPTY>
-<!ATTLIST ARToolPlusKitConfig
+<!ELEMENT ARToolKitPlusConfig EMPTY>
+<!ATTLIST ARToolKitPlusConfig
   camera-parameter CDATA #REQUIRED
   treshhold CDATA "100"
   flipX CDATA "false"
