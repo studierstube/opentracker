@@ -1,0 +1,67 @@
+
+
+Instructions on including Modules for 3Dconnexion SpaceMouse (Plus USB) in OpenTracker:
+
+1.Step: Install the 3Dxware sdk
+	Installation to <3dxwaresdkpath>
+
+
+2.Step: Recompiling SIAPP.LIB
+	Open "<3dxwaresdkpath>\lib\siapp\siapp32.dsw" in MS VisualStudio.
+	Change Menu "Project/Settings.../All Configurations/Library/Output file name:" to ".\..\siapp.lib".
+	Remove "siapp.c" from source files list.
+	Rename "<3dxwaresdkpath>\lib\siapp\src\siapp.c" to "<3dxwaresdkpath>\lib\siapp\src\siapp.cxx" .
+	Add "<3dxwaresdkpath>\lib\siapp\src\siapp.cxx" to source files list.
+
+	Changes to "<3dxwaresdkpath>\lib\siapp\src\siapp.h":
+		change type of parameter "mode" in typedef of "(WINAPI *PFNSI_OPEN)" to sint32_t
+		change typedef of "(WINAPI *PFNSI_GETEVENT)" to  sint32_t
+		change type of parameter "flag" in typedef of "(WINAPI *PFNSI_GETEVENT)" to sint32_t
+		change typedef of "(WINAPI *PFNSI_BUTTONPRESSED)" to  sint32_t
+		change typedef of "(WINAPI *PFNSI_BUTTONRELEASED)" to  sint32_t
+		change typedef of "(WINAPI *PFNSI_SETUIMODE)" to  sint32_t
+		change return type of declaration of "SiSetInitialize()" to sint32_t
+		change type of parameter "mode" in declaration of "SiOpen()" to sint32_t
+		change return type of declaration of "SiGetEvent()" to sint32_t
+		change type of parameter "flag" in declaration of "SiGetEvent()" to sint32_t
+		change return type of declaration of "SiButtonPressed()" to sint32_t
+		change return type of declaration of "SiButtonReleased()" to sint32_t
+		change return type of declaration of "SiSetUiMode()" to sint32_t
+
+	Changes to "<3dxwaresdkpath>\lib\siapp\src\siapp.cxx":
+		change return type of "SiSetInitialize()" to sint32_t
+		change type of parameter "mode" in definition of "SiOpen()" to sint32_t
+		change return type of "SiGetEvent()" to "sint32_t"
+		change type of "tmpRetVal" in "SiGetEvent()" to sint32_t
+		change return type of "SiButtonPressed()" to sint32_t
+		change return type of "SiButtonReleased()" to sint32_t
+		change return type of "SiSetUiMode()" to "sint32_t"
+		change type of "tmpRetVal" in "SiSetUiMode()" to sint32_t
+
+	Build the library.
+
+	If any additional calls to functions of the siapp-library are needed in "SpaceMouseModule.cxx" 
+	of OpenTracker, compare and change declarations and definitions of these functions in 
+	"siapp.cxx" and "siapp.h" in "<3dxwaresdkpath>\lib\siapp\src\"
+	accordingly to the 
+	"<3dxwaresdkpath>\inc\siapp.h" include-file declarations (see above)
+	and rebuild the library.
+
+	Copy "<3dxwaresdkpath>\lib\spwmath\bin\win32i\release\spwmath.lib" to 
+	"<3dxwaresdkpath>\lib".
+
+
+3.Step: Building OpenTracker with SpaceMouse modules
+	Open opentracker.dsw in MS VisualStudio.
+	Uncomment the following line in "<OTROOT>\config.h: 
+		#define USE_SPACEMOUSE 1
+
+	In menu "Project/Settings..."
+		add "OS_WIN32" to the preprocessor definitions in the "C/C++"-Tab,
+		add "<3dxwaresdkpath>\inc" to additional include directories to 
+			the preprocessor definitions in "C/C++"-Tab,
+		add "<3dxwaresdkpath>\lib" to additional library path in the "Link"-Tab,
+		add "siapp.lib", "spwmath.lib", and "user32.lib" to object/library 
+			modules in the "Link"-Tab.
+
+	Build the OpenTracker library/dll.
