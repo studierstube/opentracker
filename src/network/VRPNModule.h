@@ -59,6 +59,9 @@
 #ifdef USE_VRPN
 
 class vrpn_Connection;
+
+namespace ot {
+
 class VRPNSource;
 class VRPNSink;
 
@@ -113,6 +116,8 @@ public:
     virtual void pushState();
 
 };
+
+} // namespace ot
 
 #endif
 

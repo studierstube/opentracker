@@ -41,11 +41,9 @@
 #include <queue>
 #include <string>
 
-
-namespace ot {
-
 typedef unsigned long       DWORD;
 
+namespace ot {
 
 // Speech Wide String
 //typedef std::wstring Speechwstring;

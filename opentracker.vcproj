@@ -1784,6 +1784,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\network\VRPNModule.cxx">
+			</File>
+			<File
+				RelativePath=".\src\network\VRPNSink.cxx">
+			</File>
+			<File
+				RelativePath=".\src\network\VRPNSource.cxx">
+			</File>
+			<File
 				RelativePath="src\input\WacomGraphireModule.cxx">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -2203,6 +2212,15 @@
 			</File>
 			<File
 				RelativePath="src\common\VirtualTransformation.h">
+			</File>
+			<File
+				RelativePath=".\src\network\VRPNModule.h">
+			</File>
+			<File
+				RelativePath=".\src\network\VRPNSink.h">
+			</File>
+			<File
+				RelativePath=".\src\network\VRPNSource.h">
 			</File>
 			<File
 				RelativePath="src\input\WacomGraphireModule.h">

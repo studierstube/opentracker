@@ -59,6 +59,8 @@
 
 class vrpn_BaseClass;
 
+namespace ot {
+
 /**
  * VRPN client interface node. Connects to a VRPN server and reports incoming 
  * tracking data.
@@ -109,6 +111,8 @@ public:
 
     friend class VRPNModule;
 };
+
+} // namespace ot
 
 #endif
 

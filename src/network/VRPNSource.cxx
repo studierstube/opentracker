@@ -41,6 +41,7 @@
 #include <ace/Log_Msg.h>
 
 using namespace std;
+using namespace ot;
 
 #include <vrpn_Tracker.h>
 #include <vrpn_Button.h>

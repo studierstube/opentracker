@@ -46,14 +46,16 @@
 #include <vector>
 #include <map>
 
-class DwarfSink;
-class DwarfSource;
 class CorbaInit;
+
 namespace DWARF {
     class PoseSenderService;
 }
 
 namespace ot {
+
+class DwarfSink;
+class DwarfSource;
 
 /**
  * The module and factory to drive the test source nodes. It constructs

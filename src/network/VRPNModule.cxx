@@ -47,6 +47,7 @@
 #include <vrpn_Connection.h>
 
 using namespace std;
+using namespace ot;
 
 VRPNModule::VRPNModule() : 
 Module(), 

@@ -63,6 +63,8 @@
 class vrpn_BaseClass;
 class vrpn_Connection;
 
+namespace ot {
+
 /** 
  * The node representing a VRPN server device. 
  * @author Gerhard Reitmayr
@@ -125,6 +127,8 @@ public:
 
     friend class VRPNModule;
 };
+
+} // namespace ot
 
 #endif
 
