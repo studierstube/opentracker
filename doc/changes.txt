@@ -2,8 +2,11 @@
 
 @page changes OpenTracker Changes
 
+See also the ChangeLog files in doc for a detailed list of all changes.
+
 @section version11 Changes for Release 1.1
 
+@li build system based on autotools
 @li added variety of trackers such as \n
   ART Data \n
   Ascension Flock of Birds \n
@@ -14,6 +17,7 @@
 @li a number of transform nodes operating on buttons
 @li some other special operation nodes
 @li compilation with GCC 3.x on Linux
+@li unix buildsystem based on autotools
 
 @section version10 Changes for Release 1.0
 

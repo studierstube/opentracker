@@ -57,7 +57,7 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = ../src \
-                         ../config.h \
+                         ../config_win.h \
                          contributions.txt \
                          changes.txt
 FILE_PATTERNS          = *.h \
