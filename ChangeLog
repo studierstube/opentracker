@@ -1,3 +1,21 @@
+2004-08-10 13:42:36  Rev 741    reitmayr
+
+	* src/input/DGPSIP_Handler.cxx, src/input/GPSModule.h: fixed 
+	  indentation once more
+
+2004-08-10 13:17:22  Rev 740    tamer
+
+	* src/input/Makefile.am, src/input/Makefile.in, cfg/config.guess, 
+	  cfg/config.sub, cfg/ltmain.sh: bootstrap. update to libtool 1.5.6.
+
+2004-08-10 13:16:53  Rev 739    tamer
+
+	* src/input/DGPSIP_Handler.h, src/common/PositionFilterNode.h, 
+	  src/input/GPSModule.cxx, src/input/XSensSource.cxx, 
+	  src/input/DGPSIP_Handler.cxx, src/input/GPSModule.h: various fixes 
+	  for indentation (and dos line break issues), no newline at end and 
+	  reordering warnings.
+
 2004-08-09 14:38:05  Rev 737    reitmayr
 
 	* src/network/NetworkSinkModule.cxx: fixed possibly blocking call in 
