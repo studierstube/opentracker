@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.38 2003/10/16 09:00:52 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.39 2004/06/01 12:37:29 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,6 +47,7 @@
 #include "EllipsoidTransformNode.h"
 #include "GKTransformNode.h"
 #include "RangeFilterNode.h"
+#include "PositionFilterNode.h"
 
 #include <math.h>
 #include <float.h>
@@ -457,6 +458,17 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
             max = sqrt(FLT_MAX)-0.1;
         result = new RangeFilterNode( min, max );
     }
+    else if( name.compare("PositionFilterNode") == 0 )
+    {
+        float min[3], max[3];
+        if( attributes.get("min", min, 3) != 3)
+		{ min[0] = -1; min[1] = -1; min[2] = -1;}
+        if( attributes.get("max", max, 3) != 3 )
+		{ max[0] = 1; max[1] = 1; max[2] = 1;}
+        result = new PositionFilterNode( min, max );
+    }
+
+
     // the node ports are just looked up in a simple list
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {

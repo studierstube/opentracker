@@ -274,6 +274,18 @@ SOURCE=.\src\common\MergeNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\MulticastInputModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MulticastInputModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MulticastInputSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\network\NetworkSinkModule.cxx
 # End Source File
 # Begin Source File
@@ -307,6 +319,10 @@ SOURCE=.\src\input\ParButtonModule.cxx
 # Begin Source File
 
 SOURCE=.\src\misc\portio.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\PositionFilterNode.cxx
 # End Source File
 # Begin Source File
 
@@ -759,6 +775,10 @@ SOURCE=.\src\input\ParButtonSource.h
 # Begin Source File
 
 SOURCE=.\src\misc\portio.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\PositionFilterNode.h
 # End Source File
 # Begin Source File
 
