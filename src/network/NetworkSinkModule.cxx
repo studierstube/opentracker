@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.3 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.4 2001/03/06 18:07:27 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  
@@ -110,7 +110,7 @@ void NetworkSinkModule::start()
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket.open( ACE_INET_Addr( 12346, "localhost" )) == -1 )
+        if( socket.open( ACE_INET_Addr( 12346, "localhost" ), PF_INET, 0, 1) == -1 )
         {
             cout << "Error opening socket in NetworkSinkModule !" << endl;
             exit(1);
