@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.7 2001/04/09 07:15:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -111,18 +111,8 @@
 
 #include "../dllinclude.h"
 
-//#include <map>
-
-//using namespace std;
-
 #include "Node.h"
 #include "StringTable.h"
-
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-//typedef map<string, string> StringMap;
 
 /**
  * Module is an abstract super class for all OpenTracker modules. A module

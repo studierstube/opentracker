@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.11 2001/04/09 07:15:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -82,12 +82,6 @@
  * to several nodes around.
  */
 typedef vector<Node *> NodeVector;
-
-/**
- * maps a string to another string. Mostly used to map element attributes
- * to values.
- */
-// typedef map<string, string> StringMap;
 
 /** initializes a context by instantiating the available modules and factories
  * and registering them with the given context. So for each passed context 
