@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.26 2003/03/24 15:20:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.27 2003/04/02 16:43:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -115,28 +115,32 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
     if( name.compare("ARToolKitSource") == 0 )
     {
         double center[2], size;
-        int num = sscanf( attributes.get("center").c_str(), " %lf %lf",
-                &center[0], &center[1]);
-        if( num != 2 )
+		int num;
+        if( (num = attributes.get("center", center, 2)) != 2 )
         {
             cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
             return NULL;
         }
-        num = sscanf( attributes.get("size").c_str(), " %lf", &size );
-        if( num != 1 )
+        if( attributes.get("size", &size) != 1 )
         {
             cout << "ARToolKit Not a size" << endl;
             return NULL;
         }
         int id;
-        if((id = arLoadPatt((char *)attributes.get("tag-file").c_str() )) < 0 )
+		string filename = attributes.get("tag-file");
+        if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
         {
-            cout << "ARToolKit Error reading tag-file " << attributes.get("tag-file") << endl;
-            return NULL;
+			filename = patternDirectory + filename;
+			if((id = arLoadPatt((char *)filename.c_str())) < 0 )
+			{
+	            cout << "ARToolKit Error reading tag-file " << 
+					    attributes.get("tag-file") << " or " << filename << endl;
+		        return NULL;
+			}
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
-        cout << "Build ARToolKitSource " << attributes.get("tag-file") << " id " << id << endl;
+        cout << "Build ARToolKitSource " << filename << " id " << id << endl;
         return source;
     }
     return NULL;
@@ -193,8 +197,12 @@ void ARToolKitModule::start()
 
     if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
     {
-        cout << "Error loading camera parameters !" << endl;
-        exit(1);        
+		cameradata = patternDirectory + cameradata;
+		if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0)
+		{
+			cout << "Error loading camera parameters from " << cameradata << endl;
+			exit(1);        
+		}
     }
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
@@ -254,9 +262,9 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     ThreadModule::init( attributes, localTree );
     cameradata = attributes.get("camera-parameter");
+	patternDirectory = attributes.get("pattern-dir");
 
-    int num = sscanf(attributes.get("treshhold").c_str(), " %i", &treshhold );
-    if( num == 0 )
+    if( attributes.get("treshhold", &treshhold ) != 1 )
     {
         treshhold = 100;
     } else
@@ -266,8 +274,7 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
         else if( treshhold > 255 )
             treshhold = 255;
     }
-    num = sscanf(attributes.get("framerate").c_str(), " %lf", &rate );
-    if( num == 0 )
+    if( attributes.get("framerate", &rate) != 1 )
     {
         rate = 0.01;
     } else 
@@ -278,7 +285,7 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
 
 #ifdef WIN32
     int data[3];
-    num = attributes.get("videomode", data, 3);
+    int num = attributes.get("videomode", data, 3);
     if( num >= 1 )    
         did = data[0];
     if( num == 3 )

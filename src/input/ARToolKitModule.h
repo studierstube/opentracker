@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.21 2002/01/18 16:25:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.22 2003/04/02 16:43:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,6 +44,9 @@
  * @li @c framerate 10 a desired maximum framerate, the module will not exceed it.
  * @li @c videomode a string selecting the videomode for ARToolKit. This depends on 
  *        video interface linked with ARToolKit.
+ * @li @c pattern-dir an optional string that is prefixed to any pattern filename or
+ *        the camera data filename. It tries to find the file under the original as
+ *        well the prefixed name, in that order.
  *
  * The following videomode string options are possible :
  * @li For Windows DirectShow : The string stores "device width height {vertical|horizontal|rotate}". Device is the
@@ -54,7 +57,7 @@
  *
  * An example configuration element looks like this :
  * @verbatim
-<ARToolKitConfig camera-parameter="../data/camera" treshhold="150" framerate="5" videomode="0,5,3"/>@endverbatim
+<ARToolKitConfig camera-parameter="../data/camera" treshhold="150" framerate="5" videomode="0,5,3" pattern-dir="mypatterns/"/>@endverbatim
  */
 
 /**
@@ -109,6 +112,8 @@ protected:
     unsigned char * frame;
     /// size of the image in pixels
     int sizeX, sizeY;
+	/// an optional prefix for pattern filenames
+	std::string patternDirectory;
 
 #ifdef WIN32
     ARFrameGrabber * camera;
