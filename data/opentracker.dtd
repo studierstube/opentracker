@@ -21,12 +21,12 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.35 2001/12/06 11:53:05 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.36 2001/12/11 13:41:36 splechtna Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?">
-<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ThresholdFilter">
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?,JoystickConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
@@ -248,15 +248,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
     DEF ID #IMPLIED
     weight CDATA #REQUIRED
 >
-<!-- threshold filter that allows only events that are within a certain interval within the last passed event -->
-<!ELEMENT ThresholdFilter (%EventNodes;)>
-<!ATTLIST ThresholdFilter
-    DEF ID #IMPLIED
-    positionmin CDATA "0"
-    positionmax CDATA "inf"
-    rotationmin CDATA "0"
-    rotationmax CDATA "3.141592654"
->
 <!-- Source and Sink nodes grouped after functionality -->
 <!-- network sender elements -->
 <!ELEMENT NetworkSinkConfig EMPTY>
@@ -333,6 +324,29 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT StbKeyboardConfig (KeyDefinition*)>
 <!ELEMENT StbKeyboardSource EMPTY>
 <!ATTLIST StbKeyboardSource
+    DEF ID #IMPLIED
+    number CDATA #REQUIRED
+>
+<!-- Joystick Module -->
+<!ELEMENT JoystickConfig EMPTY>
+<!ELEMENT JoystickSource EMPTY>
+<!ATTLIST JoystickSource
+    DEF ID #IMPLIED
+    id CDATA "1"
+>
+<!-- FastTrak -->
+<!ELEMENT FastTrakConfig EMPTY>
+<!ATTLIST FastTrakConfig
+    DEF ID #IMPLIED
+    type CDATA "fasttrak"
+    stations CDATA #REQUIRED
+    device   CDATA #REQUIRED
+    hemisphere CDATA "1,0,0"
+    reference-frame CDATA "0,0,0,200,0,0,0,200,0"
+    init-string CDATA ""
+>
+<!ELEMENT FastTrakSource EMPTY>
+<!ATTLIST FastTrakSource
     DEF ID #IMPLIED
     number CDATA #REQUIRED
 >
