@@ -1,3 +1,61 @@
+2004-11-15 17:39:17  Rev 767    reitmayr
+
+	* opentracker.vcproj, src/tool/XMLSelection.h, 
+	  src/common/GroupGateModule.cxx, src/common/TimeModule.cxx, 
+	  src/input/ARTDataTrackerModule.cxx: xml libraries handled in 
+	  include file, some small fixes
+
+2004-11-15 14:12:11  Rev 766    daniel
+
+	* src/misc/xml/XMLWriter.cxx, src/tool/XMLSelection.h, opentracker.
+	  dsp, src/core/Context.cxx, src/core/Node.cxx, config_win.h, 
+	  src/core/DOMTreeErrorReporter.cxx: added '#define USE_TINYXML 1' 
+	  line to config_win.h changed linking against xml parser from 
+	  project settings to #pragma   -> decides at compiletime to link 
+	  against XERCES or TinyXML fixed some include orderings for XML 
+	  parser selection via config_win.h
+
+2004-11-15 11:21:53  Rev 765    reitmayr
+
+	* opentracker.vcproj, src/common/GroupGateModule.cxx: tiny little 
+	  fix :)
+
+2004-11-15 10:59:31  Rev 764    daniel
+
+	* src/input/GPSParser.cxx, src/tool/XMLSelection.h, 
+	  src/misc/OpenTracker.cxx, src/core/DOMTreeErrorReporter.h, 
+	  src/input/FOBModule.cxx, src/core/ConfigurationParser.cxx, 
+	  src/core/Context.cxx, src/misc/xml/XMLWriter.h, src/core/Node.cxx, 
+	  src/input/ARTDataTrackerChomp.cxx, src/core/DOMTreeErrorReporter.
+	  cxx, src/misc/xml/XMLWriter.cxx, src/input/MulticastInputModule.
+	  cxx, src/common/GroupGateModule.cxx, src/input/GPSModule.cxx, 
+	  src/core/ConfigurationParser.h, src/input/GPSDriver.cxx: added 
+	  support for TinyXML   define USE_TINYXML to activate TinyXML 
+	  instead of XERCES   caution: TinyXML does not provide validation 
+	  and therefore reads no default values from opentracker.dtd added 
+	  support for EVC4 (PocketPC2003)   several modules are not 
+	  available under WinCE:   ConsoleModule, InterSenseModule, 
+	  ParButtonModule, XSensModule   DynaSightModule, FastTrakModule, 
+	  FOBModule
+
+2004-11-15 10:26:17  Rev 763    reitmayr
+
+	* opentracker.vcproj, src/network/DwarfModule.h, 
+	  src/network/VRPNSink.h, src/network/VRPNModule.h, 
+	  src/input/SpeechDef.h, src/network/VRPNSource.cxx, 
+	  src/network/VRPNSink.cxx, src/network/VRPNModule.cxx, 
+	  src/network/VRPNSource.h: some more namespace updates for optional 
+	  modules
+
+2004-11-15 09:31:48  Rev 762    reitmayr
+
+	* opentracker.vcproj, src/network/DwarfModule.h, 
+	  src/tool/StringAligner.h, src/input/ARToolKitModule.cxx, 
+	  src/input/WacomGraphireModule.cxx, src/tool/disable4786.h, 
+	  src/misc/main.cxx, src/input/ARTDataTrackerModule.cxx, 
+	  src/input/ARToolKitModule.h, src/network/DwarfModule.cxx: a couple 
+	  of fixes for Daniel's changes.
+
 2004-11-14 18:20:34  Rev 760    daniel
 
 	* src/common/InterpolatorModule.h, src/core/ThreadModule.cxx, 
