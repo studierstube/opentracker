@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.2 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.3 2003/04/16 17:10:19 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,7 +52,11 @@ State* GKTransformNode::transformState( State* state)
 {
 	// the zero meridian of the GK map projection goes through Ferro,
 	// a Canarian island 17° 40' left of Greenwhich zero meridian.
-	const double ferro = (17 + 40 / 60) * MathUtils::GradToRad;
+	// 17° 39' funktioniert am besten ??
+	const double ferro = (17.0 + 39.0 / 60.0) * MathUtils::GradToRad;
+	// there are corrections applied to the resulting x (north) value
+	// 5000 km ( 5000000 m ) are subtracted
+	const double falseNorthing = 5000000.0;
 
 	if( to == mode )
 	{
@@ -60,19 +64,19 @@ State* GKTransformNode::transformState( State* state)
 		double sinB = sin(B);
 		double cosB = cos(B);
 		double L = state->position[1];
-		double dL = L + ferro - meridian;
+		double dL = ( L + ferro - meridian );
 
-		double Sm = alpha * B - beta * sin(2 * B) + gamma * sin(4 * B) - delta * sin(6 * B);
+		double Sm = alpha * B / MathUtils::GradToRad - beta * sin(2.0 * B) + gamma * sin(4.0 * B) - delta * sin(6.0 * B);
 
-		double e2 = 1 - (b*b) / (a*a);
-		double N = a / (sqrt( 1 - e2 * sinB * sinB ));
+		double e2 = 1.0 - (b*b) / (a*a);
+		double N = a / (sqrt( 1.0 - e2 * sinB * sinB ));
 		double eta2 = ((a*a) / (b*b) - 1)*cosB*cosB;
 		double t = tan( B );
-		double corr_x = 1 + (dL*dL)*(cosB*cosB)*(5 - t*t + 9*eta2 + 4*eta2*eta2) / 12 +
-			            (dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(61-58*t*t+t*t*t*t) / 360;
-		double corr_y = 1 + (dL*dL)*(cosB*cosB)*(1 - t*t + eta2) / 6 +
-						(dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(5 - 18*t*t + t*t*t*t) / 120;
-		double x = Sm + N * dL * dL * sinB * cosB * corr_x / 2;
+		double corr_x = 1.0 + (dL*dL)*(cosB*cosB)*(5.0 - t*t + 9.0*eta2 + 4.0*eta2*eta2) / 12.0 +
+			            (dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(61.0-58.0*t*t+t*t*t*t) / 360.0;
+		double corr_y = 1.0 + (dL*dL)*(cosB*cosB)*(1.0 - t*t + eta2) / 6.0 +
+						(dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(5.0 - 18.0*t*t + t*t*t*t + 14.0*eta2 - 58.0*t*t*eta2) / 120.0;
+		double x = Sm + N * dL * dL * sinB * cosB * corr_x / 2.0 - falseNorthing;
 		double y = N * dL * cosB * corr_y;
 
 		localState.position[0] = x;
