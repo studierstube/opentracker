@@ -9447,6 +9447,7 @@ stb_ac_ace_cppflags=
 stb_ac_ace_ldflags=
 stb_ac_ace_libs=
 stb_ac_ace_root=
+stb_ac_ace_rpath=
 
 # internal variables
 stb_ac_ace_extrapath=
@@ -9458,13 +9459,15 @@ if test "${with_ace+set}" = set; then
   stb_ac_ace_extrapath=$withval
 fi;
 
-test -z "$stb_ac_ace_extrapath" &&   ## search in --prefix
+if test -z "$stb_ac_ace_extrapath"; then ## search in --prefix
   stb_ac_ace_extrapath=$prefix/ACE_wrappers
-
-case "$stb_ac_ace_extrapath" in
-  [\\/]* | ?:[\\/]* ) : ;;
-  * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath ;;
-esac
+else
+  case "$stb_ac_ace_extrapath" in
+    [\\/]* | ?:[\\/]* ) : ;;
+    * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath
+        stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
+  esac
+fi
 
 stb_ac_ace_root=$stb_ac_ace_extrapath
 
@@ -9555,6 +9558,7 @@ fi
 
 
 
+
 if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="ACE root directory:$stb_ac_ace_root"
 else
@@ -9571,6 +9575,7 @@ stb_ac_xerces_cppflags=
 stb_ac_xerces_ldflags=
 stb_ac_xerces_libs=
 stb_ac_xerces_root=
+stb_ac_xerces_rpath=
 
 # internal variables
 stb_ac_xerces_extrapath=
@@ -9582,13 +9587,15 @@ if test "${with_xerces+set}" = set; then
   stb_ac_xerces_extrapath=$withval
 fi;
 
-test -z "$stb_ac_xerces_extrapath" &&   ## search in --prefix
+if test -z "$stb_ac_xerces_extrapath"; then ## search in --prefix
   stb_ac_xerces_extrapath=$prefix/lib
-
-case "$stb_ac_xerces_extrapath" in
-  [\\/]* | ?:[\\/]* ) : ;;
-  * ) stb_ac_xerces_extrapath="`pwd`/$stb_ac_xerces_extrapath" ;;
-esac
+else
+  case "$stb_ac_xerces_extrapath" in
+    [\\/]* | ?:[\\/]* ) : ;;
+    * ) stb_ac_xerces_extrapath="`pwd`/$stb_ac_xerces_extrapath"
+        stb_ac_xerces_rpath="-R $stb_ac_xerces_extrapath/lib" ;;
+  esac
+fi
 
 stb_ac_xerces_root=$stb_ac_xerces_extrapath
 
@@ -9681,6 +9688,7 @@ fi
 
 
 
+
 if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Xerces root directory:$stb_ac_xerces_root"
 else
@@ -9697,6 +9705,7 @@ stb_ac_artoolkit_cppflags=
 stb_ac_artoolkit_ldflags=
 stb_ac_artoolkit_libs=
 stb_ac_artoolkit_root=
+stb_ac_artoolkit_rpath=
 
 # internal variables
 stb_ac_artoolkit_extrapath=
@@ -9708,13 +9717,15 @@ if test "${with_artoolkit+set}" = set; then
   stb_ac_artoolkit_extrapath=$withval
 fi;
 
-test -z "$stb_ac_artoolkit_extrapath" &&   ## search in --prefix
+if test -z "$stb_ac_artoolkit_extrapath"; then ## search in --prefix
   stb_ac_artoolkit_extrapath=$prefix/lib
-
-case "$stb_ac_artoolkit_extrapath" in
-  [\\/]* | ?:[\\/]* ) : ;;
-  * ) stb_ac_artoolkit_extrapath="`pwd`/$stb_ac_artoolkit_extrapath" ;;
-esac
+else
+  case "$stb_ac_artoolkit_extrapath" in
+    [\\/]* | ?:[\\/]* ) : ;;
+    * ) stb_ac_artoolkit_extrapath="`pwd`/$stb_ac_artoolkit_extrapath"
+        stb_ac_artoolkit_rpath="-R $stb_ac_artoolkit_extrapath/lib" ;;
+  esac
+fi
 
 stb_ac_artoolkit_root=$stb_ac_artoolkit_extrapath
 
@@ -9811,6 +9822,7 @@ else
   stb_ac_artoolkit_libs=
   stb_ac_artoolkit_root="not found"
 fi
+
 
 
 
@@ -10520,12 +10532,15 @@ s,@CURSES_INCLUDEDIR@,$CURSES_INCLUDEDIR,;t t
 s,@stb_ac_ace_cppflags@,$stb_ac_ace_cppflags,;t t
 s,@stb_ac_ace_ldflags@,$stb_ac_ace_ldflags,;t t
 s,@stb_ac_ace_libs@,$stb_ac_ace_libs,;t t
+s,@stb_ac_ace_rpath@,$stb_ac_ace_rpath,;t t
 s,@stb_ac_xerces_cppflags@,$stb_ac_xerces_cppflags,;t t
 s,@stb_ac_xerces_ldflags@,$stb_ac_xerces_ldflags,;t t
 s,@stb_ac_xerces_libs@,$stb_ac_xerces_libs,;t t
+s,@stb_ac_xerces_rpath@,$stb_ac_xerces_rpath,;t t
 s,@stb_ac_artoolkit_cppflags@,$stb_ac_artoolkit_cppflags,;t t
 s,@stb_ac_artoolkit_ldflags@,$stb_ac_artoolkit_ldflags,;t t
 s,@stb_ac_artoolkit_libs@,$stb_ac_artoolkit_libs,;t t
+s,@stb_ac_artoolkit_rpath@,$stb_ac_artoolkit_rpath,;t t
 CEOF
 
 _ACEOF

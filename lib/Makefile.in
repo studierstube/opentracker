@@ -92,12 +92,15 @@ install_sh = @install_sh@
 stb_ac_ace_cppflags = @stb_ac_ace_cppflags@
 stb_ac_ace_ldflags = @stb_ac_ace_ldflags@
 stb_ac_ace_libs = @stb_ac_ace_libs@
+stb_ac_ace_rpath = @stb_ac_ace_rpath@
 stb_ac_artoolkit_cppflags = @stb_ac_artoolkit_cppflags@
 stb_ac_artoolkit_ldflags = @stb_ac_artoolkit_ldflags@
 stb_ac_artoolkit_libs = @stb_ac_artoolkit_libs@
+stb_ac_artoolkit_rpath = @stb_ac_artoolkit_rpath@
 stb_ac_xerces_cppflags = @stb_ac_xerces_cppflags@
 stb_ac_xerces_ldflags = @stb_ac_xerces_ldflags@
 stb_ac_xerces_libs = @stb_ac_xerces_libs@
+stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 LIBS = \
         @CURSES_LIBS@ \
@@ -118,7 +121,13 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/src/network/libnetwork.la \
         $(top_builddir)/extras/intersense/unix/libintersense.la
 
-libOpenTracker_la_LDFLAGS = -no-undefined -avoid-version
+
+libOpenTracker_la_LDFLAGS = \
+        -no-undefined -avoid-version \
+        @stb_ac_ace_rpath@ \
+        @stb_ac_artoolkit_rpath@ \
+        @stb_ac_xerces_rpath@
+
 subdir = lib
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h

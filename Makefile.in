@@ -92,12 +92,15 @@ install_sh = @install_sh@
 stb_ac_ace_cppflags = @stb_ac_ace_cppflags@
 stb_ac_ace_ldflags = @stb_ac_ace_ldflags@
 stb_ac_ace_libs = @stb_ac_ace_libs@
+stb_ac_ace_rpath = @stb_ac_ace_rpath@
 stb_ac_artoolkit_cppflags = @stb_ac_artoolkit_cppflags@
 stb_ac_artoolkit_ldflags = @stb_ac_artoolkit_ldflags@
 stb_ac_artoolkit_libs = @stb_ac_artoolkit_libs@
+stb_ac_artoolkit_rpath = @stb_ac_artoolkit_rpath@
 stb_ac_xerces_cppflags = @stb_ac_xerces_cppflags@
 stb_ac_xerces_ldflags = @stb_ac_xerces_ldflags@
 stb_ac_xerces_libs = @stb_ac_xerces_libs@
+stb_ac_xerces_rpath = @stb_ac_xerces_rpath@
 
 SUBDIRS = src extras lib bin
 subdir = .
