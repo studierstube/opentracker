@@ -6,7 +6,8 @@
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
-<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Merge | Ref | ConsoleSource | EventDynamicTransformation">
+<!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource ">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventTransformation | EventVirtualTransformation | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransformation ">
 <!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref | QueueDynamicTransformation">
 <!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref | TimeDynamicTransformation">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
@@ -137,7 +138,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- console based input / output elements -->
 <!ELEMENT KeyDefinition EMPTY>
 <!ATTLIST KeyDefinition
-	name (Move_X_plus | Move_X_minus | Move_Y_plus | Move_Y_minus | Move_Z_plus | Move_Z_minus | Rot_X_plus | Rot_X_minus | Rot_Y_plus | Rot_Y_minus | Rot_Z_plus | Rot_Z_minus | Accelerate | Brake | Button_1 | Button_2 | Button_3 | Button_4 | Station_0 | Station_1 | Station_2 | Station_3 | Station_4 | Station_5 | Station_6 | Station_7 | Station_8 | Station_9 | Reset) #REQUIRED
+	function (Move_X_plus | Move_X_minus | Move_Y_plus | Move_Y_minus | Move_Z_plus | Move_Z_minus | Rot_X_plus | Rot_X_minus | Rot_Y_plus | Rot_Y_minus | Rot_Z_plus | Rot_Z_minus | Accelerate | Brake | Button_1 | Button_2 | Button_3 | Button_4 | Station_0 | Station_1 | Station_2 | Station_3 | Station_4 | Station_5 | Station_6 | Station_7 | Station_8 | Station_9 | Reset | Quit) #REQUIRED
 	key CDATA #REQUIRED
 >
 <!ELEMENT ConsoleConfig (KeyDefinition*)>
@@ -159,4 +160,15 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT InterTraxSource EMPTY>
 <!ATTLIST InterTraxSource
 	DEF ID #IMPLIED
+>
+<!-- CyberMouse source elements -->
+<!ELEMENT CyberMouseSource EMPTY>
+<!ATTLIST CyberMouseSource 
+	DEF ID #IMPLIED
+>
+<!-- Wacom Graphire tablet source elements -->
+<!ELEMENT WacomGraphireSource EMPTY>
+<!ATTLIST WacomGraphireSource
+	DEF ID #IMPLIED
+	device CDATA "1"
 >
