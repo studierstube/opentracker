@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.4 2003/04/08 18:59:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.5 2003/04/09 20:48:18 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -96,7 +96,8 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
             ACE_Synch_Options options (ACE_Synch_Options::USE_TIMEOUT, timeout);
             if( i > 0 ) 
                 ACE_OS::sleep(timeout);
-            if( ipconnect.connect((DGPSIP_Handler *) this, remoteAddr, options ) == 0 )
+            DGPSIP_Handler * This = (DGPSIP_Handler *) this;
+            if( ipconnect.connect(This, remoteAddr, options ) == 0 )
                 break;
             timeout *= 2;                
         }
