@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.27 2003/08/18 17:58:03 thomas Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.28 2003/08/19 21:53:56 thomas Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -124,12 +124,21 @@
  *                         constant (default_PIXELFORMAT, usually PIXELFORMAT_RGB32)
  *                         will be selected.
  *
- *   @li @c deviceName=?  only applies to WDM_CAP, will be IGNORED if "inputDevice=WDM_CAP" is not set.
- *                   preferred WDM device (WARNING: WDM "friendly names" are locale-dependent), 
- *                   i.e. try to match substring <?> with "friendly names" of
- *                   enumerated DirectShow WDM wrappers (ksproxy.ax).<br>
- *                   EXAMPLE: "deviceName=Microsoft DV Camera" for IEEE1394 DV devices
- *                            "deviceName=QuickCam" for Logitech QuickCam
+ *   @li @c friendlyName=?  only applies to WDM_CAP, will be IGNORED if "inputDevice=WDM_CAP" is not set.)
+ *                    preferred WDM device (WARNING: WDM "friendly names" are locale-dependent),
+ *                    i.e. try to match substring <?> with the "friendly names" of
+ *                    enumerated DirectShow WDM wrappers (ksproxy.ax).
+ *                    WILL BE IGNORED IF deviceName=? IS SET.
+ *                    EXAMPLE: "deviceName=Microsoft DV Camera" for IEEE1394 DV devices
+ *                             "deviceName=QuickCam" for Logitech QuickCam.
+ *
+ *   @li @c deviceName=?  only applies to WDM_CAP, will be IGNORED if "inputDevice=WDM_CAP" is not set.)
+ *                   preferred WDM device, i.e. try to match substring <?> with the
+ *                   "device names" of enumerated DirectShow WDM wrappers (ksproxy.ax).
+ *                   Device names look like: "@device:*:{860BB310-5D01-11d0-BD3B-00A0C911CE86}"
+ *                   Use GraphEdit to figure out your camera's device name.
+ *                   deviceName=? WILL ALWAYS WILL OVERRIDE friendlyName=?
+ *                   EXAMPLE: "1394#unibrain&fire-i_1.2#4510000061431408"
  *
  *   @li @c fileName=?  only applies to AVI_FILE, will be IGNORED if "inputDevice=AVI_FILE" is not set.
  *                   input file name, if just use a file's name (without its full path), the WIN32
@@ -162,16 +171,17 @@
  *
  *  @subsection examples Examples
  *@verbatim
-   videomode="WDM_CAP,showDlg"
-   videomode="WDM_CAP,flipH,flipV,showDlg"
-   videomode="WDM_CAP,pixelFormat=PIXELFORMAT_RGB24,showDlg"
-   videomode="WDM_CAP,showDlg,deinterlaceState=on,deinterlaceMethod=duplicate1"
-   videomode="WDM_CAP,videoWidth=640,flipH,videoHeight=480,showDlg,deinterlaceState=auto"
-   videomode="WDM_CAP,deviceName=Microsoft DV Camera,videoWidth=720,videoHeight=480"
-   videomode="WDM_CAP,deviceName=Logitech,videoWidth=320,videoHeight=240,flipV"
-   videomode="WDM_CAP,deviceName=Microsoft DV Camera,ieee1394id=437d3b0201460008"
-   videomode="AVI_FILE,fileName=C:\Some Directory\Another Directory\Video.AVI"
-   videomode="AVI_FILE,fileName=Video.AVI,pixelFormat=PIXELFORMAT_RGB24"
+   videomode="inputDevice=WDM_CAP,showDlg"
+   videomode="flipH,flipV,showDlg"
+   videomode="pixelFormat=PIXELFORMAT_RGB24,showDlg"
+   videomode="showDlg,deinterlaceState=on,deinterlaceMethod=duplicate1"
+   videomode="videoWidth=640,flipH,videoHeight=480,showDlg,deinterlaceState=auto"
+   videomode="inputDevice=WDM_CAP,friendlyName=Microsoft DV Camera,videoWidth=720,videoHeight=480"
+   videomode="inputDevice=WDM_CAP,friendlyName=Logitech,videoWidth=320,videoHeight=240,flipV"
+   videomode="inputDevice=WDM_CAP,frendlyName=Microsoft DV Camera,ieee1394id=437d3b0201460008"
+   videomode="inputDevive=WDM_CAP,deviceName=1394#unibrain&fire-i_1.2#4510000061431408"
+   videomode="inputDevice=AVI_FILE,fileName=C:\Some Directory\Another Directory\Video.AVI"
+   videomode="inputDevice=AVI_FILE,fileName=Video.AVI,pixelFormat=PIXELFORMAT_RGB24"
 @endverbatim
  *
  *****************************************************************************/
