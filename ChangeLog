@@ -9,6 +9,19 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-04 15:12  reitmayr
+
+	* src/input/GPSDriver.cxx:
+	
+	some error messages added
+
+2003-04-04 15:11  reitmayr
+
+	* src/common/File.h, src/common/FileModule.cxx,
+	src/common/FileModule.h, data/opentracker.dtd:
+	
+	added append mode to FileModule for output files
+
 2003-04-03 18:04  tamer
 
 	* src/input/GPS_Handler.h:
