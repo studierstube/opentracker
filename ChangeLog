@@ -1,3 +1,8 @@
+2004-12-03 17:46:13  Rev 791    daniel
+
+	* src/input/ARToolKitPlusModule.cxx: fixed multi-marker tracking in 
+	  ARToolKitPlusModule   - it works now fine (tested)
+
 2004-12-02 17:28:29  Rev 789    daniel
 
 	* src/input/ARToolKitPlusModule.h, 
