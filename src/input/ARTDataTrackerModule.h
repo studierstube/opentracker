@@ -61,6 +61,7 @@
 #include <vector>
 
 #include "ARTDataTrackerSource.h"
+#include "ARTDataTrackerChomp.h"
 
 typedef std::vector<Node*> NodeVector;
 
@@ -98,18 +99,6 @@ protected:
 	void run();
 	
 public:
-
-   	typedef struct BodyRecord		// Structur for the 6d Bodies
-	{
-		unsigned long id;			// Body ID taken from the Datagramm
-		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-		float location[3];			// Array for the loaction of the Body (s0 s1 s2)
-		float eulerAngles[3];		// Array for the Eulerangles
-		float rotationMatrix[9];	// Array for the Rotation Matrix
-		float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
-		float position[3];			// Array for the position (location) pushed in the Nodetree
-		bool  valid;				// Flag is true if body is tracked by DTrack
-	} BodyRecord;
 	
 	typedef struct MarkerRecord     // Structur for the 3d Markers
 	{
@@ -119,11 +108,10 @@ public:
 	} MarkerRecord;
 
 	int		bodyID;
-	int		maxBodyNumber;
 	int		receiveBufferSize;
 	char	*receiveBuffer;
 
-
+    ARTDataTrackerChomp *DataTracker;
 
 	/** constructor method. */
     ARTDataTrackerModule();
@@ -148,7 +136,7 @@ public:
 	
 	/**
 	* Convert the Data from the Arrays to the Quaternion Format */
-	virtual void convert();
+    virtual void convert(ARTDataTrackerChomp::BodyRecord & BodyRecordTemp);
 	
 	/**
 	* Close */

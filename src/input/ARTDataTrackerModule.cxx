@@ -50,10 +50,6 @@ using namespace std;
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
-
-ARTDataTrackerChomp *DataTracker = NULL;
-ARTDataTrackerChomp::BodyRecord *BodyRecordTemp = NULL;
-
 // -------------------------------------------------------------------------------------------------------
 // constructor initializing the thread manager
 ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory(), stop(0)
@@ -135,7 +131,7 @@ void ARTDataTrackerModule::run()
 	ACE_Addr local( -1 , -1);
 	socket = new ACE_SOCK_Dgram( addr );
 	
-	receiveBufferSize =  3 * sizeof(long) + 16 * sizeof(BodyRecord) + 50 * sizeof(MarkerRecord);
+    receiveBufferSize =  3 * sizeof(long) + 100 * sizeof(ARTDataTrackerChomp::BodyRecord) +  100 * sizeof(MarkerRecord);
 	receiveBuffer = new char[receiveBufferSize];
     
 	std::string receiveString;
@@ -179,7 +175,7 @@ void ARTDataTrackerModule::run()
 			if( BodyRecordTemp[bodyID].valid == true )
 			{
 				// convert Data such as quaternion and euler-Angles
-				convert();
+				convert( BodyRecordTemp[bodyID] );
 				// Brings the locationdata from BodyRecordTemp to  source->state.position !
 				source->state.position[0] = BodyRecordTemp[bodyID].position[0];
 				source->state.position[1] = BodyRecordTemp[bodyID].position[1];
@@ -216,7 +212,7 @@ void ARTDataTrackerModule::run()
 
 // -------------------------------------------------------------------------------------------------------
 
-void ARTDataTrackerModule::convert()
+void ARTDataTrackerModule::convert( ARTDataTrackerChomp::BodyRecord & BodyRecordTemp )
 {
 	//	static const float DEG_TO_RAD = (3.14159/180.0);
 	float m[3][3];
@@ -227,23 +223,23 @@ void ARTDataTrackerModule::convert()
 	//		|b0 b3 b6|
 	//	R = |b1 b4 b7|
 	//		|b2 b5 b8|
-	m[0][0] = BodyRecordTemp[bodyID].rotationMatrix[0];
-	m[0][1] = BodyRecordTemp[bodyID].rotationMatrix[3];
-	m[0][2] = BodyRecordTemp[bodyID].rotationMatrix[6];
-	m[1][0] = BodyRecordTemp[bodyID].rotationMatrix[1];
-	m[1][1] = BodyRecordTemp[bodyID].rotationMatrix[4];
-	m[1][2] = BodyRecordTemp[bodyID].rotationMatrix[7];
-	m[2][0] = BodyRecordTemp[bodyID].rotationMatrix[2];
-	m[2][1] = BodyRecordTemp[bodyID].rotationMatrix[5];
-	m[2][2] = BodyRecordTemp[bodyID].rotationMatrix[8];
+	m[0][0] = BodyRecordTemp.rotationMatrix[0];
+	m[0][1] = BodyRecordTemp.rotationMatrix[3];
+	m[0][2] = BodyRecordTemp.rotationMatrix[6];
+	m[1][0] = BodyRecordTemp.rotationMatrix[1];
+	m[1][1] = BodyRecordTemp.rotationMatrix[4];
+	m[1][2] = BodyRecordTemp.rotationMatrix[7];
+	m[2][0] = BodyRecordTemp.rotationMatrix[2];
+	m[2][1] = BodyRecordTemp.rotationMatrix[5];
+	m[2][2] = BodyRecordTemp.rotationMatrix[8];
 	
 	// convert to Quaternion Format result is given back in .orientation Array
-	MathUtils::matrixToQuaternion( m, BodyRecordTemp[bodyID].orientation);
+	MathUtils::matrixToQuaternion( m, BodyRecordTemp.orientation);
 	
 	// location
-	BodyRecordTemp[bodyID].position[0] = BodyRecordTemp[bodyID].location[0];
-	BodyRecordTemp[bodyID].position[1] = BodyRecordTemp[bodyID].location[1];
-	BodyRecordTemp[bodyID].position[2] = BodyRecordTemp[bodyID].location[2];
+	BodyRecordTemp.position[0] = BodyRecordTemp.location[0];
+	BodyRecordTemp.position[1] = BodyRecordTemp.location[1];
+	BodyRecordTemp.position[2] = BodyRecordTemp.location[2];
 }
 
 // -------------------------------------------------------------------------------------------------------
