@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.13 2001/08/07 13:28:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.14 2001/08/18 20:01:42 reitmayr Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -50,6 +50,10 @@
 #include <dom/DOM_DOMException.hpp>
 
 using namespace std;
+
+// emtpy string to be returned, if key is not in the map
+// the object itself is part of StringTable.cxx
+extern const string empty("");
 
 // constructor
 Node::Node() : name("")
@@ -279,4 +283,145 @@ void Node::updateObservers( State &data )
 			(*it)->onEventGenerated( data, *this );
 		}
 	}
+}
+
+// returns a value to a given key
+
+string Node::get( const string & key )
+{
+    DOMString res = parent->getAttribute( key.c_str());
+    char * cres = res.transcode();
+    string sres( cres );
+    delete cres;
+    return sres;
+}
+
+// stores a key, value pair
+
+void Node::put( const string & key, const string & value )
+{
+    parent->setAttribute( key.c_str(), value.c_str());
+}
+
+// removes a key, value pair
+
+void Node::remove( const string & key )
+{
+    parent->removeAttribute( key.c_str());
+}
+
+// some put and get methods
+
+void Node::put(const string & key, const int value)
+{
+    char buffer[20];
+    
+    sprintf( buffer, "%i", value );
+    parent->setAttribute( key.c_str(), buffer);
+}
+
+void Node::put(const string & key, const float value)
+{
+    char buffer[20];
+    
+    sprintf( buffer, "%f", value );
+    parent->setAttribute( key.c_str(), buffer);
+}
+
+void Node::put(const string & key, const double value)
+{
+    char buffer[30];
+    
+    sprintf( buffer, "%lf", value );
+    parent->setAttribute( key.c_str(), buffer);
+}
+
+void Node::put(const string & key, const int * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%i", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %i", value[i] );
+        strvalue.append(buffer);
+    }
+    parent->setAttribute( key.c_str(), strvalue.c_str());
+}
+
+void Node::put(const string & key, const float * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%f", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %f", value[i] );
+        strvalue.append(buffer);
+    }
+    parent->setAttribute( key.c_str(), strvalue.c_str());
+}
+
+void Node::put(const string & key, const double * value, int len)
+{
+    char buffer[20];
+    string strvalue;
+    
+    sprintf(buffer, "%lf", value[0] );
+    strvalue.append(buffer);
+    for( int i = 1; i < len; i++ )
+    {
+        sprintf(buffer, " %lf", value[i] );
+        strvalue.append(buffer);
+    }
+    parent->setAttribute( key.c_str(), strvalue.c_str());
+}
+
+int Node::get(const string & key, int * value, int len )
+{
+    DOMString val = parent->getAttribute( key.c_str());
+    char * data = val.transcode();      
+    char * end = data;
+    int count = 0;
+    value[count++] = strtol( data, &end, 0 );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtol( data, &end, 0 );
+    }
+    delete data;
+    return count;
+}
+
+int Node::get(const string & key, float * value, int len )
+{
+    DOMString val = parent->getAttribute( key.c_str());
+    char * data = val.transcode();
+    char * end = data;
+    int count = 0;
+    value[count++] = strtod( data, &end );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtod( data, &end );
+    }
+    delete data;
+    return count;
+}
+
+int Node::get(const string & key, double * value, int len )
+{
+    DOMString val = parent->getAttribute( key.c_str());
+    char * data = val.transcode();
+    char * end = data;
+    int count = 0;
+    value[count++] = strtod( data, &end );    
+    while( end != data && count < len){        
+        data = end;
+        value[count++] = strtod( data, &end );
+    }
+    delete data;
+    return count;        
 }

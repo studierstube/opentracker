@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.4 2001/08/14 10:27:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.5 2001/08/18 20:01:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,8 +37,6 @@
 
 #include<string>
 #include<map>
-
-// using namespace std;
 
 typedef std::map<std::string,std::string> StringMap;
 

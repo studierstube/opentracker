@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.14 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.15 2001/08/18 20:01:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -118,6 +118,111 @@ protected:
      * declared friend classes of the nodes.
      */
     Node();
+    
+    /** @name Attributes Control Interface
+     * This set of methods allows to manipulate the attributes of a node
+     * in a safe and abstract manner. These methods operate on the
+     * attributes of the underlying XML element. Whenever an attribute changes
+     * the implementation of the node should take care to update the
+     * XML elements attributes as well.*/
+    //@{
+    
+    /** returns a value stored in the map
+     * @param key the key the value is for 
+     * @returns the string value or an empty string, if the key is not found */
+    std::string get( const std::string & key );
+    /** stores a key value pair in the table, overwritting a possible prior 
+     * value
+     * @param key the key to store it under
+     * @param value the value to store */
+    void put( const std::string &key, const std::string &value );
+    /**
+     * removes a key value pair from the table
+     * @param key the key to the pair */
+    void remove( const std::string &key );
+ 
+    /** 
+     * sets an int value, the value is converted to a string and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value the integer value to store
+     */
+    void put(const std::string & key, const int value);
+    /** 
+     * sets a float value, the value is converted to a string and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value the floating point value to store
+     */
+    void put(const std::string & key, const float value);
+    /** 
+     * sets a double value, the value is converted to a string and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value the double precision value to store
+     */
+    void put(const std::string & key, const double value);
+
+    /** 
+     * sets an array of int values. It is converted to a string where the
+     * values are separated by spaces and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value pointer to the array of integer values to store
+     * @param len the length of the array
+     */    
+    void put(const std::string & key, const int * value, int len);
+    /** 
+     * sets an array of float values. It is converted to a string where the
+     * values are separated by spaces and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value pointer to the array of floating point values to store
+     * @param len the length of the array
+     */
+    void put(const std::string & key, const float * value, int len);
+    /** 
+     * sets an array of double values. It is converted to a string where the
+     * values are separated by spaces and stored
+     * under the given key.
+     * @param key key string of the entry
+     * @param value pointer to the array of double values to store
+     * @param len the length of the array
+     */
+    void put(const std::string & key, const double * value, int len);
+
+    /**
+     * parses a stored entry into an array of integers. It assumes that the
+     * integers are separated by spaces. It returns the number of actually
+     * converted integers.
+     * @param key the key of the entry to parse
+     * @param value pointer to the array of integers to store the parsed values 
+     * @param len the length of the array, default 1 to use it for a single int only
+     * @return number of actually parsed values
+     */
+    int get(const std::string & key, int * value, int len = 1 );
+    /**
+     * parses a stored entry into an array of floats. It assumes that the
+     * floats are separated by spaces. It returns the number of actually
+     * converted floats.
+     * @param key the key of the entry to parse
+     * @param value pointer to the array of integers to store the parsed values 
+     * @param len the length of the array, default 1 to use it for a single float only
+     * @return number of actually parsed values
+     */
+    int get(const std::string & key, float * value, int len = 1 );
+    /**
+     * parses a stored entry into an array of doubles. It assumes that the
+     * doubles are separated by spaces. It returns the number of actually
+     * converted doubles.
+     * @param key the key of the entry to parse
+     * @param value pointer to the array of doubles to store the parsed values 
+     * @param len the length of the array, default 1 to use it for a single double only
+     * @return number of actually parsed values
+     */
+    int get(const std::string & key, double * value, int len = 1 );
+
+    //@}
 
 public:
 
