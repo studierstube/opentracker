@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.18 2002/08/08 06:26:42 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.19 2002/08/08 07:05:58 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -255,36 +255,36 @@ public:
     // maps the function key names in the config file to key codes 
     std::map<std::string,int> keyCodeMap;
 
-    static const short MOVE_X_PLUS,
-      MOVE_X_MINUS,
-      MOVE_Y_PLUS,
-      MOVE_Y_MINUS,
-      MOVE_Z_PLUS,
-      MOVE_Z_MINUS,
-      ROT_X_PLUS,
-      ROT_X_MINUS,
-      ROT_Y_PLUS,
-      ROT_Y_MINUS,
-      ROT_Z_PLUS,
-      ROT_Z_MINUS,
-      ACCELL,
-      BRAKE,
-      BUTTON_1,
-      BUTTON_2,
-      BUTTON_3,
-      BUTTON_4,
-      STATION_0,
-      STATION_1,
-      STATION_2,
-      STATION_3,
-      STATION_4,
-      STATION_5,
-      STATION_6,
-      STATION_7,
-      STATION_8,
-      STATION_9,
-      RESET,
-      QUIT;
+    static const short MOVE_X_PLUS;
+    static const short MOVE_X_MINUS;
+    static const short MOVE_Y_PLUS;
+    static const short MOVE_Y_MINUS;
+    static const short MOVE_Z_PLUS;
+    static const short MOVE_Z_MINUS;
+    static const short ROT_X_PLUS;
+    static const short ROT_X_MINUS;
+    static const short ROT_Y_PLUS;
+    static const short ROT_Y_MINUS;
+    static const short ROT_Z_PLUS;
+    static const short ROT_Z_MINUS;
+    static const short ACCELL;
+    static const short BRAKE;
+    static const short BUTTON_1;
+    static const short BUTTON_2;
+    static const short BUTTON_3;
+    static const short BUTTON_4;
+    static const short STATION_0;
+    static const short STATION_1;
+    static const short STATION_2;
+    static const short STATION_3;
+    static const short STATION_4;
+    static const short STATION_5;
+    static const short STATION_6;
+    static const short STATION_7;
+    static const short STATION_8;
+    static const short STATION_9;
+    static const short RESET;
+    static const short QUIT;
       
       
 };
