@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-06-02 16:13  tomp
+
+	* data/opentracker.dtd:
+	
+	added PositionFilterNode.
+
 2004-06-01 14:37  tomp
 
 	* src/common/CommonNodeFactory.cxx,
