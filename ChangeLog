@@ -9,6 +9,23 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-23 18:53  reitmayr
+
+	* doc/: footer.html, header.html, install.html,
+	integrationguide.html, ot.css, progguide.html, userguide.html,
+	images/studierstube_header_logo.gif:
+	
+	updated doc to stb style
+
+2003-11-23 18:27  reitmayr
+
+	* doc/images/example1.gif, doc/images/example2.gif,
+	doc/images/example3.gif, doc/contributions.txt, doc/install.html,
+	doc/integrationguide.html, doc/progguide.html, doc/userguide.html,
+	src/OpenTracker.h:
+	
+	added static documentation to opentracker
+
 2003-11-13 15:45  tomp
 
 	* src/common/ButtonHoldFilterNode.cxx:
