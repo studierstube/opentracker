@@ -23,10 +23,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="$(ACEROOT),$(XERCESCROOT)/include,extras/intersense,$(ARTOOLKITROOT)/include,../wintab/include,../dwarf/win32/stub,../dwarf/src,../dwarf/build"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;extras;extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;../wintab/include;../dwarf/win32/stub;../dwarf/src;../dwarf/build"
 				PreprocessorDefinitions="OS_WIN32;WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\Debug/opentracker.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
@@ -44,7 +45,7 @@
 				OutputFile="bin/opentrackerd.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(ACEROOT)/ace,$(XERCESCROOT)/lib,$(ARTOOLKITROOT)/lib.vc60,../wintab/lib,../dwarf/win32/lib"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
 				ImportLibrary="lib/opentrackerd.lib"
@@ -91,11 +92,12 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="$(ACEROOT),$(XERCESCROOT)/include,extras/intersense,$(ARTOOLKITROOT)/include,../wintab/include,../dwarf/win32/stub,../dwarf/src,../dwarf/build"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;extras;extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;../wintab/include;../dwarf/win32/stub;../dwarf/src;../dwarf/build"
 				PreprocessorDefinitions="OS_WIN32;WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Release/opentracker.pch"
 				AssemblerListingLocation=".\Release/"
@@ -112,7 +114,7 @@
 				OutputFile="bin/opentracker.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(ACEROOT)/ace,$(XERCESCROOT)/lib,$(ARTOOLKITROOT)/lib.vc60,../wintab/lib,../dwarf/win32/lib"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib"
 				ProgramDatabaseFile=".\Release/opentracker.pdb"
 				ImportLibrary="lib/opentracker.lib"
 				TargetMachine="1"/>
@@ -1098,6 +1100,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\src\input\MulticastInputModule.cxx">
+			</File>
+			<File
 				RelativePath="src\network\NetworkSinkModule.cxx">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1285,6 +1290,9 @@
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="OS_WIN32;WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;$(NoInherit)"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\src\common\PositionFilterNode.cxx">
 			</File>
 			<File
 				RelativePath="src\common\RangeFilterNode.cxx">
@@ -1811,6 +1819,12 @@
 						PreprocessorDefinitions="OS_WIN32;WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;$(NoInherit)"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\src\input\XSensModule.cxx">
+			</File>
+			<File
+				RelativePath=".\src\input\XSensSource.cxx">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -2020,6 +2034,12 @@
 				RelativePath="src\core\Module.h">
 			</File>
 			<File
+				RelativePath=".\src\input\MulticastInputModule.h">
+			</File>
+			<File
+				RelativePath=".\src\input\MulticastInputSource.h">
+			</File>
+			<File
 				RelativePath="src\network\Network.h">
 			</File>
 			<File
@@ -2066,6 +2086,9 @@
 			</File>
 			<File
 				RelativePath="src\misc\portio.h">
+			</File>
+			<File
+				RelativePath=".\src\common\PositionFilterNode.h">
 			</File>
 			<File
 				RelativePath="src\common\RangeFilterNode.h">
@@ -2168,6 +2191,12 @@
 			</File>
 			<File
 				RelativePath="src\misc\xml\XMLWriter.h">
+			</File>
+			<File
+				RelativePath=".\src\input\XSensModule.h">
+			</File>
+			<File
+				RelativePath=".\src\input\XSensSource.h">
 			</File>
 		</Filter>
 		<Filter

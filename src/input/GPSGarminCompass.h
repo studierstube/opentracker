@@ -96,9 +96,9 @@ inline void GPSGarminCompass::newData( const GPResult * res, const char * line, 
         temp[0] = 0;
         temp[1] = 1;
         temp[2] = 0;
-        temp[3] = point->heading * MathUtils::GradToRad;
+        temp[3] = (float)(point->heading * MathUtils::GradToRad);
         MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
-        buffer.confidence = 1 / module->driver->getHdop();
+        buffer.confidence = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }

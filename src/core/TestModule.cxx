@@ -110,10 +110,10 @@ void TestSource::push(void)
         int i;
         for( i = 0; i < 3; i++ )
         {
-            perturbed.position[i] = state.position[i] + ((float)rand()/RAND_MAX)*noise - noise / 2;
-            perturbed.orientation[i] = state.orientation[i] + ((float)rand()/RAND_MAX)*noise - noise / 2;
+            perturbed.position[i] = (float)(state.position[i] + (rand()/RAND_MAX)*noise - noise / 2.0);
+            perturbed.orientation[i] = (float)(state.orientation[i] + (float)(rand()/RAND_MAX)*noise - noise / 2.0);
         }
-        perturbed.orientation[3] = state.orientation[3] + ((float)rand()/RAND_MAX)*noise - noise / 2;        
+        perturbed.orientation[3] = (float)(state.orientation[3] + (rand()/RAND_MAX)*noise - noise / 2.0);
         MathUtils::normalizeQuaternion( perturbed.orientation );
         if( ((float)rand()/RAND_MAX) < noise  )
         {

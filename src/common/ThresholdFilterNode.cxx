@@ -57,7 +57,7 @@ void ThresholdFilterNode::onEventGenerated( State& event, Node& generator)
         (event.position[0]-lastState.position[0])*(event.position[0]-lastState.position[0]) +
         (event.position[1]-lastState.position[1])*(event.position[1]-lastState.position[1]) +
         (event.position[2]-lastState.position[2])*(event.position[2]-lastState.position[2]));
-    float deltaRot = MathUtils::angle( event.orientation, lastState.orientation, 4);
+    float deltaRot = (float)MathUtils::angle( event.orientation, lastState.orientation, 4);
     if((( positionMin <= deltaPos ) && ( deltaPos <= positionMax )) || 
        (( rotationMin <= deltaRot ) && ( deltaRot <= rotationMax )))
     {

@@ -863,7 +863,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!-- Xsens trackers -->
 <!ELEMENT XSensConfig EMPTY>
-<!ATTLIST XSensConfig>
 <!ELEMENT XSensSource EMPTY>
 <!ATTLIST XSensSource
   DEF ID #IMPLIED

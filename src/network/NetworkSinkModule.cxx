@@ -40,6 +40,7 @@
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram_Mcast.h>
+#include <ace/Time_Value.h>
 
 #include "NetworkSinkModule.h"
 

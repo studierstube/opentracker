@@ -91,9 +91,9 @@ inline void GPSInfoSource::newData( const GPResult * res, const char * line, voi
         GPSModule * module = (GPSModule *)userData;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = point->fix;
-        buffer.position[1] = point->numsats;
-        buffer.position[2] = point->hdop;
+        buffer.position[0] = (float)point->fix;
+        buffer.position[1] = (float)point->numsats;
+        buffer.position[2] = (float)point->hdop;
         module->unlock();
     }
 }

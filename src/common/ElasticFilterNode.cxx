@@ -75,21 +75,21 @@ void ElasticFilterNode::push() {
         dState.position[2] = targetState.position[2] - currentState.position[2];
 
         // calculate velocity
-        vState.position[0] += dState.position[0] * force * 0.1;
-        vState.position[1] += dState.position[1] * force * 0.1;
-        vState.position[2] += dState.position[2] * force * 0.1;
+        vState.position[0] += (float)(dState.position[0] * force * 0.1);
+        vState.position[1] += (float)(dState.position[1] * force * 0.1);
+        vState.position[2] += (float)(dState.position[2] * force * 0.1);
 		
         // damp velocity
-        vState.position[0] *= 1.0 - damp;
-        vState.position[1] *= 1.0 - damp;
-        vState.position[2] *= 1.0 - damp;
+        vState.position[0] *= 1.0f - damp;
+        vState.position[1] *= 1.0f - damp;
+        vState.position[2] *= 1.0f - damp;
      
         // add velocity to current state
         currentState.position[0] += vState.position[0];
         currentState.position[1] += vState.position[1];
         currentState.position[2] += vState.position[2];
 				
-		MathUtils::slerp(currentState.orientation, targetState.orientation, force*(1-damp)*0.1, dState.orientation);
+		MathUtils::slerp(currentState.orientation, targetState.orientation, force*(1-damp)*0.1f, dState.orientation);
 		
         for (int i=0; i< 4; i++)
 			currentState.orientation[i] = dState.orientation[i]; // copy ??

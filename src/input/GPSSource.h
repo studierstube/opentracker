@@ -94,10 +94,10 @@ inline void GPSSource::newData( const GPResult * res, const char * line, void * 
         GPSModule * module = (GPSModule *)userData;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = point->lat * MathUtils::GradToRad;
-        buffer.position[1] = point->lon * MathUtils::GradToRad;
-        buffer.position[2] = point->altitude;
-        buffer.confidence = 1 / point->hdop;
+        buffer.position[0] = (float)(point->lat * MathUtils::GradToRad);
+        buffer.position[1] = (float)(point->lon * MathUtils::GradToRad);
+        buffer.position[2] = (float)(point->altitude);
+        buffer.confidence = (float)(1 / point->hdop);
         module->unlock();
     }
 }

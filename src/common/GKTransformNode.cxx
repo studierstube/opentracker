@@ -79,8 +79,8 @@ State* GKTransformNode::transformState( State* state)
 		double y = N * dL * cosB * corr_y;
 
 
-		localState.position[0] = x;
-		localState.position[1] = y;
+		localState.position[0] = (float)x;
+		localState.position[1] = (float)y;
 	}
 	else
 	{
@@ -102,8 +102,8 @@ State* GKTransformNode::transformState( State* state)
 		double B = Bf - (y*y*t)*corr_b/(2*M*N);
 		double L = y*corr_l/(N*cos(Bf)) + meridian - ferro;
 
-		localState.position[0] = B;
-		localState.position[1] = L;
+		localState.position[0] = (float)B;
+		localState.position[1] = (float)L;
 	}
 
 	// height over the ellipsoid surface is identical to the height over the map

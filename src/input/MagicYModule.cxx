@@ -530,5 +530,6 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         std::cout << "Error parsing extra screens !" << endl;
     }
-    z_value = atof(attributes.get("z_value").c_str());
+    if( attributes.get("z_value", &z_value) != 1 )
+        z_value = 0;
 }

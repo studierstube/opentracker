@@ -117,10 +117,10 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
 			double as = 0;
 			if( w != 0)
 				as = sin( w ) / w;
-			localState.orientation[0] = orient[0] * as;
-			localState.orientation[1] = orient[1] * as;
-			localState.orientation[2] = orient[2] * as;
-			localState.orientation[3] = cos( w );
+			localState.orientation[0] = (float)(orient[0] * as);
+			localState.orientation[1] = (float)(orient[1] * as);
+			localState.orientation[2] = (float)(orient[2] * as);
+			localState.orientation[3] = (float)cos( w );
 			MathUtils::normalizeQuaternion( localState.orientation );
 		}
 		else 
@@ -134,9 +134,9 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
 		if( type != ORIENTATION )
 		{
 			// copy pos to state.position
-			localState.position[0] = pos[0];
-			localState.position[1] = pos[1];
-			localState.position[2] = pos[2];
+			localState.position[0] = (float)pos[0];
+			localState.position[1] = (float)pos[1];
+			localState.position[2] = (float)pos[2];
 		}
 		else
 		{
@@ -145,7 +145,7 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
 			localState.position[2] = event.position[2];			
 		}
         
-		localState.confidence = conf;
+		localState.confidence = (float)conf;
 
         localState.time = event.time;
 		localState.button = event.button;

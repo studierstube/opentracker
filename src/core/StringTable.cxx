@@ -197,10 +197,10 @@ int StringTable::get(const string & key, float * value, int len )
     char * data = (char *)(*it).second.c_str();
     char * end = data;
     int count = 0;
-    value[count++] = strtod( data, &end );    
+    value[count++] = (float)strtod( data, &end );    
     while( end != data && count < len){        
         data = end;
-        value[count++] = strtod( data, &end );
+        value[count++] = (float)strtod( data, &end );
     }
     return count;
 }

@@ -50,9 +50,9 @@ State* EllipsoidTransformNode::transformState( State* state)
 		double H = state->position[2];
 		double e2 = 1 - (b*b) / (a*a);
 		double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
-		localState.position[0] = (N + H)*cos(B)*cos(L);
-		localState.position[1] = (N + H)*cos(B)*sin(L);
-		localState.position[2] = ((1 - e2)*N + H)*sin(B);				
+		localState.position[0] = (float)((N + H)*cos(B)*cos(L));
+		localState.position[1] = (float)((N + H)*cos(B)*sin(L));
+		localState.position[2] = (float)(((1 - e2)*N + H)*sin(B));				
 	}
 	else
 	{
@@ -92,9 +92,9 @@ State* EllipsoidTransformNode::transformState( State* state)
 				H = - b -z;
 			}
 		}
-		localState.position[0] = B;
-		localState.position[1] = L;
-		localState.position[2] = H;				
+		localState.position[0] = (float)B;
+		localState.position[1] = (float)L;
+		localState.position[2] = (float)H;				
 	}
 	// copy the rest over
 	// we don't deal with orientation so far...

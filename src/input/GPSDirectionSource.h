@@ -93,14 +93,14 @@ inline void GPSDirectionSource::newData( const GPResult * res, const char * line
         module->lock();
         buffer.timeStamp();
         // klm/h = 3.6 * m/s, 1/3.6 = 0.27777777777777777777777777777778
-        buffer.position[0] = point->speedKlm * 0.27777777777777777777777777777778;
+        buffer.position[0] = (float)(point->speedKlm * 0.27777777777777777777777777777778);
         float temp[4];
         temp[0] = 0;
         temp[1] = 1;
         temp[2] = 0;
-        temp[3] = point->trueCourse * MathUtils::GradToRad;
+        temp[3] = (float)(point->trueCourse * MathUtils::GradToRad);
         MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
-        buffer.confidence = 1 / module->driver->getHdop();
+        buffer.confidence = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }

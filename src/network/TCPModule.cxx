@@ -145,6 +145,7 @@ void TCPModule::pullState(){
                 // send to all connections
                 lock();
                 for( std::vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
+                    // FIXME: send could be blocking on slow connections !
                     if( (*conit)->send_n( buffer, index, 0 ) != index ){
                         (*conit)->close();
                         delete (*conit);

@@ -93,9 +93,9 @@ inline void GPSGarminAltitude::newData( const GPResult * res, const char * line,
         buffer.timeStamp();
         buffer.position[0] = 0;
         // 1 feet = 0.3048 meter, by google
-        buffer.position[1] = point->altitude * 0.3048;
+        buffer.position[1] = (float)(point->altitude * 0.3048);
         buffer.position[0] = 0;
-        buffer.confidence = 1 / module->driver->getHdop();
+        buffer.confidence = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }

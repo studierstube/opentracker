@@ -455,7 +455,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         if( attributes.get("min", &min) != 1 )
             min = 0;
         if( attributes.get("max", &max ) != 1 )
-            max = sqrt(FLT_MAX)-0.1;
+            max = sqrt(FLT_MAX)-0.1f;
         result = new RangeFilterNode( min, max );
     }
     else if( name.compare("PositionFilterNode") == 0 )
