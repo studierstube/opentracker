@@ -40,6 +40,7 @@
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Acceptor.h>
+#include <ace/Time_Value.h>
 #include "TCPModule.h"
 
 #include <iostream>

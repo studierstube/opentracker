@@ -35,6 +35,8 @@
 #pragma warning(disable:4786)
 #endif
 
+#include <ace/Time_Value.h>
+
 #include "MagicYModule.h"
 
 #include <iostream>

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /G6 /MD /W3 /GX /O2 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /D "OS_WIN32" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /G6 /MD /W3 /GR /GX /O2 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /D "OS_WIN32" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /D "OS_WIN32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
+# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /ZI /Od /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /D "OS_WIN32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32

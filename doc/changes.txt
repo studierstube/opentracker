@@ -9,6 +9,8 @@ See also the ChangeLog files in doc for a detailed list of all changes.
 @li interoperability with VRPN
 @li interoperability with DWARF
 @li added variety of trackers such as \n
+  Xsense MT9 orientation tracker \n
+  GPS with support for DGPSIP correction information \n
   ART Data \n
   Ascension Flock of Birds \n
   Ultratrack \n
