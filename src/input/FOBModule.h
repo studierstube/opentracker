@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.3 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.4 2001/10/20 17:24:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,6 +58,7 @@
 
 #include "../OpenTracker.h"
 
+class Bird;
 /**
  * developer level information and implementation specifics here
  *
@@ -69,19 +70,38 @@ class OPENTRACKER_API FOBModule : public ThreadModule, public NodeFactory
 // Members
 protected:
 
+    /// the hemisphere the tracker should operate in
+    enum Hemisphere { FORWARD, REAR, UPPER, LOWER, LEFT, RIGHT } hemisphere;
+
+    /** the serial line mode used, either multi (each bird connected via a serial) or single
+     * (all birds via a single serial port). */ 
+    enum Mode { MULTI, SINGLE } mode;
+
+    /// number of the master bird
+    int master;
+
+    /// array of Bird data structures
+    std::vector<Bird *> birds;
+
+    /// flag to stop the thread
+    int stop;
+
 // Methods
 protected:
     /** this method is the code executed in its own thread, see
      * ARToolKitModule for an example of such a module. */
     virtual void run();
 
+    /** inits the whole flock according to the parameters stored
+     * in the module. It can be used to reset the flock after
+     * some communication failure.
+     * @return 0 if everything is ok, otherwise < 0 */
+    int initFoB();
+
 public:
     /** constructor method. */
-    FOBModule() : 
-        ThreadModule(), 
-        NodeFactory()        
-    { 
-    }
+    FOBModule();
+
     /** Destructor method, clears nodes member. */
     virtual ~FOBModule();
     /**
