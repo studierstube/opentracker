@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSource.h,v 1.3 2003/07/27 10:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSource.h,v 1.4 2004/03/19 08:08:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section DwarfSource DwarfSource
+ * @section dwarfsource DwarfSource
  
  * An example element looks like this :
  * @verbatim

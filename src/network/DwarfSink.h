@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.4 2003/07/27 10:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.5 2004/03/19 08:08:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section DwarfSink DwarfSink
+ * @section dwarfsink DwarfSink
  
  * An example element looks like this :
  * @verbatim
