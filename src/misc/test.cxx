@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.1 2001/04/29 16:33:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.2 2001/06/27 20:06:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,19 +61,19 @@ int main(int argc, char **argv)
     // important parts of the system
     // get a context, the default modules and factories are
     // added allready.
-    Context context;
-    initializeContext( context );
-    CallbackModule  cbModule;
-    context.addFactory( cbModule );
-    context.addModule( "CallbackConfig", cbModule );
+    Context context( 1 );
+    // initializeContext( context );
+    CallbackModule  * cbModule = new CallbackModule;
+    context.addFactory( *cbModule );
+    context.addModule( "CallbackConfig", *cbModule );
     
     cout << "Context established." << endl;
 
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );
-    cbModule.setCallback( "test1", &testCB );
+    cbModule->setCallback( "test1", &testCB );
     
-    cout << "Parsing complete." << endl << endl << "Press any return to start mainloop !" << endl;    
+    cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;    
      
     cin.get();
     

@@ -26,11 +26,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.1 2001/04/29 16:32:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.2 2001/06/27 20:06:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CallbackModule.h"
+
+#ifdef WIN32
+#include <iostream>    // VisualC++ uses STL based IOStream lib
+#else
+#include <iostream.h>
+#endif
 
 // called to construct a new Node.
 

@@ -98,6 +98,10 @@ SOURCE=.\src\input\ARToolKitModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\CallbackModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\CommonNodeFactory.cxx
 # End Source File
 # Begin Source File
@@ -235,6 +239,10 @@ SOURCE=.\src\input\ARToolKitModule.h
 # Begin Source File
 
 SOURCE=.\src\input\ARToolKitSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\CallbackModule.h
 # End Source File
 # Begin Source File
 
