@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.4 2001/08/18 21:51:10 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,6 +42,7 @@
 using namespace std;
 
 #include <common/CallbackModule.h>
+#include <misc/xml/XMLWriter.h>
 
 CallbackFunction testCB;
 
@@ -88,6 +89,9 @@ int main(int argc, char **argv)
     }
     cout << "Doing some operations" << endl;
 
+    XMLWriter writer( context );
+    writer.write("before.xml");
+
     Node * myNode = context.findNode( "Test" );
     if( myNode != NULL ){
         cout << "Found node " << myNode->getName() << " of type " << myNode->getType() << endl;
@@ -109,6 +113,7 @@ int main(int argc, char **argv)
             }
         }
     }
+    writer.write( "after.xml" );
     cout << "Starting context again !\n";
     while( !context.stop()){
         context.pushStates();

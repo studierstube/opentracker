@@ -4,6 +4,9 @@ TARGET: default
 include ../../Config.global
 include ../../Config.site
 
+SUBDIRS = \
+    ./xml
+
 # use configuration options to compile these files
 PRVFLAGS = $(OT_OPTIONAL_INC)
 
@@ -30,7 +33,7 @@ OBJFILES = $(C++FILES:.cxx=.o)
 
 TARGETS = $(PROGRAM) 
 
-default: $(PROGRAM) 
+default: $(PROGRAM) all
 
 $(OT_LIB): $(OT_LIB_OBJ)
 	@echo "--- $(STB_LIB) ---"
@@ -45,3 +48,13 @@ $(TEST): $(TEST_OBJ) $(OT_LIB)
 	$(CXXLINK) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(LDFLAGS)
 
 sinclude $(DEPFILES)
+
+## ---------------------------------------------------------------------------
+## BUILD RULES
+## ---------------------------------------------------------------------------
+
+all: $(_FORCE)
+	@for i in $(SUBDIRS) ; do \
+	  echo "=== $$i ===" ; \
+	  ( cd $$i && $(MAKE) $(NOPRINT)) || exit 1 ; \
+	done

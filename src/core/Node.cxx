@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.14 2001/08/18 20:01:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.15 2001/08/18 21:51:10 reitmayr Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -292,7 +292,7 @@ string Node::get( const string & key )
     DOMString res = parent->getAttribute( key.c_str());
     char * cres = res.transcode();
     string sres( cres );
-    delete cres;
+    delete [] cres;
     return sres;
 }
 
@@ -392,7 +392,7 @@ int Node::get(const string & key, int * value, int len )
         data = end;
         value[count++] = strtol( data, &end, 0 );
     }
-    delete data;
+    delete [] data;
     return count;
 }
 
@@ -407,7 +407,7 @@ int Node::get(const string & key, float * value, int len )
         data = end;
         value[count++] = strtod( data, &end );
     }
-    delete data;
+    delete [] data;
     return count;
 }
 
@@ -422,6 +422,6 @@ int Node::get(const string & key, double * value, int len )
         data = end;
         value[count++] = strtod( data, &end );
     }
-    delete data;
+    delete [] data;
     return count;        
 }

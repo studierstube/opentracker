@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.15 2001/08/18 20:01:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.16 2001/08/18 21:51:10 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -478,6 +478,7 @@ public:
     friend class Context;
 	friend class ConfigurationParser;
 	friend class RefNode;
+    friend class XMLWriter;
 };
 
 #endif
