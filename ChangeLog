@@ -9,6 +9,53 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-23 16:45  tamer
+
+	* cfg/m4/: ace.m4, xerces.m4:
+	
+	fixed handling in case ace and xerces are installed into the
+	system.
+
+2003-06-23 15:15  tamer
+
+	* cfg/m4/libtool.m4:
+	
+	.: major build system update :.
+	
+	autoconf: 2.53	-> 2.57 automake: 1.6.3 -> 1.7.5 libtool:  1.4.3 ->
+	1.5
+
+2003-06-23 13:46  tamer
+
+	* src/input/Makefile.am:
+	
+	headers after source files.
+
+2003-06-23 13:45  tamer
+
+	* src/input/GPSModule.h:
+	
+	friend declaration needs class specifier with gcc3.
+
+2003-06-23 13:44  tamer
+
+	* src/input/GPS_Handler.cxx:
+	
+	added newline.
+
+2003-06-23 10:51  tomp
+
+	* src/common/ElasticFilterNode.cxx:
+	
+	fixed implementation of rotation calcualtion by using quaternion
+	functions
+
+2003-06-23 10:50  tomp
+
+	* src/core/: MathUtils.cxx, MathUtils.h:
+	
+	added quaternionToAxisAngle function
+
 2003-06-18 18:31  reitmayr
 
 	* src/core/Context.cxx:
