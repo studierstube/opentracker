@@ -7,16 +7,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _EVENTQUEUEIMPLEMENTATION_H
 #define _EVENTQUEUEIMPLEMENTATION_H
 
+#include "../dllinclude.h"
+
 #include <deque>
 
-#include "EventQueue.h"
 #include "State.h"
 
 /** A front and back insert Vector like container, for simple and
@@ -33,7 +34,7 @@ typedef std::deque<State *> StateQueue;
  * time base search as a method of its own.
  * @ingroup core
  */
-class EventQueueImplementation : public EventQueue
+class OPENTRACKER_API EventQueueImplementation
 {
 // Members
 protected:
@@ -52,13 +53,13 @@ public:
      * newest event for n = 0.
      * @param number the number of the event to be retrieved
      * @return reference to the State */
-    virtual State& getEvent(int number = 0) ;
+    virtual State& getEvent(unsigned int number = 0) ;
     /** returns the event closes to the given point in time
      * @param time point in the the event should be closest to
      * @return reference to the found event */
     virtual State& getEventNearTime(double time) ;
     /** returns the size of the queue */
-    virtual int getSize() ;
+    virtual unsigned int getSize() ;
 };
 
 #endif

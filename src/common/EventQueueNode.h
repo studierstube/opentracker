@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -32,12 +32,6 @@
 
 #include "../OpenTracker.h"
 #include "../core/EventQueueImplementation.h"
-/*
-#include "TreeNode.h"
-#include "EventQueueImplementation.h"
-#include "EventGenerator.h"
-#include "EventObserver.h"
-*/
 
 /**
  * EventQueueNode stores a queue of size length of the last received events.
@@ -45,8 +39,7 @@
  * because it also notifies parents of events it receives.
  * @author Gerhard Reitmayr
  */
-class EventQueueNode : public TreeNode, public EventQueueImplementation
-    , public EventGenerator, public EventObserver
+class OPENTRACKER_API EventQueueNode : public Node, public EventQueueImplementation
 {
 // Members
 protected:
@@ -55,38 +48,31 @@ protected:
 
 // Methods
 public:
-    /** ructor method.
+    /** constructor method.
      * @param maximum length of the queue */
-    EventQueueNode(int length_) : TreeNode(), EventGenerator(),
-        EventQueueImplementation()
+    EventQueueNode(int length_) : Node(), EventQueueImplementation()
     {
         length = length_;
     }
-    /** adds a child to the Node. This node tests whether the child node
-     * implements the EventGenerator interface and if so registers with
-     * it. Otherwise it doesn't add the node to its children.
-     * @param node reference to new child node
-     */
-    virtual void addChild( Node& node);
+
     /** tests for EventGenerator interface being present. Overriden in this
      * node to return this.
      * @return always this */
-    virtual EventGenerator * isEventGenerator()
+    virtual int isEventGenerator()
     {
-        return this;
+        return 1;
     };
     /** tests for EventQueue interface being present. Overriden in this
      * node to return this.
      * @return always this */
-    virtual EventQueue * isEventQueue()
+    virtual int isEventQueue()
     {
-        return this;
+        return 1;
     };
     /** this method is called by the EventGenerator to update it's observers
      * @param event new event
      * @param generator the calling EventGenerator */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator);
+    virtual void onEventGenerated( State& event, Node& generator);
 };
 
 #endif

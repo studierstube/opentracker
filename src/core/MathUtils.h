@@ -7,12 +7,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _MATHUTILS_H
 #define _MATHUTILS_H
+
+#include "../dllinclude.h"
 
 /**
  * This class implements some utility classes for matrix and quaternion
@@ -20,11 +22,11 @@
  * a common place for such things, like in Java. These do not handle any
  * memory issues, all arrays etc. have to be created and managed by the
  * calling code.
- * @todo think about inlining MathUtils code to speed up implementation ??
+ * @todo think about using double in implementation to make it more accurate.
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class MathUtils
+class OPENTRACKER_API MathUtils
 {
 public:
     /** converts an axis angle representation into a quaternion

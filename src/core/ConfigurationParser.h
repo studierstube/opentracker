@@ -7,14 +7,15 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _CONFIGURATIONPARSER_H
 #define _CONFIGURATIONPARSER_H
 
-#include <dom/DOM_Element.hpp>
+#include "../dllinclude.h"
+
 #include <string>
 #include <map>
 
@@ -23,6 +24,10 @@
 #include "NodeFactory.h"
 #include "WrapperNode.h"
 #include "ConfigNode.h"
+#include "RefNode.h"
+
+class DOM_Element;
+class DOM_Document;
 
 /**
  * maps a string to another string. Mostly used to map element attributes
@@ -42,7 +47,7 @@ typedef std::map<string, Node *> NodeMap;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class ConfigurationParser
+class OPENTRACKER_API ConfigurationParser
 {
 // Members
 protected:
@@ -52,6 +57,9 @@ protected:
     NodeFactory & factory;
     /// maps IDs to nodes
     NodeMap references;
+	/// stores the parsed document tree
+	DOM_Document * document;
+
 
 // Methods
 protected:

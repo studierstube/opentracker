@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.7 2001/03/25 10:47:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.8 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -78,8 +78,8 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 {
     // initialize some variables
     cycle = 0;
-    angularSpeed = 0.1;
-    posSpeed = 0.1;
+    angularSpeed = 0.1f;
+    posSpeed = 0.1f;
     station = 0;
     quit = 0;
 
@@ -219,13 +219,13 @@ void ConsoleModule::pushState()
                 quit = 1;
                 break;
             case ACCELL : 
-                angularSpeed += 0.01;
-                posSpeed += 0.01;
+                angularSpeed += 0.01f;
+                posSpeed += 0.01f;
                 break;
             case BRAKE :
-                angularSpeed -= 0.01;
+                angularSpeed -= 0.01f;
                 if( angularSpeed < 0 ) angularSpeed = 0;
-                posSpeed -= 0.01;
+                posSpeed -= 0.01f;
                 if( posSpeed < 0 ) posSpeed = 0;
                 break;
             case STATION_0 :
@@ -366,7 +366,7 @@ void ConsoleModule::pushState()
         source = (ConsoleSource *)(*it);
         if( source->changed == 1 )
         {          
-            source->push();
+            source->updateObservers( source->state );
             source->changed = 0;
         }
     }
@@ -542,10 +542,9 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
     if( localTree != NULL )
     {
         ConfigNode * base = (ConfigNode *)localTree;
-        NodeVector & nodes = base->getChildren();
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        for( unsigned int i = 0; i < base->countChildren(); i++ )
         {
-            ConfigNode * config = (ConfigNode *)(*it);
+            ConfigNode * config = (ConfigNode *)base->getChild( i );
             if( config->getName().compare("KeyDefinition") == 0 )
             {
                 string & function = config->getAttributes()["function"];

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.3 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -22,6 +22,8 @@
 
 #ifndef _TESTMODULE_H
 #define _TESTMODULE_H
+
+#include "../dllinclude.h"
 
 #include <vector>
 
@@ -41,7 +43,7 @@ typedef vector<Node*> NodeVector;
  * the tracker tree according to the nodes configuration.
  * @author Gerhard Reitmayr
  */
-class TestModule : public Module, public NodeFactory
+class OPENTRACKER_API TestModule : public Module, public NodeFactory
 {
 // Members
 protected:

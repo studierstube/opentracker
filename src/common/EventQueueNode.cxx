@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -19,25 +19,9 @@
 #include <iostream.h>
 #endif
 
-/// adds a child to the Node.
+// this method is called by the EventGenerator to update it's observers
 
-void EventQueueNode::addChild(Node& node)
-{
-    if( node.isEventGenerator() != NULL )
-    {
-        node.isEventGenerator()->addEventObserver( *this );
-        TreeNode::addChild( node );
-    }
-    else
-    {
-        cerr << "EventQueueNode : child is not an EventGenerator !" << endl;
-    }
-}
-
-/// this method is called by the EventGenerator to update it's observers
-
-void EventQueueNode::onEventGenerated( State& event,
-                                       EventGenerator& generator)
+void EventQueueNode::onEventGenerated( State& event, Node& generator)
 {
     if( queue.size() == length )
     {

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.3 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,8 +59,6 @@
 
 #include "../OpenTracker.h"
 
-typedef map<EventGenerator *, unsigned> FlagMap;
-
 /**
  * A MergeNode is an EventGenerator node that observes several marked input
  * nodes and merges the data provided by the input nodes. The mark decides
@@ -68,88 +66,35 @@ typedef map<EventGenerator *, unsigned> FlagMap;
  * wrapper nodes and apropriate DTD definitions.
  * @author Gerhard Reitmayr
  */
-class MergeNode
-    : public Node
-    , public EventGenerator
-    , public EventObserver
+class OPENTRACKER_API MergeNode : public Node   
 {
 
 protected:
     /// State variable to put transformed state into
     State localState;
- 
-    /** definitions for flags defining whats happening for each
-     * EventGenerator. These are binary flags that can be or'd
-     * together.
-     */
-    static unsigned DEFAULT, POSITION, ORIENTATION, BUTTON,
-               CONFIDENCE, TIME;
-    
-    /** the flag for nodes with the default wrapper tag, it is
-     * the compliment of all other defined wrappers 
-     */
-    unsigned defaultFlags;
-    /** maps from EventGenerator to a set of flags defining which
-     * values of the EventGenerator to use 
-     */
-    FlagMap mergeFlags;        
     
 public:
     /** constructor method
      */
     MergeNode()
-    {};
-    /**
-     * adds a child to the Node. Sets the child member to the node.
-     * If the node implements the EventGenerator interface, it registers
-     * as an EventObserver with it.
-     * @param node reference to the new child node.
-     */
-    virtual void addChild( Node& node);
+    {}; 
 
     /** tests for EventGenerator interface being present and returns
-     * a pointer to it, if present.
-     * @return pointer to interface or NULL */
-    EventGenerator * isEventGenerator()
+     * 1, if present.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-    	return this;
+    	return 1;
     }
 
     /**
-     * this method is called by the EventGenerator to update it's observers.
-     * This class computes a transformed state, stores it in its local variable
-     * and notifies its observers in turn, propagating the change.
+     * This method is called by any child node. It updates the local
+	 * state with the right part of the passed event and notifies
+	 * it's parent and references in turn.
+	 * @param event the event value passed
+	 * @param generator the node generating the event
      */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator)
-    {
-        FlagMap::iterator index = mergeFlags.find( &generator );
-        if( index == mergeFlags.end())
-            return;
-        int flags = (*index).second;
-        if( flags & DEFAULT )
-            flags |= defaultFlags;
-        if( flags & POSITION )
-        {
-            localState.position[0] = event.position[0];
-            localState.position[1] = event.position[1];
-            localState.position[2] = event.position[2];
-        }
-        if( flags & ORIENTATION )
-        {
-            localState.orientation[0] = event.orientation[0];
-            localState.orientation[1] = event.orientation[1];
-            localState.orientation[2] = event.orientation[2];
-            localState.orientation[3] = event.orientation[3];
-        }
-        if( flags & BUTTON )
-            localState.button = event.button;
-        if( flags & CONFIDENCE )
-            localState.confidence = event.confidence;
-        if( flags & TIME )        
-            localState.time = event.time;        
-        updateObservers( localState );
-    }                                  
+    virtual void onEventGenerated( State& event, Node & generator);                                
 };
 
 #endif

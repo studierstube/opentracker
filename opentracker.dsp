@@ -2,7 +2,7 @@
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
-# TARGTYPE "Win32 (x86) Console Application" 0x0103
+# TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
 CFG=opentracker - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
@@ -17,8 +17,8 @@ CFG=opentracker - Win32 Debug
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "opentracker - Win32 Release" (based on "Win32 (x86) Console Application")
-!MESSAGE "opentracker - Win32 Debug" (based on "Win32 (x86) Console Application")
+!MESSAGE "opentracker - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "opentracker - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -26,55 +26,59 @@ CFG=opentracker - Win32 Debug
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
 CPP=cl.exe
+MTL=midl.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "opentracker - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "opentracker___Win32_Release"
-# PROP BASE Intermediate_Dir "opentracker___Win32_Release"
+# PROP BASE Output_Dir "Release"
+# PROP BASE Intermediate_Dir "Release"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "opentracker___Win32_Release"
-# PROP Intermediate_Dir "opentracker___Win32_Release"
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "d:/dev/xerces/include" /I "d:/dev/ace" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
+# ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
 # ADD RSC /l 0xc07 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "opentracker - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "opentracker___Win32_Debug"
-# PROP BASE Intermediate_Dir "opentracker___Win32_Debug"
+# PROP BASE Output_Dir "Debug"
+# PROP BASE Intermediate_Dir "Debug"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "opentracker___Win32_Debug"
-# PROP Intermediate_Dir "opentracker___Win32_Debug"
+# PROP Output_Dir "Debug"
+# PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /w /W0 /Gm /GX /ZI /Od /I "c:\projects\ace" /I "c:\projects\xerces\include" /I "c:\projects\artoolkit\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c
-# SUBTRACT CPP /X
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "d:/dev/xerces/include" /I "d:/dev/ace" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /GZ /c
+# ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
+# ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "_DEBUG"
 # ADD RSC /l 0xc07 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /nodefaultlib:"msvcrt.lib" /out:"bin/opentracker.exe" /pdbtype:sept
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"bin/opentracker.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -85,10 +89,6 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-# Begin Source File
-
-SOURCE=.\src\input\ARToolKitModule.cxx
-# End Source File
 # Begin Source File
 
 SOURCE=.\src\common\CommonNodeFactory.cxx
@@ -107,10 +107,6 @@ SOURCE=.\src\core\Context.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\CyberMouseModule.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\core\DOMTreeErrorReporter.cxx
 # End Source File
 # Begin Source File
@@ -119,27 +115,11 @@ SOURCE=.\src\common\DynamicTransformation.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\core\EventGenerator.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\core\EventQueueImplementation.cxx
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\common\EventQueueNode.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\InterTraxModule.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\isense.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\main.cxx
 # End Source File
 # Begin Source File
 
@@ -159,11 +139,19 @@ SOURCE=.\src\network\NetworkSourceModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\Node.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\NodeFactoryContainer.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\OpenTracker.cxx
+SOURCE=.\src\misc\OpenTracker.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\core\State.cxx
 # End Source File
 # Begin Source File
 
@@ -179,15 +167,11 @@ SOURCE=.\src\common\Transformation.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\core\TreeNode.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\common\VirtualTransformation.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\WacomGraphireModule.cxx
+SOURCE=.\src\core\WrapperNode.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -195,19 +179,7 @@ SOURCE=.\src\input\WacomGraphireModule.cxx
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\src\input\ARToolKitModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\ARToolKitSource.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\common\CommonNodeFactory.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\config.h
 # End Source File
 # Begin Source File
 
@@ -235,11 +207,7 @@ SOURCE=.\src\core\Context.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\CyberMouseModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\CyberMouseSource.h
+SOURCE=.\src\dllinclude.h
 # End Source File
 # Begin Source File
 
@@ -251,35 +219,11 @@ SOURCE=.\src\common\DynamicTransformation.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\core\EventGenerator.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\core\EventObserver.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\core\EventQueue.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\core\EventQueueImplementation.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\common\EventQueueNode.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\InterTraxModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\InterTraxSource.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\isense.h
 # End Source File
 # Begin Source File
 
@@ -331,6 +275,10 @@ SOURCE=.\src\OpenTracker.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\RefNode.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\State.h
 # End Source File
 # Begin Source File
@@ -351,27 +299,11 @@ SOURCE=.\src\core\ThreadModule.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\core\TimeDependend.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\common\Transformation.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\core\TreeNode.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\common\VirtualTransformation.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\WacomGraphireModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\WacomGraphireSource.h
 # End Source File
 # Begin Source File
 
@@ -382,65 +314,13 @@ SOURCE=.\src\core\WrapperNode.h
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
-# Begin Group "Data Files"
-
-# PROP Default_Filter "xml"
 # Begin Source File
 
-SOURCE=.\data\artoolkit.xml
+SOURCE=..\Ace\ace\aced.lib
 # End Source File
 # Begin Source File
 
-SOURCE=.\data\debug.xml
-# End Source File
-# Begin Source File
-
-SOURCE=.\data\recv.xml
-# End Source File
-# Begin Source File
-
-SOURCE=.\data\simple.xml
-# End Source File
-# Begin Source File
-
-SOURCE=.\data\test.xml
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=..\ACE\ace\ace.lib
-# End Source File
-# Begin Source File
-
-SOURCE="..\xerces\lib\xerces-c_1.lib"
-# End Source File
-# Begin Source File
-
-SOURCE=..\artoolkit\lib\ARvideoWin32.lib
-# End Source File
-# Begin Source File
-
-SOURCE=..\artoolkit\lib\AR32.lib
-# End Source File
-# Begin Source File
-
-SOURCE=..\VisSDK\lib\VisCore.lib
-# End Source File
-# Begin Source File
-
-SOURCE=..\VisSDK\lib\VisImSrc.lib
-# End Source File
-# Begin Source File
-
-SOURCE=..\artoolkit\lib\ARgsub32.lib
-# End Source File
-# Begin Source File
-
-SOURCE=..\artoolkit\lib\Strings32.lib
-# End Source File
-# Begin Source File
-
-SOURCE=.\bin\WINTAB32.LIB
+SOURCE="..\xerces\lib\xerces-c_1D.lib"
 # End Source File
 # End Target
 # End Project

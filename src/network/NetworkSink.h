@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,7 +58,7 @@ typedef struct {
  * out the last state stored.
  * @author Gerhard Reitmayr
  */
-class NetworkSink : public Node, public EventGenerator, public EventObserver
+class OPENTRACKER_API NetworkSink : public Node
 {
 // Members
 public:
@@ -81,34 +81,19 @@ public:
      * @param group_ pointer of the multicast group this station belongs to
      */
     NetworkSink( string & name_,short int number_, MulticastGroup * group_ ) :
-        Node(), 
-        EventGenerator(),
-        EventObserver(),
+        Node(),     
         stationName( name_ ),
         stationNumber( number_ ),
         group( group_ ),
         modified( 0 )
     {};
-
-    /**
-     * adds a child to the Node. If the child is an EventGenerator as it
-     * should be, it registers as observer with it.
-     * @param node reference to the child node
-     */
-    virtual void addChild(Node& node)
-    {
-        if( node.isEventGenerator() != NULL )
-        {
-            node.isEventGenerator()->addEventObserver( *this );
-        }
-    };
     
     /** tests for EventGenerator interface being present. Is overriden to
-     * return this always.
-     * @return always this */
-    EventGenerator * isEventGenerator()
+     * return 1 always.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-        return this;
+        return 1;
     };
     
     /**
@@ -120,8 +105,7 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator)
+    virtual void onEventGenerated( State & event, Node & generator)
     {
         state = event;
         modified = 1;

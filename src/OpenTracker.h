@@ -9,7 +9,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.4 2001/03/25 10:47:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.5 2001/03/26 22:11:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,11 +48,11 @@
  * @date 2000
  */
 
+#include "../dllinclude.h"
+
 // ACE needs to be included before any Windows headers, because there are 
 // some problems with Windows.h file.
 #include <ace/ACE.h>
-
-// #include "config.h"
 
 #include <string>
 #include <vector>
@@ -63,9 +63,6 @@ using namespace std;
 
 #include "core/ThreadModule.h"
 #include "core/Node.h"
-#include "core/EventGenerator.h"
-#include "core/EventQueue.h"
-#include "core/TimeDependend.h"
 #include "core/NodeFactory.h"
 #include "core/Context.h"
 #include "core/MathUtils.h"
@@ -95,6 +92,6 @@ typedef map<string, string> StringMap;
  *
  * @param context reference of the context to be initialized.
  */
-void initializeContext( Context & context );
+void OPENTRACKER_API initializeContext( Context & context );
 
 #endif

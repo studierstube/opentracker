@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.6 2001/03/06 18:08:08 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.7 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,17 +66,14 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
     StringMap & map = parseElement( element );
     string tagName = element.getTagName().transcode();
     ConfigNode * config = new ConfigNode( tagName, & map );
+	config->setParent( element );
     DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
     for( int i = 0; i < list.getLength(); i ++ )
     {
         if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
             DOM_Element childElement = (DOM_Element&)list.item(i);
-            ConfigNode * child = buildConfigTree( childElement );
-            if( child != NULL )
-            {
-                config->addChild( * child );
-            }
+            ConfigNode * child = buildConfigTree( childElement );      
         }
     }
     return config;
@@ -86,23 +83,29 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
 
 Node * ConfigurationParser::buildTree( DOM_Element& element)
 {
-    StringMap & map = parseElement( element );
     string tagName = element.getTagName().transcode();
+	StringMap & map = parseElement( element );
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
     {
         NodeMap::iterator find = references.find(map["USE"]);
         if( find != references.end()){
-            return (*find).second;
+			RefNode * ref = new RefNode( (*find).second );
+			ref->setParent( element );
+			delete & map;
+            return ref;
         } else
         {
             cout << "Undefined reference " << map["USE"] << " !" << endl;
+			delete & map;
             return NULL;
         }
     }
+
     Node * value = factory.createNode( tagName , map );
     if( value != NULL )
     {
+		value->setParent( element );
         // Test for ID 
         if( map.find("DEF") != map.end())
         {
@@ -116,27 +119,6 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
             {
                 DOM_Element childElement = (DOM_Element&)list.item(i);
                 Node * childNode = buildTree( childElement );
-                if( childNode != NULL )
-                {   
-                    /*
-                    // if the child is only a wrapper node
-                    // we use addWrappedChild to add the
-                    // children to our current node.
-                    if( childNode->isWrapperNode() != NULL )              
-                    {                                                     
-                        WrapperNode * wrapper = childNode->isWrapperNode(); 
-                        string name = wrapper->getTagName();
-                        NodeVector & nodes = wrapper->getChildren();
-                        for( NodeVector::iterator index = nodes.begin(); index != nodes.end(); index++ )
-                        {
-                            value->addWrappedChild(*(*index), name );
-                        }
-                    }
-                    else  // otherwise we add the node itself
-                    { */
-                        value->addChild( *childNode );
-                    // }
-                }
             }
         }
     }
@@ -153,13 +135,12 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
 
 Node * ConfigurationParser::parseConfigurationFile( string& filename)
 {
-    TreeNode * value = new TreeNode;
-
-     // read and parse configuration file
+    // read and parse configuration file
     DOMParser parser;
     parser.setDoValidation( true );
     DOMTreeErrorReporter errReporter;
     parser.setErrorHandler(&errReporter);
+	parser.setIncludeIgnorableWhitespace( false );
     try
     {
         parser.parse( filename.c_str() );
@@ -178,7 +159,9 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
     }
 
     DOM_Document doc = parser.getDocument();
+	document = new DOM_Document( doc );
     DOM_Element root = doc.getDocumentElement();
+	cout << "Root node is " << root.getTagName().transcode() << endl;
 
     // get the configuration part
     DOM_NodeList list = (DOM_NodeList)root.getElementsByTagName( "configuration" );
@@ -201,27 +184,20 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
             DOM_Element configElement = (DOM_Element &)configlist.item(i);
             StringMap & attributes = parseElement( configElement );
             string tagName = configElement.getTagName().transcode();
+			ConfigNode * base = new ConfigNode( tagName, & attributes );
+			base->setParent( configElement );
             cout << "config for " << tagName  << endl;
 
             DOM_NodeList nodelist = (DOM_NodeList)configElement.getChildNodes();
-            ConfigNode * base = NULL;
+            
             for( int j = 0; j < nodelist.getLength(); j++ )
             {
                 if( nodelist.item(j).getNodeType() == DOM_Node::ELEMENT_NODE )
-                {
-                    if( base == NULL )
-                    {
-                        base = new ConfigNode("", new StringMap );
-                    }
+                {        
                     DOM_Element element = (DOM_Element &)nodelist.item(j);                    
-                    ConfigNode * child = buildConfigTree( element );
-                    if( child != NULL )
-                    {
-                        base->addChild( *child );
-                    }
+                    ConfigNode * child = buildConfigTree( element );              
                 }
-            }
-
+            }	
             if( modules.find(tagName) != modules.end())
             {
                 modules.find(tagName)->second->init( attributes, base );
@@ -234,6 +210,8 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
 
     // parse the rest of the elements
     DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();
+	Node * node = new Node();
+	node->setParent( root );
     for( i = 0; i < rootlist.getLength(); i++ )
     {
         if( rootlist.item(i).getNodeType() != DOM_Node::ELEMENT_NODE )   // not an element node !
@@ -245,12 +223,9 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
         {
             continue;
         }
-        Node * node = buildTree( element );
-        if( node != NULL ){
-            value->addChild( *node );
-        }
+		buildTree( element );
     }
-    return value;
+    return node;
 }
 
 // parses an Elements attributes and returns a StringMap describing them.

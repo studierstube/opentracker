@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -18,11 +18,11 @@
 
 float* MathUtils::axisAngleToQuaternion(float* axisa, float* qResult)
 {
-    float s = sin( axisa[3]/2 );
-    qResult[3] = cos( axisa[3]/2 );
-    qResult[0] = axisa[0]*s;
-    qResult[1] = axisa[1]*s;
-    qResult[2] = axisa[2]*s;
+    double s = sin( axisa[3]/2 );
+    qResult[3] = (float)cos( axisa[3]/2 );
+    qResult[0] = (float)(axisa[0]*s);
+    qResult[1] = (float)(axisa[1]*s);
+    qResult[2] = (float)(axisa[2]*s);
     return qResult;
 }
 
@@ -31,7 +31,7 @@ float* MathUtils::axisAngleToQuaternion(float* axisa, float* qResult)
 float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
                                     float* qResult)
 {
-    float cr, cp, cy, sr, sp, sy, cpcy, spsy;
+    double cr, cp, cy, sr, sp, sy, cpcy, spsy;
 
     // calculate trig identities
     cr = cos(roll/2);
@@ -45,10 +45,10 @@ float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
     cpcy = cp * cy;
     spsy = sp * sy;
 
-    qResult[0] = sr * cpcy - cr * spsy;
-    qResult[1] = cr * sp * cy + sr * cp * sy;
-    qResult[2] = cr * cp * sy - sr * sp * cy;
-    qResult[3] = cr * cpcy + sr * spsy;
+    qResult[0] = (float)(sr * cpcy - cr * spsy);
+    qResult[1] = (float)(cr * sp * cy + sr * cp * sy);
+    qResult[2] = (float)(cr * cp * sy - sr * sp * cy);
+    qResult[3] = (float)(cr * cpcy + sr * spsy);
     return qResult;
 }
 
@@ -56,11 +56,11 @@ float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
 
 float* MathUtils::invertQuaternion(float* q, float* qResult)
 {
-    float mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
-    qResult[0] = -q[0] / mod;
-    qResult[1] = -q[1] / mod;
-    qResult[2] = -q[2] / mod;
-    qResult[3] = q[3] / mod;
+    double mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+    qResult[0] = (float)( -q[0] / mod );
+    qResult[1] = (float)( -q[1] / mod );
+    qResult[2] = (float)( -q[2] / mod );
+    qResult[3] = (float)( q[3] / mod );
     return qResult;
 }
 
@@ -68,7 +68,7 @@ float* MathUtils::invertQuaternion(float* q, float* qResult)
 
 float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
 {
-    float tr, s;
+    double tr, s;
     int i, j, k;
     int nxt[3] = {1, 2, 0};
 
@@ -78,11 +78,11 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
     if (tr > 0.0)
     {
         s = sqrt (tr + 1.0);
-        qResult[3] = s / 2.0;
+        qResult[3] =(float)( s / 2.0 );
         s = 0.5 / s;
-        qResult[0] = (matrix[2][1] - matrix[1][2]) * s;
-        qResult[1] = (matrix[0][2] - matrix[2][0]) * s;
-        qResult[2] = (matrix[1][0] - matrix[0][1]) * s;
+        qResult[0] = (float)((matrix[2][1] - matrix[1][2]) * s);
+        qResult[1] = (float)((matrix[0][2] - matrix[2][0]) * s);
+        qResult[2] = (float)((matrix[1][0] - matrix[0][1]) * s);
     }
     else
     {
@@ -95,13 +95,13 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
 
         s = sqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
 
-        qResult[i] = s * 0.5;
+        qResult[i] = (float)( s * 0.5 );
 
         if (s != 0.0) s = 0.5 / s;
 
-        qResult[3] = (matrix[k][j] - matrix[j][k]) * s;
-        qResult[j] = (matrix[j][i] + matrix[i][j]) * s;
-        qResult[k] = (matrix[k][i] + matrix[i][k]) * s;
+        qResult[3] =(float)((matrix[k][j] - matrix[j][k]) * s );
+        qResult[j] =(float)( (matrix[j][i] + matrix[i][j]) * s );
+        qResult[k] =(float)( (matrix[k][i] + matrix[i][k]) * s );
     }
     return qResult;
 }
@@ -121,11 +121,11 @@ float* MathUtils::multiplyQuaternion(float* q1, float* q2, float* qResult)
 
 float* MathUtils::normalizeQuaternion(float* q)
 {
-    float mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
-    q[0] /= mod;
-    q[1] /= mod;
-    q[2] /= mod;
-    q[3] /= mod;
+    double mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+    q[0] = (float)( q[0] / mod );
+    q[1] = (float)( q[1] / mod );
+    q[2] = (float)( q[2] / mod );
+    q[3] = (float)( q[3] / mod );
     return q;
 }
 

@@ -7,12 +7,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactoryContainer.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _NODEFACTORYCONTAINER_H
 #define _NODEFACTORYCONTAINER_H
+
+#include "../dllinclude.h"
 
 #include "NodeFactory.h"
 
@@ -30,7 +32,7 @@ typedef std::vector<NodeFactory*> NodeFactoryVector;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class NodeFactoryContainer : public NodeFactory
+class OPENTRACKER_API NodeFactoryContainer : public NodeFactory
 {
 
 protected:

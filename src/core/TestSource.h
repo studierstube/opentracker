@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestSource.h,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -28,15 +28,16 @@
 #ifndef _TESTSOURCE_H
 #define _TESTSOURCE_H
 
+#include "../dllinclude.h"
+
 #include "Node.h"
-#include "EventGenerator.h"
 
 /**
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers.
  * @author Gerhard Reitmayr
  */
-class TestSource : public Node, public EventGenerator
+class OPENTRACKER_API TestSource : public Node
 {
 // Members
 public:
@@ -54,7 +55,6 @@ public:
      * @param offset_ initial value for member offset */
     TestSource( int frequency_, int offset_ ) : 
         Node(),
-	EventGenerator(),
 	frequency( frequency_ ),
 	offset( offset_ )
     {}
@@ -62,13 +62,13 @@ public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
-    EventGenerator * isEventGenerator()
+    int isEventGenerator()
     {
-        return this;
+        return 1;
     }
     /** pushes event down the line. Needed to access protected
      * updateObservers method in EventGenerator */
-    void TestSource::push()
+    void push()
     {
         state.timeStamp();
         updateObservers( state );

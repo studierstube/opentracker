@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.2 2001/03/06 18:06:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -23,41 +23,14 @@
 
 DynamicTransformation::DynamicTransformation() : StaticTransformation()
 {
-    baseChild = NULL;
-}
-
-// adds a child to the Node.
-
-void DynamicTransformation::addChild( Node& node)
-{
-    WrapperNode * wrap = node.isWrapperNode();
-    if( wrap != NULL && baseChild == NULL )
-    {
-        if( wrap->getTagName().compare("TransformBase") == 0 )
-        {
-            NodeVector &nodes = wrap->getChildren();
-            if( nodes.size() > 0 )
-            {
-                baseChild = nodes[0]->isEventGenerator();
-                if( baseChild != NULL )
-                {
-                    baseChild->addEventObserver( *this );
-                }
-            }
-        } 
-    } else 
-    {
-        StaticTransformation::addChild( node );
-    }
 }
 
 // this method is called by the EventGenerator to update it's observers.
 
-void DynamicTransformation::onEventGenerated( State& event,
-                                       EventGenerator& generator)
+void DynamicTransformation::onEventGenerated( State& event, Node& generator)
 {
-    if( &generator == baseChild )
-    {
+    if( generator.isWrapperNode() == 1 )  // if the event is from the wrapper 
+    {									  // node, its a change to the base.
         for( int i = 0; i < 3; i ++ )
         {
             translation[i] = event.position[i];

@@ -8,7 +8,7 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.4 2001/03/06 18:07:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.5 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  
@@ -249,7 +249,7 @@ void NetworkSourceModule::pushState()
             {
                 (*it)->source->state = (*it)->state;
                 (*it)->modified = 0;
-                (*it)->source->push();
+                (*it)->source->updateObservers( (*it)->source->state );
             }
         }
         (*rec)->mutex.release();

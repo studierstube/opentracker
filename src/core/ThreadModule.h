@@ -7,12 +7,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _THREADMODULE_H
 #define _THREADMODULE_H
+
+#include "../dllinclude.h"
 
 #include <ace/Thread.h>
 #include <ace/Synch.h>
@@ -33,7 +35,7 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class ThreadModule : public Module
+class OPENTRACKER_API ThreadModule : public Module
 {
 //members
 protected:

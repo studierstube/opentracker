@@ -7,12 +7,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _NODEFACTORY_H
 #define _NODEFACTORY_H
+
+#include "../dllinclude.h"
 
 #include <map>
 
@@ -33,7 +35,7 @@ typedef std::map<string, string> StringMap;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class NodeFactory
+class OPENTRACKER_API NodeFactory
 {
 public:
     /**

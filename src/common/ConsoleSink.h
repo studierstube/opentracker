@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.2 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,7 +39,7 @@
  * out the last state stored.
  * @author Gerhard Reitmayr
  */
-class ConsoleSink : public Node, public EventGenerator, public EventObserver
+class OPENTRACKER_API ConsoleSink : public Node
 {
 // Members
 public:
@@ -56,31 +56,17 @@ public:
      * @param comment_ the comment line to use */
     ConsoleSink( string & comment_ ) :
         Node(), 
-        EventGenerator(),
-        EventObserver(),
         comment( comment_ ),
         changed( 0 )
     {}
 
-    /**
-     * adds a child to the Node. This is just an empty method,
-     * the derived class has to implement what to do with the child.
-     * @param node reference to the child node
-     */
-    virtual void addChild(Node& node)
-    {
-        if( node.isEventGenerator() != NULL )
-        {
-            node.isEventGenerator()->addEventObserver( *this );
-        }
-    }
     
     /** tests for EventGenerator interface being present. Is overriden to
-     * return this always.
-     * @return always this */
-    EventGenerator * isEventGenerator()
+     * return 1 always.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-        return this;
+        return 1;
     }
     
     /**
@@ -92,8 +78,7 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator)
+    virtual void onEventGenerated( State& event, Node& generator)
     {
         state = event;
         changed = 1;

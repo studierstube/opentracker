@@ -7,106 +7,71 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "MergeNode.h"
 
-// static members
+/** definitions for flags defining whats happening for each
+ * EventGenerator. These are binary flags that can be or'd
+ * together.
+ */
+unsigned DEFAULT = 1, 
+         POSITION = 2, 
+         ORIENTATION = 4, 
+         BUTTON = 8,
+         CONFIDENCE = 16, 
+         TIME = 32;
 
-unsigned MergeNode::DEFAULT = 1, 
-         MergeNode::POSITION = 2, 
-         MergeNode::ORIENTATION = 4, 
-         MergeNode::BUTTON = 8,
-         MergeNode::CONFIDENCE = 16, 
-         MergeNode::TIME = 32;
-
-// adds a child to the Node.
-
-void MergeNode::addChild( Node& node)
+void MergeNode::onEventGenerated( State& event, Node & generator)
 {
-    WrapperNode * wrapper = node.isWrapperNode();
-    if( wrapper != NULL )
-    {
-        NodeVector nodes = wrapper->getChildren();
-        if( wrapper->getTagName().compare("MergeDefault") == 0 )
-        {            
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= DEFAULT;
-                }
-            }
-        } else if(  wrapper->getTagName().compare("MergePosition") == 0 )
-        {
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= POSITION;
-                    defaultFlags &= ~POSITION;
-                }
-            }
-        } else if(  wrapper->getTagName().compare("MergeOrientation") == 0 )
-        {
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= ORIENTATION;
-                    defaultFlags &= ~ORIENTATION;
-                }
-            }
-        } else if(  wrapper->getTagName().compare("MergeButton") == 0 )
-        {
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= BUTTON;
-                    defaultFlags &= ~BUTTON;
-                }
-            }
-        } else if(  wrapper->getTagName().compare("MergeConfidence") == 0 )
-        {
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= CONFIDENCE;
-                    defaultFlags &= ~CONFIDENCE;
-                }
-            }
-        } else if(  wrapper->getTagName().compare("MergeTime") == 0 )
-        {
-            for( NodeVector::iterator it = nodes.begin();
-                 it != nodes.end(); it++ )
-            {
-                EventGenerator * generator = (*it)->isEventGenerator();
-                if( generator != NULL )
-                {
-                    generator->addEventObserver( *this );
-                    mergeFlags[generator] |= TIME;
-                    defaultFlags &= ~TIME;
-                }
-            }
-        }
-    }
-}
+	unsigned flag = 0;
+	if( generator.isWrapperNode() == 1 )  // this should always be the case
+	{
+		WrapperNode & wrap = (WrapperNode &)generator;
+		if( wrap.getTagName().compare("MergeDefault") == 0 )
+		{
+			if( countWrappedChildren((string)"MergePosition") == 0 )
+				flag |= POSITION;
+			if( countWrappedChildren((string)"MergeOrientation") == 0 )
+				flag |= ORIENTATION;
+			if( countWrappedChildren((string)"MergeButton") == 0 )
+				flag |= BUTTON;
+			if( countWrappedChildren((string)"MergeConfidence") == 0 )
+				flag |= CONFIDENCE;
+			if( countWrappedChildren((string)"MergeTime") == 0 )
+				flag |= TIME;
+		} 
+		else if( wrap.getTagName().compare("MergePosition") == 0 )
+			flag |= POSITION;
+		else if( wrap.getTagName().compare("MergeOrientation") == 0 )
+			flag |= ORIENTATION;
+		else if( wrap.getTagName().compare("MergeButton") == 0 )
+			flag |= BUTTON;
+		else if( wrap.getTagName().compare("MergeConfidence") == 0 )
+			flag |= CONFIDENCE;
+		else if( wrap.getTagName().compare("MergeTime") == 0 )
+			flag |= TIME;			
+		if( flag & POSITION )
+		{
+			localState.position[0] = event.position[0];
+			localState.position[1] = event.position[1];
+			localState.position[2] = event.position[2];
+		}	
+		if( flag & ORIENTATION )
+		{
+			localState.orientation[0] = event.orientation[0];
+			localState.orientation[1] = event.orientation[1];
+			localState.orientation[2] = event.orientation[2];
+			localState.orientation[3] = event.orientation[3];
+		}
+		if( flag & BUTTON )
+			localState.button = event.button;
+		if( flag & CONFIDENCE )
+			localState.confidence = event.confidence;
+		if( flag & TIME )        
+			localState.time = event.time;        
+		updateObservers( localState );
+	}
+}                                  

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -90,6 +90,8 @@
  * the actual module instantiations outside of the class.
  */
 
+#include "../dllinclude.h"
+
 #include <map>
 
 using namespace std;
@@ -115,7 +117,7 @@ typedef std::map<string, string> StringMap;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class Module
+class OPENTRACKER_API Module
 {
 //members
 protected:

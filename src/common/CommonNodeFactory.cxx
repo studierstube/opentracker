@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.4 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.5 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -192,7 +192,7 @@ Node * CommonNodeFactory::createNode(  string& name,
     } else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;
-        return new WrapperNode( name );
+        return new WrapperNode();
     }              
     return NULL;
 }

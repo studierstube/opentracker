@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.cxx,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.cxx,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -17,29 +17,21 @@
 
 Transformation::Transformation()
     : Node()
-    , EventGenerator()
     , localState()
 {
 }
 
-// adds a child to the Node.
-
-void Transformation::addChild( Node& node)
-{
-    child = (Node *) &node;
-    if( node.isEventGenerator() != NULL )
-    {
-        node.isEventGenerator()->addEventObserver( *this );
-    }
-}
-
 // returns the event number n back in time starting with the newest for n = 0
 
-State& Transformation::getEvent(int number)
+State& Transformation::getEvent(unsigned int number)
 {
-    if( isEventQueue() != NULL )
-    {
-        return *transformState( & child->isEventQueue()->getEvent( number ));
+	Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		if( child->isEventQueue() == 1 )
+		{    
+			return *transformState( & child->getEvent( number ));
+		}
     }
     return State::null;
 }
@@ -48,20 +40,28 @@ State& Transformation::getEvent(int number)
 
 State& Transformation::getEventNearTime(double time)
 {
-    if( isEventQueue() != NULL )
-    {
-        return *( State *)transformState(& child->isEventQueue()->getEventNearTime( time ));
-    }
+	Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		if( child->isEventQueue() == 1 )
+		{    
+			return *transformState( & child->getEventNearTime( time ));
+		}
+    }   
     return State::null;
 }
 
 // returns the size of the queue
 
-int Transformation::getSize()
+unsigned int Transformation::getSize()
 {
-    if( isEventQueue() != NULL )
-    {
-        return child->isEventQueue()->getSize();
+	Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		if( child->isEventQueue() == 1 )
+		{    
+			return child->getSize();
+		}
     }
     return 0;
 }
@@ -70,50 +70,56 @@ int Transformation::getSize()
 
 State& Transformation::getStateAtTime(double time)
 {
-    if( isTimeDependend() != NULL )
-    {
-        return *transformState(& child->isTimeDependend()->getStateAtTime( time ));
+	Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		if( child->isTimeDependend() == 1 )
+		{    
+			return *transformState(& child->getStateAtTime( time ));
+		}
     }
     return State::null;
 }
 
 // tests for EventGenerator interface being present.
 
-EventGenerator * Transformation::isEventGenerator()
+int Transformation::isEventGenerator()
 {
-    if( child->isEventGenerator() != NULL )
-    {
-        return this;
+    Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		return child->isEventGenerator();
     }
-    return NULL;
+	return 0;
 }
 
 // tests for EventQueue interface being present.
 
-EventQueue * Transformation::isEventQueue()
+int Transformation::isEventQueue()
 {
-    if( child->isEventQueue() != NULL )
-    {
-        return this;
+    Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		return child->isEventQueue();
     }
-    return NULL;
+	return 0;
 }
 
 // tests for TimeDependend interface being present.
 
-TimeDependend * Transformation::isTimeDependend()
+int Transformation::isTimeDependend()
 {
-    if( child->isTimeDependend() != NULL )
-    {
-        return this;
+    Node * child = getChild( 0 );
+	if( child != NULL )
+	{
+		return child->isTimeDependend();
     }
-    return NULL;
+	return 0;
 }
 
 // this method is called by the EventGenerator to update it's observers.
 
-void Transformation::onEventGenerated( State& event,
-                                       EventGenerator& generator)
+void Transformation::onEventGenerated( State& event, Node& generator)
 {
     updateObservers( *transformState( &event ));
 }

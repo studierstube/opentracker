@@ -7,54 +7,64 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/WrapperNode.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/WrapperNode.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _WRAPPERNODE_H
 #define _WRAPPERNODE_H
 
-#include "TreeNode.h"
+#include "../dllinclude.h"
+
+#include "Node.h"
 
 /**
  * This node implements a wrapper node. Its just there to signal the existence
- * of a wrapper tag. Wrapper tags capsulate the nodes children into several
- * groups. The children are then added to the node with the
- * addWrappedChild method, to tell the node to which group the child belongs.
+ * of a wrapper tag. It is used in searching for wrapped children.
  * @note write explanation of wrapper tags here
  * @author Gerhard Reitmayr
  * @ingroup core
 */
-class WrapperNode : public TreeNode
+class OPENTRACKER_API WrapperNode : public Node
 {
-// Members
 protected:
-    /// the wrapper element name
-    string tagName;
+	string tagname;
+
+	virtual void setParent( DOM_Element & parElement );
 // Methods
 public:
     /**
-     * ructor method
-     * @param tagName_ the wrapper tag element name for this WrapperNode */
-    WrapperNode(string& tagName_)
-        : TreeNode()
-        , tagName(tagName_)
+     * constructor method */
+    WrapperNode()
+        : Node()
     {};
     /// destructor method
     virtual ~WrapperNode()
     {};
     /** tests whether the given node is a wrapper node.
      * @return always returns 1 */
-    virtual WrapperNode * isWrapperNode()
+    virtual int isWrapperNode()
     {
-        return this;
+        return 1;
     };
-    /** returns the value of the wrapper tag
-     * @return string containing wrapper tag value */
-     string& getTagName()
-    {
-        return tagName;
-    };
+
+	/**
+     * this method notifies the object that a new event was generated.
+     * It is called by an EventGenerator.
+     * @param event reference to the new event. Do not change the
+     *        event values, make a copy and change that !
+     * @param generator reference to the EventGenerator object that
+     *        notified the EventObserver.
+     */
+    virtual void onEventGenerated( State& event, Node& generator)
+	{
+		updateObservers( event );
+	}
+
+	string & getTagName()
+	{
+		return tagname;
+	}
 };
 
 #endif

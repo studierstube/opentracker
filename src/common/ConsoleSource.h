@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.2 2001/03/05 17:21:42 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,7 +38,7 @@
  * based on keyboard input.
  * @author Gerhard Reitmayr
  */
-class ConsoleSource : public Node, public EventGenerator
+class OPENTRACKER_API ConsoleSource : public Node
 {
 // Members
 public:
@@ -54,26 +54,18 @@ public:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
     ConsoleSource( int number_ ) :
-        Node(), 
-        EventGenerator(),
+        Node(),    
         number( number_ ),
         changed( 0 )
     {}
 
     /** tests for EventGenerator interface being present. Is overriden to
-     * return this always.
-     * @return always this */
-    EventGenerator * isEventGenerator()
+     * return 1 always.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-        return this;
-    }
-    
-    /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator */
-    void push()
-    {
-        updateObservers( state );
-    }
+        return 1;
+    }    
 };
 
 #endif

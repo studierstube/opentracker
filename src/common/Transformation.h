@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -25,17 +25,11 @@
  * file DTD.
  * @author Gerhard Reitmayr
  */
-class Transformation
+class OPENTRACKER_API Transformation
     : public Node
-    , public EventGenerator
-    , public EventObserver
-    , public EventQueue
-    , public TimeDependend
 {
 // Members
 protected:
-    /// pointer to the one possible child
-    Node* child;
     /// local state variable
     State localState;
 
@@ -56,25 +50,17 @@ public:
     Transformation();
 
     /**
-     * adds a child to the Node. Sets the child member to the node.
-     * If the node implements the EventGenerator interface, it registers
-     * as an EventObserver with it.
-     * @param node reference to the new child node.
-     */
-    virtual void addChild( Node& node);
-
-    /**
      * returns the event number n back in time starting with the
      * newest for n = 0
      */
-    virtual State& getEvent(int number = 0);
+    virtual State& getEvent(unsigned int number = 0);
 
     virtual State& getEventNearTime(double time);   
 
     /** returns the size of the queue. Uses the childs
      * implementation, if possible.
      * @return size of queue */
-    virtual int getSize();
+    virtual unsigned int getSize();
 
     /** the function evaluation method.
      * @param time the point in time at which function is evaluated
@@ -84,25 +70,24 @@ public:
     /** tests for EventGenerator interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements EventGenerator, 0 otherwise */
-    virtual EventGenerator * isEventGenerator() ;
+    virtual int isEventGenerator() ;
 
     /** tests for EventQueue interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements EventQueue, 0 otherwise */
-    virtual EventQueue * isEventQueue() ;
+    virtual int isEventQueue() ;
 
     /** tests for TimeDependend interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements TimeDependend, 0 otherwise */
-    virtual TimeDependend * isTimeDependend() ;
+    virtual int isTimeDependend() ;
 
     /**
      * this method is called by the EventGenerator to update it's observers.
      * This class computes a transformed state, stores it in its local variable
      * and notifies its observers in turn, propagating the change.
      */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator);
+    virtual void onEventGenerated( State& event, Node& generator);
 };
 
 #endif

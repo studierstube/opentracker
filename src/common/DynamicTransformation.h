@@ -10,7 +10,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.2 2001/03/06 18:06:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,12 +52,10 @@
  * data. 
  * @author Gerhard Reitmayr
  */
-class DynamicTransformation : public StaticTransformation
+class OPENTRACKER_API DynamicTransformation : public StaticTransformation
 {
 protected:
 
-    /// the data of this child defines the base affine space
-    EventGenerator * baseChild;
     /** stores the original event data to compute new values
      * on base changes.*/
     State store;
@@ -68,22 +66,13 @@ public:
     DynamicTransformation();
 
     /**
-     * adds a child to the Node. If the child is a TransformBase 
-     * WrapperNode, its child is used to define the baseChild.
-     * and 
-     * @param node reference to the new child node.
-     */
-    virtual void addChild( Node& node );
-
-    /**
      * this method is called by the EventGenerator to update it's observers.
      * This class computes a transformed state, stores it in its local variable
      * and notifies its observers in turn, propagating the change.
      * If the EventGenerator equals the baseChild, its data is stored in the
      * underlying StaticTransformation fields, to change the transformation itself.
      */
-    virtual void onEventGenerated( State& event,
-                                   EventGenerator& generator);
+    virtual void onEventGenerated( State& event, Node& generator);
 
 };
 

@@ -8,11 +8,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.1 2001/03/24 23:50:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include <ace/ACE.h>
+
+#include "../dllinclude.h"
 
 #include "../core/State.h"
 #include "../core/Context.h"
@@ -28,15 +30,22 @@
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
 
-/** a global unique variable null, for typesafe null references as return
- *  values of methods.*/
-State State::null;
+// DLL main function
+
+BOOL APIENTRY DllMain( HANDLE hModule, 
+                       DWORD  ul_reason_for_call, 
+                       LPVOID lpReserved
+					 )
+{
+    return TRUE;
+}
+
 
 // initializes context
 
-void initializeContext( Context & context )
+void OPENTRACKER_API initializeContext( Context & context )
 {
-   // Instance the default modules and add to factory and parser
+    // Instance the default modules and add to factory and parser
     CommonNodeFactory * common = new CommonNodeFactory;
     context.addFactory( *common );
 
@@ -48,11 +57,11 @@ void initializeContext( Context & context )
     NetworkSinkModule * networksink = new NetworkSinkModule;
     context.addFactory( *networksink );
     context.addModule( (string)"NetworkSinkConfig", *networksink );
-
+	
     ConsoleModule * console = new ConsoleModule ;
     context.addFactory( *console );
     context.addModule( (string)"ConsoleConfig", *console );
-    
+
     NetworkSourceModule * network = new NetworkSourceModule;
     context.addFactory( * network );
     context.addModule( (string)"NetworkSourceConfig", *network );    
@@ -79,5 +88,5 @@ void initializeContext( Context & context )
     CyberMouseModule * cmouse = new CyberMouseModule;
     context.addFactory( * cmouse );
     context.addModule( (string)"CyberMouseConfig", * cmouse );
-#endif
+#endif	
 }

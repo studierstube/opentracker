@@ -5,36 +5,26 @@
 <OpenTracker>
 	<configuration>
 		<NetworkSinkConfig name="Test Server"/>
-		<ConsoleConfig interval="20">
-			<KeyDefinition key="left" name="Move_X_minus"/>
-		</ConsoleConfig>
+		<ConsoleConfig interval="1" headerline="Test Server"/>
 	</configuration>
-	<Merge>
-		<MergePosition>
-			<ConsoleSink>
-				<Merge>
-					<MergeDefault>
-						<ARToolKitSource tag-file="" vertex=""/>
-					</MergeDefault>
-					<MergeOrientation>
-						<TestSource/>
-					</MergeOrientation>
-					<MergeConfidence>
-						<NetworkSource number="" multicast-address="" port=""/>
-					</MergeConfidence>
-				</Merge>
-			</ConsoleSink>
-			<NetworkSink name="" number="" multicast-address="" port=""/>
-		</MergePosition>
-		<MergeButton>
-			<ConsoleSink>
-				<EventDynamicTransformation>
-					<TestSource/>
-					<TransformBase>
-						<InterTraxSource/>
-					</TransformBase>
-				</EventDynamicTransformation>
-			</ConsoleSink>
-		</MergeButton>
-	</Merge>
+	<ConsoleSink comment="Transformation">
+		<EventTransformation translation="1 1 1">
+			<TestSource offset="0" frequency="10"/>
+		</EventTransformation>
+	</ConsoleSink>
+	<ConsoleSink comment="VirtualTransformation">
+		<EventVirtualTransformation translation="2 2 2">
+			<TestSource frequency="10" offset="1"/>
+		</EventVirtualTransformation>
+	</ConsoleSink>
+	<ConsoleSink comment="Network Sink">
+		<NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
+			<EventTransformation translation="-1 -1 -1">
+				<TestSource frequency="10" offset="2"/>
+			</EventTransformation>
+		</NetworkSink>
+	</ConsoleSink>
+	<ConsoleSink comment="Network Source">
+		<NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
+	</ConsoleSink>
 </OpenTracker>

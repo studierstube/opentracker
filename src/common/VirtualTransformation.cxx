@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.2 2001/02/20 18:02:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -31,5 +31,6 @@ State* VirtualTransformation::transformState( State* state)
     // copy other state fields
     localState.button = state->button;
     localState.confidence = state->confidence;
+	localState.time = state->time;
     return &localState;
 }
