@@ -32,7 +32,7 @@
 
 /**
  * @page Nodes Node Reference
- * @section GPSGarminCompass GPSGarminCompass
+ * @section gpsgarmincompass GPSGarminCompass
  * The GPSGarminCompass node is a simple EventGenerator that outputs GPS 
  * direction data from a magnetic compass of a Garmin receiver like the eTrex. 
  * It parses the Garmin NMEA string $HCHDG. The direction is encoded in the orientation 

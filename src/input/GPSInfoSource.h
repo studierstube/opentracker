@@ -22,31 +22,30 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for GPSSource Node.
+/** header file for GPSInfoSource Node.
   *
   * @author Gerhard Reitmayr
   *
-  * $Id$
+  * $Id: GPSInfoSource.h 712 2004-07-14 12:44:50Z tamer $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section gpssource GPSSource
- * The GPSSource node is a simple EventGenerator that outputs GPS position data encoded
- * in the position part of the event. This data is in Latitue, Longitute, Height 
- * in the WGS84 coordinate system. The confidence value is the inverse of the PDOP value. 
- * It is managed by the @ref gpsmodule, see there for more information on how to configure GPS support.
- * Use a filter after that to transform the data into your local coordinate system. The node
- * has no further attributes besides the ID attribute.
+ * @section gpsinfosource GPSInfoSource
+ * The GPSInfoSource node is a simple EventGenerator that outputs additional 
+ * status data on the GPS signal. It encodes the type of fix in the first entry 
+ * of the position, the number of satellites in the second and the hdop value in 
+ * the third. It will always fire even if no there is no position fix. The fix type is 
+ * 0 for no fix, 1 for uncorrected and 2 for corrected position.
  *
  * An example element looks like this :
  * @verbatim
-<GPSSource/>@endverbatim
+<GPSInfoSource/>@endverbatim
  */
 
-#ifndef _GPSSOURCE_H
-#define _GPSSOURCE_H
+#ifndef _GPSINFOSOURCE_H
+#define _GPSINFOSOURCE_H
 
 #include <assert.h>
 
@@ -58,7 +57,7 @@
  * @author Gerhard Reitmayr
  * @ingroup input
  */
-class OPENTRACKER_API GPSSource : public Node, public GPSListener  
+class OPENTRACKER_API GPSInfoSource : public Node, public GPSListener  
 {
 public:
 
@@ -79,27 +78,24 @@ public:
 
 protected:
 	/// protected constructor so it is only accessible by the module
-	GPSSource() {};
+	GPSInfoSource() {};
 
 	friend class GPSModule;
 };
 
-inline void GPSSource::newData( const GPResult * res, const char * line, void * userData )
+inline void GPSInfoSource::newData( const GPResult * res, const char * line, void * userData )
 {
     assert( userData != NULL );
     if( res->type == GPResult::GPGGA){
         GPGGA * point = (GPGGA *) res;
-        if( point->fix == 0)
-            return;
         GPSModule * module = (GPSModule *)userData;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = point->lat * MathUtils::GradToRad;
-        buffer.position[1] = point->lon * MathUtils::GradToRad;
-        buffer.position[2] = point->altitude;
-        buffer.confidence = 1 / point->hdop;
+        buffer.position[0] = point->fix;
+        buffer.position[1] = point->numsats;
+        buffer.position[2] = point->hdop;
         module->unlock();
     }
 }
 
-#endif // !defined(_GPSSOURCE_H)
+#endif // !defined(_GPSINFOSOURCE_H)

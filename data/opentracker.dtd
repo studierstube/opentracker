@@ -27,7 +27,7 @@ $Id$
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
@@ -757,6 +757,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST GPSGarminAltitude
   DEF ID #IMPLIED
 >
+<!ELEMENT GPSInfoSource EMPTY>
+<!ATTLIST GPSInfoSource
+  DEF ID #IMPLIED
+>
 <!--DynaSight receiver acting as sources-->
 <!ELEMENT DynaSightConfig EMPTY>
 <!ATTLIST DynaSightConfig
@@ -787,12 +791,12 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!--Multicast device driver. Use for Simulator.-->
 <!ELEMENT MulticastInputConfig EMPTY>
 <!ATTLIST MulticastInputConfig
-    port CDATA #REQUIRED
+  port CDATA #REQUIRED
 >
 <!ELEMENT MulticastInputSource EMPTY>
 <!ATTLIST MulticastInputSource
-    number CDATA #REQUIRED
-    DEF ID #IMPLIED
+  number CDATA #REQUIRED
+  DEF ID #IMPLIED
 >
 <!-- Dwarf service configuration elements -->
 <!ELEMENT DwarfConfig (attribute*, (need | ability)*)>
@@ -858,8 +862,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!-- Xsens trackers -->
 <!ELEMENT XSensConfig EMPTY>
-<!ATTLIST XSensConfig
->
+<!ATTLIST XSensConfig>
 <!ELEMENT XSensSource EMPTY>
 <!ATTLIST XSensSource
   DEF ID #IMPLIED

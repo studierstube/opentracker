@@ -41,6 +41,7 @@
 #include "GPSDirectionSource.h"
 #include "GPSGarminCompass.h"
 #include "GPSGarminAltitude.h"
+#include "GPSInfoSource.h"
 
 #include <iostream>
 
@@ -54,7 +55,8 @@ dirSource( NULL ),
 driver( NULL ),
 logFile( NULL ), 
 compassSource( NULL ),
-altitudeSource( NULL )
+altitudeSource( NULL ), 
+infoSource( NULL )
 {
 }
 
@@ -67,7 +69,9 @@ GPSModule::~GPSModule()
     if( compassSource != NULL )
         delete compassSource;
     if( altitudeSource != NULL )
-        delete altitudeSource;    
+        delete altitudeSource;
+    if( infoSource != NULL )
+        delete infoSource;
     if( logFile != NULL )
         delete logFile;
 }
@@ -178,59 +182,35 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
         std::cout << "Built GPSGarminAltitude node." << endl;
         return altitudeSource;
     }
+    if( name.compare("GPSInfoSource") == 0 )
+    {
+        if( infoSource != NULL )
+        {
+            std::cout << "Only one GPSInfoSource can be build !" << endl;
+            return NULL;
+        }
+        if( !isInitialized() )
+        {
+            std::cout << "GPSModule is not initialized, cannot build GPSInfoSource !" << endl;
+            return NULL;
+        }
+        infoSource = new GPSInfoSource;
+        std::cout << "Built GPSInfoSource node." << endl;
+        return infoSource;
+    }
 	return NULL;	
 }
 
 void GPSModule::pushState()
 {
-	if( source != NULL )
-	{
-		lock();
-		if( source->state.time < source->buffer.time )
-		{
-			source->state = source->buffer;
-			unlock();
-			source->updateObservers( source->state );
-		}
-		else
-			unlock();
-    }
-    if( dirSource != NULL )
-    {
-        lock();
-        if( dirSource->state.time < dirSource->buffer.time )
-        {
-            dirSource->state = dirSource->buffer;
-            unlock();
-            dirSource->updateObservers( dirSource->state );
-        }
-        else
-			unlock();
-	}
-    if( compassSource != NULL )
-    {
-        lock();
-        if( compassSource->state.time < compassSource->buffer.time )
-        {
-            compassSource->state = compassSource->buffer;
-            unlock();
-            compassSource->updateObservers( compassSource->state );
-        }
-        else
-            unlock();
-	}
-    if( altitudeSource != NULL )
-    {
-        lock();
-        if( altitudeSource->state.time < altitudeSource->buffer.time )
-        {
-            altitudeSource->state = altitudeSource->buffer;
-            unlock();
-            altitudeSource->updateObservers( altitudeSource->state );
-        }
-        else
-            unlock();
-	}
+    // here for some template magic:
+    // updateSource is a template member function but the compiler appearantly
+    // creates different variants for each type passed in :)
+    updateSource(source);
+    updateSource(dirSource);
+    updateSource(compassSource);
+    updateSource(altitudeSource);
+    updateSource(infoSource);
 }
 
 void GPSModule::start()
@@ -267,6 +247,8 @@ void GPSModule::run()
         driver->addListener( compassSource, this );
     if( altitudeSource != NULL )
         driver->addListener( altitudeSource, this );
+    if( infoSource != NULL )
+        driver->addListener( infoSource, this );
     
     if( logFile != NULL )
         driver->addListener( this );

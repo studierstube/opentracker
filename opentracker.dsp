@@ -650,6 +650,10 @@ SOURCE=.\src\input\GPSGarminCompass.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\GPSInfoSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\GPSModule.h
 # End Source File
 # Begin Source File

@@ -32,7 +32,7 @@
 
 /**
  * @page Nodes Node Reference
- * @section GPSGarminAltitude GPSGarminAltitude
+ * @section gpsgarminaltitude GPSGarminAltitude
  * The GPSGarminAltitude node is a simple EventGenerator that outputs GPS 
  * altitude data from a Garmin device interpreting the propriatory $PGRMZ string.
  * The altitude is given as a vector with the altitude encoded in the positive Y 

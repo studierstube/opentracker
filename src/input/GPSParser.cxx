@@ -82,22 +82,21 @@ bool GPSParser::checkSum( const char * line )
 
 const GPResult * GPGGA::parse( const char * line )
 {
-    char         *cp,
-                 *ep;
     char         buffer[NMEABUFSZ];
-    int          fix,
-                 statid,
-                 numsats;
-    double       time, 
-                 lat,
-                 lon,
-                 hdop,
-                 alt,
-                 height,
-                 diffdelay;
+    int          fix = 0,
+                 statid = 0,
+                 numsats = 0;
+    double       time = 0, 
+                 lat = 0,
+                 lon = 0,
+                 hdop = 0,
+                 alt = 0,
+                 height = 0,
+                 diffdelay = 0;
     
     // copy string into work buffer
     ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+    
     /*
     * $GPGGA,011243,3743.000,N,12214.000,W,2,07,0.4,2.8,M,-27.9,M,0,0269*4
     * 5
@@ -108,139 +107,134 @@ const GPResult * GPGGA::parse( const char * line )
     * diff-delay, statid, csum
     */   
     if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
-        cp = ep = (char *) buffer;
-        ep = strchr(cp, ',');
-        if (!ep)
+
+        ACE_Tokenizer tok( buffer );
+        tok.delimiter_replace(',', 0);
+        char * token, * oldtoken;
+
+        token = tok.next();
+        if (!token)
             return new GPResult;
-        *ep++ = '\0';
-        
+
         /* time */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
+        token = tok.next();
+        if (!token)
             return new GPResult;
-        *ep++ = '\0';
-        
-        /* 012345 --> 01:23:45 */
-        time = atoi(cp + 4);
-        cp[4] = 0;
-        time += 60 * atoi(cp + 2);
-        cp[2] = 0;
-        time += 3600 * atoi(cp);
-        
-        /* latitude */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        lat = atof(cp + 2) / 60.0;
-        cp[2] = 0;
-        lat += atof(cp);
-        
-        /* ns */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        if (*cp == 'S') {
-            lat = -lat;
+
+        // not all receivers output a time, if there is no fix !
+        if( token == buffer + 7 )
+        {            
+            oldtoken = token + ACE_OS::strlen( token ) + 1;
+            
+            /* 012345.0 --> 01:23:45.0 */
+            time = atof(token + 4);
+            token[4] = 0;
+            time += 60 * atoi(token + 2);
+            token[2] = 0;
+            time += 3600 * atoi(token);
+            
+            token = tok.next();
+            if( !token )
+                return new GPResult;
+            
+            // test for fix, 
+            if( token == oldtoken  )
+            {            
+                // we have a fix and parse the position
+                /* latitude */
+                lat = atof(token + 2) / 60.0;
+                token[2] = 0;
+                lat += atof(token);
+                
+                /* ns */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+                if (*token == 'S') {
+                    lat = -lat;
+                }
+                
+                /* longitude */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+                lon = atof(token + 3) / 60.0;
+                token[3] = 0;
+                lon += atof(token);
+                
+                /* ew */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+                if (*token == 'W') {
+                    lon = -lon;
+                }
+                // go to the next token
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+            }
         }
-        /* longitude */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        lon = atof(cp + 3) / 60.0;
-        cp[3] = 0;
-        lon += atof(cp);
-        
-        /* ew */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        if (*cp == 'W') {
-            lon = -lon;
-        }
+
         /* fix 0,1,2 */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        fix = atoi(cp);
+        fix = atoi(token);
         
         /* number of sats */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
+        token = tok.next();
+        if (!token)
             return new GPResult;
-        *ep++ = '\0';
-        numsats = atoi(cp);
-        
-        /* HDOP */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        hdop = atof(cp);
-        
-        /* altitude */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        alt = atof(cp);
-        
-        /* M - discard  */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        
-        /* height above geode */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        height = atof(cp);
-        
-        /* M - discard */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        
-        /* differential delay -- optional value */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep) {			/* the delim might be "*" */
-            ep = strchr(cp, '*');
+        numsats = atoi(token);
+
+        // the following will be only valid, if we have a fix
+        if( fix > 0 )
+        {
+            /* HDOP */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            hdop = atof(token);
+            
+            /* altitude */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            alt = atof(token);
+            
+            /* M - discard  */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            
+            /* height above geode */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            height = atof(token);
+            
+            /* M - discard */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            
+            /* differential delay -- optional value */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            if( *token != '*' )
+            {
+                diffdelay = atof(token);
+                token = tok.next();
+            }
+            
+            /* diff station ID - optional */
+            if (!token)
+                return new GPResult;
+            if( *token != '*' )
+            {
+                statid = atoi(token);
+                token = tok.next();
+            }
         }
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        diffdelay = atof(cp);
-        
-        /* diff station ID - optional */
-        cp = ep;
-        ep = strchr(cp, '*');
-        if (!ep) {
-            statid = 0;
-        } else {
-            *ep++ = '\0';
-            statid = atoi(cp);
-        }
-        
         /* ----------- */
 
         GPGGA * result = new GPGGA;
@@ -407,7 +401,7 @@ const GPResult * HCHDG::parse( const char * line )
 
 const GPResult * PGRMZ::parse( const char * line )
 {
-    char    buffer[NMEABUFSZ];
+    char buffer[NMEABUFSZ];
     
     // copy string into work buffer
     ACE_OS::strncpy( buffer, line, NMEABUFSZ);
