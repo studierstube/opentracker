@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.h,v 1.9 2001/08/18 20:12:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -140,6 +140,8 @@ public:
     void setRotation(float * data)
     {
         memcpy( rotation, data, sizeof(float)*4 );
+        put( "rotation", data, 4 );
+        put( "rotationtype", "quaternion" );
     }
 
     /** sets the scale of the transformation. It is only
@@ -150,8 +152,11 @@ public:
      */
     void setScale(float * data)
     {
-        if( usePos )
+        if( usePos ) 
+        {
             memcpy( scale, data, sizeof(float)*3 );
+            put( "scale", data, 3 );
+        }
     }
 
     /** sets the translation of the transformation. It is only
@@ -162,8 +167,10 @@ public:
      */
     void setTranslation(float * data)
     {
-        if( usePos )
+        if( usePos ) {
             memcpy( translation, data, sizeof(float)*3 );
+            put( "translation", data, 3 );
+        }
     }
 
     friend class CommonNodeFactory;
