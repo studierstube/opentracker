@@ -26,23 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  *****************************************************************
-  *
-  * ALF 9.Dec.2002:
-  * some of the newer mainboards seem to lack pull-up resistors
-  * which results in showing always a value of "0xFF" as data
-  *
-  * I corrected this by using external pull-ups of about 2kOhm
-  * from the input pins to pin 14 (output Autofeed), which gets
-  * initialized as HIGH. (This is a hack. Better would be using 
-  * +5V from e.g. the PS/2 connector, but this means another 
-  * connector, which is too much trouble)
-  *
-  * Try this hack, if you've got the same problems.
-  *
-  *****************************************************************
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.14 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.15 2003/02/13 15:44:35 tomp Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -54,6 +38,8 @@
 // the parallel port access. You will also have to make sure to include the
 // right libraries etc.
 //#define _DLPORTIO
+#define _PORT_TALK
+#define _RADIO_BUTTON
 
 using namespace std;
 
@@ -61,13 +47,19 @@ using namespace std;
 #include <windows.h>
 #endif
 
-#include <iostream>
+#if defined (WIN32) || defined (GCC3)
+#include <iostream>    // VisualC++ uses STL based IOStream lib
+#else
+#include <iostream.h>
+#endif
 
 #ifdef WIN32
-#ifndef _DLPORTIO
-#include "../misc/portio.h"
+#if defined (_DLPORTIO)
+#include <Dlportio.h>
+#elif defined(_PORT_TALK)
+#include "../misc/pt_ioctl.c" 
 #else
-#include "Dlportio.h"
+#include "../misc/portio.h"
 #endif
 #else
 #include <stropts.h> 
@@ -77,10 +69,6 @@ using namespace std;
 #include <unistd.h> 
 #ifdef _SGI_SOURCE
 #include <sys/plp.h> 
-#else
-#include <linux/ioctl.h>
-#include <linux/parport.h>
-#include <linux/ppdev.h>
 #endif
 #endif
 
@@ -105,15 +93,22 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         }
         // setting parallel port for input
 
-#ifndef _DLPORTIO
-        outportb(addr, 0x00 );
-        outportb(addr+2, 0x20); // set to byte output mode,
-								// all control lines to HIGH
+#if defined(_DLPORTIO)
+		DlPortWritePortUchar(addr, 0x00);
+		DlPortWritePortUchar(addr+2, 0x20);
 #else
-	DlPortWritePortUchar(addr, 0x00);
-	DlPortWritePortUchar(addr+2, 0x20); 
-	// nothing to be done here
+	#if defined(_PORT_TALK)
+	    OpenPortTalk();
+		cout << "Using PortTalk 2.2 for parallel port access" << endl;	
+	#endif
+	#if defined(_RADIO_BUTTON)
+		cout << "Radio button decoding activated" << endl;	
+	#endif
+        // setting parallel port for input
+        outportb(addr, 0x00 );
+        outportb(addr+2, 0x20); 
 #endif
+		// nothing to be done here
 
         ParButtonSource * source = new ParButtonSource( addr );
 
@@ -142,34 +137,9 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             cout << "ParButtonModule Error timeout on " << dev << endl;
             return NULL;
         }
-        ParButtonSource * source = new ParButtonSource((unsigned int) handle );
+        ParButtonSource * source = new ParButtonSource((unsigned int)handle );
 #else  // Linux
-	int handle = open( dev.c_str(), O_RDWR | O_NDELAY );
-	if( handle < 0 )
-        {
-            cout << "ParButtonModule Error opening parallel port " << dev << endl;
-            return NULL;
-        }
-	
-	int mode;
-	if(ioctl(handle, PPCLAIM) < 0) 
-	{
-	    cout << "ParButtonModule Error claiming port" 
-	         << dev << endl;
-	    ::close(handle);
-	    return NULL;
-	}
-
-	unsigned char datadir=0x01;
-  
-	if (ioctl(handle, PPDATADIR, &datadir) < 0)
-	{
-	    cout << "ParButtonModule Error setting datadir" << dev << endl;
-	    ::close(handle);
-	    return NULL;
-	}
-  
-	ParButtonSource * source = new ParButtonSource((unsigned int) handle );
+	ParButtonSource * source = NULL;
 #endif
 #endif
         nodes[dev] = source;
@@ -185,15 +155,14 @@ void ParButtonModule::close()
 {
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
-#ifndef WIN32
 #ifdef _SGI_SOURCE
         ::close(((ParButtonSource*)(*it).second)->handle);
-#else  // LINUX
-	ioctl(((ParButtonSource*)(*it).second)->handle, PPRELEASE);
-        ::close(((ParButtonSource*)(*it).second)->handle);
-#endif
 #endif
     }
+
+#if defined( _PORT_TALK)
+    ClosePortTalk();
+#endif
     nodes.clear();
 }
   
@@ -202,27 +171,33 @@ void ParButtonModule::close()
 void ParButtonModule::pushState()
 {
     unsigned short data;
-    
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
 #ifdef WIN32
 
-#ifndef _DLPORTIO
+#if defined(_DLPORTIO)
+		data = (~DlPortReadPortUchar(source->handle )) & 0xff;
+#elif defined(_PORT_TALK)
         data = (~inportb( source->handle )) & 0xff;
 #else
-		// just check for two buttons if using hardware hack
-		//data = (~DlPortReadPortUchar(source->handle )) & 0x03;
-		data = (~DlPortReadPortUchar(source->handle )) & 0xFF;
+        data = (~inportb( source->handle )) & 0xff;
 #endif
-        if( data != source->state.button )
+
+#if defined(_RADIO_BUTTON)
+		if (~data & 0x01) // is valid transmission bit set
+			data = (data>>1) & 0x03; // remove vt bit, mask out buttons (active low !!)
+		else
+			data = 0; // ignore if valid transmission bit is zero
+#endif
+
+		if( data != source->state.button )
         {
             source->state.button = data;
             source->state.timeStamp();
             source->updateObservers( source->state );
         }
-#else
-
+#endif
 #ifdef _SGI_SOURCE
         if( read( source->handle, &data, 1 ) == 1 )
         {
@@ -230,17 +205,6 @@ void ParButtonModule::pushState()
             source->state.timeStamp();
             source->updateObservers( source->state );
         }
-#else  // LINUX
-    int cstatus = ioctl(source->handle, PPRDATA, &data);	
-	
-	if( (~data) != source->state.button )
-        {
-            source->state.button = 0x00ff&(~data);
-            source->state.timeStamp();
-            source->updateObservers( source->state );
-        }
-#endif
-
 #endif
     }  
 }
