@@ -42,7 +42,7 @@
   *
   *****************************************************************
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.18 2003/10/14 14:49:33 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.19 2003/10/16 07:52:44 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -263,7 +263,8 @@ void ParButtonModule::pushState()
 		data = (~DlPortReadPortUchar(source->handle )) & 0xFF;
 
 #endif
-		
+
+#if 0
 		printf("%d%d%d%d %d%d%d%d\n",
 			(data>>7)&1,
 			(data>>6)&1,
@@ -274,6 +275,7 @@ void ParButtonModule::pushState()
 			(data>>1)&1,
 			(data>>0)&1
 			);
+#endif
         if( data != source->state.button )
         {
             source->state.button = data;
