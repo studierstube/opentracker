@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-02 17:31  kaufmann
+
+	* src/input/P5GloveModule.cxx:
+	
+	bug in close method fixed. No crashes on exit with P5 glove
+	anymore.
+
 2003-05-02 02:52  tamer
 
 	* src/input/DGPSIP_Handler.cxx:
