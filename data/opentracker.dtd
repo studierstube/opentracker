@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--OpenTracker Configuration file DTD
 	Vienna University of Technology
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,VideoConfig?,NetworkSourceConfig?,ConsoleConfig?">
-<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | VideoSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Ref">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
+<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Ref">
 <!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref">
 <!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
@@ -101,13 +101,14 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	multicast-address CDATA #REQUIRED
 	port CDATA #REQUIRED
 >
-<!-- video source elements -->
-<!ELEMENT VideoConfig EMPTY>
-<!ATTLIST VideoConfig
+<!-- video source elements for ARToolKit library-->
+<!ELEMENT ARToolKitConfig EMPTY>
+<!ATTLIST ARToolKitConfig
 	camera-parameter CDATA #REQUIRED
+	treshhold CDATA "100"
 >
-<!ELEMENT VideoSource EMPTY>
-<!ATTLIST VideoSource
+<!ELEMENT ARToolKitSource EMPTY>
+<!ATTLIST ARToolKitSource
 	DEF ID #IMPLIED
 	tag-file CDATA #REQUIRED
 	vertex CDATA #REQUIRED
