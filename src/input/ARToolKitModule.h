@@ -28,12 +28,13 @@
 <ARToolKitConfig camera-parameter="../data/camera" treshhold="150"/>@endverbatim
  */
 
-#ifdef USE_ARTOOLKIT
 
 #ifndef _ARTOOLKITMODULE_H
 #define _ARTOOLKITMODULE_H
 
 #include "../OpenTracker.h"
+
+#ifdef USE_ARTOOLKIT
 
 /**
  * A video tracking source module using the ARToolKit library to track a 

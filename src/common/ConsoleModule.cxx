@@ -7,19 +7,21 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleModule.cxx,v 1.2 2001/01/03 14:45:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ConsoleModule.h"
 #include "ConsoleSink.h"
+#include "ConsoleSource.h"
 
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
 
 ConsoleModule::~ConsoleModule()
 {
-    nodes.clear();
+    sinks.clear();
+    sources.clear();
 }
 
 #include "stdio.h"
@@ -41,7 +43,7 @@ Node * ConsoleModule::createNode( string& name,
     if( name.compare("ConsoleSink") == 0 )
     {
         ConsoleSink * sink = new ConsoleSink( attributes["comment"] );
-        nodes.push_back( sink );
+        sinks.push_back( sink );
         cout << "Built ConsoleSink node." << endl;       
         return sink;
     }
@@ -52,7 +54,7 @@ Node * ConsoleModule::createNode( string& name,
 
 void ConsoleModule::pullState()
 {
-    if( nodes.size() <= 0 )
+    if( sinks.size() <= 0 )
     {
         return;
     }
@@ -73,7 +75,7 @@ void ConsoleModule::pullState()
             cout << "Could not get console size !" << endl;
             return;
         }
-        int lines = nodes.size() * 6 + 2;
+        int lines = sinks.size() * 6 + 2;
         COORD origin;
         origin.X = 0;
         origin.Y = 0;
@@ -96,7 +98,7 @@ void ConsoleModule::pullState()
         printw("%s", headerline.c_str());
         printw("");
 #endif
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it++ )
         {
             ConsoleSink * sink = (ConsoleSink *) *it;
             State & state = sink->state;
@@ -145,7 +147,7 @@ void ConsoleModule::init(StringMap& attributes,  Node * localTree)
 void ConsoleModule::start()
 {
 #ifndef WIN32
-    if( nodes.size() > 0 )
+    if( sinks.size() > 0 )
     {
         initscr();
         cbreak();

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleModule.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.1 2001/02/13 15:44:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,7 +43,9 @@ class ConsoleModule: public Module, public NodeFactory
 // Members
 protected:
     /// list of ConsoleSink nodes in the tree
-    NodeVector nodes;
+    NodeVector sinks;
+    /// list of ConsoleSource nodes  in the tree
+    NodeVector sources;
     /// current cycle count, for computing when to print out the state again
     int cycle;
     /// cycle interval to use for printing out states

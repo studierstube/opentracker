@@ -7,15 +7,15 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.cxx,v 1.2 2001/01/28 16:49:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.cxx,v 1.3 2001/02/13 15:44:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
-
-#ifdef USE_INTERTRAX
 
 #include "InterTraxSource.h"
 #include "InterTraxModule.h"
 #include "../core/MathUtils.h"
+
+#ifdef USE_INTERTRAX
 
 #include <stdio.h>
 #ifdef WIN32

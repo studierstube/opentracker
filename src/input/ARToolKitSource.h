@@ -25,12 +25,12 @@
 <ARToolKitSource tag-file="pip.tag" vertex="-20 -20 -20 20 20 20 20 -20" />@endverbatim
  */
 
-#ifdef USE_ARTOOLKIT
-
 #ifndef _ARTOOLKITSOURCE_H
 #define _ARTOOLKITSOURCE_H
 
 #include "../OpenTracker.h"
+
+#ifdef USE_ARTOOLKIT
 
 /** An ARToolKitSource represents a single marker that is tracked by the 
  * artoolkit library.

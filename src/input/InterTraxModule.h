@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.4 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.5 2001/02/13 15:44:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -20,12 +20,13 @@
  * at least one TestSource node is created.
  */
 
-#ifdef USE_INTERTRAX
-
 #ifndef _INTERTRAXMODULE_H
 #define _INTERTRAXMODULE_H
 
 #include "../OpenTracker.h"
+
+#ifdef USE_INTERTRAX
+
 #include "isense.h"
 
 /**

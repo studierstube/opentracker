@@ -8,7 +8,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.5 2001/02/13 15:11:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.6 2001/02/13 15:44:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -20,7 +20,7 @@
 #include "core/Context.h"
 #include "common/CommonNodeFactory.h"
 #include "core/TestModule.h"
-#include "output/ConsoleModule.h"
+#include "common/ConsoleModule.h"
 #include "network/NetworkSinkModule.h"
 #include "network/NetworkSourceModule.h"
 #ifdef USE_INTERTRAX
