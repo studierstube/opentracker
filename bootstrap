@@ -1,0 +1,22 @@
+#! /bin/sh
+
+# set -x -v
+
+##
+# regenerate all files which are constructed by the autoconf, automake and
+# libtool tool-chain.
+#
+# Author: Tamer Fahmy <tamer@tammura.at>
+#
+
+aclocal -I cfg/m4 \
+&& libtoolize --force --copy \
+&& autoheader \
+&& automake --add-missing --copy \
+&& autoconf
+
+echo
+echo "+--------------------------------------------------------------------"
+echo "| Please, don't forget to set the correct PATHS in stb_env.sh and to"
+echo "| execute it with . ./opentracker_env.sh prior to running configure!"
+echo

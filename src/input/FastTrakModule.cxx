@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.4 2002/10/22 17:19:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -35,13 +35,9 @@
 #include "FastTrakModule.h"
 #include "../misc/serialcomm.h"
 
-#include <stdio.h>
-#include <string.h>
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    /// VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <cstdio>
+#include <cstring>
+#include <iostream>
 
 using namespace std;
 

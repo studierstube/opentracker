@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.cxx,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.cxx,v 1.2 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

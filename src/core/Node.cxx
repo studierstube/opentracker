@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.20 2002/11/29 16:01:47 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.21 2003/01/09 04:14:12 tamer Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
@@ -35,13 +35,8 @@
 #include "StringTable.h"
 #include "Context.h"
 
-#if defined (WIN32) || defined (GCC3)
 #include <cstdio>
-#include <iostream>// VisualC++ uses STL based IOStream lib
-#else
-#include <stdio.h>
-#include <iostream.h>
-#endif
+#include <iostream>
 
 #include <memory>
 #include <algorithm>

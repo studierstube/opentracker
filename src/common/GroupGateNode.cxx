@@ -26,19 +26,15 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.cxx,v 1.1 2002/11/29 16:02:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateNode.cxx,v 1.2 2003/01/09 04:14:12 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "GroupGateNode.h"
 
-#if defined (WIN32) || defined (GCC3)
 #include <cstdio>
-#include <iostream>    /// VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>  // SGI MipsPro not !
-#endif
+#include <iostream>
 
 using namespace std;
 

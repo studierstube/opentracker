@@ -33,7 +33,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/dllinclude.h,v 1.4 2001/04/03 21:44:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/dllinclude.h,v 1.5 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,10 +57,17 @@
             #define OPENTRACKER_EXTERN extern
         #endif
     #endif
+
+#include "../config_win.h"
+
 #else
-    #define OPENTRACKER_API
+
+#if HAVE_CONFIG_H
+#include <config.h>
 #endif
 
-#include "../config.h"
+#define OPENTRACKER_API
+
+#endif
 
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.29 2002/09/26 21:32:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.30 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -84,20 +84,21 @@ ConsoleModule::~ConsoleModule()
 }
 
 #include <algorithm>
-#if defined (WIN32) || defined (GCC3)
 #include <cstdio>
-#include <iostream>    // VisualC++ uses STL based IOStream lib
+#include <iostream>
 #include <iomanip>
-#else
-#include <stdio.h>
-#include <iostream.h>
-#endif
 
 #ifdef WIN32
 #include <conio.h>
 #else
 #include <unistd.h>
+
+#if defined(USE_NCURSES) && !defined(RENAMED_NCURSES)
+#include <ncurses.h>
+#else
 #include <curses.h>
+#endif
+
 #endif
 
 // constructor method.

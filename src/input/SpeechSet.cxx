@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,7 +79,7 @@ bool SpeechSetBase::IsCommandIdRegistered(DWORD p_CommandId)
 }
 
 
-DWORD SpeechSetBase::GetCommandId(const char *p_Command)
+long SpeechSetBase::GetCommandId(const char *p_Command)
 {
   for(int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
@@ -247,7 +247,7 @@ bool CSpeechSet::IsCommandIdRegistered(DWORD p_CommandId)
 }
 
 
-DWORD CSpeechSet::GetCommandId(const char *p_Command)
+long CSpeechSet::GetCommandId(const char *p_Command)
 {
   for(int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
@@ -491,3 +491,4 @@ bool CSpeechSet::IsActive()
 
 
 #endif //ifdef USE_SAPISPEECH
+

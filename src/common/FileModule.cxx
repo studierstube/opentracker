@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.8 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.9 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,11 +35,7 @@
 #include "FileSource.h"
 #include <stdio.h>
 
-#if defined (WIN32) || (GCC3)
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 using namespace std;
 

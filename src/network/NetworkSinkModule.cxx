@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.19 2002/11/29 15:56:28 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.20 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -43,11 +43,7 @@
 
 #include "NetworkSinkModule.h"
 
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <iostream>
 
 using namespace std;
 

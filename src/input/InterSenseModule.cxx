@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.9 2002/11/29 15:56:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.10 2003/01/09 04:14:12 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,14 +34,12 @@
 #include "InterSenseSource.h"
 #include "InterSenseModule.h"
 
-#if defined (WIN32) || defined (GCC3)
 #include <cstdio>
-#include <iostream>    /// VisualC++ uses STL based IOStream lib
-#else
-#include <stdio.h>
-#include <iostream.h>
-#endif
+#include <iostream>
+
+extern "C" {
 #include <isense.h>
+}
 
 using namespace std;
 

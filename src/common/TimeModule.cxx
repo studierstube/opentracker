@@ -26,17 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.4 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "TimeModule.h"
-#include <stdio.h>
-#if defined (WIN32) || defined (GCC3)
+#include <cstdio>
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 using namespace std;
 

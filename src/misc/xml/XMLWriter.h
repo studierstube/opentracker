@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.8 2002/11/08 14:22:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.9 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,11 +34,8 @@
 #define _XMLWRITER_H
 
 #include "../../OpenTracker.h"
-#if defined (WIN32) || defined (GCC3)
+
 #include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 // need that to make it work with standard conformind stdc++ libs and older ones
 using namespace std;

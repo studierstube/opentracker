@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.25 2002/12/06 18:01:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.26 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,17 +45,10 @@
 #include "ButtonOpNode.h"
 #include "TimeGateNode.h"
 
-#if defined (WIN32) || defined (GCC3)
 #include <cmath>
 #include <cfloat>
 #include <cstdio>
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <math.h>
-#include <float.h>
-#include <stdio.h>
-#include <iostream.h>
-#endif
+#include <iostream>
 
 #include<algorithm>
 

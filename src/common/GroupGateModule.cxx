@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.1 2002/11/29 16:02:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.cxx,v 1.2 2003/01/09 04:14:12 tamer Exp $
   *
   * @file                                                                    */
  /* ======================================================================= */
@@ -34,15 +34,9 @@
 #include "GroupGateModule.h"
 #include "GroupGateNode.h"
 
-#if defined (WIN32) || defined (GCC3)
 #include <cstdio>
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <stdio.h>
-#include <iostream.h>
-#endif
-
-#include <strstream>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -142,7 +136,7 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
         node->setNumber(NameList.size());
         NameList.push_back(cname);
 
-        strstream neighborstream;
+        stringstream neighborstream;
         neighborstream << cneighbors;
         while (true)
         {

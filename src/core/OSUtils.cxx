@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.4 2002/11/08 21:03:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,7 +42,7 @@ double OSUtils::currentTime()
 //sleeps the specified amount of time ...
 void OSUtils::sleep( double time )
 {
-    ACE_Time_Value timeVal(0, 1000*time );
+    ACE_Time_Value timeVal(0, (int)(1000*time) );
 	ACE_OS::sleep( timeVal );
 }
 

@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoiceModule.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoiceModule.h,v 1.3 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,14 @@
 #if !defined(__SPEECHVOICEMODULE_H)
 #define __SPEECHVOICEMODULE_H
 
-#include "../../config.h"
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef WIN32
+#include <config_win.h>
+#endif
+
 #include "SpeechDef.h"
 
 /**

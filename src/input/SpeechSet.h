@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.h,v 1.3 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,13 @@
 #if !defined(__SPEECHSET_H)
 #define __SPEECHSET_H
 
-#include "../../config.h"
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef WIN32
+#include <config_win.h>
+#endif
 
 #include "SpeechDef.h"
 
@@ -114,7 +120,7 @@ public:
 
 
   /// get id of the command
-  virtual DWORD GetCommandId(const char *p_Command);
+  virtual long GetCommandId(const char *p_Command);
 
   /// get the command from a command id
   virtual bool GetCommand(DWORD p_CommandId, std::string &p_Command);
@@ -217,7 +223,7 @@ public:
 
 
   /// get id of the command
-  DWORD GetCommandId(const char *p_Command);
+  long GetCommandId(const char *p_Command);
 
   /// get the command from a command id
   bool GetCommand(DWORD p_CommandId, std::string &p_Command);

@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.7 2002/12/09 16:17:17 splechtna Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.8 2003/01/09 04:14:12 tamer Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -36,11 +36,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <iostream>
 
 using namespace std;
 

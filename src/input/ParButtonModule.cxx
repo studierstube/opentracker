@@ -42,7 +42,7 @@
   *
   *****************************************************************
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.13 2002/12/09 16:02:16 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.14 2003/01/09 04:14:13 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -61,11 +61,7 @@ using namespace std;
 #include <windows.h>
 #endif
 
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <iostream>
 
 #ifdef WIN32
 #ifndef _DLPORTIO

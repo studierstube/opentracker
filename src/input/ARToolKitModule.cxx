@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.22 2002/01/18 16:25:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.23 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,10 +37,10 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <iostream>    // VisualC++ uses STL based iostream library
-#else
-#include <iostream.h>
 #endif
+
+#include <iostream>
+
 #include <string>
 #include <stdio.h>
 #ifdef __sgi

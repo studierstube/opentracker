@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.9 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.10 2003/01/09 04:14:12 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,13 +37,8 @@
 
 #include <string>
 
-#if defined (WIN32) || defined (GCC3) 
 #include <iomanip>
-#include <fstream>  // VisualC++ uses STL based IOStream lib
-#else
-#include <iomanip.h>
-#include <fstream.h>
-#endif
+#include <fstream>
 
 using namespace std;
 

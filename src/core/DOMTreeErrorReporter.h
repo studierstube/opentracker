@@ -55,16 +55,13 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.h,v 1.5 2002/09/26 13:56:25 bornik Exp $
+ * $Id: DOMTreeErrorReporter.h,v 1.6 2003/01/09 04:14:12 tamer Exp $
  */
 
 #include <xercesc/util/XercesDefs.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
-#else
-#include <iostream.h>
-#endif
+#include <iostream>
+
 /**
  * This class registers as an ErrorHandler with the DOM parser and reports
  * errors to the application. It is part of the sample code of Xerces and

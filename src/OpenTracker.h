@@ -28,12 +28,20 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.18 2002/11/11 12:56:53 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.19 2003/01/09 04:14:11 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _OPENTRACKER_H
 #define _OPENTRACKER_H
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef WIN32
+#include <config_win.h>
+#endif
 
 /**
  * @mainpage OpenTracker

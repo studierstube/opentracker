@@ -1,0 +1,123 @@
+# Process this file with autoconf to produce a configure script.
+AC_INIT([Opentracker], [1.0], [opentracker@studierstube.org])
+
+AC_CONFIG_AUX_DIR(cfg)
+AC_CONFIG_SRCDIR([src/core/Node.cxx])
+
+AM_INIT_AUTOMAKE
+AM_CONFIG_HEADER(config.h)
+AM_MAINTAINER_MODE
+
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_LANG(C++)
+
+# AM_DISABLE_SHARED
+# AM_DISABLE_STATIC
+AC_DISABLE_FAST_INSTALL
+AC_PROG_LIBTOOL
+
+# Checks for header files.
+AC_HEADER_STDC
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_HEADER_TIME
+AC_STRUCT_TM
+AC_CXX_HAVE_STD
+AC_CXX_HAVE_STL
+AC_CXX_TYPENAME
+
+# Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+
+# Check for curses.
+AC_CHECK_CURSES
+
+if test x"$has_curses" = xfalse; then
+  AC_MSG_ERROR([a curses library was not found!])
+fi
+
+AC_SUBST([CURSES_INCLUDEDIR])
+AC_SUBST([CURSES_LIBS])
+
+
+# Check for ACE.
+STB_AC_HAVE_ACE_IFELSE([], [AC_MSG_ERROR([cannot link to the ACE library. consider --with-ace=path_to_ace])])
+
+AC_SUBST([stb_ac_ace_cppflags])
+AC_SUBST([stb_ac_ace_ldflags])
+AC_SUBST([stb_ac_ace_libs])
+
+SIM_AC_CONFIGURATION_SETTING([ACE root directory], [$stb_ac_ace_root])
+
+# Check for Xerces.
+STB_AC_HAVE_XERCES_IFELSE([], [AC_MSG_ERROR([cannot link to the xerces library. consider --with-xerces=path_to_xerces])])
+
+AC_SUBST([stb_ac_xerces_cppflags])
+AC_SUBST([stb_ac_xerces_ldflags])
+AC_SUBST([stb_ac_xerces_libs])
+
+SIM_AC_CONFIGURATION_SETTING([Xerces root directory], [$stb_ac_xerces_root])
+
+# Check for ARToolkit.
+STB_AC_HAVE_ARTOOLKIT_IFELSE([], [])
+
+AC_SUBST([stb_ac_artoolkit_cppflags])
+AC_SUBST([stb_ac_artoolkit_ldflags])
+AC_SUBST([stb_ac_artoolkit_libs])
+
+if $stb_ac_artoolkit_avail; then
+  AC_DEFINE(USE_ARTOOLKIT, 1, [Enable the use of the ARToolkit library])
+else
+  stb_ac_artoolkit_root="not found"
+fi
+
+SIM_AC_CONFIGURATION_SETTING([ARToolkit root directory], [$stb_ac_artoolkit_root])
+
+# Check for the use of the speech recognition
+AC_ARG_ENABLE([speech],
+              AC_HELP_STRING([--enable-speech], [enable the Speech recognition (default=no)]),
+              opt_speech=$enable_speech, opt_speech=no)
+if test x"$opt_speech" = xyes; then
+  AC_DEFINE(USE_SAPISPEECH, 1, [Enable the use of the speech recognition])
+fi
+SIM_AC_CONFIGURATION_SETTING([Enable speech recognition], [$opt_speech])
+
+# Check for the use of the joystick
+AC_ARG_ENABLE([joystick],
+              AC_HELP_STRING([--enable-joystick], [enable the use of joysticks (default=no)]),
+              opt_joystick=$enable_joystick, opt_joystick=no)
+if test x"$opt_joystick" = xyes; then
+  AC_DEFINE(USE_JOYSTICK, 1, [Enable the use of joysticks])
+fi
+SIM_AC_CONFIGURATION_SETTING([Enable joysticks], [$opt_joystick])
+
+AC_CONFIG_FILES([Makefile
+                 src/Makefile
+                 src/common/Makefile
+                 src/core/Makefile
+                 src/input/Makefile
+                 src/misc/Makefile
+                 src/misc/xml/Makefile
+                 src/network/Makefile
+                 extras/Makefile
+                 extras/intersense/Makefile
+                 extras/intersense/unix/Makefile
+                 lib/Makefile
+                 bin/Makefile])
+
+AC_OUTPUT
+
+SIM_AC_CONFIGURATION_SUMMARY
+
+echo ""
+echo "Now, run 'make', cross your fingers, start a prayer and get yourself"
+echo "a cup of coffee to build $PACKAGE."
+echo ""

@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.13 2002/12/04 18:24:18 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.14 2003/01/09 04:14:12 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -36,14 +36,10 @@
 #include "../core/MathUtils.h"
 #include "../misc/serialcomm.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    /// VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
+#include <iostream>
 
 using namespace std;
 
@@ -683,7 +679,7 @@ void FOBModule::setScale()
     {
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-            birds[master]->setScale( scale, it->first );
+            birds[master]->setScale( (int)scale, it->first );
             OSUtils::sleep( 300 );
         }
     }
@@ -691,7 +687,7 @@ void FOBModule::setScale()
     {
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-            it->second->setScale( scale );            
+            it->second->setScale( (int)scale );            
         }
         OSUtils::sleep( 300 );
     }

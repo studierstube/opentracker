@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.7 2002/12/09 16:17:17 splechtna Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.8 2003/01/09 04:14:12 tamer Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -41,16 +41,9 @@
 #include "ARTDataTrackerSource.h"
 #include "ARTDataTrackerChomp.h"
 
-
-#if defined (WIN32) || defined (GCC3)
 #include <cmath>
 #include <cstdio>
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <math.h>
-#include <stdio.h>
-#include <iostream.h>
-#endif
+#include <iostream>
 
 using namespace std;
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.7 2002/11/08 14:17:12 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.8 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,12 +36,7 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
 
-#if defined (WIN32) || defined (GCC3)
 #include <fstream>
-#else
-#include <fstream.h>
-#endif
-
 #include <memory>
 
 using namespace std;

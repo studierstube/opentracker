@@ -55,7 +55,7 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.cxx,v 1.4 2002/09/26 13:56:25 bornik Exp $
+ * $Id: DOMTreeErrorReporter.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
  */
 
 // ---------------------------------------------------------------------------
@@ -63,14 +63,13 @@
 // ---------------------------------------------------------------------------
 #include <xercesc/sax/SAXParseException.hpp>
 #include "DOMTreeErrorReporter.h"
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>    // VisualC++ uses STL based IOStreams
+
+#include <cstdlib>
+#include <cstring>
+
+#include <iostream>
+
 using namespace std;
-#else
-#include <iostream.h>
-#endif
-#include <stdlib.h>
-#include <string.h>
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {

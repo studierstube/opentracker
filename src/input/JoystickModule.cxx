@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.2 2002/10/31 20:20:05 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
