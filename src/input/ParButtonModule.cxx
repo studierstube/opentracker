@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.7 2002/08/26 12:07:51 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.8 2002/08/26 12:54:20 bornik Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -82,6 +82,8 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         outportb(addr, 0x00 );
         outportb(addr+2, 0x20); 
 #else
+		DlPortWritePortUchar(addr, 0x00);
+		DlPortWritePortUchar(addr+2, 0x20);
 		// nothing to be done here
 #endif
 
