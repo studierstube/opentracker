@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-06-17 10:47  bornik
+
+	* src/common/Makefile.am:
+	
+	ab: added some missing files for compliation on linux systems
+
 2004-06-02 16:13  tomp
 
 	* data/opentracker.dtd:
