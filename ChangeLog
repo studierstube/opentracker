@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-30 15:28  tamer
+
+	* src/network/: DwarfModule.cxx, DwarfModule.h:
+	
+	added newlines at the end.
+
+2003-07-30 15:14  tamer
+
+	* src/network/Makefile.am:
+	
+	sing with me: 8 spaces no tabs! ;)
+
 2003-07-28 15:04  reitmayr
 
 	* doc/contributions.txt:
