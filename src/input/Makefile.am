@@ -50,7 +50,9 @@ otinputinc_HEADERS = \
         SpeechVoiceModule.h \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        rtcm.h
+        rtcm.h \
+        XSensModule.h \
+        XSensSource.h
 
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
@@ -126,4 +128,8 @@ libinput_la_SOURCES = \
         UltraTrakModule.h \
         UltraTrakSource.h \
         rtcm.h \
-        rtcm.cxx
+        rtcm.cxx \
+        XSensModule.cxx \
+        XSensModule.h \
+        XSensSource.cxx \
+        XSensSource.h

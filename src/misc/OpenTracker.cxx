@@ -64,6 +64,7 @@
 #include "../input/DynaSightModule.h"
 #include "../input/MagicYModule.h"
 #include "../common/CallbackModule.h"
+#include "../input/XSensModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -248,4 +249,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *vrpn );
     context.addModule( "VRPNConfig", *vrpn );
 #endif
+
+    XSensModule * xsens = new XSensModule;
+    context.addFactory( *xsens );
+    context.addModule( "XSensConfig", *xsens );
 }
