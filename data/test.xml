@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
@@ -9,13 +9,32 @@
 			<KeyDefinition key="left" name="Move_X_minus"/>
 		</ConsoleConfig>
 	</configuration>
-	<ConsoleSink>
-		<ConsoleSource number="1"/>
-	</ConsoleSink>
-	<EventDynamicTransformation>
-		<TestSource/>
-		<TransformBase>
+	<Merge>
+		<MergePosition>
+			<ConsoleSink>
+				<Merge>
+					<MergeDefault>
+						<ARToolKitSource tag-file="" vertex=""/>
+					</MergeDefault>
+					<MergeOrientation>
+						<TestSource/>
+					</MergeOrientation>
+					<MergeConfidence>
+						<NetworkSource number="" multicast-address="" port=""/>
+					</MergeConfidence>
+				</Merge>
+			</ConsoleSink>
 			<NetworkSink name="" number="" multicast-address="" port=""/>
-		</TransformBase>
-	</EventDynamicTransformation>
+		</MergePosition>
+		<MergeButton>
+			<ConsoleSink>
+				<EventDynamicTransformation>
+					<TestSource/>
+					<TransformBase>
+						<InterTraxSource/>
+					</TransformBase>
+				</EventDynamicTransformation>
+			</ConsoleSink>
+		</MergeButton>
+	</Merge>
 </OpenTracker>
