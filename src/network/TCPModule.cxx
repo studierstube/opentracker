@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.2 2001/11/10 00:20:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.3 2001/11/22 12:36:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -101,7 +101,7 @@ Node * TCPModule::createNode( const string& name,  StringTable& attributes){
 void TCPModule::pullState(){
     char buffer[8*sizeof(int)+2*sizeof(short unsigned)+sizeof(double)];
     short unsigned protocol;
-    int size, index;
+    int index;
 
     if( isInitialized() == 1 && connections.size() != 0 && sinks.size() != 0 ){
         for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it ++ ){
@@ -110,9 +110,6 @@ void TCPModule::pullState(){
             if( sink->changed == 1 ){
                 protocol = sink->posFlag | (sink->orientFlag << 1) | (sink->buttonFlag << 2) |
                            (sink->timeFlag << 3);
-               // size = sizeof(int)+sizeof(short unsigned)+sink->posFlag*sizeof(int)+
-               //         sink->orientFlag*sizeof(int)+sink->buttonFlag*sizeof(short int)+
-               //         sink->timeFlag*sizeof(double);
                 index = 0;
                 // write converted data into buffer
                 *(int*)(&buffer[index]) = htonl(sink->station);
