@@ -1,3 +1,12 @@
+2004-08-04 13:53:12  Rev 733    reitmayr
+
+	* src/input/GPSModule.cxx: fixed init bug
+
+2004-08-04 13:17:38  Rev 732    reitmayr
+
+	* src/input/DGPSIP_Handler.h, src/input/DGPSIP_Handler.cxx: fixed 
+	  reconnecting code to dgps server
+
 2004-08-03 15:13:33  Rev 730    reitmayr
 
 	* data/opentracker.dtd: fixed dgps mirror config
