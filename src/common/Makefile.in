@@ -143,6 +143,7 @@ otcommoninc_HEADERS = \
         InvertTransformation.h \
         MatrixTransformation.h \
         MergeNode.h \
+        RangeFilterNode.h \
         SelectionNode.h \
         StaticTransformation.h \
         ThresholdFilterNode.h \
@@ -198,6 +199,8 @@ libcommon_la_SOURCES = \
         MatrixTransformation.h \
         MergeNode.cxx \
         MergeNode.h \
+        RangeFilterNode.cxx \
+        RangeFilterNode.h \
         SelectionNode.cxx \
         SelectionNode.h \
         StaticTransformation.cxx \
@@ -232,9 +235,10 @@ am_libcommon_la_OBJECTS = ButtonFilterNode.lo ButtonOpNode.lo \
 	EllipsoidTransformNode.lo EventQueueNode.lo FileModule.lo \
 	FilterNode.lo GKTransformNode.lo InterpolatorModule.lo \
 	InvertTransformation.lo MatrixTransformation.lo MergeNode.lo \
-	SelectionNode.lo StaticTransformation.lo ThresholdFilterNode.lo \
-	TimeGateNode.lo TimeModule.lo Transformation.lo \
-	VirtualTransformation.lo GroupGateModule.lo GroupGateNode.lo
+	RangeFilterNode.lo SelectionNode.lo StaticTransformation.lo \
+	ThresholdFilterNode.lo TimeGateNode.lo TimeModule.lo \
+	Transformation.lo VirtualTransformation.lo GroupGateModule.lo \
+	GroupGateNode.lo
 libcommon_la_OBJECTS = $(am_libcommon_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -261,6 +265,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/InvertTransformation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/MatrixTransformation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/MergeNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/RangeFilterNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SelectionNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/StaticTransformation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ThresholdFilterNode.Plo \
@@ -337,6 +342,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InvertTransformation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MatrixTransformation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MergeNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RangeFilterNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SelectionNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StaticTransformation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ThresholdFilterNode.Plo@am__quote@
