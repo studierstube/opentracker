@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.13 2003/06/25 06:42:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.14 2003/06/25 12:32:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -131,7 +131,7 @@ public:
      * @param dim dimension n of the two vectors
      * @return angle between the two vectors
      */    
-    double angle( float * v1, float * v2, int dim );
+    static double angle( float * v1, float * v2, int dim );
     
     /**
      * computes the spherical linear interpolation between two quaternions. The
@@ -146,7 +146,7 @@ public:
      * @param qResult float[4] stores result
      * @return pointer to result = qResult
      */
-    float * slerp( float * q1, float *q2, float t, float * qResult );
+    static float * slerp( float * q1, float *q2, float t, float * qResult );
 
 	static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
 	static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);
