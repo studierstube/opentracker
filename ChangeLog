@@ -9,6 +9,39 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-02-10 16:17  tamer
+
+	* cfg/m4/xerces.m4:
+	
+	in case the linking process fails add -lpthread in case xerces has
+	been linked to pthread and try again. user doesn't need to add the
+	missing -lpthread anymore in order to make opentracker configure.
+
+2004-02-10 16:15  tamer
+
+	* src/input/: MagicYModule.cxx, SpeechSet.cxx:
+	
+	unsigned signed comparison warning fix.
+
+2004-02-10 16:14  tamer
+
+	* extras/intersense/isense.c:
+	
+	fixed warning about parantheses around assignment.
+
+2004-02-10 16:13  tamer
+
+	* src/common/File.h:
+	
+	fixed reorder warning.
+
+2004-02-10 12:36  thomas
+
+	* src/input/ARToolKitModule.cxx:
+	
+	changed ARToolKitModule::close() to properly deinitialize
+	DSVideoLib input device
+
 2003-12-17 13:26  reitmayr
 
 	* src/misc/standalone.vcproj, opentracker.sln, opentracker.vcproj:
