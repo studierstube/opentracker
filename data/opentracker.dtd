@@ -22,11 +22,11 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.38 2002/01/18 16:25:02 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.39 2002/01/24 10:55:23 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?,JoystickConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource">
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
@@ -459,4 +459,16 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	orientation (on | off) "on"
 	button (on | off) "on"
 	time (on | off) "on"
+>
+<!--ART Data device driver. This is an optical tracking system.-->
+<!ELEMENT ARTDataTrackerConfig EMPTY>
+<!ATTLIST ARTDataTrackerConfig
+	maxbodies CDATA "0"
+	hostnamestring CDATA #REQUIRED
+	port CDATA #REQUIRED
+>
+<!ELEMENT ARTDataTrackerSource EMPTY>
+<!ATTLIST ARTDataTrackerSource
+	number CDATA #REQUIRED
+	DEF ID #IMPLIED
 >

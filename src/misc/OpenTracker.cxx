@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.16 2001/12/11 13:40:00 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.17 2002/01/24 10:59:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,6 +55,7 @@
 #include "../input/FOBModule.h"
 #include "../network/TCPModule.h"
 #include "../input/FastTrakModule.h"
+#include "../input/ARTDataTrackerModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
@@ -169,4 +170,7 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *ftrak );
     context.addModule( "FastTrakConfig", *ftrak );
 
+    ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
+    context.addFactory( *dtrak );
+    context.addModule( "ARTDataTrackerConfig", *dtrak );
 }

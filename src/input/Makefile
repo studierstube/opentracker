@@ -27,7 +27,10 @@ HFILES = \
         ParButtonSource.h \
         ParButtonModule.h \
         FastTrakModule.h \
-        FastTrakSource.h
+        FastTrakSource.h \
+        ARTDataTrackerChomp.h \
+		ARTDataTrackerModule.h \
+		ARTDataTrackerSource.h
         
 C++FILES = \
         ARToolKitModule.cxx \
@@ -37,7 +40,9 @@ C++FILES = \
         InterSenseModule.cxx \
         FOBModule.cxx \
         ParButtonModule.cxx \
-        FastTrakModule.cxx
+        FastTrakModule.cxx \
+		ARTDataTrackerChomp.cxx \
+		ARTDataTrackerModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
