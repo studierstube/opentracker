@@ -52,7 +52,7 @@
 // destructor clears any nodes
 ARToolKitModule::~ARToolKitModule()
 {
-    for( NodeVector::iterator it = source.begin(); it != sources.end(); it ++)
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++)
     {
         delete (*it);
     }
@@ -77,7 +77,7 @@ Node * ARToolKitModule::createNode( string& name, StringTable& attributes)
             return NULL;
         }
         int id;
-        if((id = arLoadPatt(attributes.get("tag-file").c_str() )) < 0 )
+        if((id = arLoadPatt((char *)attributes.get("tag-file").c_str() )) < 0 )
         {
             cout << "Error reading tag-file " << attributes.get("tag-file") << endl;
             return NULL;
@@ -94,6 +94,11 @@ Node * ARToolKitModule::createNode( string& name, StringTable& attributes)
 
 void ARToolKitModule::start()
 {
+	// if we don't have any nodes or are not initialized, forget it
+	if( sources.size() == 0 || isInitialized() == 0)
+	{
+		return;
+	}
     int sizeX, sizeY;
     ARParam cparam, wparam;
     
@@ -146,6 +151,11 @@ void ARToolKitModule::start()
 
 void ARToolKitModule::close()
 {
+	// if we don't have any nodes or are not initialized, forget it
+	if( sources.size() == 0 || isInitialized() == 0)
+	{
+		return;
+	}
     lock();
     stop = 1;
     unlock();
@@ -184,7 +194,7 @@ void ARToolKitModule::pushState()
 void ARToolKitModule::init(StringTable& attributes, Node * localTree)
 {
     ThreadModule::init( attributes, localTree );
-    cameradata = attributes["camera-parameter"];
+    cameradata = attributes.get("camera-parameter");
 
     int num = sscanf(attributes.get("treshhold").c_str(), " %i", &treshhold );
     if( num == 0 )
