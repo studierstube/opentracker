@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.10 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.11 2002/01/29 20:29:21 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -45,14 +45,6 @@
 #include "../OpenTracker.h"
 #include "Network.h"
 #include "NetworkSource.h"
-
-struct Station
-{
-    int number;    
-    State state;
-    int modified;
-    NetworkSource * source;
-};
 
 struct MulticastReceiver;
 

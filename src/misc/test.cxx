@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.5 2001/10/21 22:13:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.6 2002/01/29 20:29:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    cout << "OpenTracker Test program ...\n";
+    cout << "OpenTracker Timing Test program ...\n";
 
     // important parts of the system
     // get a context, the default modules and factories are
@@ -74,55 +74,15 @@ int main(int argc, char **argv)
 
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );
-  //  cbModule->setCallback( "test1", &testCB );
+    cbModule->setCallback( "TIMER", &testCB );
     
     cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;    
-     
-    cin.get();
-    
-    // initializes the modules and starts the tracker main loop
-    context.start();
-    for( int i = 0; i < 10; i++ ){
-        context.pushStates();
-        context.pullStates();
-        context.stop();
-    }
-    cout << "Doing some operations" << endl;
-
-    XMLWriter writer( context );
-    writer.write("before.xml");
-
-    Node * myNode = context.findNode( "Test" );
-    if( myNode != NULL ){
-        cout << "Found node " << myNode->getName() << " of type " << myNode->getType() << endl;
-        StringTable table;
-        table.put( "translation", "1 1 1" );
-        table.put( "scale", "0.5 0.5 0.5" );
-        table.put( "rotationtype", "quaternion" );
-        table.put( "rotation",  "0 1 0 0" );
-        Node * newNode = context.createNode( "EventTransform", table );
-        if( newNode != NULL ){
-            cout << "Created new Node of Type " << newNode->getType() << endl;
-            Node * parent = myNode->getParent();
-            if( parent != NULL ){
-                cout << "Parent of myNode is " << parent->getType() << endl;
-                parent->removeChild( *myNode );
-                parent->addChild( *newNode );
-                newNode->addChild( *myNode );
-                cout << "Inserted newNode between parent and myNode !\n";
-            }
-        }
-    }
-    writer.write( "after.xml" );
-    cout << "Starting context again !\n";
-    while( !context.stop()){
-        context.pushStates();
-        context.pullStates();
-    }
-    context.close();
+    cin ;
+    context.run();
     return 0;
 }
 
 void testCB( const Node & node, const State & event, void * data ){
-    cout << "Got event from " << node.getName() << endl;
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    cout << node.getName() << " time diff " << diff << endl;
 }

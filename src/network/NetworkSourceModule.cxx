@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.16 2002/01/24 17:31:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.17 2002/01/29 20:29:21 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -51,6 +51,18 @@
 
 using namespace std;
 
+struct Station
+{
+    int number;    
+    State state;
+    int modified;
+    NetworkSource * source;
+
+    Station( const int number_, NetworkSource * source_ ) :
+        number( number_ ), source( source_ ), modified( 0 )
+    {};
+};
+
 typedef vector<Station *> StationVector;
 
 // definitions for the Network Data protocol
@@ -72,6 +84,10 @@ struct MulticastReceiver
     string group;
     int port;
     int stop;
+
+    MulticastReceiver( const string & group_, int port_ ) :
+        group( group_ ), port( port_ ), stop(0)
+    {};
 };
 
 // constructor initializing the thread manager
@@ -240,16 +256,9 @@ Node * NetworkSourceModule::createNode( const string& name,  StringTable& attrib
         MulticastReceiver * receiver;
         if( it == groups.end())
         {
-            receiver = new MulticastReceiver;
-            receiver->group = group;
-            receiver->port = port;
-            receiver->stop = 0;            
+            receiver = new MulticastReceiver( group, port );           
             groups.push_back( receiver );
-            Station * station = new Station;
-            station->number = number;
-            station->source = source;
-            station->modified = 0;
-            receiver->sources.push_back( station );
+            receiver->sources.push_back( new Station( number, source ));
         } else
         {
             receiver = *it;
@@ -267,11 +276,7 @@ Node * NetworkSourceModule::createNode( const string& name,  StringTable& attrib
                 delete source;
                 return NULL;
             }
-            Station * station = new Station;
-            station->number = number;
-            station->source = source;
-            station->modified = 0;
-            receiver->sources.push_back( station );
+            receiver->sources.push_back( new Station( number, source ));
         }                        
         cout << "Built NetworkSource node." << endl;
         return source;
