@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.3 2003/10/14 14:47:44 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.4 2003/10/16 09:00:52 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -82,9 +82,11 @@ class OPENTRACKER_API ButtonFilterNode
 protected:
     /// last saved state variable
     State lastState;
-	
-	signed char validtrans[8];  // (theoretical 8 buttons)
-	signed char radiobuttons[8];  // (theoretical 8 buttons)
+
+	// supply 8 buttons
+	signed char validtrans[8];  
+	signed char radiobuttons[8];
+	signed char validTransSetButton[8];
 	unsigned char buttonmap[8];
 	unsigned char buttonmask;
     unsigned char invert;
@@ -94,7 +96,7 @@ protected:
 
     /** constructor method
      */
-    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr, const char * validtrans , const char * radiobuttons);
+    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr, const char * validtrans , const char * radiobuttons, const char *setValidTrans);
 
 public:
 

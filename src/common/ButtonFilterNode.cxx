@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.4 2003/10/14 14:47:44 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.5 2003/10/16 09:00:52 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,7 +44,8 @@ using namespace std;
 
 // constructor method.
 
-ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr, const char * validtransstr , const char * radiobuttonsstr )
+ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr, 
+								   const char * validtransstr , const char * radiobuttonsstr, const char *validTransSetButtonStr )
     : Node()
 {
 	int i;
@@ -59,6 +60,7 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 
 	// set buttonmask
 	for (i=0; i<8; i++){
+		// check end of string
 		if (buttonmaskstr[i] == '\0') break;
 		if (!(buttonmaskstr[i] == '1')) buttonmask = buttonmask ^ buttonbit;
 
@@ -67,8 +69,8 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 
 	// set buttonmap
 	for (i=0; i<8; i++){
-		// can not set 0 as the button ??
-		//#tomp : if (buttonmapstr[i] == 0) break;
+		// check end of string 
+		if (buttonmapstr[i] == '\0') break;
 		
 		if (buttonmapstr[i] >= '0' && buttonmapstr[i] <= '7') buttonmap[i] = buttonmapstr[i]-48;
 		else buttonmap[i] = i;
@@ -77,6 +79,7 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
     // set invertmask
     buttonbit = 1;
     for (i=0; i<8; i++){
+		// check end of string 
         if (invertstr[i] == '\0') break;
         if (invertstr[i] == '1') invert = invert ^ buttonbit;
         
@@ -87,6 +90,7 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 	for (i=0; i< 8; i++)
 	{
 		validtrans[i] = -1;
+		validTransSetButton[i] = -1;
 		radiobuttons[i] = 0;
 	}
 
@@ -103,6 +107,16 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 				{
 					int vtId = validtransstr[i] - 48;
 					validtrans[i] = vtId; // set position to given id 
+				}
+
+				if (strlen(validTransSetButtonStr) > i)
+				{
+					if (validTransSetButtonStr[i] >= '0' && validTransSetButtonStr[i] <= '7') 
+					{
+						int vtId = validTransSetButtonStr[i] - 48;
+						validTransSetButton[i] = vtId; // set position to given id 
+					} else { validTransSetButton[i] = -1; }
+									
 				}
 			}
 			
@@ -141,17 +155,21 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 	unsigned char buttonbit = 1, buttonout = 0;
 
     lastState = event;
-
+	DEBUG_CODE(cout << endl;);
 	DEBUG_CODE(cout << "got button                  :"; COUT_BINARY(lastState.button); cout << endl;);
     
 	unsigned char deleteButtonBitsNotValidTrans = 0x00; // delete no bits
-	unsigned char invertButtonBits = 0x00; // change no bits
+	unsigned char validTransSetButtonMask = 0x00; // change no bits
 	// just for debug:
-	unsigned char validTransBits = 0x00; // change no bits
-
+	unsigned char validTransBits = 0x00; 
+	unsigned char validTransSetButtonBit = 0x00; 
 	// go through all 8 bits and check if 
 	for (i=0; i < 8; i++)
 	{
+		
+			//just for debug: 
+		if (validTransSetButton[i] > -1) validTransSetButtonBit |= 1<< 1;
+
 		if (validtrans[i] > -1) // validtrans bit is set
 		{
 			//just for debug: 
@@ -169,6 +187,16 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 						deleteButtonBitsNotValidTrans |= (1<<j);
 				}
 			} // vt is 0 -> vt transmission signal !!, change nothing button will show as 1
+			else 
+			{	 // fix for broken hardware :<
+				// set all bits where the validtrans id and the validTransSetButton mask match
+				// validtrans: 3-------  setbuttononvalidtrans: -33----- would set buttonbits 1-2 if valid trans bit 0 is cleared
+				for (int j =0 ; j< 8; j++)
+				{
+					if (validTransSetButton[j] == validtrans[i]) 
+						validTransSetButtonMask |= (1<<j);
+				}
+			}
 		}
 	}
 	
@@ -183,8 +211,10 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 	lastState.button &= deleteButtonBitsNotValidTrans;
 	DEBUG_CODE(cout << "buttonbits after no VT      :"; COUT_BINARY(lastState.button); cout << endl;);
 
-	lastState.button ^= invertButtonBits;
-	DEBUG_CODE(cout << "inverted buttonbits         :"; COUT_BINARY(invertButtonBits); cout << endl;);
+	DEBUG_CODE(cout << "validTransSetButtonBit      :"; COUT_BINARY(validTransSetButtonBit); cout << endl;);
+	
+	lastState.button |= validTransSetButtonMask;
+	DEBUG_CODE(cout << "set buttonbits on VT        :"; COUT_BINARY(validTransSetButtonMask); cout << endl;);
 	DEBUG_CODE(cout << "buttonbits  after VT        :"; COUT_BINARY(lastState.button); cout << endl;);
 
 	lastState.button ^= invert;
