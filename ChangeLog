@@ -9,6 +9,25 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-08-06 12:22  reitmayr
+
+	* src/input/: GPSDriver.cxx, GPSModule.cxx:
+	
+	fixed init bug and some more debug output
+
+2003-08-06 10:17  reitmayr
+
+	* src/input/: GPSDriver.cxx, GPSDriver.h:
+	
+	todo cleanup
+
+2003-08-06 10:17  reitmayr
+
+	* src/: common/MatrixTransformation.h,
+	network/NetworkSinkModule.cxx:
+	
+	docu cleanup
+
 2003-07-31 09:55  reitmayr
 
 	* src/: core/ConfigurationParser.cxx, core/ConfigurationParser.h,
