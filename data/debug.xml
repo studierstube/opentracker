@@ -4,10 +4,19 @@
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <?xml-stylesheet type="text/xsl" href="P:\cg\dev\opentracker\data\test.xsl"?>
 <OpenTracker>
-	<configuration>
-		<ConsoleConfig headerline="Receiver Test" interval="1"/>
-	</configuration>
-	<ConsoleSink comment="Parallel Button">
-		<ParButtonSource dev="0x378"/>
-	</ConsoleSink>
+  <configuration>
+    <ConsoleConfig headerline="Receiver Test" interval="1"/>
+    <TimeConfig sleep="50"/>
+  </configuration>
+  <ConsoleSink DEF="gate" comment="Gate">
+    <ConsoleSource number="0"/>
+  </ConsoleSink>
+  <ConsoleSink>
+    <TimeGate mode="block" timeframe="2000">
+      <Gate>
+        <Ref USE="gate"/>
+      </Gate>
+      <TestSource frequency="1"/>
+    </TimeGate>
+  </ConsoleSink>
 </OpenTracker>

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.23 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.24 2002/09/26 21:32:17 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -43,6 +43,7 @@
 #include "ThresholdFilterNode.h"
 #include "ButtonFilterNode.h"
 #include "ButtonOpNode.h"
+#include "TimeGateNode.h"
 
 #if defined (WIN32) || defined (GCC3)
 #include <cmath>
@@ -74,6 +75,7 @@ CommonNodeFactory::CommonNodeFactory()
     nodePorts.push_back("Select");
     nodePorts.push_back("Arg1");
     nodePorts.push_back("Arg2");
+    nodePorts.push_back("Gate");
 }
 
 CommonNodeFactory::~CommonNodeFactory()
@@ -372,6 +374,15 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     {
         result = new ButtonOpNode( (attributes.get("op").compare("OR") == 0)?(ButtonOpNode::OR):(ButtonOpNode::AND));
     }
+    else if( name.compare("TimeGate") == 0 )
+    {
+        double timeframe;
+        attributes.get("timeframe", &timeframe );
+        TimeGateNode::Mode mode = (attributes.get("mode").compare("pass") == 0)?
+                                    (TimeGateNode::PASS):(TimeGateNode::BLOCK);
+        result = new TimeGateNode( timeframe, mode );
+    }
+    // the node ports are just looked up in a simple list
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
         cout << "Build NodePort " << name << "." << endl;

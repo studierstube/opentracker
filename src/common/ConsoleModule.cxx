@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.28 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.29 2002/09/26 21:32:17 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -603,16 +603,16 @@ void ConsoleModule::pullState()
 #ifdef WIN32            
             cout.fill(' ');
             cout << sink->comment << endl;
-            cout << "  Pos : " << std::setw( 8 ) << std::setprecision( 3 ) << state.position[0] << " " <<
-                                  std::setw( 8 ) << std::setprecision( 3 ) << state.position[1] << " " <<
-                                  std::setw( 8 ) << std::setprecision( 3 ) << state.position[2] << endl;
-            cout << "  Rot : " << std::setw( 8 ) << std::setprecision( 3 ) << state.orientation[0] << " " <<
-                                  std::setw( 8 ) << std::setprecision( 3 ) << state.orientation[1] << " " <<
-                                  std::setw( 8 ) << std::setprecision( 3 ) << state.orientation[2] << " " <<
-                                  std::setw( 8 ) << std::setprecision( 3 ) << state.orientation[3] << endl;
+            cout << "  Pos : " << std::setw( 6 ) << std::setprecision( 3 ) << state.position[0] << " " <<
+                                  std::setw( 6 ) << std::setprecision( 3 ) << state.position[1] << " " <<
+                                  std::setw( 6 ) << std::setprecision( 3 ) << state.position[2] << endl;
+            cout << "  Rot : " << std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[0] << " " <<
+                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[1] << " " <<
+                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[2] << " " <<
+                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[3] << endl;
             cout << "  Button : " << state.button << " ";
-            cout << "  Confidence : " << std::setw( 8 ) << std::setprecision( 3 ) << state.confidence << endl;
-            cout << "  Time : " << std::setw( 8 ) << std::setprecision( 3 ) << state.time << endl << endl;            
+            cout << "  Confidence : " << std::setw( 6 ) << std::setprecision( 3 ) << state.confidence << endl;
+            cout << "  Time : " << std::setw( 10 ) << std::setprecision( 0 ) << std::fixed << state.time << endl << endl;            
 #else
             printw("%s :\n",sink->comment.c_str());
             printw("  Pos : %f %f %f\n",state.position[0], 

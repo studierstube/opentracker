@@ -3,109 +3,117 @@
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
-    <configuration>
-        <NetworkSinkConfig name="Test Server"/>
-        <ConsoleConfig interval="1" headerline="Test Server"/>
-        <TimeConfig sleep="10" display="true"/>
-    </configuration>
-    <ConsoleSink comment="Transformation">
-        <EventTransform translation="1 1 1">
-            <TestSource offset="0" frequency="10"/>
+  <configuration>
+    <NetworkSinkConfig name="Test Server"/>
+    <ConsoleConfig interval="1" headerline="Test Server"/>
+    <TimeConfig sleep="10" display="true"/>
+  </configuration>
+  <ConsoleSink comment="Transformation">
+    <EventTransform translation="1 1 1">
+      <TestSource offset="0" frequency="10"/>
+    </EventTransform>
+  </ConsoleSink>
+  <ConsoleSink comment="VirtualTransformation">
+    <EventVirtualTransform translation="2 2 2">
+      <TestSource frequency="10" offset="1"/>
+    </EventVirtualTransform>
+  </ConsoleSink>
+  <ConsoleSink comment="Network Sink" DEF="test1">
+    <NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
+      <EventTransform translation="-1 -1 -1">
+        <TestSource frequency="10" offset="2"/>
+      </EventTransform>
+    </NetworkSink>
+  </ConsoleSink>
+  <ConsoleSink comment="Network Source">
+    <NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Reference Node">
+    <Callback name="test1">
+      <Ref USE="test1"/>
+    </Callback>
+  </ConsoleSink>
+  <ConsoleSink comment="Merge Node">
+    <Merge>
+      <MergeDefault>
+        <EventTransform translation="2 0 0">
+          <TestSource frequency="100"/>
         </EventTransform>
-    </ConsoleSink>
-    <ConsoleSink comment="VirtualTransformation">
-        <EventVirtualTransform translation="2 2 2">
-            <TestSource frequency="10" offset="1"/>
-        </EventVirtualTransform>
-    </ConsoleSink>
-    <ConsoleSink comment="Network Sink" DEF="test1">
-        <NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
-            <EventTransform translation="-1 -1 -1">
-                <TestSource frequency="10" offset="2"/>
-            </EventTransform>
-        </NetworkSink>
-    </ConsoleSink>
-    <ConsoleSink comment="Network Source">
-        <NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
-    </ConsoleSink>
-    <ConsoleSink comment="Reference Node">
-        <Callback name="test1">
-            <Ref USE="test1"/>
-        </Callback>
-    </ConsoleSink>
-    <ConsoleSink comment="Merge Node">
-        <Merge>
-            <MergeDefault>
-                <EventTransform translation="2 0 0">
-                    <TestSource frequency="100"/>
-                </EventTransform>
-            </MergeDefault>
-            <MergeOrientation>
-                <EventOrientationTransform rotation="1 0 0 0">
-                    <TestSource frequency="10"/>
-                </EventOrientationTransform>
-            </MergeOrientation>
-            <MergeButton>
-                <EventPositionTransform translation="1 0 0">
-                    <TestSource frequency="10"/>
-                </EventPositionTransform>
-            </MergeButton>
-        </Merge>
-    </ConsoleSink>
-    <ConsoleSink comment="InvertTransformation">
-        <EventInvertTransform>
-            <EventTransform translation="1 1 1" rotation="0 1 0 1.57" rotationtype="axisangle">
-                <TestSource frequency="20"/>
-            </EventTransform>
-        </EventInvertTransform>
-    </ConsoleSink>
-    <ConsoleSink comment="Console Source - use 0 to test">
-        <ConsoleSource number="0" DEF="CONSOLEINPUT"/>
-    </ConsoleSink>
-    <ConsoleSink comment="Selection - use 1 for select, 2 for default input">
-        <Selection timeout="5000">
-            <Select>
-                <ConsoleSource number="1"/>
-            </Select>
-            <ConsoleSource number="2"/>
-        </Selection>
-    </ConsoleSink>
-    <ConsoleSink comment="File Sink output">
-        <FileSink file="test.out">
-            <Ref USE="test1"/>
-        </FileSink>
-    </ConsoleSink>
-    <ConsoleSink comment="MatrixTransform">
-        <EventMatrixTransform matrix="0.29855846e-2  -0.8833553755  0.7011090309  0.1547780083  0.9525757961  -0.3835134396e-2 -0.379397242e-1 -0.4346676769e-2 0.2732702445e-1  0.4359116759 1.356763370  0.877962742e-1">
-            <EventPositionTransform translation="1 0 0">
-                <TestSource frequency="10"/>
-            </EventPositionTransform>
-        </EventMatrixTransform>
-    </ConsoleSink>
-    <FileSink file="test.out" station="1">
-        <TestSource/>
+      </MergeDefault>
+      <MergeOrientation>
+        <EventOrientationTransform rotation="1 0 0 0">
+          <TestSource frequency="10"/>
+        </EventOrientationTransform>
+      </MergeOrientation>
+      <MergeButton>
+        <EventPositionTransform translation="1 0 0">
+          <TestSource frequency="10"/>
+        </EventPositionTransform>
+      </MergeButton>
+    </Merge>
+  </ConsoleSink>
+  <ConsoleSink comment="InvertTransformation">
+    <EventInvertTransform>
+      <EventTransform translation="1 1 1" rotation="0 1 0 1.57" rotationtype="axisangle">
+        <TestSource frequency="20"/>
+      </EventTransform>
+    </EventInvertTransform>
+  </ConsoleSink>
+  <ConsoleSink comment="Console Source - use 0 to test">
+    <ConsoleSource number="0" DEF="C0"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Selection - use 1 for select, 2 for default input">
+    <Selection timeout="5000">
+      <Select>
+        <ConsoleSource number="1" DEF="C1"/>
+      </Select>
+      <ConsoleSource number="2" DEF="C2"/>
+    </Selection>
+  </ConsoleSink>
+  <ConsoleSink comment="File Sink output">
+    <FileSink file="test.out">
+      <Ref USE="test1"/>
     </FileSink>
-    <ConsoleSink comment="File Source Output">
-        <FileSource file="test.in" station="1"/>
-    </ConsoleSink>
-    <ConsoleSink comment="Parallel Button Output">
-        <ParButtonSource dev="/dev/plpbi"/>
-    </ConsoleSink>
-    <ConsoleSink comment="ConfidenceFilter">
-        <ConfidenceFilter treshhold="0.8" type="high">
-            <TestSource/>
-        </ConfidenceFilter>
-    </ConsoleSink>
-    <ConsoleSink comment="Filter">
-        <Filter weight="0.333 0.333 0.333">
-            <EventQueue length="3">
-                <Ref USE="CONSOLEINPUT"/>
-            </EventQueue>
-        </Filter>
-    </ConsoleSink>
-    <ConsoleSink comment="ThresholdFilter">
-        <ThresholdFilter positionmin="0.0999" positionmax="0.2" rotationmin="0.1" rotationmax="0.15">
-            <Ref USE="CONSOLEINPUT"/>
-        </ThresholdFilter>
-    </ConsoleSink>
+  </ConsoleSink>
+  <ConsoleSink comment="MatrixTransform">
+    <EventMatrixTransform matrix="0.29855846e-2  -0.8833553755  0.7011090309  0.1547780083  0.9525757961  -0.3835134396e-2 -0.379397242e-1 -0.4346676769e-2 0.2732702445e-1  0.4359116759 1.356763370  0.877962742e-1">
+      <EventPositionTransform translation="1 0 0">
+        <TestSource frequency="10"/>
+      </EventPositionTransform>
+    </EventMatrixTransform>
+  </ConsoleSink>
+  <FileSink file="test.out" station="1">
+    <TestSource/>
+  </FileSink>
+  <ConsoleSink comment="File Source Output">
+    <FileSource file="test.in" station="1"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Parallel Button Output">
+    <ParButtonSource dev="/dev/plpbi"/>
+  </ConsoleSink>
+  <ConsoleSink comment="ConfidenceFilter">
+    <ConfidenceFilter treshhold="0.8" type="high">
+      <TestSource/>
+    </ConfidenceFilter>
+  </ConsoleSink>
+  <ConsoleSink comment="Filter - use 0 to enter events">
+    <Filter weight="0.333 0.333 0.333">
+      <EventQueue length="3">
+        <Ref USE="C0"/>
+      </EventQueue>
+    </Filter>
+  </ConsoleSink>
+  <ConsoleSink comment="ThresholdFilter - use 0 to enter events">
+    <ThresholdFilter positionmin="0.0999" positionmax="0.2" rotationmin="0.1" rotationmax="0.15">
+      <Ref USE="C0"/>
+    </ThresholdFilter>
+  </ConsoleSink>
+  <ConsoleSink comment="TimeGate - use 0 to let events pass for .5 seconds">
+  <TimeGate mode="pass" timeframe="500">
+    <Gate>
+      <Ref USE="C0"/>
+    </Gate>
+    <TestSource frequency="1"/>
+  </TimeGate>
+</ConsoleSink>
 </OpenTracker>
