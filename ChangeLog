@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-02 02:52  tamer
+
+	* src/input/DGPSIP_Handler.cxx:
+	
+	fixed newline at end warning.
+
 2003-04-29 15:54  reitmayr
 
 	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h, GPSDriver.cxx,
