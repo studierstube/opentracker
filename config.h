@@ -33,9 +33,45 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.7 2002/12/10 17:22:20 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.8 2002/12/23 15:02:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
+
+/**
+ * @page config Configuration Options
+ * 
+ * Some device drivers require additional libraries and might
+ * not be available on all platforms. These source files are bracketed by
+ * conditional compile clauses to only be compiled in, if desired. You can select
+ * these by enabling the defines in the file config.h. Edit this
+ * file to set your configuration. This should only be changed, if you
+ * recompile the library, as the include files that you use for other
+ * projects will also require this file. Note that you
+ * need to set the correct paths in the build system yourself, if automatic
+ * discovery is not possible. This is necessary for VisualC++ where you will have 
+ * to modify your project settings. For Unices we are working on autotools support
+ * and will include it there as far as possible.
+ *
+ * The following defines are currently available :
+ * @li @b USE_ARTOOLKIT
+ *      \n enables ARToolkit support and the @ref artoolkitsource node and @ref artoolkitmodule
+ * @li @b USE_CYBERMOUSE
+ *      \n enables Logitech Cybermouse support and the @ref cybermousesource. This works only on
+ *      Windows.
+ * @li @b USE_WACOMGRAPHIRE
+ *		\n enables Wacom Tablet support and the @ref wacomgraphiresource. This works only
+ *      on Windows.
+ * @li @b USE_JOYSTICK 
+ *		\n enables joystick support via DirectInput and the @ref joysticksource. This works
+ *      only on Windows.
+ * @li @b USE_SPACEMOUSE
+ *		\n enables SpaceMouse support and the @ref spacemousemodule. This works only
+ *      on Windows.
+ * @li @b USE_SAPISPEECH
+ *		\n enables Speech Recognition and TextToSpeech support and the @ref speechmodule and
+ *      @ref speechrecosource. By default only an empty implementation is present. This
+ *      define enables support via the Microsoft SpeechAPI and works only under Windows.
+ */
 
 /** uncomment the following line to compile support for the ARToolKit library */
 // #define USE_ARTOOLKIT 1
@@ -57,5 +93,6 @@
 // #define USE_SPACEMOUSE 1
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
-  * Support for this is only available on windows. */
+  * Support for this is only available on windows. Otherwise an empty implementation 
+  * will be used */
 // #define USE_SAPISPEECH 1
