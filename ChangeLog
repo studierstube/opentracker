@@ -9,6 +9,20 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-26 19:29  tamer
+
+	* bin/Makefile.am:
+	
+	added -no-install to opentracker and ottest progs to create
+	binaries instead of libtool wrappers.
+
+2003-06-26 16:04  reitmayr
+
+	* src/common/ElasticFilterNode.cxx:
+	
+	updated elasticfilter to propagate button and confidence
+	information as well
+
 2003-06-25 15:43  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
