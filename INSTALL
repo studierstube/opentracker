@@ -25,16 +25,9 @@ Optional packages:
 ------------------
 o ARToolkit - http://www.hitl.washington.edu/research/shared_space/download/
 
-To build the OpenTracker library you issue a 'make' in the OpenTracker build
+To build the OpenTracker library you have to issue a 'configure' provided
+with all options (see below) followed by a 'make' in the OpenTracker build
 directory.
-
-A convenience script 'opentracker_env.sh' is provided to set up some common
-environment variables for the libraries that OpenTracker depends on.
-Copy it to my_opentracker_env.sh, edit and adjust the settings and extend it
-as needed. Then issue a . ./my_opentracker_env.sh in your current shell before
-running configure or anytime after building OpenTracker in another shell to set
-the environment variables. A good place to call it from would be the ~/.profile
-or ~/.bashrc file.
 
 Configuration Options
 =====================
@@ -97,12 +90,8 @@ Example Usage
 
 Assuming that OpenTracker resides in /scratch/studierstube/opentracker/ and
 libraries like ACE, ARToolkit and Xerces reside in /scratch/studierstube/
-and can be found by your linker or have been specified in the $LD_LIBRARY_PATH
-environment variable respectively - you would go on and issue the following:
+you would go on and issue the following:
 
-cp opentracker_env.sh my_opentracker_env.sh
-$EDITOR my_opentracker_env.sh
-. ./my_opentracker_env.sh
 ./configure --with-ace=../ACE_wrappers/ --with-xerces=../xerces \
   --with-artoolkit=../artool
 
