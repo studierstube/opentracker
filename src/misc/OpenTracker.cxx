@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.12 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.13 2001/07/11 22:34:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -50,6 +50,7 @@
 #include "../network/NetworkSourceModule.h"
 #include "../input/InterSenseModule.h"
 #include "../common/TimeModule.h"
+#include "../common/FileModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
@@ -58,7 +59,6 @@
 #include "../input/WacomGraphireModule.h"
 
 // DLL main function
-
 
 #ifdef WIN32
 
@@ -137,4 +137,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     
     TimeModule * time = new TimeModule();
     context.addModule( "TimeConfig", * time );
+    
+    FileModule * file = new FileModule();
+    context.addFactory( * file );
+    context.addModule( "FileConfig", * file );
 }

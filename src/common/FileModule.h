@@ -25,8 +25,9 @@
 /** header file for FileModule module.
   *
   * @author Gerhard Reitmayr
+  * @todo finish documentation about file module
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.1 2001/07/09 16:00:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.2 2001/07/11 22:34:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

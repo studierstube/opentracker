@@ -26,27 +26,110 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.1 2001/07/09 16:00:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.2 2001/07/11 22:34:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "FileModule.h"
 #include "FileSink.h"
-#include "FileSource.h"
+//#include "FileSource.h"
 
 
 FileModule::FileModule()
-{}
+{
+//...
+}
  
 FileModule::~FileModule()
 {
-    // clear maps 
-    
+    // clear containers
+    sinks.clear();
+    sources.clear();
+	files.clear();
 }
 
-void FileModule::init(StringTable& attributes, ConfigNode * localTree);
-Node * FileModule::createNode( string& name,  StringTable& attributes);
-void FileModule::pushState();
-void FileModule::pullState();
-void FileModule::start();
-void FileModule::close();
+void FileModule::init(StringTable& attributes, ConfigNode * localTree)
+{
+    if( localTree != NULL )
+    {
+        ConfigNode * base = localTree;
+        for( unsigned int i = 0; i < base->countChildren(); i++ )
+        {
+            ConfigNode * config = (ConfigNode *)base->getChild( i );
+            if( config->getName().compare("File") == 0 )
+            {
+                string file = config->getAttributes().get("file");
+                string id = config->getAttributes().get("id");
+				files[id] = new File(file);
+            }
+        }
+    }
+    Module::init( attributes, localTree );
+}
+
+
+Node * FileModule::createNode( string& name,  StringTable& attributes)
+{
+    if( name.compare("FileSink") == 0 )
+    {
+        string id;
+        id = attributes.get("id");
+        int station;
+        if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
+            station = 0;                    
+        // search for File otherwise return NULL and print out an error
+        map<string,File *>::iterator file = files.find( id );
+        if( file != files.end())
+        {
+            FileSink * sink = new FileSink(*(*file).second, station );
+            sinks.push_back( sink );
+            cout << "Built FileSink node writting into " << id << " with station " 
+                 << station << endl;       
+            return sink;
+        }
+        cout << "FileSink referencing non-existing file " << id << endl;
+    } else if( name.compare("FileSource") == 0 )
+    {
+		//...
+    }
+    return NULL;
+}
+
+void FileModule::pushState()
+{
+	//...
+}
+
+void FileModule::pullState()
+{
+    for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it ++ )
+	{
+		FileSink * sink = (FileSink*)(*it);
+	    if( sink->changed == 1 ) 
+        {
+			sink->file.write( sink->state, sink->station );
+		    sink->changed = 0;
+        }
+	}
+}
+
+void FileModule::start()
+{
+    for( map<string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
+	{
+        
+		File * file = (File*)(*it).second;
+		file->open( 0 );
+	}
+}
+
+void FileModule::close()
+{
+    for( map<string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
+	{
+        
+		File * file = (File*)(*it).second;
+		delete file;
+	}
+    files.clear();
+}

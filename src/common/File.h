@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.1 2001/07/09 16:00:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.2 2001/07/11 22:34:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,10 +35,10 @@
 
 #include "../OpenTracker.h"
 
-#ifdef WIN32
-#include <iostream>    // VisualC++ uses STL based IOStream lib
+#ifdef WIN32 
+#include <fstream>  // VisualC++ uses STL based IOStream lib
 #else
-#include <iostream.h>
+#include <fstream.h>
 #endif
 
 /**
@@ -61,8 +61,9 @@ protected :
 // Methods
 public:
     /** constructor method, sets some default values*/
-    File()
+    File(const string filename_)
     {
+        filename = filename_;
         input = NULL;
         output = NULL;
     }
@@ -81,16 +82,16 @@ public:
         }
     }
 
-    void open( string filename_, int mode = 0 )
+    void open(int mode = 0 )
     {
-        filename = filename_
+
 		if( mode == 0 ) // output mode
 		{
-			output = new ofstream( filename );
+			output = new ofstream( filename.c_str());
 			input = NULL;
 		} 
 		else {          // otherwise input mode
-			input = new ifstream( filename );
+			input = new ifstream( filename.c_str());
 			output = NULL;
 		}
 	}

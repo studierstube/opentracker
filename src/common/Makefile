@@ -23,7 +23,10 @@ HFILES = \
         CallbackModule.h \
         InvertTransformation.h \
         TimeModule.h \
-        SelectionNode.h
+        SelectionNode.h \
+        File.h \
+        FileSink.h \
+        FileModule.h
 
 
 C++FILES = \
@@ -38,7 +41,8 @@ C++FILES = \
         CallbackModule.cxx \
         InvertTransformation.cxx \
         TimeModule.cxx \
-        SelectionNode.cxx
+        SelectionNode.cxx \
+        FileModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
