@@ -8,11 +8,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.4 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.5 2001/02/13 15:11:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include <ace/ACE.h>
+
+#include "config.h"
 
 #include "core/State.h"
 #include "core/Context.h"
