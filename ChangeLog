@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-23 11:24  reitmayr
+
+	* src/input/ARToolKitModule.cxx:
+	
+	fixed unused include
+
 2003-05-21 18:11  reitmayr
 
 	* src/input/ARToolKitModule.h:
