@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.2 2002/03/26 10:55:46 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.3 2002/11/08 21:03:13 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -149,16 +149,16 @@ public:
 
 public:
     virtual ~ARTDataTrackerChomp();
-	virtual void ARTDataTrackerChomp::displayRecords(int maxBodyNumber);			// Dsiplay the contens of the RecordArray
-	virtual void ARTDataTrackerChomp::chomp(std::string Datagramm, int bodyNumber);		// Main part that chomp the string
-	virtual int ARTDataTrackerChomp::getFrameNumber();								// return the framenumber
-	virtual int ARTDataTrackerChomp::getTrackedBodyNumber();						// return the Number of tracked Bodies
-	virtual int ARTDataTrackerChomp::getTrackedMarkerNumber();						// return the Number of tracked Markers	
-	virtual int ARTDataTrackerChomp::getCalibratedTrackedBodyNumber();				// return the Number of calibrated & tracked Bodies	
-	virtual BodyRecord* ARTDataTrackerChomp::getBodyRecord();						// return the BodyRecord
-	virtual void ARTDataTrackerChomp::pushBodyRecord(BodyRecord* bodyrecord);		// push the BodyRecord
-	virtual MarkerRecord* ARTDataTrackerChomp::getMarkerRecord();					// return the MarkerRecord
-	virtual void ARTDataTrackerChomp::pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
+	virtual void displayRecords(int maxBodyNumber);			// Display the contens of the RecordArray
+	virtual void chomp(std::string Datagramm, int bodyNumber);		// Main part that chomp the string
+	virtual int getFrameNumber();								// return the framenumber
+	virtual int getTrackedBodyNumber();						// return the Number of tracked Bodies
+	virtual int getTrackedMarkerNumber();						// return the Number of tracked Markers	
+	virtual int getCalibratedTrackedBodyNumber();				// return the Number of calibrated & tracked Bodies	
+	virtual BodyRecord* getBodyRecord();						// return the BodyRecord
+	virtual void pushBodyRecord(BodyRecord* bodyrecord);		// push the BodyRecord
+	virtual MarkerRecord* getMarkerRecord();					// return the MarkerRecord
+	virtual void pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
 
 };
 

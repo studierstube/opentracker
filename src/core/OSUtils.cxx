@@ -26,65 +26,23 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.3 2002/09/26 13:56:25 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.4 2002/11/08 21:03:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <ace/OS.h>
 #include "OSUtils.h"
-
-#ifndef WIN32
-#include <unistd.h>
-#include <sys/time.h>
-#include <limits.h>
-#else
-#include <windows.h>
-#include <sys/timeb.h>
-#include <time.h>
-#endif
-#include <sys/types.h>
 
 // returns the current time in milliseconds since ...
 double OSUtils::currentTime()
 {
- #ifndef WIN32  // IRIX and Linux code
-#ifdef _SGI_SOURCE
-    struct timeval tp;
-    gettimeofday(&tp);
-    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#else //LINUX code
-    struct timeval tp;
-    gettimeofday(&tp,NULL);
-    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#endif
-#else  // WIN code
-    struct _timeb timeBuffer;
-    _ftime(&timeBuffer);
-    return (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
-#endif
+	return (double) ACE_OS::gettimeofday().msec();
 }
-#if defined (WIN32) || defined (GCC3)
-#include <iostream>
-#else
-#include <iostream.h>
-#endif
 
 //sleeps the specified amount of time ...
 void OSUtils::sleep( double time )
 {
-#ifdef WIN32
-    Sleep((long) time );
-#else
-#ifdef _SGI_SOURCE
-    sginap((long)( time * CLK_TCK / 1000.0 ));
-#else // LINUX Code
-    // This is a workaround for a bug in the kernel, that always adds
-    // a tick to the specified amount of sleep time.
-    if( time >= 10 )
-    	time -= 10;
-    else 
-    	return;
-    usleep((unsigned long)(time*1000));
-#endif
-#endif
+    ACE_Time_Value timeVal(0, 1000*time );
+	ACE_OS::sleep( timeVal );
 }
 

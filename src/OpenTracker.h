@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.16 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.17 2002/11/08 21:03:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,8 +66,11 @@
  * @li @ref Nodes - reference of implemented nodes
  * @li @ref transform_nodes - reference for geometric transformation nodes 
  *
+ * Additional information regarding various modules can be found here :
+ * @li @ref spacemouse - How to integrate the SpaceMouse support
+ * 
  * @author Gerhard Reitmayr
- * @date 2001
+ * @date 2001, 2002
  */
 
 #include "dllinclude.h"
