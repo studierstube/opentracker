@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:44 gr, added localState to Transformation
+//     Added member 'localState'
 // August 16, 2000 21:43 gerhard reitmayr
 //     Update comment header
 // ===========================================================================
@@ -52,6 +54,7 @@ protected:
     float translation[3];
     float scale[3];
     float rotation[4];
+    State localState;
 
 public:
 

@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 16, 2000 22:44 gr, added localState to Transformation
+//     Added member 'localState'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated code of method 'getState'
 // August 16, 2000 21:43 gerhard reitmayr
@@ -38,6 +40,7 @@ Constructor method.
 Transformation::Transformation(float translation_[3], float scale_[3],
                                float rotation_[4]) //@INIT_3762
     : TreeNode()
+    , localState()
 {//@CODE_3762
     ConstructorInclude();
     for( int i = 0; i < 3; i ++ )
