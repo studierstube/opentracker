@@ -4,7 +4,7 @@
 	Vienna University of Technology
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!ENTITY % ConfigElements "Network?,Video?">
-<!ENTITY % NodeElements "Station|Transformation|VirtualTransformation|MaxConfidenceFilter|Marker">
+<!ENTITY % NodeElements "Station|Transformation|VirtualTransformation|MaxConfidenceFilter|Marker|TestSource">
 <!ELEMENT TrackerServer (configuration, (%NodeElements;)+)>
 <!ELEMENT configuration (%ConfigElements;)>
 <!ELEMENT Network EMPTY>
@@ -41,4 +41,9 @@
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler) "quaternion"
 	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TestSource EMPTY>
+<!ATTLIST TestSource
+	frequency CDATA "1"
+	offset CDATA "0"
 >

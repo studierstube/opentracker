@@ -149,6 +149,14 @@ SOURCE=.\src\Station.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\TestModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\TestSource.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\Transformation.cxx
 # End Source File
 # Begin Source File
@@ -222,6 +230,14 @@ SOURCE=.\src\State.h
 # Begin Source File
 
 SOURCE=.\src\Station.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\TestModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\TestSource.h
 # End Source File
 # Begin Source File
 

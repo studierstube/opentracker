@@ -2,8 +2,8 @@
 //  (c) 2000 Vienna University of Technology
 // ===========================================================================
 //  NAME:      NetworkDriver.cxx
-//  TYPE:      h header file
-//  PROJECT:   @INSERT_PROJECTNAME
+//  TYPE:      cxx header file
+//  PROJECT:   TrackerServer
 //  CONTENT:   Implementation of class 'NetworkDriver'
 //  VERSION:   1.0
 // ===========================================================================
@@ -12,10 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// July 22, 2000 19:12 Gerhard Reitmayr & changed reference to pointer
-//     Updated interface of method 'init'
-// July 22, 2000 18:56 Gerhard Reitmayr & updated some methods now returning pointers instead of references
-//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

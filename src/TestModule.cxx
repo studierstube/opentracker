@@ -12,6 +12,9 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 10, 2000 12:51 implemented testmodule
+//     Updated code of method 'update'
+//     Updated code of method 'createNode'
 // ===========================================================================
 //@START_USER1
 //@END_USER1
@@ -22,6 +25,13 @@
 
 
 //@START_USER2
+#include <string>
+#include <stdio.h>
+#ifdef WIN32
+#include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+#else
+#include <iostream.h>
+#endif
 //@END_USER2
 
 
@@ -46,9 +56,27 @@ construct the corresponding type. Otherwise it returns NULL.
 */
 Node* TestModule::createNode(char* const name, StringMap& attributes)
 {//@CODE_4813
-    Node* value;
-
-    return value;
+    std::string strName( name );
+    if( strName.compare("TestSource") == 0 )        
+    {
+        int frequency;
+		int offset;
+        int num = sscanf( attributes["frequency"], " %i", &frequency );
+        if( num == 0 ){
+            frequency = 1;
+        }
+		num = sscanf( attributes["offset"], " %i", &offset );
+        if( num == 0 ){
+            offset = 0;
+        }
+		TestSource * source = new TestSource;
+		source->frequency = frequency;
+		source->offset = offset;
+        nodes.push_back( source );
+        cout << "Build source node " << endl;
+        return source;        
+    }
+    return NULL;
 }//@CODE_4813
 
 
@@ -66,9 +94,17 @@ void TestModule::update()
 {//@CODE_4812
     for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it ++)
     {
-            
+		TestSource * source = (TestSource *)(*it);
+		if(((cycle - source->offset ) % source->frequency ) == 0 )
+		{
+			source->getState()->isValid = 1;
+		}
+		else
+		{
+			source->getState()->isValid = 0;
+		}
     }
-    
+    cycle++;
 }//@CODE_4812
 
 

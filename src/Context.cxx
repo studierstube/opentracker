@@ -12,9 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 10, 2000 10:22 Gerhard Reitmayr
-//     Updated interface of method 'addFactory'
-//     Update comment header
 // ===========================================================================
 //@START_USER1
 //@END_USER1

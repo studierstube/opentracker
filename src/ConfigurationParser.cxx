@@ -12,18 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 01, 2000 13:18 Gerhard Reitmayr & implemented Context
-//     Updated code of method 'DestructorInclude'
-//     Updated code of method 'ConstructorInclude'
-//     Updated code of method 'removeModule'
-//     Updated code of method 'parseElement'
-//     Updated code of method 'parseConfigurationFile'
-//     Updated code of method 'buildTree'
-//     Updated code of method 'addModule'
-//     Updated code of method '~ConfigurationParser'
-//     Updated code of method 'ConfigurationParser'
-//     Updated member 'factory'
-//     Updated member 'modules'
 // ===========================================================================
 //@START_USER1
 //@END_USER1
