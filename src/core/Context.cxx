@@ -7,16 +7,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+
+#include <ace/OS.h>
 #include "Context.h"
-#include "CommonNodeFactory.h"
-#include "TestModule.h"
-#include "../output/ConsoleModule.h"
-#include "../network/NetworkSinkModule.h"
-#include "../network/NetworkSourceModule.h"
 
 // constructor method.
 
@@ -24,31 +21,6 @@ Context::Context()
 {
     // Build a parser
     parser = new ConfigurationParser( factory );
-
-    // Instance the default modules and add to factory and parser
-    CommonNodeFactory & common = *(new CommonNodeFactory);
-    addFactory( common );
-    /*
-    VideoModule * video = new VideoModule;
-    addFactory( *video );
-    addModule( "Video", *video );
-    */
-    NetworkSinkModule * networksink = new NetworkSinkModule;
-    addFactory( *networksink );
-    addModule( (string)"NetworkSinkConfig", *networksink );
-    
-    TestModule & test = *(new TestModule);
-    addFactory( test );
-    // actually it doesn't have a configuration element
-    addModule( ( string)"Test", test );
-
-    ConsoleModule & console = *( new ConsoleModule );
-    addFactory( console );
-    addModule( (string)"ConsoleConfig", console );
-    
-    NetworkSourceModule * network = new NetworkSourceModule;
-    addFactory( * network );
-    addModule( (string)"NetworkSourceConfig", *network );    
 }
 
 // Destructor method.
@@ -142,5 +114,5 @@ int Context::stop()
     {
         value |= (*it)->stop();
     }
-    return 0;
+    return value;
 }

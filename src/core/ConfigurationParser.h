@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -22,6 +22,7 @@
 #include "Module.h"
 #include "NodeFactory.h"
 #include "WrapperNode.h"
+#include "ConfigNode.h"
 
 /**
  * maps a string to another string. Mostly used to map element attributes
@@ -31,6 +32,9 @@ typedef std::map<string, string> StringMap;
 
 /** Used to map a XML element to a Module. */
 typedef std::map<string, Module *> ModuleMap;
+
+/// used to map a string to a node
+typedef std::map<string, Node *> NodeMap;
 
 /**
  * parses the XML configuration file. This class reads the configuration file
@@ -45,9 +49,21 @@ protected:
     ModuleMap modules;
     /// pointer to a NodeFactory used to create new Nodes.
     NodeFactory & factory;
+    /// maps IDs to nodes
+    NodeMap references;
 
 // Methods
 protected:
+   /**
+     * builds a tree of configuration nodes. This is just mirroring
+     * the structure of the XML document with ConfigNodes that 
+     * just hold the element names and attributes. The resulting tree
+     * is a parameter to the initialization method of modules.
+     * @param elements reference to the XML element to be parsed.
+     * @return pointer to the hew ConfigNode or NULL, if something
+     *         went wrong.
+     */
+    ConfigNode * buildConfigTree( DOM_Element & element );
    /**
      * builds the tracker tree starting from a certain DOM_Element.
      * Is used recoursively to walk the DOMTree and create new nodes.

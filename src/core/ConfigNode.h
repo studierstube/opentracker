@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,15 +41,18 @@ protected:
 public:
     /**
      * constructor method
-     * @param tagName_ the wrapper tag element name for this WrapperNode */
+     * @param name_ element name of the config node
+     * @param map_ string map with attribute values 
+     */
     ConfigNode(string& name_, StringMap * map_)
         : TreeNode()
-        , name( name_ )
-	, attributes( map_ )
-	
-    {};
+	    , attributes( map_ )
+    { 
+        setName( name_ );
+    };
+
     /// destructor method
-    virtual ~WrapperNode()
+    virtual ~ConfigNode()
     {
         delete attributes;
     };

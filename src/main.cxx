@@ -7,11 +7,11 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/main.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/main.cxx,v 1.6 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include "Context.h"
+#include "OpenTracker.h"
 
 #ifdef WIN32
 #include <iostream>    // new IOStream for VisualC++
@@ -36,6 +36,7 @@ int main(int argc, char **argv)
     // get a context, the default modules and factories are
     // added allready.
     Context context;
+    initializeContext( context );
     cout << "Context established." << endl;
 
     // parse the configuration file, builds the tracker tree

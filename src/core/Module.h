@@ -10,12 +10,88 @@
   * @todo put in this file a section on how to create a new module for
   * another device or node service etc.
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _MODULE_H
 #define _MODULE_H
+
+/**
+ * @page module How To Implement a Module
+ *
+ * A module is the basic element of functionality in the OpenTracker frame
+ * work. It implements anything that is needed by the application. All module
+ * classes are derived from Module. They override several of the virtual
+ * methods according to their needs.
+ *
+ * @section lifetime The Life of a Module
+ *
+ * A module is going throught several steps during a program run. First it
+ * is instantiated at some point, usually during initialisation. The global
+ * function ::initializeContext is such a point, it instantiates all known
+ * modules and adds them to a Context.
+ * 
+ * In the next step the modules Module::init method is called. The parameters are
+ * data from the configuration section of the configuration file. They
+ * are a StringMap containing the attributes of the configuration element
+ * and any subtrees of children nodes, stored in ConfigNode objects.
+ *
+ * After parsing of the configuration file is finished and the DAG
+ * structure of nodes has been built, the method Module::start is called on all
+ * modules. This is a good place for any initialisations that depend on
+ * configuration parameters and instantiated nodes.
+ *
+ * Now the main loop is entered and for all modules the methods
+ * Module::pushState, Module::pullState and Module::stop are called. The first
+ * allows the generation of new state update events and introduction into the
+ * tree via EventGenerator nodes. The second is to retrieve states from the
+ * shared DAG structure via other interfaces such as the EventQueue or
+ * TimeDependend interface. 
+ *
+ * Module::stop tests whether a module wants to exit the main loop and
+ * stop the program. If so the main loop is stopped and Module::close
+ * is called on all modules. Then the program exits.
+ *
+ * @section implement Implementing a Module
+ *
+ * To implement a new module, decide about what your module will do in
+ * each of these phases and which methods you need to override. Then
+ * derive you module from the class Module and you are done. To use
+ * in the standard contexts, instantiate a module of your class in
+ * ::initializeContext and add it to the context passed to the method.
+ * Then your module is available to the simple standalone program.
+ *
+ * @section thread A multithreaded Module
+ *
+ * If your module has some tasks that require more time than the
+ * event loop should take, you are advised to implement your extension
+ * using multiple threads. A simple helper class is ThreadModule that
+ * takes care of starting an additional worker thread for your module
+ * and provides synchronisation methods. Override the ThreadModule::run
+ * method and implement your tasks. Then use ThreadModule::lock and
+ * ThreadModule::unlock to synchronize access to your data between
+ * the work thread and the main loop calling pushState or pullState.
+ *
+ * @section node The NodeFactory, Module and Context Triangle
+ *
+ * The three classes typically are in a close relation. The 
+ * NodeFactory is an interface that allows a parser to create nodes
+ * for elements by delegating the actuall parsing of element names
+ * and attributes to the NodeFactory that knows about the node.
+ *
+ * Because the NodeFactory is the place a node is created, it is
+ * simple to keep track of new nodes by implementing the NodeFactory
+ * in the same class as the Module. This way a module can very
+ * easily find out about the nodes it is interested in.
+ *
+ * A Context pulls all the different functionality together. It 
+ * contains a ConfigurationParser object and stores the modules
+ * and nodefactories needed for the application. Furthermore it
+ * implements the main loop. The global helper function
+ * ::initializeContext keeps the Context class general by keeping
+ * the actual module instantiations outside of the class.
+ */
 
 #include <map>
 

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/EventQueueNode.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/EventQueueNode.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -18,7 +18,7 @@
  * set by the attribute length. It stores the last events it received from
  * its EventGenerator child and also passes on events via the EventGenerator
  * interface. It has the following attributes :
- * @li @c length 1
+ * @li @c length 1 the maximal number of last events to store
  *
  * An example element looks like this :
  * @verbatim

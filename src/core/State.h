@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -24,14 +24,12 @@
 #endif
 #include <sys/types.h>
 
-
 /**
  * a single state passing through the tree. It encodes the full information
  * of a tracked object. Not all information has to be used at a certain time.
  *
  * @todo the plan is to make this generic and not just put any fixed members
- *   on it. Maybe just extend it ? We will see. Also make some nice
- *   overloaded operators such as = etc.
+ *   on it. Maybe just extend it ? We will see.
  * @author Gerhard Reitmayr
  */
 class State
