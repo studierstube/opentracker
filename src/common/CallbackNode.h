@@ -55,12 +55,13 @@ namespace ot {
 
 class CallbackNode;
 
-typedef void CallbackFunction(const CallbackNode &, const State &, void *);
+typedef void CallbackFunction(CallbackNode &, State &, void *);
 
 /**
  * This class implements a simple node that stores a function pointer
- * and calls it every time an event it received. Furthermore it passes 
- * the event on to its single child.
+ * and calls it every time an event it received. The event passed to the
+ * can be changed by the function and the changes will propagate to the parent node.
+ * Furthermore it passes the event on to its single child.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
@@ -77,6 +78,8 @@ public:
     CallbackFunction * function;
     /// data pointer
     void * data;
+    /// the state passed to the function and the parent
+    State state;
 
 // Methods
 protected:
@@ -109,11 +112,12 @@ public:
      */
     virtual void onEventGenerated( State& event, Node& generator)
     {
+        state = event;
         if( function != NULL )
         {
-            (*function)(*this,  event, data );
+            (*function)(*this,  state, data );
         }
-        updateObservers( event );
+        updateObservers( state );
     }
 
     /** 
@@ -122,7 +126,7 @@ public:
      * value set by the attribute DEF.
      * @return reference to the name string.
      */
-    const std::string & getCallbackName(void)
+    const std::string & getCallbackName(void) const
     {
         return CallbackNode::name;
     };
