@@ -9,6 +9,20 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-08-18 20:57  tamer
+
+	* data/opentracker.dtd, src/input/ARToolKitModule.cxx:
+	
+	added videolinuxmode attribute that allows to specify the videomode
+	configuration for linux in the same config file. (optional
+	otherwise videomode still gets read in)
+
+2003-08-18 19:58  thomas
+
+	* src/input/: ARToolKitModule.cxx, ARToolKitModule.h:
+	
+	added stereo video functionality
+
 2003-08-14 13:36  tamer
 
 	* src/input/DynaSightModule.cxx:
