@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.10 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.11 2002/02/05 11:11:53 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,11 +63,11 @@
  * actual element names. The @c TransformBase child must always be an EventGenerator.
  * The elements may have the following attribute.
  *
- * @li @c baseEvent true / false flag to define whether a change in the base generates an event.
+ * @li @c baseevent (true|false) flag to define whether a change in the base generates an event.
  * 
  * An example element looks like this :
  * @verbatim
- <EventDynamicTransform baseEvent="true">
+ <EventDynamicTransform baseevent="true">
     <Any EventGenerator element type>
     <TransformBase>
         <Any EventGenerator element type>

@@ -25,9 +25,8 @@
 /** source file for ThresholdFilter Node.
   *
   * @author Gerhard Reitmayr
-  * @todo check implementation of quaternion interpolation and document
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ThresholdFilterNode.cxx,v 1.1 2001/11/22 16:52:24 reitmayr Exp $
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ThresholdFilterNode.cxx,v 1.2 2002/02/05 11:11:53 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -56,8 +55,8 @@ void ThresholdFilterNode::onEventGenerated( State& event, Node& generator)
 {
     float deltaPos = sqrt(
         (event.position[0]-lastState.position[0])*(event.position[0]-lastState.position[0]) +
-        (event.position[1]-lastState.position[0])*(event.position[0]-lastState.position[1]) +
-        (event.position[2]-lastState.position[0])*(event.position[0]-lastState.position[2]));
+        (event.position[1]-lastState.position[1])*(event.position[1]-lastState.position[1]) +
+        (event.position[2]-lastState.position[2])*(event.position[2]-lastState.position[2]));
     float deltaRot = acos( event.orientation[0]*lastState.orientation[0]+
                      event.orientation[1]*lastState.orientation[1]+
                      event.orientation[2]*lastState.orientation[2]+
