@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
@@ -28,9 +28,9 @@
 		<NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
 	</ConsoleSink>
 	<ConsoleSink comment="Reference Node">
-        <Callback name="test1">
-    		<Ref USE="test1"/>
-        </Callback>
+		<Callback name="test1">
+			<Ref USE="test1"/>
+		</Callback>
 	</ConsoleSink>
 	<ConsoleSink comment="Merge Node">
 		<Merge>
@@ -50,5 +50,12 @@
 				</EventPositionTransform>
 			</MergeButton>
 		</Merge>
-	</ConsoleSink>    
+	</ConsoleSink>
+	<ConsoleSink comment="InvertTransformation">
+		<EventInvertTransform>
+			<EventTransform translation="1 1 1" rotation="0 1 0 1.57" rotationtype="axisangle">
+				<TestSource frequency="20"/>
+			</EventTransform>
+		</EventInvertTransform>
+	</ConsoleSink>
 </OpenTracker>
