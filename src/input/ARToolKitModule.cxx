@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.35 2003/08/18 17:58:03 thomas Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.36 2003/08/18 18:57:04 tamer Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -311,12 +311,27 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         rate = rate / 1000;
     }
+
     videomode = attributes.get("videomode");
     if( attributes.containsKey("videomode2"))
     {
         videomode2 = attributes.get("videomode2");
         stereo = true;
     }
+
+#ifndef WIN32
+    // platform specific videomode override
+    if( attributes.containsKey("videolinuxmode"))
+    {
+        videomode = attributes.get("videolinuxmode");
+        if( attributes.containsKey("videolinuxmode2"))
+        {
+            videomode2 = attributes.get("videolinuxmode2");
+            stereo = true;
+        }
+    }
+#endif
+
 }
 
 // the work method for the module thread
