@@ -54,6 +54,7 @@ STB_AC_HAVE_ACE_IFELSE([], [AC_MSG_ERROR([cannot link to the ACE library. consid
 AC_SUBST([stb_ac_ace_cppflags])
 AC_SUBST([stb_ac_ace_ldflags])
 AC_SUBST([stb_ac_ace_libs])
+AC_SUBST([stb_ac_ace_rpath])
 
 SIM_AC_CONFIGURATION_SETTING([ACE root directory], [$stb_ac_ace_root])
 
@@ -65,6 +66,7 @@ STB_AC_HAVE_XERCES_IFELSE([],
 AC_SUBST([stb_ac_xerces_cppflags])
 AC_SUBST([stb_ac_xerces_ldflags])
 AC_SUBST([stb_ac_xerces_libs])
+AC_SUBST([stb_ac_xerces_rpath])
 
 SIM_AC_CONFIGURATION_SETTING([Xerces root directory], [$stb_ac_xerces_root])
 
@@ -83,6 +85,7 @@ fi
 AC_SUBST([stb_ac_artoolkit_cppflags])
 AC_SUBST([stb_ac_artoolkit_ldflags])
 AC_SUBST([stb_ac_artoolkit_libs])
+AC_SUBST([stb_ac_artoolkit_rpath])
 
 SIM_AC_CONFIGURATION_SETTING([ARToolkit root directory], [$stb_ac_artoolkit_root])
 
