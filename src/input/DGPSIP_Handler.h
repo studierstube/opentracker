@@ -65,8 +65,8 @@ public:
 
 protected:
     bool isReconnecting;
-	GPSDriver * parent;
-	int counter;
+    GPSDriver * parent;
+    int counter;
     ACE_INET_Addr remoteAddr;
 };
 

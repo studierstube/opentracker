@@ -52,11 +52,11 @@ ACE_Reactor gps_reactor;
 GPSModule::GPSModule() :
 source( NULL ),
 dirSource( NULL ),
-driver( NULL ),
-logFile( NULL ), 
 compassSource( NULL ),
-altitudeSource( NULL ), 
-infoSource( NULL )
+altitudeSource( NULL ),
+infoSource( NULL ),
+driver( NULL ),
+logFile( NULL )
 {
 }
 
