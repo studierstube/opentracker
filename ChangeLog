@@ -9,6 +9,34 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-30 14:40  reitmayr
+
+	* doc/contributions.txt:
+	
+	added DynaSight and MagicY modules contributed by imagination !
+
+2003-06-30 14:34  reitmayr
+
+	* opentracker.dsp:
+	
+	added DynaSight and MagicY modules contributed by imagination !
+
+2003-06-30 14:30  reitmayr
+
+	* src/input/DynaSightModule.cxx, src/input/DynaSightModule.h,
+	src/input/DynaSightSource.h, src/input/MagicYModule.cxx,
+	src/input/MagicYModule.h, src/input/MagicYSource.h,
+	src/input/Makefile.am, src/misc/OpenTracker.cxx,
+	data/opentracker.dtd:
+	
+	added DynaSight and MagicY modules contributed by imagination !
+
+2003-06-30 13:49  reitmayr
+
+	* src/common/ConsoleModule.cxx:
+	
+	fixed issue with closing curses on unix
+
 2003-06-26 19:29  tamer
 
 	* bin/Makefile.am:
