@@ -1,4 +1,4 @@
-       /* ========================================================================
+ /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -96,6 +96,16 @@
 
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 //#define USE_TINYXML 1
+
+/** umcomment the following line to compile against a DLL version of TinyXML (rather than static linkage
+    note: this is only required for Daniel Wagner's modified version of TinyXML
+          the standard release always links statically and does not support link selection */
+//#define TINYXML_DLL
+
+/** umcomment the following line to compile against a LIB version of TinyXML (rather than DLL 
+    note: this is only required for Daniel Wagner's modified version of TinyXML
+          the standard release always links statically and does not support link selection */
+//#define TINYXML_STATIC
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1

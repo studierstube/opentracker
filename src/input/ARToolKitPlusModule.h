@@ -81,6 +81,9 @@ protected:
     /// list of TestSource nodes in the tree
     NodeVector sources;
 
+	/// stores the list of all markers that were visible during the last update
+	NodeVector visibleMarkers;
+
     /// treshhold value to use in image processing
     //int treshhold;
 
@@ -106,8 +109,6 @@ protected:
 	bool updateARToolKit();
 
 	ImageGrabber* imageGrabber;
-
-	//void* wparam;
 
 	float trackerNear,trackerFar;
 	ARToolKitPlus::TrackerSingleMarker tracker;
@@ -168,6 +169,8 @@ public:
 	 *  is used.
 	 */
 	void setCameraDeviceHint(const char* nDeviceName)  {  cameraDeviceHint = nDeviceName;  }
+
+	NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
 };
 
 } // namespace ot

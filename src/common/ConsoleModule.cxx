@@ -565,7 +565,7 @@ void ConsoleModule::pullState()
         if( !display )
             return;
 
-#ifndef _WIN32_WCE
+#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
 #ifndef WIN32
         move(0,0);            
 #else        
@@ -604,7 +604,7 @@ void ConsoleModule::pullState()
 #else
         printw("%s\n\n", headerline.c_str());
 #endif
-#endif //_WIN32_WCE
+#endif //! _WIN32_WCE && !USE_MSDEV_DEBUGOUTPUT
 
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {
@@ -622,7 +622,7 @@ void ConsoleModule::pullState()
 			OutputDebugString(str);
 #endif //USE_MSDEV_DEBUGOUTPUT
 
-#ifndef _WIN32_WCE
+#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
 #ifdef WIN32            
             printf("%s\n", sink->comment.c_str());
             printf("  Pos: %6.3f %6.3f %6.3f\n", state.position[0], state.position[1], state.position[2] );
@@ -641,7 +641,7 @@ void ConsoleModule::pullState()
             printw("  Confidence : %f\n", state.confidence );
             printw("  Time : %lf\n\n", state.time );
 #endif
-#endif //_WIN32_WCE
+#endif //USE_MSDEV_DEBUGOUTPUT
         }   
     }
 }

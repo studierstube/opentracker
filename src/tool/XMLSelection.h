@@ -7,11 +7,30 @@
   #define OT_DOMDOCUMENT TiXmlDocument
   #define OT_DOMELEMENT TiXmlElement
   #ifdef WIN32
-    #ifdef _DEBUG
-      #pragma comment( lib, "tinyxmld.lib" )
+    #ifdef TINYXML_STATIC
+      #ifdef _DEBUG
+        // this is the static linking version of the TinyXML library
+		// modified by Daniel Wagner
+        #pragma comment( lib, "tinyxml_libd.lib" )
+      #else
+        #pragma comment( lib, "tinyxml_lib.lib" )
+      #endif 
+    #elif defined(TINYXML_DLL)
+        // this is the dynamic linking version of the TinyXML library
+		// modified by Daniel Wagner
+      #ifdef _DEBUG
+        #pragma comment( lib, "tinyxml_dlld.lib" )
+      #else
+        #pragma comment( lib, "tinyxml_dll.lib" )
+      #endif 
     #else
-      #pragma comment( lib, "tinyxml.lib" )
-    #endif 
+        // this is the default version of the TinyXML library
+      #ifdef _DEBUG
+        #pragma comment( lib, "tinyxmld.lib" )
+      #else
+        #pragma comment( lib, "tinyxml.lib" )
+      #endif 
+    #endif
   #endif
 #else
   #include <xercesc/dom/DOM.hpp>

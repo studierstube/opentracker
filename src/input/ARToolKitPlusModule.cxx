@@ -267,6 +267,8 @@ bool ARToolKitPlusModule::updateARToolKit()
 	ImageGrabber::FORMAT imgFormat0 = ARToolKitPlus::getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::LUM8,
 						 imgFormat = imgFormat0;
 
+	visibleMarkers.empty();
+
 	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
 		return false;
 
@@ -302,6 +304,7 @@ bool ARToolKitPlusModule::updateARToolKit()
         {
             if( source->markerId == markerInfo[j].id )
             {
+				visibleMarkers.push_back(source);
                 if( k == -1 )
                 {
                     k = j;
