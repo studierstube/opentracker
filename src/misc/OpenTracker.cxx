@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.20 2002/10/31 20:02:56 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.21 2002/11/07 17:03:16 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -56,7 +56,7 @@
 #include "../network/TCPModule.h"
 #include "../input/FastTrakModule.h"
 #include "../input/ARTDataTrackerModule.h"
-#include "../input/UltratrakModule.h"
+#include "../input/UltraTrakModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
