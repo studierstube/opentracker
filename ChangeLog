@@ -1,3 +1,22 @@
+2004-08-03 15:13:33  Rev 730    reitmayr
+
+	* data/opentracker.dtd: fixed dgps mirror config
+
+2004-08-03 14:58:05  Rev 729    reitmayr
+
+	* src/input/DGPSMirror_Handler.h, src/input/GPSModule.cxx, 
+	  src/input/DGPSMirror_Handler.cxx: fixed some bugs with mirroring 
+	  dgps data
+
+2004-08-03 12:39:49  Rev 728    reitmayr
+
+	* src/input/GPSParser.cxx, src/input/GPSGarminAltitude.h, 
+	  src/input/Makefile.am, data/opentracker.dtd, opentracker.dsp, 
+	  src/input/GPSInfoSource.h, src/input/GPSModule.cxx, 
+	  src/input/GPSSource.h, src/input/GPSGarminCompass.h, 
+	  src/input/GPSModule.h: added GPSInfoSource for status information 
+	  on GPS. some cleanup for GPS stuff
+
 2004-08-02 17:13:12  Rev 726    reitmayr
 
 	* src/input/GPS_Handler.cxx, src/input/DGPSIP_Handler.cxx, 
