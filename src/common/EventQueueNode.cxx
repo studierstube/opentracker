@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.4 2001/10/21 22:30:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,7 +44,7 @@ void EventQueueNode::onEventGenerated( State& event, Node& generator)
 {
     if( queue.size() == length )
     {
-        queue.pop_back();
+        queue.pop_front();
     }
     insertAtTime( event );
     updateObservers( event );
