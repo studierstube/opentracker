@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.14 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.15 2001/11/09 22:07:45 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,6 +52,7 @@
 #include "../common/TimeModule.h"
 #include "../common/FileModule.h"
 #include "../input/ParButtonModule.h"
+#include "../network/TCPModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
@@ -146,4 +147,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     ParButtonModule * parbutton = new ParButtonModule();
     context.addFactory( *parbutton );
     context.addModule( "ParButtonConfig", *parbutton );
+
+    TCPModule * tcp = new TCPModule();
+    context.addFactory( *tcp );
+    context.addModule( "TCPConfig", *tcp );
 }

@@ -110,6 +110,10 @@ SOURCE=.\src\common\ConfidenceFilterNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\ConfidenceSelectNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\ConfigurationParser.cxx
 # End Source File
 # Begin Source File
@@ -143,6 +147,10 @@ SOURCE=.\src\common\EventQueueNode.cxx
 # Begin Source File
 
 SOURCE=.\src\common\FileModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\FilterNode.cxx
 # End Source File
 # Begin Source File
 
@@ -222,6 +230,10 @@ SOURCE=.\src\core\StringTable.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\network\TCPModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\TestModule.cxx
 # End Source File
 # Begin Source File
@@ -275,6 +287,10 @@ SOURCE=.\src\common\CommonNodeFactory.h
 # Begin Source File
 
 SOURCE=.\src\common\ConfidenceFilterNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\ConfidenceSelectNode.h
 # End Source File
 # Begin Source File
 
@@ -347,6 +363,10 @@ SOURCE=.\src\common\FileSink.h
 # Begin Source File
 
 SOURCE=.\src\common\FileSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\FilterNode.h
 # End Source File
 # Begin Source File
 
@@ -471,6 +491,14 @@ SOURCE=.\src\common\StaticTransformation.h
 # Begin Source File
 
 SOURCE=.\src\core\StringTable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\network\TCPModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\network\TCPSink.h
 # End Source File
 # Begin Source File
 
