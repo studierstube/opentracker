@@ -285,7 +285,7 @@ void VideoSource::update()
                 state->position[0] = matrix[0][3];
                 state->position[1] = matrix[1][3];
                 state->position[2] = matrix[2][3];
-                cout << "Marker " << (*it)->getMarkerId() << " updated !" << endl;
+//                cout << "Marker " << (*it)->getMarkerId() << " updated !" << endl;
             }
         }
     	it++;

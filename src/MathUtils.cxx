@@ -127,6 +127,15 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
     return qResult;
 }//@CODE_4582
 
+float* MathUtils::axisAngleToQuaternion( float *axisa, float *qResult )
+{
+    float s = sin( axisa[3]/2 );
+    qResult[3] = cos( axisa[3]/2 );
+    qResult[0] = axisa[0]*s;
+    qResult[1] = axisa[1]*s;
+    qResult[2] = axisa[2]*s;        
+    return qResult;
+}
 
 /*@NOTE_4575
 multiplies two quaternions and returns result in a third. Also returns pointer to

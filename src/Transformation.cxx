@@ -38,7 +38,7 @@ Transformation::Transformation(float translation_[3], float scale_[3],
     : TreeNode()
 {//@CODE_3762
     ConstructorInclude();
-    for( int i = 0; i < 4; i ++ )
+    for( int i = 0; i < 3; i ++ )
     {
         this->translation[i] = translation_[i];
         this->scale[i] = scale_[i];

@@ -52,6 +52,7 @@ public:
                                     float* qResult);
     static float* invertQuaternion(float* q, float* qResult);
     static float* matrixToQuaternion(float matrix[3][3], float* qResult);
+    static float* axisAngleToQuaternion( float *axisa, float *qResult );
     static float* multiplyQuaternion(float* q1, float* q2, float* qResult);
     static float* normalizeQuaternion(float* q);
     static float* rotateVector(float* q, float* v, float* vResult);
