@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann ledermann@ims.tuwien.ac.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.2 2003/06/13 13:51:29 flo Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.3 2003/06/25 12:38:57 tomp Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -69,9 +69,11 @@ protected:
     float damp;     /// damping factor
     float force;    /// the strength of the spring in our model
 
-    State currentState;
-    State targetState;
-    State vState;
+	// internal variables
+    State currentState; ///
+    State targetState;  ///
+    State vState;       ///
+	float slerpT;       ///
 
     /** constructor method. It sets initial values for the treshhold and type */
     ElasticFilterNode( float force_ = 0.02, float damp_ = 0.5, int frequency_ = 1, int offset_ = 0);
