@@ -210,6 +210,10 @@ SOURCE=.\src\input\GPSModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\GPSParser.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\GroupGateModule.cxx
 # End Source File
 # Begin Source File
@@ -255,10 +259,6 @@ SOURCE=.\src\network\NetworkSinkModule.cxx
 # Begin Source File
 
 SOURCE=.\src\network\NetworkSourceModule.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\nmea.cxx
 # End Source File
 # Begin Source File
 
@@ -558,11 +558,19 @@ SOURCE=.\src\input\GPS_Handler.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\GPSDirectionSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\GPSDriver.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\input\GPSModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSParser.h
 # End Source File
 # Begin Source File
 
@@ -639,10 +647,6 @@ SOURCE=.\src\network\NetworkSource.h
 # Begin Source File
 
 SOURCE=.\src\network\NetworkSourceModule.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\input\nmea.h
 # End Source File
 # Begin Source File
 

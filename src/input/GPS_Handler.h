@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.h,v 1.4 2003/04/03 16:04:27 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.h,v 1.5 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -68,6 +68,7 @@ public:
 	virtual int handle_signal( int, siginfo_t *, ucontext_t * );
 
 protected:
+    char * nmeaRead( char * nmeabuf, int incnt, int & outnt );
 	GPSDriver * parent;
 	int nmeaind;
 	char nmeabuf[NMEABUFSZ];

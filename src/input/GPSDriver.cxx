@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.10 2003/04/29 13:54:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.11 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -35,6 +35,7 @@
 #include <ace/Reactor.h>
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 #include "GPSDriver.h"
 #include "GPS_Handler.h"
@@ -49,7 +50,8 @@ GPSDriver::GPSDriver(ACE_Reactor * reactor_) :
 reactor( reactor_ ),
 receiver( NULL ),
 server( NULL ),
-acceptor( NULL )
+acceptor( NULL ),
+fix( false )
 {
 	if( NULL == reactor )
 		reactor = ACE_Reactor::instance();
@@ -166,11 +168,14 @@ void GPSDriver::removeClient( DGPSMirror_Handler * client )
         clients.erase( it );
 }
 
-void GPSDriver::new_point( const GPSListener::GPSPoint & point )
+void GPSDriver::new_line( const char * line )
 {
-	std::map<GPSListener *, void *>::iterator it;
-	for( it = listeners.begin(); it != listeners.end(); it++ )
-		(*it).first->newPoint( point, (*it).second );
+    auto_ptr<GPResult> result((GPResult *)GPSParser::parse(line));
+    if( result->type == GPResult::GPGGA )
+        fix = (((GPGGA *)result.get())->fix > 0);
+    std::map<GPSListener *, void *>::iterator it;
+    for( it = listeners.begin(); it != listeners.end(); it++ )
+        (*it).first->newData( result.get(), line, (*it).second );
 }
 
 void GPSDriver::send_rtcm( const char * buffer, const int len )

@@ -22,40 +22,40 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for GPSSource Node.
+/** header file for GPSDirectionSource Node.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.2 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDirectionSource.h,v 1.1 2003/06/16 13:17:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section gpssource GPSSource
- * The GPSSource node is a simple EventGenerator tht outputs GPS position data encoded
- * in the position part of the event. This data is in Latitue, Longitute, Height 
- * in the WGS84 coordinate system.
- * Use a filter after that to transform the data into your local coordinate system. The node
- * has no further attributes besides the ID attribute.
+ * @section gpsdirectionsource GPSDirectionSource
+ * The GPSDirectionSource node is a simple EventGenerator that outputs GPS 
+ * direction and velocity data. The direction is encoded in the orientation 
+ * field as a mathematically positive rotation around the Y axis starting from 
+ * the X axis. The velocity is encoded in the X component of the position field
+ * in meters / second.
  *
  * An example element looks like this :
  * @verbatim
-<GPSSource/>@endverbatim
+<GPSDirectionSource/>@endverbatim
  */
 
-#ifndef _GPSSOURCE_H
-#define _GPSSOURCE_H
+#ifndef _GPSDIRECTIONSOURCE_H
+#define _GPSDIRECTIONSOURCE_H
 
 #include "../OpenTracker.h"
 #include "GPSDriver.h"
 
 /**
- * A very simple EventGenerator node for outputing GPS position data.
+ * A very simple EventGenerator node for outputing GPS direction and velocity data.
  * @author Gerhard Reitmayr
  * @ingroup input
  */
-class OPENTRACKER_API GPSSource : public Node, public GPSListener  
+class OPENTRACKER_API GPSDirectionSource : public Node, public GPSListener  
 {
 public:
 
@@ -76,27 +76,31 @@ public:
 
 protected:
 	/// protected constructor so it is only accessible by the module
-	GPSSource() {};
+	GPSDirectionSource() {};
 
 	friend class GPSModule;
 };
 
-inline void GPSSource::newData( const GPResult * res, const char * line, void * userData )
+inline void GPSDirectionSource::newData( const GPResult * res, const char * line, void * userData )
 {
     assert( userData != NULL );
-    if( res->type == GPResult::GPGGA){
-        GPGGA * point = (GPGGA *) res;
-        if( point->fix == 0)
-            return;
+    if( res->type == GPResult::GPVTG){
+        GPVTG * point = (GPVTG *) res;
         GPSModule * module = (GPSModule *)userData;
+        if( !module->driver->hasFix() )
+            return;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = point->lat * MathUtils::GradToRad;
-        buffer.position[1] = point->lon * MathUtils::GradToRad;
-        buffer.position[2] = point->altitude;
-        buffer.confidence = 1 / point->hdop;
+        // klm/h = 3.6 * m/s, 1/3.6 = 0.27777777777777777777777777777778
+        buffer.position[0] = point->speedKlm * 0.27777777777777777777777777777778;
+        float temp[4];
+        temp[0] = 0;
+        temp[1] = 1;
+        temp[2] = 0;
+        temp[3] = point->trueCourse * MathUtils::GradToRad;
+        MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
         module->unlock();
     }
 }
 
-#endif // !defined(_GPSSOURCE_H)
+#endif // !defined(_GPSDIRECTIONSOURCE_H)

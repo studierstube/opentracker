@@ -17,9 +17,11 @@ otinputinc_HEADERS = \
         FOBSource.h \
         FastTrakModule.h \
         FastTrakSource.h \
+        GPSDirectionSource.h \
         GPSDriver.h \
         GPS_Handler.h \
         GPSModule.h \
+        GPSParser.h \        
         GPSSource.h \
         InterSenseModule.h \
         InterSenseSource.h \
@@ -41,7 +43,6 @@ otinputinc_HEADERS = \
         SpeechVoiceModule.h \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        nmea.h \
         rtcm.h
 
 noinst_LTLIBRARIES = libinput.la
@@ -67,12 +68,15 @@ libinput_la_SOURCES = \
         FastTrakModule.cxx \
         FastTrakModule.h \
         FastTrakSource.h \
+        GPSDirectionSource.h \
         GPSDriver.h \
         GPSDriver.cxx \
         GPS_Handler.h \
         GPS_Handler.cxx \
         GPSModule.h \
         GPSModule.cxx \
+        GPSParser.cxx \
+        GPSParser.h \
         GPSSource.h \
         InterSenseModule.cxx \
         InterSenseModule.h \
@@ -106,7 +110,5 @@ libinput_la_SOURCES = \
         UltraTrakModule.cxx \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        nmea.h \
-        nmea.cxx \
         rtcm.h \
         rtcm.cxx

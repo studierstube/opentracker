@@ -1,4 +1,4 @@
- /* ========================================================================
+   /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,10 +26,14 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.7 2003/05/02 00:52:18 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.8 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include "DGPSIP_Handler.h"
 #include "rtcm.h"
@@ -107,19 +111,23 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 	return 0;
 }
 
-void DGPSIP_Handler::newPoint( const GPSPoint & point, void * userData )
+void DGPSIP_Handler::newData( const GPResult * res, const char *, void * userData )
 {
 	char rptbuf[1024];
 
-	++counter;
-	if( counter % 10 == 0)
-	{
-		// only send 2 digit on the wire to anonymize our position 
-		ACE_OS::snprintf(rptbuf, 1024,
-			"R %0.2f %0.2f %0.2f -- %d %0.2e %0.2e %0.2e %0.1f %0.1f\n",
-			point.lat, point.lon, point.height, (double)1.0, (double)1.0, 
-			(double)1.0, (double)1.0,(double)point.hdop,(double)point.numsats );				
-		peer().send_n( rptbuf, ACE_OS::strnlen( rptbuf, 1024 ));
-		counter = 0;
-	}	
+    if( res->type == GPResult::GPGGA )
+    {
+        ++counter;
+        if( counter % 10 == 0)
+        {
+            GPGGA * point = (GPGGA *) res;
+            // only send 2 digit on the wire to anonymize our position 
+            ACE_OS::snprintf(rptbuf, 1024,
+                "R %0.2f %0.2f %0.2f -- %d %0.2e %0.2e %0.2e %0.1f %0.1f\n",
+                point->lat, point->lon, point->height, (double)1.0, (double)1.0, 
+                (double)1.0, (double)1.0,(double)point->hdop,(double)point->numsats );				
+            peer().send_n( rptbuf, ACE_OS::strnlen( rptbuf, 1024 ));
+            counter = 0;
+        }	
+    }
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.5 2003/04/29 13:54:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.6 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -59,7 +59,7 @@ public:
 	virtual int open( void * factory );
 	virtual int handle_input(ACE_HANDLE fd);
 
-	virtual void newPoint( const GPSPoint & point, void * userData );
+	virtual void newData( const GPResult * point, const char * line, void * userData );
 
 protected:
 	GPSDriver * parent;

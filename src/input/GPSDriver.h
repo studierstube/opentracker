@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.4 2003/04/29 13:54:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.5 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,10 +34,11 @@
 #ifndef _GPSDRIVER_H
 #define _GPSDRIVER_H
 
-#include "nmea.h"
 #include <map>
 #include <string>
 #include <vector>
+
+#include "GPSParser.h"
 
 class GPS_Handler;
 class DGPSIP_Handler;
@@ -54,8 +55,14 @@ class ACE_Reactor;
  */
 class GPSListener {
 public:
-	typedef struct llpoint GPSPoint;
-	virtual void newPoint( const GPSPoint & point, void * userData ) = 0;
+    /** 
+     * This is the callback method called by the GPSDriver class, whenever new data
+     * arrives. Any subclasses of GPSListener must override it to receive the data.
+     * @param point pointer to the GPResult object that represents the parsed data.
+     * @param line the corresponding string received from the GPS receiver.
+     * @param uderData a pointer to user data stored when registering the listener.
+     */
+	virtual void newData( const GPResult * point, const char * line, void * userData ) = 0;
 };
 
 /**
@@ -93,12 +100,17 @@ public:
 	void removeListener( GPSListener * listener, void * userData = NULL );
 
     void addClient( DGPSMirror_Handler * client );
-    void removeClient( DGPSMirror_Handler * client );    
+    void removeClient( DGPSMirror_Handler * client );
+
+    bool hasFix( void )
+    {
+        return fix;
+    }
 
 protected:
 
-	void new_point( const GPSListener::GPSPoint & point );
 	void send_rtcm( const char * buffer, const int len );
+    void new_line( const char * line );
 
 	ACE_Reactor * reactor;
 	GPS_Handler * receiver;
@@ -106,6 +118,7 @@ protected:
     DGPSMirror_Acceptor * acceptor;
 
 	bool debugOn;
+    bool fix;
 
 	std::map<GPSListener *, void *> listeners;
 

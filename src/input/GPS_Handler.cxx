@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.4 2003/06/06 13:14:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.5 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -63,28 +63,13 @@ int	GPS_Handler::handle_input(ACE_HANDLE fd)
 int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
 {
     int ncnt, rd;
-	GPSListener::GPSPoint point;
+    char * line;
 
     ncnt = peer().recv( nmeabuf + nmeaind, NMEABUFSZ - nmeaind);
     if (ncnt > 0) {
 		nmeaind += ncnt;
-		while ((rd = nmeaRead(nmeabuf, nmeaind, &point)) > 0) {
-			if (point.fix > 0) {
-				if( parent->getDebug() )
-				{
-					printf("GPS R %0.8f %0.8f %0.2f - - - %0.1f %0.1f\n",
-						point.lat, point.lon, point.height,
-						point.hdop, point.numsats);
-				}
-				parent->new_point( point );				
-			}
-			else
-			{
-				if( parent->getDebug() )
-				{					
-					printf("GPS no fix\n");
-				}
-			}
+		while ((line = nmeaRead(nmeabuf, nmeaind, rd)) !=  NULL) {
+    		parent->new_line( line );
 			nmeaind -= rd;
 			memmove(nmeabuf, nmeabuf + rd, nmeaind);
 		}
@@ -94,4 +79,35 @@ int GPS_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
         ACE_OS::sleep(ACE_Time_Value(0,20000));
 #endif
 	return 0;
+}
+
+char * GPS_Handler::nmeaRead( char * nmeabuf, int incnt, int & outnt )
+{
+    char *cp, *crp, *onmeabuf;
+    int oincnt;
+    
+    onmeabuf = nmeabuf;
+    oincnt = incnt;
+    
+    if ((cp = (char *)memchr(nmeabuf, '$', incnt)) == NULL) {
+        /* no nmea delims - junk it all */
+        outnt = incnt;
+        return NULL;
+    }
+    /* else align buff and adjust count */
+    incnt -= cp - nmeabuf;
+    nmeabuf = cp;
+    
+    if ((crp = (char *)memchr(nmeabuf, '\n', incnt)) == NULL) {
+    /*
+    * No cr - return till more data trickles in.
+    * Let 'em know how much of buff we looked at and discarded.
+        */
+        outnt = nmeabuf - onmeabuf;
+        return NULL;
+    }
+    *crp = '\0';		/* turn current buff fragment into a string */
+    nmeabuf = crp;
+    outnt = nmeabuf - onmeabuf;
+    return cp;
 }

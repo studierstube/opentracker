@@ -26,10 +26,14 @@
 *
 * @author Gerhard Reitmayr
 * 
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.cxx,v 1.1 2003/04/08 18:59:59 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.cxx,v 1.2 2003/06/16 13:17:01 reitmayr Exp $
 *
 * @file                                                                   */
 /* ======================================================================= */
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
 
 #include "GPSDriver.h"
 #include "DGPSMirror_Handler.h"

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.3 2003/04/08 18:59:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.4 2003/06/16 13:17:01 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,17 +34,18 @@
  * @page module_ref Module Reference
  * @section gpsmodule GPSModule 
  *
- * This module provides and drives @ref gpssource nodes that 
- * generate GPS position data events. The configuration element is called @c GPSConfig.
+ * This module provides and drives @ref gpssource and @ref gpsdirectionsource nodes that 
+ * generate various GPS data events. The configuration element is called @c GPSConfig.
  * It reads GPS position data from a GPS receiver connected on the serial port 
  * and transmiting its data in NMEA format as Latitude, Longitude and Height in
  * the x, y and z components of the position. The angles are given in radiants and
  * the height in meter. The data is in WGS84 coordinate system. 
- * The hdop parameter is given as 1 / hdop in confidence.
+ * The hdop parameter is given as 1 / hdop in the confidence value.
  *
  * It allows to connect an optional DGPSIP server for DGPS correction data. 
  * Be sure to set your GPS receiver to NMEA output mode and RTCM input mode 
- * for this work.
+ * for this work. It also allows you to log the NMEA strings received from
+ * the gps receiver into a dedicated log file for further processing.
  *
  * It has the following attributes :
  * @li @c dev serial port where the GPS receiver is attached.
@@ -54,6 +55,7 @@
  * @li @c debug on|off prints out RTCM and NMEA data for debugging
  * @li @c DGPSmirror a port number to run a server on that mirrors the RTCM correction
  *        data for other computers. If not specified, no server will be started.
+ * @li @c logfile path and name of a file to log all received strings into (optional)
  *
  * An example configuration element looks like this :
  * @verbatim
@@ -70,6 +72,8 @@
 #include <string>
 
 class GPSSource;
+class GPSDirectionSource;
+class ACE_FILE_IO;
 
 /**
  * This module supports a GPS receiver with optional DGPS correction data
@@ -94,7 +98,7 @@ public:
 
 	virtual void close();
 
-	virtual void newPoint( const GPSPoint & point, void * userData );
+	virtual void newData( const GPResult * point, const char * line, void * userData );
 
 protected:
 
@@ -105,12 +109,16 @@ protected:
 	int baudRate;
 	std::string dgpsServer;
 	int dgpsPort;
-	bool changed;
-	State buffer;
     int dgpsmirror;
 
 	GPSSource * source;
+    GPSDirectionSource * dirSource;
 	GPSDriver * driver;
+
+    ACE_FILE_IO * logFile;
+
+    friend GPSSource;
+    friend GPSDirectionSource;
 };
 
 #endif // !defined(_GPSMODULE_H)
