@@ -9,6 +9,39 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-24 18:46  anonymous
+
+	* src/network/: DwarfModule.cxx, Makefile.am:
+	
+	working version cvs -n updatecvs -n update
+
+2003-07-24 17:37  anonymous
+
+	* src/network/: DwarfModule.cxx, DwarfModule.h, DwarfSink.h,
+	DwarfSource.h:
+	
+	first compiling version
+
+2003-07-24 17:28  reitmayr
+
+	* src/misc/OpenTracker.cxx:
+	
+	draft implementation
+
+2003-07-24 15:59  reitmayr
+
+	* src/network/DwarfModule.cxx, src/network/DwarfModule.h,
+	src/network/DwarfSink.h, data/opentracker.dtd:
+	
+	draft implementation
+
+2003-07-24 12:08  reitmayr
+
+	* src/network/: DwarfModule.cxx, DwarfModule.h, DwarfSink.h,
+	DwarfSource.h:
+	
+	code shells for dwarf integration
+
 2003-07-18 22:26  tamer
 
 	* src/: common/CommonNodeFactory.cxx, common/ConsoleModule.cxx,
