@@ -36,6 +36,7 @@ C++FILES = \
         Node.cxx \
         State.cxx \
         TestModule.cxx \
+        ThreadModule.cxx \
         WrapperNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
