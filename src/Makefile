@@ -38,6 +38,8 @@ HFILES = \
     Station.h \
     multicast.h \
     Context.h  \
+    TestModule.h \
+    TestSource.h \
     
 C++FILES = \
     CommonNodeFactory.cxx  \
@@ -59,6 +61,8 @@ C++FILES = \
     multicast.cxx \
     main.cxx \
     Context.cxx \
+    TestModule.cxx \
+    TestSource.cxx \
 
 OFILES = $(C++FILES:.cxx=.o)
 
