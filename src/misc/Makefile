@@ -16,24 +16,25 @@ OT_LIB        = $(OT_LIB_DIR)/libOpenTracker.a
 
 PROGRAM = $(OPENTRACKER) $(OT_LIB) $(TEST)
 
-HFILES =
+HFILES = serialcomm.h
 
 C++FILES = \
         main.cxx \
         OpenTracker.cxx \
-        test.cxx
+        test.cxx \
+        serialcomm.cxx
 
 TEST_OBJ = test.o
 
 OPENTRACKER_OBJ = main.o
 
-OT_LIB_OBJ = OpenTracker.o
+OT_LIB_OBJ = OpenTracker.o serialcomm.o
 
 OBJFILES = $(C++FILES:.cxx=.o)
 
-TARGETS = $(PROGRAM) 
+TARGETS = $(PROGRAM)
 
-default: all $(PROGRAM) 
+default: all $(PROGRAM)
 
 $(OT_LIB): $(OT_LIB_OBJ)
 	@echo "--- $(STB_LIB) ---"
