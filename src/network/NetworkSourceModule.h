@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.5 2001/03/27 05:36:13 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -23,42 +23,25 @@
 #ifndef _NETWORKSOURCEMODULE_H
 #define _NETWORKSOURCEMODULE_H
 
-//#include <ace/Thread.h>
-#include <ace/Thread_Manager.h>
-#include <ace/Synch.h>
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Dgram_Mcast.h>
-
 #include "../OpenTracker.h"
-// #include "../core/Module.h"
 #include "Network.h"
 #include "NetworkSource.h"
 
-typedef struct 
+struct Station
 {
     int number;    
     State state;
     int modified;
     NetworkSource * source;
-} Station;
+};
 
 typedef std::vector<Station *> StationVector;
 
-typedef struct
-{
-    ACE_SOCK_Dgram_Mcast socket;
-    /// Mutex to synchronize access to Station data
-    ACE_Thread_Mutex mutex;
-    /// buffer for incoming package
-    FlexibleTrackerDataRecord buffer;
-    StationVector sources;
-    string group;
-    int port;
-    int stop;
-} MulticastReceiver;
+struct MulticastReceiver;
 
 typedef std::vector<MulticastReceiver *> ReceiverVector;
-        
+
+class ACE_Thread_Manager;        
 /**
  * The module and factory to drive the reception of network state updates.
  * It builds NetworkSource nodes that insert data from the network into
@@ -73,7 +56,7 @@ class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
 protected:    
     
     /// ACE Thread manager
-    ACE_Thread_Manager manager;
+    ACE_Thread_Manager * manager;
     /// multicast socket
     //ACE_SOCK_Dgram_Mcast socket;
     /// list of groups to listen for
@@ -93,10 +76,7 @@ protected:
     static void run( void * data );
     
 public:    
-     NetworkSourceModule() : 
-      Module(), NodeFactory(), manager()
-     {
-     };
+     NetworkSourceModule();
 
     /** This method is called to construct a new Node. It compares
      * name to the NetworkSource element name, and if it matches

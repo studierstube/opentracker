@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.4 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.5 2001/03/27 05:36:13 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -29,12 +29,11 @@
 #ifndef _NETWORKSINKMODULE_H
 #define _NETWORKSINKMODULE_H
 
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Dgram.h>
-
 #include "../OpenTracker.h"
 #include "Network.h"
 #include "NetworkSink.h"
+
+class ACE_SOCK_Dgram;
 
 /** a list of MulticastGroup records */
 typedef std::vector<MulticastGroup *> GroupVector;
@@ -60,7 +59,7 @@ protected:
     /// server name
     string serverName;
     /// Datagram socket to use for sending data
-    ACE_SOCK_Dgram socket;
+    ACE_SOCK_Dgram * socket;
 
 //methods
 protected:    

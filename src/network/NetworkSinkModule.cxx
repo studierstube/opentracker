@@ -7,12 +7,16 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.4 2001/03/06 18:07:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.5 2001/03/27 05:36:13 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
- 
+
+#include <ace/ACE.h>
+#include <ace/INET_Addr.h>
+#include <ace/SOCK_Dgram.h>
+
 #include "NetworkSinkModule.h"
-#include "NetworkSink.h"
+//#include "NetworkSink.h"
 
 #include <string.h>
 
@@ -29,6 +33,18 @@ const int positionMatrix=3;
 
 const int magicNum=0xbeef;
 const int revNum=0x0200;
+
+/** a simple struct to relate the address of a multicast group and a 
+ * network data buffer that is used to build the packets send to the
+ * group. All NetworkSink nodes point to one of these. 
+ */
+struct MulticastGroup {
+    FlexibleTrackerDataRecord data;   
+    char * nextRecord;
+    string group;
+    int port;
+    ACE_INET_Addr address;
+};
 
 // initializes ConsoleModule
 
@@ -107,10 +123,11 @@ Node * NetworkSinkModule::createNode( string& name,  StringMap& attributes)
 
 void NetworkSinkModule::start()
 {
+	socket = new ACE_SOCK_Dgram;
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket.open( ACE_INET_Addr( 12346, "localhost" ), PF_INET, 0, 1) == -1 )
+        if( socket->open( ACE_INET_Addr( 12346, "localhost" ) , PF_INET, 0, 1) == -1 )
         {
             cout << "Error opening socket in NetworkSinkModule !" << endl;
             exit(1);
@@ -128,10 +145,11 @@ void NetworkSinkModule::start()
 
 void NetworkSinkModule::close()
 {
-    if( socket.close() == -1 )
+    if( socket->close() == -1 )
     {
         cout << "Error closing socket !" << endl;
     }
+	delete socket;
 }
  
 // checks the NetworkSink nodes and sends any new data to the network
@@ -207,7 +225,7 @@ void NetworkSinkModule::pullState()
         {
             (*gr_it)->data.numOfStations = htons( (*gr_it)->data.numOfStations );
             int size = (*gr_it)->nextRecord - (char*)&(*gr_it)->data;
-            if( socket.send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
+            if( socket->send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
             {
                 cout << "NetworkSinkModule : Error sending packet for " << 
                         (*gr_it)->group << endl;

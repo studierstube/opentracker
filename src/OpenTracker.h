@@ -9,7 +9,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.5 2001/03/26 22:11:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.6 2001/03/27 05:36:12 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,7 +52,7 @@
 
 // ACE needs to be included before any Windows headers, because there are 
 // some problems with Windows.h file.
-#include <ace/ACE.h>
+// #include <ace/ACE.h>
 
 #include <string>
 #include <vector>

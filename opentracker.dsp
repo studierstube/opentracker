@@ -91,6 +91,10 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\src\input\ARToolKitModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\CommonNodeFactory.cxx
 # End Source File
 # Begin Source File
@@ -107,6 +111,10 @@ SOURCE=.\src\core\Context.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\CyberMouseModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\DOMTreeErrorReporter.cxx
 # End Source File
 # Begin Source File
@@ -120,6 +128,14 @@ SOURCE=.\src\core\EventQueueImplementation.cxx
 # Begin Source File
 
 SOURCE=.\src\common\EventQueueNode.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\InterTraxModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\isense.cpp
 # End Source File
 # Begin Source File
 
@@ -163,11 +179,19 @@ SOURCE=.\src\core\TestModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\core\ThreadModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\Transformation.cxx
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\common\VirtualTransformation.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\WacomGraphireModule.cxx
 # End Source File
 # Begin Source File
 
@@ -177,6 +201,14 @@ SOURCE=.\src\core\WrapperNode.cxx
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\src\input\ARToolKitModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\ARToolKitSource.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\src\common\CommonNodeFactory.h
@@ -207,6 +239,14 @@ SOURCE=.\src\core\Context.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\CyberMouseModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\CyberMouseSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\dllinclude.h
 # End Source File
 # Begin Source File
@@ -224,6 +264,18 @@ SOURCE=.\src\core\EventQueueImplementation.h
 # Begin Source File
 
 SOURCE=.\src\common\EventQueueNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\InterTraxModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\InterTraxSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\isense.h
 # End Source File
 # Begin Source File
 
@@ -304,6 +356,14 @@ SOURCE=.\src\common\Transformation.h
 # Begin Source File
 
 SOURCE=.\src\common\VirtualTransformation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\WacomGraphireModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\WacomGraphireSource.h
 # End Source File
 # Begin Source File
 

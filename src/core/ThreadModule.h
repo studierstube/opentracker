@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.4 2001/03/27 05:36:12 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -16,8 +16,10 @@
 
 #include "../dllinclude.h"
 
-#include <ace/Thread.h>
-#include <ace/Synch.h>
+// #include <ace/Thread.h>
+// #include <ace/Synch.h>
+
+class ACE_Thread_Mutex;
 
 #include "Module.h"
 
@@ -39,26 +41,21 @@ class OPENTRACKER_API ThreadModule : public Module
 {
 //members
 protected:
-    /// handle to module specific thread;
-    ACE_thread_t thread;
+    /// handle to module specific thread. This is a little bit tricky as we
+	/// don't use the ACE definition but the same type.
+    unsigned long thread;
     /// Mutex to implement lock, unlock behavior
-    ACE_Thread_Mutex mutex;
+    ACE_Thread_Mutex * mutex;
         
 //methods
 protected:    
     /** enters a critical section. Use this method to protect your operations
      * from another thread. This is not a recursive lock, do not call it
      * several times without unlocking !*/
-    void lock()
-    {
-        mutex.acquire();
-    };
+    void lock();
     /** leaves a critical section. Use this method to release the protection.
      */
-    void unlock()
-    {
-        mutex.release();
-    };
+    void unlock();
     /** the work method for the module thread. This is executed by the new
      * module thread. In this class it does nothing but subclasses should
      * override it to add their implementation. */
@@ -66,31 +63,25 @@ protected:
     {};    
     /** static thread function passed to the actual thread. This calls
      * then run on the right instance. Do not use this yourself. */
-    static void thread_func( void * data ){
-        ((ThreadModule *)data)->run();
-    }
-        
+    static void thread_func( void * data )
+	{
+		((ThreadModule *)data)->run();
+	};
+
 public:
+	/** constructor */
+	ThreadModule();
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. In this implementation it starts the thread. Be
      * sure to call this method from your subclasses start method to start the
      * thread !*/
-    virtual void start()
-    {
-        thread = ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-                                   this, 
-                                   THR_NEW_LWP | THR_JOINABLE,
-                                   &thread );
-    };    
+    virtual void start();    
     /**
      * closes the module. In this implementation it stops the thread. Be sure
      * to call this method from your subclasses close method to stop the
      * thread !*/
-    virtual void close()
-    {
-        ACE_Thread::cancel( thread );
-    };            
+    virtual void close();            
 };
 
 #endif

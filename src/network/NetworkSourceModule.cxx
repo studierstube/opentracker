@@ -8,9 +8,14 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.5 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.6 2001/03/27 05:36:13 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
+
+#include <ace/Thread_Manager.h>
+#include <ace/Synch.h>
+#include <ace/INET_Addr.h>
+#include <ace/SOCK_Dgram_Mcast.h>
  
 #include "NetworkSourceModule.h"
 
@@ -29,6 +34,25 @@ const int positionMatrix=3;
 
 const int magicNum=0xbeef;
 const int revNum=0x0200;
+
+struct MulticastReceiver
+{
+    ACE_SOCK_Dgram_Mcast socket;
+    /// Mutex to synchronize access to Station data
+    ACE_Thread_Mutex mutex;
+    /// buffer for incoming package
+    FlexibleTrackerDataRecord buffer;
+    StationVector sources;
+    string group;
+    int port;
+    int stop;
+};
+
+// constructor initializing the thread manager
+NetworkSourceModule::NetworkSourceModule() : Module(), NodeFactory()
+{
+	manager = new ACE_Thread_Manager;
+}
 
 // Converts num floats from network byte order.
 
@@ -130,6 +154,7 @@ void NetworkSourceModule::run( void * data )
         if( rec->stop == 1 )
         {
             rec->mutex.release();
+			cout << "Stopping thread" << endl;
             break;
         } else {
             rec->mutex.release();

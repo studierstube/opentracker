@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.3 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.4 2001/03/27 05:36:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,22 +34,10 @@
 #ifndef _NETWORKSINK_H
 #define _NETWORKSINK_H
 
-#include <ace/INET_Addr.h>
-
 #include "../OpenTracker.h"
 #include "Network.h"
 
-/** a simple struct to relate the address of a multicast group and a 
- * network data buffer that is used to build the packets send to the
- * group. All NetworkSink nodes point to one of these. 
- */
-typedef struct {
-    FlexibleTrackerDataRecord data;   
-    char * nextRecord;
-    string group;
-    int port;
-    ACE_INET_Addr address;
-} MulticastGroup;
+struct MulticastGroup;
 
 /**
  * This class implements a simple node that stores a copy of the last
