@@ -22,4 +22,9 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/src/misc/xml/libxml.la \
         $(top_builddir)/src/network/libnetwork.la \
         $(top_builddir)/extras/intersense/unix/libintersense.la
-libOpenTracker_la_LDFLAGS = -no-undefined -avoid-version
+
+libOpenTracker_la_LDFLAGS = \
+        -no-undefined -avoid-version \
+        @stb_ac_ace_rpath@ \
+        @stb_ac_artoolkit_rpath@ \
+        @stb_ac_xerces_rpath@
