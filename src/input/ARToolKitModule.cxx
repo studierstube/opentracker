@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.36 2003/08/18 18:57:04 tamer Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.37 2003/10/20 08:12:57 reitmayr Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -242,6 +242,8 @@ void ARToolKitModule::start()
     
     arInitCparam( &cparam );
     
+    arParamDisp( &cparam );
+
     frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
     ThreadModule::start();
     cout << "ARToolKitModule started" << endl;
