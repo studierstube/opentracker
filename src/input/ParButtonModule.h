@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.h,v 1.1 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.h,v 1.2 2002/09/19 16:50:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,23 +34,11 @@
  * @page module_ref Module Reference
  * @section parbuttonmodule ParButtonModule (Parallel Button Input)
  * 
- * User guide description of what it does here
- * list of configuration attributes :
- *
- * @li @c id a unique id to identify the tracker, this the same as the id 
- *           attribute of the @ref intersensesource nodes.
- * @li @c comport the serial port the tracker is connected to. If 0 then
- *        the first one is used or an InterTrax2 connected to the USB port.
- *
- * An example configuration element looks like this :
- * @verbatim
-<InterSenseConfig>
-    <ISTracker comport="0" id="InterTrax"/>
-</InterSenseConfig>@endverbatim
- *
- * Note that this driver has not been fully tested, because we have only
- * InterTrax2 devices in our lab. The ISTracker element is a placeholder for
- * more advanced configuration options in the future.
+ * This module implements reading button values from a parallel port. See the
+ * @ref parbuttonsource node for a description of how to configure a source node.
+ * This module has no attributes and need not be present
+ * in the configuration section to operate. However, it reserves the name 
+ * @c ParButtonConfig as configuration element.
  */
 
 #ifndef _PARBUTTONMODULE_H

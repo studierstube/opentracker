@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.2 2001/08/07 09:21:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.3 2002/09/19 16:50:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,11 +38,11 @@
  * a bidirectional parallel port. This includes Indigo2, O2, and most
  * modern PCs. There may be only one source per parallel port. The port itself
  * is defined by the device name or the base port address, depending on the
- * operating system.
+ * operating system. Both types of parameters are written into the @c dev attribute.
  *
  * An example element looks like this :
  * @verbatim
-<ParButtonSource dev="/par/lpt1" port="0x365"/>@endverbatim
+<ParButtonSource dev="0x378"/>@endverbatim
  */
 
 #ifndef _PARBUTTONSOURCE_H
@@ -52,7 +52,7 @@
 
 /**
  * This class implements a simple EventGenerator. It is updated by the
- * InterSenseModule.
+ * ParButtonModule.
  * @author Gerhard Reitmayr
  * @ingroup input
  */
