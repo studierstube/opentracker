@@ -9500,6 +9500,8 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 #line $LINENO "configure"
 #include "confdefs.h"
 #include <ace/Reactor.h>
+     int ace_main_i(int argc, char *argv[]){ACE_Reactor *g_reactor;ACE_NEW_RETURN(g_reactor, ACE_Reactor, 1);return 0;}
+
 #ifdef F77_DUMMY_MAIN
 #  ifdef __cplusplus
      extern "C"
@@ -9509,7 +9511,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 int
 main ()
 {
-ACE_Reactor *g_reactor; ACE_NEW_RETURN(g_reactor, ACE_Reactor, 1);
+char *argv[]={"foo"};ace_main_i(1,argv)
   ;
   return 0;
 }
