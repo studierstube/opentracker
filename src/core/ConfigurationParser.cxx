@@ -144,12 +144,10 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
 			RefNode * ref = new RefNode( (*find).second );
             ref->type = tagName;
 			ref->setParent( element );
-			//cout << "Build Reference node -> " << map->get("USE") << "." << endl;
 			LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
 	        return ref;
         } else
         {
-            //cout << "Undefined reference " << map->get("USE") << " !" << endl;
 			LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
 	        return NULL;
         }
@@ -164,7 +162,6 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
         {
             references[map->get("DEF")] = value;
             value->name = map->get("DEF");
-            //cout << "Storing Reference " << map->get("DEF") << endl;
 			LOG_ACE_INFO("ot:Storing Reference %s\n", map->get("USE").c_str());
         }
         //auto_ptr<DOMNodeList> list ( element->getChildNodes());
@@ -180,7 +177,6 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
     }
     else
     {
-        //cout << "Warning : Could not parse element " << tagName << endl;
 		LOG_ACE_INFO("ot:Warning : Could not parse element %s\n", tagName.c_str());
     }
     return value;
@@ -197,12 +193,10 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
 			RefNode * ref = new RefNode( (*find).second );
             ref->type = tagName;
 			ref->setParent( element );
-			//cout << "Build Reference node -> " << map->get("USE") << "." << endl;
 			LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
 	        return ref;
         } else
         {
-            //cout << "Undefined reference " << map->get("USE") << " !" << endl;
 			LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
 	        return NULL;
         }
@@ -217,7 +211,6 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
         {
             references[map->get("DEF")] = value;
             value->name = map->get("DEF");
-            //cout << "Storing Reference " << map->get("DEF") << endl;
 			LOG_ACE_INFO("ot:Storing Reference %s\n", map->get("USE").c_str());
         }
 
@@ -230,7 +223,6 @@ Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
     }
     else
     {
-        //cout << "Warning : Could not parse element " << tagName << endl;
 		LOG_ACE_INFO("ot:Warning : Could not parse element %s\n", tagName.c_str());
     }
     return value;
@@ -260,7 +252,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     catch (const XMLException& e)
     {
 		char * message = XMLString::transcode( e.getMessage());
-        //cout << "An error occured during parsing\n   Message: " << message << endl;
 		LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", message);
 		XMLString::release( & message );
 		exit(1);
@@ -268,15 +259,12 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     catch (const DOMException& e)
     {
 		char * message = XMLString::transcode( e.msg );
-        //cout << "An error occured during parsing\n   Message: " << message << endl;
 		LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", message);
 		XMLString::release( & message );
         exit(1);
     }
     if( errReporter.errorsEncountered() > 0 )
     {
-        //cout << "There were non fatal errors in the configuration file !\n"
-        //     << "Please check the file and start again." << endl;
 		LOG_ACE_ERROR("ot:There were non fatal errors in the configuration file !\n");
 		LOG_ACE_ERROR("ot:Please check the file and start again.\n");
         exit(1);
@@ -287,19 +275,16 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     Node * node = new Node();
 	node->setParent( root );
 	char * tempName = XMLString::transcode( root->getLocalName());
-	//cout << "Root node is " << tempName << endl;
 	LOG_ACE_INFO("ot:Root node is %s\n", tempName);
 	XMLString::release( & tempName );
 
     const XMLCh* xmlspace = root->getNamespaceURI();
     if (xmlspace != NULL) {
 		char * tempSpace = XMLString::transcode( xmlspace );
-        //cout << "Namespace is " << tempSpace << endl;
 		LOG_ACE_INFO("ot:Namespace is %s\n", tempSpace);
 		XMLString::release( & tempSpace );
     }
     else {
-        //cout << "Not using namespaces!" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Not using namespaces!\n")));
     }
 
@@ -310,14 +295,11 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 	XMLString::release( & configurationCh );
     if( list->getLength() != 1 )
     {
-        //cout << "not valid config file, not exactly one configuration tag" << endl;
-        //cout << list->getLength() << " configurations." << endl;
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:not valid config file, not exactly one configuration tag\n")));
 		LOG_ACE_INFO("ot:%d configurations.\n", list->getLength());
         exit(1);
     }
 
-    //cout << "parsing configuration section" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
 
     // parse configuration elements subelements
@@ -358,7 +340,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         }
     }
 
-    //cout << "parsing tracker tree section" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
 
     // parse the rest of the elements
@@ -398,16 +379,13 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 	node->setParent( root );
     const char* tempName = root->Value();
 
-	//cout << "Root node is " << tempName.get() << endl;
 	LOG_ACE_INFO("ot:Root node is %s\n", tempName);
 
     const char* xmlspace = NULL; //root->getNamespaceURI();
     if (xmlspace != NULL) {
-        //cout << "Namespace is " << XMLString::transcode( xmlspace ) << endl;
 		LOG_ACE_INFO("ot:Namespace is %s\n", xmlspace);
     }
     else {
-        //cout << "Not using namespaces!" << endl;
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Not using namespaces!\n")));
     }
 
@@ -421,7 +399,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         exit(1);
 	}
 
-    //cout << "parsing configuration section" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
 
 	TiXmlElement * configElement = config->FirstChildElement();
@@ -431,7 +408,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         string tagName = configElement->Value();
 		ConfigNode * base = new ConfigNode( *attributes );
 		base->setParent( configElement );
-        //cout << "config for " << tagName  << endl;
 		LOG_ACE_INFO("ot:config for %s\n", tagName.c_str());
 
 		TiXmlElement * element = configElement->FirstChildElement();
@@ -450,7 +426,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 		configElement = configElement->NextSiblingElement();
     }
 
-    //cout << "parsing tracker tree section" << endl;
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
 
     // parse the rest of the elements
