@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.4 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.5 2001/04/09 15:28:27 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -152,7 +152,7 @@ Node * Node::getWrappedChild( string & name, unsigned int index )
 
 void Node::updateObservers( State &data )
 {
-	if( isEventGenerator() == 1 )
+	if( isEventGenerator() == 1 || isWrapperNode() == 1 )
 	{
 		DOM_Node & parentElement = parent->getParentNode();
 		if( parentElement != 0 )
