@@ -9,6 +9,19 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-08-20 02:51  tamer
+
+	* src/input/ARToolKitModule.h:
+	
+	documentation for the added videolinuxmode(2) attributes.
+
+2003-08-19 23:53  thomas
+
+	* src/input/ARToolKitModule.h:
+	
+	updated documentation f. videomode parameter strings to reflect
+	recent DSVideoLib changes
+
 2003-08-18 20:57  tamer
 
 	* data/opentracker.dtd, src/input/ARToolKitModule.cxx:
