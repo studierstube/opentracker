@@ -599,7 +599,7 @@ void ConsoleModule::pullState()
         }
 #endif
 #ifdef WIN32
-        printf("%s\n", headerline);
+        printf("%s\n", headerline.c_str());
         printf( "    Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed ); 
 #else
         printw("%s\n\n", headerline.c_str());

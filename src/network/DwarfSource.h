@@ -46,6 +46,8 @@
 
 #ifdef USE_DWARF
 
+namespace ot {
+
 /**
  * This class implements a simple source that is fired by its module in 
  * regular intervals and updates any EventObservers.
@@ -79,6 +81,8 @@ public:
 
     friend class DwarfModule;
 };
+
+} // namespace ot
 
 #endif // USE_DWARF
 
