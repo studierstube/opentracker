@@ -138,6 +138,10 @@ SOURCE=.\src\common\EventQueueNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\FileModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\InterSenseModule.cxx
 # End Source File
 # Begin Source File
@@ -307,6 +311,18 @@ SOURCE=.\src\core\EventQueueImplementation.h
 # Begin Source File
 
 SOURCE=.\src\common\EventQueueNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\File.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\FileModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\FileSink.h
 # End Source File
 # Begin Source File
 
