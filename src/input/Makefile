@@ -21,14 +21,17 @@ HFILES = \
         WacomGraphireModule.h \
         WacomGraphireSource.h \
 	InterSenseSource.h \
-	InterSenseModule.h
+	InterSenseModule.h \
+        FOBModule.h \
+        FOBSource.h
         
 C++FILES = \
         ARToolKitModule.cxx \
         CyberMouseModule.cxx \
         InterTraxModule.cxx \
         WacomGraphireModule.cxx \
-	InterSenseModule.cxx
+	InterSenseModule.cxx \
+        FOBModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
