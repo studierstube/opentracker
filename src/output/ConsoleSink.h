@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleSink.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleSink.h,v 1.2 2001/01/03 14:45:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -30,7 +30,7 @@
 #ifndef _CONSOLESINK_H
 #define _CONSOLESINK_H
 
-#include "../core/OpenTracker.h"
+#include "../OpenTracker.h"
 
 /**
  * This class implements a simple node that stores a copy of the last

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleModule.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/output/Attic/ConsoleModule.h,v 1.2 2001/01/03 14:45:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -22,22 +22,19 @@
  *
  * An example configuration element looks like this :
  * @verbatim
-<ConsoleModule interval="10"/>@endverbatim
+<ConsoleConfig interval="10"/>@endverbatim
  */
 
 #ifndef _CONSOLEMODULE_H
 #define _CONSOLEMODULE_H
 
-#include "../core/OpenTracker.h"
-#include "../core/Module.h"
-#include "../core/NodeFactory.h"
+#include "../OpenTracker.h"
 
 /**
  * The module and factory to drive the console output sink nodes. 
- * On a windows system it just writes to the console. On a unix
- * box it should use curses.
- *
- * @todo implement with curses
+ * On a windows system it uses WIN32 API calls to clear the console and reset
+ * the cursor. On a unix it uses the curses library to achieve the same 
+ * effect.
  *
  * @author Gerhard Reitmayr
  */
@@ -51,6 +48,9 @@ protected:
     int cycle;
     /// cycle interval to use for printing out states
     int interval;
+    /// headerline in display
+    string headerline;
+
 
 // Methods
 public:
@@ -89,6 +89,10 @@ public:
     /**
      * On Unix platforms closes curses.*/
     virtual void close();
+    /**
+     * tests whether a key was pressed, if so it stops.
+     * @return 1 if main loop should stop, 0 otherwise. */
+    virtual int stop();
 };
 
 #endif
