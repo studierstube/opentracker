@@ -30,6 +30,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "../../OpenTracker.h"
+
 // selects between usage of XERCES and TinyXML
 #include "../../tool/XMLSelection.h"
 

@@ -37,6 +37,8 @@
 #include <memory>
 #include <algorithm>
 
+#include "../OpenTracker.h"
+
 // selects between usage of XERCES and TinyXML
 #include "../tool/XMLSelection.h"
 
@@ -46,7 +48,6 @@
   #include <xercesc/util/XMLUniDefs.hpp>
 #endif //USE_XERCES
 
-#include "../OpenTracker.h"
 #include "Node.h"
 #include "StringTable.h"
 #include "Context.h"

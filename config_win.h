@@ -94,6 +94,9 @@
 /** uncomment the following line to compile support for the ARToolKitPlus library */
 //#define USE_ARTOOLKITPLUS 1
 
+/** umcomment the following line to compile against TinyXML instead of XERCES */
+//#define USE_TINYXML 1
+
 /**
  * This define enables the correction of ARToolkit transformation matrices
  * on systems that provide camera images the right way around. ARToolkit seems

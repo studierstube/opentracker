@@ -35,7 +35,8 @@
 #include <ace/FILE.h>
 
 #include <algorithm>
-#include <algorithm>
+
+#include "../OpenTracker.h"
 
 // selects between usage of XERCES and TinyXML
 #include "../tool/XMLSelection.h"
@@ -46,7 +47,6 @@
 #include <xercesc/util/XMLUniDefs.hpp>
 #endif //USE_XERCES
 
-#include "../OpenTracker.h"
 #include "ConfigurationParser.h"
 
 
