@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.1 2001/12/11 13:28:14 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.2 2002/01/18 19:58:16 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -56,7 +56,7 @@ FastTrakModule::FastTrakModule() : ThreadModule(), NodeFactory()
 // Destructor method, clears nodes member.
 FastTrakModule::~FastTrakModule()
 {
-    delete [numberOfStations]stations;
+    delete[] stations;
     nodes.clear();
 }
 

@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.5 2002/01/09 17:13:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.6 2002/01/18 19:58:16 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -76,6 +76,8 @@
 
 #include "../OpenTracker.h"
 
+#include <map>
+
 class Bird;
 /**
  * developer level information and implementation specifics here
@@ -104,16 +106,15 @@ protected:
     /// scale factor 
     float scale;
     
-    /// array of Bird data structures
-    std::vector<Bird *> birds;
+    /// associative array of Bird data structures
+    std::map<int, Bird *> birds;
 
     /// flag to stop the thread
     int stop;
 
 // Methods
 protected:
-    /** this method is the code executed in its own thread, see
-     * ARToolKitModule for an example of such a module. */
+    /** this method is executed in its own thread and reads data from the flock. */
     virtual void run();
 
     /** inits the whole flock according to the parameters stored
@@ -130,28 +131,29 @@ public:
     virtual ~FOBModule();
     /**
      * initializes the tracker module. For each configured tracker it
-     * allocates an ISTracker structure and initializes the tracker.
+     * allocates a Bird structure and stores the configuration information.
      * @param attributes StringTable of elements attribute values. Should be
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
     virtual void init(StringTable& attributes,  ConfigNode * localTree);
     /** This method is called to construct a new Node. It compares
-     * name to the InterTraxSource element name, and if it matches
-     * creates a new InterTraxSource node.
+     * name to the FOBSource element name, and if it matches
+     * creates a new FOBSource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);    
     
+    /** this method initializes the flock and starts the processing thread. */
     virtual void start();
 	/**
-     * closes InterSense library */
+     * closes the flock again */
     virtual void close();
     /**
      * pushes events into the tracker tree. Checks all trackers for new data
-     * and fires the InterSenseSources, if new data is present.
+     * and fires the FOBSources, if new data is present.
      */
     virtual void pushState();
 };
