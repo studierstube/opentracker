@@ -25,10 +25,37 @@
 /** header file for Filter Node.
   *
   * @author Gerhard Reitmayr
-  * @todo add documentation for Filter node
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.1 2001/10/20 17:20:11 reitmayr Exp $
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.2 2001/10/21 22:10:56 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
+
+/**
+ * @page Nodes Node Reference
+ * @section filternode Filter
+ * The Filter node implements a simple linear averaging over a number of events.
+ * The events are stored in an EventQueueNode that is the required child of this
+ * node. Everytime it receives a new event from the EventQueueNode it computes the
+ * weighted average of the events stored in the EventQueueNode. It implements an
+ * Event interface.
+ *
+ * The position is calculated as the weighted average of the last events positions.
+ * No normalization is done, so one can use this filter to calculate gain != 1. The
+ * rotation is calculated in exponential space of the unit sphere of quaternions. 
+ * Here the average is normalized to stay within the result space.
+ *
+ * The element has the following attributes :
+ * @li @c  weight a number of float values giving the individual weights of the
+ *         events averaged. The number of events used from the queue are equal
+ *         to the number of weights specified here. The first weight relates to the
+ *         newest event. If less events are stored in the queue, no new event is generated.
+ *
+ * An example element looks like this :
+ * @verbatim
+<Filter weight="0.5 0.5 0.5">
+    <EventQueue>...</EventQueue>
+</Filter>@endverbatim
+ */
 
 #ifndef _FILTERNODE_H
 #define _FILTERNODE_H

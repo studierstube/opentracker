@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.5 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.6 2001/10/21 22:10:56 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,7 +59,7 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
-class OPENTRACKER_API EventQueueNode : public Node, public EventQueueImplementation
+class OPENTRACKER_API EventQueueNode : public Node, protected EventQueueImplementation
 {
 // Members
 protected:
@@ -89,10 +89,34 @@ public:
     {
         return 1;
     };
+
     /** this method is called by the EventGenerator to update it's observers
      * @param event new event
      * @param generator the calling EventGenerator */
     virtual void onEventGenerated( State& event, Node& generator);
+
+    /** returns the event number n back in time starting with the
+     * newest event for n = 0.
+     * @param number the number of the event to be retrieved
+     * @return reference to the State */
+    virtual State& getEvent(unsigned int number = 0)
+    {
+        return EventQueueImplementation::getEvent( number );
+    }
+ 
+    /** returns the event closes to the given point in time
+     * @param time point in the the event should be closest to
+     * @return reference to the found event */
+    virtual State& getEventNearTime(double time)
+    {
+        return EventQueueImplementation::getEventNearTime( time );
+    }
+
+    /** returns the size of the queue */
+    virtual unsigned int getSize()
+    {
+        return EventQueueImplementation::getSize();
+    }
 
     friend class CommonNodeFactory;
 };

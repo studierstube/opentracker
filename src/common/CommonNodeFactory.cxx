@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.18 2001/10/20 17:18:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.19 2001/10/21 22:10:56 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -325,11 +325,11 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         const char * data = attributes.get("weight").c_str();
         char * end = (char *) data;
         weights.push_back((float) strtod( data, &end ));    
-        while( end != data ){        
+        while( *end != 0 ){        
             data = end;
             weights.push_back((float) strtod( data, &end ));
         }
-        cout << "FilterNode with " << weights.size() << " weights ";
+        cout << "FilterNode with " << weights.size() << " weights\n";
         result = new FilterNode( weights );
     }
     else if( name.compare("ConfidenceSelect") == 0 )

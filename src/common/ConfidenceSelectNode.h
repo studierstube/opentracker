@@ -26,9 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * @todo add documentation
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.h,v 1.1 2001/10/20 17:20:11 reitmayr Exp $ 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.h,v 1.2 2001/10/21 22:10:56 reitmayr Exp $ 
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,9 +34,24 @@
  * @page Nodes Node Reference
  * @section confidenceselect ConfidenceSelect
  *
- * An example element using all wrapper elements looks like this :
+ * The ConfidenceSelect node will filter events based on their confidence value
+ * relative to confidence values seen before. It can be used to select the
+ * event with the highest confidence value within a short time interval. It is
+ * a simple EventGenerator node.
+ *
+ * It will store the confidence value of an
+ * event received and filter out any events that arrive within a certain time span
+ * set by the timeout parameter and that have a confidence value below ( or higher )
+ * than the stored one. After the timeout it will again store the next event received.
+ * If an event passes the test, the events confidence value is stored and
+ * the timeout starts again. Two modes are possible : @c high filters out lower values and
+ * @c low filters out higher values. The element has the following attributes :
+ * @li @c timeout the timeout value in milliseconds
+ * @li @c type high either @c high or @c low to set the type of filtering
+ *
+ * An example element looks like this :
  * @verbatim
-<ConfidenceFilter treshhold="0.8" type="high" >
+<ConfidenceSelect timeout="100" type="high" >
     ...any event node
 </ConfidenceFilter>@endverbatim
  */
@@ -49,6 +62,8 @@
 #include "../OpenTracker.h"
 
 /**
+ * This class implements a filter based on the confidence value of events relative to
+ * earlier confidence values seen. It is similar to the ConfidenceFilterNode.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
