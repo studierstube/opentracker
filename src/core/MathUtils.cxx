@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.5 2003/03/26 11:22:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.6 2003/04/01 15:51:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -175,4 +175,18 @@ float* MathUtils::rotateVector(float* q, float* v, float* vResult)
     vResult[1] = t1[1];
     vResult[2] = t1[2];
     return vResult;
+}
+
+// computes determinant of a matrix
+
+float MathUtils::determinant( float matrix[3][3] )
+{
+	double res = 0;
+	res += matrix[0][0]*matrix[1][1]*matrix[2][2];
+	res += matrix[0][1]*matrix[1][2]*matrix[2][0];
+	res += matrix[0][2]*matrix[1][0]*matrix[2][1];
+	res -= matrix[0][0]*matrix[1][2]*matrix[2][1];
+	res -= matrix[0][1]*matrix[1][0]*matrix[2][2];
+	res -= matrix[0][2]*matrix[1][1]*matrix[2][0];
+	return (float)res;
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.8 2003/03/26 11:22:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.9 2003/04/01 15:51:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -88,6 +88,10 @@ public:
      * @param vResult float[3] where the result is stored
      * @return pointer to result array */
     static float* rotateVector(float* q, float* v, float* vResult);
+	/** computes the determinant of a 3x3 matrix.
+	 * @param matrix the 3x3 matrix to use
+	 * @return determinant of the matrix */
+	static float determinant( float matrix[3][3] );
 
     /// the nice constant Pi
     static const double Pi;

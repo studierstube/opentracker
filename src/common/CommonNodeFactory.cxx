@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.29 2003/03/28 14:48:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.30 2003/04/01 15:51:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -124,6 +124,12 @@ int CommonNodeFactory::parseRotation(const string & line,const string & type, fl
         }
         else
         {
+			float det = MathUtils::determinant( matrix );
+			if( det < 0.9 || det > 1.1 )
+			{
+				printf("Matrix is not a pure rotation matrix !\n");
+				return 1;
+			}
             MathUtils::matrixToQuaternion( matrix, val );
         }
     }
