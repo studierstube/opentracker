@@ -26,7 +26,23 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.12 2002/11/29 15:56:21 reitmayr Exp $
+  *****************************************************************
+  *
+  * ALF 9.Dec.2002:
+  * some of the newer mainboards seem to lack pull-up resistors
+  * which results in showing always a value of "0xFF" as data
+  *
+  * I corrected this by using external pull-ups of about 2kOhm
+  * from the input pins to pin 14 (output Autofeed), which gets
+  * initialized as HIGH. (This is a hack. Better would be using 
+  * +5V from e.g. the PS/2 connector, but this means another 
+  * connector, which is too much trouble)
+  *
+  * Try this hack, if you've got the same problems.
+  *
+  *****************************************************************
+  *
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.13 2002/12/09 16:02:16 splechtna Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -37,7 +53,7 @@
 // enable this define, if you want to use an alternative implementation of
 // the parallel port access. You will also have to make sure to include the
 // right libraries etc.
-// #define _DLPORTIO
+//#define _DLPORTIO
 
 using namespace std;
 
@@ -55,7 +71,7 @@ using namespace std;
 #ifndef _DLPORTIO
 #include "../misc/portio.h"
 #else
-#include <Dlportio.h>
+#include "Dlportio.h"
 #endif
 #else
 #include <stropts.h> 
@@ -95,10 +111,11 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
 
 #ifndef _DLPORTIO
         outportb(addr, 0x00 );
-        outportb(addr+2, 0x20); 
+        outportb(addr+2, 0x20); // set to byte output mode,
+								// all control lines to HIGH
 #else
 	DlPortWritePortUchar(addr, 0x00);
-	DlPortWritePortUchar(addr+2, 0x20);
+	DlPortWritePortUchar(addr+2, 0x20); 
 	// nothing to be done here
 #endif
 
@@ -198,7 +215,9 @@ void ParButtonModule::pushState()
 #ifndef _DLPORTIO
         data = (~inportb( source->handle )) & 0xff;
 #else
-		data = (~DlPortReadPortUchar(source->handle )) & 0xff;
+		// just check for two buttons if using hardware hack
+		//data = (~DlPortReadPortUchar(source->handle )) & 0x03;
+		data = (~DlPortReadPortUchar(source->handle )) & 0xFF;
 #endif
         if( data != source->state.button )
         {
