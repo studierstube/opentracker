@@ -42,7 +42,7 @@
   *
   *****************************************************************
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.19 2003/10/16 07:52:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.20 2003/12/13 13:17:19 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -70,7 +70,7 @@ using namespace std;
 #include "Dlportio.h"
 #endif
 #else
-#include <stropts.h> 
+#include <sys/ioctl.h>
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <fcntl.h> 

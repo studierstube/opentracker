@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.17 2003/09/24 11:10:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.18 2003/12/13 13:17:19 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -110,9 +110,9 @@ public:
      * @param qResult pointer to the result quaternion
      * @return returns the pointer to the result quaternion
      */
-    static float * MathUtils::eulerToQuaternion( const double alpha, const double beta, 
-                                                 const double gamma, const enum MathUtils::EULER sequence, 
-                                                 float * qResult );
+    static float * eulerToQuaternion( const double alpha, const double beta, 
+                                      const double gamma, const enum MathUtils::EULER sequence, 
+                                      float * qResult );
     /** inverts a quaternion. This method
      * operates directly on the arguments. Therefore using the same pointers
      * for several arguments will produce wrong results !
