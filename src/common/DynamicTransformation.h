@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.8 2001/04/30 10:10:15 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.9 2001/05/28 15:24:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,10 +61,13 @@
  * are transformed to world coordinates. The basic name of the configuration element
  * is @c DynamicTransform , by prepending the prefixes above, one receives the
  * actual element names. The @c TransformBase child must always be an EventGenerator.
+ * The elements may have the following attribute.
+ *
+ * @li @c baseEvent true / false flag to define whether a change in the base generates an event.
  * 
  * An example element looks like this :
  * @verbatim
- <EventDynamicTransform>
+ <EventDynamicTransform baseEvent="true">
     <Any EventGenerator element type>
     <TransformBase>
         <Any EventGenerator element type>
@@ -94,11 +97,13 @@ protected:
     /** stores the original event data to compute new values
      * on base changes.*/
     State store;
+	/** flag, whether a change in the base should generate an event or not */
+	int baseEvent;
 
 public:
     /** constructor method. It sets default values on the
      * underlying StaticTransformation. */
-    DynamicTransformation();
+    DynamicTransformation( int baseEvent_ = 1 );
 
     /**
      * this method is called by the EventGenerator to update it's observers.

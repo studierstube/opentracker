@@ -171,14 +171,17 @@ Time prefix defines that the node implements an TimeDependend interface -->
 <!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
 <!ATTLIST EventDynamicTransform
 	DEF ID #IMPLIED
+	baseevent (true|false) "true"
 >
 <!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicTransform
 	DEF ID #IMPLIED
+	baseevent (true|false) "true"
 >
 <!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicTransform
 	DEF ID #IMPLIED
+	baseevent (true|false) "true"
 >
 <!-- inverting the described space -->
 <!ELEMENT EventInvertTransform (%EventNodes;)>

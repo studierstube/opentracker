@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.11 2001/05/22 08:36:13 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.12 2001/05/28 15:24:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -269,8 +269,14 @@ Node * CommonNodeFactory::createNode(  string& name,
                name.compare("QueueDynamicTransform") == 0 ||
                name.compare("TimeDynamicTransform") == 0 )
     {
+		int baseEvent;
+		if( attributes.get("baseevent").compare("true") == 0 )
+			baseEvent = 1;	
+		else 
+			baseEvent = 0;
+
         cout << "Build " << name << " node." << endl;
-        return new DynamicTransformation();
+        return new DynamicTransformation( baseEvent );
     } 
     else if( name.compare("EventInvertTransform") == 0 ||
              name.compare("QueueInvertTransform") == 0 ||
