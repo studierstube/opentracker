@@ -1,3 +1,64 @@
+2004-11-16 17:58:14  Rev 776    daniel
+
+	* src/input/ARToolKitPlusModule.h, src/input/ARToolKitPlusModule.cxx:
+	  added optional camera device setting for artoolkitplus module:   
+	  allows to specify multiple artoolkit camera device and file names 
+	  in the config file   the application can set a hint which camera 
+	  file to use
+
+2004-11-16 17:45:31  Rev 775    daniel
+
+	* opentracker.dsp: updated project file to compile and link against 
+	  the new LogModule
+
+2004-11-16 17:42:12  Rev 774    reitmayr
+
+	* src/core/ConfigurationParser.cxx: extended the Xerces based 
+	  version to look for the opentracker.dtd file in %OTROOT%/data. 
+	  This means that you can write your opentracker files now path 
+	  independent!
+
+2004-11-16 16:37:16  Rev 773    reitmayr
+
+	* data/opentracker.dtd, data/test.xml, src/common/Makefile.am: added 
+	  new module for control of log output
+
+2004-11-16 16:36:02  Rev 772    reitmayr
+
+	* opentracker.vcproj, src/misc/OpenTracker.cxx, 
+	  src/common/TimeModule.cxx, src/common/LogModule.cxx, 
+	  src/common/LogModule.h: added new module to control log output 
+	  (now possible thanks to ACE)
+
+2004-11-16 15:51:02  Rev 771    reitmayr
+
+	* src/core/ConfigurationParser.cxx: cout and tabs removed
+
+2004-11-16 15:49:24  Rev 770    reitmayr
+
+	* src/network/NetworkSourceModule.cxx, src/input/FOBModule.cxx, 
+	  src/input/ARToolKitModule.cxx, src/core/TestModule.cxx, 
+	  src/common/FileModule.cxx, src/network/NetworkSinkModule.cxx, 
+	  src/input/UltraTrakModule.cxx, src/input/MagicYModule.cxx, 
+	  src/common/CommonNodeFactory.cxx, src/common/InterpolatorModule.
+	  cxx, src/input/ARTDataTrackerChomp.cxx, src/input/CyberMouseModule.
+	  cxx, src/input/InterSenseModule.cxx, src/input/FastTrakModule.cxx, 
+	  src/network/TCPModule.cxx, src/common/ButtonHoldFilterModule.cxx, 
+	  src/input/MulticastInputModule.cxx, src/common/CallbackModule.cxx, 
+	  src/common/GroupGateModule.cxx, src/common/GroupGateNode.cxx, 
+	  src/common/TimeModule.cxx, src/input/WacomGraphireModule.cxx, 
+	  src/input/GPSModule.cxx, src/input/DynaSightModule.cxx, 
+	  src/input/ARTDataTrackerModule.cxx, src/input/GPSDriver.cxx: 
+	  removed old cout lines
+
+2004-11-16 15:16:13  Rev 769    reitmayr
+
+	* src/misc/xml/XMLWriter.cxx, src/input/SpaceMouseModule.cxx, 
+	  src/core/ConfigurationParser.cxx, src/input/ARToolKitModule.cxx, 
+	  src/common/ConsoleModule.cxx, src/network/DwarfModule.cxx, 
+	  src/input/ParButtonModule.cxx, src/input/JoystickModule.cxx: 
+	  removed remaining uses of cout
+
 2004-11-15 17:39:17  Rev 767    reitmayr
 
 	* opentracker.vcproj, src/tool/XMLSelection.h, 
