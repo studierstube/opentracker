@@ -146,6 +146,10 @@ SOURCE=.\src\input\CyberMouseModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\DGPSIP_Handler.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\DOMTreeErrorReporter.cxx
 # End Source File
 # Begin Source File
@@ -179,6 +183,18 @@ SOURCE=.\src\common\FilterNode.cxx
 # Begin Source File
 
 SOURCE=.\src\input\FOBModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPS_Handler.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSDriver.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSModule.cxx
 # End Source File
 # Begin Source File
 
@@ -230,6 +246,10 @@ SOURCE=.\src\network\NetworkSourceModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\nmea.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\Node.cxx
 # End Source File
 # Begin Source File
@@ -255,6 +275,10 @@ SOURCE=.\src\input\ParButtonModule.cxx
 # Begin Source File
 
 SOURCE=.\src\misc\portio.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\rtcm.cxx
 # End Source File
 # Begin Source File
 
@@ -438,6 +462,10 @@ SOURCE=.\src\input\CyberMouseSource.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\DGPSIP_Handler.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\dllinclude.h
 # End Source File
 # Begin Source File
@@ -495,6 +523,22 @@ SOURCE=.\src\input\FOBModule.h
 # Begin Source File
 
 SOURCE=.\src\input\FOBSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPS_Handler.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSDriver.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\GPSSource.h
 # End Source File
 # Begin Source File
 
@@ -570,6 +614,10 @@ SOURCE=.\src\network\NetworkSourceModule.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\nmea.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\Node.h
 # End Source File
 # Begin Source File
@@ -615,6 +663,10 @@ SOURCE=.\src\misc\portio.h
 # Begin Source File
 
 SOURCE=.\src\core\RefNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\rtcm.h
 # End Source File
 # Begin Source File
 

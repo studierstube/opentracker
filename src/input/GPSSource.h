@@ -17,75 +17,63 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for ThreadModule class.
+/** header file for GPSSource Node.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.6 2003/03/27 18:26:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSSource.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+/**
+ * @page Nodes Node Reference
+ * @section gpssource GPSSource
+ * The GPSSource node is a simple EventGenerator tht outputs GPS position data encoded
+ * in the position part of the event. This data is in Latitue, Longitute, Height 
+ * in the WGS84 coordinate system.
+ * Use a filter after that to transform the data into your local coordinate system. The node
+ * has no further attributes besides the ID attribute.
+ *
+ * An example element looks like this :
+ * @verbatim
+<GPSSource/>@endverbatim
+ */
 
-// a trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-#include <string>
+#ifndef _GPSSOURCE_H
+#define _GPSSOURCE_H
 
-#include <ace/Thread.h>
-#include <ace/Synch.h>
+#include "../OpenTracker.h"
 
-#include "ThreadModule.h"
-
-// enters a critical section. 
-
-void ThreadModule::lock()
+/**
+ * A very simple EventGenerator node for outputing GPS position data.
+ * @author Gerhard Reitmayr
+ * @ingroup input
+ */
+class OPENTRACKER_API GPSSource : public Node  
 {
-	mutex->acquire();
-}
+public:
 
-// leaves a critical section. 
+	 /// the state that is posted to the EventObservers
+    State state;
+    
+	/** tests for EventGenerator interface being present. Is overriden to
+     * return 1 always.
+     * @return always 1 */
+    int isEventGenerator()
+    {
+        return 1;
+    }
 
-void ThreadModule::unlock()
-{
-	mutex->release();
-}
+protected:
+	/// protected constructor so it is only accessible by the module
+	GPSSource() {};
 
-// constructor
-        
-ThreadModule::ThreadModule()
-{
-	mutex = new ACE_Thread_Mutex;
-}
+	friend class GPSModule;
+};
 
-// destructor clears everything 
-
-ThreadModule::~ThreadModule()
-{
-    delete mutex;
-}
-
-// starts the thread
-
-void ThreadModule::start()
-{
-	thread = new ACE_thread_t;
-	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-		this, 
-		THR_NEW_LWP | THR_JOINABLE,
-		(ACE_thread_t *)thread );
-}    
-
-// stops the thread and closes the module
-
-void ThreadModule::close()
-{
-	ACE_Thread::join( (ACE_thread_t *)thread );
-	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
-    delete ((ACE_thread_t *)thread);
-}
+#endif // !defined(_GPSSOURCE_H)

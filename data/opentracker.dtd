@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -22,11 +22,11 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.58 2003/03/24 15:24:46 kaufmann Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.59 2003/03/27 18:26:37 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource">
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
@@ -285,7 +285,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   timeframe CDATA "100"
   mode (pass | block) "pass"
 >
-
 <!-- elastic filter -->
 <!ELEMENT ElasticFilter (%EventNodes;)>
 <!ATTLIST ElasticFilter
@@ -293,7 +292,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   force CDATA "0.1"
   damp CDATA "0.1"
 >
-
 <!-- Source and Sink nodes grouped after functionality -->
 <!-- network sender elements -->
 <!ELEMENT NetworkSinkConfig EMPTY>
@@ -592,10 +590,24 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- configuring the P5Glove module-->
 <!ELEMENT P5GloveConfig EMPTY>
 <!ATTLIST P5GloveConfig
-	P5Id CDATA "0"
+  P5Id CDATA "0"
 >
 <!ELEMENT P5GloveSource EMPTY>
 <!ATTLIST P5GloveSource
-	DEF ID #IMPLIED
-	finger CDATA #REQUIRED
+  DEF ID #IMPLIED
+  finger CDATA #REQUIRED
+>
+<!-- GPS driver -->
+<!ELEMENT GPSConfig EMPTY>
+<!ATTLIST GPSConfig
+  dev CDATA #REQUIRED
+  baudrate (300 | 600 | 1200 | 2400 | 4800 | 9600 | 14400 | 19200 | 38400 | 57600 | 115200) "9600"
+  DGPSserver CDATA ""
+  DGPSport CDATA "2101"
+  format (LLH | XYZ) "LLH"
+  debug (on | off) "off"
+>
+<!ELEMENT GPSSource EMPTY>
+<!ATTLIST GPSSource
+  DEF ID #IMPLIED
 >

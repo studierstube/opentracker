@@ -17,75 +17,53 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for ThreadModule class.
+/** header file for DGPSIP_Handler
   *
   * @author Gerhard Reitmayr
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.6 2003/03/27 18:26:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+#ifndef _DGPSIP_HANDLER_H
+#define _DGPSIP_HANDLER_H
 
-// a trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-#include <string>
+#include <ace/Svc_Handler.h>
+#include <ace/Connector.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/SOCK_Connector.h>
 
-#include <ace/Thread.h>
-#include <ace/Synch.h>
+class GPSDriver;
 
-#include "ThreadModule.h"
-
-// enters a critical section. 
-
-void ThreadModule::lock()
+/**
+ * This class retrieves RTCM correction data from a DGPSIP server and sends
+ * the correction data to a connected GPS receiver. For debugging purposes, it 
+ * can parse and output the RTCM data.
+ * @ingroup input
+ * @author Gerhard Reitmayr
+ */
+class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_Stream, ACE_Null_Mutex, ACE_NULL_SYNCH>
 {
-	mutex->acquire();
-}
+public:
+	/// default constructor for ace framework. Do not use !
+	DGPSIP_Handler(){};
 
-// leaves a critical section. 
+	DGPSIP_Handler( GPSDriver * parent_ );
+	virtual ~DGPSIP_Handler();
 
-void ThreadModule::unlock()
-{
-	mutex->release();
-}
+	virtual int open( void * factory );
+	virtual int handle_input(ACE_HANDLE fd);
 
-// constructor
-        
-ThreadModule::ThreadModule()
-{
-	mutex = new ACE_Thread_Mutex;
-}
+protected:
+	GPSDriver * parent;
+};
 
-// destructor clears everything 
+typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_Connector, ACE_SOCK_Connector::PEER_ADDR> DGPSIP_Connector;
 
-ThreadModule::~ThreadModule()
-{
-    delete mutex;
-}
-
-// starts the thread
-
-void ThreadModule::start()
-{
-	thread = new ACE_thread_t;
-	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-		this, 
-		THR_NEW_LWP | THR_JOINABLE,
-		(ACE_thread_t *)thread );
-}    
-
-// stops the thread and closes the module
-
-void ThreadModule::close()
-{
-	ACE_Thread::join( (ACE_thread_t *)thread );
-	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
-    delete ((ACE_thread_t *)thread);
-}
+#endif // !defined(_DGPSIP_HANDLER_H)

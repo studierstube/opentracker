@@ -17,75 +17,67 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for ThreadModule class.
+/** source file for DGPSIP_Handler
   *
   * @author Gerhard Reitmayr
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.6 2003/03/27 18:26:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "DGPSIP_Handler.h"
+#include "GPSDriver.h"
+#include "rtcm.h"
 
-// a trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-#include <string>
-
-#include <ace/Thread.h>
-#include <ace/Synch.h>
-
-#include "ThreadModule.h"
-
-// enters a critical section. 
-
-void ThreadModule::lock()
+DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
+parent( parent_ )
 {
-	mutex->acquire();
+
 }
 
-// leaves a critical section. 
-
-void ThreadModule::unlock()
+DGPSIP_Handler::~DGPSIP_Handler()
 {
-	mutex->release();
+
 }
 
-// constructor
-        
-ThreadModule::ThreadModule()
+int DGPSIP_Handler::open( void * factory )
 {
-	mutex = new ACE_Thread_Mutex;
+	int result = ACE_Svc_Handler<ACE_SOCK_Stream, ACE_Null_Mutex, ACE_NULL_SYNCH>::open( factory );
+	if( result == 0)
+	{
+		// send initialization string here 
+		char hn[1024];
+		char buf[4*1024];
+		ACE_OS::hostname( hn, sizeof(hn));
+		// the last "\r\nR" part tells the server to send real time updates 
+		// alternatively use "\r\nB" for bulk service
+		ACE_OS::snprintf(buf, sizeof(buf), "HELO %s %s %s%s\r\n", hn, "GPSDriver", "0.1", "\r\nR");
+		result = peer().send_n( buf, ACE_OS::strlen(buf));
+	}
+	return result;
 }
 
-// destructor clears everything 
-
-ThreadModule::~ThreadModule()
+int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 {
-    delete mutex;
-}
-
-// starts the thread
-
-void ThreadModule::start()
-{
-	thread = new ACE_thread_t;
-	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-		this, 
-		THR_NEW_LWP | THR_JOINABLE,
-		(ACE_thread_t *)thread );
-}    
-
-// stops the thread and closes the module
-
-void ThreadModule::close()
-{
-	ACE_Thread::join( (ACE_thread_t *)thread );
-	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
-    delete ((ACE_thread_t *)thread);
+	// handle rtcm input and send to receiver
+	char buf[4*1024];
+	int cnt;	
+	while ((cnt = peer().recv( buf, sizeof(buf))) > 0) {
+		// this is the rtcm decoder, use for debug purposes		
+		if ( parent->getDebug() ) {
+			int i;
+			for (i = 0; i < cnt; i++) {
+				new_byte(buf[i]);
+			}
+		}
+		// send data to GPS receiver
+		parent->send_rtcm( buf, cnt );
+	}
+	return 0;
 }

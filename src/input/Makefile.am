@@ -11,10 +11,15 @@ otinputinc_HEADERS = \
 		ARToolKitSource.h \
 		CyberMouseModule.h \
 		CyberMouseSource.h \
+		DGPSIP_Handler.h \
 		FOBModule.h \
 		FOBSource.h \
 		FastTrakModule.h \
 		FastTrakSource.h \
+		GPSDriver.h \
+		GPS_Handler.h \
+		GPSModule.h \
+		GPSSource.h \
 		InterSenseModule.h \
 		InterSenseSource.h \
 		JoystickModule.h \
@@ -49,21 +54,34 @@ libinput_la_SOURCES = \
 		CyberMouseModule.cxx \
 		CyberMouseModule.h \
 		CyberMouseSource.h \
+		DGPSIP_Handler.h \
+		DGPSIP_Handler.cxx \
 		FOBModule.cxx \
 		FOBModule.h \
 		FOBSource.h \
 		FastTrakModule.cxx \
 		FastTrakModule.h \
 		FastTrakSource.h \
+		GPSDriver.h \
+		GPSDriver.cxx \
+		GPS_Handler.h \
+		GPS_Handler.cxx \
+		GPSModule.h \
+		GPSModule.cxx \
+		GPSSource.h \
 		InterSenseModule.cxx \
 		InterSenseModule.h \
 		InterSenseSource.h \
 		JoystickModule.cxx \
 		JoystickModule.h \
 		JoystickSource.h \
+		nmea.h \
+		nmea.cxx \
 		ParButtonModule.cxx \
 		ParButtonModule.h \
 		ParButtonSource.h \
+		rtcm.h \
+		rtcm.cxx \
 		WacomGraphireModule.cxx \
 		WacomGraphireModule.h \
 		WacomGraphireSource.h \

@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.27 2003/03/24 12:28:46 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.28 2003/03/27 18:26:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,6 +59,7 @@
 #include "../input/UltraTrakModule.h"
 #include "../common/GroupGateModule.h"
 #include "../common/InterpolatorModule.h"
+#include "../input/GPSModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -203,4 +204,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *p5glovemodule );
     context.addModule( "P5GloveConfig", *p5glovemodule );
 #endif
+
+	GPSModule * gps = new GPSModule;
+	context.addFactory( * gps );
+	context.addModule( "GPSConfig", * gps );
 }

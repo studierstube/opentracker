@@ -17,75 +17,57 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for ThreadModule class.
+/** header file for GPS_Handler
   *
   * @author Gerhard Reitmayr
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.6 2003/03/27 18:26:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+#ifndef _GPS_HANDLER_H
+#define _GPS_HANDLER_H
+ 
+#include <ace/Connector.h>
+#include <ace/TTY_IO.h>
+#include <ace/DEV_Connector.h>
+#include <ace/Svc_Handler.h>
 
-// a trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-#include <string>
+class GPSDriver;
 
-#include <ace/Thread.h>
-#include <ace/Synch.h>
+#define NMEABUFSZ (8 * 1024)
 
-#include "ThreadModule.h"
-
-// enters a critical section. 
-
-void ThreadModule::lock()
+/**
+ * This class retrieves data from the GPS receiver via the serial port. It uses
+ * the NMEA parsing routines in nmea.cxx to parse incoming data and forward it 
+ * to the GPSDriver and an optional attached DGPSIP server.
+ * @ingroup input
+ * @author Gerhard Reitmayr
+ */
+class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_Null_Mutex, ACE_NULL_SYNCH>
 {
-	mutex->acquire();
-}
+public:
+	/// default constructor for ace framework. Do not use !
+	GPS_Handler() {};
 
-// leaves a critical section. 
+	GPS_Handler( GPSDriver * parent_ );
+	virtual ~GPS_Handler();
+	
+	virtual int open( void * factory );
+	virtual int handle_signal( int, siginfo_t *, ucontext_t * );
 
-void ThreadModule::unlock()
-{
-	mutex->release();
-}
+protected:
+	GPSDriver * parent;
+	int nmeaind;
+	char nmeabuf[NMEABUFSZ];
+};
 
-// constructor
-        
-ThreadModule::ThreadModule()
-{
-	mutex = new ACE_Thread_Mutex;
-}
+typedef ACE_Connector<GPS_Handler, ACE_DEV_Connector, ACE_DEV_Connector::PEER_ADDR> GPS_Connector;
 
-// destructor clears everything 
-
-ThreadModule::~ThreadModule()
-{
-    delete mutex;
-}
-
-// starts the thread
-
-void ThreadModule::start()
-{
-	thread = new ACE_thread_t;
-	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-		this, 
-		THR_NEW_LWP | THR_JOINABLE,
-		(ACE_thread_t *)thread );
-}    
-
-// stops the thread and closes the module
-
-void ThreadModule::close()
-{
-	ACE_Thread::join( (ACE_thread_t *)thread );
-	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
-    delete ((ACE_thread_t *)thread);
-}
+#endif // !defined(_GPS_HANDLER_H)
