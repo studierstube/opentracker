@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--OpenTracker Configuration file DTD
 	Vienna University of Technology
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
@@ -7,9 +7,9 @@
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource ">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventTransformation | EventVirtualTransformation | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransformation ">
-<!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref | QueueDynamicTransformation">
-<!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref | TimeDynamicTransformation">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransformation | StbSink">
+<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransformation">
+<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransformation">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
@@ -25,51 +25,126 @@ Time prefix defines that the node implements an TimeDependend interface -->
 	USE IDREF #REQUIRED
 >
 <!-- general transformation elements -->
-<!ELEMENT EventTransformation (%EventNodes;)>
-<!ATTLIST EventTransformation
+<!-- event transform elements -->
+<!ELEMENT EventPositionTransform (%EventNodes;)>
+<!ATTLIST EventPositionTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT EventVirtualTransformation (%EventNodes;)>
-<!ATTLIST EventVirtualTransformation
+<!ELEMENT EventOrientationTransform (%EventNodes;)>
+<!ATTLIST EventOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventTransform (%EventNodes;)>
+<!ATTLIST EventTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT QueueTransformation (%QueueNodes;)>
-<!ATTLIST QueueTransformation
+<!ELEMENT EventVirtualPositionTransform (%EventNodes;)>
+<!ATTLIST EventVirtualPositionTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+>
+<!ELEMENT EventVirtualOrientationTransform (%EventNodes;)>
+<!ATTLIST EventVirtualOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventVirtualTransform (%EventNodes;)>
+<!ATTLIST EventVirtualTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!-- queue transform elements -->
+<!ELEMENT QueuePositionTransform (%QueueNodes;)>
+<!ATTLIST QueuePositionTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT QueueVirtualTransformation (%QueueNodes;)>
-<!ATTLIST QueueVirtualTransformation
+<!ELEMENT QueueOrientationTransform (%QueueNodes;)>
+<!ATTLIST QueueOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueTransform (%QueueNodes;)>
+<!ATTLIST QueueTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT TimeTransformation (%TimeNodes;)>
-<!ATTLIST TimeTransformation
+<!ELEMENT QueueVirtualPositionTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualPositionTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+>
+<!ELEMENT QueueVirtualOrientationTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueVirtualTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!-- time transform elements -->
+<!ELEMENT TimePositionTransform (%TimeNodes;)>
+<!ATTLIST TimePositionTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT TimeVirtualTransformation (%TimeNodes;)>
-<!ATTLIST TimeVirtualTransformation
+<!ELEMENT TimeOrientationTransform (%TimeNodes;)>
+<!ATTLIST TimeOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeTransform (%TimeNodes;)>
+<!ATTLIST TimeTransform
 	DEF ID #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeVirtualPositionTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualPositionTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
+>
+<!ELEMENT TimeVirtualOrientationTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualOrientationTransform
+	DEF ID #IMPLIED
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeVirtualTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualTransform
+	DEF ID #IMPLIED
+	translation CDATA "0 0 0"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
@@ -163,7 +238,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 >
 <!-- CyberMouse source elements -->
 <!ELEMENT CyberMouseSource EMPTY>
-<!ATTLIST CyberMouseSource 
+<!ATTLIST CyberMouseSource
 	DEF ID #IMPLIED
 >
 <!-- Wacom Graphire tablet source elements -->
@@ -171,4 +246,9 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST WacomGraphireSource
 	DEF ID #IMPLIED
 	device CDATA "1"
+>
+<!--Studierstube interface sinks, station attribute is an integer between 0 and 15-->
+<!ELEMENT StbSink (%EventNodes;)>
+<!ATTLIST StbSink
+	station CDATA #REQUIRED
 >
