@@ -9,6 +9,27 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-27 19:44  reitmayr
+
+	* src/input/: GPSDriver.cxx, GPSModule.cxx:
+	
+	fixed some null pointer problems
+
+2003-03-27 19:26  reitmayr
+
+	* src/core/ThreadModule.cxx, src/input/DGPSIP_Handler.cxx,
+	src/input/DGPSIP_Handler.h, src/input/GPSDriver.cxx,
+	src/input/GPSDriver.h, src/input/GPSModule.cxx,
+	src/input/GPSModule.h, src/input/GPSSource.h,
+	src/input/GPS_Handler.cxx, src/input/GPS_Handler.h,
+	src/input/Makefile.am, src/input/nmea.cxx, src/input/nmea.h,
+	src/input/rtcm.cxx, src/input/rtcm.h, src/misc/OpenTracker.cxx,
+	opentracker.dsp, data/opentracker.dtd:
+	
+	added GPS driver with differential correction data via DGPSIP to
+	OpenTracker. big missing thing is unix support due to some ACE
+	troubles. next step are filters to get useful data.
+
 2003-03-26 18:46  reitmayr
 
 	* src/input/InterSenseModule.cxx:
