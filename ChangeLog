@@ -1,3 +1,17 @@
+2004-09-10 12:56:13  Rev 748    reitmayr
+
+	* src/core/StringTable.cxx, src/input/GPSGarminAltitude.h, 
+	  data/opentracker.dtd, src/input/GPSInfoSource.h, 
+	  src/network/NetworkSinkModule.cxx, src/core/TestModule.cxx, 
+	  src/common/CommonNodeFactory.cxx, 
+	  src/common/EllipsoidTransformNode.cxx, src/input/MagicYModule.cxx, 
+	  src/common/FilterNode.cxx, src/network/TCPModule.cxx, opentracker.
+	  vcproj, src/common/ElasticFilterNode.cxx, 
+	  src/common/GKTransformNode.cxx, src/input/GPSSource.h, 
+	  src/input/GPSDirectionSource.h, src/common/ThresholdFilterNode.cxx,
+	  src/input/GPSGarminCompass.h: updates for VC7 project and compile 
+	  warning fixes
+
 2004-09-05 21:06:02  Rev 746    tamer
 
 	* lib/Makefile.am, configure, cfg/m4/libtool.m4, lib/Makefile.in: 
