@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-27 20:49  tamer
+
+	* src/core/OSUtils.cxx:
+	
+	added const to make the compiler happy.
+
 2003-04-17 17:37  reitmayr
 
 	* src/core/OSUtils.cxx:
