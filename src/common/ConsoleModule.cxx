@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.16 2001/06/08 16:56:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.17 2001/06/11 22:00:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -443,6 +443,7 @@ void ConsoleModule::pushState()
         source = (ConsoleSource *)(*it);
         if( source->changed == 1 )
         {          
+            source->state.timeStamp();
             source->updateObservers( source->state );
             source->changed = 0;
         }
