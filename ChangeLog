@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-05-18 16:36  flo
+
+	* src/input/MulticastInputModule.cxx:
+	
+	fixed missing include
+
 2004-04-19 16:47  tomp
 
 	* data/opentracker.dtd:
