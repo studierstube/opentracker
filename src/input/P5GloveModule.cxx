@@ -72,7 +72,8 @@ P5GloveModule::~P5GloveModule()
 // initializes trackers
 void P5GloveModule::init(StringTable& attributes, ConfigNode * localTree)
 {
-    P5Id=atoi(attributes.get("P5Id").c_str());
+    if( attributes.get("P5Id", &P5Id ) == 0 )
+        P5Id = 0;
     printf("P5 Glove is configured with id %d\n",P5Id);
 
     Module::init( attributes, localTree );
@@ -85,7 +86,7 @@ Node * P5GloveModule::createNode( const string& name, StringTable& attributes)
     {       
 		int num;
         int finger;
-		num = sscanf(attributes.get("finger").c_str(), " %i", &finger);
+		num = attributes.get("finger", &finger);
 		if (num == 0) finger=0;
         else if( finger < 0 || finger > 4)
 		{

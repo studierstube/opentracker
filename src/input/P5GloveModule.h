@@ -33,7 +33,22 @@
 /**
  * @page module_ref Module Reference
  * @section p5glovemodule P5GloveModule
- * The P5GloveModule provides and drives @ref p5glovesource nodes 
+ * The P5GloveModule provides and drives @ref p5glovesource nodes. It implements
+ * a driver for the P5 Glove by Essential Reality http://www.essentialreality.com/. 
+ * To use this driver you will have to download the SDK from the above website and
+ * compile OpenTracker with the appropriate define as described in @ref config. The
+ * implementation was only tested under Windows because there was no Linux driver 
+ * available at the time of development. 
+ *
+ * The module uses the configuration element 'P5GloveConfig'. This
+ * element has the following attributes :
+ * @li @c P5Id @c 0 the glove id passed to the driver
+ * 
+ * An example configuration element looks like this :
+ * @verbatim
+  <P5GloveConfig P5Id="0"/>@endverbatim
+ *
+ *
  */
 
 #ifndef _P5GLOVEMODULE_H

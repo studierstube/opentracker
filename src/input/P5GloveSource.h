@@ -34,8 +34,14 @@
  * @page Nodes Node Reference
  * @section p5glovesource P5GloveSource
  * The P5GloveSource node is an EventGenerator that outputs the
- * current position and button state of the P5Glove. It is driven by
- * the @ref p5glovemodule. 
+ * current position of a single finger and button state of the P5Glove. It is driven by
+ * the @ref p5glovemodule. It has the following attributes
+ * @li @c finger the number of the finger to track, in the range 0 - 4. The mapping is: 0 = thumb, 1 = index, 2 = middle, 3 = ring, 4 = pinky
+ *
+ * An example element looks like this :
+ * @verbatim
+ <P5GloveSource finger="1"/>@endverbatim
+ *
  */
 
 #ifndef _P5GLOVESOURCE_H
