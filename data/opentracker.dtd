@@ -5,7 +5,7 @@
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,ConsoleInputConfig?">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
 <!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Merge | Ref | ConsoleSource">
 <!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref">
 <!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref">
@@ -128,8 +128,13 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	frequency CDATA "1"
 	offset CDATA "0"
 >
-<!-- console based output elements -->
-<!ELEMENT ConsoleConfig EMPTY>
+<!-- console based input / output elements -->
+<!ELEMENT KeyDefinition EMPTY>
+<!ATTLIST KeyDefinition
+	name CDATA #REQUIRED
+	key CDATA #REQUIRED
+>
+<!ELEMENT ConsoleConfig  (KeyDefinition*)>
 <!ATTLIST ConsoleConfig
 	headerline CDATA ""
 	interval CDATA "10"
@@ -139,13 +144,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	DEF ID #IMPLIED
 	comment CDATA ""
 >
-<!--Keyboard input from a console-->
-<!ELEMENT KeyDefinition EMPTY>
-<!ATTLIST KeyDefinition
-	name CDATA #REQUIRED
-	key CDATA #REQUIRED
->
-<!ELEMENT ConsoleInputConfig (KeyDefinition*)>
 <!ELEMENT ConsoleSource EMPTY>
 <!ATTLIST ConsoleSource
 	DEF ID #IMPLIED
