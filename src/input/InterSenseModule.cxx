@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.2 2001/04/24 19:49:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.3 2001/05/02 15:15:39 reitmayr Exp $
   * @todo optimize compare and copy with mem* calls
   * @todo implement IRIX / Linux version with Stb code
   * @file                                                                   */
@@ -42,6 +42,10 @@
 #include <iostream.h>
 #endif
 #include <isense.h>
+
+// an essential constant
+
+const double GradToRad = 3.141592654 / 180.0;
 
 // change the names from the Unix InterSense code to fit the Windows names
 #ifndef WIN32
@@ -77,9 +81,10 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
     for( unsigned i = 0; i < localTree->countChildren(); i++ )
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
-        const string & id = attributes.get("id");
+        StringTable & trackerAttrib = trConfig->getAttributes();
+        const string & id = trackerAttrib.get("id");
         int comport = 0;
-        int num = sscanf(attributes.get("comport").c_str(), " %i", &comport );
+        int num = sscanf(trackerAttrib.get("comport").c_str(), " %i", &comport );
         if( num == 0 ){
             cout << "Error in converting serial port number !" << endl;
             comport = 0;
@@ -145,6 +150,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                         }                       
                     }
                 }   // setup not intertrax
+                trackers.push_back( tracker );
+                cout << "Configured tracker " << id << endl;
             }       // open tracker ok
         }           // got a new tracker
         else {      // some conflict with another tracker
@@ -183,6 +190,9 @@ Node * InterSenseModule::createNode( string& name, StringTable& attributes)
             cout << "Build InterSenseSource node " << endl;
             return source;
         }
+        else {
+            cout << "No tracker " << id << " configured !" << endl;
+        }
     }
     return NULL;
 }
@@ -205,16 +215,16 @@ void InterSenseModule::pushState()
         {
             ISTracker * tracker = *it;
             ISLIB_GetTrackerData( tracker->handle, &tracker->data );
-            for( NodeVector::iterator si = tracker->sources.begin(); si != tracker->sources.end(); it++ )
+            for( NodeVector::iterator si = tracker->sources.begin(); si != tracker->sources.end(); si++ )
             {
                 InterSenseSource * source = ( InterSenseSource * )*si;
                 ISD_STATION_DATA_TYPE * data = &tracker->data.Station[source->station];
                 if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES)
                 {
                     float quat[4];
-                    MathUtils::eulerToQuaternion(data->Orientation[2],
-		                             data->Orientation[1],
-									 data->Orientation[0],								
+                    MathUtils::eulerToQuaternion(data->Orientation[2] * GradToRad,
+		                             data->Orientation[1] * GradToRad,
+									 data->Orientation[0] * GradToRad,								
                                      quat);
                     if( quat[0] != source->state.orientation[0] || 
                         quat[1] != source->state.orientation[1] ||

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.2 2001/04/24 19:49:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.3 2001/05/02 15:15:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,7 @@
  * @section intersensemodule InterSenseModule
  * The InterTraxModule provides and drives @ref intersensesource nodes that 
  * generate standard events in certain intervals. It uses a configuration 
- * element called @c InterSenseConfig, which in turn contains an element
+ * element called @c InterSenseConfig, which in turn contains one element
  * called @c ISTracker per configured tracker. Only trackers that are
  * configured will be used. The @c ISTracker element has the following 
  * attributes :
@@ -51,7 +51,8 @@
 </InterSenseConfig>@endverbatim
  *
  * Note that this driver has not been fully tested, because we have only
- * InterTrax devices in our lab.
+ * InterTrax2 devices in our lab. The ISTracker element is a placeholder for
+ * more advanced configuration options in the future.
  */
 
 #ifndef _INTERSENSEMODULE_H
