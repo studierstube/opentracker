@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.13 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.14 2003/07/18 15:17:14 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -93,6 +93,8 @@ protected:
 
 // Methods
 public:
+    /// stores the xml namespace used in the current configuration.
+    char* xmlspace;
    /** a constructor method. 
     * @param init If init is not equal to 0, it instantiates all known modules and 
     *        factories, adds them to its local containers and also takes care of 

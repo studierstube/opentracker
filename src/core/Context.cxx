@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.24 2003/06/18 16:31:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.25 2003/07/18 15:17:14 flo Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -60,6 +60,7 @@ Context::Context( int init )
         cleanUp = 0;
     }
     directories.push_back(".");
+    xmlspace = "";
 }
 
 // Destructor method.
@@ -214,7 +215,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         // add a correctly created DOM_Element to the node here and return
         DOMDocument * doc = rootNode->parent->getOwnerDocument();
         auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
-        DOMElement * el = doc->createElement( tempName.get());
+        DOMElement * el = doc->createElementNS(XMLString::transcode(xmlspace), tempName.get());
         value->setParent( el );        
         // set attributes on the element node
         KeyIterator keys(attributes);
@@ -224,7 +225,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
             value->put( key, attributes.get( key ));
 			auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
 			auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-			el->setAttribute(attName.get(), attVal.get());
+			el->setAttributeNS(XMLString::transcode(xmlspace), attName.get(), attVal.get());
         }
     }
     return value;

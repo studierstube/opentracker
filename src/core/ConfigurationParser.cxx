@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.20 2003/03/26 11:56:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.21 2003/07/18 15:17:14 flo Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,6 +36,7 @@
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
+#include "../OpenTracker.h"
 #include "ConfigurationParser.h"
 #include "DOMTreeErrorReporter.h"
 
@@ -76,7 +77,7 @@ ConfigurationParser::~ConfigurationParser()
 ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element )
 {
     auto_ptr<StringTable> map ( parseElement( element ));
-    auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
+    auto_ptr<char> tempName( XMLString::transcode( element->getLocalName()));
     string tagName = tempName.get();
     ConfigNode * config = new ConfigNode( *map );
     config->setParent( element );
@@ -97,7 +98,7 @@ ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIE
 
 Node * ConfigurationParser::buildTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element)
 {
-    auto_ptr<char> tempName( XMLString::transcode( element->getTagName()));
+    auto_ptr<char> tempName( XMLString::transcode( element->getLocalName()));
     string tagName = tempName.get();
     auto_ptr<StringTable> map ( parseElement( element ));
     // Test for a reference node
@@ -152,8 +153,10 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 {
     // read and parse configuration file
     XercesDOMParser * parser = new XercesDOMParser();
-    parser->setValidationScheme( XercesDOMParser::Val_Always );
+    parser->setValidationScheme( XercesDOMParser::Val_Auto );
     parser->setIncludeIgnorableWhitespace( false );
+    parser->setDoNamespaces(true);
+    parser->setDoSchema(true);
 
     DOMTreeErrorReporter errReporter;
     parser->setErrorHandler( &errReporter );
@@ -187,13 +190,22 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     DOMElement * root = doc->getDocumentElement();
     Node * node = new Node();
 	node->setParent( root );
-    auto_ptr<char> tempName( XMLString::transcode( root->getTagName()));
+    auto_ptr<char> tempName( XMLString::transcode( root->getLocalName()));
 	cout << "Root node is " << tempName.get() << endl;
+
+    const XMLCh* xmlspace = root->getNamespaceURI();
+    if (xmlspace != NULL) {
+        cout << "Namespace is " << XMLString::transcode( xmlspace ) << endl;
+        context.xmlspace = XMLString::transcode( xmlspace );
+    }
+    else {
+        cout << "Not using namespaces!" << endl;
+    }
 
     // get the configuration part
     auto_ptr<XMLCh> configurationCh( XMLString::transcode( "configuration" ));
     //auto_ptr<DOMNodeList> list( root->getElementsByTagName( configurationCh.get() ));
-    DOMNodeList * list = root->getElementsByTagName( configurationCh.get());    
+    DOMNodeList * list = root->getElementsByTagNameNS(XMLString::transcode(context.xmlspace), configurationCh.get());    
     if( list->getLength() != 1 )
     {
         cout << "not valid config file, not exactly one configuration tag" << endl;
@@ -214,7 +226,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         {
             XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * configElement = (XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)configlist->item(i);
             auto_ptr<StringTable> attributes( parseElement( configElement ));
-            auto_ptr<char> tempName( XMLString::transcode( configElement->getTagName()));
+            auto_ptr<char> tempName( XMLString::transcode( configElement->getLocalName()));
             string tagName = tempName.get();
 			ConfigNode * base = new ConfigNode( *attributes );
 			base->setParent( configElement );
@@ -252,7 +264,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             continue;
         }
         DOMElement * element = (DOMElement *)rootlist->item(i);
-        auto_ptr<char> tempTagName( XMLString::transcode(element->getTagName()));
+        auto_ptr<char> tempTagName( XMLString::transcode(element->getLocalName()));
         if( 0 == XMLString::compareString( tempTagName.get(), "configuration" ))    // the configuration element, already handled
         {
             continue;
