@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.10 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.11 2003/04/04 13:11:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,12 +73,15 @@ public:
      * file in the correct mode.
      * @param filename_ the filename of the file to open
      * @param mode the mode to open (either IN or OUT )*/
-    File(const string filename_ , modeFlags mode_ = OUT ) :
+    File(const string filename_ , modeFlags mode_ = OUT, bool append = false ) :
         filename( filename_), mode( mode_ )
     {        
         if( mode == OUT ) // output mode
 		{
-            output = new ofstream( filename.c_str());
+            if( append )
+                output = new ofstream( filename.c_str(), ios_base::out | ios_base::app );
+            else
+                output = new ofstream( filename.c_str(), ios_base::out | ios_base::trunc );
 			input = NULL;
 		} 
 		else {          // otherwise input mode

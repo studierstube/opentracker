@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.9 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.10 2003/04/04 13:11:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,6 +48,17 @@ FileModule::~FileModule()
 	files.clear();
 }
 
+// tests for append attibte
+
+void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
+{
+    if( attributes.get("append").compare("true") == 0 )
+        append = true;
+    else
+        append = false;
+    Module::init(  attributes, localTree );
+}
+
 // This method is called to construct a new Node
 
 Node * FileModule::createNode( const string& name, StringTable& attributes)
@@ -67,7 +78,7 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
             
         } else // create a new one
         {
-            file = new File( id, File::OUT );
+            file = new File( id, File::OUT, append );
             files[id] = file;        
         }
         if( file->mode == File::OUT ) // test for right direction and add to store
