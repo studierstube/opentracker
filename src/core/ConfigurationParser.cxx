@@ -31,6 +31,7 @@
  /* ======================================================================= */
 
 #include <ace/Log_Msg.h>
+#include <ace/Env_Value_T.h>
 #include "../tool/OT_ACE_Log.h"
 
 #include "ConfigurationParser.h"
@@ -41,6 +42,8 @@
 #include <xercesc/util/XMLUniDefs.hpp>
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
+#include <xercesc/util/XMLEntityResolver.hpp>
+#include <xercesc/framework/LocalFileInputSource.hpp>
 #endif //USE_XERCES
 
 #include "DOMTreeErrorReporter.h"
@@ -59,6 +62,56 @@ namespace ot {
 
 #ifdef USE_XERCES
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+
+class OpenTrackerResolver : public XMLEntityResolver {
+protected:
+    Context * context;
+
+public:
+    OpenTrackerResolver ( Context * context_ ) : context(context_)
+    {};
+
+    virtual InputSource * resolveEntity( XMLResourceIdentifier * resourceIdentifier );
+};
+
+InputSource * OpenTrackerResolver::resolveEntity( XMLResourceIdentifier * resourceIdentifier )
+{
+    switch(resourceIdentifier->getResourceIdentifierType())
+    {
+    case XMLResourceIdentifier::ExternalEntity:
+        XMLCh * test = XMLString::transcode("opentracker.dtd");
+        if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
+        {
+            ACE_Env_Value<string> otroot(ACE_TEXT("OTROOT"), "");
+            string otrootvalue = (string)otroot;
+            string otdatadir;
+            if( otrootvalue.compare("") != 0 )
+            {
+                otdatadir = otrootvalue + "/data";
+                context->addDirectoryLast(otdatadir);
+            }        
+            char * file = XMLString::transcode(resourceIdentifier->getSystemId());
+            string filename( file ), fullname;
+            XMLString::release( &file );
+            bool result = context->findFile( filename, fullname );
+            if( otrootvalue.compare("") != 0 )
+            {
+                context->removeDirectory(otdatadir);
+            }
+            if( result == true )
+            {
+                XMLCh * file = XMLString::transcode( fullname.c_str());
+                LocalFileInputSource * input = new LocalFileInputSource( file );
+                XMLString::release( &file );
+                XMLString::release( &test );
+                return input;
+            }
+        }
+        XMLString::release( &test );
+    }
+    return NULL;
+}
+
 #endif //USE_XERCES
 
 // constructor method
@@ -242,6 +295,9 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     parser->setDoNamespaces(true);
     parser->setDoSchema(true);
 
+    OpenTrackerResolver resolver( &context);
+    parser->setXMLEntityResolver( &resolver );
+    
     DOMTreeErrorReporter errReporter;
     parser->setErrorHandler( &errReporter );
 	
