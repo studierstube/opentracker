@@ -22,48 +22,64 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** source file for Time module.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.9 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.cxx,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <OpenTracker.h>
+#include "TimeModule.h"
 
-#ifdef WIN32
-#include <iostream>    // new IOStream for VisualC++
-#else
-#include <iostream.h>
-#endif
-
-/**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
- */
-int main(int argc, char **argv)
+void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
 {
-    if( argc != 2 )
+    Module::init( attributes, localTree );
+    
+    int num;   
+    if( attributes.get("sleep").compare("") != 0 )
     {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
+        num = sscanf(attributes.get("sleep").c_str(), " %i", &sleep );
+        if( num == 0 )
+        {
+            sleep = 1;
+        }
+    } else if( attributes.get("rate").compare("") != 0 )
+    {
+        num = sscanf( attributes.get("rate").c_str(), " %lf", &rate );
+        if( num == 0 )
+        {
+            rate = 0.1;
+        } else 
+        {
+            rate = rate / 1000;
+        }
+    }            
+}
+  
+void TimeModule::start()
+{
+    if( isInitialized() == 1 && rate != 0 )
+    {
+        count = 0;
+        startTime = OSUtils::currentTime();
+    }    
+} 
+    
+int TimeModule::stop()
+{    
+    if( rate != 0 )
+    {
+        count++;
+        double s = count/rate - ( OSUtils::currentTime() - startTime );
+        if( s >= 10 )
+        {
+            OSUtils::sleep( s );
+        }
     }
-
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
-
-    cout << "Context established." << endl;
-
-    // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( argv[1] );
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
-
-    // initializes the modules and starts the tracker main loop
-    context.run();
-    OSUtils::sleep(1000);
+    else if( sleep != 0 )
+    {
+        OSUtils::sleep( sleep );
+    }
     return 0;
 }

@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.11 2001/04/29 16:34:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.12 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,6 +49,7 @@
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
 #include "../input/InterSenseModule.h"
+#include "../common/TimeModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
@@ -133,4 +134,7 @@ void OPENTRACKER_API initializeContext( Context & context )
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
     context.addModule( "InterSenseConfig", * intersense );
+    
+    TimeModule * time = new TimeModule();
+    context.addModule( "TimeConfig", * time );
 }

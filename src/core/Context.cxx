@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.12 2001/06/08 16:57:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.13 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,7 +44,6 @@
 #include <sys/types.h>
 
 // constructor method.
-
 Context::Context( int init )
 {
     // Build a parser
@@ -60,7 +59,6 @@ Context::Context( int init )
 }
 
 // Destructor method.
-
 Context::~Context()
 {
     delete parser;
@@ -75,14 +73,12 @@ Context::~Context()
 }
 
 // adds a new newfactory to the NodeFactoryContainer
-
 void Context::addFactory(NodeFactory& newfactory)
 {
     factory.addFactory( newfactory );
 }
 
 // adds a module to the contexts collection
-
 void Context::addModule(const string& name, Module& module)
 {
     modules.push_back( &module );
@@ -90,7 +86,6 @@ void Context::addModule(const string& name, Module& module)
 }
 
 // calls close on all modules to close any resources.
-
 void Context::close()
 {
     for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
@@ -100,14 +95,12 @@ void Context::close()
 }
 
 // parses the file and builds the tree.
-
 void Context::parseConfiguration(const string& filename)
 {
     rootNode = parser->parseConfigurationFile( filename );
 }
 
 // calls pullState on all modules to get data out again.
-
 void Context::pullStates()
 {
     for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
@@ -117,7 +110,6 @@ void Context::pullStates()
 }
 
 // This method calls pushState on all modules to get new data into the shared data tree.
-
 void Context::pushStates()
 {
     for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
@@ -127,38 +119,19 @@ void Context::pushStates()
 }
 
 // This method implements the main loop and runs until it is stopped somehow.
-
-#include <iostream>
-
 void Context::run()
 {
- 
-    int frames = 0;
     start();
-    double startTime = currentTime();
-    double time = currentTime(), newTime;
     while ( stop() == 0 )
     {
         // push and pull parts of the main loop
         pushStates();
         pullStates();
-        newTime = currentTime();       
-        if((newTime - time ) < 9 )
-        {            
-#ifdef WIN32            
-        
-           Sleep(0);//(DWORD)(1 - (newTime - time)));            
-#endif                        
-        }
-        time = currentTime();
-        frames++;
-    }
-    cout << "\nContext Framerate : " << ((double)frames)*1000/(currentTime() - startTime) << endl;
+    }  
     close();   
 }
 
 // calls start on all modules to do some initialization.
-
 void Context::start()
 {
     for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
@@ -168,7 +141,6 @@ void Context::start()
 }
 
 // tests all modules for stopping
-
 int Context::stop()
 {
     int value = 0;
@@ -177,25 +149,4 @@ int Context::stop()
         value |= (*it)->stop();
     }
     return value;
-}
-
-// returns the current time in milliseconds since ...
-
-double Context::currentTime()
-{
- #ifndef WIN32  // IRIX and Linux code
-#ifdef _SGI_SOURCE
-    struct timeval tp;
-    gettimeofday(&tp);
-    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#else //LINUX code
-    struct timeval tp;
-    gettimeofday(&tp,NULL);
-    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
-#endif
-#else  // WIN code
-    struct _timeb timeBuffer;
-    _ftime(&timeBuffer);
-    return (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
-#endif
 }

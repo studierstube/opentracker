@@ -22,48 +22,53 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** header file for Time Module.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.9 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <OpenTracker.h>
+#ifndef _TIMEMODULE_H
+#define _TIMEMODULE_H
 
-#ifdef WIN32
-#include <iostream>    // new IOStream for VisualC++
-#else
-#include <iostream.h>
-#endif
+#include "../OpenTracker.h"
+
 
 /**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
+ * 
+ * @author Gerhard Reitmayr
+ * @ingroup common
  */
-int main(int argc, char **argv)
+class OPENTRACKER_API TimeModule : public Module
 {
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
+// Members
+protected:
+   int sleep;
+   double startTime, rate, count;
 
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
+// Methods
+public:
+    /** constructor method. */
+    TimeModule() : Module(), sleep(0), rate(0)
+    {};
+  
+    /**
+     * initializes the tracker module. This class provides an implementation
+     * that sets the initialization flag to true. Subclasses should call this
+     * method if they override this method. It takes the attributes of the
+     * element configuring this module and a local tree consisting of the
+     * children of the element. This tree must be build of Nodes.
+     * @param attributes StringTable of elements attribute values. Should be
+     *        possibly , but is not for convenience.
+     * @param localTree pointer to root of configuration nodes tree
+     */
+    void init( StringTable & attributes,  ConfigNode * localTree);
+  
+    void start();
+    
+    int stop();
+};
 
-    cout << "Context established." << endl;
-
-    // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( argv[1] );
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
-
-    // initializes the modules and starts the tracker main loop
-    context.run();
-    OSUtils::sleep(1000);
-    return 0;
-}
+#endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.13 2001/04/29 19:50:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.14 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -79,7 +79,6 @@ NetworkSourceModule::NetworkSourceModule() : Module(), NodeFactory()
 }
 
 // destructor cleans up any allocated memory
-
 NetworkSourceModule::~NetworkSourceModule()
 {
     for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
@@ -95,7 +94,6 @@ NetworkSourceModule::~NetworkSourceModule()
 }
 
 // Converts num floats from network byte order.
-
 void NetworkSourceModule::convertFloatsNToHl(float* floats, float* result, int num)
 {
     int i;
@@ -114,7 +112,6 @@ void NetworkSourceModule::convertFloatsNToHl(float* floats, float* result, int n
 }
 
 // reads from the network and parses network packages
-
 void NetworkSourceModule::run( void * data )
 {
     MulticastReceiver * rec = (MulticastReceiver *) data;
@@ -123,7 +120,7 @@ void NetworkSourceModule::run( void * data )
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
     float help[3][3];
-    
+   
     while(1)
     {
         do
@@ -136,9 +133,10 @@ void NetworkSourceModule::run( void * data )
                     cout << "Error " << errno << " receiving data !" << endl;
                     exit( -1 );
                 }
-            }
-        } while( retval < 0 );
- 
+            }    
+        } while( retval < 0 && rec->stop == 0);
+        if( rec->stop != 0 )
+            break;
 	    if( ((unsigned short) ntohs(buffer.headerId) != magicNum)||
 		((unsigned short) ntohs(buffer.revNum) != revNum))
 	        continue;
@@ -206,17 +204,7 @@ void NetworkSourceModule::run( void * data )
             }
             // goto next station
             stationdata += ntohs(si[3]);
-        }
-        // test for stop flag, critical section
-        rec->mutex.acquire();
-        if( rec->stop == 1 )
-        {
-            rec->mutex.release();			
-            break;
-        } else {
-            rec->mutex.release();
-        }
-        // end of critical section
+        }        
     }
     rec->socket.close();
     cout << "Stopping thread" << endl;
@@ -224,7 +212,6 @@ void NetworkSourceModule::run( void * data )
     
  
 //  constructs a new Node
-
 Node * NetworkSourceModule::createNode( string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSource") == 0 )
@@ -314,7 +301,6 @@ void NetworkSourceModule::close()
 }   
 
 // pushes state information into the tree
-
 void NetworkSourceModule::pushState()
 {
     for(ReceiverVector::iterator rec = groups.begin();rec != groups.end();rec++)

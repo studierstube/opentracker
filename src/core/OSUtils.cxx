@@ -22,48 +22,56 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** source file for OSUtils class
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.9 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <OpenTracker.h>
+#include "OSUtils.h"
 
-#ifdef WIN32
-#include <iostream>    // new IOStream for VisualC++
+#ifndef WIN32
+#include <unistd.h>
+#include <sys/time.h>
+#include <limits.h>
 #else
-#include <iostream.h>
+#include <windows.h>
+#include <sys/timeb.h>
+#include <time.h>
 #endif
+#include <sys/types.h>
 
-/**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
- */
-int main(int argc, char **argv)
+// returns the current time in milliseconds since ...
+double OSUtils::currentTime()
 {
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
-
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
-
-    cout << "Context established." << endl;
-
-    // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( argv[1] );
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
-
-    // initializes the modules and starts the tracker main loop
-    context.run();
-    OSUtils::sleep(1000);
-    return 0;
+ #ifndef WIN32  // IRIX and Linux code
+#ifdef _SGI_SOURCE
+    struct timeval tp;
+    gettimeofday(&tp);
+    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
+#else //LINUX code
+    struct timeval tp;
+    gettimeofday(&tp,NULL);
+    return (double)(tp.tv_sec)*1000.0 + (double)(tp.tv_usec)*0.001;
+#endif
+#else  // WIN code
+    struct _timeb timeBuffer;
+    _ftime(&timeBuffer);
+    return (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
+#endif
 }
+
+//sleeps the specified amount of time ...
+void OSUtils::sleep( double time )
+{
+#ifdef WIN32
+    Sleep((long) time );
+#else
+#ifdef _SGI_SOURCE
+    sginap((long)( time * CLK_TCK / 1000.0 ));
+#endif
+#endif
+}
+

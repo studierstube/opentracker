@@ -22,48 +22,39 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** Header file for OSUtils class, a collection of common utility functions.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/main.cxx,v 1.9 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.h,v 1.1 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <OpenTracker.h>
+#ifndef _OSUTILS_H
+#define _OSUTILS_H
 
-#ifdef WIN32
-#include <iostream>    // new IOStream for VisualC++
-#else
-#include <iostream.h>
-#endif
+#include "../dllinclude.h"
 
 /**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
+ * This class implements some utility f
+ * @author Gerhard Reitmayr
+ * @ingroup core
  */
-int main(int argc, char **argv)
+class OPENTRACKER_API OSUtils 
 {
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
 
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
+public:
 
-    cout << "Context established." << endl;
+    /** returns the current time in milliseconds since ... */
+    static double currentTime();
+    
+    /** sleeps for the specified amount of milliseconds 
+     * and yields the execution to another thread. If 0 is specified, only
+     * a yield is perform. 
+     * ( implementation based on Sleep ( Win32 ), sginap ( SGI )
+     * @arg time time to sleep in milliseconds
+     */
+     static void sleep( double time );
+};
 
-    // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( argv[1] );
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
-
-    // initializes the modules and starts the tracker main loop
-    context.run();
-    OSUtils::sleep(1000);
-    return 0;
-}
+#endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.10 2001/06/08 16:57:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.11 2001/06/11 03:22:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -117,8 +117,6 @@ public:
     /** tests whether the mainloop should stop, by asking all modules whether
      * they need to stop.*/
     int stop();
-    /** returns the current time in milliseconds since ... */
-    static double currentTime();
 };
 
 #endif

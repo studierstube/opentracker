@@ -25,7 +25,8 @@ HFILES = \
         TestSource.h \
         ThreadModule.h \
         WrapperNode.h \
-        StringTable.h
+        StringTable.h \
+        OSUtils.h
         
 C++FILES = \
         ConfigurationParser.cxx \
@@ -39,7 +40,8 @@ C++FILES = \
         TestModule.cxx \
         ThreadModule.cxx \
         WrapperNode.cxx \
-        StringTable.cxx
+        StringTable.cxx \
+        OSUtils.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
