@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.1 2001/12/11 13:30:51 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.2 2002/10/31 20:20:05 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -84,7 +84,7 @@ void JoystickModule::pushState()
         {
             source = (JoystickSource *) *it;
             lock();
-            if (source->changed = 1)
+            if (source->changed == 1)
             {
                 source->state = source->tmpState;
                 source->changed = 0;
@@ -102,7 +102,7 @@ void JoystickModule::pushState()
 
 void JoystickModule::start()
 {
-    if( isInitialized() == 1 )
+    if( isInitialized() && !nodes.empty() )
     {
         JOYINFOEX joyInfoEx;
         
@@ -154,14 +154,8 @@ void JoystickModule::run()
 {
     while(1)
     {
-        lock();
         if( stop == 1 )
-        {           
-            unlock();
             break;
-        }
-        else 
-           unlock();
 
         pollJoysticks();
         OSUtils::sleep(10);

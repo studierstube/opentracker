@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.h,v 1.1 2001/12/11 13:30:51 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.h,v 1.2 2002/10/31 20:20:05 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -104,7 +104,7 @@ protected:
 // Methods
 public:
     /** constructor method. */
-    JoystickModule() : ThreadModule(), NodeFactory()
+    JoystickModule() : ThreadModule(), NodeFactory(), stop(0)
     {
     };
 
