@@ -26,17 +26,20 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.6 2003/04/03 16:04:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.7 2003/04/04 13:12:49 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "../OpenTracker.h"
 #include <ace/Reactor.h>
+#include <iostream>
 
 #include "GPSDriver.h"
 #include "GPS_Handler.h"
 #include "DGPSIP_Handler.h"
+
+using namespace std;
 
 int verbose = 0;
 
@@ -79,6 +82,7 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( result != 0 )
 		{
 			receiver = NULL;
+            cerr << "GPSDriver could not open serial port " << device << " !\n";
 		}
 	}
 	
@@ -90,6 +94,7 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( ipconnect.connect( server, ACE_INET_Addr( port, serveraddr.c_str() )) != 0 )
 		{
 			server = NULL;
+            cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
 		}		
 	}
 	return result;
