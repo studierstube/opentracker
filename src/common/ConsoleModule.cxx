@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.15 2001/04/30 10:09:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.16 2001/06/08 16:56:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -273,17 +273,6 @@ void ConsoleModule::pushState()
     ConsoleSource * source;
     float data[4];
 
-    // clear all button states, mark as changed if an actuall change occured
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-    {
-        source = (ConsoleSource *)(*it);
-        if( source->state.button != 0 )
-        {
-            source->state.button = 0;
-            source->changed = 1;
-        }
-    }
-
     // read all keyboard events and execute their functions
     // this may change various sources
     int key;
@@ -449,7 +438,7 @@ void ConsoleModule::pushState()
     }
 
     // check for changed sources and let them generate events
-    for( it = sources.begin(); it != sources.end(); it ++ )
+    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
     {
         source = (ConsoleSource *)(*it);
         if( source->changed == 1 )
@@ -460,7 +449,7 @@ void ConsoleModule::pushState()
     }
 }
 
-// sets button values on stations sources
+// toggles button values on stations sources
 
 void ConsoleModule::setButton( int station , int button )
 {
@@ -469,9 +458,10 @@ void ConsoleModule::setButton( int station , int button )
     {
         source = (ConsoleSource *)(*it);
         if( source->number == station )
-        {
-            source->state.button |= ( 1 << ( button - 1 ));
+        {            
+            source->state.button ^= ( 1 << ( button - 1 ));
             source->changed = 1;
+
         }
     }
 }
@@ -533,7 +523,7 @@ void ConsoleModule::reset( int station )
 
 void ConsoleModule::pullState()
 {
-    if( sinks.size() <= 0 )
+    if( sinks.size() <= 0 || isInitialized() == 0 )
     {
         return;
     }
@@ -659,13 +649,6 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
         }
     }
     Module::init( attributes, localTree );
-    /*
-    cout << "Current key map :" << endl;
-    for( int i = 1; i <= QUIT; i ++ )
-    {
-        cout << "Function " << functionMap[i] << " got key " << keyMap[i] << endl;
-    }
-    */
 }
 
 // start the module and init curses

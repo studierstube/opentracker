@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.11 2001/04/30 10:09:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.12 2001/06/08 16:56:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,7 +48,9 @@
  * The module supports 10 stations, numbered from 0 to 9. The input allows
  * to move the stations position in all 3 directions and to rotate around
  * all 3 axes. The velocities are displayed on top of the screen and can
- * be changed. The button bits 0 to 3 can be set. Finally a station can
+ * be changed. The button bits 0 to 3 can be set, the keys strokes toggle
+ * the state of the buttons, so you don't have to keep them pressed
+ * all the time. Finally a station can
  * be reset to identity. To command several stations, the active station
  * has to be switched.
  
