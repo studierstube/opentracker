@@ -1,3 +1,20 @@
+2004-07-27 11:56:12  Rev 719    reitmayr
+
+	* opentracker.dsp:
+
+2004-07-27 11:55:33  Rev 718    reitmayr
+
+	* data/opentracker.dtd: added support for new GPS strings for Garmin 
+	  receivers
+
+2004-07-27 11:54:49  Rev 717    reitmayr
+
+	* src/input/GPSParser.cxx, src/input/GPSGarminAltitude.h, 
+	  src/input/Makefile.am, src/input/GPSDriver.h, src/input/GPSParser.
+	  h, src/input/GPSModule.cxx, src/input/GPSGarminCompass.h, 
+	  src/input/GPSModule.h: added support for more GPS strings for 
+	  Garmin receivers.
+
 2004-07-23 13:28:41  Rev 715    reitmayr
 
 	* src/input/InterSenseModule.h, src/input/InterSenseSource.h: 
