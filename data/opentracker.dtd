@@ -22,11 +22,11 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.55 2002/12/16 09:20:07 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.56 2003/01/27 10:55:51 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
@@ -559,25 +559,24 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   group NMTOKEN #REQUIRED
 >
-
 <!-- SpeechRecoConfig definitions, similar to console input -->
 <!ELEMENT SpeechRecoConfig (CommandSet+)>
 <!ATTLIST SpeechRecoConfig
-	language CDATA #REQUIRED
+  language CDATA #REQUIRED
 >
 <!ELEMENT CommandSet (Command+)>
 <!ATTLIST CommandSet
-	id CDATA #REQUIRED
+  id CDATA #REQUIRED
 >
 <!ELEMENT Command EMPTY>
 <!ATTLIST Command
-	id CDATA #REQUIRED
-	name CDATA #REQUIRED
-	weight CDATA "1.0"
+  id CDATA #REQUIRED
+  name CDATA #REQUIRED
+  weight CDATA "1.0"
 >
 <!ELEMENT SpeechRecoSource EMPTY>
 <!ATTLIST SpeechRecoSource
-	DEF ID #IMPLIED
-	name CDATA #REQUIRED
-	set CDATA #REQUIRED
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+  set CDATA #REQUIRED
 >
