@@ -48,9 +48,10 @@ XSensModule::XSensModule() :
 source( NULL )
 {
 #ifdef WIN32
-    if (CoInitialize(NULL) != S_OK)
+    HRESULT hr = CoInitialize(NULL); 
+    if ( hr != S_OK && hr != S_FALSE )
     {
-        ACE_DEBUG((LM_ERROR,"XSensModule failed to initialize COM library!\n" ));
+        ACE_DEBUG((LM_ERROR,"XSensModule: failed to initialize COM library!\n" ));
         exit(1);
     }
 #endif
