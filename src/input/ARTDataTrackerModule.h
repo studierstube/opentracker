@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.h,v 1.2 2002/03/26 14:02:37 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.h,v 1.3 2002/11/11 12:30:20 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -44,6 +44,12 @@
 * An example configuration element looks like this :
 * @verbatim
 <ARTDataTrackerConfig maxbodies="10" port="12346"/>@endverbatim
+*
+* Some hints to configuring the ART Tracker host to work with this driver :
+* @li When you calibrate the rigid body, you need to choose the "due to
+*     body" setting.
+* @li Go to the general settings and make sure they are set as displayed in this picture :
+*     @image html artsettings.jpg
 */
 
 #ifndef _ARTDATATRACKERMODULE_H

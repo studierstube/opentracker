@@ -25,8 +25,8 @@
 /** source file for Context class
   *
   * @author Gerhard Reitmayr
-  * @todo set attributes on the element in createNode
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.19 2002/09/17 17:59:40 reitmayr Exp $
+  *
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.20 2002/11/11 12:30:19 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -208,6 +208,9 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         {
             const string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
+			auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
+			auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
+			el->setAttribute(attName.get(), attVal.get());
         }
     }
     return value;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.6 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.7 2002/11/11 12:30:19 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,7 +41,6 @@
  * a common place for such things, like in Java. These do not handle any
  * memory issues, all arrays etc. have to be created and managed by the
  * calling code.
- * @todo think about using double in implementation to make it more accurate.
  * @author Gerhard Reitmayr
  * @ingroup core
  */

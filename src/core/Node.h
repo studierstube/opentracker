@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.18 2002/09/17 17:59:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.19 2002/11/11 12:30:19 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,7 +89,13 @@ protected:
     std::string type;
     
 public:
-    enum error { OK=0, GRAPH_CONSTRAINT, READONLY, CONTEXT_ERROR, NOT_FOUND };
+	/// error type returned by some graph manipulation functions
+    enum error { OK=0,				///< operation succeded
+				 GRAPH_CONSTRAINT,  ///< operation failed because it is not allowed in the XML tree
+				 READONLY,			///< operation failed because the node is readonly				 
+				 CONTEXT_ERROR,		///< operation failed because the node belongs to another context
+				 NOT_FOUND			///< operation failed because a node was not found
+				};
 
 protected:
 
@@ -282,7 +288,6 @@ public:
     /** 
      * adds a new child to the direct children of the node. This method
      * will only work, if it does not violate any rules for the graph.
-     * @todo add detailed rules and error code documentation
      * @param child the new child node to add
      * @return error code describing outcome of the operation
      */
