@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.10 2003/10/31 14:54:22 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.11 2003/11/25 16:16:01 tomp Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -190,8 +190,21 @@ void ARTDataTrackerModule::run()
 				source->state.orientation[3] = BodyRecordTemp[bodyID].orientation[3];
 				// Bring a timeStamp to source->state
 				source->state.timeStamp();
+				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+				// fixed to 0.5 ??
+				source->state.confidence = 0.5;	
 				// Source was definitly changed !
 				source->changed = 1;
+			}
+			else
+			{
+				// only if marker was found in the last grab (state.confidence > epsilon) set 
+				// confidence to 0.0!
+				if (source->state.confidence > 0.000001f)
+				{
+					source->changed = 1;
+					source->state.confidence = 0.0f;
+				}
 			}
 		}
 		unlock();

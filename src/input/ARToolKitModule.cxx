@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.37 2003/10/20 08:12:57 reitmayr Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.38 2003/11/25 16:16:01 tomp Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -488,7 +488,21 @@ void ARToolKitModule::grab()
                     source->modified = 1;
                     unlock();
                 }
-            }
+            } 
+			else  // marker not found 
+			{
+					// only if marker was found in the last grab (state.confidence > epsilon) set 
+					// confidence to 0.0!
+				    State & state = source->buffer;
+					if (state.confidence > 0.00000001f) 
+					{
+						lock();
+						state.confidence = 0.0f;
+						state.timeStamp();
+						source->modified = 1;
+	                    unlock();
+					}
+			}
         }
     }
 
