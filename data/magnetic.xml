@@ -41,19 +41,19 @@
 	<!-- this station tracks the pens data which is coming from the network and is provided by a magnetic tracker-->
 	<CursesOutput comment="pen">
 		<Station name="pen" number="3">
-			<Transformation>
-				<VirtualTransformation>
-					<NetworkSource number="1"/>
-				</VirtualTransformation>
-			</Transformation>
+            <Transformation translation="0.1 0.1 0">
+                <VirtualTransformation rotation="0.70710678 0 0 0.70710678">
+        			<Transformation translation="-0.2 -0.6 1" rotation="0 0 1 0">	
+		    			<NetworkSource number="6"/>				
+			        </Transformation>
+                </VirtualTransformation>
+            </Transformation>
 		</Station>
 	</CursesOutput>
 	<CursesOutput comment="head mounted display">
 		<Station name="hmd" number="4">
-			<Transformation>
-				<VirtualTransformation>
-					<NetworkSource number="2"/>
-				</VirtualTransformation>
+			<Transformation translation="0.35 0.1 1.0">				
+					<NetworkSource number="2"/>			
 			</Transformation>
 		</Station>
 	</CursesOutput>
