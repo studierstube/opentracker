@@ -1,5 +1,5 @@
  /* ========================================================================
-  * Copyright (C) 2001  Vienna University of Technology
+  * Copyright (C) 2003  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -22,51 +22,93 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for DynaSightModule module.
+/** source file for DynaSightModule module. Version 1.02
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.cxx,v 1.2 2003/07/01 14:05:30 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.cxx,v 1.3 2003/08/12 08:49:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
 #include "DynaSightSource.h"
 #include "DynaSightModule.h"
 
+#include "../core/MathUtils.h"
 #include "../misc/serialcomm.h"
+
+#include <assert.h>
+#include <math.h>
 
 #include <iostream>
 
 using namespace std;
 
 // constructor initializing the thread manager
-DynaSightModule::DynaSightModule() : ThreadModule(), NodeFactory(), stop(false)
+DynaSightModule::DynaSightModule() : 
+ThreadModule(),
+NodeFactory()
 {
-    // nil
+    // cout << "DynaSightModule::Constructor" << endl;
+    
+    lookAtVector[0] = 0.0;
+    lookAtVector[1] = 0.0;
+    lookAtVector[2] = 0.0;
+    
+    stop = FALSE;
+    serialportIsOpen = FALSE;
+    hasLookAt = FALSE;
 } // DynaSightModule
 
 // destructor cleans up any allocated memory
 DynaSightModule::~DynaSightModule()
 {
+    // cout << "DynaSightModule::Destructor" << endl;
+    
+    TargetVector::iterator it;
+    for (it = targets.begin(); it != targets.end(); it++)
+    {
+        assert((*it) != NULL);
+        delete (*it)->source;
+    }
     targets.clear();
 } // ~DynaSightModule
 
 void DynaSightModule::init(StringTable& attributes, ConfigNode * localTree)
 {
+    int myResult = 0;
+    
     // cout << "DynaSightModule::init" << endl;
+    
+    ThreadModule::init(attributes, localTree);
     
     // scanning port name from XML-File
     strncpy (port.pathname, attributes.get("device").c_str(), 255);
+    cout << "use device on port: " << port.pathname << endl;
     
-    ThreadModule::init(attributes, localTree);
+    // check if we need to calculate the orientation
+    myResult = attributes.get("lookat", lookAtVector, 3);
+    
+    if (myResult == 3)
+    {
+        hasLookAt = TRUE;
+        cout << "looking at point: " << lookAtVector[0];
+        cout << " " << lookAtVector[1] << " " << lookAtVector[2] << endl;
+    }
+    else
+    {
+        hasLookAt = FALSE;
+    }
 } // init
 
 //  constructs a new DynaSightSource node
 Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
 {
+    int number = 0;
+    
+    // cout << "DynaSightModule::createNode" << endl;
+    
     if (name.compare("DynaSightSource") == 0)
     { 
-        int number;
         if (attributes.get("target", &number ) != 1)
         {
             // error message
@@ -97,16 +139,19 @@ Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
         }
         
         DynaSightSource * source = new DynaSightSource; 
+        assert(source);
         
         // add the source object to the target list
         Target *target = new Target(number, source);
+        assert(target);
         targets.push_back(target);
         
         cout << "Built DynaSightSource node - target " << number << "." << endl;
         
+        // return pointer to the source node
         return source;
     }
-
+    
     return NULL;
 } // createNode
 
@@ -114,7 +159,9 @@ Node * DynaSightModule::createNode(const string& name,  StringTable& attributes)
 void DynaSightModule::start()
 {
     SerialParams params;
-    int myResult;
+    int myResult = 0;
+    
+    // cout << "DynaSightModule::start" << endl;
     
     if ((isInitialized() == 1) && !targets.empty())
     {
@@ -139,6 +186,8 @@ void DynaSightModule::start()
             return;
         }
         
+        serialportIsOpen = TRUE;
+        
         ThreadModule::start();
     }
 } // start
@@ -146,7 +195,9 @@ void DynaSightModule::start()
 // closes the module and closes any communication sockets and stops thread 
 void DynaSightModule::close()
 {
-    int myResult;
+    int myResult = 0;
+    
+    // cout << "DynaSightModule::close" << endl;
     
     // stop the thread
     // critical section start
@@ -158,63 +209,97 @@ void DynaSightModule::close()
     if (isInitialized() == 1)
     {
         // close the serial port
-        myResult = closeSerialPort (&port);
+        if (serialportIsOpen)
+            myResult = closeSerialPort (&port);
     }
 } // stop
 
 // pushes state information into the tree
 void DynaSightModule::pushState()
 {
+    // cout << "DynaSightModule::pushState" << endl;
+    
     if (isInitialized() == 1)
     {
         if (targets.empty())
             return;
         
-        // critical section start
-        lock();
         TargetVector::iterator it;
         for (it = targets.begin(); it != targets.end(); it ++)
         {       
+            // critical section start
+            lock();
+            
+            assert((*it) != NULL);
+            
+            // DEBUG
+            // (*it)->modified = 1;
+            // DEBUG
+            
             if ((*it)->modified == 1)
             {
                 // update the state information
+                assert((*it)->source != NULL);
+                
+                // DEBUG
+                /*
+                cout << "DynaSightModule::pushState" << endl;
+                (*it)->state.position[0] = 1.0;
+                (*it)->state.position[1] = 2.0;
+                (*it)->state.position[2] = 3.0;
+                (*it)->state.orientation[0] = 0.0;
+                (*it)->state.orientation[1] = 0.0;
+                (*it)->state.orientation[2] = 0.0;
+                (*it)->state.orientation[3] = 1.0;
+                (*it)->state.confidence = 1.0;
+                (*it)->state.timeStamp();
+                */
+                // DEBUG
+                
                 (*it)->source->state = (*it)->state;
                 (*it)->modified = 0;
+                unlock();
                 (*it)->source->updateObservers ((*it)->source->state);
             }
-        }
-        unlock();
-        // end of critical section
-    }
+            else
+                unlock();
+            // end of critical section
+        } // for
+    }  // if
 } // pushState
 
 // reads from the DynaSight Sensor and parses the data
 void DynaSightModule::run()
 {
     // the number of bytes we read over the serial port
-    int count;
+    int count = 0;
     // read buffer for the serial port
     char serialPortBuffer[DYNASIGHT_COMM_BUFFER_SIZE];
     // packet buffer for the target data assembly
     char packetBuffer[DYNASIGHT_PACKET_MAX_LENGTH];
-    char *characterPointer;
-    char newCharacter;
-    bool isMarker;
-    bool packetSyncError = false;
+    char *characterPointer = NULL;
+    char newCharacter = ' ';
+    bool isMarker = FALSE;
+    bool packetSyncError = FALSE;
     // status of the state machine
     int packetState = 0;
     // number of target
-    int targetNumber;
+    int targetNumber = 0;
     // base-2 exponent
-    int exponent;
-    long temp;
+    int exponent = 0;
+    long temp = 0;
     // x, y, z coordinates
-    long x, y, z;
+    long x = 0, y = 0, z = 0;
+    double x_meter = 0.0, y_meter = 0.0, z_meter = 0.0;
     // status of target
     TargetStatus status = SEARCH;
-    
+    // variables for the calculating of the orientation
+    double diff_x = 0.0, diff_y = 0.0, diff_z = 0.0;
+    float alpha = 0.0, beta = 0.0;
     
     cout << "Starting DynaSight module thread" << endl;
+    
+    assert(serialportIsOpen == TRUE);
     
     while (1)
     {
@@ -255,30 +340,31 @@ void DynaSightModule::run()
                     packetBuffer[packetState++] = newCharacter;
                 }
                 else 
-                    packetSyncError = true;
+                    // could not synchronize, stay in state 0
+                    packetSyncError = TRUE;
                 break;
                 
             case 1:
                 if (isMarker)
                 {
-                    // expected marker character -> save it
+                    // we expected marker character -> save it
                     packetBuffer[packetState++] = newCharacter;
                 }
                 else
                 {
-                    // loss of synchronization -> reset
+                    // got loss of synchronization -> reset
                     packetState = 0;
-                    packetSyncError = true;
+                    packetSyncError = TRUE;
                 }
                 break;
                 
             case 2:
                 if (isMarker)
                 {
-                    // unexpected marker -> shift back
+                    // got an unexpected marker -> shift back
                     packetBuffer[0] = packetBuffer[1];
                     packetBuffer[1] = newCharacter;
-                    packetSyncError = true;
+                    packetSyncError = TRUE;
                     // leave packetState at 2;
                 }
                 else
@@ -296,10 +382,10 @@ void DynaSightModule::run()
             case 4:
                 if (isMarker)
                 {
-                    // unexpected marker -> reset state machine
+                    // got an unexpected marker -> reset state machine
                     packetBuffer[0] = newCharacter;
                     packetState = 1;
-                    packetSyncError = true;
+                    packetSyncError = TRUE;
                 }
                 else
                 {
@@ -309,17 +395,17 @@ void DynaSightModule::run()
                 break;
                 
             case 5:
-				            // save the character
-				            packetBuffer[packetState++] = newCharacter;
-                            break;
+				 // save the character
+				 packetBuffer[packetState++] = newCharacter;
+                 break;
                             
             case 6:
                 if (isMarker)
                 {
-                    // unexpected marker -> reset state machine
+                    // got an unexpected marker -> reset state machine
                     packetBuffer[0] = newCharacter;
                     packetState = 1;
-                    packetSyncError = true;
+                    packetSyncError = TRUE;
                 }
                 else
                 {
@@ -344,6 +430,7 @@ void DynaSightModule::run()
                 y = temp<<exponent;
                 temp = ((long)(char)packetBuffer[6]<<8) | (long)packetBuffer[7]&0xFFL;
                 z = temp<<exponent;
+                // reset the state machine
                 packetState = 0;
                 
                 // check if we got new reliable data
@@ -353,6 +440,11 @@ void DynaSightModule::run()
                     TargetVector::iterator target;
                     for (target = targets.begin(); target != targets.end(); target++)
                     {
+                        if ((*target) == NULL)
+                        {
+                            cout << "DynaSightModule::run ERROR iterator == NULL!" << endl;
+                        }
+                        
                         if ((*target)->number == targetNumber)
                             break;
                     }
@@ -362,25 +454,58 @@ void DynaSightModule::run()
                     {
                         // start of critical section
                         lock();
-                        State & state = (*target)->state;
+                        State & myState = (*target)->state;
                         
+                        // mark the state as modified
                         (*target)->modified = 1;
                         
-                        // set the position
-                        state.position[0] = x / SCALE_TO_METER;
-                        state.position[1] = y / SCALE_TO_METER;
-                        state.position[2] = z / SCALE_TO_METER;
+                        // set the position and scale to meter
+                        x_meter = x / SCALE_TO_METER;
+                        y_meter = y / SCALE_TO_METER;
+                        z_meter = z / SCALE_TO_METER;
+                        myState.position[0] = x_meter;
+                        myState.position[1] = y_meter;
+                        myState.position[2] = z_meter;
                         
                         // set the orientation
-                        state.orientation[0] = 0.0;
-                        state.orientation[1] = 0.0;
-                        state.orientation[2] = 0.0;
-                        state.orientation[3] = 1.0;
+                        if (hasLookAt)
+                        {
+                            // we need to calculate the orientation
+                            // works OK if the tracked point is in front (z-value) of the lookAt point
+                            diff_x = x_meter - lookAtVector[0];
+                            diff_y = y_meter - lookAtVector[1];
+                            diff_z = z_meter - lookAtVector[2];
+                            
+                            alpha = atan2(diff_x, diff_z);
+                            beta = -atan2(diff_y, diff_z);
+                            
+                            // DEBUG
+                            /*
+                            cout << "diff_x: " << diff_x << endl;
+                            cout << "diff_y: " << diff_y << endl;
+                            cout << "diff_z: " << diff_z << endl;
+                            cout << "alpha: " << alpha << endl;
+                            cout << "beta: " << beta << endl;
+                            cout << endl;
+                            */
+                            // DEBUG
+                            
+                            MathUtils::eulerToQuaternion(beta, alpha, 0.0, myState.orientation);
+                            MathUtils::normalizeQuaternion(myState.orientation);
+                        }
+                        else
+                        {
+                            // we can use the default orientation
+                            myState.orientation[0] = 0.0;
+                            myState.orientation[1] = 0.0;
+                            myState.orientation[2] = 0.0;
+                            myState.orientation[3] = 1.0;
+                        }
                         
                         // set the confidence value
-                        state.confidence = (status == TRACK) ? 1.0 : 0.5;
+                        myState.confidence = (status == TRACK) ? 1.0 : 0.5;
                         
-                        state.timeStamp();
+                        myState.timeStamp();
                         unlock();
                         // end of critical section
                     }

@@ -22,11 +22,11 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for DynaSightSource Node.
+/** header file for DynaSightSource Node. Version 1.02
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightSource.h,v 1.1 2003/06/30 12:30:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightSource.h,v 1.2 2003/08/12 08:49:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

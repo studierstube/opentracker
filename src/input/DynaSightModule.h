@@ -1,5 +1,5 @@
  /* ========================================================================
-  * Copyright (C) 2001  Vienna University of Technology
+  * Copyright (C) 2003  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -22,11 +22,11 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for DynaSightModule module.
+/** header file for DynaSightModule module. Version 1.02
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.4 2003/08/12 08:49:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -42,10 +42,14 @@
  *
  * It's configuration element has the following attributes:
  * @li @c device the serial port the tracker is connected to. 
+ * @li @c lookat defines a point in the local tracker coordinate system (x y z) used
+ *        for the calculation of the orientation data. if the option is not specified,
+ *        the returned ortientation is always towards the z-axis.
  *
  * An example configuration element looks like this:
  * @verbatim
-<DynaSightConfig device="com1"/>@endverbatim
+ <DynaSightConfig device="com1" lookat="0.0 0.8 -1.2"/>
+ @endverbatim
  */
 
 #ifndef _DYNASIGHTMODULE_H
@@ -105,6 +109,15 @@ protected:
     /// flag to stop the thread
     bool stop;
     
+    /// is TRUE if the serial port was opened
+    bool serialportIsOpen;
+
+    /// is TRUE if we have to calculate the orientation
+    bool hasLookAt;
+
+    /// x, y, z coordinate of point to look at [meter]
+    float lookAtVector[3];
+
     /// port structure for the serial port data
     SerialPort port;
 
@@ -131,7 +144,7 @@ public:
      * name to the DynaSightSource element name, and if it matches
      * creates a new DynaSightSource node.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringTable containing attribute values
+     * @param attributes reference to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new!
 	   */
