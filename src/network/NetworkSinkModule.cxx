@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.10 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.11 2001/04/23 14:32:54 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -70,7 +70,7 @@ struct MulticastGroup {
 
 // initializes ConsoleModule
 
-void NetworkSinkModule::init(StringTable& attributes,  Node * localTree)
+void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
     if( attributes.containsKey("name"))
     {

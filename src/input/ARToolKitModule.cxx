@@ -185,7 +185,7 @@ void ARToolKitModule::pushState()
 
 // initializes the ARToolKit module
 
-void ARToolKitModule::init(StringTable& attributes, Node * localTree)
+void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     ThreadModule::init( attributes, localTree );
     cameradata = attributes.get("camera-parameter");

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.11 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.12 2001/04/23 14:32:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -101,6 +101,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
     posSpeed = 0.1f;
     station = 0;
     quit = 0;
+    interval = 10;
 
     // initialize key map
     keyMap[MOVE_X_PLUS] = 'o';
@@ -551,7 +552,7 @@ void ConsoleModule::pullState()
 
 // initializes ConsoleModule
 
-void ConsoleModule::init(StringTable& attributes,  Node * localTree)
+void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
     int num = sscanf(attributes.get("interval").c_str(), " %i", &interval );
     if( num == 0 ){
@@ -560,7 +561,7 @@ void ConsoleModule::init(StringTable& attributes,  Node * localTree)
     headerline = attributes.get("headerline");
     if( localTree != NULL )
     {
-        ConfigNode * base = (ConfigNode *)localTree;
+        ConfigNode * base = localTree;
         for( unsigned int i = 0; i < base->countChildren(); i++ )
         {
             ConfigNode * config = (ConfigNode *)base->getChild( i );

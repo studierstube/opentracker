@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /I "extras/intersense/win" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
+# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /I "extras/intersense/win" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -134,11 +134,15 @@ SOURCE=.\src\common\EventQueueNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\InterSenseModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\InterTraxModule.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\isense.cpp
+SOURCE=.\extras\intersense\win\isense.cpp
 # End Source File
 # Begin Source File
 
@@ -282,6 +286,14 @@ SOURCE=.\src\common\EventQueueNode.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\InterSenseModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\InterSenseSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\InterTraxModule.h
 # End Source File
 # Begin Source File
@@ -290,7 +302,7 @@ SOURCE=.\src\input\InterTraxSource.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\isense.h
+SOURCE=.\extras\intersense\win\isense.h
 # End Source File
 # Begin Source File
 

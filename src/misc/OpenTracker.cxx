@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.9 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.10 2001/04/23 14:32:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,6 +48,7 @@
 #include "../common/ConsoleModule.h"
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
+#include "../input/InterSenseModule.h"
 
 // these modules depend on compile options
 #include "../input/InterTraxModule.h"
@@ -128,4 +129,8 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( * cmouse );
     context.addModule( (string)"CyberMouseConfig", * cmouse );
 #endif	
+
+    InterSenseModule * intersense = new InterSenseModule;
+    context.addFactory( * intersense );
+    context.addModule( (string)"InterSenseConfig", * intersense );
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.11 2001/04/18 16:38:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.12 2001/04/23 14:32:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -126,7 +126,7 @@ public:
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
      */
-    virtual void init(StringTable& attributes, Node * localTree);
+    virtual void init(StringTable& attributes, ConfigNode * localTree);
 
 };
 
