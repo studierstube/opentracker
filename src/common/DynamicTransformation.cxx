@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.5 2001/04/01 13:22:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.6 2001/04/12 06:41:38 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,6 +37,12 @@
 #else
 #include <iostream.h>
 #endif
+
+
+#include <dom/DOM_Node.hpp>
+#include <dom/DOM_NodeList.hpp>
+#include <dom/DOM_Element.hpp>
+#include <dom/DOM_NamedNodeMap.hpp>
 
 // Constructor
 
@@ -64,4 +70,26 @@ void DynamicTransformation::onEventGenerated( State& event, Node& generator)
         store = event;
         StaticTransformation::onEventGenerated( event, generator );
     }
+}
+
+// returns the number of children
+
+unsigned int DynamicTransformation::countChildren()
+{
+	return 1;
+}
+
+// iterates through the children by returning the child by index
+
+Node * DynamicTransformation::getChild( unsigned int index )
+{
+	DOM_NodeList list = parent->getChildNodes();
+    for( int i = 0; i < list.getLength(); i++ )
+	{
+        if(((Node *)(list.item( i ).getUserData()))->isWrapperNode() == 1 )
+            continue;
+		return (Node *)list.item( i ).getUserData();
+
+	}
+	return NULL;
 }
