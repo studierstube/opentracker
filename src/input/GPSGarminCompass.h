@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSGarminCompass.h,v 1.3 2003/07/02 07:28:37 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 
