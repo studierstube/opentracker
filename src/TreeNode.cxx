@@ -46,7 +46,6 @@
 Constructor method.
 */
 TreeNode::TreeNode() //@INIT_3757
-    : Node()
 {//@CODE_3757
     ConstructorInclude();
 

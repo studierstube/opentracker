@@ -34,7 +34,7 @@
 Constructor method.
 */
 Marker::Marker(int markerId_, double vertex_[4][2]) //@INIT_3750
-    : Node()
+    : TreeNode()
     , markerId(markerId_)
 {//@CODE_3750
     ConstructorInclude();

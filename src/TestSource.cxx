@@ -34,7 +34,7 @@
 default constructor
 */
 TestSource::TestSource() //@INIT_4801
-    : Node()
+    : TreeNode()
     
 {//@CODE_4801
     ConstructorInclude();

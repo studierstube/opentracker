@@ -29,7 +29,6 @@ HFILES = \
     NodeFactory.h \
     TreeNode.h \
     MathUtils.h \
-    Node.h \
     VideoSource.h \
     MaxConfidenceFilter.h \
     State.h \
@@ -52,7 +51,6 @@ C++FILES = \
     NodeFactory.cxx \
     TreeNode.cxx \
     MathUtils.cxx \
-    Node.cxx \
     VideoSource.cxx \
     MaxConfidenceFilter.cxx \
     State.cxx \

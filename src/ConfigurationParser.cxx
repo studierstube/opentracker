@@ -209,7 +209,7 @@ TreeNode* ConfigurationParser::parseConfigurationFile(const char* filename)
         }
     	TreeNode * node = buildTree( element );        
 	if( node != NULL ){
-            value->addChild( node );
+            value->addChild( *node );
     	}
     }
     return value;
