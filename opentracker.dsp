@@ -178,6 +178,14 @@ SOURCE=.\src\input\FOBModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\GroupGateModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\GroupGateNode.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\InterSenseModule.cxx
 # End Source File
 # Begin Source File
@@ -447,6 +455,14 @@ SOURCE=.\src\input\FOBModule.h
 # Begin Source File
 
 SOURCE=.\src\input\FOBSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\GroupGateModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\GroupGateNode.h
 # End Source File
 # Begin Source File
 

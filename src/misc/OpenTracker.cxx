@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.21 2002/11/07 17:03:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.22 2002/11/29 16:11:52 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,6 +57,7 @@
 #include "../input/FastTrakModule.h"
 #include "../input/ARTDataTrackerModule.h"
 #include "../input/UltraTrakModule.h"
+#include "../common/GroupGateModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -179,5 +180,9 @@ void OPENTRACKER_API initializeContext( Context & context )
 
     UltraTrakModule * ultra = new UltraTrakModule;
     context.addFactory( * ultra );
-    context.addModule( "UltraTrakConfig", *ultra );    
+    context.addModule( "UltraTrakConfig", *ultra );
+
+	GroupGateModule * groupgate = new GroupGateModule();
+    context.addFactory( * groupgate );
+    context.addModule( "GroupGateConfig", *groupgate ); 
 }
