@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.45 2002/03/26 14:02:45 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.46 2002/06/14 09:33:00 flo Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?">
@@ -229,6 +229,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT MergeTime ((%EventNodes;)+)>
 <!ELEMENT MergeConfidence ((%EventNodes;)+)>
 <!ELEMENT Merge (MergeDefault?, MergePosition?, MergeOrientation?, MergeButton?, MergeTime?, MergeConfidence?)>
+<!ATTLIST Merge
+	DEF ID #IMPLIED
+>
+
 <!-- Confidence Filter Node -->
 <!ELEMENT ConfidenceFilter (%EventNodes;)>
 <!ATTLIST ConfidenceFilter
@@ -413,6 +417,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT Select (%EventNodes;)>
 <!ELEMENT Selection ((Select, (%EventNodes;)) | ((%EventNodes;), Select))>
 <!ATTLIST Selection
+	DEF ID #IMPLIED
 	timeout CDATA "100"
 >
 <!-- File Input / Output Module and node.
