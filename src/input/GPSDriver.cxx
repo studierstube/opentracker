@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.8 2003/04/08 18:59:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.9 2003/04/09 14:11:40 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -48,7 +48,8 @@ int verbose = 0;
 GPSDriver::GPSDriver(ACE_Reactor * reactor_) :
 reactor( reactor_ ),
 receiver( NULL ),
-server( NULL )
+server( NULL ),
+acceptor( NULL )
 {
 	if( NULL == reactor )
 		reactor = ACE_Reactor::instance();
