@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.2 2002/12/12 17:31:02 kaufmann Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,13 @@
  * @page module_ref Module Reference
  * @section speechmodule SpeechModule
  * The SpeechModule provides and drives @ref speechsource nodes that generate
- * sr events.
+ * sr events. The appropriate speech sources are called when a command is
+ * successfully recognised. The sr event is coded in the event translation
+ * field, and the id´s could be resolved via the GetCommand method.
+ * There is a TTS facility integrated into this module, so you could
+ * quickly speak something via TTS and the system standard voice. 
+ * if you want to use TTS with several options use the @ref SpeechVoiceModule
+ * class.
  */
 
 #ifndef _SPEECHMODULE_H
