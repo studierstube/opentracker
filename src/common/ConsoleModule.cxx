@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.31 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.32 2003/06/30 11:49:22 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -699,7 +699,10 @@ void ConsoleModule::start()
 void ConsoleModule::close()
 {
 #ifndef WIN32
-    endwin();
+    if(( sinks.size() > 0 || sources.size() > 0 ) && display != 0 && isInitialized() != 0)
+    {
+        endwin();
+    }
 #endif
 }
 
