@@ -24,10 +24,12 @@
 
 /* Following defines the flavor of UNIX the program should be compiled for.
    Only one of the 3 lines can be used, the others should be commented out. */
-
+#ifdef _SGI_SOURCE
 #define IRIX      /* use SGI-specific serial port configuration */
 /* #define SOLARIS */   /* SUN Solaris OS */
-/* #define LINUX */
+#else
+#define LINUX
+#endif
 #endif
 
 /* Serial port initialization varies for diffent vesions of IRIX operating systems.
@@ -203,7 +205,9 @@ typedef struct
 
 
 /* Returns -1 on failure. To detect tracker automatically specify 0 for commPort */
+#ifdef __cplusplus__
 extern "C" {
+#endif
 
 ISENSE_API ISD_TRACKER_HANDLE ISD_OpenTracker( DWORD commPort, IS_BOOL infoScreen, IS_BOOL verbose );
 
@@ -241,6 +245,8 @@ ISENSE_API IS_BOOL  ISD_SendScript( ISD_TRACKER_HANDLE, char * );
 /* Returns number of configured tracking devices */
 ISENSE_API IS_BOOL  ISD_NumOpenTrackers( WORD * );
 
+#ifdef __cplusplus__
 }
+#endif
 
 #endif

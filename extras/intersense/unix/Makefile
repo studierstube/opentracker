@@ -1,52 +1,46 @@
-#!smake
+
 
 TARGET: default
 
-include /usr/include/make/commondefs
+#include system specific makefile settings
+include ../../../Config.global
+include ../../../Config.site
 
-include $(COMMONRULES)
+# use configuration options to compile these files
+PRVFLAGS = $(OT_OPTIONAL_INC)
 
-TARGETS = ../../../lib/libOpenTracker.a
+TARGETS = $(OT_LIB_DIR)/libOpenTracker.a
 
 HFILES = \
-
+        isdriver.h \
+        isense.h \
+        itcom.h \
+        serial.h \
+        timer.h
+        
 CFILES = \
- isdriver.c \
- isense.c \
- itcom.c \
- serial.c \
- timer.c
+        isdriver.c \
+        isense.c \
+        itcom.c \
+        serial.c \
+        timer.c 
+   
+LCINCS= $(OT_STD_INCLUDES)
 
-LC++OPTS= $(SYS_C++OPTS)
+LCOPTS= $(SYS_COPTS)
 
-# LC++INCS= $(STB_STD_INCLUDES) -I$(STB_SRC_DIR)
-
-LC++OPTS= $(SYS_C++OPTS)
-
-CINC = \
- -I/usr/include/ \
- -Idriver 
-
-LCOPTS = \
- -g3 \
- -nostdinc \
- -mips3 -n32 \
- -MDupdate Makedepend \
- -woff 1685,515,608,658,799,803,852,1048,1233,1499,1178,1174 \
- $(NULL)
-
-COFILES = $(CFILES:.c=.o)
+OBJ = $(CFILES:.c=.o)
 
 LD_QUICKSTART_INFO=
 
-$(CFILES:.c=.o):
-	/usr/bin/CC $(CINC) $(LCOPTS) -o $@ -c $(@:.o=.c)
-
-$(TARGETS): $(OBJ) $(COFILES)
-	ar -cru $(TARGETS) $(COFILES)
+$(TARGETS): $(OBJ)
+	@echo "--- $(TARGETS) ---"
+	ar -cru $(TARGETS) $(OBJ)
 
 update: $(TARGETS)
-	@ar -cru $(TARGETS) $(COFILES)
+	@echo "--- $(TARGETS) (update) ---"
+	ar -cru $(TARGETS) $(OBJ)
 
-default:  update $(TARGETS)
+default: $(TARGETS)
 
+sinclude $(DEPFILES)
