@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-02-22 01:37  tamer
+
+	* lib/lib.txt:
+	
+	now obsolete, as directory is not empty anymore.
+
 2003-02-18 03:12  tamer
 
 	* INSTALL, configure.ac, opentracker_env.sh, cfg/m4/libtool.m4,
