@@ -564,6 +564,8 @@ void ConsoleModule::pullState()
         }
         if( !display )
             return;
+
+#ifndef _WIN32_WCE
 #ifndef WIN32
         move(0,0);            
 #else        
@@ -602,12 +604,25 @@ void ConsoleModule::pullState()
 #else
         printw("%s\n\n", headerline.c_str());
 #endif
+#endif //_WIN32_WCE
+
         for( it = sinks.begin(); it != sinks.end(); it++ )
         {
             ConsoleSink * sink = (ConsoleSink *) *it;
             if( sink->active == 0 )
                 continue;
             State & state = sink->state;
+
+#ifdef USE_MSDEV_DEBUGOUTPUT
+			char str[512];
+			sprintf(str, "%s: pos: %.2f %.2f %.2f   rot: %.2f %.2f %.2f %.2f\n",
+				    sink->comment.c_str(),
+					state.position[0], state.position[1], state.position[2],
+					state.orientation[0], state.orientation[1], state.orientation[2], state.orientation[3]);
+			OutputDebugString(str);
+#endif //USE_MSDEV_DEBUGOUTPUT
+
+#ifndef _WIN32_WCE
 #ifdef WIN32            
             printf("%s\n", sink->comment.c_str());
             printf("  Pos: %6.3f %6.3f %6.3f\n", state.position[0], state.position[1], state.position[2] );
@@ -625,7 +640,8 @@ void ConsoleModule::pullState()
             printw("  Buttons : %hx\n", state.button );
             printw("  Confidence : %f\n", state.confidence );
             printw("  Time : %lf\n\n", state.time );
-#endif            
+#endif
+#endif //_WIN32_WCE
         }   
     }
 }

@@ -97,6 +97,9 @@
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 //#define USE_TINYXML 1
 
+/** umcomment the following line to to direct console output to the MSDev debug console */
+//#define USE_MSDEV_DEBUGOUTPUT 1
+
 /**
  * This define enables the correction of ARToolkit transformation matrices
  * on systems that provide camera images the right way around. ARToolkit seems

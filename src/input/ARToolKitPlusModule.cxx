@@ -401,7 +401,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 void
 ARToolKitPlusModule::artLog(const char* nStr)
 {
-	ACE_DEBUG((LM_INFO, ACE_TEXT(nStr)));
+	LOG_ACE_INFO("ot:%s\n", nStr);
 }
 
 
@@ -421,4 +421,4 @@ ARToolKitPlusModule::artLogEx(const char* nStr, ...)
 } //namespace ot
 
 
-#endif //USE_ARTOOLKITPPC
+#endif //USE_ARTOOLKITPLUS
