@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /I "extras/intersense/win" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /FR /FD /GZ /c
+# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GX /ZI /Od /I "$(XERCESCROOT)/include" /I "$(ACEROOT)" /I "extras/intersense/win" /I "c:/temp/vrlucd/artoolkit/include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -215,6 +215,10 @@ SOURCE=.\src\misc\portio.cxx
 # Begin Source File
 
 SOURCE=.\src\common\SelectionNode.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\serialcomm.cxx
 # End Source File
 # Begin Source File
 
@@ -479,6 +483,10 @@ SOURCE=.\src\core\RefNode.h
 # Begin Source File
 
 SOURCE=.\src\common\SelectionNode.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\serialcomm.h
 # End Source File
 # Begin Source File
 

@@ -26,14 +26,14 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.3 2001/10/21 22:12:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.4 2001/11/22 12:37:30 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "FOBSource.h"
 #include "FOBModule.h"
-#include "../misc/serial.h"
+#include "../misc/serialcomm.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -44,8 +44,6 @@
 #endif
 
 using namespace std;
-
-
 
 /** This class is a datatype helper class for the FOBModule class. It stores 
  * the relevant data for a single bird station and provides buffer storage and
@@ -375,7 +373,7 @@ void FOBModule::run()
             } else { 
                 unlock();
             }
-   //         if( waitforoneSerialPort( &bird->port, 1000 ) < 0 )
+            if( waitforoneSerialPort( &bird->port, 1000 ) < 0 )
             {
                 cout << "FOBModule : error waiting for port\n";
                 break;
@@ -512,7 +510,7 @@ void FOBModule::pushState()
 
 const float Bird::inchesToMeters = 0.0254f;
 
-// convert Bird data to OpenTracker State format
+// convert Bird data in buffer to OpenTracker State format
 void Bird::convert()
 {
     convert( buffer );
@@ -544,30 +542,35 @@ void Bird::convert( const char * data )
 int Bird::open()
 {
     SerialParams params;
- //   initSerialParams( &params );
- //   return openSerialPort( &port, &params );
-return 0;
+    initSerialParams( &params );
+    params.baudrate = 115200;
+    params.parity = 0;
+    params.bits = 8;
+    params.sbit = 1;
+    params.hwflow = 0;
+    params.swflow = 0;
+    params.blocking = 0;
+    return openSerialPort( &port, &params );
 }
 
 int Bird::write( const char * data, int count )
 {
- //   return writetoSerialPort( &port,(char *) data, count );
-return 0;
+    return writetoSerialPort( &port,(char *) data, count );
 }
 
 int Bird::read( char * data, int count )
 {
- //   return readfromSerialPort( &port, data, count );
-return 0;
+    return readfromSerialPort( &port, data, count );
 }
 
 int Bird::close()
 {
- //   return closeSerialPort(&port);
-return 0;
+    return closeSerialPort(&port);
 }
 
 int Bird::reset()
 {
-    return 0;
+    setRTSSerialPort( &port, 1);
+    OSUtils::sleep(100);
+    return setRTSSerialPort( &port, 0);    
 }
