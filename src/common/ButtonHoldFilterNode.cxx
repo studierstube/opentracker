@@ -26,7 +26,7 @@
   *
   * @author Thomas Psik
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonHoldFilterNode.cxx,v 1.1 2003/11/13 09:56:24 tomp Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonHoldFilterNode.cxx,v 1.2 2003/11/13 15:45:37 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,6 +38,8 @@ ButtonHoldFilterNode::ButtonHoldFilterNode( int offDuration_)
 {
 	offDuration = offDuration_;
     init = false;
+	for (int i=0; i< 16; i++) 
+		offCounter[i] = 0;
 } 
 
 // tests the confidence value and only forwards passing events
