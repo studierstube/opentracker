@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.1 2003/06/30 12:30:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.2 2003/07/07 14:36:32 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -263,31 +263,30 @@ void MagicYModule::run()
 				}
 
 				MagicYVector::iterator mY_it;
-				for( mY_it = magicYs.begin(); mY_it != magicYs.end(); mY_it++ )
-				{
-					State & state = (*mY_it)->state;
-					// critical section start, fill state
-					lock();  
-					if ((*mY_it)->average)
-					{
-						state.position[0] = float(average_x);
-						state.position[1] = float(average_y);
-						state.confidence = 1.0f;
-					}
-					else
-					{
-						if((*mY_it)->number >= 0 && (*mY_it)->number < points.size()) 
-						{
-							state.position[0] = float(points[(*mY_it)->number]->x);
-							state.position[1] = float(points[(*mY_it)->number]->y);
-							state.button = points[(*mY_it)->number]->trigger;
-							state.confidence = 1.0f;
-						}
-						else
-						{
-							state.confidence = 0.0f;
-						}
-					}
+                for( mY_it = magicYs.begin(); mY_it != magicYs.end(); mY_it++ )
+                {
+                    State & state = (*mY_it)->state;
+                    // critical section start, fill state
+                    lock();  
+                    if((*mY_it)->number >= 0 && (*mY_it)->number < points.size())
+                    {
+                        if ((*mY_it)->average)
+                        {
+                            state.position[0] = float(average_x);
+                            state.position[1] = float(average_y);
+                            state.confidence = 1.0f;
+                        }
+                        else
+                        {
+                            state.position[0] = float(points[(*mY_it)->number]->x);
+                            state.position[1] = float(points[(*mY_it)->number]->y);
+                            state.button = points[(*mY_it)->number]->trigger;
+                            state.confidence = 1.0f;
+                        }
+                    }
+                    else
+                        state.confidence = 0.0f;
+
 					state.position[2] = z_value;
 
 					correctData(state.position, positionMapping, invertPosition);
