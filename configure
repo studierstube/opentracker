@@ -19559,8 +19559,10 @@ if test "${with_ace+set}" = set; then
   stb_ac_ace_extrapath=$withval
 fi;
 
-if test -z "$stb_ac_ace_extrapath"; then ## search in --prefix
-  stb_ac_ace_extrapath=$prefix/ACE_wrappers
+if test -z "$stb_ac_ace_extrapath"; then
+  stb_ac_ace_extrapath=""
+  stb_ac_ace_cppflags=""
+  stb_ac_ace_ldflags=""
 else
   case "$stb_ac_ace_extrapath" in
     [\\/]* | ?:[\\/]* ) :
@@ -19568,12 +19570,12 @@ else
     * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath
         stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
   esac
+  stb_ac_ace_cppflags="-I$stb_ac_ace_extrapath/"
+  stb_ac_ace_ldflags="-L$stb_ac_ace_extrapath/ace"
 fi
 
 stb_ac_ace_root=$stb_ac_ace_extrapath
 
-stb_ac_ace_cppflags="-I$stb_ac_ace_extrapath/"
-stb_ac_ace_ldflags="-L$stb_ac_ace_extrapath/ace"
 stb_ac_ace_libs="-lACE"
 
 echo "$as_me:$LINENO: checking whether libACE is available" >&5
@@ -19689,8 +19691,10 @@ if test "${with_xerces+set}" = set; then
   stb_ac_xerces_extrapath=$withval
 fi;
 
-if test -z "$stb_ac_xerces_extrapath"; then ## search in --prefix
-  stb_ac_xerces_extrapath=$prefix/lib
+if test -z "$stb_ac_xerces_extrapath"; then
+  stb_ac_xerces_extrapath=
+  stb_ac_xerces_cppflags=
+  stb_ac_xerces_ldflags=
 else
   case "$stb_ac_xerces_extrapath" in
     [\\/]* | ?:[\\/]* ) :
@@ -19698,12 +19702,12 @@ else
     * ) stb_ac_xerces_extrapath="`pwd`/$stb_ac_xerces_extrapath"
         stb_ac_xerces_rpath="-R $stb_ac_xerces_extrapath/lib" ;;
   esac
+  stb_ac_xerces_cppflags="-I$stb_ac_xerces_extrapath/include"
+  stb_ac_xerces_ldflags="-L$stb_ac_xerces_extrapath/lib"
 fi
 
 stb_ac_xerces_root=$stb_ac_xerces_extrapath
 
-stb_ac_xerces_cppflags="-I$stb_ac_xerces_extrapath/include"
-stb_ac_xerces_ldflags="-L$stb_ac_xerces_extrapath/lib"
 stb_ac_xerces_libs="-lxerces-c"
 
 echo "$as_me:$LINENO: checking whether libXerces is available" >&5

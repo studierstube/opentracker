@@ -37,8 +37,10 @@ AC_ARG_WITH([ace],
   AC_HELP_STRING([--with-ace=DIR], [give prefix location of ACE]),
   [stb_ac_ace_extrapath=$withval], [])
 
-if test -z "$stb_ac_ace_extrapath"; then ## search in --prefix
-  stb_ac_ace_extrapath=$prefix/ACE_wrappers
+if test -z "$stb_ac_ace_extrapath"; then
+  stb_ac_ace_extrapath=""
+  stb_ac_ace_cppflags=""
+  stb_ac_ace_ldflags=""
 else
   case "$stb_ac_ace_extrapath" in
     [[\\/]]* | ?:[[\\/]]* ) : 
@@ -46,12 +48,12 @@ else
     * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath
         stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
   esac
+  stb_ac_ace_cppflags="-I$stb_ac_ace_extrapath/"
+  stb_ac_ace_ldflags="-L$stb_ac_ace_extrapath/ace"
 fi
 
 stb_ac_ace_root=$stb_ac_ace_extrapath
 
-stb_ac_ace_cppflags="-I$stb_ac_ace_extrapath/"
-stb_ac_ace_ldflags="-L$stb_ac_ace_extrapath/ace"
 stb_ac_ace_libs="-lACE"
 
 AC_CACHE_CHECK(

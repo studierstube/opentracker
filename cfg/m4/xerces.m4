@@ -37,8 +37,10 @@ AC_ARG_WITH([xerces],
   AC_HELP_STRING([--with-xerces=DIR], [give prefix location of Xerces]),
   [stb_ac_xerces_extrapath=$withval], [])
 
-if test -z "$stb_ac_xerces_extrapath"; then ## search in --prefix
-  stb_ac_xerces_extrapath=$prefix/lib
+if test -z "$stb_ac_xerces_extrapath"; then
+  stb_ac_xerces_extrapath=
+  stb_ac_xerces_cppflags=
+  stb_ac_xerces_ldflags=
 else
   case "$stb_ac_xerces_extrapath" in
     [[\\/]]* | ?:[[\\/]]* ) : 
@@ -46,12 +48,12 @@ else
     * ) stb_ac_xerces_extrapath="`pwd`/$stb_ac_xerces_extrapath"
         stb_ac_xerces_rpath="-R $stb_ac_xerces_extrapath/lib" ;;
   esac
+  stb_ac_xerces_cppflags="-I$stb_ac_xerces_extrapath/include"
+  stb_ac_xerces_ldflags="-L$stb_ac_xerces_extrapath/lib"
 fi
 
 stb_ac_xerces_root=$stb_ac_xerces_extrapath
 
-stb_ac_xerces_cppflags="-I$stb_ac_xerces_extrapath/include"
-stb_ac_xerces_ldflags="-L$stb_ac_xerces_extrapath/lib"
 stb_ac_xerces_libs="-lxerces-c"
 
 AC_CACHE_CHECK(
