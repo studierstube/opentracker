@@ -26,12 +26,15 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.4 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.5 2001/04/16 15:43:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
+
 // a trick to avoid warnings when ace includes the STL headers
+#ifdef WIN32
 #pragma warning(disable:4786)
+#endif
 #include <string>
 
 #include <ace/Thread.h>

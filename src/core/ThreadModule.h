@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.7 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.8 2001/04/16 15:43:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,8 +58,9 @@ class OPENTRACKER_API ThreadModule : public Module
 //members
 protected:
     /// handle to module specific thread. This is a little bit tricky as we
-	/// don't use the ACE definition but the same type.
-	void * thread;
+    /// don't use the ACE definition but the same type.
+   void * thread;
+
     /// Mutex to implement lock, unlock behavior
     ACE_Thread_Mutex * mutex;
         
@@ -80,15 +81,16 @@ protected:
     /** static thread function passed to the actual thread. This calls
      * then run on the right instance. Do not use this yourself. */
     static void thread_func( void * data )
-	{
-		((ThreadModule *)data)->run();
-	};
+    {
+        ((ThreadModule *)data)->run();
+    };
 
 public:
-	/** constructor */
+    /** constructor */
 	ThreadModule();
     /** destructor */
     ~ThreadModule();
+
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. In this implementation it starts the thread. Be

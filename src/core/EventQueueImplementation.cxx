@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.4 2001/04/16 15:43:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,7 +45,7 @@ EventQueueImplementation::~EventQueueImplementation()
 
 State& EventQueueImplementation::getEvent(unsigned int number)
 {
-    if( number >=0 && number < queue.size())
+    if( number < queue.size())
     {
         return *queue[number];
     }

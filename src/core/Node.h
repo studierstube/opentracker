@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.8 2001/04/12 06:41:12 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.9 2001/04/16 15:43:11 reitmayr Exp $
   * @file  
   * @todo add source docu to some methods
   * @todo implement documentation groups for code 
@@ -115,9 +115,9 @@ protected:
 
 	virtual Node * getChild( unsigned int index );
 
-	virtual unsigned int countWrappedChildren( string & name );
+	virtual unsigned int countWrappedChildren( const string & name );
 
-	virtual Node * getWrappedChild( string & name, unsigned int index );
+	virtual Node * getWrappedChild( const string & name, unsigned int index );
 
 	// end tree navigation interface
 

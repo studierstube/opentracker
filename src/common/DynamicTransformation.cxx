@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.6 2001/04/12 06:41:38 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.7 2001/04/16 15:43:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,7 +57,7 @@ DynamicTransformation::DynamicTransformation() : StaticTransformation()
 void DynamicTransformation::onEventGenerated( State& event, Node& generator)
 {
     if( generator.isWrapperNode() == 1 )  // if the event is from the wrapper 
-    {									  // node, its a change to the base.
+    {	                                  // node, its a change to the base.
         for( int i = 0; i < 3; i ++ )
         {
             translation[i] = event.position[i];
@@ -83,13 +83,13 @@ unsigned int DynamicTransformation::countChildren()
 
 Node * DynamicTransformation::getChild( unsigned int index )
 {
-	DOM_NodeList list = parent->getChildNodes();
+    DOM_NodeList list = parent->getChildNodes();
     for( int i = 0; i < list.getLength(); i++ )
-	{
+    {
         if(((Node *)(list.item( i ).getUserData()))->isWrapperNode() == 1 )
             continue;
-		return (Node *)list.item( i ).getUserData();
+        return (Node *)list.item( i ).getUserData();
 
-	}
-	return NULL;
+    }
+    return NULL;
 }

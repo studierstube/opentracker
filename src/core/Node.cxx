@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.5 2001/04/09 15:28:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.6 2001/04/16 15:43:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -112,7 +112,7 @@ Node * Node::getChild( unsigned int index )
 
 // returns number of wrapped children by name
 
-unsigned int Node::countWrappedChildren( string & name )
+unsigned int Node::countWrappedChildren( const string & name )
 {
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
@@ -129,7 +129,7 @@ unsigned int Node::countWrappedChildren( string & name )
 
 // iterates through the children by returning the child by index and name
 
-Node * Node::getWrappedChild( string & name, unsigned int index )
+Node * Node::getWrappedChild( const string & name, unsigned int index )
 {
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
@@ -154,7 +154,7 @@ void Node::updateObservers( State &data )
 {
 	if( isEventGenerator() == 1 || isWrapperNode() == 1 )
 	{
-		DOM_Node & parentElement = parent->getParentNode();
+		const DOM_Node & parentElement = parent->getParentNode();
 		if( parentElement != 0 )
 		{
 			((Node *)parentElement.getUserData())->onEventGenerated( data, *this );
