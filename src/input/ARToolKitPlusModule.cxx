@@ -167,7 +167,10 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 		{
 			maxMarkerId = id;
 			if(bestCFs)
+			{
 				delete bestCFs;
+				bestCFs = NULL;
+			}
 		}
 
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
@@ -206,7 +209,22 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 
 			// we store the ids of all markers in this config...
 			for(int i=0; i<mmConfig->marker_num; i++)
-				sourcesMap.insert(std::make_pair(mmConfig->marker[i].patt_id, source));
+			{
+				int mId = mmConfig->marker[i].patt_id;
+
+				sourcesMap.insert(std::make_pair(mId, source));
+
+				if(mId>maxMarkerId)
+					maxMarkerId = mId;
+			}
+
+			if(bestCFs)
+			{
+				delete bestCFs;
+				bestCFs = NULL;
+			}
+
+			return source;
 		}
 		else
 		{
@@ -383,7 +401,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 		if(tracker.arDetectMarker( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
 			return false;
 	}
-		
+
 
     if( markerNum < 1 )
         return false;
@@ -431,9 +449,10 @@ bool ARToolKitPlusModule::updateARToolKit()
 
 		MarkerIdMap::iterator it = sourcesMap.find(id);
 
-		if(it!=NULL)
-			source = it->second;
+		if(it==sourcesMap.end())
+			continue;
 
+		source = it->second;
 		if(!source)
 			continue;
 
