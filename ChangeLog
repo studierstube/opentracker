@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-26 18:49  reitmayr
+
+	* tools/mirrorpatterns.py:
+	
+	fixed bug with too many spaces in input file
+
 2003-05-23 11:24  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
