@@ -9,6 +9,21 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-13 15:51  flo
+
+	* src/common/ElasticFilterNode.h:
+	
+	added missing documentation
+
+2003-06-13 11:16  reitmayr
+
+	* src/common/ButtonFilterNode.cxx, src/common/ButtonFilterNode.h,
+	src/common/CommonNodeFactory.cxx, data/opentracker.dtd,
+	data/test.xml:
+	
+	added invert operation to buttonfilter, allows to invert single
+	button bits
+
 2003-06-11 17:43  reitmayr
 
 	* src/common/FileModule.cxx, src/common/FileSource.h,
