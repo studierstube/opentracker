@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.4 2001/06/15 21:11:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/Attic/config.h,v 1.5 2001/12/11 13:32:28 splechtna Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,3 +47,7 @@
 /** uncomment the following line to compile support for Wacom Graphire tablet.
   * Support for this is only available on windows. */
 // #define USE_WACOMGRAPHIRE 1
+
+/** uncomment the following line to compile support for Joysticks.
+  * Support for this is only available on windows. */
+// #define USE_JOYSTICK 1
