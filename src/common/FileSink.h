@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileSink.h,v 1.3 2001/08/04 13:26:58 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

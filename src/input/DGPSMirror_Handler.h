@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSMirror_Handler.h,v 1.1 2003/04/08 18:59:59 reitmayr Exp $
+  * $Id$
   *
   * @file                                                                   */
  /* ======================================================================= */

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/VRPNModule.cxx,v 1.1 2004/03/19 08:08:59 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -27,7 +27,7 @@
   * @author Gerhard Reitmayr
   * @todo optimize nodeport test, maybe by implementing special nodeports ?
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.10 2002/02/08 15:55:54 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

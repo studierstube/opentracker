@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.8 2003/05/07 19:36:54 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

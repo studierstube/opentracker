@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechDef.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

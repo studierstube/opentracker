@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.7 2002/01/24 17:31:07 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

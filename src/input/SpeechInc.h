@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechInc.h,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

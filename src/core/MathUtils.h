@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.18 2003/12/13 13:17:19 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.8 2003/03/20 16:36:03 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

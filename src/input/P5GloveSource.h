@@ -26,7 +26,7 @@
   *
   * @author Hannes Kaufmann, Istvan Barakonyi
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/P5GloveSource.h,v 1.1 2003/03/21 14:52:51 kaufmann Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.6 2002/11/29 16:01:47 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

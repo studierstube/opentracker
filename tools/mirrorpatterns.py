@@ -3,7 +3,7 @@
 # overwriting the old version.
 # Usage : python mirrorpatterns.py file1 file2 ...
 # @author Gerhard Reitmayr
-# $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/tools/mirrorpatterns.py,v 1.2 2003/05/26 16:49:17 reitmayr Exp $
+# $Id$
 
 import sys
 

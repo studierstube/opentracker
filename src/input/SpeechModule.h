@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.6 2003/02/07 16:41:58 flo Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

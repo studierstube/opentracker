@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.6 2001/10/21 22:10:56 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

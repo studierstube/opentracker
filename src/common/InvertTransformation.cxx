@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/InvertTransformation.cxx,v 1.1 2001/05/22 08:36:13 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

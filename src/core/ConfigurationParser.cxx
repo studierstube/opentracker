@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.25 2003/12/17 11:21:50 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

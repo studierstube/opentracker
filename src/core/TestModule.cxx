@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.11 2003/08/08 15:17:33 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

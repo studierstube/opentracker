@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ThresholdFilterNode.cxx,v 1.3 2003/06/25 12:33:04 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

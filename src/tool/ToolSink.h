@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/tool/ToolSink.h,v 1.1 2001/11/21 11:46:05 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

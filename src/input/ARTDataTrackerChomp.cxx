@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.9 2003/07/18 17:09:59 tamer Exp $
+* $Id$
 * @file                                                                   */
 /* ======================================================================= */
 

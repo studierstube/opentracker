@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireSource.h,v 1.4 2001/04/18 16:38:18 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MatrixTransformation.cxx,v 1.1 2001/07/23 15:41:24 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

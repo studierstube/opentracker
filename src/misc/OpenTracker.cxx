@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.36 2004/04/19 14:26:45 tomp Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

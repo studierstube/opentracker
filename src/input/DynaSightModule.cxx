@@ -26,7 +26,7 @@
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.cxx,v 1.4 2003/08/14 11:36:34 tamer Exp $
+  * $Id$
   * @file                                                                    */
  /* ======================================================================== */
 

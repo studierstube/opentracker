@@ -26,7 +26,7 @@
   *
   * @author Thomas Psik
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonHoldFilterNode.cxx,v 1.2 2003/11/13 15:45:37 tomp Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

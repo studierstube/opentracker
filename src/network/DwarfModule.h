@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.h,v 1.5 2003/07/30 13:28:24 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.14 2003/11/06 15:46:51 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

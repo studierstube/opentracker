@@ -26,7 +26,7 @@
   *
   * @author Michael Knapp
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GroupGateModule.h,v 1.2 2003/04/28 13:35:53 knapp Exp $
+  * $Id$
   *
   * @file                                                                   */
  /* ======================================================================= */

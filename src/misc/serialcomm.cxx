@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.cxx,v 1.5 2002/09/26 13:56:26 bornik Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

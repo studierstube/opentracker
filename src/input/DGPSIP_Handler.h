@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.6 2003/06/16 13:17:01 reitmayr Exp $
+  * $Id$
   *
   * @file                                                                   */
  /* ======================================================================= */

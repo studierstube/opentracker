@@ -33,7 +33,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/dllinclude.h,v 1.5 2003/01/09 04:14:12 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

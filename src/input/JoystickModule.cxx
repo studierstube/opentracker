@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/JoystickModule.cxx,v 1.4 2003/05/07 18:16:59 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

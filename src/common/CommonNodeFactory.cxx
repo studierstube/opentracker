@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.39 2004/06/01 12:37:29 tomp Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

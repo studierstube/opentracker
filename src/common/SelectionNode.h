@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/SelectionNode.h,v 1.4 2003/07/18 17:27:58 tamer Exp $ 
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

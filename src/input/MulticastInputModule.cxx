@@ -26,7 +26,7 @@
 *
 * @author Thomas Psik
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MulticastInputModule.cxx,v 1.2 2004/05/18 14:36:30 flo Exp $
+* $Id$
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers

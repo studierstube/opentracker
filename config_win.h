@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.6 2004/04/03 13:11:42 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonOpNode.h,v 1.1 2002/02/11 10:41:04 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

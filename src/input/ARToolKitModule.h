@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.29 2003/08/20 00:51:24 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

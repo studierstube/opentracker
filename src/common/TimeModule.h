@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.5 2003/07/18 18:23:25 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

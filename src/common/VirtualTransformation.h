@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.10 2003/05/07 19:36:54 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

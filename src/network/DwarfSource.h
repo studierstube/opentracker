@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSource.h,v 1.4 2004/03/19 08:08:47 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

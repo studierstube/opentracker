@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.11 2003/10/31 15:16:03 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Thomas Psik tomp@ims.tuwien.ac.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/PositionFilterNode.cxx,v 1.1 2004/06/01 12:37:50 tomp Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

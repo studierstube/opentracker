@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/RangeFilterNode.cxx,v 1.1 2003/05/14 11:43:14 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

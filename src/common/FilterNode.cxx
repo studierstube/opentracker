@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo check implementation of quaternion interpolation and document
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.cxx,v 1.5 2003/07/02 07:30:01 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakSource.h,v 1.1 2002/10/31 19:53:06 splechtna Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

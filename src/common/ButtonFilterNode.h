@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.5 2003/11/13 11:51:30 tomp Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

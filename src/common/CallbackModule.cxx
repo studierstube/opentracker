@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CallbackModule.cxx,v 1.6 2003/01/09 04:14:12 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

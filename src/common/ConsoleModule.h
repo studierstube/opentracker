@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.20 2003/07/18 17:17:39 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

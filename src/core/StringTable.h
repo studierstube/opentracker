@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.6 2003/02/18 02:12:51 tamer Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FilterNode.h,v 1.4 2002/12/06 18:01:04 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MulticastInputModule.h,v 1.1 2004/04/19 14:27:39 tomp Exp $
+* $Id$
 * @file                                                                   */
 /* ======================================================================= */
 

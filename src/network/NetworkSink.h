@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.9 2002/11/27 15:06:29 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

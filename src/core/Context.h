@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.17 2003/11/08 15:43:39 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.7 2003/07/18 20:26:46 tamer Exp $
+  * $Id$
   *
   * @file                                                                   */
  /* ======================================================================= */

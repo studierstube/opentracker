@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann ledermann@ims.tuwien.ac.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.h,v 1.5 2003/07/18 17:27:58 tamer Exp $ 
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.4 2003/09/15 12:15:50 reitmayr Exp $
+  * $Id$
   * @file                                                                    */
  /* ======================================================================== */
 

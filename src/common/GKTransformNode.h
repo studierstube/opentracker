@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.h,v 1.2 2003/04/03 15:50:59 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

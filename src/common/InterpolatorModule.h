@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/InterpolatorModule.h,v 1.1 2003/03/24 12:28:46 flo Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

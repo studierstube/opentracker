@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.10 2002/02/05 11:11:53 reitmayr Exp $
+  * $Id$
   * @file                                                                   */
  /* ======================================================================= */
 

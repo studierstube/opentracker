@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.16 2003/07/18 20:26:46 tamer Exp $
+  * $Id$
   *
   * @file                                                                   */
  /* ======================================================================= */
