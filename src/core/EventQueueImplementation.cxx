@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.4 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.5 2001/10/21 22:12:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,7 +47,7 @@ State& EventQueueImplementation::getEvent(unsigned int number)
 {
     if( number < queue.size())
     {
-        return *queue[number];
+        return queue[number];
     }
     return State::null;
 }
@@ -59,7 +59,7 @@ State& EventQueueImplementation::getEventNearTime(double time)
     StateQueue::iterator index = queue.begin();
     while( index != queue.end())
     {
-        if((*index)->time >= time )
+        if((*index).time >= time )
             break;
         index++;
     }
@@ -67,18 +67,18 @@ State& EventQueueImplementation::getEventNearTime(double time)
     {
         if( index == queue.begin() )
         {
-            return *(*index);
+            return (*index);
         }
         StateQueue::iterator pre = index - 1;
-        if( (*pre)->time - time < time - (*index)->time )
+        if( (*pre).time - time < time - (*index).time )
         {
-            return *(*pre);
+            return (*pre);
         } else
         {
-            return *(*index);
+            return (*index);
         }
     }
-    return *queue[queue.size()-1];
+    return queue[queue.size()-1];
 }
 
 // returns the size of the queue
@@ -95,23 +95,23 @@ void EventQueueImplementation::insertAtTime(State& event)
     StateQueue::iterator index = queue.begin();
     while( index != queue.end())
     {
-        if((*index)->time >= event.time )
+        if((*index).time >= event.time )
             break;
         index++;
     }
     if( index != queue.end())
     {
-        if( (*index)->time == event.time )
+        if( (*index).time == event.time )
         {
-            (*index) = &event;
+            (*index) = event;
         }
         else
         {
-            queue.insert( index, &event );
+            queue.insert( index, event );
         }
     }
     else
     {
-        queue.push_back( &event );
+        queue.push_back( event );
     }
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.7 2001/10/21 22:12:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -41,7 +41,7 @@
 
 /** A front and back insert Vector like container, for simple and
  * fast queueing of timestamped events. */
-typedef std::deque<State *> StateQueue;
+typedef std::deque<State> StateQueue;
 
 /**
  * Helper class that implements the EventQueue interface using a STL deque
