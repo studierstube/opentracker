@@ -215,7 +215,7 @@ void GPSModule::pushState()
 
 void GPSModule::start()
 {
-	if( isInitialized() && (source != NULL || dirSource != NULL))
+	if( isInitialized() && (source != NULL || dirSource != NULL || compassSource != NULL || altitudeSource != NULL || infoSource != NULL ))
 	{
 		ThreadModule::start();
 	}
