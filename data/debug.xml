@@ -2,7 +2,7 @@
 <!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
-<?xml-stylesheet type="text/xsl" href="C:\Documents and Settings\reitmayr\My Documents\maxwell\data\maxwell2dot.xsl"?>
+<?xml-stylesheet type="text/xsl" href="P:\cg\dev\opentracker\data\test.xsl"?>
 <OpenTracker>
 	<configuration>
 		<ConsoleConfig headerline="Receiver Test" interval="10"/>

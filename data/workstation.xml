@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by gr (gr) -->
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE TrackerServer SYSTEM "opentracker.dtd">
 <OpenTracker>
