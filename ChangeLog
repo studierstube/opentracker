@@ -9,6 +9,21 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2004-04-19 16:47  tomp
+
+	* data/opentracker.dtd:
+	
+	added MulticastInputModule for MMILU (will probably be removed
+	again)
+
+2004-04-19 16:26  tomp
+
+	* src/: misc/OpenTracker.cxx, input/MulticastInputModule.cxx,
+	input/MulticastInputModule.h, input/MulticastInputSource.h:
+	
+	added MulticastInputModule for MMILU (will probably be removed
+	again)
+
 2004-04-03 15:11  reitmayr
 
 	* config_win.h:
