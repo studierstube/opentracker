@@ -23,9 +23,9 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FileConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase">
@@ -325,4 +325,18 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT Selection ((Select, (%EventNodes;)) | ((%EventNodes;), Select))>
 <!ATTLIST Selection
 	timeout CDATA "100"
+>
+<!-- File Input / Output Module and node.  
+      Right now only a simple sink is implemented, expect more to come -->
+<!ELEMENT File EMPTY>
+<!ATTLIST File
+    file CDATA #REQUIRED
+    io (in|out) "out"
+    id CDATA #REQUIRED
+>
+<!ELEMENT FileConfig (File*)>
+<!ELEMENT FileSink (%EventNodes;)>
+<!ATTLIST FileSink
+    id CDATA #REQUIRED
+    station CDATA "0"
 >

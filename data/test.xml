@@ -7,6 +7,9 @@
 		<NetworkSinkConfig name="Test Server"/>
 		<ConsoleConfig interval="1" headerline="Test Server"/>
 		<TimeConfig sleep="10" display="true"/>
+		<FileConfig>
+			<File file="test.out" id="test.out"/>
+		</FileConfig>
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">
@@ -63,11 +66,16 @@
 		<ConsoleSource number="0"/>
 	</ConsoleSink>
 	<ConsoleSink comment="Selection - use 1 for select, 2 for default input">
-		<Selection timeout="5000" >
+		<Selection timeout="5000">
 			<Select>
 				<ConsoleSource number="1"/>
 			</Select>
-				<ConsoleSource number="2"/>
+			<ConsoleSource number="2"/>
 		</Selection>
+	</ConsoleSink>
+	<ConsoleSink comment="File Sink output">
+		<FileSink id="test.out">
+			<Ref USE="test1"/>
+		</FileSink>
 	</ConsoleSink>
 </OpenTracker>
