@@ -21,7 +21,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.32 2001/11/09 22:07:45 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.33 2001/11/22 12:33:51 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?">
@@ -346,6 +346,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST StbSink
     DEF ID #IMPLIED
     station CDATA #REQUIRED
+    event (on | off) "off"
 >
 <!-- General InterSense source module, will also include InterTrax soon -->
 <!ELEMENT ISTracker EMPTY>
