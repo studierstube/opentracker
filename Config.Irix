@@ -36,7 +36,7 @@ CC	= cc
 CXX	= CC
 LD	= CC
 
-LDSHARED = $(LD) -shared -set_version sgi3.0
+LDSHARED = $(LD) -shared -set_version sgi3.0 -all
 CXXLINK	 = $(CXX)
 LDFLAGS	 = $(LD_SHARED_LIBS) $(LD_LIBS) 
 
@@ -62,15 +62,15 @@ CXXFLAGS = $(CXXWARN) $(CXXOPTS) $(CXXARCH) $(CXXPARMS)
 ## ---------------------------------------------------------------------------
 ##  LIBRARIES TO LINK WITH
 ## ---------------------------------------------------------------------------
-LD_LIBS = \	
+LD_LIBS = \
         -L$(ACE_ROOT)/ace -L$(XERCESC_ROOT)/lib \
         $(OT_OPTIONAL_LIB) \
-	-lACE -l$(XERCESC_LIB) -lcurses -lm        
+        -lACE -l$(XERCESC_LIB) -lcurses -lm
+
 ## ---------------------------------------------------------------------------
 ## EXTRA PARAMETERS TO CREATE SHARED LIB FROM STATIC LIB
 ## ---------------------------------------------------------------------------
-LD_SHARED_LIBS = \
-        -all $(OT_LIB_DIR)/libOpenTracker.a
+LD_SHARED_LIBS = $(OT_LIB_DIR)/libOpenTracker.a
 
 ## ---------------------------------------------------------------------------
 ##  DEPFILES
