@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.5 2003/07/18 17:08:24 tamer Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.h,v 1.6 2003/07/18 17:10:53 tamer Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -158,7 +158,7 @@ public:
 	virtual int getTrackedMarkerNumber();						// return the Number of tracked Markers	
 	virtual int getCalibratedTrackedBodyNumber();				// return the Number of calibrated & tracked Bodies	
 	virtual BodyRecord* getBodyRecord();						// return the BodyRecord
-	virtual void ApushBodyRecord(BodyRecord* bodyrecord);		// push the BodyRecord
+	virtual void pushBodyRecord(BodyRecord* bodyrecord);		// push the BodyRecord
 	virtual MarkerRecord* getMarkerRecord();					// return the MarkerRecord
 	virtual void pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
 };
