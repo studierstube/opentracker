@@ -24,10 +24,9 @@
   * ======================================================================== */
 /** source file for NetworkSourceModule module.
   *
-  * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.12 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.13 2001/04/29 19:50:06 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -123,6 +122,8 @@ void NetworkSourceModule::run( void * data )
     ACE_INET_Addr remoteAddr;
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
+    float help[3][3];
+    
     while(1)
     {
         do
@@ -178,9 +179,25 @@ void NetworkSourceModule::run( void * data )
                     state.button = ntohs( si[2] );
                     memcpy(state.position,&stationdata[size],3*sizeof(float));
                     convertFloatsNToHl(state.position,state.position,3);
-                    size+=3*sizeof(float);                       
-                    memcpy(state.orientation,&stationdata[size],4*sizeof(float));
-                    convertFloatsNToHl(state.orientation,state.orientation,4);
+                    size+=3*sizeof(float); 
+                    switch( format )
+                    {
+                        case positionQuaternion :
+                            memcpy( state.orientation, &stationdata[size], 4*sizeof(float));
+                            convertFloatsNToHl( state.orientation, state.orientation, 4);
+                            break;
+                        case positionAngles :                            
+                            memcpy( help, &stationdata[size], 3*sizeof(float));
+                            convertFloatsNToHl( help[0], help[0], 3);
+                            MathUtils::eulerToQuaternion( help[0][0], help[0][1], help[0][2],
+                                                         state.orientation );
+                            break;
+                        case positionMatrix :
+                            memcpy( help, &stationdata[size], 9*sizeof(float));
+                            convertFloatsNToHl( (float*)help, (float*)help, 9 );
+                            MathUtils::matrixToQuaternion( help, state.orientation );
+                            break;
+                    }
                     (*station)->modified = 1;
                     state.timeStamp();
                     rec->mutex.release();
