@@ -1,3 +1,12 @@
+2004-09-01 16:16:48  Rev 744    reitmayr
+
+	* src/input/P5GloveSource.h: more information
+
+2004-09-01 10:31:06  Rev 743    reitmayr
+
+	* src/input/P5GloveModule.cxx, src/input/P5GloveSource.h, 
+	  src/input/P5GloveModule.h: improved documentation for external users
+
 2004-08-10 13:42:36  Rev 741    reitmayr
 
 	* src/input/DGPSIP_Handler.cxx, src/input/GPSModule.h: fixed 
