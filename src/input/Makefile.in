@@ -178,6 +178,9 @@ otinputinc_HEADERS = \
         GPSDirectionSource.h \
         GPSDriver.h \
         GPS_Handler.h \
+        GPSGarminAltitude.h \
+        GPSGarminCompass.h \
+        GPSInfoSource.h \
         GPSModule.h \
         GPSParser.h \
         GPSSource.h \
@@ -187,7 +190,7 @@ otinputinc_HEADERS = \
         JoystickSource.h \
         MagicYModule.h \
         MagicYSource.h \
-	MulticastInputModule.h \
+        MulticastInputModule.h \
         ParButtonModule.h \
         ParButtonSource.h \
         WacomGraphireModule.h \
@@ -204,7 +207,9 @@ otinputinc_HEADERS = \
         SpeechVoiceModule.h \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        rtcm.h
+        rtcm.h \
+        XSensModule.h \
+        XSensSource.h
 
 
 noinst_LTLIBRARIES = libinput.la
@@ -238,6 +243,7 @@ libinput_la_SOURCES = \
         GPSDriver.h \
         GPS_Handler.cxx \
         GPS_Handler.h \
+        GPSInfoSource.h \
         GPSModule.cxx \
         GPSModule.h \
         GPSParser.cxx \
@@ -252,8 +258,8 @@ libinput_la_SOURCES = \
         MagicYModule.cxx \
         MagicYModule.h \
         MagicYSource.h \
-	MulticastInputModule.cxx \
-	MulticastInputModule.h \
+        MulticastInputModule.cxx \
+        MulticastInputModule.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
@@ -281,7 +287,11 @@ libinput_la_SOURCES = \
         UltraTrakModule.h \
         UltraTrakSource.h \
         rtcm.h \
-        rtcm.cxx
+        rtcm.cxx \
+        XSensModule.cxx \
+        XSensModule.h \
+        XSensSource.cxx \
+        XSensSource.h
 
 subdir = src/input
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -300,7 +310,8 @@ am_libinput_la_OBJECTS = ARTDataTrackerChomp.lo ARTDataTrackerModule.lo \
 	MagicYModule.lo MulticastInputModule.lo ParButtonModule.lo \
 	WacomGraphireModule.lo SpaceMouseModule.lo SpeechCore.lo \
 	SpeechModule.lo SpeechSet.lo SpeechSource.lo SpeechVoice.lo \
-	SpeechVoiceModule.lo UltraTrakModule.lo rtcm.lo
+	SpeechVoiceModule.lo UltraTrakModule.lo rtcm.lo XSensModule.lo \
+	XSensSource.lo
 libinput_la_OBJECTS = $(am_libinput_la_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -332,7 +343,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SpeechVoiceModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/UltraTrakModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/WacomGraphireModule.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/rtcm.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/XSensModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/XSensSource.Plo ./$(DEPDIR)/rtcm.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -409,6 +421,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpeechVoiceModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UltraTrakModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/WacomGraphireModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/XSensModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/XSensSource.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtcm.Plo@am__quote@
 
 .cxx.o:

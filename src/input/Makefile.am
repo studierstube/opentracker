@@ -34,7 +34,7 @@ otinputinc_HEADERS = \
         JoystickSource.h \
         MagicYModule.h \
         MagicYSource.h \
-	    MulticastInputModule.h \
+        MulticastInputModule.h \
         ParButtonModule.h \
         ParButtonSource.h \
         WacomGraphireModule.h \
@@ -101,8 +101,8 @@ libinput_la_SOURCES = \
         MagicYModule.cxx \
         MagicYModule.h \
         MagicYSource.h \
-	    MulticastInputModule.cxx \
-	    MulticastInputModule.h \
+        MulticastInputModule.cxx \
+        MulticastInputModule.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
