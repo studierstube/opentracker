@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.7 2002/11/08 14:17:12 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.8 2002/11/08 14:22:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,6 +39,9 @@
 #else
 #include <iostream.h>
 #endif
+
+// need that to make it work with standard conformind stdc++ libs and older ones
+using namespace std;
 
 class DOMNode;
 class XMLFormatTarget;
