@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.4 2003/07/24 16:46:50 anonymous Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.5 2003/07/27 10:31:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,17 +34,16 @@
 #include "DwarfSource.h"
 #include "DwarfSink.h"
 
+#ifdef USE_DWARF
+
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 
-#define __x86__
-
 #include <DWARF/Service.h>
 #include <DWARF/PoseData.h>
-#include <PoseSender.h>
-#include <corbainit_cpp/corbainit.h>
-#include <debug.h>
+#include <common/cpp/PoseSender.h>
+#include <middleware/helpers/corbainit_cpp/corbainit.h>
 
 using namespace std;
 using namespace DWARF;
@@ -57,86 +56,89 @@ DwarfModule::~DwarfModule()
 
 void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
 {
-    char * argv = "";
-	int argc = 1;
-    myOrbConnection = CorbaInit::initializeOrb( argc, & argv); //parameters here ! 
-                                                 // -Dservicemanager=atbruegge34
-    ServiceManager_var smgr = myOrbConnection->getServiceManager();
-    
-    ServiceDescription_var sd;
-    NeedDescription_var nd;
-    AbilityDescription_var ad;
-    ConnectorDescription_var pd;
-    Attributes_var atd;
-
-    DEBUGSTREAM(10,  "Describing Service");
-    sd=smgr->newServiceDescription(attributes.get("name").c_str());
-    sd->setStartOnDemand(false);
-    sd->setStopOnNoUse(false);
-
-    unsigned int i;
-    for( i = 0;i < localTree->countChildren(); i++)
+    string param = "";
+    // passes the service manager address on to CORBA, if given
+    if( attributes.containsKey("servicemanager") )
     {
-        ConfigNode * child = (ConfigNode*)localTree->getChild(i);
-		StringTable & strTab = child->getAttributes();
-        if( child->getType().compare("ability") == 0)
+        param = "-DserviceManager=";
+        param.append( attributes.get("servicemanager"));
+    }
+    char * argc = (char *) param.c_str();
+    myOrbConnection = CorbaInit::initializeOrb( 1, & argc); 
+    
+    string name = attributes.get("name");
+    // construct and send service description, if required !
+    if( attributes.get("senddescription").compare("true") == 0)
+    {        
+        ServiceManager_var smgr = myOrbConnection->getServiceManager();
+        
+        ServiceDescription_var sd;
+        NeedDescription_var nd;
+        AbilityDescription_var ad;
+        ConnectorDescription_var pd;                
+        
+        sd=smgr->newServiceDescription(name.c_str());
+        sd->setStartOnDemand(false);
+        sd->setStopOnNoUse(false);
+        
+        unsigned int i;
+        for( i = 0;i < localTree->countChildren(); i++)
         {
-            ad = sd->newAbility(strTab.get("name").c_str());
-            ad->setType(strTab.get("type").c_str());
-            
-            thingIdMap[strTab.get("name")] = strTab.get("thingid");
-            thingTypeMap[strTab.get("name")] = strTab.get("thingtype");
-
-            unsigned int j;
-            for( j = 0; j < child->countChildren(); j++)
+            ConfigNode * child = (ConfigNode*)localTree->getChild(i);
+            StringTable & strTab = child->getAttributes();
+            if( child->getType().compare("ability") == 0)
             {
-                ConfigNode * subChild = (ConfigNode *) child->getChild(j);
-				StringTable & strTab = subChild->getAttributes();
-                if( subChild->getType().compare("attribute") == 0)
+                ad = sd->newAbility(strTab.get("name").c_str());
+                ad->setType(strTab.get("type").c_str());
+                
+                thingIdMap[strTab.get("name")] = strTab.get("thingid");
+                thingTypeMap[strTab.get("name")] = strTab.get("thingtype");
+                
+                unsigned int j;
+                for( j = 0; j < child->countChildren(); j++)
                 {
-                    ad->setAttribute(strTab.get("name").c_str(), strTab.get("value").c_str());
+                    ConfigNode * subChild = (ConfigNode *) child->getChild(j);
+                    StringTable & strTab = subChild->getAttributes();
+                    if( subChild->getType().compare("attribute") == 0)
+                    {
+                        ad->setAttribute(strTab.get("name").c_str(), strTab.get("value").c_str());
+                    }
+                    else if( subChild->getType().compare("connector") == 0)
+                    {
+                        pd=ad->newConnector(strTab.get("protocol").c_str());                    
+                    }
                 }
-                else if( subChild->getType().compare("connector") == 0)
+            }		
+            else if( child->getType().compare("need") == 0)
+            {
+                nd = sd->newNeed(strTab.get("name").c_str());
+                nd->setType(strTab.get("type").c_str());
+                nd->setPredicate(strTab.get("predicate").c_str());
+                nd->setDelegated(strTab.get("delegated").c_str());
+                
+                unsigned int j;
+                for( j = 0; j < child->countChildren(); j++)
                 {
-                    pd=ad->newConnector(strTab.get("protocol").c_str());                    
+                    ConfigNode * subChild = (ConfigNode *)child->getChild(j);
+                    StringTable & strTab = subChild->getAttributes();
+                    if( subChild->getType().compare("attribute") == 0)
+                    {
+                        nd->setAttribute(strTab.get("name").c_str(), strTab.get("value").c_str());
+                    }
+                    else if( subChild->getType().compare("connector") == 0)
+                    {
+                        pd=nd->newConnector(strTab.get("protocol").c_str());                    
+                    }
                 }
             }
-        }
-		/*
-        else if( child->getType().compare("need") == 0)
-        {
-            nd = sd->newNeed(child->get("name").c_str());
-            nd->setType(child->get("type").c_str());
-            nd->setPredicate(child->get("predicate").c_str());
-            nd->setDelegated(child->get("delegated").c_str());
- 
-            unsigned int j;
-            for( j = 0; j < child->countChildren(); j++)
-            {
-                ConfigNode * subChild = child->getChild(j);
-                if( subChild->getType().compare("attribute") == 0)
-                {
-                    atd = nd->newAttribute();
-                    atd->setName(subChild->get("name").c_str());
-                    atd->setValue(subChild->get("value").c_str());
-                }
-                else if( subChild->getType().compare("connector") == 0)
-                {
-                    pd=nd->newConnector(subChild->get("protocol").c_str());                    
-                }
-            }
-        }
-		*/
-        else
-            cout << "DwarfModule: got something strange here !\n";
-
+            else
+                cout << "DwarfModule: got something strange here !\n";
+        }        
+        smgr->activateServiceDescription(name.c_str());
     }
 
-    smgr->activateServiceDescription(attributes.get("name").c_str());  
-    
-    service = new PoseSenderService(attributes.get("name").c_str());
-    myOrbConnection->registerService(attributes.get("name").c_str(), service->_this());
-
+    service = new PoseSenderService(name.c_str());
+    myOrbConnection->registerService(name.c_str(), service->_this());
     service->blockUntilRunning();
 
     Module::init( attributes, localTree );
@@ -176,6 +178,7 @@ Node * DwarfModule::createNode( const string& name, StringTable& attributes)
 
 void DwarfModule::pushState()
 {
+    // here we would push new events from any needs/DwarfSources into the graph
 }
 
 void DwarfModule::pullState()
@@ -208,3 +211,5 @@ void DwarfModule::pullState()
         }
     }
 }
+
+#endif // USE_DWARF

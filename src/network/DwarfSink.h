@@ -24,9 +24,9 @@
   * ======================================================================== */
 /** header file for DwarfSink Node.
   *
-  * @author Gerhard Reitmayr
+  * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.3 2003/07/24 15:37:47 anonymous Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.4 2003/07/27 10:31:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,15 +42,15 @@
 #ifndef _DWARFSINK_H
 #define _DWARFSINK_H
 
-#include "../dllinclude.h"
+#include "../OpenTracker.h"
 
-#include "../core/Node.h"
+#ifdef USE_DWARF
 
 /**
  * This class implements a simple source that is fired by its module in 
  * regular intervals and updates any EventObservers.
- * @ingroup core
- * @author Gerhard Reitmayr
+ * @ingroup network
+ * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
  */
 class OPENTRACKER_API DwarfSink : public Node
 {
@@ -101,5 +101,7 @@ public:
 
     friend class DwarfModule;
 };
+
+#endif // USE_DWARF
 
 #endif

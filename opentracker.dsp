@@ -158,6 +158,10 @@ SOURCE=.\src\core\DOMTreeErrorReporter.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\network\DwarfModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\DynamicTransformation.cxx
 # End Source File
 # Begin Source File
@@ -499,6 +503,18 @@ SOURCE=.\src\dllinclude.h
 # Begin Source File
 
 SOURCE=.\src\core\DOMTreeErrorReporter.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\network\DwarfModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\network\DwarfSink.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\network\DwarfSource.h
 # End Source File
 # Begin Source File
 

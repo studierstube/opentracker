@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.32 2003/07/24 15:28:53 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.33 2003/07/27 10:31:35 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -224,8 +224,10 @@ void OPENTRACKER_API initializeContext( Context & context )
     CallbackModule  * cbModule = new CallbackModule;
     context.addFactory( *cbModule );
     context.addModule( "CallbackConfig", *cbModule );
-    
+
+#ifdef USE_DWARF
     DwarfModule * dwarf = new DwarfModule;
     context.addFactory( *dwarf);
     context.addModule( "DwarfConfig", *dwarf );
+#endif
 }

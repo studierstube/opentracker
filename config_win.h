@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.3 2003/05/21 15:07:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.4 2003/07/27 10:32:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,6 +71,14 @@
  *		\n enables Speech Recognition and TextToSpeech support and the @ref speechmodule and
  *      @ref speechrecosource. By default only an empty implementation is present. This
  *      define enables support via the Microsoft SpeechAPI and works only under Windows.
+ * @li @b USE_P5GLOVE
+ *		\n enables support for Essentialreality's P5 glove using the @ref p5glovemodule and
+ *       @ref p5glovesource. Support for this is only available on windows yet. 
+ *       Linux support is under development. 
+ * @li @b USE_DWARF
+ *		\n enables interoperability of DWARF and OpenTracker. Using the @ref dwarfmodule
+ *       allows you configure an OpenTracker process as a DWARF service where @ref 
+ *       dwarfsink act as abilities and @ref dwarfsource act as needs.
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
@@ -113,3 +121,7 @@
 /** uncomment the following line to compile support for Essentialreality's P5 glove.
   * Support for this is only available on windows yet. Linux support is in development.*/
 // #define USE_P5GLOVE 1
+
+/** uncomment the following line to compile support for the DWARF.
+  */
+// #define USE_DWARF 1
