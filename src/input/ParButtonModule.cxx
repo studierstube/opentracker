@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.4 2001/08/14 10:27:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.5 2001/10/04 10:13:46 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -51,6 +51,46 @@ using namespace std;
 #endif
 #endif
 
+/*
+#ifdef WIN32
+#include <Windows.h>
+
+
+void outport(UINT portid, UINT value)
+{
+  __asm mov edx,portid;
+  __asm mov eax,value;
+  __asm out dx,ax;
+}
+void outportb(UINT portid, BYTE value)
+{
+  __asm mov edx,portid
+  __asm mov al,value
+  __asm out dx,al
+}
+
+BYTE inportb(UINT portid)
+{
+  unsigned char value = 0;
+  
+  __asm mov edx,portid
+  __asm in al,dx
+  __asm mov value,al
+  return value;
+}
+
+UINT inport(UINT portid)
+{
+  int value=0;
+  __asm mov edx,portid
+  __asm in ax,dx
+  __asm mov value,eax
+  return value;
+}
+
+#endif
+*/
+
 // This method is called to construct a new Node
 
 Node * ParButtonModule::createNode( const std::string& name,  StringTable& attributes)
@@ -64,16 +104,16 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             return NULL;
         }
 #ifdef WIN32
-        unsigned int addr;
+        UINT addr;
         if( sscanf( dev.c_str(), " %i", &addr ) != 1 )
         {
             cout << "ParButtonModule not an address " << dev << endl;
             return NULL;
         }
-        cout << "address found " << addr << " in " << dev << endl;
         // setting parallel port for input
         outportb(addr, 0x00 );
         outportb(addr+2, 0x20); 
+
         ParButtonSource * source = new ParButtonSource( addr );
 #else
 #ifdef _SGI_SOURCE       
@@ -134,7 +174,7 @@ void ParButtonModule::pushState()
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
 #ifdef WIN32
-        data = inportb( source->handle+1 );
+        data = (~inportb( source->handle )) & 0xff;
         if( data != source->state.button )
         {
             source->state.button = data;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header1$
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.17 2001/10/04 10:13:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -81,6 +81,7 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         {
             cout << "ARToolKit Not a size" << endl;
             return NULL;
+        }
         int id;
         if((id = arLoadPatt((char *)attributes.get("tag-file").c_str() )) < 0 )
         {
@@ -109,7 +110,7 @@ void ARToolKitModule::start()
     
     if( sources.size() <= 0 )
         return;
-    if( arVideoOpen( videomode.c_str() ) < 0 )
+    if( arVideoOpen((char *) videomode.c_str() ) < 0 )
     {
         cout << "Error opening video source !" << endl;
         exit(1);
@@ -137,17 +138,13 @@ void ARToolKitModule::start()
     }
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
-#ifdef __sgi
-    arResampleFlag = 1;
-#else
-    arResampleFlag = 0;
-#endif
     arInitCparam( &cparam );
     
 #ifdef __sgi
     arVideoStart( did );
 #endif                
-    
+
+    arVideoCapStart();
     ThreadModule::start();
     cout << "ARToolKitModule started" << endl;
 }
@@ -164,7 +161,10 @@ void ARToolKitModule::close()
     lock();
     stop = 1;
     unlock();
-    ThreadModule::close();
+    // ThreadModule::close();
+    arVideoCapStop();
+    arVideoClose();
+    cout << "ARToolkit stopped\n";
 }
 
 // pushes events into the tracker tree 
@@ -226,10 +226,9 @@ void ARToolKitModule::run()
 	{
 		return;
 	}
- 
+
     unsigned int count = 0;
     double startTime = OSUtils::currentTime();    
-    
     while(1)
     {
         lock();
@@ -242,7 +241,7 @@ void ARToolKitModule::run()
             unlock();
         }
         grab();
-        
+      
         double s = count/rate - ( OSUtils::currentTime() - startTime );
         if( s >= 10 )
         {
@@ -254,7 +253,6 @@ void ARToolKitModule::run()
     arVideoStop( did );
     arVideoCleanupDevice( did );
 #endif
-    arVideoClose();
 }
 
 // grabs a frame and processes the data 

@@ -42,6 +42,8 @@
 #include <iostream.h>
 #endif
 
+#include <Windows.h>
+
 #include "wintab.h"
 /* What Wintab packet data items we want.  PK_CURSOR identifies which cursor 
   (0-5) generated the packet.  PACKETDATA must be defined before including
