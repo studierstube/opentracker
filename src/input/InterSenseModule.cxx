@@ -217,11 +217,12 @@ void InterSenseModule::pushState()
                 if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES )
                 {
                     float quat[4];
-                    MathUtils::eulerToQuaternion(data->Orientation[2] * MathUtils::GradToRad,
+                    MathUtils::eulerToQuaternion(- data->Orientation[0] * MathUtils::GradToRad,
 		                             data->Orientation[1] * MathUtils::GradToRad,
-									 data->Orientation[0] * MathUtils::GradToRad,								
+									 - data->Orientation[2] * MathUtils::GradToRad,
+                                     MathUtils::YXZ,
                                      quat);
-		            if( quat[0] != source->state.orientation[0] || 
+                    if( quat[0] != source->state.orientation[0] || 
                         quat[1] != source->state.orientation[1] ||
                         quat[2] != source->state.orientation[2] ||
                         quat[3] != source->state.orientation[3] )
