@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.18 2001/10/20 17:23:15 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.19 2001/11/29 12:48:10 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -105,7 +105,6 @@ void ARToolKitModule::start()
 	{
 		return;
 	}
-    int sizeX, sizeY;
     ARParam cparam, wparam;
     
     if( sources.size() <= 0 )
@@ -337,6 +336,16 @@ void ARToolKitModule::grab()
             }
         }
     } 
+}
+
+int ARToolKitModule::getSizeX()
+{
+    return sizeX;
+}
+
+int ARToolKitModule::getSizeY()
+{
+    return sizeY;
 }
 
 unsigned char * ARToolKitModule::getFrame()

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.17 2001/10/20 17:23:15 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.18 2001/11/29 12:48:10 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -78,7 +78,7 @@ class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 protected:
     /// stores the sources
     NodeVector sources;
-    int did;
+    int did, sizeX, sizeY;
     /// treshhold value to use in image processing
     int treshhold;
     /// flag to stop image processing thread
@@ -142,6 +142,10 @@ public:
      * @param localTree pointer to root of configuration nodes tree
      */
     virtual void init(StringTable& attributes, ConfigNode * localTree);
+
+    int getSizeX();
+
+    int getSizeY();
 
     unsigned char * getFrame();
 };
