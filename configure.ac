@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Opentracker], [1.0], [opentracker@studierstube.org])
+AC_INIT([Opentracker], [1.1], [opentracker@studierstube.org])
 
 AC_CONFIG_AUX_DIR(cfg)
 AC_CONFIG_SRCDIR([src/core/Node.cxx])
@@ -7,6 +7,9 @@ AC_CONFIG_SRCDIR([src/core/Node.cxx])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
+
+OT_VERSION="1.1a"
+AC_SUBST([OT_VERSION])
 
 # Checks for programs.
 AC_PROG_CC
@@ -71,10 +74,14 @@ AC_SUBST([stb_ac_xerces_rpath])
 SIM_AC_CONFIGURATION_SETTING([Xerces root directory], [$stb_ac_xerces_root])
 
 # Check for ARToolkit.
+HAVE_FEATURE_ARTOOLKIT=0
+
 STB_AC_HAVE_ARTOOLKIT_IFELSE([], [])
 
 if test x"$stb_ac_artoolkit_avail" = xtrue; then
   AC_DEFINE(USE_ARTOOLKIT, 1, [Enable the use of the ARToolkit library])
+  HAVE_FEATURE_ARTOOLKIT=1
+  AC_SUBST([HAVE_FEATURE_ARTOOLKIT])
 else
   stb_ac_artoolkit_cppflags=
   stb_ac_artoolkit_ldflags=
@@ -90,22 +97,34 @@ AC_SUBST([stb_ac_artoolkit_rpath])
 SIM_AC_CONFIGURATION_SETTING([ARToolkit root directory], [$stb_ac_artoolkit_root])
 
 # Check for the use of the speech recognition
+HAVE_FEATURE_SAPISPEECH=0
+
 AC_ARG_ENABLE([speech],
               AC_HELP_STRING([--enable-speech], [enable the Speech recognition (default=no)]),
               opt_speech=$enable_speech, opt_speech=no)
 if test x"$opt_speech" = xyes; then
   AC_DEFINE(USE_SAPISPEECH, 1, [Enable the use of the speech recognition])
+  HAVE_FEATURE_SAPISPEECH=1
+  AC_SUBST([HAVE_FEATURE_SAPISPEECH])
 fi
 SIM_AC_CONFIGURATION_SETTING([Enable speech recognition], [$opt_speech])
 
 # Check for the use of the joystick
+HAVE_FEATURE_JOYSTICK=0
+
 AC_ARG_ENABLE([joystick],
               AC_HELP_STRING([--enable-joystick], [enable the use of joysticks (default=no)]),
               opt_joystick=$enable_joystick, opt_joystick=no)
 if test x"$opt_joystick" = xyes; then
   AC_DEFINE(USE_JOYSTICK, 1, [Enable the use of joysticks])
+  HAVE_FEATURE_JOYSTICK=1
+  AC_SUBST([HAVE_FEATURE_JOYSTICK])
 fi
 SIM_AC_CONFIGURATION_SETTING([Enable joysticks], [$opt_joystick])
+
+AC_SUBST([LIBS])
+AC_SUBST([CXXFLAGS])
+AC_SUBST([LDFLAGS])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
