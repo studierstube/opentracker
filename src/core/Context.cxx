@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo set attributes on the element in createNode
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.16 2001/08/14 10:27:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.17 2001/11/21 11:43:48 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -106,7 +106,7 @@ void Context::removeModule(Module & module)
     while( it != modules.end())
     {
         if((*it).second == &module )        
-            modules.erase( it );
+            modules.erase( it-- );
         it++;
     }  
 }
