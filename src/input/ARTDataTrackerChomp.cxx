@@ -43,15 +43,12 @@ using namespace std;
 // Destructor method
 
 ARTDataTrackerChomp::~ARTDataTrackerChomp()
-{
-	delete [] tempBodyRecord;
+{	
 }
 
 
-ARTDataTrackerChomp::ARTDataTrackerChomp(int maxBodyNumber_)
-: maxBodyNumber(maxBodyNumber_)
+ARTDataTrackerChomp::ARTDataTrackerChomp()
 {
-	tempBodyRecord = new BodyRecord[maxBodyNumber];
 }
 
 void ARTDataTrackerChomp::chomp(std::string datagramm)
@@ -63,7 +60,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 	{
 		cout << "Error receiving correct Data!!! [#001]" << endl;
 		cout << "Check if Format in ARTTracker Software is set to ASCII !!!" << endl;
-		exit ( -1 );
+		// exit ( -1 );
 	}
 	
 	// get the frame number
@@ -106,7 +103,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 	
 	//-------------------------------
 	// Find if extended Options are used the Number of calibrated Bodies
-	
+	/*
 	positionStart = datagramm.find("6dcal");
 	if (positionStart >= 0)
 	{
@@ -132,12 +129,14 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 		cout << "at [SYSTEM] OutpuNoOf6DTargets=1 !!!!!" << endl;
 		exit ( -1 );
 	}
+    */
 	
 	//-------------------------------
 	
-	for ( i = 0; i < maxBodyNumber; i++)
+    std::map<int, BodyRecord>::iterator it;
+    for ( it = tempBodyRecord.begin(); it != tempBodyRecord.end(); it++)
 	{
-		tempBodyRecord[i].valid = false;
+		((*it).second).valid = false;
 	}
 	
 	positionStart = datagramm.find("6d") + 5;
@@ -156,7 +155,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 		subLength = positionEnd - positionStart;	
 		temp = datagramm.substr(positionStart, subLength);
 		tempChar = temp.c_str();
-		tempBodyRecord[bodieID].quality = atof(tempChar);
+		tempBodyRecord[bodieID].quality = (float)atof(tempChar);
 		positionStart = positionEnd;
 		tempBodyRecord[bodieID].valid = true;
 		
@@ -166,7 +165,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 			subLength = positionEnd - positionStart;	
 			temp = datagramm.substr(positionStart, subLength);
 			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].location[j] = atof(tempChar);
+			tempBodyRecord[bodieID].location[j] = (float)atof(tempChar);
 			positionStart = positionEnd;
 		}
 		
@@ -176,7 +175,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 			subLength = positionEnd - positionStart;	
 			temp = datagramm.substr(positionStart, subLength);
 			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].eulerAngles[j] = atof(tempChar);
+			tempBodyRecord[bodieID].eulerAngles[j] = (float)atof(tempChar);
 			positionStart = positionEnd;
 		}
 		
@@ -186,7 +185,7 @@ void ARTDataTrackerChomp::chomp(std::string datagramm)
 			subLength = positionEnd - positionStart;	
 			temp = datagramm.substr(positionStart, subLength);
 			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].rotationMatrix[j] = atof(tempChar);
+			tempBodyRecord[bodieID].rotationMatrix[j] = (float)atof(tempChar);
 			positionStart = positionEnd;
 		}
 		
@@ -262,9 +261,10 @@ void ARTDataTrackerChomp::displayRecords()
 {
 	// Output
 	cout << "Contens of tempBodyRecord & tempMarkerRecord" << endl;
-	int i;
-	for(i=0; i < maxBodyNumber; i++)
+    std::map<int, BodyRecord>::iterator it;
+    for ( it = tempBodyRecord.begin(); it != tempBodyRecord.end(); it++)
 	{
+        int i = ((*it).first);
 		cout << "Framenumber of Datagramm is: " << frameNumber << endl;
 		cout << "Numer of  Tracked Bodies for 6d: " << numberTrackedBodies << endl;
 		if ( tempBodyRecord[i].valid == true )
@@ -290,6 +290,7 @@ void ARTDataTrackerChomp::displayRecords()
 			cout << "#### No Valid DATA for this Body ####" << endl;
 		}// END else
 	}
+    int i;
 	for(i=0; i < numberTRackedMarkers; i++)
 	{
 		cout << "Numer of Markers for 3d: " << numberTRackedMarkers << endl;
@@ -316,7 +317,7 @@ int ARTDataTrackerChomp::getTrackedBodyNumber()
 	return numberTrackedBodies;
 }
 
-ARTDataTrackerChomp::BodyRecord* ARTDataTrackerChomp::getBodyRecord()
+std::map<int, ARTDataTrackerChomp::BodyRecord > & ARTDataTrackerChomp::getBodyRecord()
 {
 	return tempBodyRecord;
 }
@@ -329,12 +330,6 @@ int ARTDataTrackerChomp::getTrackedMarkerNumber()
 ARTDataTrackerChomp::MarkerRecord* ARTDataTrackerChomp::getMarkerRecord()
 {
 	return tempMarkerRecord;
-}
-
-
-void ARTDataTrackerChomp::pushBodyRecord(ARTDataTrackerChomp::BodyRecord* bodyrecord)
-{
-	tempBodyRecord = bodyrecord;
 }
 
 void ARTDataTrackerChomp::pushMarkerRecord(ARTDataTrackerChomp::MarkerRecord* markerrecord)

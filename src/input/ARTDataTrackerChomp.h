@@ -34,6 +34,7 @@
 #define _ARTDATATRACKERCHOMP_H
 
 #include <string>
+#include <map>
 
 /**
 * Class chomp the received ASCII String (frame) 
@@ -116,21 +117,20 @@ public:
 		float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
 		float position[3];			// Array for the position (location) pushed in the Nodetree
 		bool  valid;				// Flag is true if body is tracked by DTrack
-	} BodyRecord;
+	};
 	
 	typedef struct MarkerRecord     // Structur for the 3d Markers
 	{
 		unsigned long id;			// Marker ID taken from the Datagramm
 		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 		float location[3];			// Array for the loaction of the Body (s0 s1 s2)		
-	} MarkerRecord;
+	};
 
 	int bodieID;
 	int frameNumber;
 	int numberTrackedBodies;
 	int numberTRackedMarkers;
 	int numberTrackedCalBodies;
-	int maxBodyNumber;
 	int i;
 	int j;
 	int endj;
@@ -139,7 +139,7 @@ public:
 	int subLength;
 
 	const char *tempChar;
-	BodyRecord *tempBodyRecord;
+    std::map<int, BodyRecord > tempBodyRecord;
 	MarkerRecord *tempMarkerRecord;
 	std::string temp;
 
@@ -149,7 +149,7 @@ public:
 
 
 public:
-	ARTDataTrackerChomp(int maxBodyNumber);
+	ARTDataTrackerChomp();
     virtual ~ARTDataTrackerChomp();
 	virtual void displayRecords();			// Dsiplay the contens of the RecordArray
 	virtual void chomp(std::string Datagramm);		// Main part that chomp the string
@@ -157,8 +157,7 @@ public:
 	virtual int getTrackedBodyNumber();						// return the Number of tracked Bodies
 	virtual int getTrackedMarkerNumber();						// return the Number of tracked Markers	
 	virtual int getCalibratedTrackedBodyNumber();				// return the Number of calibrated & tracked Bodies	
-	virtual BodyRecord* getBodyRecord();						// return the BodyRecord
-	virtual void pushBodyRecord(BodyRecord* bodyrecord);		// push the BodyRecord
+	virtual std::map<int, BodyRecord > & getBodyRecord();	    // return the BodyRecord
 	virtual MarkerRecord* getMarkerRecord();					// return the MarkerRecord
 	virtual void pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
 };

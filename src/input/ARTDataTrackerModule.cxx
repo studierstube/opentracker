@@ -166,7 +166,7 @@ void ARTDataTrackerModule::run()
 		// call .chomp Method from DataTrackerInstance to bring the received  String into a Record
 		DataTracker->chomp(receiveString);
 		// brings the Record from the ARTDataTrackerChomp class to the BodyRecordTemp Record
-		BodyRecordTemp = DataTracker->getBodyRecord();
+        std::map<int, ARTDataTrackerChomp::BodyRecord> & BodyRecordTemp = DataTracker->getBodyRecord();
 
 		NodeVector::iterator it;
 		
@@ -274,16 +274,8 @@ void ARTDataTrackerModule::pushState()
 void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 {
 	ThreadModule::init( attributes, localTree );
-	int maxbodies;
 	int num;
-    
-	// Scanning maximum Number of Bodies from XML-File
-	num = sscanf(attributes.get("maxbodies").c_str(), " %i", &maxbodies);
-	if (num == 0)
-	{
-		maxbodies = 16;
-	}
-	
+    	
 	// Scannig port number from XML-File
 	num = sscanf(attributes.get("port").c_str(), " %i", &port );
 	if( num == 0 )
@@ -293,5 +285,5 @@ void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	
 	bodyID = 0;		// just to make the compiler happy
 
-	DataTracker = new ARTDataTrackerChomp(maxbodies);
+	DataTracker = new ARTDataTrackerChomp();
 }
