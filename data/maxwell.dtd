@@ -3,10 +3,14 @@
 <!--TrackerServer Configuration file DTD
 	Vienna University of Technology
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
-<!ENTITY % ConfigElements "Network?,Video?">
-<!ENTITY % NodeElements "Station|Transformation|VirtualTransformation|MaxConfidenceFilter|Marker|TestSource">
+
+<!ENTITY % ConfigElements "Network?,Video?,CursesModule?">
+<!ENTITY % NodeElements "Station|Transformation|VirtualTransformation|MaxConfidenceFilter|Marker|TestSource|CursesOutput">
 <!ELEMENT TrackerServer (configuration, (%NodeElements;)+)>
 <!ELEMENT configuration (%ConfigElements;)>
+
+<!-- network sender elements -->
+
 <!ELEMENT Network EMPTY>
 <!ATTLIST Network
 	name CDATA #REQUIRED
@@ -18,6 +22,9 @@
 	name CDATA #REQUIRED
 	number CDATA #REQUIRED
 >
+
+<!-- video source elements -->
+
 <!ELEMENT Video EMPTY>
 <!ATTLIST Video
 	camera-parameter CDATA #REQUIRED
@@ -27,6 +34,9 @@
 	tag-file CDATA #REQUIRED
 	vertex CDATA #REQUIRED
 >
+
+<!-- general transformation elements -->
+
 <!ELEMENT MaxConfidenceFilter (%NodeElements;)+>
 <!ELEMENT Transformation (%NodeElements;)>
 <!ATTLIST Transformation
@@ -42,8 +52,21 @@
 	rotationtype (quaternion | matrix | euler) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
+
+<!-- test source elements -->
+
 <!ELEMENT TestSource EMPTY>
 <!ATTLIST TestSource
 	frequency CDATA "1"
 	offset CDATA "0"
+>
+
+<!-- curses based output elements -->
+<!ELEMENT CursesModule EMPTY>
+<!ATTLIST CursesModule
+        headerline CDATA "" 
+>
+<!ELEMENT CursesOutput (%NodeElements;)>
+<!ATTLIST CursesOutput
+        comment CDATA ""
 >

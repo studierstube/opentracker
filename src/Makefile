@@ -40,6 +40,8 @@ HFILES = \
     TestModule.h \
     TestSource.h \
     DOMTreeErrorReporter.h \
+    CursesModule.h \
+    CursesOutput.h \
     
 C++FILES = \
     CommonNodeFactory.cxx  \
@@ -63,6 +65,8 @@ C++FILES = \
     TestModule.cxx \
     TestSource.cxx \
     DOMTreeErrorReporter.cxx \
+    CursesModule.cxx \
+    CursesOutput.cxx \
 
 OFILES = $(C++FILES:.cxx=.o)
 
@@ -76,7 +80,7 @@ TARGETS = $(PROGRAM)
 
 # Libraries to link with:
 
-LLDLIBS = -L$(ARTOOL_HOME)/lib -L$(XERCES_HOME)/lib -lxerces-c1_2 -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lm -lvl
+LLDLIBS = -L$(ARTOOL_HOME)/lib -L$(XERCES_HOME)/lib -lxerces-c1_2 -lARgsub_n32 -lARvideo_n32 -lAR_n32 -lm -lvl -lcurses
 
 LLDOPTS =  -no_prelink 
 

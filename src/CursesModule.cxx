@@ -43,6 +43,7 @@
 #include <iostream.h>
 #endif
 #include <curses.h>
+#include <unistd.h>
 //@END_USER2
 
 
@@ -81,13 +82,14 @@ TreeNode* CursesModule::createNode(char* const name, StringMap& attributes)
     std::string strName( name );
     if( strName.compare("CursesOutput") == 0 )        
     {
-        CursesOutput output = new CursesOutput( attributes["comment"] );
-        cout << "Build output node" << endl;        
+        CursesOutput * output = new CursesOutput((char *) attributes["comment"] );
+	// cout << "Build output node" << endl;
+        nodes.push_back( output );
+	return output;
     }
     return NULL;
 
 }//@CODE_7218
-
 
 /*@NOTE_7221
 after the update cycle. Any conclusion is done here. See update for more
@@ -99,31 +101,33 @@ void CursesModule::endUpdate()
         return;
     
     // clear the screen and write header info
-    clear();
+    // clear();
     move(1,1);
-    printw("%s\n",headerLine);
+    printw("%s\n\n",headerLine);
     for( CursesOutputVector::iterator it = nodes.begin(); it != nodes.end(); it ++)
     {
 	CursesOutput * output = (*it);
 	State * state = output->getState();
-        printw("%s : ",output->getComment());
+        printw(" %s : ",output->getComment());
         if( state != NULL )
         {
             printw((state->isValid)?("Valid\n"):("Invalid\n"));
             printw("  Pos : %f %f %f\n",state->position[0], 
-                   state.position[1], state->position[2]);
+                   state->position[1], state->position[2]);
             printw("  Rot : %f %f %f %f\n", state->orientation[0], 
-                   state.orientation[1], state->orientation[2],
-                   state.orientation[3] );
-            printw("  Buttons : %si\n", state->button );
+                   state->orientation[1], state->orientation[2],
+                   state->orientation[3] );
+            printw("  Buttons : %hx\n", state->button );
             printw("  confidence : %f\n", state->confidence );
         }
         else
         {
-            printw("NULL !");    
+            printw("NULL !\n");    
         }
         printw("\n");
     }
+    printw("Press any key to stop");
+    refresh();
 }//@CODE_7221
 
 
@@ -142,10 +146,10 @@ void CursesModule::init(StringMap& attributes, const TreeNode* localTree)
     intrflush(stdscr,FALSE);
     keypad(stdscr,TRUE);
     nodelay(stdscr, TRUE);
-    leaveok(stdscr, TRUE);                     //switch off the cursor display
+    leaveok(stdscr, TRUE);                    //switch off the cursor display
 
     // set the headerline from the configuration file
-    headerLine = attributes["headerline"];
+    headerLine = (char *)attributes["headerline"];
 }//@CODE_7222
 
 

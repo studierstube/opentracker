@@ -173,11 +173,11 @@ TreeNode* ConfigurationParser::parseConfigurationFile(const char* filename)
         if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
     	    DOM_Element configElement = (DOM_Element &)list.item(i);
-	        StringMap * attributes = parseElement( configElement );
+	    StringMap * attributes = parseElement( configElement );
             
-            cout << "config for " << configElement.getTagName().transcode() << endl;
+	    cout << "config for " << configElement.getTagName().transcode() << endl;
             
-	        if( modules.find(configElement.getTagName().transcode()) != modules.end())
+	    if( modules.find(configElement.getTagName().transcode()) != modules.end())
             {
    	            modules[configElement.getTagName().transcode()]->init( *attributes, NULL );
     	    }

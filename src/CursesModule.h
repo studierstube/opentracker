@@ -64,7 +64,7 @@ private:
     void DestructorInclude();
 
 protected:
-
+ 
 public:
     virtual ~CursesModule();
     virtual void close();

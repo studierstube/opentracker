@@ -134,7 +134,8 @@ TreeNode* NetworkDriver::createNode(char* const name, StringMap& attributes)
         }
         Station * station = new Station( stationNumber, attributes["name"] );
         stations.push_back( station );
-        cout << "Build station " << station->getName() << endl;
+
+	cout << "Build station " << station->getName() << endl;
         return station;        
     }
     return NULL;               

@@ -61,6 +61,10 @@ Context::Context() //@INIT_4782
     addFactory( *test );
     // actually it doesn't have a configuration element
     addModule( "Test", *test );
+
+    CursesModule * output = new CursesModule;
+    addFactory( *output );
+    addModule( "CursesModule", *output );
     
 }//@CODE_4782
 
