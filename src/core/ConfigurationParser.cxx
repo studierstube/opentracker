@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.11 2001/05/28 15:23:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.12 2001/06/13 17:09:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -86,12 +86,12 @@ ConfigNode * ConfigurationParser::buildConfigTree( DOM_Element & element )
     string tagName = element.getTagName().transcode();
     ConfigNode * config = new ConfigNode( tagName, &map );
 	config->setParent( element );
-    DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
+    DOM_NodeList list = element.getChildNodes();
     for( int i = 0; i < list.getLength(); i ++ )
     {
         if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
-            DOM_Element childElement = (DOM_Element&)list.item(i);
+            DOM_Element childElement = (const DOM_Element &)list.item(i);
             ConfigNode * child = buildConfigTree( childElement );      
         }
     }
@@ -132,12 +132,12 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
             references[map.get("DEF")] = value;
             cout << "Storing Reference " << map.get("DEF") << endl;
         }
-        DOM_NodeList list = (DOM_NodeList &)element.getChildNodes();
+        DOM_NodeList list = element.getChildNodes();
         for( int i = 0; i < list.getLength(); i ++ )
         {
             if( list.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
             {
-                DOM_Element childElement = (DOM_Element&)list.item(i);
+                DOM_Element childElement = (const DOM_Element &)list.item(i);
                 Node * childNode = buildTree( childElement );
             }
         }
@@ -195,13 +195,13 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     cout << "parsing configuration section" << endl;
 
     // parse configuration elements subelements
-    DOM_Element config = (DOM_Element &)list.item(0);
+    DOM_Element config = (const DOM_Element &)list.item(0);
     DOM_NodeList configlist = (DOM_NodeList)config.getChildNodes();
     for( int i = 0; i < configlist.getLength(); i ++ )
     {
         if( configlist.item(i).getNodeType() == DOM_Node::ELEMENT_NODE )
         {
-            DOM_Element configElement = (DOM_Element &)configlist.item(i);
+            DOM_Element configElement = (const DOM_Element &)configlist.item(i);
             StringTable & attributes = parseElement( configElement );
             string tagName = configElement.getTagName().transcode();
 			ConfigNode * base = new ConfigNode( tagName, & attributes );
@@ -214,7 +214,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             {
                 if( nodelist.item(j).getNodeType() == DOM_Node::ELEMENT_NODE )
                 {        
-                    DOM_Element element = (DOM_Element &)nodelist.item(j);                    
+                    DOM_Element element = (const DOM_Element &)nodelist.item(j);                    
                     ConfigNode * child = buildConfigTree( element );              
                 }
             }	
@@ -232,13 +232,13 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     DOM_NodeList rootlist = (DOM_NodeList)root.getChildNodes();
 	Node * node = new Node();
 	node->setParent( root );
-    for( i = 0; i < rootlist.getLength(); i++ )
+    for(int i = 0; i < rootlist.getLength(); i++ )
     {
         if( rootlist.item(i).getNodeType() != DOM_Node::ELEMENT_NODE )   // not an element node !
         {
             continue;
         }
-        DOM_Element element = (DOM_Element &)rootlist.item(i);
+        DOM_Element element = (const DOM_Element &)rootlist.item(i);
         if( element.getTagName().equals("configuration" ))    // the configuration element, allready handled
         {
             continue;
@@ -256,7 +256,7 @@ StringTable & ConfigurationParser::parseElement( DOM_Element& element)
     DOM_NamedNodeMap map = element.getAttributes();
     for( int i = 0; i < map.getLength(); i++ )
     {
-        DOM_Attr attribute = (DOM_Attr &)map.item( i );
+        DOM_Attr attribute = (const DOM_Attr &)map.item( i );
         value->put( attribute.getName().transcode(), attribute.getValue().transcode());
     }
     return *value;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.8 2001/05/28 15:23:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.9 2001/06/13 17:09:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -145,7 +145,7 @@ unsigned int Node::countWrappedChildren( const string & name )
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
+		DOM_Element wrapElement = (const DOM_Element &) list.item(0);
 		Node * wrapper = (Node *)wrapElement.getUserData();
 		if( wrapper->isWrapperNode() == 1 )
 		{
@@ -162,7 +162,7 @@ Node * Node::getWrappedChild( const string & name, unsigned int index )
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
+		DOM_Element wrapElement = (const DOM_Element &) list.item(0);
 		Node * wrapper = (Node *)wrapElement.getUserData();
 		if( wrapper->isWrapperNode() == 1 )
 		{

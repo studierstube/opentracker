@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.11 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.12 2001/06/13 17:09:06 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -181,7 +181,8 @@ void NetworkSinkModule::pullState()
     if( nodes.size() == 0 )
         return;
     // clear the network buffers
-    for( GroupVector::iterator gr_it = groups.begin(); gr_it != groups.end(); gr_it++ )
+    GroupVector::iterator gr_it;
+    for( gr_it = groups.begin(); gr_it != groups.end(); gr_it++ )
     {
         (*gr_it)->data.numOfStations = 0;
         (*gr_it)->nextRecord = ((char *)&(*gr_it)->data) + ntohs((*gr_it)->data.headerLength);
@@ -241,7 +242,7 @@ void NetworkSinkModule::pullState()
         sink->modified = 0;
     }                                           
     // send any non-empty network data buffers
-    for(gr_it = groups.begin(); gr_it != groups.end(); gr_it++ )
+    for( gr_it = groups.begin(); gr_it != groups.end(); gr_it++ )
     {
         if( (*gr_it)->data.numOfStations > 0 )
         {

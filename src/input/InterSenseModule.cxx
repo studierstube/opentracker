@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.3 2001/05/02 15:15:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.4 2001/06/13 17:09:06 reitmayr Exp $
   * @todo optimize compare and copy with mem* calls
   * @todo implement IRIX / Linux version with Stb code
   * @file                                                                   */
@@ -41,8 +41,9 @@
 #else
 #include <iostream.h>
 #endif
+extern "C" {
 #include <isense.h>
-
+}
 // an essential constant
 
 const double GradToRad = 3.141592654 / 180.0;
@@ -89,7 +90,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
             cout << "Error in converting serial port number !" << endl;
             comport = 0;
         }
-        for(ISTrackerVector::iterator it = trackers.begin(); it != trackers.end(); it ++ )
+	ISTrackerVector::iterator it;
+        for(it = trackers.begin(); it != trackers.end(); it ++ )
         {
             if( (*it)->id.compare( id ) == 0 && (*it)->comport == comport )
                 break;
@@ -167,7 +169,8 @@ Node * InterSenseModule::createNode( string& name, StringTable& attributes)
     if( name.compare("InterSenseSource") == 0 )
     {       
         const string & id = attributes.get( "id" );
-        for(ISTrackerVector::iterator it = trackers.begin(); it != trackers.end(); it ++ )
+	ISTrackerVector::iterator it;
+        for(it = trackers.begin(); it != trackers.end(); it ++ )
         {
             if( (*it)->id.compare( id ) == 0 )
                 break;
