@@ -5,12 +5,9 @@
 <?xml-stylesheet type="text/xsl" href="P:\cg\dev\opentracker\data\test.xsl"?>
 <OpenTracker>
 	<configuration>
-		<ConsoleConfig headerline="Receiver Test" interval="10"/>
-		<InterSenseConfig>
-			<ISTracker id="Trax"/>
-		</InterSenseConfig>
+		<ConsoleConfig headerline="Receiver Test" interval="1"/>
 	</configuration>
-	<ConsoleSink comment="Trax">
-		<InterSenseSource id="Trax"/>
+	<ConsoleSink comment="Parallel Button">
+		<ParButtonSource dev="0x378"/>
 	</ConsoleSink>
 </OpenTracker>
