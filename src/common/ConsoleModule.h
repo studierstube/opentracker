@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.10 2001/04/29 16:31:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.11 2001/04/30 10:09:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -66,21 +66,22 @@
  *
  * The following table lists the supported key names :
  * @verbatim
-Name        Key
-down        cursor down
-up          cursor up
-left        cursor left
-right       cursor right
-home        Pos1 ( aka Home )
-end         End
-page_down   page down
-page_up     page up
-backspace   backspace ( <- )
-F0          F0 ( if present )
-F1 .. F12   F1 througth F12          
-insert      Insert
-enter       Enter or Return
-escape      Escape 
+Name            Key
+
+down            cursor down
+up              cursor up
+left            cursor left
+right           cursor right
+home            Pos1 ( aka Home )
+end             End
+page_down       page down
+page_up         page up
+backspace       backspace ( <- )
+F0              F0 ( if present )
+F1 .. F12       F1 througth F12          
+insert          Insert
+enter           Enter or Return
+escape          Escape
 @endverbatim
  * Note that the curses definition where taken from an SGI keyboard and
  * the keycodes returned by the curses library. Only the keypad ( numpad )
@@ -89,12 +90,12 @@ escape      Escape
  * The following table lists all possible functions and their default keys :
  * @verbatim
 Function        Default Key     Description
-Move_X_plus     o               moves in direction X +
-Move_X_minus    l               moves in X -
-Move_Y_plus     p               moves in Y +
-Move_Y_minus    ö               moves in Y -
-Move_Z_plus     ü               moves in Z +
-Move_Z_minus    ä               moves in Z -
+Move_X_plus     up              moves in direction X +
+Move_X_minus    down            moves in X -
+Move_Y_plus     left            moves in Y +
+Move_Y_minus    right           moves in Y -
+Move_Z_plus     page_up         moves in Z +
+Move_Z_minus    page_down       moves in Z -
 Rot_X_plus      e               rotates positive around X
 Rot_X_minus     d               rotates negative around X
 Rot_Y_plus      r               rotates positive around Y

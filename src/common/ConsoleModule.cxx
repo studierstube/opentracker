@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.14 2001/04/29 16:31:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.15 2001/04/30 10:09:58 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -106,38 +106,6 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
     quit = 0;
     interval = 10;
 
-    // initialize key map
-    keyMap[MOVE_X_PLUS] = 'o';
-    keyMap[MOVE_X_MINUS] = 'l';
-    keyMap[MOVE_Y_PLUS] = 'p';
-    keyMap[MOVE_Y_MINUS] = 'ö';
-    keyMap[MOVE_Z_PLUS] = 'ü';
-    keyMap[MOVE_Z_MINUS] = 'ä';
-    keyMap[ROT_X_PLUS] = 'e';
-    keyMap[ROT_X_MINUS] = 'd';
-    keyMap[ROT_Y_PLUS] = 'r';
-    keyMap[ROT_Y_MINUS] = 'f';
-    keyMap[ROT_Z_PLUS] = 't';
-    keyMap[ROT_Z_MINUS] = 'g';
-    keyMap[ACCELL] = 'y';
-    keyMap[BRAKE] = 'x';
-    keyMap[BUTTON_1] = ' ';
-    keyMap[BUTTON_2] = ',';
-    keyMap[BUTTON_3] = '.';
-    keyMap[BUTTON_4] = '-';
-    keyMap[STATION_0] = '0';
-    keyMap[STATION_1] = '1';
-    keyMap[STATION_2] = '2';
-    keyMap[STATION_3] = '3';
-    keyMap[STATION_4] = '4';
-    keyMap[STATION_5] = '5';
-    keyMap[STATION_6] = '6';
-    keyMap[STATION_7] = '7';
-    keyMap[STATION_8] = '8';
-    keyMap[STATION_9] = '9';
-    keyMap[RESET] = 'w';
-    keyMap[QUIT] = 'q';
-
     // initialize function map and keycode map,
     // if no one has done it yet 
     if( functionMap.size() == 0 )
@@ -176,7 +144,32 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
         // set keymap, this is different for windows and unix ( curses )
 //        keyCodeMap.resize( 20 );
 #ifdef WIN32
-
+        keyCodeMap["down"]  = 0xe050;
+        keyCodeMap["up"]    = 0xe048;
+        keyCodeMap["left"]  = 0xe04b;
+        keyCodeMap["right"] = 0xe04d;
+        keyCodeMap["home"]  = 0xe047;
+        keyCodeMap["backspace"] = 0x0008;
+        keyCodeMap["F0"]    = 0x0000; 
+        keyCodeMap["F1"]    = 0xe03b;
+        keyCodeMap["F2"]    = 0xe03c;
+        keyCodeMap["F3"]    = 0xe03d;
+        keyCodeMap["F4"]    = 0xe03e;
+        keyCodeMap["F5"]    = 0xe03f;
+        keyCodeMap["F6"]    = 0xe040;
+        keyCodeMap["F7"]    = 0xe041;
+        keyCodeMap["F8"]    = 0xe042;
+        keyCodeMap["F9"]    = 0xe043;
+        keyCodeMap["F10"]   = 0xe044;
+        keyCodeMap["F11"]   = 0xe085;
+        keyCodeMap["F12"]   = 0xe086;
+        keyCodeMap["del"]   = 0xe053;
+        keyCodeMap["page_down"] = 0xe051;
+        keyCodeMap["page_up"] = 0xe049;
+        keyCodeMap["end"] = 0xe04f;
+        keyCodeMap["insert"] = 0xe052;
+        keyCodeMap["enter"] = 0x000d;
+        keyCodeMap["escape"] = 0x001b;
 #else        
         // This keycode map reflects my german sgi keyboard !!
         // Not everything makes sense, but it works :)
@@ -208,6 +201,38 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
         keyCodeMap["escape"] = 27;
 #endif
     }
+
+     // initialize key map
+    keyMap[MOVE_X_PLUS] = keyCodeMap["up"];
+    keyMap[MOVE_X_MINUS] = keyCodeMap["down"];
+    keyMap[MOVE_Y_PLUS] = keyCodeMap["left"];
+    keyMap[MOVE_Y_MINUS] = keyCodeMap["right"];
+    keyMap[MOVE_Z_PLUS] = keyCodeMap["page_up"];
+    keyMap[MOVE_Z_MINUS] = keyCodeMap["page_down"];
+    keyMap[ROT_X_PLUS] = 'e';
+    keyMap[ROT_X_MINUS] = 'd';
+    keyMap[ROT_Y_PLUS] = 'r';
+    keyMap[ROT_Y_MINUS] = 'f';
+    keyMap[ROT_Z_PLUS] = 't';
+    keyMap[ROT_Z_MINUS] = 'g';
+    keyMap[ACCELL] = 'y';
+    keyMap[BRAKE] = 'x';
+    keyMap[BUTTON_1] = ' ';
+    keyMap[BUTTON_2] = ',';
+    keyMap[BUTTON_3] = '.';
+    keyMap[BUTTON_4] = '-';
+    keyMap[STATION_0] = '0';
+    keyMap[STATION_1] = '1';
+    keyMap[STATION_2] = '2';
+    keyMap[STATION_3] = '3';
+    keyMap[STATION_4] = '4';
+    keyMap[STATION_5] = '5';
+    keyMap[STATION_6] = '6';
+    keyMap[STATION_7] = '7';
+    keyMap[STATION_8] = '8';
+    keyMap[STATION_9] = '9';
+    keyMap[RESET] = 'w';
+    keyMap[QUIT] = 'q';
 }
 
 // This method is called to construct a new Node.
@@ -265,7 +290,12 @@ void ConsoleModule::pushState()
 #ifdef WIN32
     while( _kbhit() )
     {   
-        key = _getch();        
+        key = _getch();
+        if( key == 0 || key == 0xE0 )
+        {
+            key = 0xE0 << 8;
+            key |= _getch();
+        }
 #else    
     while( (key = getch()) != ERR )
     {
