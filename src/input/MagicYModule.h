@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.1 2003/06/30 12:30:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.2 2003/07/02 07:28:37 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -42,9 +42,10 @@
  * @li @c positionMapping defines mapping of position components (x,y) from MagicY to OpenTracker
  * @li @c invertPosition defines, which components of the position should be inverted
  * @li @c average, when set to 1 the average of all points delivered by the MagicY server is calculated
+ *
  * An example configuration element looks like this:
  * @verbatim
-< MagicYConfig	IP="123.45.67.89"
+<MagicYConfig	IP="123.45.67.89"
 				port="12345"
 				positionMapping="1 0"	
 				invertPosition="0 1"

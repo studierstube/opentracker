@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.h,v 1.1 2002/10/31 19:53:06 splechtna Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.h,v 1.2 2003/07/02 07:28:37 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -44,14 +44,15 @@
  * @li @c invertPosition defines, which components of the position should be inverted
  * @li @c invertOrientation defines, which components of the quaternion should be inverted
  * 0=don't invert 1=invert component
+ *
  * An example configuration element looks like this:
  * @verbatim
-< UltraTrakConfig port="12345"
+<UltraTrakConfig port="12345"
   positionMapping="1 0 2"	
   orientationMapping="2 0 1"
   invertPosition="0 1 1"
   invertOrientation="0 0 0"
-	  />@endverbatim
+/>@endverbatim
  */
 
 #ifndef _ULTRATRAKMODULE_H

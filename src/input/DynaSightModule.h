@@ -26,7 +26,7 @@
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.1 2003/06/30 12:30:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.2 2003/07/02 07:28:36 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -45,8 +45,7 @@
  *
  * An example configuration element looks like this:
  * @verbatim
- <DynaSightConfig device="com1"/>
- @endverbatim
+<DynaSightConfig device="com1"/>@endverbatim
  */
 
 #ifndef _DYNASIGHTMODULE_H

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.6 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.7 2003/07/02 07:28:37 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -195,7 +195,6 @@ void GPSModule::run()
         driver->addListener( dirSource, this );
     if( logFile != NULL )
         driver->addListener( this );
-	driver->addListener( this ); 
 	driver->getReactor()->owner(ACE_Thread::self());
 	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror ) != 0 )
 	{

@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.11 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.12 2003/07/02 07:28:37 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -171,8 +171,13 @@ void GPSDriver::removeClient( DGPSMirror_Handler * client )
 void GPSDriver::new_line( const char * line )
 {
     auto_ptr<GPResult> result((GPResult *)GPSParser::parse(line));
+    // for some messages we use some data on the side 
     if( result->type == GPResult::GPGGA )
+    {
         fix = (((GPGGA *)result.get())->fix > 0);
+        hdop = ((GPGGA *)result.get())->hdop;
+        numsat = ((GPGGA *)result.get())->numsats;
+    }
     std::map<GPSListener *, void *>::iterator it;
     for( it = listeners.begin(); it != listeners.end(); it++ )
         (*it).first->newData( result.get(), line, (*it).second );

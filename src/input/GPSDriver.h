@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.5 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.6 2003/07/02 07:28:37 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -107,6 +107,16 @@ public:
         return fix;
     }
 
+    double getHdop( void )
+    {
+        return hdop;
+    }
+
+    double getNumSat( void )
+    {
+        return numsat;
+    }
+
 protected:
 
 	void send_rtcm( const char * buffer, const int len );
@@ -119,6 +129,8 @@ protected:
 
 	bool debugOn;
     bool fix;
+    double hdop;
+    int numsat;
 
 	std::map<GPSListener *, void *> listeners;
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDirectionSource.h,v 1.2 2003/06/18 11:59:17 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDirectionSource.h,v 1.3 2003/07/02 07:28:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -100,6 +100,7 @@ inline void GPSDirectionSource::newData( const GPResult * res, const char * line
         temp[2] = 0;
         temp[3] = point->trueCourse * MathUtils::GradToRad;
         MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
+        buffer.confidence = 1 / module->driver->getHdop();
         module->unlock();
     }
 }
