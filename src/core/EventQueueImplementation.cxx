@@ -26,13 +26,27 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.5 2001/10/21 22:12:03 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.cxx,v 1.6 2002/11/29 16:01:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "EventQueueImplementation.h"
 
 #include <algorithm>
+
+/** simple functor to compare states with a fixed time */
+struct SameOrAfter {
+	double time;
+
+	SameOrAfter( double time_ ) :
+		time( time_ )
+	{}
+
+	bool operator()( const State & state )
+	{
+		return (state.time >= time);
+	}
+};
 
 // Destructor method.
 
@@ -56,13 +70,7 @@ State& EventQueueImplementation::getEvent(unsigned int number)
 
 State& EventQueueImplementation::getEventNearTime(double time)
 {
-    StateQueue::iterator index = queue.begin();
-    while( index != queue.end())
-    {
-        if((*index).time >= time )
-            break;
-        index++;
-    }
+    StateQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( time ));
     if( index != queue.end())
     {
         if( index == queue.begin() )
@@ -92,13 +100,7 @@ unsigned int EventQueueImplementation::getSize()
 
 void EventQueueImplementation::insertAtTime(State& event)
 {
-    StateQueue::iterator index = queue.begin();
-    while( index != queue.end())
-    {
-        if((*index).time >= event.time )
-            break;
-        index++;
-    }
+    StateQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( event.time ));
     if( index != queue.end())
     {
         if( (*index).time == event.time )

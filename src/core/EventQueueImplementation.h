@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.7 2001/10/21 22:12:03 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/EventQueueImplementation.h,v 1.8 2002/11/29 16:01:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,8 +49,6 @@ typedef std::deque<State> StateQueue;
  * interfaces while others depend on it. The later should derive from this
  * class.
  * @author Gerhard Reitmayr
- * @todo research passing iterators between methods, then implement
- * time base search as a method of its own.
  * @ingroup core
  */
 class OPENTRACKER_API EventQueueImplementation

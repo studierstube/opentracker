@@ -25,8 +25,9 @@
 /** The source file for the basic Node class.
   *
   * @author Gerhard Reitmayr
-  * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.19 2002/09/26 13:56:25 bornik Exp $
+  * 
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.20 2002/11/29 16:01:47 reitmayr Exp $
+  * 
   * @file                                                                   */  
  /* ======================================================================= */
 
