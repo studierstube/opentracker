@@ -9,6 +9,17 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-31 09:55  reitmayr
+
+	* src/: core/ConfigurationParser.cxx, core/ConfigurationParser.h,
+	core/Context.cxx, core/Context.h, core/Node.cxx, core/Node.h,
+	misc/xml/XMLWriter.cxx, misc/xml/XMLWriter.h:
+	
+	fixed Xerces namespace issues in OpenTracker header files.  header
+	files for public classes do not depend on xerces at all anymore !
+	this should help the IRIX version -> Tamer please finish the IRIX
+	stuff.
+
 2003-07-30 15:28  tamer
 
 	* src/network/: DwarfModule.cxx, DwarfModule.h:
