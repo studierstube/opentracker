@@ -59,7 +59,8 @@ WARN_LOGFILE           =
 INPUT                  = ../src \
                          ../config_win.h \
                          contributions.txt \
-                         changes.txt
+                         changes.txt \
+                         intersense.txt
 FILE_PATTERNS          = *.h \
                          *.cxx
 RECURSIVE              = YES
@@ -112,11 +113,11 @@ GENERATE_LATEX         = NO
 LATEX_OUTPUT           = latex
 LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
-COMPACT_LATEX          = NO
+COMPACT_LATEX          = YES
 PAPER_TYPE             = a4wide
 EXTRA_PACKAGES         = 
 LATEX_HEADER           = 
-PDF_HYPERLINKS         = NO
+PDF_HYPERLINKS         = YES
 USE_PDFLATEX           = NO
 LATEX_BATCHMODE        = NO
 #---------------------------------------------------------------------------
@@ -125,7 +126,7 @@ LATEX_BATCHMODE        = NO
 GENERATE_RTF           = NO
 RTF_OUTPUT             = rtf
 COMPACT_RTF            = YES
-RTF_HYPERLINKS         = NO
+RTF_HYPERLINKS         = YES
 RTF_STYLESHEET_FILE    = 
 RTF_EXTENSIONS_FILE    = 
 #---------------------------------------------------------------------------
