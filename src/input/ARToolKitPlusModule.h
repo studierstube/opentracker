@@ -58,9 +58,12 @@ typedef std::map<int,Node*> MarkerIdMap;
 
 class ImageGrabber {
 public:
+	static const char* formatStrings[3];
+
 	enum FORMAT {
-		RGBX8888,
-		LUM8
+		RGBX8888 = 0,
+		RGB565 = 1,
+		LUM8 = 2
 	};
 
 	virtual bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, FORMAT& nFormat) = 0;
@@ -121,11 +124,10 @@ protected:
 
 	void updateSource(Node *source, float cf, ARFloat matrix[3][4]);
 
-
 	ImageGrabber* imageGrabber;
 
 	float trackerNear,trackerFar;
-	ARToolKitPlus::TrackerSingleMarker tracker;
+	ARToolKitPlus::TrackerSingleMarker* tracker;
 	bool idbasedMarkers;
 
 	// implement ARToolKitPlus::Logger
@@ -171,7 +173,9 @@ public:
 
 	void registerImageGrabber(ImageGrabber* nGrabber)  {  imageGrabber = nGrabber;  }
 
-	ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return &tracker;  }
+	ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return tracker;  }
+
+	const char* getARToolKitPlusDescription() const;
 
 	/// Sets a camera device name
 	/**

@@ -44,6 +44,9 @@
 #include "ARToolKitSource.h"
 #include "ARToolKitMultiMarkerSource.h"
 
+#include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
+
+
 #ifdef USE_ARTOOLKITPLUS
 
 using namespace std;
@@ -53,10 +56,11 @@ using namespace std;
 #include <iostream>
 
 
-
-// Destructor method
-
 namespace ot {
+
+
+const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  };
+
 
 
 ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabber(NULL)
@@ -69,8 +73,10 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 
 	trackerNear = 1.0f;
 	trackerFar = 1000.0f;
-	tracker.init(NULL, trackerNear, trackerFar, this);
-	tracker.setThreshold(100);
+
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
+	tracker->init(NULL, trackerNear, trackerFar, this);
+	tracker->setThreshold(100);
 	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 
 	bestCFs = NULL;
@@ -120,10 +126,10 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 		if(undistmode.length())
 		{
 			if(undistmode=="none" || undistmode=="NONE")
-				tracker.setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
+				tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
 			else
 			if(undistmode=="lut" || undistmode=="LUT")
-				tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+				tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 		}
 
 		// see if we have a marker-id field
@@ -151,7 +157,7 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 			if( patternDirectory.compare("") != 0)
 				context->removeDirectory( patternDirectory );
         
-			if((id = tracker.addPattern((char *)filename.c_str() )) < 0 )
+			if((id = tracker->addPattern((char *)filename.c_str() )) < 0 )
 			{
 				LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
 				return NULL;
@@ -199,7 +205,7 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 			return NULL;
 		}
 
-		ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker.arMultiReadConfigFile(filename.c_str());
+		ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker->arMultiReadConfigFile(filename.c_str());
 
 		if(mmConfig)
 		{
@@ -253,7 +259,7 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
         else if( tmpThreshold > 255 )
             tmpThreshold = 255;
     }
-	tracker.setThreshold(tmpThreshold);
+	tracker->setThreshold(tmpThreshold);
 
 	if( attributes.get("flipX").compare("true") == 0 )
 		flipX = true;
@@ -301,14 +307,14 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     if( patternDirectory.compare("") != 0)
         context->removeDirectory( patternDirectory );
 
-	if(!tracker.loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
+	if(!tracker->loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
 	{
 		LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
         initialized = 0;
         return;
 	}
 
-	tracker.activateIdBasedMarkers(idbasedMarkers);
+	tracker->activateIdBasedMarkers(idbasedMarkers);
 
 	initialized = 1;
 }
@@ -348,7 +354,7 @@ bool ARToolKitPlusModule::updateARToolKit()
     int j;
     ARFloat matrix[3][4];
 	int newSizeX, newSizeY;
-	ImageGrabber::FORMAT imgFormat0 = ARToolKitPlus::getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::LUM8,
+	ImageGrabber::FORMAT imgFormat0 = tracker->getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::RGB565,
 						 imgFormat = imgFormat0;
 
 	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
@@ -356,9 +362,9 @@ bool ARToolKitPlusModule::updateARToolKit()
 
 	if(imgFormat!=imgFormat0)
 	{
-		LOG_ACE_ERROR("ot:ARToolkitModule got wrong image format\n");
-		LOG_ACE_ERROR("       (%s instead of %s)\n", imgFormat==ImageGrabber::RGBX8888 ? "RGBX888" : "LUM",
-												 imgFormat0==ImageGrabber::RGBX8888 ? "RGBX888" : "LUM");
+		LOG_ACE_ERROR("ot:ARToolkitPlusModule got wrong image format\n");
+		LOG_ACE_ERROR("       (%s instead of %s)\n", imgFormat==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565",
+													 imgFormat0==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565");
 		return false;
 	}
 
@@ -368,7 +374,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	{
 		sizeX = newSizeX;
 		sizeY = newSizeY;
-		tracker.changeCameraSize(newSizeX, newSizeY);
+		tracker->changeCameraSize(newSizeX, newSizeY);
 	}
 
 
@@ -393,12 +399,12 @@ bool ARToolKitPlusModule::updateARToolKit()
 	//
 	if(useMarkerDetectLite)
 	{
-		if(tracker.arDetectMarkerLite( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
+		if(tracker->arDetectMarkerLite( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 			return false;
 	}
 	else
 	{
-		if(tracker.arDetectMarker( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
+		if(tracker->arDetectMarker( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 			return false;
 	}
 
@@ -425,7 +431,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	for(j=0; j<markerNum; j++)
 	{
 		int id = markerInfo[j].id;
-		if(bestCFs[id]<markerInfo[j].cf)
+		if(id!=-1 && bestCFs[id]<markerInfo[j].cf)
 			bestCFs[id] = markerInfo[j].cf;
 	}
 
@@ -441,6 +447,9 @@ bool ARToolKitPlusModule::updateARToolKit()
 	{
 		int id = markerInfo[j].id;
 		Node* source = NULL;
+
+		if(id==-1)
+			continue;
 
 		// only use a marker if it has the best confidence for its id
 		//
@@ -472,7 +481,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 			source_center[1] = sourceA->center[1];
 			source_size = sourceA->size;
 
-            if(tracker.arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
+            if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
 				updateSource(sourceA, markerInfo[j].cf, matrix);
 		}
 		else
@@ -492,7 +501,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 				ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
 				ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
 
-				if((tracker.arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+				if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
 					updateSource(sourceM, 1.0f, mmConfig->trans);
 
 				processedSources.push_back(source);
@@ -540,7 +549,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 			source_center[1] = source->center[1];
 			source_size = source->size;
 
-            if(tracker.arGetTransMat(&markerInfo[k], source_center, source_size, matrix)>=0)
+            if(tracker->arGetTransMat(&markerInfo[k], source_center, source_size, matrix)>=0)
 				updateSource(source, markerInfo[k].cf, matrix);
         } 
 		else  // marker not found 
@@ -638,6 +647,13 @@ ARToolKitPlusModule::updateSource(Node *node, float cf, ARFloat matrix[3][4])
 #endif
 	state.timeStamp();
 	source->modified = 1;
+}
+
+
+const char*
+ARToolKitPlusModule::getARToolKitPlusDescription() const
+{
+	return tracker->getDescription();
 }
 
 
