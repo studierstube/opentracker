@@ -262,6 +262,10 @@ SOURCE=.\src\input\JoystickModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\LogModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\MagicYModule.cxx
 # End Source File
 # Begin Source File
@@ -711,6 +715,10 @@ SOURCE=.\src\input\JoystickModule.h
 # Begin Source File
 
 SOURCE=.\src\input\JoystickSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\LogModule.h
 # End Source File
 # Begin Source File
 
