@@ -119,13 +119,13 @@ otincdir = $(includedir)/OpenTracker
 
 otmiscxmlincdir = $(otincdir)/misc/xml
 otmiscxmlinc_HEADERS = \
-		XMLWriter.h
+        XMLWriter.h
 
 
 noinst_LTLIBRARIES = libxml.la
 libxml_la_SOURCES = \
-		XMLWriter.cxx \
-		XMLWriter.h
+        XMLWriter.cxx \
+        XMLWriter.h
 
 subdir = src/misc/xml
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs

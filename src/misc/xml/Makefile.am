@@ -4,9 +4,9 @@ include $(top_srcdir)/src/Makefile.common
 
 otmiscxmlincdir = $(otincdir)/misc/xml
 otmiscxmlinc_HEADERS = \
-		XMLWriter.h
+        XMLWriter.h
 
 noinst_LTLIBRARIES = libxml.la
 libxml_la_SOURCES = \
-		XMLWriter.cxx \
-		XMLWriter.h
+        XMLWriter.cxx \
+        XMLWriter.h

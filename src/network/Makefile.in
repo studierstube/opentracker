@@ -119,27 +119,27 @@ otincdir = $(includedir)/OpenTracker
 
 otnetworkincdir = $(otincdir)/network
 otnetworkinc_HEADERS = \
-		Network.h \
-		NetworkSink.h \
-		NetworkSinkModule.h \
-		NetworkSource.h \
-		NetworkSourceModule.h \
-		TCPModule.h \
-		TCPSink.h
+        Network.h \
+        NetworkSink.h \
+        NetworkSinkModule.h \
+        NetworkSource.h \
+        NetworkSourceModule.h \
+        TCPModule.h \
+        TCPSink.h
 
 
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
-		Network.h \
-		NetworkSink.h \
-		NetworkSinkModule.cxx \
-		NetworkSinkModule.h \
-		NetworkSource.h \
-		NetworkSourceModule.cxx \
-		NetworkSourceModule.h \
-		TCPModule.cxx \
-		TCPModule.h \
-		TCPSink.h
+        Network.h \
+        NetworkSink.h \
+        NetworkSinkModule.cxx \
+        NetworkSinkModule.h \
+        NetworkSource.h \
+        NetworkSourceModule.cxx \
+        NetworkSourceModule.h \
+        TCPModule.cxx \
+        TCPModule.h \
+        TCPSink.h
 
 subdir = src/network
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs

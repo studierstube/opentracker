@@ -4,13 +4,13 @@ include $(top_srcdir)/src/Makefile.common
 
 noinst_LTLIBRARIES = libintersense.la
 libintersense_la_SOURCES = \
-		isdriver.c \
-		isdriver.h \
-		isense.c \
-		isense.h \
-		itcom.c \
-		itcom.h \
-		serial.c \
-		serial.h \
-		timer.c \
-		timer.h
+        isdriver.c \
+        isdriver.h \
+        isense.c \
+        isense.h \
+        itcom.c \
+        itcom.h \
+        serial.c \
+        serial.h \
+        timer.c \
+        timer.h

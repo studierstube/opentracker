@@ -6,10 +6,10 @@ SUBDIRS = xml
 
 otmiscincdir = $(otincdir)/misc
 otmiscinc_HEADERS = \
-		serialcomm.h
+        serialcomm.h
 
 noinst_LTLIBRARIES = libmisc.la
 libmisc_la_SOURCES = \
-		OpenTracker.cxx \
-		serialcomm.cxx \
-		serialcomm.h
+        OpenTracker.cxx \
+        serialcomm.cxx \
+        serialcomm.h

@@ -2,11 +2,10 @@
 
 include $(top_builddir)/src/Makefile.common
 
-LIBS = \
-        @CURSES_LIBS@ \
-		@stb_ac_ace_ldflags@ @stb_ac_ace_libs@ \
-		@stb_ac_artoolkit_ldflags@ @stb_ac_artoolkit_libs@ \
-		@stb_ac_xerces_ldflags@ @stb_ac_xerces_libs@
+LIBS =  @CURSES_LIBS@ \
+        @stb_ac_ace_ldflags@ @stb_ac_ace_libs@ \
+        @stb_ac_artoolkit_ldflags@ @stb_ac_artoolkit_libs@ \
+        @stb_ac_xerces_ldflags@ @stb_ac_xerces_libs@
 
 lib_LTLIBRARIES = libOpenTracker.la
 

@@ -119,16 +119,16 @@ otincdir = $(includedir)/OpenTracker
 
 noinst_LTLIBRARIES = libintersense.la
 libintersense_la_SOURCES = \
-		isdriver.c \
-		isdriver.h \
-		isense.c \
-		isense.h \
-		itcom.c \
-		itcom.h \
-		serial.c \
-		serial.h \
-		timer.c \
-		timer.h
+        isdriver.c \
+        isdriver.h \
+        isense.c \
+        isense.h \
+        itcom.c \
+        itcom.h \
+        serial.c \
+        serial.h \
+        timer.c \
+        timer.h
 
 subdir = extras/intersense/unix
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs

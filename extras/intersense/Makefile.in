@@ -119,8 +119,8 @@ otincdir = $(includedir)/OpenTracker
 
 noinst_LTLIBRARIES = libintersense.la
 libintersense_la_SOURCES = \
-		isense.c \
-		isense.h
+        isense.c \
+        isense.h
 
 subdir = extras/intersense
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
