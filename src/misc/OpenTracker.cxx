@@ -8,7 +8,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.2 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.3 2001/03/26 22:45:48 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -32,6 +32,7 @@
 
 // DLL main function
 
+#ifdef WIN32
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
@@ -39,7 +40,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 {
     return TRUE;
 }
-
+#endif
 
 // initializes context
 

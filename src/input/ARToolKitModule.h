@@ -43,7 +43,7 @@
  * the created nodes to update them. It is implemented as a threaded module
  * doing the grabbing and video processing in a separate thread.
  */
-class ARToolKitModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 {
 // members
 protected:

@@ -13,33 +13,30 @@ HFILES = \
         ConfigurationParser.h \
         Context.h \
         DOMTreeErrorReporter.h \
-        EventGenerator.h \
-        EventObserver.h \
         EventQueueImplementation.h \
-        EventQueue.h \
         MathUtils.h \
         Module.h \
         NodeFactoryContainer.h \
         NodeFactory.h \
         Node.h \
+        RefNode.h \
         State.h \
         TestModule.h \
         TestSource.h \
         ThreadModule.h \
-        TimeDependend.h \
-        TreeNode.h \
         WrapperNode.h
         
 C++FILES = \
         ConfigurationParser.cxx \
         Context.cxx \
         DOMTreeErrorReporter.cxx \
-        EventGenerator.cxx \
         EventQueueImplementation.cxx \
         MathUtils.cxx \
         NodeFactoryContainer.cxx \
+        Node.cxx \
+        State.cxx \
         TestModule.cxx \
-        TreeNode.cxx
+        WrapperNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

@@ -35,7 +35,7 @@
 /** An ARToolKitSource represents a single marker that is tracked by the 
  * artoolkit library.
  */
-class ARToolKitSource : public Node, public EventGenerator
+class OPENTRACKER_API ARToolKitSource : public Node
 {
 
 public:
@@ -56,8 +56,7 @@ public:
      * @param vertex_ vertex coordinates of the marker
      */
     ARToolKitSource(int markerId_, double vertex_[4][2]) : 
-        Node(),
-        EventGenerator(),
+        Node(),        
         markerId( markerId_ ),
         modified(0)
     {
@@ -69,19 +68,12 @@ public:
     };
 
     /** tests for EventGenerator interface being present. Is overriden to
-     * return this always.
-     * @return always this */
-    EventGenerator * isEventGenerator()
+     * return 1 always.
+     * @return always 1 */
+    virtual int isEventGenerator()
     {
-        return this;
-    }
-
-    /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator */
-    void push()
-    {
-        updateObservers( state );
-    }
+        return 1;
+    }  
 };
 
 #endif

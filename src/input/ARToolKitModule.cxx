@@ -142,7 +142,7 @@ void ARToolKitModule::pushState()
             source->state = source->buffer;
             source->modified = 0;
             unlock();
-            source->push();
+            source->updateObservers( source->state );
         } else 
         {
             unlock();

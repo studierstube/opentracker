@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.1 2001/03/26 22:11:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/RefNode.h,v 1.2 2001/03/26 22:45:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
