@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.26 2002/08/07 21:23:44 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.27 2002/08/08 06:26:42 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -94,9 +94,6 @@ ConsoleModule::~ConsoleModule()
 #include <curses.h>
 #include <unistd.h>
 #endif
-
-vector<string> ConsoleModule::functionMap;
-//map<string,int> ConsoleModule::keyCodeMap;
 
 // constructor method.
 
@@ -178,6 +175,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 #else        
         // This keycode map reflects my german sgi keyboard !!
         // Not everything makes sense, but it works :)
+	keyCodeMap[string("down")] = 0x1;
         keyCodeMap["down"]  = KEY_DOWN;
         keyCodeMap["up"]    = KEY_UP;
         keyCodeMap["left"]  = KEY_LEFT;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.17 2002/08/07 21:23:44 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.18 2002/08/08 06:26:42 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -251,9 +251,9 @@ public:
     virtual int stop();
 
     // maps the function names in the config file to indices
-    static vector<string> functionMap;
+    std::vector<std::string> functionMap;
     // maps the function key names in the config file to key codes 
-    map<string,int> keyCodeMap;
+    std::map<std::string,int> keyCodeMap;
 
     static const short MOVE_X_PLUS,
       MOVE_X_MINUS,
