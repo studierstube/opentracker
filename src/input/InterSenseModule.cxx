@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.13 2003/03/26 11:55:48 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.14 2003/03/26 17:46:11 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -239,13 +239,13 @@ void InterSenseModule::pushState()
                     if( data->Orientation[0] != source->state.orientation[0] || 
                         data->Orientation[1] != source->state.orientation[1] ||
                         data->Orientation[2] != source->state.orientation[2] ||
-                        data->Orientation[3] != source->state.orientation[3] )
+                        data->Orientation[3] != -source->state.orientation[3] )
                     {
                         changed = 1;
                         source->state.orientation[0] = data->Orientation[0];
                         source->state.orientation[1] = data->Orientation[1];
                         source->state.orientation[2] = data->Orientation[2];
-                        source->state.orientation[3] = data->Orientation[3];
+                        source->state.orientation[3] = -data->Orientation[3];
                     }
                     if( data->Position[0] != source->state.position[0] || 
                         data->Position[1] != source->state.position[1] ||
