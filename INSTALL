@@ -15,7 +15,7 @@ on your system:
 Required packages:
 ------------------
 o Xerces C++ - http://xml.apache.org/xerces-c/index.html
-  (supported version:  2.2.0)
+  (supported version:  2.3.0)
 
 o ACE (The ADAPTIVE Communication Environment) -
   http://www.cs.wustl.edu/~schmidt/ACE.html
