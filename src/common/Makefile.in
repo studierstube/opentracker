@@ -161,6 +161,8 @@ otincdir = $(includedir)/OpenTracker
 otcommonincdir = $(otincdir)/common
 otcommoninc_HEADERS = \
         ButtonFilterNode.h \
+        ButtonHoldFilterModule.h \
+        ButtonHoldFilterNode.h \
         ButtonOpNode.h \
         CallbackModule.h \
         CallbackNode.h \
@@ -200,6 +202,10 @@ noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
         ButtonFilterNode.cxx \
         ButtonFilterNode.h \
+        ButtonHoldFilterModule.cxx \
+        ButtonHoldFilterModule.h \
+        ButtonHoldFilterNode.cxx \
+        ButtonHoldFilterNode.h \
         ButtonOpNode.cxx \
         ButtonOpNode.h \
         CallbackModule.cxx \
@@ -270,8 +276,9 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libcommon_la_LDFLAGS =
 libcommon_la_LIBADD =
-am_libcommon_la_OBJECTS = ButtonFilterNode.lo ButtonOpNode.lo \
-	CallbackModule.lo CommonNodeFactory.lo ConfidenceFilterNode.lo \
+am_libcommon_la_OBJECTS = ButtonFilterNode.lo ButtonHoldFilterModule.lo \
+	ButtonHoldFilterNode.lo ButtonOpNode.lo CallbackModule.lo \
+	CommonNodeFactory.lo ConfidenceFilterNode.lo \
 	ConfidenceSelectNode.lo ConsoleModule.lo \
 	DynamicTransformation.lo ElasticFilterNode.lo \
 	EllipsoidTransformNode.lo EventQueueNode.lo FileModule.lo \
@@ -287,6 +294,8 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ButtonFilterNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ButtonHoldFilterModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ButtonHoldFilterNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ButtonOpNode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/CallbackModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/CommonNodeFactory.Plo \
@@ -364,6 +373,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ButtonFilterNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ButtonHoldFilterModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ButtonHoldFilterNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ButtonOpNode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CallbackModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CommonNodeFactory.Plo@am__quote@
