@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.5 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.6 2004/02/10 15:15:07 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -113,7 +113,7 @@ void SpeechSetBase::AddCommand(const char *p_Command, DWORD p_CommandId, float p
   if(IsCommandRegistered(p_Command))
     return;
 
-  if(p_CommandId == -1)
+  if((int)p_CommandId == -1)
     p_CommandId = m_RegisteredCommands.size() + 1;
 
   SSpeechCommand command;
