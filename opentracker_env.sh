@@ -2,7 +2,7 @@
 
 ###
 # Author:
-#     Tamer Fahmy <tamer@tammura.at>
+#     Tamer Fahmy <tamer@ims.tuwien.ac.at>
 #
 # Description:
 #     sets the environment for the libs Opentracker depends on

@@ -104,28 +104,28 @@ INCLUDES = -I$(top_srcdir)/src @CURSES_INCLUDEDIR@ \
            -I$(top_srcdir)/extras/intersense/unix/
 
 
-noinst_PROGRAMS = main test
+noinst_PROGRAMS = opentracker ottest
 
-main_SOURCES = $(top_srcdir)/src/misc/main.cxx
-main_LDADD = $(top_builddir)/lib/libOpenTracker.la @stb_ac_ace_libs@ @stb_ac_xerces_libs@ @stb_ac_artoolkit_libs@
-main_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldflags@ @stb_ac_artoolkit_ldflags@
+opentracker_SOURCES = $(top_srcdir)/src/misc/main.cxx
+opentracker_LDADD = $(top_builddir)/lib/libOpenTracker.la @stb_ac_ace_libs@ @stb_ac_xerces_libs@ @stb_ac_artoolkit_libs@
+opentracker_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldflags@ @stb_ac_artoolkit_ldflags@
 
-test_SOURCES = $(top_srcdir)/src/misc/test.cxx
-test_LDADD = $(top_builddir)/lib/libOpenTracker.la @stb_ac_ace_libs@ @stb_ac_xerces_libs@ @stb_ac_artoolkit_libs@
-test_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldflags@ @stb_ac_artoolkit_ldflags@
+ottest_SOURCES = $(top_srcdir)/src/misc/test.cxx
+ottest_LDADD = $(top_builddir)/lib/libOpenTracker.la @stb_ac_ace_libs@ @stb_ac_xerces_libs@ @stb_ac_artoolkit_libs@
+ottest_LDFLAGS = -L$(top_builddir)/lib @stb_ac_ace_ldflags@ @stb_ac_xerces_ldflags@ @stb_ac_artoolkit_ldflags@
 subdir = bin
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-noinst_PROGRAMS = main$(EXEEXT) test$(EXEEXT)
+noinst_PROGRAMS = opentracker$(EXEEXT) ottest$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
-am_main_OBJECTS = main.$(OBJEXT)
-main_OBJECTS = $(am_main_OBJECTS)
-main_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
-am_test_OBJECTS = test.$(OBJEXT)
-test_OBJECTS = $(am_test_OBJECTS)
-test_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
+am_opentracker_OBJECTS = main.$(OBJEXT)
+opentracker_OBJECTS = $(am_opentracker_OBJECTS)
+opentracker_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
+am_ottest_OBJECTS = test.$(OBJEXT)
+ottest_OBJECTS = $(am_ottest_OBJECTS)
+ottest_DEPENDENCIES = $(top_builddir)/lib/libOpenTracker.la
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -144,9 +144,9 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXFLAGS = @CXXFLAGS@
-DIST_SOURCES = $(main_SOURCES) $(test_SOURCES)
+DIST_SOURCES = $(opentracker_SOURCES) $(ottest_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(main_SOURCES) $(test_SOURCES)
+SOURCES = $(opentracker_SOURCES) $(ottest_SOURCES)
 
 all: all-am
 
@@ -165,13 +165,13 @@ clean-noinstPROGRAMS:
 	  rm -f $$p $$f ; \
 	done
 main.$(OBJEXT): $(top_srcdir)/src/misc/main.cxx
-main$(EXEEXT): $(main_OBJECTS) $(main_DEPENDENCIES) 
-	@rm -f main$(EXEEXT)
-	$(CXXLINK) $(main_LDFLAGS) $(main_OBJECTS) $(main_LDADD) $(LIBS)
+opentracker$(EXEEXT): $(opentracker_OBJECTS) $(opentracker_DEPENDENCIES) 
+	@rm -f opentracker$(EXEEXT)
+	$(CXXLINK) $(opentracker_LDFLAGS) $(opentracker_OBJECTS) $(opentracker_LDADD) $(LIBS)
 test.$(OBJEXT): $(top_srcdir)/src/misc/test.cxx
-test$(EXEEXT): $(test_OBJECTS) $(test_DEPENDENCIES) 
-	@rm -f test$(EXEEXT)
-	$(CXXLINK) $(test_LDFLAGS) $(test_OBJECTS) $(test_LDADD) $(LIBS)
+ottest$(EXEEXT): $(ottest_OBJECTS) $(ottest_DEPENDENCIES) 
+	@rm -f ottest$(EXEEXT)
+	$(CXXLINK) $(ottest_LDFLAGS) $(ottest_OBJECTS) $(ottest_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
