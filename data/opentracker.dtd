@@ -5,8 +5,8 @@
 	Gerhard Reitmayr reitmayr@cg.tuwien.ac.at-->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?">
-<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Merge | Ref">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,ConsoleInputConfig?">
+<!ENTITY % EventNodes "NetworkSink | EventTransformation | EventVirtualTransformation | ARToolKitSource | TestSource | NetworkSource | EventQueue | ConsoleSink | InterTraxSource | Merge | Ref | ConsoleSource">
 <!ENTITY % QueueNodes "QueueTransformation | QueueVirtualTransformation | EventQueue | Ref">
 <!ENTITY % TimeNodes "TimeTransformation | TimeVirtualTransformation | Ref">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
@@ -138,6 +138,18 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST ConsoleSink
 	DEF ID #IMPLIED
 	comment CDATA ""
+>
+<!--Keyboard input from a console-->
+<!ELEMENT KeyDefinition EMPTY>
+<!ATTLIST KeyDefinition
+	name CDATA #REQUIRED
+	key CDATA #REQUIRED
+>
+<!ELEMENT ConsoleInputConfig (KeyDefinition*)>
+<!ELEMENT ConsoleSource EMPTY>
+<!ATTLIST ConsoleSource
+	DEF ID #IMPLIED
+	number CDATA #REQUIRED
 >
 <!-- Intertrax source elements -->
 <!ELEMENT InterTraxSource EMPTY>
