@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.6 2001/04/01 13:22:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.7 2001/04/04 08:30:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -88,6 +88,8 @@ protected:
 public:
     /** constructor method. Initalizes the wrapperNodes array.*/
     CommonNodeFactory();
+    /** destructor */
+    virtual ~CommonNodeFactory();
     /** creates the described node types.
      * @param name reference to string containing element name
      * @param attributes reference to StringMap of elements attribute values

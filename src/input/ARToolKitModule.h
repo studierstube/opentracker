@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.7 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.8 2001/04/04 08:30:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -88,10 +88,8 @@ public:
     ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0)
     {};
     /// destructor method
-    virtual ~ARToolKitModule()
-    {
-        sources.clear();
-    }
+    virtual ~ARToolKitModule();
+
     /** This method is called to construct a new Node. It compares
      * name to the ARToolKitSource element name, and if it matches
      * creates a new ARToolKitSource node.

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.8 2001/04/03 21:44:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.9 2001/04/04 08:30:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,6 +55,11 @@ CommonNodeFactory::CommonNodeFactory()
     wrapperNodes.push_back("MergeTime");
     wrapperNodes.push_back("MergeDefault");
     wrapperNodes.push_back("TransformBase");
+}
+
+CommonNodeFactory::~CommonNodeFactory()
+{
+    wrapperNodes.clear();
 }
 
 int CommonNodeFactory::parseVector(const string & line, float * val )

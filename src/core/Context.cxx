@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.6 2001/04/03 21:44:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.7 2001/04/04 08:30:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,6 +58,12 @@ Context::Context()
 
 Context::~Context()
 {
+    delete parser;
+    for( ModuleVector::iterator it = modules.begin(); it != modules.end(); it++ )
+    {
+        delete (*it);
+    }
+    modules.clear();
 }
 
 // adds a new newfactory to the NodeFactoryContainer

@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.8 2001/04/01 13:24:29 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.9 2001/04/04 08:30:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,7 +40,8 @@
  *
  * OpenTracker is a new hardware and event processing software for
  * VR and AR applications. It is designed to be extensible and
- * easily configureable.
+ * easily configureable. It is distributed under the Lesser Gnu Public License.
+ * See the file LICENSE.txt for details.
  * 
  * Its functionality is divided into modules that implement specific functions
  * like device drivers, network interfaces etc. This simplifies adding new
@@ -64,14 +65,10 @@
  * @ref module, which explains how to implement a new module. 
  *
  * @author Gerhard Reitmayr
- * @date 2000
+ * @date 2001
  */
 
 #include "dllinclude.h"
-
-// ACE needs to be included before any Windows headers, because there are 
-// some problems with Windows.h file.
-// #include <ace/ACE.h>
 
 #include <string>
 #include <vector>
@@ -88,24 +85,25 @@ using namespace std;
 
 // Some types used throughout OpenTracker
 // some forward declarations to be able to declare containers
-class Node;
+class OPENTRACKER_API Node;
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
-typedef vector<Node *> NodeVector;
+typedef OPENTRACKER_API vector<Node *> NodeVector;
 
 /**
  * maps a string to another string. Mostly used to map element attributes
  * to values.
  */
-typedef map<string, string> StringMap;
+typedef OPENTRACKER_API map<string, string> StringMap;
 
 /** initializes a context by instantiating the available modules and factories
  * and registering them with the given context. So for each passed context 
- * there is a new set of objects instantiated. Any compile time definitions 
+ * there is a new set of objects instantiated. This leaves the programmer with
+ * the responsibility of deleting these objects again ! Any compile time definitions 
  * go in here, to define which modules are compiled in and can be instantiated.
  * Also the modules configuration element names are defined here.
  *

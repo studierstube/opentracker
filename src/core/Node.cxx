@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.2 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.3 2001/04/04 08:30:47 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,7 +38,7 @@
 #include <iostream.h>
 #endif
 
-#include "algorithm"
+#include <algorithm>
 
 #include <dom/DOM_Node.hpp>
 #include <dom/DOM_NodeList.hpp>

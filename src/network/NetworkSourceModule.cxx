@@ -27,7 +27,7 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.9 2001/04/03 21:44:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.10 2001/04/04 08:30:47 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -75,6 +75,22 @@ struct MulticastReceiver
 NetworkSourceModule::NetworkSourceModule() : Module(), NodeFactory()
 {
 //	manager = new ACE_Thread_Manager;
+}
+
+// destructor cleans up any allocated memory
+
+NetworkSourceModule::~NetworkSourceModule()
+{
+    for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
+    {
+        for( StationVector::iterator st = (*it)->sources.begin(); st != (*it)->sources.end(); st++ )
+        {
+            delete (*st);            
+        }
+        (*it)->sources.clear();
+        delete (*it);
+    }
+    groups.clear();
 }
 
 // Converts num floats from network byte order.

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.6 2001/03/27 06:08:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.7 2001/04/04 08:30:47 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -95,7 +95,11 @@ protected:
     static void run( void * data );
     
 public:    
+    /** basic constructor */
      NetworkSourceModule();
+
+     /** destructor */
+     virtual ~NetworkSourceModule();
 
     /** This method is called to construct a new Node. It compares
      * name to the NetworkSource element name, and if it matches

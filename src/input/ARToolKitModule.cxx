@@ -49,6 +49,16 @@
 #include <unistd.h>
 #endif
 
+// destructor clears any nodes
+ARToolKitModule::~ARToolKitModule()
+{
+    for( NodeVector::iterator it = source.begin(); it != sources.end(); it ++)
+    {
+        delete (*it);
+    }
+    sources.clear();
+}
+
 // constructs a new Node
 
 Node * ARToolKitModule::createNode( string& name, StringMap& attributes)
