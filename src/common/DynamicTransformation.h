@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.13 2003/05/07 19:36:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.14 2003/11/06 15:46:51 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,9 +61,18 @@
  * are transformed to world coordinates. The basic name of the configuration element
  * is @c DynamicTransform , by prepending the prefixes above, one receives the
  * actual element names. The @c TransformBase child must always be an EventGenerator.
+ *
+ * The confidence value of the result event is the product of the confidence values
+ * of the two input events. Button state is only passed from the child, never from the 
+ * @c TransformBase child. If you want to merge the button state you must use an additional
+ * @ref buttonopnode to do that. The timestamp is always of the last event that triggers an
+ * output (see @c baseevent).
+ *
  * The elements may have the following attribute.
  *
  * @li @c baseevent (true|false) flag to define whether a change in the base generates an event.
+ *                  If set to true, a new event is also generated whenever the @c TransformBase 
+ *                  child passes an event on.
  * 
  * An example element looks like this :
  * @verbatim
