@@ -1,0 +1,77 @@
+// ===========================================================================
+//  (c) 2000 Vienna University of Technology
+// ===========================================================================
+//  NAME:      NodeFactory.cxx
+//  TYPE:      h header file
+//  PROJECT:   @INSERT_PROJECTNAME
+//  CONTENT:   Implementation of class 'NodeFactory'
+//  VERSION:   1.0
+// ===========================================================================
+//  Author:    reitmayr  Gerhard Reitmayr
+// ===========================================================================
+//  HISTORY:
+//
+//  @INSERT_MODIFICATIONS(// )
+// July 22, 2000 18:56 Gerhard Reitmayr & updated some methods now returning pointers instead of references
+//     Update comment header
+// ===========================================================================
+//@START_USER1
+//@END_USER1
+
+
+// Master include file
+#include "TrackerServer.h"
+
+
+//@START_USER2
+//@END_USER2
+
+
+// Static members
+
+
+/*@NOTE_3796
+Constructor method.
+*/
+NodeFactory::NodeFactory() //@INIT_3796
+{//@CODE_3796
+    ConstructorInclude();
+
+    // Put in your own code
+}//@CODE_3796
+
+
+/*@NOTE_1001
+Destructor method.
+*/
+NodeFactory::~NodeFactory()
+{//@CODE_1001
+    DestructorInclude();
+
+    // Put in your own code
+}//@CODE_1001
+
+
+//{{AFX DO NOT EDIT CODE BELOW THIS LINE !!!
+
+/*@NOTE_1000
+Method which must be called first in a constructor.
+*/
+void NodeFactory::ConstructorInclude()
+{
+}
+
+
+/*@NOTE_1002
+Method which must be called first in a destructor.
+*/
+void NodeFactory::DestructorInclude()
+{
+}
+
+
+// Methods for the relation(s) of the class
+
+//}}AFX DO NOT EDIT CODE ABOVE THIS LINE !!!
+
+//@START_USER3
