@@ -21,7 +21,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.36 2001/12/11 13:41:36 splechtna Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.37 2002/01/09 17:12:10 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?,JoystickConfig?">
@@ -432,6 +432,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
     hemisphere (forward | rear | upper | lower | left | right) #IMPLIED
     referenceframe CDATA #IMPLIED
     anglealign CDATA #IMPLIED
+    scale (36 | 72) #IMPLIED
 >
 <!ELEMENT FOBSource EMPTY>
 <!ATTLIST FOBSource
