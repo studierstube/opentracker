@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.2 2001/08/07 09:21:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.3 2001/08/07 13:28:04 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -84,7 +84,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         Sleep( 5000 );
         */
         ParButtonSource * source = new ParButtonSource( addr );
-#endif
+#else
 #ifdef _SGI_SOURCE       
         int handle = open( dev.c_str(), O_RDWR | O_NDELAY  );
         if( handle < 0 )
@@ -110,6 +110,9 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             return NULL;
         }
         ParButtonSource * source = new ParButtonSource((unsigned int)handle );
+#else  // Linux
+	ParButtonSource * source = NULL;
+#endif
 #endif
         nodes[dev] = source;
         cout << "Build ParButtonSource on " << dev << endl;

@@ -26,12 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.3 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.cxx,v 1.4 2001/08/07 13:28:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "StringTable.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 

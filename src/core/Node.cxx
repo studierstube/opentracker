@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.12 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.13 2001/08/07 13:28:04 reitmayr Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -194,7 +194,7 @@ NodePort * Node::getPort( const string & name )
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element portElement = (DOM_Element &) list.item(0);
+		DOM_Element portElement = (const DOM_Element &) list.item(0);
 		Node * port = (Node *)portElement.getUserData();
         if( port != NULL )
             if( port->isNodePort() == 1 )
