@@ -26,15 +26,23 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.3 2002/12/16 09:19:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.4 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section speechmodule SpeechModule
- * The SpeechModule provides and drives @ref speechsource nodes that generate
- * SR events. It uses several configuration elements, the root is @c SpeechRecoConfig.
+ * The SpeechModule provides and drives @ref speechrecosource nodes that generate
+ * sr events. The appropriate speech sources are called when a command is
+ * successfully recognised. The sr event is coded in the event translation
+ * field, and the id´s could be resolved via the GetCommand method.
+ * There is a TTS facility integrated into this module, so you could
+ * quickly speak something via TTS and the system standard voice. 
+ * if you want to use TTS with several options use the @ref SpeechVoiceModule
+ * class.
+ *
+ * It uses several configuration elements, the root is @c SpeechRecoConfig.
  * There you can define several @c CommandSet, with several @c Command.
  * The @c SpeechRecoConfig element has the following attributes:
  *
@@ -67,8 +75,6 @@
 #define _SPEECHMODULE_H
 
 #include "../../config.h"
-#ifdef USE_SAPISPEECH
-
 
 #include "../dllinclude.h"
 
@@ -79,18 +85,6 @@
 #include "../Core/NodeFactory.h"
 
 typedef std::vector<Node*> NodeVector;
-
-
-/**
- * The SpeechModule provides and drives @ref speechsource nodes that generate
- * sr events. The appropriate speech sources are called when a command is
- * successfully recognised. The sr event is coded in the event translation
- * field, and the id´s could be resolved via the GetCommand method.
- * There is a TTS facility integrated into this module, so you could
- * quickly speak something via TTS and the system standard voice. 
- * if you want to use TTS with several options use the @ref SpeechVoiceModule
- * class.
- */
 
 /**
  * The module and factory to drive the speech source nodes. It constructs
@@ -110,7 +104,11 @@ protected:
     DWORD m_NextNodeId;
     
     /// Speech Core (SR) component
-    CSpeechCore *m_SpeechCore;
+//#ifdef USE_SAPISPEECH
+//    CSpeechCore *m_SpeechCore;
+//#else
+	SpeechCoreBase *m_SpeechCore;
+//#endif
 
     /// Speech Voice (TTS) component
     SpeechVoiceModule *m_Voice;
@@ -187,8 +185,5 @@ public:
      */
     bool GetCommand(DWORD p_CommandId, DWORD p_SpeechSetId, std::string &p_Command);
 };
-
-
-#endif //ifdef USE_SAPISPEECH
 
 #endif

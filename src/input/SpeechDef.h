@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechDef.h,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechDef.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -69,12 +69,18 @@ struct SSpeechCommand
   float m_Weight;
 };
 
+/* Base class declarations for simple non functional
+ * implementations. */
+class SpeechCoreBase;
+class SpeechSetBase;
+class SpeechVoiceBase;
 
+/* Implementations of above interfaces for Windows SAPI
+ */
 class CSpeechCore;      /// SR core
 class CSpeechSet;       /// SR command set
 class CSpeechVoice;     /// TTS voice
 class SpeechVoiceModule;/// TTS voice wrapper
-
 
 
 #endif //#if !defined(__SPEECHDEF_H)

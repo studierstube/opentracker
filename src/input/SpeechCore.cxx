@@ -26,27 +26,122 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.cxx,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.cxx,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 
-//#include "stdafx.h"
+// Disable Debug warning for std lib classes
+#ifdef WIN32
+#pragma warning( disable : 4786 )
+#endif
+
 #include "SpeechCore.h"
 #include "SpeechSet.h"
 
-
-// Disable Debug warning for std lib classes
-#pragma warning( disable : 4786 )
-
-
-#ifdef USE_SAPISPEECH
 using namespace std;
 
+DWORD SpeechCoreBase::s_GrammarId = 1;
+
+SpeechSetBase * SpeechCoreBase::GetSpeechSet(const char *p_Name, bool p_Create)
+{
+  if(!m_Initialized)
+    return(NULL);
+
+  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  {
+    if(!strcmp(m_SpeechSets[i]->GetName(), p_Name))
+      return(m_SpeechSets[i]);
+  }
+
+  if(!p_Create)
+    return(NULL);
+
+  SpeechSetBase *set = new SpeechSetBase(p_Name, m_NextRuleId++, this);
+  if(!set) throw CSpeechException("no memory");
+  m_SpeechSets.push_back(set);
+  return(set);
+}
+
+
+SpeechSetBase* SpeechCoreBase::GetSpeechSet(DWORD p_Id)
+{
+  if(!m_Initialized)
+    return(NULL);
+
+  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  {
+    if(m_SpeechSets[i]->GetId() == p_Id)
+      return(m_SpeechSets[i]);
+  }
+  return(NULL);
+}
+
+
+void SpeechCoreBase::RemoveSpeechSet(const char *p_Name)
+{
+  if(!m_Initialized)
+    return;
+
+  for(std::vector<SpeechSetBase*>::iterator i = m_SpeechSets.begin(); i < m_SpeechSets.end(); ++i)
+  {
+    if(!strcmp((*i)->GetName(), p_Name))
+    {
+      delete(*i);
+      m_SpeechSets.erase(i);
+    }
+  }
+}
+
+
+void SpeechCoreBase::RemoveSpeechSet(DWORD p_Id)
+{
+  if(!m_Initialized)
+    return;
+
+  for(std::vector<SpeechSetBase*>::iterator i = m_SpeechSets.begin(); i < m_SpeechSets.end(); ++i)
+  {
+    if((*i)->GetId() == p_Id)
+    {
+      delete(*i);
+      m_SpeechSets.erase(i);
+    }
+  }
+}
+
+
+SpeechSetBase* SpeechCoreBase::FindSpeechSet(const char *p_Command, bool p_Active)
+{
+  if(!m_Initialized)
+    return(NULL);
+
+  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  {
+    if(!p_Active || m_SpeechSets[i]->IsActive())
+      if(m_SpeechSets[i]->IsCommandRegistered(p_Command))
+        return(m_SpeechSets[i]);
+  }
+  return(NULL);
+}
+
+
+SpeechSetBase* SpeechCoreBase::FindSpeechSet(DWORD p_CommandId, bool p_Active)
+{
+  if(!m_Initialized)
+    return(NULL);
+
+  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  {
+    if(!p_Active || m_SpeechSets[i]->IsActive())
+      if(m_SpeechSets[i]->IsCommandIdRegistered(p_CommandId))
+        return(m_SpeechSets[i]);
+  }
+  return(NULL);
+}
+
+#ifdef USE_SAPISPEECH
 
 DWORD CSpeechCore::s_GrammarId = 1;
-
-
 
 void CSpeechCore::Initialize()
 {
@@ -150,7 +245,7 @@ void CSpeechCore::Init(LANGID p_LanguageId)
 
 
 
-CSpeechSet* CSpeechCore::GetSpeechSet(const char *p_Name, bool p_Create)
+SpeechSetBase* CSpeechCore::GetSpeechSet(const char *p_Name, bool p_Create)
 {
   if(!m_Initialized)
     return(NULL);
@@ -171,7 +266,7 @@ CSpeechSet* CSpeechCore::GetSpeechSet(const char *p_Name, bool p_Create)
 }
 
 
-CSpeechSet* CSpeechCore::GetSpeechSet(DWORD p_Id)
+SpeechSetBase* CSpeechCore::GetSpeechSet(DWORD p_Id)
 {
   if(!m_Initialized)
     return(NULL);
@@ -217,7 +312,7 @@ void CSpeechCore::RemoveSpeechSet(DWORD p_Id)
 }
 
 
-CSpeechSet* CSpeechCore::FindSpeechSet(const char *p_Command, bool p_Active)
+SpeechSetBase* CSpeechCore::FindSpeechSet(const char *p_Command, bool p_Active)
 {
   if(!m_Initialized)
     return(NULL);
@@ -232,7 +327,7 @@ CSpeechSet* CSpeechCore::FindSpeechSet(const char *p_Command, bool p_Active)
 }
 
 
-CSpeechSet* CSpeechCore::FindSpeechSet(DWORD p_CommandId, bool p_Active)
+SpeechSetBase* CSpeechCore::FindSpeechSet(DWORD p_CommandId, bool p_Active)
 {
   if(!m_Initialized)
     return(NULL);
@@ -282,7 +377,7 @@ bool CSpeechCore::ProcessRecognitionPoll()
         CSpeechCore::WideToStr(ppszCoMemText, RecoText);
         ::CoTaskMemFree(ppszCoMemText);
 
-        CSpeechSet* set = FindSpeechSet(RecoText.c_str());
+        CSpeechSet* set = reinterpret_cast<CSpeechSet *>(FindSpeechSet(RecoText.c_str()));
         if(set)
         {
           set->Recognize(RecoText.c_str());
@@ -331,7 +426,6 @@ void CSpeechCore::WideToStr(const WCHAR *p_WideString, string &p_String)
   WideCharToMultiByte(CP_ACP, 0, p_WideString, -1, &p_String[0], len-1, NULL, NULL);
   p_String[len-1] = 0;
 }
-
 
 
 #endif //ifdef USE_SAPISPEECH

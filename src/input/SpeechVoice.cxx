@@ -26,23 +26,21 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoice.cxx,v 1.1 2002/12/10 17:23:45 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoice.cxx,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 
-//#include "stdafx.h"
+// Disable Debug warning for std lib classes
+#ifdef WIN32
+#pragma warning( disable : 4786 )
+#endif
+
 #include "SpeechVoice.h"
 #include "SpeechCore.h"
 
-
-// Disable Debug warning for std lib classes
-#pragma warning( disable : 4786 )
-
-
 #ifdef USE_SAPISPEECH
 using namespace std;
-
 
 void CSpeechVoice::Initialize()
 {

@@ -26,24 +26,160 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 
-//#include "stdafx.h"
+// Disable Debug warning for std lib classes
+#ifdef WIN32
+#pragma warning( disable : 4786 )
+#endif
+
 #include "SpeechSet.h"
 #include "SpeechCore.h"
 
-
-// Disable Debug warning for std lib classes
-#pragma warning( disable : 4786 )
-
-
-#ifdef USE_SAPISPEECH
 using namespace std;
 
+DWORD SpeechSetBase::GetId()
+{
+  assert(m_SpeechCore);
 
+  return(m_Id);
+}
+
+
+const char* SpeechSetBase::GetName()
+{
+  assert(m_SpeechCore);
+
+  return(m_Name.c_str());
+}
+
+
+bool SpeechSetBase::IsCommandRegistered(const char *p_Command)
+{
+  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  {
+    if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
+      return(true);
+  }
+  return(false);
+}
+
+
+bool SpeechSetBase::IsCommandIdRegistered(DWORD p_CommandId)
+{
+  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  {
+    if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
+      return(true);
+  }
+  return(false);
+}
+
+
+DWORD SpeechSetBase::GetCommandId(const char *p_Command)
+{
+  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  {
+    if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
+      return(m_RegisteredCommands[i].m_CommandId);
+  }
+  return(-1);     // no command found
+}
+
+
+bool SpeechSetBase::GetCommand(DWORD p_CommandId, std::string &p_Command)
+{
+  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  {
+    if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
+    {
+      p_Command = m_RegisteredCommands[i].m_Command;
+      return(true);
+    }
+  }
+  p_Command = ""; // no command found
+  return(false);
+}
+
+
+void SpeechSetBase::AddCommand(const char *p_Command, DWORD p_CommandId, float p_Weight)
+{
+  assert(m_SpeechCore);
+
+  // no need for 2 times the same command
+  if(IsCommandRegistered(p_Command))
+    return;
+
+  if(p_CommandId == -1)
+    p_CommandId = m_RegisteredCommands.size() + 1;
+
+  SSpeechCommand command;
+  command.m_CommandId = p_CommandId;
+  command.m_Command = p_Command;
+  command.m_Seperator = " ";
+  command.m_Weight = p_Weight;
+  m_RegisteredCommands.push_back(command);
+}
+
+
+void SpeechSetBase::RemoveCommand(const char *p_Command)
+{
+  for(std::vector<SSpeechCommand>::iterator i = m_RegisteredCommands.begin(); i < m_RegisteredCommands.end(); ++i)
+  {
+    if(!strcmp(i->m_Command.c_str(), p_Command))
+    {
+      m_RegisteredCommands.erase(i);
+      return;
+    }
+  }
+}
+
+
+void SpeechSetBase::RemoveCommand(DWORD p_CommandId)
+{
+  for(std::vector<SSpeechCommand>::iterator i = m_RegisteredCommands.begin(); i < m_RegisteredCommands.end(); ++i)
+  {
+    if(i->m_CommandId == p_CommandId)
+    {
+      m_RegisteredCommands.erase(i);
+      return;
+    }
+  }
+}
+
+void SpeechSetBase::Activate()
+{
+  if(IsActive())
+    return;
+  m_Active = true;
+}
+
+void SpeechSetBase::Deactivate()
+{
+  if(!IsActive())
+    return;
+  m_Active = false;
+}
+
+bool SpeechSetBase::IsActive()
+{
+  return(m_Active);
+}
+
+#ifdef USE_SAPISPEECH
+
+	
+CSpeechSet::CSpeechSet(const char *p_Name, DWORD p_Id, CSpeechCore *p_SpeechCore)
+: SpeechSetBase( p_Name, p_Id, p_SpeechCore)
+{
+    Initialize();
+    m_Name = p_Name;
+    m_Id = p_Id;
+    m_SpeechCore = p_SpeechCore;
+}
 
 void CSpeechSet::Initialize()
 {

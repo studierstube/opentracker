@@ -26,34 +26,29 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 
-#include "SpeechModule.h"
-#include "SpeechSource.h"
-#include "../Input/SpeechCore.h"
-#include "../Input/SpeechSet.h"
-
-
 // Disable Debug warning for std lib classes
+#ifdef WIN32
 #pragma warning( disable : 4786 )
-
-
-#ifdef USE_SAPISPEECH
-using namespace std;
-
+#endif
 
 #include <stdio.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
 #include <iostream.h>
 #endif
 
-//using namespace std;
+#include "SpeechModule.h"
+#include "SpeechSource.h"
+#include "SpeechSet.h"
+#include "SpeechCore.h"
 
+using namespace std;
 
 // Destructor methode
 SpeechModule::~SpeechModule()
@@ -87,7 +82,7 @@ Node* SpeechModule::createNode(const string& name, StringTable& attributes)
 
     printf("SR: Create SpeechSource, SpeechSetName = '%s', SpeechSetId = '%s'\n", SpeechSetName.c_str(), SpeechSetId.c_str());
 
-    CSpeechSet *speechset = m_SpeechCore->GetSpeechSet(SpeechSetName.c_str());
+    SpeechSetBase *speechset = m_SpeechCore->GetSpeechSet(SpeechSetName.c_str());
     assert(speechset);
 
     SpeechSource *source = new SpeechSource(this, speechset);
@@ -139,7 +134,11 @@ void SpeechModule::init(StringTable& attributes, ConfigNode *localTree)
 
 
   // create the sr core component
+#ifdef USE_SAPISPEECH
   m_SpeechCore = new CSpeechCore;
+#else
+  m_SpeechCore = new SpeechCoreBase;
+#endif
   assert(m_SpeechCore);
 
   if(!Language.compare("english"))
@@ -215,7 +214,7 @@ void SpeechModule::pushState()
 bool SpeechModule::GetCommand(DWORD p_CommandId, DWORD p_SpeechSetId, std::string &p_Command)
 {
   // try to get the speech set via the SpeechSetId
-  CSpeechSet *set = m_SpeechCore->GetSpeechSet(p_SpeechSetId);
+  SpeechSetBase *set = m_SpeechCore->GetSpeechSet(p_SpeechSetId);
   if(!set)
   {
     printf("SR: ERROR: Invalid SpeechSet Id\n");
@@ -226,5 +225,3 @@ bool SpeechModule::GetCommand(DWORD p_CommandId, DWORD p_SpeechSetId, std::strin
   return(set->GetCommand(p_CommandId, p_Command));
 }
 
-
-#endif //ifdef USE_SAPISPEECH

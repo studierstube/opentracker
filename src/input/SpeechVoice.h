@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoice.h,v 1.1 2002/12/10 17:23:45 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoice.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,13 +34,76 @@
 #if !defined(__SPEECHVOICE_H)
 #define __SPEECHVOICE_H
 
-
 #include "../../config.h"
+
+#include "SpeechDef.h"
+
+/**
+ * This class represents the core component interface of the TextToSpeech (TTS) system
+ * an a simple non functional implementation.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input 
+ */
+class SpeechVoiceBase
+{
+// protected init & destroy methods
+protected:
+	/// initializes all class members
+  virtual void Initialize()
+  {
+  };    
+  /// destroys (cleanup) all class members
+  virtual void Destroy()
+  {
+  };
+
+
+// constructor & destructor
+public:
+  SpeechVoiceBase()
+  {
+    Initialize();
+  }
+
+  virtual ~SpeechVoiceBase()
+  {
+    Destroy();
+  }
+
+
+// public methods
+public:
+  /// get the total number of voices
+  virtual DWORD GetNumVoices()
+  {
+	  return 0;
+  }
+
+  /// get the voice name with this id
+  virtual const char* GetVoiceName(DWORD p_Id, std::string &p_Name)
+  {
+	  return NULL;
+  }
+
+  /// set the current voice by id
+  virtual void SetVoice(DWORD p_Id)
+  {
+  };
+  /// set the current voice by name
+  virtual void SetVoice(const char *p_Name)
+  {
+  };
+
+  /// Speak something
+  virtual void Speak(const char *p_Sentence, bool p_Async = true)
+  {
+  };
+};
+
 #ifdef USE_SAPISPEECH
 
 #include "SpeechInc.h"
-#include "SpeechDef.h"
-
 
 /**
  * This class represents the core component of the TTS.
@@ -48,8 +111,11 @@
  * Multiple voices (as installed) are available, and could be changed at runtime.
  * The default voice is the windows standard voice (as in the control panel defined).
  * Text could be spoken synchron or asynchron.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input 
  */
-class CSpeechVoice
+class CSpeechVoice : public SpeechVoiceBase
 {
 // protected data members
 protected:

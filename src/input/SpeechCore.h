@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.h,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,12 +37,122 @@
 
 #include "../../config.h"
 
+#include "SpeechDef.h"
+#include "SpeechSet.h"
+
+/**
+ * This class represents the core component interface of the SR and a simple 
+ * non functional implementation.
+ * The registerable commands/words are managed via SpeechSet´s. Each command/word group
+ * is stored in a SpeechSet. Speech sets could be created/deleted on the fly.
+ * The speech core recognizes via a polling mechanism. After polling, the result are available at
+ * the appropriate SpeechSet. All results could be queried via the SpeechSet´s or the
+ * SpeechCore itself.
+ * 
+ * This class represents the abstract interface a command set/group and a simple
+ * non functional implementation. Any real implementation should be derived from 
+ * this one. Currently there is a big overlap between the SAPI implementation
+ * and this base class, because the refactoring was done rather quickly. It
+ * might also be interesting to move more of the SAPI interface to this 
+ * super class.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input 
+ */
+class SpeechCoreBase
+{
+// protected static data members
+protected:
+  static DWORD s_GrammarId;               /// Unique Grammar Id counter
+
+
+// protected data members
+protected:
+  bool m_Initialized;                     /// wether speech core is initialized or not
+
+  unsigned m_NextRuleId;                     /// unique Rule Id counter for the speech sets
+  std::vector<SpeechSetBase*> m_SpeechSets;  /// a array with all speech sets of this core object
+
+
+// protected init & destroy methods
+protected:
+	/// initializes all class members
+	virtual void Initialize(void)
+	{
+		m_Initialized = false;
+		m_NextRuleId = 1;
+	};
+
+public:
+	/// destroys (cleanup) all class members
+	virtual void Destroy(void)
+	{
+		try
+		{
+			for(int i = m_SpeechSets.size() - 1; i >= 0; --i)
+				delete(m_SpeechSets[i]);
+			m_SpeechSets.clear();
+		}
+		catch(...) {}
+		m_Initialized = false;
+	};
+
+	// constructor & destructor
+public:
+	SpeechCoreBase()
+	{
+		Initialize();
+	}
+
+	virtual ~SpeechCoreBase()
+	{
+		Destroy();
+	}
+
+
+// public methods
+public:
+	/// Initialize the speech core with a appropriate language
+	virtual void Init(void)
+	{
+		Destroy();
+		Initialize();
+		m_Initialized = true;
+	};
+
+
+  /// get/create a SpeechSet with the appropriate name
+  virtual SpeechSetBase * GetSpeechSet(const char *p_Name, bool p_Create = true);
+
+  /// get a SpeechSet with the appropriate id
+  virtual SpeechSetBase* GetSpeechSet(DWORD p_Id);
+
+
+  /// remove a specified SpeechSet
+  virtual void RemoveSpeechSet(const char *p_Name);
+
+  /// remove a specified SpeechSet
+  virtual void RemoveSpeechSet(DWORD p_Id);
+
+
+  /// find a (active) SpeechSet witch recognizes this command
+  virtual SpeechSetBase* FindSpeechSet(const char *p_Command, bool p_Active = true);
+
+  /// find a (active) SpeechSet witch recognizes this command
+  virtual SpeechSetBase* FindSpeechSet(DWORD p_CommandId, bool p_Active = true);
+
+  /// Poll the recognize events, look if some commands have been recognized.
+  virtual bool ProcessRecognitionPoll()
+  {
+	  return false;
+  };
+
+  friend class SpeechSetBase;
+};
 
 #ifdef USE_SAPISPEECH
 
 #include "SpeechInc.h"
-#include "SpeechDef.h"
-
 
 /**
  * This class represents the core component of the SR.
@@ -51,8 +161,11 @@
  * The speech core recognizes via a polling mechanism. After polling, the result are available at
  * the appropriate SpeechSet. All results could be queried via the SpeechSet´s or the
  * SpeechCore itself.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input
  */
-class CSpeechCore
+class CSpeechCore : public SpeechCoreBase
 {
 // protected static data members
 protected:
@@ -92,16 +205,22 @@ public:
 
 
 // public methods
-public:
+public:  
+
+  void Init(void)
+  {
+	  Init(MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT));
+  };
+
   /// Initialize the speech core with a appropriate language
   void Init(LANGID p_LanguageId = MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT));
 
 
   /// get/create a SpeechSet with the appropriate name
-  CSpeechSet* GetSpeechSet(const char *p_Name, bool p_Create = true);
+  SpeechSetBase* GetSpeechSet(const char *p_Name, bool p_Create = true);
 
   /// get a SpeechSet with the appropriate id
-  CSpeechSet* GetSpeechSet(DWORD p_Id);
+  SpeechSetBase* GetSpeechSet(DWORD p_Id);
 
 
   /// remove a specified SpeechSet
@@ -112,10 +231,10 @@ public:
 
 
   /// find a (active) SpeechSet witch recognizes this command
-  CSpeechSet* FindSpeechSet(const char *p_Command, bool p_Active = true);
+  SpeechSetBase* FindSpeechSet(const char *p_Command, bool p_Active = true);
 
   /// find a (active) SpeechSet witch recognizes this command
-  CSpeechSet* FindSpeechSet(DWORD p_CommandId, bool p_Active = true);
+  SpeechSetBase* FindSpeechSet(DWORD p_CommandId, bool p_Active = true);
 
 
   /// Send a windows notify message, when any sr occures
@@ -135,11 +254,10 @@ public:
   static void WideToStr(const WCHAR *p_WideString, std::string &p_String);
 
 
-  
+
   friend class CSpeechSet;
 };
 
-
-#endif //ifdef USE_SAPISPEECH
+#endif //#ifdef USE_SAPISPEECH
 
 #endif //#if !defined(__SPEECHCORE_H)

@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoiceModule.h,v 1.1 2002/12/10 17:23:45 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechVoiceModule.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,12 +34,8 @@
 #if !defined(__SPEECHVOICEMODULE_H)
 #define __SPEECHVOICEMODULE_H
 
-
 #include "../../config.h"
-#ifdef USE_SAPISPEECH
-
 #include "SpeechDef.h"
-
 
 /**
  * This class represents the core component of the TTS.
@@ -52,7 +48,7 @@ class SpeechVoiceModule
 {
 // protected data members
 protected:
-  CSpeechVoice *m_Voice;                              // Voice
+  SpeechVoiceBase *m_Voice;                              // Voice
 
 
 // protected init & destroy methods
@@ -92,8 +88,5 @@ public:
   /// Speak something
   void Speak(const char *p_Sentence, bool p_Async = true);
 };
-
-
-#endif //ifdef USE_SAPISPEECH
 
 #endif //#if !defined(__SPEECHVOICEMODULE_H)

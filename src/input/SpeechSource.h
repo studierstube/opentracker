@@ -26,15 +26,15 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.3 2002/12/16 09:19:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.4 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section speechsource SpeechSource
+ * @section speechrecosource SpeechRecoSource
  *
- * The SpeechSource node pushes speech events. It is instantiated
+ * The SpeechRecoSource node pushes speech events. It is instantiated
  * and managed by the @ref speechmodule. A speech event 
  * is coded into the translation field. x holds the speech command id
  * as configured in the opentracker xml config file. y holds the 
@@ -62,8 +62,6 @@
 
 
 #include "../../config.h"
-#ifdef USE_SAPISPEECH
-
 
 #include "../dllinclude.h"
 
@@ -88,7 +86,7 @@ public:
     SpeechModule *m_SpeechModule;
 
     /// speech set of this source node
-    CSpeechSet *m_SpeechSet;
+    SpeechSetBase *m_SpeechSet;
 
     /// the state that is posted to the EventObservers
     State state;
@@ -102,7 +100,7 @@ protected:
      * @param p_SpeechModule the parent module (node factory)
      * @param p_SpeechSet the speech set of this node
      */
-    SpeechSource(SpeechModule *p_SpeechModule, CSpeechSet *p_SpeechSet) : 
+    SpeechSource(SpeechModule *p_SpeechModule, SpeechSetBase *p_SpeechSet) : 
       Node(),
       m_SpeechModule(p_SpeechModule),
 	    m_SpeechSet(p_SpeechSet)
@@ -167,7 +165,5 @@ public:
 
     friend class SpeechModule;
 };
-
-#endif //ifdef USE_SAPISPEECH
 
 #endif

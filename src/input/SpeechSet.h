@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.h,v 1.1 2002/12/10 17:23:44 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.h,v 1.2 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,20 +34,132 @@
 #if !defined(__SPEECHSET_H)
 #define __SPEECHSET_H
 
-
 #include "../../config.h"
+
+#include "SpeechDef.h"
+
+/**
+ * This class represents the abstract interface a command set/group and a simple
+ * non functional implementation. Any real implementation should be derived from 
+ * this one. Currently there is a big overlap between the SAPI implementation
+ * and this base class, because the refactoring was done rather quickly. It
+ * might also be interesting to move more of the SAPI interface to this 
+ * super class.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input 
+ */
+class SpeechSetBase
+{
+// protected data members
+protected:
+  bool m_Active;                    /// is this speech set active
+
+  std::string m_Name;               /// Name of this Speech Set
+  DWORD m_Id;                       /// Id of this Speech Set
+  SpeechCoreBase *m_SpeechCore;        /// Parent Speech Core object (must be always valid)
+
+  std::vector<SSpeechCommand> m_RegisteredCommands; /// All registered Commands in this SpeechSet
+  
+  StringQueue m_RecogizedCommands;  /// Recognized Commands queue
+
+
+// protected init & destroy methods
+protected:
+	/// initializes all class members
+	virtual	void Initialize()
+	{
+		m_SpeechCore = 0;
+		m_Active = true;
+	};
+
+	/// destroys (cleanup) all class members
+	virtual void Destroy()
+	{	
+		m_SpeechCore = 0;
+		m_Active = false;
+	};      
+
+
+// constructor & destructor
+protected:
+  SpeechSetBase(const char *p_Name, DWORD p_Id, SpeechCoreBase *p_SpeechCore)
+  {
+    Initialize();
+    m_Name = p_Name;
+    m_Id = p_Id;
+    m_SpeechCore = p_SpeechCore;
+  }
+
+  virtual ~SpeechSetBase()
+  {
+    Destroy();
+  }
+
+  
+// public methods
+public:
+  /// get the id of this SpeechSet
+  DWORD GetId();
+
+  /// get the name of this SpeechSet
+  virtual const char* GetName();
+
+
+  /// wheter this command is register or not
+  virtual bool IsCommandRegistered(const char *p_Command);
+
+  /// wheter this command is register or not
+  virtual bool IsCommandIdRegistered(DWORD p_CommandId);
+
+
+  /// get id of the command
+  virtual DWORD GetCommandId(const char *p_Command);
+
+  /// get the command from a command id
+  virtual bool GetCommand(DWORD p_CommandId, std::string &p_Command);
+
+
+  /// Add a new command to this set
+  virtual void AddCommand(const char *p_Command, DWORD p_CommandId = -1, float p_Weight = 1.0f);
+
+  /// Remove a command from this set
+  virtual void RemoveCommand(const char *p_Command);
+
+  /// Remove a command from this set
+  virtual void RemoveCommand(DWORD p_CommandId);
+
+  /// get the next recognized command, returns true when there is a result
+  virtual bool GetReco(std::string &p_Result)
+  {
+	  return false;
+  };
+
+
+  /// Activate this SpeechSet
+  void Activate();
+  /// Deactivate this SpeechSet
+  void Deactivate();
+  /// Wether this SpeechSet is active or not
+  bool IsActive();
+  
+  friend class SpeechCoreBase;
+};
+
+
 #ifdef USE_SAPISPEECH
 
 
-#include "SpeechInc.h"
-#include "SpeechDef.h"
-
+// #include "SpeechInc.h"
 
 /**
  * This class represents a command set/group. The set could be enhanced, activated
  * or deactivated on the fly. Each speech set depents on a speech core object.
+ *
+ * @author Reinhard Steiner
+ * @ingroup input 
  */
-class CSpeechSet
+ class CSpeechSet : public SpeechSetBase
 {
 // protected data members
 protected:
@@ -70,13 +182,8 @@ protected:
 
 // constructor & destructor
 protected:
-  CSpeechSet(const char *p_Name, DWORD p_Id, CSpeechCore *p_SpeechCore)
-  {
-    Initialize();
-    m_Name = p_Name;
-    m_Id = p_Id;
-    m_SpeechCore = p_SpeechCore;
-  }
+  CSpeechSet(const char *p_Name, DWORD p_Id, CSpeechCore *p_SpeechCore);
+
 
   virtual ~CSpeechSet()
   {

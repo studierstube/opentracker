@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.23 2002/12/10 17:24:32 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.24 2002/12/23 15:03:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -187,9 +187,7 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( * groupgate );
     context.addModule( "GroupGateConfig", *groupgate ); 
 
-#ifdef USE_SAPISPEECH
     SpeechModule *speechmodule = new SpeechModule;
     context.addFactory( *speechmodule );
     context.addModule( "SpeechRecoConfig", *speechmodule );
-#endif
 }
