@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.17 2002/01/24 10:59:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.18 2002/05/28 14:54:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -68,21 +68,23 @@
 
 #ifdef WIN32
 
-// local object manager
-ACE_Object_Manager * objectManager;
-
 BOOL APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
-                       LPVOID lpReserved
-					 )
+					  DWORD  ul_reason_for_call, 
+					  LPVOID lpReserved
+					  )
 {
     switch( ul_reason_for_call )
     {
-        case DLL_PROCESS_ATTACH :
-            objectManager = new ACE_Object_Manager;
-            break;
-        case DLL_PROCESS_DETACH :
-            delete objectManager;
+	case DLL_PROCESS_ATTACH:		
+		ACE::init();
+		break;
+	case DLL_THREAD_ATTACH:
+		break;
+	case DLL_THREAD_DETACH:		
+		break;
+	case DLL_PROCESS_DETACH:		
+		ACE::fini();
+		break;	
     }
     return TRUE;
 }

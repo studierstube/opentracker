@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.16 2002/01/18 19:58:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.17 2002/05/28 14:54:21 reitmayr Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -43,12 +43,12 @@
 
 #include <algorithm>
 
-#include <dom/DOM_Node.hpp>
-#include <dom/DOM_NodeList.hpp>
-#include <dom/DOM_Element.hpp>
-#include <dom/DOM_NamedNodeMap.hpp>
-#include <dom/DOM_Document.hpp>
-#include <dom/DOM_DOMException.hpp>
+#include <xercesc/dom/DOM_Node.hpp>
+#include <xercesc/dom/DOM_NodeList.hpp>
+#include <xercesc/dom/DOM_Element.hpp>
+#include <xercesc/dom/DOM_NamedNodeMap.hpp>
+#include <xercesc/dom/DOM_Document.hpp>
+#include <xercesc/dom/DOM_DOMException.hpp>
 
 using namespace std;
 

@@ -56,6 +56,9 @@
 
 /*
  * $Log: DOMTreeErrorReporter.cxx,v $
+ * Revision 1.2  2002/05/28 14:54:21  reitmayr
+ * updated for XercesC 1.7 (changed include paths)
+ *
  * Revision 1.1  2000/12/11 10:46:41  reitmayr
  * checked in new source code
  *
@@ -98,7 +101,7 @@
 // ---------------------------------------------------------------------------
 //  Includes
 // ---------------------------------------------------------------------------
-#include <sax/SAXParseException.hpp>
+#include <xercesc/sax/SAXParseException.hpp>
 #include "DOMTreeErrorReporter.h"
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStreams
@@ -108,7 +111,7 @@ using namespace std;
 #endif
 #include <stdlib.h>
 #include <string.h>
-#include <dom/DOMString.hpp>
+#include <xercesc/dom/DOMString.hpp>
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {

@@ -26,17 +26,17 @@
   *
   * @author Gerhard Reitmayr
   * @todo set attributes on the element in createNode
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.17 2001/11/21 11:43:48 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.18 2002/05/28 14:54:21 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
 #include "Context.h"
 #include "../OpenTracker.h"
 
-#include <dom/DOM_Node.hpp>
-#include <dom/DOM_NodeList.hpp>
-#include <dom/DOM_Document.hpp>
-#include <dom/DOM_Element.hpp>
+#include <xercesc/dom/DOM_Node.hpp>
+#include <xercesc/dom/DOM_NodeList.hpp>
+#include <xercesc/dom/DOM_Document.hpp>
+#include <xercesc/dom/DOM_Element.hpp>
 
 using namespace std;
 

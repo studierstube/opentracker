@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.14 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.15 2002/05/28 14:54:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,14 +37,14 @@
 #include <iostream.h>
 #endif
 
-#include <util/PlatformUtils.hpp>
-#include <parsers/DOMParser.hpp>
-#include <dom/DOM_Node.hpp>
-#include <dom/DOM_NodeList.hpp>
-#include <dom/DOM_Document.hpp>
-#include <dom/DOM_Element.hpp>
-#include <dom/DOM_Text.hpp>
-#include <dom/DOM_NamedNodeMap.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+#include <xercesc/parsers/DOMParser.hpp>
+#include <xercesc/dom/DOM_Node.hpp>
+#include <xercesc/dom/DOM_NodeList.hpp>
+#include <xercesc/dom/DOM_Document.hpp>
+#include <xercesc/dom/DOM_Element.hpp>
+#include <xercesc/dom/DOM_Text.hpp>
+#include <xercesc/dom/DOM_NamedNodeMap.hpp>
 #include "DOMTreeErrorReporter.h"
 
 using namespace std;

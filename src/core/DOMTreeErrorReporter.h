@@ -56,6 +56,9 @@
 
 /*
  * $Log: DOMTreeErrorReporter.h,v $
+ * Revision 1.3  2002/05/28 14:54:21  reitmayr
+ * updated for XercesC 1.7 (changed include paths)
+ *
  * Revision 1.2  2001/04/18 16:38:18  reitmayr
  * added lots of documentation, interlinked the module and node reference pages.
  * This needs the latest doxygen version (1.2.6) to work.
@@ -92,8 +95,8 @@
  *
  */
 
-#include <util/XercesDefs.hpp>
-#include <sax/ErrorHandler.hpp>
+#include <xercesc/util/XercesDefs.hpp>
+#include <xercesc/sax/ErrorHandler.hpp>
 #ifdef WIN32
 #include <iostream>    // VisualC++ has two incompatible iostreams libraries !
 #else
