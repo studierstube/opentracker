@@ -9,6 +9,20 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-16 15:17  reitmayr
+
+	* src/input/DGPSIP_Handler.cxx, src/input/DGPSIP_Handler.h,
+	src/input/DGPSMirror_Handler.cxx, src/input/GPSDirectionSource.h,
+	src/input/GPSDriver.cxx, src/input/GPSDriver.h,
+	src/input/GPSModule.cxx, src/input/GPSModule.h,
+	src/input/GPSParser.cxx, src/input/GPSParser.h,
+	src/input/GPSSource.h, src/input/GPS_Handler.cxx,
+	src/input/GPS_Handler.h, src/input/Makefile.am,
+	data/opentracker.dtd, data/ot2dot.xsl, opentracker.dsp:
+	
+	updated GPS driver and module to include a source for direction
+	information and a general log file for gps data strings.
+
 2003-06-13 15:51  flo
 
 	* src/common/ElasticFilterNode.h:
