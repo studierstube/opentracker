@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-01-31 18:21  reitmayr
+
+	* src/input/ARToolKitModule.cxx:
+	
+	bug fix by Murad Saeter for ARToolkit Linux API.
+
+2003-01-31 17:07  reitmayr
+
+	* tools/ipaq/buttonlistener/ConnectionListener.java:
+	
+	update to avoid busy waiting
+
 2003-01-30 18:55  tamer
 
 	* INSTALL, opentracker_env.sh, bin/Makefile.am:
