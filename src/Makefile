@@ -21,7 +21,7 @@ PROGRAM = ../bin/maxwell
 HFILES = \
     TrackerServer.h \
     CommonNodeFactory.h  \
-    NetworkDriver.h  \
+    NetworkModule.h  \
     ConfigurationParser.h \
     NodeFactoryContainer.h \
     Transformation.h \
@@ -29,7 +29,7 @@ HFILES = \
     NodeFactory.h \
     TreeNode.h \
     MathUtils.h \
-    VideoSource.h \
+    VideoModule.h \
     MaxConfidenceFilter.h \
     State.h \
     VirtualTransformation.h \
@@ -42,10 +42,10 @@ HFILES = \
     DOMTreeErrorReporter.h \
     CursesModule.h \
     CursesOutput.h \
-    
+
 C++FILES = \
     CommonNodeFactory.cxx  \
-    NetworkDriver.cxx  \
+    NetworkModule.cxx  \
     ConfigurationParser.cxx \
     NodeFactoryContainer.cxx \
     Transformation.cxx \
@@ -53,7 +53,7 @@ C++FILES = \
     NodeFactory.cxx \
     TreeNode.cxx \
     MathUtils.cxx \
-    VideoSource.cxx \
+    VideoModule.cxx \
     MaxConfidenceFilter.cxx \
     State.cxx \
     VirtualTransformation.cxx \

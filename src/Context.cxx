@@ -123,9 +123,7 @@ void Context::run()
     }
     
     while ( stop == 0)
-    {
-        ModuleVector::iterator it;
-        
+    {              
         // begin update cycle
         for( it = activeModules.begin(); it != activeModules.end(); it ++ )  
         {
@@ -153,7 +151,7 @@ void Context::run()
             }     
         }
     }
-    for( ModuleVector::iterator it = activeModules.begin(); it != activeModules.end(); it++ )
+    for( it = activeModules.begin(); it != activeModules.end(); it++ )
     {
         (*it)->close();
     }   
