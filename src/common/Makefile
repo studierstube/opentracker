@@ -56,8 +56,8 @@ C++FILES = \
         ConfidenceSelectNode.cxx \
         FilterNode.cxx \
         ThresholdFilterNode.cxx \
-        ButtonFilterNode.h \
-        ButtonOpNode.h
+        ButtonFilterNode.cxx \
+        ButtonOpNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

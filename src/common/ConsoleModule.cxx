@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.23 2002/02/11 10:41:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.24 2002/03/26 14:02:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -280,7 +280,12 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
 
 void ConsoleModule::pushState()
 {
-    ConsoleSource * source;
+	if(!isInitialized())
+    {
+        return;
+    }
+    
+	ConsoleSource * source;
     float data[4];
 
     // read all keyboard events and execute their functions

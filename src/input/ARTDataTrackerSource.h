@@ -26,7 +26,7 @@
   *
   * @author Christopher Schmidt
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerSource.h,v 1.1 2002/01/24 10:54:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerSource.h,v 1.2 2002/03/26 14:02:37 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,7 @@
  * @section artdatatrackersource ARTDataTrackerSource
  * The ARTDataTrackerSource node is a simple EventGenerator that inputs the data 
  * from the ART Data Tracker.
- * @li @c number the body number of the specific source
+ * @li @c number the body number of the specific source, starting with 0
  *
  * An example element looks like this :
  * @verbatim

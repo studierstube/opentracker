@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.4 2002/03/26 14:02:37 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -134,7 +134,7 @@ void ARTDataTrackerModule::run()
 {
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
-	ACE_INET_Addr addr( port ); //, hostname );
+	ACE_INET_Addr addr( port );
 	ACE_Addr local( -1 , -1);
 	socket = new ACE_SOCK_Dgram( addr );
 	
@@ -149,8 +149,7 @@ void ARTDataTrackerModule::run()
         {	
 			if( (retval = socket->recv( receiveBuffer, receiveBufferSize , addr, 0, &timeOut )) == -1 )
             {
-				cout << "retval : " << retval << endl;
-				if( (errno != ETIME && errno != 0) || retval == -1 )
+				if(errno != ETIME && errno != 0)
                 {
 					cout << "Error " << errno << " receiving data ! " << endl;
                     exit( -1 );
@@ -285,17 +284,7 @@ void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	{
 		port = 12345;
 	}
-	
-	// get Multicast or IP Adress from XML-File
-	hostnamestring = attributes.get("hostnamestring");
-	if( hostnamestring == "")
-	{
-		hostnamestring = "PC328";
-    }
-	num = hostnamestring.size();
-	hostname = new char[num];
-	hostname = hostnamestring.c_str();
-	
+			
 	bodyID = 0;		// just to make the compiler happy
 	maxBodyNumber = maxbodies;
 	// generates Bodyrecordarray

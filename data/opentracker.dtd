@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.44 2002/02/27 16:22:29 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.45 2002/03/26 14:02:45 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?">
@@ -475,7 +475,6 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ARTDataTrackerConfig EMPTY>
 <!ATTLIST ARTDataTrackerConfig
 	maxbodies CDATA "0"
-	hostnamestring CDATA #REQUIRED
 	port CDATA #REQUIRED
 >
 <!ELEMENT ARTDataTrackerSource EMPTY>

@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.h,v 1.1 2002/01/24 10:54:04 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.h,v 1.2 2002/03/26 14:02:37 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -39,12 +39,11 @@
 * It is configured using the configuration element 'ARTDataTrackerConfig'. This
 * element has the following attributes :
 * @li @c maxbodies  the maximal number of different objects tracked
-* @li @c hostnamestring the name of the host to connect to
-* @li @c port the port number to connect to
+* @li @c port the port number to listen on, the ART tracker should be configured to send to this number
 * 
 * An example configuration element looks like this :
 * @verbatim
-<ARTDataTrackerConfig maxbodies="10" hostnamestring="PC385" port="12346"/>@endverbatim
+<ARTDataTrackerConfig maxbodies="10" port="12346"/>@endverbatim
 */
 
 #ifndef _ARTDATATRACKERMODULE_H
@@ -76,9 +75,6 @@ protected:
     
     /// list of ARTDataTrackerSource nodes in the tree
     NodeVector sources;
-    /// multicast or IP Adress
-	std::string hostnamestring;
-	const char *hostname;
 	/// port number
 	int port;
 	/// stop flag 
