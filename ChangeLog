@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-08-12 10:49  reitmayr
+
+	* src/input/DynaSightModule.cxx, src/input/DynaSightModule.h,
+	src/input/DynaSightSource.h, data/opentracker.dtd:
+	
+	updates from Alexander Schaelss
+
 2003-08-08 17:17  reitmayr
 
 	* src/core/TestModule.cxx:
