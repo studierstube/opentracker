@@ -169,6 +169,8 @@ otinputinc_HEADERS = \
         CyberMouseSource.h \
         DGPSIP_Handler.h \
         DGPSMirror_Handler.h \
+        DynaSightModule.h \
+        DynaSightSource.h \
         FOBModule.h \
         FOBSource.h \
         FastTrakModule.h \
@@ -183,6 +185,8 @@ otinputinc_HEADERS = \
         InterSenseSource.h \
         JoystickModule.h \
         JoystickSource.h \
+        MagicYModule.h \
+        MagicYSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
         WacomGraphireModule.h \
@@ -219,6 +223,9 @@ libinput_la_SOURCES = \
         DGPSIP_Handler.cxx \
         DGPSMirror_Handler.cxx \
         DGPSMirror_Handler.h \
+        DynaSightModule.cxx \
+        DynaSightModule.h \
+        DynaSightSource.h \
         FOBModule.cxx \
         FOBModule.h \
         FOBSource.h \
@@ -241,6 +248,9 @@ libinput_la_SOURCES = \
         JoystickModule.cxx \
         JoystickModule.h \
         JoystickSource.h \
+        MagicYModule.cxx \
+        MagicYModule.h \
+        MagicYSource.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
@@ -281,12 +291,13 @@ libinput_la_LDFLAGS =
 libinput_la_LIBADD =
 am_libinput_la_OBJECTS = ARTDataTrackerChomp.lo ARTDataTrackerModule.lo \
 	ARToolKitModule.lo CyberMouseModule.lo DGPSIP_Handler.lo \
-	DGPSMirror_Handler.lo FOBModule.lo FastTrakModule.lo \
-	GPSDriver.lo GPS_Handler.lo GPSModule.lo GPSParser.lo \
-	InterSenseModule.lo JoystickModule.lo ParButtonModule.lo \
-	WacomGraphireModule.lo SpaceMouseModule.lo SpeechCore.lo \
-	SpeechModule.lo SpeechSet.lo SpeechSource.lo SpeechVoice.lo \
-	SpeechVoiceModule.lo UltraTrakModule.lo rtcm.lo
+	DGPSMirror_Handler.lo DynaSightModule.lo FOBModule.lo \
+	FastTrakModule.lo GPSDriver.lo GPS_Handler.lo GPSModule.lo \
+	GPSParser.lo InterSenseModule.lo JoystickModule.lo \
+	MagicYModule.lo ParButtonModule.lo WacomGraphireModule.lo \
+	SpaceMouseModule.lo SpeechCore.lo SpeechModule.lo SpeechSet.lo \
+	SpeechSource.lo SpeechVoice.lo SpeechVoiceModule.lo \
+	UltraTrakModule.lo rtcm.lo
 libinput_la_OBJECTS = $(am_libinput_la_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -298,6 +309,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/CyberMouseModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/DGPSIP_Handler.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/DGPSMirror_Handler.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/DynaSightModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FOBModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/FastTrakModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GPSDriver.Plo ./$(DEPDIR)/GPSModule.Plo \
@@ -305,6 +317,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/GPS_Handler.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/InterSenseModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/JoystickModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/MagicYModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ParButtonModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SpaceMouseModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SpeechCore.Plo \
@@ -371,6 +384,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CyberMouseModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DGPSIP_Handler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DGPSMirror_Handler.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DynaSightModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FOBModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/FastTrakModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GPSDriver.Plo@am__quote@
@@ -379,6 +393,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GPS_Handler.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/InterSenseModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/JoystickModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MagicYModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ParButtonModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpaceMouseModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpeechCore.Plo@am__quote@
