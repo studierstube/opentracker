@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.6 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPModule.cxx,v 1.7 2003/07/18 20:26:47 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,8 +47,6 @@
 #define SERVER_DATA_PRECISION 100
 #define SERVER_DATA_SHIFT     1000
 
-using namespace std;
-
 // destuctor, clears up any sinks
 
 TCPModule::~TCPModule(){
@@ -60,13 +58,13 @@ TCPModule::~TCPModule(){
 
 // creates new nodes for the parser
 
-Node * TCPModule::createNode( const string& name,  StringTable& attributes){
+Node * TCPModule::createNode( const std::string& name,  StringTable& attributes){
     if( name.compare("TCPSink") == 0 ){
         int station, posFlag, rotFlag, buttonFlag,timeFlag;
         int num = sscanf( attributes.get("station").c_str()," %i", 
 &station );
         if( num != 1 ){
-            cout << "TCPModule : not a number in TCPSink station " << attributes.get("station") << endl;
+            std::cout << "TCPModule : not a number in TCPSink station " << attributes.get("station") << endl;
             return NULL;
         }
         if( attributes.get("position").compare("on") == 0 )
@@ -87,7 +85,7 @@ Node * TCPModule::createNode( const string& name,  StringTable& attributes){
             timeFlag = 0;
         TCPSink * sink = new TCPSink( station, posFlag, rotFlag, buttonFlag, timeFlag );
         sinks.push_back( sink );
-        cout << "TCPSink for station " << station << " created." << endl;
+        std::cout << "TCPSink for station " << station << " created." << endl;
         return sink;
     }
     return NULL;
@@ -143,12 +141,12 @@ void TCPModule::pullState(){
                 }
                 // send to all connections
                 lock();
-                for( vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
+                for( std::vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
                     if( (*conit)->send_n( buffer, index, 0 ) != index ){
                         (*conit)->close();
                         delete (*conit);
                         connections.erase( conit-- );
-                        cout << "TCPModule : closed connection\n";
+                        std::cout << "TCPModule : closed connection\n";
                     }
                 }
                 unlock();
@@ -173,7 +171,7 @@ void TCPModule::init(StringTable& attributes,  ConfigNode * localTree){
         int num = sscanf(  attributes.get("port").c_str(), " %i", &port );
         if( num == 1 ){
             ThreadModule::init( attributes, localTree );
-            cout << "TCPModule listening to port " << port << endl;
+            std::cout << "TCPModule listening to port " << port << endl;
         }
     }
 }
@@ -183,7 +181,7 @@ void TCPModule::init(StringTable& attributes,  ConfigNode * localTree){
 void TCPModule::start(){
     if( isInitialized() == 1 ){
         ThreadModule::start();
-        cout << "TCPModule started !" << endl;
+        std::cout << "TCPModule started !" << endl;
     }
 }
 
@@ -200,17 +198,17 @@ void TCPModule::run(){
     while(running){
         ACE_SOCK_Stream * stream = new ACE_SOCK_Stream();
         if(acceptor.accept(*stream, &client, &timeout) == -1){ 
-            cout << "TCPModule : error listening to socket\n";
+            std::cout << "TCPModule : error listening to socket\n";
             continue; 
         } 
         client.addr_to_string( buffer, 100 );
-        cout << "TCPModule : new connection from " << buffer << endl;
+        std::cout << "TCPModule : new connection from " << buffer << endl;
         lock();
         connections.push_back( stream );
         unlock();
     }
     acceptor.close();
-    for( vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
+    for( std::vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
         (*conit)->close();
         delete (*conit);
     }

@@ -26,12 +26,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.5 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "GKTransformNode.h"
-#include <cmath>
+#include <math.h>
 
 using namespace std;
 

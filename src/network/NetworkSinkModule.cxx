@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.21 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.22 2003/07/18 20:26:47 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -44,8 +44,6 @@
 #include "NetworkSinkModule.h"
 
 #include <iostream>
-
-using namespace std;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;
@@ -66,20 +64,20 @@ const int revNum=0x0200;
 struct MulticastGroup {
     FlexibleTrackerDataRecord data;   
     char * nextRecord;
-    string group;
+    std::string group;
     int port;
-	string nic;
+    std::string nic;
     ACE_INET_Addr address;
-	ACE_SOCK_Dgram socket;
+    ACE_SOCK_Dgram socket;
 };
 
 /** simple functor to find the right multicast group. */
 struct FindGroup {
-	string group;
+	std::string group;
 	int port;
-	string nic;
+	std::string nic;
 
-	FindGroup( const string & group_, int & port_, const string & nic_ ) :
+	FindGroup( const std::string & group_, int & port_, const std::string & nic_ ) :
 		group( group_ ), port( port_), nic( nic_ )
 	{};
 
@@ -107,26 +105,26 @@ void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
 
 // This method is called to construct a new Node.
 
-Node * NetworkSinkModule::createNode( const string& name,  StringTable& attributes)
+Node * NetworkSinkModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSink") == 0 )
     {
-        string name = attributes.get("name");
+        std::string name = attributes.get("name");
         int number, port;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            cout << "Error in converting NetworkSink number !" << endl;
+            std::cout << "Error in converting NetworkSink number !" << endl;
             return NULL;
         }
-        string group = attributes.get("multicast-address");
+        std::string group = attributes.get("multicast-address");
         num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
-            cout << "Error in converting NetworkSink port number !" << endl;
+            std::cout << "Error in converting NetworkSink port number !" << endl;
             return NULL;
         }
-		string nic = attributes.get("interface");
+		std::string nic = attributes.get("interface");
 
-        GroupVector::iterator it = find_if( groups.begin(), groups.end(), FindGroup( group, port, nic ));
+        GroupVector::iterator it = std::find_if( groups.begin(), groups.end(), FindGroup( group, port, nic ));
 		/*
         for( ; it != groups.end(); it++)
         {
@@ -162,7 +160,7 @@ Node * NetworkSinkModule::createNode( const string& name,  StringTable& attribut
         
         NetworkSink * sink = new NetworkSink( name, number, groupData );
         nodes.push_back( sink );
-        cout << "Built NetworkSink node " << name << "." << endl;
+        std::cout << "Built NetworkSink node " << name << "." << endl;
         return sink;
     }
     return NULL;
@@ -180,7 +178,7 @@ void NetworkSinkModule::start()
         {
 			if( (*it)->socket.open(ACE_Addr::sap_any) == -1 )
 			{
-				cout << "Error opening socket in NetworkSinkModule !" << endl;
+				std::cout << "Error opening socket in NetworkSinkModule !" << endl;
 				exit(1);
 			}			
 			if((*it)->nic.compare("") != 0 )
@@ -202,7 +200,7 @@ void NetworkSinkModule::close()
 	{
 		if( (*it)->socket.close() == -1 )
 		{
-			cout << "Error closing socket in NetworkSinkModule !" << endl;
+			std::cout << "Error closing socket in NetworkSinkModule !" << endl;
 		}
 		delete (*it);		
 	}
@@ -284,7 +282,7 @@ void NetworkSinkModule::pullState()
             int size = (*gr_it)->nextRecord - (char*)&(*gr_it)->data;
             if( (*gr_it)->socket.send( &(*gr_it)->data, size, (*gr_it)->address ) < 0 )
             {
-                cout << "NetworkSinkModule : Error sending packet for " << 
+                std::cout << "NetworkSinkModule : Error sending packet for " << 
                         (*gr_it)->group << endl;
             }
         }

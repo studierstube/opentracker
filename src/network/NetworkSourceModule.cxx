@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.21 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.22 2003/07/18 20:26:47 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -45,8 +45,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 struct Station
 {
     int number;    
@@ -59,7 +57,7 @@ struct Station
     {};
 };
 
-typedef vector<Station *> StationVector;
+typedef std::vector<Station *> StationVector;
 
 // definitions for the Network Data protocol
 const int positionQuaternion=1;
@@ -77,11 +75,11 @@ struct MulticastReceiver
     /// buffer for incoming package
     FlexibleTrackerDataRecord buffer;
     StationVector sources;
-    string group;
+    std::string group;
     int port;
     int stop;
 
-    MulticastReceiver( const string & group_, int port_ ) :
+    MulticastReceiver( const std::string & group_, int port_ ) :
         group( group_ ), port( port_ ), stop(0)
     {};
 };
@@ -144,7 +142,7 @@ void NetworkSourceModule::run( void * data )
             {
                 if( errno != ETIME && errno != 0 )
                 {
-                    cout << "Error " << errno << " receiving data !" << endl;
+                    std::cout << "Error " << errno << " receiving data !" << endl;
                     exit( -1 );
                 }
             }    
@@ -221,25 +219,25 @@ void NetworkSourceModule::run( void * data )
         }        
     }
     rec->socket.close();
-    cout << "Stopping thread" << endl;
+    std::cout << "Stopping thread" << endl;
 }
     
  
 //  constructs a new Node
-Node * NetworkSourceModule::createNode( const string& name,  StringTable& attributes)
+Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSource") == 0 )
     { 
         int number, port;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            cout << "Error in converting NetworkSource number !" << endl;
+            std::cout << "Error in converting NetworkSource number !" << endl;
             return NULL;
         }
-        string group = attributes.get("multicast-address");
+        std::string group = attributes.get("multicast-address");
         num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
-            cout << "Error in converting NetworkSource port number !" << endl;
+            std::cout << "Error in converting NetworkSource port number !" << endl;
             return NULL;
         }
         NetworkSource * source = new NetworkSource; 
@@ -267,14 +265,14 @@ Node * NetworkSourceModule::createNode( const string& name,  StringTable& attrib
             }
             if( sit != receiver->sources.end())
             {
-                cout << "There is allready a node for station " << number <<
-                        " in group " << group << " !" << endl;
+                std::cout << "There is allready a node for station " << number <<
+                             " in group " << group << " !" << endl;
                 delete source;
                 return NULL;
             }
             receiver->sources.push_back( new Station( number, source ));
         }                        
-        cout << "Built NetworkSource node." << endl;
+        std::cout << "Built NetworkSource node." << endl;
         return source;
     }
     return NULL;

@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSParser.cxx,v 1.2 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSParser.cxx,v 1.3 2003/07/18 20:26:46 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <cstring>
-#include <cstdlib>
+#include <string.h>
+#include <stdlib.h>
 
 const int NMEABUFSZ = 1024;
 

@@ -26,12 +26,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.cxx,v 1.2 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.cxx,v 1.3 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "EllipsoidTransformNode.h"
-#include <cmath>
+#include <math.h>
 
 using namespace std;
 

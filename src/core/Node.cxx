@@ -26,12 +26,12 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.25 2003/07/18 15:17:14 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.26 2003/07/18 20:26:46 tamer Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
 
-#include <cstdio>
+#include <stdio.h>
 #include <iostream>
 
 #include <memory>

@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.15 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.16 2003/07/18 20:26:46 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -36,9 +36,9 @@
 #include "../core/MathUtils.h"
 #include "../misc/serialcomm.h"
 
-#include <cstdio>
-#include <cstring>
-#include <cerrno>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <iostream>
 
 using namespace std;

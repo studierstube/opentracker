@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.5 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -41,8 +41,6 @@
 #include "UltraTrakModule.h"
 
 #include <iostream>
-
-using namespace std;
 
 
 // constructor initializing the thread manager
@@ -78,7 +76,7 @@ void UltraTrakModule::convertFloatsNToHl(float* floats, float* result, int num)
 // reads from the Ultratrak and parses Ultratrak packages
 void UltraTrakModule::run()
 {
-	cout << "starting ultratrak module thread" << endl;
+	std::cout << "starting ultratrak module thread" << endl;
 
 	ACE_INET_Addr local((u_short)port);
 	ACE_INET_Addr remoteAddr;
@@ -95,7 +93,7 @@ void UltraTrakModule::run()
             {
                 if( errno != ETIME && errno != 0 )
                 {
-                    cout << "Error " << errno << " receiving data !" << endl;
+                    std::cout << "Error " << errno << " receiving data !" << endl;
                     exit( -1 );
                 }
             }    
@@ -157,19 +155,19 @@ void UltraTrakModule::run()
 	} // forever
 
     socket.close();
-    cout << "Stopping thread" << endl;
+    std::cout << "Stopping thread" << endl;
 }
     
 
 //  constructs a new Node
-Node * UltraTrakModule::createNode( const string& name,  StringTable& attributes)
+Node * UltraTrakModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("UltraTrakSource") == 0 )
     { 
         int number;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            cout << "Error in converting UltratrakSource number !" << endl;
+            std::cout << "Error in converting UltratrakSource number !" << endl;
             return NULL;
         }
 
@@ -184,14 +182,14 @@ Node * UltraTrakModule::createNode( const string& name,  StringTable& attributes
 		}
 		if( it != stations.end())
 		{
-			cout << "Source with number "<< number << " exists allready \n";
+			std::cout << "Source with number "<< number << " exists allready \n";
 			return NULL;
 		}
 
 		UltraTrakSource * source = new UltraTrakSource; 
 		Station *station = new Station(number, source);
 		stations.push_back( station );
-        cout << "Built UltratrakSource node." << endl;
+		std::cout << "Built UltratrakSource node." << endl;
 
         return source;
     }
@@ -242,7 +240,7 @@ void UltraTrakModule::pushState()
 
 
 
-int UltraTrakModule::parseVector(const string & line, int * val )
+int UltraTrakModule::parseVector(const std::string & line, int * val )
 {
     int help[3];
     int num;
@@ -303,23 +301,23 @@ void UltraTrakModule::init(StringTable& attributes, ConfigNode * localTree)
 
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
 	{
-            cout << "Error parsing positionMapping !" << endl;
+            std::cout << "Error parsing positionMapping !" << endl;
 			initMappping(positionMapping);
 	}
     if( parseVector(attributes.get("orientationMapping"), orientationMapping ) != 0 )
 	{
-            cout << "Error parsing orientationMapping !" << endl;
+            std::cout << "Error parsing orientationMapping !" << endl;
 			initMappping(orientationMapping);
 	}
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
 	{
-            cout << "Error parsing invertPosition !" << endl;
+            std::cout << "Error parsing invertPosition !" << endl;
 			initInversion(invertPosition);
 	}
 	calcInversion(invertPosition);
     if( parseVector(attributes.get("invertOrientation"), invertOrientation ) != 0 )
 	{
-            cout << "Error parsing invertOrientation !" << endl;
+            std::cout << "Error parsing invertOrientation !" << endl;
 			initInversion(invertOrientation);
 	}
 	calcInversion(invertOrientation);

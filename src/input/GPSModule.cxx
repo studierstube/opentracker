@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.8 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.9 2003/07/18 20:26:46 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -37,6 +37,8 @@
 #include "GPSModule.h"
 #include "GPSSource.h"
 #include "GPSDirectionSource.h"
+
+#include <iostream>
 
 ACE_Reactor gps_reactor;
 
@@ -90,11 +92,11 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
         {
             delete logFile;
             logFile = NULL;
-            cout << "DGPSModule error opening log file " << attributes.get("logfile") << endl;
+            std::cout << "DGPSModule error opening log file " << attributes.get("logfile") << endl;
         }
     }
     Module::init( attributes, localTree );
-	cout << "GPSModule initialized for port " << device << " and server " << dgpsServer << endl;
+    std::cout << "GPSModule initialized for port " << device << " and server " << dgpsServer << endl;
 }
 
 Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
@@ -103,32 +105,32 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
 	{
 		if( source != NULL )
 		{
-			cout << "Only one GPSSource can be build !" << endl;
+			std::cout << "Only one GPSSource can be build !" << endl;
 			return NULL;
 		}
 		if( !isInitialized() )
 		{
-			cout << "GPSModule is not initialized, cannot build GPSSource !" << endl;
+			std::cout << "GPSModule is not initialized, cannot build GPSSource !" << endl;
 			return NULL;
 		}
 		source = new GPSSource;
-		cout << "Built GPSSource node." << endl;
+		std::cout << "Built GPSSource node." << endl;
 		return source;
 	}
     if( name.compare("GPSDirectionSource") == 0 )
     {
         if( dirSource != NULL )
         {
-            cout << "Only one GPSDirectionSource can be build !" << endl;
+            std::cout << "Only one GPSDirectionSource can be build !" << endl;
             return NULL;
         }
         if( !isInitialized() )
         {
-            cout << "GPSModule is not initialized, cannot build GPSDirectionSource !" << endl;
+            std::cout << "GPSModule is not initialized, cannot build GPSDirectionSource !" << endl;
             return NULL;
         }
         dirSource = new GPSDirectionSource;
-        cout << "Built GPSDirectionSource node." << endl;
+        std::cout << "Built GPSDirectionSource node." << endl;
         return dirSource;
     }
 
@@ -198,7 +200,7 @@ void GPSModule::run()
 	driver->getReactor()->owner(ACE_Thread::self());
 	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror ) != 0 )
 	{
-		cout << "GPSModule could not start GPSDriver !\n";
+		std::cout << "GPSModule could not start GPSDriver !\n";
 		return;
 	}
 	driver->getReactor()->run_reactor_event_loop();

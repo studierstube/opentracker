@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.8 2003/01/09 04:14:12 tamer Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.9 2003/07/18 20:26:46 tamer Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -41,11 +41,9 @@
 #include "ARTDataTrackerSource.h"
 #include "ARTDataTrackerChomp.h"
 
-#include <cmath>
-#include <cstdio>
+#include <math.h>
+#include <stdio.h>
 #include <iostream>
-
-using namespace std;
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
@@ -82,7 +80,7 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 )
 		{
-            cout << "Error in converting ARTDataTrackerSource number !" << endl;
+            std::cout << "Error in converting ARTDataTrackerSource number !" << endl;
             return NULL;
         }
 		NodeVector::iterator it;
@@ -95,12 +93,12 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
 		}
 		if( it != sources.end())
 		{
-			cout << "Source with number "<< number << " exists allready\n";
+			std::cout << "Source with number "<< number << " exists allready\n";
 			return NULL;
 		}
         ARTDataTrackerSource * source = new ARTDataTrackerSource( number); 
 		sources.push_back( source );
-        cout << "Built ARTDataTrackerSource node. Number: " << number << endl;
+        std::cout << "Built ARTDataTrackerSource node. Number: " << number << endl;
         return source;
 	}
     return NULL;
@@ -148,7 +146,7 @@ void ARTDataTrackerModule::run()
 			{
 				if(errno != ETIME && errno != 0)
 				{
-					cout << "Error " << errno << " receiving data ! " << endl;
+					std::cout << "Error " << errno << " receiving data ! " << endl;
 					exit( -1 );
 				}
 			}

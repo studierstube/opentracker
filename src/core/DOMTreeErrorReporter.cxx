@@ -55,7 +55,7 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
+ * $Id: DOMTreeErrorReporter.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
  */
 
 // ---------------------------------------------------------------------------
@@ -64,8 +64,8 @@
 #include <xercesc/sax/SAXParseException.hpp>
 #include "DOMTreeErrorReporter.h"
 
-#include <cstdlib>
-#include <cstring>
+#include <stdlib.h>
+#include <string.h>
 
 #include <iostream>
 

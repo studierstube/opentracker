@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.5 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.6 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -69,17 +69,17 @@ int MagicYModule::connect()
         retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
+            std::cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
             return -1;
         }
         else 
         {
-            cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
+            std::cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
             sprintf(buffer, "GO\n\r");
             retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
             if(retval == -1 && errno != ETIME && errno != 0 )
             {
-                cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
+                std::cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
                 return -1;
             }
         }
@@ -115,13 +115,13 @@ int MagicYModule::receive()
         
         if(readHandles.is_set(screens[i]->socket.get_handle()))
         {
-            //cout << "Reading socket " << i << endl;
+            //std::cout << "Reading socket " << i << endl;
             do
             {
                 retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
                 if(retval == -1 && errno != ETIME && errno != 0)
                 {
-                    cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
+                    std::cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
                     return -1;
                 }  
                 else
@@ -140,12 +140,12 @@ int MagicYModule::receive()
                 }
             } while(!complete && stop == 0);
             
-            //cout << "MESSAGE S" << i << ": " << message.c_str() << endl;	
+            //std::cout << "MESSAGE S" << i << ": " << message.c_str() << endl;	
             if(message.compare("READY") && message.compare("0"))
             {
                 pos = message.find(',', 0);
                 message.erase(0, pos+1);
-                //cout << "MESSAGE: " << message.c_str() << endl;
+                //std::cout << "MESSAGE: " << message.c_str() << endl;
                 // extract state and points
                 while (1)
                 {		
@@ -156,7 +156,7 @@ int MagicYModule::receive()
                         else
                             trigger = false;
                         
-                        //cout << "POINT: (" << x << "," << y << "," << trigger << ")" << endl;
+                        //std::cout << "POINT: (" << x << "," << y << "," << trigger << ")" << endl;
                         x += screens[i]->x_offset;
                         y += screens[i]->y_offset;
                         
@@ -193,7 +193,7 @@ int MagicYModule::stillConnected()
         retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
+            std::cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
             return 0;
         }
     }
@@ -214,7 +214,7 @@ void MagicYModule::disconnect()
 // reads from the MagicY server and parses MagicY packages
 void MagicYModule::run()
 {
-    cout << "starting MagicY module thread" << endl;
+    std::cout << "starting MagicY module thread" << endl;
     
     ACE_Time_Value timeOut(1,0);
     int average_x=0, average_y=0, socks_active;	
@@ -223,7 +223,7 @@ void MagicYModule::run()
     while(stop == 0)
     {
         // connecting
-        cout << "Trying to connect ... " << endl;
+        std::cout << "Trying to connect ... " << endl;
         if(connect() == 0)
         {
             connected = true;
@@ -233,7 +233,7 @@ void MagicYModule::run()
                 average_x=0;
                 average_y=0;
                 
-                //cout << "Active sockets: " << socks_active << endl;
+                //std::cout << "Active sockets: " << socks_active << endl;
                 if(! stillConnected())
                     break;
                 
@@ -243,7 +243,7 @@ void MagicYModule::run()
                 socks_active = ACE::select(ACE_Handle_Set::MAXSIZE, readHandles, &timeOut);
                 if(! socks_active)
                 {
-                    cout << "Error: Socket select time out" << endl;
+                    std::cout << "Error: Socket select time out" << endl;
                     break;
                 }
                 if(receive())
@@ -313,7 +313,7 @@ void MagicYModule::run()
         }// if connected
         disconnect();
     } // forever
-    cout << "Stopping thread" << endl;
+    std::cout << "Stopping thread" << endl;
 }
 
 
@@ -340,14 +340,14 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
         }
         if( it != magicYs.end())
         {
-            cout << "Source with number "<< number << " exists allready \n";
+            std::cout << "Source with number "<< number << " exists allready \n";
             return NULL;
         }
         
         MagicYSource *source = new MagicYSource; 
         MagicY *magicY = new MagicY(number, average, source);
         magicYs.push_back( magicY );
-        cout << "Built MagicYSource node." << endl;
+        std::cout << "Built MagicYSource node." << endl;
         
         return source;
     }
@@ -445,7 +445,7 @@ int MagicYModule::parseScreens(const string & line)
         Screen *scr = new Screen(port, hostname, x_off, y_off);
         screens.push_back(scr);
         
-        cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
+        std::cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
         
         pos = temp.find(' ', 0);
         pos = temp.find(' ', pos+1);
@@ -510,24 +510,24 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
     {
-        cout << "Error parsing positionMapping !" << endl;
+        std::cout << "Error parsing positionMapping !" << endl;
         initMappping(positionMapping);
     }
     calcMapping(positionMapping);
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
     {
-        cout << "Error parsing invertPosition !" << endl;
+        std::cout << "Error parsing invertPosition !" << endl;
         initInversion(invertPosition);
     }
     calcInversion(invertPosition);
     if( parseVector(attributes.get("orientation"), orientation ) != 0 )
     {
-        cout << "Error parsing orientation !" << endl;
+        std::cout << "Error parsing orientation !" << endl;
         initOrientation(orientation);
     }
     if( parseScreens(attributes.get("screens")) != 0 )
     {
-        cout << "Error parsing extra screens !" << endl;
+        std::cout << "Error parsing extra screens !" << endl;
     }
     z_value = atof(attributes.get("z_value").c_str());
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.34 2003/07/18 17:17:39 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.35 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -84,7 +84,7 @@ ConsoleModule::~ConsoleModule()
 }
 
 #include <algorithm>
-#include <cstdio>
+#include <stdio.h>
 #include <iostream>
 #include <iomanip>
 

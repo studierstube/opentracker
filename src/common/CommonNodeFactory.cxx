@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.35 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.36 2003/07/18 20:26:46 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,9 +48,9 @@
 #include "GKTransformNode.h"
 #include "RangeFilterNode.h"
 
-#include <cmath>
-#include <cfloat>
-#include <cstdio>
+#include <math.h>
+#include <float.h>
+#include <stdio.h>
 #include <iostream>
 
 #include <algorithm>
