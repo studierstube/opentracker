@@ -3,14 +3,14 @@
 # overwriting the old version.
 # Usage : python mirrorpatterns.py file1 file2 ...
 # @author Gerhard Reitmayr
-# $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/tools/mirrorpatterns.py,v 1.1 2003/05/21 14:17:34 reitmayr Exp $
+# $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/tools/mirrorpatterns.py,v 1.2 2003/05/26 16:49:17 reitmayr Exp $
 
 import sys
 
 def flipFile( input ) :
     fin = file( input );
     lines = fin.readlines()
-    size = lines[0].strip().count(' ')+1
+    size = lines[0].replace('  ',' ').replace('  ',' ').strip().count(' ')+1
     fin.close();
     
     fout = file( input, 'w' );
