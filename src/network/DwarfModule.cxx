@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.1 2003/07/24 10:08:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.cxx,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,6 +40,11 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <DWARF/Service.h>
+#include <DWARF/PoseData.h>
+#include <corbainit_cpp/corbainit.h>
+#include <debug.h>
+
 using namespace std;
 
 // Destructor method
@@ -50,6 +55,82 @@ DwarfModule::~DwarfModule()
 
 void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
 {
+    myOrbConnection = CorbaInit::initializeOrb() //parameters here ! 
+                                                 // -Dservicemanager=atbruegge34
+    ServiceManager_var smgr = myOrbConnection->getServiceManager();
+    
+    ServiceDescription_var sd;
+    NeedDescription_var nd;
+    AbilityDescription_var ad;
+    ConnectorDescription_var pd;
+    AttributeDescription_var atd;
+
+    DEBUGSTREAM(10,  "Describing Service");
+    sd=smgr->newServiceDescription(attributes.get("name").c_str());
+    sd->setStartOnDemand(false);
+    sd->setStopOnNoUse(false);
+
+    unsigned int i;
+    for( i = 0;i < localTree->countChildren(); i++)
+    {
+        ConfigNode * child = localTree->getChild(i);
+        if( child->getType().compare("ability") == 0)
+        {
+            ad = sd->newAbility(child->get("name").c_str());
+            ad->setType(child->get("type").c_str());
+            
+            thingIdMap[child->getName("name")] = child->get("thingid");
+            thingTypeMap[child->getName("name")] = child->get("thingtype");
+
+            unsigned int j;
+            for( j = 0; j < child->countChildren(); j++)
+            {
+                ConfigNode * subChild = child->getChild(j);
+                if( subChild->getType().compare("attribute") == 0)
+                {
+                    atd = ad->newAttribute();
+                    atd->setName(subChild->get("name").c_str());
+                    atd->setValue(subChild->get("value").c_str());
+                }
+                else if( subChild->getType().compare("connector") == 0)
+                {
+                    pd=ad->newConnector(subChild->get("protocol").c_str());                    
+                }
+            }
+        }
+        else if( child->getType().compare("need") == 0)
+        {
+            nd = sd->newNeed(child->get("name").c_str());
+            nd->setType(child->get("type").c_str());
+            nd->setPredicate(child->get("predicate").c_str());
+            nd->setDelegated(child->get("delegated").c_str());
+ 
+            unsigned int j;
+            for( j = 0; j < child->countChildren(); j++)
+            {
+                ConfigNode * subChild = child->getChild(j);
+                if( subChild->getType().compare("attribute") == 0)
+                {
+                    atd = nd->newAttribute();
+                    atd->setName(subChild->get("name").c_str());
+                    atd->setValue(subChild->get("value").c_str());
+                }
+                else if( subChild->getType().compare("connector") == 0)
+                {
+                    pd=nd->newConnector(subChild->get("protocol").c_str());                    
+                }
+            }
+        }
+        else
+            cout << "DwarfModule: got something strange here !\n";
+
+    }
+
+    smgr->activateServiceDescription(attributes.get("name").c_str());  
+    
+    service = new PoseSenderService(attributes.get("name").c_str());
+
+    service->blockUntilRunning();
 
     Module::init( attributes, localTree );
 }
@@ -60,10 +141,25 @@ Node * DwarfModule::createNode( const string& name, StringTable& attributes)
 {
     if( name.compare("DwarfSource") == 0 )
     {
+        DwarfSource * source = NULL;
         return source;
     }
     else if( name.compare("DwarfSink") == 0 )
     {
+        DwarfSink * sink = NULL;
+
+        PoseSender * sender = service->getPoseSender(attributes.get("name"));
+        if( sender != NULL )
+        {
+            sink = new DwarfSink( attributes.get("name"));
+            sinks.push_back( sink );
+            
+            sender->setPosAccuracy(0);
+            sender->setOriAccuracy(0);
+            
+            sender->setThingID( thingIdMap[attributes.get("name")] );
+            sender->setThingType( thingTypeMap[attributes.get("name")] );
+        }
         return sink;
     }
     return NULL;
@@ -77,6 +173,30 @@ void DwarfModule::pushState()
 
 void DwarfModule::pullState()
 {
+    vector<DwarfSink *>::iterator it;
+    for( it = sinks.begin(); it != sinks.end(); it ++ )
+    {
+        DwarfSink * sink = (*it);
+        if( sink->changed )
+        {
+            PoseSender * sender = service->getPoseSender( sink->name );
+            if( sender != NULL )
+            {
+                // FIXME: better to use the array copy, after switch to doubles !!
+                sender->setPos( 0, sink->state.orientation[0]);
+                sender->setPos( 1, sink->state.orientation[1]);
+                sender->setPos( 2, sink->state.orientation[2]);
+                sender->setOri( 0, sink->state.orientation[0]);
+                sender->setOri( 1, sink->state.orientation[1]);
+                sender->setOri( 2, sink->state.orientation[2]);
+                sender->setOri( 3, sink->state.orientation[3]);
+
+                // FIXME: use opentracker time with setTimestamp
+                sender->updateTimeStamp();
+
+            }
+            //  create event here and send it !
+            sink->changed = false;
+        }
+    }
 }
-
-

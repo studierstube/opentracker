@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.h,v 1.1 2003/07/24 10:08:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfModule.h,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,11 +45,15 @@
 #include "../dllinclude.h"
 
 #include <vector>
+#include <map>
 
 #include "Module.h"
 #include "NodeFactory.h"
 
-typedef std::vector<Node*> NodeVector;
+class DwarfSink;
+class DwarfSource;
+class PoseSenderService;
+class CorbaInit;
 
 /**
  * The module and factory to drive the test source nodes. It constructs
@@ -63,17 +67,23 @@ class OPENTRACKER_API DwarfModule : public Module, public NodeFactory
 // Members
 protected:
     /// list of TestSource nodes in the tree
-    NodeVector nodes;
-    /// current cycle count, for computing when to fire a TestSource
-    int cycle;
+    std::vector<DwarfSink *> sinks;
+
+    std::vector<DwarfSource *> sources;
+
+    std::map<std::string, std::string> thingIdMap;
+
+    std::map<std::string, std::string> thingTypeMap;
+
+    PoseSenderService * service;
+
+    CorbaInit * myOrbConnection;
 
 // Methods
 public:
     /** constructor method. */
     DwarfModule() : Module(), NodeFactory()
-    {
-        cycle = 0;
-    };
+    {};
     /** Destructor method, clears nodes member. */
     virtual ~DwarfModule();
 

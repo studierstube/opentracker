@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.1 2003/07/24 10:08:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/DwarfSink.h,v 1.2 2003/07/24 13:59:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -60,16 +60,18 @@ public:
     State state;
     /// new state arrived ?
     bool changed;
-
+    /// name of associated dwarf ability
+    std::string name;
 
 // Methods
 protected:
     /** simple constructor, sets members to initial values
      * @param frequency_ initial value for member frequency 
      * @param offset_ initial value for member offset */
-    DwarfSink() : 
+    DwarfSink( const std::string & name_) : 
         Node(),
-        changed( false )
+        changed( false ),
+        name( name_ )
     {}
 
 public:            
@@ -93,7 +95,7 @@ public:
     virtual void onEventGenerated( State& event, Node& generator)
     {        
         state = event;
-        changed = 1;        
+        changed = true;        
         updateObservers( event );
     }
 
