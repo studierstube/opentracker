@@ -1,3 +1,15 @@
+2004-07-12 14:48:21  Rev 710    reitmayr
+
+	* src/misc/standalone.dsp, opentracker.dsp, src/misc/test.dsp, 
+	  src/tool/tool.dsp, opentracker.dsw: added end of line property to 
+	  support correct file endings
+
+2004-07-12 13:47:53  Rev 709    reitmayr
+
+	* src/misc/standalone.dsp, opentracker.dsp, src/misc/test.dsp, 
+	  src/tool/tool.dsp, opentracker.dsw: fixed line endings to make 
+	  MSVC6.0 project files work again.
+
 2004-07-09 15:40:47  Rev 707    autosvn
 
 	* doc/opentracker_site.dxy: added opentracker doxygen file for the 
