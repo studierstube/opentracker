@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.2 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.3 2001/02/19 07:31:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,7 +48,7 @@ protected:
     /** builds a Transformation node.
      * @param attributes reference to StringMap of elements attribute values
      * @return pointer to Transformation created on the heap */
-     Transformation * buildTransformation( StringMap& attributes);
+     StaticTransformation * buildTransformation( StringMap& attributes);
     /** builds a VirtualTransformation node.
      * @param attributes reference to StringMap of elements attribute values
      * @return pointer to VirtualTransformation created on the heap */

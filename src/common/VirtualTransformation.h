@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.2 2001/02/19 07:31:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,7 @@
 #ifndef _VIRTUALTRANSFORMATION_H
 #define _VIRTUALTRANSFORMATION_H
 
-#include "Transformation.h"
+#include "StaticTransformation.h"
 
 /**
  * A VirtualTransformation acts differently from a common Transformation.
@@ -44,7 +44,7 @@
  * post-transformation like the VirtualTransformation.
  * @author Gerhard Reitmayr
  */
-class VirtualTransformation : public Transformation
+class VirtualTransformation : public StaticTransformation
 {
 // Methods
 protected:
@@ -58,7 +58,7 @@ public:
     /** ructor method. */
     VirtualTransformation(float translation_[3], float scale_[3],
                           float rotation_[4])
-        : Transformation(translation_, scale_, rotation_ )
+        : StaticTransformation(translation_, scale_, rotation_ )
     {}
 };
 

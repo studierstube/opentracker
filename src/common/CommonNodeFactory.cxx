@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.2 2001/01/31 14:49:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.3 2001/02/19 07:31:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,7 @@ CommonNodeFactory::CommonNodeFactory()
 
 // builds and returns a new Transformation node
 
-Transformation * CommonNodeFactory::buildTransformation(
+StaticTransformation * CommonNodeFactory::buildTransformation(
                                           StringMap& attributes)
 {
     float translation[3], scale[3], rotation[4];
@@ -125,7 +125,7 @@ Transformation * CommonNodeFactory::buildTransformation(
             MathUtils::axisAngleToQuaternion( axisa, rotation );
         }
     }
-    return new Transformation( translation, scale, rotation );
+    return new StaticTransformation( translation, scale, rotation );
 }
 
 // builds a new VirtualTransformation node
@@ -134,7 +134,7 @@ VirtualTransformation * CommonNodeFactory::buildVirtualTransformation(
                  StringMap& attributes)
 {
     // little helper
-    Transformation * help = buildTransformation( attributes );
+    StaticTransformation * help = buildTransformation( attributes );
     VirtualTransformation *result = new VirtualTransformation( help->getTranslation(),
             help->getScale(), help->getRotation());
     delete help;
