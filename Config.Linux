@@ -48,7 +48,8 @@ CPPFLAGS = \
            -D_LINUX_SOURCE $(OT_OPT)
 	
 ## These are empty; will be redefined in sub-makefiles if necessary
-PRVFLAGS = -DGCC3
+# Enable this flag, if you are using a new GCC 3.x version !
+# PRVFLAGS = -DGCC3
 
 ## ---------------------------------------------------------------------------
 ##  COMPILER PARAMETERS
