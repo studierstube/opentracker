@@ -24,7 +24,7 @@ HFILES = \
         TestModule.h \
         TestSource.h \
         ThreadModule.h \
-        WrapperNode.h \
+        NodePort.h \
         StringTable.h \
         OSUtils.h
         
@@ -39,7 +39,6 @@ C++FILES = \
         State.cxx \
         TestModule.cxx \
         ThreadModule.cxx \
-        WrapperNode.cxx \
         StringTable.cxx \
         OSUtils.cxx
 

@@ -48,7 +48,7 @@ SelectionNode::SelectionNode( double t )
 // generates a new data item upon receiving an event
 void SelectionNode::onEventGenerated( State& event, Node & generator )
 {
-	if( generator.isWrapperNode() == 1 )
+	if( generator.isNodePort() == 1 )
 	{
 		lastTimeStamp = event.time;
 		updateObservers( event );

@@ -22,6 +22,12 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
+/** source file for Context class
+  *
+  * @author Gerhard Reitmayr
+  * @todo set attributes on the element in createNode
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.15 2001/07/31 21:54:05 reitmayr Exp $
+  * @file                                                                   */     
  /* ======================================================================= */
 
 #include "Context.h"
@@ -131,6 +137,8 @@ void Context::parseConfiguration(const string& filename)
 {
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
+    DOM_Document doc = rootNode->parent->getOwnerDocument();
+    doc.setUserData( this );
 }
 
 // calls pullState on all modules to get data out again.

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.11 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.12 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,8 +34,6 @@
 #define _COMMONNODEFACTORY_H
 
 #include "../OpenTracker.h"
-#include "Transformation.h"
-#include "VirtualTransformation.h"
 #include "EventQueueNode.h"
 
 /**
@@ -51,6 +49,8 @@
  * The following nodes are build by this factory :
  * \li Transformation, for all types of transformations
  * \li VirtualTransformation, again all types of transformations
+ * \li InvertTransformation, all types
+ * \li MatrixTransformation, all types
  * \li EventQueueNode
  * \li MergeNode
  * \li SelectionNode
@@ -62,8 +62,8 @@ class CommonNodeFactory : public NodeFactory
 
 // members 
 protected:
-    /// stores names of known WrapperNodes, to make instantiation more generic
-    std::vector<std::string> wrapperNodes;
+    /// stores names of known NodePorts, to make instantiation more generic
+    std::vector<std::string> nodePorts;
 
 protected:
     

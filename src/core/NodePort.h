@@ -22,16 +22,16 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for the WrapperNode class.
+/** header file for the NodePort class.
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/WrapperNode.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodePort.h,v 1.1 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#ifndef _WRAPPERNODE_H
-#define _WRAPPERNODE_H
+#ifndef _NODEPORT_H
+#define _NODEPORT_H
 
 #include "../dllinclude.h"
 
@@ -43,20 +43,20 @@
  * @author Gerhard Reitmayr
  * @ingroup core
 */
-class OPENTRACKER_API WrapperNode : public Node
+class OPENTRACKER_API NodePort : public Node
 {
 
 // Methods
 protected:
     /**
      * constructor method */
-    WrapperNode()
+    NodePort()
         : Node()
     {};
 public:
     /** tests whether the given node is a wrapper node.
      * @return always returns 1 */
-    virtual int isWrapperNode()
+    virtual int isNodePort()
     {
         return 1;
     };

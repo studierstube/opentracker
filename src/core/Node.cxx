@@ -22,9 +22,17 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
+/** The source file for the basic Node class.
+  *
+  * @author Gerhard Reitmayr
+  * @todo add exception handling and error code returns
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.12 2001/07/31 21:54:05 reitmayr Exp $
+  * @file                                                                   */  
  /* ======================================================================= */
 
 #include "Node.h"
+#include "StringTable.h"
+#include "Context.h"
 
 #ifdef WIN32
 #include <iostream>// VisualC++ uses STL based IOStream lib
@@ -38,6 +46,7 @@
 #include <dom/DOM_NodeList.hpp>
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
+#include <dom/DOM_Document.hpp>
 #include <dom/DOM_DOMException.hpp>
 
 using namespace std;
@@ -101,8 +110,6 @@ Node * Node::getParent()
 
 unsigned int Node::countChildren()
 {
-	// DOM_NodeList list = parent->getChildNodes();
-	// return list.getLength();
     DOM_Node node = parent->getFirstChild();
     unsigned int count = 0;
     while( !node.isNull())
@@ -110,7 +117,7 @@ unsigned int Node::countChildren()
         Node * myNode = (Node *)node.getUserData();
         if( myNode != NULL )
         {
-            if( myNode->isWrapperNode() == 0 )
+            if( myNode->isNodePort() == 0 )
                 count ++;
         }
         node = node.getNextSibling();
@@ -120,24 +127,26 @@ unsigned int Node::countChildren()
 
 // adds a new child
 
-void Node::addChild(Node & child)
+Node::error Node::addChild(Node & child)
 {
-//    try {
+    try {
         parent->appendChild( *(child.parent));
-/*    }
-    catch( DOMException& e )
-    {}*/
+    }
+    catch( DOM_DOMException& e )
+    {}
+    return OK;
 }
 
 // removes a child
 
-void Node::removeChild(Node & child)
+Node::error Node::removeChild(Node & child)
 {
     try {
         parent->removeChild( *(child.parent));
     }
     catch( DOM_DOMException e )
     {}
+    return OK;
 }
 
 // iterates through the children by returning the child by index
@@ -150,7 +159,7 @@ Node * Node::getChild( unsigned int index )
     {
         myNode = (Node *)node.getUserData();
         if( myNode != NULL )		
-            if( myNode->isWrapperNode() == 0 )
+            if( myNode->isNodePort() == 0 )
 				if( index == 0 )
 					return myNode;
 				else 
@@ -160,81 +169,105 @@ Node * Node::getChild( unsigned int index )
     return NULL;
 }
 
-// returns number of wrapped children by name
+// returns number of NodePorts present on this Node
 
-unsigned int Node::countWrappedChildren( const string & name )
+unsigned int Node::countPorts()
 {
-	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
-	if( list.getLength() > 0 )
-	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
-		Node * wrapper = (Node *)wrapElement.getUserData();
-		if( wrapper->isWrapperNode() == 1 )
-		{
-			return wrapElement.getChildNodes().getLength();
-		}
-	}
-	return 0;
+    Node * myNode = NULL;
+    unsigned int count = 0;
+    DOM_Node node = parent->getFirstChild();
+    while( !node.isNull())
+    {
+        myNode = (Node *)node.getUserData();
+        if( myNode != NULL )		
+            if( myNode->isNodePort() == 1 )
+                count++;
+        node = node.getNextSibling();                
+    }
+	return count;
 }
 
-// iterates through the children by returning the child by index and name
+// returns a NodePort child object indexed by Name
 
-Node * Node::getWrappedChild( const string & name, unsigned int index )
+NodePort * Node::getPort( const string & name )
 {
 	DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
 	if( list.getLength() > 0 )
 	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
-		Node * wrapper = (Node *)wrapElement.getUserData();
-		if( wrapper->isWrapperNode() == 1 )
-		{
-			DOM_NodeList wrapped = wrapElement.getChildNodes();
-			if( index < wrapped.getLength() )
-			{
-				return (Node *)wrapped.item( index ).getUserData();
-			}
-		}
+		DOM_Element portElement = (DOM_Element &) list.item(0);
+		Node * port = (Node *)portElement.getUserData();
+        if( port != NULL )
+            if( port->isNodePort() == 1 )
+                return (NodePort *)port;
 	}
 	return NULL;
 }
 
-// adds a child to a marked input
+// returns a NodePort child object by index
 
-void Node::addWrappedChild(const string & name, Node & child)
+NodePort * Node::getPort( unsigned int index )
 {
-    DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
-	if( list.getLength() > 0 )
-	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
-		try {
-            wrapElement.appendChild( *(child.parent));
-        }
-        catch( DOM_DOMException e )
-        {}
-	}
+    Node * myNode = NULL;
+    DOM_Node node = parent->getFirstChild();
+    while( !node.isNull())
+    {
+        myNode = (Node *)node.getUserData();
+        if( myNode != NULL )		
+            if( myNode->isNodePort() == 1 )
+				if( index == 0 )
+					return (NodePort *) myNode;
+				else 
+					index--;
+        node = node.getNextSibling();                
+    }
+    return NULL;
 }
 
-// removes a child from a marked input
+// creates and adds a new child NodePort object of the given name.
 
-void Node::removeWrappedChild(const string & name, Node & child)
+Node::error Node::addPort( const std::string & name )
 {
-    DOM_NodeList list = parent->getElementsByTagName( name.c_str() );
-	if( list.getLength() > 0 )
-	{
-		DOM_Element wrapElement = (DOM_Element &) list.item(0);
-		try {
-            wrapElement.removeChild( *(child.parent));
-        }
-        catch( DOM_DOMException e )
-        {}
-	}
+    if( parent->getElementsByTagName( name.c_str()).getLength() > 0 )
+        return GRAPH_CONSTRAINT;
+    DOM_Document doc = parent->getOwnerDocument();    
+    Context * context = (Context *)doc.getUserData();
+    StringTable table;
+    Node * node = context->createNode( name, table);
+    if( node == NULL )
+        return GRAPH_CONSTRAINT;
+    return addChild( *node );    
+}
+
+// removes a child NodePort object indexed by name
+
+Node::error Node::removePort( const std::string & name )
+{
+    NodePort * port = getPort( name );
+    if( port == NULL )
+        return NOT_FOUND;
+    return removePort( *port );
+}
+
+// removes a child NodePort object by index
+
+Node::error Node::removePort( unsigned int index )
+{
+    NodePort * port = getPort( index );
+    if( port == NULL )
+        return NOT_FOUND;
+    return removePort( *port );
+}
+
+Node::error Node::removePort( NodePort & port)
+{
+    return removeChild((Node &) port );
 }
 
 // updates any observers ( the parent and the references ) 
 
 void Node::updateObservers( State &data )
 {
-	if( isEventGenerator() == 1 || isWrapperNode() == 1 )
+	if( isEventGenerator() == 1 || isNodePort() == 1 )
 	{
 		const DOM_Node & parentElement = parent->getParentNode();
 		if( parentElement != 0 )

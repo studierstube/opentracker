@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.9 2001/05/28 15:24:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.10 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,7 +58,7 @@ DynamicTransformation::DynamicTransformation( int baseEvent_ ) :
 
 void DynamicTransformation::onEventGenerated( State& event, Node& generator)
 {
-    if( generator.isWrapperNode() == 1 )  // if the event is from the wrapper 
+    if( generator.isNodePort() == 1 )     // if the event is from the NodePort 
     {	                                  // node, its a change to the base.
         for( int i = 0; i < 3; i ++ )
         {

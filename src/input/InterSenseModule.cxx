@@ -26,9 +26,8 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.7 2001/07/31 21:54:05 reitmayr Exp $
   * @todo optimize compare and copy with mem* calls
-  * @todo implement IRIX / Linux version with Stb code
   * @file                                                                   */
  /* ======================================================================= */
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.8 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.9 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,7 +38,6 @@
 #include "Node.h"
 #include "Module.h"
 #include "NodeFactory.h"
-#include "WrapperNode.h"
 #include "ConfigNode.h"
 #include "RefNode.h"
 #include "StringTable.h"

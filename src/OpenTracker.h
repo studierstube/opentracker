@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.15 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.16 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -78,6 +78,7 @@
 #include "core/MathUtils.h"
 #include "core/StringTable.h"
 #include "core/OSUtils.h"
+#include "core/NodePort.h"
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple

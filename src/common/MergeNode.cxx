@@ -25,8 +25,8 @@
 /** source file for Merge Node.
   *
   * @author Gerhard Reitmayr
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
+  * @todo optimize nodeport test, maybe by implementing special nodeports ?
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.cxx,v 1.8 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,20 +48,25 @@ unsigned DEFAULT = 1,
 void MergeNode::onEventGenerated( State& event, Node & generator)
 {
 	unsigned flag = 0;
-	if( generator.isWrapperNode() == 1 )  // this should always be the case
+	if( generator.isNodePort() == 1 )  // this should always be the case
 	{
-		WrapperNode & wrap = (WrapperNode &)generator;
+		NodePort & wrap = (NodePort &)generator;
 		if( wrap.getType().compare("MergeDefault") == 0 )
 		{
-			if( countWrappedChildren("MergePosition") == 0 )
+			if((getPort("MergePosition") == NULL) || 
+               (getPort("MergePosition")->countChildren() == 0 ))
 				flag |= POSITION;
-			if( countWrappedChildren("MergeOrientation") == 0 )
+			if((getPort("MergeOrientation") == NULL) || 
+               (getPort("MergeOrientation")->countChildren() == 0 ))
 				flag |= ORIENTATION;
-			if( countWrappedChildren("MergeButton") == 0 )
+			if((getPort("MergeButton") == NULL) || 
+               (getPort("MergeButton")->countChildren() == 0 ))
 				flag |= BUTTON;
-			if( countWrappedChildren("MergeConfidence") == 0 )
+			if((getPort("MergeConfidence") == NULL) || 
+               (getPort("MergeConfidence")->countChildren() == 0 ))
 				flag |= CONFIDENCE;
-			if( countWrappedChildren("MergeTime") == 0 )
+			if((getPort("MergeTime") == NULL) || 
+               (getPort("MergeTime")->countChildren() == 0 ))
 				flag |= TIME;
 		} 
 		else if( wrap.getType().compare("MergePosition") == 0 )

@@ -26,12 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.15 2001/07/23 15:41:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.16 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CommonNodeFactory.h"
 #include "MergeNode.h"
+#include "VirtualTransformation.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"
 #include "MatrixTransformation.h"
@@ -53,19 +54,19 @@ using namespace std;
 
 CommonNodeFactory::CommonNodeFactory()
 {
-    wrapperNodes.push_back("MergePosition");
-    wrapperNodes.push_back("MergeOrientation");
-    wrapperNodes.push_back("MergeButton");
-    wrapperNodes.push_back("MergeConfidence");
-    wrapperNodes.push_back("MergeTime");
-    wrapperNodes.push_back("MergeDefault");
-    wrapperNodes.push_back("TransformBase");
-    wrapperNodes.push_back("Select");
+    nodePorts.push_back("MergePosition");
+    nodePorts.push_back("MergeOrientation");
+    nodePorts.push_back("MergeButton");
+    nodePorts.push_back("MergeConfidence");
+    nodePorts.push_back("MergeTime");
+    nodePorts.push_back("MergeDefault");
+    nodePorts.push_back("TransformBase");
+    nodePorts.push_back("Select");
 }
 
 CommonNodeFactory::~CommonNodeFactory()
 {
-    wrapperNodes.clear();
+    nodePorts.clear();
 }
 
 int CommonNodeFactory::parseVector(const string & line, float * val )
@@ -299,10 +300,10 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         attributes.get( "matrix", data, 12 );
         result = new MatrixTransformation( data );
     }
-    else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
+    else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;
-        return new WrapperNode();
+        return new NodePort();
     }
     if( result != NULL )
         cout << "Build "<< name << " node." <<endl;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.14 2001/07/31 21:54:05 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -53,6 +53,7 @@ class ConfigurationParser;
 class RefNode;
 class DOM_Element;
 class Node;
+class NodePort;
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
@@ -87,6 +88,9 @@ protected:
     
     /// the type of the node, equals the name of the configuration element
     std::string type;
+    
+public:
+    enum error { OK=0, GRAPH_CONSTRAINT, READONLY, CONTEXT_ERROR, NOT_FOUND };
 
 protected:
 
@@ -174,55 +178,64 @@ public:
     /** 
      * adds a new child to the direct children of the node. This method
      * will only work, if it does not violate any rules for the graph.
-     * @todo add detailed rules
+     * @todo add detailed rules and error code documentation
      * @param child the new child node to add
+     * @return error code describing outcome of the operation
      */
-    void addChild(Node & child);
+    error addChild(Node & child);
 
     /**
      * removes a child from the direct children of a node. This method
      * will only work, if the passed node is actually a child of the
-     * node.
-     * @param child the child node to remove 
-     */
-    void removeChild(Node & child);
-
-    /**
-     * returns the number of children contained by a certain wrapper node.
-     * It is similar to countChildren(), but will work on the marked
-     * children associated with a certain input and therefore wrapped
-     * by a wrapper node.
-     * @param name the element name of the wrapper element
-     * @returns unsigned number of children */
-    unsigned int countWrappedChildren( const std::string & name );
-
-    /**
-     * returns a wrapped child by index. Again similar to getChild(), but for
-     * wrapped nodes.
-     * @param name the element name of the wrapper element
-     * @param index unsigned number => 0 and < countWrappedChildren
-     * @returns pointer to the child node or NULL if index is out of range.
-     */
-	Node * getWrappedChild( const std::string & name, unsigned int index );
-
-    /**
-     * adds a new wrapped child node. Again similar to addChild(), but
-     * for adding it to a special input. It will also only work, if
-     * it does not violate any rules for the graph.
-     * @param name the name of the wrapper element
-     * @param child the new child node to add
-     */
-    void addWrappedChild(const std::string & name, Node & child);
-
-    /**
-     * removes a wrapped child node. Again similar to removeChild(), but
-     * for adding it to a special input. This method
-     * will only work, if the passed node is actually a child of the
-     * associated wrapper node.
-     * @param name the name of the wrapper element
+     * node.     
      * @param child the child node to remove
+     * @return error code describing outcome of the operation 
+     */
+    error removeChild(Node & child);
+
+    /**
+     * returns the number of NodePorts present on this Node. This is the
+     * number of NodePorts actually used, not the total number possible 
+     * by the content definition.
+     * @returns unsigned number of NodePorts */
+    unsigned int countPorts();
+
+    /**
+     * returns a NodePort child object indexed by Name. If the NodePort is
+     * not present, NULL is returned.
+     * @param name the element name of the NodePort
+     * @returns pointer to the child NodePort or NULL if none of this name is present.
+     */
+	NodePort * getPort( const std::string & name );
+    
+    /**
+     * returns a NodePort child object by index. The order of the NodePorts is not fixed
+     * but may depend on the configuration file used.
+     * @param index unsigned number => 0 and < countWrappedChildren
+     * @returns pointer to the child NodePort or NULL if index is out of range.
+     */    
+    NodePort * getPort( unsigned int index );
+
+    /**
+     * creates and adds a new child NodePort object of the given name.
+     * It will also only work, if it does not violate any rules for the graph.
+     * @param name the name of the NodePort
+     * @return error code describing outcome of the operation
+     */
+    error addPort( const std::string & name );
+
+    /**
+     * removes a child NodePort object. Again similar to removeChild(), but
+     * for NodePorts. This method will only work, 
+     * if a NodePort of the passed name is present on the node.
+     * @param name the name of the wrapper element
+     * @return error code describing outcome of the operation
      */ 
-    void removeWrappedChild(const std::string & name, Node & child);
+    error removePort( const std::string & name );
+    
+    error removePort( NodePort & port);
+    
+    error removePort( unsigned int index );
 
     //@}
 	
@@ -352,7 +365,7 @@ public:
      * @warning Do not override this method ! This will result in your
      *          node being ignored by the parser.
      */
-    virtual int isWrapperNode()
+    virtual int isNodePort()
     {
         return 0;
     }
