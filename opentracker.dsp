@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /I "$(PORTIOROOT)" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "$(ACEROOT)" /I "$(XERCESCROOT)/include" /I "extras/intersense/win" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "_WINDLL" /D "_AFXDLL" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ace.lib xerces-c_1.lib winmm.lib dlportio.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib" /libpath:"$(PORTIOROOT)\\"
+# ADD LINK32 ace.lib xerces-c_2.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
 # SUBTRACT LINK32 /pdb:none /incremental:yes
 
 !ELSEIF  "$(CFG)" == "opentracker - Win32 Debug"
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 aced.lib xerces-c_1d.lib winmm.lib dlportio.lib /nologo /dll /profile /debug /machine:I386 /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib" /libpath:"$(PORTIOROOT)\\"
+# ADD LINK32 aced.lib xerces-c_2d.lib /nologo /dll /profile /debug /machine:I386 /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
 
 !ENDIF 
 
