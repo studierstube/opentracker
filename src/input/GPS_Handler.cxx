@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.5 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPS_Handler.cxx,v 1.6 2003/06/23 11:44:30 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
