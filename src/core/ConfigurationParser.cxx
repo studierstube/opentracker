@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.4 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -116,7 +116,8 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
                 DOM_Element childElement = (DOM_Element&)list.item(i);
                 Node * childNode = buildTree( childElement );
                 if( childNode != NULL )
-                {                    
+                {   
+                    /*
                     // if the child is only a wrapper node
                     // we use addWrappedChild to add the
                     // children to our current node.
@@ -131,9 +132,9 @@ Node * ConfigurationParser::buildTree( DOM_Element& element)
                         }
                     }
                     else  // otherwise we add the node itself
-                    {
+                    { */
                         value->addChild( *childNode );
-                    }
+                    // }
                 }
             }
         }

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.3 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -80,9 +80,9 @@ public:
      * a single or group of children. Again this is just an empty method.
      * @param node reference to the child node
      * @param wrapper reference to a string object containing wrapper name
-     */
+     
     virtual void addWrappedChild(Node& node, string& wrapper)
-    {}
+    {}*/
     /**
      * tests for EventGenerator interface being implemented. This has to
      * be overriden in classes that subclass EventGenerator. Due to

@@ -8,7 +8,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/Attic/OpenTracker.cxx,v 1.4 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -21,7 +21,7 @@
 #include "output/ConsoleModule.h"
 #include "network/NetworkSinkModule.h"
 #include "network/NetworkSourceModule.h"
-#ifdef USER_INTERTRAX
+#ifdef USE_INTERTRAX
 #include "input/InterTraxModule.h"
 #endif
 #ifdef USE_ARTOOLKIT
@@ -61,5 +61,11 @@ void initializeContext( Context & context )
     ARToolKitModule * artool = new ARToolKitModule;
     context.addFactory( * artool );
     context.addModule( (string)"ARToolKitConfig", *artool );
+#endif
+
+#ifdef USE_INTERTRAX
+    InterTraxModule * intertrax = new InterTraxModule;
+    context.addFactory( * intertrax );
+    context.addModule( (string)"InterTraxConfig", * intertrax );
 #endif
 }

@@ -7,15 +7,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.2 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _COMMONNODEFACTORY_H
 #define _COMMONNODEFACTORY_H
-
-//#include <string>
-//#include <map>
 
 #include "../OpenTracker.h"
 #include "Transformation.h"
@@ -27,7 +24,7 @@
  * maps a string to another string. Mostly used to map element attributes
  * to values.
  */
-typedef std::map<string, string> StringMap;
+typedef map<string, string> StringMap;
 
 /**
  * This class provides the general node types found in the configuration files.
@@ -40,6 +37,11 @@ typedef std::map<string, string> StringMap;
  */
 class CommonNodeFactory : public NodeFactory
 {
+
+// members 
+protected:
+    /// stores names of known WrapperNodes, to make instantiation more generic
+    vector<string> wrapperNodes;
 
 protected:
 
@@ -57,9 +59,8 @@ protected:
     EventQueueNode * buildEventQueue( StringMap& attributes);
 
 public:
-    /** constructor method */
-    CommonNodeFactory()
-    {};
+    /** constructor method. Initalizes the wrapperNodes array.*/
+    CommonNodeFactory();
     /** creates the described node types.
      * @param name reference to string containing element name
      * @param attributes reference to StringMap of elements attribute values

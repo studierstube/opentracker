@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.3 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -33,7 +33,7 @@
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
-typedef std::vector<Node*> NodeVector;
+typedef vector<Node*> NodeVector;
 
 /**
  * The module and factory to drive the test source nodes. It ructs

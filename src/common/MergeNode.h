@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.3 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -97,7 +97,8 @@ protected:
 public:
     /** constructor method
      */
-    MergeNode();
+    MergeNode()
+    {};
     /**
      * adds a child to the Node. Sets the child member to the node.
      * If the node implements the EventGenerator interface, it registers
@@ -141,10 +142,10 @@ public:
             localState.orientation[2] = event.orientation[2];
             localState.orientation[3] = event.orientation[3];
         }
-        if( flags & BUTTON )        
-            localState.button = event.button;        
-        if( flags & CONFIDENCE )        
-            localState.confidence = event.confidence;        
+        if( flags & BUTTON )
+            localState.button = event.button;
+        if( flags & CONFIDENCE )
+            localState.confidence = event.confidence;
         if( flags & TIME )        
             localState.time = event.time;        
         updateObservers( localState );

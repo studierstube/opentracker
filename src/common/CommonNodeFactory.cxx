@@ -7,13 +7,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.2 2001/01/31 14:49:57 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CommonNodeFactory.h"
 
-//#include "MathUtils.h"
 #include<math.h>
 #include<stdio.h>
 #ifdef WIN32
@@ -22,8 +21,21 @@
 #include <iostream.h>
 #endif
 
+#include<algorithm>
 
-/// builds and returns a new Transformation node
+// Constructor
+
+CommonNodeFactory::CommonNodeFactory()
+{
+    wrapperNodes.push_back("MergePosition");
+    wrapperNodes.push_back("MergeOrientation");
+    wrapperNodes.push_back("MergeButton");
+    wrapperNodes.push_back("MergeConfidence");
+    wrapperNodes.push_back("MergeTime");
+    wrapperNodes.push_back("MergeDefault");
+}
+
+// builds and returns a new Transformation node
 
 Transformation * CommonNodeFactory::buildTransformation(
                                           StringMap& attributes)
@@ -116,7 +128,7 @@ Transformation * CommonNodeFactory::buildTransformation(
     return new Transformation( translation, scale, rotation );
 }
 
-/// builds a new VirtualTransformation node
+// builds a new VirtualTransformation node
 
 VirtualTransformation * CommonNodeFactory::buildVirtualTransformation(
                  StringMap& attributes)
@@ -129,7 +141,7 @@ VirtualTransformation * CommonNodeFactory::buildVirtualTransformation(
     return result;
 }
 
-/// build a new EventQueue node
+// build a new EventQueue node
 
 EventQueueNode * CommonNodeFactory::buildEventQueue(
                      StringMap& attributes)
@@ -164,6 +176,14 @@ Node * CommonNodeFactory::createNode(  string& name,
     {
         cout << "Build "<< name << " node." <<endl;
         return buildEventQueue( attributes );
-    }
+    } else if( name.compare("Merge") == 0 )
+    {
+        cout << "Build "<< name << " node." << endl;
+        return new MergeNode();
+    } else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
+    {
+        cout << "Build WrapperNode " << name << "." << endl;
+        return new WrapperNode( name );
+    }              
     return NULL;
 }
