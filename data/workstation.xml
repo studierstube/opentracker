@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0 (http://www.xmlspy.com) by  () -->
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE TrackerServer SYSTEM "maxwell.dtd">
+<TrackerServer>
+	<configuration>
+		<Network name="Super Duper Server" multicast-address="224.100.200.101" port="6666"/>
+	    <Video camera-parameter="../data/camera_para.dat"/> 
+        <CursesModule headerline="Supder Duper Server"/>
+	</configuration>
+    <!-- Two markers to track each side of the pip, in the workstations users manual space -->
+    <CursesOutput comment="pip">
+	<Station name="Pip" number="1">  
+        <Transformation translation="0.04 0 0.1">
+        <VirtualTransformation rotation="-0.70710678 0 0 0.70710678"> 
+        <VirtualTransformation rotation="0 0 -0.70710678 0.70710678">       
+        <MaxConfidenceFilter>           
+    	    <Transformation scale="0.001 0.001 0.001">
+	    	    <Marker tag-file="../data/corner.pat" vertex="-52 -52 52 -52 52 52 -52 52"/>
+            </Transformation>             
+            <Transformation scale="0.001 0.001 0.001">
+                <VirtualTransformation rotation="-0.705828 0.708361 0.00537149 0.00178251" rotationtype="quaternion"> 
+    	            <Marker tag-file="../data/bigcorner.pat" vertex="-52 -52 52 -52 52 52 -52 52"/>
+                </VirtualTransformation>
+     		</Transformation>        
+        </MaxConfidenceFilter>   
+        </VirtualTransformation>
+        </VirtualTransformation>
+         </Transformation>
+   	</Station>             
+    </CursesOutput>
+    <!-- this station just puts the camera into the right position -->
+    <CursesOutput comment="camera">
+        <Station name="camera" number="2">        
+            <Transformation rotation="1 0 0 0">
+                <TestSource/>
+            </Transformation>
+        </Station>
+    </CursesOutput>
+    <!-- this station tracks the pen ( also two sided ) -->
+    <CursesOutput comment="pen">    
+    <Station name="pen" number="3">
+        <Transformation translation="0 0 0.1">
+        <VirtualTransformation translation="0.05 0.2 0">
+        <MaxConfidenceFilter>
+            <CursesOutput comment="hiro">
+            <Transformation scale="0.001 0.001 0.001">
+                <Marker tag-file="../data/pen.tag" vertex="-40 -40 40 -40 40 40 -40 40"/>
+            </Transformation>
+            </CursesOutput>
+            <CursesOutput comment="yang"> 
+            <Transformation scale="0.001 0.001 0.001">
+                <VirtualTransformation rotation="1 0 0 0">
+                    <Marker tag-file="../data/pip.tag" vertex="-40 -40 40 -40 40 40 -40 40"/>
+                </VirtualTransformation>
+            </Transformation>
+            </CursesOutput>
+        </MaxConfidenceFilter>
+        </VirtualTransformation>
+        </Transformation>
+    </Station>
+    </CursesOutput>
+</TrackerServer>
