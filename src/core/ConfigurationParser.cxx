@@ -73,8 +73,7 @@ ConfigurationParser::ConfigurationParser( Context & context_)
     }
     catch (const XMLException& toCatch) {
 		char * message = XMLString::transcode( toCatch.getMessage());
-        cout << "Error during initialization! :\n"
-            << message << "\n";
+        LOG_ACE_ERROR( "ot: ConfigurationParser Error during initialization: %s\n", message );
 		XMLString::release( &message );
         exit(1);
     }
@@ -337,7 +336,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
 			XMLString::release( &tempName );
 			ConfigNode * base = new ConfigNode( *attributes );
 			base->setParent( configElement );
-            cout << "config for " << tagName  << endl;
+            LOG_ACE_INFO("ot:config for %s\n", tagName.c_str());
 
             //auto_ptr<DOMNodeList> nodelist( configElement->getChildNodes());
             DOMNodeList * nodelist = configElement->getChildNodes();

@@ -192,7 +192,7 @@ void ARToolKitModule::start()
 
 		if(error_ret != 0)
 		{
-			cout << "Error opening stereo video source(s) !" << endl;
+            LOG_ACE_ERROR("ot:ARToolKitModule Error opening stereo video source(s) !\n");
 		    exit(1);
 		}
 	}
@@ -201,14 +201,14 @@ void ARToolKitModule::start()
 
     if( arVideoOpen((char *) videomode.c_str() ) < 0 )
     {
-        cout << "Error opening video source !" << endl;
+        LOG_ACE_ERROR("ot:ARToolKitModule Error opening video source !\n");
         exit(1);
     }
     
 #ifdef __sgi
     if( arVideoSetupDevice( did, AR_VIDEO_INTERLEAVED, AR_VIDEO_RGB_8, AR_VIDEO_1_P_1 ) < 0 )
     {
-        cout << "Error setting up video source !" << endl;
+        LOG_ACE_ERROR("ot:ARToolKitModule Error setting up video source !\n");
         exit(1);
     }
     if( arVideoInqSize(did, &sizeX, &sizeY ) < 0 )
@@ -216,7 +216,7 @@ void ARToolKitModule::start()
     if( arVideoInqSize( &sizeX, &sizeY ) < 0 )
 #endif
     {
-        cout << "Error querying video size !" << endl;
+        LOG_ACE_ERROR("ot:ARToolKitModule Error querying video size !\n");
         exit(1);
     }
         
@@ -238,7 +238,7 @@ void ARToolKitModule::start()
     }
     else
     {
-        cout << "ARToolkitModule could not find camera parameter file " << cameradata << endl;
+        LOG_ACE_ERROR("ot:ARToolkitModule could not find camera parameter file %s\n", cameradata);
         initialized = 0;
         return;
     }
@@ -248,7 +248,7 @@ void ARToolKitModule::start()
     
     if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
     {
-        cout << "ARToolkitModule error loading camera parameters from " << cameradata << endl;
+        LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata);
         initialized = 0;
         return;
     }
@@ -260,7 +260,7 @@ void ARToolKitModule::start()
 
     frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
     ThreadModule::start();
-    cout << "ARToolKitModule started" << endl;
+    LOG_ACE_INFO("ot:ARToolKitModule started\n");
 }
 
 // closes the artoolkit library
@@ -281,7 +281,7 @@ void ARToolKitModule::close()
     
     //OSUtils::sleep(1000);
     
-    cout << "ARToolkit stopped\n";
+    LOG_ACE_INFO("ot:ARToolkit stopped\n");
 }
 
 // pushes events into the tracker tree
@@ -383,7 +383,7 @@ void ARToolKitModule::run()
         }
         count ++;
     }
-    cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
+    LOG_ACE_INFO("ot:ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
     
     //arVideoCapStop();
     //arVideoClose();

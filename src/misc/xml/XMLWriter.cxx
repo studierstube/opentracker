@@ -41,10 +41,10 @@
   #include <xercesc/framework/LocalFileFormatTarget.hpp>
 #endif //USE_XERCES
 
-#include <fstream>
 #include <memory>
 
 #include "XMLWriter.h"
+#include "../../tool/OT_ACE_LOG.h"
 
 using namespace std;
 
@@ -87,8 +87,8 @@ void XMLWriter::write( ostream & stream )
 */
 void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target )
 {
-    auto_ptr<XMLCh> lsCh ( XMLString::transcode("LS"));
-    DOMImplementation * impl = DOMImplementationRegistry::getDOMImplementation(lsCh.get());
+    XMLCh * lsCh =  XMLString::transcode("LS");
+    DOMImplementation * impl = DOMImplementationRegistry::getDOMImplementation(lsCh);
     DOMWriter * writer = impl->createDOMWriter();
     if (writer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
         writer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
@@ -99,19 +99,20 @@ void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAME
         writer->writeNode(target, *toWrite);
     }
     catch (const XMLException& toCatch) {
-        auto_ptr<char> message( XMLString::transcode(toCatch.getMessage()));
-        cout << "Exception message is: \n"
-            << message.get() << "\n";
+        char * message = XMLString::transcode(toCatch.getMessage());
+        LOG_ACE_ERROR("ot:XMLWriter Exception message is: %s\n", message);
+        XMLString::release( &message );
     }
     catch (const DOMException& toCatch) {
-        auto_ptr<char> message( XMLString::transcode(toCatch.msg));
-        cout << "Exception message is: \n"
-            << message.get() << "\n";
+        char * message = XMLString::transcode(toCatch.msg);
+        LOG_ACE_ERROR("ot:XMLWriter Exception message is: %s\n", message);
+        XMLString::release( &message );
     }
     catch (...) {
-        cout << "Unexpected Exception \n" ;
+        LOG_ACE_ERROR("ot:XMLWriter Unexpected Exception \n");
     }
     writer->release();
+    XMLString::release( &lsCh );
 }
 
 #endif //USE_XERCES

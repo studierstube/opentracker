@@ -83,7 +83,7 @@ Node * SpaceMouseModule::createNode( const std::string& name, StringTable& attri
         SpaceMouseSource * source = new SpaceMouseSource;
 		source->state.confidence = 1.0f;
         nodes.push_back( source );
-        cout << "Built SpaceMouseSource node " << endl;
+        ACE_LOG_INFO("ot:Built SpaceMouseSource node\n");
         initialized = 1;
         return source;
     }
@@ -128,8 +128,7 @@ void SpaceMouseModule::run()
 		/*init the SpaceWare input library */
 		if (SiInitialize() == SPW_DLL_LOAD_ERROR)
 		{
-                cout << "Error Loading SIAPPDLL.DLL." << endl
-                     << "SIAPPDLL DLL" << endl;
+            LOG_ACE_ERROR("ot:SpaceMouseModule Error Loading SIAPPDLL.DLL.\n");
                 exit(1);
         }
 
@@ -148,8 +147,7 @@ void SpaceMouseModule::run()
 		/* Register display window class */
         if ( RegisterClass(&wndclass) == 0) 
 		{
-            cout << "Could not register windowclass." << endl
-                    << "Fatal Error" << endl;
+            LOG_ACE_ERROR("ot:SpaceMouseModule Could not register windowclass.\n");
             exit(1);
 		}
 
@@ -169,8 +167,7 @@ void SpaceMouseModule::run()
 		
         if (hWndSpaceMouse == NULL)
         {
-            cout << "Could not create message-only window." << endl
-                 << "Fatal Error: " << GetLastError() << endl;
+            LOG_ACE_ERROR("ot:SpaceMouseModule Could not create message-only window.\n");
             exit(1);
         }
 
@@ -184,7 +181,7 @@ void SpaceMouseModule::run()
 		{
 			// could not open spacemouse device handle
 			SiTerminate();  /* called to shut down the SpaceWare input library */
-            cout << "Could not fetch device handle for SpaceMouse." << endl;
+            ACE_LOG_INFO("ot:Could not fetch device handle for SpaceMouse.\n");
 			/* ? do not exit? close dummy window? */
 			initialized = 0; 
 			exit(1);
@@ -195,7 +192,7 @@ void SpaceMouseModule::run()
 
 /*		if (SiBeep(devHdl, "ffffffff") == SI_BAD_HANDLE) 
 		{
-			cout << "could not beep..." << endl;
+			ACE_LOG_INFO("could not beep...\n");
 		}
 
  */
@@ -257,7 +254,7 @@ void SpaceMouseModule::processMessages()
 		WaitMessage();
 		while ( PeekMessage( &msg, hWndSpaceMouse, 0, 0, PM_REMOVE ) ) 
 		{
-			//cout << "successful!" << endl;
+			//ACE_LOG_INFO("successful!\n");
 			handled = SPW_FALSE;
 
 			/* init Window platform specific data for a call to SiGetEvent */

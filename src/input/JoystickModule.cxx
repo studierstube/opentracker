@@ -39,7 +39,6 @@
 #ifdef USE_JOYSTICK
 
 #include <stdio.h>
-#include <iostream>    // VisualC++ uses STL based IOStream lib
 
 #ifndef _WIN32_WCE
 #pragma comment(lib, "winmm")
@@ -73,7 +72,7 @@ Node * JoystickModule::createNode( const string& name, StringTable& attributes)
         JoystickSource * source = new JoystickSource(joy_id);
         nodes.push_back( source );
 
-        cout << "Build JoystickSource node for ID " << joy_id << endl;
+        ACE_LOG_INFO("ot:Build JoystickSource node for ID %d\n", joy_id );
         initialized = 1;
         return source;
     }
@@ -125,12 +124,10 @@ void JoystickModule::start()
             if (joyPresent[i])
             {
                 getCaps(i);
-                cout << "JoystickModule: joystick with ID " << i+1 << 
-                    " (" << joyCaps[i].szPname << ") connected.\n";
+                ACE_LOG_INFO("ot:JoystickModule: joystick with ID %d(%s) connected.\n", i+1, joyCaps[i].szPname);
             }
             else
-                cout << "JoystickModule: joystick with ID " << i+1 << 
-                " not connected.\n";
+                ACE_LOG_INFO("ot:ot:JoystickModule: joystick with ID %d not connected.\n", i+1 );
         }
         ThreadModule::start();
     }

@@ -38,7 +38,6 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include <iostream>
 
 #include <DWARF/Service.h>
 #include <DWARF/PoseData.h>
@@ -134,7 +133,7 @@ void DwarfModule::init(StringTable & attributes, ConfigNode * localTree)
                 }
             }
             else
-                cout << "DwarfModule: got something strange here !\n";
+                ACE_LOG_INFO("ot:DwarfModule got something strange here!\n");
         }        
         smgr->activateServiceDescription(name.c_str());
     }

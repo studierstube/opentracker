@@ -35,8 +35,9 @@
 #include "ConsoleSource.h"
 
 #include <algorithm>
-#include <iostream>
-#include <iomanip>
+
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
 
 #ifdef WIN32
 #include <Windows.h>
@@ -261,7 +262,7 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
             val = 0;
         ConsoleSink * sink = new ConsoleSink( attributes.get("comment"), val );
         sinks.push_back( sink );
-        cout << "Built ConsoleSink node." << endl;       
+        LOG_ACE_INFO("ot:Built ConsoleSink node.\n");
         return sink;
     } else if( name.compare("ConsoleSource") == 0 )
     {
@@ -272,14 +273,14 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
             {
                 ConsoleSource * source = new ConsoleSource( number );
                 sources.push_back( source );
-                cout << "Build ConsoleSource node." << endl;
+                LOG_ACE_INFO("ot:Built ConsoleSource node.\n");
                 return source;
             } else
             {
-                cout << "ConsoleSource station number not in [0,9] : " << number << endl;
+                LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );  
             }
         } else
-            cout << "ConsoleSource station number not a number : " << number << endl;
+            LOG_ACE_INFO("ot:ConsoleSource station number not a number.\n");
     }
     return NULL;
 }
@@ -569,13 +570,13 @@ void ConsoleModule::pullState()
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         if( hStdout == INVALID_HANDLE_VALUE )
         {
-            cout << "Could not get stdout handle !" << endl;
+            LOG_ACE_ERROR("ot:ConsoleModule Could not get stdout handle !");
             return;
         }
         CONSOLE_SCREEN_BUFFER_INFO csbiInfo; 
         if (! GetConsoleScreenBufferInfo(hStdout, &csbiInfo)) 
         {
-            cout << "Could not get console size !" << endl;
+            LOG_ACE_ERROR("ot:ConsoleModule Could not get console size !");
             return;
         }
         int lines = count * 6 + 2;
@@ -586,18 +587,18 @@ void ConsoleModule::pullState()
         if( ! FillConsoleOutputCharacter( hStdout,' ', 
                 csbiInfo.dwSize.X * lines, origin, &written))
         {
-            cout << "Could not clear console !" << endl;
+            LOG_ACE_ERROR("ot:ConsoleModule Could not clear console !");
             return;
         }
         if( ! SetConsoleCursorPosition(hStdout, origin ))
         {
-            cout << "Could not reset cursor !" << endl;
+            LOG_ACE_ERROR("ot:ConsoleModule Could not reset cursor !");
             return;
         }
 #endif
 #ifdef WIN32
-        cout << headerline << endl;
-        cout << "    Station : " << station << " PosSpeed : " << posSpeed << " RotSpeed : " << angularSpeed << endl;
+        printf("%s\n", headerline);
+        printf( "    Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed ); 
 #else
         printw("%s\n\n", headerline.c_str());
 #endif
@@ -608,18 +609,12 @@ void ConsoleModule::pullState()
                 continue;
             State & state = sink->state;
 #ifdef WIN32            
-            cout.fill(' ');
-            cout << sink->comment << endl;
-            cout << "  Pos : " << std::setw( 6 ) << std::setprecision( 3 ) << state.position[0] << " " <<
-                                  std::setw( 6 ) << std::setprecision( 3 ) << state.position[1] << " " <<
-                                  std::setw( 6 ) << std::setprecision( 3 ) << state.position[2] << endl;
-            cout << "  Rot : " << std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[0] << " " <<
-                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[1] << " " <<
-                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[2] << " " <<
-                                  std::setw( 6 ) << std::setprecision( 3 ) << state.orientation[3] << endl;
-            cout << "  Button : " << state.button << " ";
-            cout << "  Confidence : " << std::setw( 6 ) << std::setprecision( 3 ) << state.confidence << endl;
-            cout << "  Time : " << std::setw( 10 ) << std::setprecision( 0 ) << std::fixed << state.time << endl << endl;            
+            printf("%s\n", sink->comment.c_str());
+            printf("  Pos: %6.3f %6.3f %6.3f\n", state.position[0], state.position[1], state.position[2] );
+            printf("  Rot: %6.3f %6.3f %6.3f %6.3f\n", state.orientation[0], state.orientation[1], state.orientation[2], state.orientation[3] );
+            printf("  Button: %hx\n", state.button );
+            printf("  Confidence: %f\n", state.confidence );
+            printf("  Time: %lf\n\n", state.time );
 #else
             printw("%s :\n",sink->comment.c_str());
             printw("  Pos : %f %f %f\n",state.position[0], 

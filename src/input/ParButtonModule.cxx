@@ -52,6 +52,7 @@
 
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
+#include "../tool/OT_ACE_LOG.h"
 
 // enable this define, if you want to use an alternative implementation of
 // the parallel port access. You will also have to make sure to include the
@@ -117,7 +118,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         std::string dev = attributes.get("dev");
         if( nodes.find( dev ) !=  nodes.end() )
         {
-            cout << "ParButtonSource on port " << dev << " already defined !" << endl;
+            LOG_ACE_INFO("ot:ParButtonSource on port %s already defined!\n", dev.c_str() );
             return NULL;
         }
 
@@ -125,7 +126,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         UINT addr;
         if( sscanf( dev.c_str(), " %i", &addr ) != 1 )
         {
-            cout << "ParButtonModule not an address " << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule not an address %s\n", dev.c_str());
             return NULL;
         }
         // setting parallel port for input
@@ -174,24 +175,24 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         int handle = open( dev.c_str(), O_RDWR | O_NDELAY  );
         if( handle < 0 )
         {
-            cout << "ParButtonModule Error opening parallel port " << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule Error opening parallel port %s\n", dev.c_str());
             return NULL;
         }
         if(ioctl(handle, PLPIOMODE, PLP_BI) < 0) {
             ::close(handle);
-            cout << "ParButtonModule Error setting centronics mode on" << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule Error setting centronics mode on %s\n", dev.c_str());
             return NULL;
         }
         if(ioctl(handle, PLPIOCREAD, 1) < 0) 
         {
             ::close(handle);
-            cout << "ParButtonModule Error setting bidirectional mode on " << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule Error setting bidirectional mode on %s\n", dev.c_str());
             return NULL;
         }
         if(ioctl(handle, PLPIOCRTO, 1) < 0) 
         {
             ::close(handle);
-            cout << "ParButtonModule Error timeout on " << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule Error timeout on %s\n", dev.c_str());
             return NULL;
         }
         ParButtonSource * source = new ParButtonSource((unsigned int) handle );
@@ -199,15 +200,14 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
 	int handle = open( dev.c_str(), O_RDWR | O_NDELAY );
 	if( handle < 0 )
         {
-            cout << "ParButtonModule Error opening parallel port " << dev << endl;
+            LOG_ACE_INFO("ot:ParButtonModule Error opening parallel port %s\n", dev.c_str());
             return NULL;
         }
 	
 	int mode;
 	if(ioctl(handle, PPCLAIM) < 0) 
 	{
-	    cout << "ParButtonModule Error claiming port" 
-	         << dev << endl;
+        LOG_ACE_INFO("ot:ParButtonModule Error claiming port %s\n" , dev.c_str() );
 	    ::close(handle);
 	    return NULL;
 	}
@@ -216,7 +216,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
   
 	if (ioctl(handle, PPDATADIR, &datadir) < 0)
 	{
-	    cout << "ParButtonModule Error setting datadir" << dev << endl;
+        LOG_ACE_INFO("ot:ParButtonModule Error setting datadir %s\n", dev.c_str());
 	    ::close(handle);
 	    return NULL;
 	}
@@ -225,7 +225,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
 #endif
 #endif
         nodes[dev] = source;
-        cout << "Build ParButtonSource on " << dev << endl;
+        LOG_ACE_INFO("ot:Build ParButtonSource on %s\n", dev.c_str());
         return source;
     }
     return NULL;
