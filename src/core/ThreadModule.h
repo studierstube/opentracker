@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.6 2001/04/03 21:44:50 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,7 +40,7 @@
 
 class ACE_Thread_Mutex;
 
-typedef ACE_thread_t;
+//typedef ACE_thread_t;
 
 #include "Module.h"
 
@@ -64,7 +64,7 @@ class OPENTRACKER_API ThreadModule : public Module
 protected:
     /// handle to module specific thread. This is a little bit tricky as we
 	/// don't use the ACE definition but the same type.
-	ACE_thread_t * thread;
+	void * thread;
     /// Mutex to implement lock, unlock behavior
     ACE_Thread_Mutex * mutex;
         

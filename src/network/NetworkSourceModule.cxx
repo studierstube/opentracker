@@ -27,9 +27,13 @@
   * @todo implement receiving angles and matrices as rotational values
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.8 2001/04/01 13:23:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.9 2001/04/03 21:44:50 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
+
+// a trick to avoid warnings when ace includes the STL headers
+#pragma warning(disable:4786)
+#include <vector>
 
 #include <ace/Thread_Manager.h>
 #include <ace/Synch.h>
@@ -70,7 +74,7 @@ struct MulticastReceiver
 // constructor initializing the thread manager
 NetworkSourceModule::NetworkSourceModule() : Module(), NodeFactory()
 {
-	manager = new ACE_Thread_Manager;
+//	manager = new ACE_Thread_Manager;
 }
 
 // Converts num floats from network byte order.
@@ -172,14 +176,15 @@ void NetworkSourceModule::run( void * data )
         rec->mutex.acquire();
         if( rec->stop == 1 )
         {
-            rec->mutex.release();
-			cout << "Stopping thread" << endl;
+            rec->mutex.release();			
             break;
         } else {
             rec->mutex.release();
         }
         // end of critical section
     }
+    rec->socket.close();
+    cout << "Stopping thread" << endl;
 }
     
  
@@ -270,10 +275,6 @@ void NetworkSourceModule::close()
         (*it)->mutex.acquire();
         (*it)->stop = 1;
         (*it)->mutex.release();
-    }
-    for( it = groups.begin(); it != groups.end(); it++)
-    {
-        (*it)->socket.close();
     }
 }   
 

@@ -26,9 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.7 2001/04/01 13:23:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.8 2001/04/03 21:44:50 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
+
+// a trick to avoid warnings when ace includes the STL headers
+#pragma warning(disable:4786)
+#include <vector>
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>

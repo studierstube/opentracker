@@ -26,9 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.2 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.cxx,v 1.3 2001/04/03 21:44:50 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
+
+// a trick to avoid warnings when ace includes the STL headers
+#pragma warning(disable:4786)
+#include <vector>
 
 #include <ace/Thread.h>
 #include <ace/Synch.h>
@@ -64,12 +68,12 @@ void ThreadModule::start()
 	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
 		this, 
 		THR_NEW_LWP | THR_JOINABLE,
-		thread );
+		(ACE_thread_t *)thread );
 }    
 
 // stops the thread and closes the module
 
 void ThreadModule::close()
 {
-	ACE_Thread::cancel( *thread );
+	ACE_Thread::cancel( *(ACE_thread_t *)thread );    
 }
