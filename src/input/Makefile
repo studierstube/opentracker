@@ -16,8 +16,6 @@ HFILES = \
         ARToolKitSource.h \
         CyberMouseModule.h \
         CyberMouseSource.h \
-        InterTraxModule.h \
-        InterTraxSource.h \
         WacomGraphireModule.h \
         WacomGraphireSource.h \
         InterSenseSource.h \
@@ -29,20 +27,19 @@ HFILES = \
         FastTrakModule.h \
         FastTrakSource.h \
         ARTDataTrackerChomp.h \
-		ARTDataTrackerModule.h \
-		ARTDataTrackerSource.h
+	ARTDataTrackerModule.h \
+	ARTDataTrackerSource.h
         
 C++FILES = \
         ARToolKitModule.cxx \
         CyberMouseModule.cxx \
-        InterTraxModule.cxx \
         WacomGraphireModule.cxx \
         InterSenseModule.cxx \
         FOBModule.cxx \
         ParButtonModule.cxx \
         FastTrakModule.cxx \
-		ARTDataTrackerChomp.cxx \
-		ARTDataTrackerModule.cxx
+	ARTDataTrackerChomp.cxx \
+	ARTDataTrackerModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

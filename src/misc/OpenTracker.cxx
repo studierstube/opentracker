@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.18 2002/05/28 14:54:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.19 2002/09/17 20:52:21 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,7 +58,6 @@
 #include "../input/ARTDataTrackerModule.h"
 
 // these modules depend on compile options
-#include "../input/InterTraxModule.h"
 #include "../input/ARToolKitModule.h"
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
@@ -119,12 +118,6 @@ void OPENTRACKER_API initializeContext( Context & context )
     ARToolKitModule * artool = new ARToolKitModule;
     context.addFactory( * artool );
     context.addModule( "ARToolKitConfig", *artool );
-#endif
-
-#ifdef USE_INTERTRAX
-    InterTraxModule * intertrax = new InterTraxModule;
-    context.addFactory( * intertrax );
-    context.addModule( "InterTraxConfig", * intertrax );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
