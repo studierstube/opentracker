@@ -8,7 +8,7 @@ SUBDIRS = \
     ./xml
 
 # use configuration options to compile these files
-PRVFLAGS = $(OT_OPTIONAL_INC)
+PRVFLAGS += $(OT_OPTIONAL_INC)
 
 OPENTRACKER   = $(OT_BIN_DIR)/opentracker
 TEST          = $(OT_BIN_DIR)/ottest
@@ -42,7 +42,7 @@ $(OT_LIB): $(OT_LIB_OBJ)
 
 $(OPENTRACKER): $(OPENTRACKER_OBJ) $(OT_LIB)
 	@echo "--- $(OPENTRACKER) ---"
-	$(CXXLINK) $(CXXFLAGS) -o $@ $(OPENTRACKER_OBJ) $(LDFLAGS)
+	$(CXXLINK) $(CXXFLAGS) $(PRVFLAGS) -o $@ $(OPENTRACKER_OBJ) $(LDFLAGS)
 
 $(TEST): $(TEST_OBJ) $(OT_LIB)
 	@echo "--- $(TEST) ---"

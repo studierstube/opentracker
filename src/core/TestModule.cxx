@@ -26,17 +26,18 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.5 2001/10/21 22:30:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.cxx,v 1.6 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "TestModule.h"
 #include "TestSource.h"
 
-#include <stdio.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
+#include <cstdio>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
+#include <stdio.h>
 #include <iostream.h>
 #endif
 

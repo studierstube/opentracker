@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.4 2001/10/21 22:30:20 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.cxx,v 1.5 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "EventQueueNode.h"
 
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // new IOStream for VisualC++
 #else
 #include <iostream.h>

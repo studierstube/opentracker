@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * @todo add exception handling and error code returns
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.18 2002/09/17 17:59:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.19 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */  
  /* ======================================================================= */
 
@@ -34,10 +34,11 @@
 #include "StringTable.h"
 #include "Context.h"
 
-#include <stdio.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
+#include <cstdio>
 #include <iostream>// VisualC++ uses STL based IOStream lib
 #else
+#include <stdio.h>
 #include <iostream.h>
 #endif
 

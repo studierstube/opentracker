@@ -27,13 +27,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.6 2002/01/29 20:29:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.7 2002/09/26 13:56:26 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include <OpenTracker.h>
 
-#ifdef WIN32
+#if defined (WIN32) || (GCC3)
 #include <iostream>    // new IOStream for VisualC++
 #else
 #include <iostream.h>

@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.7 2001/07/31 21:54:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.8 2002/09/26 13:56:26 bornik Exp $
   * @todo optimize compare and copy with mem* calls
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,10 +34,11 @@
 #include "InterSenseSource.h"
 #include "InterSenseModule.h"
 
-#include <stdio.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
+#include <cstdio>
 #include <iostream>    /// VisualC++ uses STL based IOStream lib
 #else
+#include <stdio.h>
 #include <iostream.h>
 #endif
 #include <isense.h>

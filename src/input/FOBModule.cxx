@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.11 2002/01/29 19:44:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.12 2002/09/26 13:56:26 bornik Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -39,7 +39,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    /// VisualC++ uses STL based IOStream lib
 #else
 #include <iostream.h>

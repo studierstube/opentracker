@@ -26,16 +26,16 @@
 ##
 ## change the following line to your opentracker base dir
 ##
-OT_DIR     = /home/reitmayr/dev/opentracker
+OT_DIR     = $(OPENTRACKERROOT)
 
 ## set the location of your ACE library here
 ##
-ACE_ROOT   = /home/reitmayr/dev/ACE_wrappers
+ACE_ROOT   = $(ACEROOT)
 
 ## set the location and name of your Xerces-C library here
 ##
-XERCESC_ROOT = /home/reitmayr/dev/xerces
-XERCESC_LIB = xerces-c1_4
+XERCESC_ROOT = $(XERCESCROOT)
+XERCESC_LIB = xerces-c
 ##
 ## this does not hopefully need any changes
 ##

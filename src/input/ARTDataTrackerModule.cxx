@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.5 2002/06/05 19:12:33 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.6 2002/09/26 13:56:26 bornik Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -34,7 +34,6 @@
 #pragma warning(disable:4786)
 #endif
 #include <string>
-#include <math.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 #include <ace/SOCK_Dgram_Mcast.h>
@@ -43,11 +42,14 @@
 #include "ARTDataTrackerSource.h"
 #include "ARTDataTrackerChomp.h"
 
-#include <stdio.h>
 
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
+#include <cmath>
+#include <cstdio>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
+#include <math.h>
+#include <stdio.h>
 #include <iostream.h>
 #endif
 

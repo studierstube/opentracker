@@ -26,13 +26,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.14 2002/09/18 08:57:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.15 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "DynamicTransformation.h"
 
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses the STL based iostream lib
 #else
 #include <iostream.h>

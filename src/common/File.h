@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.8 2001/08/14 10:27:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.9 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,7 @@
 
 #include <string>
 
-#ifdef WIN32 
+#if defined (WIN32) || defined (GCC3) 
 #include <iomanip>
 #include <fstream>  // VisualC++ uses STL based IOStream lib
 #else
@@ -146,7 +146,7 @@ public:
      */
     int read( State & state, int * station )    
     {
-        input->clear(0);
+        input->clear();
         *input >> *station;
         *input >> state.time;
         *input >> state.position[0] >> state.position[1] >> state.position[2];

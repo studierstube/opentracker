@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.9 2002/09/10 13:09:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.10 2002/09/26 13:56:26 bornik Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -43,7 +43,15 @@ using namespace std;
 
 #ifdef WIN32
 #include <windows.h>
+#endif
+
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStream lib
+#else
+#include <iostream.h>
+#endif
+
+#ifdef WIN32
 #ifndef _DLPORTIO
 #include "../misc/portio.h"
 #else
@@ -51,7 +59,6 @@ using namespace std;
 #endif
 #else
 #include <stropts.h> 
-#include <iostream.h>
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <fcntl.h> 

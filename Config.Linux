@@ -44,12 +44,11 @@ LDFLAGS         = $(LD_SHARED_LIBS) $(LD_LIBS)
 ##  C PREPROCESSOR PARAMETERS
 ## ---------------------------------------------------------------------------
 CPPFLAGS = \
-           -I/usr/include \
            $(OT_STD_INCLUDES) \
            -D_LINUX_SOURCE $(OT_OPT)
 	
 ## These are empty; will be redefined in sub-makefiles if necessary
-PRVFLAGS =
+PRVFLAGS = -DGCC3
 
 ## ---------------------------------------------------------------------------
 ##  COMPILER PARAMETERS

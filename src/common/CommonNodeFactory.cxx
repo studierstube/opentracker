@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.22 2002/02/11 10:41:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.23 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,12 +44,15 @@
 #include "ButtonFilterNode.h"
 #include "ButtonOpNode.h"
 
-#include<math.h>
-#include<float.h>
-#include<stdio.h>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
+#include <cmath>
+#include <cfloat>
+#include <cstdio>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
+#include <math.h>
+#include <float.h>
+#include <stdio.h>
 #include <iostream.h>
 #endif
 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.2 2001/06/13 16:42:27 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/OSUtils.cxx,v 1.3 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,8 +62,11 @@ double OSUtils::currentTime()
     return (double)(timeBuffer.time)*1000.0 + (double)timeBuffer.millitm;
 #endif
 }
-
+#if defined (WIN32) || defined (GCC3)
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 
 //sleeps the specified amount of time ...
 void OSUtils::sleep( double time )

@@ -55,7 +55,7 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.cxx,v 1.3 2002/09/17 17:59:40 reitmayr Exp $
+ * $Id: DOMTreeErrorReporter.cxx,v 1.4 2002/09/26 13:56:25 bornik Exp $
  */
 
 // ---------------------------------------------------------------------------
@@ -63,7 +63,7 @@
 // ---------------------------------------------------------------------------
 #include <xercesc/sax/SAXParseException.hpp>
 #include "DOMTreeErrorReporter.h"
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStreams
 using namespace std;
 #else

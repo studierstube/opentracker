@@ -55,12 +55,12 @@
  */
 
 /*
- * $Id: DOMTreeErrorReporter.h,v 1.4 2002/09/17 17:59:40 reitmayr Exp $
+ * $Id: DOMTreeErrorReporter.h,v 1.5 2002/09/26 13:56:25 bornik Exp $
  */
 
 #include <xercesc/util/XercesDefs.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ has two incompatible iostreams libraries !
 #else
 #include <iostream.h>

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.5 2002/09/17 17:59:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.6 2002/09/26 13:56:26 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,7 @@
 #define _XMLWRITER_H
 
 #include "../../OpenTracker.h"
-#ifdef WIN32
+#if defined (WIN32) || defined (GCC3)
 #include <iostream>
 #else
 #include <iostream.h>

@@ -7,7 +7,7 @@ include ../../Config.global
 include ../../Config.site
 
 # use configuration options to compile these files
-PRVFLAGS = $(OT_OPTIONAL_INC)
+PRVFLAGS += $(OT_OPTIONAL_INC)
 
 TARGETS = $(OT_LIB_DIR)/libOpenTracker.a
 

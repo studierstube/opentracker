@@ -26,12 +26,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.16 2002/09/17 17:59:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.17 2002/09/26 13:56:25 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ConfigurationParser.h"
-#ifdef WIN32
+#if defined  (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses the STL based iostream lib
 #else
 #include <iostream.h>
