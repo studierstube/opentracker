@@ -49,7 +49,7 @@
 <!ATTLIST VirtualTransformation
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
-	rotationtype (quaternion | matrix | euler) "quaternion"
+	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 
