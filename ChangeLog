@@ -9,6 +9,24 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-27 12:48  reitmayr
+
+	* data/: dwarf.xml, opentracker.dtd:
+	
+	clean up of Dwarf - OpenTracker hacking. added serviceManager
+	option and senddescription. compiles and (?) works on windows too ?
+	still requires build system inclusion and documentation.
+
+2003-07-27 12:31  reitmayr
+
+	* src/network/DwarfModule.cxx, src/network/DwarfModule.h,
+	src/network/DwarfSink.h, src/network/DwarfSource.h,
+	src/misc/OpenTracker.cxx, config_win.h, opentracker.dsp:
+	
+	clean up of Dwarf - OpenTracker hacking. added serviceManager
+	option and senddescription. compiles and (?) works on windows too ?
+	still requires build system inclusion and documentation.
+
 2003-07-24 18:46  anonymous
 
 	* src/network/: DwarfModule.cxx, Makefile.am:
