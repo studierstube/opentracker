@@ -26,14 +26,14 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.11 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section intertraxmodule InterTraxModule
- * The InterTraxModule provides and drives InterTraxSource nodes that 
+ * The InterTraxModule provides and drives @ref intertraxsource nodes that 
  * generate standard events in certain intervals. It does not use a 
  * configuration elements but reserves the name 'InterTraxConfig'. 
  */
@@ -52,6 +52,7 @@
  * InterTraxSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API InterTraxModule : public Module, public NodeFactory
 {

@@ -29,7 +29,7 @@
   * @todo think about using other node types than only the EventGenerator
   * as the base child. What semantics do make sense ??
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.6 2001/04/12 06:41:38 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,6 +71,7 @@
  * setting the members of the StaticTransformation to the base childs
  * data. 
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API DynamicTransformation : public StaticTransformation
 {
@@ -79,12 +80,6 @@ protected:
     /** stores the original event data to compute new values
      * on base changes.*/
     State store;
-
-	// tree navigation interface   
-		
-	unsigned int countChildren();
-
-	Node * getChild( unsigned int index );
 
 public:
     /** constructor method. It sets default values on the

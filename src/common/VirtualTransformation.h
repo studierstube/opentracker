@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.6 2001/04/01 13:22:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,6 +63,7 @@
  * Mathematically it is a pre-transformation as opposed to a
  * post-transformation like the VirtualTransformation.
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API VirtualTransformation : public StaticTransformation
 {

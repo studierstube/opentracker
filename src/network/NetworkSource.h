@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,14 +26,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.4 2001/03/27 06:08:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section networksource NetworkSource
- * The NetworkSource node is a simple  EventGenerator that inserts events from
+ * The NetworkSource node is a simple EventGenerator that inserts events from
  * the network into the tracker tree. The NetworkSource element has the 
  * following attributes :
  * @li @c number the stations number
@@ -54,6 +54,7 @@
  * This class implements a simple node that inserts new events from the network
  * into the tracker tree.
  * @author Gerhard Reitmayr
+ * @ingroup network
  */
 class OPENTRACKER_API NetworkSource : public Node
 {

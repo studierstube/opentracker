@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.4 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,8 +34,9 @@
  * @page Nodes Node Reference
  * @section cybermousesource CyberMouseSource
  * The CyberMouseSource node is a simple EventGenerator that outputs the
- * current position, orientation and button state of the CyberMouse. If
- * the mouse does not seem to work, press a button. This should initialize
+ * current position and button state of the CyberMouse. It is driven by
+ * the @ref cybermousemodule. 
+ * If the mouse does not seem to work, press a button. This should initialize
  * it and it will work. The mouse buttons are mapped to button numbers in
  * the following way : middle button = 1, second button = 2, both = 3 ???
  *
@@ -54,9 +55,10 @@
 #ifdef USE_CYBERMOUSE
 
 /**
-* This class implements a simple source that sets its valid flag in
+ * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API CyberMouseSource : public Node
 {

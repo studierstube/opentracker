@@ -26,14 +26,14 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.6 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section cybermousemodule CyberMouseModule
- * The CyberMouseModule provides and drives CyberMouseSource nodes that 
+ * The CyberMouseModule provides and drives @ref cybermousesource nodes that 
  * generate standard events in certain intervals. It does not use a
  * configuration element, but reserves the name 'CyberMouseConfig'.
  */
@@ -50,6 +50,7 @@
  * CyberMouseSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API CyberMouseModule : public Module, public NodeFactory
 {

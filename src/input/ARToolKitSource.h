@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.9 2001/04/12 06:42:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitSource.h,v 1.10 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,8 @@
  * @section artoolkitsource ARToolKitSource
  * The ARToolKitSource node is a simple EventGenerator that inserts events 
  * from tracking a visual marker in a video image by using the ARToolKit
- * library. It has the following elements :
+ * library. See the @ref artoolkitmodule for information about how to
+ * configure the module as a whole. It has the following elements :
  * @li @c tag-file the file containing the marker pattern
  * @li @c vertex two dimensional array of the 4 vertices of the marker pattern. The 
  *        corners are given in millimeters with respect to the center of the pattern.
@@ -54,6 +55,7 @@
 
 /** An ARToolKitSource represents a single marker that is tracked by the 
  * artoolkit library.
+ * @ingroup input
  */
 class OPENTRACKER_API ARToolKitSource : public Node
 {

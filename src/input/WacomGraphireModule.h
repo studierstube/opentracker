@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,14 +26,14 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section wacomgraphiremodule WacomGraphireModule
- * The WacomGraphireModule provides and drives WacomGraphireSource nodes that 
+ * The WacomGraphireModule provides and drives @ref wacomgraphiresource nodes that 
  * generate standard events in certain intervals. It does not use a 
  * configuration element but reserves the name 'WacomGraphireConfig'. 
  */
@@ -50,6 +50,7 @@
  * WacomGraphireSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API WacomGraphireModule : public Module, public NodeFactory
 {

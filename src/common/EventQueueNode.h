@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.4 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,6 +57,7 @@
  * It implements the EventGenerator as well as the EventQueue interface,
  * because it also notifies parents of events it receives.
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API EventQueueNode : public Node, public EventQueueImplementation
 {

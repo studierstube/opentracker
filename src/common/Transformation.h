@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,13 +26,15 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.6 2001/04/01 13:22:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
- * @page transform_nodes Transform Node Reference
- * This page describes the transformation nodes available in OpenTracker.
+ * @page transform_nodes Transformation Node Reference
+ * This page describes the nodes implementing geometric transformations 
+ * available in OpenTracker. The currently implemented transformations are
+ * a specific subset of all affine transformations possible.
  */
 
 #ifndef _TRANSFORMATION_H
@@ -48,6 +50,7 @@
  * and parent have to match but this has to be provided by the configuration
  * file DTD.
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API Transformation
     : public Node

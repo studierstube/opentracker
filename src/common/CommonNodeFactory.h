@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.8 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,13 +39,22 @@
 #include "EventQueueNode.h"
 
 /**
+ * @defgroup common Common Classes
+ * This group contains classes that implement general functionality that 
+ * can be used by all OpenTracker applications. It includes nodes for
+ * geometric transformations, event merging, the ConsoleModule for 
+ * console based input / output among others.
+ */
+
+/**
  * This class provides the general node types found in the configuration files.
  * The following nodes are build by this factory :
- * \li Transformation, for all three types of transformations
- * \li VirtualTransformation, again all three types of transformations
+ * \li Transformation, for all types of transformations
+ * \li VirtualTransformation, again all types of transformations
  * \li EventQueueNode
  * \li MergeNode
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class CommonNodeFactory : public NodeFactory
 {

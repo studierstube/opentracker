@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.8 2001/04/08 19:31:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -35,7 +35,7 @@
  * @section networksourcemodule NetworksourceModule
  * The NetworkSourceModule listens for data from the Network sent to 
  * multicast groups and pushes the state updates into the tracker tree
- * via NetworkSource nodes. It has no attributes and need not be present
+ * via @ref networksource nodes. It has no attributes and need not be present
  * in the configuration section to operate.
  */
 
@@ -66,6 +66,7 @@ class ACE_Thread_Manager;
  * studierstube. It uses its a thread per multicast group to receive data.
  *
  * @author Gerhard Reitmayr
+ * @ingroup network
  */
 class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
 {
@@ -74,8 +75,6 @@ protected:
     
     /// ACE Thread manager
     ACE_Thread_Manager * manager;
-    /// multicast socket
-    //ACE_SOCK_Dgram_Mcast socket;
     /// list of groups to listen for
     ReceiverVector groups;
     

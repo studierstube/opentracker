@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.6 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -94,20 +94,46 @@ void Node::removeReference( Node * reference )
 
 unsigned int Node::countChildren()
 {
-	DOM_NodeList list = parent->getChildNodes();
-	return list.getLength();
+	// DOM_NodeList list = parent->getChildNodes();
+	// return list.getLength();
+    DOM_Node node = parent->getFirstChild();
+    unsigned int count = 0;
+    while( !node.isNull())
+    {
+        Node * myNode = (Node *)node.getUserData();
+        if( myNode != NULL )
+        {
+            if( myNode->isWrapperNode() == 0 )
+                count ++;
+        }
+        node = node.getNextSibling();
+    }
+    return count;
 }
 
 // iterates through the children by returning the child by index
 
 Node * Node::getChild( unsigned int index )
 {
-	DOM_NodeList list = parent->getChildNodes();
+    /* DOM_NodeList list = parent->getChildNodes();
 	if( index < list.getLength())
 	{
 		return (Node *)list.item( index ).getUserData();
 	}
 	return NULL;
+    */
+    Node * myNode = NULL;
+    DOM_Node node = parent->getFirstChild();
+    while( !node.isNull())
+    {
+        myNode = (Node *)node.getUserData();
+        if( myNode != NULL )        
+            if( myNode->isWrapperNode() == 0 && index == 0 )
+                return myNode;
+        index--;
+        node = node.getNextSibling();                
+    }
+    return NULL;
 }
 
 // returns number of wrapped children by name

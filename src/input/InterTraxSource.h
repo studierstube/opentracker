@@ -26,16 +26,16 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.8 2001/04/16 15:43:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.9 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section intertraxsource InterTraxSource
- * The InterTraxSource node is a simple EventGenerator that fires in fixed intervalls
- * standard events. It has the following element :
- * @li @c state, stores information of current orientation
+ * The InterTraxSource node is a simple EventGenerator that outputs the
+ * orientation of an InterTrax orientation sensor. It is driven by the
+ * @ref intertraxmodule. It's element has not attributes.
  *
  * An example element looks like this :
  * @verbatim
@@ -53,6 +53,7 @@
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API InterTraxSource : public Node
 {

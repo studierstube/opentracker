@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.5 2001/03/27 06:08:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSink.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,7 @@
  * @page Nodes Node Reference
  * @section networksink NetworkSink
  * The NetworkSink node is a simple EventObserver / EventGenerator that passes
- * events on and stores a copy of the last one. The NetworkSinkModule checks on
+ * events on and stores a copy of the last one. The @ref networksinkmodule checks on
  * each pass, whether a NetworkSink node stored a new event and sends that data
  * as the specified station to the network. The NetworkSink element has the 
  * following attributes :
@@ -61,9 +61,10 @@ struct MulticastGroup;
 /**
  * This class implements a simple node that stores a copy of the last
  * event it received and passed on for output to the console. The 
- * associated ConsoleModule polls the nodes regularly and prints
- * out the last state stored.
+ * associated NetworkSinkModule checks for changes and generates a
+ * new network package if necessary.
  * @author Gerhard Reitmayr
+ * @ingroup network
  */
 class OPENTRACKER_API NetworkSink : public Node
 {

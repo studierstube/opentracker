@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.1 2001/04/09 07:12:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/StringTable.h,v 1.2 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,20 +46,39 @@ typedef map<string,string> StringMap;
 /**
  * This class implements a string to string mapping similar to a Hashtable in
  * Java. It is used to work around a problem in VC++ with passing STL maps 
- * between methods in different dlls.
+ * between methods in different dlls. This way it cleans up the API, because
+ * now all dependencies on the STL are removed from the OpenTracker API.
  * @author Gerhard Reitmayr
- * @todo add documentation
+ * @ingroup core
  */ 
 class OPENTRACKER_API StringTable {
 protected:
+    /// the underlying STL map implementing the functionality
     StringMap map;
 public:
+    /** constructor */
     StringTable();
+    /** destructor */
     ~StringTable();
-    const string & get( const string & );
-    void put( const string &, const string & );
-    void remove( const string & );
+    /** returns a value stored in the map
+     * @param key the key the value is for 
+     * @returns the string value or an empty string, if the key is not found */
+    const string & get( const string & key );
+    /** stores a key value pair in the table, overwritting a possible prior 
+     * value
+     * @param key the key to store it under
+     * @param value the value to store */
+    void put( const string &key, const string &value );
+    /**
+     * removes a key value pair from the table
+     * @param key the key to the pair */
+    void remove( const string &key );
+    /**
+     * tests, whether the table contains a certain key
+     * @param the key to test for */
     int containsKey( const string & );
+    /** returns the number of pairs stored 
+     * @returns unsigned with the number of pairs */
     unsigned size();
 };
 

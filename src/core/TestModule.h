@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,17 +26,17 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.6 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.7 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section testmodule TestModule
- * The TestModule provides and drives TestSource nodes that generate standard
+ * The TestModule provides and drives @ref testsource nodes that generate standard
  * events in certain intervals. It doesn't have a configuration element
- * but reserves the name 'Test' for it. It does something useful as soon as
- * at least one TestSource node is created.
+ * but reserves the name 'TestConfig' for it. It does something useful as soon as
+ * at least one @ref testsource node is created.
  */
 
 #ifndef _TESTMODULE_H
@@ -49,18 +49,14 @@
 #include "Module.h"
 #include "NodeFactory.h"
 
-/**
- * a Vector of Node pointers. Very useful to implement a simple
- * container of Nodes such as a parent node, or to keep pointers
- * to several nodes around.
- */
 typedef vector<Node*> NodeVector;
 
 /**
- * The module and factory to drive the test source nodes. It ructs
+ * The module and factory to drive the test source nodes. It constructs
  * TestSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class OPENTRACKER_API TestModule : public Module, public NodeFactory
 {
@@ -73,7 +69,7 @@ protected:
 
 // Methods
 public:
-    /** ructor method. */
+    /** constructor method. */
     TestModule() : Module(), NodeFactory()
     {
         cycle = 0;

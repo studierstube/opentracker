@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,16 +26,19 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireSource.h,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireSource.h,v 1.4 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section wacomgraphiresource WacomGraphireSource
- * The WacomGraphireSource node is a simple EventGenerator that fires in fixed intervalls
- * standard events. it can be configured with the following attributes. It has the 
- * following elements :
+ * The WacomGraphireSource node is a simple EventGenerator that outputs the
+ * the position of the pen on the tablet in the first two coordinates of
+ * the position value and the button status of the used input device.
+ * The node itself can be configured to report the position of a
+ * particular device, such as pen, eraser or puck.
+ * It has the following attributes :
  * @li @c device, type of pointing device (pen, eraser, puck)
  *
  * An example element looks like this :
@@ -54,6 +57,7 @@
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
  * @author Ivan Viola, Matej Mlejnek
+ * @ingroup input
  */
 class OPENTRACKER_API WacomGraphireSource : public Node
 {

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.4 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSource.h,v 1.5 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,7 @@
  * tracking events for one station based on keyboard input to the console.
  * Each ConsoleSource node has a station number that can be selected via
  * the keyboard. There can be only one node per station. It is also managed 
- * and driven by the ConsoleModule.
+ * and driven by the @ref consolemodule.
  *
  * It has the following attributes :
  * @li @c number a number ( 0 - 9 ) giving the station number.
@@ -56,6 +56,7 @@
  * This class implements a simple node that generates tracking events
  * based on keyboard input.
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API ConsoleSource : public Node
 {

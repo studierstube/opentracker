@@ -26,18 +26,18 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.10 2001/04/12 06:42:34 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.11 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section artoolkit ARToolKitModule
+ * @section artoolkitmodule ARToolKitModule
  * The ARToolKitModule interfaces to the ARToolKit library to track the 
  * position and orientation of visual markers with a video camera. It uses
- * the information provided by ARToolKitSource nodes and inserts the state
- * events through the ARToolKitSource nodes into the tree. It has the 
- * following attributes :
+ * the information provided by @ref artoolkitsource nodes and inserts the state
+ * events through @ref artoolkitsource nodes into the tree. The configuration 
+ * element is @c ARToolKitConfig and has the following attributes :
  * @li @c camera-parameter file containing camera calibration data
  * @li @c treshhold 100 bounding value for treshholding the greyscale video
  *        image
@@ -47,6 +47,12 @@
 <ARToolKitConfig camera-parameter="../data/camera" treshhold="150"/>@endverbatim
  */
 
+/**
+ * @defgroup input Device Input Classes
+ * This group contains modules and nodes implementing device drivers for
+ * OpenTracker. It is expected to grow in the future to accomodate a
+ * wide range of devices.
+ */
 
 #ifndef _ARTOOLKITMODULE_H
 #define _ARTOOLKITMODULE_H
@@ -61,6 +67,7 @@
  * as a NodeFactory for ARToolKitSource nodes. It also keeps a vetor of 
  * the created nodes to update them. It is implemented as a threaded module
  * doing the grabbing and video processing in a separate thread.
+ * @ingroup input
  */
 class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 {

@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.5 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -46,8 +46,9 @@
 #include <sys/types.h>
 
 /**
- * a single state passing through the tree. It encodes the full information
+ * A single state passing through the tree. It encodes the full information
  * of a tracked object. Not all information has to be used at a certain time.
+ * Every node should define, what information is set and to what values.
  *
  * @todo the plan is to make this generic and not just put any fixed members
  *   on it. Maybe just extend it ? We will see.

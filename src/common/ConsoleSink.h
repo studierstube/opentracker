@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.5 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleSink.h,v 1.6 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,7 +35,7 @@
  * @section consolesink ConsoleSink
  * The ConsoleSink node is a simple EventObserver / EventGenerator that passes
  * events on and stores a copy of the last one. It is polled in regular
- * intervalls by the ConsoleModule and its state is printed out to the console.
+ * intervalls by the @ref consolemodule and its state is printed out to the console.
  * It has the following attributes :
  * @li @c comment a line of text describing the output
  *
@@ -57,6 +57,7 @@
  * associated ConsoleModule polls the nodes regularly and prints
  * out the last state stored.
  * @author Gerhard Reitmayr
+ * @ingroup common
  */
 class OPENTRACKER_API ConsoleSink : public Node
 {

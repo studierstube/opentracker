@@ -56,6 +56,10 @@
 
 /*
  * $Log: DOMTreeErrorReporter.h,v $
+ * Revision 1.2  2001/04/18 16:38:18  reitmayr
+ * added lots of documentation, interlinked the module and node reference pages.
+ * This needs the latest doxygen version (1.2.6) to work.
+ *
  * Revision 1.1  2000/12/11 10:46:41  reitmayr
  * checked in new source code
  *
@@ -102,6 +106,7 @@
  * @note We should check, if there are any licensing problems with
  *       this approach.
  * @author Apache Org.
+ * @ingroup core
  */
 class DOMTreeErrorReporter : public ErrorHandler
 {

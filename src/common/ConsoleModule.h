@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -25,21 +25,73 @@
 /** header file for ConsoleModule module.
   *
   * @author Gerhard Reitmayr
-  * @todo a lot of documentation needed !
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.7 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.8 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
  * @section consolemodule ConsoleModule
- * The ConsoleModule displays event data collected by @ref consolesink nodes.
+ * The ConsoleModule is a basic console based input / output module. It generates
+ * input events via @ref consolesource nodes based on keyboard strokes and 
+ * displays event data collected by @ref consolesink nodes.
  * It displays the data every interval'th cycle. On a windows system it just writes 
- * to the console. On a unix system it uses curses to format display.
- * It has the following attributes :
+ * to the console. On a unix system it uses curses to format the display.
+ * It cannot yet read all keys, as I'm still fighting with the Windows / 
+ * courses API :).
+ * The configuration element is called @c ConsoleConfig and has the following attributes :
  * @li @c interval 10 number of cycles to wait between displaying data.
  * @li @c headerline "" a single line used as headerline in the display.
+ *
+ * Moreover the keys for simulating tracking events can be configured freely.
+ * The module supports 10 stations, numbered from 0 to 9. The input allows
+ * to move the stations position in all 3 directions and to rotate around
+ * all 3 axes. The velocities are displayed on top of the screen and can
+ * be changed. The button bits 0 to 3 can be set. Finally a station can
+ * be reset to identity. To command several stations, the active station
+ * has to be switched.
+ 
+ * The @c KeyDefinition configuration element is used to
+ * set the keys assigned to each function. It has the following attributes :
+ * @li @c function name of the function ( see the following table )
+ * @li @c key to assign the function to
+ *
+ * The following table lists all possible functions and their default keys :
+ * @verbatim
+Function        Default Key     Description
+Move_X_plus     o               moves in direction X +
+Move_X_minus    l               moves in X -
+Move_Y_plus     p               moves in Y +
+Move_Y_minus    ö               moves in Y -
+Move_Z_plus     ü               moves in Z +
+Move_Z_minus    ä               moves in Z -
+Rot_X_plus      e               rotates positive around X
+Rot_X_minus     d               rotates negative around X
+Rot_Y_plus      r               rotates positive around Y
+Rot_Y_minus     f               rotates negative around Y
+Rot_Z_plus      t               rotates positive around Z
+Rot_Z_minus     g               rotates negative around Z
+Accelerate      y               increases velocities
+Brake           x               reduces velocities
+Button_1        ' '             sets button bit 0
+Button_2        ,               sets button bit 1
+Button_3        .               sets button bit 2
+Button_4        -               sets button bit 3
+Station_0       0               activates Station 0
+Station_1       1               activates Station 1
+Station_2       2               activates Station 2
+Station_3       3               activates Station 3
+Station_4       4               activates Station 4
+Station_5       5               activates Station 5
+Station_6       6               activates Station 6
+Station_7       7               activates Station 7
+Station_8       8               activates Station 8
+Station_9       9               activates Station 9
+Reset           w               resets current station
+Quit            q               signals to quit OpenTracker
+@endverbatim
+ * 
  *
  * An example configuration element looks like this :
  * @verbatim
@@ -52,6 +104,8 @@
 #define _CONSOLEMODULE_H
 
 #include "../OpenTracker.h"
+#include "ConsoleSource.h"
+#include "ConsoleSink.h"
 
 /**
  * The module and factory to drive the console output sink nodes. 
@@ -59,6 +113,7 @@
  * the cursor. On a unix it uses the curses library to achieve the same 
  * effect.
  *
+ * @ingroup common
  * @author Gerhard Reitmayr
  */
 class ConsoleModule: public Module, public NodeFactory
@@ -87,8 +142,9 @@ protected:
     /// maps key chars to indices
     vector<char> keyMap;
 
-// Methods
 protected:
+
+// Methods
     /** sets the button bit of given button on all sources that
      * are associated with station. Changes the changed flag on
      * the sources.

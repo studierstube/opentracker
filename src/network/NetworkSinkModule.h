@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.7 2001/04/08 19:31:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.8 2001/04/18 16:38:18 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -35,9 +35,9 @@
  * @section networksinkmodule NetworkSinkModule
  * The NetworkSinkModule graps states from the tracker tree and sends them
  * to other hosts via multicast groups. The receiving groups addresses are
- * set in the NetworkSink nodes. It implements the Flexible Network protocol
+ * set in the @ref networksink nodes. It implements the Flexible Network protocol
  * from the Studierstube.
- * It has the following attributes :
+ * It's configuration element has the following attributes :
  * @li @c name a string idenfifying the server
  *
  * An example configuration element looks like this :
@@ -66,6 +66,7 @@ typedef std::vector<NetworkSink *> SinkVector;
  * distributes them to specified multicast groups.
  *
  * @author Gerhard Reitmayr
+ * @ingroup network
  */
 class OPENTRACKER_API NetworkSinkModule : public Module, public NodeFactory
 {
