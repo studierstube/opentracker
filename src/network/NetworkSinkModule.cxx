@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.13 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.14 2002/01/24 17:31:07 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -132,8 +132,8 @@ Node * NetworkSinkModule::createNode( const string& name,  StringTable& attribut
         {
             groupData = *it;
         }
-        // increase maximum of station numbers 
-        groupData->data.maxStationNum++;
+        // increase maximum of station numbers to suit the given number
+        groupData->data.maxStationNum = (groupData->data.maxStationNum < number)?(number):(groupData->data.maxStationNum);
         
         NetworkSink * sink = new NetworkSink( name, number, groupData );
         nodes.push_back( sink );
@@ -151,7 +151,7 @@ void NetworkSinkModule::start()
     // only open a network connection if we actually have something to do
     if( nodes.size() > 0 )
     {
-        if( socket->open( ACE_INET_Addr( 12346, "localhost" ) , PF_INET, 0, 1) == -1 )
+        if( socket->open( ACE_INET_Addr( 6666, "localhost" ) , PF_INET, 0, 1) == -1 )
         {
             cout << "Error opening socket in NetworkSinkModule !" << endl;
             exit(1);

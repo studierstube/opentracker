@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.1 2002/01/24 10:54:04 reitmayr Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerModule.cxx,v 1.2 2002/01/24 17:31:07 reitmayr Exp $
 * @file                                                                   */
 /* ======================================================================= */
 // a trick to avoid warnings when ace includes the STL headers
@@ -112,7 +112,8 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
 
 void ARTDataTrackerModule::start()
 {
-	ThreadModule::start();    
+	if( isInitialized() && !sources.empty())
+        ThreadModule::start();    
 }	
 
 
@@ -239,21 +240,24 @@ void ARTDataTrackerModule::convert()
 // pushes events into the tracker tree
 void ARTDataTrackerModule::pushState()
 {
-	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-	{
-		ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
-		lock();
-		if( source->changed == 1 )
-		{			
-			source->updateObservers( source->state );
-			source->changed = 0;
-			unlock();            
-		}
-		else
-		{
-			unlock();
-		}
-	}
+    if( isInitialized() )
+    {
+	    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
+	    {
+		    ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
+		    lock();
+		    if( source->changed == 1 )
+		    {			
+			    source->updateObservers( source->state );
+			    source->changed = 0;
+			    unlock();            
+		    }
+		    else
+		    {
+			    unlock();
+		    }
+	    }
+    }
 }
 
 // -------------------------------------------------------------------------------------------------------

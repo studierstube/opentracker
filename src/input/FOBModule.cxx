@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.7 2002/01/18 19:58:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.8 2002/01/24 17:31:07 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -142,9 +142,13 @@ public:
     inline int reset();
 
     // some bird protocol stuff
-    inline void setGroupMode( bool value );
+    inline int setGroupMode( bool value );
 
     inline int getErrorCode();
+
+    inline int autoConfig( int number );
+
+    inline int sleep();
 
 };
 
@@ -168,8 +172,6 @@ FOBModule::~FOBModule()
 // initializes the tracker module. 
 void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
 {
-    int num;
-
     // checking mode parameter
     if( attributes.get("mode").compare("multi") == 0 )
         mode = MULTI;
@@ -247,9 +249,6 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
         return;
     }
     ThreadModule::init( attributes, localTree );
-    cout << "FOBModule : initialized with master " << master << " mode " << mode
-	 << " scale " << scale << " hemisphere " << hemisphere << " trans " << transmitter
-	 << endl;
 }
 
 // This method is called to construct a new Node 
@@ -287,6 +286,7 @@ void FOBModule::start()
             {
                 cout << "FOBModule : error opening " << master
                      << " port for master " << birds[master]->number << endl;
+                initialized = 0;
                 return;
             }
         } else {
@@ -296,12 +296,11 @@ void FOBModule::start()
                 if( it->second->open() < 0 )
                 {
                     cout << "FOBModule : error opening port for " << it->first << endl;
+                    initialized = 0;
                     return;
                 }
             }           
         }
-        cout << "Starting Flock !\n";
-        initFoB();
         ThreadModule::start();
     }
 }
@@ -309,62 +308,39 @@ void FOBModule::start()
 // runs the whole initialization sequence
 int FOBModule::initFoB()
 {
-    map<int, Bird *>::iterator it;
     Bird * masterBird = birds[master];
     char buffer[5];
+    int result;
 
-    // toggle reset on master bird
-    if( mode == SINGLE )
-    	masterBird->reset();
-    else
+    // reset birds
+    if((result = resetBirds()) != 0 )
     {
-    	for( it = birds.begin(); it != birds.end(); it++ )
-    	{
-    		it->second->reset();
-     	}
+        cout << "FOBModule : error reseting birds " << result << endl;
+        return result;
     }
-    OSUtils::sleep(600);
-    cout << "reset master bird - code " << (int)masterBird->getErrorCode() << endl;
+    OSUtils::sleep(500);
 
-    masterBird->setGroupMode( false );
-    cout << "Group mode off - code " << (int)masterBird->getErrorCode() << endl;
-
-    // AUTOCONFIG to master bird, with largest bird number as parameter
-    buffer[0] = 'P';
-    buffer[1] =  0x32;
-    buffer[2] = birds.rbegin()->first;  // this is the bird with the largest number
-    if( transmitter > buffer[2] )
-        buffer[2] = transmitter;
-    masterBird->write( buffer, 3 );
-    OSUtils::sleep( 600 );
-    cout << "send autoconfig " << (int)buffer[2] << " - code " << (int)masterBird->getErrorCode() << endl;
-
-    // set report mode
-    if( mode == MULTI )
+    if((result = masterBird->setGroupMode( false )) != 0 )
     {
-        // send all birds the POSITION/QUATERNION command
-        buffer[0] = ']';
-        for( it = birds.begin(); it != birds.end(); it++ )
-        {
-            it->second->write( buffer, 1 );
-        }
-        OSUtils::sleep(600);
-    } else {
-        // send all birds the POSITION/QUATERNION command
-        for( it = birds.begin(); it != birds.end(); it++ )
-        {
-           	buffer[0] = 0xF0+it->first;
-            buffer[1] = ']';
-            // TO FOB command and POS / QUAT command
-            masterBird->write( buffer, 2 );
-            OSUtils::sleep(600);
-        }
-        // write again as it doesn't work otherwise :(
-         buffer[0] = ']';
-         masterBird->write( buffer, 1 );
-         OSUtils::sleep(600);
+        cout << "FOBModule : error clear group mode " << result << endl;
+        return result;
     }
-    cout << "set quat mode - code " << (int)masterBird->getErrorCode() << endl;
+    OSUtils::sleep(500);
+
+    if((result = masterBird->autoConfig((transmitter > birds.rbegin()->first)?(transmitter):(birds.rbegin()->first))) 
+         != 0 )
+    {
+        cout << "FOBModule : error sending autoconfig " << result << endl;
+        return result;
+    }
+    OSUtils::sleep(500);
+
+    if((result = setReportMode()) != 0 )
+    {
+        cout << "FOBModule : error setting report mode " << result << endl;
+        return result;
+    }
+    OSUtils::sleep(500);
 
     // set all kinds of other parameters here
     if( scale == 72 )
@@ -376,8 +352,7 @@ int FOBModule::initFoB()
         masterBird->write( buffer, 3 );
         OSUtils::sleep( 600 );
     }
-
-    cout << "set scale mode - code " << (int)masterBird->getErrorCode() << endl;
+    OSUtils::sleep(500);
 
     if( hemisphere != FORWARD )
     {
@@ -408,47 +383,29 @@ int FOBModule::initFoB()
         masterBird->write( buffer, 3 );
         OSUtils::sleep( 600 );
     }
-    cout << "set hemisphere - code " << (int)masterBird->getErrorCode() << endl;
+    OSUtils::sleep(500);
 
-    // Turn on ERC if present (or another transmitter :)
-    if( transmitter != -1 )
+    if((result = setNextTransmitter()) != 0 )
     {
-        buffer[0] = 0x30;
-        buffer[1] = (transmitter << 4) & 0xff;
-        masterBird->write( buffer, 2 );
-        OSUtils::sleep( 600 );
+        cout << "FOBModule : error setting transmitter " << result << endl;
+        // return result;
     }
+    OSUtils::sleep(500);
 
     if( mode == SINGLE )
     {
-        // GROUP mode to master bird
-/*        buffer[0] = 'P';
-        buffer[1] = 0x23;
-        buffer[2] = 1;
-        masterBird->write( buffer, 3 );
-        OSUtils::sleep( 600 );
-*/
-	masterBird->setGroupMode( true );
-    }
-    cout << "set group mode to master bird - code " << (int)masterBird->getErrorCode() << endl;
-
-    // start STREAM mode
-    if( mode == SINGLE )
-    {
-        // only to master bird
-        buffer[0] = 0xF0+masterBird->number;
-        buffer[1] = '@';
-        masterBird->write( buffer, 2 );
-    } else {
-        // to all
-        buffer[0] = '@';
-        for( it = birds.begin(); it != birds.end(); it++ )
+        if((result = masterBird->setGroupMode( true )) != 0 )
         {
-            it->second->write( buffer, 1 );
+            cout << "FOBModule : error setting group mode " << result << endl;
+           // return result;
         }
     }
-    cout << "send stream mode - code " << (int)masterBird->getErrorCode() << endl;
-    OSUtils::sleep(1000);
+    OSUtils::sleep(500);
+    if((result = startStreamMode()) != 0 )
+    {
+        cout << "FOBModule : error starting data streaming " << result << endl;
+        //return result;
+    }
     return 0;
 }
 
@@ -457,12 +414,13 @@ void FOBModule::close()
 {
     // stop thread
     lock();
-    stop = 1;
+    stop = true;
     unlock();
 
     // close serial ports
     if( isInitialized() == 1 )
     {
+    	birds[master]->sleep();
         if( mode == SINGLE )
         {
             birds[master]->close();
@@ -486,13 +444,18 @@ void FOBModule::run()
     const int GROUP_FRAME_SIZE = 15;
     // the number of bytes in one data frame for multi mode
     const int MULTI_FRAME_SIZE = 14;
-    
+    // timeout before we think that something is wrong, right now 1 second
+    const double DATA_TIME_OUT = 1000 * 1;
+    // number of allowed failures 
+    const int MAX_FAILURES = 5;
+
     int failure;
 
-  //  cout << "Starting FOB thread\n";
+    initFoB();
 
-    unsigned int iter = 0;
+    unsigned int iter = 0;    
     double startTime = OSUtils::currentTime();
+    double lastDataTime = OSUtils::currentTime();
 
     if( mode == SINGLE )
     {
@@ -501,53 +464,45 @@ void FOBModule::run()
 
         while(1)
         {
+            // yield to let other processes do something
+            OSUtils::sleep(1);
+            iter++;            
             lock();
-            if( stop == 1 )
+            if( stop == true )
             {           
                 unlock();
                 break;
             } else { 
                 unlock();
-            }
-            OSUtils::sleep(1);
-            iter++;
- //           if( iter % 100 == 0 )
- //               cout << "FOBModule Framerate " << 1000 * iter / ( OSUtils::currentTime() - startTime ) << endl;
-
-            /*
-            if( waitforoneSerialPort( &bird->port, 1000 ) < 0 )
+            }      
+            
+            // test if something is wrong, if so do an init again 
+            if((OSUtils::currentTime() - lastDataTime) > DATA_TIME_OUT ||
+                failure > MAX_FAILURES )
             {
-                cout << "FOBModule : error waiting for port\n";
-                break;
+                initFoB();
+                lastDataTime = OSUtils::currentTime();
+                failure = 0;
             }
-            */
+
             // read in data and parse it 
-            if( (len = bird->read( buffer, 100 )) < 0 )
+            if( (len = bird->read( buffer, 100 )) <= 0 )
             {
                 if( errno != EAGAIN )
                 {
                     failure++;
-                    cout << "FOBModule : error reading from port\n";
-                    len = 0;
                 }
                 continue;
             }
-               /*
-            cout << "got " << len << " bytes :\n";
-            for(int i = 0; i < len; i++)
-                printf(" %02hhx", (int)buffer[i]);
-            cout << endl;
-                 */
+            lastDataTime = OSUtils::currentTime();
             while( count < len )
             {
                 // let the master bird parse the buffer
                 count += bird->parse( &buffer[count], len - count, GROUP_FRAME_SIZE );
-              //  cout << " thread count " << count << endl;
                 if( bird->count == GROUP_FRAME_SIZE )
                 {
                     bird->count = 0;
                     num = bird->buffer[GROUP_FRAME_SIZE - 1];
-              //      cout << "Got a full frame for " << num << endl;
                     if( birds.find(num) != birds.end())
                     {
                         lock();                    
@@ -558,39 +513,44 @@ void FOBModule::run()
                 }
             }
             count = 0;
-            // yield to let other processes do something
         }
     } else {
         while(1)
         {
+            // yield to let other processes do something
+            OSUtils::sleep(1);
+            iter++;
             lock();
-            if( stop == 1 )
+            if( stop == true )
             {           
                 unlock();
                 break;
             } else { 
                 unlock();
             }
+
+           // test if something is wrong, if so do an init again 
+            if((OSUtils::currentTime() - lastDataTime) > DATA_TIME_OUT ||
+                failure > MAX_FAILURES )
+            {
+                initFoB();
+                lastDataTime = OSUtils::currentTime();
+                failure = 0;
+            }
+
             map<int,Bird *>::iterator it;
             for( it = birds.begin(); it != birds.end(); it++ )
             {
                 Bird * bird = it->second;
-                if( (len = bird->read( buffer, 100 )) < 0 )
+                if( (len = bird->read( buffer, 100 )) <= 0 )
                 {
                     if( errno != EAGAIN )
                     {
                        failure++;
-                       cout << "FOBModule : error reading from port " << bird->number << endl;
-                    }
-                    len = 0;
+                    }                    
                     continue;
                 }
-                   /*
-                cout << "got " << len << " bytes from " << bird->number << endl;
-                for(int i = 0; i < len; i++)
-                    printf(" %02hhx", (int)buffer[i]);
-                cout << endl;
-                     */
+                lastDataTime = OSUtils::currentTime();
                 while( count < len )
                 {
                    // let the bird itself parse the buffer
@@ -606,11 +566,6 @@ void FOBModule::run()
                 }
                 count = 0;
             }
-            // yield to let other processes do something
-            OSUtils::sleep(1);
-            iter++;
-//            if( iter % 100 == 0 )
-//                cout << "FOBModule Framerate " << 1000 * iter / ( OSUtils::currentTime() - startTime ) << endl;
         }
     }
     cout << "FOBModule Framerate " << 1000 * iter / ( OSUtils::currentTime() - startTime ) << endl;
@@ -635,6 +590,94 @@ void FOBModule::pushState()
                 unlock();
         }
     }
+}
+
+// toggle reset on the birds
+int FOBModule::resetBirds()
+{    
+    if( mode == SINGLE )
+    	birds[master]->reset();
+    else
+    {
+        map<int, Bird *>::iterator it;
+    	for( it = birds.begin(); it != birds.end(); it++ )
+    	{
+    		it->second->reset();
+     	}
+    }
+    OSUtils::sleep(600);
+    return birds[master]->getErrorCode();
+}
+
+// set report mode to POSITION/QUATERNION
+int FOBModule::setReportMode()
+{ 
+    char buffer[2];
+    map<int, Bird *>::iterator it;
+    if( mode == MULTI )
+    {
+        // send all birds the POSITION/QUATERNION command
+        buffer[0] = ']';
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            it->second->write( buffer, 1 );
+        }
+        OSUtils::sleep(600);
+    } else {
+        // send all birds the POSITION/QUATERNION command
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+           	buffer[0] = 0xF0+it->first;
+            buffer[1] = ']';
+            // TO FOB command and POS / QUAT command
+            birds[master]->write( buffer, 2 );
+            OSUtils::sleep(600);
+        }
+        // write again as it doesn't work otherwise :(
+         buffer[0] = ']';
+         birds[master]->write( buffer, 1 );
+         OSUtils::sleep(600);
+    }
+    return birds[master]->getErrorCode();
+}
+
+// Turn on ERC if present (or another transmitter :)
+int FOBModule::setNextTransmitter()
+{
+    char buffer[2];
+    if( transmitter != -1 )
+    {
+        buffer[0] = 0x30;
+        buffer[1] = (transmitter << 4) & 0xff;
+        birds[master]->write( buffer, 2 );
+        OSUtils::sleep( 600 );
+    }
+    return birds[master]->getErrorCode();
+}
+
+// start STREAM mode    
+int FOBModule::startStreamMode()
+{
+    char buffer[2];
+
+    if( mode == SINGLE )
+    {
+        // only to master bird
+        buffer[0] = 0xF0+birds[master]->number;
+        buffer[1] = '@';
+        birds[master]->write( buffer, 2 );
+    } else {
+        // to all
+        buffer[0] = '@';
+        map<int, Bird *>::iterator it;
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            it->second->write( buffer, 1 );
+        }
+    }
+    OSUtils::sleep(500);
+    // no use getting an error code :)
+    return 0;
 }
 
 const float Bird::inchesToMeters = 0.0254f;
@@ -680,20 +723,16 @@ int Bird::parse( const char * data, int len, int framesize )
         }
         if( i == len )  // read everything but found no phasing bit, throw it away
             return len;
-//        cout << "phasing bit at " << i;
         buffer[0] = data[i];
         count = 1;
         i++;
     }
-//    cout << " parsing len " << len << " i " << i ;
     // copy everything up to min(framesize - count, len - i) bytes from data[i] into buffer
     int amount = min( framesize - count, len - i );
-//    cout << " amount " << amount;
     if( amount == 0 )
         return i;
     memcpy( &buffer[count], &data[i], amount );
     count += amount;
-//    cout << " count " << count << endl;
     return i+amount;
 }
 
@@ -734,7 +773,7 @@ int Bird::reset()
     return setRTSSerialPort( &port, 0);    
 }
 
-void Bird::setGroupMode( bool value )
+int Bird::setGroupMode( bool value )
 {
     char buffer[3];
     buffer[0] = 'P';
@@ -742,17 +781,42 @@ void Bird::setGroupMode( bool value )
     buffer[2] = (value)?(1):(0);
     write( buffer, 3 );
     OSUtils::sleep( 600 );
+    return getErrorCode();
 }
 
 int Bird::getErrorCode()
 {
-    char buffer[2];
     buffer[0] = 0x4f;
     buffer[1] = 10;
     write( buffer, 2 );
     OSUtils::sleep(100);
     buffer[0] = 0;
-    while( read( buffer, 1 ) == EAGAIN )
-    	OSUtils::sleep(0);
+    int count = 0;
+    while( read( buffer, 1 ) < 0 && count < 10)
+    {
+    	if( errno != EAGAIN )
+            return -1;	
+        count++;
+        OSUtils::sleep(10);
+    }
     return buffer[0];
+}
+
+int Bird::autoConfig( int number )
+{
+    char buffer[3];
+    buffer[0] = 'P';
+    buffer[1] = 0x32;
+    buffer[2] = number;
+    write( buffer, 3 );
+    OSUtils::sleep(600);
+    return getErrorCode();
+}
+
+int Bird::sleep()
+{
+    char buffer[4] = "GGG";
+    write( buffer, 3 );
+    OSUtils::sleep(300);
+    return getErrorCode();
 }

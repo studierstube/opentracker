@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.15 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.16 2002/01/24 17:31:07 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -160,7 +160,7 @@ void NetworkSourceModule::run( void * data )
             // position and orientation according to format
             int stationNumber = ntohs(si[0]);
             int format = ntohs( si[1] );
-            if( stationNumber > 0 && stationNumber <= maxNumber && 
+            if( stationNumber >= 0 && stationNumber <= maxNumber && 
                 format == positionQuaternion )
             {
                 StationVector::iterator station;

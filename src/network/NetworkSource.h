@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.6 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.7 2002/01/24 17:31:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,7 +36,7 @@
  * The NetworkSource node is a simple EventGenerator that inserts events from
  * the network into the tracker tree. The NetworkSource element has the 
  * following attributes :
- * @li @c number the stations number
+ * @li @c number the stations number, between 0 and any positive number
  * @li @c multicast-address the multicast group to send to
  * @li @c port port to send to
  *  

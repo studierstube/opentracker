@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.6 2002/01/18 19:58:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.7 2002/01/24 17:31:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -110,18 +110,12 @@ protected:
     std::map<int, Bird *> birds;
 
     /// flag to stop the thread
-    int stop;
+    bool stop;
 
 // Methods
 protected:
     /** this method is executed in its own thread and reads data from the flock. */
-    virtual void run();
-
-    /** inits the whole flock according to the parameters stored
-     * in the module. It can be used to reset the flock after
-     * some communication failure.
-     * @return 0 if everything is ok, otherwise < 0 */
-    int initFoB();
+    virtual void run(); 
 
 public:
     /** constructor method. */
@@ -156,6 +150,32 @@ public:
      * and fires the FOBSources, if new data is present.
      */
     virtual void pushState();
+
+private :
+   /** inits the whole flock according to the parameters stored
+     * in the module. It can be used to reset the flock after
+     * some communication failure.
+     * @return 0 if everything is, otherwise the FOB error code of the operation
+     *  that went wrong. */
+    int initFoB();
+
+    /** resets all birds by toggling the modem lines. Does the right thing 
+     * depending on the mode. 
+     * @return the FOB error code */
+    int resetBirds();
+
+    /** sets the report mode of all birds to POSITION/QUATERNION.
+     * @return the FOB error code */
+    int setReportMode();
+
+    /** issues the Next Transmitter command to the master bird, if another
+     * transmitter is set. This is used to activate an ERC transmitter as well.
+     * @return the FOB error code */
+    int setNextTransmitter();
+
+    /** starts the stream mode to receive data from the birds.
+     * @return the FOB error code */
+    int startStreamMode();
 };
 
 #endif
