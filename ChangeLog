@@ -9,6 +9,49 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-25 15:43  reitmayr
+
+	* src/core/: MathUtils.cxx, MathUtils.h:
+	
+	fixed const for method parameters
+
+2003-06-25 15:23  reitmayr
+
+	* src/core/MathUtils.cxx:
+	
+	fixed slerp implementation
+
+2003-06-25 15:23  reitmayr
+
+	* src/common/: ElasticFilterNode.cxx, ElasticFilterNode.h:
+	
+	elastic filter fixed
+
+2003-06-25 14:38  tomp
+
+	* src/common/: ElasticFilterNode.cxx, ElasticFilterNode.h:
+	
+	yet another version that should fix the rotation part of elastic
+	filter (useing a totally new approach)
+
+2003-06-25 14:33  reitmayr
+
+	* src/common/ThresholdFilterNode.cxx:
+	
+	using angle from MathUtils
+
+2003-06-25 14:32  reitmayr
+
+	* src/core/MathUtils.h:
+	
+	fixed missing static modifiers
+
+2003-06-25 08:42  reitmayr
+
+	* src/core/: MathUtils.cxx, MathUtils.h:
+	
+	updated documentation for MathUtils functions and improved slerp
+
 2003-06-23 16:45  tamer
 
 	* cfg/m4/: ace.m4, xerces.m4:
