@@ -1,3 +1,12 @@
+2004-09-05 21:06:02  Rev 746    tamer
+
+	* lib/Makefile.am, configure, cfg/m4/libtool.m4, lib/Makefile.in: 
+	  updated libtool.m4 to a more recent version. fixes the omitting of 
+	  the .so extension for the OpenTracker library created and other 
+	  very peculiar things. reported by J?rn Skaarud Karlsen. update 
+	  libtool internal revision number for Opentracker to 1.0.0. 
+	  bootstrap.
+
 2004-09-01 16:16:48  Rev 744    reitmayr
 
 	* src/input/P5GloveSource.h: more information
