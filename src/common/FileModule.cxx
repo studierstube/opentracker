@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.13 2003/11/30 17:37:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.14 2003/12/01 13:46:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -61,6 +61,14 @@ void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
         loop = true;
     else
         loop = false;
+    if( attributes.containsKey("interval"))
+    {
+        attributes.get("interval", &interval );
+        interval *= 1000.0;
+        lastTime = OSUtils::currentTime();
+    }
+    else
+        interval = -1;
 }
 
 // This method is called to construct a new Node
@@ -162,6 +170,11 @@ void FileModule::pushState()
     
     // store a time stamp to use for all localTime file sources
     double time = OSUtils::currentTime();
+
+    if( interval != -1 && (time - lastTime) < interval )
+        return;
+
+    lastTime = time;
 
 	for( map<string, File*>::iterator it = files.begin(); it != files.end(); it++ )
     {

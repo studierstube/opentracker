@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.8 2003/11/30 17:37:32 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.9 2003/12/01 13:46:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -73,6 +73,10 @@ protected:
     bool append;
     /// flag whether to loop input files or not
     bool loop;
+    /// interval time between new events
+    double interval;
+    /// last timestamp
+    double lastTime;
 
 public:
     /** constructor method. initializes internal and static data
