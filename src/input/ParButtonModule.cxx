@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.10 2002/09/26 13:56:26 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.11 2002/11/29 13:06:35 bornik Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -65,6 +65,10 @@ using namespace std;
 #include <unistd.h> 
 #ifdef _SGI_SOURCE
 #include <sys/plp.h> 
+#else
+#include <linux/ioctl.h>
+#include <linux/parport.h>
+#include <linux/ppdev.h>
 #endif
 #endif
 
@@ -93,9 +97,9 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         outportb(addr, 0x00 );
         outportb(addr+2, 0x20); 
 #else
-		DlPortWritePortUchar(addr, 0x00);
-		DlPortWritePortUchar(addr+2, 0x20);
-		// nothing to be done here
+	DlPortWritePortUchar(addr, 0x00);
+	DlPortWritePortUchar(addr+2, 0x20);
+	// nothing to be done here
 #endif
 
         ParButtonSource * source = new ParButtonSource( addr );
@@ -125,9 +129,34 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             cout << "ParButtonModule Error timeout on " << dev << endl;
             return NULL;
         }
-        ParButtonSource * source = new ParButtonSource((unsigned int)handle );
+        ParButtonSource * source = new ParButtonSource((unsigned int) handle );
 #else  // Linux
-	ParButtonSource * source = NULL;
+	int handle = open( dev.c_str(), O_RDWR | O_NDELAY );
+	if( handle < 0 )
+        {
+            cout << "ParButtonModule Error opening parallel port " << dev << endl;
+            return NULL;
+        }
+	
+	int mode;
+	if(ioctl(handle, PPCLAIM) < 0) 
+	{
+	    cout << "ParButtonModule Error claiming port" 
+	         << dev << endl;
+	    ::close(handle);
+	    return NULL;
+	}
+
+	unsigned char datadir=0x01;
+  
+	if (ioctl(handle, PPDATADIR, &datadir) < 0)
+	{
+	    cout << "ParButtonModule Error setting datadir" << dev << endl;
+	    ::close(handle);
+	    return NULL;
+	}
+  
+	ParButtonSource * source = new ParButtonSource((unsigned int) handle );
 #endif
 #endif
         nodes[dev] = source;
@@ -143,8 +172,13 @@ void ParButtonModule::close()
 {
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
+#ifndef WIN32
 #ifdef _SGI_SOURCE
         ::close(((ParButtonSource*)(*it).second)->handle);
+#else  // LINUX
+	ioctl(((ParButtonSource*)(*it).second)->handle, PPRELEASE);
+        ::close(((ParButtonSource*)(*it).second)->handle);
+#endif
 #endif
     }
     nodes.clear();
@@ -155,6 +189,8 @@ void ParButtonModule::close()
 void ParButtonModule::pushState()
 {
     unsigned short data;
+    int cstatus;
+    
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
@@ -171,7 +207,8 @@ void ParButtonModule::pushState()
             source->state.timeStamp();
             source->updateObservers( source->state );
         }
-#endif
+#else
+
 #ifdef _SGI_SOURCE
         if( read( source->handle, &data, 1 ) == 1 )
         {
@@ -179,6 +216,17 @@ void ParButtonModule::pushState()
             source->state.timeStamp();
             source->updateObservers( source->state );
         }
+#else  // LINUX
+	cstatus = ioctl(source->handle, PPRDATA, &data);	
+	
+	if( (~data) != source->state.button )
+        {
+            source->state.button = 0x00ff&(~data);
+            source->state.timeStamp();
+            source->updateObservers( source->state );
+        }
+#endif
+
 #endif
     }  
 }
