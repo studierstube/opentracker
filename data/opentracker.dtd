@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.86 2004/03/19 08:10:58 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.87 2004/04/19 14:47:49 tomp Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?">
@@ -767,6 +767,16 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   number CDATA #REQUIRED
   average (true | false) "false"
+>
+<!--Multicast device driver. Use for Simulator.-->
+<!ELEMENT MulticastInputConfig EMPTY>
+<!ATTLIST MulticastInputConfig
+    port CDATA #REQUIRED
+>
+<!ELEMENT MulticastInputSource EMPTY>
+<!ATTLIST MulticastInputSource
+    number CDATA #REQUIRED
+    DEF ID #IMPLIED
 >
 <!-- Dwarf service configuration elements -->
 <!ELEMENT DwarfConfig (attribute*, (need | ability)*)>
