@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.25 2003/03/19 22:41:41 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.26 2003/03/24 15:20:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -85,7 +85,7 @@ using namespace std;
 
 // constructor
 
-ARToolKitModule::ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0)
+ARToolKitModule::ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0), frame( NULL )
 {
 #ifdef WIN32
     CoInitialize(NULL);
@@ -101,7 +101,8 @@ ARToolKitModule::~ARToolKitModule()
         delete (*it);
     }
     sources.clear();
-    delete[] frame;
+	if( frame != NULL )
+		delete[] frame;
 #ifdef WIN32
    	CoUninitialize();
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.5 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FastTrakModule.cxx,v 1.6 2003/03/24 15:20:55 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -45,14 +45,15 @@ const int FASTTRAK = 1;
 const int ISOTRAK = 2;
 
 // constructor method.
-FastTrakModule::FastTrakModule() : ThreadModule(), NodeFactory()
+FastTrakModule::FastTrakModule() : ThreadModule(), NodeFactory(), stations( NULL )
 {
 }
 
 // Destructor method, clears nodes member.
 FastTrakModule::~FastTrakModule()
 {
-    delete[] stations;
+	if( stations != NULL )
+		delete[] stations;
     nodes.clear();
 }
 
