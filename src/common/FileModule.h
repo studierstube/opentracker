@@ -25,9 +25,8 @@
 /** header file for FileModule module.
   *
   * @author Gerhard Reitmayr
-  * @todo implement constraint to have only one source per (file,station) pair
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.5 2001/08/07 09:21:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.6 2001/08/23 15:44:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 

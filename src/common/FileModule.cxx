@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.6 2001/08/07 13:28:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.7 2001/08/23 15:44:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -64,30 +64,28 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
             station = 0;                    
         // search for File
         map<string,File *>::iterator it = files.find( id );
-        if( it != files.end()) // found one, test for right direction and add to store
+        File * file;
+        if( it != files.end()) // found one or create a new one ? 
         {
-            File * file = (*it).second;
-            if( file->mode == File::OUT )
-            {
-                NodeVector & vector = nodes[id];
-                FileSink * sink = new FileSink(*file, station );
-                vector.push_back( sink );
-                cout << "Built FileSink node writting into " << id << " with station " 
-                     << station << endl;       
-                return sink;
-            } 
-            cout << "FileSink referencing input file " << id << endl;
+            file = (*it).second;
+            
         } else // create a new one
         {
-            File * file = new File( id, File::OUT );
-            files[id] = file;
+            file = new File( id, File::OUT );
+            files[id] = file;        
+        }
+        if( file->mode == File::OUT ) // test for right direction and add to store
+        {            
             NodeVector & vector = nodes[id];
+            NodeVector::iterator nodeIt = vector.begin();             
             FileSink * sink = new FileSink(*file, station );
             vector.push_back( sink );
             cout << "Built FileSink node writting into " << id << " with station " 
                  << station << endl;       
             return sink;
-        }
+        } 
+        cout << "FileSink referencing input file " << id << endl;
+
     } else if( name.compare("FileSource") == 0 )
     {
 		string id = attributes.get("file");
@@ -96,30 +94,35 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
             station = 0;                    
         // search for File
         map<string,File *>::iterator it = files.find( id );
-        if( it != files.end()) // found one, test for right direction and add to store
+        File * file;
+        if( it != files.end()) // found one
         {
-            File * file = (*it).second;
-            if( file->mode == File::IN )
-            {
-                NodeVector & vector = nodes[id];
-                FileSource * source = new FileSource( station );
-                vector.push_back( source );
-                cout << "Built FileSource node reading from " << id << " with station " 
-                     << station << endl;       
-                return source;
-            } 
-            cout << "FileSource referencing output file " << id << endl;
+            file = (*it).second;
+
         } else // create a new one
         {
-            File * file = new File( id, File::IN );
+            file = new File( id, File::IN );
             files[id] = file;
+        }
+        if( file->mode == File::IN ) // test for right direction and add to store
+        {
             NodeVector & vector = nodes[id];
+            NodeVector::iterator nodeIt = vector.begin();    
+            for( ; nodeIt != vector.end(); nodeIt++ )  // test for another node with the same station
+                if(((FileSource *)(*nodeIt))->station == station )
+                    break;
+            if( nodeIt != vector.end())
+            {
+                cout << "Allready another FileSource node for station " << station << endl;
+                return NULL;
+            }
             FileSource * source = new FileSource( station );
             vector.push_back( source );
             cout << "Built FileSource node reading from " << id << " with station " 
                  << station << endl;       
             return source;
-        }
+        } 
+        cout << "FileSource referencing output file " << id << endl;
     }
     return NULL;
 }
