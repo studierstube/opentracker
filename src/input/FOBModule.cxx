@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.5 2001/11/23 10:03:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.6 2002/01/09 17:13:05 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -74,7 +74,7 @@ public:
     State state;
 
     /// flag indicating a new value in state
-    int newVal;
+    bool newVal;
 
     /// total range of positions
     float scale;
@@ -85,7 +85,7 @@ public:
     {
         source = NULL;
         count = 0;
-        newVal = 0;
+        newVal = false;
         scale = scale_ * inchesToMeters / 32767;
         state.confidence = 1;
         strncpy( port.pathname, device_.c_str(), 255 );
@@ -101,6 +101,16 @@ public:
      * @param buffer pointer to the char buffer storing
      * the input data. */
     inline void convert( const char * buffer );
+
+    /** reads data from an input buffer into the internal buffer.
+     * this method looks for the phasing bit and then starts to read 
+     * in data until the input buffer ends, or it has read a whole 
+     * frame. If the frame is completed it sets the flag newVal to true.
+     * @param buffer input buffer
+     * @param len length of the input buffer    
+     * @returns the number of chars read from the buffer
+     */
+    inline int parse( const char * buffer, int len );
     
     /** opens the serial port associated with the bird.
      * @return the error value from the serial library. */
@@ -158,23 +168,51 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
         mode = SINGLE;
     
     // getting master parameter
-    num = sscanf( attributes.get("master").c_str(), " %i", &master );
-    if( num != 1 )
+    if( attributes.get("master", &master ) != 1 )
     {
         cout << "FOBModule : error in master parameter " << attributes.get("master").c_str() << endl;
         return;
     }
     
+    // getting scale
+    if( attributes.get("scale", &scale ) != 1 )
+        scale = 36;
+    
     // getting erc transmitter
-    float scale = 144;
+    if( attributes.get("transmitter", &transmitter ) != 1 )
+        transmitter = -1;
+    else        
+        scale = 144;
 
     // getting hemisphere
+    if( attributes.containsKey("hemisphere"))
+    {    
+        if( attributes.get("hemisphere").compare("forward") == 0 )
+            hemisphere = FORWARD;
+        else if ( attributes.get("hemisphere").compare("rear") == 0 )
+            hemisphere = REAR;
+        else if ( attributes.get("hemisphere").compare("upper") == 0 )
+            hemisphere = UPPER;
+        else if ( attributes.get("hemisphere").compare("lower") == 0 )
+            hemisphere = LOWER;
+        else if ( attributes.get("hemisphere").compare("left") == 0 )
+            hemisphere = LEFT;
+        else if ( attributes.get("hemisphere").compare("right") == 0 )
+            hemisphere = RIGHT;
+    }       
 
     // getting reference frame
+    float angles[3];
+    if( attributes.get("referenceframe", angles, 3 ) == 3 )
+    {
+        
+    }
 
     // getting anglealign
-
-    // getting scale
+    if( attributes.get("anglealign", angles, 3 ) == 3 )
+    {
+    
+    }
 
     // parsing birds
     for( unsigned int i = 0; i < localTree->countChildren(); i++ )
@@ -182,8 +220,7 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
         ConfigNode * child = (ConfigNode *)localTree->getChild(i);
         StringTable & childAttr = child->getAttributes();
         int number;
-        num = sscanf( childAttr.get("number").c_str(), " %i", &number );
-        if( num != 1 )
+        if( childAttr.get("number", &number ) != 1 )
         {
             cout << "FOBModule : error parsing Bird " << i << " with number " 
                  << childAttr.get("number").c_str() << endl;
@@ -193,7 +230,7 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
         birds[number] = bird;
     }
     
-    if( birds[master] != NULL )
+    if( birds[master] == NULL )
     {
         cout << "FOBModule : error no master bird " << master << " present\n";
         return;
@@ -291,7 +328,45 @@ int FOBModule::initFoB()
     }
     
     // set all kinds of other parameters here
-
+    if( scale == 72 )
+    {
+        buffer[0] = 'P';
+        buffer[1] = 0x3;
+        buffer[2] = 0;
+        buffer[3] = 1;
+        masterBird->write( buffer, 3 );
+        OSUtils::sleep( 600 );
+    }
+    
+    if( hemisphere != FORWARD )
+    {
+        buffer[0] = 'L';
+        switch( hemisphere )
+        {
+            case REAR:
+                buffer[1] = 0x00;
+                buffer[2] = 0x01;
+                break;
+            case UPPER:
+                buffer[1] = 0x0c;
+                buffer[2] = 0x01;
+                break;
+            case LOWER:
+                buffer[1] = 0x0c;
+                buffer[2] = 0x00;
+                break;
+            case LEFT:
+                buffer[1] = 0x06;
+                buffer[2] = 0x01;
+                break;
+            case RIGHT:
+                buffer[1] = 0x06;
+                buffer[2] = 0x00;
+                break;
+        }
+        masterBird->write( buffer, 3 );
+        OSUtils::sleep( 600 );
+    }
 
     if( mode == SINGLE )
     {
@@ -301,13 +376,23 @@ int FOBModule::initFoB()
         buffer[2] = 1;
         masterBird->write( buffer, 3 );
         OSUtils::sleep( 600 );
-    }
+    }       
     // AUTOCONFIG to master bird
     buffer[0] = 'P';
     buffer[1] =  0x32;
     buffer[2] = (*birds.end())->number;
     masterBird->write( buffer, 3 );
     OSUtils::sleep( 600 );
+    
+    // Turn on ERC if present (or another transmitter :)
+    if( transmitter != -1 )
+    {
+        buffer[0] = 0x30;
+        buffer[1] = (transmitter << 4) & 0xff;
+        masterBird->write( buffer, 2 );
+        OSUtils::sleep( 600 );
+    }
+    
     // start STREAM mode
     buffer[1] = '@';
     if( mode == SINGLE )
@@ -356,13 +441,17 @@ void FOBModule::close()
 // this method is the code executed in its own thread
 void FOBModule::run()
 {
+    char buffer[100];
+    int len = 0;
+    int count = 0;
+    const int maxBytes = 15; // whatever is the correct number for pos/quat
+    int failure;
+    
     if( mode == SINGLE )
     {
         Bird * bird = birds[master];
-        char buffer[100];
-        int count = 0;
-        int maxBytes = 15; // whatever is the correct number for pos/quat
-        int num;
+        int num;        
+        
         while(1)
         {
             lock();
@@ -379,51 +468,30 @@ void FOBModule::run()
                 break;
             }
             // read in data and parse it 
-            if( bird->read( buffer + count, 1 ) < 0 )
+            if( (len = bird->read( buffer, 100 )) <= 0 )
             {
+                failure++;
                 cout << "FOBModule : error reading from port\n";
-                break;
-            }
-            // wait for phasing bit to start a full record
-            if( count == 0 && !( buffer[0] & 0x80))
-            {
+                len = 0;
                 continue;
-            }
-            // if we got a phasing bit before the whole record was read
-            // trash the old buffer and start again.
-            if( count > 0 && ( buffer[count] & 0x80 ))
+            }            
+            while( count < len )
             {
-                buffer[0] = buffer[count];
-                count = 0;
-                continue;
+                // let the master bird parse the buffer
+                count += bird->parse( buffer, len );
+                if( bird->count == maxBytes )
+                {
+                    bird->count = 0;
+                    num = bird->buffer[maxBytes - 1];
+                    lock();
+                    birds[num]->convert( bird->buffer );
+                    birds[num]->newVal = true;
+                    unlock();
+                }
             }
-            count++;
-            if( count == maxBytes )
-            {
-                // we got a full buffer, set the data of the addressed bird
-                lock();
-                birds[buffer[count - 1]]->convert( buffer );
-                birds[buffer[count - 1]]->newVal = 1;
-                unlock();
-                count = 0;
-            }
+            count = 0;
         }
     } else {
-        // prepare handles for the serial ports
-        SerialPort * ports[32];
-        int numBirds = 0;
-        int portSet, i;
-        int maxBytes = 14;
-
-        vector<Bird *>::iterator it;
-        for( it = birds.begin(); it != birds.end(); it++ )
-        {
-            if((*it) != NULL )
-            {
-                ports[numBirds] = &(*it)->port;
-                numBirds ++;
-            }
-        }
         while(1)
         {
             lock();
@@ -434,54 +502,38 @@ void FOBModule::run()
             } else { 
                 unlock();
             }
-            portSet = 0;
-         //   if( waitforallSerialPorts( ports, numBirds, &portSet, 1000 ) < 0 )
-            {
-                cout << "FOBModule : error waiting for port\n";
-                break;
-            }
-            // read in data and parse it 
-            for( i = 0; i < numBirds; i ++ )
-            {
-              /*  if( portSet & i )
+            vector<Bird *>::iterator it;
+            for( it = birds.begin(); it < birds.end(); it++ )
+            {            
+                if((*it) != NULL )
                 {
-                    // get the right bird here, this is just an assumption
-                    Bird * bird = birds[i+1];
-                    // read in data and parse it 
-                    if( bird->read( bird->buffer + bird->count, 1 ) < 0 )
+                    if( (len = (*it)->read( buffer, 100 )) <= 0 )
                     {
-                        cout << "FOBModule : error reading from bird " << bird->number << endl;
-                        break;
-                    }
-                    // wait for phasing bit to start a full record
-                    if( bird->count == 0 && !( bird->buffer[0] & 0x80))
-                    {
+                        failure++;
+                        cout << "FOBModule : error reading from port\n";
+                        len = 0;
                         continue;
-                    }
-                    // if we got a phasing bit before the whole record was read
-                    // trash the old buffer and start again.
-                    if( bird->count > 0 && ( bird->buffer[bird->count] & 0x80 ))
+                    }            
+                    while( count < len )
                     {
-                        bird->buffer[0] = bird->buffer[count];
-                        count = 0;
-                        continue;
+                        // let the bird itself parse the buffer
+                        count += (*it)->parse( buffer, len );
+                        if( (*it)->count == maxBytes )
+                        {
+                            (*it)->count = 0;                      
+                            lock();
+                            (*it)->convert();
+                            (*it)->newVal = true;
+                            unlock();                     
+                        }
                     }
-                    count++;
-                    if( count == maxBytes )
-                    {
-                        // we got a full buffer, set the data of the addressed bird
-                        lock();
-                        birds[buffer[count - 1]].convert( buffer );
-                        birds[buffer[count - 1]].newVal = 1;
-                        unlock();
-                        count = 0;
-                    }                    
+                    count = 0;                       
                 }
-                */
             }
+            // yield to let other processes do something
+            OSUtils::sleep(0);            
         }
     }
-
 }
     
 // pushes events into the tracker tree
@@ -519,7 +571,8 @@ void Bird::convert()
 void Bird::convert( const char * data )
 {
     int d,i;
-
+    state.timeStamp();
+    
     for (i=0; i<3; i++)                         // x,y,z
     {
         d=(data[i*2]&0x7f)+(data[i*2+1]<<7);
@@ -535,8 +588,32 @@ void Bird::convert( const char * data )
         state.orientation[(i+3)%4] = ((float)d)/0x8000; // we need qx, qy, qz, qa
                                                         // so (i+3)%4 should do the
                                                         // trick. scale ?????
+    }    
+}
+
+int Bird::parse( const char * data, int len )
+{
+    int i = 0;
+    if( count == 0 )  // we are still looking for the phasing bit
+    {
+        for( i = 0 ; i < len ; i++ )
+        {
+            if( buffer[i] & 0x80 )
+                break;
+        }
+        if( i == len )  // read everything but found no phasing bit, throw it away
+            return len;
+        buffer[0] = data[i];
+        count = 1;
+        i++;
     }
-    state.timeStamp();
+    // copy everything up to min(15 - count, len - i) bytes from data[i] into buffer
+    int amount = min( 15 - count, len - i );
+    if( amount == 0 )
+        return i;
+    memcpy( &buffer[count], &data[i], amount );
+    count += amount;
+    return i+amount;
 }
 
 int Bird::open()

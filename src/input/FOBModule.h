@@ -26,7 +26,7 @@
   *
   * @author
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.4 2001/10/20 17:24:29 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.5 2002/01/09 17:13:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,23 +34,41 @@
  * @page module_ref Module Reference
  * @section fobmodule FOBModule (Flock of Birds)
  * 
- * User guide description of what it does here
- * list of configuration attributes :
-  *
- * @li @c id a unique id to identify the tracker, this the same as the id 
- *           attribute of the @ref intersensesource nodes.
- * @li @c comport the serial port the tracker is connected to. If 0 then
- *        the first one is used or an InterTrax2 connected to the USB port.
+ * The FOBModule is a device driver for the Ascension Flock of Birds tracker. It
+ * supports single as well as multi port configurations and the extended range
+ * transmitter. It provides the FOBSource source nodes in the data flow graph. 
+ * It uses a configuration element called @c FOBConfig which in turn contains one
+ * element called @c Bird for each bird in the setup. Only configured birds will
+ * be used. 
+ * The @c FOBConfig element has the following attributes :
+ *
+ * @li @c mode ( multi | single ) defines whether the flock is used in single mode
+ *         (one serial comm port to the master bird), or multi mode (a serial port
+ *         to each bird).
+ * @li @c master the number of the master bird
+ * @li @c transmitter if the transmitter is attached to another bird than the master,
+ *         set the bird number here (i.e. for an ERT)
+ * @li @c hemisphere ( forward | rear | upper | lower | left | right ) defines which
+ *         hemisphere to set on the flock.
+ * @li @c referenceframe a transformation of the position data
+ * @li @c anglealign a transformation of the rotation data
+ * @li @c scale ( 36 | 72 ) set the extend of the receivers
+ * 
+ * The @c Bird element is used to set the birds used in the setup. If the single
+ * mode is used, only the master bird needs a device configured. Otherwise all
+ * birds need their serial devices set.
+ * The @c Bird element has the following attributes :
+ * 
+ * @li @c number the number of the bird
+ * @li @c dev the device name of the bird (i.e. COM1, /dev/ttyS0)
  *
  * An example configuration element looks like this :
  * @verbatim
-<InterSenseConfig>
-    <ISTracker comport="0" id="InterTrax"/>
-</InterSenseConfig>@endverbatim
+<FOBConfig mode="multi" master="1" scale="72">
+    <Bird number="1" dev="COM1"/>
+    <Bird number="2" dev="COM2"/>
+</FOBConfig>@endverbatim
  *
- * Note that this driver has not been fully tested, because we have only
- * InterTrax2 devices in our lab. The ISTracker element is a placeholder for
- * more advanced configuration options in the future.
  */
 
 #ifndef _FOBMODULE_H
@@ -79,7 +97,13 @@ protected:
 
     /// number of the master bird
     int master;
-
+    
+    /// number of the erc transmitter, if present
+    int transmitter;
+    
+    /// scale factor 
+    float scale;
+    
     /// array of Bird data structures
     std::vector<Bird *> birds;
 
