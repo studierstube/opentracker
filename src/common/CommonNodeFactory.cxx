@@ -26,13 +26,14 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.10 2001/04/08 19:31:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.11 2001/05/22 08:36:13 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CommonNodeFactory.h"
 #include "MergeNode.h"
 #include "DynamicTransformation.h"
+#include "InvertTransformation.h"
 
 #include<math.h>
 #include<stdio.h>
@@ -271,6 +272,13 @@ Node * CommonNodeFactory::createNode(  string& name,
         cout << "Build " << name << " node." << endl;
         return new DynamicTransformation();
     } 
+    else if( name.compare("EventInvertTransform") == 0 ||
+             name.compare("QueueInvertTransform") == 0 ||
+             name.compare("TimeInvertTransform") == 0 )
+    {
+        cout << "Build " << name << "node." << endl;
+        return new InvertTransformation();
+    }
     else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;
