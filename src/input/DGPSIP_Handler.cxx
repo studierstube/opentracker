@@ -1,4 +1,4 @@
-    /* ========================================================================
+ /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -42,7 +42,8 @@
 
 DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
 parent( parent_ ),
-counter( 0 )
+counter( 0 ),
+isReconnecting( false )
 {
 
 }
@@ -57,7 +58,6 @@ int DGPSIP_Handler::open( void * factory )
 	int result = ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>::open( factory );
 	if( result == 0)
 	{
-        peer().enable( ACE_NONBLOCK ); // don't need it here !
 		// send initialization string here 
 		char hn[1024];
 		char buf[4*1024];
@@ -77,8 +77,8 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 {
 	// handle rtcm input and send to receiver
 	char buf[4*1024];
-	int cnt;	
-	while ((cnt = peer().recv( buf, sizeof(buf))) > 0) {
+	int cnt;
+	if ((cnt = peer().recv( buf, sizeof(buf))) > 0) {
         ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input received %i bytes\n", cnt));
 		// this is the rtcm decoder, use for debug purposes		
 		if ( parent->getDebug() ) {
@@ -91,28 +91,31 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
 		// send data to GPS receiver
 		parent->send_rtcm( buf, cnt );
 	}
-    if( cnt < 0 && errno != EWOULDBLOCK )  // try a reconnect !
+    ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input received %i bytes and error %i != %i\n", cnt, errno, EWOULDBLOCK));
+    if( cnt <= 0 )  // try a reconnect !
     {
-        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input trying to reconnect..."));
+        isReconnecting = true;
+        ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input trying to reconnect...\n"));
         // remove ourselves from the reactor
-        peer().close();
         reactor()->remove_handler(fd, ACE_Event_Handler::READ_MASK | ACE_Event_Handler::DONT_CALL );
+        peer().close();
         // try to reconnect
         const size_t MAX_RETRIES = 5;
         ACE_Time_Value timeout(1);
         size_t i;
-        DGPSIP_Connector ipconnect( reactor() );
+        DGPSIP_Handler * This = (DGPSIP_Handler *) this;
         for( i = 0; i < MAX_RETRIES; ++i )
         {
             ACE_Synch_Options options (ACE_Synch_Options::USE_TIMEOUT, timeout);
+            DGPSIP_Connector ipconnect( reactor() );
             if( i > 0 ) 
                 ACE_OS::sleep(timeout);
-            DGPSIP_Handler * This = (DGPSIP_Handler *) this;
-            ACE_DEBUG((LM_DEBUG, "%i...",i));
+            ACE_DEBUG((LM_DEBUG, "%i...\n",i));
             if( ipconnect.connect(This, remoteAddr, options ) == 0 )
                 break;
             timeout *= 2;                
         }
+        isReconnecting = false;
         ACE_DEBUG((LM_DEBUG, "done %i\n",i));
         return i == MAX_RETRIES ? -1 : 0;
     }
@@ -140,4 +143,12 @@ void DGPSIP_Handler::newData( const GPResult * res, const char *, void * userDat
             counter = 0;
         }	
     }
+}
+
+int DGPSIP_Handler::handle_close( ACE_HANDLE fd, ACE_Reactor_Mask mask )
+{
+    ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_close with isReconnecting %i\n", isReconnecting));
+    if( !isReconnecting )
+        return ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>::handle_close( fd, mask);
+    return 0;
 }

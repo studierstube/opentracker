@@ -61,7 +61,10 @@ public:
 
 	virtual void newData( const GPResult * point, const char * line, void * userData );
 
+    virtual int handle_close( ACE_HANDLE fd = ACE_INVALID_HANDLE, ACE_Reactor_Mask mask = ACE_Event_Handler::ALL_EVENTS_MASK);
+
 protected:
+    bool isReconnecting;
 	GPSDriver * parent;
 	int counter;
     ACE_INET_Addr remoteAddr;
