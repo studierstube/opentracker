@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.4 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSource.h,v 1.5 2002/12/23 15:09:25 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -60,17 +60,12 @@
 #ifndef _SPEECHSOURCE_H
 #define _SPEECHSOURCE_H
 
+#include "../OpenTracker.h"
 
-#include "../../config.h"
-
-#include "../dllinclude.h"
-
-#include "../Input/SpeechDef.h"
-#include "../Input/SpeechCore.h"
-#include "../Input/SpeechSet.h"
-#include "../Input/SpeechVoice.h"
-
-#include "../Core/Node.h"
+#include "SpeechDef.h"
+#include "SpeechCore.h"
+#include "SpeechSet.h"
+#include "SpeechVoice.h"
 
 /**
  * This class implements a speech source that is fired by its module

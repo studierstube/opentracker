@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.4 2002/12/23 15:03:49 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.h,v 1.5 2002/12/23 15:09:24 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -74,15 +74,10 @@
 #ifndef _SPEECHMODULE_H
 #define _SPEECHMODULE_H
 
-#include "../../config.h"
+#include "../OpenTracker.h"
 
-#include "../dllinclude.h"
-
-#include "../Input/SpeechDef.h"
-#include "../Input/SpeechVoiceModule.h"
-
-#include "../Core/Module.h"
-#include "../Core/NodeFactory.h"
+#include "SpeechDef.h"
+#include "SpeechVoiceModule.h"
 
 typedef std::vector<Node*> NodeVector;
 
