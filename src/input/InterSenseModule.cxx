@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.11 2003/01/13 10:51:49 bara Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.12 2003/03/26 11:22:18 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -36,22 +36,12 @@
 
 #include <cstdio>
 #include <iostream>
-
-#ifndef WIN32
-extern "C" {
 #include <isense.h>
-}
-#else
-#include <isense.h>
-#endif
 
 using namespace std;
 
-// an essential constant
-
-const double GradToRad = 3.141592654 / 180.0;
-
 // change the names from the Unix InterSense code to fit the Windows names
+/*
 #ifndef WIN32
     #define BOOL                    IS_BOOL
     #define ISD_TRACKER_INFO_TYPE   ISD_TRACKER_TYPE
@@ -64,11 +54,12 @@ const double GradToRad = 3.141592654 / 180.0;
     #define ISLIB_GetTrackerData    ISD_GetTrackerData
     #define ISD_MAX_BUTTONS         MAX_NUM_BUTTONS
 #endif
+*/
 
 struct ISTracker {
     ISD_TRACKER_HANDLE handle;
     ISD_TRACKER_INFO_TYPE info;
-    ISD_DATA_TYPE data;
+    ISD_TRACKER_DATA_TYPE data;
     string id;
     int comport;
     NodeVector sources;
@@ -82,6 +73,7 @@ InterSenseModule::~InterSenseModule()
 // initializes trackers
 void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
 {
+	BOOL verbose = TRUE;
     for( unsigned i = 0; i < localTree->countChildren(); i++ )
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
@@ -93,7 +85,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
             cout << "Error in converting serial port number !" << endl;
             comport = 0;
         }
-	ISTrackerVector::iterator it;
+		ISTrackerVector::iterator it;
         for(it = trackers.begin(); it != trackers.end(); it ++ )
         {
             if( (*it)->id.compare( id ) == 0 && (*it)->comport == comport )
@@ -101,11 +93,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         }
         if(it == trackers.end())  // we got a truly new tracker
         {
-#ifdef WIN32        
-            ISD_TRACKER_HANDLE handle = ISLIB_OpenTracker( NULL, comport, FALSE, FALSE );
-#else
-            ISD_TRACKER_HANDLE handle = ISLIB_OpenTracker( comport, FALSE, FALSE );
-#endif            
+            ISD_TRACKER_HANDLE handle = ISD_OpenTracker( NULL, comport, FALSE, verbose );
             if( handle <= 0 )
             {
                 cout << "Failed to open tracker " << id << endl;                
@@ -116,12 +104,14 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 tracker->comport = comport;
                 tracker->handle = handle;
                 BOOL res;
-                res = ISLIB_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
+                res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
                 {
                     cout << "Failed to get tracker config for " << id << endl;
                 }
-                if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES)
+                if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES && 
+					tracker->info.TrackerType != ISD_ICUBE2 &&
+					tracker->info.TrackerType != ISD_ICUBE2_PRO)
                 {
                     /* Set up each station for Precision class of trackers.
                        Ensure the orientation measure of the tracker stations is
@@ -130,7 +120,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                     for( int j = 1; j <= ISD_MAX_STATIONS; j++ )
                     {   
                         int error = 0;
-                        if( !ISLIB_GetStationConfig( tracker->handle, &station, j, FALSE ) )
+                        if( !ISD_GetStationConfig( tracker->handle, &station, j, FALSE ) )
                         {
                             error = 1;                
                         }
@@ -138,8 +128,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                             if( station.State == TRUE )
                             {
                                 station.AngleFormat = ISD_QUATERNION;
-                                station.GetButtons = TRUE;
-                                if( !ISLIB_SetStationConfig( tracker->handle, 
+                                station.GetInputs = TRUE;
+                                if( !ISD_SetStationConfig( tracker->handle, 
                                     &station, j, FALSE ) )
                                     error = 2;
                             }
@@ -208,7 +198,7 @@ void InterSenseModule::close()
 {
     for(ISTrackerVector::iterator it = trackers.begin(); it != trackers.end(); it ++ )
     {
-        ISLIB_CloseTracker( (*it)->handle );
+        ISD_CloseTracker( (*it)->handle );
     }    
 }
 
@@ -220,17 +210,19 @@ void InterSenseModule::pushState()
         if((*it)->sources.size() > 0 )
         {
             ISTracker * tracker = *it;
-            ISLIB_GetTrackerData( tracker->handle, &tracker->data );
+            ISD_GetData( tracker->handle, &tracker->data );
             for( NodeVector::iterator si = tracker->sources.begin(); si != tracker->sources.end(); si++ )
             {
                 InterSenseSource * source = ( InterSenseSource * )*si;
-                ISD_STATION_DATA_TYPE * data = &tracker->data.Station[source->station];
-                if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES)
+                ISD_STATION_STATE_TYPE * data = &tracker->data.Station[source->station];
+                if( tracker->info.TrackerType != ISD_INTERTRAX_SERIES && 
+					tracker->info.TrackerType != ISD_ICUBE2 &&
+					tracker->info.TrackerType != ISD_ICUBE2_PRO )
                 {
                     float quat[4];
-                    MathUtils::eulerToQuaternion(data->Orientation[2] * GradToRad,
-		                             data->Orientation[1] * GradToRad,
-									 data->Orientation[0] * GradToRad,								
+                    MathUtils::eulerToQuaternion(data->Orientation[2] * MathUtils::GradToRad,
+		                             data->Orientation[1] * MathUtils::GradToRad,
+									 data->Orientation[0] * MathUtils::GradToRad,								
                                      quat);
                     if( quat[0] != source->state.orientation[0] || 
                         quat[1] != source->state.orientation[1] ||

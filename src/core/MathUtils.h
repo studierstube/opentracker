@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.7 2002/11/11 12:30:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.8 2003/03/26 11:22:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -94,6 +94,9 @@ public:
 
     /// the also nice constant e
     static const double E;
+
+	/// another nice constant to transform grad to radiants
+	static const double GradToRad;
 };
 
 #endif

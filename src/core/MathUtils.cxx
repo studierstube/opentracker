@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.4 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.5 2003/03/26 11:22:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,6 +36,8 @@
 const double MathUtils::Pi = 3.1415926535897932385;
     
 const double MathUtils::E = 2.7182818284590452354;
+
+const double MathUtils::GradToRad = MathUtils::Pi / 180.0;
 
 // converts an axis angle representation into a quaternion
 
