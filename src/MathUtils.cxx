@@ -49,13 +49,13 @@ float* MathUtils::eulerToQuaternion(float roll, float pitch, float yaw,
     float cr, cp, cy, sr, sp, sy, cpcy, spsy;
     
     // calculate trig identities
-    cr = fcos(roll/2);
-    cp = fcos(pitch/2);
-    cy = fcos(yaw/2);
+    cr = cos(roll/2);
+    cp = cos(pitch/2);
+    cy = cos(yaw/2);
     
-    sr = fsin(roll/2);
-    sp = fsin(pitch/2);
-    sy = fsin(yaw/2);
+    sr = sin(roll/2);
+    sp = sin(pitch/2);
+    sy = sin(yaw/2);
     
     cpcy = cp * cy;
     spsy = sp * sy;
@@ -73,7 +73,7 @@ Inverts a Quaternion. Returns result in the second parameter.
 */
 float* MathUtils::invertQuaternion(float* q, float* qResult)
 {//@CODE_4579
-    float mod = fsqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+    float mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
     qResult[0] = -q[0] / mod;
     qResult[1] = -q[1] / mod;
     qResult[2] = -q[2] / mod;
@@ -96,7 +96,7 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
     // check the diagonal
     if (tr > 0.0)
     {
-	    s = fsqrt (tr + 1.0);
+	    s = sqrt (tr + 1.0);
     	qResult[3] = s / 2.0;
 	    s = 0.5 / s;
     	qResult[0] = (matrix[2][1] - matrix[1][2]) * s;
@@ -112,7 +112,7 @@ float* MathUtils::matrixToQuaternion(float matrix[3][3], float* qResult)
 	    j = nxt[i];
     	k = nxt[j];
 
-	    s = fsqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
+	    s = sqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
 	
     	qResult[i] = s * 0.5;
 	
@@ -145,7 +145,7 @@ normalizes a quaternion to a unit quaternion.
 */
 float* MathUtils::normalizeQuaternion(float* q)
 {//@CODE_4573
-    float mod = fsqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+    float mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
     q[0] /= mod;
     q[1] /= mod;
     q[2] /= mod;

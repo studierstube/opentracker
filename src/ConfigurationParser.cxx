@@ -42,7 +42,7 @@
 #include <dom/DOM_Element.hpp>
 #include <dom/DOM_Text.hpp>
 #include <dom/DOM_NamedNodeMap.hpp>
-#include <iostream.h>
+#include <iostream>
 //@END_USER2
 
 

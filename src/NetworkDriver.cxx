@@ -28,7 +28,7 @@
 //@START_USER2
 #include <string>
 #include <stdio.h>
-#include <iostream.h>
+#include <iostream>
 #include "multicast.h"
 
 // definitions for the Network Data protocol
@@ -226,7 +226,7 @@ void NetworkDriver::endUpdate()
         data.numOfStations = htons( data.numOfStations );
     	if( sendMulticastData( socket, (char *)&data, size ) < 0 )
 	    {
-	        if( errno != ECONNREFUSED )
+//	        if( errno != ECONNREFUSED )
     	    {
 	        	cout << "Error sending packet !\n";
     	    }

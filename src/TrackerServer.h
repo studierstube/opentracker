@@ -7,6 +7,9 @@ class DOM_Element;
 //@START_USER1
 #include <vector>
 #include <map>
+
+using namespace std;
+
 struct ltstr
 {
     bool operator()(const char* s1, const char* s2) const

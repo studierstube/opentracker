@@ -24,7 +24,11 @@
 
 
 //@START_USER2
+#ifdef __sgi
 #include <algo.h>
+#else
+#include <algorithm>
+#endif
 //@END_USER2
 
 

@@ -29,10 +29,12 @@
 #include <AR/ar.h>
 #include <AR/video.h>
 #include <AR/param.h>
-#include <iostream.h>
+#include <iostream>
 #include <string>
 #include <stdio.h>
+#ifdef __sgi
 #include <unistd.h>
+#endif
 //@END_USER2
 
 
