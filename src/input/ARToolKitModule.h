@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.25 2003/05/21 15:48:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.26 2003/05/21 16:11:00 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -195,7 +195,7 @@
 
 #endif
 #else
-    typedef int MemoryBufferHandler;
+    typedef int MemoryBufferHandle;
 #endif
 
 /**
