@@ -283,11 +283,11 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ISTracker EMPTY>
 <!ATTLIST ISTracker
 	comport CDATA "0"
-	stations CDATA "1"
+	id CDATA #REQUIRED
 >
 <!ELEMENT InterSenseConfig (ISTracker*)>
 <!ELEMENT InterSenseSource EMPTY>
 <!ATTLIST InterSenseSource
-	comport CDATA #REQUIRED
-	station CDATA "1"
+	id CDATA #REQUIRED
+	station CDATA "0"
 >
