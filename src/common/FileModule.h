@@ -27,7 +27,7 @@
   * @author Gerhard Reitmayr
   * @todo implement constraint to have only one source per (file,station) pair
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.4 2001/08/04 13:26:58 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.5 2001/08/07 09:21:09 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,7 +45,9 @@
 #define _FILEMODULE_H
 
 #include "../OpenTracker.h"
-#include "File.h"
+// #include "File.h"
+
+class File;
 
 /**
  * This class manages the files and FileSink and FileSource objects. FileSources are
