@@ -26,7 +26,7 @@
 *
 * @author Christopher Schmidt
 *
-* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.5 2002/09/26 13:56:25 bornik Exp $
+* $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARTDataTrackerChomp.cxx,v 1.6 2002/10/31 20:05:35 splechtna Exp $
 * @file                                                                   */
 /* ======================================================================= */
 
@@ -63,7 +63,6 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 		exit ( -1 );
 	}
 	
-	tempChar = new char[10];
 	// get the frame number
 	positionStart = 3;
 	positionEnd = datagramm.find("\n", positionStart +1);
@@ -255,6 +254,10 @@ void ARTDataTrackerChomp::chomp(std::string datagramm, int maxBodyNumber)
 			}
 		}	
 	}
+	
+	delete [] tempBodyRecord;
+	delete [] tempMarkerRecord;
+
 };
 
 
