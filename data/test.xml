@@ -5,7 +5,8 @@
 <OpenTracker>
 	<configuration>
 		<NetworkSinkConfig name="Test Server"/>
-		<!-- <ConsoleConfig interval="1" headerline="Test Server"/>-->
+		<ConsoleConfig interval="1" headerline="Test Server"/>
+        <TimeConfig rate="157" />
 	</configuration>
 	<ConsoleSink comment="Transformation">
 		<EventTransform translation="1 1 1">

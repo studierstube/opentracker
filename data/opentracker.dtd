@@ -23,7 +23,7 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?">
+<!ENTITY % ConfigElements "NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?">
 <!ENTITY % SourceEventNodes "ARToolKitSource | TestSource | NetworkSource | InterTraxSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource">
 <!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform">
@@ -312,4 +312,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT Callback (%EventNodes;)>
 <!ATTLIST Callback
 	name CDATA #REQUIRED
+>
+<!-- Time Module configuration element, manages timing of the main loop -->
+<!ELEMENT TimeConfig EMPTY>
+<!ATTLIST TimeConfig
+    sleep CDATA #IMPLIED
+    rate CDATA #IMPLIED
 >
