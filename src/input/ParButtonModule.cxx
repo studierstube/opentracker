@@ -26,14 +26,18 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.8 2002/08/26 12:54:20 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.9 2002/09/10 13:09:06 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
-#define _DLPORTIO
+
+// enable this define, if you want to use an alternative implementation of
+// the parallel port access. You will also have to make sure to include the
+// right libraries etc.
+// #define _DLPORTIO
 
 using namespace std;
 
