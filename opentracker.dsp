@@ -162,6 +162,10 @@ SOURCE=.\src\common\DynamicTransformation.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\DynaSightModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\ElasticFilterNode.cxx
 # End Source File
 # Begin Source File
@@ -239,6 +243,10 @@ SOURCE=.\extras\intersense\isense.c
 # Begin Source File
 
 SOURCE=.\src\input\JoystickModule.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MagicYModule.cxx
 # End Source File
 # Begin Source File
 
@@ -498,6 +506,14 @@ SOURCE=.\src\common\DynamicTransformation.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\DynaSightModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\DynaSightSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\ElasticFilterNode.h
 # End Source File
 # Begin Source File
@@ -611,6 +627,14 @@ SOURCE=.\src\input\JoystickModule.h
 # Begin Source File
 
 SOURCE=.\src\input\JoystickSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MagicYModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\MagicYSource.h
 # End Source File
 # Begin Source File
 

@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.29 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/OpenTracker.cxx,v 1.30 2003/06/30 12:31:24 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -60,6 +60,8 @@
 #include "../common/GroupGateModule.h"
 #include "../common/InterpolatorModule.h"
 #include "../input/GPSModule.h"
+#include "../input/DynaSightModule.h"
+#include "../input/MagicYModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -208,4 +210,12 @@ void OPENTRACKER_API initializeContext( Context & context )
 	GPSModule * gps = new GPSModule;
 	context.addFactory( * gps );
 	context.addModule( "GPSConfig", * gps );
+
+    DynaSightModule * dynasight = new DynaSightModule;
+    context.addFactory( * dynasight );
+    context.addModule( "DynaSightConfig", *dynasight );
+
+	MagicYModule * magicY = new MagicYModule;
+    context.addFactory( * magicY );
+    context.addModule( "MagicYConfig", *magicY );
 }

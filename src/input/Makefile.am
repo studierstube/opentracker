@@ -13,6 +13,8 @@ otinputinc_HEADERS = \
         CyberMouseSource.h \
         DGPSIP_Handler.h \
         DGPSMirror_Handler.h \
+        DynaSightModule.h \
+        DynaSightSource.h \
         FOBModule.h \
         FOBSource.h \
         FastTrakModule.h \
@@ -27,6 +29,8 @@ otinputinc_HEADERS = \
         InterSenseSource.h \
         JoystickModule.h \
         JoystickSource.h \
+        MagicYModule.h \
+        MagicYSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
         WacomGraphireModule.h \
@@ -62,6 +66,9 @@ libinput_la_SOURCES = \
         DGPSIP_Handler.cxx \
         DGPSMirror_Handler.cxx \
         DGPSMirror_Handler.h \
+        DynaSightModule.cxx \
+        DynaSightModule.h \
+        DynaSightSource.h \
         FOBModule.cxx \
         FOBModule.h \
         FOBSource.h \
@@ -84,6 +91,9 @@ libinput_la_SOURCES = \
         JoystickModule.cxx \
         JoystickModule.h \
         JoystickSource.h \
+        MagicYModule.cxx \
+        MagicYModule.h \
+        MagicYSource.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
