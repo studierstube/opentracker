@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.24 2003/11/08 15:43:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.25 2003/12/17 11:21:50 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -58,9 +58,10 @@ ConfigurationParser::ConfigurationParser( Context & context_)
         XMLPlatformUtils::Initialize();
     }
     catch (const XMLException& toCatch) {
-        auto_ptr<char> message( XMLString::transcode(toCatch.getMessage()));
+		char * message = XMLString::transcode( toCatch.getMessage());
         cout << "Error during initialization! :\n"
-            << message.get() << "\n";
+            << message << "\n";
+		XMLString::release( &message );
         exit(1);
     }    
 }
@@ -77,8 +78,9 @@ ConfigurationParser::~ConfigurationParser()
 ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element )
 {
     auto_ptr<StringTable> map ( parseElement( element ));
-    auto_ptr<char> tempName( XMLString::transcode( element->getLocalName()));
-    string tagName = tempName.get();
+	char * tempName = XMLString::transcode( element->getLocalName());
+    string tagName = tempName;
+	XMLString::release( &tempName );
     ConfigNode * config = new ConfigNode( *map );
     config->setParent( element );
     //auto_ptr<DOMNodeList> list( element->getChildNodes());
@@ -98,8 +100,9 @@ ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIE
 
 Node * ConfigurationParser::buildTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * element)
 {
-    auto_ptr<char> tempName( XMLString::transcode( element->getLocalName()));
-    string tagName = tempName.get();
+    char * tempName = XMLString::transcode( element->getLocalName());
+    string tagName = tempName;
+	XMLString::release( &tempName );
     auto_ptr<StringTable> map ( parseElement( element ));
     // Test for a reference node
     if( tagName.compare("Ref") == 0 )
@@ -167,16 +170,18 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     }
     catch (const XMLException& e)
     {
-        auto_ptr<char> message ( XMLString::transcode( e.getMessage()));
+		char * message = XMLString::transcode( e.getMessage());
         cout << "An error occured during parsing\n   Message: "
-            << message.get() << endl;
-        exit(1);
+            << message << endl;
+		XMLString::release( & message );
+		exit(1);
     }
     catch (const DOMException& e)
     {
-        auto_ptr<char> message ( XMLString::transcode( e.msg ));
+		char * message = XMLString::transcode( e.msg );
         cout << "An error occured during parsing\n   Message: "
-            << message.get() << endl;
+            << message << endl;
+		XMLString::release( & message );
         exit(1);
     }
     if( errReporter.errorsEncountered() > 0 )
@@ -190,21 +195,25 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     DOMElement * root = doc->getDocumentElement();
     Node * node = new Node();
 	node->setParent( root );
-    auto_ptr<char> tempName( XMLString::transcode( root->getLocalName()));
-	cout << "Root node is " << tempName.get() << endl;
+	char * tempName = XMLString::transcode( root->getLocalName());
+	cout << "Root node is " << tempName << endl;
+	XMLString::release( & tempName );
 
     const XMLCh* xmlspace = root->getNamespaceURI();
     if (xmlspace != NULL) {
-        cout << "Namespace is " << XMLString::transcode( xmlspace ) << endl;
+		char * tempSpace = XMLString::transcode( xmlspace );
+        cout << "Namespace is " << tempSpace << endl;
+		XMLString::release( & tempSpace );
     }
     else {
         cout << "Not using namespaces!" << endl;
     }
 
     // get the configuration part
-    auto_ptr<XMLCh> configurationCh( XMLString::transcode( "configuration" ));
+	XMLCh * configurationCh = XMLString::transcode( "configuration" );
     //auto_ptr<DOMNodeList> list( root->getElementsByTagName( configurationCh.get() ));
-    DOMNodeList * list = root->getElementsByTagNameNS(xmlspace, configurationCh.get());    
+    DOMNodeList * list = root->getElementsByTagNameNS(xmlspace, configurationCh);
+	XMLString::release( & configurationCh );
     if( list->getLength() != 1 )
     {
         cout << "not valid config file, not exactly one configuration tag" << endl;
@@ -225,8 +234,9 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
         {
             XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * configElement = (XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)configlist->item(i);
             auto_ptr<StringTable> attributes( parseElement( configElement ));
-            auto_ptr<char> tempName( XMLString::transcode( configElement->getLocalName()));
-            string tagName = tempName.get();
+			char * tempName = XMLString::transcode( configElement->getLocalName());
+            string tagName = tempName;
+			XMLString::release( &tempName );
 			ConfigNode * base = new ConfigNode( *attributes );
 			base->setParent( configElement );
             cout << "config for " << tagName  << endl;
@@ -247,7 +257,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             if( module != NULL )
             {
                 module->init( *attributes, base );
-            }            
+            }
         }
     }
 
@@ -263,11 +273,13 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             continue;
         }
         DOMElement * element = (DOMElement *)rootlist->item(i);
-        auto_ptr<char> tempTagName( XMLString::transcode(element->getLocalName()));
-        if( 0 == XMLString::compareString( tempTagName.get(), "configuration" ))    // the configuration element, already handled
+		char * tempTagName = XMLString::transcode(element->getLocalName());
+        if( 0 == XMLString::compareString( tempTagName, "configuration" ))    // the configuration element, already handled
         {
+			XMLString::release( &tempTagName );
             continue;
         }
+		XMLString::release( &tempTagName );
 		buildTree( element );
     }
     return node;
@@ -283,9 +295,11 @@ StringTable * ConfigurationParser::parseElement( XERCES_CPP_NAMESPACE_QUALIFIER 
     for( unsigned int i = 0; i < map->getLength(); i++ )
     {
         DOMAttr * attribute = (DOMAttr *)map->item( i );
-        auto_ptr<char> nameTemp( XMLString::transcode( attribute->getName()));
-        auto_ptr<char> valueTemp( XMLString::transcode( attribute->getValue()));
-        value->put( nameTemp.get(), valueTemp.get() );
+		char * nameTemp = XMLString::transcode( attribute->getName());
+        char * valueTemp = XMLString::transcode( attribute->getValue());
+        value->put(nameTemp, valueTemp );
+		XMLString::release( &valueTemp );
+		XMLString::release( &nameTemp );
     }
     return value;
 }
