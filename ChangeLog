@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-25 16:16  tomp
+
+	* src/input/: ARTDataTrackerModule.cxx, ARToolKitModule.cxx:
+	
+	set confidence factor to 0.0 if the marker is not visible  (is done
+	only once)
+
 2003-11-23 18:53  reitmayr
 
 	* doc/: footer.html, header.html, install.html,
