@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.23 2003/05/21 15:06:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.24 2003/05/21 15:35:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -183,9 +183,6 @@
 
 #ifdef USE_ARTOOLKIT
 
-#ifdef WIN32
-class ARFrameGrabber;
-
 #ifndef __MEMORY_BUFFER_HANDLE__
 #define __MEMORY_BUFFER_HANDLE__
 
@@ -194,8 +191,6 @@ class ARFrameGrabber;
 		unsigned long  n; // sample number
 		__int64 t;		  // timestamp
 	};
-
-#endif
 
 #endif
 
@@ -239,10 +234,6 @@ protected:
     int sizeX, sizeY;
 	/// an optional prefix for pattern filenames
 	std::string patternDirectory;
-
-#ifdef WIN32
-    ARFrameGrabber * camera;
-#endif
 
 // methods
 protected:
