@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.1 2001/08/18 21:51:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.cxx,v 1.2 2001/08/19 20:04:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -128,8 +128,6 @@ static const XMLCh  gNotation[] =
 // ---------------------------------------------------------------------------
 //  Forward references
 // ---------------------------------------------------------------------------
-ostream& operator<<(ostream& target, const DOMString& toWrite);
-ostream& operator<<(ostream& target, DOM_Node& toWrite);
 XMLFormatter& operator<< (XMLFormatter& strm, const DOMString& s);
 
 // ---------------------------------------------------------------------------
@@ -139,7 +137,9 @@ XMLFormatter& operator<< (XMLFormatter& strm, const DOMString& s);
 class DOMPrintFormatTarget : public XMLFormatTarget
 {
 public:
-    DOMPrintFormatTarget()  {};
+    DOMPrintFormatTarget( ostream & out_) :
+        out( out_)
+    {};
     ~DOMPrintFormatTarget() {};
 
     // -----------------------------------------------------------------------
@@ -155,10 +155,11 @@ public:
         // Without the cast, it was printing the pointer value in hex.
         // Quite annoying, considering every other platform printed
         // the string with the explicit cast to char* below.
-        cout.write((char *) toWrite, (int) count);
+        out.write((char *) toWrite, (int) count);
     };
 
 private:
+    ostream & out;
     // -----------------------------------------------------------------------
     //  Unimplemented methods.
     // -----------------------------------------------------------------------
@@ -166,13 +167,20 @@ private:
     void operator=(const DOMPrintFormatTarget& rhs);
 };
 
-static const XMLCh * gEncodingName = XMLString::transcode("UTF-8");
+/*
+static const XMLCh gEncodingName[6] = { 'U', 'T', 'F', '-', '8', 0 };
 static DOMPrintFormatTarget formatTarget;
 static XMLFormatter gFormatter( gEncodingName, &formatTarget );
+*/
 
 XMLWriter::XMLWriter( Context & context_ ) :
   context( context_ )
 {}
+
+XMLWriter::~XMLWriter()
+{
+  
+}
          
 void XMLWriter::write( const char * file )
 {
@@ -184,8 +192,25 @@ void XMLWriter::write( const char * file )
 void XMLWriter::write( ostream & stream )
 {
     Node * node = context.getRootNode();
-    DOM_Node doc = node->parent->getOwnerDocument();
-    stream << doc << endl;
+    DOM_Node doc = node->parent->getOwnerDocument();   
+    DOMPrintFormatTarget formatTarget( stream );
+    DOMString encNameStr("UTF-8");
+    DOM_Node aNode = doc.getFirstChild();
+    if (aNode.getNodeType() == DOM_Node::XML_DECL_NODE)
+    {
+        DOMString aStr = ((DOM_XMLDecl &)aNode).getEncoding();
+        if (aStr != "")
+        {
+            encNameStr = aStr;
+        }
+    }
+    unsigned int lent = encNameStr.length();
+    XMLCh * gEncodingName = new XMLCh[lent + 1];
+    XMLString::copyNString(gEncodingName, encNameStr.rawBuffer(), lent);
+    gEncodingName[lent] = 0;
+    XMLFormatter gFormatter(gEncodingName, &formatTarget );
+    
+    writeNode(doc, stream, gFormatter);
 }
 
 // ---------------------------------------------------------------------------
@@ -195,7 +220,7 @@ void XMLWriter::write( ostream & stream )
 //  function is the heart of writing a DOM tree out as XML source. Give it
 //  a document node and it will do the whole thing.
 // ---------------------------------------------------------------------------
-ostream& operator<<(ostream& target, DOM_Node& toWrite)
+void XMLWriter::writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter)
 {
     // Get the name and value out for convenience
     DOMString   nodeName = toWrite.getNodeName();
@@ -230,7 +255,9 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
             DOM_Node child = toWrite.getFirstChild();
             while( child != 0)
             {
-                target << child << endl;
+//                target << child << endl;
+                writeNode( child, target, gFormatter ); 
+                target << endl;
                 child = child.getNextSibling();
             }
             break;
@@ -276,10 +303,11 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
                 // There are children. Close start-tag, and output children.
                 // No escapes are legal here
                 gFormatter << XMLFormatter::NoEscapes << chCloseAngle;
-
+                target << endl;
                 while( child != 0)
                 {
-                    target << child;
+//                   target << child;
+                    writeNode( child, target, gFormatter );
                     child = child.getNextSibling();
                 }
 
@@ -297,6 +325,7 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
                 //
                 gFormatter << XMLFormatter::NoEscapes << chForwardSlash << chCloseAngle;
             }
+            target << endl;
             break;
         }
         
@@ -309,7 +338,8 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
                 child != 0;
                 child = child.getNextSibling())
                 {
-                    target << child;
+//                    target << child;
+                    writeNode( child, target, gFormatter );
                 }
 #else
                 //
@@ -427,23 +457,7 @@ ostream& operator<<(ostream& target, DOM_Node& toWrite)
             cerr << "Unrecognized node type = "
                  << (long)toWrite.getNodeType() << endl;
     }
-    return target;
 }
-
-// ---------------------------------------------------------------------------
-//  ostream << DOMString
-//
-//  Stream out a DOM string. Doing this requires that we first transcode
-//  to char * form in the default code page for the system
-// ---------------------------------------------------------------------------
-ostream& operator<< (ostream& target, const DOMString& s)
-{
-    char *p = s.transcode();
-    target << p;
-    delete [] p;
-    return target;
-}
-
 
 XMLFormatter& operator<< (XMLFormatter& strm, const DOMString& s)
 {

@@ -33,7 +33,7 @@ OBJFILES = $(C++FILES:.cxx=.o)
 
 TARGETS = $(PROGRAM) 
 
-default: $(PROGRAM) all
+default: all $(PROGRAM) 
 
 $(OT_LIB): $(OT_LIB_OBJ)
 	@echo "--- $(STB_LIB) ---"

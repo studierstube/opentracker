@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.1 2001/08/18 21:51:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.2 2001/08/19 20:04:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,14 @@
 #define _XMLWRITER_H
 
 #include "../../OpenTracker.h"
+#ifdef WIN32
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
+
+class DOM_Node;
+class XMLFormatter;
 
 /**
  * This class writes out the contents of the Context as a valid XML file. 
@@ -50,11 +58,15 @@ protected:
     /// the context to write out
     Context & context;
 
+    void writeNode(DOM_Node& toWrite, ostream & target, XMLFormatter & gFormatter);
+
 public:
     /** constructor, takes a context to work with.
      * @param context_ the context to write out
      */
     XMLWriter( Context & context_ );      
+    
+    virtual ~XMLWriter();
     
     /** writes the tracker graph and configuration to a file given as
      * the parameter. It creates the file if necessary. If the file
@@ -65,6 +77,8 @@ public:
     /** writes the tracker graph and configuration to an output stream.
      * @param stream the stream to write to. */
     void write( ostream & stream );    
+    
+    
 };
 
 #endif
