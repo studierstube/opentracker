@@ -9,38 +9,38 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
-2003-10-20 10:12  reitmayr
+2003-10-20 08:12  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
 	
 	added display of camera parameters
 
-2003-10-20 10:01  reitmayr
+2003-10-20 08:01  reitmayr
 
 	* data/opentracker.dtd:
 	
 	added change from stb version
 
-2003-10-16 11:01  tomp
+2003-10-16 09:01  tomp
 
 	* data/ButtonTest.xml:
 	
 	test file for radiobuttons
 
-2003-10-16 11:00  tomp
+2003-10-16 09:00  tomp
 
 	* data/opentracker.dtd, src/common/ButtonFilterNode.cxx,
 	src/common/ButtonFilterNode.h, src/common/CommonNodeFactory.cxx:
 	
 	had to add a fix for broken hardware. Documentation will follow
 
-2003-10-16 09:52  reitmayr
+2003-10-16 07:52  reitmayr
 
 	* src/input/ParButtonModule.cxx:
 	
 	removed debugging output
 
-2003-10-16 09:51  reitmayr
+2003-10-16 07:51  reitmayr
 
 	* src/input/GPSDriver.cxx, src/input/GPSDriver.h,
 	src/input/GPSModule.cxx, src/input/GPSModule.h,
@@ -48,52 +48,52 @@ cvs2cl script used to generate this file.
 	
 	added optional second serial port to output rtcm data to the device
 
-2003-10-14 16:49  tomp
+2003-10-14 14:49  tomp
 
 	* src/input/ParButtonModule.cxx:
 	
 	added win32 debug info, if something goes wrong with parallel port
 	access.
 
-2003-10-14 16:47  tomp
+2003-10-14 14:47  tomp
 
 	* src/common/ButtonFilterNode.cxx, src/common/ButtonFilterNode.h,
 	src/common/CommonNodeFactory.cxx, data/opentracker.dtd:
 	
 	added radio button functionality
 
-2003-09-24 13:10  reitmayr
+2003-09-24 11:10  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
 	
 	added a general euler to quat conversion method
 
-2003-09-17 14:52  knapp
+2003-09-17 12:52  knapp
 
 	* src/common/: GroupGateNode.cxx, GroupGateNode.h:
 	
 	some improvements
 
-2003-09-15 14:15  reitmayr
+2003-09-15 12:15  reitmayr
 
 	* src/input/: MagicYModule.cxx, MagicYModule.h:
 	
 	bug fixes from imagination
 
-2003-08-20 02:51  tamer
+2003-08-20 00:51  tamer
 
 	* src/input/ARToolKitModule.h:
 	
 	documentation for the added videolinuxmode(2) attributes.
 
-2003-08-19 23:53  thomas
+2003-08-19 21:53  thomas
 
 	* src/input/ARToolKitModule.h:
 	
 	updated documentation f. videomode parameter strings to reflect
 	recent DSVideoLib changes
 
-2003-08-18 20:57  tamer
+2003-08-18 18:57  tamer
 
 	* data/opentracker.dtd, src/input/ARToolKitModule.cxx:
 	
@@ -101,51 +101,51 @@ cvs2cl script used to generate this file.
 	configuration for linux in the same config file. (optional
 	otherwise videomode still gets read in)
 
-2003-08-18 19:58  thomas
+2003-08-18 17:58  thomas
 
 	* src/input/: ARToolKitModule.cxx, ARToolKitModule.h:
 	
 	added stereo video functionality
 
-2003-08-14 13:36  tamer
+2003-08-14 11:36  tamer
 
 	* src/input/DynaSightModule.cxx:
 	
 	define TRUE, FALSE in case they are not defined.
 
-2003-08-12 10:49  reitmayr
+2003-08-12 08:49  reitmayr
 
 	* src/input/DynaSightModule.cxx, src/input/DynaSightModule.h,
 	src/input/DynaSightSource.h, data/opentracker.dtd:
 	
 	updates from Alexander Schaelss
 
-2003-08-08 17:17  reitmayr
+2003-08-08 15:17  reitmayr
 
 	* src/core/TestModule.cxx:
 	
 	fixed empty TestSource output if no noise was used.
 
-2003-08-06 12:22  reitmayr
+2003-08-06 10:22  reitmayr
 
 	* src/input/: GPSDriver.cxx, GPSModule.cxx:
 	
 	fixed init bug and some more debug output
 
-2003-08-06 10:17  reitmayr
+2003-08-06 08:17  reitmayr
 
 	* src/input/: GPSDriver.cxx, GPSDriver.h:
 	
 	todo cleanup
 
-2003-08-06 10:17  reitmayr
+2003-08-06 08:17  reitmayr
 
 	* src/: common/MatrixTransformation.h,
 	network/NetworkSinkModule.cxx:
 	
 	docu cleanup
 
-2003-07-31 09:55  reitmayr
+2003-07-31 07:55  reitmayr
 
 	* src/: core/ConfigurationParser.cxx, core/ConfigurationParser.h,
 	core/Context.cxx, core/Context.h, core/Node.cxx, core/Node.h,
@@ -156,31 +156,31 @@ cvs2cl script used to generate this file.
 	this should help the IRIX version -> Tamer please finish the IRIX
 	stuff.
 
-2003-07-30 15:28  tamer
+2003-07-30 13:28  tamer
 
 	* src/network/: DwarfModule.cxx, DwarfModule.h:
 	
 	added newlines at the end.
 
-2003-07-30 15:14  tamer
+2003-07-30 13:14  tamer
 
 	* src/network/Makefile.am:
 	
 	sing with me: 8 spaces no tabs! ;)
 
-2003-07-28 15:04  reitmayr
+2003-07-28 13:04  reitmayr
 
 	* doc/contributions.txt:
 	
 	added dwarf guys for ot integration
 
-2003-07-28 14:56  reitmayr
+2003-07-28 12:56  reitmayr
 
 	* src/core/: Context.cxx, Context.h:
 	
 	fixed uninitialized member bug.  added some documentation.
 
-2003-07-27 12:48  reitmayr
+2003-07-27 10:48  reitmayr
 
 	* data/: dwarf.xml, opentracker.dtd:
 	
@@ -188,7 +188,7 @@ cvs2cl script used to generate this file.
 	option and senddescription. compiles and (?) works on windows too ?
 	still requires build system inclusion and documentation.
 
-2003-07-27 12:31  reitmayr
+2003-07-27 10:31  reitmayr
 
 	* src/network/DwarfModule.cxx, src/network/DwarfModule.h,
 	src/network/DwarfSink.h, src/network/DwarfSource.h,
@@ -198,40 +198,40 @@ cvs2cl script used to generate this file.
 	option and senddescription. compiles and (?) works on windows too ?
 	still requires build system inclusion and documentation.
 
-2003-07-24 18:46  anonymous
+2003-07-24 16:46  anonymous
 
 	* src/network/: DwarfModule.cxx, Makefile.am:
 	
 	working version cvs -n updatecvs -n update
 
-2003-07-24 17:37  anonymous
+2003-07-24 15:37  anonymous
 
 	* src/network/: DwarfModule.cxx, DwarfModule.h, DwarfSink.h,
 	DwarfSource.h:
 	
 	first compiling version
 
-2003-07-24 17:28  reitmayr
+2003-07-24 15:28  reitmayr
 
 	* src/misc/OpenTracker.cxx:
 	
 	draft implementation
 
-2003-07-24 15:59  reitmayr
+2003-07-24 13:59  reitmayr
 
 	* src/network/DwarfModule.cxx, src/network/DwarfModule.h,
 	src/network/DwarfSink.h, data/opentracker.dtd:
 	
 	draft implementation
 
-2003-07-24 12:08  reitmayr
+2003-07-24 10:08  reitmayr
 
 	* src/network/: DwarfModule.cxx, DwarfModule.h, DwarfSink.h,
 	DwarfSource.h:
 	
 	code shells for dwarf integration
 
-2003-07-18 22:26  tamer
+2003-07-18 20:26  tamer
 
 	* src/: common/CommonNodeFactory.cxx, common/ConsoleModule.cxx,
 	common/EllipsoidTransformNode.cxx, common/GKTransformNode.cxx,
@@ -248,7 +248,7 @@ cvs2cl script used to generate this file.
 	
 	fixes for SGI. let's see how gcc deals with that...
 
-2003-07-18 20:23  tamer
+2003-07-18 18:23  tamer
 
 	* src/: common/ButtonOpNode.cxx, common/CommonNodeFactory.cxx,
 	common/ConfidenceSelectNode.cxx, common/ElasticFilterNode.cxx,
@@ -264,19 +264,19 @@ cvs2cl script used to generate this file.
 	
 	eliminated compiler warnings where possible.
 
-2003-07-18 20:22  tamer
+2003-07-18 18:22  tamer
 
 	* configure.ac:
 	
 	enabled full compiler warning output
 
-2003-07-18 20:22  tamer
+2003-07-18 18:22  tamer
 
 	* cfg/m4/: compile_warnings.m4, misc_compiler.m4:
 	
 	added m4 macros for compiler warnings.
 
-2003-07-18 19:27  tamer
+2003-07-18 17:27  tamer
 
 	* extras/intersense/isense.h, extras/intersense/types.h,
 	extras/intersense/unix/itcom.h, src/common/CommonNodeFactory.h,
@@ -301,7 +301,7 @@ cvs2cl script used to generate this file.
 	
 	source line ending fixes.
 
-2003-07-18 19:17  tamer
+2003-07-18 17:17  tamer
 
 	* data/opentracker.dtd, src/common/ConsoleModule.cxx,
 	src/common/ConsoleModule.h:
@@ -311,26 +311,26 @@ cvs2cl script used to generate this file.
 	regular stdout/stderr debug output if curses input isn't really
 	needed.
 
-2003-07-18 19:12  tamer
+2003-07-18 17:12  tamer
 
 	* src/input/rtcm.cxx:
 	
 	killed unsigned int warning
 
-2003-07-18 19:10  tamer
+2003-07-18 17:10  tamer
 
 	* src/input/ARTDataTrackerChomp.h:
 	
 	oops...
 
-2003-07-18 19:09  tamer
+2003-07-18 17:09  tamer
 
 	* src/input/ARTDataTrackerChomp.cxx:
 	
 	removed unnecessary semicolons from the end of the method
 	implementations
 
-2003-07-18 19:08  tamer
+2003-07-18 17:08  tamer
 
 	* src/input/ARTDataTrackerChomp.h:
 	
@@ -338,7 +338,7 @@ cvs2cl script used to generate this file.
 	header.  SGI compiler doesn't like that and other compilers should
 	cry in pain...
 
-2003-07-18 17:18  flo
+2003-07-18 15:18  flo
 
 	* data/opentracker.xsd:
 	
@@ -346,7 +346,7 @@ cvs2cl script used to generate this file.
 	from the DTD, so it can probably be optimized, but for now it
 	works.
 
-2003-07-18 17:17  flo
+2003-07-18 15:17  flo
 
 	* src/core/: ConfigurationParser.cxx, Context.cxx, Context.h,
 	Node.cxx:
@@ -357,7 +357,7 @@ cvs2cl script used to generate this file.
 	schema to validate.  Note that the namespaces are not supported
 	when using the DTD!
 
-2003-07-15 18:23  reitmayr
+2003-07-15 16:23  reitmayr
 
 	* src/misc/: OpenTracker.cxx, test.cxx:
 	
@@ -366,51 +366,51 @@ cvs2cl script used to generate this file.
 	avoids problems with objects created on different heaps under
 	windows.
 
-2003-07-10 15:35  reitmayr
+2003-07-10 13:35  reitmayr
 
 	* src/common/ConsoleModule.cxx:
 	
 	final fix for curses bugs, while awaiting improvement
 
-2003-07-10 15:34  reitmayr
+2003-07-10 13:34  reitmayr
 
 	* src/input/MagicYModule.cxx:
 	
 	update from Chris Traxler
 
-2003-07-08 15:06  tamer
+2003-07-08 13:06  tamer
 
 	* src/input/ARToolKitModule.cxx:
 	
 	Linux specific fixes...
 
-2003-07-07 16:36  reitmayr
+2003-07-07 14:36  reitmayr
 
 	* src/input/MagicYModule.cxx:
 	
 	fix from Chris Traxler
 
-2003-07-02 09:30  reitmayr
+2003-07-02 07:30  reitmayr
 
 	* src/common/FilterNode.cxx:
 	
 	filter node now works correctly with orientations, avoiding jumps
 	and strange loops
 
-2003-07-02 09:29  reitmayr
+2003-07-02 07:29  reitmayr
 
 	* src/core/TestModule.cxx, src/core/TestSource.h,
 	data/opentracker.dtd:
 	
 	added noise simulation to testsource
 
-2003-07-02 09:28  reitmayr
+2003-07-02 07:28  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
 	
 	implementation of dot product
 
-2003-07-02 09:28  reitmayr
+2003-07-02 07:28  reitmayr
 
 	* src/input/: DynaSightModule.h, GPSDirectionSource.h,
 	GPSDriver.cxx, GPSDriver.h, GPSModule.cxx, MagicYModule.h,
@@ -418,25 +418,25 @@ cvs2cl script used to generate this file.
 	
 	gps fixes and some docu clean up
 
-2003-07-01 16:05  tamer
+2003-07-01 14:05  tamer
 
 	* src/input/DynaSightModule.cxx:
 	
 	gcc3 fixes.
 
-2003-06-30 14:40  reitmayr
+2003-06-30 12:40  reitmayr
 
 	* doc/contributions.txt:
 	
 	added DynaSight and MagicY modules contributed by imagination !
 
-2003-06-30 14:34  reitmayr
+2003-06-30 12:34  reitmayr
 
 	* opentracker.dsp:
 	
 	added DynaSight and MagicY modules contributed by imagination !
 
-2003-06-30 14:30  reitmayr
+2003-06-30 12:30  reitmayr
 
 	* src/input/DynaSightModule.cxx, src/input/DynaSightModule.h,
 	src/input/DynaSightSource.h, src/input/MagicYModule.cxx,
@@ -446,77 +446,77 @@ cvs2cl script used to generate this file.
 	
 	added DynaSight and MagicY modules contributed by imagination !
 
-2003-06-30 13:49  reitmayr
+2003-06-30 11:49  reitmayr
 
 	* src/common/ConsoleModule.cxx:
 	
 	fixed issue with closing curses on unix
 
-2003-06-26 19:29  tamer
+2003-06-26 17:29  tamer
 
 	* bin/Makefile.am:
 	
 	added -no-install to opentracker and ottest progs to create
 	binaries instead of libtool wrappers.
 
-2003-06-26 16:04  reitmayr
+2003-06-26 14:04  reitmayr
 
 	* src/common/ElasticFilterNode.cxx:
 	
 	updated elasticfilter to propagate button and confidence
 	information as well
 
-2003-06-25 15:43  reitmayr
+2003-06-25 13:43  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
 	
 	fixed const for method parameters
 
-2003-06-25 15:23  reitmayr
+2003-06-25 13:23  reitmayr
 
 	* src/core/MathUtils.cxx:
 	
 	fixed slerp implementation
 
-2003-06-25 15:23  reitmayr
+2003-06-25 13:23  reitmayr
 
 	* src/common/: ElasticFilterNode.cxx, ElasticFilterNode.h:
 	
 	elastic filter fixed
 
-2003-06-25 14:38  tomp
+2003-06-25 12:38  tomp
 
 	* src/common/: ElasticFilterNode.cxx, ElasticFilterNode.h:
 	
 	yet another version that should fix the rotation part of elastic
 	filter (useing a totally new approach)
 
-2003-06-25 14:33  reitmayr
+2003-06-25 12:33  reitmayr
 
 	* src/common/ThresholdFilterNode.cxx:
 	
 	using angle from MathUtils
 
-2003-06-25 14:32  reitmayr
+2003-06-25 12:32  reitmayr
 
 	* src/core/MathUtils.h:
 	
 	fixed missing static modifiers
 
-2003-06-25 08:42  reitmayr
+2003-06-25 06:42  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
 	
 	updated documentation for MathUtils functions and improved slerp
 
-2003-06-23 16:45  tamer
+2003-06-23 14:45  tamer
 
 	* cfg/m4/: ace.m4, xerces.m4:
 	
 	fixed handling in case ace and xerces are installed into the
 	system.
 
-2003-06-23 15:15  tamer
+2003-06-23 13:15  tamer
 
 	* cfg/m4/libtool.m4:
 	
@@ -525,62 +525,62 @@ cvs2cl script used to generate this file.
 	autoconf: 2.53	-> 2.57 automake: 1.6.3 -> 1.7.5 libtool:  1.4.3 ->
 	1.5
 
-2003-06-23 13:46  tamer
+2003-06-23 11:46  tamer
 
 	* src/input/Makefile.am:
 	
 	headers after source files.
 
-2003-06-23 13:45  tamer
+2003-06-23 11:45  tamer
 
 	* src/input/GPSModule.h:
 	
 	friend declaration needs class specifier with gcc3.
 
-2003-06-23 13:44  tamer
+2003-06-23 11:44  tamer
 
 	* src/input/GPS_Handler.cxx:
 	
 	added newline.
 
-2003-06-23 10:51  tomp
+2003-06-23 08:51  tomp
 
 	* src/common/ElasticFilterNode.cxx:
 	
 	fixed implementation of rotation calcualtion by using quaternion
 	functions
 
-2003-06-23 10:50  tomp
+2003-06-23 08:50  tomp
 
 	* src/core/: MathUtils.cxx, MathUtils.h:
 	
 	added quaternionToAxisAngle function
 
-2003-06-18 18:31  reitmayr
+2003-06-18 16:31  reitmayr
 
 	* src/core/Context.cxx:
 	
 	some leftover cleanup
 
-2003-06-18 14:31  reitmayr
+2003-06-18 12:31  reitmayr
 
 	* data/opentracker.dtd:
 	
 	split passevents into two flags
 
-2003-06-18 13:59  reitmayr
+2003-06-18 11:59  reitmayr
 
 	* src/input/: GPSDirectionSource.h, GPSSource.h:
 	
 	fixed angle implementation and updated slerp and angle docu
 
-2003-06-18 13:51  reitmayr
+2003-06-18 11:51  reitmayr
 
 	* src/core/: MathUtils.cxx, MathUtils.h, State.h:
 	
 	fixed angle implementation and updated slerp and angle docu
 
-2003-06-16 15:17  reitmayr
+2003-06-16 13:17  reitmayr
 
 	* src/input/DGPSIP_Handler.cxx, src/input/DGPSIP_Handler.h,
 	src/input/DGPSMirror_Handler.cxx, src/input/GPSDirectionSource.h,
@@ -594,13 +594,13 @@ cvs2cl script used to generate this file.
 	updated GPS driver and module to include a source for direction
 	information and a general log file for gps data strings.
 
-2003-06-13 15:51  flo
+2003-06-13 13:51  flo
 
 	* src/common/ElasticFilterNode.h:
 	
 	added missing documentation
 
-2003-06-13 11:16  reitmayr
+2003-06-13 09:16  reitmayr
 
 	* src/common/ButtonFilterNode.cxx, src/common/ButtonFilterNode.h,
 	src/common/CommonNodeFactory.cxx, data/opentracker.dtd,
@@ -609,7 +609,7 @@ cvs2cl script used to generate this file.
 	added invert operation to buttonfilter, allows to invert single
 	button bits
 
-2003-06-11 17:43  reitmayr
+2003-06-11 15:43  reitmayr
 
 	* src/common/FileModule.cxx, src/common/FileSource.h,
 	data/opentracker.dtd:
@@ -617,68 +617,68 @@ cvs2cl script used to generate this file.
 	added localtime flag to FileSource to enable using local timestamps
 	instead of recorded ones
 
-2003-06-10 14:14  reitmayr
+2003-06-10 12:14  reitmayr
 
 	* src/common/File.h:
 	
 	improved output precision
 
-2003-06-06 15:14  reitmayr
+2003-06-06 13:14  reitmayr
 
 	* src/input/GPS_Handler.cxx:
 	
 	hack to avoid high resource usage on windows
 
-2003-06-05 03:13  tamer
+2003-06-05 01:13  tamer
 
 	* cfg/m4/ace.m4:
 	
 	refined ace.m4 macro to allow it to work on macosx.
 
-2003-05-27 10:26  reitmayr
+2003-05-27 08:26  reitmayr
 
 	* data/ot2dot.xsl:
 	
 	added GPSSource node
 
-2003-05-26 18:49  reitmayr
+2003-05-26 16:49  reitmayr
 
 	* tools/mirrorpatterns.py:
 	
 	fixed bug with too many spaces in input file
 
-2003-05-23 11:24  reitmayr
+2003-05-23 09:24  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
 	
 	fixed unused include
 
-2003-05-21 18:11  reitmayr
+2003-05-21 16:11  reitmayr
 
 	* src/input/ARToolKitModule.h:
 	
 	more fixes for linux compatibility
 
-2003-05-21 17:48  reitmayr
+2003-05-21 15:48  reitmayr
 
 	* src/input/: ARToolKitModule.cxx, ARToolKitModule.h:
 	
 	more fixes for linux compatibility
 
-2003-05-21 17:44  tamer
+2003-05-21 15:44  tamer
 
 	* cfg/m4/xerces.m4:
 	
 	check for xerces should not enforce the use of namespaces. (SGI
 	issue)
 
-2003-05-21 17:35  reitmayr
+2003-05-21 15:35  reitmayr
 
 	* src/input/ARToolKitModule.h:
 	
 	fixed ifdefs
 
-2003-05-21 17:06  reitmayr
+2003-05-21 15:06  reitmayr
 
 	* src/core/MathUtils.cxx, src/core/MathUtils.h, src/core/Node.cxx,
 	src/input/ARToolKitModule.cxx, src/input/ARToolKitModule.h,
@@ -688,21 +688,21 @@ cvs2cl script used to generate this file.
 	performance gains.  added some functions to the MathUtils fixed an
 	exception in Node
 
-2003-05-21 16:17  reitmayr
+2003-05-21 14:17  reitmayr
 
 	* tools/mirrorpatterns.py:
 	
 	added file to mirror trained artoolkit patterns for the new
 	artoolkit module implementation
 
-2003-05-14 13:47  reitmayr
+2003-05-14 11:47  reitmayr
 
 	* data/: opentracker.dtd, test.xml:
 	
 	new RangeFilter to filter events based on length of the position
 	part
 
-2003-05-14 13:43  reitmayr
+2003-05-14 11:43  reitmayr
 
 	* src/common/CommonNodeFactory.cxx, src/common/Makefile.am,
 	src/common/RangeFilterNode.cxx, src/common/RangeFilterNode.h,
@@ -711,7 +711,7 @@ cvs2cl script used to generate this file.
 	new RangeFilter to filter events based on length of the position
 	part
 
-2003-05-09 17:50  tamer
+2003-05-09 15:50  tamer
 
 	* extras/intersense/Makefile.am,
 	extras/intersense/unix/Makefile.am, lib/Makefile.am,
@@ -721,14 +721,14 @@ cvs2cl script used to generate this file.
 	
 	detabified Makefile's and cleanups for the build system.
 
-2003-05-07 21:59  reitmayr
+2003-05-07 19:59  reitmayr
 
 	* src/input/: InterSenseModule.cxx, InterSenseModule.h:
 	
 	pure orientation trackers will be reset to null heading upon
 	startup
 
-2003-05-07 21:36  reitmayr
+2003-05-07 19:36  reitmayr
 
 	* src/common/CommonNodeFactory.cxx,
 	src/common/DynamicTransformation.cxx,
@@ -741,13 +741,13 @@ cvs2cl script used to generate this file.
 	added specialized dynamic transforms for position and orientation
 	manipulation only
 
-2003-05-07 21:09  reitmayr
+2003-05-07 19:09  reitmayr
 
 	* data/opentracker.dtd:
 	
 	added config for stbinputmodule
 
-2003-05-07 20:16  reitmayr
+2003-05-07 18:16  reitmayr
 
 	* src/common/ElasticFilterNode.cxx, src/input/ARToolKitModule.cxx,
 	src/input/JoystickModule.cxx, src/input/WacomGraphireModule.cxx,
@@ -757,26 +757,26 @@ cvs2cl script used to generate this file.
 	updated project files and sources to automatically look for
 	necessary libs, removed linking with mfc
 
-2003-05-07 20:16  reitmayr
+2003-05-07 18:16  reitmayr
 
 	* doc/: intersense.txt, opentracker.dxy:
 	
 	added intersense documentation
 
-2003-05-02 17:31  kaufmann
+2003-05-02 15:31  kaufmann
 
 	* src/input/P5GloveModule.cxx:
 	
 	bug in close method fixed. No crashes on exit with P5 glove
 	anymore.
 
-2003-05-02 02:52  tamer
+2003-05-02 00:52  tamer
 
 	* src/input/DGPSIP_Handler.cxx:
 	
 	fixed newline at end warning.
 
-2003-04-29 15:54  reitmayr
+2003-04-29 13:54  reitmayr
 
 	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h, GPSDriver.cxx,
 	GPSDriver.h, GPS_Handler.cxx:
@@ -784,64 +784,64 @@ cvs2cl script used to generate this file.
 	updated dgpsip part to send only a fraction of the position updates
 	back to the server to save bandwith
 
-2003-04-28 15:35  knapp
+2003-04-28 13:35  knapp
 
 	* src/common/: GroupGateModule.cxx, GroupGateModule.h:
 	
 	activateGroupGate() added
 
-2003-04-27 20:49  tamer
+2003-04-27 18:49  tamer
 
 	* src/core/OSUtils.cxx:
 	
 	added const to make the compiler happy.
 
-2003-04-17 17:37  reitmayr
+2003-04-17 15:37  reitmayr
 
 	* src/core/OSUtils.cxx:
 	
 	fixed a bug in the time of day calculations
 
-2003-04-17 15:16  reitmayr
+2003-04-17 13:16  reitmayr
 
 	* src/common/GKTransformNode.cxx:
 	
 	fixed some more issues. the correct meridian is 17° 40' but I get a
 	difference of 1000 m east ??
 
-2003-04-16 19:10  reitmayr
+2003-04-16 17:10  reitmayr
 
 	* src/common/GKTransformNode.cxx:
 	
 	transformation from ellipsoid to gauss-krueger fixed and appears to
 	be correct now.
 
-2003-04-15 19:16  reitmayr
+2003-04-15 17:16  reitmayr
 
 	* src/: common/File.h, core/OSUtils.cxx:
 	
 	fixed use of ACE_Time_Value in gettimeofday to return non negative
 	values.  improved output in file node to be more useable.
 
-2003-04-09 22:48  tamer
+2003-04-09 20:48  tamer
 
 	* src/input/DGPSIP_Handler.cxx:
 	
 	fixed template casting issue with gcc (gcc bug or feature, huh?).
 
-2003-04-09 20:55  tamer
+2003-04-09 18:55  tamer
 
 	* src/core/Context.cxx:
 	
 	case sensitivity fix -> <ace/FILE.h>.
 
-2003-04-09 16:11  reitmayr
+2003-04-09 14:11  reitmayr
 
 	* src/input/GPSDriver.cxx:
 	
 	fixed a null pointer bug
 
-2003-04-08 23:17  reitmayr
+2003-04-08 21:17  reitmayr
 
 	* src/common/ConsoleModule.cxx, src/common/FileModule.cxx,
 	src/core/Context.cxx, src/core/Context.h, src/core/Module.h,
@@ -855,7 +855,7 @@ cvs2cl script used to generate this file.
 	It allows modules to load files relative to the configuration file
 	directory or the working dir or any other dir they have in mind.
 
-2003-04-08 20:59  reitmayr
+2003-04-08 18:59  reitmayr
 
 	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h,
 	DGPSMirror_Handler.cxx, DGPSMirror_Handler.h, GPSDriver.cxx,
@@ -865,38 +865,38 @@ cvs2cl script used to generate this file.
 	added connection reestablishment to DGPS connection still needs
 	testing
 
-2003-04-08 19:11  tamer
+2003-04-08 17:11  tamer
 
 	* cfg/m4/: ace.m4, artoolkit.m4, xerces.m4:
 	
 	build system fix for rpath handling.
 
-2003-04-04 15:12  reitmayr
+2003-04-04 13:12  reitmayr
 
 	* src/input/GPSDriver.cxx:
 	
 	some error messages added
 
-2003-04-04 15:11  reitmayr
+2003-04-04 13:11  reitmayr
 
 	* src/common/File.h, src/common/FileModule.cxx,
 	src/common/FileModule.h, data/opentracker.dtd:
 	
 	added append mode to FileModule for output files
 
-2003-04-03 18:04  tamer
+2003-04-03 16:04  tamer
 
 	* src/input/GPS_Handler.h:
 	
 	added #ifdef to let it compile under linux.
 
-2003-04-03 18:04  reitmayr
+2003-04-03 16:04  reitmayr
 
 	* src/input/GPSDriver.cxx:
 	
 	fixed another crash problem
 
-2003-04-03 17:50  reitmayr
+2003-04-03 15:50  reitmayr
 
 	* src/: common/CommonNodeFactory.cxx,
 	common/EllipsoidTransformNode.h, common/GKTransformNode.cxx,
@@ -910,7 +910,7 @@ cvs2cl script used to generate this file.
 	locking for copying between the threads - more transform code for
 	GPS (not correct yet ?)
 
-2003-04-03 16:45  tamer
+2003-04-03 14:45  tamer
 
 	* extras/intersense/Makefile.am, lib/Makefile.am,
 	src/Makefile.common, src/common/Makefile.am,
@@ -923,14 +923,14 @@ cvs2cl script used to generate this file.
 	added new classes. make use of new intersense code. ifdef'd ACE
 	code for win32.
 
-2003-04-02 18:43  reitmayr
+2003-04-02 16:43  reitmayr
 
 	* src/input/ARToolKitModule.cxx, src/input/ARToolKitModule.h,
 	data/opentracker.dtd:
 	
 	added an optional pattern directory prefix for pattern filenames
 
-2003-04-01 17:51  reitmayr
+2003-04-01 15:51  reitmayr
 
 	* src/: common/CommonNodeFactory.cxx, core/MathUtils.cxx,
 	core/MathUtils.h:
@@ -938,13 +938,13 @@ cvs2cl script used to generate this file.
 	added a test for matrices being really pure rotational matrices
 	before being converted to quaternions.
 
-2003-03-31 17:41  reitmayr
+2003-03-31 15:41  reitmayr
 
 	* data/opentracker.dtd:
 	
 	updated groupgate definition for more advanced stuff
 
-2003-03-28 15:48  reitmayr
+2003-03-28 14:48  reitmayr
 
 	* src/common/CommonNodeFactory.cxx, src/common/CommonNodeFactory.h,
 	src/common/EllipsoidTransformNode.h,
@@ -956,14 +956,14 @@ cvs2cl script used to generate this file.
 	coordinates for Austrian maps. This allows to really use the GPS
 	data with our local data.
 
-2003-03-28 14:12  reitmayr
+2003-03-28 13:12  reitmayr
 
 	* data/: opentracker.dtd, test.xml:
 	
 	added transformation node for transformations between ellipsoid and
 	cartesian coordinates for GPS data.
 
-2003-03-28 14:07  reitmayr
+2003-03-28 13:07  reitmayr
 
 	* src/common/: CommonNodeFactory.cxx, EllipsoidTransformNode.cxx,
 	EllipsoidTransformNode.h, Makefile.am:
@@ -971,19 +971,19 @@ cvs2cl script used to generate this file.
 	added transformation node for transformations between ellipsoid and
 	cartesian coordinates for GPS data.
 
-2003-03-28 14:05  reitmayr
+2003-03-28 13:05  reitmayr
 
 	* src/input/: GPSDriver.cxx, GPSModule.cxx, GPSModule.h:
 	
 	fixed some more bugs in the GPSModule
 
-2003-03-27 19:44  reitmayr
+2003-03-27 18:44  reitmayr
 
 	* src/input/: GPSDriver.cxx, GPSModule.cxx:
 	
 	fixed some null pointer problems
 
-2003-03-27 19:26  reitmayr
+2003-03-27 18:26  reitmayr
 
 	* src/core/ThreadModule.cxx, src/input/DGPSIP_Handler.cxx,
 	src/input/DGPSIP_Handler.h, src/input/GPSDriver.cxx,
@@ -998,25 +998,25 @@ cvs2cl script used to generate this file.
 	OpenTracker. big missing thing is unix support due to some ACE
 	troubles. next step are filters to get useful data.
 
-2003-03-26 18:46  reitmayr
+2003-03-26 17:46  reitmayr
 
 	* src/input/InterSenseModule.cxx:
 	
 	fix to get quaternion data in the right format
 
-2003-03-26 12:56  reitmayr
+2003-03-26 11:56  reitmayr
 
 	* src/core/ConfigurationParser.cxx:
 	
 	reordered header files to avoid warnings in visualc++
 
-2003-03-26 12:55  reitmayr
+2003-03-26 11:55  reitmayr
 
 	* src/input/InterSenseModule.cxx:
 	
 	fixed update to new library version
 
-2003-03-26 12:22  reitmayr
+2003-03-26 11:22  reitmayr
 
 	* src/core/MathUtils.cxx, src/core/MathUtils.h,
 	src/input/InterSenseModule.cxx, bin/isense.dll,
@@ -1029,7 +1029,7 @@ cvs2cl script used to generate this file.
 	updated intersense drivers to latest version. because of old
 	agreement with intersense we include the binary drivers.
 
-2003-03-25 12:05  kaufmann
+2003-03-25 11:05  kaufmann
 
 	* src/input/: P5GloveModule.cxx, P5GloveModule.h:
 	
@@ -1037,32 +1037,32 @@ cvs2cl script used to generate this file.
 	finger, button state 1 is set.	Therefore clicking and dragging is
 	supported.
 
-2003-03-25 08:10  bornik
+2003-03-25 07:10  bornik
 
 	* src/common/Makefile.am:
 	
 	added ElasticFilterNode and InterpolatorNode to Makefile.am
 
-2003-03-24 16:24  kaufmann
+2003-03-24 15:24  kaufmann
 
 	* data/opentracker.dtd:
 	
 	P5glove configuration added
 
-2003-03-24 16:20  reitmayr
+2003-03-24 15:20  reitmayr
 
 	* src/input/: ARToolKitModule.cxx, FastTrakModule.cxx:
 	
 	fixed some uninitialized pointer deletions
 
-2003-03-24 14:25  flo
+2003-03-24 13:25  flo
 
 	* opentracker.dsp:
 	
 	added the ElasticFilter and a corresponing InterpolatorModule to
 	opentracker, since some people want to use it.
 
-2003-03-24 13:26  flo
+2003-03-24 12:26  flo
 
 	* data/opentracker.dtd, src/common/CommonNodeFactory.cxx,
 	src/common/ElasticFilterNode.cxx, src/common/ElasticFilterNode.h,
@@ -1072,43 +1072,43 @@ cvs2cl script used to generate this file.
 	added the ElasticFilter and a corresponing InterpolatorModule to
 	opentracker, since some people want to use it.
 
-2003-03-22 16:57  kaufmann
+2003-03-22 15:57  kaufmann
 
 	* opentracker.dsp:
 	
 	added P5Glove files to msvc project file
 
-2003-03-22 16:55  kaufmann
+2003-03-22 15:55  kaufmann
 
 	* src/misc/OpenTracker.cxx:
 	
 	added IFDEF to P5GloveModule
 
-2003-03-22 16:44  kaufmann
+2003-03-22 15:44  kaufmann
 
 	* src/input/P5GloveModule.h:
 	
 	fixed IFDEFs when compiling without P5 support
 
-2003-03-22 16:27  kaufmann
+2003-03-22 15:27  kaufmann
 
 	* src/misc/OpenTracker.cxx:
 	
 	P5GloveModule added
 
-2003-03-22 16:26  kaufmann
+2003-03-22 15:26  kaufmann
 
 	* config_win.h:
 	
 	P5 glove define added
 
-2003-03-21 23:32  tamer
+2003-03-21 22:32  tamer
 
 	* INSTALL:
 	
 	update INSTALL file reflecting the new changes.
 
-2003-03-21 23:19  tamer
+2003-03-21 22:19  tamer
 
 	* configure.ac, bin/Makefile.am, bin/opentracker-config.in:
 	
@@ -1116,7 +1116,7 @@ cvs2cl script used to generate this file.
 	handling refined.  build system fixes in this regard. made the
 	script executable in opentracker/bin.
 
-2003-03-21 21:34  tamer
+2003-03-21 20:34  tamer
 
 	* bin/Makefile.am, bin/opentracker-config.in, lib/Makefile.am,
 	src/Makefile.am, src/Makefile.common, src/common/Makefile.am,
@@ -1129,7 +1129,7 @@ cvs2cl script used to generate this file.
 	directories out of it necessary to succesfully link against
 	libOpenTracker.
 
-2003-03-21 15:52  kaufmann
+2003-03-21 14:52  kaufmann
 
 	* src/input/: P5GloveModule.cxx, P5GloveModule.h, P5GloveSource.h:
 	
@@ -1138,26 +1138,26 @@ cvs2cl script used to generate this file.
 	implemented yet.  Finger positions are not calculated seperately
 	yet.
 
-2003-03-20 17:36  reitmayr
+2003-03-20 16:36  reitmayr
 
 	* src/core/: Module.h, NodeFactory.h:
 	
 	added a nice virtual destructor to the module as it should be :)
 
-2003-03-19 23:42  tamer
+2003-03-19 22:42  tamer
 
 	* configure.ac:
 	
 	bootstraped build system.
 
-2003-03-19 23:41  tamer
+2003-03-19 22:41  tamer
 
 	* src/input/ARToolKitModule.cxx:
 	
 	added a conditional #define GL_BGR_EXT GL_BGR to allow artoolkit
 	configured with libraw1394 under linux to work.
 
-2003-03-19 23:38  tamer
+2003-03-19 22:38  tamer
 
 	* bin/: Makefile.am, opentracker-config.in:
 	
@@ -1166,38 +1166,38 @@ cvs2cl script used to generate this file.
 	artoolkit if used with firewire cams) accessible in a convenient
 	fashion to programs using OpenTracker.
 
-2003-03-18 02:24  tamer
+2003-03-18 01:24  tamer
 
 	* doc/BUILD_SYSTEM_HOWTO.txt:
 	
 	added studierstube build system howto to opentracker as the same
 	principles apply here, too.
 
-2003-03-14 03:49  tamer
+2003-03-14 02:49  tamer
 
 	* INSTALL:
 	
 	updated INSTALL instructions to reflect the new changes.
 
-2003-03-14 03:40  tamer
+2003-03-14 02:40  tamer
 
 	* opentracker_env.sh:
 	
 	removed now obsolete path setting shell script.
 
-2003-03-14 03:38  tamer
+2003-03-14 02:38  tamer
 
 	* bootstrap, configure.ac:
 	
 	accomodations for the new rpath handling.
 
-2003-03-14 03:37  tamer
+2003-03-14 02:37  tamer
 
 	* lib/Makefile.am:
 	
 	added the new stb_ac_*_rpath flags.
 
-2003-03-14 03:36  tamer
+2003-03-14 02:36  tamer
 
 	* cfg/m4/: ace.m4, artoolkit.m4, xerces.m4:
 	
@@ -1207,13 +1207,13 @@ cvs2cl script used to generate this file.
 	the library is not installed in the linker search path on the
 	system.
 
-2003-02-22 01:37  tamer
+2003-02-22 00:37  tamer
 
 	* lib/lib.txt:
 	
 	now obsolete, as directory is not empty anymore.
 
-2003-02-18 03:12  tamer
+2003-02-18 02:12  tamer
 
 	* INSTALL, configure.ac, opentracker_env.sh, cfg/m4/libtool.m4,
 	cfg/m4/xerces.m4, src/core/ConfigurationParser.cxx,
@@ -1235,34 +1235,34 @@ cvs2cl script used to generate this file.
 	
 	improved xerces.m4 to output a more informative error string.
 
-2003-02-17 18:46  tamer
+2003-02-17 17:46  tamer
 
 	* src/input/ParButtonModule.cxx:
 	
 	reversed PortTalk implementation because of licensing issues and
 	platform breakage.
 
-2003-02-17 18:42  tamer
+2003-02-17 17:42  tamer
 
 	* src/misc/: PortTalk_IOCTL.h, pt_ioctl.c:
 	
 	removed because of licensing issues...
 
-2003-02-13 18:09  tomp
+2003-02-13 17:09  tomp
 
 	* opentracker.dsp:
 	
 	new version of ParButtonModule uses PortTalk2.2 (use instruction to
 	install) needs advapi32.lib to link without errors!
 
-2003-02-13 16:44  tomp
+2003-02-13 15:44  tomp
 
 	* src/: input/ParButtonModule.cxx, misc/PortTalk_IOCTL.h,
 	misc/pt_ioctl.c:
 	
 	new version of ParButtonModule uses PortTalk2.2
 
-2003-02-07 17:41  flo
+2003-02-07 16:41  flo
 
 	* src/input/: SpeechModule.cxx, SpeechModule.h:
 	
@@ -1271,19 +1271,19 @@ cvs2cl script used to generate this file.
 	release configuration.	i think it is bad practice to specify
 	methods that use non-local information or calls as inline...
 
-2003-01-31 18:21  reitmayr
+2003-01-31 17:21  reitmayr
 
 	* src/input/ARToolKitModule.cxx:
 	
 	bug fix by Murad Saeter for ARToolkit Linux API.
 
-2003-01-31 17:07  reitmayr
+2003-01-31 16:07  reitmayr
 
 	* tools/ipaq/buttonlistener/ConnectionListener.java:
 	
 	update to avoid busy waiting
 
-2003-01-30 18:55  tamer
+2003-01-30 17:55  tamer
 
 	* INSTALL, opentracker_env.sh, bin/Makefile.am:
 	
@@ -1291,7 +1291,7 @@ cvs2cl script used to generate this file.
 	tool ottest.  Wrote documentation that explains the building
 	process.
 
-2003-01-27 12:28  reitmayr
+2003-01-27 11:28  reitmayr
 
 	* tools/ipaq/buttonlistener/: ButtonInputCatcher.java,
 	ConnectionListener.java, README.html,
@@ -1303,19 +1303,19 @@ cvs2cl script used to generate this file.
 	added Java ButtonListener implementation as a tool to OpenTracker.
 	Documentation can also be found there.
 
-2003-01-27 11:57  reitmayr
+2003-01-27 10:57  reitmayr
 
 	* doc/: changes.txt, contributions.txt, opentracker.dxy:
 	
 	updated documentation files
 
-2003-01-27 11:55  reitmayr
+2003-01-27 10:55  reitmayr
 
 	* data/opentracker.dtd:
 	
 	forgot to add StbSource to source node entity. fixed now
 
-2003-01-15 03:22  tamer
+2003-01-15 02:22  tamer
 
 	* doc/: ChangeLog.2000, ChangeLog.2001, ChangeLog.2002:
 	
@@ -1323,7 +1323,7 @@ cvs2cl script used to generate this file.
 	ChangeLog's for the past years in doc/ChangeLog.200?. have fun
 	reading the history of OpenTracker! *g*
 
-2003-01-13 11:51  bara
+2003-01-13 10:51  bara
 
 	* src/: OpenTracker.h, input/InterSenseModule.cxx,
 	input/SpeechCore.h, input/SpeechSet.h, input/SpeechVoice.h,
@@ -1332,26 +1332,26 @@ cvs2cl script used to generate this file.
 	fixed some include paths to make it work under windows again<br>
 	removed the double inclusion of config*.h
 
-2003-01-09 21:39  tamer
+2003-01-09 20:39  tamer
 
 	* configure.ac:
 	
 	build system fix for optional artoolkit handling.
 
-2003-01-09 05:17  tamer
+2003-01-09 04:17  tamer
 
 	* COPYING, LICENSE.txt:
 	
 	renamed LICENSE.txt to COPYING.
 
-2003-01-09 05:15  tamer
+2003-01-09 04:15  tamer
 
 	* config.h:
 	
 	removed now obsolete file. autocreated by the configure build
 	machinery.
 
-2003-01-09 05:14  tamer
+2003-01-09 04:14  tamer
 
 	* AUTHORS, COPYING, Config.Irix, Config.Linux, Config.global,
 	Makefile, Makefile.am, NEWS, README, README.TXT, bootstrap,
