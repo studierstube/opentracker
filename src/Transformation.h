@@ -52,6 +52,7 @@ protected:
     float translation[3];
     float scale[3];
     float rotation[4];
+    State localState;
 
 public:
 

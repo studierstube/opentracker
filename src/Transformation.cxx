@@ -112,19 +112,25 @@ override this method. It returns the pointer passed to the method.
 */
 State* Transformation::transformState(State* state)
 {//@CODE_3367
-    float qResult[4];   
+  // float qResult[4];   
     // transform the position of the state
-    MathUtils::rotateVector( rotation,  state->position, qResult );
-    state->position[0] = qResult[0]*scale[0] + translation[0];
-    state->position[1] = qResult[1]*scale[1] + translation[1];
-    state->position[2] = qResult[2]*scale[2] + translation[2];
+    MathUtils::rotateVector( rotation,  state->position, localState.position );
+    localState.position[0] = localState.position[0]*scale[0] + translation[0];
+    localState.position[1] = localState.position[1]*scale[1] + translation[1];
+    localState.position[2] = localState.position[2]*scale[2] + translation[2];
     // transform the orientation of the state
-    MathUtils::multiplyQuaternion( rotation, state->orientation, qResult );
+    MathUtils::multiplyQuaternion( rotation, state->orientation, localState.orientation );
+    /*
     state->orientation[0] = qResult[0];
     state->orientation[1] = qResult[1];
     state->orientation[2] = qResult[2];
     state->orientation[3] = qResult[3];
-    return state;    
+    */
+    // copy other state fields
+    localState.button = state->button;
+    localState.isValid = state->isValid;
+    localState.confidence = state->confidence;
+    return &localState;    
 }//@CODE_3367
 
 
