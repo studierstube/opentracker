@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.h,v 1.2 2003/03/28 14:48:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EllipsoidTransformNode.h,v 1.3 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,7 +49,7 @@
  * @li @c a the first semi diameter given in meters. This is required
  * @li @c b the second semi diameter given in meters. 
  *           If not specified it is set to the value of @c a
- * @li @mode (toCartesian | toEllipsoid) specifies whether to transform to cartesian or
+ * @li @c @mode (toCartesian | toEllipsoid) specifies whether to transform to cartesian or
  *           ellipsoid coordinates. The default is @c toCartesian.
  *
  * Some handy values for a and b :

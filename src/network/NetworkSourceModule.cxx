@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.19 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.20 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -308,19 +308,21 @@ void NetworkSourceModule::pushState()
 {
     for(ReceiverVector::iterator rec = groups.begin();rec != groups.end();rec++)
     {
-        // critical section start
-        (*rec)->mutex.acquire();
         for(StationVector::iterator it =(*rec)->sources.begin();
                 it != (*rec)->sources.end(); it ++ )
         {          
+	        // critical section start
+			(*rec)->mutex.acquire();
             if((*it)->modified == 1 )
             {
                 (*it)->source->state = (*it)->state;
                 (*it)->modified = 0;
-                (*it)->source->updateObservers( (*it)->source->state );
+		        (*rec)->mutex.release();
+	            (*it)->source->updateObservers( (*it)->source->state );
             }
+			else
+		        (*rec)->mutex.release();
+			// end of critical section
         }
-        (*rec)->mutex.release();
-        // end of critical section
     }  
 }          

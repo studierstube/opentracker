@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.1 2003/03/28 14:48:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.2 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -50,13 +50,16 @@ mode( mode_ )
 
 State* GKTransformNode::transformState( State* state)
 {
+	// the zero meridian of the GK map projection goes through Ferro,
+	// a Canarian island 17° 40' left of Greenwhich zero meridian.
+	const double ferro = (17 + 40 / 60) * MathUtils::GradToRad;
+
 	if( to == mode )
 	{
 		double B = state->position[0];
 		double sinB = sin(B);
 		double cosB = cos(B);
 		double L = state->position[1];
-		const double ferro = (17 + 40 / 60) * MathUtils::GradToRad;
 		double dL = L + ferro - meridian;
 
 		double Sm = alpha * B - beta * sin(2 * B) + gamma * sin(4 * B) - delta * sin(6 * B);
@@ -77,9 +80,30 @@ State* GKTransformNode::transformState( State* state)
 	}
 	else
 	{
-		// todo
+		double x = state->position[0];
+		double y = state->position[1];
+		double xa = x * MathUtils::GradToRad / alpha;
+		double Bf = (xa + beta*sin(2*xa) + gamma*sin(4*xa) + delta*sin(6*xa)) * MathUtils::GradToRad;
+		double t = tan(Bf);
+		double t2 = t*t;
+		double e2 = 1 - (b*b) / (a*a);
+		double eta2 = ((a*a) / (b*b) - 1)*cos(Bf)*cos(Bf);
+		double W = sqrt(1 - e2 *sin(Bf)*sin(Bf));
+		double N = a / W;
+		double M = b*b / (a*W*W*W);
+		double corr_b = 1 - (y*y)*(5 + 3*t2 + eta2 - 9*t2*eta2)/(12*N*N) +
+							(y*y*y*y)*(61+90*t2+45*t2*t2)/(360*N*N*N*N);
+		double corr_l = 1 - (y*y)*(1 + 2*t2 + eta2)/(6*N*N) + 
+							(y*y*y*y)*(5 + 28*t2 + 24*t2*t2)/(120*N*N*N*N);
+		double B = Bf - (y*y*t)*corr_b/(2*M*N);
+		double L = y*corr_l/(N*cos(Bf)) + meridian - ferro;
+
+		localState.position[0] = B;
+		localState.position[1] = L;
+
 	}
 
+	// height over the ellipsoid surface is identical to the height over the map
 	localState.position[2] = state->position[2];
 
 	// copy the rest over

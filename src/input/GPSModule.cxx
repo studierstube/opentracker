@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.3 2003/03/28 13:05:51 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.4 2003/04/03 15:50:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -97,17 +97,16 @@ void GPSModule::pushState()
 {
 	if( source != NULL )
 	{
-		bool update = false;
 		lock();
 		if( changed )
 		{
 			source->state = buffer;
 			changed = false;
-			update = true;
-		}
-		unlock();
-		if( update )
+			unlock();
 			source->updateObservers( source->state );
+		}
+		else
+			unlock();
 	}
 }
 

@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.cxx,v 1.4 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -221,21 +221,23 @@ void UltraTrakModule::pushState()
 	if (stations.empty())
 		return;
 
-	// critical section start
-	lock();
 	for (StationVector::iterator it = stations.begin();
 	it != stations.end(); it ++ )
 	{       
-		
+		// critical section start
+		lock();
 		if((*it)->modified == 1 )
 		{
 			(*it)->source->state = (*it)->state;
 			(*it)->modified = 0;
+			unlock();
 			(*it)->source->updateObservers( (*it)->source->state );
 		}
+		else
+			unlock();
+		// end of critical section
+
 	}
-	// end of critical section
-	unlock();
 }          
 
 

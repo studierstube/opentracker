@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.30 2003/04/01 15:51:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.31 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -317,11 +317,12 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
         vector<float> weights;
         const char * data = attributes.get("weight").c_str();
         char * end = (char *) data;
-        weights.push_back((float) strtod( data, &end ));    
-        while( *end != 0 ){        
+        weights.push_back((float) strtod( data, &end ));
+        while( end != data ){        
             data = end;
             weights.push_back((float) strtod( data, &end ));
         }
+		weights.pop_back();
 		FilterNode::Type type = FilterNode::ALL;
 		if( attributes.get("type").compare("position") == 0)
 			type = FilterNode::POSITION;

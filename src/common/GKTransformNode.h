@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.h,v 1.1 2003/03/28 14:48:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.h,v 1.2 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,7 +89,6 @@
  * @ref gktransform .
  * @author Gerhard Reitmayr
  * @ingroup common
- * @todo implement transformation from GK to ellipsoid
  */
 class OPENTRACKER_API GKTransformNode : public Transformation 
 {

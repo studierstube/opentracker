@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.2 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.3 2003/04/03 15:50:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -48,12 +48,7 @@ DGPSIP_Handler::~DGPSIP_Handler()
 
 int DGPSIP_Handler::open( void * factory )
 {
-  int result;
-#ifdef WIN32
-	result = ACE_Svc_Handler<ACE_SOCK_Stream, ACE_Null_Mutex, ACE_NULL_SYNCH>::open( factory );
-#else
-	result = ACE_Svc_Handler<ACE_SOCK_Stream, ACE_NULL_SYNCH>::open( factory );
-#endif
+	int result = ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>::open( factory );
 	if( result == 0)
 	{
 		// send initialization string here 

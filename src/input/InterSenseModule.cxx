@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.15 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.16 2003/04/03 15:50:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -103,7 +103,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 tracker->id = id;
                 tracker->comport = comport;
                 tracker->handle = handle;
-                bool res;
+                Bool res;
                 res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
                 {

@@ -26,7 +26,7 @@
   *
   * @author Michael Woegerbauer
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.cxx,v 1.2 2002/11/11 08:02:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpaceMouseModule.cxx,v 1.3 2003/04/03 15:50:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -210,20 +210,21 @@ void SpaceMouseModule::pushState()
 
     if( isInitialized() == 1 )
     {   
-		lock();
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
         {
             source = (SpaceMouseSource *) *it;
-            
+
+			lock();            
             if (source->changed == 1)
             {
                 source->state = source->tmpState;
                 source->changed = 0;
-        
+				unlock();        
                 source->push();
             }
+			else
+				unlock();
         }
-		unlock();
     }
 }
 

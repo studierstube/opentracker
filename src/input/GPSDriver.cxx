@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.4 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.5 2003/04/03 15:50:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -78,13 +78,12 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		result = receiver->peer().control(ACE_TTY_IO::SETPARAMS, &params );			
 		if( result != 0 )
 		{
-			receiver->destroy();
 			receiver = NULL;
 		}
 	}
 	
 	// open the tcp connection to the server, if required
-	if( serveraddr.compare("") != 0 )
+	if( result == 0 && serveraddr.compare("") != 0 )
 	{
 		server = new DGPSIP_Handler( this );
 		DGPSIP_Connector ipconnect( reactor );

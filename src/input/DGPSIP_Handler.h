@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.2 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.h,v 1.3 2003/04/03 15:50:59 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -48,11 +48,7 @@ class GPSDriver;
  * @ingroup input
  * @author Gerhard Reitmayr
  */
-#ifdef WIN32
-class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_Stream, ACE_Null_Mutex, ACE_NULL_SYNCH>
-#else
-class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_Stream, ACE_NULL_SYNCH>
-#endif
+class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 {
 public:
 	/// default constructor for ace framework. Do not use !
@@ -68,10 +64,6 @@ protected:
 	GPSDriver * parent;
 };
 
-#ifdef WIN32
-typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_Connector, ACE_SOCK_Connector::PEER_ADDR> DGPSIP_Connector;
-#else
-typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_Connector> DGPSIP_Connector;
-#endif
+typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_CONNECTOR> DGPSIP_Connector;
 
 #endif // !defined(_DGPSIP_HANDLER_H)
