@@ -1,3 +1,16 @@
+2004-11-22 16:47:39  Rev 781    reitmayr
+
+	* src/network/DwarfSink.h, src/common/ConsoleModule.cxx, 
+	  src/network/DwarfSource.h: still some files missing from namespace,
+	  fixed output issue in ConsoleModule
+
+2004-11-22 15:29:35  Rev 780    daniel
+
+	* src/input/ARToolKitPlusModule.h, src/tool/XMLSelection.h, 
+	  config_win.h, src/common/ConsoleModule.cxx, 
+	  src/input/ARToolKitPlusModule.cxx: added compile/link selection 
+	  for lib or dll version of TinyXML
+
 2004-11-17 12:59:01  Rev 778    daniel
 
 	* config_win.h, src/common/ConsoleModule.cxx, 
