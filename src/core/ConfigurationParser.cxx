@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.23 2003/07/31 07:55:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.24 2003/11/08 15:43:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -196,7 +196,6 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     const XMLCh* xmlspace = root->getNamespaceURI();
     if (xmlspace != NULL) {
         cout << "Namespace is " << XMLString::transcode( xmlspace ) << endl;
-        context.xmlspace = XMLString::transcode( xmlspace );
     }
     else {
         cout << "Not using namespaces!" << endl;
@@ -205,7 +204,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     // get the configuration part
     auto_ptr<XMLCh> configurationCh( XMLString::transcode( "configuration" ));
     //auto_ptr<DOMNodeList> list( root->getElementsByTagName( configurationCh.get() ));
-    DOMNodeList * list = root->getElementsByTagNameNS(XMLString::transcode(context.xmlspace), configurationCh.get());    
+    DOMNodeList * list = root->getElementsByTagNameNS(xmlspace, configurationCh.get());    
     if( list->getLength() != 1 )
     {
         cout << "not valid config file, not exactly one configuration tag" << endl;

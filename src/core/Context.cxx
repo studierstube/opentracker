@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.27 2003/07/31 07:55:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.28 2003/11/08 15:43:39 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -52,7 +52,8 @@ using namespace std;
 
 Context::Context( int init ) :
     rootNode( NULL ),
-    cleanUp( false )
+    cleanUp( false ), 
+    rootNamespace( "" )
 {
     if( init != 0 )
     {
@@ -63,7 +64,6 @@ Context::Context( int init ) :
         cleanUp = false;
     }
     directories.push_back(".");
-    xmlspace = "";
 }
 
 // Destructor method.
@@ -160,6 +160,15 @@ void Context::parseConfiguration(const string& filename)
     rootNode = parser.parseConfigurationFile( filename );
     DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
     doc->setUserData( ud_node, this, NULL );
+
+    const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+    if (xmlspace != NULL) {
+        auto_ptr<char> temp(XMLString::transcode( xmlspace ));
+        rootNamespace = temp.get();
+    }
+    else {
+        rootNamespace = "";
+    }
 }
 
 // calls pullState on all modules to get data out again.
@@ -218,7 +227,8 @@ Node * Context::createNode( const string & name, StringTable & attributes)
         // add a correctly created DOM_Element to the node here and return
         DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
         auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
-        DOMElement * el = doc->createElementNS(XMLString::transcode(xmlspace), tempName.get());
+        auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
+        DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
         value->setParent( el );        
         // set attributes on the element node
         KeyIterator keys(attributes);
@@ -228,7 +238,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
             value->put( key, attributes.get( key ));
 			auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
 			auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-			el->setAttributeNS(XMLString::transcode(xmlspace), attName.get(), attVal.get());
+			el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
         }
     }
     return value;

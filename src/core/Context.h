@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.16 2003/07/31 07:55:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.17 2003/11/08 15:43:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,11 +89,12 @@ protected:
     std::string file;
     /// stores a stack of directory names to search for files in
     std::vector<std::string> directories;
+    /// stores the namespace string of the root element
+    std::string rootNamespace;
 
 // Methods
 public:
-    /// stores the xml namespace used in the current configuration.
-    char* xmlspace;
+
    /** a constructor method. 
     * @param init If init is not equal to 0, it instantiates all known modules and 
     *        factories, adds them to its local containers and also takes care of 
@@ -200,7 +201,19 @@ public:
      */
     bool findFile( const std::string & filename, std::string & fullname );
 
+    /**
+     * returns the XML namespace of the root element 
+     * @return string reference containing the XML namespace
+     */
+    const std::string & getRootNamespace();
+
     friend class ConfigurationParser;
 };
+
+// returns the namespace of the root node
+inline const std::string & Context::getRootNamespace()
+{
+    return rootNamespace;
+}
 
 #endif
