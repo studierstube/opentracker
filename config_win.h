@@ -33,7 +33,7 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.5 2004/03/19 08:10:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.6 2004/04/03 13:11:42 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,7 +89,7 @@
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
-#define USE_ARTOOLKIT 1
+// #define USE_ARTOOLKIT 1
 
 /**
  * This define enables the correction of ARToolkit transformation matrices
@@ -136,4 +136,4 @@
 /** uncomment the following line to compile support for VRPN. Don't forget to set the
   * @c VRPNROOT environment variable !
   */
-#define USE_VRPN 1
+// #define USE_VRPN 1
