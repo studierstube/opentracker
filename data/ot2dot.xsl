@@ -69,6 +69,7 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="ParButtonSource" name="ParButtonSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="JoystickSource" name="JoystickSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="StbMouseSource" name="StbMouseSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+   <xsl:template match="GPSSource" name="GPSSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="ActiveGate" name="ActiveGate" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@group"/>"]</xsl:template>	
 	<!-- sink nodes are round and may have some information -->
 	<xsl:template match="ConsoleSink" name="ConsoleSink" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@comment"/>"]</xsl:template>
