@@ -23,6 +23,15 @@
 #include <iostream.h>
 #endif
 
+#include "wintab.h"
+/* What Wintab packet data items we want.  PK_CURSOR identifies which cursor 
+  (0-5) generated the packet.  PACKETDATA must be defined before including
+  pktdef.h 
+*/
+
+#define	PACKETDATA	( PK_X | PK_Y | PK_Z | PK_CURSOR | PK_BUTTONS | PK_NORMAL_PRESSURE )
+#include "pktdef.h"
+
 HANDLE    hInst;   // Handle for instance
 PACKET    pkt;    // Packet
 HCTX    hTab;    // Handle for Tablet Context

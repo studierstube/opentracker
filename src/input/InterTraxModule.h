@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.6 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.7 2001/03/06 18:08:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -16,7 +16,7 @@
  * @section intertraxmodule InterTraxModule
  * The InterTraxModule provides and drives InterTraxSource nodes that 
  * generate standard events in certain intervals. It does not use a 
- * configuration elements but reserves the name 'InterTrax'. 
+ * configuration elements but reserves the name 'InterTraxConfig'. 
  */
 
 #ifndef _INTERTRAXMODULE_H
@@ -40,6 +40,12 @@ class InterTraxModule : public Module, public NodeFactory
 protected:
     /// list of InterTraxSource nodes in the tree
     NodeVector nodes;
+    /// InterTrax handle
+    ISD_TRACKER_HANDLE handle;
+    /// InterTrax Tracker data structure
+    ISD_DATA_TYPE data;
+    /// backup data to compare with new data
+    float backup[3];
 
 // Methods
 public:
@@ -47,7 +53,11 @@ public:
     InterTraxModule() : 
         Module(), 
         NodeFactory()
-    {};
+    {
+        backup[0] = 0;
+        backup[1] = 0;
+        backup[2] = 0;
+    };
     /** Destructor method, clears nodes member. */
     virtual ~InterTraxModule();
     /** This method is called to ruct a new Node. It compares

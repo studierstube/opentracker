@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.1 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.cxx,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -23,9 +23,6 @@
 #else
 #include <iostream.h>
 #endif
-
-ISD_TRACKER_HANDLE handle;
-ISD_DATA_TYPE data;
 
 // Destructor method
 InterTraxModule::~InterTraxModule()
@@ -77,6 +74,15 @@ void InterTraxModule::pushState()
     {
         float quat[4];
         ISLIB_GetTrackerData( handle, &data );
+        if( data.Station[0].Orientation[0] == backup[0] &&
+            data.Station[0].Orientation[1] == backup[1] &&
+            data.Station[0].Orientation[2] == backup[2] )
+        {            
+            return;
+        }
+        backup[0] = data.Station[0].Orientation[0];
+        backup[1] = data.Station[0].Orientation[1];
+        backup[2] = data.Station[0].Orientation[2];
         MathUtils::eulerToQuaternion(data.Station[0].Orientation[2],
 		                             data.Station[0].Orientation[1],
 									 data.Station[0].Orientation[0],								

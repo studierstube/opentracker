@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.1 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/CyberMouseModule.h,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -25,23 +25,6 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_CYBERMOUSE
-
-#include "freeddll.h"
-
-#define SZ_Get_FREED_Info    "Get_FREED_Info"
-#define SZ_OpenFREED    "OpenFREED"
-#define SZ_CloseFREED    "CloseFREED"
-
-
-typedef ULONG (FAR PASCAL *PFNGet_FREED_Info)(FREED_info *Info);
-extern PFNGet_FREED_Info lpfnGet_FREED_Info;
-
-typedef ULONG (FAR PASCAL *PFNOpenFREED)(DWORD,HWND);
-extern PFNOpenFREED lpfnOpenFREED;
-
-typedef ULONG (FAR PASCAL *PFNCloseFREED)();
-extern PFNCloseFREED lpfnCloseFREED;
-
 
 /**
  * The module and factory to drive the CyberMouseSource nodes. It constructs

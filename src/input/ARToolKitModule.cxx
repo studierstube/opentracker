@@ -267,9 +267,9 @@ void ARToolKitModule::grab()
                 state.position[0] = (float)matrix[0][3];
                 state.position[1] = (float)matrix[1][3];
                 state.position[2] = (float)matrix[2][3];
+                state.timeStamp();
                 source->modified = 1;
                 unlock();
-//              cout << "Marker " << (*it)->getMarkerId() << " updated !" << endl;
             }
         }
     } 

@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.1 2001/03/05 17:53:05 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/WacomGraphireModule.h,v 1.2 2001/03/06 18:08:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -16,7 +16,7 @@
  * @section wacomgraphiremodule WacomGraphireModule
  * The WacomGraphireModule provides and drives WacomGraphireSource nodes that 
  * generate standard events in certain intervals. It does not use a 
- * configuration element but reserves the name 'WacomGraphire'. 
+ * configuration element but reserves the name 'WacomGraphireConfig'. 
  */
 
 #ifndef _WACOMGRAPHIREMODULE_H
@@ -25,16 +25,6 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_WACOMGRAPHIRE
-
-#include <wintab.h>
-#include <pktdef.h>
-
-/** What Wintab packet data items we want.  PK_CURSOR identifies which cursor 
- * (0-5) generated the packet.  PACKETDATA must be defined before including
- * pktdef.h 
- */
-
-#define	PACKETDATA	( PK_X | PK_Y | PK_Z | PK_CURSOR | PK_BUTTONS | PK_NORMAL_PRESSURE )
 
 /**
  * The module and factory to drive the wacomgraphire source nodes. It ructs
