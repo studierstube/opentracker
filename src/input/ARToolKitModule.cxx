@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * =======================================================================
   * PROJECT: OpenTracker
@@ -159,11 +159,6 @@ void ARToolKitModule::close()
     lock();
     stop = 1;
     unlock();
-#ifdef __sgi
-    arVideoStop( did );
-    arVideoCleanupDevice( did );
-#endif
-    arVideoClose();
     ThreadModule::close();
 }
 
@@ -171,7 +166,6 @@ void ARToolKitModule::close()
 
 void ARToolKitModule::pushState()
 {
-//    grab();
     for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
     {
         ARToolKitSource * source = (ARToolKitSource *)*it;
@@ -233,6 +227,11 @@ void ARToolKitModule::run()
         }
         grab();
     }
+#ifdef __sgi
+    arVideoStop( did );
+    arVideoCleanupDevice( did );
+#endif
+    arVideoClose();
 }
 
 // grabs a frame and processes the data 
