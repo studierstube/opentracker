@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.7 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/OpenTracker.h,v 1.8 2001/04/01 13:24:29 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -67,7 +67,7 @@
  * @date 2000
  */
 
-#include "../dllinclude.h"
+#include "dllinclude.h"
 
 // ACE needs to be included before any Windows headers, because there are 
 // some problems with Windows.h file.
