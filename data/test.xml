@@ -5,20 +5,17 @@
 <OpenTracker>
 	<configuration>
 		<NetworkSinkConfig name="Test Server"/>
-		<ConsoleConfig interval="20"/>
+		<ConsoleConfig interval="20">
+			<KeyDefinition key="left" name="Move_X_minus"/>
+		</ConsoleConfig>
 	</configuration>
-	<NetworkSink name="test station 1" number="1" multicast-address="224.100.200.101" port="12346">
-		<ConsoleSink comment="Test Console Output">
-			<EventTransformation translation="0 0 2">
-				<TestSource frequency="10"/>
-			</EventTransformation>
-		</ConsoleSink>
-	</NetworkSink>
-	<NetworkSink name="test station 2" number="1" multicast-address="224.100.200.102" port="12347">
-		<ConsoleSink comment="Test more">
-			<EventTransformation translation="10 0 0">
-				<TestSource frequency="10"/>
-			</EventTransformation>
-		</ConsoleSink>
-	</NetworkSink>
+	<ConsoleSink>
+		<ConsoleSource number="1"/>
+	</ConsoleSink>
+	<EventDynamicTransformation>
+		<TestSource/>
+		<TransformBase>
+			<NetworkSink name="" number="" multicast-address="" port=""/>
+		</TransformBase>
+	</EventDynamicTransformation>
 </OpenTracker>
