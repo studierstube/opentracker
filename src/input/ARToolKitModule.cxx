@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.34 2003/07/18 18:23:25 tamer Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.35 2003/08/18 17:58:03 thomas Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -170,6 +170,21 @@ void ARToolKitModule::start()
         return;
     }
     
+#ifdef WIN32
+	if(stereo)
+	{
+	    int error_ret = arVideoOpenStereo((char *)videomode.c_str(),
+										  (char *)videomode2.c_str());
+
+		if(error_ret != 0)
+		{
+			cout << "Error opening stereo video source(s) !" << endl;
+		    exit(1);
+		}
+	}
+	else
+#endif
+
     if( arVideoOpen((char *) videomode.c_str() ) < 0 )
     {
         cout << "Error opening video source !" << endl;
@@ -460,36 +475,63 @@ void ARToolKitModule::grab()
         }
     }
 
-    // returns the width of the image in pixels
 
-    int ARToolKitModule::getSizeX()
-    {
-        return sizeX;
-    }
 
-    // returns the height of the image in pixel
+// returns whether two cameras are configured
 
-    int ARToolKitModule::getSizeY()
-    {
-        return sizeY;
-    }
+bool ARToolKitModule::isStereo()
+{
+	return stereo;
+}
+	
+// returns the width of the image in pixels
+
+int ARToolKitModule::getSizeX(int stereo_buffer)
+{
+#ifdef WIN32
+	int width, height;
+    lock();
+    if(stop != 1)
+	    arVideoInqSize(&width,&height, (STEREO_BUFFER) stereo_buffer);
+	unlock();
+	return width;
+#else
+	return sizeX;
+#endif
+}
+
+// returns the height of the image in pixel
+
+int ARToolKitModule::getSizeY(int stereo_buffer)
+{
+#ifdef WIN32
+	int width, height;
+    lock();
+    if(stop != 1)
+	    arVideoInqSize(&width,&height, (STEREO_BUFFER) stereo_buffer);
+	unlock();
+	return height;
+#else
+	return sizeY;
+#endif
+}
 
 // returns whether the grabbed image is flipped horizontally
 // or vertically
 
-void ARToolKitModule::getFlipping(bool* isFlippedH, bool* isFlippedV)
+void ARToolKitModule::getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer)
 {
 #ifdef WIN32
     lock();
     if(stop != 1)
-		arVideoInqFlipping(isFlippedH,isFlippedV);
+		arVideoInqFlipping(isFlippedH,isFlippedV, (STEREO_BUFFER) stereo_buffer);
 	unlock();
 #endif
 }
 
 // returns pointer to the image frame
 
-unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
+unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer)
 {
     lock();
     if(stop == 1)
@@ -501,7 +543,7 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
     {
         unsigned char *pixel_data;
 #ifdef WIN32
-        pixel_data = arVideoLockBuffer(pHandle);
+        pixel_data = arVideoLockBuffer(pHandle, (STEREO_BUFFER) stereo_buffer);
 #else
         pixel_data = frame;
 #endif
@@ -510,13 +552,13 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
     }
 }
 
-void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle)
+void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle, int stereo_buffer)
 {
 #ifdef WIN32
     lock();
     if(stop != 1)
     {
-        arVideoUnlockBuffer(Handle);
+        arVideoUnlockBuffer(Handle, (STEREO_BUFFER) stereo_buffer);
     }
     unlock();
 #endif
@@ -524,8 +566,9 @@ void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle)
 
 // returns the OpenGL flag describing the pixel format
 
-int ARToolKitModule::getImageFormat()
+int ARToolKitModule::getImageFormat(int stereo_buffer)
 {
+	// both cameras must use the same pixel format
     return IMAGE_MODE;
 }
 

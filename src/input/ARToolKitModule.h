@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.26 2003/05/21 16:11:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.27 2003/08/18 17:58:03 thomas Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -198,6 +198,9 @@
     typedef int MemoryBufferHandle;
 #endif
 
+#define STEREO_L 0
+#define STEREO_R 1
+
 /**
  * A video tracking source module using the ARToolKit library to track a 
  * number of markers in a video image. It sets up the video library and acts
@@ -288,32 +291,35 @@ public:
      */
     virtual void init(StringTable& attributes, ConfigNode * localTree);
 
+    /** returns whether two cameras are configured */
+    bool isStereo();
+
     /** returns the width of the grabbed image in pixels */
-    int getSizeX();
+    int getSizeX(int stereo_buffer = STEREO_L);
 
     /** returns the height of the grabbed image in pixels */
-    int getSizeY();
+    int getSizeY(int stereo_buffer = STEREO_L);
 
     /** returns whether the grabbed image is flipped horizontally
 	  * or vertically */
-    void getFlipping(bool* isFlippedH, bool* isFlippedV);
+    void getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer = STEREO_L);
 
     /** returns a pointer to the grabbed image. The image format
      * is depending on the pixel format and typically RGB or RGBA 
      * times X times Y bytes. 
      * @return pointer to image buffer */
-    unsigned char * lockFrame(MemoryBufferHandle* pHandle);
+    unsigned char * lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer = STEREO_L);
 	// formerly getFrame()
 
     /** releases the pointer to the grabbed image.
      * @release frame pointer */
-    void unlockFrame(MemoryBufferHandle Handle);
+    void unlockFrame(MemoryBufferHandle Handle, int stereo_buffer = STEREO_L);
 
     /** 
      * returns the OpenGL flag that is used by ARToolkit to describe
      * the pixel format in the frame buffer. This is a simple way to 
      * pass the necessary information to use the image data in GL calls. */
-    int getImageFormat();
+    int getImageFormat(int stereo_buffer = STEREO_L);
 };
 
 #endif
