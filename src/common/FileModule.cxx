@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.12 2003/06/11 15:43:09 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.13 2003/11/30 17:37:32 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -57,6 +57,10 @@ void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
         append = true;
     else
         append = false;
+    if( attributes.get("loop").compare("true") == 0 )
+        loop = true;
+    else
+        loop = false;
 }
 
 // This method is called to construct a new Node
@@ -67,7 +71,7 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
     {
         string id = attributes.get("file");
         int station;
-        if( sscanf( attributes.get("station").c_str()," %i", &station ) == 0 ) 
+        if( attributes.get("station", &station) != 1 ) 
             station = 0;                    
         // search for File
         map<string,File *>::iterator it = files.find( id );
@@ -123,7 +127,7 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
 
         } else // create a new one
         {
-            file = new File( id, File::IN );
+            file = new File( id, File::IN, false, loop );
             files[id] = file;
         }
         if( file->mode == File::IN ) // test for right direction and add to store
@@ -170,7 +174,7 @@ void FileModule::pushState()
                 ((FileSource*)(*jt))->changed = false;
             }            
             while( 1 ){
-                if( (*it).second->read( state, &station ) == 0 )
+                if( (*it).second->read( state, &station ) == false )
                 {
                     break;
                 }

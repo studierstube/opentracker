@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.13 2003/06/10 12:14:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/File.h,v 1.14 2003/11/30 17:37:32 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -47,7 +47,7 @@ using namespace std;
  * It defines in which format the station data is written to the file and read
  * again. Right now the data has a csv format where spaces are used as separators :
  * @verbatim 
-station timestamp position[0] position[1] position[2] orientation[0] ... orientation[3]
+station timestamp position[0] position[1] position[2] orientation[0] ... orientation[3] button confidence
 ...@endverbatim
  * @author Gerhard Reitmayr
  * @ingroup common
@@ -60,7 +60,9 @@ protected :
     ofstream * output;
 	/// Input stream for input mode
     ifstream * input;
-    
+    /// flag for looping 
+    bool loop;
+
 public :    
 	/// the full filename
     const string filename;
@@ -72,9 +74,12 @@ public:
     /** constructor method, sets some default values and opens the
      * file in the correct mode.
      * @param filename_ the filename of the file to open
-     * @param mode the mode to open (either IN or OUT )*/
-    File(const string filename_ , modeFlags mode_ = OUT, bool append = false ) :
-        filename( filename_), mode( mode_ )
+     * @param mode the mode to open (either IN or OUT )
+     * @param append if OUT mode clear file or append to it 
+     * @param loop_ if IN mode loop input file or not 
+     */
+    File(const string filename_ , modeFlags mode_ = OUT, bool append = false, bool loop_ = false ) :
+        filename( filename_), mode( mode_ ), loop( loop_ )
     {        
         if( mode == OUT ) // output mode
 		{
@@ -125,7 +130,9 @@ public:
                 << state.orientation[0] << " " 
                 << state.orientation[1] << " "
                 << state.orientation[2] << " "
-                << state.orientation[3] << endl;
+                << state.orientation[3] << " "
+                << state.button << " "
+                << state.confidence << endl;
         }
     }
 
@@ -135,18 +142,37 @@ public:
      * the right format :) ( obviously ).
      * @param state reference where to put the new state
      * @param station pointer to an int containing the station
-     * @returns 1 if a new station could be read, otherwise 0.
+     * @returns true if a new station could be read, otherwise false.
      */
-    int read( State & state, int * station )    
+    bool read( State & state, int * station )    
     {
+        if( !input->is_open())
+            return false;
+
         input->clear();
         *input >> *station;
         *input >> state.time;
         *input >> state.position[0] >> state.position[1] >> state.position[2];
         *input >> state.orientation[0] >> state.orientation[1] 
                >> state.orientation[2] >> state.orientation[3];
-        return !input->fail();
-    }  
+        *input >> state.button;
+        *input >> state.confidence;
+
+        bool result = input->fail();
+        if( result )
+        {
+            if ( loop ) 
+            {
+                input->clear();
+                input->seekg(0, ios::beg);
+                result = false;
+            }
+            else
+                input->close();
+        }
+        return !result;
+    } 
+
 };
 
 #endif

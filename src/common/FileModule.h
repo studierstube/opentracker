@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.7 2003/04/04 13:11:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.8 2003/11/30 17:37:32 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,10 +39,12 @@
  * element @c FileConfig takes a single attribute as parameter.
  * @li @c append (true|false) default is @c false. denotes whether data should be appended
  * to existing output files or they should be overwritten.
+ * @li @c loop (true|false) default is @c false. denotes whether input files should
+ * start from the begining (loop is true) or stop after they end.
  *
  * An example configuration element looks like this :
  * @verbatim
-<FileConfig append="true"/>@endverbatim
+<FileConfig append="true" loop="true" />@endverbatim
  */
 
 #ifndef _FILEMODULE_H
@@ -69,6 +71,8 @@ protected:
     std::map<std::string, File *> files;
     /// flag whether output files should be appended to or not
     bool append;
+    /// flag whether to loop input files or not
+    bool loop;
 
 public:
     /** constructor method. initializes internal and static data

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Firefly (YRG) -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firefly (Vienna University of Technology) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.84 2003/11/13 09:56:35 tomp Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.85 2003/11/30 17:40:41 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?">
@@ -35,7 +35,7 @@ Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 <!-- general elements that do not map to nodes -->
 <!ELEMENT OpenTracker (configuration, (%AllNodes;)*)>
 <!ATTLIST OpenTracker
-    xmlns CDATA #IMPLIED
+  xmlns CDATA #IMPLIED
 >
 <!ELEMENT configuration (%ConfigElements;)>
 <!-- basic elements
@@ -550,6 +550,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT FileConfig EMPTY>
 <!ATTLIST FileConfig
   append (true | false) "false"
+  loop   (true | false) "true"
 >
 <!ELEMENT FileSink (%EventNodes;)>
 <!ATTLIST FileSink
