@@ -7,10 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * @todo put in this file a section on how to create a new multithreaded
-  * Module for another device or node service etc.
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ThreadModule.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +31,7 @@
  * pure virtual functions, so that classes inheriting from it don't have to
  * implement all methods in a trivial way.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class ThreadModule : public Module
 {

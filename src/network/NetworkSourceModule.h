@@ -7,12 +7,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
 /**
- * @page modules Module Reference
+ * @page module_ref Module Reference
  * @section networksourcemodule NetworksourceModule
  * The NetworkSourceModule listens for data from the Network sent to 
  * multicast groups and pushes the state updates into the tracker tree

@@ -7,12 +7,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/TestModule.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
- * @page modules Module Reference
+ * @page module_ref Module Reference
  * @section testmodule TestModule
  * The TestModule provides and drives TestSource nodes that generate standard
  * events in certain intervals. It doesn't have a configuration element

@@ -7,22 +7,21 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/CommonNodeFactory.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _COMMONNODEFACTORY_H
 #define _COMMONNODEFACTORY_H
 
-#include <string>
-#include <map>
+//#include <string>
+//#include <map>
 
-#include "Node.h"
-#include "NodeFactory.h"
-//#include "MaxConfidenceFilter.h"
+#include "../OpenTracker.h"
 #include "Transformation.h"
 #include "VirtualTransformation.h"
 #include "EventQueueNode.h"
+#include "MergeNode.h"
 
 /**
  * maps a string to another string. Mostly used to map element attributes
@@ -36,17 +35,14 @@ typedef std::map<string, string> StringMap;
  * \li Transformation, for all three types of transformations
  * \li VirtualTransformation, again all three types of transformations
  * \li EventQueueNode
- * \li MaxConfidenceFilter ( this is not implemented )
+ * \li MergeNode
  * @author Gerhard Reitmayr
  */
 class CommonNodeFactory : public NodeFactory
 {
 
 protected:
-    /** builds a MaxConfidenceFilter node.
-     * @param attributes reference to StringMap of elements attribute values
-     * @return pointer to MaxConfidenceFilter created on the heap */
-//    MaxConfidenceFilter* buildMaxConfidenceFilter( StringMap& attributes);
+
     /** builds a Transformation node.
      * @param attributes reference to StringMap of elements attribute values
      * @return pointer to Transformation created on the heap */

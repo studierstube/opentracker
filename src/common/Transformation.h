@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/Transformation.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -33,6 +33,8 @@
 #ifndef _TRANSFORMATION_H
 #define _TRANSFORMATION_H
 
+#include "../OpenTracker.h"
+/*
 #include "Node.h"
 #include "EventGenerator.h"
 #include "EventObserver.h"
@@ -40,6 +42,7 @@
 #include "TimeDependend.h"
 #include "State.h"
 #include "MathUtils.h"
+*/
 
 /**
  * A Transform is the superclass for all transform nodes. It provides the

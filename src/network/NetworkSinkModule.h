@@ -7,12 +7,12 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
 /**
- * @page modules Module Reference
+ * @page module_ref Module Reference
  * @section networksinkmodule NetworkSinkModule
  * The NetworkSinkModule graps states from the tracker tree and sends them
  * to other hosts via multicast groups. The receiving groups addresses are

@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/EventQueueNode.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/EventQueueNode.h,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -30,10 +30,14 @@
 #ifndef _EVENTQUEUENODE_H
 #define _EVENTQUEUENODE_H
 
+#include "../OpenTracker.h"
+#include "../core/EventQueueImplementation.h"
+/*
 #include "TreeNode.h"
 #include "EventQueueImplementation.h"
 #include "EventGenerator.h"
 #include "EventObserver.h"
+*/
 
 /**
  * EventQueueNode stores a queue of size length of the last received events.

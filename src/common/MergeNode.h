@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.1 2001/01/28 16:48:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/MergeNode.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,10 +79,11 @@ protected:
     State localState;
  
     /** definitions for flags defining whats happening for each
-     * EventGenerator
+     * EventGenerator. These are binary flags that can be or'd
+     * together.
      */
-    static unsigned DEFAULT = 1, POSITION = 2, ORIENTATION = 4, BUTTON = 8,
-               CONFIDENCE = 16, TIME = 32;
+    static unsigned DEFAULT, POSITION, ORIENTATION, BUTTON,
+               CONFIDENCE, TIME;
     
     /** the flag for nodes with the default wrapper tag, it is
      * the compliment of all other defined wrappers 
@@ -124,14 +125,14 @@ public:
         FlagMap::iterator index = mergeFlags.find( &generator );
         if( index == mergeFlags.end())
             return;
-        int flags = (*index)->second();
+        int flags = (*index).second;
         if( flags & DEFAULT )
             flags |= defaultFlags;
         if( flags & POSITION )
         {
-            localState.postion[0] = event.position[0];
-            localState.postion[1] = event.position[1];
-            localState.postion[2] = event.position[2];
+            localState.position[0] = event.position[0];
+            localState.position[1] = event.position[1];
+            localState.position[2] = event.position[2];
         }
         if( flags & ORIENTATION )
         {

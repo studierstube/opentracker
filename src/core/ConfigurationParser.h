@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -40,6 +40,7 @@ typedef std::map<string, Node *> NodeMap;
  * parses the XML configuration file. This class reads the configuration file
  * using DOM and builds the tracker tree.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class ConfigurationParser
 {

@@ -7,13 +7,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/CommonNodeFactory.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CommonNodeFactory.h"
 
-#include "MathUtils.h"
+//#include "MathUtils.h"
 #include<math.h>
 #include<stdio.h>
 #ifdef WIN32
@@ -22,13 +22,7 @@
 #include <iostream.h>
 #endif
 
-/// builds a new MaxConfidenceFilter
-/*
-MaxConfidenceFilter * CommonNodeFactory::buildMaxConfidenceFilter( StringMap& attributes)
-{
-    return *(new MaxConfidenceFilter());
-}
-*/
+
 /// builds and returns a new Transformation node
 
 Transformation * CommonNodeFactory::buildTransformation(
@@ -166,9 +160,6 @@ Node * CommonNodeFactory::createNode(  string& name,
     {
         cout << "Build "<< name << " node." <<endl;
         return buildVirtualTransformation( attributes );
-    } else if( name.compare("MaxConfidenceFilter") == 0 )
-    {
-      //  return buildMaxConfidenceFilter( attributes );
     } else if( name.compare("EventQueue") == 0 )
     {
         cout << "Build "<< name << " node." <<endl;

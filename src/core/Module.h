@@ -7,10 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * @todo put in this file a section on how to create a new module for
-  * another device or node service etc.
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -116,6 +113,7 @@ typedef std::map<string, string> StringMap;
  * pure virtual functions, so that classes inheriting from it don't have to
  * implement all methods in a trivial way.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class Module
 {

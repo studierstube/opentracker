@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/EventObserver.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/EventObserver.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -24,6 +24,7 @@ class EventGenerator;
  * to EventGenerators must derive from this class and implement the
  * onEventGenerated method.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class EventObserver
 {

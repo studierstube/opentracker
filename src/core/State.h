@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/State.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -31,6 +31,7 @@
  * @todo the plan is to make this generic and not just put any fixed members
  *   on it. Maybe just extend it ? We will see.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class State
 {

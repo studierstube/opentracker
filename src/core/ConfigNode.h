@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigNode.h,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -30,6 +30,7 @@ typedef std::map<string, string> StringMap;
  * to the init section of the Modules, to add any more complicated 
  * initialization.
  * @author Gerhard Reitmayr
+ * @ingroup core
 */
 class ConfigNode : public TreeNode
 {
@@ -44,7 +45,7 @@ public:
      * @param name_ element name of the config node
      * @param map_ string map with attribute values 
      */
-    ConfigNode(string& name_, StringMap * map_)
+    ConfigNode(const string& name_, StringMap * map_)
         : TreeNode()
 	    , attributes( map_ )
     { 

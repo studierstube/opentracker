@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/TreeNode.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Attic/TreeNode.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,7 @@ typedef std::vector<Node*> NodeVector;
  * type of these is not restricted by the implementation. This is fixed by the
  * DTD of the config file format, so there should be no problems here.
  * @author Gerhard Reitmayr
+ * @ingroup core
 */
 class TreeNode : public Node
 {

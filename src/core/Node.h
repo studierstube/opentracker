@@ -7,12 +7,18 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.2 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #ifndef _NODE_H
 #define _NODE_H
+
+/**
+ * @defgroup core Core Classes
+ * This group contains the basic interfaces and functionality to parse
+ * a configuration file, build the datastructures and drive the event model.
+ */
 
 #include <string>
 
@@ -30,6 +36,7 @@ class WrapperNode;
  * to set children and to query its type at runtime. Moreover a name
  * attribute for a unique ID is there but not used yet.
  * @author Gerhard Reitmayr
+ * @ingroup core
  */
 class Node
 {
@@ -44,7 +51,7 @@ protected:
     * sets the value of name.
     * @param rName reference to a string object containing the new name
     */
-    void setName( string& rName)
+    void setName(const string& rName)
     {
         name = rName;
     }

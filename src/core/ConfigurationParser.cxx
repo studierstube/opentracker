@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.2 2001/01/03 14:46:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.3 2001/01/29 17:16:44 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -209,7 +209,7 @@ Node * ConfigurationParser::parseConfigurationFile( string& filename)
                 {
                     if( base == NULL )
                     {
-                        base = new ConfigNode( "", new StringMap );
+                        base = new ConfigNode("", new StringMap );
                     }
                     DOM_Element element = (DOM_Element &)nodelist.item(i);                    
                     ConfigNode * child = buildConfigTree( element );

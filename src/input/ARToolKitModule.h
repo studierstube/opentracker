@@ -12,7 +12,7 @@
  /* ======================================================================= */
 
 /**
- * @page modules Module Reference
+ * @page module_ref Module Reference
  * @section artoolkit ARToolKitModule
  * The ARToolKitModule interfaces to the ARToolKit library to track the 
  * position and orientation of visual markers with a video camera. It uses
