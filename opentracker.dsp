@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ace.lib xerces-c_1.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
+# ADD LINK32 ace.lib xerces-c_1.lib winmm.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
 # SUBTRACT LINK32 /pdb:none /incremental:yes
 
 !ELSEIF  "$(CFG)" == "opentracker - Win32 Debug"
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 aced.lib xerces-c_1d.lib /nologo /dll /profile /debug /machine:I386 /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
+# ADD LINK32 aced.lib xerces-c_1d.lib winmm.lib /nologo /dll /profile /debug /machine:I386 /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(XERCESCROOT)/lib"
 
 !ENDIF 
 
@@ -146,6 +146,10 @@ SOURCE=.\src\common\EventQueueNode.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\FastTrakModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\FileModule.cxx
 # End Source File
 # Begin Source File
@@ -171,6 +175,10 @@ SOURCE=.\src\common\InvertTransformation.cxx
 # Begin Source File
 
 SOURCE=.\extras\intersense\win\isense.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\JoystickModule.cxx
 # End Source File
 # Begin Source File
 
@@ -362,6 +370,14 @@ SOURCE=.\src\common\EventQueueNode.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\FastTrakModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\FastTrakSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\File.h
 # End Source File
 # Begin Source File
@@ -411,6 +427,14 @@ SOURCE=.\src\common\InvertTransformation.h
 # Begin Source File
 
 SOURCE=.\extras\intersense\win\isense.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\JoystickModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\JoystickSource.h
 # End Source File
 # Begin Source File
 
