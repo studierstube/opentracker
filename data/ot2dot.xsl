@@ -69,6 +69,7 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="ParButtonSource" name="ParButtonSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="JoystickSource" name="JoystickSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
 	<xsl:template match="StbMouseSource" name="StbMouseSource" mode="node">[label="<xsl:value-of select="name(.)"/>"]</xsl:template>
+	<xsl:template match="ActiveGate" name="ActiveGate" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@group"/>"]</xsl:template>	
 	<!-- sink nodes are round and may have some information -->
 	<xsl:template match="ConsoleSink" name="ConsoleSink" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@comment"/>"]</xsl:template>
 	<xsl:template match="NetworkSink" name="NetworkSink" mode="node">[label="<xsl:value-of select="name(.)"/>\n<xsl:value-of select="@name"/> - <xsl:value-of select="@number"/>"]</xsl:template>
@@ -80,6 +81,7 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 	<xsl:template match="Ref" name="Ref" mode="node"> [ label="<xsl:value-of select="name(.)"/>" , shape=box , height=0.3 , width=.45 ]</xsl:template>
 	<xsl:template match="Selection" name="Selection" mode="node">[shape=record,label="{{&lt;select&gt; Select | &lt;default&gt; Default } |&lt;bottom&gt; Selection}"]</xsl:template>
 	<xsl:template match="ButtonOp" name="ButtonOp" mode="node">[shape=record,label="{{&lt;arg1&gt; Arg1 | &lt;arg2&gt; Arg2 }|&lt;bottom&gt; ButtonOp}"]</xsl:template>
+     <xsl:template match="GroupGate" name="GroupGate" mode="node">[shape=record,label="{{&lt;default&gt; Default | &lt;override&gt; Override } | &lt;bottom&gt; GroupGate - <xsl:value-of select="@group"/>}"]</xsl:template>
 	<!-- merge sub node templates for defining node ports -->
 	<xsl:template match="Merge" name="Merge" mode="node">[shape=record, label="{{<xsl:apply-templates mode="merge"/>} | &lt;bottom&gt; <xsl:value-of select="name(.)"/>} "]</xsl:template>
 	<xsl:template match="MergeDefault" mode="merge">&lt;default&gt; Default <xsl:if test="not(position()=last())">|</xsl:if>
@@ -198,6 +200,28 @@ digraph "<xsl:value-of select=".//NetworkSinkConfig/@name"/>"
 		</xsl:apply-templates>
 	</xsl:template>
 	<xsl:template match="*" mode="dynamic-navigate-selection">
+		<xsl:param name="parent"/>
+		<xsl:apply-templates select=".">
+			<xsl:with-param name="parent">
+				<xsl:copy-of select="$parent"/>:default</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<!-- GroupGate navigation behaviour -->
+	<xsl:template match="GroupGate" mode="navigate">
+		<xsl:apply-templates mode="dynamic-navigate-groupgate">
+			<xsl:with-param name="parent">
+				<xsl:number count="*" format="a" level="any"/>
+			</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<xsl:template match="Override" mode="dynamic-navigate-groupgate">
+		<xsl:param name="parent"/>
+		<xsl:apply-templates>
+			<xsl:with-param name="parent">
+				<xsl:copy-of select="$parent"/>:override</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<xsl:template match="*" mode="dynamic-navigate-groupgate">
 		<xsl:param name="parent"/>
 		<xsl:apply-templates select=".">
 			<xsl:with-param name="parent">

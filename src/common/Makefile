@@ -35,7 +35,9 @@ HFILES = \
         ThresholdFilterNode.h \
         ButtonFilerNode.h \
         ButtonOpNode.h \
-        TimeGateNode.h
+        TimeGateNode.h \
+        GroupGateModule.h \
+        GroupGateNode.h
 
 
 C++FILES = \
@@ -59,7 +61,9 @@ C++FILES = \
         ThresholdFilterNode.cxx \
         ButtonFilterNode.cxx \
         ButtonOpNode.cxx \
-        TimeGateNode.cxx
+        TimeGateNode.cxx \
+        GroupGateModule.cxx \
+        GroupGateNode.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 

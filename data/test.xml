@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--simple test configuration for the new tracker serve system-->
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<?xml-stylesheet type="text/xsl" href="E:\opentracker\data\ot2dot.xsl"?>
 <OpenTracker>
   <configuration>
     <NetworkSinkConfig name="Test Server"/>
-    <ConsoleConfig interval="1" headerline="Test Server"/>
+    <ConsoleConfig interval="1" headerline="Test Server - active display of individual tests in file"/>
     <TimeConfig sleep="10" display="true"/>
   </configuration>
-  <ConsoleSink comment="Transformation">
+  <ConsoleSink comment="Transformation" active="off">
     <EventTransform translation="1 1 1">
       <TestSource offset="0" frequency="10"/>
     </EventTransform>
   </ConsoleSink>
-  <ConsoleSink comment="VirtualTransformation">
+  <ConsoleSink comment="VirtualTransformation" active="off">
     <EventVirtualTransform translation="2 2 2">
       <TestSource frequency="10" offset="1"/>
     </EventVirtualTransform>
   </ConsoleSink>
-  <ConsoleSink comment="Network Sink" DEF="test1">
+  <ConsoleSink comment="Network Sink" DEF="test1" active="off">
     <NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
       <EventTransform translation="-1 -1 -1">
         <TestSource frequency="10" offset="2"/>
       </EventTransform>
     </NetworkSink>
   </ConsoleSink>
-  <ConsoleSink comment="Network Source">
+  <ConsoleSink comment="Network Source" active="off">
     <NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
   </ConsoleSink>
-  <ConsoleSink comment="Reference Node">
+  <ConsoleSink comment="Reference Node" active="off">
     <Callback name="test1">
       <Ref USE="test1"/>
     </Callback>
   </ConsoleSink>
-  <ConsoleSink comment="Merge Node">
+  <ConsoleSink comment="Merge Node" active="off">
     <Merge>
       <MergeDefault>
         <EventTransform translation="2 0 0">
@@ -52,17 +54,17 @@
       </MergeButton>
     </Merge>
   </ConsoleSink>
-  <ConsoleSink comment="InvertTransformation">
+  <ConsoleSink comment="InvertTransformation" active="off">
     <EventInvertTransform>
       <EventTransform translation="1 1 1" rotation="0 1 0 1.57" rotationtype="axisangle">
         <TestSource frequency="20"/>
       </EventTransform>
     </EventInvertTransform>
   </ConsoleSink>
-  <ConsoleSink comment="Console Source - use 0 to test">
+  <ConsoleSink comment="Console Source - use 0 to test" active="off">
     <ConsoleSource number="0" DEF="C0"/>
   </ConsoleSink>
-  <ConsoleSink comment="Selection - use 1 for select, 2 for default input">
+  <ConsoleSink comment="Selection - use 1 for select, 2 for default input" active="off">
     <Selection timeout="5000">
       <Select>
         <ConsoleSource number="1" DEF="C1"/>
@@ -70,12 +72,12 @@
       <ConsoleSource number="2" DEF="C2"/>
     </Selection>
   </ConsoleSink>
-  <ConsoleSink comment="File Sink output">
+  <ConsoleSink comment="File Sink output" active="off">
     <FileSink file="test.out">
       <Ref USE="test1"/>
     </FileSink>
   </ConsoleSink>
-  <ConsoleSink comment="MatrixTransform">
+  <ConsoleSink comment="MatrixTransform" active="off">
     <EventMatrixTransform matrix="0.29855846e-2  -0.8833553755  0.7011090309  0.1547780083  0.9525757961  -0.3835134396e-2 -0.379397242e-1 -0.4346676769e-2 0.2732702445e-1  0.4359116759 1.356763370  0.877962742e-1">
       <EventPositionTransform translation="1 0 0">
         <TestSource frequency="10"/>
@@ -85,35 +87,53 @@
   <FileSink file="test.out" station="1">
     <TestSource/>
   </FileSink>
-  <ConsoleSink comment="File Source Output">
+  <ConsoleSink comment="File Source Output" active="off">
     <FileSource file="test.in" station="1"/>
   </ConsoleSink>
-  <ConsoleSink comment="Parallel Button Output">
+  <ConsoleSink comment="Parallel Button Output" active="off">
     <ParButtonSource dev="/dev/plpbi"/>
   </ConsoleSink>
-  <ConsoleSink comment="ConfidenceFilter">
+  <ConsoleSink comment="ConfidenceFilter" active="off">
     <ConfidenceFilter treshhold="0.8" type="high">
       <TestSource/>
     </ConfidenceFilter>
   </ConsoleSink>
-  <ConsoleSink comment="Filter - use 0 to enter events">
+  <ConsoleSink comment="Filter - use 0 to enter events" active="off">
     <Filter weight="0.333 0.333 0.333">
       <EventQueue length="3">
         <Ref USE="C0"/>
       </EventQueue>
     </Filter>
   </ConsoleSink>
-  <ConsoleSink comment="ThresholdFilter - use 0 to enter events">
+  <ConsoleSink comment="ThresholdFilter - use 0 to enter events" active="off">
     <ThresholdFilter positionmin="0.0999" positionmax="0.2" rotationmin="0.1" rotationmax="0.15">
       <Ref USE="C0"/>
     </ThresholdFilter>
   </ConsoleSink>
-  <ConsoleSink comment="TimeGate - use 0 to let events pass for .5 seconds">
-  <TimeGate mode="pass" timeframe="500">
-    <Gate>
-      <Ref USE="C0"/>
-    </Gate>
-    <TestSource frequency="1"/>
-  </TimeGate>
-</ConsoleSink>
+  <ConsoleSink comment="TimeGate - use 0 to let events pass for .5 seconds" active="off">
+    <TimeGate mode="pass" timeframe="500">
+      <Gate>
+        <Ref USE="C0"/>
+      </Gate>
+      <TestSource frequency="1"/>
+    </TimeGate>
+  </ConsoleSink>
+  <ConsoleSink comment="GroupGate - 0  into first, 1 into second gate, 2 to override to first" active="off">
+    <Merge>
+      <MergeDefault>
+        <GroupGate group="test" neighbors="Console1Gate" DEF="Console0Gate">
+          <Ref USE="C0"/>
+          <Override>
+            <Ref USE="C2"/>
+          </Override>
+        </GroupGate>
+        <GroupGate group="test" neighbors="Console0Gate" DEF="Console1Gate">
+          <Ref USE="C1"/>
+        </GroupGate>
+      </MergeDefault>
+    </Merge>
+  </ConsoleSink>
+  <ConsoleSink comment="ActiveGate" active="off">
+    <ActiveGate group="test"/>
+  </ConsoleSink>
 </OpenTracker>

@@ -22,15 +22,15 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.50 2002/11/27 15:06:00 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.51 2002/11/29 16:03:24 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueInvertTransform | QueueMatrixTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeInvertTransform | TimeMatrixTransform">
-<!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate">
+<!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate | Override">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
 <!ELEMENT OpenTracker (configuration, (%AllNodes;)+)>
