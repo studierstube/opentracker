@@ -26,17 +26,25 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.3 2003/06/13 09:16:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.4 2003/10/14 14:47:44 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ButtonFilterNode.h"
+#include <iostream>
+
+#define DEBUG_BUTTONFILTER 
+#ifdef DEBUG_BUTTONFILTER
+#define DEBUG_CODE(a) {a;}
+#else
+#define DEBUG_CODE(a) {}
+#endif
 
 using namespace std;
 
 // constructor method.
 
-ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr )
+ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr, const char * validtransstr , const char * radiobuttonsstr )
     : Node()
 {
 	int i;
@@ -59,7 +67,9 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
 
 	// set buttonmap
 	for (i=0; i<8; i++){
-		if (buttonmapstr[i] == 0) break;
+		// can not set 0 as the button ??
+		//#tomp : if (buttonmapstr[i] == 0) break;
+		
 		if (buttonmapstr[i] >= '0' && buttonmapstr[i] <= '7') buttonmap[i] = buttonmapstr[i]-48;
 		else buttonmap[i] = i;
 	}
@@ -72,6 +82,50 @@ ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* butto
         
         buttonbit = buttonbit << 1;
 	}
+
+	// set validtrans
+	for (i=0; i< 8; i++)
+	{
+		validtrans[i] = -1;
+		radiobuttons[i] = 0;
+	}
+
+	if (validtransstr!= NULL && radiobuttonsstr != NULL)
+	{
+		if (strlen(validtransstr) == 8 || strlen(radiobuttonsstr) == 8)
+		{
+		
+			// these could be processed in one loop, but readiblity improves with 2 extra loops
+			// set validtrans  
+			for (i=0; i< 8; i++)
+			{
+				if (validtransstr[i] >= '0' && validtransstr[i] <= '7') 
+				{
+					int vtId = validtransstr[i] - 48;
+					validtrans[i] = vtId; // set position to given id 
+				}
+			}
+			
+			// set radiobuttons 
+			for (i=0; i< 8; i++)
+			{
+				if (radiobuttonsstr[i] >= '0' && radiobuttonsstr[i] <= '7') 
+				{
+					int radioButtonId = radiobuttonsstr[i] - 48;
+					radiobuttons[i] = radioButtonId; // set position in radio button with id given in string
+				}
+				else
+				{
+					radiobuttons[i] = -1; // set position in radio button with not a radiobutton
+				}
+
+			}
+		}
+		else
+		{
+			cerr << "ButtonFilterNode error. validtrans && radiobuttons must be exact 8 chars long. SETTINGS IGNORED !!" << endl;
+		}
+	}
 }
 
 int ButtonFilterNode::isEventGenerator()
@@ -80,7 +134,7 @@ int ButtonFilterNode::isEventGenerator()
 }
 
 // this method is called by the EventGenerator to update it's observers.
-
+#define COUT_BINARY(bina) { for (int bi=0; bi <8; bi++) cout << (((bina)>>bi) & 1); }
 void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 {
 	int i;
@@ -88,18 +142,75 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 
     lastState = event;
 
-    lastState.button ^= invert;
+	DEBUG_CODE(cout << "got button                  :"; COUT_BINARY(lastState.button); cout << endl;);
+    
+	unsigned char deleteButtonBitsNotValidTrans = 0x00; // delete no bits
+	unsigned char invertButtonBits = 0x00; // change no bits
+	// just for debug:
+	unsigned char validTransBits = 0x00; // change no bits
+
+	// go through all 8 bits and check if 
+	for (i=0; i < 8; i++)
+	{
+		if (validtrans[i] > -1) // validtrans bit is set
+		{
+			//just for debug: 
+			validTransBits |= 1 <<i;
+
+			// it is a validtrans bit
+			unsigned char bit = (lastState.button >> i) &1;
+	
+			if (bit) // if vt is set -> set all buttonbits (that belong to the vt) to 0
+			{
+				deleteButtonBitsNotValidTrans |= (1<<i); // vt must be set to 0 !!
+				for (int j =0 ; j< 8; j++)
+				{
+					if (radiobuttons[j] == validtrans[i]) 
+						deleteButtonBitsNotValidTrans |= (1<<j);
+				}
+			} // vt is 0 -> vt transmission signal !!, change nothing button will show as 1
+		}
+	}
+	
+	// invert and AND
+	// if there are no deleteButtonBitsNotValidTrans (0x00) nothing is changed, all '1' within the deleteButtonBitsNotValidTrans
+	// will set the lastState.button to zero
+
+	DEBUG_CODE(cout << "validTransBits              :"; COUT_BINARY(validTransBits); cout << endl;);
+	DEBUG_CODE(cout << "set to 0 buttonbits         :"; COUT_BINARY(deleteButtonBitsNotValidTrans); cout << endl;);
+
+	deleteButtonBitsNotValidTrans = ~deleteButtonBitsNotValidTrans;
+	lastState.button &= deleteButtonBitsNotValidTrans;
+	DEBUG_CODE(cout << "buttonbits after no VT      :"; COUT_BINARY(lastState.button); cout << endl;);
+
+	lastState.button ^= invertButtonBits;
+	DEBUG_CODE(cout << "inverted buttonbits         :"; COUT_BINARY(invertButtonBits); cout << endl;);
+	DEBUG_CODE(cout << "buttonbits  after VT        :"; COUT_BINARY(lastState.button); cout << endl;);
+
+	lastState.button ^= invert;
+	DEBUG_CODE(cout << "invert with                 :"; COUT_BINARY(invert); cout << endl;);
+	DEBUG_CODE(cout << "buttonbits after invert     :"; COUT_BINARY(lastState.button); cout << endl;);
+
 	lastState.button &= buttonmask;
+	DEBUG_CODE(cout << "buttonmask                  :"; COUT_BINARY(buttonmask); cout << endl;);
+	DEBUG_CODE(cout << "buttonbits after buttonmask :"; COUT_BINARY(lastState.button); cout << endl;);
 
+	
 	for (i=0; i<8; i++){
+		// simple stuff
+		// get current bit (0 / 1) and move it to new position
+		buttonout |= ((lastState.button>>i) & 1) << buttonmap[i];
+		
+	    // complicated stuff:
 		// mask current button, shift into bit 0, shift into target position and OR into output
-		buttonout = buttonout | (((lastState.button & buttonbit) >> i) << buttonmap[i]);
+		//buttonout = buttonout | (((lastState.button & buttonbit) >> i) << buttonmap[i]);
 		// cool ;)
-
-		buttonbit = buttonbit << 1;
+		// buttonbit = buttonbit << 1;
 	}
 
 	lastState.button = buttonout;
-	
+
+	DEBUG_CODE(cout << "buttonbits after buttonmap  :"; COUT_BINARY(lastState.button); cout << endl;);
+
     updateObservers( lastState );
 }

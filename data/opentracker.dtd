@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.79 2003/08/18 18:57:04 tamer Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.80 2003/10/14 14:48:50 tomp Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?">
@@ -290,6 +290,8 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   buttonmask CDATA "11111111"
   buttonmap CDATA "01234567"
   invert CDATA "00000000"
+  validtrans CDATA "--------"
+  radiobuttons CDATA "--------"
 >
 <!ELEMENT Arg1 (%EventNodes;)>
 <!ELEMENT Arg2 (%EventNodes;)>
@@ -606,7 +608,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   number CDATA #REQUIRED
   DEF ID #IMPLIED
 >
-<!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube. 
+<!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube.
 	These elements are only supported by the Studierstube runtime. -->
 <!-- StbKeyboard definitions, similar to console input -->
 <!ELEMENT StbInputConfig (KeyDefinition*)>

@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.2 2003/06/13 09:16:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.h,v 1.3 2003/10/14 14:47:44 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -60,7 +60,20 @@
 /**
  * The Button Filter allows the user to filter and re-map the individual buttons of an event.
  * @author Flo Ledermann flo@subnet.at
- * @ingroup common
+ * @author Thomas Psik tomp@ims.tuwien.ac.at
+ *
+ *
+ * ButtonFilter description
+ * WATCH OUT !! Button bits are leastsignificant first invert (10000000) with buttonin(00000000) will result in (00000001) !!
+ * sequence :
+ * validtrans, radiobuttons, invertstr, buttonmask, buttonmap 
+ * 
+ * validtrans (8bit) specify valid transmission bit for radio pen     (-----2-1) means radio pen 1 has VT on bit 0, radio pen 2 has VT on bit 2  
+ * radiobuttons (8bit) specify bits for radio pen (ref to validtrans) (---22-1-) means bit 1 is for radiopen 1, bit 3&4  is for radiopen 2 (has two buttons)
+ * buttonmask (8bit) set bit to 0 if you want to disable the button (00000010) will enable only button 1
+ * buttonmap  (8bit) rearrange buttons (01234567) is identity mapping (02134567) will change order of button 2 and 1
+ * invertstr  (8bit) invert single button (00000010) button 1 is pressed if value reads 0
+ 	 * @ingroup common
  */
 class OPENTRACKER_API ButtonFilterNode
     : public Node
@@ -69,7 +82,9 @@ class OPENTRACKER_API ButtonFilterNode
 protected:
     /// last saved state variable
     State lastState;
-
+	
+	signed char validtrans[8];  // (theoretical 8 buttons)
+	signed char radiobuttons[8];  // (theoretical 8 buttons)
 	unsigned char buttonmap[8];
 	unsigned char buttonmask;
     unsigned char invert;
@@ -79,7 +94,7 @@ protected:
 
     /** constructor method
      */
-    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr );
+    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr, const char * validtrans , const char * radiobuttons);
 
 public:
 
