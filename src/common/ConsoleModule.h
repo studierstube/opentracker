@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.16 2002/08/07 21:05:28 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.17 2002/08/07 21:23:44 bornik Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -253,7 +253,7 @@ public:
     // maps the function names in the config file to indices
     static vector<string> functionMap;
     // maps the function key names in the config file to key codes 
-    static map<string,int> keyCodeMap;
+    map<string,int> keyCodeMap;
 
     static const short MOVE_X_PLUS,
       MOVE_X_MINUS,
