@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
 OpenTracker Configuration file DTD
 Copyright (C) 2001  Vienna University of Technology
@@ -21,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.49 2002/10/31 20:04:09 splechtna Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.50 2002/11/27 15:06:00 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?">
@@ -297,15 +298,16 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   number CDATA #REQUIRED
   multicast-address CDATA #REQUIRED
   port CDATA #REQUIRED
+  interface CDATA ""
 >
 <!--network receiver elements, acting as sources-->
 <!ELEMENT NetworkSourceConfig EMPTY>
 <!ELEMENT NetworkSource EMPTY>
 <!ATTLIST NetworkSource
-	DEF ID #IMPLIED
-	number CDATA #REQUIRED
-	multicast-address CDATA #REQUIRED
-	port CDATA #REQUIRED
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+  multicast-address CDATA #REQUIRED
+  port CDATA #REQUIRED
 >
 <!-- video source elements for ARToolKit library-->
 <!ELEMENT ARToolKitConfig EMPTY>
@@ -381,7 +383,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- CyberMouse source elements -->
 <!ELEMENT CyberMouseSource EMPTY>
 <!ATTLIST CyberMouseSource
-	DEF ID #IMPLIED
+  DEF ID #IMPLIED
 >
 <!-- Wacom Graphire tablet source elements -->
 <!ELEMENT WacomGraphireSource EMPTY>
@@ -515,20 +517,34 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- SpaceMouse source elements -->
 <!ELEMENT SpaceMouseSource EMPTY>
 <!ATTLIST SpaceMouseSource
-	DEF ID #IMPLIED
+  DEF ID #IMPLIED
 >
 <!--ultratrak receiver acting as sources-->
 <!ELEMENT UltraTrakConfig EMPTY>
 <!ATTLIST UltraTrakConfig
-	DEF ID #IMPLIED
-	port CDATA #REQUIRED
-	positionMapping CDATA "0 1 2"
-	invertPosition CDATA "0 0 0"
-	orientationMapping CDATA "0 1 2"
-	invertOrientation CDATA "0 0 0"
+  DEF ID #IMPLIED
+  port CDATA #REQUIRED
+  positionMapping CDATA "0 1 2"
+  invertPosition CDATA "0 0 0"
+  orientationMapping CDATA "0 1 2"
+  invertOrientation CDATA "0 0 0"
 >
 <!ELEMENT UltraTrakSource EMPTY>
 <!ATTLIST UltraTrakSource
-	DEF ID #IMPLIED
-	number CDATA #REQUIRED
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+>
+<!-- Group gate nodes. It will only open one or more members of a set of nodes to let data pass through. The ActiveGate node
+      outputs the currently active GroupGate node for a set of nodes. -->
+<!ELEMENT Override (%EventNodes;)>
+<!ELEMENT GroupGate ((Override?, (%EventNodes;)) | ((%EventNodes;), Override?))>
+<!ATTLIST GroupGate
+  DEF ID #IMPLIED
+  group NMTOKEN #REQUIRED
+  neighbors IDREFS #REQUIRED
+>
+<!ELEMENT ActiveGate EMPTY>
+<!ATTLIST ActiveGate
+  DEF ID #IMPLIED
+  group NMTOKEN #REQUIRED
 >
