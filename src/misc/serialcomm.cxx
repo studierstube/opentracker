@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.cxx,v 1.3 2002/03/26 10:55:46 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/serialcomm.cxx,v 1.4 2002/09/17 18:00:20 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -77,6 +77,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         return -1;
     }
 
+    SetupComm(port->handle, 4096, 1024);
     /* nonblocking not implemented yet
     if (!params->blocking) 
     {    
@@ -95,8 +96,8 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     timeout.ReadIntervalTimeout = MAXDWORD;
     timeout.ReadTotalTimeoutMultiplier = 0;
     timeout.ReadTotalTimeoutConstant = 0;
-    timeout.WriteTotalTimeoutMultiplier = 10;
-    timeout.WriteTotalTimeoutConstant = 50;
+    timeout.WriteTotalTimeoutMultiplier = 0;
+    timeout.WriteTotalTimeoutConstant = 500;
 
     if (!SetCommTimeouts(port->handle, &timeout))
     {
@@ -178,9 +179,11 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     if (params->hwflow)
     {
         dcb.fOutxCtsFlow = TRUE;
-        dcb.fOutxDsrFlow = TRUE;
-        dcb.fDtrControl = DTR_CONTROL_HANDSHAKE;
+        dcb.fOutxDsrFlow = FALSE;
+        dcb.fDtrControl = DTR_CONTROL_ENABLE;
         dcb.fRtsControl = RTS_CONTROL_HANDSHAKE;
+        dcb.XonLim = 0;
+        dcb.XoffLim = 0;
     } else
     {
         dcb.fOutxCtsFlow = FALSE;
@@ -205,7 +208,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     dcb.fAbortOnError = FALSE;
 
     if (!PurgeComm(port->handle, PURGE_TXABORT | PURGE_RXABORT |
-        PURGE_TXABORT | PURGE_RXCLEAR))
+        PURGE_TXCLEAR | PURGE_RXCLEAR))
     {
         DEBUG("Error: PurgeComm failed")
         return -1;
@@ -260,7 +263,6 @@ int setRTSSerialPort(SerialPort *port, int level)
 int waitforoneSerialPort(SerialPort *port, long time)
 {
 	DWORD available = 0;
-    DWORD eventmask;
     int i;
 
     if (PeekNamedPipe(port->handle, NULL,
@@ -354,6 +356,7 @@ int writetoSerialPort(SerialPort *port, char *buf, int count)
 	} else {
 		return numwritten;
 	}
+    FlushFileBuffers(port->handle);
 }
 
 #else  // UNIX implementation
