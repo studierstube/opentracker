@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-18 02:24  tamer
+
+	* doc/BUILD_SYSTEM_HOWTO.txt:
+	
+	added studierstube build system howto to opentracker as the same
+	principles apply here, too.
+
 2003-03-14 03:49  tamer
 
 	* INSTALL:
