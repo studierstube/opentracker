@@ -56,6 +56,10 @@
 
 /*
  * $Log: DOMTreeErrorReporter.cxx,v $
+ * Revision 1.3  2000/08/24 16:21:43  reitmayr
+ * fixed bug in MaxConfidenceFilter,
+ * fixed compile problem in DOMTreeError
+ *
  * Revision 1.2  2000/08/24 08:45:23  reitmayr
  * modified to compile with VC++
  *
@@ -95,14 +99,13 @@
 #include "DOMTreeErrorReporter.h"
 #ifdef WIN32
 #include <iostream>    // VisualC++ has two incompatible iostreams libraries !
+using namespace std;
 #else
 #include <iostream.h>
 #endif
 #include <stdlib.h>
 #include <string.h>
 #include <dom/DOMString.hpp>
-
-using namespace std;
 
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {

@@ -81,7 +81,11 @@ State* MaxConfidenceFilter::getState()
             {
                 if( comp != NULL )
                 {
-                    if( value->confidence < comp->confidence )
+                    if( !value->isValid && comp->isValid )
+                    {
+                        value = comp;
+                    }    
+                    else if( comp->isValid && ( value->confidence < comp->confidence ))
                     {
                         value = comp;
                     }   
