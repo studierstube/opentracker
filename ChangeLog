@@ -9,6 +9,132 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-18 22:26  tamer
+
+	* src/: common/CommonNodeFactory.cxx, common/ConsoleModule.cxx,
+	common/EllipsoidTransformNode.cxx, common/GKTransformNode.cxx,
+	common/GroupGateModule.cxx, common/GroupGateNode.cxx,
+	common/InterpolatorModule.cxx, common/TimeModule.cxx,
+	core/DOMTreeErrorReporter.cxx, core/Node.cxx, core/TestModule.cxx,
+	input/ARTDataTrackerModule.cxx, input/FOBModule.cxx,
+	input/FastTrakModule.cxx, input/GPSDriver.cxx, input/GPSModule.cxx,
+	input/GPSParser.cxx, input/GPS_Handler.h,
+	input/InterSenseModule.cxx, input/MagicYModule.cxx,
+	input/SpeechModule.cxx, input/UltraTrakModule.cxx,
+	network/NetworkSinkModule.cxx, network/NetworkSourceModule.cxx,
+	network/TCPModule.cxx:
+	
+	fixes for SGI. let's see how gcc deals with that...
+
+2003-07-18 20:23  tamer
+
+	* src/: common/ButtonOpNode.cxx, common/CommonNodeFactory.cxx,
+	common/ConfidenceSelectNode.cxx, common/ElasticFilterNode.cxx,
+	common/EventQueueNode.cxx, common/TimeModule.h,
+	core/ConfigurationParser.cxx, core/MathUtils.cxx,
+	input/ARToolKitModule.cxx, input/DGPSIP_Handler.cxx,
+	input/DynaSightModule.h, input/FOBModule.cxx, input/GPSModule.cxx,
+	input/MagicYModule.cxx, input/MagicYModule.h,
+	input/ParButtonModule.cxx, input/SpeechCore.cxx,
+	input/SpeechModule.cxx, input/SpeechSet.cxx,
+	input/UltraTrakModule.h, input/rtcm.cxx, misc/test.cxx,
+	network/NetworkSourceModule.cxx, network/TCPSink.h:
+	
+	eliminated compiler warnings where possible.
+
+2003-07-18 20:22  tamer
+
+	* configure.ac:
+	
+	enabled full compiler warning output
+
+2003-07-18 20:22  tamer
+
+	* cfg/m4/: compile_warnings.m4, misc_compiler.m4:
+	
+	added m4 macros for compiler warnings.
+
+2003-07-18 19:27  tamer
+
+	* extras/intersense/isense.h, extras/intersense/types.h,
+	extras/intersense/unix/itcom.h, src/common/CommonNodeFactory.h,
+	src/common/ConfidenceFilterNode.h,
+	src/common/ConfidenceSelectNode.h, src/common/ElasticFilterNode.h,
+	src/common/EllipsoidTransformNode.cxx,
+	src/common/GKTransformNode.cxx, src/common/GroupGateModule.cxx,
+	src/common/GroupGateNode.h, src/common/MergeNode.h,
+	src/common/SelectionNode.h, src/common/TimeGateNode.h,
+	src/core/ConfigurationParser.h, src/core/DOMTreeErrorReporter.h,
+	src/core/MathUtils.cxx, src/core/NodeFactoryContainer.h,
+	src/core/OSUtils.cxx, src/core/State.h, src/core/TestModule.cxx,
+	src/input/DGPSMirror_Handler.cxx, src/input/FOBModule.h,
+	src/input/FOBSource.h, src/input/FastTrakModule.h,
+	src/input/FastTrakSource.h, src/input/GPSParser.cxx,
+	src/input/InterSenseModule.cxx, src/input/InterSenseModule.h,
+	src/input/MagicYModule.cxx, src/input/ParButtonModule.h,
+	src/input/ParButtonSource.h, src/input/SpaceMouseModule.h,
+	src/input/SpeechModule.cxx, src/input/SpeechSet.cxx,
+	src/input/UltraTrakModule.cxx, src/misc/portio.cxx,
+	src/network/TCPModule.cxx, src/network/TCPModule.h:
+	
+	source line ending fixes.
+
+2003-07-18 19:17  tamer
+
+	* data/opentracker.dtd, src/common/ConsoleModule.cxx,
+	src/common/ConsoleModule.h:
+	
+	added curses="on/off" setting that allows to specify if curses
+	initialization is wanted or not as it otherwise interfered with
+	regular stdout/stderr debug output if curses input isn't really
+	needed.
+
+2003-07-18 19:12  tamer
+
+	* src/input/rtcm.cxx:
+	
+	killed unsigned int warning
+
+2003-07-18 19:10  tamer
+
+	* src/input/ARTDataTrackerChomp.h:
+	
+	oops...
+
+2003-07-18 19:09  tamer
+
+	* src/input/ARTDataTrackerChomp.cxx:
+	
+	removed unnecessary semicolons from the end of the method
+	implementations
+
+2003-07-18 19:08  tamer
+
+	* src/input/ARTDataTrackerChomp.h:
+	
+	removed ARTDataTrackerChomp:: prefix from declaration in the
+	header.  SGI compiler doesn't like that and other compilers should
+	cry in pain...
+
+2003-07-18 17:18  flo
+
+	* data/opentracker.xsd:
+	
+	adding the OpenTracker XML Schema. This schema file is converted
+	from the DTD, so it can probably be optimized, but for now it
+	works.
+
+2003-07-18 17:17  flo
+
+	* src/core/: ConfigurationParser.cxx, Context.cxx, Context.h,
+	Node.cxx:
+	
+	adding namespace support to OpenTracker! this should be transparent
+	for existing applications and configfiles, but gives you the
+	possibility to use namespaces in OpenTracker files when using a
+	schema to validate.  Note that the namespaces are not supported
+	when using the DTD!
+
 2003-07-15 18:23  reitmayr
 
 	* src/misc/: OpenTracker.cxx, test.cxx:
