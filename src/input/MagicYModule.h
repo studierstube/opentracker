@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.2 2003/07/02 07:28:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -63,8 +63,9 @@
 #include <ace/Handle_Set.h> 
 
 /// this structure stores the attributes of an MagicY 
-struct MagicY
+class MagicY
 {
+  public:
     int number;    
 	bool average;
     State state;
@@ -72,7 +73,7 @@ struct MagicY
     MagicYSource * source;
 
     MagicY( const int number_, const bool average_, MagicYSource * source_ ) :
-        number( number_ ), average( average_ ), source( source_ ), modified( 0 )
+        number( number_ ), average( average_ ), modified( 0 ), source( source_ )
     {
 		state.position[0] = 0;
 		state.position[1] = 0;

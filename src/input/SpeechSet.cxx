@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.4 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechSet.cxx,v 1.5 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -59,7 +59,7 @@ const char* SpeechSetBase::GetName()
 
 bool SpeechSetBase::IsCommandRegistered(const char *p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
       return(true);
@@ -70,7 +70,7 @@ bool SpeechSetBase::IsCommandRegistered(const char *p_Command)
 
 bool SpeechSetBase::IsCommandIdRegistered(DWORD p_CommandId)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
       return(true);
@@ -81,7 +81,7 @@ bool SpeechSetBase::IsCommandIdRegistered(DWORD p_CommandId)
 
 long SpeechSetBase::GetCommandId(const char *p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(!strcmp(m_RegisteredCommands[i].m_Command.c_str(), p_Command))
       return(m_RegisteredCommands[i].m_CommandId);
@@ -92,7 +92,7 @@ long SpeechSetBase::GetCommandId(const char *p_Command)
 
 bool SpeechSetBase::GetCommand(DWORD p_CommandId, std::string &p_Command)
 {
-  for(int i = 0; i < m_RegisteredCommands.size(); ++i)
+  for(unsigned int i = 0; i < m_RegisteredCommands.size(); ++i)
   {
     if(m_RegisteredCommands[i].m_CommandId == p_CommandId)
     {

@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.33 2003/07/08 13:06:22 tamer Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.34 2003/07/18 18:23:25 tamer Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -91,8 +91,8 @@ ARToolKitModule::ARToolKitModule() :
     NodeFactory(), 
     treshhold(100), 
     stop(0), 
-    frame( NULL ), 
-    stereo(false)
+    stereo(false),
+    frame( NULL )
 {
 }
 

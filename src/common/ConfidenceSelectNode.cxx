@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.cxx,v 1.1 2001/10/20 17:20:11 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConfidenceSelectNode.cxx,v 1.2 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,7 @@
 
 // constructor method
 ConfidenceSelectNode::ConfidenceSelectNode( double timeout_, types type_ )
-    : type( type_ ), timeout( timeout_ )
+   : timeout( timeout_ ), type( type_ )
 {
 	lastConfidence = 0;
 	lastTimeStamp = 0;

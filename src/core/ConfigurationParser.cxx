@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.21 2003/07/18 15:17:14 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.22 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -83,7 +83,7 @@ ConfigNode * ConfigurationParser::buildConfigTree( XERCES_CPP_NAMESPACE_QUALIFIE
     config->setParent( element );
     //auto_ptr<DOMNodeList> list( element->getChildNodes());
     DOMNodeList * list = element->getChildNodes();
-    for( int i = 0; i < list->getLength(); i ++ )
+    for( unsigned int i = 0; i < list->getLength(); i ++ )
     {
         if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
         {
@@ -131,7 +131,7 @@ Node * ConfigurationParser::buildTree( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement
         }
         //auto_ptr<DOMNodeList> list ( element->getChildNodes());
         DOMNodeList * list = element->getChildNodes();
-        for( int i = 0; i < list->getLength(); i ++ )
+        for( unsigned int i = 0; i < list->getLength(); i ++ )
         {
             if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
@@ -219,7 +219,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
     DOMElement * config = (DOMElement *)list->item(0);
     //auto_ptr<DOMNodeList> configlist( config->getChildNodes());
     DOMNodeList * configlist = config->getChildNodes();
-    int i;
+    unsigned int i;
     for( i = 0; i < configlist->getLength(); i ++ )
     {
         if( configlist->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
@@ -235,7 +235,7 @@ Node * ConfigurationParser::parseConfigurationFile(const string& filename)
             //auto_ptr<DOMNodeList> nodelist( configElement->getChildNodes());
             DOMNodeList * nodelist = configElement->getChildNodes();
 
-            int j;
+            unsigned int j;
             for( j = 0; j < nodelist->getLength(); j++ )
             {
                 if( nodelist->item(j)->getNodeType() == DOMNode::ELEMENT_NODE )
@@ -281,7 +281,7 @@ StringTable * ConfigurationParser::parseElement( XERCES_CPP_NAMESPACE_QUALIFIER 
     StringTable * value = new StringTable;
     // auto_ptr<DOMNamedNodeMap> map( element->getAttributes());   // is it still owned by the library ?
     DOMNamedNodeMap * map = element->getAttributes();
-    for( int i = 0; i < map->getLength(); i++ )
+    for( unsigned int i = 0; i < map->getLength(); i++ )
     {
         DOMAttr * attribute = (DOMAttr *)map->item( i );
         auto_ptr<char> nameTemp( XMLString::transcode( attribute->getName()));

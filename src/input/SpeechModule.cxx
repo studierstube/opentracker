@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.6 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechModule.cxx,v 1.7 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -86,7 +86,7 @@ Node* SpeechModule::createNode(const string& name, StringTable& attributes)
 
 
     // Search for the speechset in the config tree, and register the appropriate commands
-    for(int i = 0; i < m_ConfigTree->countChildren(); ++i)
+    for(unsigned int i = 0; i < m_ConfigTree->countChildren(); ++i)
     {
       ConfigNode *SpeechSetNode = (ConfigNode*)m_ConfigTree->getChild(i);
       std::string SpeechSetId2;
@@ -94,7 +94,7 @@ Node* SpeechModule::createNode(const string& name, StringTable& attributes)
 
       if(!SpeechSetId.compare(SpeechSetId2))
       {
-        for(int j = 0; j < SpeechSetNode->countChildren(); ++j)
+        for(unsigned int j = 0; j < SpeechSetNode->countChildren(); ++j)
         {
           ConfigNode *CommandNode = (ConfigNode*)SpeechSetNode->getChild(j);
           int CommandId;
@@ -183,7 +183,7 @@ void SpeechModule::pushState()
 
     if(m_Push2Nodes.size() > 0)
     {
-      for(int i = 0; i < m_Push2Nodes.size(); ++i)
+      for(unsigned int i = 0; i < m_Push2Nodes.size(); ++i)
       {
         SpeechSource *source = (SpeechSource*)m_Push2Nodes[i];
         source->push2();

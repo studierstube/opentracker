@@ -1,4 +1,4 @@
-/* $Id: rtcm.cxx,v 1.2 2003/07/18 17:12:58 tamer Exp $  */
+/* $Id: rtcm.cxx,v 1.3 2003/07/18 18:23:25 tamer Exp $  */
 
 /* rtcm.c - decode RTCM SC-104 data from a DGPS beacon receiver */
 
@@ -422,7 +422,8 @@ printba(void)
 void
 printspec(void)
 {
-  u_int i, d, c;
+  int i;
+  u_int d, c;
 
   if (pfptr)
     msg_len = (pfptr-message)>>2;
@@ -496,8 +497,8 @@ printdatum(void)
 void
 printconh(void)
 {
-  u_int i, d, sat, iodl, hlth, he, nd, lw, tu;
-  int cnr;
+  u_int d, sat, iodl, hlth, he, nd, lw, tu;
+  int i, cnr;
 
   if (pfptr) {
     msg_len = (pfptr-message) - 2;

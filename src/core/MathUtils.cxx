@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.15 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.16 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -65,15 +65,15 @@ const double MathUtils::E = 2.7182818284590452354;
 
 const double MathUtils::GradToRad = MathUtils::Pi / 180.0;
 
-const MathUtils::Matrix4x4 MathUtils::matrix4x4_flipY = { 1, 0, 0, 0,
-                                              0,-1, 0, 0,
-                                              0, 0, 1, 0,
-                                              0, 0, 0, 1 };
+const MathUtils::Matrix4x4 MathUtils::matrix4x4_flipY = {{1, 0, 0, 0},
+                                                         {0,-1, 0, 0},
+                                                         {0, 0, 1, 0},
+                                                         {0, 0, 0, 1}};
 
-const MathUtils::Matrix4x4 MathUtils::matrix4x4_identity =	{ 1, 0, 0, 0,
-                                                  0, 1, 0, 0,
-                                                  0, 0, 1, 0,
-                                                  0, 0, 0, 1 };
+const MathUtils::Matrix4x4 MathUtils::matrix4x4_identity = {{1, 0, 0, 0},
+                                                            {0, 1, 0, 0},
+                                                            {0, 0, 1, 0},
+                                                            {0, 0, 0, 1}};
 
 // converts an axis angle representation into a quaternion
 

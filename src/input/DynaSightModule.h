@@ -26,7 +26,7 @@
   *
   * @author Alexander Schaelss
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.2 2003/07/02 07:28:36 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DynaSightModule.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -79,7 +79,7 @@ struct Target
     DynaSightSource * source;
 
     Target( const int number_, DynaSightSource * source_ ) :
-        number( number_ ), source( source_ ), modified( 0 )
+        number( number_ ), modified( 0 ), source( source_ )
     {};
 };
 

@@ -26,7 +26,7 @@
   *
   * @author Rainer Splechtna
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.h,v 1.2 2003/07/02 07:28:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/UltraTrakModule.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -72,7 +72,7 @@ struct Station
     UltraTrakSource * source;
 
     Station( const int number_, UltraTrakSource * source_ ) :
-        number( number_ ), source( source_ ), modified( 0 )
+        number( number_ ), modified( 0 ), source( source_ )
     {};
 };
 

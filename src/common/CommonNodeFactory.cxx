@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.34 2003/06/13 09:16:14 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.35 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -327,7 +327,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     else if( name.compare("ConfidenceFilter") == 0 )
     {       
         float treshold= 0.5;
-        ConfidenceFilterNode::types type;
+        ConfidenceFilterNode::types type = ConfidenceFilterNode::HIGH;
         attributes.get("treshhold", &treshold, 1 );
         if( attributes.get("type").compare("high") == 0 )
             type = ConfidenceFilterNode::HIGH;
@@ -357,7 +357,7 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
     else if( name.compare("ConfidenceSelect") == 0 )
     {
         double timeout = 100;
-        ConfidenceSelectNode::types type;
+        ConfidenceSelectNode::types type = ConfidenceSelectNode::HIGH;
         attributes.get("timeout", &timeout, 1 );        
         if( attributes.get("type").compare("high") == 0 )
             type = ConfidenceSelectNode::HIGH;

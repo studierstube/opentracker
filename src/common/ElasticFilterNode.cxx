@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.6 2003/06/26 14:04:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ElasticFilterNode.cxx,v 1.7 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,7 +34,7 @@
 
 // constructor method
 ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_, int offset_ )
-:vState(),currentState()
+   : currentState(), vState()
 {
     frequency = frequency_;
     offset = offset_;

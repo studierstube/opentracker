@@ -26,7 +26,7 @@
   *
   * @author Christoph Traxler
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.4 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/MagicYModule.cxx,v 1.5 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -64,7 +64,7 @@ int MagicYModule::connect()
     char buffer[32];
     ACE_Time_Value timeOut(1,0);
     
-    for(int i=0; i<screens.size(); i++)
+    for(unsigned int i=0; i<screens.size(); i++)
     {
         retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
@@ -92,7 +92,7 @@ int MagicYModule::connect()
 void MagicYModule::setSelect()
 {
     readHandles.reset();
-    for(int i=0; i<screens.size(); i++)
+    for(unsigned int i=0; i<screens.size(); i++)
         if(screens[i]->connected)
             readHandles.set_bit(screens[i]->socket.get_handle());
 }
@@ -108,7 +108,7 @@ int MagicYModule::receive()
     bool complete, trigger;
     
     points.clear();	
-    for(int i=0; i<screens.size(); i++)
+    for(unsigned int i=0; i<screens.size(); i++)
     {
         complete = false;
         message.erase(message.begin(), message.end());
@@ -188,7 +188,7 @@ int MagicYModule::stillConnected()
     int retval;
     
     sprintf(buffer, "PING\n\r");
-    for(int i=0; i<screens.size(); i++)
+    for(unsigned int i=0; i<screens.size(); i++)
     {
         retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
@@ -203,7 +203,7 @@ int MagicYModule::stillConnected()
 // close all sockets
 void MagicYModule::disconnect()
 {
-    for(int i=0; i<screens.size(); i++)
+    for(unsigned int i=0; i<screens.size(); i++)
     {
         screens[i]->socket.close();
         screens[i]->connected = false;
@@ -251,7 +251,7 @@ void MagicYModule::run()
                 
                 lock();
                 // calculate average
-                for (int i=0; i < points.size(); i++)
+                for (unsigned int i=0; i < points.size(); i++)
                 {
                     average_x += points[i]->x;
                     average_y += points[i]->y;
@@ -283,7 +283,7 @@ void MagicYModule::run()
                     }
                     else
                     {
-                        if((*mY_it)->number >= 0 && (*mY_it)->number < points.size()) 
+                        if((*mY_it)->number >= 0 && (unsigned int)(*mY_it)->number < points.size()) 
                         {
                             state.position[0] = float(points[(*mY_it)->number]->x);
                             state.position[1] = float(points[(*mY_it)->number]->y);

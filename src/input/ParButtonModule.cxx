@@ -42,7 +42,7 @@
   *
   *****************************************************************
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.16 2003/02/17 17:46:16 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.17 2003/07/18 18:23:25 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -233,7 +233,7 @@ void ParButtonModule::pushState()
 #else  // LINUX
     int cstatus = ioctl(source->handle, PPRDATA, &data);	
 	
-	if( (~data) != source->state.button )
+	if( (unsigned int)(~data) != source->state.button )
         {
             source->state.button = 0x00ff&(~data);
             source->state.timeStamp();

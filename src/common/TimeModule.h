@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.4 2001/06/13 19:58:35 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/TimeModule.h,v 1.5 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -86,7 +86,7 @@ protected:
 // Methods
 public:
     /** constructor method. */
-    TimeModule() : Module(), sleep(0), rate(0), display(0)
+    TimeModule() : Module(), sleep(0), display(0), rate(0)
     {};
   
     /**

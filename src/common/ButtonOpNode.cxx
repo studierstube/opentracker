@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonOpNode.cxx,v 1.1 2002/02/11 10:41:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonOpNode.cxx,v 1.2 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,7 +37,7 @@ using namespace std;
 // constructor method.
 
 ButtonOpNode::ButtonOpNode( const Op & op )
-    : Node(), operation( op ), arg1(0), arg2(0)
+   : Node(), arg1(0), arg2(0), operation( op )
 {
 }
 

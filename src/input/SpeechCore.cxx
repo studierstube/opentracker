@@ -26,7 +26,7 @@
   *
   * @author Reinhard Steiner
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.cxx,v 1.3 2003/01/09 04:14:13 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/SpeechCore.cxx,v 1.4 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -48,7 +48,7 @@ SpeechSetBase * SpeechCoreBase::GetSpeechSet(const char *p_Name, bool p_Create)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!strcmp(m_SpeechSets[i]->GetName(), p_Name))
       return(m_SpeechSets[i]);
@@ -69,7 +69,7 @@ SpeechSetBase* SpeechCoreBase::GetSpeechSet(DWORD p_Id)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(m_SpeechSets[i]->GetId() == p_Id)
       return(m_SpeechSets[i]);
@@ -115,7 +115,7 @@ SpeechSetBase* SpeechCoreBase::FindSpeechSet(const char *p_Command, bool p_Activ
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!p_Active || m_SpeechSets[i]->IsActive())
       if(m_SpeechSets[i]->IsCommandRegistered(p_Command))
@@ -130,7 +130,7 @@ SpeechSetBase* SpeechCoreBase::FindSpeechSet(DWORD p_CommandId, bool p_Active)
   if(!m_Initialized)
     return(NULL);
 
-  for(int i = 0; i < m_SpeechSets.size(); ++i)
+  for(unsigned int i = 0; i < m_SpeechSets.size(); ++i)
   {
     if(!p_Active || m_SpeechSets[i]->IsActive())
       if(m_SpeechSets[i]->IsCommandIdRegistered(p_CommandId))

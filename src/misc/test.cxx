@@ -27,7 +27,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.9 2003/07/15 16:23:40 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/test.cxx,v 1.10 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -71,8 +71,9 @@ int main(int argc, char **argv)
     context.parseConfiguration( argv[1] );
     cbModule->setCallback( "TIMER", &testCB );
     
-    cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;    
-    cin ;
+    cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;
+    char foo;
+    cin >> foo;
     context.run();
     return 0;
 }

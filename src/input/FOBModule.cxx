@@ -26,7 +26,7 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.14 2003/01/09 04:14:12 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.15 2003/07/18 18:23:25 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -449,7 +449,7 @@ void FOBModule::run()
     // number of allowed failures 
     const int MAX_FAILURES = 5;
 
-    int failure;
+    int failure = 0;
 
     initFoB();
 
@@ -1000,6 +1000,8 @@ inline void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const i
                 buffer[2] = 0x06;
                 buffer[3] = 0x00;
                 break;
+            default:
+               break;
         }
         if( toBird == -1 || toBird == number )
         {

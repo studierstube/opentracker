@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.7 2003/07/02 07:28:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.8 2003/07/18 18:23:25 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -41,10 +41,10 @@
 ACE_Reactor gps_reactor;
 
 GPSModule::GPSModule() :
-driver( NULL ),
+source( NULL ),
 dirSource( NULL ),
-logFile( NULL ),
-source( NULL )
+driver( NULL ),
+logFile( NULL )
 {
 }
 

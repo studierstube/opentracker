@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.20 2003/04/03 15:50:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.21 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -55,7 +55,7 @@ struct Station
     NetworkSource * source;
 
     Station( const int number_, NetworkSource * source_ ) :
-        number( number_ ), source( source_ ), modified( 0 )
+        number( number_ ), modified( 0 ), source( source_ )
     {};
 };
 

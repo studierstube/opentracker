@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPSink.h,v 1.2 2002/01/25 15:17:55 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPSink.h,v 1.3 2003/07/18 18:23:25 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -79,13 +79,13 @@ protected:
      * @param number_ the station number
      */
     TCPSink(  int number_, int pos_, int rot_, int but_, int time_ ) :
-        Node(),    
-        station( number_ ),
-        posFlag( pos_ ),
-        orientFlag( rot_ ),
-        buttonFlag( but_ ),
-        timeFlag( time_ ),
-        changed( 0 )
+       Node(),
+       station( number_ ),
+       changed( 0 ),
+       posFlag( pos_ ),
+       orientFlag( rot_ ),
+       buttonFlag( but_ ),
+       timeFlag( time_ )
     {}
     
 public:

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.8 2003/06/16 13:17:01 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/DGPSIP_Handler.cxx,v 1.9 2003/07/18 18:23:25 tamer Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -39,8 +39,8 @@
 #include "rtcm.h"
 
 DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
-counter( 0 ),
-parent( parent_ )
+parent( parent_ ),
+counter( 0 )
 {
 
 }
