@@ -1,3 +1,10 @@
+2004-11-27 15:32:26  Rev 785    daniel
+
+	* src/input/ARToolKitPlusModule.cxx: added support for new lens 
+	  distortion modes to ARToolKitPlus module  - new 
+	  ARToolKitPlusConfig attribute:    'undist-mode' can be set to none,
+	  lut or standard (default)
+
 2004-11-23 12:31:50  Rev 783    reitmayr
 
 	* src/core/Context.cxx, src/input/ARToolKitModule.cxx: fixes for 
