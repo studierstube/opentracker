@@ -169,7 +169,10 @@ otnetworkinc_HEADERS = \
         TCPSink.h \
         DwarfModule.h \
         DwarfSink.h \
-        DwarfSource.h
+        DwarfSource.h \
+        VRPNModule.h \
+        VRPNSink.h \
+        VRPNSource.h
 
 
 noinst_LTLIBRARIES = libnetwork.la
@@ -187,7 +190,13 @@ libnetwork_la_SOURCES = \
         DwarfModule.cxx \
         DwarfModule.h \
         DwarfSink.h \
-        DwarfSource.h
+        DwarfSource.h \
+        VRPNModule.cxx \
+        VRPNModule.h \
+        VRPNSink.cxx \
+        VRPNSink.h \
+        VRPNSource.cxx \
+        VRPNSource.h
 
 subdir = src/network
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -199,7 +208,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libnetwork_la_LDFLAGS =
 libnetwork_la_LIBADD =
 am_libnetwork_la_OBJECTS = NetworkSinkModule.lo NetworkSourceModule.lo \
-	TCPModule.lo DwarfModule.lo
+	TCPModule.lo DwarfModule.lo VRPNModule.lo VRPNSink.lo \
+	VRPNSource.lo
 libnetwork_la_OBJECTS = $(am_libnetwork_la_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -208,7 +218,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/DwarfModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NetworkSinkModule.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NetworkSourceModule.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/TCPModule.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/TCPModule.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/VRPNModule.Plo ./$(DEPDIR)/VRPNSink.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/VRPNSource.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -262,6 +274,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NetworkSinkModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NetworkSourceModule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TCPModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/VRPNModule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/VRPNSink.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/VRPNSource.Plo@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
