@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.9 2003/12/01 13:46:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.h,v 1.10 2003/12/01 13:53:15 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,11 +36,14 @@
  * The FileModule allows to read or write events from or to files. Every file can
  * contain several input or output streams identified by station numbers. However,
  * a single file can only serve as input or output at any given time. The configuration
- * element @c FileConfig takes a single attribute as parameter.
+ * element @c FileConfig has the following attributes:
  * @li @c append (true|false) default is @c false. denotes whether data should be appended
  * to existing output files or they should be overwritten.
  * @li @c loop (true|false) default is @c false. denotes whether input files should
  * start from the begining (loop is true) or stop after they end.
+ * @li @c interval a minimal time interval specified in seconds that should pass between 
+ * event updates for individual stations. If not specified, events are played as fast
+ * as possible.
  *
  * An example configuration element looks like this :
  * @verbatim
