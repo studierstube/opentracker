@@ -26,19 +26,25 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.6 2001/11/22 12:35:30 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.7 2002/08/26 12:07:51 bornik Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
+#define _DLPORTIO
 
 using namespace std;
 
 #ifdef WIN32
+#include <windows.h>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
+#ifndef _DLPORTIO
 #include "../misc/portio.h"
+#else
+#include <Dlportio.h>
+#endif
 #else
 #include <stropts.h> 
 #include <iostream.h>
@@ -71,10 +77,16 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             return NULL;
         }
         // setting parallel port for input
+
+#ifndef _DLPORTIO
         outportb(addr, 0x00 );
         outportb(addr+2, 0x20); 
+#else
+		// nothing to be done here
+#endif
 
         ParButtonSource * source = new ParButtonSource( addr );
+
 #else
 #ifdef _SGI_SOURCE       
         int handle = open( dev.c_str(), O_RDWR | O_NDELAY  );
@@ -134,7 +146,12 @@ void ParButtonModule::pushState()
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
 #ifdef WIN32
+
+#ifndef _DLPORTIO
         data = (~inportb( source->handle )) & 0xff;
+#else
+		data = (~DlPortReadPortUchar(source->handle )) & 0xff;
+#endif
         if( data != source->state.button )
         {
             source->state.button = data;
