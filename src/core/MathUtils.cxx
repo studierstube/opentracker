@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.9 2003/06/18 11:51:26 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.10 2003/06/23 08:50:52 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -345,3 +345,33 @@ void MathUtils::MatrixToEuler(Vector3 angles, const Matrix4x4 colMatrix)
    angles[2] = atan2(sinRoll, cosRoll);
 
 } /* MatrixToEuler */
+
+////////////////////////////////////////////////////////////////////////
+//
+//   Heavily based on code by Ken Shoemake and code by Gavin Bell
+float *MathUtils::quaternionToAxisAngle(float q[4], float axisa[4])
+{
+    double	len;
+
+	len = sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2]);
+	// check quaternion
+    if (len  > Q_EPSILON) {
+		// if valid compute vec and angle
+		// normalize vec
+		float invLen = (float)(1.0/ len);
+		axisa[0]	= q[0] * invLen;
+		axisa[1]	= q[1] * invLen;
+		axisa[2]	= q[2] * invLen;
+
+		axisa[3]	=(float)( 2.0f * acosf(q[3]));
+    }
+
+    else {
+		// return identity quaternion
+		axisa[0] = 0.0;
+		axisa[1] = 0.0;
+		axisa[2] = 1.0;
+		axisa[3] = 0.0;
+    }
+	return axisa;
+}

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.11 2003/06/18 11:51:26 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.12 2003/06/23 08:50:52 tomp Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -110,6 +110,12 @@ public:
 	 * @param matrix the 3x3 matrix to use
 	 * @return determinant of the matrix */
 	static float determinant( float matrix[3][3] );
+
+	/** computes the vector and angle representation of a quaternion
+	 * @param q float[4] storing the quaternion
+	 * @param axisa float[4] storing the vector and angle of the given quaternion
+	 * @return pointer to result array (axisa) */
+	static float* quaternionToAxisAngle(float *q, float *axisa);
     
     /**
      * computes the angle between two n-dimensional vectors.
