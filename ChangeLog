@@ -1,3 +1,10 @@
+2004-11-17 12:59:01  Rev 778    daniel
+
+	* config_win.h, src/common/ConsoleModule.cxx, 
+	  src/input/ARToolKitPlusModule.cxx: added optional redirection of 
+	  ConsoleModule output to MSDevStudio debug-console   - activate 
+	  with '#define USE_MSDEV_DEBUGOUTPUT 1' in config_win.h
+
 2004-11-16 17:58:14  Rev 776    daniel
 
 	* src/input/ARToolKitPlusModule.h, src/input/ARToolKitPlusModule.cxx:
