@@ -9,6 +9,28 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-19 23:42  tamer
+
+	* configure.ac:
+	
+	bootstraped build system.
+
+2003-03-19 23:41  tamer
+
+	* src/input/ARToolKitModule.cxx:
+	
+	added a conditional #define GL_BGR_EXT GL_BGR to allow artoolkit
+	configured with libraw1394 under linux to work.
+
+2003-03-19 23:38  tamer
+
+	* bin/: Makefile.am, opentracker-config.in:
+	
+	added opentracker-config.in out of which opentracker-config is
+	created to be able to make the extra libs (that are e.g. needed for
+	artoolkit if used with firewire cams) accessible in a convenient
+	fashion to programs using OpenTracker.
+
 2003-03-18 02:24  tamer
 
 	* doc/BUILD_SYSTEM_HOWTO.txt:
