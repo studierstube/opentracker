@@ -26,18 +26,51 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.7 2003/04/03 14:45:57 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.8 2003/05/21 15:06:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "MathUtils.h"
 #include <math.h>
 
+/** 
+ * a collection of numerically safer implementations of various terms.
+ * The class is a template to provide inline implementations of the 
+ * actual calculations. This allows maximum speed :). See
+ * http://www.hardon.org/~hatch/rightway.php for details on the 
+ * formulas.
+ * @ingroup core
+ * @author Gerhard Reitmayr
+ */
+template <typename T> class MathStuff {
+
+public:
+	static T sin_over_x( T x ) {
+		if ((T)1. + x*x == (T)1.)
+			return (T)1.;
+         else
+            return sin(x)/x;
+	};
+};
+
+typedef MathStuff<double> MD;
+typedef MathStuff<float> MF;
+
 const double MathUtils::Pi = 3.1415926535897932385;
     
 const double MathUtils::E = 2.7182818284590452354;
 
 const double MathUtils::GradToRad = MathUtils::Pi / 180.0;
+
+const MathUtils::Matrix4x4 MathUtils::matrix4x4_flipY = { 1, 0, 0, 0,
+                                              0,-1, 0, 0,
+                                              0, 0, 1, 0,
+                                              0, 0, 0, 1 };
+
+const MathUtils::Matrix4x4 MathUtils::matrix4x4_identity =	{ 1, 0, 0, 0,
+                                                  0, 1, 0, 0,
+                                                  0, 0, 1, 0,
+                                                  0, 0, 0, 1 };
 
 // converts an axis angle representation into a quaternion
 
@@ -190,3 +223,119 @@ float MathUtils::determinant( float matrix[3][3] )
 	res -= matrix[0][2]*matrix[1][1]*matrix[2][0];
 	return (float)res;
 }
+
+// compute angle in a more robust fashion
+
+double MathUtils::angle( float * v1, float * v2, int dim )
+{
+	double dot = 0;
+	int i;
+	for( i = 0; i < dim; i++)
+	{
+		dot += v1[i] * v2[i];
+	}
+	if(dot < 0.0)
+	{
+		dot = 0;
+		for( i = 0; i < dim; i++)
+			dot += (v2[i]-v1[i])*(v2[i]-v1[i]);
+		dot = sqrt(dot) / 2.0;
+		return MathUtils::Pi - 2*asin( dot );
+	}
+	else
+	{
+		dot = 0;
+		for( i = 0; i < dim; i++)
+			dot += (v2[i]-v1[i])*(v2[i]-v1[i]);
+		dot = sqrt( dot ) / 2.0;
+		return 2*asin(dot);		
+	}
+	return 0;
+}
+
+// computes slerp 
+
+float * MathUtils::slerp( float * q1, float *q2, float t, float * qResult )
+{
+	double angle = MathUtils::angle( q1, q2, 4);
+	double c1 = MD::sin_over_x((1-t)*angle) * (t-1) / MD::sin_over_x(angle);
+	double c2 = MD::sin_over_x(t*angle) * t / MD::sin_over_x(angle);
+	int i;
+	for( i = 0; i < 4; i++)
+	{
+		qResult[i] = (float)(q1[i] * c1 + q2[i]*c2);
+	}
+	return qResult;
+}
+
+// ----------------------------------------------------------------------------------------
+void MathUtils::matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m)
+{
+	m[0][0] = m1[0][0]*m2[0][0] + m1[0][1]*m2[1][0] + m1[0][2]*m2[2][0] + m1[0][3]*m2[3][0];
+	m[0][1] = m1[0][0]*m2[0][1] + m1[0][1]*m2[1][1] + m1[0][2]*m2[2][1] + m1[0][3]*m2[3][1];
+	m[0][2] = m1[0][0]*m2[0][2] + m1[0][1]*m2[1][2] + m1[0][2]*m2[2][2] + m1[0][3]*m2[3][2];
+	m[0][3] = m1[0][0]*m2[0][3] + m1[0][1]*m2[1][3] + m1[0][2]*m2[2][3] + m1[0][3]*m2[3][3];    
+	m[1][0] = m1[1][0]*m2[0][0] + m1[1][1]*m2[1][0] + m1[1][2]*m2[2][0] + m1[1][3]*m2[3][0];    
+	m[1][1] = m1[1][0]*m2[0][1] + m1[1][1]*m2[1][1] + m1[1][2]*m2[2][1] + m1[1][3]*m2[3][1];    
+	m[1][2] = m1[1][0]*m2[0][2] + m1[1][1]*m2[1][2] + m1[1][2]*m2[2][2] + m1[1][3]*m2[3][2];    
+	m[1][3] = m1[1][0]*m2[0][3] + m1[1][1]*m2[1][3] + m1[1][2]*m2[2][3] + m1[1][3]*m2[3][3];    
+	m[2][0] = m1[2][0]*m2[0][0] + m1[2][1]*m2[1][0] + m1[2][2]*m2[2][0] + m1[2][3]*m2[3][0];    
+	m[2][1] = m1[2][0]*m2[0][1] + m1[2][1]*m2[1][1] + m1[2][2]*m2[2][1] + m1[2][3]*m2[3][1];    
+	m[2][2] = m1[2][0]*m2[0][2] + m1[2][1]*m2[1][2] + m1[2][2]*m2[2][2] + m1[2][3]*m2[3][2];    
+	m[2][3] = m1[2][0]*m2[0][3] + m1[2][1]*m2[1][3] + m1[2][2]*m2[2][3] + m1[2][3]*m2[3][3];    
+	m[3][0] = m1[3][0]*m2[0][0] + m1[3][1]*m2[1][0] + m1[3][2]*m2[2][0] + m1[3][3]*m2[3][0];    
+	m[3][1] = m1[3][0]*m2[0][1] + m1[3][1]*m2[1][1] + m1[3][2]*m2[2][1] + m1[3][3]*m2[3][1];    
+	m[3][2] = m1[3][0]*m2[0][2] + m1[3][1]*m2[1][2] + m1[3][2]*m2[2][2] + m1[3][3]*m2[3][2];    
+	m[3][3] = m1[3][0]*m2[0][3] + m1[3][1]*m2[1][3] + m1[3][2]*m2[2][3] + m1[3][3]*m2[3][3];
+} 
+
+// ----------------------------------------------------------------------------------------
+void MathUtils::matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m)
+{
+	m[0][0] = m1[0][0]*m2[0][0] + m1[0][1]*m2[1][0] + m1[0][2]*m2[2][0];
+    m[0][1] = m1[0][0]*m2[0][1] + m1[0][1]*m2[1][1] + m1[0][2]*m2[2][1];
+    m[0][2] = m1[0][0]*m2[0][2] + m1[0][1]*m2[1][2] + m1[0][2]*m2[2][2];
+    m[1][0] = m1[1][0]*m2[0][0] + m1[1][1]*m2[1][0] + m1[1][2]*m2[2][0];
+    m[1][1] = m1[1][0]*m2[0][1] + m1[1][1]*m2[1][1] + m1[1][2]*m2[2][1];
+    m[1][2] = m1[1][0]*m2[0][2] + m1[1][1]*m2[1][2] + m1[1][2]*m2[2][2];
+    m[2][0] = m1[2][0]*m2[0][0] + m1[2][1]*m2[1][0] + m1[2][2]*m2[2][0];
+    m[2][1] = m1[2][0]*m2[0][1] + m1[2][1]*m2[1][1] + m1[2][2]*m2[2][1];
+    m[2][2] = m1[2][0]*m2[0][2] + m1[2][1]*m2[1][2] + m1[2][2]*m2[2][2];
+} 
+
+// ----------------------------------------------------------------------------------------
+
+void MathUtils::MatrixToEuler(Vector3 angles, const Matrix4x4 colMatrix)
+{
+
+   double sinPitch, cosPitch, sinRoll, cosRoll, sinYaw, cosYaw;
+
+
+   sinPitch = -colMatrix[2][0];
+   cosPitch = sqrt(1 - sinPitch*sinPitch);
+
+   if ( fabs(cosPitch) > Q_EPSILON ) 
+   {
+      sinRoll = colMatrix[2][1] / cosPitch;
+      cosRoll = colMatrix[2][2] / cosPitch;
+      sinYaw = colMatrix[1][0] / cosPitch;
+      cosYaw = colMatrix[0][0] / cosPitch;
+   } 
+   else 
+   {
+      sinRoll = -colMatrix[1][2];
+      cosRoll = colMatrix[1][1];
+      sinYaw = 0;
+      cosYaw = 1;
+   }
+
+   /* yaw */
+   angles[0] = atan2(sinYaw, cosYaw);
+
+   /* pitch */
+   angles[1] = atan2(sinPitch, cosPitch);
+
+   /* roll */
+   angles[2] = atan2(sinRoll, cosRoll);
+
+} /* MatrixToEuler */

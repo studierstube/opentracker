@@ -1,35 +1,34 @@
- /* ========================================================================
-  * Copyright (C) 2001  Vienna University of Technology
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-  * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  * Lesser General Public License for more details.
-  *
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, write to the Free Software
-  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-  *
-  * For further information please contact Gerhard Reitmayr under
-  * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
-  * Austria.
-  * =======================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================= */
+/* ========================================================================
+ * Copyright (C) 2001  Vienna University of Technology
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * For further information please contact Gerhard Reitmayr under
+ * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
+ * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
+ * Austria.
+ * =======================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================= */
 /** source file for ARToolKit interface module.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.29 2003/05/07 18:16:59 reitmayr Exp $
-  * @file                                                                   */
- /* ======================================================================= */
-
+ *
+ * @author Thomas Pintaric, Gerhard Reitmayr
+ *
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.30 2003/05/21 15:06:55 reitmayr Exp $
+ * @file                                                                   */
+/* ======================================================================= */
 #include "ARToolKitModule.h"
 #include "ARToolKitSource.h"
 
@@ -37,17 +36,13 @@
 
 #ifdef WIN32
 #include <windows.h>
-// simplifies project setting handling in Visual Studio
 #ifdef _DEBUG
-#pragma comment(lib, "ar32d")
-#pragma comment(lib, "arframegrabberd")
-#pragma comment(linker, "/NODEFAULTLIB:libcd")
+#pragma comment(lib,"libARd.lib")
+#pragma comment(lib,"libARvideod.lib")
 #else
-#pragma comment(lib, "ar32")
-#pragma comment(lib, "arframegrabber")
-#pragma comment(linker, "/NODEFAULTLIB:libc")
+#pragma comment(lib,"libAR.lib")
+#pragma comment(lib,"libARvideo.lib")
 #endif
-#pragma comment(lib, "strmiids")
 #endif
 
 #include <iostream>
@@ -64,11 +59,7 @@
 
 #include <AR/ar.h>
 #include <AR/param.h>
-#ifdef WIN32
-#include <AR/ARFrameGrabber.h>
-#else
 #include <AR/video.h>
-#endif
 
 // definitions used by ARToolKit
 #ifndef GL_ABGR_EXT
@@ -83,25 +74,27 @@
 
 // to determine the correct GL flag for the image mode
 #ifdef  AR_PIX_FORMAT_ABGR
-    #define IMAGE_MODE GL_ABGR_EXT
+#define IMAGE_MODE GL_ABGR_EXT
 #elif defined(AR_PIX_FORMAT_BGRA)
-    #define IMAGE_MODE GL_BGRA_EXT
+#define IMAGE_MODE GL_BGRA_EXT
 #elif defined(AR_PIX_FORMAT_BGR)
-    #define IMAGE_MODE GL_BGR_EXT
+#define IMAGE_MODE GL_BGR_EXT
 #elif defined(AR_PIX_FORMAT_RGB)
-    #define IMAGE_MODE GL_RGB
+#define IMAGE_MODE GL_RGB
 #endif
 
 using namespace std;
 
 // constructor
 
-ARToolKitModule::ARToolKitModule() : ThreadModule(), NodeFactory(), treshhold(100), stop(0), frame( NULL )
+ARToolKitModule::ARToolKitModule() : 
+    ThreadModule(), 
+    NodeFactory(), 
+    treshhold(100), 
+    stop(0), 
+    frame( NULL ), 
+    stereo(false)
 {
-#ifdef WIN32
-    CoInitialize(NULL);
-    camera = new ARFrameGrabber;
-#endif
 }
 
 // destructor clears any nodes
@@ -112,11 +105,8 @@ ARToolKitModule::~ARToolKitModule()
         delete (*it);
     }
     sources.clear();
-	if( frame != NULL )
-		delete[] frame;
-#ifdef WIN32
-   	CoUninitialize();
-#endif
+    if( frame != NULL )
+        delete[] frame;
 }
 
 // constructs a new Node
@@ -126,7 +116,7 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
     if( name.compare("ARToolKitSource") == 0 )
     {
         double center[2], size;
-		int num;
+        int num;
         if( (num = attributes.get("center", center, 2)) != 2 )
         {
             cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
@@ -138,9 +128,9 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
             return NULL;
         }
         int id;
-		string filename = attributes.get("tag-file");
+        string filename = attributes.get("tag-file");
         string fullname;
-
+        
         if( patternDirectory.compare("") != 0)
             context->addDirectoryFirst( patternDirectory );
         
@@ -153,13 +143,13 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
             cout << "ARToolkit could not find tag file " << filename << endl;
             return NULL;
         }
-
+        
         if( patternDirectory.compare("") != 0)
-            context->removeDirectory( patternDirectory );        
-
+            context->removeDirectory( patternDirectory );
+        
         if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
         {
-            cout << "ARToolKit Error reading tag-file " << 
+            cout << "ARToolKit Error reading tag-file " <<
                 attributes.get("tag-file") << " or " << filename << endl;
             return NULL;
         }
@@ -175,13 +165,12 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
 
 void ARToolKitModule::start()
 {
-	// if we don't have any nodes or are not initialized, forget it
-	if( sources.size() == 0 || isInitialized() == 0)
-	{
-		return;
-	}
-
-#ifndef WIN32   // linux and IRIX version
+    // if we don't have any nodes or are not initialized, forget it
+    if( isInitialized() == 0)
+    {
+        return;
+    }
+    
     if( arVideoOpen((char *) videomode.c_str() ) < 0 )
     {
         cout << "Error opening video source !" << endl;
@@ -194,32 +183,23 @@ void ARToolKitModule::start()
         cout << "Error setting up video source !" << endl;
         exit(1);
     }
-    if( arVideoInqSize(did, &sizeX, &sizeY ) < 0 )           
+    if( arVideoInqSize(did, &sizeX, &sizeY ) < 0 )
 #else
     if( arVideoInqSize( &sizeX, &sizeY ) < 0 )
 #endif
     {
         cout << "Error querying video size !" << endl;
         exit(1);
-    }   
-   
+    }
+        
 #ifdef __sgi
     arVideoStart( did );
-#endif                
-
-    arVideoCapStart();
-
-#else // WIN32 version using DirectX 8
-
-    //start the video capture
-	camera->Init(did, sizeX, sizeY);
-	
-    sizeX = camera->GetWidth();
-    sizeY = camera->GetHeight();
 #endif
-
-    ARParam cparam, wparam;    
-
+        
+    arVideoCapStart();
+    
+    ARParam cparam, wparam;
+    
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
     
@@ -234,10 +214,10 @@ void ARToolKitModule::start()
         initialized = 0;
         return;
     }
-
+    
     if( patternDirectory.compare("") != 0)
-        context->removeDirectory( patternDirectory );    
-
+        context->removeDirectory( patternDirectory );
+    
     if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
     {
         cout << "ARToolkitModule error loading camera parameters from " << cameradata << endl;
@@ -247,35 +227,31 @@ void ARToolKitModule::start()
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
     arInitCparam( &cparam );
-
+    
     frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
     ThreadModule::start();
     cout << "ARToolKitModule started" << endl;
 }
 
-// closes the artoolkit library 
+// closes the artoolkit library
 
 void ARToolKitModule::close()
 {
-	// if we don't have any nodes or are not initialized, forget it
-	if( sources.size() == 0 || isInitialized() == 0)
-	{
-		return;
-	}
+    // if we don't have any nodes or are not initialized, forget it
+    if( isInitialized() == 0)
+    {
+        return;
+    }
     lock();
     stop = 1;
     unlock();
-#ifndef WIN32
+    
     OSUtils::sleep(1000);
-    arVideoCapStop();
-    arVideoClose();
-#else
-    delete camera;
-#endif    
+    
     cout << "ARToolkit stopped\n";
 }
 
-// pushes events into the tracker tree 
+// pushes events into the tracker tree
 
 void ARToolKitModule::pushState()
 {
@@ -284,12 +260,12 @@ void ARToolKitModule::pushState()
         ARToolKitSource * source = (ARToolKitSource *)*it;
         lock();
         if( source->modified == 1 )
-        {            
+        {
             source->state = source->buffer;
             source->modified = 0;
             unlock();
             source->updateObservers( source->state );
-        } else 
+        } else
         {
             unlock();
         }
@@ -303,7 +279,7 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
     ThreadModule::init( attributes, localTree );
     cameradata = attributes.get("camera-parameter");
     patternDirectory = attributes.get("pattern-dir");
-
+    
     if( attributes.get("treshhold", &treshhold ) != 1 )
     {
         treshhold = 100;
@@ -317,59 +293,41 @@ void ARToolKitModule::init(StringTable& attributes, ConfigNode * localTree)
     if( attributes.get("framerate", &rate) != 1 )
     {
         rate = 0.01;
-    } else 
+    } else
     {
         rate = rate / 1000;
-    }    
-    videomode = attributes.get("videomode");
-
-#ifdef WIN32
-    int data[3];
-    int num = attributes.get("videomode", data, 3);
-    if( num >= 1 )    
-        did = data[0];
-    if( num == 3 )
-    {
-        sizeX = data[1];
-        sizeY = data[2];
     }
-    if( videomode.find("vertical") != string::npos )
-        camera->SetFlippedImageVertical(true);
-    else if( videomode.find("horizontal") != string::npos )
-        camera->SetFlippedImageHorizontal(true);
-    else if( videomode.find("rotate") != string::npos )
-        camera->SetFlippedImage(true);
-#endif
+    videomode = attributes.get("videomode");
+    if( attributes.containsKey("videomode2"))
+    {
+        videomode2 = attributes.get("videomode2");
+        stereo = true;
+    }
 }
 
 // the work method for the module thread
 
 void ARToolKitModule::run()
-{
-	// if we have no markers to check for, forget about the whole thing
-	if( sources.size() == 0 )
-	{
-		return;
-	}
-
+{    
     unsigned int count = 0;
-    double startTime = OSUtils::currentTime();    
+    double startTime = OSUtils::currentTime();
     while(1)
     {
         lock();
         if( stop == 1 )
-        {           
+        {
             unlock();
             break;
-        } else 
-        { 
+        } else
+        {
             unlock();
         }
-        grab();
-      
-#ifndef WIN32
-		arVideoCapNext();
-#endif
+        // if we have markers to check for then do some work 
+        if( sources.size() != 0 )
+        {
+            grab();
+        }
+        
         double s = count/rate - ( OSUtils::currentTime() - startTime );
         if( s >= 10 )
         {
@@ -378,130 +336,182 @@ void ARToolKitModule::run()
         count ++;
     }
     cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
-
-#ifndef WIN32
+    
     arVideoCapStop();
     arVideoClose();
-#ifdef __sgi
-    arVideoStop( did );
-    arVideoCleanupDevice( did );
-#endif
-#endif
 }
 
-// grabs a frame and processes the data 
+// grabs a frame and processes the data
 void ARToolKitModule::grab()
 {
     ARUint8 * frameData;
     ARMarkerInfo * markerInfo;
     ARToolKitSource * source;
     int markerNum;
-    int j,k;    
+    int j,k;
     double matrix[3][4];
-    float m[3][3];
 
-#ifndef WIN32
 #ifdef __sgi
     if((frameData = (ARUint8 *)arVideoGetImage(did)) == NULL )
     {
         sginap(1);
 #else
-    if((frameData = (ARUint8 *)arVideoGetImage()) == NULL )
-    {
-#endif
-#else 
-    camera->GrabFrame();
-    if((frameData = (ARUint8 *)camera->GetBuffer()) == NULL ) {
-#endif        
-        return;
-    }
-
-    // copy info to internal pointer
-    memcpy( frame, frameData, sizeX*sizeY*AR_PIX_SIZE );
-    
-    if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
-    {
-        return;
-    }
-    if( markerNum < 1 )
-    {
-        return;
-    }       
-
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-    {        
-        source = (ARToolKitSource *)*it;
-        k = -1;
-        // searches for the most confident marker matching the source's markerId
-        for( j = 0; j < markerNum; j ++ )
+        if((frameData = (ARUint8 *)arVideoGetImage()) == NULL )
         {
-            if( source->markerId == markerInfo[j].id )
+#endif
+            return;
+        }
+
+        if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
+        {
+            arVideoCapNext(); // release buffer
+            return;
+        }
+        if( markerNum < 1 )
+        {
+            arVideoCapNext(); // release buffer
+            return;
+        }
+
+        arVideoCapNext();
+
+        for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+        {
+            source = (ARToolKitSource *)*it;
+            k = -1;
+            // searches for the most confident marker matching the source's markerId
+            for( j = 0; j < markerNum; j ++ )
             {
-                if( k == -1 )
+                if( source->markerId == markerInfo[j].id )
                 {
-                    k = j;
-                }
-                else
-                {
-                    if( markerInfo[k].cf < markerInfo[j].cf )
+                    if( k == -1 )
                     {
                         k = j;
                     }
+                    else
+                    {
+                        if( markerInfo[k].cf < markerInfo[j].cf )
+                        {
+                            k = j;
+                        }
+                    }
+                }
+            }
+            if( k != -1 )
+            {
+                // if one found transform it to coordinates,
+                if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
+                {
+                    lock();
+                    State & state = source->buffer;
+                    state.confidence = markerInfo[k].cf;
+
+#ifdef ARTOOLKIT_UNFLIP_V
+
+                    //  --- correct ARToolkit's vertical image mirroring ---
+                    
+                    MathUtils::Matrix4x4 matrix_4x4;
+                    for(int r = 0; r < 3; r ++ )
+                        for(int c = 0; c < 4; c ++ )
+                            matrix_4x4[r][c] = (float)matrix[r][c];
+                        
+                    matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
+                    matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
+                        
+                    MathUtils::Matrix4x4 matrix_4x4_corrected;
+                     
+                    // fix translation
+                    MathUtils::matrixMultiply(MathUtils::matrix4x4_flipY,matrix_4x4,matrix_4x4_corrected);
+                        
+                    MathUtils::Vector3 euler_angles;
+                    MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
+                    
+                    MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], state.orientation);
+                    
+                    state.position[0] = (float)matrix_4x4_corrected[0][3];
+                    state.position[1] = (float)matrix_4x4_corrected[1][3];
+                    state.position[2] = (float)matrix_4x4_corrected[2][3];
+                    //  -----------------------------------------------------------
+#else
+				//  --- DO NOT correct ARToolkit's vertical image mirroring ---
+
+				    float m[3][3];
+                    for( int r = 0; r < 3; r ++ )
+                    {
+                        for( int s = 0; s < 3; s ++ )
+                        {
+                            m[r][s] = (float)matrix[r][s];
+                        }
+                    }
+                    MathUtils::matrixToQuaternion( m, state.orientation );
+                    state.position[0] = (float)matrix[0][3];
+                    state.position[1] = (float)matrix[1][3];
+                    state.position[2] = (float)matrix[2][3];
+				//  -----------------------------------------------------------
+#endif
+                    state.timeStamp();
+                    source->modified = 1;
+                    unlock();
                 }
             }
         }
-        if( k != -1 )                          
-        {                   
-            // if one found transform it to coordinates,
-            if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
-            {
-                lock();
-                State & state = source->buffer;                    
-                state.confidence = markerInfo[k].cf;                    
-    		    for( int r = 0; r < 3; r ++ )
-        	    {
-	                for( int s = 0; s < 3; s ++ )
-	                {
-    			        m[r][s] = (float)matrix[r][s];
-		            }
-    		    }
-                MathUtils::matrixToQuaternion( m, state.orientation );
-                state.position[0] = (float)matrix[0][3];
-                state.position[1] = (float)matrix[1][3];
-                state.position[2] = (float)matrix[2][3];
-                state.timeStamp();
-                source->modified = 1;
-                unlock();
-            }
-        }
-    } 
-}
+    }
 
-// returns the width of the image in pixels
+    // returns the width of the image in pixels
 
-int ARToolKitModule::getSizeX()
+    int ARToolKitModule::getSizeX()
+    {
+        return sizeX;
+    }
+
+    // returns the height of the image in pixel
+
+    int ARToolKitModule::getSizeY()
+    {
+        return sizeY;
+    }
+
+// returns whether the grabbed image is flipped horizontally
+// or vertically
+
+void ARToolKitModule::getFlipping(bool* isFlippedH, bool* isFlippedV)
 {
-    return sizeX;
-}
-
-// returns the height of the image in pixel
-
-int ARToolKitModule::getSizeY()
-{
-    return sizeY;
+    lock();
+    if(stop != 1)
+		arVideoInqFlipping(isFlippedH,isFlippedV);
+	unlock();
 }
 
 // returns pointer to the image frame
 
-unsigned char * ARToolKitModule::getFrame()
+unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
 {
-    return frame;
+    lock();
+    if(stop == 1)
+    {
+        unlock();
+        return(NULL);
+    }
+    else
+    {
+        unsigned char *pixel_data = arVideoLockBuffer(pHandle);
+        unlock();
+        return(pixel_data);
+    }
+}
+
+void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle)
+{
+    lock();
+    if(stop != 1)
+        arVideoUnlockBuffer(Handle);
+    unlock();
 }
 
 // returns the OpenGL flag describing the pixel format
 
 int ARToolKitModule::getImageFormat()
-{ 
+{
     return IMAGE_MODE;
 }
 

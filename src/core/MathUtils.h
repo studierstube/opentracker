@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.9 2003/04/01 15:51:00 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.10 2003/05/21 15:06:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,15 @@
 #define _MATHUTILS_H
 
 #include "../dllinclude.h"
+
+/* for accessing the elements of Quaternion and Vector3 */
+#define Q_X    0
+#define Q_Y    1
+#define Q_Z    2
+#define Q_W    3
+
+/* tolerance for quaternion operations */
+#define  Q_EPSILON   (1e-10)
 
 /**
  * This class implements some utility classes for matrix and quaternion
@@ -47,6 +56,15 @@
 class OPENTRACKER_API MathUtils
 {
 public:
+    /// 3x3 double matrix type
+    typedef double Matrix3x3[3][3];
+    /// 4x4 double matrix type
+    typedef double Matrix4x4[4][4];
+    /// 3 double vector
+    typedef double Vector3[3];
+    /// 4 double vector used as quaternion
+    typedef double Quaternion[4];
+
     /** converts an axis angle representation into a quaternion
      * @param axisa float[4] containing axis and angle in radiants
      * @param qResult float[4] where the result is stored
@@ -92,6 +110,34 @@ public:
 	 * @param matrix the 3x3 matrix to use
 	 * @return determinant of the matrix */
 	static float determinant( float matrix[3][3] );
+    
+	static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
+	static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);
+	
+    /// mirror at the x-z-plane
+    static const Matrix4x4 matrix4x4_flipY;
+    /// identity matrix
+	static const Matrix4x4 matrix4x4_identity;
+
+    /*****************************************************************************
+     * MatrixToEuler - convert a column matrix to euler angles    
+     *
+     *  input:
+     *	- vector to hold euler angles
+	 *  - src column matrix
+     *  Vector3  	angles    :      Holds outgoing roll, pitch, yaw
+     *  Matrix4x4 	colMatrix :      Holds incoming rotation 
+     *
+     *  output:
+     *  - euler angles in radians in the range -pi to pi;
+	 *  vec[0] = yaw, vec[1] = pitch, vec[2] = roll
+	 *  yaw is rotation about Z axis, pitch is about Y, roll -> X rot.
+     *
+     * notes:
+     *	- originally written by Gary Bishop
+     *
+     *****************************************************************************/
+	static void MatrixToEuler(Vector3 angles, const Matrix4x4 colMatrix);
 
     /// the nice constant Pi
     static const double Pi;
@@ -101,6 +147,11 @@ public:
 
 	/// another nice constant to transform grad to radiants
 	static const double GradToRad;
+
+    double angle( float * v1, float * v2, int dim );
+
+    float * slerp( float * q1, float *q2, float t, float * qResult );
+
 };
 
 #endif

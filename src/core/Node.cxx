@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.23 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.24 2003/05/21 15:06:54 reitmayr Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
@@ -66,7 +66,14 @@ Node::~Node()
 {
 	references.clear();
     if( parent != NULL )
-        parent->release();
+	{
+		try {
+			parent->release();
+		}
+		catch(DOMException &e)
+		{
+		}
+	}
 }
 
 // sets the DOM_Element this node belongs to ( not the parent in OT )

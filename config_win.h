@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
   * PROJECT: OpenTracker
   * ======================================================================== */
 /** Configuration include file for OpenTracker
-  * 
+  *
   * This file sets defines that control the compilation of device drivers in
   * OpenTracker. Some device drivers require additional libraries and might
   * not be available on all platforms. These source files are bracketed by
@@ -33,13 +33,13 @@
   * projects will also require this file.
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.2 2003/03/22 15:26:27 kaufmann Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/config_win.h,v 1.3 2003/05/21 15:07:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page config Configuration Options
- * 
+ *
  * Some device drivers require additional libraries and might
  * not be available on all platforms. These source files are bracketed by
  * conditional compile clauses to only be compiled in, if desired. You can select
@@ -48,7 +48,7 @@
  * recompile the library, as the include files that you use for other
  * projects will also require this file. Note that you
  * need to set the correct paths in the build system yourself, if automatic
- * discovery is not possible. This is necessary for VisualC++ where you will have 
+ * discovery is not possible. This is necessary for VisualC++ where you will have
  * to modify your project settings. For Unices we are working on autotools support
  * and will include it there as far as possible.
  *
@@ -61,7 +61,7 @@
  * @li @b USE_WACOMGRAPHIRE
  *		\n enables Wacom Tablet support and the @ref wacomgraphiresource. This works only
  *      on Windows.
- * @li @b USE_JOYSTICK 
+ * @li @b USE_JOYSTICK
  *		\n enables joystick support via DirectInput and the @ref joysticksource. This works
  *      only on Windows.
  * @li @b USE_SPACEMOUSE
@@ -75,6 +75,19 @@
 
 /** uncomment the following line to compile support for the ARToolKit library */
 // #define USE_ARTOOLKIT 1
+
+/**
+ * This define enables the correction of ARToolkit transformation matrices
+ * on systems that provide camera images the right way around. ARToolkit seems
+ * to expect image buffers up side down. Therefore it will compute mirrored
+ * transformation matrices on normal image buffers. The correction avoids
+ * the flipping of the image itself. This define must be enabled on virtually
+ * any system as we do not use flipping anymore. Currently this is true only on
+ * the Windows platform.
+ */
+#ifdef WIN32
+#define ARTOOLKIT_UNFLIP_V
+#endif
 
 /** uncomment the following line to compile support for CyberMouse device.
   * Support for this is only available on windows. */
@@ -93,7 +106,7 @@
 // #define USE_SPACEMOUSE 1
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
-  * Support for this is only available on windows. Otherwise an empty implementation 
+  * Support for this is only available on windows. Otherwise an empty implementation
   * will be used */
 // #define USE_SAPISPEECH 1
 
