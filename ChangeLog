@@ -9,6 +9,18 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-10-20 10:12  reitmayr
+
+	* src/input/ARToolKitModule.cxx:
+	
+	added display of camera parameters
+
+2003-10-20 10:01  reitmayr
+
+	* data/opentracker.dtd:
+	
+	added change from stb version
+
 2003-10-16 11:01  tomp
 
 	* data/ButtonTest.xml:
