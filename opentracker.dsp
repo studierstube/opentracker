@@ -107,7 +107,15 @@ SOURCE=.\src\core\Context.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\CyberMouseModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\DOMTreeErrorReporter.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\DynamicTransformation.cxx
 # End Source File
 # Begin Source File
 
@@ -123,7 +131,7 @@ SOURCE=.\src\common\EventQueueNode.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\input\InterTraxSource.cxx
+SOURCE=.\src\input\InterTraxModule.cxx
 # End Source File
 # Begin Source File
 
@@ -159,6 +167,10 @@ SOURCE=.\src\OpenTracker.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\StaticTransformation.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\TestModule.cxx
 # End Source File
 # Begin Source File
@@ -172,6 +184,10 @@ SOURCE=.\src\core\TreeNode.cxx
 # Begin Source File
 
 SOURCE=.\src\common\VirtualTransformation.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\WacomGraphireModule.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -219,7 +235,19 @@ SOURCE=.\src\core\Context.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\CyberMouseModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\CyberMouseSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\DOMTreeErrorReporter.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\DynamicTransformation.h
 # End Source File
 # Begin Source File
 
@@ -307,6 +335,10 @@ SOURCE=.\src\core\State.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\StaticTransformation.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\TestModule.h
 # End Source File
 # Begin Source File
@@ -335,12 +367,44 @@ SOURCE=.\src\common\VirtualTransformation.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\WacomGraphireModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\WacomGraphireSource.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\core\WrapperNode.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# End Group
+# Begin Group "Data Files"
+
+# PROP Default_Filter "xml"
+# Begin Source File
+
+SOURCE=.\data\artoolkit.xml
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\debug.xml
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\recv.xml
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\simple.xml
+# End Source File
+# Begin Source File
+
+SOURCE=.\data\test.xml
+# End Source File
 # End Group
 # Begin Source File
 
@@ -373,6 +437,10 @@ SOURCE=..\artoolkit\lib\ARgsub32.lib
 # Begin Source File
 
 SOURCE=..\artoolkit\lib\Strings32.lib
+# End Source File
+# Begin Source File
+
+SOURCE=.\bin\WINTAB32.LIB
 # End Source File
 # End Target
 # End Project
