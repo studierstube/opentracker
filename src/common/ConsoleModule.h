@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.12 2001/06/08 16:56:06 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.13 2001/07/09 16:00:02 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -148,7 +148,7 @@ Quit            q               signals to quit OpenTracker
  * @ingroup common
  * @author Gerhard Reitmayr
  */
-class ConsoleModule: public Module, public NodeFactory
+class OPENTRACKER_API ConsoleModule: public Module, public NodeFactory
 {
 // Members
 protected:
