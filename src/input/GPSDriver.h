@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.6 2003/07/02 07:28:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.h,v 1.7 2003/08/06 08:17:56 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -72,9 +72,6 @@ public:
  *
  * @ingroup input
  * @author Gerhard Reitmayr
- * @todo fix and test for unix ! ( use handle_input because of different handling there,
- *       this will require a compile time switch in open, maybe )
- * @todo remove static verbose variable for debugging output in GPS parser code.
  */
 class GPSDriver  
 {

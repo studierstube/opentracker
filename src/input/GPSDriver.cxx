@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.13 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.14 2003/08/06 08:17:56 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -41,8 +41,6 @@
 #include "GPS_Handler.h"
 #include "DGPSIP_Handler.h"
 #include "DGPSMirror_Handler.h"
-
-int verbose = 0;
 
 GPSDriver::GPSDriver(ACE_Reactor * reactor_) :
 reactor( reactor_ ),
@@ -199,5 +197,4 @@ void GPSDriver::send_rtcm( const char * buffer, const int len )
 void GPSDriver::setDebug( bool debug )
 {
 	debugOn = debug;
-	verbose = (debugOn) ? (10) : (0);
 }
