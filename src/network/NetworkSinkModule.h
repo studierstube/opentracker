@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -32,9 +32,7 @@
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 
-#include "../core/OpenTracker.h"
-#include "../core/Module.h"
-#include "../core/NodeFactory.h"
+#include "../OpenTracker.h"
 #include "Network.h"
 #include "NetworkSink.h"
 

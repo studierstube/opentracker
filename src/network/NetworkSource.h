@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSource.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -29,7 +29,7 @@
 #ifndef _NETWORKSOURCE_H
 #define _NETWORKSOURCE_H
 
-#include "../core/OpenTracker.h"
+#include "../OpenTracker.h"
 
 /**
  * This class implements a simple node that inserts new events from the network

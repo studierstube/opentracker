@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.h,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -23,12 +23,14 @@
 #ifndef _NETWORKSOURCEMODULE_H
 #define _NETWORKSOURCEMODULE_H
 
+//#include <ace/Thread.h>
+#include <ace/Thread_Manager.h>
+#include <ace/Synch.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram_Mcast.h>
 
-#include "../core/OpenTracker.h"
-#include "../core/ThreadModule.h"
-#include "../core/NodeFactory.h"
+#include "../OpenTracker.h"
+// #include "../core/Module.h"
 #include "Network.h"
 #include "NetworkSource.h"
 
@@ -44,10 +46,15 @@ typedef std::vector<Station *> StationVector;
 
 typedef struct
 {
-    ACE_INET_Addr address;
+    ACE_SOCK_Dgram_Mcast socket;
+    /// Mutex to synchronize access to Station data
+    ACE_Thread_Mutex mutex;
+    /// buffer for incoming package
+    FlexibleTrackerDataRecord buffer;
+    StationVector sources;
     string group;
     int port;
-    StationVector sources;
+    int stop;
 } MulticastReceiver;
 
 typedef std::vector<MulticastReceiver *> ReceiverVector;
@@ -56,20 +63,21 @@ typedef std::vector<MulticastReceiver *> ReceiverVector;
  * The module and factory to drive the reception of network state updates.
  * It builds NetworkSource nodes that insert data from the network into
  * the tracker tree. It uses the Flexible Network Protocol from the 
- * studierstube. It uses its own thread to receive data. 
+ * studierstube. It uses its a thread per multicast group to receive data.
  *
  * @author Gerhard Reitmayr
  */
-class NetworkSourceModule : public ThreadModule, public NodeFactory
+class NetworkSourceModule : public Module, public NodeFactory
 {
 // members
 protected:    
+    
+    /// ACE Thread manager
+    ACE_Thread_Manager manager;
     /// multicast socket
-    ACE_SOCK_Dgram_Mcast socket;
+    //ACE_SOCK_Dgram_Mcast socket;
     /// list of groups to listen for
     ReceiverVector groups;
-    /// buffer for incoming package
-    FlexibleTrackerDataRecord buffer;
     
 // methods
 protected:
@@ -78,14 +86,19 @@ protected:
      * @param result pointer to result array
      * @param num number of floats to convert
      */
-    void convertFloatsNToHl(float* floats, float* result, int num);
+    static void convertFloatsNToHl(float* floats, float* result, int num);
     /** the work method for the module thread. This is executed by the new
      * module thread. In this class it does nothing but subclasses should
      * override it to add their implementation. */
-    virtual void run();
+    static void run( void * data );
     
 public:    
-     /** This method is called to construct a new Node. It compares
+     NetworkSourceModule() : 
+      Module(), NodeFactory(), manager()
+     {
+     };
+
+    /** This method is called to construct a new Node. It compares
      * name to the NetworkSource element name, and if it matches
      * creates a new NetworkSource node.
      * @param name reference to string containing element name

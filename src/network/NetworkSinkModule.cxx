@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  
@@ -147,7 +147,6 @@ void NetworkSinkModule::pullState()
         NetworkSink * sink = *it;
         if( sink->modified == 1 )
         {
-            cout << "copying node "<< sink->stationName << endl;
             // write it to the network data buffer referenced by the node
             MulticastGroup * group = sink->group;
             State & state = sink->state;
@@ -159,7 +158,6 @@ void NetworkSinkModule::pullState()
             // 5 short ints for other data + length of station name
             size = (3+4)*sizeof(float) + 5*sizeof(short int);
             size += sink->stationName.length();
-            cout << "compute size " << size << endl;
             
             // Data per Station:
             // short int number of the station

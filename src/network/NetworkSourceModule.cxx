@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.1 2000/12/11 10:46:41 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSourceModule.cxx,v 1.2 2001/01/03 14:45:30 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
  
@@ -50,8 +50,10 @@ void NetworkSourceModule::convertFloatsNToHl(float* floats, float* result, int n
 
 // reads from the network and parses network packages
 
-void NetworkSourceModule::run()
+void NetworkSourceModule::run( void * data )
 {
+    MulticastReceiver * rec = (MulticastReceiver *) data;
+    FlexibleTrackerDataRecord & buffer = rec->buffer;
     ACE_INET_Addr remoteAddr;
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
@@ -59,88 +61,82 @@ void NetworkSourceModule::run()
     {
         do
         {
-            if((retval = socket.recv( &buffer, sizeof( buffer ), remoteAddr, 0,
+            if((retval = rec->socket.recv( &buffer, sizeof( buffer ), remoteAddr, 0,
                     &timeOut )) == -1 )
             {
-                if( errno != ETIME )
+                if( errno != ETIME && errno != 0 )
                 {
-                    cout << "Error receiving data !" << endl;
+                    cout << "Error " << errno << " receiving data !" << endl;
                     exit( -1 );
                 } else
                 {
-                    cout << "Time out receiving data." << endl;
+                    cout << ".";
                 }
             }
         } while( retval < 0 );
-        // so we finally received something ...
-        // find the group this was going to
-        ReceiverVector::iterator it;
-        for( it = groups.begin(); it != groups.end(); it++ )
-        {
-            if( (*it)->address == remoteAddr )
-                break;
-        }
-        if( it != groups.end())
-        {
-            // decode it !
-            // early exit if invalid record
+ 
 	    if( ((unsigned short) ntohs(buffer.headerId) != magicNum)||
 		((unsigned short) ntohs(buffer.revNum) != revNum))
 	        continue;
-            int maxNumber = ntohs(buffer.maxStationNum);
-            int number = ntohs(buffer.numOfStations);
-            // skip server name 
-            char * stationdata = &buffer.data[ntohs(buffer.commentLength)];
-            short int si[5];
-            for( int cnt = 0; cnt < number; cnt ++ )
-            {
-                memcpy(si, stationdata, 5*sizeof( short int ));
-                // Data per Station:
-                // short int number of the station
-                // short int format (Quaternion, Euler, Matrix)
-                // short int button states (binary coded)
-                // short int bytes per station (incl. this header)
-                // short int length of the name of the station
-                // n bytes name of the station
-                // position and orientation according to format
-                int stationNumber = ntohs(si[0]);
-                int format = ntohs( si[1] );
-                if( stationNumber > 0 && stationNumber <= maxNumber && 
-                    format == positionQuaternion )
-                {
-                    StationVector::iterator station;
-                    for( station = (*it)->sources.begin(); 
-                         station != (*it)->sources.end(); station++ )
-                    {
-		        if( (*station)->number == stationNumber )
-                            break;
-                    }
-                    if( station != (*it)->sources.end())
-                    {
-                        State & state = (*station)->state;
-                        int size = 5*sizeof(short int)+ntohs( si[4] );
-                        // copy station, this is a critical section                        
-                        lock();                        
-                        state.button = ntohs( si[2] );
-                        memcpy(state.position,&stationdata[size],3*sizeof(float));
-                        convertFloatsNToHl(state.position,state.position,3);
-                        size+=3*sizeof(float);                       
-                        memcpy(state.orientation,&stationdata[size],4*sizeof(float));
-                        convertFloatsNToHl(state.orientation,state.orientation,3);
-                        (*station)->modified = 1;
-                        state.timeStamp();
-                        unlock();
-                        // end of critical section
-                    }
-                }
-                // goto next station
-                stationdata += ntohs(si[3]);
-            }
-        }else
+        int maxNumber = ntohs(buffer.maxStationNum);
+        int number = ntohs(buffer.numOfStations);
+        // skip server name 
+        char * stationdata = &buffer.data[ntohs(buffer.commentLength)];
+        short int si[5];
+        for( int cnt = 0; cnt < number; cnt ++ )
         {
-            cout << "Received data from strange group " <<
-                    remoteAddr.get_host_addr() << endl;
+            memcpy(si, stationdata, 5*sizeof( short int ));
+            // Data per Station:
+            // short int number of the station
+            // short int format (Quaternion, Euler, Matrix)
+            // short int button states (binary coded)
+            // short int bytes per station (incl. this header)
+            // short int length of the name of the station
+            // n bytes name of the station
+            // position and orientation according to format
+            int stationNumber = ntohs(si[0]);
+            int format = ntohs( si[1] );
+            if( stationNumber > 0 && stationNumber <= maxNumber && 
+                format == positionQuaternion )
+            {
+                StationVector::iterator station;
+                for( station = rec->sources.begin(); 
+                     station != rec->sources.end(); station++ )
+                {
+                    if( (*station)->number == stationNumber )
+                        break;
+                }
+                if( station != rec->sources.end())
+                {
+                    State & state = (*station)->state;
+                    int size = 5*sizeof(short int)+ntohs( si[4] );
+                    // copy station, this is a critical section                        
+                    rec->mutex.acquire();                        
+                    state.button = ntohs( si[2] );
+                    memcpy(state.position,&stationdata[size],3*sizeof(float));
+                    convertFloatsNToHl(state.position,state.position,3);
+                    size+=3*sizeof(float);                       
+                    memcpy(state.orientation,&stationdata[size],4*sizeof(float));
+                    convertFloatsNToHl(state.orientation,state.orientation,4);
+                    (*station)->modified = 1;
+                    state.timeStamp();
+                    rec->mutex.release();
+                    // end of critical section
+                }
+            }
+            // goto next station
+            stationdata += ntohs(si[3]);
         }
+        // test for stop flag, critical section
+        rec->mutex.acquire();
+        if( rec->stop == 1 )
+        {
+            rec->mutex.release();
+            break;
+        } else {
+            rec->mutex.release();
+        }
+        // end of critical section
     }
 }
     
@@ -176,7 +172,8 @@ Node * NetworkSourceModule::createNode( string& name,  StringMap& attributes)
             receiver = new MulticastReceiver;
             receiver->group = group;
             receiver->port = port;
-            receiver->address.set( port, group.c_str()); 
+//            receiver->address.set( port, group.c_str()); 
+            receiver->stop = 0;            
             groups.push_back( receiver );
             Station * station = new Station;
             station->number = number;
@@ -219,29 +216,37 @@ void NetworkSourceModule::start()
         return;
     for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
     {
-        socket.subscribe( (*it)->address );
-    }
-    ThreadModule::start();
+        (*it)->socket.subscribe( ACE_INET_Addr((*it)->port, (*it)->group.c_str()));
+        ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::run, *it );
+    }    
 }
  
 // closes the module and closes any communication sockets and stops thread 
 void NetworkSourceModule::close()
 {
-    ThreadModule::stop();
-    socket.close();
+    for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
+    {
+        (*it)->mutex.acquire();
+        (*it)->stop = 1;
+        (*it)->mutex.release();
+    }
+    for( it = groups.begin(); it != groups.end(); it++)
+    {
+        (*it)->socket.close();
+    }
 }   
 
 // pushes state information into the tree
 
 void NetworkSourceModule::pushState()
 {
-    // critical section start
-    lock();
     for(ReceiverVector::iterator rec = groups.begin();rec != groups.end();rec++)
     {
+        // critical section start
+        (*rec)->mutex.acquire();
         for(StationVector::iterator it =(*rec)->sources.begin();
                 it != (*rec)->sources.end(); it ++ )
-        {
+        {          
             if((*it)->modified == 1 )
             {
                 (*it)->source->state = (*it)->state;
@@ -249,7 +254,7 @@ void NetworkSourceModule::pushState()
                 (*it)->source->push();
             }
         }
-    }
-    unlock();
-    // end of critical section
+        (*rec)->mutex.release();
+        // end of critical section
+    }  
 }          
