@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.1 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.2 2001/08/07 09:21:23 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -34,21 +34,21 @@
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
 
-#include <stropts.h> 
-#include <sys/types.h> 
-#include <sys/stat.h> 
-#include <fcntl.h> 
-#include <unistd.h> 
-
 using namespace std;
 
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
+#include "../misc/portio.h"
 #else
+#include <stropts.h> 
+#include <iostream.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
 #ifdef _SGI_SOURCE
 #include <sys/plp.h> 
 #endif
-#include <iostream.h>
 #endif
 
 // This method is called to construct a new Node
@@ -57,13 +57,35 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
 {
     if( name.compare("ParButtonSource") == 0)
     {
-#ifdef _SGI_SOURCE
         std::string dev = attributes.get("dev");
         if( nodes.find( dev ) !=  nodes.end() )
         {
-            cout << "ParButtonSource on port " << dev << " allready defined !" << endl;
+            cout << "ParButtonSource on port " << dev << " already defined !" << endl;
             return NULL;
         }
+#ifdef WIN32
+        unsigned int addr;
+        if( sscanf( dev.c_str(), " %i", &addr ) != 1 )
+        {
+            cout << "ParButtonModule not an address " << dev << endl;
+            return NULL;
+        }
+        cout << "address found " << addr << " in " << dev << endl;
+        // setting parallel port for input
+        // outportb( addr+0x402, 0x20);
+        /*
+        outportb(addr, 0x00 );
+        outportb(addr+2, 0x20); 
+        cout << "testing bi-dir " << endl;
+        outportb( addr, 0x0f );
+        cout << "0x0f is " << (int)inportb( addr ) << endl;
+        outportb( addr,0xf0 );
+        cout << "0xf0 is " << (int)inportb( addr ) << endl;
+        Sleep( 5000 );
+        */
+        ParButtonSource * source = new ParButtonSource( addr );
+#endif
+#ifdef _SGI_SOURCE       
         int handle = open( dev.c_str(), O_RDWR | O_NDELAY  );
         if( handle < 0 )
         {
@@ -87,11 +109,11 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             cout << "ParButtonModule Error timeout on " << dev << endl;
             return NULL;
         }
-        ParButtonSource * source = new ParButtonSource( handle );
+        ParButtonSource * source = new ParButtonSource((unsigned int)handle );
+#endif
         nodes[dev] = source;
         cout << "Build ParButtonSource on " << dev << endl;
         return source;
-#endif
     }
     return NULL;
 }
@@ -113,19 +135,27 @@ void ParButtonModule::close()
 
 void ParButtonModule::pushState()
 {
-    unsigned char data;
+    unsigned short data;
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
         ParButtonSource * source = (ParButtonSource*)(*it).second;
+#ifdef WIN32
+        data = inportb( source->handle+1 );
+        cout << "got " << data << " at " << source->handle+1 << endl;
+        if( data != source->state.button )
+        {
+            source->state.button = data;
+            source->state.timeStamp();
+            source->updateObservers( source->state );
+        }
+#endif
 #ifdef _SGI_SOURCE
-    cout << "Reading from parallel" << endl;
         if( read( source->handle, &data, 1 ) == 1 )
         {
             source->state.button = data;
             source->state.timeStamp();
             source->updateObservers( source->state );
         }
-    cout << "Done" << endl;
 #endif
     }  
 }

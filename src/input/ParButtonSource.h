@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.1 2001/08/04 18:07:31 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonSource.h,v 1.2 2001/08/07 09:21:23 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -63,12 +63,12 @@ public:
     /// the state that is posted to the EventObservers
     State state;
     /// device handle or base address
-    int handle;
+    unsigned int handle;
 
 // Methods
 protected:
     /** simple constructor, sets members to initial values */
-    ParButtonSource( int handle_ ) : Node(), handle( handle_ )
+    ParButtonSource( unsigned int handle_ ) : Node(), handle( handle_ )
     {}
 
 public:            
