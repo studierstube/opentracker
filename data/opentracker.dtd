@@ -277,6 +277,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!--Studierstube interface sinks, station attribute is an integer between 0 and 15-->
 <!ELEMENT StbSink (%EventNodes;)>
 <!ATTLIST StbSink
+	DEF ID #IMPLIED
 	station CDATA #REQUIRED
 >
 <!-- General InterSense source module, will also include InterTrax soon -->
@@ -294,5 +295,5 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!-- Callback node for a simple way to use the OpenTracker library -->
 <!ELEMENT Callback (%EventNodes;)>
 <!ATTLIST Callback
-    name CDATA #REQUIRED
+	name CDATA #REQUIRED
 >
