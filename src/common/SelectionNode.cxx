@@ -26,17 +26,11 @@
   *
   * @author Ivan Viola, Matej Mlejnek
   *
-  * $Header:
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/SelectionNode.cxx,v 1.3 2001/09/26 13:33:39 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "SelectionNode.h"
-
-#ifdef WIN32
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
-#include <iostream.h>
-#endif
 
 // constructor method
 SelectionNode::SelectionNode( double t )
