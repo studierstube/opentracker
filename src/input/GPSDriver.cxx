@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.14 2003/08/06 08:17:56 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.15 2003/08/06 10:22:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -69,7 +69,9 @@ GPSDriver::~GPSDriver()
 
 int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port, int dgpsmirror)
 {
-	// todo open everything here
+    if( getDebug())
+        std::cout << "GPSDriver open\n";
+
 	int result;
 	// open the serial port the the GPS receiver
 	receiver = new GPS_Handler( this );
@@ -93,6 +95,8 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 			std::cerr << "GPSDriver could not open serial port " << device << " !\n";
 		}
 	}
+    if( getDebug())
+        std::cout << "GPSDriver opened serial port " << device << endl;
 	
 	// open the tcp connection to the server, if required
 	if( result == 0 && serveraddr.compare("") != 0 )
@@ -104,6 +108,8 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 			server = NULL;
 			std::cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
 		}
+        if( getDebug())
+            std::cout << "GPSDriver opened connection to " << serveraddr << endl;
 	}
 
     // open a mirror if we have a DGPS handler
@@ -116,6 +122,8 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
             acceptor = NULL;
             std::cerr << "GPSDriver could not open DGPS mirror server on port " << dgpsmirror << " !\n";
         }
+        if( getDebug())
+            std::cout << "GPSDriver opened mirror listener.\n";
     }
 	return result;
 }

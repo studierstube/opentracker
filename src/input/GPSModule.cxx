@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.9 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.10 2003/08/06 10:22:43 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -167,7 +167,7 @@ void GPSModule::pushState()
 
 void GPSModule::start()
 {
-	if( isInitialized() && source != NULL && dirSource != NULL )
+	if( isInitialized() && (source != NULL || dirSource != NULL))
 	{
 		ThreadModule::start();
 	}
@@ -203,6 +203,8 @@ void GPSModule::run()
 		std::cout << "GPSModule could not start GPSDriver !\n";
 		return;
 	}
+    if( debug )
+        std::cout << "GPSModule started GPSDriver !\n";
 	driver->getReactor()->run_reactor_event_loop();
 	driver->close();
 	delete driver;
