@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.3 2003/04/16 17:10:19 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/GKTransformNode.cxx,v 1.4 2003/04/17 13:16:34 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -52,8 +52,7 @@ State* GKTransformNode::transformState( State* state)
 {
 	// the zero meridian of the GK map projection goes through Ferro,
 	// a Canarian island 17° 40' left of Greenwhich zero meridian.
-	// 17° 39' funktioniert am besten ??
-	const double ferro = (17.0 + 39.0 / 60.0) * MathUtils::GradToRad;
+	const double ferro = (17.0 + 40.0 / 60.0) * MathUtils::GradToRad;
 	// there are corrections applied to the resulting x (north) value
 	// 5000 km ( 5000000 m ) are subtracted
 	const double falseNorthing = 5000000.0;
@@ -73,11 +72,12 @@ State* GKTransformNode::transformState( State* state)
 		double eta2 = ((a*a) / (b*b) - 1)*cosB*cosB;
 		double t = tan( B );
 		double corr_x = 1.0 + (dL*dL)*(cosB*cosB)*(5.0 - t*t + 9.0*eta2 + 4.0*eta2*eta2) / 12.0 +
-			            (dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(61.0-58.0*t*t+t*t*t*t) / 360.0;
+			            pow(dL,4.0)*pow(cosB,4.0)*(61.0-58.0*t*t+pow(t,4.0)+270.0*eta2 - 330.0*t*t*eta2) / 360.0;
 		double corr_y = 1.0 + (dL*dL)*(cosB*cosB)*(1.0 - t*t + eta2) / 6.0 +
-						(dL*dL*dL*dL)*(cosB*cosB*cosB*cosB)*(5.0 - 18.0*t*t + t*t*t*t + 14.0*eta2 - 58.0*t*t*eta2) / 120.0;
+						pow(dL,4.0)*pow(cosB,4.0)*(5.0 - 18.0*t*t + pow(t,4.0) + 14.0*eta2 - 58.0*t*t*eta2) / 120.0;
 		double x = Sm + N * dL * dL * sinB * cosB * corr_x / 2.0 - falseNorthing;
 		double y = N * dL * cosB * corr_y;
+
 
 		localState.position[0] = x;
 		localState.position[1] = y;
@@ -104,7 +104,6 @@ State* GKTransformNode::transformState( State* state)
 
 		localState.position[0] = B;
 		localState.position[1] = L;
-
 	}
 
 	// height over the ellipsoid surface is identical to the height over the map
