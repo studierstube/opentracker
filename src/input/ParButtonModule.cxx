@@ -42,7 +42,7 @@
   *
   *****************************************************************
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.17 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.18 2003/10/14 14:49:33 tomp Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -84,6 +84,25 @@ using namespace std;
 #endif
 #endif
 
+#ifdef WIN32
+ #ifndef _DLPORTIO
+	static BOOL bPrivException = FALSE;
+
+	LONG WINAPI HandlerExceptionFilter ( EXCEPTION_POINTERS *pExPtrs )
+	{
+
+		if (pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_PRIV_INSTRUCTION)
+		{
+			pExPtrs->ContextRecord->Eip ++; // Skip the OUT or IN instruction that caused the exception
+			bPrivException = TRUE;
+			return EXCEPTION_CONTINUE_EXECUTION;
+		}
+		else
+			return EXCEPTION_CONTINUE_SEARCH;
+	}
+ #endif
+#endif
+
 // This method is called to construct a new Node
 
 Node * ParButtonModule::createNode( const std::string& name,  StringTable& attributes)
@@ -96,6 +115,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
             cout << "ParButtonSource on port " << dev << " already defined !" << endl;
             return NULL;
         }
+
 #ifdef WIN32
         UINT addr;
         if( sscanf( dev.c_str(), " %i", &addr ) != 1 )
@@ -106,7 +126,34 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
         // setting parallel port for input
 
 #ifndef _DLPORTIO
-        outportb(addr, 0x00 );
+ 
+			HANDLE hUserPort;
+
+		  hUserPort = CreateFile("\\\\.\\UserPort", GENERIC_READ, 0, NULL,OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		  CloseHandle(hUserPort); // Activate the driver
+			Sleep(100); // We must make a process switch
+
+			SetUnhandledExceptionFilter(HandlerExceptionFilter);
+			
+			bPrivException = FALSE;
+			inportb(addr);  // Try to access the given port address
+
+			if (bPrivException)
+			{
+				{
+    				printf("	Privileged instruction exception has occured!\r\n\r\n"\
+														 "To use this program under Windows NT or Windows 2000\r\n"\
+														 "you need to install the driver 'UserPort.SYS' and grant\r\n"\
+														 "access to the ports used by this program.");
+					exit(-1);
+				}
+			}
+		
+		
+		
+		
+		
+		outportb(addr, 0x00 );
         outportb(addr+2, 0x20); // set to byte output mode,
 								// all control lines to HIGH
 #else
@@ -214,7 +261,19 @@ void ParButtonModule::pushState()
 		// just check for two buttons if using hardware hack
 		//data = (~DlPortReadPortUchar(source->handle )) & 0x03;
 		data = (~DlPortReadPortUchar(source->handle )) & 0xFF;
+
 #endif
+		
+		printf("%d%d%d%d %d%d%d%d\n",
+			(data>>7)&1,
+			(data>>6)&1,
+			(data>>5)&1,
+			(data>>4)&1,
+			(data>>3)&1,
+			(data>>2)&1,
+			(data>>1)&1,
+			(data>>0)&1
+			);
         if( data != source->state.button )
         {
             source->state.button = data;
