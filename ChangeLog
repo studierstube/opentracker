@@ -9,6 +9,37 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-03-26 18:46  reitmayr
+
+	* src/input/InterSenseModule.cxx:
+	
+	fix to get quaternion data in the right format
+
+2003-03-26 12:56  reitmayr
+
+	* src/core/ConfigurationParser.cxx:
+	
+	reordered header files to avoid warnings in visualc++
+
+2003-03-26 12:55  reitmayr
+
+	* src/input/InterSenseModule.cxx:
+	
+	fixed update to new library version
+
+2003-03-26 12:22  reitmayr
+
+	* src/core/MathUtils.cxx, src/core/MathUtils.h,
+	src/input/InterSenseModule.cxx, bin/isense.dll,
+	extras/intersense/README.TXT, extras/intersense/isense.c,
+	extras/intersense/isense.h, extras/intersense/types.h,
+	extras/intersense/Irix/libisense.so,
+	extras/intersense/Linux/libisense.so,
+	extras/intersense/Windows/isense.dll, opentracker.dsp:
+	
+	updated intersense drivers to latest version. because of old
+	agreement with intersense we include the binary drivers.
+
 2003-03-25 12:05  kaufmann
 
 	* src/input/: P5GloveModule.cxx, P5GloveModule.h:
