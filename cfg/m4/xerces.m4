@@ -66,7 +66,8 @@ AC_CACHE_CHECK(
   AC_LANG_PUSH(C++)
   AC_TRY_LINK(
     [#include <xercesc/util/PlatformUtils.hpp>],
-    [using namespace xercesc;XMLPlatformUtils::Initialize();],
+    [XERCES_CPP_NAMESPACE_USE
+     XMLPlatformUtils::Initialize();],
     [stb_cv_xerces_avail=true],
     [stb_cv_xerces_avail=false])
   AC_LANG_POP

@@ -9638,7 +9638,8 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 int
 main ()
 {
-using namespace xercesc;XMLPlatformUtils::Initialize();
+XERCES_CPP_NAMESPACE_USE
+     XMLPlatformUtils::Initialize();
   ;
   return 0;
 }
