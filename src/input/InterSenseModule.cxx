@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.12 2003/03/26 11:22:18 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.13 2003/03/26 11:55:48 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -109,9 +109,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 {
                     cout << "Failed to get tracker config for " << id << endl;
                 }
-                if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES && 
-					tracker->info.TrackerType != ISD_ICUBE2 &&
-					tracker->info.TrackerType != ISD_ICUBE2_PRO)
+				/* InterTrax does not support quaternions */
+                if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES ) 
                 {
                     /* Set up each station for Precision class of trackers.
                        Ensure the orientation measure of the tracker stations is
@@ -146,7 +145,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                     }
                 }   // setup not intertrax
                 trackers.push_back( tracker );
-                cout << "Configured tracker " << id << endl;
+                cout << "Configured tracker " << id << " of type " << tracker->info.TrackerType << endl;
             }       // open tracker ok
         }           // got a new tracker
         else {      // some conflict with another tracker
@@ -215,16 +214,14 @@ void InterSenseModule::pushState()
             {
                 InterSenseSource * source = ( InterSenseSource * )*si;
                 ISD_STATION_STATE_TYPE * data = &tracker->data.Station[source->station];
-                if( tracker->info.TrackerType != ISD_INTERTRAX_SERIES && 
-					tracker->info.TrackerType != ISD_ICUBE2 &&
-					tracker->info.TrackerType != ISD_ICUBE2_PRO )
+                if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES )
                 {
                     float quat[4];
                     MathUtils::eulerToQuaternion(data->Orientation[2] * MathUtils::GradToRad,
 		                             data->Orientation[1] * MathUtils::GradToRad,
 									 data->Orientation[0] * MathUtils::GradToRad,								
                                      quat);
-                    if( quat[0] != source->state.orientation[0] || 
+		            if( quat[0] != source->state.orientation[0] || 
                         quat[1] != source->state.orientation[1] ||
                         quat[2] != source->state.orientation[2] ||
                         quat[3] != source->state.orientation[3] )
