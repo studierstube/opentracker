@@ -9,6 +9,14 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-01 17:51  reitmayr
+
+	* src/: common/CommonNodeFactory.cxx, core/MathUtils.cxx,
+	core/MathUtils.h:
+	
+	added a test for matrices being really pure rotational matrices
+	before being converted to quaternions.
+
 2003-03-31 17:41  reitmayr
 
 	* data/opentracker.dtd:
