@@ -7,11 +7,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.3 2001/02/19 07:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.4 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "CommonNodeFactory.h"
+#include "MergeNode.h"
+#include "DynamicTransformation.h"
 
 #include<math.h>
 #include<stdio.h>
@@ -33,6 +35,7 @@ CommonNodeFactory::CommonNodeFactory()
     wrapperNodes.push_back("MergeConfidence");
     wrapperNodes.push_back("MergeTime");
     wrapperNodes.push_back("MergeDefault");
+    wrapperNodes.push_back("TransformBase");
 }
 
 // builds and returns a new Transformation node
@@ -180,6 +183,12 @@ Node * CommonNodeFactory::createNode(  string& name,
     {
         cout << "Build "<< name << " node." << endl;
         return new MergeNode();
+    } else if( name.compare("EventDynamicTransformation") == 0 ||
+               name.compare("QueueDynamicTransformation") == 0 ||
+               name.compare("TimeDynamicTransformation") == 0 )
+    {
+        cout << "Build " << name << " node." << endl;
+        return new DynamicTransformation();
     } else if( find( wrapperNodes.begin(), wrapperNodes.end(), name ) != wrapperNodes.end())
     {
         cout << "Build WrapperNode " << name << "." << endl;

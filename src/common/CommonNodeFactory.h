@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.3 2001/02/19 07:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.h,v 1.4 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -18,7 +18,6 @@
 #include "Transformation.h"
 #include "VirtualTransformation.h"
 #include "EventQueueNode.h"
-#include "MergeNode.h"
 
 /**
  * maps a string to another string. Mostly used to map element attributes

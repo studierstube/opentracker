@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.2 2001/02/13 16:41:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -45,7 +45,10 @@ static short MOVE_X_PLUS = 1,
            STATION_6 = 26,
            STATION_7 = 27,
            STATION_8 = 28,
-           STATION_9 = 29;
+           STATION_9 = 29,
+           RESET = 30;
+
+vector<string> ConsoleModule::functionMap;
           
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
@@ -66,6 +69,80 @@ ConsoleModule::~ConsoleModule()
 #include <curses.h>
 #include <unistd.h>
 #endif
+
+/** constructor method. */
+ConsoleModule::ConsoleModule() : Module(), NodeFactory()
+{
+    // initialize some variables
+    cycle = 0;
+    angularSpeed = 0.1;
+    posSpeed = 0.1;
+
+    // initialize key map
+    keyMap[MOVE_X_PLUS] = 'o';
+    keyMap[MOVE_X_MINUS] = 'l';
+    keyMap[MOVE_Y_PLUS] = 'p';
+    keyMap[MOVE_Y_MINUS] = 'ö';
+    keyMap[MOVE_Z_PLUS] = 'ü';
+    keyMap[MOVE_Z_MINUS] = 'ä';
+    keyMap[ROT_X_PLUS] = 'q';
+    keyMap[ROT_X_MINUS] = 'a';
+    keyMap[ROT_Y_PLUS] = 'w';
+    keyMap[ROT_Y_MINUS] = 's';
+    keyMap[ROT_Z_PLUS] = 'e';
+    keyMap[ROT_Z_MINUS] = 'd';
+    keyMap[ACCELL] = 'y';
+    keyMap[BRAKE] = 'x';
+    keyMap[BUTTON_1] = ' ';
+    keyMap[BUTTON_2] = ',';
+    keyMap[BUTTON_3] = '.';
+    keyMap[BUTTON_4] = '-';
+    keyMap[STATION_0] = '0';
+    keyMap[STATION_1] = '1';
+    keyMap[STATION_2] = '2';
+    keyMap[STATION_3] = '3';
+    keyMap[STATION_4] = '4';
+    keyMap[STATION_5] = '5';
+    keyMap[STATION_6] = '6';
+    keyMap[STATION_7] = '7';
+    keyMap[STATION_8] = '8';
+    keyMap[STATION_9] = '9';
+    keyMap[RESET] = 'ß';
+
+    // initialize function map, if no one has done it yet 
+    if( functionMap.size() == 0 )
+    {
+        functionMap[MOVE_X_PLUS] = "Move_X_plus";
+        functionMap[MOVE_X_MINUS] = "Move_X_minus";
+        functionMap[MOVE_Y_PLUS] = "Move_Y_plus";
+        functionMap[MOVE_Y_MINUS] = "Move_Y_minus";
+        functionMap[MOVE_Z_PLUS] = "Move_Z_plus";
+        functionMap[MOVE_Z_MINUS] = "Move_Z_minus";
+        functionMap[ROT_X_PLUS] = "Rot_X_plus";
+        functionMap[ROT_X_MINUS] = "Rot_X_minus";
+        functionMap[ROT_Y_PLUS] = "Rot_Y_plus";
+        functionMap[ROT_Y_MINUS] = "Rot_Y_minus";
+        functionMap[ROT_Z_PLUS] = "Rot_Z_plus";
+        functionMap[ROT_Z_MINUS] = "Rot_Z_minus";
+        functionMap[ACCELL] = "Accelerate";
+        functionMap[BRAKE] = "Brake";
+        functionMap[BUTTON_1] = "Button_1";
+        functionMap[BUTTON_2] = "Button_2";
+        functionMap[BUTTON_3] = "Button_3";
+        functionMap[BUTTON_4] = "Button_4";
+        functionMap[STATION_0] = "Station_0";
+        functionMap[STATION_1] = "Station_1";
+        functionMap[STATION_2] = "Station_2";
+        functionMap[STATION_3] = "Station_3";
+        functionMap[STATION_4] = "Station_4";
+        functionMap[STATION_5] = "Station_5";
+        functionMap[STATION_6] = "Station_6";
+        functionMap[STATION_7] = "Station_7";
+        functionMap[STATION_8] = "Station_8";
+        functionMap[STATION_9] = "Station_9";
+        functionMap[RESET] = "Reset";
+    }
+}
 
 // This method is called to construct a new Node.
 
@@ -98,7 +175,7 @@ Node * ConsoleModule::createNode( string& name,
     return NULL;
 }
 
-// pushes events into the tracker tree.
+// pulls events out of the tracker tree
 
 void ConsoleModule::pullState()
 {

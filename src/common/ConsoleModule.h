@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.2 2001/02/13 16:41:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,15 +55,16 @@ protected:
     /// angular velocity and positional velocity
     float angularSpeed, posSpeed;
 
+    /// maps the function names in the config file to indices
+    static vector<string> functionMap;
+    /// maps key chars to indices
+    vector<char> keyMap;
+
 // Methods
 public:
-    /** ructor method. */
-    ConsoleModule() : Module(), NodeFactory()
-    {
-        cycle = 0;
-        angularSpeed = 0.1;
-        posSpeed = 0.1;
-    };
+    /** constructor method. initializes internal and static data
+     * such as the functionMap and keyMap tables. */
+    ConsoleModule(); 
     /** Destructor method, clears nodes member. */
     virtual ~ConsoleModule();
     /**

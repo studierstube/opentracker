@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.2 2001/02/19 07:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/Transformation.h,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -54,6 +54,7 @@ public:
     /** constructor method
      */
     Transformation();
+
     /**
      * adds a child to the Node. Sets the child member to the node.
      * If the node implements the EventGenerator interface, it registers
@@ -61,32 +62,40 @@ public:
      * @param node reference to the new child node.
      */
     virtual void addChild( Node& node);
+
     /**
      * returns the event number n back in time starting with the
      * newest for n = 0
      */
     virtual State& getEvent(int number = 0);
+
     virtual State& getEventNearTime(double time);   
+
     /** returns the size of the queue. Uses the childs
      * implementation, if possible.
      * @return size of queue */
     virtual int getSize();
+
     /** the function evaluation method.
      * @param time the point in time at which function is evaluated
      * @return reference to state value */
     virtual State& getStateAtTime(double time);
+
     /** tests for EventGenerator interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements EventGenerator, 0 otherwise */
     virtual EventGenerator * isEventGenerator() ;
+
     /** tests for EventQueue interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements EventQueue, 0 otherwise */
     virtual EventQueue * isEventQueue() ;
+
     /** tests for TimeDependend interface being present. Returns the
      * result of the childs implementation of this method.
      * @return 1 if child implements TimeDependend, 0 otherwise */
     virtual TimeDependend * isTimeDependend() ;
+
     /**
      * this method is called by the EventGenerator to update it's observers.
      * This class computes a transformed state, stores it in its local variable
@@ -97,4 +106,3 @@ public:
 };
 
 #endif
-

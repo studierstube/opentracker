@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.2 2001/02/19 07:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.h,v 1.3 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -55,7 +55,11 @@ protected:
     virtual State* transformState( State* state) ;
 
 public:
-    /** ructor method. */
+    /** default constructor method sets transformation to identity */
+    VirtualTransformation() : StaticTransformation()
+    {}
+
+    /** constructor method. */
     VirtualTransformation(float translation_[3], float scale_[3],
                           float rotation_[4])
         : StaticTransformation(translation_, scale_, rotation_ )

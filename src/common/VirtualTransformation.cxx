@@ -7,13 +7,13 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.1 2001/01/29 17:16:44 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/VirtualTransformation.cxx,v 1.2 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "VirtualTransformation.h"
 
-/// transforms a state.
+// transforms a state.
 
 State* VirtualTransformation::transformState( State* state)
 {

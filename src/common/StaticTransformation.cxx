@@ -7,11 +7,27 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.1 2001/02/19 07:31:21 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/StaticTransformation.cxx,v 1.2 2001/02/20 18:02:49 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "StaticTransformation.h"
+
+// default constructor method.
+
+StaticTransformation::StaticTransformation()
+{
+    translation[0] = 0;
+    translation[1] = 0;
+    translation[2] = 0;
+    rotation[0] = 0;
+    rotation[1] = 0;
+    rotation[2] = 0;
+    rotation[3] = 1;
+    scale[0] = 1;
+    scale[1] = 1;
+    scale[2] = 1;
+}
 
 // constructor method.
 
