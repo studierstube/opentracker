@@ -24,9 +24,9 @@
   * ======================================================================== */
 /** header file for FOBSource Node.
   *
-  * @author
+  * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.2 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBSource.h,v 1.3 2002/01/25 15:17:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,7 +36,7 @@
  *
  * An example element looks like this :
  * @verbatim
-<InterSenseSource id="IS600" station="1"/>@endverbatim
+<FOBSource number="1"/>@endverbatim
  */
 
 #ifndef _FOBSOURCE_H
@@ -46,8 +46,8 @@
 
 /**
  * This class implements a simple EventGenerator. It is updated by the
- * InterSenseModule.
- * @author
+ * FOBModule.
+ * @author Gerhard Reitmayr
  * @ingroup input
  */
 class OPENTRACKER_API FOBSource : public Node

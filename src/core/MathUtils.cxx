@@ -26,12 +26,16 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.3 2001/03/27 06:08:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.4 2002/01/25 15:17:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "MathUtils.h"
 #include <math.h>
+
+const double MathUtils::Pi = 3.1415926535897932385;
+    
+const double MathUtils::E = 2.7182818284590452354;
 
 // converts an axis angle representation into a quaternion
 

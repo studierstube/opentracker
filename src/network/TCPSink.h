@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPSink.h,v 1.1 2001/11/09 22:07:45 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/TCPSink.h,v 1.2 2002/01/25 15:17:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -44,7 +44,9 @@
  *
  * An example element looks like this :
  * @verbatim
-<TCPSink station="0" position="on" rotation="off" />@endverbatim
+<TCPSink station="0" position="on" rotation="off" >
+    <Any EventGenerator element type>
+</TCPSink>@endverbatim
  */
 
 #ifndef _TCPSINK_H

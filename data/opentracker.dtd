@@ -22,7 +22,7 @@ For further information please contact Gerhard Reitmayr under
 <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
 Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
 -->
-<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.39 2002/01/24 10:55:23 reitmayr Exp $ -->
+<!-- $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/data/opentracker.dtd,v 1.40 2002/01/25 15:18:01 reitmayr Exp $ -->
 <!-- Entitiy definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbKeyboardConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?">
@@ -424,6 +424,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST Bird
 	number CDATA #IMPLIED
 	device CDATA #IMPLIED
+	anglealign CDATA #IMPLIED
 >
 <!ELEMENT FOBConfig (Bird+)>
 <!ATTLIST FOBConfig
@@ -432,7 +433,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	transmitter CDATA #IMPLIED
 	hemisphere (forward | rear | upper | lower | left | right) #IMPLIED
 	referenceframe CDATA #IMPLIED
-	anglealign CDATA #IMPLIED
+	xyzframe (false | true) "true"
 	scale (36 | 72) #IMPLIED
 >
 <!ELEMENT FOBSource EMPTY>

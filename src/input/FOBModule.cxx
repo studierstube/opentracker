@@ -26,13 +26,14 @@
   *
   * @author Thomas Peterseil, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.8 2002/01/24 17:31:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.cxx,v 1.9 2002/01/25 15:17:55 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "FOBSource.h"
 #include "FOBModule.h"
+#include "../core/MathUtils.h"
 #include "../misc/serialcomm.h"
 
 #include <stdio.h>
@@ -80,14 +81,29 @@ public:
     /// total range of positions
     float scale;
 
+    /// anglealign data
+    float angleAlign[3];
+
     /// constructor 
-    Bird( int number_, const string & device_, float scale_ ) :
+    Bird( int number_, const string & device_, float scale_, float * anglealign_ = NULL ) :
         number( number_ )
     {
         source = NULL;
         count = 0;
         newVal = false;
         scale = scale_ * inchesToMeters / 32767;
+        if( anglealign_ != NULL )
+        {
+            angleAlign[0] = anglealign_[0];
+            angleAlign[1] = anglealign_[1];
+            angleAlign[2] = anglealign_[2];            
+        }
+        else 
+        {
+            angleAlign[0] = 0;
+            angleAlign[1] = 0;
+            angleAlign[2] = 0;
+        }            
         state.confidence = 1;
         strncpy( port.pathname, device_.c_str(), 255 );
     }
@@ -142,14 +158,27 @@ public:
     inline int reset();
 
     // some bird protocol stuff
-    inline int setGroupMode( bool value );
+    inline int setGroupMode( const bool value );
 
     inline int getErrorCode();
 
-    inline int autoConfig( int number );
+    inline int autoConfig( const int number );
 
-    inline int sleep();
+    inline void sleep();
 
+    inline void setReportMode( const int toBird = -1 );
+
+    inline void setScale( const int scale, const int toBird = -1 );
+
+    inline void setXYZFrame( const bool useFrame, const int toBird = -1 );
+
+    inline void setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird = -1 );
+
+    inline void setAngleAlign( const float * angles, const int toBird = -1 );
+
+    inline void setReferenceFrame( const float * angles, const int toBird = -1 );
+
+    inline int sendReset();
 };
 
 
@@ -212,18 +241,18 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
             hemisphere = RIGHT;
     }       
 
-    // getting reference frame
-    float angles[3];
-    if( attributes.get("referenceframe", angles, 3 ) == 3 )
+    // getting reference frame    
+    if( attributes.get("referenceframe", referenceframe, 3 ) != 3 )
     {
-        
+        referenceframe[0] = 0;
+        referenceframe[1] = 0;
+        referenceframe[2] = 0;
     }
 
-    // getting anglealign
-    if( attributes.get("anglealign", angles, 3 ) == 3 )
-    {
-    
-    }
+    if( attributes.get("xyzframe").compare("false") == 0 )
+        useXYZFrame = false;
+    else
+        useXYZFrame = true;
 
     // parsing birds
     for( unsigned int i = 0; i < localTree->countChildren(); i++ )
@@ -237,8 +266,17 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
                  << childAttr.get("number").c_str() << endl;
             continue;
         }
-        Bird * bird = new Bird( number, childAttr.get("device"), scale );
-        // birds.reserve(number+1);
+
+        // getting anglealign
+        float angles[3];
+        if( attributes.get("anglealign", angles, 3 ) != 3 )
+        {
+            angles[0] = 0;
+            angles[1] = 0;
+            angles[2] = 0;
+        }
+
+        Bird * bird = new Bird( number, childAttr.get("device"), scale, angles );        
         birds[number] = bird;
         cout << "created bird " << number << " on dev " << childAttr.get("device") <<endl;
     }
@@ -309,7 +347,6 @@ void FOBModule::start()
 int FOBModule::initFoB()
 {
     Bird * masterBird = birds[master];
-    char buffer[5];
     int result;
 
     // reset birds
@@ -318,14 +355,14 @@ int FOBModule::initFoB()
         cout << "FOBModule : error reseting birds " << result << endl;
         return result;
     }
-    OSUtils::sleep(500);
+    OSUtils::sleep(300);
 
     if((result = masterBird->setGroupMode( false )) != 0 )
     {
         cout << "FOBModule : error clear group mode " << result << endl;
         return result;
     }
-    OSUtils::sleep(500);
+    OSUtils::sleep(300);
 
     if((result = masterBird->autoConfig((transmitter > birds.rbegin()->first)?(transmitter):(birds.rbegin()->first))) 
          != 0 )
@@ -333,57 +370,23 @@ int FOBModule::initFoB()
         cout << "FOBModule : error sending autoconfig " << result << endl;
         return result;
     }
-    OSUtils::sleep(500);
+    OSUtils::sleep(300);
 
     if((result = setReportMode()) != 0 )
     {
         cout << "FOBModule : error setting report mode " << result << endl;
         return result;
     }
-    OSUtils::sleep(500);
-
+    
     // set all kinds of other parameters here
-    if( scale == 72 )
-    {
-        buffer[0] = 'P';
-        buffer[1] = 0x3;
-        buffer[2] = 0;
-        buffer[3] = 1;
-        masterBird->write( buffer, 3 );
-        OSUtils::sleep( 600 );
-    }
-    OSUtils::sleep(500);
 
-    if( hemisphere != FORWARD )
-    {
-        buffer[0] = 'L';
-        switch( hemisphere )
-        {
-            case REAR:
-                buffer[1] = 0x00;
-                buffer[2] = 0x01;
-                break;
-            case UPPER:
-                buffer[1] = 0x0c;
-                buffer[2] = 0x01;
-                break;
-            case LOWER:
-                buffer[1] = 0x0c;
-                buffer[2] = 0x00;
-                break;
-            case LEFT:
-                buffer[1] = 0x06;
-                buffer[2] = 0x01;
-                break;
-            case RIGHT:
-                buffer[1] = 0x06;
-                buffer[2] = 0x00;
-                break;
-        }
-        masterBird->write( buffer, 3 );
-        OSUtils::sleep( 600 );
-    }
-    OSUtils::sleep(500);
+    setScale();
+
+    setAngleAlign();
+
+    setReferenceFrame();
+    
+    setXYZFrame();
 
     if((result = setNextTransmitter()) != 0 )
     {
@@ -605,38 +608,28 @@ int FOBModule::resetBirds()
     		it->second->reset();
      	}
     }
-    OSUtils::sleep(600);
-    return birds[master]->getErrorCode();
+    OSUtils::sleep(300);
+    return birds[master]->sendReset();
 }
 
 // set report mode to POSITION/QUATERNION
 int FOBModule::setReportMode()
 { 
-    char buffer[2];
     map<int, Bird *>::iterator it;
     if( mode == MULTI )
     {
-        // send all birds the POSITION/QUATERNION command
-        buffer[0] = ']';
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-            it->second->write( buffer, 1 );
+            it->second->setReportMode();
         }
         OSUtils::sleep(600);
     } else {
         // send all birds the POSITION/QUATERNION command
         for( it = birds.begin(); it != birds.end(); it++ )
         {
-           	buffer[0] = 0xF0+it->first;
-            buffer[1] = ']';
-            // TO FOB command and POS / QUAT command
-            birds[master]->write( buffer, 2 );
-            OSUtils::sleep(600);
-        }
-        // write again as it doesn't work otherwise :(
-         buffer[0] = ']';
-         birds[master]->write( buffer, 1 );
-         OSUtils::sleep(600);
+            birds[master]->setReportMode( it->first );
+            OSUtils::sleep(300);
+        }        
     }
     return birds[master]->getErrorCode();
 }
@@ -650,7 +643,7 @@ int FOBModule::setNextTransmitter()
         buffer[0] = 0x30;
         buffer[1] = (transmitter << 4) & 0xff;
         birds[master]->write( buffer, 2 );
-        OSUtils::sleep( 600 );
+        OSUtils::sleep( 300 );
     }
     return birds[master]->getErrorCode();
 }
@@ -679,6 +672,87 @@ int FOBModule::startStreamMode()
     // no use getting an error code :)
     return 0;
 }
+
+void FOBModule::setScale()
+{
+    if( scale != 72 )
+        return;
+    map<int, Bird *>::iterator it;
+    if( mode == SINGLE )
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            birds[master]->setScale( scale, it->first );
+            OSUtils::sleep( 300 );
+        }
+    }
+    else
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            it->second->setScale( scale );            
+        }
+        OSUtils::sleep( 300 );
+    }
+}
+
+void FOBModule::setAngleAlign()
+{
+    map<int, Bird *>::iterator it;
+    if( mode == SINGLE )
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            float * angles = it->second->angleAlign;
+            if( angles[0] == 0 && angles[1] == 0 && angles[2] == 0 )
+                continue;
+            birds[master]->setAngleAlign( angles , it->first );
+            OSUtils::sleep( 300 );
+        }
+    }
+    else
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            float * angles = it->second->angleAlign;
+            if( angles[0] == 0 && angles[1] == 0 && angles[2] == 0 )
+                continue;
+            it->second->setAngleAlign( angles );            
+        }
+        OSUtils::sleep( 300 );
+    }    
+}
+
+void FOBModule::setReferenceFrame()
+{
+    if( referenceframe[0] == 0 && referenceframe[1] == 0 && referenceframe[2] == 0 )
+        return;
+
+    birds[master]->setReferenceFrame( referenceframe );
+    OSUtils::sleep( 300 );
+}
+    
+void FOBModule::setXYZFrame()
+{
+    map<int, Bird *>::iterator it;
+    if( mode == SINGLE )
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            birds[master]->setXYZFrame( useXYZFrame, it->first );
+            OSUtils::sleep( 300 );
+        }
+    }
+    else
+    {
+        for( it = birds.begin(); it != birds.end(); it++ )
+        {
+            it->second->setXYZFrame( useXYZFrame );            
+        }
+        OSUtils::sleep( 300 );
+    }
+}
+
 
 const float Bird::inchesToMeters = 0.0254f;
 
@@ -770,7 +844,8 @@ int Bird::reset()
 {
     setRTSSerialPort( &port, 1);
     OSUtils::sleep(100);
-    return setRTSSerialPort( &port, 0);    
+    return setRTSSerialPort( &port, 0);
+    OSUtils::sleep(100);
 }
 
 int Bird::setGroupMode( bool value )
@@ -802,7 +877,7 @@ int Bird::getErrorCode()
     return buffer[0];
 }
 
-int Bird::autoConfig( int number )
+int Bird::autoConfig( const int number )
 {
     char buffer[3];
     buffer[0] = 'P';
@@ -813,10 +888,152 @@ int Bird::autoConfig( int number )
     return getErrorCode();
 }
 
-int Bird::sleep()
+void Bird::sleep()
 {
     char buffer[4] = "GGG";
     write( buffer, 3 );
-    OSUtils::sleep(300);
+    OSUtils::sleep(300);    
+}
+
+void Bird::setReportMode( const int toBird )
+{
+    char buffer[2];
+    if( toBird == -1 || toBird == number )
+    {
+        buffer[0] = ']';
+        write( buffer, 1 );
+    }
+    else 
+    {
+        buffer[0] = 0xF0+toBird;
+        buffer[1] = ']';
+        write( buffer, 2 );
+    }
+}
+
+void Bird::setScale( const int scale, const int toBird )
+{
+    char buffer[5];
+    if( toBird == -1 || toBird == number )
+    {
+        buffer[0] = 'P';
+        buffer[1] = 0x3;
+        buffer[2] = 0;
+        buffer[3] = (scale==72)?(1):(0);
+        write( buffer, 4 );
+    }
+    else 
+    {
+        buffer[0] = 0xF0+toBird;
+        buffer[1] = 'P';
+        buffer[2] = 0x3;
+        buffer[3] = 0;
+        buffer[4] = (scale==72)?(1):(0);
+        write( buffer, 5 );
+    }
+}
+
+void Bird::setXYZFrame( const bool useFrame, const int toBird )
+{
+    char buffer[4];
+    if( toBird == -1 || toBird == number )
+    {
+        buffer[0] = 'P';
+        buffer[1] = 17;
+        buffer[2] = (useFrame)?(1):(0);
+        write( buffer, 3 );
+    }
+    else 
+    {
+        buffer[0] = 0xF0+toBird;
+        buffer[1] = 'P';
+        buffer[2] = 17;
+        buffer[3] = (useFrame)?(1):(0);
+        write( buffer, 4 );        
+    }
+}
+
+void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird )
+{
+    char buffer[4];
+    if( hemisphere != FOBModule::FORWARD )
+    {
+        buffer[1] = 'L';
+        switch( hemisphere )
+        {
+            case FOBModule::REAR:
+                buffer[2] = 0x00;
+                buffer[3] = 0x01;
+                break;
+            case FOBModule::UPPER:
+                buffer[2] = 0x0c;
+                buffer[3] = 0x01;
+                break;
+            case FOBModule::LOWER:
+                buffer[2] = 0x0c;
+                buffer[3] = 0x00;
+                break;
+            case FOBModule::LEFT:
+                buffer[2] = 0x06;
+                buffer[3] = 0x01;
+                break;
+            case FOBModule::RIGHT:
+                buffer[2] = 0x06;
+                buffer[3] = 0x00;
+                break;
+        }
+        if( toBird == -1 || toBird == number )
+        {
+            write( &buffer[1], 3 );
+        }
+        else 
+        {
+            buffer[0] = 0xF0+toBird;
+            write( buffer, 4 );
+        }
+    }
+}
+
+void Bird::setAngleAlign( const float * angles, const int toBird )
+{
+    char buffer[8];
+    buffer[1] = 0x71;
+
+    for( int i = 0; i < 3; i++ )    
+        *(short int *)(&buffer[2+2*i]) = (short int)(angles[i] * 0x7FFF / MathUtils::Pi);
+    if( toBird == -1 || toBird == number )
+    {
+        write( &buffer[1], 7 );
+    }
+    else 
+    {
+        buffer[0] = 0xF0+toBird;
+        write( buffer, 8 );
+    }
+}
+
+void Bird::setReferenceFrame( const float * angles, const int toBird )
+{
+    char buffer[8];
+    buffer[1] = 0x72;
+        
+    for( int i = 0; i < 3; i++ )
+        *(short int *)(&buffer[2+2*i]) = (short int)(angles[i] * 0x7FFF / MathUtils::Pi);
+    if( toBird == -1 || toBird == number )
+    {
+        write( &buffer[1], 7 );
+    }
+    else 
+    {
+        buffer[0] = 0xF0+toBird;
+        write( buffer, 8 );
+    }
+}
+
+int Bird::sendReset()
+{
+    char buffer[1] = { 0x2F };
+    write( buffer, 1 );
+    OSUtils::sleep( 300 );
     return getErrorCode();
 }

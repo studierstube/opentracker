@@ -24,9 +24,9 @@
   * ======================================================================== */
 /** header file for FOBModule module.
   *
-  * @author
+  * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.7 2002/01/24 17:31:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/FOBModule.h,v 1.8 2002/01/25 15:17:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,7 +51,8 @@
  * @li @c hemisphere ( forward | rear | upper | lower | left | right ) defines which
  *         hemisphere to set on the flock.
  * @li @c referenceframe a transformation of the position data
- * @li @c anglealign a transformation of the rotation data
+ * @li @c xyzframe ( true | false ) a flag defining whether position data should be 
+ *        transformed by the referenceframe set. default is @c true.
  * @li @c scale ( 36 | 72 ) set the extend of the receivers
  * 
  * The @c Bird element is used to set the birds used in the setup. If the single
@@ -61,6 +62,8 @@
  * 
  * @li @c number the number of the bird
  * @li @c dev the device name of the bird (i.e. COM1, /dev/ttyS0)
+ * @li @c anglealign  a transformation of the rotatin data to compensate for any 
+ *        offset of the sensor itself. 
  *
  * An example configuration element looks like this :
  * @verbatim
@@ -105,6 +108,12 @@ protected:
     
     /// scale factor 
     float scale;
+
+    /// reference frame values
+    float referenceframe[3];
+
+    /// xyzframe flag
+    bool useXYZFrame;
     
     /// associative array of Bird data structures
     std::map<int, Bird *> birds;
@@ -176,6 +185,16 @@ private :
     /** starts the stream mode to receive data from the birds.
      * @return the FOB error code */
     int startStreamMode();
+
+    void setScale();
+
+    void setAngleAlign();
+
+    void setReferenceFrame();
+    
+    void setXYZFrame();
+
+    friend class Bird;
 };
 
 #endif

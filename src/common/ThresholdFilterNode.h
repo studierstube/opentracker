@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ThresholdFilterNode.h,v 1.1 2001/11/22 16:52:24 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ThresholdFilterNode.h,v 1.2 2002/01/25 15:17:54 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -51,9 +51,9 @@
  *
  * An example element looks like this :
  * @verbatim
-<Filter weight="0.5 0.5 0.5">
-    <EventQueue>...</EventQueue>
-</Filter>@endverbatim
+<ThresholdFilter positionmin="0.1" positionmax="3" rotationmin="0" rotationmax="3">
+    <Any EventGenerator element type>
+</ThresholdFilter>@endverbatim
  */
 
 #ifndef _THRESHOLDFILTERNODE_H

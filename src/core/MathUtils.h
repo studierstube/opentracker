@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.5 2001/06/11 03:22:37 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.6 2002/01/25 15:17:55 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -89,6 +89,12 @@ public:
      * @param vResult float[3] where the result is stored
      * @return pointer to result array */
     static float* rotateVector(float* q, float* v, float* vResult);
+
+    /// the nice constant Pi
+    static const double Pi;
+
+    /// the also nice constant e
+    static const double E;
 };
 
 #endif
