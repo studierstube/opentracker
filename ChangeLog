@@ -1,3 +1,9 @@
+2005-01-04 13:01:50  Rev 793    reitmayr
+
+	* src/input/GPS_Handler.h: fixed ACE macro use in templates to work 
+	  with new ACE version 5.4.3 and simplify code. also works with the 
+	  old version, therefore no requirement to update
+
 2004-12-03 17:46:13  Rev 791    daniel
 
 	* src/input/ARToolKitPlusModule.cxx: fixed multi-marker tracking in 
