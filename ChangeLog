@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-26 09:48  reitmayr
+
+	* src/common/ButtonFilterNode.cxx:
+	
+	should test if both validtrans and radiobuttons are 8 chars long,
+	not if one or more.
+
 2003-11-25 16:16  tomp
 
 	* src/input/: ARTDataTrackerModule.cxx, ARToolKitModule.cxx:
