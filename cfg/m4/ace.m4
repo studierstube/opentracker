@@ -12,6 +12,7 @@
 # < $stb_ac_ace_cppflags    (extra flags the preprocessor needs)
 # < $stb_ac_ace_ldflags     (extra flags the linker needs)
 # < $stb_ac_ace_libs        (link library flags the linker needs)
+# < $stb_ac_ace_rpath       (library directory if not in linker search path)
 #
 # Author:
 #   Tamer Fahmy <tamer@tammura.at>
@@ -27,6 +28,7 @@ stb_ac_ace_cppflags=
 stb_ac_ace_ldflags=
 stb_ac_ace_libs=
 stb_ac_ace_root=
+stb_ac_ace_rpath=
 
 # internal variables
 stb_ac_ace_extrapath=
@@ -35,13 +37,15 @@ AC_ARG_WITH([ace],
   AC_HELP_STRING([--with-ace=DIR], [give prefix location of ACE]),
   [stb_ac_ace_extrapath=$withval], [])
 
-test -z "$stb_ac_ace_extrapath" &&   ## search in --prefix
+if test -z "$stb_ac_ace_extrapath"; then ## search in --prefix
   stb_ac_ace_extrapath=$prefix/ACE_wrappers
-
-case "$stb_ac_ace_extrapath" in
-  [[\\/]]* | ?:[[\\/]]* ) : ;;
-  * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath ;;
-esac
+else
+  case "$stb_ac_ace_extrapath" in
+    [[\\/]]* | ?:[[\\/]]* ) : ;;
+    * ) stb_ac_ace_extrapath=`pwd`/$stb_ac_ace_extrapath
+        stb_ac_ace_rpath="-R $stb_ac_ace_extrapath/ace" ;;
+  esac
+fi
 
 stb_ac_ace_root=$stb_ac_ace_extrapath
 

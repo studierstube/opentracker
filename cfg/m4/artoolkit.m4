@@ -12,6 +12,7 @@
 # < $stb_ac_artoolkit_cppflags    (extra flags the preprocessor needs)
 # < $stb_ac_artoolkit_ldflags     (extra flags the linker needs)
 # < $stb_ac_artoolkit_libs        (link library flags the linker needs)
+# < $stb_ac_artoolkit_rpath       (library directory if not in linker search path)
 #
 # Author:
 #   Tamer Fahmy <tamer@tammura.at>
@@ -27,6 +28,7 @@ stb_ac_artoolkit_cppflags=
 stb_ac_artoolkit_ldflags=
 stb_ac_artoolkit_libs=
 stb_ac_artoolkit_root=
+stb_ac_artoolkit_rpath=
 
 # internal variables
 stb_ac_artoolkit_extrapath=
@@ -35,13 +37,15 @@ AC_ARG_WITH([artoolkit],
   AC_HELP_STRING([--with-artoolkit=DIR], [give prefix location of ARToolkit]),
   [stb_ac_artoolkit_extrapath=$withval], [])
 
-test -z "$stb_ac_artoolkit_extrapath" &&   ## search in --prefix
+if test -z "$stb_ac_artoolkit_extrapath"; then ## search in --prefix
   stb_ac_artoolkit_extrapath=$prefix/lib
-
-case "$stb_ac_artoolkit_extrapath" in
-  [[\\/]]* | ?:[[\\/]]* ) : ;;
-  * ) stb_ac_artoolkit_extrapath="`pwd`/$stb_ac_artoolkit_extrapath" ;;
-esac
+else
+  case "$stb_ac_artoolkit_extrapath" in
+    [[\\/]]* | ?:[[\\/]]* ) : ;;
+    * ) stb_ac_artoolkit_extrapath="`pwd`/$stb_ac_artoolkit_extrapath"
+        stb_ac_artoolkit_rpath="-R $stb_ac_artoolkit_extrapath/lib" ;;
+  esac
+fi
 
 stb_ac_artoolkit_root=$stb_ac_artoolkit_extrapath
 
