@@ -9,6 +9,36 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-08 23:17  reitmayr
+
+	* src/common/ConsoleModule.cxx, src/common/FileModule.cxx,
+	src/core/Context.cxx, src/core/Context.h, src/core/Module.h,
+	src/core/Node.cxx, src/core/Node.h, src/input/ARToolKitModule.cxx,
+	src/input/GPSDriver.h, src/input/InterSenseModule.cxx,
+	src/input/SpeechModule.cxx, src/network/NetworkSinkModule.cxx,
+	doc/changes.txt:
+	
+	added a stack of search directories for file operations to the
+	context. this is similar to the SoInput dir stack in OpenInventor.
+	It allows modules to load files relative to the configuration file
+	directory or the working dir or any other dir they have in mind.
+
+2003-04-08 20:59  reitmayr
+
+	* src/input/: DGPSIP_Handler.cxx, DGPSIP_Handler.h,
+	DGPSMirror_Handler.cxx, DGPSMirror_Handler.h, GPSDriver.cxx,
+	GPSDriver.h, GPSModule.cxx, GPSModule.h, Makefile.am:
+	
+	GPSModule enhancements : added a local mirror server for rtcm data
+	added connection reestablishment to DGPS connection still needs
+	testing
+
+2003-04-08 19:11  tamer
+
+	* cfg/m4/: ace.m4, artoolkit.m4, xerces.m4:
+	
+	build system fix for rpath handling.
+
 2003-04-04 15:12  reitmayr
 
 	* src/input/GPSDriver.cxx:
