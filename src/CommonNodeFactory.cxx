@@ -12,6 +12,8 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
+// August 19, 2000 00:48 gr, added axisAngle configuration to transform
+//     Updated code of method 'buildTransformation'
 // August 16, 2000 22:10 gerhard reitmayr removed Node and made everything TreeNodes
 //     Updated code of method 'createNode'
 // August 16, 2000 21:43 gerhard reitmayr
@@ -138,6 +140,23 @@ Transformation* CommonNodeFactory::buildTransformation(StringMap& attributes)
         {
 	    MathUtils::eulerToQuaternion( roll, pitch, yaw, rotation );
         }        
+    }
+    else if( type.compare("axisangle") == 0 )
+    {
+        float axisa[4];
+        num = sscanf( attributes["rotation"], " %f %f %f %f",
+                &axisa[0], &axisa[1], &axisa[2], &axisa[3] );
+        if( num != 4 )
+        {
+            rotation[0] = 0;
+            rotation[1] = 0;
+            rotation[2] = 0;
+            rotation[3] = 1;
+        } 
+        else 
+        {
+	    MathUtils::axisAngleToQuaternion( axisa, rotation );
+        }
     }
     return new Transformation( translation, scale, rotation );
 }//@CODE_4426

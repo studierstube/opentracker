@@ -12,8 +12,6 @@
 //  HISTORY:
 //
 //  @INSERT_MODIFICATIONS(// )
-// August 18, 2000 23:04 gr, changed names and added init flag
-//     Updated code of method 'run'
 // ===========================================================================
 //@START_USER1
 //@END_USER1

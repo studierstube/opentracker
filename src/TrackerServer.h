@@ -65,6 +65,7 @@ typedef std::vector<CursesOutput *> CursesOutputVector;
 class State;
 class TreeNode;
 class Transformation;
+class MathUtils;
 class VirtualTransformation;
 class MaxConfidenceFilter;
 class Module;
@@ -76,7 +77,6 @@ class Marker;
 class Station;
 class NetworkModule;
 class ConfigurationParser;
-class MathUtils;
 class Context;
 class TestSource;
 class TestModule;
@@ -94,6 +94,7 @@ class CursesOutput;
 #include "State.h"
 #include "TreeNode.h"
 #include "Transformation.h"
+#include "MathUtils.h"
 #include "VirtualTransformation.h"
 #include "MaxConfidenceFilter.h"
 #include "Module.h"
@@ -105,7 +106,6 @@ class CursesOutput;
 #include "Station.h"
 #include "NetworkModule.h"
 #include "ConfigurationParser.h"
-#include "MathUtils.h"
 #include "Context.h"
 #include "TestSource.h"
 #include "TestModule.h"
