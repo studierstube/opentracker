@@ -30,8 +30,13 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "TimeGateNode.h"
 #include "math.h"
+
+namespace ot {
 
 // constructor method
 TimeGateNode::TimeGateNode( double timeframe_, Mode mode_ )
@@ -59,3 +64,5 @@ void TimeGateNode::onEventGenerated( State& event, Node & generator )
         }
 	}		    
 }
+
+} // namespace ot

@@ -35,6 +35,10 @@
 
 using namespace std;
 
+
+namespace ot {
+
+
 // constructor method.
 
 PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3] )
@@ -71,3 +75,6 @@ void PositionFilterNode::onEventGenerated( State& event, Node& generator)
         updateObservers( event );
     }
 }
+
+
+}  // namespace ot

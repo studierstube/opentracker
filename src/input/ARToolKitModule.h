@@ -201,11 +201,15 @@
 #ifndef __MEMORY_BUFFER_HANDLE__
 #define __MEMORY_BUFFER_HANDLE__
 
+namespace ot {
+
 	struct MemoryBufferHandle
 	{
 		unsigned long  n; // sample number
 		__int64 t;		  // timestamp
 	};
+
+} // namespace ot
 
 #endif
 #else
@@ -227,6 +231,9 @@
  * the image data.
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 {
 // members
@@ -335,6 +342,8 @@ public:
      * pass the necessary information to use the image data in GL calls. */
     int getImageFormat(int stereo_buffer = STEREO_L);
 };
+
+} // namespace ot
 
 #endif
 

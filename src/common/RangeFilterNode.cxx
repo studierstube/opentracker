@@ -30,9 +30,14 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "RangeFilterNode.h"
 
 using namespace std;
+
+namespace ot {
 
 // constructor method.
 
@@ -59,3 +64,5 @@ void RangeFilterNode::onEventGenerated( State& event, Node& generator)
         updateObservers( event );
     }
 }
+
+} // namespace ot

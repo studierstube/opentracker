@@ -30,10 +30,8 @@
   * @file                                                                    */
  /* ======================================================================== */
 
-// A trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include <ace/Time_Value.h>
 
@@ -42,8 +40,11 @@
 #include <iostream>
 #include <string>
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
 
+namespace ot {
 
 // constructor initializing the thread manager
 MagicYModule::MagicYModule() : ThreadModule(), NodeFactory(), stop(0)
@@ -71,17 +72,20 @@ int MagicYModule::connect()
         retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            std::cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
+            //std::cout << "Error " << errno << " connection failed for socket nr.:" << i << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d connection failed for socket nr.: %d\n"), errno, i));
             return -1;
         }
         else 
         {
-            std::cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
+            //std::cout << "connected to socket nr.:" << i << " - sending GO command" << endl;
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:connected to socket nr.: %d - sending GO command\n"), i));
             sprintf(buffer, "GO\n\r");
             retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
             if(retval == -1 && errno != ETIME && errno != 0 )
             {
-                std::cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
+                //std::cout << "Error " << errno << " sending command for socket nr.:" << i << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d sending command for socket nr.: %d\n"), errno, i));
                 return -1;
             }
         }
@@ -123,7 +127,8 @@ int MagicYModule::receive()
                 retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
                 if(retval == -1 && errno != ETIME && errno != 0)
                 {
-                    std::cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
+                    //std::cout << "Error " << errno << " receiving data for socket nr.:" << i << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving command for socket nr.: %d\n"), errno, i));
                     return -1;
                 }  
                 else
@@ -194,7 +199,8 @@ int MagicYModule::stillConnected()
         retval = screens[i]->socket.send_n(buffer, sizeof(buffer), &timeOut);
         if(retval == -1 && errno != ETIME && errno != 0 )
         {
-            std::cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
+            //std::cout << "Error " << errno << " connection broken for socket nr.:" << i << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("Error %d connection broken for socket nr.: %d\n"), errno, i));
             return 0;
         }
     }
@@ -215,7 +221,8 @@ void MagicYModule::disconnect()
 // reads from the MagicY server and parses MagicY packages
 void MagicYModule::run()
 {
-    std::cout << "starting MagicY module thread" << endl;
+    //std::cout << "starting MagicY module thread" << endl;
+	ACE_DEBUG((LM_INFO, ACE_TEXT("starting MagicY module thread\n")));
     
     ACE_Time_Value timeOut(1,0);
     int average_x=0, average_y=0, socks_active;	
@@ -224,7 +231,8 @@ void MagicYModule::run()
     while(stop == 0)
     {
         // connecting
-        std::cout << "Trying to connect ... " << endl;
+        //std::cout << "Trying to connect ... " << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Trying to connect ... \n")));
         if(connect() == 0)
         {
             connected = true;
@@ -244,7 +252,8 @@ void MagicYModule::run()
                 socks_active = ACE::select(ACE_Handle_Set::MAXSIZE, readHandles, &timeOut);
                 if(! socks_active)
                 {
-                    std::cout << "Error: Socket select time out" << endl;
+                    //std::cout << "Error: Socket select time out" << endl;
+					ACE_DEBUG((LM_INFO, ACE_TEXT("Error: Socket select time out\n")));
                     break;
                 }
                 if(receive())
@@ -314,7 +323,8 @@ void MagicYModule::run()
         }// if connected
         disconnect();
     } // forever
-    std::cout << "Stopping thread" << endl;
+    //std::cout << "Stopping thread" << endl;
+	ACE_DEBUG((LM_INFO, ACE_TEXT("Stopping thread\n")));
 }
 
 
@@ -341,14 +351,16 @@ Node * MagicYModule::createNode( const string& name,  StringTable& attributes)
         }
         if( it != magicYs.end())
         {
-            std::cout << "Source with number "<< number << " exists allready \n";
+            //std::cout << "Source with number "<< number << " exists allready \n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("Source with number %d already exists\n"), number));
             return NULL;
         }
         
         MagicYSource *source = new MagicYSource; 
         MagicY *magicY = new MagicY(number, average, source);
         magicYs.push_back( magicY );
-        std::cout << "Built MagicYSource node." << endl;
+        //std::cout << "Built MagicYSource node." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Built MagicYSource node.\n")));
         
         return source;
     }
@@ -446,7 +458,8 @@ int MagicYModule::parseScreens(const string & line)
         Screen *scr = new Screen(port, hostname, x_off, y_off);
         screens.push_back(scr);
         
-        std::cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
+        //std::cout << "Extra screen: " << port << ":" << x_off << ":" << y_off << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Extra screen %d : %d : %d\n"), port, x_off, y_off));
         
         pos = temp.find(' ', 0);
         pos = temp.find(' ', pos+1);
@@ -511,25 +524,31 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
     
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
     {
-        std::cout << "Error parsing positionMapping !" << endl;
+        //std::cout << "Error parsing positionMapping !" << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing positionMapping !")));
         initMappping(positionMapping);
     }
     calcMapping(positionMapping);
     if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
     {
-        std::cout << "Error parsing invertPosition !" << endl;
+        //std::cout << "Error parsing invertPosition !" << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing invertPosition!")));
         initInversion(invertPosition);
     }
     calcInversion(invertPosition);
     if( parseVector(attributes.get("orientation"), orientation ) != 0 )
     {
-        std::cout << "Error parsing orientation !" << endl;
+        //std::cout << "Error parsing orientation !" << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing orientation!")));
         initOrientation(orientation);
     }
     if( parseScreens(attributes.get("screens")) != 0 )
     {
-        std::cout << "Error parsing extra screens !" << endl;
+        //std::cout << "Error parsing extra screens !" << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing extra screens!")));
     }
     if( attributes.get("z_value", &z_value) != 1 )
         z_value = 0;
 }
+
+} // namespace ot

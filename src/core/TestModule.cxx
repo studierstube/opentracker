@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "TestModule.h"
 #include "TestSource.h"
 
@@ -39,9 +42,13 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
 
 // Destructor method
+
+namespace ot {
 
 TestModule::~TestModule()
 {
@@ -79,7 +86,8 @@ Node * TestModule::createNode( const string& name, StringTable& attributes)
         }
         nodes.push_back( source );
         
-        cout << "Build TestSource node " << endl;
+        //cout << "Build TestSource node " << endl;
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));
         initialized = 1;
         return source;
     }
@@ -110,10 +118,10 @@ void TestSource::push(void)
         int i;
         for( i = 0; i < 3; i++ )
         {
-            perturbed.position[i] = (float)(state.position[i] + (rand()/RAND_MAX)*noise - noise / 2.0);
+            perturbed.position[i] = (float)(state.position[i] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
             perturbed.orientation[i] = (float)(state.orientation[i] + (float)(rand()/RAND_MAX)*noise - noise / 2.0);
         }
-        perturbed.orientation[3] = (float)(state.orientation[3] + (rand()/RAND_MAX)*noise - noise / 2.0);
+        perturbed.orientation[3] = (float)(state.orientation[3] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
         MathUtils::normalizeQuaternion( perturbed.orientation );
         if( ((float)rand()/RAND_MAX) < noise  )
         {
@@ -130,3 +138,5 @@ void TestSource::push(void)
         updateObservers( state );
     }
 }
+
+} //namespace ot

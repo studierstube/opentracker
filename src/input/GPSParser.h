@@ -43,6 +43,9 @@
  * @ingroup input
  * @author Gerhard Reitmayr
  */
+
+namespace ot {
+
 class GPResult {
 public :
     enum Type {
@@ -137,5 +140,7 @@ private:
     GPSParser(){};
     static const GPResult * (*parsers[])(const char *);
 };
+
+} // namespace ot
 
 #endif // !defined(_GPSPARSER_H_)

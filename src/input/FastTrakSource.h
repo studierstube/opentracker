@@ -55,6 +55,9 @@
  * @author Rainer Splechtna
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API FastTrakSource : public Node
 {
 // Members
@@ -80,5 +83,7 @@ public:
 
     friend class FastTrakModule;
 };
+
+} // namespace ot
 
 #endif

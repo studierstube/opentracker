@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "SelectionNode.h"
+
+namespace ot {
 
 // constructor method
 SelectionNode::SelectionNode( double t )
@@ -52,3 +57,5 @@ void SelectionNode::onEventGenerated( State& event, Node & generator )
 		updateObservers( event );
 	}		
 }
+
+} // namespace ot

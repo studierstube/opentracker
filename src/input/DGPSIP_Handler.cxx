@@ -40,6 +40,9 @@
 #include "DGPSIP_Handler.h"
 #include "rtcm.h"
 
+
+namespace ot {
+
 DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
     isReconnecting( false ),
     parent( parent_ ),
@@ -152,3 +155,5 @@ int DGPSIP_Handler::handle_close( ACE_HANDLE fd, ACE_Reactor_Mask mask )
         return ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>::handle_close( fd, mask);
     return 0;
 }
+
+}  // namespace ot

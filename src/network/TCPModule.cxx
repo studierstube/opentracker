@@ -45,10 +45,15 @@
 
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 using namespace std;
 
 #define SERVER_DATA_PRECISION 100
 #define SERVER_DATA_SHIFT     1000
+
+namespace ot {
 
 // destuctor, clears up any sinks
 
@@ -67,7 +72,8 @@ Node * TCPModule::createNode( const std::string& name,  StringTable& attributes)
         int num = sscanf( attributes.get("station").c_str()," %i", 
 &station );
         if( num != 1 ){
-            std::cout << "TCPModule : not a number in TCPSink station " << attributes.get("station") << endl;
+            //std::cout << "TCPModule : not a number in TCPSink station " << attributes.get("station") << endl;
+			LOG_ACE_ERROR("ot:TCPModule : not a number in TCPSink station %s\n", attributes.get("station").c_str());
             return NULL;
         }
         if( attributes.get("position").compare("on") == 0 )
@@ -88,7 +94,8 @@ Node * TCPModule::createNode( const std::string& name,  StringTable& attributes)
             timeFlag = 0;
         TCPSink * sink = new TCPSink( station, posFlag, rotFlag, buttonFlag, timeFlag );
         sinks.push_back( sink );
-        std::cout << "TCPSink for station " << station << " created." << endl;
+        //std::cout << "TCPSink for station " << station << " created." << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:TCPSink for station %d created.\n"), station));
         return sink;
     }
     return NULL;
@@ -150,7 +157,8 @@ void TCPModule::pullState(){
                         (*conit)->close();
                         delete (*conit);
                         connections.erase( conit-- );
-                        std::cout << "TCPModule : closed connection\n";
+                        //std::cout << "TCPModule : closed connection\n";
+						ACE_DEBUG((LM_INFO, ACE_TEXT("ot:TCPModule : closed connection\n")));
                     }
                 }
                 unlock();
@@ -175,7 +183,8 @@ void TCPModule::init(StringTable& attributes,  ConfigNode * localTree){
         int num = sscanf(  attributes.get("port").c_str(), " %i", &port );
         if( num == 1 ){
             ThreadModule::init( attributes, localTree );
-            std::cout << "TCPModule listening to port " << port << endl;
+            //std::cout << "TCPModule listening to port " << port << endl;
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:TCPModule listening to port %d\n"), port));
         }
     }
 }
@@ -185,7 +194,8 @@ void TCPModule::init(StringTable& attributes,  ConfigNode * localTree){
 void TCPModule::start(){
     if( isInitialized() == 1 ){
         ThreadModule::start();
-        std::cout << "TCPModule started !" << endl;
+        //std::cout << "TCPModule started !" << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:TCPModule started !\n")));
     }
 }
 
@@ -202,11 +212,13 @@ void TCPModule::run(){
     while(running){
         ACE_SOCK_Stream * stream = new ACE_SOCK_Stream();
         if(acceptor.accept(*stream, &client, &timeout) == -1){ 
-            std::cout << "TCPModule : error listening to socket\n";
+            //std::cout << "TCPModule : error listening to socket\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:TCPModule : error listening to socket\n")));
             continue; 
         } 
-        client.addr_to_string( buffer, 100 );
-        std::cout << "TCPModule : new connection from " << buffer << endl;
+        client.addr_to_string( ACE_TEXT_CHAR_TO_TCHAR(buffer), 100 );
+        //std::cout << "TCPModule : new connection from " << buffer << endl;
+		LOG_ACE_INFO("ot:TCPModule : new connection from %s\n", buffer);
         lock();
         connections.push_back( stream );
         unlock();
@@ -218,3 +230,5 @@ void TCPModule::run(){
     }
     connections.clear();
 }
+
+} // namespace ot

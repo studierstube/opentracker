@@ -52,6 +52,9 @@
  * @author Ivan Viola, Matej Mlejnek
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API CyberMouseModule : public Module, public NodeFactory
 {
 // Members
@@ -88,6 +91,8 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif
 

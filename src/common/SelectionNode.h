@@ -71,6 +71,9 @@
  * @author Ivan Viola, Matej Mlejnek
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API SelectionNode : public Node   
 {
 
@@ -104,5 +107,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

@@ -40,12 +40,15 @@
 
 #include "GPSParser.h"
 
+class ACE_Reactor;
+class ACE_TTY_IO;
+
+namespace ot {
+
 class GPS_Handler;
 class DGPSIP_Handler;
 class DGPSMirror_Handler;
 class DGPSMirror_Acceptor;
-class ACE_Reactor;
-class ACE_TTY_IO;
 
 /**
  * This is an abstract interface for the clients of the GPSDriver class.
@@ -143,5 +146,7 @@ protected:
 	friend class GPS_Handler;
 	friend class DGPSIP_Handler;
 };
+
+} // namespace ot
 
 #endif // !defined(_GPSDRIVER_H)

@@ -101,6 +101,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API DynamicTransformation : public StaticTransformation
 {
 protected:
@@ -129,5 +132,7 @@ public:
     friend class CommonNodeFactory;
 
 };
+
+} // namespace ot
 
 #endif

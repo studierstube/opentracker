@@ -59,6 +59,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API EventQueueNode : public Node, protected EventQueueImplementation
 {
 // Members
@@ -120,5 +123,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

@@ -30,6 +30,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "../tool/disable4786.h"
 #include "StringTable.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,6 +42,8 @@ using namespace std;
 const string empty("");
 
 // initializes the map
+
+namespace ot {
 
 StringTable::StringTable() : map()
 {}
@@ -236,3 +239,5 @@ const string & KeyIterator::nextElement()
     }
     return empty;
 }
+
+} // namespace ot

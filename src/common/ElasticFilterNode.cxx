@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ElasticFilterNode.h"
+
+namespace ot {
 
 // constructor method
 ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_, int offset_ )
@@ -98,3 +103,5 @@ void ElasticFilterNode::push() {
         updateObservers(currentState);
     }
 }
+
+} // namespace ot

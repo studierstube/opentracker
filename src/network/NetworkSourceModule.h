@@ -46,11 +46,14 @@
 #include "Network.h"
 #include "NetworkSource.h"
 
+class ACE_Thread_Manager;
+
+namespace ot {
+
 struct MulticastReceiver;
 
 typedef std::vector<MulticastReceiver *> ReceiverVector;
 
-class ACE_Thread_Manager;        
 /**
  * The module and factory to drive the reception of network state updates.
  * It builds NetworkSource nodes that insert data from the network into
@@ -112,5 +115,7 @@ public:
      */
     virtual void pushState();             
 };
+
+}  // namespace ot
 
 #endif

@@ -58,6 +58,8 @@
 // forward declaration of the ACE stream socket class
 class ACE_SOCK_Stream;
 
+namespace ot {
+
 /** TCPModule implements a multithreaded module to serve a list of clients
  * with a stream of data captured by TCPSink nodes via TCP. The thread is 
  * to establish new connections, in the main thread the sinks are checked for
@@ -107,5 +109,7 @@ public:
     
 	void start();
 };
+
+} // namespace ot
 
 #endif

@@ -42,6 +42,8 @@
 
 #include "ThreadModule.h"
 
+namespace ot {
+
 // enters a critical section. 
 
 void ThreadModule::lock()
@@ -93,3 +95,5 @@ void ThreadModule::close()
 	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
     delete ((ACE_thread_t *)thread);
 }
+
+} // namespace ot

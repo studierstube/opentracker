@@ -55,6 +55,9 @@
  * @author Gerhard Reitmayr
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API ParButtonModule : public Module, public NodeFactory
 {
 // Members
@@ -84,5 +87,7 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif

@@ -46,6 +46,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API State
 {
 
@@ -128,5 +131,7 @@ inline void State::timeStamp()
 {
     time = OSUtils::currentTime();
 }
+
+} // namespace ot
 
 #endif

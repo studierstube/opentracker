@@ -38,7 +38,12 @@
 #include <iostream>
 #include <sstream>
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 using namespace std;
+
+namespace ot {
 
 GroupGateGroup::GroupGateGroup(const char *name)
 {
@@ -154,7 +159,8 @@ GroupGateModule::createNode(const string &name, StringTable &attributes)
         GroupMap::iterator find = Groups.find(cgroup);
         if (find != Groups.end()) 
         {
-cout << "*** ActiveGroup: " << cgroup << endl;
+			//cout << "*** ActiveGroup: " << cgroup << endl;
+			LOG_ACE_ERROR("ot:*** ActiveGroup: %s\n", cgroup);
             node =  (* find).second->setActiveGate(true);
         }
         return node;
@@ -185,3 +191,5 @@ GroupGateModule::activateGroupGate(const char *groupname, const char *groupgaten
     group->deactivateAll();
     node->activate();
 }
+
+} // namespace ot

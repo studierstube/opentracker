@@ -76,6 +76,9 @@
  * @ingroup common
  * @todo fix principal value tests for trigonometric calculations
  */
+
+namespace ot {
+
 class OPENTRACKER_API EllipsoidTransformNode : public Transformation  
 {
 public:
@@ -98,5 +101,7 @@ protected:
 
 	friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif // !defined(_ELLIPSOIDTRANSFORMNODE_H)

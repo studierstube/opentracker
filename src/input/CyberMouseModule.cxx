@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "CyberMouseSource.h"
 #include "CyberMouseModule.h"
 
@@ -44,11 +47,15 @@
 
 #include "freeddll.h"
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
 
 #define SZ_Get_FREED_Info   "Get_FREED_Info"
 #define SZ_OpenFREED        "OpenFREED"
 #define SZ_CloseFREED       "CloseFREED"
+
+namespace ot {
 
 typedef ULONG (FAR PASCAL *PFNGet_FREED_Info)(FREED_info *Info);
 extern PFNGet_FREED_Info lpfnGet_FREED_Info;
@@ -88,7 +95,8 @@ Node * CyberMouseModule::createNode( const string& name, StringTable& attributes
         CyberMouseSource * source = new CyberMouseSource;
 		source->state.confidence = 1.0f;
         nodes.push_back( source );
-        cout << "Build CyberMouseSource node " << endl;
+        //cout << "Build CyberMouseSource node " << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build CyberMouseSource node\n")));
         initialized = 1;
         return source;
     }
@@ -132,14 +140,16 @@ void CyberMouseModule::start()
 
         if (!hWndCyber)
         {
-                cout << "Could not create message-only window." << endl
-                     << "Fatal Error" << endl;
+                //cout << "Could not create message-only window." << endl
+                //     << "Fatal Error" << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Could not create message-only window.\nFatal Error\n")));
                 exit(1);
         }
 
         if ((hLibrary = LoadLibrary("FREEDDLL.DLL")) == NULL) {
-                cout << "Error Loading FREEDDLL.DLL." << endl
-                     << "FREED DLL" << endl;
+                //cout << "Error Loading FREEDDLL.DLL." << endl
+                //     << "FREED DLL" << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error Loading FREEDDLL.DLL.\nFatal Error\n")));
                 exit(1);
         }
 
@@ -192,5 +202,7 @@ void CyberMouseModule::pushState()
         source->updateObservers( source->state );
     }
 }
+
+} // namespace ot
 
 #endif

@@ -47,11 +47,19 @@
 #include <string>
 #include <vector>
 
+namespace ot {
+
 class Context;
 class ConfigurationParser;
 class RefNode;
 class Node;
 class NodePort;
+
+} // namespace ot
+
+#include "State.h"
+
+namespace ot {
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
@@ -60,7 +68,6 @@ class NodePort;
  */
 typedef std::vector<Node *> NodeVector;
 
-#include "State.h"
 
 /**
  * The basic superclass for all nodes. It implements several interfaces
@@ -70,6 +77,7 @@ typedef std::vector<Node *> NodeVector;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API Node
 {
 
@@ -488,5 +496,7 @@ public:
 	friend class RefNode;
     friend class XMLWriter;
 };
+
+} // namespace ot
 
 #endif

@@ -53,6 +53,8 @@
 
 #ifdef USE_CYBERMOUSE
 
+namespace ot {
+
 /**
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
@@ -85,6 +87,8 @@ public:
 
     friend class CyberMouseModule;
 };
+
+}  // namespace ot
 
 #endif
 

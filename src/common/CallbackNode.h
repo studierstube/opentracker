@@ -51,6 +51,8 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 typedef void CallbackFunction(const Node &, const State &, void *);
 
 /**
@@ -111,5 +113,7 @@ public:
 
     friend class CallbackModule;
 };
+
+} // namespace ot
 
 #endif

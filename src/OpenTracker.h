@@ -104,6 +104,8 @@
  * container of Nodes such as a parent node, or to keep pointers
  * to several nodes around.
  */
+namespace ot {
+
 typedef std::vector<Node *> NodeVector;
 
 /** initializes a context by instantiating the available modules and factories
@@ -116,5 +118,7 @@ typedef std::vector<Node *> NodeVector;
  * @param context reference of the context to be initialized.
  */
 OPENTRACKER_API void  initializeContext( Context & context );
+
+} // namespace ot
 
 #endif

@@ -106,6 +106,10 @@ SOURCE=.\src\input\ARToolKitModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\input\ARToolKitPlusModule.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\common\ButtonFilterNode.cxx
 # End Source File
 # Begin Source File
@@ -302,6 +306,10 @@ SOURCE=.\src\core\OSUtils.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\tool\OT_ACE_Log.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\input\P5GloveModule.cxx
 # End Source File
 # Begin Source File
@@ -455,6 +463,10 @@ SOURCE=.\src\input\ARTDataTrackerSource.h
 # Begin Source File
 
 SOURCE=.\src\input\ARToolKitModule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\input\ARToolKitPlusModule.h
 # End Source File
 # Begin Source File
 
@@ -775,6 +787,10 @@ SOURCE=.\src\OpenTracker.h
 # Begin Source File
 
 SOURCE=.\src\core\OSUtils.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tool\OT_ACE_Log.h
 # End Source File
 # Begin Source File
 

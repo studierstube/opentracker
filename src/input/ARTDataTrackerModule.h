@@ -63,9 +63,11 @@
 #include "ARTDataTrackerSource.h"
 #include "ARTDataTrackerChomp.h"
 
-typedef std::vector<Node*> NodeVector;
-
 class ACE_SOCK_Dgram;
+
+namespace ot {
+
+typedef std::vector<Node*> NodeVector;
 
 /**
 * The module and factory to drive the ARTDataTrackersource nodes. It constructs
@@ -157,5 +159,7 @@ public:
     virtual void init(StringTable& attributes, ConfigNode * localTree);
 	
 };
+
+} // namespace ot
 
 #endif

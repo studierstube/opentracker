@@ -31,6 +31,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+#include "../tool/OT_ACE_Log.h"
+
+#include <ace/Log_Msg.h>
+
 #include "FastTrakSource.h"
 #include "FastTrakModule.h"
 #include "../misc/serialcomm.h"
@@ -39,7 +45,11 @@
 #include <string.h>
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
+
+namespace ot {
 
 const int FASTTRAK = 1;
 const int ISOTRAK = 2;
@@ -65,12 +75,14 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
     num = sscanf( attributes.get("stations").c_str(), " %i", &numberOfStations);
     if( num != 1 )
     {
-        cout << "FastTrakModule : can't read attribute\"stations\"\n";
+        //cout << "FastTrakModule : can't read attribute\"stations\"\n";
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : can't read attribute\"stations\"\n")));
         exit(-1);
     }
     if (numberOfStations < 1)
     {
-        cout << "FastTrakModule : attribute \"stations\" invalid\n";
+        //cout << "FastTrakModule : attribute \"stations\" invalid\n";
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : attribute \"stations\" invalid\n")));
         exit(-1);
     }
 
@@ -82,7 +94,8 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
         trackerType = ISOTRAK;
     else
     {
-        cout << "FastTrakModule : unknown trackertype " << attributes.get("type") << endl;
+        //cout << "FastTrakModule : unknown trackertype " << attributes.get("type") << endl;
+		LOG_ACE_ERROR("ot:FastTrakModule : unknown trackertype %s\n", attributes.get("type"));
         exit(-1);
     }
 
@@ -93,8 +106,9 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
     initString = attributes.get("init-string");
     
     ThreadModule::init( attributes, localTree );
-    cout << "FastTrakModule : initialized !\nusing tracker protocol for " << 
-        attributes.get("type") << endl;
+    //cout << "FastTrakModule : initialized !\nusing tracker protocol for " << 
+    //    attributes.get("type") << endl;
+	LOG_ACE_INFO("ot:FastTrakModule : initialized !\nusing tracker protocol for %s\n", attributes.get("type"));
 }
 
 // This method is called to construct a new Node 
@@ -106,18 +120,21 @@ Node * FastTrakModule::createNode( const std::string& name,  StringTable& attrib
         num = sscanf( attributes.get("number").c_str(), " %i", &number );
         if( num != 1 )
         {
-            cout << "FastTrakModule : error reading FastTrakSource number !\n";
+            //cout << "FastTrakModule : error reading FastTrakSource number !\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : error reading FastTrakSource number !\n")));
             return NULL;
         }
         if ((number < 0) || (number > numberOfStations-1))
         {
-            cout << "FastTrakModule : number out of range 0 to " << numberOfStations-1 << "!\n";
+            //cout << "FastTrakModule : number out of range 0 to " << numberOfStations-1 << "!\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : number out of range 0 to %d\n"), numberOfStations-1));
             return NULL;
         }
         FastTrakSource * source = new FastTrakSource(number);
         nodes.push_back( source );
 
-        cout << "Build FastTrakSource for " << number << endl;
+        //cout << "Build FastTrakSource for " << number << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build FastTrakSource for %d\n"), number));
         return source;
     }
     return NULL;
@@ -141,7 +158,8 @@ void FastTrakModule::start()
 
         if( openSerialPort( &port, &params ) < 0 )
         {
-           cout << "FastTrakModule : error opening port " <<  endl;
+           //cout << "FastTrakModule : error opening port " <<  endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : error opening port\n")));
            initialized = 0;
            return;
         }
@@ -167,14 +185,16 @@ int FastTrakModule::initFastTrak()
     else if (trackerType == ISOTRAK)
         PingString = "P";
 
-    cout << "pinging tracker ";
+    //cout << "pinging tracker ";
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:pinging tracker")));
     int ping = 0;
     int pong = 0;
     int dr;
     while (ping < 5)
     {
         ping++;
-        cout << ".";
+        //cout << ".";
+		ACE_DEBUG((LM_INFO, ACE_TEXT(".")));
     	writetoSerialPort(&port, PingString, strlen(PingString));
         pong = 0;
         while (((dr = readfromSerialPort( &port, buffer, 255)) <= 0) && (pong < 100))
@@ -189,11 +209,13 @@ int FastTrakModule::initFastTrak()
                 break;
         }
     }
-    cout << endl;
+    //cout << endl;
+	ACE_DEBUG((LM_INFO, ACE_TEXT("\n")));
     
     if (ping == 5)
     {
-        cout << "FastTrakModule : can't ping tracker " <<  endl;
+        //cout << "FastTrakModule : can't ping tracker " <<  endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FastTrakModule : can't ping tracker\n")));
         return -1;
     }
 
@@ -320,11 +342,14 @@ void FastTrakModule::run()
         } // data processing loop
         
         if (stationNr == -2)
-            cout << "FastTrakModule: too much junk received.\n";
+            //cout << "FastTrakModule: too much junk received.\n";
+			ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:FastTrakModule: too much junk received.\n")));
         else
-            cout << "FastTrakModule: no data received.\n";
+            //cout << "FastTrakModule: no data received.\n";
+			ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:FastTrakModule: no data received.\n")));
 
-        cout << "FastTrakModule: trying to reinitialize tracker ...\n";
+        //cout << "FastTrakModule: trying to reinitialize tracker ...\n";
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:FastTrakModule: trying to reinitialize tracker ...\n")));
 
     } // reinitialization loop
 }
@@ -620,5 +645,7 @@ void FastTrakModule::convert(int stationNr, char *inputBuffer)
 
     stations[stationNr].newVal = 1;
 }
+
+} // namespace ot
 
 // EOF

@@ -33,6 +33,8 @@
 #include <ace/OS.h>
 #include "OSUtils.h"
 
+namespace ot {
+
 // returns the current time in milliseconds since ...
 double OSUtils::currentTime()
 {
@@ -46,3 +48,5 @@ void OSUtils::sleep( double time )
     ACE_Time_Value timeVal(0, (int)(1000*time) );
 	ACE_OS::sleep( timeVal );
 }
+
+} // namespace ot

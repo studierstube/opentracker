@@ -30,6 +30,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include "JoystickModule.h"
 #include "JoystickSource.h"
@@ -39,10 +41,14 @@
 #include <stdio.h>
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 
+#ifndef _WIN32_WCE
 #pragma comment(lib, "winmm")
+#endif //_WIN32_WCE
 
 using namespace std;
 
+
+namespace ot {
 
 // Destructor method
 
@@ -262,5 +268,7 @@ void JoystickModule::pollJoysticks()
         }
     } 
 }
+
+} // namespace ot
 
 #endif

@@ -37,6 +37,8 @@ const int NMEABUFSZ = 1024;
 
 #include "GPSParser.h"
 
+namespace ot {
+
 const GPResult * (* GPSParser::parsers[])(const char *) = {
     GPGGA::parse,
     GPVTG::parse,
@@ -433,3 +435,5 @@ const GPResult * PGRMZ::parse( const char * line )
     }
     return NULL;
 }
+
+} // namespace ot

@@ -90,6 +90,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API GKTransformNode : public Transformation 
 {
 public:
@@ -113,5 +116,7 @@ protected:
 
 	friend class CommonNodeFactory;
 };
+
+} // namespace ot {
 
 #endif // !defined(_GKTRANSFORMNODE_H)

@@ -30,11 +30,16 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "EventQueueNode.h"
 
 #include <iostream>
 
 // this method is called by the EventGenerator to update it's observers
+
+namespace ot {
 
 void EventQueueNode::onEventGenerated( State& event, Node& generator)
 {
@@ -45,3 +50,5 @@ void EventQueueNode::onEventGenerated( State& event, Node& generator)
     insertAtTime( event );
     updateObservers( event );
 }
+
+} // namespace ot

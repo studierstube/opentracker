@@ -80,6 +80,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API VirtualTransformation : public StaticTransformation
 {
 // Methods
@@ -103,5 +106,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

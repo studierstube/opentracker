@@ -39,6 +39,10 @@
 #include <ace/DEV_Connector.h>
 #include <ace/Svc_Handler.h>
 
+
+namespace ot {
+
+
 class GPSDriver;
 
 #define NMEABUFSZ (8 * 1024)
@@ -75,5 +79,9 @@ protected:
 };
 
 typedef ACE_Connector<GPS_Handler, ACE_DEV_CONNECTOR> GPS_Connector;
+
+
+}  // namespace ot
+
 
 #endif // !defined(_GPS_HANDLER_H)

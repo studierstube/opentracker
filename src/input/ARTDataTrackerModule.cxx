@@ -29,23 +29,27 @@
 * $Id$
 * @file                                                                   */
 /* ======================================================================= */
-// a trick to avoid warnings when ace includes the STL headers
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
-#include <ace/Time_Value.h>
+#include <ace/Log_Msg.h>
 
 #include "ARTDataTrackerModule.h"
 #include "ARTDataTrackerSource.h"
+#include "ARTDataTrackerChomp.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
 
+
 using namespace std;
+
+namespace ot {
 
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
@@ -78,7 +82,8 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 )
 		{
-            std::cout << "Error in converting ARTDataTrackerSource number !" << endl;
+            //std::cout << "Error in converting ARTDataTrackerSource number !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting ARTDataTrackerSource number !\n")));
             return NULL;
         }
 		NodeVector::iterator it;
@@ -91,12 +96,14 @@ Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& a
 		}
 		if( it != sources.end())
 		{
-			std::cout << "Source with number "<< number << " exists allready\n";
+			//std::cout << "Source with number "<< number << " exists allready\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d exists allready\n"), number));
 			return NULL;
 		}
         ARTDataTrackerSource * source = new ARTDataTrackerSource( number); 
 		sources.push_back( source );
-        std::cout << "Built ARTDataTrackerSource node. Number: " << number << endl;
+        //std::cout << "Built ARTDataTrackerSource node. Number: " << number << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built ARTDataTrackerSource node. Number: %d\n"), number));
         return source;
 	}
     return NULL;
@@ -144,7 +151,8 @@ void ARTDataTrackerModule::run()
 			{
 				if(errno != ETIME && errno != 0)
 				{
-					std::cout << "Error " << errno << " receiving data ! " << endl;
+					//std::cout << "Error " << errno << " receiving data ! " << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR %d receiving data\n"), errno));
 					exit( -1 );
 				}
 			}
@@ -282,3 +290,5 @@ void ARTDataTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	DataTracker = new ARTDataTrackerChomp();
 }
+
+} // namespace ot

@@ -30,10 +30,15 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "EllipsoidTransformNode.h"
 #include <math.h>
 
 using namespace std;
+
+namespace ot {
 
 EllipsoidTransformNode::EllipsoidTransformNode( double a_ , double b_, Mode mode_ ) :
 a( a_ ),
@@ -108,3 +113,5 @@ State* EllipsoidTransformNode::transformState( State* state)
 	localState.time = state->time;
 	return & localState;
 }
+
+} // namespace ot

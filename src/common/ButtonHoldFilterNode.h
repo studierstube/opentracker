@@ -68,6 +68,9 @@ Example_ for one bit(n=1) - over time)
  * @author Thomas Psik
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API ButtonHoldFilterNode : public Node   
 {
 
@@ -106,5 +109,7 @@ public:
 
     friend class ButtonHoldFilterModule;
 };
+
+} // namespace ot
 
 #endif

@@ -56,6 +56,9 @@
  * @author Flo Ledermann
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API ElasticFilterNode : public Node   
 {
 
@@ -99,5 +102,7 @@ public:
 
     friend class InterpolatorModule;
 };
+
+} // namespace ot
 
 #endif

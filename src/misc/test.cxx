@@ -40,6 +40,8 @@ using namespace std;
 #include <common/CallbackModule.h>
 #include <misc/xml/XMLWriter.h>
 
+using namespace ot;
+
 CallbackFunction testCB;
 
 /**

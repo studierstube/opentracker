@@ -63,6 +63,8 @@
 
 #include <ace/SOCK_Dgram.h>
 
+namespace ot {
+
 /// this structure stores the attributes of an UltratrakSource 
 struct Station
 {
@@ -184,5 +186,7 @@ public:
      */
     virtual void pushState();             
 };
+
+} // namespace ot
 
 #endif

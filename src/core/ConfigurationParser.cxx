@@ -45,6 +45,10 @@
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
 
+
+namespace ot {
+
+
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 
 // constructor method
@@ -302,3 +306,6 @@ StringTable * ConfigurationParser::parseElement( XERCES_CPP_NAMESPACE_QUALIFIER 
     }
     return value;
 }
+
+
+} // namespace ot

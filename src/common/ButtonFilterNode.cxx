@@ -30,8 +30,14 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ButtonFilterNode.h"
 #include <iostream>
+
+#include <ace/Log_Msg.h>
+
 
 #define DEBUG_BUTTONFILTER 
 #if defined(DEBUG_BUTTONFILTER) && defined(_DEBUG) 
@@ -43,6 +49,8 @@
 using namespace std;
 
 // constructor method.
+
+namespace ot {
 
 ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr, 
 								   const char * validtransstr , const char * radiobuttonsstr, const char *validTransSetButtonStr )
@@ -136,7 +144,8 @@ ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* button
 		}
 		else
 		{
-			cerr << "ButtonFilterNode error. validtrans && radiobuttons must be exact 8 chars long. SETTINGS IGNORED !!" << endl;
+			//cerr << "ButtonFilterNode error. validtrans && radiobuttons must be exact 8 chars long. SETTINGS IGNORED !!" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ButtonFilterNode error. validtrans && radiobuttons must be exact 8 chars long. SETTINGS IGNORED !!\n")));
 		}
 	}
 }
@@ -243,3 +252,5 @@ void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
 
     updateObservers( lastState );
 }
+
+} // namespace ot

@@ -45,6 +45,9 @@
  * @author Reinhard Steiner
  * @ingroup input 
  */
+
+namespace ot {
+
 class SpeechVoiceBase
 {
 // protected init & destroy methods
@@ -101,6 +104,8 @@ public:
   };
 };
 
+} // namespace ot
+
 #ifdef USE_SAPISPEECH
 
 #include "SpeechInc.h"
@@ -115,6 +120,9 @@ public:
  * @author Reinhard Steiner
  * @ingroup input 
  */
+
+namespace ot {
+
 class CSpeechVoice : public SpeechVoiceBase
 {
 // protected data members
@@ -169,6 +177,7 @@ public:
   void Speak(const char *p_Sentence, bool p_Async = true);
 };
 
+} // namespace ot
 
 #endif //ifdef USE_SAPISPEECH
 

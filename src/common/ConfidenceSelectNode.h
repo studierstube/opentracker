@@ -67,6 +67,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API ConfidenceSelectNode : public Node   
 {
 
@@ -101,5 +104,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

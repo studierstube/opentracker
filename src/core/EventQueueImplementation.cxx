@@ -34,6 +34,8 @@
 
 #include <algorithm>
 
+namespace ot {
+
 /** simple functor to compare states with a fixed time */
 struct SameOrAfter {
 	double time;
@@ -117,3 +119,5 @@ void EventQueueImplementation::insertAtTime(State& event)
         queue.push_back( event );
     }
 }
+
+} // namespace ot

@@ -55,6 +55,9 @@
  * @ingroup input
  * @author Christopher Schmidt
  */
+
+namespace ot {
+
 class OPENTRACKER_API ARTDataTrackerSource : public Node
 {
 // Members
@@ -83,5 +86,7 @@ public:
     };
   
 };
+
+} // namespace ot
 
 #endif

@@ -93,6 +93,8 @@
 #include <string>
 #include <vector>
 
+namespace ot {
+
 typedef std::vector<std::string> NeighborsVector;
 typedef std::vector<Node *> NeighborPtrsVector;
 
@@ -194,5 +196,6 @@ public:
     friend class GroupGateGroup;
 };
 
+} // namespace ot
 
 #endif

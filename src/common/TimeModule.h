@@ -68,6 +68,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API TimeModule : public Module
 {
 // Members
@@ -108,5 +111,7 @@ public:
     /** closes the module, prints out the framerate, if display is 1. */
     void close();
 };
+
+} // namespace ot
 
 #endif

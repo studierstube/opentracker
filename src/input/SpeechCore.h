@@ -59,6 +59,9 @@
  * @author Reinhard Steiner
  * @ingroup input 
  */
+
+namespace ot {
+
 class SpeechCoreBase
 {
 // protected static data members
@@ -150,6 +153,8 @@ public:
   friend class SpeechSetBase;
 };
 
+} // namespace ot
+
 #ifdef USE_SAPISPEECH
 
 #include "SpeechInc.h"
@@ -165,6 +170,8 @@ public:
  * @author Reinhard Steiner
  * @ingroup input
  */
+namespace ot {
+
 class CSpeechCore : public SpeechCoreBase
 {
 // protected static data members
@@ -257,6 +264,8 @@ public:
 
   friend class CSpeechSet;
 };
+
+} // namespace ot
 
 #endif //#ifdef USE_SAPISPEECH
 

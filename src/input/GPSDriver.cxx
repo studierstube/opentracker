@@ -31,7 +31,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
-#define ACE_NLOGGING
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include "../OpenTracker.h"
 #include <ace/Reactor.h>
@@ -45,6 +46,13 @@ using namespace std;
 #include "GPS_Handler.h"
 #include "DGPSIP_Handler.h"
 #include "DGPSMirror_Handler.h"
+
+//using namespace std;
+
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
+namespace ot {
 
 GPSDriver::GPSDriver(ACE_Reactor * reactor_) :
 reactor( reactor_ ),
@@ -75,13 +83,14 @@ GPSDriver::~GPSDriver()
 int GPSDriver::open( const std::string & device, int baud, const std::string & serveraddr, int port, int dgpsmirror, const std::string & rtcmdev )
 {
     if( getDebug())
-        std::cout << "GPSDriver open\n";
+        //std::cout << "GPSDriver open\n";
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver open\n")));
 
 	int result;
 	// open the serial port the the GPS receiver
 	receiver = new GPS_Handler( this );
 	GPS_Connector gpsconnect( reactor );
-	result = gpsconnect.connect( receiver, ACE_DEV_Addr(device.c_str()));
+	result = gpsconnect.connect( receiver, ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
 	if( result == 0)
 	{
 		// set the appropriate parameters
@@ -99,11 +108,13 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( result != 0 )
 		{
 			receiver = NULL;
-			std::cerr << "GPSDriver could not open serial port " << device << " !\n";
+			//std::cerr << "GPSDriver could not open serial port " << device << " !\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open serial port %d\n"), device));
 		}
 	}
     if( getDebug())
-        std::cout << "GPSDriver opened serial port " << device << endl;
+        //std::cout << "GPSDriver opened serial port " << device << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened serial port %d\n"), device));
 	
 	// open the tcp connection to the server, if required
 	if( result == 0 && serveraddr.compare("") != 0 )
@@ -113,10 +124,14 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( ipconnect.connect( server, ACE_INET_Addr( port, serveraddr.c_str() )) != 0 )
 		{
 			server = NULL;
-			std::cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
+			//std::cerr << "GPSDriver could not open connection to DGPS server " << serveraddr << ":" << port << " !\n";
+			LOG_ACE_ERROR("ot:GPSDriver could not open connection to DGPS server %s port %d\n", serveraddr.c_str(), port);
 		}
         if( getDebug())
-            std::cout << "GPSDriver opened connection to " << serveraddr << endl;
+		{
+            //std::cout << "GPSDriver opened connection to " << serveraddr << endl;
+			LOG_ACE_INFO("ot:GPSDriver opened connection to %s\n", serveraddr.c_str());
+		}
 	}
 
     // open a mirror if we have a DGPS handler
@@ -127,10 +142,12 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
         {
             delete acceptor;
             acceptor = NULL;
-            std::cerr << "GPSDriver could not open DGPS mirror server on port " << dgpsmirror << " !\n";
+            //std::cerr << "GPSDriver could not open DGPS mirror server on port " << dgpsmirror << " !\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open DGPS mirror server on port %d\n"), dgpsmirror));
         }
         if( getDebug())
-            std::cout << "GPSDriver opened mirror listener.\n";
+            //std::cout << "GPSDriver opened mirror listener.\n";
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened mirror listener.\n")));
     }
 
     // open a dedicated serial port for RTCM output, if we have one
@@ -138,7 +155,7 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
     if( rtcmdev.compare("") != 0)
     {
         this->rtcmdev = new ACE_TTY_IO;
-        ACE_DEV_Connector connector( *this->rtcmdev, ACE_DEV_Addr(rtcmdev.c_str()));
+        ACE_DEV_Connector connector( *this->rtcmdev, ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(rtcmdev.c_str())));
         // set the appropriate parameters
         ACE_TTY_IO::Serial_Params params;		
         result = this->rtcmdev->control( ACE_TTY_IO::GETPARAMS, &params);
@@ -155,10 +172,14 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
         {
             delete this->rtcmdev;
             this->rtcmdev = NULL;
-            std::cerr << "GPSDriver could not open serial port " << rtcmdev << " !\n";
+            //std::cerr << "GPSDriver could not open serial port " << rtcmdev << " !\n";
+			LOG_ACE_ERROR("ot:GPSDriver could not open serial port %s.\n", rtcmdev.c_str());
         }
         if( getDebug())
-            std::cout << "GPSDriver opened serial port " << rtcmdev << endl;
+		{
+            //std::cout << "GPSDriver opened serial port " << rtcmdev << endl;
+			LOG_ACE_INFO("ot:GPSDriver opened serial port %s\n", rtcmdev.c_str());
+		}
     }    
 	return result;
 }
@@ -255,3 +276,5 @@ void GPSDriver::setDebug( bool debug )
 {
 	debugOn = debug;
 }
+
+} // namespace ot

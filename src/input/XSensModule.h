@@ -48,7 +48,12 @@
 
 #include "../OpenTracker.h"
 
+
+namespace ot {
+
+
 class XSensSource;
+
 
 /**
  * This module simply supports the XSensSource. It uses the MTObj.dll or respective mtobj.so from the
@@ -74,5 +79,9 @@ public:
 protected:
     XSensSource * source;
 };
+
+
+}  // namespace ot
+
 
 #endif // !defined(_XSENSMODULE_H)

@@ -45,8 +45,10 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
-class OPENTRACKER_API Transformation
-    : public Node
+
+namespace ot {
+
+class OPENTRACKER_API Transformation : public Node
 {
 // Members
 protected:
@@ -109,5 +111,7 @@ public:
      */
     virtual void onEventGenerated( State& event, Node& generator);
 };
+
+} // namespace ot
 
 #endif

@@ -52,6 +52,8 @@
 #include "Network.h"
 #include "NetworkSink.h"
 
+namespace ot {
+
 /** a list of MulticastGroup records */
 typedef std::vector<MulticastGroup *> GroupVector;
 
@@ -117,5 +119,7 @@ public:
      */
     virtual void pullState();      
 };
+
+} // namespace ot
 
 #endif

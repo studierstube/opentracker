@@ -39,6 +39,9 @@
 #include "Module.h"
 #include "NodeFactoryContainer.h"
 
+
+namespace ot {
+
 /// a string map to store modules in
 typedef std::map<std::string, Module *> ModuleMap;
 
@@ -73,6 +76,7 @@ close();@endverbatim
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API Context
 {
 
@@ -215,5 +219,7 @@ inline const std::string & Context::getRootNamespace()
 {
     return rootNamespace;
 }
+
+} // namespace ot
 
 #endif

@@ -50,6 +50,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API MathUtils
 {
 public:
@@ -110,7 +113,7 @@ public:
      * @param qResult pointer to the result quaternion
      * @return returns the pointer to the result quaternion
      */
-    static float * eulerToQuaternion( const double alpha, const double beta, 
+    static float * MathUtils::eulerToQuaternion( const double alpha, const double beta, 
                                       const double gamma, const enum MathUtils::EULER sequence, 
                                       float * qResult );
     /** inverts a quaternion. This method
@@ -230,5 +233,7 @@ public:
 	/// another nice constant to transform grad to radiants
 	static const double GradToRad;
 };
+
+} // namespace ot
 
 #endif

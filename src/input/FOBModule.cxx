@@ -31,6 +31,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+#include "../tool/OT_ACE_Log.h"
+
+#include <ace/Log_Msg.h>
+
 #include "FOBSource.h"
 #include "FOBModule.h"
 #include "../core/MathUtils.h"
@@ -41,7 +47,10 @@
 #include <errno.h>
 #include <iostream>
 
+
 using namespace std;
+
+namespace ot {
 
 /** This class is a datatype helper class for the FOBModule class. It stores 
  * the relevant data for a single bird station and provides buffer storage and
@@ -206,7 +215,8 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
     // getting master parameter
     if( attributes.get("master", &master ) != 1 )
     {
-        cout << "FOBModule : error in master parameter " << attributes.get("master").c_str() << endl;
+        //cout << "FOBModule : error in master parameter " << attributes.get("master").c_str() << endl;
+		LOG_ACE_ERROR("ot:error in master parameter %s\n", attributes.get("master").c_str());
         return;
     }
     
@@ -258,8 +268,9 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
         int number;
         if( childAttr.get("number", &number ) != 1 )
         {
-            cout << "FOBModule : error parsing Bird " << i << " with number " 
-                 << childAttr.get("number").c_str() << endl;
+            //cout << "FOBModule : error parsing Bird " << i << " with number " 
+            //     << childAttr.get("number").c_str() << endl;
+			LOG_ACE_ERROR("ot:FOBModule : error parsing Bird %d with number %s\n", childAttr.get("number").c_str());
             continue;
         }
 
@@ -274,12 +285,14 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
 
         Bird * bird = new Bird( number, childAttr.get("device"), scale, angles );        
         birds[number] = bird;
-        cout << "created bird " << number << " on dev " << childAttr.get("device") <<endl;
+        //cout << "created bird " << number << " on dev " << childAttr.get("device") <<endl;
+		LOG_ACE_INFO("ot:created bird %d on dev %s\n", number, childAttr.get("device"));
     }
     
     if( birds.find(master) == birds.end())
     {
-        cout << "FOBModule : error no master bird " << master << " present\n";
+        //cout << "FOBModule : error no master bird " << master << " present\n";
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error no master bird %d\n"), master));
         return;
     }
     ThreadModule::init( attributes, localTree );
@@ -293,17 +306,20 @@ Node * FOBModule::createNode( const std::string& name,  StringTable& attributes)
         int number;
         if( attributes.get("number", &number ) != 1 )
         {
-            cout << "FOBModule : error reading FOBSource number !\n";
+            //cout << "FOBModule : error reading FOBSource number !\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error reading FOBSource number !\n")));
             return NULL;
         }
         if( birds.find(number) == birds.end())
         {
-            cout << "FOBModule : no Bird with number " << number << "present\n";
+            //cout << "FOBModule : no Bird with number " << number << "present\n";
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : no Bird with number %d present\n"), number));
             return NULL;
         }
         FOBSource * source = new FOBSource();
         birds[number]->source = source;
-        cout << "Build FOBSource for " << number << endl;
+        //cout << "Build FOBSource for " << number << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build FOBSource for %d\n"), number));
         return source;
     }
     return NULL;
@@ -318,8 +334,9 @@ void FOBModule::start()
         {
             if( birds[master]->open() < 0 )
             {
-                cout << "FOBModule : error opening " << master
-                     << " port for master " << birds[master]->number << endl;
+                //cout << "FOBModule : error opening " << master
+                //     << " port for master " << birds[master]->number << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error opening %d port for master %d\n"), master, birds[master]->number));
                 initialized = 0;
                 return;
             }
@@ -329,7 +346,8 @@ void FOBModule::start()
             {
                 if( it->second->open() < 0 )
                 {
-                    cout << "FOBModule : error opening port for " << it->first << endl;
+                    //cout << "FOBModule : error opening port for " << it->first << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error opening port for %d\n"), it->first));
                     initialized = 0;
                     return;
                 }
@@ -348,14 +366,16 @@ int FOBModule::initFoB()
     // reset birds
     if((result = resetBirds()) != 0 )
     {
-        cout << "FOBModule : error reseting birds " << result << endl;
+        //cout << "FOBModule : error reseting birds " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error reseting birds %d\n"), result));
         return result;
     }
     OSUtils::sleep(300);
 
     if((result = masterBird->setGroupMode( false )) != 0 )
     {
-        cout << "FOBModule : error clear group mode " << result << endl;
+        //cout << "FOBModule : error clear group mode " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error clear group mode %d\n"), result));
         return result;
     }
     OSUtils::sleep(300);
@@ -363,14 +383,16 @@ int FOBModule::initFoB()
     if((result = masterBird->autoConfig((transmitter > birds.rbegin()->first)?(transmitter):(birds.rbegin()->first))) 
          != 0 )
     {
-        cout << "FOBModule : error sending autoconfig " << result << endl;
+        //cout << "FOBModule : error sending autoconfig " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error clear group mode %d\n"), result));
         return result;
     }
     OSUtils::sleep(300);
 
     if((result = setReportMode()) != 0 )
     {
-        cout << "FOBModule : error setting report mode " << result << endl;
+        //cout << "FOBModule : error setting report mode " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error setting report mode %d\n"), result));
         return result;
     }
     
@@ -387,7 +409,8 @@ int FOBModule::initFoB()
 
     if((result = setNextTransmitter()) != 0 )
     {
-        cout << "FOBModule : error setting transmitter " << result << endl;
+        //cout << "FOBModule : error setting transmitter " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error setting transmitter %d\n"), result));
         // return result;
     }
     OSUtils::sleep(500);
@@ -396,14 +419,16 @@ int FOBModule::initFoB()
     {
         if((result = masterBird->setGroupMode( true )) != 0 )
         {
-            cout << "FOBModule : error setting group mode " << result << endl;
+            //cout << "FOBModule : error setting group mode " << result << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error setting group mode %d\n"), result));
            // return result;
         }
     }
     OSUtils::sleep(500);
     if((result = startStreamMode()) != 0 )
     {
-        cout << "FOBModule : error starting data streaming " << result << endl;
+        //cout << "FOBModule : error starting data streaming " << result << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule : error starting data streaming %d\n"), result));
         //return result;
     }
     return 0;
@@ -568,7 +593,8 @@ void FOBModule::run()
             }
         }
     }
-    cout << "FOBModule Framerate " << 1000 * iter / ( OSUtils::currentTime() - startTime ) << endl;
+    //cout << "FOBModule Framerate " << 1000 * iter / ( OSUtils::currentTime() - startTime ) << endl;
+	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FOBModule Framerate %d\n"), 1000 * iter / ( OSUtils::currentTime() - startTime )));
 }
     
 // pushes events into the tracker tree
@@ -821,7 +847,8 @@ inline int Bird::parse( const char * data, int len, int framesize )
         i++;
     }
     // copy everything up to min(framesize - count, len - i) bytes from data[i] into buffer
-    int amount = min( framesize - count, len - i );
+    //int amount = min( framesize - count, len - i );
+	int amount = (framesize - count) < (len - i) ? (framesize - count) : (len - i);
     if( amount == 0 )
         return i;
     memcpy( &buffer[count], &data[i], amount );
@@ -1058,3 +1085,5 @@ inline int Bird::sendReset()
     OSUtils::sleep( 300 );
     return getErrorCode();
 }
+
+} // namespace ot

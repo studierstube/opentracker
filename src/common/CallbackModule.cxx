@@ -30,13 +30,21 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "CallbackModule.h"
 
 #include <iostream>
 
 using namespace std;
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 // called to construct a new Node.
+
+namespace ot {
 
 Node * CallbackModule::createNode( const string& name, StringTable& attributes)
 {
@@ -48,7 +56,8 @@ Node * CallbackModule::createNode( const string& name, StringTable& attributes)
         {
             CallbackNode * node = new CallbackNode( nameVal );
             nodes[nameVal] = node;
-            cout << "Build Callback node " << nameVal << "." << endl;
+            //cout << "Build Callback node " << nameVal << "." << endl;
+			LOG_ACE_INFO("ot:Build Callback node %s.\n", nameVal.c_str());
             return node;
         }
     } 
@@ -66,3 +75,5 @@ void CallbackModule::setCallback( const string& name, CallbackFunction * functio
         ((CallbackNode *)(*it).second)->data = data;
     }
 }
+
+} // namespace ot

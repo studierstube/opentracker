@@ -48,6 +48,9 @@ typedef std::map<std::string,std::string> StringMap;
  * @author Gerhard Reitmayr
  * @ingroup core
  */ 
+
+namespace ot {
+
 class OPENTRACKER_API StringTable {
 protected:
     /// the underlying STL map implementing the functionality
@@ -172,6 +175,7 @@ public:
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API KeyIterator {
 protected:
     /// iterator to keep track of the KeyIterator
@@ -199,5 +203,7 @@ public:
      */
     const std::string & nextElement();
 };
+
+} // namespace ot
 
 #endif

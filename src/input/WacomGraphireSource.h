@@ -59,6 +59,9 @@
  * @author Ivan Viola, Matej Mlejnek
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API WacomGraphireSource : public Node
 {
 // Members
@@ -83,6 +86,8 @@ public:
         return 1;
     }
 };
+
+} // namespace ot
 
 #endif
 

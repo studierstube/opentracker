@@ -69,6 +69,9 @@
  * @ingroup core
  * @author Gerhard Reitmayr
  */
+
+namespace ot {
+
 class OPENTRACKER_API TestSource : public Node
 {
 // Members
@@ -111,5 +114,7 @@ public:
 
     friend class TestModule;
 };
+
+} // namespace ot
 
 #endif

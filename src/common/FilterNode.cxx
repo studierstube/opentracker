@@ -30,12 +30,17 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "FilterNode.h"
 #include <math.h>
 
 using namespace std;
 
 // constructor method.
+
+namespace ot {
 
 FilterNode::FilterNode( const vector<float> & weights_, const Type & type_ )
     : Node(), weights( weights_ ), type( type_ )
@@ -156,3 +161,5 @@ void FilterNode::onEventGenerated( State& event, Node& generator)
         updateObservers( event );
     }
 }
+
+} // namespace ot

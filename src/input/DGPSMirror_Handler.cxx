@@ -38,6 +38,8 @@
 #include "GPSDriver.h"
 #include "DGPSMirror_Handler.h"
 
+namespace ot {
+
 DGPSMirror_Handler::DGPSMirror_Handler()
 {
     driver = NULL;
@@ -71,3 +73,5 @@ int DGPSMirror_Handler::handle_input(ACE_HANDLE fd)
         printf("DGPSMirror_Handler received %i bytes\n", cnt);
     return 0;
 }
+
+} // namespace ot

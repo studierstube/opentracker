@@ -57,6 +57,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class CommonNodeFactory : public NodeFactory
 {
 
@@ -95,5 +98,7 @@ public:
      * @return new Node or NULL, if element name was not recognized */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
 };
+
+} // namespace ot
 
 #endif

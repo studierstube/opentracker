@@ -31,15 +31,15 @@
  /* ======================================================================= */
 
 
-// Disable Debug warning for std lib classes
-#ifdef WIN32
-#pragma warning( disable : 4786 )
-#endif
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include "SpeechSet.h"
 #include "SpeechCore.h"
 
 using namespace std;
+
+namespace ot {
 
 DWORD SpeechSetBase::GetId()
 {
@@ -491,3 +491,5 @@ bool CSpeechSet::IsActive()
 
 
 #endif //ifdef USE_SAPISPEECH
+
+} // namespace ot

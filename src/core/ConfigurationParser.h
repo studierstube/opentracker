@@ -38,6 +38,10 @@
 
 #include <xercesc/dom/DOM.hpp>
 
+
+namespace ot {
+
+
 class Context;
 
 /// used to map a string to a node
@@ -104,5 +108,9 @@ public:
      */
     Node * parseConfigurationFile(const std::string& filename);
 };
+
+
+}  // namespace ot
+
 
 #endif

@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ButtonHoldFilterModule.h"
 #include "ButtonHoldFilterModule.h"
 
@@ -39,8 +42,11 @@
 #include <iostream>
 
 using namespace std;
+#include <ace/Log_Msg.h>
 
 // Destructor method
+
+namespace ot {
 
 ButtonHoldFilterModule::~ButtonHoldFilterModule()
 {
@@ -61,7 +67,9 @@ Node * ButtonHoldFilterModule::createNode( const string& name, StringTable& attr
 
         ButtonHoldFilterNode * source = new ButtonHoldFilterNode(offDuration  );
         nodes.push_back( source );
-        cout << "Built ButtonHoldFilter node " << endl;
+        //cout << "Built ButtonHoldFilter node " << endl;
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Built ButtonHoldFilter node \n")));
+
         initialized = 1;
         return source;
     }
@@ -78,3 +86,5 @@ void ButtonHoldFilterModule::pushState()
     }
     cycle++;
 }
+
+} // namespace ot

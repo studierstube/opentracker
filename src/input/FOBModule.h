@@ -81,6 +81,8 @@
 
 #include <map>
 
+namespace ot {
+
 class Bird;
 /**
  * developer level information and implementation specifics here
@@ -198,5 +200,7 @@ private :
 
     friend class Bird;
 };
+
+} // namespace ot
 
 #endif

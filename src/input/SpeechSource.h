@@ -73,6 +73,9 @@
  * @ingroup input
  * @author Reinhard Steiner
  */
+
+namespace ot {
+
 class OPENTRACKER_API SpeechSource : public Node
 {
 // Members
@@ -160,5 +163,7 @@ public:
 
     friend class SpeechModule;
 };
+
+} // namespace ot
 
 #endif

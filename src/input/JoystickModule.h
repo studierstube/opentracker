@@ -61,6 +61,8 @@
 
 #include <vector>
 
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
 /**
@@ -138,6 +140,8 @@ private:
     /// This method polls all present joysticks.
     void pollJoysticks();
 };
+
+} // namespace ot
 
 #endif
 #endif

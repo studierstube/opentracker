@@ -69,6 +69,8 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+namespace ot {
+
 class OPENTRACKER_API FileSource : public Node
 {
 // Members
@@ -103,5 +105,7 @@ public:
 
     friend class FileModule;
 };
+
+} // namespace ot
 
 #endif

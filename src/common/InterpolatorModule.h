@@ -49,6 +49,8 @@
 #include "../core/Module.h"
 #include "../core/NodeFactory.h"
 
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
 /**
@@ -87,5 +89,7 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif //_INTERPOLATORMODULE_H

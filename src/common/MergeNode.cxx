@@ -31,7 +31,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "MergeNode.h"
+
+namespace ot {
 
 /** definitions for flags defining whats happening for each
  * EventGenerator. These are binary flags that can be or'd
@@ -104,3 +109,5 @@ void MergeNode::onEventGenerated( State& event, Node & generator)
 		updateObservers( localState );
 	}
 }                                  
+
+} // namespace ot

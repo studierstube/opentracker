@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "Transformation.h"
+
+namespace ot {
 
 // constructor method.
 
@@ -142,3 +147,5 @@ void Transformation::onEventGenerated( State& event, Node& generator)
 {
     updateObservers( *transformState( &event ));
 }
+
+} // namespace ot

@@ -42,6 +42,8 @@
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
 
+namespace ot {
+
 /** internal method that writes out the graph recursively. This may change 
  * and therefore is not part of the interface.
  * @param toWrite the current XML element to write out
@@ -98,3 +100,5 @@ void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAME
     }
     writer->release();
 }
+
+}  // namespace ot

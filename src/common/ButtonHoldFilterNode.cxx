@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ButtonHoldFilterNode.h"
+
+namespace ot {
 
 // constructor method
 ButtonHoldFilterNode::ButtonHoldFilterNode( int offDuration_)
@@ -87,3 +92,5 @@ void ButtonHoldFilterNode::push() {
         updateObservers(currentState);
     }
 }
+
+} // namespace ot

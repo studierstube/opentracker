@@ -30,10 +30,15 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "GKTransformNode.h"
 #include <math.h>
 
 using namespace std;
+
+namespace ot {
 
 GKTransformNode::GKTransformNode( double a_ , double b_, double m_, 
 								  double alpha_, double beta_, double gamma_, double delta_, 
@@ -121,3 +126,5 @@ State* GKTransformNode::transformState( State* state)
 	localState.time = state->time;
 	return & localState;
 }
+
+} // namespace ot

@@ -67,6 +67,9 @@
  * @author Hannes Kaufmann, Istvan Barakonyi
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API P5GloveModule : public Module, public NodeFactory
 {
 // Members
@@ -140,6 +143,8 @@ public:
     void P5Motion_FilterYPR();
 
 };
+
+} // namespace ot
 
 #endif
 

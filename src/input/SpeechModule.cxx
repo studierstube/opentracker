@@ -31,10 +31,8 @@
  /* ======================================================================= */
 
 
-// Disable Debug warning for std lib classes
-#ifdef WIN32
-#pragma warning( disable : 4786 )
-#endif
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -45,6 +43,8 @@
 #include "SpeechCore.h"
 
 using namespace std;
+
+namespace ot {
 
 // Destructor methode
 SpeechModule::~SpeechModule()
@@ -227,3 +227,5 @@ void SpeechModule::Speak(const char *p_Sentence, bool p_Async)
   assert(m_Voice);
   m_Voice->Speak(p_Sentence, p_Async);
 }
+
+} // namespace ot

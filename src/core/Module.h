@@ -51,6 +51,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API Module
 {
 //members
@@ -129,5 +132,7 @@ public:
 
     friend class Context;
 };
+
+} // namespace ot
 
 #endif

@@ -57,6 +57,10 @@
 
 using namespace std;
 
+
+namespace ot {
+
+
 XSensSource::XSensSource( int _comport, bool _amd ):
 comport( _comport ),
 amd( _amd )
@@ -142,3 +146,6 @@ void XSensSource::push()
 #endif
 #endif
 }
+
+
+}  // namespace ot

@@ -39,6 +39,8 @@
 
 #include "State.h"
 
+namespace ot {
+
 /** A front and back insert Vector like container, for simple and
  * fast queueing of timestamped events. */
 typedef std::deque<State> StateQueue;
@@ -51,6 +53,7 @@ typedef std::deque<State> StateQueue;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API EventQueueImplementation
 {
 // Members
@@ -78,5 +81,7 @@ public:
     /** returns the size of the queue */
     virtual unsigned int getSize() ;
 };
+
+} // namespace ot
 
 #endif

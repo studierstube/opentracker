@@ -53,6 +53,9 @@
 #include "../OpenTracker.h"
 
 
+namespace ot {
+
+
 /**
  * The PositionFilterNode implements a filter that allows only events the position
  * value of which is within a given range. It is a simple EventGenerator
@@ -92,6 +95,10 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+
+}  // namespace ot
+
 
 #endif 
 

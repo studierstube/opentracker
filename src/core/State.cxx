@@ -34,4 +34,8 @@
 
 /** a global unique variable null, for typesafe null references as return
  *  values of methods.*/
+namespace ot {
+
 State State::null;
+
+} // namespace ot

@@ -35,6 +35,7 @@
 #include <ace/Reactor.h>
 #include <ace/Thread.h>
 #include <ace/FILE_Connector.h>
+#include <ace/FILE_IO.h>
 
 #include "GPSModule.h"
 #include "GPSSource.h"
@@ -46,6 +47,10 @@
 #include <iostream>
 
 using namespace std;
+
+
+namespace ot {
+
 
 ACE_Reactor gps_reactor;
 
@@ -269,3 +274,6 @@ void GPSModule::newData( const GPResult * res, const char * line, void * userDat
 {
     logFile->send( line, ACE_OS::strlen(line));
 }
+
+
+} // namespace ot

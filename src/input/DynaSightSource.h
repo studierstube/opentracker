@@ -54,6 +54,9 @@
  * @author Alexander Schaelss
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API DynaSightSource : public Node
 {
 // Members
@@ -78,5 +81,7 @@ public:
     
     friend class DynaSightModule;
 };
+
+} // namespace ot
 
 #endif

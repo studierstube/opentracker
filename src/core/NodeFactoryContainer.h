@@ -37,6 +37,8 @@
 
 #include "NodeFactory.h"
 
+namespace ot {
+
 /**
  * used to keep a list of NodeFactories.
  */
@@ -51,6 +53,7 @@ typedef std::vector<NodeFactory*> NodeFactoryVector;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API NodeFactoryContainer : public NodeFactory
 {
 
@@ -80,5 +83,7 @@ public:
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
 };
+
+} // namespace ot
 
 #endif

@@ -50,6 +50,8 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 /**
  * This class implements a simple node that inserts new events from the network
  * into the tracker tree.
@@ -80,5 +82,7 @@ public:
     
     friend class NetworkSourceModule;
 };
+
+} // namespace ot
 
 #endif

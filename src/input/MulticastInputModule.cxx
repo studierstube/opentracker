@@ -47,6 +47,10 @@
 
 using namespace std;
 
+
+namespace ot {
+
+
 static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
 
@@ -362,3 +366,6 @@ void MulticastInputModule::init(StringTable& attributes, ConfigNode * localTree)
 	}
 	
 }
+
+
+}  // namespace ot

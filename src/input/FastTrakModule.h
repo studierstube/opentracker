@@ -63,6 +63,8 @@
 
 #include <vector>
 
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
 /// this struct just stores a state, and if the state was changed 
@@ -180,5 +182,7 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif

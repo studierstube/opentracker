@@ -51,7 +51,10 @@
 
 #include "../OpenTracker.h"
 
-#ifdef USE_ARTOOLKIT
+
+#if defined(USE_ARTOOLKIT) || defined(USE_ARTOOLKITPLUS)
+
+namespace ot {
 
 /** An ARToolKitSource represents a single marker that is tracked by the 
  * artoolkit library.
@@ -99,8 +102,11 @@ public:
     };  
 
     friend class ARToolKitModule;
+    friend class ARToolKitPlusModule;
 };
 
-#endif
+} // namespace ot
+
+#endif	// defined(USE_ARTOOLKIT) || defined(USE_ARTOOLKITPPC)
 
 #endif

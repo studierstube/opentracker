@@ -53,6 +53,9 @@
  * @author Thomas Peterseil
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API FOBSource : public Node
 {
 // Members
@@ -77,5 +80,7 @@ public:
 
     friend class FOBModule;
 };
+
+} // namespace ot
 
 #endif

@@ -52,6 +52,10 @@
 #include "../OpenTracker.h"
 #include "GPSDriver.h"
 
+
+namespace ot {
+
+
 /**
  * A very simple EventGenerator node for outputing GPS position data.
  * @author Gerhard Reitmayr
@@ -97,5 +101,9 @@ inline void GPSInfoSource::newData( const GPResult * res, const char * line, voi
         module->unlock();
     }
 }
+
+
+}  // namespace ot
+
 
 #endif // !defined(_GPSINFOSOURCE_H)

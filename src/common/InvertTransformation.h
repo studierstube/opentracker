@@ -62,6 +62,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API InvertTransformation : public Transformation
 {
 protected:
@@ -79,5 +82,7 @@ protected:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

@@ -64,6 +64,10 @@
 /// XSens driver's interface object
 struct IMotionTracker;
 
+
+namespace ot {
+
+
 /**
  * The XSensSource reads and propagates data from an XSens MT9-B sensor.
  * @author Gerhard Reitmayr
@@ -102,5 +106,9 @@ protected:
 
     friend class XSensModule;
 };
+
+
+}  // namespace ot
+
 
 #endif // !defined(_XSensSource_H)

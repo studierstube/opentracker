@@ -61,6 +61,8 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 struct ISTracker;
 
 typedef std::vector<ISTracker *> ISTrackerVector;
@@ -126,5 +128,7 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif

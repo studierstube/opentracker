@@ -34,12 +34,17 @@
 #include "ConsoleSink.h"
 #include "ConsoleSource.h"
 
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+
 #ifdef WIN32
 #include <Windows.h>
 #endif
 
 using namespace std;
 
+namespace ot {
 
 // list of key symbols as ints to provide faster lookup
 
@@ -713,3 +718,5 @@ int ConsoleModule::stop()
 {
     return quit;
 }
+
+} // namespace ot

@@ -50,6 +50,10 @@
 #include "../OpenTracker.h"
 #include "GPSDriver.h"
 
+
+namespace ot {
+
+
 /**
  * A very simple EventGenerator node for outputing GPS direction and velocity data.
  * @author Gerhard Reitmayr
@@ -99,5 +103,9 @@ inline void GPSGarminAltitude::newData( const GPResult * res, const char * line,
         module->unlock();
     }
 }
+
+
+}  // namespace ot
+
 
 #endif // !defined(_GPSGARMINALTITUDE_H)

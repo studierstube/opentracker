@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "SpaceMouseSource.h"
 #include "SpaceMouseModule.h"
 
@@ -53,6 +56,8 @@
 #include "..\core\MathUtils.h"
 
 using namespace std;
+
+namespace ot {
 
 HWND		SpaceMouseModule::hWndSpaceMouse = NULL;
 SiHdl		devHdl;			/* Handle to Spaceball Device */
@@ -346,5 +351,7 @@ void SpaceMouseModule::processMessages()
 		}
     }
 }
+
+} // namespace ot
 
 #endif

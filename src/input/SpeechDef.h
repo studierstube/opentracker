@@ -42,6 +42,8 @@
 #include <string>
 
 
+namespace ot {
+
 typedef unsigned long       DWORD;
 
 
@@ -82,5 +84,6 @@ class CSpeechSet;       /// SR command set
 class CSpeechVoice;     /// TTS voice
 class SpeechVoiceModule;/// TTS voice wrapper
 
+} // namespace ot
 
 #endif //#if !defined(__SPEECHDEF_H)

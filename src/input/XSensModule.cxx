@@ -44,6 +44,10 @@
 
 using namespace std;
 
+
+namespace ot {
+
+
 XSensModule::XSensModule() :
 source( NULL )
 {
@@ -115,3 +119,6 @@ void XSensModule::close()
 #endif
     }
 }
+
+
+}  // namespace ot

@@ -60,6 +60,8 @@
 #include "../misc/serialcomm.h"
 #include <vector>
 
+namespace ot {
+
 /// maximum number of targets that can be processed
 const int DYNASIGHT_MAX_TARGETS = 8;
 /// maximum length of conversion packet buffer
@@ -167,5 +169,7 @@ public:
      */
     virtual void pushState();             
 };
+
+} // namespace ot
 
 #endif

@@ -52,6 +52,8 @@
 #include <string>
 #include <vector>
 
+namespace ot {
+
 class GroupGateModule;
 
 typedef std::vector<std::string> StringVec;
@@ -101,5 +103,7 @@ public:
     const char *getGroupGateName(int groupgatenum);
     void activateGroupGate(const char *groupname, const char *groupgatename);
 };
+
+} // namespace ot {
 
 #endif

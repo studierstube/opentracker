@@ -46,6 +46,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
 */
+
+namespace ot {
+
 class OPENTRACKER_API ConfigNode : public Node
 {
 // Members
@@ -93,5 +96,7 @@ public:
 
     friend class ConfigurationParser;
 };
+
+} // namespace ot
 
 #endif

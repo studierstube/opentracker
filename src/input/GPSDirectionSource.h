@@ -56,6 +56,9 @@
  * @author Gerhard Reitmayr
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API GPSDirectionSource : public Node, public GPSListener  
 {
 public:
@@ -84,7 +87,7 @@ protected:
 
 inline void GPSDirectionSource::newData( const GPResult * res, const char * line, void * userData )
 {
-    assert( userData != NULL );
+    ACE_ASSERT( userData != NULL );
     if( res->type == GPResult::GPVTG){
         GPVTG * point = (GPVTG *) res;
         GPSModule * module = (GPSModule *)userData;
@@ -104,5 +107,7 @@ inline void GPSDirectionSource::newData( const GPResult * res, const char * line
         module->unlock();
     }
 }
+
+} // namespace ot
 
 #endif // !defined(_GPSDIRECTIONSOURCE_H)

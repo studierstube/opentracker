@@ -62,6 +62,8 @@
 #include <ace/INET_Addr.h>
 #include <ace/Handle_Set.h> 
 
+namespace ot {
+
 /// this structure stores the attributes of an MagicY 
 class MagicY
 {
@@ -211,5 +213,7 @@ public:
      */
     virtual void pushState();             
 };
+
+} // namespace ot
 
 #endif

@@ -30,11 +30,16 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ButtonOpNode.h"
 
 using namespace std;
 
 // constructor method.
+
+namespace ot {
 
 ButtonOpNode::ButtonOpNode( const Op & op )
    : Node(), arg1(0), arg2(0), operation( op )
@@ -69,3 +74,5 @@ void ButtonOpNode::onEventGenerated( State& event, Node& generator)
         updateObservers( result );
     }
 }
+
+} // namespace ot

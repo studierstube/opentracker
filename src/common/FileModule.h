@@ -55,6 +55,8 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 class File;
 
 /**
@@ -117,5 +119,7 @@ public:
      * Closes the files and cleans up datastructures.*/
     virtual void close();
 };
+
+}  //namespace ot
 
 #endif

@@ -52,14 +52,21 @@ station timestamp position[0] position[1] position[2] orientation[0] ... orienta
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API File
 {
 // Members
 protected :
 	/// Output stream for output mode
-    ofstream * output;
+    //ofstream * output;
 	/// Input stream for input mode
-    ifstream * input;
+    //ifstream * input;
+
+	// General io file
+	FILE* fp;
+
     /// flag for looping 
     bool loop;
 
@@ -67,7 +74,7 @@ public :
 	/// the full filename
     const string filename;
     /// the mode i.e. input or output
-    const enum modeFlags { OUT = 0, IN } mode;
+    const enum modeFlags { FILE_OUT = 0, FILE_IN } mode;
 
 // Methods
 public:
@@ -78,21 +85,24 @@ public:
      * @param append if OUT mode clear file or append to it 
      * @param loop_ if IN mode loop input file or not 
      */
-    File(const string filename_ , modeFlags mode_ = OUT, bool append = false, bool loop_ = false ) :
-    loop( loop_ ), filename( filename_), mode( mode_ )
+    File(const string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false ) :
+        filename( filename_), mode( mode_ ), loop( loop_ )
     {        
-        if( mode == OUT ) // output mode
+        if( mode == FILE_OUT ) // output mode
 		{
             if( append )
-                output = new ofstream( filename.c_str(), ios_base::out | ios_base::app );
+                //output = new ofstream( filename.c_str(), ios_base::out | ios_base::app );
+				fp = fopen(filename.c_str(), "a");
             else
-                output = new ofstream( filename.c_str(), ios_base::out | ios_base::trunc );
-			input = NULL;
+                //output = new ofstream( filename.c_str(), ios_base::out | ios_base::trunc );
+				fp = fopen(filename.c_str(), "w");
+			//input = NULL;
 		} 
 		else {          // otherwise input mode
-            input = new ifstream( filename.c_str());
-            input->setf( ios::skipws );
-			output = NULL;
+            //input = new ifstream( filename.c_str());
+            //input->setf( ios::skipws );
+			//output = NULL;
+			fp = fopen(filename.c_str(), "r");
 		} 
     }
 
@@ -100,7 +110,7 @@ public:
      */
     ~File()
     {
-        if( input != NULL )
+        /*if( input != NULL )
         {
             input->close();
             delete input;
@@ -109,7 +119,9 @@ public:
         {
             output->close();
             delete output;
-        }
+        }*/
+		if(fp)
+			fclose(fp);
     }
 
     /** writes a state to the output stream, only useable
@@ -120,8 +132,7 @@ public:
      */
     void write( State & state, int station )
     {
-        if( output != NULL )
-        {
+        /*if( output != NULL )
             *output << station << " " << setw(15) << setfill(' ') << setprecision( 15 );
             *output << state.time << " ";
             *output << state.position[0] << " " 
@@ -133,6 +144,22 @@ public:
                 << state.orientation[3] << " "
                 << state.button << " "
                 << state.confidence << endl;
+        }*/
+
+		if(fp)
+        {
+			fprintf(fp, "%d %.15f %.15f %.15f %.15f %.15f %.15f %.15f %.15f %d %.15f\n",
+						station,
+						state.time,
+						state.position[0],
+						state.position[1],
+						state.position[2],
+						state.orientation[0],
+						state.orientation[1],
+						state.orientation[2],
+						state.orientation[3],
+						state.button,
+						state.confidence);
         }
     }
 
@@ -146,7 +173,7 @@ public:
      */
     bool read( State & state, int * station )    
     {
-        if( !input->is_open())
+        /*if( !input->is_open())
             return false;
 
         input->clear();
@@ -170,9 +197,28 @@ public:
             else
                 input->close();
         }
-        return !result;
+        return !result;*/
+
+		if(!fp)
+			return false;
+
+		fscanf(fp, "%d %.15f %.15f %.15f %.15f %.15f %.15f %.15f %.15f %d %.15f\n",
+				   &station,
+				   &state.time,
+				   &state.position[0],
+				   &state.position[1],
+				   &state.position[2],
+				   &state.orientation[0],
+				   &state.orientation[1],
+				   &state.orientation[2],
+				   &state.orientation[3],
+				   &state.button,
+				   &state.confidence);
+		return (!ferror(fp));
     } 
 
 };
+
+} // namespace ot
 
 #endif

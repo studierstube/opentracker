@@ -29,6 +29,13 @@
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
+
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 #include "ARToolKitModule.h"
 #include "ARToolKitSource.h"
 
@@ -84,6 +91,8 @@
 
 using namespace std;
 
+namespace ot {
+
 // constructor
 
 ARToolKitModule::ARToolKitModule() : 
@@ -118,12 +127,14 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         int num;
         if( (num = attributes.get("center", center, 2)) != 2 )
         {
-            cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
+            //cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Wrong number of center coordinates : %d\n"), num));
             return NULL;
         }
         if( attributes.get("size", &size) != 1 )
         {
-            cout << "ARToolKit Not a size" << endl;
+            //cout << "ARToolKit Not a size" << endl;
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Not a size\n")));
             return NULL;
         }
         int id;
@@ -139,7 +150,8 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         }
         else
         {
-            cout << "ARToolkit could not find tag file " << filename << endl;
+            //cout << "ARToolkit could not find tag file " << filename << endl;
+			LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
             return NULL;
         }
         
@@ -148,13 +160,15 @@ Node * ARToolKitModule::createNode( const string& name, StringTable& attributes)
         
         if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
         {
-            cout << "ARToolKit Error reading tag-file " <<
-                attributes.get("tag-file") << " or " << filename << endl;
+            //cout << "ARToolKit Error reading tag-file " <<
+            //    attributes.get("tag-file") << " or " << filename << endl;
+			LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
             return NULL;
         }
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
         sources.push_back( source );
-        cout << "Build ARToolKitSource " << filename << " id " << id << endl;
+        //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
+		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %s\n", filename.c_str(), id);
         return source;
     }
     return NULL;
@@ -606,4 +620,6 @@ int ARToolKitModule::getImageFormat(int stereo_buffer)
     return IMAGE_MODE;
 }
 
-#endif
+} // namespace ot
+
+#endif  // USE_ARTOOLKIT

@@ -49,6 +49,10 @@
 
 #include "../OpenTracker.h"
 
+
+namespace ot {
+
+
 /**
  * This class implements a simple source that inputs the data from the ART Data Tracker
  * and updates any EventObservers.
@@ -83,5 +87,9 @@ public:
     };
   
 };
+
+
+}  // namespace ot
+
 
 #endif

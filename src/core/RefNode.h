@@ -64,6 +64,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API RefNode : public Node
 {
 
@@ -194,5 +197,7 @@ public:
 	// end TimeDependend interface
     friend class ConfigurationParser;
 };
+
+} // namespace ot {
 
 #endif

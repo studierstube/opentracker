@@ -49,6 +49,9 @@
  * @author Reinhard Steiner
  * @ingroup input 
  */
+
+namespace ot {
+
 class SpeechSetBase
 {
 // protected data members
@@ -146,6 +149,8 @@ public:
   friend class SpeechCoreBase;
 };
 
+} // namespace ot
+
 
 #ifdef USE_SAPISPEECH
 
@@ -159,6 +164,9 @@ public:
  * @author Reinhard Steiner
  * @ingroup input 
  */
+
+namespace ot {
+
  class CSpeechSet : public SpeechSetBase
 {
 // protected data members
@@ -251,6 +259,7 @@ public:
   friend class CSpeechCore;
 };
 
+} // namespace ot
 
 #endif //ifdef USE_SAPISPEECH
 

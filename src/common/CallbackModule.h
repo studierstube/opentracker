@@ -47,6 +47,8 @@
 #include "../OpenTracker.h"
 #include "CallbackNode.h"
 
+namespace ot {
+
 typedef std::map<std::string, Node*> NodeMap;
 
 /**
@@ -88,5 +90,7 @@ public:
      */
     void setCallback( const std::string& name, CallbackFunction * function, void * data = NULL );
 };
+
+} // namespace ot {
 
 #endif

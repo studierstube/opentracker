@@ -102,6 +102,9 @@ Zusatzzeile am Ende des Pakets gibt Anzahl der einkalibrierten 6D Bosies an
 6dcal			3
 @endverbatim
 */
+
+namespace ot {
+
 class ARTDataTrackerChomp
 {	
 	
@@ -117,14 +120,14 @@ public:
 		float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
 		float position[3];			// Array for the position (location) pushed in the Nodetree
 		bool  valid;				// Flag is true if body is tracked by DTrack
-	};
+	} BodyRecord;
 	
 	typedef struct MarkerRecord     // Structur for the 3d Markers
 	{
 		unsigned long id;			// Marker ID taken from the Datagramm
 		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 		float location[3];			// Array for the loaction of the Body (s0 s1 s2)		
-	};
+	} MarkerRecord;
 
 	int bodieID;
 	int frameNumber;
@@ -161,5 +164,7 @@ public:
 	virtual MarkerRecord* getMarkerRecord();					// return the MarkerRecord
 	virtual void pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
 };
+
+} // namespace ot
 
 #endif

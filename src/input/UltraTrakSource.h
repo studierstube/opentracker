@@ -54,6 +54,9 @@
  * @author Rainer Splechtna
  * @ingroup Network
  */
+
+namespace ot {
+
 class OPENTRACKER_API UltraTrakSource : public Node
 {
 // Members
@@ -78,5 +81,7 @@ public:
     
     friend class UltraTrakModule;
 };
+
+} // namespace ot
 
 #endif

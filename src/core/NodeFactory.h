@@ -45,6 +45,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API NodeFactory
 {
 public:
@@ -60,5 +63,7 @@ public:
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes) = 0;
 };
+
+} // namespace ot
 
 #endif

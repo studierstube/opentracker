@@ -73,12 +73,16 @@
 
 #include <string>
 
+class ACE_FILE_IO;
+
+namespace ot {
+
+
 class GPSSource;
 class GPSDirectionSource;
 class GPSGarminCompass;
 class GPSGarminAltitude;
 class GPSInfoSource;
-class ACE_FILE_IO;
 
 /**
  * This module supports a GPS receiver with optional DGPS correction data
@@ -155,5 +159,9 @@ protected:
     friend class GPSGarminAltitude;
     friend class GPSInfoSource;
 };
+
+
+}  // namespace ot
+
 
 #endif // !defined(_GPSMODULE_H)

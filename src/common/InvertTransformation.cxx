@@ -30,9 +30,14 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "InvertTransformation.h"
 
 // transforms a state.
+
+namespace ot {
 
 State* InvertTransformation::transformState( State* state )
 {
@@ -49,3 +54,5 @@ State* InvertTransformation::transformState( State* state )
     localState.time = state->time;
     return &localState;
 }
+
+} // namespace ot

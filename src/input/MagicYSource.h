@@ -54,6 +54,9 @@
  * @author Christoph Traxler
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API MagicYSource : public Node
 {
 // Members
@@ -78,5 +81,7 @@ public:
 
     friend class MagicYModule;
 };
+
+} // namespace ot
 
 #endif

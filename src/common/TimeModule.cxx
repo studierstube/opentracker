@@ -30,11 +30,18 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "TimeModule.h"
 #include <stdio.h>
 #include <iostream>
 
 using namespace std;
+
+#include <ace/Log_Msg.h>
+
+namespace ot {
 
 void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
 {
@@ -96,7 +103,9 @@ void TimeModule::close()
 {
     if( display == 1 )
     {
-        cout << "Framerate " << 
-          count * 1000 / ( OSUtils::currentTime() - startTime ) << endl;
+        //cout << "Framerate " << count * 1000 / ( OSUtils::currentTime() - startTime ) << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Framerate %d\n"), count * 1000 / ( OSUtils::currentTime() - startTime )));
     }
 }
+
+} // namespace ot

@@ -45,6 +45,8 @@
 #include "../core/Context.h"
 #include "../common/CommonNodeFactory.h"
 #include "../core/TestModule.h"
+
+#ifndef _WIN32_WCE
 #include "../common/ConsoleModule.h"
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
@@ -55,6 +57,8 @@
 #include "../input/FOBModule.h"
 #include "../network/TCPModule.h"
 #include "../input/FastTrakModule.h"
+#endif _WIN32_WCE
+
 #include "../input/ARTDataTrackerModule.h"
 #include "../input/UltraTrakModule.h"
 #include "../common/GroupGateModule.h"
@@ -68,6 +72,7 @@
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
+#include "../input/ARToolKitPlusModule.h"
 #include "../input/CyberMouseModule.h"
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
@@ -106,6 +111,8 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 // initializes context
 
+namespace ot {
+
 void OPENTRACKER_API initializeContext( Context & context )
 {
     // Instance the default modules and add to factory and parser
@@ -121,6 +128,7 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *networksink );
     context.addModule( "NetworkSinkConfig", *networksink );
 	
+#ifndef _WIN32_WCE
     ConsoleModule * console = new ConsoleModule ;
     context.addFactory( *console );
     context.addModule( "ConsoleConfig", *console );
@@ -128,11 +136,18 @@ void OPENTRACKER_API initializeContext( Context & context )
     NetworkSourceModule * network = new NetworkSourceModule;
     context.addFactory( * network );
     context.addModule( "NetworkSourceConfig", *network );    
+#endif //_WIN32_WCE
 
 #ifdef USE_ARTOOLKIT
     ARToolKitModule * artool = new ARToolKitModule;
     context.addFactory( * artool );
     context.addModule( "ARToolKitConfig", *artool );
+#endif
+
+#ifdef USE_ARTOOLKITPLUS
+    ARToolKitPlusModule * artoolplus = new ARToolKitPlusModule;
+    context.addFactory( * artoolplus );
+    context.addModule( "ARToolKitPlusConfig", *artoolplus );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
@@ -163,10 +178,12 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( * mcinput );
     context.addModule( "MulticastInputConfig", * mcinput );
 
+#ifndef _WIN32_WCE
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
     context.addModule( "InterSenseConfig", * intersense );
-    
+#endif //_WIN32_WCE
+
     TimeModule * time = new TimeModule();
     context.addModule( "TimeConfig", * time );
 	
@@ -254,3 +271,5 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *xsens );
     context.addModule( "XSensConfig", *xsens );
 }
+
+} // namespace ot

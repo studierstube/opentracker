@@ -30,11 +30,16 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "DynamicTransformation.h"
 
 #include <iostream>
 
 // Constructor
+
+namespace ot {
 
 DynamicTransformation::DynamicTransformation( int baseEvent_, bool usePos_, bool useOrient_ ) :
 	StaticTransformation(),
@@ -70,3 +75,5 @@ void DynamicTransformation::onEventGenerated( State& event, Node& generator)
         StaticTransformation::onEventGenerated( event, generator );
     }
 }
+
+} // namespace ot

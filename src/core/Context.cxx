@@ -50,6 +50,8 @@ using namespace std;
 
 // constructor method.
 
+namespace ot {
+
 Context::Context( int init ) :
     rootNode( NULL ),
     cleanUp( false ), 
@@ -298,7 +300,7 @@ bool Context::findFile( const std::string & filename, std::string & fullname )
     ACE_stat stat;
     if( filename.at(0) == '/' || filename.at(0) == '\\' ) // don't deal with paths from root ! 
     {
-        if( ACE_OS::stat( filename.c_str(), &stat ) != 0 )
+        if( ACE_OS::stat( ACE_TEXT_CHAR_TO_TCHAR(filename.c_str()), &stat ) != 0 )
         {
             return false;
         }
@@ -309,7 +311,7 @@ bool Context::findFile( const std::string & filename, std::string & fullname )
     for( it = directories.begin(); it != directories.end(); it++ )
     {
         string name = (*it) + "/" + filename;
-        if( ACE_OS::stat( name.c_str(), &stat ) == 0 )
+        if( ACE_OS::stat( ACE_TEXT_CHAR_TO_TCHAR(name.c_str()), &stat ) == 0 )
         {
             fullname = name;
             return true;
@@ -317,3 +319,5 @@ bool Context::findFile( const std::string & filename, std::string & fullname )
     }
     return false;
 }
+
+} // namespace ot

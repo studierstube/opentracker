@@ -47,6 +47,9 @@ const double Q_EPSILON = (1e-10);
  * @ingroup core
  * @author Gerhard Reitmayr
  */
+
+namespace ot {
+
 template <typename T> class MathStuff {
 
 public:
@@ -457,7 +460,7 @@ float *MathUtils::quaternionToAxisAngle(const float q[4], float axisa[4])
 		axisa[1]	= q[1] * invLen;
 		axisa[2]	= q[2] * invLen;
 
-		axisa[3]	=(float)( 2.0f * acosf(q[3]));
+		axisa[3]	=(float)( 2.0f * (float)acos(q[3]));
     }
 
     else {
@@ -481,23 +484,4 @@ double MathUtils::dot( const float * v1, const float * v2, const int dim )
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} // namespace ot

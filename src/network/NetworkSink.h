@@ -57,6 +57,8 @@
 #include "../OpenTracker.h"
 #include "Network.h"
 
+namespace ot {
+
 struct MulticastGroup;
 
 /**
@@ -124,5 +126,7 @@ public:
 
     friend class NetworkSinkModule;
 };
+
+} // namespace ot
 
 #endif

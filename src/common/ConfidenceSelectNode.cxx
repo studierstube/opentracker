@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ConfidenceSelectNode.h"
+
+namespace ot {
 
 // constructor method
 ConfidenceSelectNode::ConfidenceSelectNode( double timeout_, types type_ )
@@ -69,3 +74,5 @@ void ConfidenceSelectNode::onEventGenerated( State& event, Node & generator )
 		}	
 	}	
 }
+
+} // namespace ot

@@ -31,16 +31,16 @@
  /* ======================================================================= */
 
 
-// Disable Debug warning for std lib classes
-#ifdef WIN32
-#pragma warning( disable : 4786 )
-#endif
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include "SpeechVoice.h"
 #include "SpeechCore.h"
 
 #ifdef USE_SAPISPEECH
 using namespace std;
+
+namespace ot {
 
 void CSpeechVoice::Initialize()
 {
@@ -173,5 +173,6 @@ void CSpeechVoice::GetVoices()
   }
 }
 
+} // namespace ot
 
 #endif //ifdef USE_SAPISPEECH

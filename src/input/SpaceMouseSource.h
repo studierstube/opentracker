@@ -50,6 +50,8 @@
 
 #ifdef USE_SPACEMOUSE
 
+namespace ot {
+
 /**
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
@@ -92,6 +94,8 @@ protected:
 
 	friend class SpaceMouseModule;
 };
+
+}  // namespace ot
 
 #endif
 

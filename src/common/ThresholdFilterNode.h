@@ -69,8 +69,10 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
-class OPENTRACKER_API ThresholdFilterNode
-    : public Node
+
+namespace ot {
+
+class OPENTRACKER_API ThresholdFilterNode : public Node
 {
 // Members
 protected:
@@ -102,5 +104,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

@@ -53,6 +53,9 @@ class ACE_Thread_Mutex;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API ThreadModule : public Module
 {
 //members
@@ -103,5 +106,7 @@ public:
      * thread !*/
     virtual void close();            
 };
+
+} // namespace ot
 
 #endif

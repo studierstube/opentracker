@@ -58,6 +58,9 @@
  * @author Gerhard Reitmayr
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API ConsoleSource : public Node
 {
 // Members
@@ -90,5 +93,7 @@ public:
     
     friend class ConsoleModule;
 };
+
+} // namespace ot
 
 #endif

@@ -45,6 +45,9 @@
  * The default voice is the windows standard voice (as in the control panel defined).
  * Text could be spoken synchron or asynchron.
  */
+
+namespace ot {
+
 class SpeechVoiceModule
 {
 // protected data members
@@ -89,5 +92,7 @@ public:
   /// Speak something
   void Speak(const char *p_Sentence, bool p_Async = true);
 };
+
+} // namespace ot
 
 #endif //#if !defined(__SPEECHVOICEMODULE_H)

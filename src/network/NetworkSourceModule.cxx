@@ -45,7 +45,12 @@
 
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 using namespace std;
+
+namespace ot {
 
 struct Station
 {
@@ -144,7 +149,8 @@ void NetworkSourceModule::run( void * data )
             {
                 if( errno != ETIME && errno != 0 )
                 {
-                    std::cout << "Error " << errno << " receiving data !" << endl;
+                    //std::cout << "Error " << errno << " receiving data !" << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
                     exit( -1 );
                 }
             }    
@@ -221,7 +227,8 @@ void NetworkSourceModule::run( void * data )
         }        
     }
     rec->socket.close();
-    std::cout << "Stopping thread" << endl;
+    //std::cout << "Stopping thread" << endl;
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
 }
     
  
@@ -233,13 +240,15 @@ Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& a
         int number, port;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
-            std::cout << "Error in converting NetworkSource number !" << endl;
+            //std::cout << "Error in converting NetworkSource number !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSource number !\n")));
             return NULL;
         }
         std::string group = attributes.get("multicast-address");
         num = sscanf(attributes.get("port").c_str(), " %i", &port );
         if( num == 0 ){
-            std::cout << "Error in converting NetworkSource port number !" << endl;
+            //std::cout << "Error in converting NetworkSource port number !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSource port number !\n")));
             return NULL;
         }
         NetworkSource * source = new NetworkSource; 
@@ -267,14 +276,15 @@ Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& a
             }
             if( sit != receiver->sources.end())
             {
-                std::cout << "There is allready a node for station " << number <<
-                             " in group " << group << " !" << endl;
+                //std::cout << "There is allready a node for station " << number << " in group " << group << " !" << endl;
+				LOG_ACE_ERROR("ot:There is allready a node for station %d in group %s !\n", number, group.c_str());
                 delete source;
                 return NULL;
             }
             receiver->sources.push_back( new Station( number, source ));
         }                        
-        std::cout << "Built NetworkSource node." << endl;
+        //std::cout << "Built NetworkSource node." << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
         return source;
     }
     return NULL;
@@ -326,3 +336,5 @@ void NetworkSourceModule::pushState()
         }
     }  
 }          
+
+} // namespace ot

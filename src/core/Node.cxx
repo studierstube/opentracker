@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <iostream>
 
+#include <memory>
 #include <algorithm>
 
 #include <xercesc/dom/DOM.hpp>
@@ -50,11 +51,15 @@
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
 
+
+namespace ot {
+
+
 // emtpy string to be returned, if key is not in the map
 // the object itself is part of StringTable.cxx
 extern const string empty("");
 
-const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull }; 
 
 // constructor
 Node::Node() : name("")
@@ -473,3 +478,5 @@ int Node::get(const string & key, double * value, int len )
     }
     return count;
 }
+
+} // namespace ot

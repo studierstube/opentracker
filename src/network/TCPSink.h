@@ -54,6 +54,8 @@
 
 #include "../OpenTracker.h"
 
+namespace ot {
+
 /** This class is a simple sink that stores a copy of all data passing through it
  * and marks itself as changed for the TCPModule to process the new data. It also
  * stores the protocol information necessary to send the right data.
@@ -115,5 +117,7 @@ public:
 
     friend class TCPModule;
 };
+
+} // namespace ot
 
 #endif

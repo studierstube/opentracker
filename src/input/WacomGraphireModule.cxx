@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "WacomGraphireSource.h"
 #include "WacomGraphireModule.h"
 
@@ -55,7 +58,11 @@
 #define	PACKETDATA	( PK_X | PK_Y | PK_Z | PK_CURSOR | PK_BUTTONS | PK_NORMAL_PRESSURE )
 #include "pktdef.h"
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
+
+namespace ot {
 
 HANDLE    hInst;   // Handle for instance
 PACKET    pkt;    // Packet
@@ -82,7 +89,8 @@ Node * WacomGraphireModule::createNode( const string& name, StringTable& attribu
         if (num == 0) device = 1;
         WacomGraphireSource * source = new WacomGraphireSource(device);
         nodes.push_back( source );
-        cout << "Build WacomGraphireSource node " << endl;
+        //cout << "Build WacomGraphireSource node " << endl;
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build WacomGraphireSource node\n")));
         initialized = 1;
         return source;
     }
@@ -108,8 +116,9 @@ void WacomGraphireModule::start()
         // check if WinTab available.
         if (!WTInfo(0, 0, NULL)) 
         {
-		    cout << "WinTab Services Not Available." << endl
-                 << "Fatal Error" << endl;
+		    //cout << "WinTab Services Not Available." << endl
+            //     << "Fatal Error" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:WinTab Services Not Available.\nFatal Error\n")));
             return;
 	    }
 
@@ -117,8 +126,9 @@ void WacomGraphireModule::start()
         WTInfo(WTI_DEVICES, DVC_NAME, WName);
         if (strncmp(WName,"WACOM",5)) 
         {
-		    cout << "Wacom Tablet Not Installed." << endl
-                 << "Fatal Error" << endl;
+		    //cout << "Wacom Tablet Not Installed." << endl
+            //     << "Fatal Error" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Wacom Tablet Not Installed.\nFatal Error\n")));
             return;
         }
 	
@@ -154,8 +164,9 @@ void WacomGraphireModule::start()
         // If window could not be created, return "failure" 
         if (!hWndWacom) 
         {
-                cout << "Could not create message-only window." << endl
-                     << "Fatal Error" << endl;
+                //cout << "Could not create message-only window." << endl
+                //     << "Fatal Error" << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Could not create message-only window\nFatal Error\n")));
                 exit(1);
         }
 
@@ -186,7 +197,8 @@ void WacomGraphireModule::start()
         // open the region 
         if ((hTab = WTOpen(hWndWacom, &lcMine, TRUE)) == NULL)
         {
-            cout << "Failed to open WacomGraphire library !" << endl;
+            //cout << "Failed to open WacomGraphire library !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open WacomGraphire library !\n")));
             initialized = 0;
         }
     }
@@ -232,5 +244,7 @@ void WacomGraphireModule::pushState()
         }
     }
 }
+
+} // namespace ot
 
 #endif

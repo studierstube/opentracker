@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "InterpolatorModule.h"
 #include "InterpolatorModule.h"
 
@@ -38,7 +41,11 @@
 #include <stdio.h>
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
+
+namespace ot {
 
 // Destructor method
 
@@ -68,7 +75,8 @@ Node * InterpolatorModule::createNode( const string& name, StringTable& attribut
         num = sscanf(attributes.get("damp").c_str(), " %f", &damp );
         ElasticFilterNode * source = new ElasticFilterNode( force, damp, frequency, offset );
         nodes.push_back( source );
-        cout << "InterpolatorModule: Built ElasticFilter node " << endl;
+        //cout << "InterpolatorModule: Built ElasticFilter node " << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:InterpolatorModule: Built ElasticFilter node\n")));
         initialized = 1;
         return source;
     }
@@ -88,3 +96,5 @@ void InterpolatorModule::pushState()
     }
     cycle++;
 }
+
+} // namespace ot {

@@ -62,9 +62,13 @@
 
 #include "ARTDataTrackerSource.h"
 
+class ACE_SOCK_Dgram;
+
+
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
-class ACE_SOCK_Dgram;
 
 /**
 * The module and factory to drive the ARTDataTrackersource nodes. It constructs
@@ -156,5 +160,9 @@ public:
 	void parseString(std::string input, StationRecord *recordTemp) ;
 
 };
+
+
+}  // namespace ot
+
 
 #endif

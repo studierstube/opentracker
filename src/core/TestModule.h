@@ -49,6 +49,8 @@
 #include "Module.h"
 #include "NodeFactory.h"
 
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
 /**
@@ -58,6 +60,7 @@ typedef std::vector<Node*> NodeVector;
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
 class OPENTRACKER_API TestModule : public Module, public NodeFactory
 {
 // Members
@@ -90,5 +93,7 @@ public:
      */
     virtual void pushState();
 };
+
+} // namespace ot
 
 #endif

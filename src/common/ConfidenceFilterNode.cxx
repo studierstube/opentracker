@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ConfidenceFilterNode.h"
+
+namespace ot {
 
 // constructor method
 ConfidenceFilterNode::ConfidenceFilterNode( float treshhold_, types type_ )
@@ -56,3 +61,5 @@ void ConfidenceFilterNode::onEventGenerated( State& event, Node & generator )
                 break;
     }	
 }
+
+} // namespace ot

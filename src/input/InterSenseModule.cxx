@@ -31,6 +31,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+#include "../tool/StringAligner.h"
+
+#include <ace/Log_Msg.h>
+
 #include "InterSenseSource.h"
 #include "InterSenseModule.h"
 
@@ -39,6 +45,8 @@
 #include <isense.h>
 
 using namespace std;
+
+namespace ot {
 
 struct ISTracker {
     ISD_TRACKER_HANDLE handle;
@@ -67,7 +75,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         int comport = 0;
         int num = sscanf(trackerAttrib.get("comport").c_str(), " %i", &comport );
         if( num == 0 ){
-            cout << "Error in converting serial port number !" << endl;
+            //cout << "Error in converting serial port number !" << endl;
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting serial port number !\n")));
             comport = 0;
         }
 		ISTrackerVector::iterator it;
@@ -81,7 +90,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
             ISD_TRACKER_HANDLE handle = ISD_OpenTracker( 0, comport, FALSE, verbose );
             if( handle <= 0 )
             {
-                cout << "Failed to open tracker " << id << endl;                
+                //cout << "Failed to open tracker " << id << endl;                
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open tracker %d\n"), id));
             } 
             else {
                 ISTracker * tracker = new ISTracker;
@@ -92,7 +102,8 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
                 {
-                    cout << "Failed to get tracker config for " << id << endl;
+                    //cout << "Failed to get tracker config for " << id << endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to get tracker config for %d\n"), id));
                 }
 				/* InterTrax does not support quaternions */
                 if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES ) 
@@ -120,21 +131,25 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                         }               
                         if( error )
                         {
-                            cout << "WARNING: InterSenseModule cannot "
-                                 << ((error == 1 ) ? "get " : "set ")
-                                 << "state for tracker " << id << " station "
-                                 << j 
-                                 << "\n - orientation measure may not be quaternion."
-                                 << endl;
+                            //cout << "WARNING: InterSenseModule cannot "
+                            //     << ((error == 1 ) ? "get " : "set ")
+                            //     << "state for tracker " << id << " station "
+                            //     << j 
+                            //     << "\n - orientation measure may not be quaternion."
+                            //     << endl;
+							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s state for tracker %d station %d \n"), ((error == 1 ) ? "get " : "set "), id, j));
+							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:- orientation measure may not be quaternion.\n")));
                         }                       
                     }
                 }   // setup not intertrax
                 trackers.push_back( tracker );
-                cout << "Configured tracker " << id << " of type " << tracker->info.TrackerType << endl;
+                //cout << "Configured tracker " << id << " of type " << tracker->info.TrackerType << endl;
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Configured tracker %d of %d\n"), id, tracker->info.TrackerType));
             }       // open tracker ok
         }           // got a new tracker
         else {      // some conflict with another tracker
-            cout << "Tracker " << id << " at port " << comport << " conflicts with " << (*it)->id << endl;
+            //cout << "Tracker " << id << " at port " << comport << " conflicts with " << (*it)->id << endl;
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tracker %d at port %d conflicts with with %d\n"), id, comport, (*it)->id));
         }
     }               // all ConfigNodes
 }
@@ -156,21 +171,25 @@ Node * InterSenseModule::createNode( const string& name, StringTable& attributes
             int station;
             int num = sscanf(attributes.get("station").c_str(), " %i", &station );
             if( num == 0 ){
-                cout << "Error in converting station number !" << endl;
+                //cout << "Error in converting station number !" << endl;
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Error in converting station number !\n")));
                 return NULL;
             }
             if( station < 0 || station >= ISD_MAX_STATIONS )
             {
-                cout << "Station number out of range [0,"<< ISD_MAX_STATIONS-1 << "] !" << endl;
+                //cout << "Station number out of range [0,"<< ISD_MAX_STATIONS-1 << "] !" << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Station number out of range [0,%d] !\n"), ISD_MAX_STATIONS-1));
                 return NULL;
             }
             InterSenseSource * source = new InterSenseSource( station );
             (*it)->sources.push_back( source );
-            cout << "Build InterSenseSource node " << endl;
+            //cout << "Build InterSenseSource node " << endl;
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build InterSenseSource node\n")));
             return source;
         }
         else {
-            cout << "No tracker " << id << " configured !" << endl;
+            //cout << "No tracker " << id << " configured !" << endl;
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:No tracker %d configured !\n"), id));
         }
     }
     return NULL;
@@ -278,3 +297,5 @@ void InterSenseModule::pushState()
         } 
     } // for all trackers       
 }
+
+} // namespace ot

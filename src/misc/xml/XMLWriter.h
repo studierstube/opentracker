@@ -40,6 +40,8 @@
 // need that to make it work with standard conformind stdc++ libs and older ones
 using namespace std;
 
+namespace ot {
+
 /**
  * This class writes out the contents of the Context as a valid XML file. 
  * It can be used to store a changed tracker graph in a file or some other
@@ -90,5 +92,7 @@ public:
         indent = ind;
     }
 };
+
+} // namespace ot
 
 #endif

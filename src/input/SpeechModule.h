@@ -79,6 +79,8 @@
 #include "SpeechDef.h"
 #include "SpeechVoiceModule.h"
 
+namespace ot {
+
 typedef std::vector<Node*> NodeVector;
 
 /**
@@ -176,5 +178,7 @@ public:
      */
     bool GetCommand(DWORD p_CommandId, DWORD p_SpeechSetId, std::string &p_Command);
 };
+
+} // namespace ot
 
 #endif

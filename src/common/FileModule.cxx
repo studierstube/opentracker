@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "FileModule.h"
 #include "FileSink.h"
 #include "FileSource.h"
@@ -37,7 +40,12 @@
 
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+#include "../tool/OT_ACE_Log.h"
+
 using namespace std;
+
+namespace ot {
 
 // Destructor method, clears nodes member
 
@@ -90,20 +98,22 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
             
         } else // create a new one
         {
-            file = new File( id, File::OUT, append );
+            file = new ot::File( id, ot::File::FILE_OUT, append );
             files[id] = file;        
         }
-        if( file->mode == File::OUT ) // test for right direction and add to store
+        if( file->mode == File::FILE_OUT ) // test for right direction and add to store
         {            
             NodeVector & vector = nodes[id];
             NodeVector::iterator nodeIt = vector.begin();             
             FileSink * sink = new FileSink(*file, station );
             vector.push_back( sink );
-            cout << "Built FileSink node writting into " << id << " with station " 
-                 << station << endl;       
+            //cout << "Built FileSink node writting into " << id << " with station " 
+            //     << station << endl;       
+			LOG_ACE_ERROR("ot:Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
             return sink;
         } 
-        cout << "FileSink referencing input file " << id << endl;
+        //cout << "FileSink referencing input file " << id << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id));
 
     } else if( name.compare("FileSource") == 0 )
     {
@@ -116,7 +126,8 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
         }
         else
         {
-            cout << "FileModule could not find file " << id << " for FileSource !\n";
+            //cout << "FileModule could not find file " << id << " for FileSource !\n";
+			LOG_ACE_ERROR("ot:FileModule could not find file %s for FileSource!\n", id.c_str());
             return NULL;
         }
 
@@ -135,10 +146,10 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
 
         } else // create a new one
         {
-            file = new File( id, File::IN, false, loop );
+            file = new File( id, File::FILE_IN, false, loop );
             files[id] = file;
         }
-        if( file->mode == File::IN ) // test for right direction and add to store
+        if( file->mode == File::FILE_IN ) // test for right direction and add to store
         {
             NodeVector & vector = nodes[id];
             NodeVector::iterator nodeIt = vector.begin();    
@@ -147,16 +158,19 @@ Node * FileModule::createNode( const string& name, StringTable& attributes)
                     break;
             if( nodeIt != vector.end())
             {
-                cout << "Allready another FileSource node for station " << station << endl;
+                //cout << "Already another FileSource node for station " << station << endl;
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Already another FileSource node for station %d\n"), station));
                 return NULL;
             }
             FileSource * source = new FileSource( station, localTime );
             vector.push_back( source );
-            cout << "Built FileSource node reading from " << id << " with station " 
-                 << station << " and localtime " << localTime << endl;       
+            //cout << "Built FileSource node reading from " << id << " with station " 
+              //   << station << " and localtime " << localTime << endl;       
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %d with station %d and localtime %s\n"), id, station, localTime ? "'true'" : "'false'"));
             return source;
         } 
-        cout << "FileSource referencing output file " << id << endl;
+        //cout << "FileSource referencing output file " << id << endl;
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSource referencing output file %d\n"), id));
     }
     return NULL;
 }
@@ -178,7 +192,7 @@ void FileModule::pushState()
 
 	for( map<string, File*>::iterator it = files.begin(); it != files.end(); it++ )
     {
-        if((*it).second->mode == File::IN )
+        if((*it).second->mode == File::FILE_IN )
         {
             NodeVector & vector = nodes[(*it).first];
             NodeVector::iterator jt;
@@ -225,3 +239,5 @@ void FileModule::close()
 	}
     files.clear();
 }
+
+} //namespace ot

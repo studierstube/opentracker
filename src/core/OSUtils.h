@@ -42,6 +42,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
  */
+
+namespace ot {
+
 class OPENTRACKER_API OSUtils 
 {
 
@@ -63,5 +66,7 @@ public:
      */
      static void sleep( double time );
 };
+
+} // namespace ot
 
 #endif

@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "P5GloveModule.h"
 
 #ifdef USE_P5GLOVE
@@ -46,6 +49,8 @@ using namespace std;
 
 #include <math.h>
 #include "P5GloveSource.h"
+
+namespace ot {
 
 //These variables contain the actual x, Y, Z position of the cursor
 int nXPos = 0, nYPos = 0, nZPos = 0;
@@ -504,5 +509,7 @@ void P5GloveModule::P5Motion_Process()
 	else if (fRelPitchPos < -180.0f)
 		fRelPitchPos = 180.0f;
 }
+
+} // namespace ot
 
 #endif

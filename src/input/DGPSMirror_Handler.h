@@ -40,6 +40,8 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Connector.h>
 
+namespace ot {
+
 class GPSDriver;
 
 class DGPSMirror_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
@@ -75,5 +77,7 @@ public:
 protected:
     GPSDriver * driver;
 };
+
+} // namespace ot
 
 #endif // !defined(_DGPSMIRROR_HANDLER_H)

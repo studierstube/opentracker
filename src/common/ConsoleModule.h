@@ -150,6 +150,9 @@ Quit            q               signals to quit OpenTracker
  * @ingroup common
  * @author Gerhard Reitmayr
  */
+
+namespace ot {
+
 class OPENTRACKER_API ConsoleModule: public Module, public NodeFactory
 {
 // Members
@@ -290,5 +293,7 @@ public:
       
       
 };
+
+} // namespace ot
 
 #endif

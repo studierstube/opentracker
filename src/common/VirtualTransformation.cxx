@@ -30,7 +30,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "VirtualTransformation.h"
+
+namespace ot {
 
 // transforms a state.
 
@@ -68,3 +73,5 @@ State* VirtualTransformation::transformState( State* state)
 	localState.time = state->time;
     return &localState;
 }
+
+} // namespace ot

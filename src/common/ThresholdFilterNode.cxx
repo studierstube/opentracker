@@ -30,10 +30,15 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ThresholdFilterNode.h"
 #include <math.h>
 
 using namespace std;
+
+namespace ot {
 
 // constructor method.
 
@@ -65,3 +70,5 @@ void ThresholdFilterNode::onEventGenerated( State& event, Node& generator)
         updateObservers( lastState );
     }
 }
+
+} // namespace ot

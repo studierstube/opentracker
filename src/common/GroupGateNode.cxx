@@ -31,12 +31,19 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "GroupGateNode.h"
 
 #include <stdio.h>
 #include <iostream>
 
+#include <ace/Log_Msg.h>
+
 using namespace std;
+
+namespace ot {
 
 // constructor method
 GroupGateNode::GroupGateNode(const char *name, GroupGateGroup *owner)
@@ -127,7 +134,9 @@ GroupGateNode::onEventGenerated(State &event, Node &generator)
                 GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
                 NeighborPtrs.push_back(node);
             }
-            if (Neighbors.size() != NeighborPtrs.size()) cout << "ERROR: Problem with GroupGateNode\n";
+            if (Neighbors.size() != NeighborPtrs.size())
+				//cout << "ERROR: Problem with GroupGateNode\n";
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR: Problem with GroupGateNode\n")));
         }
         for (NeighborPtrsVector::iterator it = NeighborPtrs.begin(); it != NeighborPtrs.end(); it++)
         {
@@ -159,3 +168,5 @@ GroupGateNode::onEventGenerated(State &event, Node &generator)
 */
     }
 }
+
+} // namespace ot {

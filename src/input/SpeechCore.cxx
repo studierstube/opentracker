@@ -30,16 +30,15 @@
   * @file                                                                   */
  /* ======================================================================= */
 
-
-// Disable Debug warning for std lib classes
-#ifdef WIN32
-#pragma warning( disable : 4786 )
-#endif
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
 
 #include "SpeechCore.h"
 #include "SpeechSet.h"
 
 using namespace std;
+
+namespace ot {
 
 DWORD SpeechCoreBase::s_GrammarId = 1;
 
@@ -429,3 +428,5 @@ void CSpeechCore::WideToStr(const WCHAR *p_WideString, string &p_String)
 
 
 #endif //ifdef USE_SAPISPEECH
+
+} // namespace ot

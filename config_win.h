@@ -91,6 +91,9 @@
 /** uncomment the following line to compile support for the ARToolKit library */
 // #define USE_ARTOOLKIT 1
 
+/** uncomment the following line to compile support for the ARToolKitPlus library */
+//#define USE_ARTOOLKITPLUS 1
+
 /**
  * This define enables the correction of ARToolkit transformation matrices
  * on systems that provide camera images the right way around. ARToolkit seems

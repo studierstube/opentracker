@@ -47,6 +47,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
 
@@ -83,6 +86,8 @@ using namespace std;
 #include <linux/ppdev.h>
 #endif
 #endif
+
+namespace ot {
 
 #ifdef WIN32
  #ifndef _DLPORTIO
@@ -305,3 +310,5 @@ void ParButtonModule::pushState()
 #endif
     }  
 }
+
+} // namespace ot

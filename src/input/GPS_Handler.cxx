@@ -34,6 +34,10 @@
 #include "GPS_Handler.h"
 #include "GPSDriver.h"
 
+
+namespace ot {
+
+
 GPS_Handler::GPS_Handler(GPSDriver * parent_) :
 parent( parent_ ),
 nmeaind( 0 )
@@ -111,3 +115,6 @@ char * GPS_Handler::nmeaRead( char * nmeabuf, int incnt, int & outnt )
     outnt = nmeabuf - onmeabuf;
     return cp;
 }
+
+
+} // namespace ot

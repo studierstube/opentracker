@@ -132,6 +132,9 @@
  * @author Michael Woegerbauer
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API SpaceMouseModule : public ThreadModule, public NodeFactory
 {
 // Members
@@ -180,6 +183,8 @@ private:
 	void processMessages();
 
 };
+
+} // namespace ot
 
 #endif
 

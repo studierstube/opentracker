@@ -43,6 +43,9 @@
  * @author Gerhard Reitmayr
  * @ingroup core
 */
+
+namespace ot {
+
 class OPENTRACKER_API NodePort : public Node
 {
 
@@ -76,5 +79,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

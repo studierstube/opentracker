@@ -82,6 +82,9 @@
  * invertstr  (8bit) invert single button (00000010) button 1 is pressed if value reads 0
  * @ingroup common
  */
+
+namespace ot {
+
 class OPENTRACKER_API ButtonFilterNode
     : public Node
 {
@@ -119,5 +122,7 @@ public:
 
     friend class CommonNodeFactory;
 };
+
+} // namespace ot
 
 #endif

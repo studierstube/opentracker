@@ -63,6 +63,9 @@
  * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
  * @ingroup input
  */
+
+namespace ot {
+
 class OPENTRACKER_API InterSenseSource : public Node
 {
 // Members
@@ -89,6 +92,8 @@ public:
 
     friend class InterSenseModule;
 };
+
+} // namespace ot
 
 #endif
 

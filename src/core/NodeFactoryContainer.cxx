@@ -30,6 +30,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "../tool/disable4786.h"
 #include "NodeFactoryContainer.h"
 
 #include <algorithm>
@@ -37,6 +38,8 @@
 using namespace std;
 
 // Destructor method.
+
+namespace ot {
 
 NodeFactoryContainer::~NodeFactoryContainer()
 {
@@ -78,3 +81,5 @@ void NodeFactoryContainer::removeFactory(NodeFactory& factory)
         factories.erase( result );
     }
 }
+
+} // namespace ot
