@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-07 13:35  reitmayr
+
+	* src/core/Node.cxx:
+	
+	fixed memory leak, still need some cleanup for namespace stuff !!
+
 2003-11-06 15:46  reitmayr
 
 	* src/common/DynamicTransformation.h:
