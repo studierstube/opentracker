@@ -1,4 +1,4 @@
- /* ========================================================================
+  /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Flo Ledermann flo@subnet.at
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.7 2003/11/05 12:02:21 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.8 2003/11/26 09:48:45 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -96,9 +96,8 @@ ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* button
 
 	if (validtransstr!= NULL && radiobuttonsstr != NULL)
 	{
-		if (strlen(validtransstr) == 8 || strlen(radiobuttonsstr) == 8)
+		if (strlen(validtransstr) == 8 && strlen(radiobuttonsstr) == 8)
 		{
-		
 			// these could be processed in one loop, but readiblity improves with 2 extra loops
 			// set validtrans  
 			for (i=0; i< 8; i++)
