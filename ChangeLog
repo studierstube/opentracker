@@ -9,6 +9,28 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-02-18 03:12  tamer
+
+	* INSTALL, configure.ac, opentracker_env.sh, cfg/m4/libtool.m4,
+	cfg/m4/xerces.m4, src/core/ConfigurationParser.cxx,
+	src/core/ConfigurationParser.h, src/core/Context.cxx,
+	src/core/DOMTreeErrorReporter.h, src/core/Node.cxx,
+	src/core/Node.h, src/core/State.h, src/core/StringTable.h,
+	src/core/ThreadModule.h, src/misc/xml/XMLWriter.cxx,
+	src/misc/xml/XMLWriter.h:
+	
+	updated sources to use xerces_2_2. necessary namespace handling is
+	done using macros that xerces provides. Node.h exports those macros
+	again conditionally so that 3rd party libs like Studierstube use
+	the right symbols and don't depend on xerces like we always had it.
+	
+	some cleanups regarding gcc3 compiler warnings (reodering issues).
+	
+	updated libtool to 1.4.3 to be consistent with the Studierstube
+	build system.
+	
+	improved xerces.m4 to output a more informative error string.
+
 2003-02-17 18:46  tamer
 
 	* src/input/ParButtonModule.cxx:
