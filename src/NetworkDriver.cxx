@@ -158,11 +158,12 @@ void NetworkDriver::endUpdate()
 	}
 
     size = ntohs( data.headerLength );
-    nR = data.data + ntohs( data.commentLength );
-    StationVector::iterator it = stations.begin();
-    while( it != stations.end())
+    nR = data.data + ntohs( data.commentLength );    
+    for( StationVector::iterator it = stations.begin(); it != stations.end(); it++ )
     {
 	    state = (*it)->getState();
+        if( state == NULL )
+            continue;
 	    if( state->isValid == 1 )
     	{
 	        short int psize;
@@ -225,7 +226,6 @@ void NetworkDriver::endUpdate()
     	    size += psize;
 	        data.numOfStations++;
     	}
-        it++;
     }
     if( data.numOfStations > 0 )
     {
