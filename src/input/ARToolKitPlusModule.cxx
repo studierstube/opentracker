@@ -42,6 +42,7 @@
 
 #include "ARToolKitPlusModule.h"
 #include "ARToolKitSource.h"
+#include "ARToolKitMultiMarkerSource.h"
 
 #ifdef USE_ARTOOLKITPLUS
 
@@ -71,12 +72,17 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 	tracker.init(NULL, trackerNear, trackerFar, this);
 	tracker.setThreshold(100);
 	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+
+	bestCFs = NULL;
+	maxMarkerId = -1;
+	useMarkerDetectLite = false;
 }
 
 
 ARToolKitPlusModule::~ARToolKitPlusModule()
 {
     sources.clear();
+	sourcesMap.clear();
 }
 
 // This method is called to construct a new Node.
@@ -105,7 +111,11 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
         string filename = attributes.get("tag-file");
 		string markerid = attributes.get("tag-id");
 		string undistmode = attributes.get("undist-mode");
+		string detectmode = attributes.get("detect-mode");
         string fullname;
+
+		if(detectmode.length() && detectmode=="lite")
+			useMarkerDetectLite = true;
 
 		if(undistmode.length())
 		{
@@ -116,49 +126,95 @@ Node* ARToolKitPlusModule::createNode( const string& name, StringTable& attribut
 				tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 		}
 
+		// see if we have a marker-id field
 		if(markerid.length())
 		{
 			id = atoi(markerid.c_str());
 		}
 		else
+		// otherwise look for a marker-filename
 		if(filename.length())
 		{
 			if( patternDirectory.compare("") != 0)
 				context->addDirectoryFirst( patternDirectory );
-        
+
 			if( context->findFile(filename, fullname))
 			{
 				filename = fullname;
 			}
 			else
 			{
-				//cout << "ARToolkit could not find tag file " << filename << endl;
 				LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
 				return NULL;
 			}
-        
+
 			if( patternDirectory.compare("") != 0)
 				context->removeDirectory( patternDirectory );
         
 			if((id = tracker.addPattern((char *)filename.c_str() )) < 0 )
 			{
-				//cout << "ARToolKit Error reading tag-file " <<
-				//    attributes.get("tag-file") << " or " << filename << endl;
 				LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
 				return NULL;
 			}
 		}
 		else
 		{
+		// not good, this means we have a problem...
+		}
 
+		// we need to store the maximum marker id for later...
+		if(id>maxMarkerId)
+		{
+			maxMarkerId = id;
+			if(bestCFs)
+				delete bestCFs;
 		}
 
         ARToolKitSource * source = new ARToolKitSource( id, center, size );
+		source->type = "ARToolKitSource";
         sources.push_back( source );
+		sourcesMap.insert(std::make_pair(id, source));
+
         //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
 		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
         return source;
     }
+
+    if( name.compare("ARToolKitMultiMarkerSource") == 0 )
+    {
+		string filename = attributes.get("cfg-file");
+        string fullname;
+
+		if(patternDirectory.compare("") != 0)
+			context->addDirectoryFirst(patternDirectory);
+
+		if(context->findFile(filename, fullname))
+			filename = fullname;
+		else
+		{
+			LOG_ACE_ERROR("ot:ARToolkit could not find multi-cfg file %s\n", filename.c_str());
+			return NULL;
+		}
+
+		ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker.arMultiReadConfigFile(filename.c_str());
+
+		if(mmConfig)
+		{
+			ARToolKitMultiMarkerSource * source = new ARToolKitMultiMarkerSource( filename, mmConfig );
+			source->type = "ARToolKitMultiMarkerSource";
+			sources.push_back( source );
+
+			// we store the ids of all markers in this config...
+			for(int i=0; i<mmConfig->marker_num; i++)
+				sourcesMap.insert(std::make_pair(mmConfig->marker[i].patt_id, source));
+		}
+		else
+		{
+			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
+			return NULL;
+		}
+	}
+
     return NULL;
 }
 
@@ -270,15 +326,12 @@ bool ARToolKitPlusModule::updateARToolKit()
 
 	ARToolKitPlus::ARUint8 * frameData = NULL;
     ARToolKitPlus::ARMarkerInfo * markerInfo;
-    ARToolKitSource * source;
     int markerNum;
-    int j,k;
+    int j;
     ARFloat matrix[3][4];
 	int newSizeX, newSizeY;
 	ImageGrabber::FORMAT imgFormat0 = ARToolKitPlus::getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::LUM8,
 						 imgFormat = imgFormat0;
-
-	visibleMarkers.empty();
 
 	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
 		return false;
@@ -300,12 +353,142 @@ bool ARToolKitPlusModule::updateARToolKit()
 		tracker.changeCameraSize(newSizeX, newSizeY);
 	}
 
-    if(tracker.arDetectMarker( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
-        return false;
+
+	// reset all markers from last grab, then clear list
+	//
+    for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
+	{
+	    ARToolKitSource *source = (ARToolKitSource *)*it;
+
+		State & state = source->buffer;
+		if (state.confidence > 0.00000001f) 
+		{
+			state.confidence = 0.0f;
+			state.timeStamp();
+			source->modified = 1;
+		}
+	}
+	visibleMarkers.clear();
+
+
+	// try to find markers in the camera image
+	//
+	if(useMarkerDetectLite)
+	{
+		if(tracker.arDetectMarkerLite( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
+			return false;
+	}
+	else
+	{
+		if(tracker.arDetectMarker( frameData, tracker.getThreshold(), &markerInfo, &markerNum ) < 0 )
+			return false;
+	}
+		
 
     if( markerNum < 1 )
         return false;
 
+
+	// we use an array of best confidences to quickly find
+	// the best markers for each id. a simple check against all
+	// other visible markers would result in O(n²), now this method 
+	// results roughly in 4*O(n) which is better than O(n²) for large n.
+	//
+	if(!bestCFs)
+	{
+		bestCFs = new float[maxMarkerId];
+		for(j=0; j<maxMarkerId; j++)
+			bestCFs[j] = 0.0f;
+	}
+
+
+	// store best confidences
+	//
+	for(j=0; j<markerNum; j++)
+	{
+		int id = markerInfo[j].id;
+		if(bestCFs[id]<markerInfo[j].cf)
+			bestCFs[id] = markerInfo[j].cf;
+	}
+
+
+	// stores all multi.marker sources that have already been processed
+	// in order to prevent multiple calculation of the same source due to multiple markers
+	NodeVector processedSources;
+
+
+	// walk through all markers in the image...
+	//
+	for(j=0; j<markerNum; j++)
+	{
+		int id = markerInfo[j].id;
+		Node* source = NULL;
+
+		// only use a marker if it has the best confidence for its id
+		//
+		if(markerInfo[j].cf<bestCFs[id])
+			continue;
+
+		MarkerIdMap::iterator it = sourcesMap.find(id);
+
+		if(it!=NULL)
+			source = it->second;
+
+		if(!source)
+			continue;
+
+		// we found a "best" marker and its source.
+		// everything is fine to process it...
+
+		// store that source for later usage
+		//
+		visibleMarkers.push_back(source);
+
+		if(source->getType()=="ARToolKitSource")
+		{
+	        ARToolKitSource *sourceA = (ARToolKitSource*)source;
+			ARFloat source_center[2], source_size;
+			
+			source_center[0] = sourceA->center[0];
+			source_center[1] = sourceA->center[1];
+			source_size = sourceA->size;
+
+            if(tracker.arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
+				updateSource(sourceA, markerInfo[j].cf, matrix);
+		}
+		else
+		if(source->getType()=="ARToolKitMultiMarkerSource")
+		{
+			bool alreadyProcessed = false;
+
+			for(NodeVector::iterator it=processedSources.begin(); it!=processedSources.end(); it++)
+				if(*it==source)
+				{
+					alreadyProcessed = true;
+					break;
+				}
+
+			if(!alreadyProcessed)
+			{
+				ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
+				ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
+
+				if((tracker.arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+					updateSource(sourceM, 1.0f, mmConfig->trans);
+
+				processedSources.push_back(source);
+			}
+		}
+	}
+
+
+	// reset array of best confidences
+	//
+	for(j=0; j<markerNum; j++)
+		bestCFs[markerInfo[j].id] = 0.0f;
+
+
+/*
     for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
     {
         source = (ARToolKitSource *)*it;
@@ -338,61 +521,8 @@ bool ARToolKitPlusModule::updateARToolKit()
 			source_center[1] = source->center[1];
 			source_size = source->size;
 
-            if( tracker.arGetTransMat( &markerInfo[k], source_center, source_size, matrix ) >= 0 )
-            {
-                State & state = source->buffer;
-                state.confidence = markerInfo[k].cf;
-
-#ifdef ARTOOLKIT_UNFLIP_V
-  #undef ARTOOLKIT_UNFLIP_V
-#endif
-
-#ifdef ARTOOLKIT_UNFLIP_V
-
-                //  --- correct ARToolkit's vertical image mirroring ---
-                
-                MathUtils::Matrix4x4 matrix_4x4;
-                for(int r = 0; r < 3; r ++ )
-                    for(int c = 0; c < 4; c ++ )
-                        matrix_4x4[r][c] = (float)matrix[r][c];
-                    
-                matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
-                matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
-                    
-                MathUtils::Matrix4x4 matrix_4x4_corrected;
-                 
-                // fix translation
-                MathUtils::matrixMultiply(MathUtils::matrix4x4_flipY,matrix_4x4,matrix_4x4_corrected);
-                    
-                MathUtils::Vector3 euler_angles;
-                MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
-                
-                MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], state.orientation);
-                
-                state.position[0] = (float)matrix_4x4_corrected[0][3];
-                state.position[1] = (float)matrix_4x4_corrected[1][3];
-                state.position[2] = (float)matrix_4x4_corrected[2][3];
-                //  -----------------------------------------------------------
-#else
-			//  --- DO NOT correct ARToolkit's vertical image mirroring ---
-
-				float m[3][3];
-                for( int r = 0; r < 3; r ++ )
-                {
-                    for( int s = 0; s < 3; s ++ )
-                    {
-                        m[r][s] = (float)matrix[r][s];
-                    }
-                }
-                MathUtils::matrixToQuaternion( m, state.orientation );
-                state.position[0] = (float)matrix[0][3];
-                state.position[1] = (float)matrix[1][3];
-                state.position[2] = (float)matrix[2][3];
-			//  -----------------------------------------------------------
-#endif
-                state.timeStamp();
-                source->modified = 1;
-            }
+            if(tracker.arGetTransMat(&markerInfo[k], source_center, source_size, matrix)>=0)
+				updateSource(source, markerInfo[k].cf, matrix);
         } 
 		else  // marker not found 
 		{
@@ -407,7 +537,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 			}
 		}
     }
-
+*/
 	return true;
 }
 
@@ -429,6 +559,66 @@ ARToolKitPlusModule::artLogEx(const char* nStr, ...)
 	vsprintf(tmpString, nStr, marker);
 
 	artLog(tmpString);
+}
+
+
+void
+ARToolKitPlusModule::updateSource(Node *node, float cf, ARFloat matrix[3][4])
+{
+	ARToolKitSource* source = (ARToolKitSource*)node;
+
+	State & state = source->buffer;
+	state.confidence = cf;
+
+#ifdef ARTOOLKIT_UNFLIP_V
+#undef ARTOOLKIT_UNFLIP_V
+#endif
+
+#ifdef ARTOOLKIT_UNFLIP_V
+
+	//  --- correct ARToolkit's vertical image mirroring ---
+
+	MathUtils::Matrix4x4 matrix_4x4;
+	for(int r = 0; r < 3; r ++ )
+		for(int c = 0; c < 4; c ++ )
+			matrix_4x4[r][c] = (float)matrix[r][c];
+    
+	matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
+	matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
+    
+	MathUtils::Matrix4x4 matrix_4x4_corrected;
+ 
+	// fix translation
+	MathUtils::matrixMultiply(MathUtils::matrix4x4_flipY,matrix_4x4,matrix_4x4_corrected);
+    
+	MathUtils::Vector3 euler_angles;
+	MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
+
+	MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], state.orientation);
+
+	state.position[0] = (float)matrix_4x4_corrected[0][3];
+	state.position[1] = (float)matrix_4x4_corrected[1][3];
+	state.position[2] = (float)matrix_4x4_corrected[2][3];
+	//  -----------------------------------------------------------
+#else
+	//  --- DO NOT correct ARToolkit's vertical image mirroring ---
+
+	float m[3][3];
+	for( int r = 0; r < 3; r ++ )
+	{
+		for( int s = 0; s < 3; s ++ )
+		{
+			m[r][s] = (float)matrix[r][s];
+		}
+	}
+	MathUtils::matrixToQuaternion( m, state.orientation );
+	state.position[0] = (float)matrix[0][3];
+	state.position[1] = (float)matrix[1][3];
+	state.position[2] = (float)matrix[2][3];
+	//  -----------------------------------------------------------
+#endif
+	state.timeStamp();
+	source->modified = 1;
 }
 
 

@@ -42,6 +42,7 @@
 #include "../dllinclude.h"
 
 #include <vector>
+#include <map>
 
 #include "../OpenTracker.h"
 
@@ -53,7 +54,7 @@
 namespace ot {
 
 typedef std::vector<Node*> NodeVector;
-
+typedef std::map<int,Node*> MarkerIdMap;
 
 class ImageGrabber {
 public:
@@ -78,11 +79,18 @@ class OPENTRACKER_API ARToolKitPlusModule : public Module, public NodeFactory, A
 {
 // Members
 protected:
+	/// map to find nodes that contain markers
+	MarkerIdMap sourcesMap;
+
     /// list of TestSource nodes in the tree
     NodeVector sources;
 
 	/// stores the list of all markers that were visible during the last update
 	NodeVector visibleMarkers;
+
+	/// stores a list of the best marker confidences found in an image
+	float	*bestCFs;
+	int		maxMarkerId;
 
     /// treshhold value to use in image processing
     //int treshhold;
@@ -104,9 +112,15 @@ protected:
 	/// an optional camera device name
 	std::string cameraDeviceHint;
 
+	/// if true ot will use arDetectMarkerLite instead of arDetectMarker
+	bool useMarkerDetectLite;
+
 	void init(StringTable& attributes, ConfigNode * localTree);
 
 	bool updateARToolKit();
+
+	void updateSource(Node *source, float cf, ARFloat matrix[3][4]);
+
 
 	ImageGrabber* imageGrabber;
 
