@@ -21,7 +21,7 @@ otinputinc_HEADERS = \
         GPSDriver.h \
         GPS_Handler.h \
         GPSModule.h \
-        GPSParser.h \        
+        GPSParser.h \
         GPSSource.h \
         InterSenseModule.h \
         InterSenseSource.h \
@@ -69,12 +69,12 @@ libinput_la_SOURCES = \
         FastTrakModule.h \
         FastTrakSource.h \
         GPSDirectionSource.h \
-        GPSDriver.h \
         GPSDriver.cxx \
-        GPS_Handler.h \
+        GPSDriver.h \
         GPS_Handler.cxx \
-        GPSModule.h \
+        GPS_Handler.h \
         GPSModule.cxx \
+        GPSModule.h \
         GPSParser.cxx \
         GPSParser.h \
         GPSSource.h \
