@@ -30,7 +30,15 @@ HFILES = \
 	ARTDataTrackerModule.h \
 	ARTDataTrackerSource.h \
 	SpaceMouseModule.h \
-	UltraTrakModule.h
+	UltraTrakModule.h \
+	SpeechCore.h \
+	SpeechDef.h \
+	SpeechInc.h \
+	SpeechModule.h \
+	SpeechSet.h \
+	SpeechSource.h \
+	SpeechVoice.h \
+	SpeechVoiceModule.h
         
 C++FILES = \
         ARToolKitModule.cxx \
@@ -43,7 +51,12 @@ C++FILES = \
 	ARTDataTrackerChomp.cxx \
 	ARTDataTrackerModule.cxx \
 	SpaceMouseModule.cxx \
-	UltraTrakModule.cxx
+	UltraTrakModule.cxx \
+	SpeechCore.cxx \
+	SpeechModule.cxx \
+	SpeechSet.cxx \
+	SpeechVoice.cxx \
+	SpeechVoiceModule.cxx
 
 LC++INCS= $(OT_STD_INCLUDES)
 
