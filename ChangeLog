@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-06 15:14  reitmayr
+
+	* src/input/GPS_Handler.cxx:
+	
+	hack to avoid high resource usage on windows
+
 2003-06-05 03:13  tamer
 
 	* cfg/m4/ace.m4:
