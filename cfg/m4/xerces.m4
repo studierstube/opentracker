@@ -72,6 +72,19 @@ AC_CACHE_CHECK(
      XMLPlatformUtils::Initialize();],
     [stb_cv_xerces_avail=true],
     [stb_cv_xerces_avail=false])
+
+  # check if Xerces needs the pthread library in case it failed
+  if ! $stb_cv_xerces_avail; then
+    stb_ac_xerces_libs="-lpthread -lxerces-c"
+    LIBS="-lpthread $LIBS"
+    AC_TRY_LINK(
+      [#include <xercesc/util/PlatformUtils.hpp>],
+      [XERCES_CPP_NAMESPACE_USE
+       XMLPlatformUtils::Initialize();],
+      [stb_cv_xerces_avail=true],
+      [stb_cv_xerces_avail=false])
+  fi
+
   AC_LANG_POP
   CPPFLAGS=$stb_ac_save_cppflags
   LDFLAGS=$stb_ac_save_ldflags
