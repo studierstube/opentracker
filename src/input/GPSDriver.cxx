@@ -1,4 +1,4 @@
-  /* ========================================================================
+ /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.16 2003/10/16 07:51:43 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.17 2003/10/31 14:53:27 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -36,6 +36,8 @@
 #include <iostream>
 #include <algorithm>
 #include <memory>
+
+using namespace std;
 
 #include "GPSDriver.h"
 #include "GPS_Handler.h"
@@ -89,6 +91,8 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		params.parityenb = 0;
 		params.rtsenb = 1;
 		params.ctsenb = 1;
+        params.rcvenb = 1;
+        params.dsrenb = 1;
 		result = receiver->peer().control(ACE_TTY_IO::SETPARAMS, &params );			
 		if( result != 0 )
 		{
@@ -142,6 +146,8 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
         params.parityenb = 0;
         params.rtsenb = 1;
         params.ctsenb = 1;
+        params.rcvenb = 1;
+        params.dsrenb = 1;
         result = this->rtcmdev->control(ACE_TTY_IO::SETPARAMS, &params );			
         if( result != 0 )
         {
