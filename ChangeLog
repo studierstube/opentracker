@@ -9,6 +9,16 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-05-09 17:50  tamer
+
+	* extras/intersense/Makefile.am,
+	extras/intersense/unix/Makefile.am, lib/Makefile.am,
+	src/Makefile.am, src/common/Makefile.am, src/core/Makefile.am,
+	src/misc/Makefile.am, src/misc/xml/Makefile.am,
+	src/network/Makefile.am:
+	
+	detabified Makefile's and cleanups for the build system.
+
 2003-05-07 21:59  reitmayr
 
 	* src/input/: InterSenseModule.cxx, InterSenseModule.h:
