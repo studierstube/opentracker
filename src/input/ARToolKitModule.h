@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.24 2003/05/21 15:35:39 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.25 2003/05/21 15:48:59 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -183,6 +183,7 @@
 
 #ifdef USE_ARTOOLKIT
 
+#ifdef WIN32
 #ifndef __MEMORY_BUFFER_HANDLE__
 #define __MEMORY_BUFFER_HANDLE__
 
@@ -192,6 +193,9 @@
 		__int64 t;		  // timestamp
 	};
 
+#endif
+#else
+    typedef int MemoryBufferHandler;
 #endif
 
 /**

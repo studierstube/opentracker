@@ -26,7 +26,7 @@
  *
  * @author Thomas Pintaric, Gerhard Reitmayr
  *
- * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.30 2003/05/21 15:06:55 reitmayr Exp $
+ * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.31 2003/05/21 15:48:59 reitmayr Exp $
  * @file                                                                   */
 /* ======================================================================= */
 #include "ARToolKitModule.h"
@@ -476,10 +476,12 @@ void ARToolKitModule::grab()
 
 void ARToolKitModule::getFlipping(bool* isFlippedH, bool* isFlippedV)
 {
+#ifdef WIN32
     lock();
     if(stop != 1)
 		arVideoInqFlipping(isFlippedH,isFlippedV);
 	unlock();
+#endif
 }
 
 // returns pointer to the image frame
@@ -494,7 +496,12 @@ unsigned char * ARToolKitModule::lockFrame(MemoryBufferHandle* pHandle)
     }
     else
     {
-        unsigned char *pixel_data = arVideoLockBuffer(pHandle);
+        unsigned char *pixel_data;
+#ifdef WIN32
+        pixel_data = arVideoLockBuffer(pHandle);
+#else
+        pixel_data = arVideoGetImage();
+#endif
         unlock();
         return(pixel_data);
     }
@@ -504,7 +511,13 @@ void ARToolKitModule::unlockFrame(MemoryBufferHandle Handle)
 {
     lock();
     if(stop != 1)
+    {
+#ifdef WIN32
         arVideoUnlockBuffer(Handle);
+#else
+        arVideoCapNext();
+#endif
+    }
     unlock();
 }
 
