@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.7 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/NodeFactory.h,v 1.8 2003/03/20 16:36:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,7 +39,7 @@
 #include "StringTable.h"
 
 /**
- * interface class for node factories. These ruct new nodes based on
+ * interface class for node factories. These construct new nodes based on
  * the xml element definitions. Any new module must provide a factory, so
  * the parser can create nodes for its configuration file elements.
  * @author Gerhard Reitmayr

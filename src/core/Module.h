@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.10 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Module.h,v 1.11 2003/03/20 16:36:03 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,6 +62,11 @@ public:
     /// constructor method
     Module(): initialized(0)
     {};
+
+	/// virtual destructor (as it befits any true class hierarchy)
+	virtual ~Module() 
+	{};
+
     /**
      * closes the module. A place for cleanup code etc.
      * This class provides an empty implementation for subclasses not doing
