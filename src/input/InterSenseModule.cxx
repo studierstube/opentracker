@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.17 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.18 2003/05/07 19:59:11 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -174,6 +174,22 @@ Node * InterSenseModule::createNode( const string& name, StringTable& attributes
         }
     }
     return NULL;
+}
+
+void InterSenseModule::start()
+{
+    ISTrackerVector::iterator it;
+    for(it = trackers.begin(); it != trackers.end(); it ++ )
+    {
+        if( (*it)->info.TrackerType == ISD_INTERTRAX_SERIES || 
+            (*it)->info.TrackerModel == ISD_IS300 ||
+            (*it)->info.TrackerModel == ISD_ICUBE2 ||
+            (*it)->info.TrackerModel == ISD_ICUBE2_PRO )
+        {
+            for( int j = 1; j <= ISD_MAX_STATIONS; j++ )                
+                ISD_ResetHeading((*it)->handle, j);
+        }
+    }
 }
 
 // closes InterSense library

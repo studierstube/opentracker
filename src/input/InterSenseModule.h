@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.4 2001/07/16 21:43:52 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.5 2003/05/07 19:59:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -112,6 +112,12 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
+
+    /**
+     * starts the module. Here we will reset the heading of any pure orientation
+     * tracker. */
+    virtual void start();
+
 	/**
      * closes InterSense library */
     virtual void close();
