@@ -11,6 +11,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#ifdef USE_ARTOOLKIT
+
 #include <AR/ar.h>
 #include <AR/video.h>
 #include <AR/param.h>
@@ -271,3 +273,5 @@ void ARToolKitModule::grab()
         }
     } 
 }
+
+#endif

@@ -25,6 +25,8 @@
 <ARToolKitSource tag-file="pip.tag" vertex="-20 -20 -20 20 20 20 20 -20" />@endverbatim
  */
 
+#ifdef USE_ARTOOLKIT
+
 #ifndef _ARTOOLKITSOURCE_H
 #define _ARTOOLKITSOURCE_H
 
@@ -81,5 +83,7 @@ public:
         updateObservers( state );
     }
 };
+
+#endif
 
 #endif

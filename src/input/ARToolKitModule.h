@@ -28,6 +28,8 @@
 <ARToolKitConfig camera-parameter="../data/camera" treshhold="150"/>@endverbatim
  */
 
+#ifdef USE_ARTOOLKIT
+
 #ifndef _ARTOOLKITMODULE_H
 #define _ARTOOLKITMODULE_H
 
@@ -102,5 +104,7 @@ public:
     virtual void init(StringMap& attributes, Node * localTree);
 
 };
+
+#endif
 
 #endif

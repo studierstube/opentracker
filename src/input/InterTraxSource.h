@@ -7,7 +7,7 @@
   *
   * @author Ivan Viola, Matej 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.2 2001/01/03 14:45:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxSource.h,v 1.3 2001/01/28 16:49:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -24,6 +24,7 @@
  * @verbatim
 <TestSource frequency="10" offset="5" />@endverbatim
  */
+#ifdef USE_INTERTRAX
 
 #ifndef _INTERTRAXSOURCE_H
 #define _INTERTRAXSOURCE_H
@@ -64,5 +65,7 @@ public:
         updateObservers( state );
     }
 };
+
+#endif
 
 #endif

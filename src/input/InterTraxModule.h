@@ -7,7 +7,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.2 2001/01/03 14:45:50 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/Attic/InterTraxModule.h,v 1.3 2001/01/28 16:49:11 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -19,6 +19,8 @@
  * but reserves the name 'Test' for it. It does something useful as soon as
  * at least one TestSource node is created.
  */
+
+#ifdef USE_INTERTRAX
 
 #ifndef _INTERTRAXMODULE_H
 #define _INTERTRAXMODULE_H
@@ -70,5 +72,7 @@ public:
      */
     virtual void pushState();
 };
+
+#endif
 
 #endif
