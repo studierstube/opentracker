@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-07-08 15:06  tamer
+
+	* src/input/ARToolKitModule.cxx:
+	
+	Linux specific fixes...
+
 2003-07-07 16:36  reitmayr
 
 	* src/input/MagicYModule.cxx:
