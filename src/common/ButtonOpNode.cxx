@@ -22,74 +22,50 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** source file for ButtonFilter Node.
+/** source file for ButtonOp Node.
   *
-  * @author Flo Ledermann flo@subnet.at
+  * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonFilterNode.cxx,v 1.2 2002/02/11 10:41:04 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ButtonOpNode.cxx,v 1.1 2002/02/11 10:41:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
-#include "ButtonFilterNode.h"
+#include "ButtonOpNode.h"
 
 using namespace std;
 
 // constructor method.
 
-ButtonFilterNode::ButtonFilterNode( const char* buttonmaskstr, const char* buttonmapstr )
-    : Node()
+ButtonOpNode::ButtonOpNode( const Op & op )
+    : Node(), operation( op ), arg1(0), arg2(0)
 {
-	int i;
-	unsigned char buttonbit = 1;
-	
-	// initialize neutral
-	buttonmask = 0xff;
-	for (i=0;i<8;i++){
-		buttonmap[i] = i;
-	}
-
-	// set buttonmask
-	for (i=0; i<8; i++){
-		if (buttonmaskstr[i] == '\0') break;
-		if (!(buttonmaskstr[i] == '1')) buttonmask = buttonmask ^ buttonbit;
-
-		buttonbit = buttonbit << 1;
-	}
-
-	// set buttonmap
-	for (i=0; i<8; i++){
-		if (buttonmapstr[i] == 0) break;
-		if (buttonmapstr[i] >= '0' && buttonmapstr[i] <= '7') buttonmap[i] = buttonmapstr[i]-48;
-		else buttonmap[i] = i;
-	}
-
 }
 
-int ButtonFilterNode::isEventGenerator()
-{    
-	return 1;
+int ButtonOpNode::isEventGenerator()
+{
+    return 1;
 }
 
 // this method is called by the EventGenerator to update it's observers.
 
-void ButtonFilterNode::onEventGenerated( State& event, Node& generator)
+void ButtonOpNode::onEventGenerated( State& event, Node& generator)
 {
-	int i;
-	unsigned char buttonbit = 1, buttonout = 0;
-
-    lastState = event;
-
-	lastState.button &= buttonmask;
-
-	for (i=0; i<8; i++){
-		// mask current button, shift into bit 0, shift into target position and OR into output
-		buttonout = buttonout | (((lastState.button & buttonbit) >> i) << buttonmap[i]);
-		// cool ;)
-
-		buttonbit = buttonbit << 1;
-	}
-
-	lastState.button = buttonout;
-	
-    updateObservers( lastState );
+    if( generator.isNodePort() == 1 )
+    {
+        if( generator.getType().compare("Arg1") == 0 )
+            arg1 = event.button;
+        else
+            arg2 = event.button;
+        result = event;
+        switch( operation )
+        {
+        case OR :
+            result.button = arg1 | arg2;
+            break;
+        case AND :
+            result.button = arg1 & arg2;
+            break;
+        }
+        updateObservers( result );
+    }
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.22 2002/01/18 19:57:26 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.23 2002/02/11 10:41:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -258,7 +258,7 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
     } else if( name.compare("ConsoleSource") == 0 )
     {
         int number;
-        if( sscanf( attributes.get("number").c_str()," %i", &number ) != 1 )
+        if( attributes.get("number", &number ) == 1 )
         {
             if( number >= 0 && number < 10 )
             {
@@ -270,7 +270,8 @@ Node * ConsoleModule::createNode( const string& name, StringTable& attributes)
             {
                 cout << "ConsoleSource station number not in [0,9] : " << number << endl;
             }
-        }
+        } else
+            cout << "ConsoleSource station number not a number : " << number << endl;
     }
     return NULL;
 }

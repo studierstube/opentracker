@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.21 2002/01/30 11:24:16 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/CommonNodeFactory.cxx,v 1.22 2002/02/11 10:41:04 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -42,6 +42,7 @@
 #include "FilterNode.h"
 #include "ThresholdFilterNode.h"
 #include "ButtonFilterNode.h"
+#include "ButtonOpNode.h"
 
 #include<math.h>
 #include<float.h>
@@ -68,6 +69,8 @@ CommonNodeFactory::CommonNodeFactory()
     nodePorts.push_back("MergeDefault");
     nodePorts.push_back("TransformBase");
     nodePorts.push_back("Select");
+    nodePorts.push_back("Arg1");
+    nodePorts.push_back("Arg2");
 }
 
 CommonNodeFactory::~CommonNodeFactory()
@@ -362,6 +365,10 @@ Node * CommonNodeFactory::createNode( const string& name, StringTable& attribute
 	{
 		result = new ButtonFilterNode( attributes.get("buttonmask").data(), attributes.get("buttonmap").data() );
 	}
+    else if( name.compare("ButtonOp") == 0 )
+    {
+        result = new ButtonOpNode( (attributes.get("op").compare("OR") == 0)?(ButtonOpNode::OR):(ButtonOpNode::AND));
+    }
     else if( find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
     {
         cout << "Build NodePort " << name << "." << endl;
