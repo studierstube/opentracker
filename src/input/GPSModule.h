@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.h,v 1.2 2003/03/28 13:05:51 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -38,11 +38,14 @@
  * generate GPS position data events. The configuration element is called @c GPSConfig.
  * It reads GPS position data from a GPS receiver connected on the serial port 
  * and transmiting its data in NMEA format as Latitude, Longitude and Height in
- * the x, y and z components of the position. The data is in WGS84 coordinate 
- * system. The hdop parameter is given as 1 / hdop in confidence.
+ * the x, y and z components of the position. The angles are given in radiants and
+ * the height in meter. The data is in WGS84 coordinate system. 
+ * The hdop parameter is given as 1 / hdop in confidence.
+ *
  * It allows to connect an optional DGPSIP server for DGPS correction data. 
  * Be sure to set your GPS receiver to NMEA output mode and RTCM input mode 
  * for this work.
+ *
  * It has the following attributes :
  * @li @c dev serial port where the GPS receiver is attached.
  * @li @c baudrate default value is 9600 other values are standard baud rates

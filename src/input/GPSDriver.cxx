@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.2 2003/03/27 18:44:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.3 2003/03/28 13:05:51 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -79,7 +79,6 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( result != 0 )
 		{
 			receiver->destroy();
-			delete receiver;
 			receiver = NULL;
 		}
 	}
@@ -92,7 +91,6 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		if( ipconnect.connect( server, ACE_INET_Addr( port, serveraddr.c_str() )) != 0 )
 		{
 			server->destroy();
-			delete server;
 			server = NULL;
 		}		
 	}

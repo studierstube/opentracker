@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.2 2003/03/27 18:44:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.3 2003/03/28 13:05:51 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -139,7 +139,11 @@ void GPSModule::run()
 	driver->setDebug( debug ); // only for debug purposes ...
 	driver->addListener( this );
 	driver->getReactor()->owner(ACE_Thread::self());
-	driver->open( device, baudRate, dgpsServer, dgpsPort );
+	if( driver->open( device, baudRate, dgpsServer, dgpsPort ) != 0 )
+	{
+		cout << "GPSModule could not start GPSDriver !\n";
+		return;
+	}
 	driver->getReactor()->run_reactor_event_loop();
 	driver->close();
 	delete driver;
@@ -147,10 +151,12 @@ void GPSModule::run()
 
 void GPSModule::newPoint( const GPSPoint & point, void * userData )
 {
+	lock();
 	buffer.timeStamp();
-	buffer.position[0] = point.lat;
-	buffer.position[1] = point.lon;
+	buffer.position[0] = point.lat * MathUtils::GradToRad;
+	buffer.position[1] = point.lon * MathUtils::GradToRad;
 	buffer.position[2] = point.height;
 	buffer.confidence = 1 / point.hdop;
 	changed = true;
+	unlock();
 }
