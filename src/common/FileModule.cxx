@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.2 2001/07/11 22:34:07 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/FileModule.cxx,v 1.3 2001/07/12 16:56:01 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,6 +34,9 @@
 #include "FileSink.h"
 //#include "FileSource.h"
 
+#ifdef WIN32
+#include <iostream>
+#endif
 
 FileModule::FileModule()
 {
