@@ -50,9 +50,10 @@
     <ISTracker comport="0" id="InterTrax"/>
 </InterSenseConfig>@endverbatim
  *
- * Note that this driver has not been fully tested, because we have only
- * InterTrax2 devices in our lab. The ISTracker element is a placeholder for
- * more advanced configuration options in the future.
+ * @note If an InterTrax2 device is used the orientation data will be transformed
+ * into a standard OpenGL coordinate system where +Y points upwards, +X to the right 
+ * and the default view is down -Z. Therefore yaw is a rotation around +Y, pitch a
+ * rotation around +X and roll a rotation around +Z.
  */
 
 #ifndef _INTERSENSEMODULE_H
@@ -71,9 +72,7 @@ typedef std::vector<ISTracker *> ISTrackerVector;
  *
  * On Windows it relies on the isense.dll and itrax2.dll distributed with 
  * OpenTracker in the bin directory. These include support for USB based
- * InterTrax2 devices. The Unix version relies on code from the Studierstube.
- * This code also includes a Windows variant, but it is not used because of
- * lack of USB support.
+ * InterTrax2 devices. The Unix version relies distributed code from InterSense.
  *
  * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
  * @ingroup input

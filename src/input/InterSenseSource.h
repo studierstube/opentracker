@@ -37,7 +37,8 @@
  * for an InterSense tracker. It only outputs data that is available from 
  * the tracker, for example an InterTrax device will not generate position 
  * data. It is associated with a tracker configuration element from the 
- * @ref intersensemodule via the @c id attribute. The element has the following
+ * @ref intersensemodule via the @c id attribute. See the @ref intersensemodule for
+ * details on the reported position and orientation data. The element has the following
  * attributes :
  * @li @c id the id of the tracker as set in the configuration element
  * @li @c station the number of the station of the tracker to output. This 
