@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.13 2002/06/13 13:43:53 flo Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/DynamicTransformation.cxx,v 1.14 2002/09/18 08:57:07 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -37,12 +37,6 @@
 #else
 #include <iostream.h>
 #endif
-
-
-#include <xercesc/dom/DOM_Node.hpp>
-#include <xercesc/dom/DOM_NodeList.hpp>
-#include <xercesc/dom/DOM_Element.hpp>
-#include <xercesc/dom/DOM_NamedNodeMap.hpp>
 
 // Constructor
 
