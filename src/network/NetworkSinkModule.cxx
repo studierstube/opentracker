@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.18 2002/11/28 14:20:57 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/network/NetworkSinkModule.cxx,v 1.19 2002/11/29 15:56:28 reitmayr Exp $
   * @file                                                                    */
  /* ======================================================================== */
 
@@ -83,11 +83,11 @@ struct FindGroup {
 	int port;
 	string nic;
 
-	FindGroup( string & group_, int & port_, string & nic_ ) :
+	FindGroup( const string & group_, int & port_, const string & nic_ ) :
 		group( group_ ), port( port_), nic( nic_ )
 	{};
 
-	bool operator()( MulticastGroup * other )
+	bool operator()( const MulticastGroup * other )
 	{
 		return (    group.compare( other->group ) == 0 
 			     && port == other->port 

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr 
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.11 2002/11/29 13:06:35 bornik Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ParButtonModule.cxx,v 1.12 2002/11/29 15:56:21 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -189,7 +189,6 @@ void ParButtonModule::close()
 void ParButtonModule::pushState()
 {
     unsigned short data;
-    int cstatus;
     
     for( map<string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
@@ -217,7 +216,7 @@ void ParButtonModule::pushState()
             source->updateObservers( source->state );
         }
 #else  // LINUX
-	cstatus = ioctl(source->handle, PPRDATA, &data);	
+    int cstatus = ioctl(source->handle, PPRDATA, &data);	
 	
 	if( (~data) != source->state.button )
         {
