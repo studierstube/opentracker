@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.18 2001/11/29 12:48:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.h,v 1.19 2001/11/29 17:28:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -70,6 +70,10 @@
  * as a NodeFactory for ARToolKitSource nodes. It also keeps a vetor of 
  * the created nodes to update them. It is implemented as a threaded module
  * doing the grabbing and video processing in a separate thread.
+ *
+ * Moreover it provides a programmatic interface to get the current video image.
+ * It returns information about the used format and size and a pointer to
+ * the image data.
  * @ingroup input
  */
 class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
@@ -78,7 +82,7 @@ class OPENTRACKER_API ARToolKitModule : public ThreadModule, public NodeFactory
 protected:
     /// stores the sources
     NodeVector sources;
-    int did, sizeX, sizeY;
+    int did;
     /// treshhold value to use in image processing
     int treshhold;
     /// flag to stop image processing thread
@@ -92,7 +96,8 @@ protected:
 
     /// pointer to the buffer map
     unsigned char * frame;
-
+    /// size of the image in pixels
+    int sizeX, sizeY;
 
 // methods
 protected:
@@ -143,11 +148,23 @@ public:
      */
     virtual void init(StringTable& attributes, ConfigNode * localTree);
 
+    /** returns the width of the grabbed image in pixels */
     int getSizeX();
 
+    /** returns the height of the grabbed image in pixels */
     int getSizeY();
 
+    /** returns a pointer to the grabbed image. The image format
+     * is depending on the pixel format and typically RGB or RGBA 
+     * times X times Y bytes. 
+     * @return pointer to image buffer */
     unsigned char * getFrame();
+
+    /** 
+     * returns the OpenGL flag that is used by ARToolkit to describe
+     * the pixel format in the frame buffer. This is a simple way to 
+     * pass the necessary information to use the image data in GL calls. */
+    int getImageFormat();
 };
 
 #endif

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.19 2001/11/29 12:48:10 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.20 2001/11/29 17:28:06 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -35,11 +35,8 @@
 
 #ifdef USE_ARTOOLKIT
 
-#include <AR/ar.h>
-#include <AR/video.h>
-#include <AR/param.h>
-
 #ifdef WIN32
+#include <windows.h>
 #include <iostream>    // VisualC++ uses STL based iostream library
 #else
 #include <iostream.h>
@@ -48,6 +45,34 @@
 #include <stdio.h>
 #ifdef __sgi
 #include <unistd.h>
+#endif
+
+// the following is just to get all the ARToolkit compile options that we need
+#include <GL/gl.h>
+#include <GL/glut.h>
+
+#include <AR/ar.h>
+#include <AR/video.h>
+#include <AR/param.h>
+
+// definitions used by ARToolKit
+#ifndef GL_ABGR_EXT
+#define GL_ABGR_EXT GL_ABGR
+#endif
+#ifndef GL_BGRA_EXT
+#define GL_BGRA_EXT GL_BGRA
+#endif
+#ifndef GL_BGR_EXT
+#define GL_BGR_EXT GL_BGR
+#endif
+
+// to determine the correct GL flag for the image mode
+#ifdef  AR_PIX_FORMAT_ABGR
+    #define IMAGE_MODE GL_ABGR_EXT
+#elif defined(AR_PIX_FORMAT_BGRA)
+    #define IMAGE_MODE GL_BGRA_EXT
+#elif defined( AR_PIX_FORMAT_BGR)
+    #define IMAGE_MODE GL_BGR_EXT
 #endif
 
 using namespace std;
@@ -60,6 +85,7 @@ ARToolKitModule::~ARToolKitModule()
         delete (*it);
     }
     sources.clear();
+    delete[] frame;
 }
 
 // constructs a new Node
@@ -138,7 +164,8 @@ void ARToolKitModule::start()
     arParamChangeSize( &wparam, sizeX, sizeY, &cparam );
     
     arInitCparam( &cparam );
-    
+    frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
+
 #ifdef __sgi
     arVideoStart( did );
 #endif                
@@ -160,7 +187,7 @@ void ARToolKitModule::close()
     lock();
     stop = 1;
     unlock();
-    // ThreadModule::close();
+    OSUtils::sleep(1000);
     arVideoCapStop();
     arVideoClose();
     cout << "ARToolkit stopped\n";
@@ -249,6 +276,9 @@ void ARToolKitModule::run()
         count ++;
     }
     cout << "ARToolKit Framerate " << 1000 * count / ( OSUtils::currentTime() - startTime ) << endl;
+
+    arVideoCapStop();
+    arVideoClose();
 #ifdef __sgi
     arVideoStop( did );
     arVideoCleanupDevice( did );
@@ -277,9 +307,8 @@ void ARToolKitModule::grab()
     }
 
     // copy info to internal pointer
-    frame = frameData;
+    memcpy( frame, frameData, sizeX*sizeY*AR_PIX_SIZE );
     
-
     if( arDetectMarker( frameData, treshhold, &markerInfo, &markerNum ) < 0 )
     {
         return;
@@ -338,18 +367,32 @@ void ARToolKitModule::grab()
     } 
 }
 
+// returns the width of the image in pixels
+
 int ARToolKitModule::getSizeX()
 {
     return sizeX;
 }
+
+// returns the height of the image in pixel
 
 int ARToolKitModule::getSizeY()
 {
     return sizeY;
 }
 
+// returns pointer to the image frame
+
 unsigned char * ARToolKitModule::getFrame()
 {
     return frame;
 }
+
+// returns the OpenGL flag describing the pixel format
+
+int ARToolKitModule::getImageFormat()
+{ 
+    return IMAGE_MODE;
+}
+
 #endif
