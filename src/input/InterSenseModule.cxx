@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr, Jan Prikryl
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.1 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.cxx,v 1.2 2001/04/24 19:49:18 reitmayr Exp $
   * @todo optimize compare and copy with mem* calls
   * @todo implement IRIX / Linux version with Stb code
   * @file                                                                   */
@@ -38,12 +38,25 @@
 #include <stdio.h>
 #ifdef WIN32
 #include <iostream>    /// VisualC++ uses STL based IOStream lib
-#include <isense.h>
 #else
 #include <iostream.h>
 #endif
+#include <isense.h>
 
-#ifdef WIN32
+// change the names from the Unix InterSense code to fit the Windows names
+#ifndef WIN32
+    #define BOOL                    IS_BOOL
+    #define ISD_TRACKER_INFO_TYPE   ISD_TRACKER_TYPE
+    #define ISD_STATION_INFO_TYPE   ISD_STATION_CONFIG_TYPE
+    #define ISLIB_OpenTracker       ISD_OpenTracker
+    #define ISLIB_CloseTracker      ISD_CloseTracker
+    #define ISLIB_GetTrackerConfig  ISD_GetTrackerState
+    #define ISLIB_SetStationConfig  ISD_SetStationState
+    #define ISLIB_GetStationConfig  ISD_GetStationState
+    #define ISLIB_GetTrackerData    ISD_GetTrackerData
+    #define ISD_MAX_BUTTONS         MAX_NUM_BUTTONS
+#endif
+
 struct ISTracker {
     ISD_TRACKER_HANDLE handle;
     ISD_TRACKER_INFO_TYPE info;
@@ -52,8 +65,6 @@ struct ISTracker {
     int comport;
     NodeVector sources;
 };
-#else
-#endif
 
 // Destructor method
 InterSenseModule::~InterSenseModule()
@@ -66,7 +77,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
     for( unsigned i = 0; i < localTree->countChildren(); i++ )
     {
         ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
-        string & id = (string) attributes.get("id");
+        const string & id = attributes.get("id");
         int comport = 0;
         int num = sscanf(attributes.get("comport").c_str(), " %i", &comport );
         if( num == 0 ){
@@ -80,7 +91,11 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
         }
         if(it == trackers.end())  // we got a truly new tracker
         {
-            ISD_TRACKER_HANDLE handle = ISLIB_OpenTracker( NULL, 0, FALSE, FALSE );
+#ifdef WIN32        
+            ISD_TRACKER_HANDLE handle = ISLIB_OpenTracker( NULL, comport, FALSE, FALSE );
+#else
+            ISD_TRACKER_HANDLE handle = ISLIB_OpenTracker( comport, FALSE, FALSE );
+#endif            
             if( handle <= 0 )
             {
                 cout << "Failed to open tracker " << id << endl;                
@@ -144,7 +159,7 @@ Node * InterSenseModule::createNode( string& name, StringTable& attributes)
 {
     if( name.compare("InterSenseSource") == 0 )
     {       
-        string & id = (string) attributes.get( "id" );
+        const string & id = attributes.get( "id" );
         for(ISTrackerVector::iterator it = trackers.begin(); it != trackers.end(); it ++ )
         {
             if( (*it)->id.compare( id ) == 0 )

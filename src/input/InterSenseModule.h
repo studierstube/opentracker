@@ -17,7 +17,7 @@
   *
   * For further information please contact Gerhard Reitmayr under
   * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1090 Vienna,
+  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
   * Austria.
   * ========================================================================
   * PROJECT: OpenTracker
@@ -26,7 +26,7 @@
   *
   * @author Ivan Viola, Matej Mlejnek, Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.1 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/InterSenseModule.h,v 1.2 2001/04/24 19:49:18 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -49,6 +49,9 @@
 <InterSenseConfig>
     <ISTracker comport="0" id="InterTrax"/>
 </InterSenseConfig>@endverbatim
+ *
+ * Note that this driver has not been fully tested, because we have only
+ * InterTrax devices in our lab.
  */
 
 #ifndef _INTERSENSEMODULE_H
