@@ -9,6 +9,30 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-06-18 18:31  reitmayr
+
+	* src/core/Context.cxx:
+	
+	some leftover cleanup
+
+2003-06-18 14:31  reitmayr
+
+	* data/opentracker.dtd:
+	
+	split passevents into two flags
+
+2003-06-18 13:59  reitmayr
+
+	* src/input/: GPSDirectionSource.h, GPSSource.h:
+	
+	fixed angle implementation and updated slerp and angle docu
+
+2003-06-18 13:51  reitmayr
+
+	* src/core/: MathUtils.cxx, MathUtils.h, State.h:
+	
+	fixed angle implementation and updated slerp and angle docu
+
 2003-06-16 15:17  reitmayr
 
 	* src/input/DGPSIP_Handler.cxx, src/input/DGPSIP_Handler.h,
