@@ -4,10 +4,10 @@
 
 We would like to thank the following people for contributing to OpenTracker :
 
-Dieter Schmalstieg \n 
-Toni Fuhrmann \n 
-Gerd Hesina \n 
-Jan Prikryl \n 
+Dieter Schmalstieg \n
+Toni Fuhrmann \n
+Gerd Hesina \n
+Jan Prikryl \n
 Hannes Kaufmann \n
 Rainer Splechtna \n
 Ivan Viola \n
@@ -22,4 +22,6 @@ Christopher Schmidt \n
 Alexander Bornik \n
 Michael Knapp \n
 Tamer Fahmy \n
+Alexander Schaelss \n
+Christoph Traxler \n
 */
