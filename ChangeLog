@@ -1,3 +1,8 @@
+2004-11-23 12:31:50  Rev 783    reitmayr
+
+	* src/core/Context.cxx, src/input/ARToolKitModule.cxx: fixes for 
+	  ARToolkitModule
+
 2004-11-22 16:47:39  Rev 781    reitmayr
 
 	* src/network/DwarfSink.h, src/common/ConsoleModule.cxx, 
