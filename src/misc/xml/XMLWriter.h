@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.10 2003/02/18 02:12:51 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/misc/xml/XMLWriter.h,v 1.11 2003/07/31 07:55:43 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -39,12 +39,6 @@
 
 // need that to make it work with standard conformind stdc++ libs and older ones
 using namespace std;
-
-XERCES_CPP_NAMESPACE_BEGIN
-class DOMNode;
-class XMLFormatTarget;
-XERCES_CPP_NAMESPACE_END
-
 
 /**
  * This class writes out the contents of the Context as a valid XML file. 
@@ -63,13 +57,6 @@ protected:
     /// amount of indentation per level
     unsigned int indent;
     
-    /** internal method that writes out the graph recursively. This may change 
-     * and therefore is not part of the interface.
-     * @param toWrite the current XML element to write out
-     * @param target the output stream to write to
-     */
-    void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target );
-
 public:
     /** constructor, takes a context to work with.
      * @param context_ the context to write out

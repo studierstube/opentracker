@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.26 2003/07/28 12:56:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.cxx,v 1.27 2003/07/31 07:55:31 reitmayr Exp $
   * @file                                                                   */     
  /* ======================================================================= */
 
@@ -35,13 +35,14 @@
 #include <xercesc/util/XMLUniDefs.hpp>
 
 #include "../OpenTracker.h"
+#include "ConfigurationParser.h"
 
 #include <ace/FILE.h>
 
 #include <memory>
 #include <algorithm>
 
-XERCES_CPP_NAMESPACE_USE
+XERCES_CPP_NAMESPACE_USE;
 
 const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 
@@ -157,7 +158,7 @@ void Context::parseConfiguration(const string& filename)
     
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
-    DOMDocument * doc = rootNode->parent->getOwnerDocument();
+    DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
     doc->setUserData( ud_node, this, NULL );
 }
 
@@ -215,7 +216,7 @@ Node * Context::createNode( const string & name, StringTable & attributes)
     if( value != NULL )
     {
         // add a correctly created DOM_Element to the node here and return
-        DOMDocument * doc = rootNode->parent->getOwnerDocument();
+        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
         auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
         DOMElement * el = doc->createElementNS(XMLString::transcode(xmlspace), tempName.get());
         value->setParent( el );        
@@ -242,7 +243,7 @@ Node * Context::findNode(const string & id)
 {
     // search for the right node via the DOM_Document API
     auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
-    DOMElement * el = rootNode->parent->getOwnerDocument()->getElementById( tempId.get());
+    DOMElement * el = ((DOMNode *)(rootNode->parent))->getOwnerDocument()->getElementById( tempId.get());
     if( el != 0 )
         return (Node *)el->getUserData(ud_node);
     return NULL;

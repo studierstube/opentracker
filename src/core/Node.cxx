@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.26 2003/07/18 20:26:46 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.cxx,v 1.27 2003/07/31 07:55:31 reitmayr Exp $
   * 
   * @file                                                                   */  
  /* ======================================================================= */
@@ -45,6 +45,8 @@
 #include "Node.h"
 #include "StringTable.h"
 #include "Context.h"
+
+#define ELEMENT(a) ((XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *)a)
 
 using namespace std;
 XERCES_CPP_NAMESPACE_USE
@@ -69,7 +71,7 @@ Node::~Node()
     if( parent != NULL )
 	{
 		try {
-			parent->release();
+			ELEMENT(parent)->release();
 		}
 		catch(DOMException &e)
 		{
@@ -79,11 +81,11 @@ Node::~Node()
 
 // sets the DOM_Element this node belongs to ( not the parent in OT )
 
-void Node::setParent( DOMElement * parElement )
+void Node::setParent( void * parElement )
 {
 	parent = parElement;
-	parent->setUserData( ud_node, this, NULL );
-    auto_ptr<char> temp( XMLString::transcode(parent->getLocalName()));
+	ELEMENT(parent)->setUserData( ud_node, this, NULL );
+    auto_ptr<char> temp( XMLString::transcode(ELEMENT(parent)->getLocalName()));
     type = temp.get();
 }
 
@@ -110,7 +112,7 @@ void Node::removeReference( Node * reference )
 
 Node * Node::getParent()
 {
-    DOMNode * parentElement = parent->getParentNode();
+    DOMNode * parentElement = ELEMENT(parent)->getParentNode();
 	if( parentElement != 0 )
 	{
 		return (Node *)parentElement->getUserData(ud_node);
@@ -122,7 +124,7 @@ Node * Node::getParent()
 
 Context * Node::getContext() const
 {    
-    DOMDocument * doc = parent->getOwnerDocument();
+    DOMDocument * doc = ELEMENT(parent)->getOwnerDocument();
     if( doc != 0)
     {
         return (Context *)doc->getUserData(ud_node);
@@ -134,7 +136,7 @@ Context * Node::getContext() const
 
 unsigned int Node::countChildren()
 {
-    DOMNode * node = parent->getFirstChild();
+    DOMNode * node = ELEMENT(parent)->getFirstChild();
     unsigned int count = 0;
     while( node != NULL )
     {
@@ -154,7 +156,7 @@ unsigned int Node::countChildren()
 Node::error Node::addChild(Node & child)
 {
     try {
-        parent->appendChild( child.parent );
+        ELEMENT(parent)->appendChild( ELEMENT(child.parent));
     }
     catch( DOMException e )
     {
@@ -168,7 +170,7 @@ Node::error Node::addChild(Node & child)
 Node::error Node::removeChild(Node & child)
 {
     try {
-        parent->removeChild( child.parent );
+        ELEMENT(parent)->removeChild( ELEMENT(child.parent));
     }
     catch( DOMException e )
     {
@@ -182,7 +184,7 @@ Node::error Node::removeChild(Node & child)
 Node * Node::getChild( unsigned int index )
 {
     Node * myNode = NULL;
-    DOMNode * node = parent->getFirstChild();
+    DOMNode * node = ELEMENT(parent)->getFirstChild();
     while( node != NULL )
     {
         myNode = (Node *)node->getUserData(ud_node);
@@ -203,7 +205,7 @@ unsigned int Node::countPorts()
 {
     Node * myNode = NULL;
     unsigned int count = 0;
-    DOMNode * node = parent->getFirstChild();
+    DOMNode * node = ELEMENT(parent)->getFirstChild();
     while( node != NULL )
     {
         myNode = (Node *)node->getUserData(ud_node);
@@ -221,7 +223,7 @@ NodePort * Node::getPort( const string & name )
 {
     auto_ptr<XMLCh> temp( XMLString::transcode( name.c_str()));
 	//auto_ptr<DOMNodeList> list( parent->getElementsByTagName( temp.get() ));
-    DOMNodeList * list = parent->getElementsByTagNameNS( XMLString::transcode(getContext()->xmlspace), temp.get() );
+    DOMNodeList * list = ELEMENT(parent)->getElementsByTagNameNS( XMLString::transcode(getContext()->xmlspace), temp.get() );
     if( list->getLength() > 0 )
 	{
 		DOMElement * portElement = (DOMElement *) list->item(0);
@@ -238,7 +240,7 @@ NodePort * Node::getPort( const string & name )
 NodePort * Node::getPort( unsigned int index )
 {
     Node * myNode = NULL;
-    DOMNode * node = parent->getFirstChild();
+    DOMNode * node = ELEMENT(parent)->getFirstChild();
     while( NULL != node )
     {
         myNode = (Node *)node->getUserData(ud_node);
@@ -259,12 +261,12 @@ Node::error Node::addPort( const std::string & name )
 {
     auto_ptr<XMLCh> temp( XMLString::transcode( name.c_str()));
 	//auto_ptr<DOMNodeList> list( parent->getElementsByTagName( temp.get() ));
-    DOMNodeList * list = parent->getElementsByTagNameNS( XMLString::transcode(getContext()->xmlspace), temp.get() );
+    DOMNodeList * list = ELEMENT(parent)->getElementsByTagNameNS( XMLString::transcode(getContext()->xmlspace), temp.get() );
     if( list->getLength() > 0 )
     {
         return GRAPH_CONSTRAINT;
     }
-    DOMDocument * doc = parent->getOwnerDocument();    
+    DOMDocument * doc = ELEMENT(parent)->getOwnerDocument();    
     Context * context = (Context *)doc->getUserData( ud_node );
     StringTable table;
     Node * node = context->createNode( name, table);
@@ -304,7 +306,7 @@ void Node::updateObservers( State &data )
 {
 	if( isEventGenerator() == 1 || isNodePort() == 1 )
 	{
-		DOMNode * parentElement = parent->getParentNode();
+		DOMNode * parentElement = ELEMENT(parent)->getParentNode();
 		if( NULL != parentElement  )
 		{
 			((Node *)parentElement->getUserData( ud_node ))->onEventGenerated( data, *this );
@@ -321,7 +323,7 @@ void Node::updateObservers( State &data )
 string Node::get( const string & key )
 {
     auto_ptr<XMLCh> temp ( XMLString::transcode( key.c_str() ));
-    const XMLCh * res = parent->getAttributeNS( XMLString::transcode(getContext()->xmlspace), temp.get());
+    const XMLCh * res = ELEMENT(parent)->getAttributeNS( XMLString::transcode(getContext()->xmlspace), temp.get());
     auto_ptr<char> cres ( XMLString::transcode( res ));
     return  string( cres.get() );
 }
@@ -332,7 +334,7 @@ void Node::put( const string & key, const string & value )
 {
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( value.c_str()));
-    parent->setAttribute( tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttribute( tempKey.get(), tempValue.get());
 }
 
 // removes a key, value pair
@@ -340,7 +342,7 @@ void Node::put( const string & key, const string & value )
 void Node::remove( const string & key )
 {
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
-    parent->removeAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
+    ELEMENT(parent)->removeAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
 }
 
 // some put and get methods
@@ -352,7 +354,7 @@ void Node::put(const string & key, const int value)
     sprintf( buffer, "%i", value );
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const float value)
@@ -362,7 +364,7 @@ void Node::put(const string & key, const float value)
     sprintf( buffer, "%f", value );
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const double value)
@@ -372,7 +374,7 @@ void Node::put(const string & key, const double value)
     sprintf( buffer, "%lf", value );
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const int * value, int len)
@@ -389,7 +391,7 @@ void Node::put(const string & key, const int * value, int len)
     }
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const float * value, int len)
@@ -406,7 +408,7 @@ void Node::put(const string & key, const float * value, int len)
     }
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 void Node::put(const string & key, const double * value, int len)
@@ -423,13 +425,13 @@ void Node::put(const string & key, const double * value, int len)
     }
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
     auto_ptr<XMLCh> tempValue ( XMLString::transcode( buffer ));
-    parent->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
+    ELEMENT(parent)->setAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get(), tempValue.get());
 }
 
 int Node::get(const string & key, int * value, int len )
 {
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
-    const XMLCh * val = parent->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
+    const XMLCh * val = ELEMENT(parent)->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
     auto_ptr<char> data ( XMLString::transcode( val ));
     char * start = data.get();
     char * end = data.get();
@@ -445,7 +447,23 @@ int Node::get(const string & key, int * value, int len )
 int Node::get(const string & key, float * value, int len )
 {
     auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
-    const XMLCh * val = parent->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
+    const XMLCh * val = ELEMENT(parent)->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
+    auto_ptr<char> data ( XMLString::transcode( val ));
+    char * start = data.get();
+    char * end = data.get();
+    int count = 0;
+    value[count++] = strtod( start, &end );
+    while( end != start && count < len){
+        start = end;
+        value[count++] = strtod( start, &end );
+    }
+    return count;
+}
+
+int Node::get(const string & key, double * value, int len )
+{
+    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
+    const XMLCh * val = ELEMENT(parent)->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
     auto_ptr<char> data ( XMLString::transcode( val ));
     char * start = data.get();
     char * end = data.get();
@@ -456,20 +474,4 @@ int Node::get(const string & key, float * value, int len )
         value[count++] = strtod( start, &end );
     }
     return count;
-}
-
-int Node::get(const string & key, double * value, int len )
-{
-    auto_ptr<XMLCh> tempKey ( XMLString::transcode( key.c_str() ));
-    const XMLCh * val = parent->getAttributeNS( XMLString::transcode(getContext()->xmlspace), tempKey.get() );
-    auto_ptr<char> data ( XMLString::transcode( val ));
-    char * start = data.get();
-    char * end = data.get();
-    int count = 0;
-    value[count++] = strtod( start, &end );    
-    while( end != start && count < len){        
-        start = end;
-        value[count++] = strtod( start, &end );
-    }
-    return count;        
 }

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.22 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.cxx,v 1.23 2003/07/31 07:55:31 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -36,9 +36,9 @@
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
 
-#include "../OpenTracker.h"
 #include "ConfigurationParser.h"
 #include "DOMTreeErrorReporter.h"
+#include "RefNode.h"
 
 #include <iostream>
 #include <memory>

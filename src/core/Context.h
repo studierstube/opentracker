@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.15 2003/07/28 12:56:22 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Context.h,v 1.16 2003/07/31 07:55:31 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,7 +38,6 @@
 #include "Node.h"
 #include "Module.h"
 #include "NodeFactoryContainer.h"
-#include "ConfigurationParser.h"
 
 /// a string map to store modules in
 typedef std::map<std::string, Module *> ModuleMap;

@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.12 2003/07/18 17:27:58 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/ConfigurationParser.h,v 1.13 2003/07/31 07:55:31 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -34,19 +34,9 @@
 #define _CONFIGURATIONPARSER_H
 
 #include "../dllinclude.h"
+#include "../OpenTracker.h"
 
-#include "Node.h"
-#include "Module.h"
-#include "NodeFactory.h"
-#include "ConfigNode.h"
-#include "RefNode.h"
-#include "StringTable.h"
-#include "Context.h"
-
-XERCES_CPP_NAMESPACE_BEGIN
-class DOMElement;
-class DOMDocument;
-XERCES_CPP_NAMESPACE_END
+#include <xercesc/dom/DOM.hpp>
 
 class Context;
 
@@ -55,11 +45,12 @@ typedef std::map<std::string, Node *> NodeMap;
 
 /**
  * parses the XML configuration file. This class reads the configuration file
- * using DOM and builds the tracker tree.
+ * using DOM and builds the tracker tree. It is not part of the public API of
+ * OpenTracker, therefore do not use it !
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-class OPENTRACKER_API ConfigurationParser
+class ConfigurationParser
 {
 // Members
 protected:
@@ -99,7 +90,7 @@ protected:
 
 public:
     /**
-     * ructor method. The Xerces XML parser library is initialized here.
+     * constructor method. The Xerces XML parser library is initialized here.
      * @param factory_ pointer to set the member factory
      */
     ConfigurationParser( Context & context_);

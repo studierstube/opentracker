@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.21 2003/04/08 21:17:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/Node.h,v 1.22 2003/07/31 07:55:31 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -38,7 +38,7 @@
 /**
  * @defgroup core Core Classes
  * This group contains the basic interfaces and functionality to parse
- * a configuration file, build the datastructures and drive the event model.
+ * a configuration file, build the data structures and drive the event model.
  * Typically these classes are subclassed to provide new nodes or modules 
  * with additional functionality. Any changed to these classes may result
  * in widespread changes throughout the library.
@@ -52,20 +52,6 @@ class ConfigurationParser;
 class RefNode;
 class Node;
 class NodePort;
-
-#if !defined(XERCES_CPP_NAMESPACE_BEGIN)
-#define OT_XERCES_CPP_NAMESPACE xercesc_2_2
-#define XERCES_CPP_NAMESPACE_BEGIN namespace OT_XERCES_CPP_NAMESPACE {
-#define XERCES_CPP_NAMESPACE_END  }
-#define XERCES_CPP_NAMESPACE_USE using namespace OT_XERCES_CPP_NAMESPACE;
-#define XERCES_CPP_NAMESPACE_QUALIFIER OT_XERCES_CPP_NAMESPACE::
-#endif
-
-XERCES_CPP_NAMESPACE_BEGIN
-class DOMElement;
-class DOMDocument;
-XERCES_CPP_NAMESPACE_END
-
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
@@ -88,8 +74,8 @@ class OPENTRACKER_API Node
 {
 
 protected:    
-	/** Pointer to the parent XML element. */
-	XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * parent;
+	/** Pointer to the parent XML element.*/
+	void * parent;
 
 	/**  A Vector of pointers to reference nodes referencing this node. */
 	NodeVector references;
@@ -111,7 +97,7 @@ public:
 
 protected:
 
-	virtual void setParent( XERCES_CPP_NAMESPACE_QUALIFIER DOMElement * parElement );
+	virtual void setParent( void * parElement );
 
 	/** 
 	 * adds a reference node to the list of references. Parents of 
