@@ -9,6 +9,12 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-11-05 12:02  tamer
+
+	* src/: common/ButtonFilterNode.cxx, input/GPSDriver.cxx:
+	
+	compiler warning fixes.
+
 2003-10-31 15:16  reitmayr
 
 	* src/misc/xml/XMLWriter.cxx:
