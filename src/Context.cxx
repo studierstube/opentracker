@@ -153,8 +153,7 @@ void Context::run()
             {
                 stop = 1;
             }     
-        }
-        sginap(20);
+        }       
     }
     for( it = activeModules.begin(); it != activeModules.end(); it++ )
     {

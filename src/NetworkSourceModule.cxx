@@ -298,6 +298,7 @@ void NetworkSourceModule::run()
 			{
 				// loop through buffers, reducing active counts and looking for
 				// the right NetworkSource node.
+                buffer = NULL;
 				for( NetworkSourceBufferVector::iterator it = sources.begin();
 					 it != sources.end(); it++ )
 				{
@@ -355,18 +356,21 @@ void NetworkSourceModule::run()
 				}//switch
             
 				// copy result - critical section
-				semid->wait();
-				buffer->buffer->button = state.button;
-				buffer->buffer->confidence = 1;
-				buffer->buffer->isValid = 1;
-				buffer->buffer->orientation[0] = state.orientation[0];
-				buffer->buffer->orientation[1] = state.orientation[1];
-				buffer->buffer->orientation[2] = state.orientation[2];
-				buffer->buffer->orientation[3] = state.orientation[3];
-				buffer->buffer->position[0] = state.position[0];
-				buffer->buffer->position[1] = state.position[1];
-				buffer->buffer->position[2] = state.position[2];	
-				semid->signal();
+                if( buffer != NULL )
+                {                   
+    				semid->wait();
+	    			buffer->buffer->button = state.button;
+		    		buffer->buffer->confidence = 1;
+			    	buffer->buffer->isValid = 1;
+    				buffer->buffer->orientation[0] = state.orientation[0];
+	    			buffer->buffer->orientation[1] = state.orientation[1];
+		    		buffer->buffer->orientation[2] = state.orientation[2];
+			    	buffer->buffer->orientation[3] = state.orientation[3];
+				    buffer->buffer->position[0] = state.position[0];
+    				buffer->buffer->position[1] = state.position[1];
+	    			buffer->buffer->position[2] = state.position[2];	
+		    		semid->signal();                  
+                }
 			} 
 			else
 			{
@@ -382,7 +386,7 @@ copies the current data from the states vector into the actual NetworkSource
 nodes. This must be handled threadsafe.
 */
 void NetworkSourceModule::update()
-{//@CODE_13366
+{//@CODE_13366   
     semid->wait();	
     for( NetworkSourceBufferVector::iterator it = sources.begin();
            it != sources.end(); it++ )
