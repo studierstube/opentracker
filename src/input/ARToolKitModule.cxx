@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.24 2003/01/31 17:21:25 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/ARToolKitModule.cxx,v 1.25 2003/03/19 22:41:41 tamer Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -75,8 +75,10 @@
     #define IMAGE_MODE GL_ABGR_EXT
 #elif defined(AR_PIX_FORMAT_BGRA)
     #define IMAGE_MODE GL_BGRA_EXT
-#elif defined( AR_PIX_FORMAT_BGR)
+#elif defined(AR_PIX_FORMAT_BGR)
     #define IMAGE_MODE GL_BGR_EXT
+#elif defined(AR_PIX_FORMAT_RGB)
+    #define IMAGE_MODE GL_RGB
 #endif
 
 using namespace std;
