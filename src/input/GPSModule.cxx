@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSModule.cxx,v 1.2 2003/03/27 18:44:57 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -38,7 +38,9 @@
 
 ACE_Reactor gps_reactor;
 
-GPSModule::GPSModule()
+GPSModule::GPSModule() :
+driver( NULL ),
+source( NULL )
 {
 }
 
@@ -72,8 +74,18 @@ void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
 
 Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
 {
-	if( name.compare("GPSSource") == 0 || source != NULL )
+	if( name.compare("GPSSource") == 0 )
 	{
+		if( source != NULL )
+		{
+			cout << "Only one GPSSource can be build !" << endl;
+			return NULL;
+		}
+		if( !isInitialized() )
+		{
+			cout << "GPSModule is not initialized, cannot build GPSSource !" << endl;
+			return NULL;
+		}
 		source = new GPSSource;
 		cout << "Built GPSSource node." << endl;
 		return source;
@@ -83,17 +95,20 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
 
 void GPSModule::pushState()
 {
-	bool update = false;
-	lock();
-	if( changed )
+	if( source != NULL )
 	{
-		source->state = buffer;
-		changed = false;
-		update = true;
+		bool update = false;
+		lock();
+		if( changed )
+		{
+			source->state = buffer;
+			changed = false;
+			update = true;
+		}
+		unlock();
+		if( update )
+			source->updateObservers( source->state );
 	}
-	unlock();
-	if( update )
-		source->updateObservers( source->state );
 }
 
 void GPSModule::start()
@@ -107,11 +122,15 @@ void GPSModule::start()
 
 void GPSModule::close()
 {
-	if( driver->getReactor() != NULL )
+	if( driver != NULL )
 	{
-		driver->getReactor()->end_reactor_event_loop();
+		if( driver->getReactor() != NULL )
+		{
+			driver->getReactor()->end_reactor_event_loop();
+		}
+		ThreadModule::close();
 	}
-	ThreadModule::close();
+	
 }
 
 void GPSModule::run()

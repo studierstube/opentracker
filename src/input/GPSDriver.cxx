@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   * 
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.1 2003/03/27 18:26:02 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/input/GPSDriver.cxx,v 1.2 2003/03/27 18:44:57 reitmayr Exp $
   *
   * @file                                                                   */
  /* ======================================================================= */
@@ -104,13 +104,11 @@ void GPSDriver::close()
 	if( server != NULL )
 	{
 		server->destroy();
-		delete server;
 		server = NULL;
 	}
 	if( receiver != NULL )
 	{
 		receiver->destroy();
-		delete receiver;
 		receiver = NULL;
 	}
 }
