@@ -142,6 +142,10 @@ SOURCE=.\src\input\InterTraxModule.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\common\InvertTransformation.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=.\extras\intersense\win\isense.cpp
 # End Source File
 # Begin Source File
@@ -299,6 +303,10 @@ SOURCE=.\src\input\InterTraxModule.h
 # Begin Source File
 
 SOURCE=.\src\input\InterTraxSource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\common\InvertTransformation.h
 # End Source File
 # Begin Source File
 
