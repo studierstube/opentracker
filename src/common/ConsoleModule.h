@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.9 2001/04/23 14:32:54 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.h,v 1.10 2001/04/29 16:31:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -56,6 +56,35 @@
  * set the keys assigned to each function. It has the following attributes :
  * @li @c function name of the function ( see the following table )
  * @li @c key to assign the function to
+ *
+ * There are three ways to specifiy a key : 
+ * @li use one of the predefined key names for arrow keys, function keys etc.
+ * @li use a hexadecimal expression giving the keycode as returned by Windows
+ *     or curses. This looks like @c 0xHHHH for some key.
+ * @li directly use the character printed on the key. This does only work for
+       simple characters.
+ *
+ * The following table lists the supported key names :
+ * @verbatim
+Name        Key
+down        cursor down
+up          cursor up
+left        cursor left
+right       cursor right
+home        Pos1 ( aka Home )
+end         End
+page_down   page down
+page_up     page up
+backspace   backspace ( <- )
+F0          F0 ( if present )
+F1 .. F12   F1 througth F12          
+insert      Insert
+enter       Enter or Return
+escape      Escape 
+@endverbatim
+ * Note that the curses definition where taken from an SGI keyboard and
+ * the keycodes returned by the curses library. Only the keypad ( numpad )
+ * keys work correctly, the ones in the middle are send to the shell ?!
  *
  * The following table lists all possible functions and their default keys :
  * @verbatim
@@ -137,10 +166,8 @@ protected:
     /// should the module quit ?
     int quit;
 
-    /// maps the function names in the config file to indices
-    static vector<string> functionMap;
     /// maps key chars to indices
-    vector<char> keyMap;
+    vector<int> keyMap;
 
 protected:
 

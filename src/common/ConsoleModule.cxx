@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.13 2001/04/24 19:58:23 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/common/ConsoleModule.cxx,v 1.14 2001/04/29 16:31:46 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -68,7 +68,10 @@ const short MOVE_X_PLUS = 1,
            RESET = 30,
            QUIT = 31;
 
-vector<string> ConsoleModule::functionMap;
+// maps the function names in the config file to indices
+static vector<string> functionMap;
+// maps the function key names in the config file to key codes 
+static map<string,int> keyCodeMap;
           
 // Destructor method, this is here because curses seem to define some macro
 // which replaces clear with wclear !!!!!
@@ -135,7 +138,8 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
     keyMap[RESET] = 'w';
     keyMap[QUIT] = 'q';
 
-    // initialize function map, if no one has done it yet 
+    // initialize function map and keycode map,
+    // if no one has done it yet 
     if( functionMap.size() == 0 )
     {
         functionMap.resize( 32 );
@@ -169,6 +173,40 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
         functionMap[STATION_9] = "Station_9";
         functionMap[RESET] = "Reset";
         functionMap[QUIT] = "Quit";
+        // set keymap, this is different for windows and unix ( curses )
+//        keyCodeMap.resize( 20 );
+#ifdef WIN32
+
+#else        
+        // This keycode map reflects my german sgi keyboard !!
+        // Not everything makes sense, but it works :)
+        keyCodeMap["down"]  = KEY_DOWN;
+        keyCodeMap["up"]    = KEY_UP;
+        keyCodeMap["left"]  = KEY_LEFT;
+        keyCodeMap["right"] = KEY_RIGHT;
+        keyCodeMap["home"]  = KEY_HOME;
+        keyCodeMap["backspace"] = KEY_BACKSPACE;
+        keyCodeMap["F0"]    = KEY_F0; 
+        keyCodeMap["F1"]    = KEY_F(1);
+        keyCodeMap["F2"]    = KEY_F(2);
+        keyCodeMap["F3"]    = KEY_F(3);
+        keyCodeMap["F4"]    = KEY_F(4);
+        keyCodeMap["F5"]    = KEY_F(5);
+        keyCodeMap["F6"]    = KEY_F(6);
+        keyCodeMap["F7"]    = KEY_F(7);
+        keyCodeMap["F8"]    = KEY_F(8);
+        keyCodeMap["F9"]    = KEY_F(9);
+        keyCodeMap["F10"]   = KEY_F(10);
+        keyCodeMap["F11"]   = KEY_F(11);
+        keyCodeMap["F12"]   = KEY_F(12);
+        keyCodeMap["del"]   = KEY_DC;
+        keyCodeMap["page_down"] = KEY_NPAGE;
+        keyCodeMap["page_up"] = KEY_PPAGE;
+        keyCodeMap["end"] = KEY_EIC;
+        keyCodeMap["insert"] = KEY_IC;
+        keyCodeMap["enter"] = KEY_ENTER;
+        keyCodeMap["escape"] = 27;
+#endif
     }
 }
 
@@ -223,15 +261,15 @@ void ConsoleModule::pushState()
 
     // read all keyboard events and execute their functions
     // this may change various sources
+    int key;
 #ifdef WIN32
     while( _kbhit() )
     {   
-        char key = _getch();        
-#else
-    int key;
+        key = _getch();        
+#else    
     while( (key = getch()) != ERR )
     {
-#endif
+#endif 
         int index = find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
         switch( index )
         {
@@ -571,8 +609,21 @@ void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
                 vector<string>::iterator funcIt = find( functionMap.begin(), functionMap.end(), function );                                
                 if( funcIt != functionMap.end() )
                 {
-                    int index = funcIt - functionMap.begin();                    
-                    keyMap[index] = key[0];
+                    int index = funcIt - functionMap.begin();
+                    map<string,int>::iterator codeIt = keyCodeMap.find( key );
+                    int code;
+                    if( codeIt == keyCodeMap.end())
+                    {
+                        int num = sscanf( key.c_str(), " %x", &code );
+                        if( num == 0 )
+                        {
+                            code = key[0];
+                        }
+                    }
+                    else {
+                        code = (*codeIt).second;
+                    }
+                    keyMap[index] = code;
                 }                 
             }
         }
