@@ -26,7 +26,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.16 2003/07/02 07:28:59 reitmayr Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.h,v 1.17 2003/09/24 11:10:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -62,6 +62,28 @@ public:
     /// 4 double vector used as quaternion
     typedef double Quaternion[4];
 
+    /// encodes all possible euler angle sequences
+    enum EULER { 
+        // the encoding is as follows :
+        // the two lsb bits encode the last axis
+        // the next two the middle axis
+        // and the next two the first axis
+        // X = 0, Y = 1, Z = 2
+        // the enums are ordered by integer value
+        XYX =  0 + 4 + 0,
+        XYZ =  0 + 4 + 2,
+        XZX =  0 + 8 + 0,
+        XZY =  0 + 8 + 1,
+        YXY = 16 + 0 + 1,
+        YXZ = 16 + 0 + 2,
+        YZX = 16 + 8 + 0,
+        YZY = 16 + 8 + 1,
+        ZXY = 32 + 0 + 1,
+        ZXZ = 32 + 0 + 2,
+        ZYX = 32 + 4 + 0,
+        ZYZ = 32 + 4 + 2       
+    };
+
     /** converts an axis angle representation into a quaternion. This method
      * operates directly on the arguments. Therefore using the same pointers
      * for several arguments will produce wrong results !
@@ -70,6 +92,7 @@ public:
      * @return pointer to result array */
     static float* axisAngleToQuaternion(const float* axisa, float* qResult);
     /** computes a quaternion from euler angles representing a rotation.
+     * @deprecated use the other overloaded variant instead.
      * @param roll rotation around looking axis
      * @param pitch rotation around up axis
      * @param yaw rotation around side axis
@@ -77,6 +100,19 @@ public:
      * @return pointer to result array */
     static float* eulerToQuaternion(const float roll, const float pitch, const float yaw,
                                     float* qResult);
+    /** computes a quaternion from euler angles representing a rotation. This
+     * is the general method and supports all euler angle sequences. Use this instead
+     * of the old one for more control.
+     * @param alpha first euler angle
+     * @param beta second euler angle
+     * @param gamma third euler angle
+     * @param sequence enum defining the sequence to use
+     * @param qResult pointer to the result quaternion
+     * @return returns the pointer to the result quaternion
+     */
+    static float * MathUtils::eulerToQuaternion( const double alpha, const double beta, 
+                                                 const double gamma, const enum MathUtils::EULER sequence, 
+                                                 float * qResult );
     /** inverts a quaternion. This method
      * operates directly on the arguments. Therefore using the same pointers
      * for several arguments will produce wrong results !

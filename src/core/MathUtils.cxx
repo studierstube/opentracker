@@ -1,4 +1,4 @@
-       /* ========================================================================
+    /* ========================================================================
   * Copyright (C) 2001  Vienna University of Technology
   *
   * This library is free software; you can redistribute it and/or
@@ -26,19 +26,21 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.16 2003/07/18 18:23:25 tamer Exp $
+  * $Header: /scratch/subversion/cvs2svn-0.1236/../cvs/opentracker/src/core/MathUtils.cxx,v 1.17 2003/09/24 11:10:14 reitmayr Exp $
   * @file                                                                   */
  /* ======================================================================= */
 
 #include "MathUtils.h"
 #include <math.h>
+#include <stdio.h>
+#include <assert.h>
 
 /* tolerance for quaternion operations */
-#define  Q_EPSILON   (1e-10)
+const double Q_EPSILON = (1e-10);
 
-/** 
+/**
  * a collection of numerically safer implementations of various terms.
- * The class is a template to provide inline implementations of the 
+ * The class is a template to provide inline implementations of the
  * actual calculations. This allows maximum speed :). See
  * http://www.hadron.org/~hatch/rightway.php for details on the
  * formulas.
@@ -60,7 +62,7 @@ typedef MathStuff<double> MD;
 typedef MathStuff<float> MF;
 
 const double MathUtils::Pi = 3.1415926535897932385;
-    
+
 const double MathUtils::E = 2.7182818284590452354;
 
 const double MathUtils::GradToRad = MathUtils::Pi / 180.0;
@@ -93,23 +95,54 @@ float* MathUtils::eulerToQuaternion(const float roll, const float pitch, const f
                                     float* qResult)
 {
     double cr, cp, cy, sr, sp, sy, cpcy, spsy;
-
+    
     // calculate trig identities
     cr = cos(roll/2);
     cp = cos(pitch/2);
     cy = cos(yaw/2);
-
+    
     sr = sin(roll/2);
     sp = sin(pitch/2);
     sy = sin(yaw/2);
-
+    
     cpcy = cp * cy;
     spsy = sp * sy;
-
+    
     qResult[0] = (float)(sr * cpcy - cr * spsy);
     qResult[1] = (float)(cr * sp * cy + sr * cp * sy);
     qResult[2] = (float)(cr * cp * sy - sr * sp * cy);
     qResult[3] = (float)(cr * cpcy + sr * spsy);
+    return qResult;
+}
+
+// computes a quaternion from euler angles representing a rotation. new version
+
+float * MathUtils::eulerToQuaternion( const double alpha, const double beta,
+                                      const double gamma, const enum MathUtils::EULER sequence,
+                                      float * qResult )
+{
+    float q1[4] = {0,0,0,0}, q2[4] = {0,0,0,0}, q3[4] = {0,0,0,0};
+
+    int axis1 = sequence >> 4;
+    assert( 0 <= axis1 && axis1 <= 2 );
+    int axis2 = (sequence >> 2) & 3;
+    assert( 0 <= axis2 && axis2 <= 2 );
+    int axis3 = sequence & 3;
+    assert( 0 <= axis3 && axis3 <= 2 );
+
+    q1[axis1] = (float)sin(alpha/2);
+    q1[3] = (float)cos(alpha/2);
+
+    q2[axis2] = (float)sin(beta/2);
+    q2[3] = (float)cos(beta/2);
+
+    q3[axis3] = (float)sin(gamma/2);
+    q3[3] = (float)cos(gamma/2);
+
+    float temp[4];
+
+    MathUtils::multiplyQuaternion(q1, q2, temp);
+    MathUtils::multiplyQuaternion(temp, q3, qResult);
     return qResult;
 }
 
@@ -237,7 +270,7 @@ double MathUtils::angle( const float * v1, const float * v2, const int dim )
      *  if (dot(u,v) < 0.)
      *      return M_PI - 2*asin(|v+u)|/2)
      *  else
-     *      return 2*asin(|v-u|/2) 
+     *      return 2*asin(|v-u|/2)
      */
 	if(dot < 0.0)
 	{
@@ -253,27 +286,27 @@ double MathUtils::angle( const float * v1, const float * v2, const int dim )
 		for( i = 0; i < dim; i++)
 			dot += (v2[i]-v1[i])*(v2[i]-v1[i]);
 		dot = sqrt( dot ) / 2.0;
-		return 2*asin(dot);		
+		return 2*asin(dot);
 	}
 	return 0;
 }
 
-// computes slerp 
+// computes slerp
 
 float * MathUtils::slerp( const float * q1, const float *q2, const float t, float * qResult )
 {
 
     const float*    r1q = q2;
-    
+
     float           rot1q[4];
     double          omega, cosom, sinom;
     double          scalerot0, scalerot1;
     int             i;
-    
+
     // Calculate the cosine
     cosom = q1[0]*q2[0] + q1[1]*q2[1]
         + q1[2]*q2[2] + q1[3]*q2[3];
-    
+
     // adjust signs if necessary
     if ( cosom < 0.0 ) {
         cosom = -cosom;
@@ -283,7 +316,7 @@ float * MathUtils::slerp( const float * q1, const float *q2, const float t, floa
         for ( int j = 0; j < 4; j++ )
             rot1q[j] = r1q[j];
     }
-    
+
     // calculate interpolating coeffs
     if ( (1.0 - cosom) > 0.00001 ) {
         // standard case
@@ -291,18 +324,18 @@ float * MathUtils::slerp( const float * q1, const float *q2, const float t, floa
         sinom = sin(omega);
         scalerot0 = sin((1.0 - t) * omega) / sinom;
         scalerot1 = sin(t * omega) / sinom;
-    } else {        
+    } else {
         // rot0 and rot1 very close - just do linear interp.
         scalerot0 = 1.0 - t;
         scalerot1 = t;
     }
-    
+
     // build the new quarternion
     for (i = 0; i <4; i++)
         qResult[i] = (float)(scalerot0 * q1[i] + scalerot1 * rot1q[i]);
 
     MathUtils::normalizeQuaternion( qResult );
-    
+
      return qResult;
 
         /*
@@ -341,20 +374,20 @@ void MathUtils::matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4
 	m[0][0] = m1[0][0]*m2[0][0] + m1[0][1]*m2[1][0] + m1[0][2]*m2[2][0] + m1[0][3]*m2[3][0];
 	m[0][1] = m1[0][0]*m2[0][1] + m1[0][1]*m2[1][1] + m1[0][2]*m2[2][1] + m1[0][3]*m2[3][1];
 	m[0][2] = m1[0][0]*m2[0][2] + m1[0][1]*m2[1][2] + m1[0][2]*m2[2][2] + m1[0][3]*m2[3][2];
-	m[0][3] = m1[0][0]*m2[0][3] + m1[0][1]*m2[1][3] + m1[0][2]*m2[2][3] + m1[0][3]*m2[3][3];    
-	m[1][0] = m1[1][0]*m2[0][0] + m1[1][1]*m2[1][0] + m1[1][2]*m2[2][0] + m1[1][3]*m2[3][0];    
-	m[1][1] = m1[1][0]*m2[0][1] + m1[1][1]*m2[1][1] + m1[1][2]*m2[2][1] + m1[1][3]*m2[3][1];    
-	m[1][2] = m1[1][0]*m2[0][2] + m1[1][1]*m2[1][2] + m1[1][2]*m2[2][2] + m1[1][3]*m2[3][2];    
-	m[1][3] = m1[1][0]*m2[0][3] + m1[1][1]*m2[1][3] + m1[1][2]*m2[2][3] + m1[1][3]*m2[3][3];    
-	m[2][0] = m1[2][0]*m2[0][0] + m1[2][1]*m2[1][0] + m1[2][2]*m2[2][0] + m1[2][3]*m2[3][0];    
-	m[2][1] = m1[2][0]*m2[0][1] + m1[2][1]*m2[1][1] + m1[2][2]*m2[2][1] + m1[2][3]*m2[3][1];    
-	m[2][2] = m1[2][0]*m2[0][2] + m1[2][1]*m2[1][2] + m1[2][2]*m2[2][2] + m1[2][3]*m2[3][2];    
-	m[2][3] = m1[2][0]*m2[0][3] + m1[2][1]*m2[1][3] + m1[2][2]*m2[2][3] + m1[2][3]*m2[3][3];    
-	m[3][0] = m1[3][0]*m2[0][0] + m1[3][1]*m2[1][0] + m1[3][2]*m2[2][0] + m1[3][3]*m2[3][0];    
-	m[3][1] = m1[3][0]*m2[0][1] + m1[3][1]*m2[1][1] + m1[3][2]*m2[2][1] + m1[3][3]*m2[3][1];    
-	m[3][2] = m1[3][0]*m2[0][2] + m1[3][1]*m2[1][2] + m1[3][2]*m2[2][2] + m1[3][3]*m2[3][2];    
+	m[0][3] = m1[0][0]*m2[0][3] + m1[0][1]*m2[1][3] + m1[0][2]*m2[2][3] + m1[0][3]*m2[3][3];
+	m[1][0] = m1[1][0]*m2[0][0] + m1[1][1]*m2[1][0] + m1[1][2]*m2[2][0] + m1[1][3]*m2[3][0];
+	m[1][1] = m1[1][0]*m2[0][1] + m1[1][1]*m2[1][1] + m1[1][2]*m2[2][1] + m1[1][3]*m2[3][1];
+	m[1][2] = m1[1][0]*m2[0][2] + m1[1][1]*m2[1][2] + m1[1][2]*m2[2][2] + m1[1][3]*m2[3][2];
+	m[1][3] = m1[1][0]*m2[0][3] + m1[1][1]*m2[1][3] + m1[1][2]*m2[2][3] + m1[1][3]*m2[3][3];
+	m[2][0] = m1[2][0]*m2[0][0] + m1[2][1]*m2[1][0] + m1[2][2]*m2[2][0] + m1[2][3]*m2[3][0];
+	m[2][1] = m1[2][0]*m2[0][1] + m1[2][1]*m2[1][1] + m1[2][2]*m2[2][1] + m1[2][3]*m2[3][1];
+	m[2][2] = m1[2][0]*m2[0][2] + m1[2][1]*m2[1][2] + m1[2][2]*m2[2][2] + m1[2][3]*m2[3][2];
+	m[2][3] = m1[2][0]*m2[0][3] + m1[2][1]*m2[1][3] + m1[2][2]*m2[2][3] + m1[2][3]*m2[3][3];
+	m[3][0] = m1[3][0]*m2[0][0] + m1[3][1]*m2[1][0] + m1[3][2]*m2[2][0] + m1[3][3]*m2[3][0];
+	m[3][1] = m1[3][0]*m2[0][1] + m1[3][1]*m2[1][1] + m1[3][2]*m2[2][1] + m1[3][3]*m2[3][1];
+	m[3][2] = m1[3][0]*m2[0][2] + m1[3][1]*m2[1][2] + m1[3][2]*m2[2][2] + m1[3][3]*m2[3][2];
 	m[3][3] = m1[3][0]*m2[0][3] + m1[3][1]*m2[1][3] + m1[3][2]*m2[2][3] + m1[3][3]*m2[3][3];
-} 
+}
 
 // ----------------------------------------------------------------------------------------
 void MathUtils::matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m)
@@ -368,7 +401,7 @@ void MathUtils::matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3
     m[2][0] = m1[2][0]*m2[0][0] + m1[2][1]*m2[1][0] + m1[2][2]*m2[2][0];
     m[2][1] = m1[2][0]*m2[0][1] + m1[2][1]*m2[1][1] + m1[2][2]*m2[2][1];
     m[2][2] = m1[2][0]*m2[0][2] + m1[2][1]*m2[1][2] + m1[2][2]*m2[2][2];
-} 
+}
 
 // ----------------------------------------------------------------------------------------
 
@@ -381,14 +414,14 @@ void MathUtils::MatrixToEuler(Vector3 angles, const Matrix4x4 colMatrix)
    sinPitch = -colMatrix[2][0];
    cosPitch = sqrt(1 - sinPitch*sinPitch);
 
-   if ( fabs(cosPitch) > Q_EPSILON ) 
+   if ( fabs(cosPitch) > Q_EPSILON )
    {
       sinRoll = colMatrix[2][1] / cosPitch;
       cosRoll = colMatrix[2][2] / cosPitch;
       sinYaw = colMatrix[1][0] / cosPitch;
       cosYaw = colMatrix[0][0] / cosPitch;
-   } 
-   else 
+   }
+   else
    {
       sinRoll = -colMatrix[1][2];
       cosRoll = colMatrix[1][1];
@@ -447,3 +480,24 @@ double MathUtils::dot( const float * v1, const float * v2, const int dim )
     }
     return result;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
