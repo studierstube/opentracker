@@ -9,6 +9,13 @@ cvs2cl script used to generate this file.
 
 ============================================================================
 
+2003-04-16 19:10  reitmayr
+
+	* src/common/GKTransformNode.cxx:
+	
+	transformation from ellipsoid to gauss-krueger fixed and appears to
+	be correct now.
+
 2003-04-15 19:16  reitmayr
 
 	* src/: common/File.h, core/OSUtils.cxx:
