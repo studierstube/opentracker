@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /G6 /MD /W3 /GR /GX /O2 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /D "OS_WIN32" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /G6 /MD /W3 /GR /GX /O2 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "OS_WIN32" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 ace.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(ACEROOT)/lib" /libpath:"$(XERCESCROOT)/bin_win32" /libpath:"$(ARTOOLKITROOT)/lib.vc60" /libpath:"../wintab/lib" /libpath:"$(VRPNROOT)/vrpn/pc_win32/Release" /libpath:"$(TINYXMLROOT)/lib"
+# ADD LINK32 ace.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"bin/opentracker.dll" /implib:"lib/opentracker.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(ACEROOT)/lib" /libpath:"$(XERCESCROOT)/bin_win32" /libpath:"$(ARTOOLKITROOT)/lib.vc60" /libpath:"../wintab/lib" /libpath:"$(VRPNROOT)/vrpn/pc_win32/Release" /libpath:"$(TINYXMLROOT)/lib" /libpath:"$(OPENVIDEOROOT)/lib"
 # SUBTRACT LINK32 /pdb:none /incremental:yes
 
 !ELSEIF  "$(CFG)" == "opentracker - Win32 Debug"
@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /G6 /MDd /W3 /Gm /Gi /GR /GX /ZI /Od /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /I "$(VIDCAPTUREROOT)/Build/VidCapLib/Inc" /D "OS_WIN32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
+# ADD CPP /nologo /GB /MDd /W3 /Gm /Gi /GR /GX /ZI /Od /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "OS_WIN32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 aced.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /profile /debug /machine:I386 /nodefaultlib:"libcmtd" /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(ACEROOT)/lib" /libpath:"$(XERCESCROOT)/bin_win32" /libpath:"$(ARTOOLKITROOT)/lib.vc60" /libpath:"../wintab/lib" /libpath:"$(VRPNROOT)/vrpn/pc_win32/Debug" /libpath:"$(TINYXMLROOT)/lib" /libpath:"$(VIDCAPTUREROOT)/Build/VidCapLib/Lib"
+# ADD LINK32 aced.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /profile /debug /machine:I386 /out:"bin/opentrackerd.dll" /implib:"lib/opentrackerd.lib" /libpath:"$(ACEROOT)/ace" /libpath:"$(ACEROOT)/lib" /libpath:"$(XERCESCROOT)/bin_win32" /libpath:"$(ARTOOLKITROOT)/lib.vc60" /libpath:"../wintab/lib" /libpath:"$(VRPNROOT)/vrpn/pc_win32/Debug" /libpath:"$(TINYXMLROOT)/lib" /libpath:"$(OPENVIDEOROOT)/lib"
 
 !ENDIF 
 

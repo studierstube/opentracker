@@ -50,32 +50,52 @@
 #ifdef USE_ARTOOLKITPLUS
 
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
+{
+	// implement ARToolKitPlus::Logger
+	void artLog(const char* nStr)
+	{
+		LOG_ACE_INFO("ot:%s\n", nStr);
+	}
 
-#include <VidCapture.h>
+	void artLogEx(const char* nStr, ...)
+	{
+		char tmpString[512];
+		va_list marker;
+
+		va_start(marker, nStr);
+		vsprintf(tmpString, nStr, marker);
+
+		artLog(tmpString);
+	}
+};
+
+
+#ifdef ARTOOLKITPLUS_FOR_STB3
+
+#  include <VidCapture.h>
 
   // we don't want to include opengl.h here...
 #  ifndef GL_RGB
 #    define GL_RGB 0x1907
 #  endif
 
+#  ifndef GL_RGBA
+#    define GL_RGBA 0x1908
+#  endif
+
+#  ifndef GL_ABGR
+#    define GL_BGRA 0x80e1
+#  endif
+
+
 namespace ot {
 	bool capCallback(CVRES status, CVImage* imagePtr, void* userParam);
 }
 
-#  pragma comment ( lib, "Strmiids.lib" )
-#  pragma comment ( lib, "Quartz.lib" )
-
-#ifdef _DEBUG
-#  pragma comment ( lib, "VidCapLib_db.lib" )
-#else
-#  pragma comment ( lib, "VidCapLib.lib" )
-#endif //_DEBUG
+#endif //ARTOOLKITPLUS_FOR_STB3
 
 
-#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
-
-//using namespace std;
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -89,7 +109,7 @@ const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  
 
 
 
-ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabber(NULL)
+ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(), NodeFactory()
 {
 	//wparam = NULL;
 	sizeX = sizeY = -1;
@@ -100,21 +120,29 @@ ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(), imageGrabb
 	trackerNear = 1.0f;
 	trackerFar = 1000.0f;
 
+	logger = new ARToolKitPlusModuleLogger;
+#ifdef ARTOOLKITPLUS_FOR_STB3
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<16,16,64, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
+#else
 	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
-	tracker->init(NULL, trackerNear, trackerFar, this);
+#endif //ARTOOLKITPLUS_FOR_STB3
+	tracker->init(NULL, trackerNear, trackerFar, logger);
 	tracker->setThreshold(100);
 	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 
 	bestCFs = NULL;
-	maxMarkerId = -1;
+	maxMarkerId = MAX_MARKERID;
 	useMarkerDetectLite = false;
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+	stop = 0;
+
+#ifdef ARTOOLKITPLUS_FOR_STB3
+	rate = 30;
 	vidCap = NULL;
 	curCapImage = NULL;
 	videoWidth = videoHeight = 0;
 	didLockImage = false;
-#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+#endif //ARTOOLKITPLUS_FOR_STB3
 }
 
 
@@ -122,6 +150,9 @@ ARToolKitPlusModule::~ARToolKitPlusModule()
 {
     sources.clear();
 	sourcesMap.clear();
+
+	delete tracker;
+	delete logger;
 }
 
 // This method is called to construct a new Node.
@@ -294,8 +325,16 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     }
 	tracker->setThreshold(tmpThreshold);
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+#ifdef ARTOOLKITPLUS_FOR_STB3
 	videomode = attributes.get("videomode");
+
+    if( attributes.get("framerate", &rate) != 1 )
+    {
+        rate = 0.01;
+    } else
+    {
+        rate = rate / 1000;
+    }
 #endif
 
 	if( attributes.get("flipX").compare("true") == 0 )
@@ -305,6 +344,13 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	if( attributes.get("marker-mode").compare("idbased") == 0 )
 		idbasedMarkers = true;
+
+	if( attributes.get("border-width").length()>0 )
+	{
+		float w = (float)atof(attributes.get("border-width").c_str());
+		LOG_ACE_INFO("ot:ARToolkitModule sets border width to %f\n", w);
+		tracker->setBorderWidth(w);
+	}
 
 
     // parsing camera config hints
@@ -319,11 +365,13 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 			if(devName.length()>0 && devFile.length()>0 && devName==cameraDeviceHint)
 			{
+				LOG_ACE_INFO("ot:ARToolkitModule uses camera-hint for '%s'\n", devName.c_str());
 				cameradata = devFile;
 				break;
 			}
 		}
 
+	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s\n", cameradata.c_str());
 
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
@@ -382,7 +430,7 @@ void ARToolKitPlusModule::pushState()
 
 bool ARToolKitPlusModule::updateARToolKit()
 {
-	if(!initialized || maxMarkerId==-1)
+	if(!initialized || maxMarkerId<0)
 		return false;
 
 	ARToolKitPlus::ARUint8 * frameData = NULL;
@@ -394,14 +442,25 @@ bool ARToolKitPlusModule::updateARToolKit()
 	ImageGrabber::FORMAT imgFormat0 = tracker->getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::RGB565,
 						 imgFormat = imgFormat0;
 
+#ifdef ARTOOLKITPLUS_FOR_STB3
+	lock();
+	newSizeX = curCapImage->Width();
+	newSizeY = curCapImage->Height();
+	imgFormat = ImageGrabber::RGBX8888;
+	frameData = curCapImage->GetRawDataPtr();
+#else
 	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
 		return false;
+#endif //ARTOOLKITPLUS_FOR_STB3
 
 	if(imgFormat!=imgFormat0)
 	{
 		LOG_ACE_ERROR("ot:ARToolkitPlusModule got wrong image format\n");
 		LOG_ACE_ERROR("       (%s instead of %s)\n", imgFormat==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565",
 													 imgFormat0==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565");
+#ifdef ARTOOLKITPLUS_FOR_STB3
+		unlock();
+#endif
 		return false;
 	}
 
@@ -437,17 +496,32 @@ bool ARToolKitPlusModule::updateARToolKit()
 	if(useMarkerDetectLite)
 	{
 		if(tracker->arDetectMarkerLite( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+		{
+#ifdef ARTOOLKITPLUS_FOR_STB3
+		unlock();
+#endif
 			return false;
+		}
 	}
 	else
 	{
 		if(tracker->arDetectMarker( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+		{
+#ifdef ARTOOLKITPLUS_FOR_STB3
+		unlock();
+#endif
 			return false;
+		}
 	}
 
 
     if( markerNum < 1 )
+	{
+#ifdef ARTOOLKITPLUS_FOR_STB3
+		unlock();
+#endif
         return false;
+	}
 
 
 	// we use an array of best confidences to quickly find
@@ -457,7 +531,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	//
 	if(!bestCFs)
 	{
-		bestCFs = new float[maxMarkerId];
+		bestCFs = new float[maxMarkerId+1];
 		for(j=0; j<maxMarkerId; j++)
 			bestCFs[j] = 0.0f;
 	}
@@ -603,11 +677,15 @@ bool ARToolKitPlusModule::updateARToolKit()
 		}
     }
 */
+
+#ifdef ARTOOLKITPLUS_FOR_STB3
+	unlock();
+#endif
 	return true;
 }
 
 
-void
+/*void
 ARToolKitPlusModule::artLog(const char* nStr)
 {
 	LOG_ACE_INFO("ot:%s\n", nStr);
@@ -624,7 +702,7 @@ ARToolKitPlusModule::artLogEx(const char* nStr, ...)
 	vsprintf(tmpString, nStr, marker);
 
 	artLog(tmpString);
-}
+}*/
 
 
 void
@@ -695,15 +773,52 @@ ARToolKitPlusModule::getARToolKitPlusDescription() const
 
 
 
+#ifdef ARTOOLKITPLUS_FOR_STB3
 
 
+void ARToolKitPlusModule::run()
+{    
+    unsigned int count = 0;
+    double startTime = OSUtils::currentTime();
+    while(1)
+    {
+        lock();
+        if( stop == 1 )
+        {
+            unlock();
+            break;
+        } else
+        {
+            unlock();
+        }
+        // if we have markers to check for then do some work 
+        if( sources.size() != 0 )
+        {
+            updateARToolKit();
+        }
+        
+        double s = count/rate - ( OSUtils::currentTime() - startTime );
+        if( s >= 10 )
+        {
+            OSUtils::sleep( s );
+        }
+        count ++;
+    }
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+	close();
+    LOG_ACE_INFO("ot:ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
+}
 
 
 void
 ARToolKitPlusModule::start()
 {
+    // if we don't have any nodes or are not initialized, forget it
+    if( isInitialized() == 0)
+    {
+        return;
+    }
+
 	vidCap = CVPlatform::GetPlatform()->AcquireVideoCapture();
 
 	if(!CVSUCCESS(vidCap->Init()))
@@ -803,17 +918,20 @@ ARToolKitPlusModule::start()
 		return;
 	}
 
-	InitializeCriticalSection(&CriticalSection);
+	//InitializeCriticalSection(&CriticalSection);
 	didLockImage = false;
 
-	if(!CVSUCCESS(vidCap->StartImageCap(CVImage::CVIMAGE_RGB24, ot::capCallback, this)))
+	if(!CVSUCCESS(vidCap->StartImageCap(CVImage::CVIMAGE_RGBX32, ot::capCallback, this)))
 	{
 		LOG_ACE_ERROR("ERROR: failed to start capturing.\nIf the application crashes please restart with the next mode!\n");
 		vidCap->Uninit();
 		CVPlatform::GetPlatform()->Release(vidCap);
-		DeleteCriticalSection(&CriticalSection);
+		//DeleteCriticalSection(&CriticalSection);
 		return;
 	}
+
+    ThreadModule::start();
+    LOG_ACE_INFO("ot:ARToolKitPlusModule started\n");
 }
 
 
@@ -827,8 +945,22 @@ ARToolKitPlusModule::close()
 		vidCap->Uninit();
 		CVPlatform::GetPlatform()->Release(vidCap);
 		vidCap = NULL;
-		DeleteCriticalSection(&CriticalSection);
+		//DeleteCriticalSection(&CriticalSection);
 	}
+
+    // if we don't have any nodes or are not initialized, forget it
+    if( isInitialized() == 0)
+    {
+        return;
+    }
+    lock();
+    stop = 1;
+    unlock();
+
+    // join the thread to wait for proper cleanup
+    ThreadModule::close();
+
+    LOG_ACE_INFO("ot:ARToolkit stopped\n");
 }
 
 
@@ -842,7 +974,11 @@ ARToolKitPlusModule::isStereo()
 int
 ARToolKitPlusModule::getSizeX(int stereo_buffer)
 {
-	return -1;
+	lock();
+	int w = curCapImage->Width();
+	unlock();
+
+	return w;
 }
 
 
@@ -850,7 +986,11 @@ ARToolKitPlusModule::getSizeX(int stereo_buffer)
 int 
 ARToolKitPlusModule::getSizeY(int stereo_buffer)
 {
-	return -1;
+	lock();
+	int h = curCapImage->Width();
+	unlock();
+
+	return h;
 }
 
 
@@ -872,7 +1012,8 @@ ARToolKitPlusModule::lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer)
 		return NULL;
 
 	didLockImage = true;
-	EnterCriticalSection(&CriticalSection); 
+	lock();
+	//EnterCriticalSection(&CriticalSection); 
 	return curCapImage->GetRawDataPtr();
 }
 
@@ -881,7 +1022,8 @@ void
 ARToolKitPlusModule::unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer)
 {
 	if(didLockImage)
-		LeaveCriticalSection(&CriticalSection);
+		//LeaveCriticalSection(&CriticalSection);
+		unlock();
 	didLockImage = false;
 }
 
@@ -896,9 +1038,11 @@ ARToolKitPlusModule::getImageFormat(int stereo_buffer)
 void
 ARToolKitPlusModule::setCapturedImage(CVImage* nImage)
 {
-	__try 
-    {
-        EnterCriticalSection(&CriticalSection); 
+	lock();
+
+//	__try 
+//    {
+//        EnterCriticalSection(&CriticalSection); 
 
 		if(curCapImage)
 			CVImage::ReleaseImage(curCapImage);
@@ -908,11 +1052,13 @@ ARToolKitPlusModule::setCapturedImage(CVImage* nImage)
 			curCapImage = nImage;
 			curCapImage->AddRef();
 		}
-    }
-    __finally 
-    {
-        LeaveCriticalSection(&CriticalSection);
-    }
+//    }
+//    __finally 
+//    {
+//        LeaveCriticalSection(&CriticalSection);
+//    }
+
+	unlock();
 }
 
 
@@ -923,7 +1069,7 @@ capCallback(CVRES status, CVImage* imagePtr, void* userParam)
 	// status is successful!
 	if(CVSUCCESS(status))
 	{
-		reinterpret_cast<ARToolKitPlusModule*>(userParam)->setCapturedImage(imagePtr);
+		reinterpret_cast<ot::ARToolKitPlusModule*>(userParam)->setCapturedImage(imagePtr);
 	}
 	else
 	{
@@ -934,9 +1080,7 @@ capCallback(CVRES status, CVImage* imagePtr, void* userParam)
 }
 
 
-#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
-
-
+#endif //ARTOOLKITPLUS_FOR_STB3
 
 
 } //namespace ot

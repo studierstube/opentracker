@@ -39,7 +39,7 @@
 #ifndef _ARTOOLKITMODULEPLUS_H
 #define _ARTOOLKITMODULEPLUS_H
 
-//#define ARTOOLKITPLUS_IS_CAMERASOURCE
+#define ARTOOLKITPLUS_FOR_STB3
 
 #include "../dllinclude.h"
 
@@ -51,12 +51,9 @@
 #ifdef USE_ARTOOLKITPLUS
 
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+#ifdef ARTOOLKITPLUS_FOR_STB3
 
-class MemoryBufferHandle
-{
-};
-
+class MemoryBufferHandle;
 class CVVidCapture;
 
 #define STEREO_L 0
@@ -64,10 +61,17 @@ class CVVidCapture;
 
 class CVImage;
 
-#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+#endif //ARTOOLKITPLUS_FOR_STB3
 
 
-#include <ARToolKitPlus/TrackerSingleMarker.h>
+namespace ARToolKitPlus {
+	class TrackerSingleMarker;
+	class Logger;
+}
+
+class ARToolKitPlusModuleLogger;
+
+//#include <ARToolKitPlus/TrackerSingleMarker.h>
 
 
 namespace ot {
@@ -97,7 +101,7 @@ public:
  * @ingroup core
  */
 
-class OPENTRACKER_API ARToolKitPlusModule : public Module, public NodeFactory, ARToolKitPlus::Logger
+class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory
 {
 // Members
 protected:
@@ -114,14 +118,9 @@ protected:
 	float	*bestCFs;
 	int		maxMarkerId;
 
-    /// treshhold value to use in image processing
-    //int treshhold;
-
     /// file name of cameradata file
     std::string cameradata;
 
-    /// pointer to the buffer map
-    //unsigned char * frame;
     /// size of the image in pixels
     int sizeX, sizeY;
 
@@ -137,24 +136,32 @@ protected:
 	/// if true ot will use arDetectMarkerLite instead of arDetectMarker
 	bool useMarkerDetectLite;
 
+	/// flag to stop image processing thread
+	int stop;
+
 	void init(StringTable& attributes, ConfigNode * localTree);
 
 	bool updateARToolKit();
 
-	void updateSource(Node *source, float cf, ARFloat matrix[3][4]);
+	void updateSource(Node *source, float cf, float matrix[3][4]);
 
 	ImageGrabber* imageGrabber;
 
 	float trackerNear,trackerFar;
 	ARToolKitPlus::TrackerSingleMarker* tracker;
+	ARToolKitPlus::Logger* logger;
 	bool idbasedMarkers;
 
 	// implement ARToolKitPlus::Logger
-	virtual void artLog(const char* nStr);
-	virtual void artLogEx(const char* nStr, ...);
+	//virtual void artLog(const char* nStr);
+	//virtual void artLogEx(const char* nStr, ...);
 
 // Methods
 public:
+	enum {
+		MAX_MARKERID = 511
+	};
+
     /** constructor method. */
     ARToolKitPlusModule();
 
@@ -211,7 +218,9 @@ public:
 
 
 
-#ifdef ARTOOLKITPLUS_IS_CAMERASOURCE
+#ifdef ARTOOLKITPLUS_FOR_STB3
+	virtual void run();
+
 	virtual void start();
 
 	virtual void close();
@@ -253,12 +262,13 @@ protected:
 	CVVidCapture* vidCap;
 	CVImage* curCapImage;
 
+	double		rate;
 	std::string videomode;
 	int			videoWidth, videoHeight;
 	bool		didLockImage;
 	CRITICAL_SECTION CriticalSection; 
 
-#endif //ARTOOLKITPLUS_IS_CAMERASOURCE
+#endif //ARTOOLKITPLUS_FOR_STB3
 };
 
 } // namespace ot

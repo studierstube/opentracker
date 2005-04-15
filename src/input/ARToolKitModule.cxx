@@ -69,7 +69,7 @@
 
 // definitions used by ARToolKit
 #ifndef GL_ABGR_EXT
-#define GL_ABGR_EXT GL_ABGR
+#define GL_ABGR_EXT		GL_ABGR
 #endif
 #ifndef GL_BGRA_EXT
 #define GL_BGRA_EXT GL_BGRA
