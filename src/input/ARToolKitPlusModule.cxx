@@ -808,7 +808,7 @@ void ARToolKitPlusModule::run()
         count ++;
     }
 
-	close();
+	shutDownVidCapture();
     LOG_ACE_INFO("ot:ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
 }
 
@@ -921,7 +921,6 @@ ARToolKitPlusModule::start()
 		return;
 	}
 
-	//InitializeCriticalSection(&CriticalSection);
 	didLockImage = false;
 
 	if(!CVSUCCESS(vidCap->StartImageCap(CVImage::CVIMAGE_RGBX32, ot::capCallback, this)))
@@ -929,7 +928,6 @@ ARToolKitPlusModule::start()
 		LOG_ACE_ERROR("ERROR: failed to start capturing.\nIf the application crashes please restart with the next mode!\n");
 		vidCap->Uninit();
 		CVPlatform::GetPlatform()->Release(vidCap);
-		//DeleteCriticalSection(&CriticalSection);
 		return;
 	}
 
@@ -941,21 +939,14 @@ ARToolKitPlusModule::start()
 void
 ARToolKitPlusModule::close()
 {
-	if(vidCap)
-	{
-		vidCap->Stop();
-		vidCap->Disconnect();
-		vidCap->Uninit();
-		CVPlatform::GetPlatform()->Release(vidCap);
-		vidCap = NULL;
-		//DeleteCriticalSection(&CriticalSection);
-	}
-
     // if we don't have any nodes or are not initialized, forget it
     if( isInitialized() == 0)
     {
         return;
     }
+
+	shutDownVidCapture();
+
     lock();
     stop = 1;
     unlock();
@@ -964,6 +955,20 @@ ARToolKitPlusModule::close()
     ThreadModule::close();
 
     LOG_ACE_INFO("ot:ARToolkit stopped\n");
+}
+
+
+void
+ARToolKitPlusModule::shutDownVidCapture()
+{
+	if(vidCap)
+	{
+		vidCap->Stop();
+		vidCap->Disconnect();
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		vidCap = NULL;
+	}
 }
 
 
@@ -1016,7 +1021,6 @@ ARToolKitPlusModule::lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer)
 
 	didLockImage = true;
 	lock();
-	//EnterCriticalSection(&CriticalSection); 
 	pHandle->n++;
 	return curCapImage->GetRawDataPtr();
 }
@@ -1026,7 +1030,6 @@ void
 ARToolKitPlusModule::unlockFrame(MemoryBufferHandle Handle, int stereo_buffer)
 {
 	if(didLockImage)
-		//LeaveCriticalSection(&CriticalSection);
 		unlock();
 	didLockImage = false;
 }
@@ -1044,10 +1047,6 @@ ARToolKitPlusModule::setCapturedImage(CVImage* nImage)
 {
 	lock();
 
-//	__try 
-//    {
-//        EnterCriticalSection(&CriticalSection); 
-
 		if(curCapImage)
 			CVImage::ReleaseImage(curCapImage);
 
@@ -1056,11 +1055,6 @@ ARToolKitPlusModule::setCapturedImage(CVImage* nImage)
 			curCapImage = nImage;
 			curCapImage->AddRef();
 		}
-//    }
-//    __finally 
-//    {
-//        LeaveCriticalSection(&CriticalSection);
-//    }
 
 	unlock();
 }

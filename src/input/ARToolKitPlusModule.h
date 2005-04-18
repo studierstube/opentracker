@@ -237,6 +237,8 @@ public:
 
 	virtual void close();
 
+	void shutDownVidCapture();
+
 
     /** returns whether two cameras are configured */
     bool isStereo();
