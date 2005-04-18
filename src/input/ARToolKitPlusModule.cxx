@@ -433,8 +433,10 @@ bool ARToolKitPlusModule::updateARToolKit()
 	if(!initialized || maxMarkerId<0)
 		return false;
 
+#ifdef ARTOOLKITPLUS_FOR_STB3
 	if(!curCapImage)
 		return false;
+#endif //ARTOOLKITPLUS_FOR_STB3
 
 	ARToolKitPlus::ARUint8 * frameData = NULL;
     ARToolKitPlus::ARMarkerInfo * markerInfo;

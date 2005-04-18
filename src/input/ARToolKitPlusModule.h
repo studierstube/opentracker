@@ -39,7 +39,7 @@
 #ifndef _ARTOOLKITMODULEPLUS_H
 #define _ARTOOLKITMODULEPLUS_H
 
-#define ARTOOLKITPLUS_FOR_STB3
+//#define ARTOOLKITPLUS_FOR_STB3
 
 #include "../dllinclude.h"
 
