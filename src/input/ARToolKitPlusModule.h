@@ -53,7 +53,19 @@
 
 #ifdef ARTOOLKITPLUS_FOR_STB3
 
-class MemoryBufferHandle;
+namespace ot {
+
+	struct MemoryBufferHandle
+	{
+		unsigned long  n; // sample number
+		__int64 t;		  // timestamp
+
+		MemoryBufferHandle() : n(0), t(0)
+		{}
+	};
+
+} // namespace ot
+
 class CVVidCapture;
 
 #define STEREO_L 0
@@ -248,7 +260,7 @@ public:
 
     /** releases the pointer to the grabbed image.
      * @release frame pointer */
-    void unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer = STEREO_L);
+    void unlockFrame(MemoryBufferHandle Handle, int stereo_buffer = STEREO_L);
 
     /** 
      * returns the OpenGL flag that is used by ARToolkit to describe
@@ -266,7 +278,7 @@ protected:
 	std::string videomode;
 	int			videoWidth, videoHeight;
 	bool		didLockImage;
-	CRITICAL_SECTION CriticalSection; 
+	//CRITICAL_SECTION CriticalSection; 
 
 #endif //ARTOOLKITPLUS_FOR_STB3
 };

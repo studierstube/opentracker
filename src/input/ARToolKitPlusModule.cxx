@@ -122,7 +122,7 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 
 	logger = new ARToolKitPlusModuleLogger;
 #ifdef ARTOOLKITPLUS_FOR_STB3
-	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<16,16,64, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
 #else
 	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
 #endif //ARTOOLKITPLUS_FOR_STB3
@@ -431,6 +431,9 @@ void ARToolKitPlusModule::pushState()
 bool ARToolKitPlusModule::updateARToolKit()
 {
 	if(!initialized || maxMarkerId<0)
+		return false;
+
+	if(!curCapImage)
 		return false;
 
 	ARToolKitPlus::ARUint8 * frameData = NULL;
@@ -862,7 +865,7 @@ ARToolKitPlusModule::start()
 
 	if(useDev == -1)
 	{
-		LOG_ACE_ERROR("WARNING: camera '%s' not found. using default camera\n", cfgCamName);
+		LOG_ACE_ERROR("WARNING: camera '%s' not found. using default camera (0)\n", cfgCamName);
 		useDev = 0;
 	}
 
@@ -987,7 +990,7 @@ int
 ARToolKitPlusModule::getSizeY(int stereo_buffer)
 {
 	lock();
-	int h = curCapImage->Width();
+	int h = curCapImage->Height();
 	unlock();
 
 	return h;
@@ -998,7 +1001,7 @@ void
 ARToolKitPlusModule::getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer)
 {
 	*isFlippedH = false;
-	*isFlippedV = false;
+	*isFlippedV = true;
 }
 
 
@@ -1014,12 +1017,13 @@ ARToolKitPlusModule::lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer)
 	didLockImage = true;
 	lock();
 	//EnterCriticalSection(&CriticalSection); 
+	pHandle->n++;
 	return curCapImage->GetRawDataPtr();
 }
 
 
 void
-ARToolKitPlusModule::unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer)
+ARToolKitPlusModule::unlockFrame(MemoryBufferHandle Handle, int stereo_buffer)
 {
 	if(didLockImage)
 		//LeaveCriticalSection(&CriticalSection);
@@ -1031,7 +1035,7 @@ ARToolKitPlusModule::unlockFrame(MemoryBufferHandle* Handle, int stereo_buffer)
 int
 ARToolKitPlusModule::getImageFormat(int stereo_buffer)
 {
-	return GL_RGB;
+	return GL_RGBA;
 }
 
 

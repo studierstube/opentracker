@@ -100,7 +100,7 @@
  * added to ARToolKitPlusModule to remain compatibility with Studierstube3 which relies
  * on this feature in the ARToolKitModule
  */
-//#define ARTOOLKITPLUS_IS_CAMERASOURCE
+ //#define ARTOOLKITPLUS_FOR_STB3
 
 
 /** umcomment the following line to compile against TinyXML instead of XERCES */
