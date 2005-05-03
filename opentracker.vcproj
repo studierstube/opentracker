@@ -45,7 +45,7 @@
 				OutputFile="bin/opentrackerd.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/ace&quot;;$(TINYXMLROOT)/lib;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib;$(OPENVIDEOROOT)/lib"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/ace&quot;;$(TINYXMLROOT)/lib;$(TINYXMLROOT)/../../../lib;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib;$(OPENVIDEOROOT)/lib"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
 				ImportLibrary="lib/opentrackerd.lib"
@@ -114,7 +114,7 @@
 				OutputFile="bin/opentracker.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/ace&quot;;$(TINYXMLROOT)/lib;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib;$(OPENVIDEOROOT)/lib"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/ace&quot;;$(TINYXMLROOT)/lib;$(TINYXMLROOT)/../../../lib;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;../wintab/lib;../dwarf/win32/lib;$(OPENVIDEOROOT)/lib"
 				ProgramDatabaseFile=".\Release/opentracker.pdb"
 				ImportLibrary="lib/opentracker.lib"
 				TargetMachine="1"/>
