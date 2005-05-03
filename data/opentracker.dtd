@@ -468,8 +468,11 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ARToolKitPlusSource EMPTY>
 <!ATTLIST ARToolKitPlusSource
   DEF ID #IMPLIED
-  tag-id CDATA #REQUIRED
-  center CDATA #REQUIRED
+  tag-id CDATA #IMPLIED
+  tag-file CDATA #IMPLIED
+  undist-mode CDATA #IMPLIED
+  detect-mode CDATA #IMPLIED
+  center CDATA "0,0"
   size CDATA #REQUIRED
 >
 <!-- test source elements -->
