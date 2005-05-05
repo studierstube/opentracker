@@ -292,7 +292,7 @@ Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& att
 		}
 		else
 		{
-			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
+			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg \"%s\"\n", filename.c_str());
 			return NULL;
 		}
 	}
