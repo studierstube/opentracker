@@ -121,14 +121,8 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 	trackerFar = 1000.0f;
 
 	logger = new ARToolKitPlusModuleLogger;
-#ifdef ARTOOLKITPLUS_FOR_STB3
-	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
-#else
-	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
-#endif //ARTOOLKITPLUS_FOR_STB3
-	tracker->init(NULL, trackerNear, trackerFar, logger);
-	tracker->setThreshold(100);
-	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+
+    tracker = NULL;
 
 	bestCFs = NULL;
 	maxMarkerId = MAX_MARKERID;
@@ -314,17 +308,6 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     cameradata = attributes.get("camera-parameter");
     patternDirectory = attributes.get("pattern-dir");
 
-	int tmpThreshold=100;
-    
-    if( attributes.get("treshhold", &tmpThreshold ) == 1 )
-    {
-        if( tmpThreshold < 0 )
-            tmpThreshold = 0;
-        else if( tmpThreshold > 255 )
-            tmpThreshold = 255;
-    }
-	tracker->setThreshold(tmpThreshold);
-
 #ifdef ARTOOLKITPLUS_FOR_STB3
 	videomode = attributes.get("videomode");
 
@@ -344,6 +327,33 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	if( attributes.get("marker-mode").compare("idbased") == 0 )
 		idbasedMarkers = true;
+
+#ifdef ARTOOLKITPLUS_FOR_STB3
+#define __ARTKPIXELFORMAT ARToolKitPlus::PIXEL_FORMAT_RGBA
+#else
+#define __ARTKPIXELFORMAT ARToolKitPlus::PIXEL_FORMAT_RGB565
+#endif //ARTOOLKITPLUS_FOR_STB3
+
+    if (idbasedMarkers) {
+        tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, __ARTKPIXELFORMAT>(320,240);
+    }
+    else {
+        tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<16,16,64, __ARTKPIXELFORMAT>(320,240);
+    }
+	tracker->init(NULL, trackerNear, trackerFar, logger);
+
+    int tmpThreshold=100;
+    
+    if( attributes.get("treshold", &tmpThreshold ) == 1 )
+    {
+        if( tmpThreshold < 0 )
+            tmpThreshold = 0;
+        else if( tmpThreshold > 255 )
+            tmpThreshold = 255;
+    }
+	tracker->setThreshold(tmpThreshold);
+
+//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 
 	if( attributes.get("border-width").length()>0 )
 	{
