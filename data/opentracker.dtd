@@ -457,7 +457,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ARToolKitPlusConfig EMPTY>
 <!ATTLIST ARToolKitPlusConfig
   camera-parameter CDATA #REQUIRED
-  treshold CDATA "100"
+  treshhold CDATA "100"
   framerate CDATA "30"
   videomode CDATA #REQUIRED
   flipX CDATA "false"
