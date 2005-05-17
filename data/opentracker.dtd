@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿¿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2005 beta 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
@@ -457,7 +457,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ARToolKitPlusConfig EMPTY>
 <!ATTLIST ARToolKitPlusConfig
   camera-parameter CDATA #REQUIRED
-  treshhold CDATA "100"
+  treshold CDATA "100"
   framerate CDATA "30"
   videomode CDATA #REQUIRED
   flipX CDATA "false"
