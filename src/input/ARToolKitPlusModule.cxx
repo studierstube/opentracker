@@ -845,6 +845,7 @@ ARToolKitPlusModule::start()
 
 	LOG_ACE_ERROR("Initialized video capture object.\n");
 
+/*
 	if(!CVSUCCESS(vidCap->Connect(0)))
 	{
 		vidCap->Uninit();
@@ -852,33 +853,42 @@ ARToolKitPlusModule::start()
 		LOG_ACE_ERROR("ERROR: connecting to camera failed.\n");
 		return;
 	}
+*/
 
 	int numDev = 0, useDev = -1;;
 	vidCap->GetNumDevices(numDev);
 
-	const char* cfgCamName = "NO_CAMERA_NAME";
+	if(numDev==0)
+	{
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		LOG_ACE_ERROR("ERROR: No camera found. ARToolKitPlusModule will not serve video input.\n");
+		return;
+	}
+
+	LOG_ACE_INFO("Found %d camera devices. Trying each...\n", numDev);
 
 	for(int i=0; i<numDev; i++)
 	{
-		int devNameLen = 0;
-		vidCap->GetDeviceName(0,devNameLen);
-		devNameLen++;
-		char* cameraName = new char[devNameLen];
-		vidCap->GetDeviceName(cameraName,devNameLen);
+		CVVidCapture::VIDCAP_DEVICE deviceInfo;
 
-		// TODO: get camera name from config file
-		if(!strcmp(cameraName, cfgCamName))
+		vidCap->GetDeviceInfo(i, deviceInfo);
+		LOG_ACE_INFO("Trying camera: %s\n", deviceInfo.DeviceString);
+
+		if(CVSUCCESS(vidCap->Connect(i)))
+		{
 			useDev = i;
-		delete cameraName;
-
-		if(i!=0)
+			LOG_ACE_INFO("--> using camera %s.\n", deviceInfo.DeviceString);
 			break;
+		}
 	}
 
-	if(useDev == -1)
+	if(useDev==-1)
 	{
-		LOG_ACE_ERROR("WARNING: camera '%s' not found. using default camera (0)\n", cfgCamName);
-		useDev = 0;
+		vidCap->Uninit();
+		CVPlatform::GetPlatform()->Release(vidCap);
+		LOG_ACE_ERROR("ERROR: connecting to all %d camera(s) failed.\nARToolKitPlusModule will not serve video input.\n", numDev);
+		return;
 	}
 
 
@@ -913,7 +923,9 @@ ARToolKitPlusModule::start()
 			if(modeInfo.XRes==videoWidth && modeInfo.YRes==videoHeight)
 			{
 				videoModeId = curmode;
-				break;
+				LOG_ACE_INFO("--> best video mode so far: %d, %dx%d @ %d frames/sec (%s)\n", curmode, modeInfo.XRes, modeInfo.YRes, modeInfo.EstFrameRate, vidCap->GetFormatModeName(modeInfo.InputFormat));
+				if(modeInfo.InputFormat == VIDCAP_FORMAT_RGB24)
+					break;
 			}
 
 	if(videoModeId==-1)
@@ -994,12 +1006,11 @@ ARToolKitPlusModule::isStereo()
 int
 ARToolKitPlusModule::getSizeX(int stereo_buffer)
 {
-//	lock();
-//	int w = curCapImage->Width();
-//	unlock();
-//	return w;
+	lock();
+	int w = curCapImage->Width();
+	unlock();
 
-	return videoWidth;
+	return w;
 }
 
 
@@ -1007,12 +1018,11 @@ ARToolKitPlusModule::getSizeX(int stereo_buffer)
 int 
 ARToolKitPlusModule::getSizeY(int stereo_buffer)
 {
-//	lock();
-//	int h = curCapImage->Height();
-//	unlock();
-//	return h;
+	lock();
+	int h = curCapImage->Height();
+	unlock();
 
-	return videoHeight;
+	return h;
 }
 
 
