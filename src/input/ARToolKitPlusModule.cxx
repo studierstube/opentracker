@@ -994,11 +994,12 @@ ARToolKitPlusModule::isStereo()
 int
 ARToolKitPlusModule::getSizeX(int stereo_buffer)
 {
-	lock();
-	int w = curCapImage->Width();
-	unlock();
+//	lock();
+//	int w = curCapImage->Width();
+//	unlock();
+//	return w;
 
-	return w;
+	return videoWidth;
 }
 
 
@@ -1006,11 +1007,12 @@ ARToolKitPlusModule::getSizeX(int stereo_buffer)
 int 
 ARToolKitPlusModule::getSizeY(int stereo_buffer)
 {
-	lock();
-	int h = curCapImage->Height();
-	unlock();
+//	lock();
+//	int h = curCapImage->Height();
+//	unlock();
+//	return h;
 
-	return h;
+	return videoHeight;
 }
 
 
