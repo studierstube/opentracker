@@ -58,7 +58,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32="C:\Program Files\Microsoft eMbedded C++ 4.0\EVC\WCE420\bin\xilinke42"
 # ADD BASE LINK32 commctrl.lib coredll.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /nodefaultlib:"$(CENoDefaultLib)" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
-# ADD LINK32 commctrl.lib coredll.lib Ccrtrtti.lib ACE.lib gpp_WMMX40_r.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /nodefaultlib:"$(CENoDefaultLib)" /out:"bin/WinCE/opentracker.dll" /libpath:"$(ACEROOT)/bin/ARM" /libpath:"$(TINYXMLROOT)/lib/ARM" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
+# ADD LINK32 commctrl.lib coredll.lib Ccrtrtti.lib ACE.lib gpp_WMMX40_r.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /nodefaultlib:"$(CENoDefaultLib)" /out:"bin/WinCE/opentracker.dll" /libpath:"$(ACEROOT)/bin/ARM" /libpath:"$(TINYXMLROOT)/../../../lib/ARM" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
 
 !ELSEIF  "$(CFG)" == "opentracker - Win32 (WCE ARMV4) Debug"
 
@@ -89,7 +89,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32="C:\Program Files\Microsoft eMbedded C++ 4.0\EVC\WCE420\bin\xilinke42"
 # ADD BASE LINK32 commctrl.lib coredll.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /debug /nodefaultlib:"$(CENoDefaultLib)" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
-# ADD LINK32 commctrl.lib coredll.lib Ccrtrtti.lib aced.lib gpp_WMMX40_d.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /debug /nodefaultlib:"$(CENoDefaultLib)" /out:"bin/WinCE/opentrackerd.dll" /libpath:"$(ACEROOT)/bin/ARM" /libpath:"$(TINYXMLROOT)/lib/ARM" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
+# ADD LINK32 commctrl.lib coredll.lib Ccrtrtti.lib aced.lib gpp_WMMX40_d.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /debug /nodefaultlib:"$(CENoDefaultLib)" /out:"bin/WinCE/opentrackerd.dll" /libpath:"$(ACEROOT)/bin/ARM" /libpath:"$(TINYXMLROOT)/../../../lib/ARM" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
 
 !ENDIF 
 
@@ -112,6 +112,8 @@ SOURCE=.\src\core\ConfigNode.h
 
 SOURCE=.\src\core\ConfigurationParser.cxx
 DEP_CPP_CONFI=\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinystr.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinyxml.h"\
 	"..\ACE_5_3_3\ace\ACE_export.h"\
 	"..\ACE_5_3_3\ace\ace_wchar.h"\
 	"..\ACE_5_3_3\ace\ace_wchar.inl"\
@@ -187,8 +189,6 @@ DEP_CPP_CONFI=\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.cpp"\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.h"\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.inl"\
-	"..\tinyxml\tinystr.h"\
-	"..\tinyxml\tinyxml.h"\
 	".\config_win.h"\
 	".\src\core\ConfigNode.h"\
 	".\src\core\ConfigurationParser.h"\
@@ -219,6 +219,8 @@ SOURCE=.\src\core\ConfigurationParser.h
 
 SOURCE=.\src\core\Context.cxx
 DEP_CPP_CONTE=\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinystr.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinyxml.h"\
 	"..\ACE_5_3_3\ace\ACE.h"\
 	"..\ACE_5_3_3\ace\ACE.i"\
 	"..\ACE_5_3_3\ace\ACE_export.h"\
@@ -369,8 +371,6 @@ DEP_CPP_CONTE=\
 	"..\ACE_5_3_3\ace\Unbounded_Set.cpp"\
 	"..\ACE_5_3_3\ace\Unbounded_Set.h"\
 	"..\ACE_5_3_3\ace\Unbounded_Set.inl"\
-	"..\tinyxml\tinystr.h"\
-	"..\tinyxml\tinyxml.h"\
 	".\config_win.h"\
 	".\src\core\ConfigNode.h"\
 	".\src\core\ConfigurationParser.h"\
@@ -440,8 +440,8 @@ SOURCE=.\src\core\Module.h
 
 SOURCE=.\src\core\Node.cxx
 DEP_CPP_NODE_=\
-	"..\tinyxml\tinystr.h"\
-	"..\tinyxml\tinyxml.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinystr.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinyxml.h"\
 	".\config_win.h"\
 	".\src\core\ConfigNode.h"\
 	".\src\core\Context.h"\
@@ -2809,7 +2809,6 @@ DEP_CPP_ARTOO=\
 	"..\ARToolKitPlus\src\TrackerImpl.cxx"\
 	"..\ARToolKitPlus\src\TrackerSingleMarkerImpl.cxx"\
 	"..\libce\include\sys\time.h"\
-	"..\libce\include\time.h"\
 	".\config_win.h"\
 	".\src\core\ConfigNode.h"\
 	".\src\core\Context.h"\
@@ -2831,6 +2830,7 @@ DEP_CPP_ARTOO=\
 	".\src\tool\disable4786.h"\
 	".\src\tool\OT_ACE_Log.h"\
 	{$(INCLUDE)}"gpp.h"\
+	{$(INCLUDE)}"time.h"\
 	
 # End Source File
 # Begin Source File
@@ -6008,14 +6008,6 @@ DEP_CPP_OPENT=\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.cpp"\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.h"\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.inl"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\ar.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\arMulti.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\ARToolKitPlus.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\config.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\Logger.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\param.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\Tracker.h"\
-	"..\ARToolKitPlus\include\ARToolKitPlus\TrackerSingleMarker.h"\
 	".\config_win.h"\
 	".\src\common\ButtonHoldFilterModule.h"\
 	".\src\common\CallbackModule.h"\
@@ -6110,8 +6102,8 @@ SOURCE=.\src\misc\serialcomm.h
 
 SOURCE=.\src\misc\xml\XMLWriter.cxx
 DEP_CPP_XMLWR=\
-	"..\tinyxml\tinystr.h"\
-	"..\tinyxml\tinyxml.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinystr.h"\
+	"..\..\Projects\StbAM\XMLDB\src\tinyxml\TinyXML\tinyxml.h"\
 	".\config_win.h"\
 	".\src\core\ConfigNode.h"\
 	".\src\core\Context.h"\
