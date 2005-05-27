@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// naming.mpb,v 1.6 2004/01/22 18:23:49 elliott_c Exp
+
+project : iortable, messaging, svc_utils {
+  after     += CosNaming
+  libs      += TAO_CosNaming
+  tagchecks += Naming
+}

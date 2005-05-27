@@ -1,0 +1,369 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>Settings</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>Settings</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>259</width>
+            <height>163</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>SimVoleon settings</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>41</y>
+                <width>89</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Mode:</string>
+        </property>
+        <property name="alignment">
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>100</y>
+                <width>91</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Color map type:</string>
+        </property>
+        <property name="alignment">
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel4</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>130</y>
+                <width>91</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Axis:</string>
+        </property>
+        <property name="alignment">
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>11</x>
+                <y>68</y>
+                <width>89</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string> Transfer function:</string>
+        </property>
+        <property name="alignment">
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel5</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>91</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>File:</string>
+        </property>
+        <property name="alignment">
+            <set>AlignVCenter|AlignRight</set>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>Volume</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Orthoslice</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Oblique slice</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboBox1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>40</y>
+                <width>141</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="currentItem">
+            <number>1</number>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>None</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Gray</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Temperature</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Physics</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Standard</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Glow</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Blue/Red</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Seismic</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboBox2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>70</y>
+                <width>141</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="currentItem">
+            <number>3</number>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>Alpha</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Lum_alpha</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>RGBA</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboBox3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>100</y>
+                <width>141</width>
+                <height>21</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>X</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Y</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Z</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboBox4</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>130</y>
+                <width>141</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="currentItem">
+            <number>2</number>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>3dhead</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>bentum</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>colt</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>cthead</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>engine</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>hplogo</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>lobster</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>spine</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>syn_64</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>trabecular</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>ComboBox5</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>10</y>
+                <width>141</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="currentItem">
+            <number>3</number>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>ComboBox1</sender>
+        <signal>activated(int)</signal>
+        <receiver>Settings</receiver>
+        <slot>ModeActivated(int)</slot>
+    </connection>
+    <connection>
+        <sender>ComboBox2</sender>
+        <signal>activated(int)</signal>
+        <receiver>Settings</receiver>
+        <slot>TransferFunctionActivated(int)</slot>
+    </connection>
+    <connection>
+        <sender>ComboBox3</sender>
+        <signal>activated(int)</signal>
+        <receiver>Settings</receiver>
+        <slot>ColorMapActivated(int)</slot>
+    </connection>
+    <connection>
+        <sender>ComboBox4</sender>
+        <signal>activated(int)</signal>
+        <receiver>Settings</receiver>
+        <slot>AxisActivated(int)</slot>
+    </connection>
+    <connection>
+        <sender>ComboBox5</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>Settings</receiver>
+        <slot>FileActivated(const QString&amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">settings.ui.h</include>
+</includes>
+<slots>
+    <slot>ModeActivated( int mode )</slot>
+    <slot>TransferFunctionActivated( int funct )</slot>
+    <slot>ColorMapActivated( int colorMap )</slot>
+    <slot>AxisActivated( int axis )</slot>
+    <slot>FileActivated( const QString &amp; )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Ponder (IMS) -->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+  <!--
+  tracking config for mobile setup for outdoor use
+  includes :
+  4mm FireFly Extended Camera for video background
+  TouchPad with tracked point
+  IntertiaCube2 for head rotation
+  gps receiver for position tracking, served by a dedicated opentracker server
+  An calibOffsetCam for calibrating virtual camera offsets  
+  
+  Outputs : StbSink
+  0 - pip with event for camera calibration
+  1 - pen 
+  2 - camera point (includes camera calibration)
+  3 - 2D pointer position for calibration purposes
+  4 - user position in real world (as opposed to camera point !)
+  5 - Raypicker output, this is camera point with transformation for picking
+  6 - raw tracking output (no calibration) for inertial sensor calibration
+  8 - transformed mouse output for APRIL presentations
+  
+  10 - user 0 position from the network
+  11 - user 1 position from the network
+  
+  224.100.200.103:2003:0 - user0 location
+  224.100.200.104:2004:0 - user1 location
+  
+  the camera is moved in real world space according to gps and orientation tracking.
+  all computed events are in the same reference frame defined by GPS origin and IC2 origin.
+  
+  $Id: absoluteVideo.xml 3526 2004-07-21 12:31:00Z reitmayr $
+  -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- OpenTracker configuration 128.130.78.38-->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <configuration>
+    <ARToolKitConfig camera-parameter="firefly_4mm.dat" videomode="WDM_CAP,videoWidth=640,videoHeight=480" framerate="15" treshhold="100"/>
+    <ConsoleConfig headerline="Mobile Setup" interval="10" display="off"/>
+    <InterSenseConfig>
+      <ISTracker comport="1" id="InertiaCube"/>
+    </InterSenseConfig>  
+</configuration>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Local ARToolkit Makers -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!--
+  <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="lambda">
+    <ARToolKitSource tag-file="../mobile/data/lambda.tag" center="0 0" size="80"/>
+  </EventTransform>
+  -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- GPS Tracking -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- outputs the 2D coordinates in the local system of the data. We get it from a standalone opentracker
+       server-->
+  <EventTransform DEF="gps" translation="0 2 0" scale="1 0 1">
+    <NetworkSource number="1" multicast-address="224.100.200.101" port="2000"/>
+  </EventTransform>
+  <!-- plus filtering with elastic filter to have smoother updates -->
+  <ElasticFilter force="0.1" damp="0.5" DEF="position">
+    <Ref USE="gps"/>
+  </ElasticFilter>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Orientation Tracking -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- orientation information is also received via the network to be able to use the gpsemulator application -->
+  <EventTransform DEF="orientation">
+   <EventVirtualOrientationTransform rotationtype="matrix" rotation="0 -1 0 1 0 0 0 0 1">
+      <EventOrientationTransform rotation="0 1 0 -1 0 0 0 0 1" rotationtype="matrix">
+        <InterSenseSource id="InertiaCube"/>
+      </EventOrientationTransform>
+    </EventVirtualOrientationTransform>
+      <!-- <NetworkSource number="2" multicast-address="224.100.200.101" port="2000"/> -->
+  </EventTransform>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Whole location -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- merge position and orientation and compose with calibration offset from the CalibrationContext -->
+  <EventTransform DEF="location">
+    <EventDynamicTransform baseevent="true">
+      <TransformBase>
+        <StbSource node="CalibNode" position="positionOffset" DEF="CalibParametersPos"/>
+      </TransformBase>
+      <EventDynamicTransform baseevent="true">
+        <TransformBase>
+          <EventDynamicOrientationTransform baseevent="true">
+            <TransformBase>
+              <StbSource node="InertialOffset" orientation="rotation" DEF="InertialOffset"/>
+              <!-- <StbSource node="CalibNode" orientation="orientationY" DEF="CalibY"/> -->
+            </TransformBase>
+            <Merge DEF="RawLocation">
+              <MergePosition>
+                <Ref USE="position"/>
+              </MergePosition>
+              <MergeOrientation>
+                <Ref USE="orientation"/>
+              </MergeOrientation>
+            </Merge>
+          </EventDynamicOrientationTransform>
+        </TransformBase>
+        <StbSource node="CalibNode" orientation="orientationX" DEF="CalibX"/>
+      </EventDynamicTransform>
+    </EventDynamicTransform>
+  </EventTransform>
+  <!-- ouput raw position for various applications -->
+  <StbSink station="4">
+    <Ref USE="location"/>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Camera Tracking -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- output to camera station with additional offset for camera calibration -->
+  <StbSink station="2" DEF="camera">
+    <EventVirtualTransform DEF="calibOffsetCam" translation="0 0 0">
+      <Ref USE="location"/>
+    </EventVirtualTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Devices -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- PIP pointer is defined to be the pen now -->
+  <StbSink station="1" event="on" DEF="pen">
+    <Merge>
+      <MergeDefault>
+        <EventTransform scale="-0.1 -0.1 0" translation="-0.05 0.05 0.003" rotation="0 1 0 0">
+          <StbMouseSource mode="relative" DEF="TouchPad"/>
+        </EventTransform>
+      </MergeDefault>
+      <MergeButton>
+        <ButtonOp op="OR" DEF="Buttons">
+          <Arg1>
+            <Ref USE="TouchPad"/>
+          </Arg1>
+          <Arg2>
+            <StbKeyboardSource number="1"/>
+          </Arg2>
+        </ButtonOp>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+  <!-- PIP -->
+  <StbSink station="0" DEF="pip">
+    <TimeGate mode="pass" timeframe="100">
+      <Gate>
+        <Ref USE="TouchPad"/>
+      </Gate>
+      <TestSource position="0 0 0"/>
+    </TimeGate>
+  </StbSink>
+  <!-- Raw 2D position off TouchPad -->
+  <StbSink station="3">
+    <Ref USE="TouchPad"/>
+  </StbSink>
+  <!-- camera with transformation for raypicking -->
+  <StbSink station="5" event="on" DEF="Picker">
+    <Merge>
+      <MergeDefault>
+        <EventVirtualOrientationTransform rotation="1 0 0 -1.57" rotationtype="axisangle">
+          <Ref USE="camera"/>
+        </EventVirtualOrientationTransform>
+      </MergeDefault>
+      <MergeButton>
+        <Ref USE="Buttons"/>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+  <!-- Raw tracking output for calibration purposes -->
+  <StbSink station="6">
+    <Ref USE="RawLocation"/>
+  </StbSink>
+  <!-- output for APRIL presentations -->
+  <StbSink station="8" event="on">
+    <EventTransform scale="1 -1 1" translation="-0.5 0.5 0.002">
+      <Ref USE="TouchPad"/>
+    </EventTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- gps logging triggers -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <NetworkSink name="point1" number="1" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1" DEF="point1">
+    <StbSource node="point1" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point2" number="2" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1" DEF="point2">
+    <StbSource node="point2" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point3" number="3" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point3" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point4" number="4" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point4" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point5" number="5" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point5" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point6" number="6" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point6" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point7" number="7" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point7" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point8" number="8" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point8" button="whichChild"/>
+  </NetworkSink>
+  <NetworkSink name="point9" number="9" multicast-address="224.100.200.102" port="2001" interface="127.0.0.1">
+    <StbSource node="point9" button="whichChild"/>
+  </NetworkSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- generic tracking distribution stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+ <StbSink station="10" DEF="user0rec">
+    <NetworkSource number="0" multicast-address="224.100.200.103" port="2003"/>
+  </StbSink>
+  <StbSink station="11" DEF="user1rec">
+    <NetworkSource number="0" multicast-address="224.100.200.104" port="2004"/>
+  </StbSink>
+  <NetworkSink name="user0" number="0" multicast-address="224.100.200.103" port="2003" DEF="user0">
+      <StbSource node="USER0" position="translation" orientation="rotation" />
+  </NetworkSink>
+  <NetworkSink name="user1" number="0" multicast-address="224.100.200.104" port="2004" DEF="user1">
+      <StbSource node="USER1" position="translation" orientation="rotation" />
+  </NetworkSink>    
+   <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- debug stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <ConsoleSink comment="GPS" active="off">
+    <Ref USE="gps"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Location" active="off">
+    <Ref USE="location"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Pip" active="off">
+    <Ref USE="pip"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Camera" active="off">
+    <Ref USE="camera"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Orientation" active="off">
+    <Ref USE="orientation"/>
+  </ConsoleSink>
+  <ConsoleSink comment="PosOffset" active="off">
+    <Ref USE="CalibParametersPos"/>
+  </ConsoleSink>
+  <ConsoleSink comment="RotOffsetY" active="off">
+    <Ref USE="InertialOffset"/>
+  </ConsoleSink>
+  <ConsoleSink comment="RotOffsetX" active="off">
+    <Ref USE="CalibX"/>
+  </ConsoleSink>
+  <ConsoleSink comment="gps button1" active="off">
+    <Ref USE="point1"/>
+  </ConsoleSink>
+  <ConsoleSink comment="gps button2" active="off">
+    <Ref USE="point2"/>
+  </ConsoleSink>
+</OpenTracker>

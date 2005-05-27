@@ -1,0 +1,68 @@
+#Inventor V2.1 ascii
+
+Separator {
+  DEF Group01 Separator {
+    Transform {
+      translation	-19.7 6.25 -1.165
+      scaleFactor	1 1 1.055
+    }
+    DEF NGon01 Separator {
+      Transform {
+	translation	0 -6.25 36.12
+	rotation	0 -1 0  1.571
+	scaleFactor	1 1 1.583
+      }
+      Separator {
+	DEF _0 Material {
+	  ambientColor	0.185 0.101381 0.0301745
+	  diffuseColor	0.74 0.405524 0.120698
+	  specularColor	0.32 0.175362 0.0521938
+	  emissiveColor	0 0 0
+	  shininess	0.4
+	  transparency	0
+	}
+	DEF NGon01-FACES Separator {
+	  ShapeHints {
+	    vertexOrdering	COUNTERCLOCKWISE
+	    shapeType	SOLID
+	  }
+	  IndexedFaceSet {
+	    vertexProperty		    VertexProperty {
+	      vertex	[ 50.15 0 0,
+		        -25.08 0 -43.43,
+		        -25.08 0 43.43,
+		        50.15 12.5 0,
+		        -25.08 12.5 -43.43,
+		        -25.08 12.5 43.43 ]
+	      orderedRGBA	[  ]
+	    }
+
+	    coordIndex	[ 0, 1, 4, -1, 0, 4, 3, -1,
+		      1, 2, 5, -1, 1, 5, 4, -1,
+		      2, 0, 3, -1, 2, 3, 5, -1,
+		      0, 2, 1, -1, 3, 4, 5, -1 ]
+	  }
+	}
+      }
+    }
+    DEF Box01 Separator {
+      Transform {
+	translation	0 -6.25 -37.61
+	scaleFactor	1 1 0.7618
+      }
+      Separator {
+	Transform {
+	  translation	0 6.231 0
+	}
+	Separator {
+	  USE _0
+	  Cube {
+	    width	54.67
+	    height	12.46
+	    depth	127.7
+	  }
+	}
+      }
+    }
+  }
+}

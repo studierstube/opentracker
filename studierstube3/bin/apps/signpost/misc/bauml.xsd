@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by icga (icga) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Building" type="BuildingType">
+		<xs:annotation>
+			<xs:documentation>contains information about the building</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="BuildingType">
+		<xs:sequence>
+			<xs:element ref="Room" maxOccurs="unbounded"/>
+			<xs:element ref="TrackingSystem" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="Room">
+		<xs:annotation>
+			<xs:documentation>contains information about the room</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="RoomType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="RoomType">
+		<xs:sequence>
+			<xs:element ref="Geometry"/>
+			<xs:element ref="Tracking" minOccurs="0"/>
+			<xs:element ref="Portals" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="origin" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:element name="Geometry">
+		<xs:annotation>
+			<xs:documentation>contains room geometry</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GeometryType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Tracking">
+		<xs:annotation>
+			<xs:documentation>contains room specific tracking information</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TrackingType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GeometryType">
+		<xs:sequence>
+			<xs:element ref="Vertex" maxOccurs="unbounded"/>
+			<xs:element ref="Polygon" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Portals" type="PortalsType">
+		<xs:annotation>
+			<xs:documentation>contains information about a portal</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="TrackingType">
+		<xs:sequence>
+			<xs:element ref="ARToolkit" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ARToolkit">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ARToolkitType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ARToolkitType">
+		<xs:sequence>
+			<xs:element ref="Marker4PNT" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="Marker6DOF" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="Marker4IDX" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Marker4PNT">
+		<xs:annotation>
+			<xs:documentation>contains vertices in this order: top-left, top-right, bottom-left, and optional: bottom-right</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="MarkerType">
+					<xs:sequence>
+						<xs:element ref="Vertex" minOccurs="3" maxOccurs="4"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Marker6DOF">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="MarkerType">
+					<xs:attribute name="center" type="xs:string" use="required"/>
+					<xs:attribute name="normal" type="xs:string" use="required"/>
+					<xs:attribute name="horizontal" type="xs:string" use="required"/>
+					<xs:attribute name="vertical" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Marker4IDX">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="MarkerType">
+					<xs:attribute name="vertices" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PortalsType">
+		<xs:sequence>
+			<xs:element ref="Portal" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="TrackingSystem">
+		<xs:annotation>
+			<xs:documentation>contains info about available tracking systems</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ARToolkitTracking" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Portal">
+		<xs:complexType>
+			<xs:attribute name="room" type="xs:string" use="required"/>
+			<xs:attribute name="polygon" type="xs:string" use="required"/>
+			<xs:attribute name="polygonnb" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Vertex">
+		<xs:complexType>
+			<xs:attribute name="position" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Polygon">
+		<xs:annotation>
+			<xs:documentation>describes a single flat surface in a room. It enumerates the vertices in order, starting to number them with 1 !!</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="vertices" type="xs:string" use="required"/>
+			<xs:attribute name="type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="wall"/>
+						<xs:enumeration value="floor"/>
+						<xs:enumeration value="portal"/>
+						<xs:enumeration value="ceiling"/>
+						<xs:enumeration value="special"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="MarkerType">
+		<xs:attribute name="number" type="xs:integer" use="required"/>
+		<xs:attribute name="size" type="xs:double" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="cell" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ARToolkitTrackingType">
+		<xs:attribute name="gridsize" type="xs:double" use="required"/>
+		<xs:attribute name="origin" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:element name="ARToolkitTracking">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ARToolkitTrackingType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

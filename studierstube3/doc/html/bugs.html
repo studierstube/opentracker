@@ -1,0 +1,200 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Known Bugs, Caveats and Workarounds</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+<h1>
+<font size=+3>Known Bugs, Caveats and Workarounds</font></h1>
+
+<p><br><font size=+3>Workarounds:</font>
+<p><font size=+2>Dual Mode - using both HMDs under Windows NT with Oxygen
+GFX420:</font>
+<p>Both HMDs can only be addressed with the 3dLabs Oxygen GFX420 under
+Windows NT. There is still no dual stereo driver support for Windows 2000.
+<br>In order to run the Studierstube under NT it must be fully recompiled.
+<p>The other problem is related to QT. In connection with OpenSource Inventor
+it is not possible to open 2 QT stereo windows/widgets which are resized
+later on. Therefore the workaround is to initialize both windows with the
+correct window size without resizing them later on. Gerd Hesina fixed a
+bug in soqt.lib which uses predefined environment variables to set both
+windows with the correct size. You must set these 2 environemt variables
+in Windows NT:
+<br>SOQT_DEFAULT_X_SIZE
+<br>SOQT_DEFAULT_Y_SIZE
+<br>For the Glasstrons we use SOQT_DEFAULT_X_SIZE = 800, SOQT_DEFAULT_Y_SIZE
+= 600. If only one is set it is supposed that the other one has the same
+value. If none is set, then the windows will have a default size of 500x390.
+In the last case, if your xsize and ysize variables in the SoDisplayKit
+(in your UserKit) differ from the default settings, a resize of the windows
+will be done, which will lead to the earlier described problems.
+<br>The "hacked" soqt.lib (where Gerd included the use of those environment
+variables) can be downloaded here (<a href="soqt_fix.zip">soqt_fix.zip</a>).
+The modified sources as well as compiled lib and dll are included in the
+ZIP file. Maybe Gerd finds some time to make them available via the webpage
+of the <a href="http://www.cg.tuwien.ac.at/hostings/openinventor/">OpenSource
+Inventor project</a> soon. You can get all modifications by contacting
+Hannes Kaufmann at <a href="mailto:kaufmann@ims.tuwien.ac.at">kaufmann@ims.tuwien.ac.at</a>
+too.
+<br>&nbsp;
+<p><font size=+2>Font problems with OS OIV:</font>
+<p>Gerd fixed a bug in libFL which is distrubuted with Gerd's SGI OpenInventor
+Windows port. LibFL is used as a font library but due to a bug it was impossible
+to set a specific size with SoFont for SoText2. The font size was 32 by
+default and couldn't be changed. This is fixed now. Other font styles can
+be used as well (SoFontStyle).
+<p>The new version of the libFL source can be downloaded here (<a href="libFL.zip">libFL.zip</a>).
+If Gerd finds some time to generate precompiled binaries, they will be
+made available on the <a href="http://www.cg.tuwien.ac.at/hostings/openinventor/">OpenInventor
+Website</a>.
+<br>Follow these steps to compile inventor yourself with the new libFL:
+<br>delete inventor\misc\libFL
+<br>extract zip archive into inventor\misc\libFL
+<br>to compile inventor it is sufficient to do:
+<br>vcvars32.bat
+<br>del install\lib\inventor.dll
+<br>build_all.bat
+<p>If you want to use the SoFontStyle you have to set the Font names correctly
+(the default names expected by Inventor can be seen in SoFontStyle.cxx)
+e.g.:
+<br>for family SERIF (or NONE)
+<br>copy winnt\fonts\times.ttf winnt\fonts\Utopia-Regular
+<br>copy winnt\fonts\timesi.ttf winnt\fonts\Utopia-Italic
+<br>copy winnt\fonts\timesbd.ttf winnt\fonts\Utopia-Bold
+<br>copy winnt\fonts\timesbi.ttf winnt\fonts\Utopia-BoldItalic
+<p>for family TYPEWRITER
+<br>copy winnt\fonts\cour.ttf winnt\fonts\Courier
+<br>copy winnt\fonts\couri.ttf winnt\fonts\Courier-Oblique
+<br>copy winnt\fonts\courbd.ttf winnt\fonts\Courier-Bold
+<br>copy winnt\fonts\courbi.ttf winnt\fonts\Courier-BoldOblique
+<p>for family SANS the default names are
+<br>Helvetica
+<br>Helvetica-Oblique
+<br>Helvetica-Bold
+<br>Helvetica-BoldOblique
+<br>&nbsp;
+<p>
+<hr width="100%">
+<br><font size=+3>Known bugs:</font>
+<p><font size=+2>2001-07-04 jp: Opening unicast connection fails:</font>
+<p><i>Note:</i> This may not be a bug, I'm documenting this just for the case
+anyone experiences the same problems. Later I have found that my current STB
+version has been linked against <code>ws2_32.lib</code> instead of
+<code>wsock32.lib</code>. This could have been the cause of the witnessed
+behaviour.  
+<p><i>Symptoms:</i> When trying to connect to a tracker that sends tracker
+data directly to the computer where studierstube runs (that is, it uses a UDP
+unicast and not a multicast group), I have experienced a problem where
+Studierstube was not able to receive any data - select() returned always 0 to
+signal a timeout.
+<p><i>Solution:</i> Chage the code in <code>multicast.cxx</code> to call
+<code>connect()</code> in
+<code>createMulticastSocket()</code> only for MULTICAST sockets. 
+<p><font size=+2>2001-06-12 hk: Pip Texture Loading problem:</font>
+<p>When starting an application for 2 users in FieldSequentialDisplayMode
+(with flexible tracker) on the same machine (in distributed studierstube),
+all application buttons on the PIP of the first user have the same textures
+on them (the last one that has been loaded) and the same goes for all buttons
+of the pipsheets - they all have the same texture (of the last button in
+the row). This goes for all applications (tested with Construct3d, Modeller
+and Roentgen). When touching the buttons with the pen, the correct textures
+are loaded/displayed.<br>
+The second user has the application selection menu on his PIP instead of
+the buttons of the running application - this is due to the distribution
+and not a bug.<br>
+This whole problem is probably due to a driver problem under WinNT with
+our Oxygen GFX420. No other reason can be identified - it only happens
+in 2 user mode and 2 user mode (on the same machine) only works under NT.
+<p>[This is no bug: When starting in 2 user mode in MonoDisplayMode (with
+keyboard tracker, screen output) the first user has application buttons
+on his PIP *and* the application selection menu (buttons overlap) - I think
+the application buttons have the correct texture, the selection menu textures
+are a bit wrong. The second user gets the same buttons as the first user.&nbsp;<br>
+The reason is that both PIPs overlap - that's why we are seeing both menus.]
+<p><font size=+2>2001-03-01 hk:</font>
+<p>SoQt hangs when trying to set size of a 2nd stereo widgets with Studierstube
+on an Oxygen 420 graphics card. Workaround provided by gh: use desired
+default size (800x600 for Glasstron) directly in&nbsp;&nbsp;&nbsp; SoQt.
+See Workaround "Dual Mode - using both HMDs under Windows NT"
+<p><font size=+2>2001-03-05 jp:</font>
+<p>An SoLOD inside an SoDragKit crashes the application when 3D events
+are fed into the SoDragKit
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

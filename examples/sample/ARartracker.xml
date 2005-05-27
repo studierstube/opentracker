@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "..\..\studierstube\bin\workspace\opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ConsoleConfig headerline="Sample Tracking Input" interval="20"/>
+		<ARToolKitConfig camera-parameter="..\..\studierstube\bin\workspace\data\webcam.dat" videomode="showDlg" framerate="10" treshhold="100"/>
+	</configuration>
+	
+	<!-- This is the output of the Keyboard -->
+	<ConsoleSink comment="Keyboard">
+		<ConsoleSource number="0"/>
+	</ConsoleSink>
+
+	<!-- This is the output of the ARToolkit -->
+	<ConsoleSink comment="ARToolKit">
+		<ARToolKitSource center="0 0" size="50 50" tag-file="..\..\studierstube\bin\apps\signpost\patt\pattern0"/>
+	</ConsoleSink>
+	
+</OpenTracker>

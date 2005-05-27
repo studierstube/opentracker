@@ -1,0 +1,8 @@
+#Inventor V2.1 ascii
+
+RotationXYZ {axis  X angle 1.57 }
+DEF NURBS_BUTTON SoPushButton {
+    width 0.15
+    depth 0.15
+    height 0.05
+}

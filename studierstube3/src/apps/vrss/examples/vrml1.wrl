@@ -1,0 +1,106 @@
+#VRML V2.0 utf8
+
+Group {
+  renderCaching OFF
+  children [
+
+    Scale { scaleFactor 0.125 0.125 0.125 }
+
+    DEF SLIDE_SHOW Switch {
+      choice [
+        Transform {
+          renderCaching OFF
+          children [
+            Transform { translation -24 18 0
+              renderCaching OFF
+              children [ DEF SLIDE_00 File { name "slide01.wrl" } ] },
+            Transform { translation -24 18 0
+              renderCaching OFF
+              children [ DEF SLIDE_01 File { name "slide01.wrl" } ] },
+
+            ...
+         }
+      ]
+   },
+
+...
+
+Transform {
+  renderCaching OFF
+  rotation 1 0 0 1.571
+  translation 0 0 0
+  children [
+
+    DEF SLIDE1_0 Transform {
+      renderCaching OFF
+      children [
+        Transform {
+          renderCaching OFF
+          translation 5 -5 0
+          children [
+
+            DEF TIMER_0 TimeSensor {
+              cycleInterval 4
+              loop FALSE 
+            }
+                        
+            DEF SLIDE1_TRANSLATOR_0 PositionInterpolator {
+              key [0.00, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 
+                   0.21, 0.24, 0.27, 0.30, 0.33, 0.36, 0.39, 0.42, ]
+              keyValue [0  0 0, 0 -3.634 0.5652, 0 -6.656 1.264, 
+                        0 -9.067 2.097, 0 -10.87 3.063, 0 -12.05 4.163,
+                        0 -12.63 5.397, 0 -12.59 6.764, 0 -11.95 8.265,
+                        0 -10.69 9.9, 0 -8.817 11.67, 0 -6.335 13.57, 
+                        0 -3.241 15.61, 0 0.4644 17.78, 0 1.835 18.53, ]
+            }
+          ]
+        }
+        Transform {
+          renderCaching OFF
+          rotation 1 0 0 -1.571
+          children [ USE SLIDE_01 ]
+        }
+      ]
+    }
+
+    DEF SLIDE2_0 Transform {
+      renderCaching OFF
+      translation 60 0 0
+      children [
+        Transform {
+          renderCaching OFF
+          children [
+                        
+            DEF SLIDE2_TRANSLATOR_0 PositionInterpolator {
+              key [ 0.00, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18,
+                    0.21, 0.24, 0.27, 0.30, 0.33, 0.36, 0.39, 
+                    0.42, 0.45, 0.48, 0.51, 0.54, 0.57, 0.60, ]
+              keyValue [ 0 1.049 -16.43, 0 1.35 -16.06, 0 1.466 -15.62, 
+                         0 1.397 -15.1,  0 1.143 -14.52, 0 0.7047 -13.86,
+                         0 0.08129 -13.14, 0 -0.7603 -12.34, 0 -2.169 -11.4,
+                         0 -4.015 -10.36, 0 -6.014 -9.248, 0 -7.883 -8.117,
+                         0 -9.337 -7.011, 0 -10.09 -5.974, 0 -10.02 -5.028,
+                         0 -9.464 -4.116, 0 -8.464 -3.234, 0 -7.018 -2.381,
+                         0 -5.125 -1.558, 0 -2.786 -0.7642, 0 0 0, ]
+            }
+          ]
+        }
+        Transform {
+          renderCaching OFF
+          rotation 1 0 0 -1.571
+          children [ USE SLIDE_02 ]
+        }
+      ]
+    }
+  ]
+}
+
+...
+
+ROUTE TIMER_0.fraction_changed    TO SLIDE1_TRANSLATOR_0.set_fraction
+ROUTE SLIDE1_TRANSLATOR_0.value_changed TO SLIDE1_0.translation
+ 
+ROUTE TIMER_0.fraction_changed    TO SLIDE2_TRANSLATOR_0.set_fraction
+ROUTE SLIDE2_TRANSLATOR_0.value_changed TO SLIDE2_0.translation
+
+...

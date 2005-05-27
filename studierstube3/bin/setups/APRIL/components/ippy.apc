@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="ippy" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../../tools/APRIL/april-component.xsd">
+    <interface>
+        <field type="SFVec3f" id="position" default="0.0 0.0 0.0"/>
+        <field type="SFRotation" id="orientation" default="0.0 0.0 0.0 0.0"/>
+        <field type="SFFloat" id="size" default="1.0"/>
+        <field id="transparency" type="SFFloat" default="0.0"/>
+        <field type="SFString" id="src" const="true"/>
+        <field type="SFString" id="action"/>
+    </interface>
+    <implementation type="OpenInventor" requires="../apps/Ippy/ippy#AnimationBlender">
+DEF <id/> Separator {
+    Transform {
+        translation <use field="position"/>
+        rotation <use field="orientation"/>
+        scaleFactor = ComposeVec3f {
+            x <use field="size"/>
+            y <use field="size"/>
+            z <use field="size"/>
+        }.vector
+    }
+    Material {
+        transparency <use field="transparency"/>
+    }
+    Transform {
+        translation = DEF ANIMATIONBLENDER AnimationBlender {
+					proceedStepDistance 0.01
+   
+				   dataDir "..\setups\APRIL\content\agents"
+				   animDir "..\setups\APRIL\content\agents"
+   
+				   generalLogFile "output.log"
+				   actionLogFile  "actions.log"
+
+				   startUpPos		0 0.0 0
+				   animTableFile	"allAnim.abi"
+				   actionFile		"actions.def"
+				   actionListFile	"actionList.lst"
+				   actionTableFile	"actionTable.lst"
+				   actionIp			"localhost"
+
+				   startUpAction	  "StartupAction"
+				   startUpActionSpeed 1.0
+				   coordinateScaleFactor 0.05
+				   actionIn <use field="action"/>
+			}.rootTranslation
+		}
+				   
+	   FileGroup {
+			enginesIn USE ANIMATIONBLENDER
+			nodesOut [ "J_RIGHT_HAND" , "J_LEFT_HAND" ]
+			name "..\setups\APRIL\content\agents\characterPc.iv"
+		}
+}
+</implementation>
+</component>

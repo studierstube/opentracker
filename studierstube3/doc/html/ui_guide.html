@@ -1,0 +1,200 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>The workspace user-interface</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+<h1>
+The workspace user-interface:</h1>
+
+<hr>
+<h2>
+Introduction:</h2>
+The workspace user-interface provides means for application- and window-handling
+within the Studierstube-environment.
+<br>It uses the Studierstube interaction-devices PEN and PIP (see Studierstube-introduction)
+<br>and virtual interaction-elements displayed on the PIP (mostly virtual
+3D-buttons).
+<br>To highlight an element just position the PEN's tip within the element's
+geometry (actually its bounding-box).
+<br>The element's color should turn yellow, to indicate that it is highlighted.
+<br>To trigger a virtual button, highlight it and press the primary button
+of the PEN and release it again.The virtual button should turn red and
+its geometry
+<br>changes, to indicate that it is currently pressed.
+<p>In the following description of the virtual interaction-elements "pressing
+a button" stands for the actions needed to press a virtual button.
+<h2>
+The elements of the workspace user-interface:</h2>
+
+<h3>
+The system-bar:</h3>
+current-task button: shows the currently focussed application, switches
+on/off the task-bar when pressed
+<p>exit button: stops the currently focussed application and all its contexts
+(if it is a context-application)
+<br>it also exits the workspace, if the focussed application is either
+the clipboard or the application-loader application.
+<p>new-context button: creates a new context for the currently focussed
+application (only available for context-applications)
+<p>delete-context button: deletes the currently focussed context (only
+available for context-applications)
+<h3>
+The task-bar:</h3>
+The task-bar shows all running applications, each having its own button,
+identified by the icon-texture of the associated application. To switch
+to an application (i.e. to switch to its pip-sheet and focus its window)
+just press the corresponding button. If the application has multiple contexts,
+a pulldown-menue will be shown, when the corresponding task-bar button
+is highlighted. To switch to one of the shown contexts, press the corresponding
+pulldown-button, or press the main task-bar button to switch to the first
+context in the pulldown-list.
+<br>The currently active task (and/or context) is marked by a special color
+of its task-bar button (default green).
+<h3>
+The window-bar:</h3>
+The window-bar provides manipulation widgets for the currently focussed
+window.
+<br>Each button is textured accordingly to its current functionality, which
+depends on the current state of the window
+<br>(e.g.: if the window is minimized, the minimze button becomes a restore
+button).
+<p>minimize button:
+<p>&nbsp; if the window is not minimized: minimizes the window
+<p>&nbsp; if the window is minimized: restores the window
+<br>&nbsp;
+<p>maximize button:
+<p>&nbsp; if the window is not maximized: maximizes the window
+<p>&nbsp; if the window is maximized: restores the window
+<br>&nbsp;
+<p>border on/off button:
+<p>&nbsp;turns on the border of the window
+<p>&nbsp; turns off the border of the window
+<br>&nbsp;
+<h2>
+Application-handling:</h2>
+
+<h3>
+Starting applications/new contexts:</h3>
+Workspace-applications are started using the application-loader.
+<p>The application-loader has three PIP-sheets.
+<br>To switch to a sheet just press one of the sheet-selector buttons.
+<p>The first sheet contains all context applications: just press the corresponding
+button to start an application. (note: if the application is already running,
+a new context is created for this application).
+<br>The second sheet contains all old-style (legacy) applications (non-context):
+just press the corresponding button to start an application. (note: legacy
+applications should only be started once).
+<br>The third sheet contains a filebrowser. The filter of the filebrowser
+is set to display only workspace-applications.
+<br>Browse through the directories by pressing the corresponding buttons
+(directories are displayed green).
+<br>To start an application press the browser-button labeled with the name
+of the application.
+<p>To create a new context for an already running application, press the
+new-context button on the systme-bar.
+<h3>
+Switching applications:</h3>
+There are two ways to switch to a specifc application/context:
+<p>1. Focus the window of the application/context by moving the PEN into
+the window and clicking the primary PEN-button.
+<br>2. Use the task-bar.
+<h3>
+Stopping applications:</h3>
+To stop a specific application, it has to be focussed (see "switching applications").
+<br>If it is focussed, just press the exit button on the system-bar to
+stop the whole application and all its contexts.
+<br>To delete only one context, press the delete-context button on the
+system-bar.
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+Window-handling:</h2>
+Use the window-bar to minimze, maximize and restore the window. Also for
+toggling the border of the window on and off.
+<br>To move and/or rotate the window, highlight its border, press and hold
+the primary PEN-button and drag the window until it is in the desired position,
+then release the PEN-button.
+<br>To change the size of the window, highlight a corner of the window,
+press and hold the primary PEN-button and move the PEN until the size fits
+your needs, then release the PEN-button.
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

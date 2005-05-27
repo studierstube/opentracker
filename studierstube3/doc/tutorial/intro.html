@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="tutorial.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Studierstube scripting mentor</h1>
+<h3>Introduction</h3>
+<p class="navbar">&lt;prev] - [<a href="index.html">up</a>] - [<a href="fileformat.html">next</a>&gt;</p>
+<p>With this tutorial, we want to introduce newcomers to the necessary knowledge 
+  to create applications for the Studierstube augmented reality application framework. 
+  Simple applications for Studierstube can be scripted in an ASCII-based file 
+  format, combining already existing components. For more complex behavior, new 
+  components can be added to the framework by implementing them in C++.</p>
+<p>Studierstube is built on top of the Open Inventor (OIV) graphics API. Open 
+  Inventor is built on top of OpenGL, providing an object-oriented framework for 
+  the creation of interactive 3D graphics applications. Studierstube is basically 
+  a collection of Open Inventor extensions, providing the neccesary support for 
+  creating augmented reality applications. In this tutorial, we mark Studierstube 
+  classes with an appended asterisk (*), which is of course not part of the class 
+  name. </p>
+<p>The great advanage of Open Inventor over low-level APIs like OpenGL is the 
+  high level of abstraction provided, supporting the rapid creation of applications 
+  and prototypes. While OpenGL deals with low-level graphics primitives like polygons, 
+  and provides only the very fundamental data types and structures necessary to 
+  send graphics data to the rendering pipeline, Open Inventor provides an object-oriented 
+  view on a graphical application: Visual objects, lights, cameras, user interface 
+  components and abstract components that control the behavior of an application 
+  are all modelled as objects that can be controlled and arranged by the user. 
+  The framework can be extended with the well-known techniques from object-oriented 
+  programming, namely inheritance and aggregation, to derive even more complex 
+  components from already existing building blocks.</p>
+<h4>Fundamentals</h4>
+<p>The fundamental data structure for every Open Inventor application is the <em>scene 
+  graph</em>. Everything that contributes to the look and behavior of an application 
+  - geometry, transformations, textures, lights, interaction tools - is added 
+  to the scene graph. Open Inventor scene graphs are directed, acyclic graphs 
+  with a single root node - you can think about it as a tree that also allows 
+  forward-links from a node to child nodes of other parents. A scene graph is 
+  composed of <em>nodes</em>, some of which - <em>group nodes</em> - can contain 
+  children.</p>
+<p><img src="images/scenegraph.gif" width="650" height="243"> <img src="images/h2o.jpg" width="250" height="267"></p>
+<p>Fig.1.: An example scene graph, used for rendering a water molecule. The right 
+  image shows the resulting geometry.</p>
+<p>The scene graph is processed, or <em>traversed</em>, for various purposes. 
+  Traversal happens always in depth-first, left-to-right manner, which means that 
+  a node's children are traversed <em>before</em> its next sibling. The graph 
+  shown in Fig. 1 would be traversed in the following order: <code>waterMolecule</code> 
+  - <code>oxygen</code> - <code>redPlastic</code> - <code>sphere1</code> - <code>hydrogen1</code> 
+  - <code>hydrogenXform1</code> - <code>whitePlastic</code> - <code>sphere2</code> 
+  - <code>hydrogen2</code> - <code>hydrogenXform2</code> - <code>sphere3</code>. 
+  All nodes that are traversed contribute (possibly) to the <em>traversal state</em> 
+  that is accumulated during traversal. For example, geometric transformations 
+  are stored as nodes in the scene graph and will accumulate when traversed. Any 
+  visible object encountered afterwards will be affected by the accumulated transformation. 
+  In the scene graph in Fig. 1, the material set inside the<code> hydrogen1</code> 
+  group by the node <code>whitePlastic</code> affects both <code>sphere2</code> 
+  and <code>sphere3</code>.</p>
+<p>The following image shows the structure of a scenegraph where one node (the 
+  leg of the robot) is referenced at two different locations. The resulting rendered 
+  image is shown to the right.</p>
+<p><img src="images/instancing.jpg" width="600" height="306"></p>
+<p>Most frequently, scene graphs are traversed for <em>rendering</em> them to 
+  the display. During rendering traversal, all transformation- and camera nodes 
+  that are encountered are accumulated and visible objects are rendered accordingly. 
+  Other examples for traversal would be searching, picking objects along a ray, 
+  calculating the bounding box of a scene or writing a scene to a file.</p>
+<p>As already mentioned, nodes can have different purposes, but most nodes will 
+  contribute to the traversal state in one way or the other. Geometry nodes define 
+  visible geometry, either as shape primitives like spheres or cylinders, or as 
+  arbitrary shaped surfaces made out of polygons or NURBS. Appearance nodes change 
+  the appearance of objects, either by adjusting their material properties like 
+  opacity, shininess and surface color, or by other means like applying a texture 
+  to subsequently rendered surfaces. Other nodes define lights and cameras that 
+  influence the rendering of the scene. Group nodes can contain children, and 
+  are used for organizing and controlling the traversal of the scene graph.</p>
+<p>OIV nodes contain <em>fields</em>, holding one or multiple values of a certain 
+  <em>type</em>. The following types are built into the OIV API:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr> 
+    <td class="nametable">BitMask</td>
+    <td>Field containing a set of bit flags</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Bool<br> </td>
+    <td>Boolean value (TRUE or FALSE)</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Box3s</td>
+    <td>3D box that has planes parallel to the major axes and is specified by 
+      two points on a diagonal.</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Color <br> </td>
+    <td>RGB (red/green/blue) color value</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Enum</td>
+    <td>field containing an enumerated value</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Float</td>
+    <td>float value</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Image</td>
+    <td>field containing an image</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Image3</td>
+    <td>field containing a 3-dimensional image (volume)</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Int32</td>
+    <td>integer value</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Matrix</td>
+    <td> 4*4 matrix</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Name</td>
+    <td>Character string stored in a special table for fast and easy comparison, 
+      typically for identifiers</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Node</td>
+    <td>Field that holds a reference to another node</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Plane</td>
+    <td>Oriented 3D plane</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Rotation </td>
+    <td>Representation of a 3D rotation about an arbitrary axis</td>
+  </tr>
+  <tr> 
+    <td class="nametable">String</td>
+    <td>Character string</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Time</td>
+    <td>Representation of time in seconds and microseconds</td>
+  </tr>
+  <tr> 
+    <td class="nametable">Trigger</td>
+    <td>Trigger field. Contains no value, but any input is used to trigger some 
+      action. </td>
+  </tr>
+  <tr> 
+    <td class="nametable"><span class="def">Vec</span>n<span class="def">f</span></td>
+    <td>n-dimensional float vector, used to represent points or directions (Vec2f, 
+      Vec3f, Vec4f)</td>
+  </tr>
+</table>
+<p>(Actually, the list of basic types is longer, but these types are available 
+  for scripting) For single value fields, the prefix <code>SF</code> is added 
+  to the type name, multi-value fields start with the <code>MF</code> prefix. 
+  A field holding a single string would therefore have the type <code>SFString</code>, 
+  a field holding multiple vectors <code>MFVec3f</code>.</p>
+<p>Note that in C++, all inventor class names have the prefix <code>Sb</code> 
+  (Scene Basic) or <code>So</code> (Scene Object). All objects that can be put 
+  into the scene graph (nodes, fields and other classes) have the <code>So</code> 
+  Prefix - the class name for <code>SFString</code> field is therefore <code>SoSFString</code>. 
+  This is important to know when browsing documentation, which often references 
+  to the C++ class names. In the scripting file format, these prefixes can be 
+  omitted for all built-in Open Inventor types.</p>
+<p>Numeric fields don't have any units associated with them - depending on the 
+  application context, a value of <code>1.0</code> may indicate a millimeter, 
+  meter, mile or lightyear. In the Studierstube environment, the basic unit is 
+  <em>meters</em> - therefore, a value of 1.0 always indicates a meter.</p>
+<p>Since fields of different types can be connected together (as will be explained 
+  below), Open Inventor performs automatic type conversions between fields if 
+  necessary and possible. Most notably, every type can be converted to and from 
+  the <code>String</code> type - this means that all field values can be output 
+  to strings, and all strings connected to fields will be parsed automatically 
+  to generate an appropriately typed value for that field. Also, <code>SF</code> 
+  fields will be converted to <code>MF</code> fields containing a single entry, 
+  and for <code>MF</code> fields connected to <code>SF</code> fields, the first 
+  entry will be used.</p>
+<p class="navbar">&lt;prev] - [<a href="index.html">up</a>] - [<a href="fileformat.html">next</a>&gt;</p>
+</body>
+</html>

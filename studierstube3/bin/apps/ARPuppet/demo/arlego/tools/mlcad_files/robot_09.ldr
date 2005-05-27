@@ -1,0 +1,10 @@
+0 Name: robot_9.ldr
+0 Author: Istvan Barakonyi
+0 ROTATION CENTER 0 0 0 1 "Custom" 
+0 ROTATION CONFIG 0 0
+1 7 -108 -16 -180 0 1 0 -1 0 0 0 0 1 6632.DAT
+1 7 -116 -16 -180 0 1 0 -1 0 0 0 0 1 6632.DAT
+1 7 -118 -16 -160 -1 0 0 0 -1 0 0 0 1 3749.DAT
+1 7 -98 -16 -140 1 0 0 0 -1 0 0 0 -1 3749.DAT
+1 7 -98 -16 -180 1 0 0 0 -1 0 0 0 -1 3749.DAT
+0

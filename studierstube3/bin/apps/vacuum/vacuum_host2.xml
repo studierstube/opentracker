@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+
+  <configuration>
+    <ARToolKitConfig camera-parameter="../../mobile/data/firefly_4mm.dat" treshhold="100" framerate="15" videomode="showDlg" videolinuxmode="-mode=320x240_YUV422"/>
+    <ConsoleConfig headerline="H323 Local" interval="1" display="on"/> <!--curses="off"/-->
+    <TimeConfig display="true" sleep="100"/>
+  </configuration>
+
+  <StbSink station="1">
+    <TestSource frequency="1" position="0 0 0"/>
+  </StbSink>
+  
+  <StbSink station="2">
+    <ConsoleSink comment="keyboard_tracker" active="on">
+       <StbKeyboardSource number="0"/>
+    </ConsoleSink>
+  </StbSink>
+
+  <!-- marker 8 = 8x8_14.patt, marker 7 = 8x8_3.patt, marker 12 = 8x8_12.patt, marker 13 = 8x8_15.patt  -->
+  <StbSink station="10" event="on">
+    <ConsoleSink comment="translation marker" active="on" DEF="MARKER_TRANS">
+      <Merge>
+        <MergeDefault>
+          <EventVirtualTransform rotationtype="axisangle" rotation="0 1 0 3.1415926535897931">
+            <EventMatrixTransform matrix="-1 0 0 0 0 -1 0 0 0 0 -1 0">
+              <EventTransform translation="0.08 0 0" scale="0.001 0.001 0.001">
+                <ARToolKitSource center="0 0" size="90 90" tag-file="../../mobile/data/8x8_12.patt"/>
+              </EventTransform>
+            </EventMatrixTransform>
+          </EventVirtualTransform>
+        </MergeDefault>
+        <MergeButton>
+          <StbKeyboardSource number="1"/>
+        </MergeButton>
+      </Merge>
+    </ConsoleSink>
+  </StbSink>
+
+  <StbSink station="11" event="on">
+    <ConsoleSink comment="slice marker" DEF="MARKER_SLICE" active="on">
+      <Merge>
+        <MergeDefault>
+          <EventVirtualTransform rotationtype="axisangle" rotation="0 1 0 3.1415926535897931">
+            <EventMatrixTransform matrix="-1 0 0 0 0 -1 0 0 0 0 -1 0">
+              <EventTransform translation="0.05 0 0" scale="0.001 0.001 0.001">
+                  <ARToolKitSource center="0 0" size="90 90" tag-file="../../mobile/data/8x8_15.patt"/>
+              </EventTransform>
+            </EventMatrixTransform>
+          </EventVirtualTransform>
+        </MergeDefault>
+        <MergeButton>
+          <StbKeyboardSource number="2"/>
+        </MergeButton>
+      </Merge>
+    </ConsoleSink>
+  </StbSink>
+
+  <StbSink station="12" event="on">
+    <ConsoleSink comment="network translation marker" DEF="MARKER_NET_TRANS">
+      <NetworkSource number="1" multicast-address="224.15.15.15" port="12345"/>
+    </ConsoleSink>
+  </StbSink>
+  
+  <StbSink station="13" event="on">
+    <ConsoleSink comment="network slice marker" DEF="MARKER_NET_SLICE">
+      <NetworkSource number="2" multicast-address="224.15.15.15" port="12345"/>
+    </ConsoleSink>
+  </StbSink>
+
+  <NetworkSink name="h323_nw_trans" number="1" multicast-address="224.15.15.15" port="12346">
+    <Ref USE="MARKER_TRANS"/>
+  </NetworkSink>
+  
+  <NetworkSink name="h323_nw_trans2" number="2" multicast-address="224.15.15.15" port="12346">
+    <Ref USE="MARKER_SLICE"/>
+  </NetworkSink>
+
+</OpenTracker>

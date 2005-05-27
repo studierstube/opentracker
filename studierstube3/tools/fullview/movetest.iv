@@ -1,0 +1,19 @@
+#Inventor V2.1 ascii
+Separator {
+  OrthographicCamera {
+    position 0 0 5
+    orientation 0 0 1 0
+    nearDistance 0.01
+    farDistance 1000
+  }
+  Transform { 
+    translation 0 0 0 = 
+      Calculator {
+        A 0 0 0 =  SoTrakEngine { station 0 } . translation
+        expression "oA=A*1.0"
+     } . oA
+     rotation 1 0 0  0 = 
+      DEF TRAKENGINE SoTrakEngine { station 0 } . rotation
+  }
+  File { name "axis.iv" }
+}

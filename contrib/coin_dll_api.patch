@@ -1,0 +1,98 @@
+Index: C/base/rbptree.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/C/base/rbptree.h,v
+retrieving revision 1.2
+diff -u -u -r1.2 rbptree.h
+--- C/base/rbptree.h	13 Jan 2004 12:22:41 -0000	1.2
++++ C/base/rbptree.h	21 Feb 2004 18:24:02 -0000
+@@ -44,19 +44,19 @@
+   uint32_t counter;
+ } cc_rbptree;
+ 
+-void cc_rbptree_init(cc_rbptree * t);
+-void cc_rbptree_clean(cc_rbptree * t);
++COIN_DLL_API void cc_rbptree_init(cc_rbptree * t);
++COIN_DLL_API void cc_rbptree_clean(cc_rbptree * t);
+ 
+-void cc_rbptree_insert(cc_rbptree * t, void * p, void * data);
+-SbBool cc_rbptree_remove(cc_rbptree * t, void * p);
+-uint32_t cc_rbptree_size(const cc_rbptree * t);
++COIN_DLL_API void cc_rbptree_insert(cc_rbptree * t, void * p, void * data);
++COIN_DLL_API SbBool cc_rbptree_remove(cc_rbptree * t, void * p);
++COIN_DLL_API uint32_t cc_rbptree_size(const cc_rbptree * t);
+ 
+ /* traverse all elements */
+ typedef void cc_rbptree_traversecb(void * p, void * data, void * closure);
+-void cc_rbptree_traverse(const cc_rbptree * t, cc_rbptree_traversecb * func, void * closure);
++COIN_DLL_API void cc_rbptree_traverse(const cc_rbptree * t, cc_rbptree_traversecb * func, void * closure);
+ 
+ /* onl;y for debugging */
+-void cc_rbptree_debug(const cc_rbptree * t);
++COIN_DLL_API void cc_rbptree_debug(const cc_rbptree * t);
+ 
+ #ifdef __cplusplus
+ } /* extern "C" */
+Index: bundles/SoNormalBundle.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/bundles/SoNormalBundle.h,v
+retrieving revision 1.2
+diff -u -u -r1.2 SoNormalBundle.h
+--- bundles/SoNormalBundle.h	13 Jan 2004 12:22:42 -0000	1.2
++++ bundles/SoNormalBundle.h	21 Feb 2004 18:24:02 -0000
+@@ -30,7 +30,7 @@
+ 
+ class SoNormalBundleP;
+ 
+-class SoNormalBundle : public SoBundle {
++class COIN_DLL_API SoNormalBundle : public SoBundle {
+ public:
+   SoNormalBundle(SoAction * action, SbBool forrendering);
+   ~SoNormalBundle();
+Index: caches/SoGLCacheList.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/caches/SoGLCacheList.h,v
+retrieving revision 1.2
+diff -u -u -r1.2 SoGLCacheList.h
+--- caches/SoGLCacheList.h	13 Jan 2004 12:22:42 -0000	1.2
++++ caches/SoGLCacheList.h	21 Feb 2004 18:24:02 -0000
+@@ -31,7 +31,7 @@
+ class SoGLRenderCache;
+ class SoGLCacheListP;
+ 
+-class SoGLCacheList {
++class COIN_DLL_API SoGLCacheList {
+ public:
+   SoGLCacheList(int numcaches = 2);
+   ~SoGLCacheList();
+Index: caches/SoGLRenderCache.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/caches/SoGLRenderCache.h,v
+retrieving revision 1.2
+diff -u -u -r1.2 SoGLRenderCache.h
+--- caches/SoGLRenderCache.h	13 Jan 2004 12:22:42 -0000	1.2
++++ caches/SoGLRenderCache.h	21 Feb 2004 18:24:02 -0000
+@@ -30,7 +30,7 @@
+ class SoGLDisplayList;
+ class SoGLRenderCacheP;
+ 
+-class SoGLRenderCache : public SoCache {
++class COIN_DLL_API SoGLRenderCache : public SoCache {
+   typedef SoCache inherited;
+ public:
+ 
+Index: elements/SoClipPlaneElement.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/elements/SoClipPlaneElement.h,v
+retrieving revision 1.2
+diff -u -u -r1.2 SoClipPlaneElement.h
+--- elements/SoClipPlaneElement.h	13 Jan 2004 12:22:42 -0000	1.2
++++ elements/SoClipPlaneElement.h	21 Feb 2004 18:24:02 -0000
+@@ -28,7 +28,7 @@
+ #include <Inventor/lists/SbList.h>
+ #include <Inventor/SbPlane.h>
+ 
+-class so_plane_data // internal
++class COIN_DLL_API so_plane_data // internal
+ {
+ public:
+   so_plane_data() {}

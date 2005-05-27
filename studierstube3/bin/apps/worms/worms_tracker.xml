@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0.1 U (http://www.xmlspy.com) by Vienna University of Technology (Vienna University of Technology) -->
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="data/pyrofirewire.dat" videomode="0 640 480 vertical" framerate="60" treshhold="100"/>
+		<ConsoleConfig headerline="Worms AR-Tracking Input" interval="1000"/>
+	</configuration>
+	<StbSink station="0">
+		<ConsoleSink comment="Pen">
+			<StbKeyboardSource number="0"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="1">
+		<ConsoleSink comment="Pip">
+			<StbKeyboardSource number="1"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="4" event="on">
+		<ConsoleSink comment="Cube Green Side">
+			<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0.5">
+				<ARToolKitSource center="0 0" size="50 50" tag-file="data/pi.patt"/>
+			</EventTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="5" event="on">
+		<ConsoleSink comment="Cube Blue Side">
+			<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0.5">
+				<ARToolKitSource center="0 0" size="50 50" tag-file="data/kappa.patt"/>
+			</EventTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="6">
+		<ConsoleSink comment="Cylinder">
+			<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0.5">
+				<ARToolKitSource center="0 0" size="80 80" tag-file="../apps/worms/data/hito.patt"/>
+			</EventTransform>
+		</ConsoleSink>
+	</StbSink>
+</OpenTracker>

@@ -1,0 +1,26 @@
+Studierstube directory guide
+----------------------------
+
+studierstube........base directory of distribution
+  bin...............executables and run-time files for all programs
+    apps............executables for StbAPI applications
+    setups..........configuration files for different installations
+    mobile..........data files for mobile setup
+    workspace.......workspace executable
+  src...............include files for Studierstube software
+    stbapi..........include files for stbapi
+      context.......include files for context classes
+      div...........include files for div classes
+      event3d.......include files for 3d event system
+      interaction...include files for 3d interaction tool classes
+      misc..........include files for miscellaneous auxiliary classes
+      resource......include files for resources such as users, pips, pens
+      seams.........include files for seams (i.e. magic lenses) classes
+      tracker.......include files for tracker access classes
+      widgets.......include files for 3d widgets classes
+      window3d......include files for 3d window classes
+      workspace.....include files for workspace classes      
+      util..........include files for utility functions (zpt functions)
+  lib...............library binaries
+  tools.............source for studierstube tools
+  doc...............doxygen files and additional documentation 

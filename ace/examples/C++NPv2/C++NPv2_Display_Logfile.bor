@@ -1,0 +1,89 @@
+# Makefile for building the display_logfile exe with Borland C++ Make
+
+NAME = display_logfile
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\display_logfile.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+!endif
+
+CFLAGS = \
+	-I"..\.." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = examples\C++NPv2
+
+#
+# Override defaults in outputdir.bor
+#
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+
+BASE_BINDIR = .
+
+!include <$(ACE_ROOT)\include\makeinclude\build_exe.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y AC_CLD_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\AC_CLD_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y AC_Client_Logging_Daemon.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\AC_Client_Logging_Daemon.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y AIO_CLD_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\AIO_CLD_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y AIO_Client_Logging_Daemon.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\AIO_Client_Logging_Daemon.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y CLD_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\CLD_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Logging_Acceptor.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Logging_Acceptor.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Logging_Acceptor_Ex.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Logging_Acceptor_Ex.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Logging_Event_Handler.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Logging_Event_Handler.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Logging_Event_Handler_Ex.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Logging_Event_Handler_Ex.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Logging_Handler.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Logging_Handler.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Reactor_Logging_Server.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Reactor_Logging_Server.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Reactor_Logging_Server_Adapter.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Reactor_Logging_Server_Adapter.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y SLDEX_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\SLDEX_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y SLD_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\SLD_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Service_Reporter.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Service_Reporter.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y TPCLS_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\TPCLS_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y TPC_Logging_Server.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\TPC_Logging_Server.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y TPLS_export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\TPLS_export.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y TP_Logging_Server.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\TP_Logging_Server.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Reactor_Logging_Server_T.cpp $(INSTALL_DIR)\include\$(INCDIR_NAME)\Reactor_Logging_Server_T.cpp 1> NUL

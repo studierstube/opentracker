@@ -1,0 +1,30 @@
+#Inventor V2.1 ascii
+
+UserKit {
+    userID 0
+    pen PenKit{
+       station 0
+       geometry File {name "../apps/billiard3d/queue0.iv"}
+	   offset Transform {translation 0 0 0
+			 rotation 0 0 1 1.5707963
+       }
+    }
+    pip PipKit{
+       station 1
+       pipSize 0.3 0.2 0.01
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+       offset Transform {translation 0 0 0 
+                         rotation 1 0 0 -1.57
+       }
+       geometry File {name "./graphix/DefaultPip.iv"}
+    }
+    display DisplayKit {
+        stereoCameraKit  File { name "defaultCameraKit.iv"}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+    }
+}
+

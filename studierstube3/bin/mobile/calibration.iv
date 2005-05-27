@@ -1,0 +1,85 @@
+#Inventor V2.1 ascii
+
+SoApplicationKit {
+    
+    contextKit SoContextKit {
+
+        windowGroup Group {
+ 
+            SoClassLoader {
+                className   "SoDisplayCalibrationKit"
+                fileName    "../apps/fingerfarben/fingerfarben_stb"
+            }
+        
+            SoDisplayCalibrationKit {
+                station             0          
+                otNodeName          "calibOffsetCam"   
+                timeOut  2.0    
+                calibTranslation  Translation { translation 0 0 -0.5 }
+
+                calibGeometry       Separator {  
+                                        Material {
+                                            diffuseColor 1 1 0
+                                            transparency 0.5
+                                        }
+                                        Cube { width 0.1 height 0.1 depth 0.001 }
+                                        Material {
+                                            diffuseColor 1 1 0
+                                            transparency 0.0
+                                        }
+                                        Separator {
+                                            Translation { translation -0.024 0.024 0.0 }
+                                            Cube { width 0.002 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation -0.024 0.024 0.0 }
+                                            Cube { width 0.002 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation -0.024 0.024 0.0 }
+                                            Cube { width 0.002 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation -0.024 0.024 0.0 }
+                                            Cube { width 0.002 height 0.002 depth 0.002 }
+                                        }
+                                    }
+                stationGeometry     Group {         # geometry that is overlayed on the station
+                                        Material {
+                                            diffuseColor 1 0 0
+                                            transparency 0.7
+                                        }
+                                        Separator {
+                                            Translation { translation 0.0 0.03 0.0 }
+                                            Cone {
+                                                bottomRadius 0.003
+                                                height 0.015
+                                            }
+                                        }
+                                        Separator {
+                                            Translation { translation 0.0 0.024 0.0 }
+                                            Cube { width 0.05 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation 0.0 0.024 0.0 }
+                                            Cube { width 0.05 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation 0.0 0.024 0.0 }
+                                            Cube { width 0.05 height 0.002 depth 0.002 }
+                                        }
+                                        Rotation { rotation 0 0 1  1.5707963 }
+                                        Separator {
+                                            Translation { translation 0.0 0.024 0.0 }
+                                            Cube { width 0.05 height 0.002 depth 0.002 }
+                                        }
+                                    }
+            }
+        }
+    }
+}

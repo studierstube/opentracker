@@ -1,0 +1,110 @@
+#Inventor V2.1 ascii
+
+Separator {
+  DEF SCENE_SWITCH Switch { whichChild 0
+####################### SCENE1 ############################
+Separator {
+  DEF GROUND Separator {
+    Material { diffuseColor 0.2 0.15 0.0 }
+    Translation { translation 0 -0.09 0 }
+    Cube { height 0.01 width 0.19 depth 0.19 }
+  }
+
+    SoDragKit {
+      translation -0.05 -0.065 -0.07
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        Texture2Transform { scaleFactor 4 4 }
+        Texture2 { filename "oak.gif" }
+        So3DSeparator { eventMask BM_NO_EVENT File { name "bench.iv" } }
+      }
+    }
+    SoDragKit {
+      translation 0.05 -0.06 0.06
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        Texture2Transform { scaleFactor 4 4 }
+        Texture2 { filename "oak.gif" }
+        So3DSeparator { eventMask BM_NO_EVENT File { name "table.iv" } }
+      }
+    }
+    SoDragKit {
+      translation -0.09 -0.09 -0.02
+      rotationOn FALSE
+      xTranslationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "shelf2.iv" } }
+      }
+    }
+}
+####################### SCENE2 ############################
+Separator {
+  DEF GROUND Separator {
+    Material { diffuseColor 0.2 0.15 0.0 }
+    Translation { translation 0 -0.09 0 }
+    Cube { height 0.01 width 0.19 depth 0.19 }
+  }
+    SoDragKit {
+      translation 0.0 -0.05 -0.09
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "simpletemple.wrl" }}
+      }
+    }
+    SoDragKit {
+      translation -0.07 0.0 -0.05
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "poplar.iv" }}
+      }
+    }
+    SoDragKit {
+      translation 0.07 0.0 -0.07
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "poplar.iv" }}
+      }
+    }
+}
+####################### SCENE3 ############################
+Separator {
+  DEF GROUND Separator {
+    Material { diffuseColor 0.2 0.15 0.0 }
+    Translation { translation 0 -0.09 0 }
+    Cube { height 0.01 width 0.19 depth 0.19 }
+  }
+    SoDragKit {
+      translation -0.05 -0.065 -0.07
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        Texture2 { filename "alu.gif" }
+        So3DSeparator { eventMask BM_NO_EVENT File { name "bench.iv" }}
+      }
+    }
+    SoDragKit {
+      translation 0.07 -0.01 0.07
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "poplar.iv" }}
+      }
+    }
+    SoDragKit {
+      translation 0.07 -0.03 -0.07
+      rotationOn FALSE
+      yTranslationOn FALSE
+      content  Separator { 
+        So3DSeparator { eventMask BM_NO_EVENT File { name "house.iv" }}
+      }
+    }
+}
+####################### SCENE END ############################
+  }#switch
+}

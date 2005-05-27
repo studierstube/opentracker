@@ -1,0 +1,10 @@
+#Inventor V2.1 ascii
+
+SoPipSheetKit {
+    sheets SoSwitch {
+               File {name "sheet.iv"}
+               File {name "sheet.iv"}
+               File {name "sheet.iv"}
+           }
+
+}

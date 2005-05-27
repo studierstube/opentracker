@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="label" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../studierstube/tools/april/april-component.xsd">
+    <interface>
+        <field id="position" type="SFVec3f" default="0.0 0.0 0.0"/>
+        <field id="orientation" type="SFRotation" default="1.0 0.0 0.0 0.0"/>
+        <field id="size" type="SFVec2f" default="1.0 1.0"/>
+        <field id="transparency" type="SFFloat" default="0.0"/>
+        <field id="visible" type="SFBool" default="TRUE"/>
+        <input id="border" type="SFBool" default="FALSE"/>
+        <input id="borderWidth" type="SFInt32" default="3"/>
+        <input id="borderColor" type="SFColor" default="0.7 0.7 0.3"/>
+        <input id="backgroundColor" type="SFColor" default="1.0 1.0 0.4"/>
+        <input id="textColor" type="SFColor" default="0.0 0.0 0.0"/>
+        <input id="text" type="MFString" default=""/>
+        <input id="font" type="SFString" default="Courier" const="true"/>
+        <input id="fontSize" type="SFFloat" default="0.2"/>
+    </interface>
+    <implementation>
+
+DEF <id/> Separator {
+    DEF <id/>_Switch Switch {
+        whichChild 1 = DEF <id/>_Bool BoolOperation { # just to convert from Bool to Int32
+            a <in id="visible"/>
+            operation A
+        }.output
+        
+        # Dummy Child for switching off
+        Group {}
+        
+        # actual content
+        Group {
+            DEF <id/>_Transform Transform {
+                translation <in id="position"/>
+                rotation <in id="orientation"/>
+            }
+            DEF <id/>_Material Material {
+                transparency <in id="transparency"/>
+                diffuseColor <in id="backgroundColor"/>
+            }
+            Separator {
+                DEF <id/>_Scale Transform {
+                    scaleFactor = ComposeVec3f {
+                        x = DEF <id/>_decompose DecomposeVec2f {
+                            vector <in id="size"/>
+                        }.x
+                        y = USE <id/>_decompose.y
+                        z 1
+                    }.vector
+                }
+
+               Coordinate3 {
+                    point [-0.5 -0.5 0, 0.5 -0.5 0, 0.5 0.5 0, -0.5 0.5 0]
+                }
+                DEF <id/>_geom IndexedFaceSet {
+                    coordIndex [0, 1, 2, 3, -1]
+                }
+                # draw border
+                DEF <id/>_BorderSwitch Switch {
+                    whichChild 1 = DEF <id/>_BorderBool BoolOperation { # just to convert from Bool to Int32
+                        a <in id="border"/>
+                        operation A
+                    }.output
+                    Group{}
+                    Group{
+            			    DrawStyle {
+            			        style LINES
+            			        lineWidth <in id="borderWidth"/>
+            			    }
+            			    Material {
+                        diffuseColor <in id="borderColor"/>
+            			    }
+            			    USE <id/>_geom
+            			  }
+            		 }
+        	  }
+    			  # The text
+    			  Transform {
+    			      translation = ComposeVec3f {
+    			          x = DEF <id/>_calc Calculator {
+    			              a = USE <id/>_decompose.x
+    			              b = USE <id/>_decompose.y
+    			              d <in id="fontSize"/>
+    			              expression "oa=-a/2+b*d*0.2; ob=b/2-b*d; od=b*d*(1-0.3*d)"
+    			          }.oa
+    			          y = USE <id/>_calc.ob
+    			          z 0
+    			      }.vector
+            }
+			    Material {
+                diffuseColor <in id="textColor"/>
+			    }
+            Font {
+                name <in id="font"/> 
+                size = USE <id/>_calc.od
+            }
+            Text3 {
+                string <in id="text"/>
+                justification LEFT
+                parts FRONT
+            }
+        }
+    }
+}
+
+<out id="position">
+            <id/>_Transform.translation</out>
+        <out id="orientation">
+            <id/>_Transform.rotation</out>
+        <out id="size">
+            <id/>_decompose.vector</out>
+        <out id="transparency">
+            <id/>_Material.transparency</out>
+        <out id="visible">
+            <id/>_Switch.whichChild</out>
+    </implementation>
+</component>

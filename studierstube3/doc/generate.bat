@@ -1,0 +1,3 @@
+doxygen studierstube.dxy
+
+pause

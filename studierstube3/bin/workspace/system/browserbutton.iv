@@ -1,0 +1,13 @@
+#Inventor V2.1 ascii
+
+
+
+	DEF OBJECT_BUTTON So3DButton
+	{
+		width  30
+		depth  3
+		height 3
+
+	}
+
+

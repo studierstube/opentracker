@@ -1,0 +1,29 @@
+#Inventor V2.1 ascii
+
+Separator {
+
+#############################################################################
+#         DEFAULT TAB BUTTON
+#############################################################################
+
+    DEF TAB_TRANSLATION Translation { translation 1.1 0 0.0 }
+    DEF TAB_BUTTON So3DButton { 
+      width 1
+      depth 1
+      height 0.4
+      buttonColor 1 1 1
+    }
+    DEF MAX_TABS_PER_ROW Info {string "6"}
+
+    DEF LOAD_CTX_APP_TEXTURE Texture2 {
+          filename "ctxapp.jpg"
+    }
+    DEF LOAD_LEGACY_APP_TEXTURE Texture2 {
+          filename "legacyapp.jpg"
+    }
+    DEF APP_BROWSER_TEXTURE Texture2 {
+          filename "appbrowser.jpg"
+    }
+
+}
+

@@ -1,0 +1,89 @@
+#Inventor V2.1 ascii
+
+DEF simple SoApplicationKit {
+    appGeom Separator {
+        Texture2 { filename "../apps/fingerfarben/fingerfarben.gif" }
+    }
+
+    info Info {}
+
+   contextKit DEF simple_context SoContextKit {
+
+  templatePipSheet Separator { }
+
+  clonePipSheet FALSE
+
+  windowGroup Group {
+  SoWindowKit {
+  size 5.5 5.5 5.5
+
+  clientVolume Separator {
+
+    SoClassLoader {
+      className "SoSpeechOutput" fileName "StbSpeech"
+    }
+
+
+  DEF SCENE_ROOT Separator {
+
+  DEF SPEECH SoSpeechOutput {
+  voiceName "Mircosoft Mary"
+  text "Hello. The S.O. Speech Output is working !"
+  }
+
+  Separator {
+  Switch {
+      whichChild 0 = USE SPEECH.isActive
+      Material { diffuseColor 1.0 0.1 0.1 }
+      Material { diffuseColor 0.1 1.0 0.1 }
+    }
+
+    Translation { translation -.1 .1  0 }
+    Cube { width .02 height .02 depth .02 }
+  }
+
+  Separator {
+    Scale { scaleFactor .002 .002 .002}
+    Translation { translation 0 10  0 }
+    Text3 { justification CENTER
+    string "silence" = SoSelectOne { type SoMFString
+            input [
+      "silence",
+    "ae,ax,ah",
+    "aa",
+    "ao",
+    "ey,eh,uh",
+    "er",
+    "y,iy,ih,ix",
+    "w,uw",
+    "ow",
+    "aw",
+    "oy",
+    "ay",
+    "h",
+    "r",
+    "l",
+    "s,z",
+    "sh,ch,jh,zh",
+    "th,dh",
+    "f,v",
+    "d,t,n",
+    "k,g,ng",
+    "p,b,m"
+      ]
+            index 1 = USE SPEECH.nextViseme
+            }.output
+     }
+  Translation { translation 0 20  0 }
+  Text3 { justification CENTER
+    string "duration" = USE SPEECH.duration
+     }
+
+  }
+
+  } # SCENE_ROOT
+  } # clientVolume
+  } # WindowKit
+  } # windowGroup
+  } # ContextKit
+} # SoApplicationKit

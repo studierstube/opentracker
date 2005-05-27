@@ -1,0 +1,21 @@
+// -*- MPC -*-
+// DLL.mpc,v 1.2 2003/12/23 20:23:21 dhinton Exp
+
+project(*Newsweek) : acelib {
+  Source_Files {
+    Newsweek.cpp
+  }
+}
+
+project(*Today) : acelib {
+  Source_Files {
+    Today.cpp
+  }
+}
+
+project(*Main) : aceexe {
+  after += DLL_Newsweek DLL_Today
+  Source_Files {
+    test_dll.cpp
+  }
+}

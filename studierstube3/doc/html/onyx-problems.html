@@ -1,0 +1,158 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Compiling studierstube on the Onyx</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+<h1>
+Compiling and running studierstube on the Onyx (merkur.edvz.uni-linz.ac.at)</h1>
+Our account name on the Onyx merkur.edvz.uni-linz.ac.at which is running
+the CAVE in Linz is k2e5070. The account belongs to Hannes Kaufmann (<a href="mailto:kaufmann@ims.tuwien.ac.at">kaufmann@ims.tuwien.ac.at</a>)
+who is responsible for it. You can get details by contacting Hannes Kaufmann.
+<p>General comment: GNU make can be found in ~k2e5070 in the directory
+/make..../
+<h2>
+Compiling QT:</h2>
+[Qt downloaded from www.trolltech.com]
+<p><font size=+0>QT must be compiled as a 32 Bit application (by default
+the makefiles are configured for a 64 bit application). Otherwise SoQt
+(used in connection with our OpenSource Inventor) cannot be compiled correctly.</font>
+<br><font size=+0>Add GIF and JPEG support when configuring the Qt makefiles
+by using the following command</font>
+<br>./configure -platform irix-n32 -gif -system-jpeg
+<br>If you want to compile QT as a multi-threaded application, use the
+additional flag -thread. I did not compile it multithreaded because the
+library will get a different name and maybe SoQt does not compile afterwards.
+If you need multi threading, you have to compile the whole Qt again.
+<br>Enabling sound system, MNG I/O support and anti-aliased fonts does
+not work - compilation will stop!
+<p>compile Qt
+<h2>
+Compiling OpenSource Inventor:</h2>
+[Open Source Inventor downloaded from www.cg.tuwien.ac.at/hostings/openinventor]
+<p>To help you avoid the troubles that I had, there are 2 things that must
+be done before compiling Inventor like described by Gerd Hesina in his
+README.
+<p>1.) When compiling Inventor, the whole NURBS nodes and stuff doesn't
+get compiled automatically. The Inventor compilation continues, but when
+trying to start workspace or any other inventor application you get an
+error message from libInventor about the NURBS stuff. To solve this problem,
+compile the whole NURBS stuff manually by going to
+<br>/home/k2e02/k2e5070/inventor/build/inventor/lib/database/src/so/nodes/nurbs
+<br>and execute GNUmake. This will compile all NURBS related files in this
+directory and the subdirectories.
+<p>2.) When compiling Inventor, readGIF.c cannot be compiled. This is due
+to some strict compiler (they probably didn't update their compiler for
+some time). Inventor compilation continues but you'll get the error message
+when executing workspace later on. While compiling you get the error message
+<br>"../../../../../inventor.h", line 2: error(1166): expected a declaration
+<br>Solution: do not include inventor.h in readGIF.h (uncomment /* #include
+&lt;inventor.h> */). Another solution would probably be to add a #define
+IRIX in inventor.h
+<br>Then compile Inventor (or all files in this directory manually by executing
+make) and everything will work.
+<p>compile the whole Inventor package
+<h2>
+Compiling Studierstube:</h2>
+[got by cvs - see cvs description about how to check out Studierstube]
+<p>Errors when compiling on the Onyx:
+<br><b>These 3 errors should not occur in the newest version of the stb!!!</b>
+<br>1.) isdriver.h is included in TrackerIS.h, but the path to the .h file
+of this driver is wrong. The correct path (code snippet) is
+<br>extern "C" {
+<br>#include &lt;../../../extras/intersense/isdriver.h>
+<br>}
+<p>2.) When linking workspace you get an error when linking the Intersense
+driver.
+<br>Solution: go in isense.h down to the bottom of the file where the procedures
+ISD_OpenTracker and many others are listed. They are already in " extern
+"C"{ " brackets but " extern "C"{ " is uncommented. Activate " extern "C"{
+" and compile it again and linking should work this time.
+<p>3.) in StbAppManager.cxx the file zpthread.h is included. When compiling
+the file this leads to an "u_int64_t undefined error" and stops the compilation.
+Remove zpthread.h from the StbAppManager.cxx (uncomment it) and the file
+will compile.
+<p>compile studierstube
+<p>now starting workspace should work!
+<br>have fun :-)
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

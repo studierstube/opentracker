@@ -1,0 +1,59 @@
+#Inventor V2.1 ascii
+
+Separator
+{
+
+	Translation
+	{
+		translation 5.0 0.0 0.0
+	}
+
+
+	DEF critpic5 So3DButton
+	{
+		width 1.00
+		height 0.7
+		depth 0.9
+		nodeId "critpic5"
+
+		textureSwitch Switch 
+		{
+			whichChild 0 = USE critpic5 . pressed
+
+			DEF critpic5Texture Group 
+			{
+				Texture2 
+				{
+					filename "gfx/tab1.jpg"
+				}
+				FaceSet 
+				{
+					vertexProperty VertexProperty 
+					{
+					vertex	[ -0.5 0.36 0.4,
+						  0.5 0.36 0.4,
+						  0.5 0.36 -0.4,
+						  -0.5 0.36 -0.4 ]
+					normal	0 1 0
+					texCoord	[ 0 0,
+							  1 0,
+							  1 1,
+							  0 1 ]
+					normalBinding	OVERALL
+					}
+					numVertices 4
+				}
+			}
+			Group 
+			{
+				Translation 
+				{
+		    			translation 0 -0.2 0
+				}
+				USE critpic5Texture
+			}
+
+		}		
+	}
+
+}

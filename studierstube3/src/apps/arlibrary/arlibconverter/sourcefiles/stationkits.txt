@@ -1,0 +1,99 @@
+SoStationKit
+{
+	stations [64]					# dieter habschrift
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk537
+	}
+}
+
+SoStationKit
+{
+	stations [65]					# baron mathe3
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk94
+	}
+}
+
+
+
+SoStationKit
+{
+	stations [66]					# ACM vol 16
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk617
+	}
+}
+
+
+
+SoStationKit
+{
+	stations [67]					# radiance rendering
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk429
+	}
+}
+
+
+
+SoStationKit
+{
+	stations [68]					# cg and virtual environments
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk581
+	}
+}
+
+
+SoStationKit
+{
+	stations [69]					# redbook 1.1
+
+	stationPosition [0.0 0.0 0.0]			# pos relativ zum Ursprung des Buchs
+	stationOrientation [1 0 0 0]	
+
+	timeOut	3
+
+	content SoGroup
+	{
+		USE bk369
+	}
+}
+
+
+

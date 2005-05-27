@@ -1,0 +1,390 @@
+#Inventor V2.1 ascii
+
+
+# This file defines the navigation application which can be used by both users
+
+DEF Navigation SoApplicationKit {
+    readOnly TRUE
+
+    classLoader SoClassLoader {
+        className   "Navigator"
+        fileName    "ocar"
+    }
+
+    contextKit SoContextKit {
+
+        templatePipSheet
+#include "navigationpip.iv"
+
+        windowGroup So3DSeparator {
+            stations []
+            blocked FALSE
+
+            # The wayfinding and navigation node 
+            DEF NavKit Navigator {
+
+#include "data/navindex.iv"
+
+                userPosition 0 0 0 = DEF USER SoTrakEngine { station 2 }.translation
+                userOrientation 0 1 0 0 = USE USER.rotation
+        
+                # destinationPosition 0 0 0 = SoTrakEngine { station 15 }.translation
+                
+                # an additional connection from Global_Destination is required here.
+                destination = DEF destinationFan SoFanIn { type SoMFString
+                     in0 = USE waypointList.selected                     
+                }.out                
+            }
+            # Some connections to the PipSheet
+            SoRoute { from "NavKit.currentWaypoint" to "current.string" }
+            SoRoute { from "NavKit.computedTarget" to "destination.string" }
+            SoRoute { from "NavKit.path" to "path.values" }
+            
+
+            # Heads Up Display
+            DEF HUD Switch {
+                whichChild 1 = USE hudbutton.on
+                Group {}                
+                Separator {
+                    OrthographicCamera { aspectRatio 1.33333 viewportMapping ADJUST_CAMERA }
+                    # Grey bar could be moved to other places as well here
+                    Separator {
+                    
+                    # Position information
+                    Separator {
+                        Transform { translation -1.3 -0.77 0 }
+                        Material { diffuseColor 1 1 1 }
+                        Font { name "Arial Fett" size 0.05  }
+                        AsciiText { spacing 1.5 justification LEFT string "Position" }
+                        Transform { translation 0.25 0 0 }
+                        AsciiText { 
+                            string = SoStringCalculator {
+                                a "0.0" = DEF UserPos DecomposeVec3f {
+                                    vector = SoTrakEngine { station 4 }.translation
+                                }.x
+                                b "0.0" = USE UserPos.y
+                                c "0.0" = USE UserPos.z
+                                d "  "
+                                expression [ "oa = a(0,4) + d + b(0,4) + d + c(0,4)" ]
+                           }.oa
+                        }
+                    }
+                    # Orientation information
+                    Separator {
+                        Transform {
+                            translation 1.2 -0.85 -0.2
+                            rotation = MultRotRot {
+                                rotationA = MultRotRot {
+                                    rotationA = DEF FACTOR4 SoFactorRotation {
+                                        rotation = SoTrakEngine { station 4 }.rotation
+                                        axis Z
+                                    }.factor
+                                    rotationB 0 0 1 0
+                                }.inverse
+                                rotationB = USE FACTOR4.remainder
+                            }.product
+                            scaleFactor 0.3 0.3 0.3
+                        }
+                        Transform { rotation 0 1 0 3.141592 }
+                        Texture2 { filename "graphics/horizon.gif" }
+                        Material { emissiveColor 0.5 0.5 0.5 diffuseColor 1 1 1 }
+                        Sphere { radius 0.4 }
+                    }
+                    # Navigation information
+                    Separator {
+                        Transform { translation -1.3 -0.84 0 }
+                        Material { diffuseColor 1 1 1 }
+                        Font { name "Arial Fett" size 0.05  }
+                        AsciiText { spacing 1.5 justification LEFT
+                            string ["Target", "Current", "Distance"]
+                        }
+                        Transform { translation 0.25 0 0 }
+                        AsciiText { spacing 1.5 justification LEFT
+                            string = Concatenate { type SoMFString
+                                input0 = USE NavKit.computedTarget
+                                input1 = USE NavKit.currentWaypoint
+                                input2 = USE NavKit.distance
+                            }.output
+                        }
+                    }
+                    # Destination reached display
+                    Separator {
+                        Transform { translation 0 -0.85 0 }
+                        Material { diffuseColor 1 0.9 0.1 }
+                        Font { name "Arial Fett" size 0.1  }
+                        Switch {
+                            whichChild = BoolOperation {
+                                a = USE NavKit.destinationReached
+                                b = USE active.on
+                                operation A_AND_B
+                            }.output
+                            Group {}
+                            AsciiText { spacing 1.5 justification CENTER string "Destination reached!" }
+                        }
+                    }
+                    # GPS status information
+                    Separator {
+                        Transform { translation -0.7 -0.99 0 }
+                        Material { diffuseColor 1 1 1 }
+                        Font { name "Arial Fett" size 0.05 }
+                        AsciiText { spacing 1.5 justification LEFT 
+                            string = SelectOne { type MFString
+                                input [ "No Fix", "GPS", "Diff" ]
+                                index = DEF GPSStatus DecomposeVec3f {
+                                    vector = SoTrakEngine { station 20 }.translation
+                                }.x
+                            }.output
+                        }
+                        Transform { translation 0.2 0 0 }
+                        AsciiText { spacing 1.5 justification LEFT 
+                            string "sats"
+                        }
+                        Transform { translation 0.15 0 0 }
+                        AsciiText { spacing 1.5 justification LEFT 
+                            string = USE GPSStatus.y
+                        }
+                    }
+                    # Backdrop
+                    Separator {
+                        Transform { translation 0.0 -0.85 -0.3 }
+                        Material { diffuseColor 0.5 0.5 0.5 transparency 0.5 }
+                        Cube { width 2.6666 height 0.3 depth 0.0001 }
+                    }
+                    } # end of grey bar
+                    # left or right arrows to guide user to the next waypoints
+                    Separator {
+                        Switch {
+                            whichChild -1 = Calculator {
+                                a = USE NavKit.relativeDirection  # input angle              
+                                b  0.5                            # left border of 0 interval
+                                c -0.5                            # right border of 0 interval
+                                d = DEF BO BoolOperation {               # display or not
+                                    operation A_AND_NOT_B
+                                    a = USE active.on
+                                    b = USE NavKit.destinationReached
+                                }.output
+                                expression [
+                                    "ta = (a>b)?1:0"
+                                    "tb = (a<c)?1:0"                                    
+                                    "oa = (ta + tb*2)*d -1"
+                                ]
+                            }.oa 
+                            # Left arrow
+                           Separator {
+                                Transform {
+                                    scaleFactor 0.1 0.1 0.1
+                                    translation -0.5 0 0
+                                }
+                                Material { diffuseColor 1 0.756724 0 }
+                                ShapeHints { vertexOrdering CLOCKWISE shapeType SOLID }
+                                IndexedFaceSet {
+                                    vertexProperty VertexProperty {
+                                        vertex  [ -1 0 0, 1 1 0, 1 -1 0 ]
+                                    }
+                                    coordIndex [ 0, 1, 2, -1 ]
+                                }
+                            }
+                           # Right arrow
+                            Separator {
+                                Transform {
+                                    scaleFactor 0.1 0.1 0.1
+                                    translation 0.5 0 0                                
+                                }
+                                Material { diffuseColor 1 0.756724 0 }
+                                ShapeHints { vertexOrdering COUNTERCLOCKWISE shapeType SOLID }
+                                IndexedFaceSet {
+                                    vertexProperty VertexProperty {
+                                        vertex  [ 1 0 0, -1 1 0, -1 -1 0 ]
+                                    }                              
+                                    coordIndex [ 0, 1, 2, -1 ]
+                                }
+                           }                                       
+                        }
+                    }
+                }
+            }
+            # Navigation graphics
+            Switch { # active or not switch
+                whichChild 0 = USE active.on
+                Group {} # empty group if not active
+                Separator {
+                    Switch { # clip buildings or not !
+                        whichChild 0 = USE clipping.on
+                        Group {}
+                        Separator {
+                            SoFrameBuffer { mask NONE }
+                            SoMultiSwitch { whichChildren -3 }
+                            # can be replaced for a concatenated use with
+                            # USE Model
+                            DEF Model File { name "data/model.iv" }
+                        }
+                    }
+                    Switch { # wireframe or filled style (or others if interesting
+                        whichChild 0 = USE wireframe.on
+                        Group {
+                            DrawStyle { style FILLED }
+                        }
+                        Group {
+                            DrawStyle { style LINES }
+                        }
+                    }
+                    Switch { # arrow to next waypoint
+                      whichChild 0 = USE nextWaypoint.on
+                      Group {}
+                      Group {
+                          # needs to do some calculation to get starting position
+                          SoStroke {
+                              point [ 0 0 0, 0 0 1] =
+                                 Concatenate { type SoMFVec3f
+                                     input0 = Calculator {
+                                        B = DEF UserPos SoTrakEngine{ station 2 }.translation
+                                        A = TransformVec3f {
+                                            vector 0 0 -3
+                                            matrix = ComposeMatrix {
+                                             rotation = USE UserPos.rotation
+                                            }.matrix
+                                        }.point
+                                        expression [ "oA = A + B", "oA[1] = 0" ]
+                                     }.oA
+                                     input1 = SelectOne { type SoMFVec3f
+                                         input = USE NavKit.waypointPosition
+                                         index = USE NavKit.gotoIndex
+                                     }.output
+                                }.output
+
+                              scale DIRECTION
+                              geometry DEF Edge_Geometry Group {
+                                  Transform { rotation 0 0 1 -1.57 }
+                                  Material { diffuseColor 1 0.5 0 emissiveColor 1 0.5 0 }
+                                  Cylinder { height 1 radius 0.1 }
+                                  Transform { translation 0 0.5 0 }
+                                  Cone { bottomRadius 0.2 height 0.111111 }
+                              }
+                          }
+                      }
+                    }
+                    # Arrow to the final position
+                    Separator {                      
+                        SoStroke {
+                            point [0 0 0, 0 0 0] = Concatenate { type SoMFVec3f
+                                input0 = USE NavKit.targetPosition
+                                input1 = USE NavKit.destinationPosition
+                            }.output
+                            scale DIRECTION
+                            geometry USE Edge_Geometry
+                        }
+                    }
+                    # Waypoints and arrows between them 
+                    SoMultiSwitch { whichChildren [ -3 ] = USE NavKit.nodeIndex }
+                    DEF Waypoints File { name "data/navpoints.iv" }
+        #include "data/navpoints.iv"
+                    SoMultiSwitch { whichChildren [ -3 ] = USE NavKit.edgeIndex }
+                    DEF Edges File { name "data/navedges.iv" }
+        #include "data/navedges.iv"
+                } # end of group for active switch
+            }  # end active switch
+            
+           # global field connector for VRLU outdoor simulator setup
+            SoAbortGroup {
+                 abortActions (RENDER|CB|BBOX|EVENT|PICK|MATRIX|EVENT3D) 
+                 Info { string = GlobalField {
+                            type SFVec3f
+                            nav_navigation_position = USE NavKit.userPosition
+                        }.nav_navigation_position
+                 }
+                 Info { string = GlobalField {
+                            type SFString
+                            nav_navigation_target = USE NavKit.computedTarget
+                        }.nav_navigation_target
+                 }
+                 Info { string = GlobalField {
+                            type SFFloat
+                            nav_navigation_distance = USE NavKit.distance
+                        }.nav_navigation_distance
+                 }
+                 Info { string = GlobalField {
+                            type SFString
+                            nav_navigation_current = USE NavKit.currentWaypoint
+                        }.nav_navigation_current
+                 }
+                 Info { string = GlobalField {
+                            type SFBool
+                            nav_navigation_reached = USE NavKit.destinationReached
+                        }.nav_navigation_reached
+                 }
+                 Info { string = GlobalField {
+                            type SFRotation
+                            nav_navigation_direction = USE NavKit.direction
+                        }.nav_navigation_direction
+                 }
+                 Info { string = GlobalField {
+                            type SFFloat
+                            nav_navigation_relativeDirection = USE NavKit.relativeDirection
+                        }.nav_navigation_relativeDirection
+                 }
+                 Info { string = DEF Global_Destination GlobalField {
+                            type SFString
+                            nav_navigation_destination ""
+                       }.nav_navigation_destination
+                 }
+                 SoRoute { from "Global_Destination.nav_navigation_destination" to "destinationFan.in1" }
+                 Info {
+                     string = DEF Active_in GlobalField {
+                        type SFBool
+                        nav_navigation_active_in FALSE
+                     }.nav_navigation_active_in
+                 }
+                 SoRoute { from "Active_in.nav_navigation_active_in" to "active.onIn" }
+                 Info { 
+                     string = GlobalField {
+                        type SFBool
+                        nav_navigation_active_out = USE active.on
+                     }.nav_navigation_active_out
+                 }
+                 Info {
+                     string = DEF NextWaypoint_in GlobalField {
+                        type SFBool
+                        nav_navigation_nextWaypoint_in FALSE
+                     }.nav_navigation_nextWaypoint_in
+                 }
+                 SoRoute { from "NextWaypoint_in.nav_navigation_nextWaypoint_in" to "nextWaypoint.onIn" }
+                 Info { 
+                     string = GlobalField {
+                        type SFBool
+                        nav_navigation_nextWaypoint_out = USE nextWaypoint.on
+                     }.nav_navigation_nextWaypoint_out
+                 }
+                 Info {
+                     string = DEF Hud_in GlobalField {
+                        type SFBool
+                        nav_navigation_hud_in FALSE
+                     }.nav_navigation_hud_in
+                 }
+                 SoRoute { from "Hud_in.nav_navigation_hud_in" to "hudbutton.onIn" }
+                 Info { 
+                     string = GlobalField {
+                        type SFBool
+                        nav_navigation_hud_out = USE hudbutton.on
+                     }.nav_navigation_hud_out
+                 }
+                 Info {
+                     string = DEF Clipping_in GlobalField {
+                        type SFBool
+                        nav_navigation_clipping_in FALSE
+                     }.nav_navigation_clipping_in
+                 }
+                 SoRoute { from "Clipping_in.nav_navigation_clipping_in" to "clipping.onIn" }
+                 Info { 
+                     string = GlobalField {
+                        type SFBool
+                        nav_navigation_clipping_out = USE clipping.on
+                     }.nav_navigation_clipping_out
+                 }                 
+             }
+        }                 
+    }
+
+    appGeom Separator {
+                Texture2 { filename "graphics/Navigation_high.gif" }
+    }
+}

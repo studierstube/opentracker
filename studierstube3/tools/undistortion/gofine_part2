@@ -1,0 +1,5 @@
+raw2fsp -f data/fine_part2.raw \
+  -nx 15 -ny 15 -nz 9 \
+  -sx 0.0735 -sy 0.0735 -sz 0.0735 \
+  -ox -0.11 -oy -0.735 -oz 0.125
+

@@ -1,0 +1,41 @@
+/* ========================================================================
+ * Copyright (C) 2000-2003  Vienna University of Technology
+ *
+ * This framework is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This framework is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this framework; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * For further information please contact Dieter Schmalstieg under
+ * <schmalstieg@ims.tuwien.ac.at> or write to Dieter Schmalstieg,
+ * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
+ * Austria.
+ * ========================================================================
+ * PROJECT: Studierstube
+ * ======================================================================== */
+/**
+ * defines the standard Studierstube context indices and their meaning
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id: StudierstubeContext.cxx 4141 2005-03-29 10:46:07Z kaufmann $
+ * @file                                                                   */
+/* ======================================================================= */
+
+#include <stbapi/context/StudierstubeContext.h>
+
+SbName StudierstubeContext::User = "Stb.User";
+SbName StudierstubeContext::Application = "Stb.Application";
+SbName StudierstubeContext::Window = "Stb.Window";
+SbName StudierstubeContext::Eye = "Stb.Eye";
+SbName StudierstubeContext::DivMode = "Stb.DIVMode";
+SbName StudierstubeContext::Owner = "Stb.Owner";

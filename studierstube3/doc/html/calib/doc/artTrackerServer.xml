@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by IB (Vienna University of Technology) -->
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<NetworkSinkConfig name="artTrackerServer"/>
+		<ConsoleConfig interval="100"/>
+		<TimeConfig sleep="1"/>
+		<ARTDataTrackerConfig port="5000" maxbodies="6"/>
+	</configuration>
+	<ConsoleSink comment="station0:pen0">
+		<NetworkSink port="12346" name="pen0" multicast-address="224.100.200.101" interface="128.131.167.189" number="1">
+			<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+			<Merge>
+				<MergeDefault>
+					<ARTDataTrackerSource number="0"/>
+				</MergeDefault>
+				<MergeButton>
+					<ButtonFilter buttonmap="01234567" buttonmask="11000000">
+						<ParButtonSource dev="0x378" DEF="button0"/>
+					</ButtonFilter>
+				</MergeButton>
+			</Merge>
+				</EventVirtualTransform>
+			</EventTransform>
+		</NetworkSink>
+	</ConsoleSink>
+	<ConsoleSink comment="station1:panel0">
+		<NetworkSink port="12346" name="panel0" multicast-address="224.100.200.101" interface="128.131.167.189" number="2">
+		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+			<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+			<ARTDataTrackerSource number="1"/>
+			</EventVirtualTransform>
+			</EventTransform>		
+		</NetworkSink>
+	</ConsoleSink>
+	<ConsoleSink comment="station2:hmd0">
+		<NetworkSink port="12346" name="hmd0" multicast-address="224.100.200.101" interface="128.131.167.189" number="3">
+		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+			<ARTDataTrackerSource number="2"/>
+			</EventVirtualTransform>
+			</EventTransform>
+		</NetworkSink>
+	</ConsoleSink>
+	<ConsoleSink comment="station3:pen1">
+		<NetworkSink port="12346" name="pen1" multicast-address="224.100.200.101" interface="128.131.167.189" number="4">
+		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+			<Merge>
+				<MergeDefault>
+					<ARTDataTrackerSource number="3"/>
+				</MergeDefault>
+				<MergeButton>
+					<ButtonFilter buttonmap="01034567" buttonmask="00111111">
+						<Ref USE="button0"/>
+					</ButtonFilter>
+				</MergeButton>
+			</Merge>
+				</EventVirtualTransform>
+			</EventTransform>			
+		</NetworkSink>
+	</ConsoleSink>
+	<ConsoleSink comment="station4:panel1">
+		<NetworkSink port="12346" name="panel1" multicast-address="224.100.200.101" interface="128.131.167.189" number="5">
+		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+			<ARTDataTrackerSource number="4"/>
+					</EventVirtualTransform>
+			</EventTransform>		
+		</NetworkSink>
+	</ConsoleSink>
+		<ConsoleSink comment="station5:hmd1">
+		<NetworkSink port="12346" name="hmd1" multicast-address="224.100.200.101" interface="128.131.167.189" number="6">
+		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+			<ARTDataTrackerSource number="5"/>
+							</EventVirtualTransform>
+			</EventTransform>
+		</NetworkSink>
+	</ConsoleSink>
+</OpenTracker>

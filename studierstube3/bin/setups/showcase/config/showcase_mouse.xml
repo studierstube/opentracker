@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="../setups/showcase/ARToolKit/my_stealthfire.dat" treshhold="180" framerate="20" videomode="0 320 240 0"/>
+		<ConsoleConfig interval="10" headerline="ar test"/>
+	</configuration>
+	<StbSink station="0" event="on" DEF="station0">
+		<EventTransform translation="3 -25 -40">
+			<EventTransform scale="10 50 80">
+				<EventMatrixTransform matrix="0 0 1 0     1 0 0 0     0 1 0 0     0 0 0 1">
+					<StbMouseSource mode="relative" window="-1"/>
+				</EventMatrixTransform>
+			</EventTransform>
+		</EventTransform>
+	</StbSink>
+	<StbSink station="1">
+		<StbKeyboardSource number="1"/>
+	</StbSink>
+	<StbSink station="2" DEF="station2">
+		<Merge>
+			<MergePosition>
+				<EventOrientationTransform rotationtype="quaternion" rotation="0 0 0 1 ">
+					<EventMatrixTransform matrix=" -3.739e-003  -6.063e-003  -1.280e+000   1.581e+002 
+                                                                                       -1.920e-001   -1.099e-002    -4.779e-002  +1.111e+000 
+                                                                                       5.514e-003  -2.278e-001   4.340e-001   4.783e+001 
+                                                                                      -3.705e-020  -1.047e-018  -4.114e-019   1.000e+000 ">
+						<ARToolKitSource center="0 0" size="60" tag-file="../setups/showcase/ARToolKit/large_patt1"/>
+					</EventMatrixTransform>
+				</EventOrientationTransform>
+			</MergePosition>
+			<MergeOrientation>
+				<TestSource orientation="0 0 0 1"/>
+			</MergeOrientation>
+		</Merge>
+	</StbSink>
+	<StbSink station="3" event="on" DEF="station3">
+		<Merge>
+			<MergePosition>
+				<ThresholdFilter positionmin="0.0" rotationmin="0" rotationmax="0">
+					<EventMatrixTransform matrix=" 1 0 0 0 0 1 0 0 0 0 1 0 ">
+						<EventOrientationTransform rotationtype="quaternion" rotation="0 0 0 1 ">
+							<EventMatrixTransform  matrix=" -3.739e-003  -6.063e-003  -1.280e+000   1.581e+002 
+                                                                                       -1.920e-001   -1.099e-002    -4.779e-002  +1.111e+000 
+                                                                                       5.514e-003  -2.278e-001   4.340e-001   4.783e+001 
+                                                                                      -3.705e-020  -1.047e-018  -4.114e-019   1.000e+000 ">
+
+								<ARToolKitSource center="0 0" size="40" tag-file="../setups/showcase/ARToolKit/erich_patt_d"/>
+							</EventMatrixTransform>
+						</EventOrientationTransform>
+					</EventMatrixTransform>
+				</ThresholdFilter>
+			</MergePosition>
+			<MergeOrientation>
+				<TestSource orientation="0 0 0 1"/>
+			</MergeOrientation>
+		</Merge>
+	</StbSink>
+	<StbSink station="4" event="on" DEF="station4">
+		<Merge>
+			<MergePosition>
+				<ThresholdFilter positionmin="0.0" rotationmin="0" rotationmax="0">
+					<EventMatrixTransform matrix=" 1 0 0 0 0 1 0 0 0 0 1 0 ">
+						<EventOrientationTransform rotationtype="quaternion" rotation="0 0 0 1 ">
+							<EventMatrixTransform matrix=" -3.739e-003  -6.063e-003  -1.280e+000   1.581e+002 
+                                                                                       -1.920e-001   -1.099e-002    -4.779e-002  +1.111e+000 
+                                                                                       5.514e-003  -2.278e-001   4.340e-001   4.783e+001 
+                                                                                      -3.705e-020  -1.047e-018  -4.114e-019   1.000e+000 ">
+
+								<ARToolKitSource center="0 0" size="40" tag-file="../setups/showcase/ARToolKit/erich_patt_f"/>
+							</EventMatrixTransform>
+						</EventOrientationTransform>
+					</EventMatrixTransform>
+				</ThresholdFilter>
+			</MergePosition>
+			<MergeOrientation>
+				<TestSource orientation="0 0 0 1"/>
+			</MergeOrientation>
+		</Merge>
+	</StbSink>
+	<!--ConsoleSink>
+		<Ref USE="station2"/>
+	</ConsoleSink>
+	<ConsoleSink>
+		<Ref USE="station3"/>
+	</ConsoleSink>
+	<ConsoleSink>
+		<Ref USE="station4"/>
+	</ConsoleSink-->
+</OpenTracker>

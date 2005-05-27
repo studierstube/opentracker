@@ -1,0 +1,44 @@
+#Inventor V2.1 ascii
+
+DEF TEST_SELECT SoApplicationKit {
+
+    contextKit	     SoContextKit {
+
+		templatePipSheet    Separator {
+                            RotationXYZ {axis  X angle 1.57 }
+                            DEF CHECKBOX So3DCheckBox { 
+                                width 5 depth 5 height 2 
+                                buttonColor 1 0 0
+                                pressed 0
+                            }   
+                        }
+
+	windowGroup Group {  SoWindowKit {
+            size	0.3 0.3 0.3
+	    title	"(Default window)"        
+	    clientVolume Separator {
+		    Material {
+		        diffuseColor 1 0 0 =
+		            SoSelectOne {
+		                type SoMFColor
+		                index 0 = USE CHECKBOX . pressed
+		                input [1 0 0, 0 1 0]
+		                } . output
+		    }
+		    Sphere {
+			radius	0.1
+		    }
+		}
+
+	    }
+
+	}
+	clonePipSheet       FALSE
+    }
+    appGeom         Separator {
+    			Texture2 { filename "../apps/redandblue/redandblue.gif" }
+    			}
+    info	    Info {
+    }
+
+}

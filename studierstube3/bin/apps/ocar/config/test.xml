@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Firefly (YRG) -->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+  <!--
+  tracking test config for mobile setup for outdoor use 03-04-2003
+  includes :
+  simulates position, orientation input for user, pip and pen position
+  An calibOffsetCam for calibrating virtual camera offsets
+  
+  Inputs : StbKeyboardSource
+  0 - pip marker relative to camera
+  1 - buttons for pen frmo keyboard
+  2 - user position in real world (instead of GPS + orientation)
+  
+  Outputs : StbSink
+  0 - pip with event for camera calibration
+  1 - pen 
+  2 - camera point (includes camera calibration
+  3 - 2D pointer position for calibration purposes
+  4 - user position in real world (as opposed to camera point !)
+  
+  the camera is moved in real world space according to gps and orientation tracking.
+  all computed events are in the same reference frame defined by GPS origin and IC2 origin.
+-->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- OpenTracker configuration -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <configuration>
+    <ConsoleConfig headerline="Mobile Test Setup" interval="1" display="on"/>
+  </configuration>
+  <EventTransform scale="30 30 30" DEF="user">
+    <StbKeyboardSource number="2"/>
+  </EventTransform>
+  <!-- plus filtering with elastic filter to have smoother updates -->
+  <EventTransform DEF="location">
+    <EventDynamicTransform baseevent="true">
+      <TransformBase>
+        <ElasticFilter force="0.1" damp="0.1">
+          <Ref USE="user"/>
+        </ElasticFilter>
+      </TransformBase>
+      <StbSource node="CalibNode" position="positionOffset" orientation="orientationOffset" DEF="CalibParameters"/>
+    </EventDynamicTransform>
+  </EventTransform>
+  <!-- output to camera station -->
+  <StbSink station="2" DEF="camera">
+    <EventVirtualTransform DEF="calibOffsetCam" translation="0 0 0">
+      <Ref USE="location"/>
+    </EventVirtualTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Devices -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- PIP -->
+  <StbSink station="0" DEF="pip" event="on">
+    <EventDynamicTransform baseevent="true">
+      <TransformBase>
+        <Ref USE="location"/>
+      </TransformBase>
+      <Selection timeout="1000000">
+        <Select>
+          <StbKeyboardSource number="0"/>
+        </Select>
+        <!-- get the pip out of the way -->
+        <TestSource position="0 0 1"/>
+      </Selection>
+    </EventDynamicTransform>
+  </StbSink>
+  <!-- PIP pointer is defined to be the pen now -->
+  <StbSink station="1" event="on" DEF="pen">
+    <Merge>
+      <MergeDefault>
+        <EventDynamicTransform baseevent="true">
+          <TransformBase>
+            <Ref USE="pip"/>
+          </TransformBase>
+          <EventTransform scale="-0.1 -0.1 0" translation="-0.05 0.05 0.003" rotation="0 1 0 0">
+            <StbMouseSource mode="relative" DEF="TouchPad"/>
+          </EventTransform>
+        </EventDynamicTransform>
+      </MergeDefault>
+      <MergeButton>
+        <ButtonOp op="OR" DEF="Buttons">
+          <Arg1>
+            <Ref USE="TouchPad"/>
+          </Arg1>
+          <Arg2>
+            <StbKeyboardSource number="1"/>
+          </Arg2>
+        </ButtonOp>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+  <StbSink station="3">
+    <Ref USE="TouchPad"/>
+  </StbSink>
+  <StbSink station="4">
+      <Ref USE="location"/>
+  </StbSink>
+  <!-- 
+    use this to add a parallel button 
+  <ButtonFilter buttonmap="23016745">
+    <ParButtonSource dev="0x378"/>
+  </ButtonFilter>
+  -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- debug stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <ConsoleSink comment="Location">
+    <Ref USE="location"/>
+  </ConsoleSink>
+  <ConsoleSink comment="CalibParameters">
+    <Ref USE="CalibParameters"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Pip">
+    <Ref USE="pip"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Mouse">
+    <Ref USE="TouchPad"/>
+  </ConsoleSink>
+</OpenTracker>

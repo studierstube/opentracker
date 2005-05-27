@@ -1,0 +1,27 @@
+#Inventor V2.1 ascii
+
+UserKit {
+    pen PenKit{
+       station 5
+       geometry File {name "../../bin/workspace/graphix/DefaultPen.iv"}
+    }
+    pip PipKit{
+       skinFileName "fullviewSkin.iv"
+       skinDirectory "./"
+       station 2
+       pipSize 0.3 0.2 0.01
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight  0.95 0.95
+       offset Transform {translation 0 0 0 
+                         rotation 1 0 0 -1.57
+       }
+       geometry File {name "../../bin/workspace/graphix/DefaultPip.iv"}
+
+    }
+    display DisplayKit {
+        stereoCameraKit  File { name "../../bin/workspace/defaultCameraKit.iv"}
+        station 1
+        headlight TRUE
+    }
+}
+

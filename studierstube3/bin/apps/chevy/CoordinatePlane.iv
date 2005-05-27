@@ -1,0 +1,39 @@
+#Inventor V2.1 ascii
+
+# coordinate axis
+DEF COORD Separator
+{
+	Sphere { radius 0.1}
+
+	DEF X_AXIS Separator
+	{
+		Material {diffuseColor 1 0 0}
+		Transform 
+		{
+			translation 1 0 0
+			rotation 0 0 1 -1.5707963267948966192313216916398 
+		}
+		Cylinder {radius 0.1}
+	}
+
+	DEF Y_AXIS Separator
+	{
+		Material {diffuseColor 0 1 0}
+		Transform
+		{
+			translation 0 1 0
+		}
+		Cylinder {radius 0.1}
+	}
+
+	DEF Z_AXIS Separator
+	{
+		Material {diffuseColor 0 0 1}
+		Transform 
+		{
+			translation 0 0 1
+			rotation 1 0 0 1.5707963267948966192313216916398 
+		}
+		Cylinder {radius 0.1}
+	}
+}

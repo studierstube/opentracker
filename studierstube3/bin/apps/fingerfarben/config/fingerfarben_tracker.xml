@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="../mobile/data/creative_usb_webcam.dat" videomode="0 640 480 vertical" framerate="5" treshhold="100"/>
+		<ConsoleConfig headerline="Receiver Test" interval="1"/>
+	</configuration>
+	
+	<!-- Markers -->
+	<StbSink station="101" event="on">
+    	<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+    		<ARToolKitSource center="0 0" size="90" tag-file="../mobile/data/a.tag"/>
+    	</EventTransform>
+	</StbSink>
+	<StbSink station="102" event="on">
+<!--	    <ElasticFilter force="2.5" damp="0.4"> -->
+    	<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+    		<ARToolKitSource center="0 0" size="50" tag-file="../mobile/data/h.tag"/>
+    	</EventTransform>
+<!--    	</ElasticFilter> -->
+	</StbSink>
+	<StbSink station="103" event="on">
+    	<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+    		<ARToolKitSource center="0 0" size="90" tag-file="../mobile/data/trashcan.tag"/>
+    	</EventTransform>
+	</StbSink>
+	<!-- Camera tracking -->
+	<StbSink station="0">
+		<EventVirtualTransform DEF="calibOffsetCam">
+			<TestSource frequency="1" position="0 0 0"/>
+		</EventVirtualTransform>
+	</StbSink>
+	<!-- Gloves tracking -->
+	
+	<ConsoleSink comment="buttons" active="off">
+    <ButtonOp op="OR" DEF="buttons">
+    	<Arg1>
+    		<ButtonFilter buttonmap="01234567">
+    			<ParButtonSource dev="0x378"/>
+    		</ButtonFilter>
+    	</Arg1>
+    	<Arg2>
+    		<StbKeyboardSource number="0"/>
+    	</Arg2>
+    </ButtonOp>
+    </ConsoleSink>
+    
+	<StbSink station="2" event="on">
+		<ConsoleSink comment="glove_r" active="off">
+		<EventVirtualTransform translation="0 0 0" DEF="calibOffsetR">
+			<Merge>
+				<MergeDefault>
+    				<EventVirtualPositionTransform translation="-0.03 0.03 0">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="50 50" tag-file="../mobile/data/p.tag"/>
+						</EventTransform>
+    				</EventVirtualPositionTransform>
+				</MergeDefault>
+				<MergeButton>
+					<ButtonFilter buttonmask="11111000" buttonmap="01231567">
+						<Ref USE="buttons"/>
+					</ButtonFilter>
+				</MergeButton>
+			</Merge>
+		</EventVirtualTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="3" event="on">
+		<ConsoleSink comment="glove_l" active="off">
+		<EventVirtualTransform translation="0 0 0" DEF="calibOffsetL">
+			<Merge>
+				<MergeDefault>
+    				<EventVirtualPositionTransform translation="0.03 0.03 0">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="50 50" tag-file="../mobile/data/n.tag"/>
+						</EventTransform>
+    				</EventVirtualPositionTransform>
+				</MergeDefault>
+				<MergeButton>
+					<ButtonFilter buttonmask="00001111" buttonmap="45670123">
+						<Ref USE="buttons"/>
+					</ButtonFilter>
+				</MergeButton>
+			</Merge>
+		</EventVirtualTransform>
+		</ConsoleSink>
+	</StbSink>
+	<!-- PIP -->
+	<StbSink station="1">
+		<TestSource frequency="10" position="0 0 10"/>
+	</StbSink>
+	
+
+
+</OpenTracker>

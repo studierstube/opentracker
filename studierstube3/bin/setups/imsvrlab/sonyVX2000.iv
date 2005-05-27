@@ -1,0 +1,77 @@
+#Inventor V2.1 ascii
+
+
+SoStereoCameraKit {
+  fields [ SFVec3f eyeOffsetLeft, SFVec3f eyeOffsetRight, SFVec3f displayOffsetLeft, SFVec3f displayOffsetRight, SFRotation displayRotationLeft, SFRotation displayRotationRight, SFNode callbackList, SFNode examinerCam, SFNode camXf, SFNode contextLeft, SFNode camLeft, SFNode contextRight, SFNode camRight, SFNode xfSep, SFNode camSwitch, SFNode groupLeft, SFNode groupRight ]
+  eyeOffsetLeft 0.028563155 0.83634609 1.0225499
+  examinerCam 
+  DEF defaultExaminerCamera+0 PerspectiveCamera {
+
+  }
+  contextLeft 
+  DEF +1 SoContext {
+    mode ADD
+    index -4
+    value 0
+
+  }
+  camLeft 
+  DEF +2 SoOffAxisCamera {
+    fields [ SFEnum viewportMapping, SFVec3f position, SFRotation orientation, SFFloat nearDistance, SFFloat farDistance, SFFloat aspectRatio, SFFloat focalDistance, SFVec2f size, SFVec3f eyepointPosition, SFMatrix matrix ]
+    viewportMapping LEAVE_ALONE
+    position -0.97375607 -0.040596228 -0.03309558
+    orientation 0.0035969308 0.99988562 -0.014689568  1.5948453
+    nearDistance 0.0099999998
+    farDistance 100
+    aspectRatio 1.7527328
+    focalDistance 2
+    size 1 0.57053763
+    eyepointPosition -0.14746381 -0.12462004 0.0651685
+
+  }
+  contextRight 
+  DEF +3 SoContext {
+    mode ADD
+    index -4
+    value 1
+
+  }
+  camRight 
+  DEF +4 SoOffAxisCamera {
+    fields [ SFEnum viewportMapping, SFVec3f position, SFRotation orientation, SFFloat nearDistance, SFFloat farDistance, SFFloat aspectRatio, SFFloat focalDistance, SFVec2f size, SFVec3f eyepointPosition, SFMatrix matrix ]
+    viewportMapping LEAVE_ALONE
+    position -0.97375607 -0.040596228 -0.03309558
+    orientation 0.0035969308 0.99988562 -0.014689568  1.5948453
+    nearDistance 0.0099999998
+    farDistance 100
+    aspectRatio 1.7527328
+    focalDistance 2
+    size 1 0.57053763
+    eyepointPosition -0.14746381 -0.12462004 0.0651685
+  }
+  xfSep 
+  TransformSeparator {
+
+    USE defaultExaminerCamera+0
+    DEF +5 Switch {
+
+      DEF +6 Group {
+
+        USE +1
+        USE +2
+      }
+      DEF +7 Group {
+
+        USE +3
+        USE +4
+      }
+    }
+  }
+  camSwitch 
+  USE +5
+  groupLeft 
+  USE +6
+  groupRight 
+  USE +7
+
+}

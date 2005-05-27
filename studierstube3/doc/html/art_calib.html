@@ -1,0 +1,695 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+
+
+
+<head>
+
+
+
+<!-- #BeginEditable "doctitle" --> 
+
+
+
+<title>Room and Object Calibration with the A.R.T. Tracking System</title>
+
+
+
+<!-- #EndEditable -->
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+
+
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+
+
+
+</head>
+
+
+
+
+
+
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+
+
+
+    <tr> 
+
+
+
+        <td background="/media/images/studierstube_header_background.gif"> 
+
+
+
+            <table border="0" cellpadding="0" cellspacing="0">
+
+
+
+                <tr> 
+
+
+
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+
+
+
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+
+
+
+                </tr>
+
+
+
+            </table>
+
+
+
+        </td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td align="right" bgcolor="#F6F6F6"> 
+
+
+
+            <table border="0" cellpadding="0" cellspacing="0">
+
+
+
+                <tr> 
+
+
+
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+
+
+
+                    <td>&nbsp;</td>
+
+
+
+                </tr>
+
+
+
+            </table>
+
+
+
+        </td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+
+
+
+    </tr>
+
+
+
+</table>
+
+
+
+<table border="0" cellspacing="0" cellpadding="15">
+
+
+
+    <tr> 
+
+
+
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td><!-- #BeginEditable "content" --> 
+            <h2>Room and Object Calibration with the ART Tracker</h2>
+            General hints: 
+            <ul>
+                <li> For the detailed use of the ART Tracker hardware setup and 
+                    the DTrack software please, refer to the <a href="calib/doc/dtrack_manual_1_17_2.pdf">ARTtracker 
+                    manual (1.75 Mb).</a> </li>
+                <li>Normally room calibration doesn't need to be changed often 
+                    so you might need only <a href="#finetuning">&quot;Part C 
+                    - Fine Tuning the Objects&quot;</a>.</li>
+            </ul>
+            <h2>A. Room and object calibration - TRACKING SERVER</h2>
+            <ol>
+                <p> 
+                <li>Prepare the room</li>
+                <ul>
+                    <li>Remove and hide all objects containing markers from the 
+                        room as they may trick the cameras during the calibration.</li>
+                    <li>Take the calibration angle and put it in the middle of 
+                        the room, where you want the zero point of the room coordinate 
+                        system to be. The coordinate system axes will be aligned 
+                        as seen in picture, so align the calibration angle carefully 
+                        (e.g. parallel with the walls). The zero point will be 
+                        in the marker where the axes meet.</li>
+                </ul>
+                <img border="0" src="calib/pic/coord_sys.gif" width="400" height="282"><img border="0" src="calib/pic/coord_sys_dtrack.gif" width="304" height="282"> 
+                <p> 
+                <ul>
+                    <li>Start the DTrack software on the tracking server.</li>
+                    <li>Take the wand into your hand.</li>
+                    <li>Active the Monitor window (<b>Display &gt; Monitor</b>) 
+                        and check whether the cameras can perceive the angle and 
+                        the wand properly. 
+                        <p><img border="0" src="calib/pic/room_calib_monitor.jpg" width="596" height="407"></p>
+                    </li>
+                    <li>Adjust the camera intensity (<b>Settings &gt; Cameras</b>) 
+                        if necessary and/or dim the lights in the room to increase 
+                        the sensitivity. Check the LED stripe on the cameras for 
+                        feedback. 
+                        <p><img border="0" src="calib/pic/camera_intensity.jpg" width="650" height="357"></p>
+                    </li>
+                    <li>Close the Monitor window</li>
+                </ul>
+                <p> 
+                <li>Calibrate the room</li>
+                <ul>
+                    <li>Activate the Room Calibration window (<b>Calibrate &gt; 
+                        Room</b>)</li>
+                    <li>Make sure that the marker distances are matching those 
+                        written on the calibration angle and the wand length is 
+                        correct as well</li>
+                    <li>Press the &quot;Continue&quot; button, then the calibration 
+                        starts in 5 sec.</li>
+                    <li>Move the wand around the room while rotating it by its 
+                        handle quickly. The point is to show the wand to the cameras 
+                        from a variety of angles of positions, so try to cover 
+                        as large part of the room as possible and keep rotating 
+                        the wand. Always make sure that all the cameras can possibly 
+                        see all the markers of the wand and the calibration angle. 
+                        A compromise needs to be made between moving the wand 
+                        widely around in the room to cover a large part of the 
+                        measurement volume that may result in calibration failure 
+                        and a minimal movement that provides valid but relatively 
+                        bad calibration results. 
+                        <p><img border="0" src="calib/pic/roomcalib.jpg" width="407" height="307"></p>
+                    </li>
+                    <li>Check the calibration results: 
+                        <ul>
+                            <li><b>residual:</b> average uncertainty of the camera 
+                                position</li>
+                            <li><b>frames:</b> the percentage of valid frames 
+                                used for measurement</li>
+                            <li><b>deviation:</b> standard deviation of the wand 
+                                length during the measuring process</li>
+                            <li><b>range:</b> maximum deviation of the wand length 
+                                during the measuring process</li>
+                        </ul>
+                        <br>
+                        Below you can see example values that stand for good calibration 
+                        results (high percentage of valid frames). If you are 
+                        satisfied with the results, press <b>&quot;OK&quot;</b>, 
+                        otherwise repeat the calibration by pressing <b>&quot;Retry&quot;</b>. 
+                        <p><img border="0" src="calib/pic/calibration_result.gif" width="314" height="148"></p>
+                    </li>
+                </ul>
+                <p> 
+                <li>Calibrate the objects</li>
+                <ul>
+                    <li>Set the number of bodies you want to track. 6 bodies are 
+                        already needed for a two-user setup for Studierstube (2 
+                        pens, 2 PIPs, 2 HMDs), so add the number of the additional 
+                        bodies you want to use to it.</li>
+                    <p><img border="0" src="calib/pic/num_of_bodies.gif" width="451" height="136"></p>
+                    <li>Place the object to calibrate in a desired firm position 
+                        and orientation so that all the cameras can see ALL the 
+                        markers. This is important as the the software returns 
+                        an error if the cameras see a different number of markers. 
+                        You can check the number of markers perceived in the Monitor 
+                        window (<b>Display &gt; Monitor</b>) and on the cameras' 
+                        LED display.</li>
+                    <li>You might want to save work later on in the fine tuning 
+                        part by placing&nbsp; the objects in a similar way to 
+                        the first image in the <b>&quot;<a href="#finetuning">Fine-tuning 
+                        the objects</a>&quot; </b>section.</li>
+                    <li>Active the Body Calibration window (<b>Calibrate &gt; 
+                        Body</b>)</li>
+                    <li>Set the ID for the body to calibrate. The following convention 
+                        is used:<br>
+                    </li>
+                    <div align="left"> 
+                        <table border="1" cellpadding="2" width="409">
+                            <tr> 
+                                <td width="29" align="center"><b> user</b></td>
+                                <td width="39" align="center"><b> prop&nbsp;</b></td>
+                                <td width="45" align="center"> <p align="center"><b> 
+                                        name&nbsp;</b></td>
+                                <td width="131" align="center"><b> DTrack object 
+                                    ID</b></td>
+                                <td width="123" align="center"><b>OpenTracker 
+                                    ID</b></td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle"> 
+                                    User1&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    pen</td>
+                                <td width="45" align="center" valign="middle"> 
+                                    pen0</td>
+                                <td width="131" align="center" valign="middle">1</td>
+                                <td width="123" align="center" valign="middle">0</td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle"> 
+                                    User1&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    panel</td>
+                                <td width="45" align="center" valign="middle">panel0</td>
+                                <td width="131" align="center" valign="middle">2</td>
+                                <td width="123" align="center" valign="middle">1</td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle"> 
+                                    User1&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    HMD</td>
+                                <td width="45" align="center" valign="middle">hmd0</td>
+                                <td width="131" align="center" valign="middle">3</td>
+                                <td width="123" align="center" valign="middle">2</td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle">User2&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    pen</td>
+                                <td width="45" align="center" valign="middle">pen1</td>
+                                <td width="131" align="center" valign="middle">4</td>
+                                <td width="123" align="center" valign="middle">3</td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle">User2&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    panel</td>
+                                <td width="45" align="center" valign="middle">panel1</td>
+                                <td width="131" align="center" valign="middle">5</td>
+                                <td width="123" align="center" valign="middle">4</td>
+                            </tr>
+                            <tr> 
+                                <td width="29" align="center" valign="middle">User2&nbsp;</td>
+                                <td width="39" align="center" valign="middle"> 
+                                    HMD</td>
+                                <td width="45" align="center" valign="middle">hmd1</td>
+                                <td width="131" align="center" valign="middle">6</td>
+                                <td width="123" align="center" valign="middle">5</td>
+                            </tr>
+                            <tr> 
+                                <td align="center" valign="middle">-</td>
+                                <td align="center" valign="middle">custom obj.</td>
+                                <td align="center" valign="middle">custom1</td>
+                                <td align="center" valign="middle">7</td>
+                                <td align="center" valign="middle">6</td>
+                            </tr>
+                            <tr> 
+                                <td align="center" valign="middle">..</td>
+                                <td align="center" valign="middle">..</td>
+                                <td align="center" valign="middle">..</td>
+                                <td align="center" valign="middle">..</td>
+                                <td align="center" valign="middle">...</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                    <li>Use <b> &quot;due to room (zero in marker)&quot;</b> coordinate 
+                        system type</li>
+                    <li>Press <b>&quot;Calibrate&quot;</b>, the calibration starts 
+                        immediately.</li>
+                    <li> If you are satisfied with the results, press <b>&quot;OK&quot;</b>, 
+                        otherwise repeat the calibration by pressing <b>&quot;Retry&quot;</b>.</li>
+                    <li>Calibrate all the objects by repeating the previous six 
+                        steps.</li>
+                </ul>
+            </ol>
+            <h2>B. Setting the right coordinate system and scale - TRACKING SERVER</h2>
+            <ul>
+                <li>Look at the image below. The calibration angle marked out 
+                    the coordinate system as shown in the left image below, however, 
+                    Studierstube uses a coordinate system shown in the right image, 
+                    so we need to rotate the coordinate system around the X axis 
+                    by +90 degrees, so that it is aligned with the one used in 
+                    Studierstube. <br>
+                    <div align="left"> 
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr> 
+                                <td><img border="0" src="calib/pic/coord_sys_dtrack.gif" width="304" height="282"></td>
+                                <td><img border="0" src="calib/pic/arrow.gif" width="100" height="50"></td>
+                                <td><img border="0" src="calib/pic/coord_sys_stb.gif" width="304" height="282"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p> </li>
+                <li>As the DTrack software outputs the data in millimeters and 
+                    Studierstube uses meters, we need to scale the data down by 
+                    multiplying them by 0.001.</li>
+                <li> To perform the above rotation and scale we need to wrap up 
+                    each ARTDataTrackerSource node into transformation tags. For 
+                    example:</li>
+                <pre>
+
+&lt;EventTransform rotation=&quot;-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485&quot; scale=&quot;0.001 0.001 0.001&quot;&gt;
+    &lt;EventVirtualTransform rotation=&quot;0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485&quot;&gt;
+        &lt;ARTDataTrackerSource number=&quot;1&quot;/&gt;
+    &lt;/EventVirtualTransform&gt;
+&lt;/EventTransform&gt;
+
+    </pre>
+                <li>Save the XML script as a file called <b>&quot;artTrackerServer.xml&quot;</b> 
+                    in the <b> %OTROOT%\data</b> folder. You can find a sample 
+                    OpenTracker script <a href="calib/doc/artTrackerServer.xml">here</a>. 
+                <li>Make a batch file that runs OpenTracker with the XML script 
+                    <b> &quot;artTrackerServer.xml&quot;</b>: 
+                    <pre>
+
+C:   
+
+rem (above put the appropriate drive letter where OpenTracker is installed)
+
+cd %OTROOT%\bin
+
+opentracker.exe ../data/artTrackerServer.xml
+
+pause
+
+    </pre>
+                    Call it <b> &quot;artTrackingServer.bat&quot;</b> and make 
+                    a shortcut on the desktop for convenience.<br>
+                    <br>
+                <li>Start the measurement in the DTrack software (click on the 
+                    <b> Start</b> button), then start the <b> &quot;artTrackingServer.bat&quot;</b> 
+                    batch file. 
+                <li>Test the coordinate system and the room &amp; object calibration 
+                    results by moving your objects around while watching the DTrack 
+                    and OpenTracker output.</li>
+                <li>If everything works fine, you have successfully set up the 
+                    tracking server.</li>
+            </ul>
+            <a name="finetuning"></a> 
+            <h2>C. Fine-tuning the objects - COMPUTER RUNNING STUDIERSTUBE</h2>
+            <ol>
+                <p> In Studierstube the default position and orientation of the 
+                    (virtual) interaction objects are the following: 
+                <ul>
+                    <li><b>Pen:</b> the pen's tip is in the zero position, see 
+                        picture below for orientation</li>
+                    <li><b>Panel:</b> the panel's center is in the zero position, 
+                        see picture below for orientation</li>
+                    <li><b>Camera:</b> the camera is in the zero position, it 
+                        is looking in the direction of the +X axis and rotated 
+                        by -90' around the +X axis</li>
+                    <br>
+                </ul>
+                <img border="0" src="calib/pic/nullposition.gif" width="478" height="421"> <br>
+                After object calibration on the tracking server, we need to modify 
+                the data coming from the server with transformations in a way 
+                that the tracked physical artifacts with their hot spots placed 
+                in the zero point of the real world with the same arrangement 
+                as seen in the picture above generate <b>(0 0 0)</b> for the position 
+                and <b>(0 0 0 1)&nbsp;</b> for the quaternion representing the 
+                the orientation. In the following steps it will be done for each 
+                artifact separately. You need a blank script at the beginning 
+                that you can extend with the necessary transformations (you can 
+                download it <a href="calib/doc/blankCalib.xml">here</a>) by replacing 
+                the default position and orientation information or modify the 
+                <b>&quot;faustWallTracker.xml&quot; </b>configuration file on 
+                the computer running Studierstube. If you uncomment the <b>&quot;TestSource&quot; 
+                </b>line and comment the <b>&quot;NetworkSource&quot;</b> line 
+                out, the position and orientation of the tracked pen and the panel 
+                can be tested with a fixed HMD position as it won't be tracked 
+                but hard-coded to a viewpoint where the all scene can be seen. 
+                <br><br>
+                <li>Calibrating the pen</li><br>
+                <img border="0" src="calib/pic/pen.jpg" width="468" height="271"> 
+                <ul>
+                    <li>The hot spot of the pen artifact in Studierstube is the 
+                        tip (the tip of the blue cone in the picture above). </li>
+                    <li>Let the position offset between the zero point marker 
+                        and the tip of the pen be <b>(x,y,z)</b>. If the orientation 
+                        at calibration was different from the one suggested above 
+                        in the initial Studierstube artifact arrangement picture, 
+                        let the rotational offset be <b>(p q r s)</b>. We need 
+                        to shift the coordinate system first from the marker to 
+                        the tip with translation. We translate the coordinate 
+                        system in the pen's <b>LOCAL </b>coordinate system (<b>&lt;EventVirtualTransformation 
+                        translation&gt;</b>), then we rotate the pen (<b>&lt;EventVirtualTransformation 
+                        rotation&gt;</b>) into the desired Studierstube initial 
+                        orientation. We need the following script for the transformation: 
+                        <pre>
+&lt;EventVirtualTransform translation=&quot;-x -y -z&quot; rotation=&quot;-p -q -r s&quot;&gt;
+    &lt;NetworkSource number=&quot;1&quot; multicast-address=&quot;224.100.200.101&quot; port=&quot;12346&quot; DEF=&quot;pen0&quot;/&gt;
+&lt;/EventVirtualTransform&gt;  
+</pre>
+                    </li>
+                    <li>You can add <b>&lt;EventTransform&gt;</b> tags if necessary 
+                        for the post fine tuning.</li>
+                </ul>
+                <p> 
+                <li>Calibrating the panel</li><br>
+                <img border="0" src="calib/pic/panel.jpg" width="468" height="271"> 
+                <ul>
+                    <li>The hot spot of the PIP is the center point of the panel. 
+                    </li>
+                    <li>Let the position offset between the zero point marker 
+                        and the center of the panel be <b>(x,y,z)</b>. If the 
+                        orientation at calibration was different from the one 
+                        suggested above in the initial Studierstube artifact arrangement 
+                        picture, let the rotational offset be <b>(p q r s)</b>. 
+                        We need to shift the coordinate system first from the 
+                        marker to the center. We translate the coordinate system 
+                        in the panel's <b>LOCAL </b>coordinate system (<b>&lt;EventVirtualTransformation 
+                        translation&gt;</b>), then we rotate the panel (<b>&lt;EventVirtualTransformation 
+                        rotation&gt;</b>) into the desired Studierstube initial 
+                        orientation. We need the following script for the transformation: 
+                    </li>
+                    <pre>
+&lt;EventVirtualTransform rotation=&quot;-p -q -r s&quot; translation=&quot;-x -y -z&quot;&gt;
+    &lt;NetworkSource number=&quot;2&quot; multicast-address=&quot;224.100.200.101&quot; port=&quot;12346&quot; DEF=&quot;pip0&quot;/&gt;
+&lt;/EventVirtualTransform&gt;
+</pre>
+                    <li>You can add <b>&lt;EventTransform&gt;</b> tags if necessary 
+                        for the post fine tuning.</li>
+                </ul>
+                <p> 
+                <li>Calibrating the HMD</li><br>
+                <img border="0" src="calib/pic/hmd.jpg" width="278" height="310"><br><br>
+                <ul>
+                    <li>The last thing that remains to be done in the calibration process is to calibrate the HMD.
+					    First of all, the camera is originally rotated by -90 
+                        degrees around the X axis, therefore we need to rotate it back, 
+                        so we need an <b>&lt;EventVirtualTransformation rotation&gt;</b>. 
+                        We use the following script for the transformation: 
+                        <pre>
+&lt;EventVirtualTransform rotation=&quot;0.707 0 0 0.707&quot;&gt;
+    &lt;NetworkSource number=&quot;3&quot; multicast-address=&quot;224.100.200.101&quot; port=&quot;12346&quot; DEF=&quot;hmd0&quot;/&gt;
+&lt;/EventVirtualTransform&gt;  
+</pre>
+                    </li>
+                    <li>We don't need to care about the position and the rotational offset and additional 
+                        fine tuning here as the HMD calibration software will take 
+                        care of these. You need to run the <b>&quot;%STBROOT%\bin\apps\calibration\hmdCalibration.iv&quot;</b>&nbsp;application 
+                        in Studierstube. You can find detailed documentation <a href="http://www.studierstube.org/misc/hmdcal_ug.html">under 
+                        this link</a>. If you don't have a proper initial configuration 
+                        file for the HMD to be put into the user kit, you can 
+                        dowload one <a href="calib/doc/default_HMD.iv">here</a>.</li>
+					<li>If you are done with all the calibration steps, test Studierstube with a simple application, verify your results and make additional fine tuning 
+					or recalibration if necessary.</li>
+                </ul>
+				<br>
+                <hr>
+                <p> PS: You can find a sample configuration file <a href="calib/doc/faustWallTracker.xml">here</a> 
+                    including the pen, panel and HMD as well.</p>
+                <p> <font size="1"><i>This page was last modified on 17.3.2003 
+                    by Istvan Barakonyi</i></font></p>
+            </ol>
+            <!-- #EndEditable --></td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+
+
+
+    </tr>
+
+
+
+</table>
+
+
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+
+
+
+    <tr> 
+
+
+
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+
+
+
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+
+
+
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+
+
+
+            &nbsp;</td>
+
+
+
+    </tr>
+
+
+
+    <tr> 
+
+
+
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+
+

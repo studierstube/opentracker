@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../workspace/opentracker.dtd">
+<OpenTracker>
+  <!--
+  Standard tracking config for mobile setup from 01-04-2003
+  includes :
+  4mm FireFly Extended Camera
+  TouchPad with tracked point
+  IntertiaCube2 for head rotation
+  An calibOffsetCam for calibrating virtual camera offsets
+-->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- OpenTracker configuration -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <configuration>
+    <ARToolKitConfig camera-parameter="data/firefly_4mm.dat" videomode="0 320 240 vertical" framerate="10" treshhold="100"/>
+    <ConsoleConfig headerline="Mobile Setup" interval="10" display="off"/>
+    <InterSenseConfig>
+      <ISTracker comport="0" id="InertiaCube"/>
+    </InterSenseConfig>
+  </configuration>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Local ARToolkit Makers -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="lambda">
+    <ARToolKitSource tag-file="data/lambda.tag" center="0 0" size="80"/>
+  </EventTransform>
+  <!-- All local events merged (for inertia tracking resets) -->
+  <Merge DEF="allLocal">
+    <MergeDefault>
+      <Ref USE="lambda"/>
+    </MergeDefault>
+  </Merge>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Camera Tracking -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Intertrax oriented to typical OpenInventor camera space -->
+  <EventVirtualOrientationTransform rotationtype="matrix" rotation="0 -1 0 1 0 0 0 0 1" DEF="orientation">
+      <EventOrientationTransform rotation="0 1 0 -1 0 0 0 0 1" rotationtype="matrix">
+        <InterSenseSource id="InertiaCube"/>
+      </EventOrientationTransform>
+  </EventVirtualOrientationTransform>
+  <!-- Offsets the readings from inertia tracker by it's inverse everytime at least ONE marker is visible. we use allLocal to provide that -->
+  <EventDynamicTransform DEF="head_offset">
+    <TransformBase>
+      <EventInvertTransform>
+        <TimeGate timeframe="100">
+          <Gate>
+            <Ref USE="allLocal"/>
+          </Gate>
+          <Ref USE="orientation"/>
+        </TimeGate>
+      </EventInvertTransform>
+    </TransformBase>
+    <Ref USE="orientation"/>
+  </EventDynamicTransform>
+  <!-- output to camera station -->
+  <StbSink station="2" DEF="camera">
+    <EventVirtualTransform DEF="calibOffsetCam" translation="0 0 0">
+      <Ref USE="orientation"/>
+      <!-- <TestSource frequency="10" position="0 0 0"/> --> 
+    </EventVirtualTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Devices -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- PIP -->
+  <StbSink station="0" DEF="pip">
+    <Selection timeout="3000">
+      <Select>
+        <Ref USE="lambda"/>
+      </Select>
+      <!-- get the pip out of the way -->
+      <TestSource position="0 0 100"/>
+    </Selection>
+  </StbSink>
+  <!-- PIP pointer -->
+  <StbSink station="3" event="on">
+    <Merge>
+    <MergeDefault>
+    <EventDynamicTransform baseevent="true">
+      <TransformBase>
+        <Ref USE="pip"/>
+      </TransformBase>
+      <EventTransform scale="-0.1 -0.1 0" translation="-0.05 0.05 0.003" rotation="0 1 0 0">
+        <StbMouseSource mode="relative" DEF="TouchPad"/>
+      </EventTransform>
+    </EventDynamicTransform>
+    </MergeDefault>
+    <MergeButton>
+      <ButtonOp op="OR" DEF="Buttons">
+      <Arg1>
+        <Ref USE="TouchPad"/>
+      </Arg1>
+      <Arg2>
+        <StbKeyboardSource number="0"/>
+      </Arg2>
+    </ButtonOp>
+    </MergeButton>
+    </Merge>
+  </StbSink>
+  <!-- 
+    use this to add a parallel button 
+  <ButtonFilter buttonmap="23016745">
+    <ParButtonSource dev="0x378"/>
+  </ButtonFilter>
+  -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- debug stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <ConsoleSink comment="Inertial Tracker">
+    <Ref USE="orientation"/>
+  </ConsoleSink>
+  <ConsoleSink comment="All Local Markers">
+    <Ref USE="allLocal"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Head Offset">
+    <Ref USE="head_offset"/>
+  </ConsoleSink>
+</OpenTracker>

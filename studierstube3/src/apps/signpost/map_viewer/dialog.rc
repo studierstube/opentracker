@@ -1,0 +1,126 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Österreich) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEA)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOG DISCARDABLE  0, 0, 262, 182
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,204,129,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,204,153,50,14
+    EDITTEXT        IDC_INPUTFILE,79,30,75,12,ES_AUTOHSCROLL
+    LTEXT           "Input file (*.iv):",IDC_STATIC,31,32,46,8
+    PUSHBUTTON      "Browse ...",IDC_BROWSE,160,29,50,14
+    CONTROL         "marker symbols",IDC_MARKER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,37,67,64,10
+    CONTROL         "marker IDs",IDC_MARKERIDS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,37,80,50,10
+    CONTROL         "marker names",IDC_MARKERNAMES,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,37,93,60,10
+    CONTROL         "zero reference points",IDC_ZEROPOINTS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,37,119,82,10
+    CONTROL         "Show output floorplan",IDC_SHOWOUTPUT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,144,85,10
+    CONTROL         "Convert input file",IDC_CONVERT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,15,69,10
+    LISTBOX         IDC_LIST1,131,52,65,63,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "room names",IDC_ROOMS,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,37,54,54,10
+    CONTROL         "doors",IDC_DOORS,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,37,106,33,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 254
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 167
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "icon1.ico"
+#endif    // Deutsch (Österreich) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

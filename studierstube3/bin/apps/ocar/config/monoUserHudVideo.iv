@@ -1,0 +1,75 @@
+#Inventor V2.1 ascii
+# UserKit file for a single mobile user with monoscopic output on the Glasstron HMD.
+# This kit supports the tablet interface with touch pad and an orientation tracker.
+
+SoUserKit {
+    userID 0
+    pen SoPenKit {
+        station 1
+        geometry Separator {
+           DEF HUD_CAM OrthographicCamera { 
+                aspectRatio 1.33333 
+                viewportMapping ADJUST_CAMERA 
+                nearDistance 0.5 
+                height 0.2 
+                position -0.083333 -0.05 1
+           }
+           Transform { translation = SoTrakEngine { station 1 }.translation }
+           Transform { translation 0 0 0.05 }
+           Material {
+                          diffuseColor 0.9 0.9 0.0
+                          emissiveColor 0.9 0.9 0.0
+           }
+           Sphere { radius 0.003 }
+        }
+        timeOut 1
+    }
+
+    pip SoPipKit{
+       station 0
+       pipSize 0.1 0.1 0.001
+       sheetAreaUpperLeft  0.07 0.05
+       sheetAreaLowerRight 0.93 0.95
+
+       skinFileName "skinWS1.iv"
+       geometry Group {
+            USE HUD_CAM
+            Separator {
+                Transform { translation 0 0 -0.5 }
+                Material { diffuseColor 0.5 0.5 0.5 transparency 0.5 }
+                Cube { width 0.1 height 0.1 depth 0.001 }
+            }
+       }
+       timeOut 1
+    }
+
+    display SoDisplayKit {
+        stereoCameraKit  SoStereoCameraKit {
+            camLeft  SoOffAxisCamera {
+                viewportMapping ADJUST_CAMERA
+                size 1.257200839 0.9406158450
+                position -.0554434157 0.0722157230 -1 
+                eyepointPosition 0 0 0
+                farDistance 300
+            } 
+        }
+
+        #display SoFieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+
+        cameraControl SoTrackedDisplayControlMode {}
+        # cameraControl SoTrackedViewpointControlMode {}
+        # cameraControl SoDesktopControlMode {}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType DELAYED_BLEND
+        width 800
+        height 600
+        # decoration FALSE
+        windowBorder FALSE
+        showMouse FALSE
+        videoBackground SoVideoBackgroundOT {}
+        stencilBuffer TRUE
+    }
+}

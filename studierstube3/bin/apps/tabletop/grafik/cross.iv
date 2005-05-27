@@ -1,0 +1,24 @@
+#Inventor V2.1 ascii
+
+Separator {
+  Material {
+	diffuseColor	0.88 0.15 0.01
+  }
+  Separator {
+    Transform {
+      translation	0 0.0083 0
+      rotation	0 -1 0  1.57079
+#      scaleFactor	1 0.167251 0.264959
+# 	scaleFactor 0.05 0.05 0.05
+ 	scaleFactor 0.05 0.00836 0.013245
+    }
+    DEF cubeNode Cube {}
+  }
+    Transform {
+      translation	0 0.0083 0
+# 	scaleFactor 0.05 0.05 0.05
+#      scaleFactor	1 0.167251 0.264959
+ 	scaleFactor 0.05 0.00836 0.013245
+    }
+    USE cubeNode
+}

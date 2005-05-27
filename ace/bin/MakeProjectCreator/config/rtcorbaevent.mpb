@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// rtcorbaevent.mpb,v 1.5 2004/01/22 18:23:49 elliott_c Exp
+
+project : rtportableserver, rtevent {
+  after     += RTCORBAEvent
+  libs      += TAO_RTCORBAEvent
+  tagchecks += RTCORBAEvent
+}

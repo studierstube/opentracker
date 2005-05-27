@@ -1,0 +1,222 @@
+#Inventor V2.1 ascii
+
+# To specify users for the workspace-environment use the command-line parameter
+# --userkits(-uk) and specify an IV-file, which contains all SoUserKits,
+# which define the properties of the users. (see command-line documentation)
+#
+# This sample of an SoUserKit-file shows all possible (useful)
+# configuration prameters of an SoUserKit.
+# note: all values in this file, that are not part of the comments,
+#       are the default values of the fields.
+
+SoUserKit {
+    # this is the ID of a user, it has to be unique for every user
+    # note: if  two users with the same ID are specified (loaded),
+    #       only the first will be added to the workspace.
+    userID -1 
+    # auxiliary geometry may be added to the userKit:
+    # note: SoSeparator should be used as root for any additional geometry
+    # put any additional geometry, which shall be visible for all users here:
+    # auxGeometry SoSeparator { geometry ... }
+    # put any additional geometry, which shall only be visible for this user here:
+    # exclusiveGeometry [ geometryE1 ... , geometryE2 ... , ...]
+ 
+    # properties of the user's pen
+    pen SoPenKit {
+
+        # This field specifys the number of the tracker station, which "moves"
+        # the pen
+        station -1
+
+        # The geometry of the pen.
+        # note: per default no geometry is specified
+        # The geometry can be specified directly within this file, 
+        # to be better readable, it is recommended to specify a file,
+        # which contains the geometry of the pen, e.g: 
+        # geometry File {name "./graphix/DefaultPen.iv"}
+
+        # The offset of the pen's geometry specified in tracker-space.
+        # note: per default no offset is specified
+        # offset Transform {translation 0 0 0 
+        #                   rotation 1 0 0 -1.57 }
+
+        # Number of the Pen-button, which is used as primary button
+        primaryButton 0
+
+        # Number of the Pen-button, which is used as secondary button
+        secondaryButton 1
+
+        #  Defines pen's 3D window focussing policy     
+        #  CLICK_TO_FOCUS: press primary button when within window to focus it
+        #  POINT_TO_FOCUS: just point to window to focus it
+        focusPolicy CLICK_TO_FOCUS
+    }
+
+    # properties of the user's pip
+    pip SoPipKit{
+        #  This field specifys the number of the tracker station, which "moves"
+        #  the pip.
+        station -1
+
+        # The geometry of the pip, can be specified directly within this file, 
+        # to be better readable it is recommended to specify the file, which 
+        # contains the geometry of the pip.
+        # note: per default no geometry is specified
+        # The PIP's geometry should be placed around the origin and the PIP's
+        # surface should be parallel to the xy-plane (in object space).
+        # geometry File {name "./graphix/DefaultPip.iv"}
+
+        # This field specifys the size of the pip,
+        # centered around the origin and parallel to the xy-plane 
+        pipSize 0.3 0.2 0.01
+
+        # The offset of the pip's geometry specified in tracker-space.
+        # note: per default no offset is specified
+        # offset Transform {translation 0 0 0 
+        #                   rotation 1 0 0 -1.57 }
+
+        # The sheet area is the area on the PIP which a PIP-sheet should use.
+        # It is specified in normalized PIP-coordinates, ranging from (0,0) for
+        # the upper left corner of the PIP to (1,1) for the lower right corner
+        # of the PIP.   
+        # This field specifys the upper left corner of the sheet area.
+        sheetAreaUpperLeft  0.0 0.0
+        # This field specifys the lower right corner of the sheet area.
+        sheetAreaLowerRight  1.0 1.0
+
+        # Specifys the name of a skin-file, that describes the properties
+        # of the user-interface elements on the PIP. 
+        skinFileName "skinWS1.iv"
+
+        # Specifys the directory of a skin-file, that describes the properties
+        # of the user-interface elements on the PIP. 
+        # note: when using workspace, this field is overwritten
+        skinDirectory "./graphix/"
+    }
+
+    # properties of the user's hmd and viewer
+    # If this part is not set, if will default to a non rendering user and
+    # no viewer will be created for it.
+    display SoDisplayKit {
+        #   TRUE:  a viewer will be created for this user
+        #   FALSE: no viewer will be created for this user
+        isRendering TRUE 
+
+        # This field specifys the number of the tracker station, which "moves"
+        # the HMD's geometry and which is used for tracked control modes.
+        station -1
+
+        # The geometry of the HMD, can be specified directly within this file,
+        # to be better readable it is recommended to specify the file, 
+        # which contains the geometry of the HMD.
+        # note: per default no geometry is specified
+        # geometry File {name "./graphix/DefaultHMD.iv"}
+
+        # The offset of the HMD's geometry specified in tracker-space.
+        # note: per default no offset is specified
+        # offset Transform {translation 0 0 0 
+        #                   rotation 1 0 0 -1.57 }
+
+        # Specifys the SoStereoCameraKit to use
+        # The nodeField must either contain a node of type SoStereoCameraKit,
+        # or a file-node specifying a file, which contains an SoStereoCameraKit.
+        # e.g.: stereoCameraKit  File { name "defaultCameraKit.iv"}        
+        stereoCameraKit SoStereoCameraKit{}
+        
+        # Specify the camera control mode
+        # valid modes:
+        # cameraControl SoTrackedDisplayControlMode {}
+        # cameraControl SoTrackedViewpointControlMode {}
+        # cameraControl SoTrackedViewpointMobileDisplayControlMode { viewpointStation 0 displayStation 1 }
+        cameraControl SoDesktopControlMode {}
+
+        # Specify the display mode
+        # valid modes:
+        # display SoLineSequentialDisplayMode {useStencil FALSE}
+        # display SoLineSequentialDisplayMode {useStencil TRUE}
+        # display SoFieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+        # display SoFieldSequentialDisplayMode {stereoMode SPLIT_STEREO }
+        # display SoDualChannelDisplayMode {splitMode VERTICAL}
+        # display SoDualChannelDisplayMode {splitMode HORIZONTAL}
+        # display SoAnaglyphDisplayMode {leftLensColor 1 0 0
+        #                                rightLensColor  0 1 0}
+        display SoMonoDisplayMode{}
+        
+        # NOTE: This field is only useful for the WIN32-TGS version of
+        #       Studierstube.
+        # note: use 'oglinfo.exe'(comes with TGS-OpenInventor) to get info on the supported 
+        #       pixelFormats on your machine.
+        # Specifys the pixelFormat, which OpenInventor shall be forced to use.
+        # Per default pixelFormat is 0, i.e. no pixelFormat is forced.
+        pixelFormat 0
+
+        # Specify position (upper-left corner)
+        xoffset 0
+        yoffset 0
+        # and size of the viewer-window (in pixels)
+        width 640
+        height 480
+
+        # Enable or disable headlight
+        headlight TRUE
+
+        # Specify the intensity of the headlight
+        headlightIntensity 1.0
+
+        # Specify additional environment nodes.
+        # (SoEnvironment,SoLightModel,SoLight,SoLightKit)
+        # customEnvironment [Environment {ambientIntensity .3
+        #                                 ambientColor 1 0 0 
+        #                                }, ...]
+       
+        # Specify the background color
+        backgroundColor 0 0 0
+
+        #  Specify transparency type that shall be used by the viewer
+        #  note: see documentation of SoGLRenderAction for description
+        #        of all transparencyTypes
+        #  transparencyType SCREEN_DOOR 
+        #  transparencyType ADD       
+        #  transparencyType DELAYED_ADD
+        #  transparencyType SORTED_OBJECT_ADD 
+        #  transparencyType DELAYED_BLEND     
+        #  transparencyType SORTED_OBJECT_BLEND 
+        transparencyType BLEND
+
+        # specifies which video background implementation shall be used
+        # note: see documentation of SoVideoBackground and derived ones for configuration details
+        # videoBackground SoVideoBackground {}       # default, no background
+        # videoBackground SoVideoBackgroundOT {}     # mirror mode does nothing
+        # videoBackground SoVideoBackgroundSGI {}    # SGI IRIX video input
+        # videoBackground SoVideoBackgroundUSB {}    # Linux USB video input        
+        # videoBackground SoVideoBackgroundH323 { ipAddress "" }   # OpenH.323 video input 
+        videoBackground SoVideoBackground {} 
+
+        # specifies visibility of the mouse cursor in within the window. 
+        # @note works only with Qt currently */
+        showMouse TRUE
+
+        #  specifies whether the window should be decorated or not
+        # (have borders, title bar, etc. ). Default value is TRUE.
+        # This is independend of the display mode.          
+        windowBorder TRUE
+        
+        # specifies whether the window should be on top of all others or not
+        # if specified for more than one window, than the latest one is on 
+        # top of all others, but the others are also on top of "normal"
+        # windows. 
+        # Only implemented for QT currently!
+        windowOnTop FALSE
+
+        # specifies whether the viewer should be decorated or not, 
+        # this enables the buttons and wheel widgets around the render area.
+        # Default value is TRUE. 
+        # This is independend of the display mode.
+        decoration TRUE
+        
+        # specifies whether to request a stencil buffer or not. 
+        # This setting is important if you use SoStencilBuffer nodes in your applications
+        stencilBuffer FALSE
+    }
+}
+

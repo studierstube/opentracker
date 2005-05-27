@@ -1,0 +1,25 @@
+#----------------------------------------------------------------------
+# this is the system specific part of all StbAPI Makfiles. 
+# change the parameters here if necessary.
+#----------------------------------------------------------------------
+
+# use this line for any site except VRC
+SYS_C++OPTS = -g -exceptions -woff 1171,1356,1401 
+# use this line for VRC to circumvent problem in VRC's compiler setup
+#SYS_C++OPTS = -g -exceptions -woff 1171,1356,1401 -D WINDOWCONTEXTBUG
+
+# change the following line to your studierstube base dir
+STB_DIR = $(HOME)/medidesk/studierstube/
+
+STB_BIN_DIR = $(STB_DIR)bin/
+STB_INC_DIR = $(STB_DIR)src/
+STB_LIB_DIR = $(STB_DIR)lib/
+STB_SRC_DIR = $(STB_DIR)src/
+
+STB_STD_INCLUDES = -I${OIVHOME}/include -I./ -I$(STB_INC_DIR)
+
+# use this line if you have TGS Open Inventor installed at $OIVHOME
+INVENTOR_LIBS = -L${OIVHOME}/lib -limage -lGL -lGLU
+# use this line if you only have "standard" SGI Open Inventor
+#INVENTOR_LIBS = -limage -lGL -lGLU
+

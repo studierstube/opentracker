@@ -1,0 +1,255 @@
+#Inventor V2.1 ascii
+
+DEF simple SoApplicationKit {
+    appGeom Separator {
+        Texture2 { filename "../apps/fingerfarben/fingerfarben.gif" }
+    }
+
+    info Info {}
+
+contextKit DEF simple_context SoContextKit {
+
+  templatePipSheet Separator {
+     RotationXYZ {axis  X angle 1.57 }
+              Material { diffuseColor 0 1 0 }
+              DEF BUTTON_EIN SoPushButton {
+                width 5 depth 5 height 2
+              }
+
+  }
+
+  clonePipSheet FALSE
+
+  windowGroup Group {
+  SoWindowKit {
+  size 5.5 5.5 5.5
+
+  clientVolume Separator {
+    renderCaching OFF
+    boundingBoxCaching  OFF
+    renderCulling OFF
+    pickCulling OFF
+
+    SoClassLoader {
+      className "SoPucServer" fileName "PUC"
+    }
+
+
+  DEF SCENE_ROOT Separator {
+    renderCaching OFF
+    boundingBoxCaching  OFF
+    renderCulling OFF
+    pickCulling OFF
+
+    SoPucServer {
+      serverName "Studierstube Demo"
+      devices NodeKitListPart { containerNode Group {
+        DEF RADIUSDEVICE SoPucDevice {
+          deviceName "RadiusDevice"
+          groups NodeKitListPart { containerNode Group {
+
+        DEF G1 SoPucGroup {
+        labels ["main group"]
+        priority 10
+
+        members NodeKitListPart { containerNode Group {
+
+          DEF SELECTGROUP SoPucStateEnumerated {
+                  valueLabels ["main", "sphere", "cube", "nn"]
+                  value 0
+                  priority 10
+                  labels ["select group"]
+                }
+
+        DEF G2 SoPucGroup {
+          labels ["global group"]
+          priority 10
+          activeIf SoPucActiveIfNode {
+              activeIf SoPucActiveIfClause { state "SELECTGROUP" op EQUALS value "4" }
+            }
+          members NodeKitListPart { containerNode Group {
+
+          DEF NAME   SoPucStateString { value "hello" labels ["name"] }
+          DEF COMM   SoPucCommand { labels ["command"] }
+
+          DEF MATERIAL SoPucStateEnumerated {
+            valueLabels ["red", "green", "blue", "white"]
+            value 0
+            priority 5
+            labels ["color of cube"]
+          }
+
+          DEF POSTTEST SoPucStateEnumerated {
+            valueLabels [
+              "Karlskirch","Gusshausst","Gussha","Karlsgasse","Karlsg_1","Karlsg_2","Frankenber","Franke","Karlsg_3","Paniglsgas","Karlsg_4","Karlsg_5","Karlsg_6","Karlsg_7","Karlsg_8","Karlsg_9","Karlsg_10","Argentinie","Paniglgass","Karlsplatz","Obj_1","Obj_3","Obj_4","Obj_6","Obj_7","Obj_8","Obj_9","Obj_10","Obj_11","Obj_12","Obj_13","Obj_14","Obj_15","Obj_16","Obj_17","Obj_18","Obj_19","Obj_20","Obj_21","Obj_23","Obj_24","Obj_25","Obj_26","Obj_27","Obj_28","Obj_29","Obj_30","Obj_31","Obj_32","Obj_33","Obj_34","Obj_35","Obj_36","Obj_37","Obj_38","Obj_39","Obj_40","Obj_41","Obj_42","Obj_43","Obj_44","Obj_45","Obj_46","Obj_47","Obj_48","Obj_49","Obj_53","Obj_54","Obj_55","Obj_56","Obj_57","Obj_58","Obj_59","Obj_60","Obj_62","Obj_65","Obj_66","Obj_67","Obj_69","Obj_70","Obj_71","Obj_72","Obj_73","Obj_74","Obj_75","Obj_76","Obj_77","Obj_78","Obj_79","Obj_80","Obj_81","Obj_82","Obj_83","Obj_84","Obj_85","Obj_86","Obj_87","Obj_88","Obj_89","Obj_90","Obj_91","Obj_92","Obj_93","Obj_94","Obj_95","Obj_96","Obj_97","Obj_98","Obj_99","Obj_100","Obj_101","Obj_102","Obj_103","Obj_104","Obj_105","Obj_106","Obj_108","Obj_112","Obj_113","Obj_115","Obj_116","Obj_117","Obj_118","Obj_119","Obj_120","Obj_121","Obj_122","Obj_123","Obj_124","Obj_125","Obj_126","Obj_127"
+            ]
+            labels ["position test"]
+
+          }
+
+
+
+        } } } # SoPucGroup
+
+
+        DEF G3 SoPucGroup {
+          labels ["sphere group"]
+          priority 8
+          activeIf SoPucActiveIfNode {
+              activeIf SoPucActiveIfClause { state "SELECTGROUP" op EQUALS value "2" }
+            }
+
+          members NodeKitListPart { containerNode Group {
+          DEF RADIUS SoPucStateFixed { min 1 max 10 value 2 incr .1 pointpos 2 priority 5 labels ["radius of sphere"] }
+        } } } # SoPucGroup
+
+        DEF G4 SoPucGroup {
+          labels ["cube group", "change size", "sz ctrl"]
+            priority 8
+          activeIf SoPucActiveIfNode {
+              activeIf SoPucActiveIfClause { state "SELECTGROUP" op EQUALS value "3" }
+            }
+
+          members NodeKitListPart { containerNode Group {
+          DEF HEIGHT SoPucStateInt { min 1 max 10 value 2 =
+            SoSelectOne { type SoMFFloat
+            input [2,6]
+            # SoCalculator{ expression "oa[0] = a*2+2" a = USE BUTTON_EIN.on }.oa
+            index = USE BUTTON_EIN.on
+            }.output
+
+            labels ["height of cube" ]
+          }
+
+          DEF SIZE  SoPucStateInt { min 1 max 10 value 2 priority 5 labels ["size of cube"] priority 5 labels ["size of cube"]
+             activeIf SoPucActiveIfNode {
+                        activeIf SoPucActiveIfOperator {
+                        op AND
+                        clauses NodeKitListPart { containerNode Group {
+                         SoPucActiveIfClause { state "HEIGHT" op GREATER_THAN value "3" }
+                        # caution enumertations start with 1 !!
+                         SoPucActiveIfClause { state "MATERIAL" op LESS_THAN value "3" }
+
+                        } }} # end of SoPucActiveIfOperator
+                        } # end of SoPucActiveIfNode
+
+
+          }
+
+        } } } # SoPucGroup
+
+        DEF G5 SoPucGroup {
+          labels ["test bool"]
+            priority 3
+          activeIf SoPucActiveIfNode {
+              activeIf SoPucActiveIfClause { state "SELECTGROUP" op EQUALS value "1" }
+            }
+
+          members NodeKitListPart { containerNode Group {
+          DEF TESTB1 SoPucStateBool {
+            labels ["test1" ]
+            valueLabels ["Off","On"]
+          }
+          DEF TESTB2 SoPucStateBool {
+            labels ["test2" ]
+          }
+          DEF TESTB3 SoPucStateBool {
+            labels ["test3" ]
+          }
+          DEF TESTB4 SoPucStateBool {
+            labels ["test4" ]
+          }
+          DEF TESTB5 SoPucStateBool {
+            labels ["test5" ]
+          }
+          DEF TESTB6 SoPucStateBool {
+            labels ["test6" ]
+          }
+
+          DEF TESTB11 SoPucStateBool {
+            labels ["test11" ]
+          }
+          DEF TESTB21 SoPucStateBool {
+            labels ["test21" ]
+          }
+          DEF TESTB31 SoPucStateBool {
+            labels ["test31" ]
+          }
+          DEF TESTB41 SoPucStateBool {
+            labels ["test41" ]
+          }
+          DEF TESTB51 SoPucStateBool {
+            labels ["test51" ]
+          }
+          DEF TESTB61 SoPucStateBool {
+            labels ["test61" ]
+          }
+
+          DEF TESTB111 SoPucStateBool {
+            labels ["test111" ]
+          }
+          DEF TESTB211 SoPucStateBool {
+            labels ["test211" ]
+          }
+          DEF TESTB311 SoPucStateBool {
+            labels ["test311" ]
+          }
+          DEF TESTB411 SoPucStateBool {
+            labels ["test411" ]
+          }
+          DEF TESTB511 SoPucStateBool {
+            labels ["test511" ]
+          }
+          DEF TESTB611 SoPucStateBool {
+            labels ["test611" ]
+          }
+
+        } } } # SoPucGroup
+
+      } } } # SoPucGroup
+
+
+        } } } # SoPucDevice
+    } } } # SoPucServer
+
+
+    Translation { translation 0 .05 0 }
+    Scale { scaleFactor .02 .02 .02}
+
+    Sphere {radius = USE RADIUS.value  }
+    Translation { translation 3 0 0 }
+
+    Switch {
+      whichChild = USE MATERIAL.value
+      Material { diffuseColor 1.0 0.1 0.1 }
+      Material { diffuseColor 0.1 1.0 0.1 }
+      Material { diffuseColor 0.1 0.1 1.0 }
+      Material { diffuseColor 0.9 0.9 0.9 }
+    }
+
+    Cube { width = USE SIZE.value height = USE HEIGHT.value depth = USE SIZE.value  }
+
+    Text3 { string =  USE NAME.value justification CENTER }
+
+  Translation { translation 0 15 0 }
+
+  Text3 { string = USE BUTTON_EIN.on justification CENTER }
+
+
+    Translation { translation 0 15 0 }
+
+    Text3 { string "no" =
+        Gate {
+        type  MFString
+        input ["OK"]
+        enable  TRUE
+        trigger = USE COMM.trigger
+        }.output
+    }
+
+  } # SCENE_ROOT
+  } # clientVolume
+  } # WindowKit
+  } # windowGroup
+  } # ContextKit
+} # SoApplicationKit

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<SpeechRecoConfig language="english">
+			<CommandSet id="CmdSetMenu">
+				<Command id="1000" name="sheet main" weight="0.5"/>
+				<Command id="1001" name="sheet construct" weight="0.5"/>
+				<Command id="1002" name="sheet measure" weight="0.5"/>
+				<Command id="1003" name="sheet properties" weight="0.5"/>
+				<Command id="1004" name="sheet system" weight="0.5"/>
+			</CommandSet>
+			<CommandSet id="CmdSetGlobal">
+				<Command id="1100" name="select" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetLayer">
+				<Command id="1200" name="layer one" weight="1.0"/>
+				<Command id="1201" name="layer two" weight="1.0"/>
+				<Command id="1202" name="layer three" weight="1.0"/>
+				<Command id="1203" name="layer four" weight="1.0"/>
+				<Command id="1204" name="set layer one" weight="1.0"/>
+				<Command id="1205" name="set layer two" weight="1.0"/>
+				<Command id="1206" name="set layer three" weight="1.0"/>
+				<Command id="1207" name="set layer four" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet1">
+				<Command id="1300" name="point" weight="1.0"/>
+				<Command id="1301" name="line" weight="0.5"/>
+				<Command id="1302" name="plane" weight="1.0"/>
+				<Command id="1303" name="box" weight="0.5"/>
+				<Command id="1304" name="sphere" weight="1.0"/>
+				<Command id="1305" name="cylinder" weight="1.0"/>
+				<Command id="1306" name="cone" weight="1.0"/>
+				<Command id="1307" name="delete" weight="0.5"/>
+				<Command id="1308" name="deselect" weight="0.5"/>
+				<Command id="1309" name="undo" weight="0.2"/>
+				<Command id="1310" name="save" weight="0.2"/>
+				<Command id="1311" name="load" weight="0.2"/>
+				<Command id="1312" name="circlecurve" weight="1.0"/>
+				<Command id="1313" name="ellipse" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet2">
+				<Command id="1400" name="intersect" weight="1.0"/>
+				<Command id="1401" name="normal line" weight="1.0"/>
+				<Command id="1402" name="normal plane" weight="1.0"/>
+				<Command id="1403" name="symmetry plane" weight="1.0"/>
+				<Command id="1404" name="boolean difference" weight="1.0"/>
+				<Command id="1405" name="boolean intersection" weight="1.0"/>
+				<Command id="1406" name="boolean union" weight="1.0"/>
+				<Command id="1407" name="b spline curve" weight="1.0"/>
+				<Command id="1408" name="degree up" weight="1.0"/>
+				<Command id="1409" name="degree down" weight="1.0"/>
+				<Command id="1410" name="b spline surface" weight="1.0"/>
+				<Command id="1411" name="surface x up" weight="1.0"/>
+				<Command id="1412" name="surface x down" weight="1.0"/>
+				<Command id="1413" name="surface y up" weight="1.0"/>
+				<Command id="1414" name="surface y down" weight="1.0"/>
+				<Command id="1415" name="degree v up" weight="1.0"/>
+				<Command id="1416" name="points on surface" weight="1.0"/>
+				<Command id="1417" name="points on curve" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet3">
+				<Command id="1500" name="distance" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet4">
+				<Command id="1600" name="property layer one" weight="1.0"/>
+				<Command id="1601" name="property layer two" weight="1.0"/>
+				<Command id="1602" name="property layer three" weight="1.0"/>
+				<Command id="1603" name="property layer four" weight="1.0"/>
+				<Command id="1604" name="transparency up" weight="1.0"/>
+				<Command id="1605" name="transparency down" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet5">
+				<Command id="1700" name="new start" weight="1.0"/>
+				<Command id="1701" name="grid on" weight="1.0"/>
+				<Command id="1702" name="grid off" weight="1.0"/>
+				<Command id="1703" name="grid up" weight="1.0"/>
+				<Command id="1704" name="grid down" weight="1.0"/>
+			</CommandSet>
+		</SpeechRecoConfig>
+	</configuration>
+	<StbSink station="0">
+		<StbKeyboardSource number="0"/>
+	</StbSink>
+	<StbSink station="1">
+		<StbKeyboardSource number="1"/>
+	</StbSink>
+	<StbSink station="2">
+		<StbKeyboardSource number="2"/>
+	</StbSink>
+	<StbSink station="3">
+		<StbKeyboardSource number="3"/>
+	</StbSink>
+	<StbSink station="4">
+		<StbKeyboardSource number="4"/>
+	</StbSink>
+	<StbSink station="5">
+		<StbKeyboardSource number="5"/>
+	</StbSink>
+</OpenTracker>

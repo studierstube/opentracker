@@ -1,0 +1,30 @@
+// -*- MPC -*-
+// processes.mpc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
+
+project(Process Manager Death) : aceexe {
+  exename = Process_Manager_Death
+  Source_Files {
+    Process_Manager_Death.cpp
+  }
+}
+
+project(Process Manager Spawn) : aceexe {
+  exename = Process_Manager_Spawn
+  Source_Files {
+    Process_Manager_Spawn.cpp
+  }
+}
+
+project(Process Mutex) : aceexe {
+  exename = Process_Mutex
+  Source_Files {
+    Process_Mutex.cpp
+  }
+}
+
+project(Spawn) : aceexe {
+  exename = Spawn
+  Source_Files {
+    Spawn.cpp
+  }
+}

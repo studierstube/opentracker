@@ -1,0 +1,207 @@
+  Marker (0) - name: pattern0 - count: 7
+  Marker (1) - name: pattern1 - count: 7
+  Marker (2) - name: pattern2 - count: 7
+  Marker (3) - name: pattern3 - count: 7
+  Marker (4) - name: pattern4 - count: 6
+  Marker (5) - name: pattern5 - count: 7
+  Marker (6) - name: pattern6 - count: 6
+  Marker (7) - name: pattern7 - count: 6
+  Marker (8) - name: pattern8 - count: 6
+  Marker (9) - name: pattern9 - count: 6
+  Marker (10) - name: pattern10 - count: 6
+  Marker (11) - name: pattern11 - count: 6
+  Marker (12) - name: pattern12 - count: 6
+  Marker (13) - name: pattern13 - count: 6
+  Marker (14) - name: pattern14 - count: 6
+  Marker (15) - name: pattern15 - count: 6
+  Marker (16) - name: pattern16 - count: 6
+  Marker (17) - name: pattern17 - count: 6
+  Marker (18) - name: pattern18 - count: 6
+  Marker (19) - name: pattern19 - count: 6
+  Marker (20) - name: pattern20 - count: 6
+  Marker (21) - name: pattern21 - count: 6
+  Marker (22) - name: pattern22 - count: 6
+  Marker (23) - name: pattern23 - count: 6
+  Marker (24) - name: pattern24 - count: 6
+  Marker (25) - name: pattern25 - count: 6
+  Marker (26) - name: pattern26 - count: 6
+  Marker (27) - name: pattern27 - count: 4
+  Marker (28) - name: pattern28 - count: 4
+29 Markers
+--------------------------------------------------
+    1 - marker: pattern3 - room: HE0435
+    2 - marker: pattern4 - room: HE0435
+    3 - marker: pattern9 - room: HE0435
+    4 - marker: pattern10 - room: HE0435
+    5 - marker: pattern5 - room: HE0435
+    6 - marker: pattern0 - room: HE0435
+    7 - marker: pattern1 - room: HE0435
+    8 - marker: pattern3 - room: HE0435
+    9 - marker: pattern4 - room: HE0435
+   10 - marker: pattern11 - room: HE0435
+   11 - marker: pattern9 - room: HE0435
+   12 - marker: pattern0 - room: HE0435
+   13 - marker: pattern1 - room: HE0435
+   14 - marker: pattern2 - room: HE0435
+   15 - marker: pattern3 - room: HE0435
+   16 - marker: pattern5 - room: HE0435
+   17 - marker: pattern6 - room: HE0435
+   18 - marker: pattern7 - room: HE0435
+   19 - marker: pattern10 - room: HE0435
+   20 - marker: pattern12 - room: HE0435
+   21 - marker: pattern13 - room: HE0435
+   22 - marker: pattern8 - room: HE0435
+   23 - marker: pattern14 - room: HE0435
+   24 - marker: pattern15 - room: HE0435
+   25 - marker: pattern16 - room: HE0435
+   26 - marker: pattern19 - room: HE0435
+   27 - marker: pattern20 - room: HE0435
+   28 - marker: pattern8 - room: HE0435
+   29 - marker: pattern14 - room: HE0435
+   30 - marker: pattern0 - room: HE0435
+   31 - marker: pattern11 - room: HE0435
+   32 - marker: pattern1 - room: HE0435
+   33 - marker: pattern5 - room: HE0435
+   34 - marker: pattern9 - room: HE0435
+   35 - marker: pattern10 - room: HE0435
+   36 - marker: pattern21 - room: HE0435
+   37 - marker: pattern13 - room: HE0435
+   38 - marker: pattern15 - room: HG0401
+   39 - marker: pattern17 - room: HE0435
+   40 - marker: pattern18 - room: HE0435
+   41 - marker: pattern2 - room: HE0435
+   42 - marker: pattern18 - room: HG0401
+   43 - marker: pattern17 - room: HE0435
+   44 - marker: pattern16 - room: HG0401
+   45 - marker: pattern22 - room: HG0401
+   46 - marker: pattern23 - room: HG0401
+   47 - marker: pattern6 - room: HG0401
+   48 - marker: pattern24 - room: HG0401
+   49 - marker: pattern7 - room: HG0401
+   50 - marker: pattern25 - room: HG0401
+   51 - marker: pattern4 - room: HG0401
+   52 - marker: pattern11 - room: HG0401
+   53 - marker: pattern12 - room: HG0401
+   54 - marker: pattern1 - room: HG0401
+   56 - marker: pattern17 - room: HG0401
+   57 - marker: pattern26 - room: HG0401
+   58 - marker: pattern0 - room: HG0401
+   59 - marker: pattern2 - room: HG0401
+   60 - marker: pattern3 - room: HG0401
+   62 - marker: pattern12 - room: HE0446
+   63 - marker: pattern6 - room: HE0446
+   64 - marker: pattern7 - room: HE0446
+   65 - marker: pattern2 - room: HE0446
+   68 - marker: pattern21 - room: HG0401
+   69 - marker: pattern22 - room: HG0401
+   70 - marker: pattern19 - room: HG0401
+   71 - marker: pattern23 - room: HG0401
+   72 - marker: pattern24 - room: HG0401
+   73 - marker: pattern27 - room: HG0401
+   75 - marker: pattern26 - room: HG0401
+   77 - marker: pattern20 - room: HG0401
+   78 - marker: pattern25 - room: HG0401
+   79 - marker: pattern28 - room: HG0401
+   80 - marker: pattern16 - room: HG0401
+   81 - marker: pattern5 - room: HG0401
+   82 - marker: pattern8 - room: HG0401
+   85 - marker: pattern10 - room: HF0405
+   86 - marker: pattern13 - room: HF0405
+   87 - marker: pattern21 - room: HF0405
+   88 - marker: pattern0 - room: HF0405
+   89 - marker: pattern18 - room: HF0405
+   90 - marker: pattern1 - room: HF0405
+   91 - marker: pattern28 - room: HF0405
+   92 - marker: pattern10 - room: HF0405
+   93 - marker: pattern19 - room: HF0405
+   94 - marker: pattern20 - room: HF0405
+   95 - marker: pattern17 - room: HF0405
+   96 - marker: pattern25 - room: HF0405
+   97 - marker: pattern26 - room: HF0405
+   98 - marker: pattern2 - room: HF0405
+   99 - marker: pattern3 - room: HF0405
+  100 - marker: pattern8 - room: HE0406A
+  101 - marker: pattern4 - room: HE0406A
+  102 - marker: pattern11 - room: HE0406A
+  103 - marker: pattern16 - room: HE0406A
+  104 - marker: pattern12 - room: HE0406A
+  105 - marker: pattern13 - room: HE0406A
+  106 - marker: pattern14 - room: HE0406A
+  107 - marker: pattern18 - room: HE0406A
+  108 - marker: pattern15 - room: HE0406A
+  109 - marker: pattern20 - room: HE0406A
+  110 - marker: pattern0 - room: HE0406A
+  111 - marker: pattern1 - room: HE0406A
+  112 - marker: pattern2 - room: HE0406A
+  113 - marker: pattern19 - room: HE0406A
+  114 - marker: pattern6 - room: HE0406A
+  115 - marker: pattern7 - room: HE0406A
+  116 - marker: pattern3 - room: HE0406A
+  117 - marker: pattern21 - room: HE0406A
+  118 - marker: pattern22 - room: HE0406A
+  119 - marker: pattern26 - room: HE0406A
+  120 - marker: pattern23 - room: HE0401
+  121 - marker: pattern24 - room: HE0401
+  122 - marker: pattern19 - room: HE0401
+  123 - marker: pattern25 - room: HE0401
+  124 - marker: pattern20 - room: HE0401
+  125 - marker: pattern5 - room: HE0401
+  126 - marker: pattern8 - room: HE0401
+  127 - marker: pattern9 - room: HE0401
+  128 - marker: pattern14 - room: HE0401
+  129 - marker: pattern15 - room: HE0401
+  130 - marker: pattern10 - room: HE0401
+  131 - marker: pattern21 - room: HE0401
+  133 - marker: pattern5 - room: HF0405
+  134 - marker: pattern27 - room: HF0405
+  135 - marker: pattern28 - room: HF0405
+  136 - marker: pattern22 - room: HF0405
+  137 - marker: pattern23 - room: HF0405
+  138 - marker: pattern24 - room: HF0405
+  139 - marker: pattern21 - room: HF0405
+  140 - marker: pattern4 - room: HF0405
+  141 - marker: pattern13 - room: HF0405
+  142 - marker: pattern27 - room: HF0405
+  143 - marker: pattern26 - room: HF0405
+  144 - marker: pattern5 - room: HF0405
+  145 - marker: pattern8 - room: HF0405
+  146 - marker: pattern14 - room: HF0405
+  148 - marker: pattern9 - room: HF0405
+  161 - marker: pattern15 - room: HF0405
+  162 - marker: pattern6 - room: HF0405
+  170 - marker: pattern22 - room: HF0405X
+  171 - marker: pattern23 - room: HF0405X
+  172 - marker: pattern0 - room: HF0405X
+  173 - marker: pattern1 - room: HF0405X
+  174 - marker: pattern16 - room: HF0405X
+  176 - marker: pattern17 - room: HF0405X
+  177 - marker: pattern18 - room: HF0405X
+  178 - marker: pattern24 - room: HF0405X
+  179 - marker: pattern25 - room: HF0405X
+  301 - marker: pattern13 - room: HE0401
+  302 - marker: pattern4 - room: HE0401
+  303 - marker: pattern6 - room: HE0401
+  304 - marker: pattern7 - room: HE0401
+  305 - marker: pattern11 - room: HE0401
+  306 - marker: pattern12 - room: HE0401
+  307 - marker: pattern26 - room: HE0401
+  309 - marker: pattern22 - room: HE0401
+  310 - marker: pattern23 - room: HE0419A
+  311 - marker: pattern17 - room: HE0419A
+  312 - marker: pattern24 - room: HE0419A
+  313 - marker: pattern25 - room: HE0419A
+  314 - marker: pattern2 - room: HE0419A
+  315 - marker: pattern3 - room: HE0419A
+  316 - marker: pattern18 - room: HE0419A
+  317 - marker: pattern27 - room: HE0419A
+  318 - marker: pattern19 - room: HE0419A
+  319 - marker: pattern28 - room: HE0419A
+  320 - marker: pattern20 - room: HE0419A
+  321 - marker: pattern9 - room: HE0419A
+  324 - marker: pattern14 - room: HE0419A
+  325 - marker: pattern15 - room: HE0419A
+  326 - marker: pattern16 - room: HE0419A
+  327 - marker: pattern7 - room: HE0419A
+  328 - marker: pattern11 - room: HE0419A
+  329 - marker: pattern12 - room: HE0419A
+175 Markers

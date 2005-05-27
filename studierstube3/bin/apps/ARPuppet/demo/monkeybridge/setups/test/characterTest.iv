@@ -1,0 +1,222 @@
+#Inventor V2.1 ascii
+
+DEF PUPPETEERTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+            RotationXYZ {axis  X angle 1.57 }
+            Material { diffuseColor 0 1 0 }
+            DEF BUTTON_CMD SoToggleButton { 
+                width 1 depth 1 height 0.4 on FALSE
+            }
+        } # end of templatePipSheet
+
+        windowGroup Group {
+        
+            SoClassLoader {
+                className "SoChoreographerKit"
+                fileName  "../apps/arpuppet/characters/arpuppet"
+            }
+            SoClassLoader {
+                className "SoCal3DPuppeteer"
+                fileName  "../apps/arpuppet/characters/cal3dpuppet/cal3dpuppet"
+            }
+            SoClassLoader {
+                className "Choreographer"
+                fileName  "../apps/arpuppet/demo/monkeybridge/monkeybridge"
+            }
+            SoClassLoader {
+                className "Character"
+                fileName  "../apps/arpuppet/demo/monkeybridge/monkeybridge"
+            }
+            SoClassLoader {
+                className "SoFMODSound"
+                fileName  "FMODSound"
+            }
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                
+                    # tileLibrary
+                    # -------------------------------------------------------------------------------------------
+                    SoSwitch {
+                        whichChild -1
+                        # start and end tile (STARTTILE, ENDTILE)
+                        DEF STARTTILE SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/startTile.iv" }
+                        DEF ENDTILE SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/endTile.iv" }
+                        # fix tiles (FIXTILE0, FIXTILE1)
+                        DEF FIXTILE0 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/fixtile_12a.iv" }
+                        DEF FIXTILE1 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/fixtile_22.iv" }
+                         # decoration elements (DECORATION0, DECORATION1)
+                        DEF DECORATION0 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/volcano.iv" }
+                        DEF DECORATION1 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/lighthouse.iv" }
+                        # user tiles (USERTILE0 ... USERTILE8)
+                        DEF USERTILE0 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12a.iv" }
+                        DEF USERTILE1 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12b.iv" }
+                        DEF USERTILE2 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12c.iv" }
+                        DEF USERTILE3 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_13.iv" }
+                        DEF USERTILE4 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_22.iv" }
+                        DEF USERTILE5 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_23a.iv" }
+                        DEF USERTILE6 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_23b.iv" }
+                        DEF USERTILE7 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_23c.iv" }
+                        DEF USERTILE8 SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_33.iv" }
+                    }
+
+                    DEF CHOREOGRAPHER Choreographer {
+                        id "choreographer"
+                        speed [
+                            2500,  # walk
+                            2500,  # walk up
+                            2500,  # walk down
+                            2000,  # lookaround
+                            4000,  # dunno
+                            6500,  # win
+                            11000, # lose
+                            500,   # jump_up
+                            400,   # jump_down
+                            300    # fall_board
+                            2000   # fall_water
+                        ]
+                        heightThreshold 0.04
+                        tileGapThreshold 0.021
+                        command = SoSelectOne {
+                            type SoMFString
+                            input [
+                                "ch0: goTo puppeteer(tile0).fh(east).p",
+                                "ch0: jump_down puppeteer(tile1).fh(west).p 400",
+                                "ch0: jump_up puppeteer(tile0).fh(east).p 500",
+                                "ch0: fall_board puppeteer(tile1).fh(west).p 300",
+                                "ch0: goTo puppeteer(tile0).fh(east).p",
+                                "ch0: lose 11000",
+                                "ch0: win 8000",
+                                "ch0: hesitate 2000 4000",
+                                "ch0: fall_water 5000"
+                            ]
+                            index = DEF VAR SoVariable {
+                                type INT
+                                oa -1
+                                expression [ "oa=(oa+1)%9" ]
+                                eval = USE BUTTON_CMD.on
+                            }.oa
+                        }.output
+
+                        puppeteers Separator {
+                        
+                            DEF CHARACTER0 Character {
+                                id "ch"
+                                controlMode [ (), (), EXTERNAL ]
+                                scaleSet = SoInfo { string "0.6 0.6 0.6" }.string
+                                animationPrefix "golem_"
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                SoCal3DPuppet {
+                                                    pathName "../apps/arpuppet/characters/cal3dpuppet/data"
+                                                    fileName "golem.cfg"
+                                                    lod 100
+                                                    visible TRUE
+                                                    animate TRUE
+                                                    skeleton FALSE
+                                                    wireframe FALSE
+                                                    mesh TRUE
+                                                    delayIn 1
+                                                    delayOut 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } # end of CHARACTER
+
+                            DEF TILE0 SoPuppeteerKit {
+                                id "tile0"
+                                controlMode [ EXTERNAL, EXTERNAL, EXTERNAL ]
+                                positionOffset = SoInfo { string "0 0 0" }.string
+                                hotspotName [ "north", "east", "south", "west", "center" ]
+                                hotspotCoord [ 
+                                     0.0   0.039 -0.04,
+                                     0.04  0.039  0.0,
+                                     0.0   0.039  0.04,
+                                    -0.04  0.039  0.0,
+                                     0.0   0.039  0.0
+                                ]
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                USE USERTILE4
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            DEF TILE1 SoPuppeteerKit {
+                                id "tile1"
+                                controlMode [ EXTERNAL, EXTERNAL, EXTERNAL ]
+                                positionOffset = SoInfo { string "0.1 0 0" }.string
+                                #orientationOffset = SoInfo { string "0 1 0 1.57" }.string
+                                hotspotName [ "north", "east", "south", "west", "center" ]
+                                hotspotCoord [ 
+                                    0.0   0.039 -0.04,
+                                    0.0   0.039  0.0,
+                                    0.0   0.039  0.04,
+                                   -0.04  0.003  0.0,
+                                    0.0   0.039  0.0
+                                ]
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                USE USERTILE1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } # end of puppeteers
+                    } # end of Choreographer
+
+                    # sound effects                    
+                    DEF CHARACTERSOUND SoFMODSound {
+                        filename = SoSelectOne {
+                            type SoMFString
+                            input = SoConcatenate {
+                                type SoMFString
+                                input0 "../apps/arpuppet/demo/monkeybridge/sound/walk.mp3" # WALK_SOUND
+                                input1 "../apps/arpuppet/demo/monkeybridge/sound/walk_up.mp3" # WALK_UP_SOUND
+                                input2 "../apps/arpuppet/demo/monkeybridge/sound/jump_bang.mp3" # JUMP_UP_SOUND
+                                input3 "../apps/arpuppet/demo/monkeybridge/sound/jump_bang.mp3" # JUMP_DOWN_SOUND
+                                input4 "../apps/arpuppet/demo/monkeybridge/sound/fall_onto_board.mp3" # FALLING_ONTO_BOARD_SOUND
+                                input5 "../apps/arpuppet/demo/monkeybridge/sound/fall_into_water.mp3" # FALLING_INTO_WATER_SOUND
+                                input6 "../apps/arpuppet/demo/monkeybridge/sound/ohyeah.mp3" # WIN_SOUND
+                                input7 "../apps/arpuppet/demo/monkeybridge/sound/lose.mp3" # LOSE_SOUND
+                                input8 "../apps/arpuppet/demo/monkeybridge/sound/dunno.mp3" # DUNNO_SOUND
+                            }.output
+                            index = USE CHARACTER0.soundFileName
+                        }.output
+                        play = USE CHARACTER0.soundPlay
+                        loop FALSE
+                        volume 0.8
+                    }
+
+
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

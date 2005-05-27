@@ -1,0 +1,1 @@
+avs -netdir ./ -class hicolor

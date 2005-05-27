@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "sample.vcproj", "{41F4A16C-59AD-46C0-AA8B-3614B1E70990}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug COIN = Debug COIN
+		Release COIN = Release COIN
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{41F4A16C-59AD-46C0-AA8B-3614B1E70990}.Debug COIN.ActiveCfg = Debug COIN|Win32
+		{41F4A16C-59AD-46C0-AA8B-3614B1E70990}.Debug COIN.Build.0 = Debug COIN|Win32
+		{41F4A16C-59AD-46C0-AA8B-3614B1E70990}.Release COIN.ActiveCfg = Release COIN|Win32
+		{41F4A16C-59AD-46C0-AA8B-3614B1E70990}.Release COIN.Build.0 = Release COIN|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<SpeechRecoConfig language="english">
+			<CommandSet id="CmdSetMenu">
+				<Command id="1000" name="sheet main" weight="0.5"/>
+				<Command id="1001" name="sheet construct" weight="0.5"/>
+				<Command id="1002" name="sheet measure" weight="0.5"/>
+				<Command id="1003" name="sheet properties" weight="0.5"/>
+				<Command id="1004" name="sheet system" weight="0.5"/>
+			</CommandSet>
+			<CommandSet id="CmdSetGlobal">
+				<Command id="1100" name="select" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetLayer">
+				<Command id="1200" name="layer one" weight="1.0"/>
+				<Command id="1201" name="layer two" weight="1.0"/>
+				<Command id="1202" name="layer three" weight="1.0"/>
+				<Command id="1203" name="layer four" weight="1.0"/>
+				<Command id="1204" name="set layer one" weight="1.0"/>
+				<Command id="1205" name="set layer two" weight="1.0"/>
+				<Command id="1206" name="set layer three" weight="1.0"/>
+				<Command id="1207" name="set layer four" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet1">
+				<Command id="1300" name="point" weight="1.0"/>
+				<Command id="1301" name="line" weight="0.5"/>
+				<Command id="1302" name="plane" weight="1.0"/>
+				<Command id="1303" name="box" weight="0.5"/>
+				<Command id="1304" name="sphere" weight="1.0"/>
+				<Command id="1305" name="cylinder" weight="1.0"/>
+				<Command id="1306" name="cone" weight="1.0"/>
+				<Command id="1307" name="delete" weight="0.5"/>
+				<Command id="1308" name="deselect" weight="0.5"/>
+				<Command id="1309" name="undo" weight="0.2"/>
+				<Command id="1310" name="save" weight="0.2"/>
+				<Command id="1311" name="load" weight="0.2"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet2">
+				<Command id="1400" name="intersect" weight="1.0"/>
+				<Command id="1401" name="normal line" weight="1.0"/>
+				<Command id="1402" name="normal plane" weight="1.0"/>
+				<Command id="1403" name="symmetry plane" weight="1.0"/>
+				<Command id="1404" name="boolean difference" weight="1.0"/>
+				<Command id="1405" name="boolean intersection" weight="1.0"/>
+				<Command id="1406" name="boolean union" weight="1.0"/>
+				<Command id="1407" name="b spline curve" weight="1.0"/>
+				<Command id="1408" name="circlecurve" weight="1.0"/>
+				<Command id="1409" name="degree up" weight="1.0"/>
+				<Command id="1410" name="degree down" weight="1.0"/>
+				<Command id="1411" name="b spline surface" weight="1.0"/>
+				<Command id="1412" name="surface x up" weight="1.0"/>
+				<Command id="1413" name="surface x down" weight="1.0"/>
+				<Command id="1414" name="surface y up" weight="1.0"/>
+				<Command id="1415" name="surface y down" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet3">
+				<Command id="1500" name="distance" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet4">
+				<Command id="1600" name="property layer one" weight="1.0"/>
+				<Command id="1601" name="property layer two" weight="1.0"/>
+				<Command id="1602" name="property layer three" weight="1.0"/>
+				<Command id="1603" name="property layer four" weight="1.0"/>
+				<Command id="1604" name="transparency up" weight="1.0"/>
+				<Command id="1605" name="transparency down" weight="1.0"/>
+			</CommandSet>
+			<CommandSet id="CmdSetPipSheet5">
+				<Command id="1700" name="new start" weight="1.0"/>
+				<Command id="1701" name="grid on" weight="1.0"/>
+				<Command id="1702" name="grid off" weight="1.0"/>
+				<Command id="1703" name="grid up" weight="1.0"/>
+				<Command id="1704" name="grid down" weight="1.0"/>
+			</CommandSet>
+		</SpeechRecoConfig>
+	</configuration>
+    <ConsoleSink comment="pen0" active="on">
+    <StbSink station="0">
+       <EventTransform translation="0 -0.035 0.02">
+       <EventVirtualTransform translation="0.205 -0.02 0.031" rotation="0 -0.707 0 0.707">
+             <NetworkSource number="1" multicast-address="224.100.200.101" port="12346" DEF="pen0"/>
+       </EventVirtualTransform>
+       </EventTransform>
+    </StbSink>
+    </ConsoleSink>
+    <ConsoleSink comment="panel0" active="on"> 
+    <StbSink station="1">
+       <EventTransform translation="0 -0.04 0.05">
+       <EventTransform translation="-0.007 0 -0.028">
+       <EventVirtualTransform rotation="0 0.707 0 0.707">
+             <NetworkSource number="2" multicast-address="224.100.200.101" port="12346" DEF="pip0"/>
+       </EventVirtualTransform>
+       </EventTransform>
+       </EventTransform>
+    </StbSink>
+    </ConsoleSink>
+    <ConsoleSink comment="hmd0" active="on">  
+    <StbSink station="2">
+        <EventVirtualTransform rotation="0.707 0 0 0.707">
+        <EventVirtualTransform translation="0.143 -0.215 -0.068" rotation="0 1 0 0">
+             <NetworkSource number="3" multicast-address="224.100.200.101" port="12346" DEF="hmd0"/>
+        </EventVirtualTransform>
+        </EventVirtualTransform>
+    </StbSink>
+    </ConsoleSink>
+    <ConsoleSink comment="pen1" active="on">
+    <StbSink station="3">
+       <EventTransform translation="0 0 0.02">
+       <EventVirtualTransform translation="0.188 -0.022 0.036" rotation="0 -0.707 0 0.707">
+             <NetworkSource number="4" multicast-address="224.100.200.101" port="12346" DEF="pen1"/>
+       </EventVirtualTransform> 
+       </EventTransform>
+    </StbSink>
+    </ConsoleSink>
+    <ConsoleSink comment="panel1" active="on"> 
+    <StbSink station="4">
+       <EventTransform translation="0 -0.02 0.075">
+       <EventTransform translation="-0.009 0 -0.032">
+       <EventVirtualTransform rotation="0 0.707 0 0.707">
+             <NetworkSource number="5" multicast-address="224.100.200.101" port="12346" DEF="pip1"/>
+       </EventVirtualTransform>
+       </EventTransform>
+       </EventTransform>
+    </StbSink>
+    </ConsoleSink>
+    <ConsoleSink comment="hmd1" active="on">  
+    <StbSink station="5">
+        <EventVirtualTransform rotation="0.707 0 0 0.707">
+        <EventVirtualTransform translation="0.11 -0.1 0.035">
+             <NetworkSource number="6" multicast-address="224.100.200.101" port="12346" DEF="hmd1"/>
+        </EventVirtualTransform>
+        </EventVirtualTransform>
+    </StbSink>
+    </ConsoleSink>
+</OpenTracker>

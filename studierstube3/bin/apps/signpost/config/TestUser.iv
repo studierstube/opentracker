@@ -1,0 +1,103 @@
+#Inventor V2.1 ascii
+# UserKit file for a single mobile user with monoscopic output on the Glasstron HMD.
+# This kit supports the tablet interface with touch pad and an orientation tracker.
+
+SoUserKit 
+{
+    userID 0
+    
+    pen SoPenKit {
+        station 1
+        geometry Separator {
+           DEF HUD_CAM OrthographicCamera { 
+                aspectRatio 1 
+                viewportMapping LEAVE_ALONE
+                nearDistance 0.5 
+                height 0.333333
+                position 0.115 0.12 1
+           }
+           Transform { translation = SoTrakEngine { station 1 }.translation }
+           Transform { translation 0 0 0.05 }
+           Material {
+              diffuseColor 0.9 0.9 0.0
+              emissiveColor 0.9 0.9 0.0
+           }
+           Sphere { radius 0.002 }
+        }
+        timeOut 1
+    }
+
+    pip SoPipKit{
+       station 0
+       pipSize 0.1 0.1 0.001
+       sheetAreaUpperLeft  0.07 0.05
+       sheetAreaLowerRight 0.93 0.95
+
+       skinFileName "skinWS1.iv"
+       geometry Group {
+            USE HUD_CAM
+            # Transform { translation -0.117 -0.117 0 }
+            Separator {
+                Transform { translation 0 0 -0.5 }
+                Material { diffuseColor 0.5 0.5 0.5 transparency 0.5 }
+                Cube { width 0.1 height 0.1 depth 0.001 }
+            }
+       }
+       timeOut 3
+    }
+    
+    display SoDisplayKit 
+    {
+        stereoCameraKit  SoStereoCameraKit {   
+           examinerCam DEF CAMERA PerspectiveCamera {}
+        }
+
+        # cameraControl SoTrackedDisplayControlMode {}
+        # cameraControl SoTrackedViewpointControlMode {}
+        cameraControl SoDesktopControlMode {}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType DELAYED_BLEND
+        width 800
+        height 600
+        decoration TRUE
+        windowBorder TRUE
+        showMouse TRUE
+    }
+    
+    auxGeometry SoSeparator {
+        SoAbortGroup {
+                    abortActions (CB|EVENT|PICK|EVENT3D)        
+                    SoTrackedArtifactKit {
+                        station 2
+                        geometry Separator {
+                            Transform { scaleFactor 0.05 0.05 0.05 translation 0.2 0 -0.4 rotation 0 1 0 3.141592}
+                            File { name "../legoman.iv" }
+                        }                       
+                    }
+                    # heads up display
+                    Separator {
+                        OrthographicCamera { aspectRatio 1 viewportMapping ADJUST_CAMERA }                
+                        # position information
+                        Separator {                    
+                            #FontStyle { size 0.05 style BOLD }
+                            Font { name "Arial: Bold" size 16 }
+                            Material { diffuseColor 1 1 1 }
+                            Transform { translation 0.4 -0.97 0 }
+                            # AsciiText { string [ "Pos"] }
+                            Text2 { string "Pos" }
+                            Transform { translation 0.15 0 0 }
+                                # AsciiText {
+                            #       string = SoTrakEngine { station 2 }.translation
+                            #}
+                            Text2 { string = SoTrakEngine { station 2 }.translation }
+                            Transform { translation 0.3 -0.01 -1 }
+                            Material { diffuseColor 1 1 1 transparency 0.5 }
+                            Cube { width 1 height 0.15 depth 0.001 }
+                        }
+                }
+        }
+    }
+}

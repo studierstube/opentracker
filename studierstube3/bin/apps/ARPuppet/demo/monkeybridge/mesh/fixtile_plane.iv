@@ -1,0 +1,15 @@
+#Inventor V2.1 ascii
+
+Separator {
+  Transform { scaleFactor 0.0046 0.003 0.0046 }
+  Separator {
+    Transform {
+      translation	-6.55654e-008 12.4 6.71537e-007
+      rotation	0 -1 0  1.5708
+      scaleFactor	9.5 0.2 9.5
+    }
+    Separator {
+      Cube {}
+    }
+  }
+}

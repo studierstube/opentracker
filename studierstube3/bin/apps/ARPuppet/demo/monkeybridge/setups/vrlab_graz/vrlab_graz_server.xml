@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+        <ConsoleConfig display="on"/>
+        <FOBConfig mode="multi" master="1" transmitter="1" hemisphere="upper">
+          <Bird device="COM8" number="1"/>
+          <Bird device="COM9" number="2"/>
+          <Bird device="COM10" number="3"/>
+          <Bird device="COM11" number="4"/>
+        </FOBConfig>
+	</configuration>
+	
+	<ConsoleSink comment="playfield_in_center" active="on">
+      <StbSink station="0">
+        <StbKeyboardSource number="0"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="bird1-puc1" active="on" DEF="bird1">
+      <StbSink station="1">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25" >
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <FOBSource number="1"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+    <NetworkSink name="bird1_sink" number="1" multicast-address="224.0.0.10" port="12345">
+      <Ref USE="bird1"/>
+    </NetworkSink>
+      
+    <ConsoleSink comment="bird2-puc2" active="on" DEF="bird2">
+      <StbSink station="2">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <FOBSource number="2"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+    <NetworkSink name="bird2_sink" number="2" multicast-address="224.0.0.10" port="12345">
+      <Ref USE="bird2"/>
+    </NetworkSink>
+
+    <ConsoleSink comment="bird3-hmd1" active="on" DEF="bird3">
+      <StbSink station="3">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <FOBSource number="3"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+    <NetworkSink name="bird3_sink" number="3" multicast-address="224.0.0.10" port="12345">
+      <Ref USE="bird3"/>
+    </NetworkSink>
+
+    <ConsoleSink comment="bird4-hmd2" active="on" DEF="bird4">
+      <StbSink station="4">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.328 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <FOBSource number="4"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+    <NetworkSink name="bird4_sink" number="4" multicast-address="224.0.0.10" port="12345">
+      <Ref USE="bird4"/>
+    </NetworkSink>
+
+</OpenTracker>

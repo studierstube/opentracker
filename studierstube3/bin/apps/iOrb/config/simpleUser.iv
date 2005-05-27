@@ -1,0 +1,48 @@
+#Inventor V2.1 ascii
+
+# UserKit file for a single user with monoscopic output.
+
+SoUserKit {
+    userID 0   
+
+# enable the follwing lines for pen-based setups    
+#     pen SoPenKit{
+#        station 1
+#        geometry File { name "content/pen.iv" }
+#     }
+
+# enable the following lines if you want to use a PIP
+# enable for example3.iv
+#    pip SoPipKit {
+#        station 2
+#        geometry Group {
+#            File { name "../content/pip.iv" }
+#        }
+#    }
+   
+    display SoDisplayKit {
+    
+        xoffset 0                            # window position and size on screen
+        yoffset 0
+        width 800
+        height 600
+        
+        decoration TRUE                      # show examiner viewer widgets
+        windowBorder TRUE                    # show window border
+        showMouse FALSE                      # hide mouse pointer
+
+        backgroundColor 0 0 0                # black background
+        headlight TRUE                       # use headlight
+        headlightIntensity 1.0
+        transparencyType DELAYED_BLEND       
+
+        station 0                            # for head-tracking
+        stereoCameraKit  File { name "simpleCamera.iv"}
+        
+        # use next line for keyboard control of camera (station 0)
+        cameraControl SoTrackedDisplayControlMode { station 0 }
+        
+        # this allows to control the camera in examiner viewer
+        # cameraControl SoDesktopControlMode {}
+    }
+}

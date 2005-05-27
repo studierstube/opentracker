@@ -1,0 +1,230 @@
+#VRML V2.0 utf8
+
+#Cosmo Worlds V2.0
+
+Transform {
+  children	[
+    Transform {
+      children	Shape {
+	appearance	Appearance {
+	  material	Material {
+	  }
+
+	}
+
+	geometry	DEF _0 IndexedFaceSet {
+	  coord	Coordinate {
+	    point	[ -1 -1 0,
+		      -1 1 0,
+		      1 1 0,
+		      1 -1 0 ]
+	  }
+
+	  coordIndex	[ 0, 1, 2, 3, -1 ]
+	  solid	FALSE
+	  normalIndex	[  ]
+	  texCoordIndex	[  ]
+	}
+
+      }
+
+      translation	-0.500644 0.00108578 1.18335
+      rotation	0.92388 -2.05287e-007 0.382683  3.14159
+      scale	0.706748 0.530727 0.457879
+      scaleOrientation	0 0 1  0
+    }
+    Transform {
+      children	Shape {
+	appearance	Appearance {
+	  material	Material {
+	  }
+
+	}
+
+	geometry	DEF _1 IndexedFaceSet {
+	  coord	Coordinate {
+	    point	[ -1 -1 0,
+		      -1 1 0,
+		      1 1 0,
+		      1 -1 0 ]
+	  }
+
+	  coordIndex	[ 0, 1, 2, 3, -1 ]
+	  solid	FALSE
+	  normalIndex	[  ]
+	  texCoordIndex	[  ]
+	}
+
+      }
+
+      translation	0.53448 -0.00285229 1.17669
+      rotation	0 1 0  0.791889
+      scale	0.706748 0.530726 0.457879
+    }
+    Transform {
+      children	[
+	Transform {
+	  children	Shape {
+	    appearance	Appearance {
+	      material	DEF _2 Material {
+	      }
+
+	    }
+
+	    geometry	DEF _3 IndexedFaceSet {
+	      coord	Coordinate {
+		point	[ -1 1 0,
+			  1 1 0,
+			  1 -1 0 ]
+	      }
+
+	      coordIndex	[ 0, 1, 2, -1 ]
+	      solid	FALSE
+	      normalIndex	[  ]
+	      texCoordIndex	[  ]
+	    }
+
+	  }
+
+	  translation	-1 0.531812 1.74971
+	  rotation	1 0 0  4.71239
+	}
+	Transform {
+	  children	Shape {
+	    appearance	Appearance {
+	      material	USE _2
+
+	      texture	NULL
+	      textureTransform	NULL
+	    }
+
+	    geometry	DEF _4 IndexedFaceSet {
+	      coord	Coordinate {
+		point	[ -1.16675 -1.30918 1.63201e-008,
+			  -1.16675 0.690816 1.632e-008,
+			  0.83325 -1.30918 1.63201e-008 ]
+	      }
+
+	      coordIndex	[ 0, 1, 2, -1 ]
+	      solid	FALSE
+	      normalIndex	[  ]
+	      texCoordIndex	[  ]
+	    }
+
+	  }
+
+	  translation	1.30919 0.531811 1.88637
+	  rotation	0.577347 0.577351 0.577352  4.18879
+	}
+      ]
+      translation	-3.27856e-006 -0.810377 0.366064
+      rotation	-1 0 0  0.0220972
+      scale	0.50064 0.50064 0.50064
+    }
+    Transform {
+      children	[
+	Transform {
+	  children	Shape {
+	    appearance	Appearance {
+	      material	DEF _5 Material {
+	      }
+
+	    }
+
+	    geometry	DEF _6 IndexedFaceSet {
+	      coord	Coordinate {
+		point	[ -1 1 0,
+			  1 1 0,
+			  1 -1 0 ]
+	      }
+
+	      coordIndex	[ 0, 1, 2, -1 ]
+	      solid	FALSE
+	      normalIndex	[  ]
+	      texCoordIndex	[  ]
+	    }
+
+	  }
+
+	  translation	-1 0.531812 1.74971
+	  rotation	1 0 0  4.71239
+	}
+	Transform {
+	  children	Shape {
+	    appearance	Appearance {
+	      material	USE _5
+
+	      texture	NULL
+	      textureTransform	NULL
+	    }
+
+	    geometry	DEF _7 IndexedFaceSet {
+	      coord	Coordinate {
+		point	[ -1.16675 -1.30918 1.63201e-008,
+			  -1.16675 0.690816 1.632e-008,
+			  0.83325 -1.30918 1.63201e-008 ]
+	      }
+
+	      coordIndex	[ 0, 1, 2, -1 ]
+	      solid	FALSE
+	      normalIndex	[  ]
+	      texCoordIndex	[  ]
+	    }
+
+	  }
+
+	  translation	1.30919 0.531811 1.88637
+	  rotation	0.577347 0.577351 0.577352  4.18879
+	}
+      ]
+      translation	-3.27837e-006 0.265566 0.307372
+      scale	0.50064 0.50064 0.50064
+    }
+    Transform {
+      children	Shape {
+	appearance	Appearance {
+	  material	Material {
+	  }
+
+	}
+
+	geometry	DEF _8 IndexedFaceSet {
+	  coord	Coordinate {
+	    point	[ -1 -1 0,
+		      -1 1 0,
+		      1 1 0,
+		      1 -1 0 ]
+	  }
+
+	  coordIndex	[ 0, 1, 2, 3, -1 ]
+	  solid	FALSE
+	  normalIndex	[  ]
+	  texCoordIndex	[  ]
+	}
+
+      }
+
+      translation	2.98023e-008 7.70191e-008 0.737196
+      rotation	0 0 1  0
+      scale	0.984376 0.528925 0.528925
+    }
+    Transform {
+      children	Shape {
+	appearance	Appearance {
+	  material	Material {
+	  }
+
+	}
+
+	geometry	Box {
+	}
+
+      }
+
+      translation	0 2.60484e-007 -0.610162
+      scale	0.528394 0.528394 1.34594
+    }
+  ]
+  translation	0.0166197 -0.0022525 -0.111399
+  scale	0.0814465 0.0814465 0.0814465
+}

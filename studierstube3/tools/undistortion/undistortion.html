@@ -1,0 +1,90 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; Linux 2.2.16-3 i686) [Netscape]">
+</head>
+<body>
+
+<h1>Studierstube calibration (undistrotion)</h1>
+<p>
+This is a brief overview of the tracker undistortion methods that are deployed
+by Studierstube.
+<hr>
+<h3>Standard grid based method</h3>
+<p>
+All the tools needed to linerarize the tracker by measuring a transformation
+from a regular gird in the real world to a distortrd tracker coousing this
+method you will find in the <code>$STBROOT/tools/undistortion</code>
+directory.
+<p>
+First you need to collect the data saying out how your tracker distorts the
+position and (currently only one) orientation of tracker sensors in a regular
+grid. Progam called <b>tmeas</b> serves this purpose. It takes the following
+parameters:
+<br>
+<dt><i>-s NUMBER, --st NUMBER</i></dt>
+<dd>Tracker station thas has the button connected. The button is used to
+trigger a measurement, implicitely we take the first station as the button
+station.</dd>
+<dt><i>-nx NUMBER, --numXvalues NUMBER</i></dt>
+<dt><i>-ny NUMBER, --numYvalues NUMBER</i></dt>
+<dt><i>-nz NUMBER, --numZvalues NUMBER</i></dt>
+<dd>Number of values that compose the grid. A single measurement step will
+read <i>numZvalues</i> at once, supposing you have so many tracker sensors
+installed.</dd>
+<dt><i>-e NUMBER, --oversample NUMBER</i></dt>
+<dd>Oversample the measured values NUMBER times.</dd>
+<dt><i>-o FILENAME, --output FILENAME</i></dt>
+<dd>Save the output data to FILENAME rather than to standard output.</dd>
+<br>
+<p>
+Here is a small example (<code>--stationnum 8</code> is a tracker setting that
+has nothing to do with how many trackers will be used for undistortion):
+<hr>
+<pre>
+% ./tmeas --trackertype u --port 12346 --address 224.200.100.1 --port2 12347
+          --address2 224.200.100.2 --stationnum 8 -nx 5 -ny 4 -nz 4
+createTracker()
+multicast group 224.200.100.1
+INFO: joinMulticastGroup: using interface 10.42.3.2
+multicast group 224.200.100.2
+INFO: joinMulticastGroup: using interface 10.42.3.2
+INFO: Tracker ready, output file opened.
+      You can start measuring data.
+STB_UNDISTORTION_RAW
+80
+5 4 4
+# x00 y00
+   0: X= 43.90428 Y=-146.98186 Z=148.85576, A= 0.73064 B= -0.38638 C= -0.48044 D= 0.29335
+   1: X= 44.50159 Y=-133.43460 Z=112.95892, A= 0.69845 B= -0.42554 C= -0.45821 D= 0.34802
+   2: X= 41.63000 Y=-122.03934 Z= 75.68464, A= 0.72550 B= -0.39256 C= -0.46838 D= 0.31649
+   3: X= 39.98837 Y=-110.91162 Z= 42.36549, A= 0.70008 B= -0.43390 C= -0.47417 D= 0.31110
+[...]
+# x04 y03
+  76: X=-52.42231 Y= 126.06966 Z=154.57984, A= 0.41513 B= -0.69831 C= -0.43412 D= 0.38931
+  77: X=-39.45081 Y= 120.30335 Z=116.24529, A= 0.38956 B= -0.73105 C= -0.35952 D= 0.42959
+  78: X=-33.00023 Y= 108.26656 Z= 80.31133, A= 0.44958 B= -0.68838 C= -0.39045 D= 0.41420
+  79: X=-26.54060 Y=  98.36309 Z= 45.08983, A= 0.45644 B= -0.68711 C= -0.40048 D= 0.39894
+</pre>
+<hr>
+<p>
+The next step is converting the data saved by tmeas into the format needed by
+Studierstube undistortion filters. <b>raw2fsp</b> server this purpose. The
+program takes the follwing parameters:
+<dt><i>-f FILENAME, --file FILENAME</i></dt>
+<dd>Name of the file holding the raw data measured by <b>tmead</b>.</dd>
+<dt><i>-o FILENAME, --output FILENAME</i></dt>
+<dd>Save the output data to FILENAME rather than to standard output.</dd>
+<dt><i>-sx NUM, --spacingX NUM</i></dt>
+<dt><i>-sy NUM, --spacingY NUM</i></dt>
+<dt><i>-sz NUM, --spacingZ NUM</i></dt>
+<dd>Spacing of sample points in X, Y, and Z directions. We assume for the
+moment that the spacing does not change.</dd>
+<dt><i>-ox NUM, --offsetX NUM</i></dt>
+<dt><i>-oy NUM, --offsetY NUM</i></dt>
+<dt><i>-oz NUM, --offsetZ NUM</i></dt>
+<dd>Offset of the coordinate system origin. If not specified,
+<code>(0,0,0)</code> is assumed.</dd>
+</body>
+</html>

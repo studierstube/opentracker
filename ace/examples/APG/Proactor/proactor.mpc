@@ -1,0 +1,9 @@
+// -*- MPC -*-
+// proactor.mpc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
+
+project(HA Proactive Status) : aceexe {
+  exename = HA_Proactive_Status
+  Source_Files {
+    HA_Proactive_Status.cpp
+  }
+}

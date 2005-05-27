@@ -1,0 +1,24 @@
+#Inventor V2.1 ascii
+Separator {
+  #OrthographicCamera {
+  #  position 0 0 5
+  #  orientation 0 0 1 0
+  #  nearDistance 0.01
+  #  farDistance 1000
+  #}
+  Transform { 
+    scaleFactor 0.5 0.5 0.5
+    translation 0 0 0
+    rotation 1 0 0  0 = 
+      DEF TRAKENGINE SoTrakEngine { station 1 } . rotation
+  }
+  Separator {
+    Material { diffuseColor 1 1 1 = 
+      ComposeVec3f { x 1 = 
+        SoTrakEngine { station 0 } . button0
+      } . vector
+    }
+    Sphere { radius 0.1 } 
+  }
+  File { name "axis.iv" }
+}

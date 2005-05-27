@@ -1,0 +1,9 @@
+#Inventor V2.1 ascii
+Separator {
+   Info {
+      string "CONTEXT"
+   }
+
+  Texture2 { filename "storyboard.gif" }
+  Cube { height 0.008 }
+}

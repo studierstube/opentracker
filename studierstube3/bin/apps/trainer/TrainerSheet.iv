@@ -1,0 +1,217 @@
+#Inventor V2.1 ascii
+
+#common elements:
+SoRotation {
+  rotation 1 0 0 1.5707963267949
+}
+SoDrawStyle {
+  lineWidth 3
+}
+
+#root switch:
+DEF RootSw SoSwitch {
+  whichChild 0
+
+  #sheet 0
+  SoSeparator {
+    SoTexture2Transform {
+      rotation -1.57079633
+    }
+    SoMaterial {
+      diffuseColor 1.0 0 0
+    }
+    DEF Font SoFontStyle {
+      size 2
+    }
+    SoSeparator {
+      SoTranslation {
+        translation -2 0.5 -5
+      }
+      DEF LibButt So3DButton {
+        width 8
+        depth 2
+        height 1
+      }
+      DEF LibTrans SoTransform {
+        translation 0 0.501 0.75
+        rotation 1 0 0 -1.57079633
+      }
+      DEF LibText SoText3 {
+        string "Library..."
+        justification CENTER
+      }
+    }
+    SoSeparator {
+      SoTranslation {
+        translation 4.5 0.5 -5
+      }
+      DEF IdButt So3DButton {
+        width 3
+        depth 2
+        height 1
+      }
+      DEF IdTrans SoTransform {
+        translation 0 0.501 0.75
+        rotation 1 0 0 -1.57079633
+      }
+      DEF IdText SoText3 {
+        string "1001"
+        justification CENTER
+      }
+    }
+    SoSeparator {
+      SoTranslation {
+        translation 7 0.5 -2.5
+      }
+      SoTexture2 {
+        filename "textures/up_2x3.jpg"
+      }
+      DEF ButtUp So3DButton {
+        width 2
+        depth 3
+        height 1
+      }
+      SoTranslation {
+        translation 0 0 2.5
+      }
+      SoTexture2 {
+        filename "textures/o_2x2.jpg"
+      }
+      DEF ButtOk So3DButton {
+        width 2
+        depth 2
+        height 1
+      }
+      SoTranslation {
+        translation 0 0 2
+      }
+      SoTexture2 {
+        filename "textures/x_2x2.jpg"
+      }
+      DEF ButtCl So3DButton {
+        width 2
+        depth 2
+        height 1
+      }
+      SoTranslation {
+        translation 0 0 2.5
+      }
+      SoTexture2 {
+        filename "textures/down_2x3.jpg"
+      }
+      DEF ButtDn So3DButton {
+        width 2
+        depth 3
+        height 1
+      }
+    }
+    SoSeparator {
+      SoTranslation {
+        translation -1 0.5 1
+      }
+      DEF Sketch SoSketchKit {
+        xSize 14
+        ySize 10
+        height 1
+        threshold 0.5
+        multiple FALSE
+      }
+    }
+  }
+
+  #sheet 1
+  SoSeparator {
+    SoTexture2Transform {
+      scaleFactor 1 -1
+    }
+    SoFontStyle {
+      size 3
+    }
+    SoTranslation {
+      translation 0 0.5 -1
+    }
+    DEF Alpha SoAlphabetKit {
+      xSize 16
+      ySize 10
+      height 1
+      multiple FALSE
+      historyEnabled FALSE
+    }
+    SoTranslation {
+      translation -5 0 6
+    }
+    SoTexture2 {
+      filename "textures/load_4x2.jpg"
+    }
+    DEF ButtLoad So3DButton {
+      width 4
+      depth 2
+      height 1
+    }
+    SoTranslation {
+      translation 5 0 0
+    }
+    SoTexture2 {
+      filename "textures/save_4x2.jpg"
+    }
+    DEF ButtSave So3DButton {
+      width 4
+      depth 2
+      height 1
+    }
+    SoTranslation {
+      translation 5 0 0
+    }
+    SoTexture2 {
+      filename "textures/back_4x2.jpg"
+    }
+    DEF ButtBack So3DButton {
+      width 4
+      depth 2
+      height 1
+    }
+  }
+
+  #sheet 2
+  SoSeparator {
+    SoTexture2Transform {
+      scaleFactor 1 -1
+    }
+    SoFontStyle {
+      size 3
+    }
+    SoTranslation {
+      translation 0 0.5 -1
+    }
+    DEF Number SoAlphabetKit {
+      xSize 16
+      ySize 10
+      height 1
+      threshold 0.5
+      multiple FALSE
+      historyEnabled FALSE
+    }
+    SoTranslation {
+      translation -4 0 6
+    }
+    SoTexture2 {
+      filename "textures/ok_6x2.jpg"
+    }
+    DEF SetId So3DButton {
+      width 6
+      depth 2
+      height 1
+    }
+    SoTranslation {
+      translation 8 0 0
+    }
+    SoTexture2 {
+      filename "textures/cancel_6x2.jpg"
+    }
+    DEF RejId So3DButton {
+      width 6
+      depth 2
+      height 1
+    }
+  }
+}

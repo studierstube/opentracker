@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// ssliop.mpb,v 1.3 2004/01/22 18:23:50 elliott_c Exp
+
+project: security, portableserver, ssl {
+    after     += SSLIOP
+    libs      += TAO_SSLIOP
+    tagchecks += SSLIOP
+}

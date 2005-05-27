@@ -1,0 +1,15 @@
+#Inventor V2.1 ascii
+
+Separator {
+Texture2 { filename "alu.gif" }
+File { name "bench.iv" }
+Translation { translation 0.1 0 0 }
+File { name "house.iv" }
+Translation { translation 0.1 0 0 }
+File { name "poplar.iv" }
+DEF BRICKWALL Separator {
+  Texture2 { filename "brick.gif" }
+  Texture2Transform { scaleFactor 5 5 }
+  Cube { width 0.19 height 0.15 depth 0.01 }
+}
+}

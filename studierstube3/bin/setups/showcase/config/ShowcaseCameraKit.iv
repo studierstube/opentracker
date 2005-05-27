@@ -1,0 +1,38 @@
+#Inventor V2.1 ascii
+
+SoStereoCameraKit {
+   eyeOffsetLeft    0 -0.08 0.02
+   eyeOffsetRight   0 -0.13 0.02 
+   camLeft 	SoOffAxisCamera {
+	  viewportMapping ADJUST_CAMERA
+    	  nearDistance 0.1
+    	  farDistance 3
+    	  focalDistance 0.3
+    	  
+          position 0.265 0.07 -0.59
+          orientation -0.199546 0.199546 0.959355  1.61228
+    	  size 0.70 0.53
+	} 
+   camRight SoOffAxisCamera {
+	  viewportMapping ADJUST_CAMERA
+    	  nearDistance 0.1
+    	  farDistance 3
+    	  focalDistance 0.8
+    	  
+          position 0.265 0.07 -0.59
+          orientation -0.199546 0.199546 0.959355  1.61228
+    	  size 0.70 0.53
+	} 
+	
+#   camRight SoOffAxisCamera {
+#	  viewportMapping ADJUST_CAMERA
+#    	  nearDistance 0.1
+#    	  farDistance 3
+#    	  focalDistance 0.8
+#    	  
+#          position 0.265 0.069 -0.56
+#          orientation -0.199546 0.199546 0.959355  1.61228
+#    	  size 0.677 0.50
+#	} 
+
+}

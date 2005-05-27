@@ -1,0 +1,34 @@
+#Inventor V2.1 ascii
+
+SoStereoCameraKit {
+            
+    eyeOffsetLeft    0 0 0     # no offset -> mono rendering
+    eyeOffsetRight   0 0 0
+                
+    camLeft SoOffAxisCamera {
+        viewportMapping LEAVE_ALONE   # do not adjust vieport to window proportions
+        
+        nearDistance 0.01             # near clipping plane
+        farDistance 10                 # far clipping plane
+        focalDistance 0.5
+          
+        eyepointPosition 0 0 1        # eye is in 0 0 0
+        position 0 0 0                # position of image plane
+        orientation 0 1 0 0           # orientation of image plane
+        size 0.8 0.6                  # world size of image plane
+    } 
+    
+   camRight SoOffAxisCamera {
+        viewportMapping LEAVE_ALONE   # do not adjust vieport to window proportions
+        
+        nearDistance 0.01             # near clipping plane
+        farDistance 10                 # far clipping plane
+        focalDistance 0.5
+          
+        eyepointPosition 0 0 1        # eye is in 0 0 0
+        position 0 0 0                # position of image plane
+        orientation 0 1 0 0           # orientation of image plane
+        size 0.8 0.6                  # world size of image plane
+    } 
+}
+        

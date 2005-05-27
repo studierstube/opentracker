@@ -1,0 +1,215 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Firewire Video Overlay</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+<h1>
+How to use Firewire video overlay under Windows</h1>
+
+<p><br>The whole source code and firewire driver was created by Iwan Ulrich
+and Bart Nabbe from Carnegie Mellon University - Robotics Institute and
+can be found at
+<br><a href="http://www.cs.cmu.edu/~iwan/1394/">http://www.cs.cmu.edu/~iwan/1394/</a>
+<p>Before installing the firewire drivers which are included in the studierstube
+firewire source code package, you must make sure that a firewire driver
+is already installed on your system. This firewire driver (see Control
+Panel - System - Device Manager - 1394 Bus Controller) MUST support a diagnostics
+mode. <b>Check the diagnostics check box, otherwise you will not be able
+to use the firewire source</b>!!!<img src="diagnostics.jpg" height=429 width=361>
+<p>If you are working under Windows98 there should be such a Diagnostic
+Mode. I do not know if the default Windows2000 bus controller supports
+this mode or not.
+<h3>
+If your driver does not support the diagnostics mode</h3>
+Anyway, if your driver does not support the diagnostics mode, you either
+find a better driver (which I couldn't find) or there is a <b>brute force
+workaround to force your driver into diagnostics mode</b> (copyright by
+Hannes Kaufmann - if there is any better solution, tell me!)
+<ul>
+<li>
+Download and install these two utilities (<a href="1394wdm.zip">1394wdm.zip</a>
+and <a href="OHCI_Utility.zip">OHCI_Utility.zip</a>) which were originally
+programmed by Bill Alexander (<a href="http://www.geocities.com/SiliconValley/Haven/4824/">http://www.geocities.com/SiliconValley/Haven/4824/</a>
+which is also a great firewire driver resource) and Symbios Logic/LSI Logic
+respectively. OHCI_Utility.zip is the Windows 98/2000 SYM13FW500 ATA/ATAPI-to-1394
+Bridge Kit and can also be downloaed from ftp://ftp.lsil.com/pub/symchips/1394/Utilities_Native_Bridge/OHCI_Win98_Win2000/OHCI_Utility.zip</li>
+
+<br>There seems to be a Windows95 version Windows 95 SYM13FW500 ATA/ATAPI-to-1394
+Bridge too which can be downloaded from ftp://ftp.lsil.com/pub/symchips/1394/Utilities_Native_Bridge/Windows95/Window95_Utility.zip
+<li>
+Do NOT connect your firewire camera.</li>
+
+<li>
+Start DumpRom, click on the 1394 device menu and select "Find Device" but
+DO NOT connect your firewire device yet. You get the message "Disconnect
+1394 device", click ok, you get the message "Connect 1394 device", connect
+it and click ok <b>and do nothing else</b>. Keep the program open in the
+background!</li>
+
+<li>
+Start the OHCI500 (SYM13FW500 Utility) which should recognize your device
+now (you see this by getting two output lines with the ID of your device).
+Go to the 1394 Devices menu and click on "Enable disagnostics mode". You
+should get the output message "....bus in diagnostics mode"</li>
+
+<li>
+That's all, you can use the Studierstube Firewire overlay now.</li>
+</ul>
+
+<h3>
+If your driver (finally) supports Diagnostic Mode</h3>
+<b>If using firewire video overlay for the first time you've to do the
+following:</b>
+<br>&nbsp;
+<ul>
+<li>
+Go to studierstube/extras/firewire/WINDOWS and copy all files in the subdirectories
+into the corresponding Windows/WinNT directories. E.g. copy studierstube/extras/firewire/WINDOWS/SYSTEM/1394Api.dll
+into c:\WINNT\system\<br>
+After having copied all files, restart your system (I do not know if a
+restart is really necessary but you're overwriting the firewire driver
+and not restarting could cause problems)</li>
+
+<li>
+Add the Preprocessor definition
+<b>PC_FIREWIRE </b>in the project settings
+and recompile Studierstube (the stbapi project)<br>
+(to compile the necessary video overlay routines)</li>
+</ul>
+Under regular circumstances, assuming that you have completed all pre-steps
+or if you've done all this already <b>you can use Firewire video overlay
+in the studierstube by doing the following</b>
+<ul>
+<li>
+Plug in your firewire camera and make sure that the driver is in diagnostics
+mode and the driver files are copied to the windows directories</li>
+
+<li>
+Add "videoBackground TRUE" in your UserKit.</li>
+
+<li>
+Make sure that the <b>actual window size</b> (minus the Inventor/Qt interface
+bars) <b>is at least 640x480</b>. The video will have a size of 640x480
+at 15fps. If the window is smaller, the application will crash and video
+overlay won't work until you restart your computer.</li>
+
+<li>
+Start the studierstube - camera gets initialized, video is supposed the
+be in the background.</li>
+
+<li>
+ATTENTION: At the beginning (the first 10-20 seconds) video pictures are
+coming in very slowly. Wait a bit until the situation gets back to normal.
+The video is supposed to be fluid!</li>
+
+<li>
+<b>Exit studierstube by pressing X !!!!!!!!!!!!!!!!!!!!!!!!</b> This will
+shut down the firewire cam properly. Otherwise video overlay will not work
+again until you restart your computer.</li>
+</ul>
+<p>Further documentation to the Firewire source code by Iwan Ulrich and Bart Nabbe 
+  can be found at http://www.cs.cmu.edu/~iwan/1394/ <br>
+  The full source code to the drivers and to the firewire library is distributed 
+  by Bart Nabbe under the conditions of the GNU General Public License and is 
+  included in studierstube/extras/firewire/ in the files 1394CameraApi_4.0.zip 
+  and 1394CameraDDK_4.0.zip. Moreover, in order to compile the DLL, you need to 
+  download the driver development kit from Microsoft. Unless there are extreme 
+  reasons, the developers do not intend to support the DLL source code at all. 
+</p>
+<h3>Some Notes about the Video Overlay</h3>
+<p>The current implementation blits the video image into the OpenGL image buffer 
+  before the rendering is executed. It does not clear the image buffer, because 
+  the new video image overwrites it anyway. This ensures that it works with multi 
+  pass rendering modes such as DELAYED_BLEND, which visit some nodes several times. 
+  DELAYED_BLEND is not really multi pass but does indeed visit some nodes twice. 
+</p>
+<p>If you use the video background with a window size larger then the video image, 
+  the remaining image will not be cleared before rendering and you will get some 
+  strange but nice artifacts :). So don't do it !</p>
+<p>If stereo rendering is used, the image is blitted into the buffers for both 
+  eyes. This works with the following modes : line interleaved with stencil buffer 
+  and quad-buffered OpenGL stereo rendering. It does not work with the old polygon 
+  stipling trick !</p>
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

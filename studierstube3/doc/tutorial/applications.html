@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Studierstube Setup</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <link href="tutorial.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>Studierstube scripting mentor</h1>
+<h3>Studierstube Applications </h3>
+<p class="navbar">&lt;<a href="setup.html">prev</a>]
+- [<a href="index.html">up</a>]
+- [next&gt;</p>
+<h4>Parts of an applications</h4>
+<p>A Studierstube application can rely on a couple of predefined user interface concepts and components, if necessary. One advanced concept that will be presented here in greater detail is the Personal Interaction Panel (PIP). It provides a platform to present 2D control user interface elements to the user. Because more complex applications cannot rely on 3D direction manipulation alone, such interfaces become necessary. The following image shows the basic parts of a Studierstube application and the user interface for one User.</p>
+<p><img src="images/appexample.png" width="638" height="401"><br>
+Fig.: View of a user on a single Studierstube application </p>
+<p>The following components are part of the application:</p>
+<ul>
+  <li> Content, either arbitrary scene graphs or 3D windows for managing content within a space.</li>
+  <li>Widgets, presented on the PIP and organised in several PIP sheets</li>
+  <li>Functionality, not visible in the image, but present to drive the application</li>
+</ul>
+<p>All of these components can be created and tailored for a specific application. The actual look and interaction will depend mainly on the application's goals and the users's tasks it supports.</p>
+<h5>The PIP </h5>
+<p>The PIP's content depends on the currently active application and various configuration options set through the system. The following image gives an overview of the individual parts. </p>
+<p> <img src="images/pipexample.png" width="631" height="402"><br>
+  Fig.: Components of the PIP. The currently visible sheet is the system sheet for loading and saving applications. </p>
+<p>The system tab in the upper left corner contains buttons for task switching between different applications, to access a system sheet to load and save applications and to close the currently running application. The window tab in the upper right corner contains buttons that control the window that is currently in focus. Windows can be minimized to be invisible, maximized to span the whole space and their bounding box can be switched on or off. In addition to these general controls the sheet tab on the right side gives acces to different pip sheets that an application may provide. It is usually only visible if an application provides more then one sheet of widgets.</p>
+<p>The remaining area is left for the individual pip sheets of applications. These are sets of widgets in a two-dimensional layout. They are configured by the applications themselves. If several applications are present, a pip sheet of the one currently in focus is shown. Therefore several applications can provide pip sheets and the system will handle the switching between different sheets automatically. The following image shows the overall relations between PIPs and PIP sheets. </p>
+<p><img src="images/pipsheets.gif" width="600"><br>
+  Fig.: Association between a user, her PIP, several applications and their pip sheets.</p>
+<p>The layout of the PIP as seen in the first figure can be changed by modifying the associated skin. See the last <a href="setup.html">chapter</a> and the <a href="http://www.studierstube.org/misc/skinWS1.iv">example skin file</a> for details. </p>
+<h4>SoContextKit</h4>
+<p>The basic construct that brings all of these components together is the <a href="../stb/classSoContextKit.html">SoContextKit</a> node which serves as the basic building block for all applications in Studierstube. Implementations can either use it directly and add any functionality required using scripting and any of the nodes discussed in the earlier chapters or new nodes can be derived from the SoContextKit to create new functions. </p>
+<p>The basic SoContextKit assembles a scene graph used for content and a set of widgets that are presented on the PIP. The scene graph contains the application specific graphics and any interaction and behavior nodes that form the application. The widgets are organised into a set of sheets only one of which is visible on the PIP itself. Usually one sheet presents a two-dimensional layout of widgets that are logically grouped together. The following example shows how a simple application looks like: </p>
+<pre class="source">SoContextKit {
+    templatePipSheet Separator {
+    }
+    windowGroup Group {
+    
+    }
+}</pre>
+<p>The scene graph in the part templatePipSheet is presented on the PIP of the user. The scene graph in the part windowGroup is positioned in space. Both can be connected via routes or reuse geometry between them. </p>
+<p>More advanced applications will derive from the <a href="../stb/classSoContextKit.html">SoContextKit</a> node which provides access to a set of virtual methods that allow closer cooperation with the Studierstube workspace environment. To understand the purpose and use of these methods we have to look at the life time of a Studierstube application.</p>
+<table width="100%"  border="0">
+  <tr>
+   <th colspan="4">Application Life Time</th>
+  </tr>
+  <tr>
+    <td height="75">Loading of the application file. The scene graph defined in the SoApplicationKit is created.</td>
+    <td width="200" rowspan="9"><img src="images/lifetime.gif" width="200" height="405"></td>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="100" rowspan="3">Startup phase of the application. Only executed once during the life time of an application. </td>
+    <td><pre class="source">SbBool checkPipGeometry()</pre></td>
+    <td>test, if your PIP scene graph is ok and execute any additional initializations.</td>
+  </tr>
+  <tr>
+    <td><pre class="source">SbBool checkWindowGeometry()</pre></td>
+    <td>test, if your application scene graph is ok and execute any additional initializations. </td>
+  </tr>
+  <tr>
+    <td colspan="2">If either returns FALSE, the application terminates.</td>
+  </tr>
+  <tr>
+    <td height="100" rowspan="2">For each user configured for the workspace, per-user initialization is executed. These interfaces are also called, if users join later in a distributed environment </td>
+    <td><pre class="source">void checkPipConnections(...)</pre></td>
+    <td>For each user, any additional connections for user specific PIP sheet copies can be handled here. </td>
+  </tr>
+  <tr>
+    <td><pre class="source">void checkPipMasterMode(...)</pre></td>
+    <td>For each PIP sheet, whenever the application changes the master mode. Only relevant in distributed environments </td>
+  </tr>
+  <tr>
+    <td rowspan="2">During interaction, the focus may shift between applications and tracking events can be handled for windows. The associated methods can be overridden to handle such cases. </td>
+    <td><pre class="source">void focusChange(...) </pre></td>
+    <td>The application focus for a specific user changes and the application is notified of its new status. </td>
+  </tr>
+  <tr>
+    <td><pre class="source">void windowEventCB(...) </pre></td>
+    <td>Tracking events that reach SoWindowKits in the application's scene graph can be handled by the application directly using this callback. </td>
+  </tr>
+</table>
+<p>The virtual methods on the right can be overridden by advanced applications to perform additional actions, if the associated events occur. Additional actions may be necessary for multi-user and/or distributed environments, where the basic Open Inventor mechanisms to setup connections are not flexible enough anymore. </p>
+<h4>Configuring PIP sheets </h4>
+<p>An application can use more than one PIP sheet and also tailor the presentation of the PIP to its needs. To access these advanced configuration options a special <a href="../stb/classSoPipSheetKit.html">SoPipSheetKit</a> node has to be used for the templatePipSheet part. It provides the following fields and parts:</p>
+<table style="width: 100%;" border="0">
+  <tr>
+    <th valign="middle">Name</th>
+    <th valign="middle">Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td valign="middle">sheets</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoSwitch part&nbsp;</td>
+    <td class="memItemRight" valign="bottom">This part contains the individual sheets, if more than one is used. It has to be an <a href="http://doc.coin3d.org/Coin/classSoSwitch.html">SoSwitch</a> node and each child is an individual sheet. </td>
+  </tr>
+  <tr>
+    <td valign="middle">tabTextures</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoMFNode</td>
+    <td class="memItemRight" valign="bottom">A collection of textures to display on the sheet buttons for switching the sheets. Each entry must be an <a href="http://doc.coin3d.org/Coin/classSoTexture2.html">SoTexture2</a> node. </td>
+  </tr>
+  <tr>
+    <td valign="middle">autoScaling</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoSFBool</td>
+    <td class="memItemRight" valign="bottom">This flag controls whether the sheet will be scaled to fit the sheet area configured for the PIP or if it is left alone. </td>
+  </tr>
+  <tr>
+    <td valign="middle">pipParts</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoSFEnum&nbsp;</td>
+    <td class="memItemRight" valign="bottom">This field defines which system parts of the PIP should be displayed for the application. The following flags are available:<br>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="innertable">
+        <tr>
+          <td valign="top" class="innertable">PIP_BODY </td>
+          <td class="innertable"> The body (the geometry representing the PIP's physical shape). </td>
+        </tr>
+        <tr>
+          <td valign="top" class="innertable">SHEET </td>
+          <td class="innertable"> The sheet itself. </td>
+        </tr>
+        <tr>
+          <td valign="top" class="innertable">SHEET_TABS </td>
+          <td class="innertable"> The buttons which switch between PIP-sheets of one SoPipSheetKit. </td>
+        </tr>
+        <tr>
+          <td valign="top" class="innertable">SYSTEM_TABS </td>
+          <td class="innertable"> Part of the workspace tabs: containing currentTask and exit button. </td>
+        </tr>
+        <tr>
+          <td valign="top" class="innertable">WINDOW_TABS </td>
+          <td class="innertable"> Part of the workspace tabs: containing window manipulation buttons. </td>
+        </tr>
+        <tr>
+          <td valign="top" class="innertable">FULL </td>
+          <td class="innertable"> All parts of the PIP. </td>
+        </tr>
+      </table> </td>
+  </tr>
+</table>
+<p>For example, the simple application in example3 defines the following pip sheet to adjust its look. It turn on only the PIP's body geometry defined in the user kit file, the sheet itself and the tabs to switch sheets. Furthermore it disables autoScaling because the PIP sheets' geometry is already of the correct size. And finally it defines two different PIP sheets which in turn are loaded from files. </p>
+<pre class="source">templatePipSheet SoPipSheetKit {<br>    pipParts (PIP_BODY|SHEET|SHEET_TABS)<br>    autoScaling FALSE<br><br>    sheets Switch {<br>        File { name &quot;content/pipSheet1.iv&quot; }<br>		   # enable the following line for example3.iv
+        File { name &quot;content/examples/example3_pipsheet.iv&quot; }
+    }
+}</pre>
+<p>The PIP's coordinate system is somewhat different than the default geometry of the widgets. Therefore, if you simply specify a widget such as SoPushButton in a PIP sheet it will be rotated 90&deg; around an axis. Therefore, always put the following rotation as the first node in your pip sheets:</p>
+<pre class="source">RotationXYZ {axis X angle 1.57 } </pre>
+<p>There are some advanced methods to creating PIP sheets besides writing them by hand. The first is to use the Qt Designer program which can be used to design 2D GUI layouts for the Qt library. It safes its layouts in an XML data file which can be converted automatically to an Inventor file containing the definition of a corresponding widget layout for the Studierstube. The <a href="../html/qt2pip_doc.html">Qt2PIP page</a> explains the details.</p>
+<p>Another way is to use automatically generated user interfaces from an abstract state machine description of the user interface components or the application's own state. See the documentation on <a href="../stb/userInterfaces.html">Generating User-Interface in Studierstube</a> for more details. </p>
+<h4>Wrapping it up: SoApplicationKit </h4>
+<p>While the SoContextKit defines the functionality and all the resources of an application, it presents a kind of blue print for a running application. Within the workspace it is further wrapped in an SoApplicationKit node which carries process-like information for a running instance of an application. Any file that is loaded from the Studierstube workspace must always contain SoApplicationKits wrapping the actual applications. The following is a simple example:</p>
+<pre class="source">DEF TEST_APP SoApplicationKit {
+    readOnly FALSE
+    classLoader SoClassLoader {
+        fileName &quot;myApp&quot;
+        className &quot;MyApp&quot;
+    }
+    contextKit MyApp {
+        templatePipSheet SoPipSheetKit { ... }
+        windowGroup Group { ... }
+    }
+    appGeom Separator {<br>        Texture2 { filename &quot;myAppIcon.gif&quot; }<br>    }
+}</pre>
+<p class="navbar">&lt;<a href="setup.html">prev</a>] - [<a href="index.html">up</a>] - [next&gt;</p>
+<p>&nbsp;</p>
+</body>
+</html>

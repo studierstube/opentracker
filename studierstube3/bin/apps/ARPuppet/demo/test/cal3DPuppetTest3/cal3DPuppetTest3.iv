@@ -1,0 +1,140 @@
+#Inventor V2.1 ascii
+
+DEF CAL3DACTORTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 0 1 0 }
+                DEF BUTTON_CMD SoToggleButton { 
+                    width 1 depth 1 height 0.4 on TRUE
+                }
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+
+            SoClassLoader {
+                className   "SoChoreographerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+            SoClassLoader {
+                className   "SoCal3DPuppeteer"
+                fileName    "../apps/arpuppet/characters/cal3dpuppet/cal3dpuppet"
+            }
+            SoClassLoader {
+                className   "SoSpeechOutput" 
+                fileName    "StbSpeech"
+            }
+
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                    DEF CHOREOGRAPHER SoChoreographerKit {
+                        id "choreographer"
+                        command [ "cal3d: goTo station(2).p 2000 # cal3d: speak `I'm walking!`"]
+                        dataNeedsValidation TRUE
+                        dataValid = USE BUTTON_CMD.on
+                        puppeteers Separator {
+                            DEF CAL3DPUPPETEER SoCal3DPuppeteer {
+                                id "cal3d"
+                                showPuppeteer TRUE
+                                whichPuppets [ 0 ]
+                                controlMode [ (DRAG|STATION), STATION ]
+                                station 1
+                                #animationPrefix "cally_"
+                                #animationPrefix "tourguide_"
+                                #animationPrefix "cow_"
+                                animationPrefix "legomaxl_"
+                                animationMap [ "" ]
+                                highlightDragOn TRUE
+                                velocityVisOn TRUE 
+                                #boundingBoxOn TRUE
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            DEF CAL3DPUPPET SoCal3DPuppet {
+                                                pathName "../apps/arpuppet/characters/cal3dpuppet/data"                                             
+                                                #fileName "cally.cfg"
+                                                fileName "legomaxl.cfg"         
+                                                lod 100
+                                                visible TRUE
+                                                animate TRUE
+                                                skeleton FALSE
+                                                wireframe FALSE
+                                                mesh TRUE
+                                                delayIn 0.2
+                                                delayOut 0.2
+                                            } # end of SoCal3DPuppet
+                                        }
+                                    }
+                                }
+                            } # end of Cal3DPuppeteer
+                        } # end of puppeteers
+                    } # end of choreographer
+                    
+                    Separator {
+                        Transform {
+                            translation = DEF TRAKENG SoTrakEngine { station 1 }.translation
+                            rotation = USE TRAKENG.rotation
+                        }
+                        DEF CURSOR_DUMMY SoTrackedArtifactKit {
+                            station 2
+                            geometry Separator {
+                                Material { diffuseColor 1 0 0 }
+                                Sphere { radius 0.02 }
+                            }
+                        }
+                    }
+                    
+                    DEF SPEECH SoSpeechOutput {
+                        voiceName "Microsoft Mike"
+                        text = USE CAL3DPUPPETEER.speechText
+                        stop = USE CAL3DPUPPETEER.stopSpeech
+                    }
+                    Separator {
+                        Transform { 
+                            translation 0 -0.08 0
+                            scaleFactor 0.002 0.002 0.002 
+                        }
+                        SoText3 { 
+                            parts ALL 
+                            string = SoTrakEngine { station 2 }.translation 
+                        }
+                    }
+                    Separator {
+                        Transform { 
+                            translation 0 -0.11 0
+                            scaleFactor 0.002 0.002 0.002 
+                        }
+                        SoText3 { parts ALL string = USE CAL3DPUPPETEER.velocity}
+                    }
+                    Separator {
+                        Transform { 
+                            translation 0 -0.14 0
+                            scaleFactor 0.002 0.002 0.002 
+                        }
+                        SoText3 { parts ALL string = USE CAL3DPUPPETEER.velocityDir }
+                    }
+                    
+                } # end of clientVolume
+                
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

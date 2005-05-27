@@ -1,0 +1,90 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 0
+    pen SoPenKit{
+       station 0
+#       geometry File {name "./graphix/DefaultPen.iv"}
+#       geometry File {name "../apps/construct3d/SimplePen.iv"}
+       geometry File {name "./graphix/DesignPen.iv"}
+#       focusPolicy POINT_TO_FOCUS
+    }
+    pip SoPipKit{
+       artifactRoot So3DSeparator { boundingBoxCheck FALSE   eventMask BM_ALL_EVENTS }
+       station 1
+#       pipSize 0.3 0.2 0.01
+       pipSize 0.26 0.21 0.004
+#       sheetAreaUpperLeft  0.05 0.05
+#       sheetAreaLowerRight  0.95 0.95
+       sheetAreaUpperLeft  0 0
+       sheetAreaLowerRight  1 1
+       #skinFileName "skinWin.iv"
+       skinDirectory "./graphix/"
+       offset Transform {translation 0 0 0 
+                         rotation 1 0 0 -1.57
+       }
+       geometry File {name "./graphix/C3D_Pip.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "defaultCameraKit.iv"}
+        station 2
+#        headlight TRUE
+#        headlightIntensity 1.0
+        backgroundColor 0 0 0
+# windowBorder FALSE
+# decoration FALSE
+        # Specify position (upper-left corner)
+        xoffset 0
+        yoffset 0
+        # and size of the viewer-window (in pixels)
+        width 500
+        height 500
+#        transparencyType DELAYED_BLEND
+        transparencyType SORTED_OBJECT_SORTED_TRIANGLE_BLEND
+    }
+}
+
+SoUserKit {
+    userID 1
+    pen SoPenKit{
+       station 3
+#       geometry File {name "./graphix/DefaultPen.iv"}
+#       geometry File {name "../apps/construct3d/SimplePen.iv"}
+       geometry File {name "./graphix/DesignPen.iv"}
+#       focusPolicy POINT_TO_FOCUS
+    }
+    pip SoPipKit{
+       artifactRoot So3DSeparator { boundingBoxCheck FALSE   eventMask BM_ALL_EVENTS }
+       station 4
+#       pipSize 0.3 0.2 0.01
+       pipSize 0.26 0.21 0.004
+#       sheetAreaUpperLeft  0.05 0.05
+#       sheetAreaLowerRight  0.95 0.95
+       sheetAreaUpperLeft  0 0
+       sheetAreaLowerRight  1 1
+       #skinFileName "skinWin.iv"
+       skinDirectory "./graphix/"
+       offset Transform {translation 0 0 0 
+                         rotation 1 0 0 -1.57
+       }
+       geometry File {name "./graphix/C3D_Pip.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "defaultCameraKit.iv"}
+        station 5
+#        headlight TRUE
+#        headlightIntensity 1.0
+        backgroundColor 0 0 0
+# windowBorder FALSE
+# decoration FALSE
+        # Specify position (upper-left corner)
+        xoffset 500
+        yoffset 0
+        # and size of the viewer-window (in pixels)
+        width 500
+        height 500
+#        transparencyType DELAYED_BLEND
+        transparencyType SORTED_OBJECT_SORTED_TRIANGLE_BLEND
+    }
+}
+

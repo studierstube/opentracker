@@ -1,0 +1,350 @@
+#Inventor V2.1 ascii
+
+DEF AN SoApplicationKit {
+    fields [ SFBool readOnly,SFNode classLoader, SFNode contextKit, SFNode appGeom, SFNode info ]
+    readOnly TRUE
+    classLoader SoClassLoader{
+	fields [ SFString className, SFString fileName ]
+	className	"SoAnimalKit"
+	fileName	"../apps/animalvc/animalvc_stb"
+    }
+
+    contextKit	    DEF ANIMAL SoAnimalKit {
+	fields [ SFInt32 userID, MFNode windows, SFNode templatePipSheet, SFString templateMainPanelFilename, SFBool clonePipSheet ]
+	userID 10
+
+	templatePipSheet    SoPipSheetKit
+	{
+		pipParts (PIP_BODY|SHEET|SHEET_TABS)
+		autoScaling TRUE
+
+		sheetsRoot So3DSeparator
+		{
+			boundingBoxCheck FALSE eventMask BM_ALL_EVENTS
+		}
+
+		sheets DEF AllSwitch Switch
+		{
+			DEF GreenSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_0 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.16 0
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_1 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.32 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_2 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.48 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_3 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.64 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_4 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.8 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_5 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 1 0
+    								}
+  				}
+			}
+
+			DEF RedSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_6 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.16 0 0
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_7 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.32 0 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_8 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.48 0 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_9 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.64 0 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_10 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.8 0 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_11 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 1 0 0
+    								}
+  				}
+			}
+
+			DEF CyanSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_12 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.16 0.16
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_13 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.32 0.32
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_14 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.48 0.48
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_15 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.64 0.64
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_16 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0.8 0.8
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_17 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 1 1
+    								}
+  				}
+			}
+
+			DEF BlueSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_18 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 0.16
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_19 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 0.32
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_20 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 0.48
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_21 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 0.64
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_22 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 0.8
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_23 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0 0 1
+    								}
+  				}
+			}
+
+			DEF YellowSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_24 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.16 0.16 0
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_25 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.32 0.32 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_26 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.48 0.48 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_27 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.64 0.64 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_28 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.8 0.8 0
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_29 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 1 1 0
+    								}
+  				}
+			}
+
+			DEF MagentaSheet Separator
+			{
+  				RotationXYZ {axis  X angle 1.57 }
+  				Separator
+				{
+    					Translation { translation 0 0 0 }
+    					DEF ANIMAL_COLOR_30 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.16 0 0.16
+    									}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 0 }
+    					DEF ANIMAL_COLOR_31 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.32 0 0.32
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 0 }
+    					DEF ANIMAL_COLOR_32 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.48 0 0.48
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 0 0 10 }
+    					DEF ANIMAL_COLOR_33 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.64 0 0.64
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 10 0 10 }
+    					DEF ANIMAL_COLOR_34 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 0.8 0 0.8
+    								}
+  				}
+  				Separator
+				{
+    					Translation { translation 20 0 10 }
+    					DEF ANIMAL_COLOR_35 So3DButton {
+      					width 3 height 2 depth 3 buttonColor 1 0 1
+    								}
+  				}
+			}
+		}
+	 tabTextures [
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/green.jpg"
+		      },
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/red.jpg"
+		      },
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/cyan.jpg"
+		      },
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/blue.jpg"
+		      },
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/yellow.jpg"
+		      },
+		      Texture2 
+		      { 
+			 filename "../apps/animalvc/resources/rosa.jpg"
+		      }
+		     ]
+
+	}
+
+	clonePipSheet       FALSE
+        templateMainPanelFilename "../apps/animalvc/animalMP.iv"
+    }
+    appGeom         Separator {
+    			Texture2 { filename "../apps/animal/cow.png" }
+    			}
+    info	    Info {
+    }
+
+
+
+}

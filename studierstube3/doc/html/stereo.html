@@ -1,0 +1,221 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Stereo rendering on SGI hardware</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+<h1>
+  Stereo rendering on SGI hardware
+</h1>
+<hr><p>
+<h2>Introduction</h2>
+SGI machines offer one of two kinds of field interleaved stereo
+(i. e. time multiplexed stereo, as required for shutter glasses):
+I call them quadbuffer stereo and split screen stereo.
+<ul>
+<li>
+Quadbuffer: Newer and/or more powerful SGIS (not the O2) support "real" 
+OpenGL stereo rendering with 4 buffers (front left, front right, left back,
+left right). This mode works on the Indigo2 Maximum Impact. The nice thing
+about it is that non-stereo windows are not distorted, so it is useful
+for per-window stereo. 
+<li>Screen split: This mode is older, but it is also the stereo mode
+supported by the O2. The screen is split horizintally, and either the top
+or bottom half is shown (streched by a factor of 2). The invisible half is
+used for the other stereo buffer. This mode is only useful for full-screen
+stereo as all other windows are distorted.
+</ul>
+<h2>setmon</h3>
+Before using stereo, the graphics subsystem needs to be switched to stereo mode.
+This is done using the setmon command:<p>
+<tt>/usr/gfx/setmon [MODE]</tt><p>
+MODE can be one of the following:
+<ul>
+<li>1024x768_96s switches to quadbuffer mode at 1024 x 768 resolution. Works
+on Maximum Impact. Note that this mode is also allowed on O2, but does not 
+work!
+<li>STR_TOP switched to screen split on O2, Indy XZ and other older systems.
+The resolution is unusual 1280x512, because the y-resolution is cut in half.
+<li>STR_BOT is the same as STR_TOP, except that the bottom half is used.
+<li>STR_RECT is a very old mode. It works like STR_TOP, only that the 
+X-Server is not informed about the fact that the hardware runs in stereo and
+therefore messes up all mono windows. Do not use it.
+</ul>
+
+<h2>Buffer selection for Quadbuffer</h2>
+If you are running quadbuffer, you must first tell the X-Server that the 
+window you render into uses stereo. This is done by requesting a so-called
+Visual for that window. A Visual defines all the buffer parameters for
+a GLX window. The glx library has a command
+<br><tt>glXChooseVisual</tt><br>
+which does exactly that. Note that on Impact, stereo works only with
+15 bit RGB color depth. For details, see the sample code.
+<p>
+Before acutally drawing, you need either to select the left or the right 
+buffer to draw to. This is done using the standard OpenGL glDrawBuffer
+command:
+<br><tt> 
+glDrawBuffer(GL_BACK_LEFT);<br>
+glDrawBuffer(GL_BACK_RIGHT); 
+</tt><br>
+
+<h2>Buffer selection for screen split</h2>
+In screen split mode, OpenGL does not really know about the fact that stereo
+buffers are available. To switch between buffers, a special SGI proprietary
+extention to the Xlib is used. You need to<br>
+<tt>#include &lt;X11/extensions/SGIStereo.h&gt;</tt><br>
+then call the function<br>
+<tt>XSGISetStereoBuffer(display, window, STEREO_BUFFER_LEFT)</tt><br>
+<tt>XSGISetStereoBuffer(display, window, STEREO_BUFFER_RIGHT)</tt><br>
+and link the library libXext.a. For details, see the sample code.
+<p>
+<h2>Connecting shutter glasses to the O2</h2>
+O2s in standard configuration can do screen split stereo, but do not have
+a connector for the shutter glasses transceiver! You need to buy the
+"digital display adapter" card, which has two ports: to connect the "Presenter"
+flat panel and to connect shutter glasses (I have no idea what one has to
+do with the other).
+
+<h2>Offaxis Projection</h2>
+Standard perspective projection assumes a single eye point which is located
+anywhere along a line which is perpendicular to the projection plane and
+sticks out from the middle of the screen. Stereo projection is more complex
+and there are many ways to do it. Since there is only a single projection 
+plane, no method can be entirely correct. However, for large screen stereo
+displays such as the virtual table, only offaxis-projection makes sense.
+Offaxis projection assumes that you are looking at an infinitely large
+projection plane, but only a small rectangular window is visible at any time.
+However, this window is not necessarily centered around your line of sight,
+in other words, the center of the screen is panned in the viewing plane
+with respect to the eye.
+<p>
+In other words, if you move to the left, the window wanders to the right
+and vice versa (same for up and down). However, the scene needs to be 
+tranlated by the amount your eye has moved, so that it appears to be
+stationary.
+<p>
+Fortunately, OpenGL provides a general projection call glFrustum() to
+achieve off-axis projection using hardware accelerated rendering (otherwise
+it would not be useful). The glFrustum call takes the left, right, bottom,
+top, near, and far clipping planes as parameters. What is not mentioned in
+the documentation for this call is at what z-distance from the eye the
+projection plane lies. The projection plane lies at the point where the
+viewing frustum is 2.0 units wide, i. e. right-left = 2. If you have the
+eye point given in this coordinate system, code to compute an off-axis 
+frustum for a screen with 4:3 aspect ratio looks like this:<br>
+<pre>
+void computeFrustum(float eye[3])
+{
+    const float near = 0.1; //arbitrarily chosen distance
+    const float far  = 100; //arbitrarily chosen distance
+    float left   = (-eye[0] - 1.0) * near / eye[2];
+    float right  = (-eye[0] + 1.0) * near / eye[2];
+    float bottom = (-eye[1] - .75) * near / eye[2];
+    float top    = (-eye[1] + .75) * near / eye[2];
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(l,r,b,t,n,f);
+    glMatrixMode(GL_MODELVIEW);
+}
+</pre><br>
+<h2>Using offaxis stereo in Inventor</h2>
+<p>
+Inventor has its own concept of a camera and cannot easily be "persuaded"
+to do offaxis stereo rendering. Shutter glasses are supported by the
+viewer classes, but they use the so called single-axis rotation method,
+and apparently there is just no way to do another kind of stereo without
+resorting to some kind of trick making Inventor believe it does mono
+rendering. Given a scene graph "SCENE" to be rendered in stereo, a working 
+solution can employ a scene graph like this:
+<pre>
+root {
+  DEF LEFT Callback {}
+    #switch to left buffer, set left frustum, translate scene left
+  DEF SCENE Separator { ... }
+  DEF RIGHT Callback {}
+    #switch to right buffer, set right frustum, translate scene right
+  USE SCENE
+}
+</pre><br>
+
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

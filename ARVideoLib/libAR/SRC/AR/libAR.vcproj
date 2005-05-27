@@ -1,0 +1,1589 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="libAR"
+	ProjectGUID="{191F78D2-7A53-4EAF-94E9-433DF5496E6E}">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="Debug"
+			ConfigurationType="4">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)/../../../include"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				AssemblerOutput="4"
+				BrowseInformation="1"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+				AdditionalOptions="">
+				<IntelOptions
+					Optimization="0"
+					MinimalRebuild="1"
+					BasicRuntimeChecks="3"
+					RuntimeLibrary="3"
+					AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TP"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(ProjectDir)/../../../lib.vc70/$(ProjectName)d.lib"
+				AdditionalOptions="">
+				<IntelOptions
+					AllOptions="/OUT:&quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../lib.vc70/libARd.lib&quot; /NOLOGO"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+			<IntelOptions
+				CompilerName="1"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="Release"
+			ConfigurationType="4"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="1"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				AdditionalIncludeDirectories="$(ProjectDir)/../../../include"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				RuntimeLibrary="2"
+				AssemblerOutput="4"
+				DebugInformationFormat="3"
+				AdditionalOptions="">
+				<IntelOptions
+					WholeProgramOptimization="1"
+					Optimization="2"
+					GlobalOptimizations="1"
+					InlineFunctionExpansion="1"
+					EnableIntrinsicFunctions="1"
+					FavorSizeOrSpeed="1"
+					OmitFramePointers="1"
+					OptimizeForProcessor="0"
+					StringPooling="1"
+					RuntimeLibrary="2"
+					BufferSecurityCheck="1"
+					EnableFunctionLevelLinking="1"
+					AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TP"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(ProjectDir)/../../../lib.vc70/$(ProjectName).lib"
+				AdditionalOptions="">
+				<IntelOptions
+					AllOptions="/LTCG /OUT:&quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../lib.vc70/libAR.lib&quot; /NOLOGO"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+			<IntelOptions
+				CompilerName="1"
+				WholeProgramOptimization="1"/>
+		</Configuration>
+		<Configuration
+			Name="Release (Intel)|Win32"
+			OutputDirectory="Release (Intel)"
+			IntermediateDirectory="Release (Intel)"
+			ConfigurationType="4"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
+				AdditionalIncludeDirectories="$(ProjectDir)/../../../include"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				RuntimeLibrary="2"
+				AssemblerOutput="4"
+				DebugInformationFormat="3"
+				AdditionalOptions="">
+				<IntelOptions
+					WholeProgramOptimization="1"
+					Optimization="2"
+					GlobalOptimizations="1"
+					InlineFunctionExpansion="2"
+					EnableIntrinsicFunctions="1"
+					FavorSizeOrSpeed="1"
+					OmitFramePointers="1"
+					OptimizeForProcessor="2"
+					StringPooling="1"
+					RuntimeLibrary="2"
+					BufferSecurityCheck="1"
+					EnableFunctionLevelLinking="1"
+					AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TP"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(ProjectDir)/../../../lib.vc70/$(ProjectName).lib"
+				AdditionalOptions="">
+				<IntelOptions
+					AllOptions="/LTCG /OUT:&quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../lib.vc70/libAR.lib&quot; /NOLOGO"
+					MSOriginalAdditionalOptions=""/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+			<IntelOptions
+				CompilerName="0"
+				WholeProgramOptimization="1"/>
+		</Configuration>
+	</Configurations>
+	<References/>
+	<Files>
+		<File
+			RelativePath="arDetectMarker.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arDetectMarker2.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetCode.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetMarkerInfo.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetTransMat.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetTransMat2.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetTransMat3.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arGetTransMatCont.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arLabeling.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="arUtil.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAlloc.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAllocDup.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAllocInv.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAllocMul.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAllocTrans.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mAllocUnit.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mDet.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mDisp.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mDup.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mFree.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mInv.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mMul.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mPCA.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mSelfInv.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mTrans.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="mUnit.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramChangeSize.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramDecomp.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramDisp.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramDistortion.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramFile.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="paramGet.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vAlloc.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vDisp.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vFree.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vHouse.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vInnerP.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="vTridiag.c">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /ZI /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /Gm /EHsc /RTC1 /MDd /FAs /Fa&quot;Debug/&quot; /Fo&quot;Debug/&quot; /Fd&quot;Debug/vc70.pdb&quot; /FR&quot;Debug/&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release/&quot; /Fo&quot;Release/&quot; /Fd&quot;Release/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release (Intel)|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					CompileAs="1"
+					AdditionalOptions="">
+					<IntelOptions
+						AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\libAR\Src\Ar\/../../../include&quot; /Zi /nologo /W1 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /GF /FD /EHsc /MD /GS /Gy /FAs /Fa&quot;Release (Intel)/&quot; /Fo&quot;Release (Intel)/&quot; /Fd&quot;Release (Intel)/vc70.pdb&quot; /Gd /TC"
+						MSOriginalAdditionalOptions=""/>
+				</Tool>
+			</FileConfiguration>
+		</File>
+	</Files>
+	<Globals/>
+</VisualStudioProject>

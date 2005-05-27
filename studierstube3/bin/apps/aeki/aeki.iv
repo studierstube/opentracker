@@ -1,0 +1,54 @@
+#Inventor V2.1 ascii
+
+SoApplicationKit {
+    readOnly TRUE
+    classLoader SoClassLoader {
+        className   "SoAekiKit"
+        fileName    "aeki_stb"
+    }
+
+    contextKit SoAekiKit {
+        templatePipSheet Separator {
+            DEF EVENT EventCallback {}
+            RotationXYZ {axis X angle 1.57}
+            SoTexture2Transform {rotation -1.57}
+            Texture2 { filename "../apps/aeki/textures/button_rev.gif"}
+            DEF REV_BUTTON So3DButton {
+                width 2 depth 2 height 1
+            }
+            Translation { translation 3 0 0 }
+            Texture2 { filename "../apps/aeki/textures/button_prev.gif"}
+            DEF PREV_BUTTON So3DButton {
+                width 2 depth 2 height 1
+            }
+            Translation { translation 3 0 0 }
+            Texture2 { filename "../apps/aeki/textures/button_next.gif"}
+            DEF NEXT_BUTTON So3DButton {
+                width 2 depth 2 height 1
+            }
+            Translation { translation 3 0 0 }
+            Texture2 { filename "../apps/aeki/textures/button_fwd.gif"}
+            DEF FWD_BUTTON So3DButton {
+                width 2 depth 2 height 1
+            }
+        }
+
+        windowGroup Group {
+            SoWindowKit {
+                state MAXIMIZED
+                title   "Aeki"
+                clientVolume Separator {
+                    # put here the file containing the model definition.
+                    # it will be read at startup and parsed into the
+                    # actual geometry
+                    Info { string "data/smallbox.xml" }
+                }
+            }
+        }
+
+        clonePipSheet       FALSE
+    }
+    appGeom Separator {
+        Texture2 { filename "../apps/aeki/textures/button_start.gif" }
+    }
+}

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ConsoleConfig display="on"/>
+	</configuration>
+
+    <ConsoleSink comment="playfield_pose_calibration" active="on">
+        <StbSink station="0" event="on">
+            <TestSource translation="0 0 0"/>
+        </StbSink>
+    </ConsoleSink>
+    
+    <ConsoleSink comment="white_puc" active="on">
+        <StbSink station="1">
+            <EventVirtualTransform translation="-0.002 -0.005 0.05">
+                <NetworkSource number="3" multicast-address="224.100.200.101" port="12346"/>
+            </EventVirtualTransform>
+        </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="red_puc" active="on">
+        <StbSink station="2">
+            <EventVirtualTransform translation="-0.002 -0.005 0.05">
+                <NetworkSource number="6" multicast-address="224.100.200.101" port="12346"/>
+            </EventVirtualTransform>
+        </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd0" active="on">
+      <StbSink station="3">         
+         <NetworkSource number="13" multicast-address="224.100.200.101" port="12346"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd1" active="on">
+        <StbSink station="4">
+            <NetworkSource number="10" multicast-address="224.100.200.101" port="12346"/>
+        </StbSink>
+    </ConsoleSink>
+    
+    <ConsoleSink comment="external_camera" active="on">
+        <StbSink station="5">
+            <NetworkSource number="10" multicast-address="224.100.200.101" port="12346"/>
+        </StbSink>
+    </ConsoleSink>
+
+</OpenTracker>

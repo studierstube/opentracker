@@ -1,0 +1,2019 @@
+#Inventor V2.1 ascii
+SoAbortGroup { 
+   abortActions ( RENDER | BBOX | EVENT3D )  
+
+DEF PIP_LAYOUT Separator {
+
+SoStatusBoxLayout {
+hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+layout Separator {
+
+       #Complexity{ textureQuality 1.0}
+#------------------------------------------------------------------------------------------------------
+	DEF UPPER_SPACE Separator {
+	  DEF SHOW_HELPNOTES Switch { #show / hide help notes
+	   whichChild 0
+	   Separator {
+	   
+	     Translation { translation 0.13 0 0.0135 }
+	     Rotation { rotation 1 0 0 0.57 }
+
+	     Separator {
+		Translation { translation 0 0 -0.02525 }
+	
+	        DEF STATUSBOX SoStatusBox { 
+	          width 1 depth 1 height 0.001
+		  
+		  hideLabel TRUE
+	          onPlane DEF HN_PLANE SoShapeKit { 
+	             coordinate3 SoCoordinate3 { point [-0.055 0 0.0275  ,0.055  0 0.0275, 0.055  0 -0.0275, -0.055 0 -0.0275 ] }
+		     shape FaceSet {}
+		     textureCoordinate2 TextureCoordinate2 { point [  0 0, 1 0, 1 1, 0 1 ] }
+		     appearance SoAppearanceKit { 
+		       material Material { diffuseColor 1 1 1 }
+		     }
+		   }
+	           offPlane USE HN_PLANE
+
+		   offContents Separator {
+		     Rotation { rotation 1 0 0 -1.570796 }
+		     Translation { translation -0.048 0 0.005 }
+		      
+		     DEF HELPNOTESTEXT Separator {
+			Translation { translation 0 -0.0247 0 }
+			Material { diffuseColor 0 0 0 } 
+		        SoFont { name "Arial Rounded MT Bold Fett" size 0.00423 }
+			AsciiText { justification LEFT string ["HelpNotes"] }
+		     }
+	           }
+
+		   onContents Separator {
+
+		     Rotation { rotation 1 0 0 -1.570796 }
+		     Translation { translation -0.048 0 0.005 }
+
+		     USE HELPNOTESTEXT
+
+		     SoFont { name "Arial Rounded MT Bold Fett" size 0.00593 }
+
+		     DEF STATUSBOX_SWITCH Switch {
+
+			Separator { #0
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["File"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the File Menu."] }
+			}
+
+			Separator { #1
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Save"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Saves scene automatically", "as \"save1.iv\", the next save", "as \"save2.iv\" etc."] }
+			}
+
+			Separator { #2
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Load"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Launches the Load Menu.", "Currently disabled - ask for help."] }
+			}
+
+			Separator { #3
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Import"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Import a VRML file in new window."] }
+			}
+
+			Separator { #4
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Export"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Export scene as VRML."] }
+			}
+
+			Separator { #5
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["HelpNotes"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Turn help tips on or off -", "default is on. Move pen away", "to see button's status change."] }
+			}
+
+			Separator { #6
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["NewStart"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Restart - deletes all objects,", "save your scene first if needed."] }
+			}
+
+			Separator { #7
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["View"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the View Menu."] }
+			}
+
+			Separator { #8
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Top View"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Turn on - a separate plane", "with top view will appear."] }
+			}
+
+			Separator { #9
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Front View"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Turn on - a separate plane", "with front view will appear."] }
+			}
+
+			Separator { #10
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Left View"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Turn on - a separate plane", "with left view will appear."] }
+			}
+
+			Separator { #11
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Right View"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Turn on - a separate plane", "with right view will appear."] }
+			}
+
+			Separator { #12
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Wireframe"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Selected objects are displayed", "as wireframe."] }
+			}
+
+			Separator { #13
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Edit"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the Edit Menu."] }
+			}
+
+			Separator { #14
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Deselect All"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Deselects all objects."] }
+			}
+
+			Separator { #15
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Undo"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Undo the last action -", "regardless which user did it."] }
+			}
+
+			Separator { #16
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Redo"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Redo previously undone action."] }
+			}
+
+			Separator { #17
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Delete"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Delete selected objects."] }
+			}
+
+			Separator { #18
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Copy off / on"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["When on, the selected action", "(Translate etc) is applied", "to a copy of the object."] }
+			}
+
+			Separator { #19
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Translate"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select objects + begin and", "end point of translation vector."] }
+			}
+
+			Separator { #20
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Rotate"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select objects + axis", "+ begin and end point of rotation."] }
+			}
+
+			Separator { #21
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Mirror"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select objects", "+ mirror plane."] }
+			}
+
+			Separator { #22
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Sweep"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select axis + curve of rotation."] }
+			}
+
+			Separator { #23
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Intersection"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 objects -", "intersects all 2D and 3D objects."] }
+			}
+
+			Separator { #24
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Boolean Union"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 overlapping 3D objects.", "No result if objects are not", "at least touching."] }
+			}
+
+			Separator { #25
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Boolean Intersection"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 overlapping 3D objects.", "No result if objects are not", "at least touching."] }
+			}
+
+			Separator { #26
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Boolean Difference"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 overlapping 3D objects.", "No result if objects are not", "at least touching."] }
+			}
+
+			Separator { #27
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Slice"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select object + plane."] }
+			}
+
+			Separator { #28
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Normal Plane"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select line + point.", "Normal plane will pass through", "that point."] }
+			}
+
+			Separator { #29
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Arc Bisector"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select point on first line", "+ vertex + point on second line."] }
+			}
+
+			Separator { #30
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Mid Point"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 points."] }
+			}
+
+			Separator { #31
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Tangential Plane"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select object + point on object."] }
+			}
+
+			Separator { #32
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Tangent"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select circle", "+ point in same plane as circle."] }
+			}
+
+			Separator { #33
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Plane Symmetry"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 points."] }
+			}
+
+			Separator { #34
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Normal Vector"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select object + point on normal."] }
+			}
+
+			Separator { #35
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Measure Distance - Point to Point"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 points."] }
+			}
+
+			Separator { #36
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Measure Angle"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 lines."] }
+			}
+
+			Separator { #37
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["B-Spline Curve"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select x points on curve, then", "select a maximum of x-1 degrees", "on Degree U."] }
+			}
+
+			Separator { #38
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Points on Surface"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 4 points clockwise, then", "select x points to add on Pts U/V."] }
+			}
+
+			Separator { #39
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Sphere"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select midpoint + point on sphere", "or select midpoint + 2 points", "(=radius)."] }
+			}
+
+			Separator { #40
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Points on Curve"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select points on curve", "(uses Degree U.)"] }
+			}
+
+			Separator { #41
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["B-Spline Surface"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 4 points clockwise, then", "select a maximum of x-1 degrees", "on Degree U."] }
+			}
+
+			Separator { #42
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Cylinder"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select midpoint 1 + midpoint 2", "+ point on cylinder", "or axis + point on cylinder."] }
+			}
+
+			Separator { #43
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Degree U"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Set degree in direction U."] }
+			}
+
+			Separator { #44
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Points U"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Set number of points", "in direction U."] }
+			}
+
+			Separator { #45
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Cone"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select midpoint + apex", "+ point on cone", "or axis + point on cone."] }
+			}
+
+			Separator { #46
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Degree V"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Set degree in direction V."] }
+			}
+
+			Separator { #47
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Points V"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Set number of points", "in direction V"] }
+			}
+
+			Separator { #48
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Box"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select origin + vertex X", "+ direction Y + direction Z."] }
+			}
+
+			Separator { #49
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Line"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 2 points."] }
+			}
+
+			Separator { #50
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Plane"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 3 points", "or 1 point + 1 line."] }
+			}
+
+			Separator { #51
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR 
+			   AsciiText { justification LEFT string ["Circle"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985
+				string ["Select 3 points or", "plane + midpoint + point on curve,", "or tangent + midpoint,", "or normal + point on circle."] }
+			}
+
+			Separator { #52
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Ellipse"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select midpoint", "+ end point of main axis", "+ point on ellipse."] }
+			}
+
+			Separator { #53
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Triangle"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select 3 points."] }
+			}
+
+			Separator { #54
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Transform"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the Transform Menu -", "actions in this menu require that", "objects be selected first."] }
+			}
+
+			Separator { #55
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Intersect"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the Intersect Menu -", "actions in this menu require that", "objects be selected first."] }
+			}
+
+			Separator { #56
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Construct"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the Construct Menu -", "actions in this menu require that", "objects be selected first."] }
+			}
+
+			Separator { #57
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["3d"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the 3d Menu -", "actions in this menu require that", "objects be selected first."] }
+			}
+
+			Separator { #58
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["2d"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Opens the 2d Menu -", "actions in this menu require that", "objects be selected first."] }
+			}
+
+			Separator { #59
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Point"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Sets point mode on or off - ", "default is on. Move pen away", "to see button's status change."] }
+			}
+
+			Separator { #60
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Layer Visibility"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Set layer visible or invisible."] }
+			}
+
+			Separator { #61
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Active Layer"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Sets layer you wish to work in", "= active layer."] }
+			}
+
+			Separator { #62
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Layer Scroll"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Displays more available layers,", "currently available 1 to 6."] }
+			}
+
+			Separator { #63
+			   Translation { translation 0 0.016 0 }
+			   USE FONT_COLOR AsciiText { justification LEFT string ["Move to Layer"] }
+			   Translation { translation 0 -0.00974 0 }
+			   Material { diffuseColor 0 0 0 }
+			   AsciiText { justification LEFT spacing 1.12985 string ["Select objects,", "click \"Move to...\",", "select target layer."] }
+			}
+
+	              }#switch
+
+	           }#onContents           
+
+	         }#STATUSBOX
+	      }#separator
+	       
+	      Separator {
+		 Translation { translation 0 0.00024 0 }
+ 	         #Rotation { rotation 1 0 0 0.57 }
+		 Translation { translation 0 0 0.0018 }
+	
+		 USE PAPERHOLDER_TEX 
+		 SoCube { width 0.11 depth 0.002 height 0.0004 }
+	       }
+	      Separator {
+		 Translation { translation 0 -0.00024 0 }
+ 	         #Rotation { rotation 1 0 0 0.57 }
+		 Translation { translation 0 0 0.0008 }
+	
+		 USE PAPERHOLDER_TEX 
+		 SoCube { width 0.11 depth 0.002 height 0.0004 }
+	       }
+
+	   }#separator
+	   }#switch
+
+	   DEF C3D_LOGO Separator {
+	      Translation { translation 0.19 0.0034 0.0186 }
+	      
+	      SoShapeKit { 
+	        coordinate3 SoCoordinate3 { point [ 0 0 0, 0.0305  0 0, 0.0305 0 0.005, 0 0 0.005 ] }
+		shape FaceSet {}
+		appearance SoAppearanceKit { 
+		    texture2 USE LOGO_CONSTR_TEX 
+		}
+		textureCoordinate2 TextureCoordinate2 { point [  0 1, 1 1, 1 0, 0 0 ] }
+	      }
+	      
+	      Translation { translation 0.03235 0 0 }
+	      
+	      Separator {
+		Translation { translation 0 0 0.0025 }
+	        Material { 
+					ambientColor  0.25 0.25 0.25
+					diffuseColor	0.01 0.01 0.01
+					specularColor	0.700798 0.84604 1
+					emissiveColor	0.03 0.03 0.03
+					shininess	0.7
+					transparency	0 
+					}
+		Translation { translation 0 0 -0.0029 }
+		SoSphere { radius 0.0009 }
+		Translation { translation 0 0 0.0029 }
+		SoSphere { radius 0.0009 }
+		Translation { translation 0 0 0.0029 }
+		SoSphere { radius 0.0009 }
+	      }
+
+	      Translation { translation 0.00185 0 0 }
+	      
+	      SoShapeKit { 
+	        coordinate3 SoCoordinate3 { point [ 0 0 0, 0.0071  0 0, 0.0071 0 0.005, 0 0 0.005 ] }
+		shape FaceSet {}
+		appearance SoAppearanceKit { 
+		    texture2 USE LOGO_3D_TEX 
+		}
+		textureCoordinate2 TextureCoordinate2 { point [  0 1, 1 1, 1 0, 0 0 ] }
+	      }
+	   }
+
+	}#UPPER_SPACE
+
+#------------------------------------------------------------------------------------------------------
+
+	DEF MENU_BAR Separator {
+	   Translation { translation 0.241 0 0.0445 }
+	   SoWidgetLayoutGroup {
+	      width 0.036 depth 0.035 height 0.003
+	      numOfRows 3
+	      spacingWidth 0.214
+
+	      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+	      elements NodeKitListPart { containerNode Group {
+
+		DEF FILE SoToggleButton { 
+	          onGeometry Separator { USE ON_GROUP USE FILE_TEX USE LABEL_GEOMETRY }
+	          offGeometry Separator { USE OFF_GROUP USE FILE_TEX USE LABEL_GEOMETRY }
+	          highlightedOnGeometry Separator { USE HL_ON_GROUP USE FILE_TEX_H USE LABEL_GEOMETRY }
+	          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE FILE_TEX_H USE LABEL_GEOMETRY }
+	          disabledOnGeometry Separator { USE DA_GROUP }
+	          disabledOffGeometry Separator { USE DA_GROUP }
+		  statusBoxText ["0"]
+		} 
+
+		DEF VIEW SoToggleButton { 
+	          onGeometry Separator { USE ON_GROUP USE VIEW_TEX USE LABEL_GEOMETRY }
+	          offGeometry Separator { USE OFF_GROUP USE VIEW_TEX USE LABEL_GEOMETRY }
+	          highlightedOnGeometry Separator { USE HL_ON_GROUP USE VIEW_TEX_H USE LABEL_GEOMETRY }
+	          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE VIEW_TEX_H USE LABEL_GEOMETRY }
+	          disabledOnGeometry Separator { USE DA_GROUP }
+	          disabledOffGeometry Separator { USE DA_GROUP }
+		  statusBoxText ["7"]
+		} 
+
+		DEF EDIT SoToggleButton { 
+	          onGeometry Separator { USE ON_GROUP USE EDIT_TEX USE LABEL_GEOMETRY }
+	          offGeometry Separator { USE OFF_GROUP USE EDIT_TEX USE LABEL_GEOMETRY }
+	          highlightedOnGeometry Separator { USE HL_ON_GROUP USE EDIT_TEX_H USE LABEL_GEOMETRY }
+	          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE EDIT_TEX_H USE LABEL_GEOMETRY }
+	          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+	          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		  statusBoxText ["13"]
+		}
+
+	      }}
+	   }
+	}#MENU_BAR
+			   
+
+	DEF FILE_MENU_SWITCH Switch {
+	whichChild -1
+
+	   DEF FILE_MENU Separator {
+
+	      Translation { translation 0.1115 0 0.032 }
+
+	      SoWidgetLayoutGroup {
+		 width 0.221 depth 0.01 height 0.003
+		 numOfCols 6
+	         spacingWidth 0.0271
+	         
+		 hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+	         elements NodeKitListPart { containerNode Group {
+
+			DEF NEW_START SoPushButton { 
+		          onGeometry Separator { USE ON_GROUP USE NEW_START_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE NEW_START_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE NEW_START_TEX USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE NEW_START_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "6"
+			} 
+
+			DEF HELP_NOTES SoToggleButton { 
+			  on TRUE
+		          onGeometry Separator { USE ON_GROUP USE HELP_NOTES_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE HELP_NOTES_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE HELP_NOTES_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE HELP_NOTES_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "5"
+			} 
+
+			DEF EXPORT_VRML SoPushButton { 
+		          onGeometry Separator { USE ON_GROUP USE EXPORT_VRML_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE EXPORT_VRML_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE EXPORT_VRML_TEX USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE EXPORT_VRML_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "4"
+			} 
+
+			DEF IMPORT SoPushButton { 
+		          onGeometry Separator { USE ON_GROUP USE IMPORT_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE IMPORT_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE IMPORT_TEX USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE IMPORT_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+  			  statusBoxText "3"
+
+			} 
+
+			DEF LOAD SoPushButton { 
+		          onGeometry Separator { USE ON_GROUP USE LOAD_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE LOAD_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE LOAD_TEX USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LOAD_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "2"
+			} 
+
+			DEF SAVE SoPushButton { 
+		          onGeometry Separator { USE ON_GROUP USE SAVE_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE SAVE_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE SAVE_TEX USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE SAVE_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "1"
+			} 
+		      }}
+		   } 
+
+		}#FILE_MENU
+		}#FILE_MENU_SWITCH
+
+		DEF VIEW_MENU_SWITCH Switch {
+		   whichChild -1
+
+
+			DEF VIEW_MENU Separator {
+
+			   Translation { translation 0.1115 0 0.0445 }
+
+			   SoWidgetLayoutGroup {
+			      width 0.221 depth 0.01 height 0.003
+			      numOfCols 6
+			      spacingWidth 0.0271
+			      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+			      elements NodeKitListPart { containerNode Group {
+
+				SoWidgetLayoutGroup {} 
+
+				DEF WIREFRAME SoPushButton { 
+			          onGeometry Separator { USE ON_GROUP USE WIREFRAME_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE WIREFRAME_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE WIREFRAME_TEX USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE WIREFRAME_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "12"
+				} 
+
+				DEF RIGHT_BUTTON SoToggleButton { 
+			          onGeometry Separator { USE ON_GROUP USE RIGHT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE RIGHT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE RIGHT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE RIGHT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "11"
+				} 
+
+				DEF LEFT_BUTTON SoToggleButton { 
+			          onGeometry Separator { USE ON_GROUP USE LEFT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE LEFT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE LEFT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LEFT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "10"
+				} 
+
+				DEF FRONT_BUTTON SoToggleButton { 
+			          onGeometry Separator { USE ON_GROUP USE FRONT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE FRONT_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE FRONT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE FRONT_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "9"
+				} 
+
+				DEF TOP_BUTTON SoToggleButton { 
+			          onGeometry Separator { USE ON_GROUP USE TOP_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE TOP_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE TOP_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TOP_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "8"
+				} 
+
+			      }}
+			   }
+			}#VIEW_MENU
+		}#VIEW_MENU_SWITCH
+
+		DEF EDIT_MENU_SWITCH Switch {
+		   whichChild -1
+
+			DEF EDIT_MENU Separator {
+			   Translation { translation 0.1115 0 0.057 }
+
+			   SoWidgetLayoutGroup {
+			      width 0.221 depth 0.01 height 0.003
+			      numOfCols 6
+			      spacingWidth 0.0271
+			      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+			      elements NodeKitListPart { containerNode Group {
+
+				SoWidgetLayoutGroup {} 
+
+				SoWidgetLayoutGroup {} 
+
+				DEF DELETE_BUTTON SoPushButton { 
+			          onGeometry Separator { USE ON_GROUP USE DELETE_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE DELETE_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE DELETE_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE DELETE_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "17"
+				} 
+
+				DEF REDO_BUTTON SoPushButton { 
+			          onGeometry Separator { USE ON_GROUP USE REDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE REDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE REDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE REDO_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "16"
+				} 
+
+				DEF UNDO_BUTTON SoPushButton { 
+			          onGeometry Separator { USE ON_GROUP USE UNDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE UNDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE UNDO_BUTTON_TEX USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE UNDO_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "15"
+				} 
+
+				DEF DESELECT SoPushButton { 
+			          onGeometry Separator { USE ON_GROUP USE DESELECT_TEX USE LABEL_GEOMETRY }
+			          offGeometry Separator { USE OFF_GROUP USE DESELECT_TEX USE LABEL_GEOMETRY }
+			          highlightedOnGeometry Separator { USE HL_ON_GROUP USE DESELECT_TEX USE LABEL_GEOMETRY }
+			          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE DESELECT_TEX_H USE LABEL_GEOMETRY }
+			          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+				  statusBoxText "14"
+				} 
+
+			      }}
+			   }
+			}#EDIT_MENU
+		}#EDIT_MENU_SWITCH
+
+
+		DEF CONSTR_BAR Separator {
+		   Translation { translation 0.13 0 0.0695 }
+
+		   SoWidgetLayoutGroup {
+		      width 0.258 depth 0.01 height 0.003
+		      numOfCols 6
+		      spacingWidth 0.0233
+		      sizeOfCols [1, 1, 1, 1, 1, 2]
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+			DEF TRANSFORM SoToggleButton { 
+		          onGeometry Separator { USE ON_GROUP USE TRANSFORM_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE TRANSFORM_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE TRANSFORM_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TRANSFORM_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "54"
+			}  
+
+			DEF INTERSECT SoToggleButton { 
+		          onGeometry Separator { USE ON_GROUP USE INTERSECT_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE INTERSECT_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE INTERSECT_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE INTERSECT_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "55"
+			} 
+
+			DEF CONSTRUCT SoToggleButton { 
+		          onGeometry Separator { USE ON_GROUP USE CONSTRUCT_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE CONSTRUCT_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE CONSTRUCT_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE CONSTRUCT_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "56"
+			} 
+
+			DEF THREE_D SoToggleButton { 
+		          onGeometry Separator { USE ON_GROUP USE THREE_D_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE THREE_D_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE THREE_D_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE THREE_D_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "57"
+			} 
+
+			DEF TWO_D SoToggleButton { 
+		          onGeometry Separator { USE ON_GROUP USE TWO_D_TEX USE LABEL_GEOMETRY }
+		          offGeometry Separator { USE OFF_GROUP USE TWO_D_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP USE TWO_D_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TWO_D_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "58"
+			} 
+
+			DEF POINT SoToggleButton { 
+			  on TRUE
+		          onGeometry Separator { USE ON_GROUP Separator { USE POINT_ON_GEOMETRY_MATERIAL SoTransform { translation 0 1.8 0 scaleFactor 0.14 3.33 1 } SoSphere {radius .3 }}
+				USE POINT_TEX USE LABEL_GEOMETRY  }
+		          offGeometry Separator { USE OFF_GROUP  Separator { USE POINT_OFF_GEOMETRY_MATERIAL SoTransform { translation 0 1.8 0 scaleFactor 0.14 3.33 1 } SoSphere {radius .3 }}
+				USE POINT_TEX USE LABEL_GEOMETRY }
+		          highlightedOnGeometry Separator { USE HL_ON_GROUP Separator { USE POINT_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0 1.8 0 scaleFactor 0.14 3.33 1 } SoSphere {radius .3 }}
+				USE POINT_TEX_H USE LABEL_GEOMETRY }
+		          highlightedOffGeometry Separator { USE HL_OFF_GROUP Separator { USE POINT_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0 1.8 0 scaleFactor 0.14 3.33 1 } SoSphere {radius .3 }}
+				USE POINT_TEX_H USE LABEL_GEOMETRY }
+		          disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		          disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  statusBoxText "59"
+			} 
+
+		      }}
+		   }
+		}#CONTR_BAR
+
+		DEF LAYERS Separator {
+
+	           DEF LAYER_PLANE Separator {
+		      Translation { translation 0.0185 0 0.11575 }
+			   SoShapeKit {
+			      appearance SoAppearanceKit { 
+		              material Material { transparency  0.5 }
+			      texture2 USE AREA_LAYERS_TEX
+			   }
+			   textureCoordinate2 TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+
+			    coordinate3 Coordinate3 { point [-0.0185  0 -0.03625, -0.0185 0 0.03625, 0.0185 0 0.03625  ,0.0185  0 -0.03625 ] }
+			    shape FaceSet {}
+			   }
+			}
+
+		   Translation { translation 0.019 0 0.1095 }
+
+		   DEF LAYER_SWITCH Switch {
+
+		   whichChild -1
+		   
+		   SoWidgetLayoutGroup {
+		       width 0.036 depth 0.035 height 0.003
+		       numOfCols 2
+		       spacingWidth 0.05556 spacingDepth 0.214
+		       sizeOfCols [5, 2]
+		       hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				
+		       elements NodeKitListPart { containerNode Group {
+		
+	 	         DEF LAYER_1 SoToggleButton { 
+			    on TRUE
+			    onGeometry Separator { USE ON_GROUP USE LAYER_1_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_1_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_1_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_1_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    statusBoxText "61"
+			 }  
+
+			 DEF LAYER_1_VIS SoToggleButton { 
+			    on TRUE
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+
+			 } 
+
+		         DEF LAYER_2 SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_2_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_2_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_2_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_2_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "61"
+			 }  
+
+			 DEF LAYER_2_VIS SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+			 } 
+
+			 DEF LAYER_3 SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_3_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_3_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_3_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_3_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "61"
+			 }  
+
+			 DEF LAYER_3_VIS SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+			 } 
+
+		      }}
+		   }
+
+		   SoWidgetLayoutGroup {
+		      width 0.036 depth 0.035 height 0.003
+		      numOfCols 2
+		      spacingWidth 0.0556 spacingDepth 0.214
+		      sizeOfCols [5, 2]
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+			
+		      elements NodeKitListPart { containerNode Group {
+
+			USE LAYER_2
+			USE LAYER_2_VIS
+			USE LAYER_3
+			USE LAYER_3_VIS
+				        
+			DEF LAYER_4 SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_4_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_4_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_4_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_4_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "61"
+		        }  
+
+		        DEF LAYER_4_VIS SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+		        } 
+
+	              }}
+	             }
+
+		   SoWidgetLayoutGroup {
+		      width 0.036 depth 0.035 height 0.003
+		      numOfCols 2
+		       spacingWidth 0.05556 spacingDepth 0.214
+		      sizeOfCols [5, 2]
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				
+		      elements NodeKitListPart { containerNode Group {
+
+			USE LAYER_3
+			USE LAYER_3_VIS
+			USE LAYER_4
+			USE LAYER_4_VIS
+				        
+			DEF LAYER_5 SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_5_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_5_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_5_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_5_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "61"
+		        }  
+
+		        DEF LAYER_5_VIS SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+		        } 
+
+	              }}
+	             }
+
+		   SoWidgetLayoutGroup {
+		      width 0.036 depth 0.035 height 0.003
+		      numOfCols 2
+		      spacingWidth 0.05556 spacingDepth 0.214
+		      sizeOfCols [5, 2]
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				
+		      elements NodeKitListPart { containerNode Group {
+
+			USE LAYER_4
+			USE LAYER_4_VIS
+			USE LAYER_5
+			USE LAYER_5_VIS
+				        
+			DEF LAYER_6 SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_6_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_6_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_6_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_6_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "61"
+		        }  
+
+		        DEF LAYER_6_VIS SoToggleButton { 
+			    onGeometry Separator { USE ON_GROUP USE LAYER_VIS_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LAYER_NOTVIS_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LAYER_VIS_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		            disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    			    statusBoxText "60"
+		        } 
+
+	              }}
+	             }
+
+		}#switch
+
+  	        Translation { translation 0 0 0.025 }
+
+
+		SoWidgetLayoutGroup {
+		  width 0.036 depth 0.01 height 0.003
+		  numOfCols 2
+		  spacingWidth 0.11
+		  hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		  elements NodeKitListPart { containerNode Group {
+
+		     DEF UP_BUTTON SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE UP_BUTTON_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE UP_BUTTON_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE UP_BUTTON_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE UP_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE OFF_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE OFF_GROUP USE LABEL_GEOMETRY }
+    			statusBoxText "62"
+		     }  
+
+		     DEF DOWN_BUTTON SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE DOWN_BUTTON_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE DOWN_BUTTON_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE DOWN_BUTTON_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE DOWN_BUTTON_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE OFF_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE OFF_GROUP USE LABEL_GEOMETRY }
+    			statusBoxText "62"
+		     } 
+
+	           }}
+	        }
+
+		Translation { translation 0 0 0.0125 }
+
+
+		DEF MOVE_TO SoPushButton { 
+		   width 0.036 depth 0.01 height 0.003
+	           onGeometry Separator { USE ON_GROUP USE MOVE_TO_TEX USE LABEL_GEOMETRY }
+		   offGeometry Separator { USE OFF_GROUP USE MOVE_TO_TEX USE LABEL_GEOMETRY }
+		   highlightedOnGeometry Separator { USE HL_ON_GROUP USE MOVE_TO_TEX USE LABEL_GEOMETRY }
+		   highlightedOffGeometry Separator { USE HL_OFF_GROUP USE MOVE_TO_TEX_H USE LABEL_GEOMETRY }
+		   disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+	           disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+    		   statusBoxText "63"
+		} 
+
+	}#LAYERS
+
+	DEF WORK_SPACE Separator {
+	   Translation { translation 0.1485 0 0.14075 }
+
+	   DEF WORK_SPACE_SWITCH Switch
+	   {
+	   whichChild -1
+
+		DEF TRANSFORM_PART SoSeparator {
+		   Translation { translation 0.037 0 -0.025 }
+
+		    DEF TRANSFORM_PLANE Separator {
+		       Translation { translation 0.0005 0 0 }
+			   SoShapeKit {
+			      appearance SoAppearanceKit { 
+			         material Material { transparency  0.5 }
+				 texture2 USE AREA_COPY_TEX
+			      }
+			      coordinate3 Coordinate3 { point [-0.074  0 -0.03625, -0.074 0 0.03625, 0.074 0 0.03625  ,0.074  0 -0.03625 ] }
+			      shape FaceSet {}
+			   }
+		      }
+		
+		   SoWidgetLayoutGroup { 
+		      width 0.147 depth 0.0725 height 0.003
+		      numOfCols 2 numOfRows 3
+		      spacingDepth 0.103
+		      spacingWidth 0.020
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				   
+		      elements NodeKitListPart { containerNode Group {
+
+		      DEF COPY_ON_OFF SoToggleButton { 
+		        onGeometry Separator { USE ON_GROUP USE COPY_ON_OFF_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE COPY_ON_OFF_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE COPY_ON_OFF_TEX_H USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE COPY_ON_OFF_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "18"
+		      }  
+
+		      DEF TRANSLATE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE TRANSLATE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE TRANSLATE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE TRANSLATE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TRANSLATE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "19"
+
+		      }  
+
+		      SoWidgetLayoutGroup {}
+
+		      DEF ROTATE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE ROTATE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE ROTATE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE ROTATE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE ROTATE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "20"
+		      }  
+
+		      SoWidgetLayoutGroup {}
+
+
+		      DEF MIRROR SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE MIRROR_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE MIRROR_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE MIRROR_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE MIRROR_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "21"
+		      }  
+		
+		      }}
+		   } 
+
+		   Translation {translation 0 0 0.055 }
+
+	   	   SoWidgetLayoutGroup { 
+		      width 0.147 depth 0.0225 height 0.003
+		      numOfCols 2
+		      spacingDepth 0.104
+		      spacingWidth 0.020
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		      SoWidgetLayoutGroup {}
+
+		      DEF SWEEP SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE SWEEP_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE SWEEP_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE SWEEP_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE SWEEP_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "22"
+		      }  
+		
+		      }}
+		   } 
+		}#TRANSFORM_PART 
+
+		DEF INTERSECT_PART Separator {
+
+		Translation { translation -0.037 0 0 }
+
+	   	SoWidgetLayoutGroup { 
+		   width 0.073 depth 0.1225 height 0.003
+		   numOfCols 1 numOfRows 5
+		   spacingDepth 0.102
+		   hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				   
+		   elements NodeKitListPart { containerNode Group {
+
+		     DEF INTERSECTION SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE INTERSECTION_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE INTERSECTION_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE INTERSECTION_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE INTERSECTION_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "23"
+		     }  
+
+		     DEF BOOLEAN_UNION SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE BOOLEAN_UNION_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE BOOLEAN_UNION_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE BOOLEAN_UNION_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE BOOLEAN_UNION_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "24"
+		     } 
+
+		     DEF BOOLEAN_INTERSECTION SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE BOOLEAN_INTERSECTION_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE BOOLEAN_INTERSECTION_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE BOOLEAN_INTERSECTION_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE BOOLEAN_INTERSECTION_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "25"
+		     }  
+
+		     DEF BOOLEAN_DIFFERENCE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE BOOLEAN_DIFFERENCE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE BOOLEAN_DIFFERENCE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE BOOLEAN_DIFFERENCE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE BOOLEAN_DIFFERENCE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "26"
+		     } 
+
+		     DEF SLICE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE SLICE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE SLICE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE SLICE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE SLICE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "27"
+		     }  
+#
+	           }}
+	        }
+
+		}#INTERSECT_PART
+
+	   	DEF CONSTRUCT_PART Separator { 
+		   Translation { translation 0 0 -0.025}
+
+		   SoWidgetLayoutGroup { 
+		      width 0.221 depth 0.0725 height 0.003
+		      numOfCols 3 numOfRows 3
+		      spacingDepth 0.104
+		      spacingWidth 0.0136
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				   
+		      elements NodeKitListPart { containerNode Group {
+
+		      DEF NORMAL_PLANE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE NORMAL_PLANE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE NORMAL_PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE NORMAL_PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE NORMAL_PLANE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "28"
+		      }  
+
+		      DEF ARC_BISECTOR SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE ARC_BISECTOR_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE ARC_BISECTOR_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE ARC_BISECTOR_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE ARC_BISECTOR_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "29"
+		      }  
+
+		      DEF MID_POINT SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE MID_POINT_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE MID_POINT_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE MID_POINT_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE MID_POINT_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "30"
+		      }  
+
+		      DEF TANGENTIAL_PLANE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE TANGENTIAL_PLANE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE TANGENTIAL_PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE TANGENTIAL_PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TANGENTIAL_PLANE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "31"
+		      }  
+		
+		      DEF TANGENT SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE TANGENT_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE TANGENT_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE TANGENT_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TANGENT_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "32"
+		      }  
+
+		      SoWidgetLayoutGroup {}
+
+		      DEF PLANE_SYMMETRY SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE PLANE_SYMMETRY_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE PLANE_SYMMETRY_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE PLANE_SYMMETRY_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE PLANE_SYMMETRY_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "33"
+		      }  
+	
+		      DEF NORMAL_VECTOR SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE NORMAL_VECTOR_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE NORMAL_VECTOR_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE NORMAL_VECTOR_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE NORMAL_VECTOR_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "34"
+		      }  
+
+		      SoWidgetLayoutGroup {}
+
+		      }}
+		   } 
+
+		   Translation {translation 0 0 0.055 }
+
+		   DEF CONTRUCT_PLANE Separator {
+		           Translation { translation 0.0005 0 0 }
+			   SoShapeKit {
+			      appearance SoAppearanceKit { 
+			         material Material { transparency  0.5 }
+				 texture2 USE AREA_MEASURE_TEX
+			      }
+			      textureCoordinate2 TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+
+			      coordinate3 Coordinate3 { point [-0.111  0 -0.01125, -0.111 0 0.01125, 0.111 0 0.01125  ,0.111  0 -0.01125 ] }
+			      shape FaceSet {}
+			   }
+		   }
+
+
+	   	   SoWidgetLayoutGroup { 
+		      width 0.221 depth 0.0225 height 0.003
+		      numOfCols 3 numOfRows 1
+		      spacingWidth 0.0136
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		      SoWidgetLayoutGroup {}
+
+
+		      DEF DISTANCE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE DISTANCE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE DISTANCE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE DISTANCE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE DISTANCE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "35"
+		      }  
+		
+		      DEF ANGLE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE ANGLE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE ANGLE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE ANGLE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE ANGLE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "36"
+		      }  
+
+
+		      }}
+		   } 
+		}#CONSTRUCT PART
+
+		DEF THREE_D_PART SoSeparator { 
+		   Translation { translation 0 0 -0.0125 }
+
+		   SoWidgetLayoutGroup {
+		      width 0.221 depth 0.0975 height 0.003
+		      numOfCols 3 numOfRows 4
+		      spacingWidth 0.0136 spacingDepth 0.103
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		      DEF B_SPLINE_CURVE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE B_SPLINE_CURVE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE B_SPLINE_CURVE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE B_SPLINE_CURVE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE B_SPLINE_CURVE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "37"
+		      }  
+		
+		      DEF POINTS_SURFACE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE POINTS_SURFACE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE POINTS_SURFACE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE POINTS_SURFACE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE POINTS_SURFACE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "38"
+		      }  
+
+		      DEF SPHERE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP Separator { USE SPHERE_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.4 0 scaleFactor 0.14 3.33 0.44 } SoSphere {radius .75 }}
+				USE SPHERE_TEX USE LABEL_GEOMETRY }	
+			offGeometry Separator { USE OFF_GROUP Separator { USE SPHERE_OFF_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.4 0 scaleFactor 0.14 3.33 0.44 } SoSphere {radius .75 }}
+				USE SPHERE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP Separator { USE SPHERE_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.4 0 scaleFactor 0.14 3.33 0.44 } SoSphere {radius .75 }}
+				USE SPHERE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP Separator { USE SPHERE_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.4 0 scaleFactor 0.14 3.33 0.44 } SoSphere {radius .75 }}
+				USE SPHERE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "39"
+
+		      }  
+		
+		      DEF POINTS_CURVE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE POINTS_CURVE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE POINTS_CURVE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE POINTS_CURVE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE POINTS_CURVE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "40"
+		      }  
+
+		      DEF B_SPLINE_SURFACE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE B_SPLINE_SURFACE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE B_SPLINE_SURFACE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE B_SPLINE_SURFACE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE B_SPLINE_SURFACE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "41"
+		      }  
+
+		      DEF CYLINDER SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP Separator { USE CYLINDER_ON_GEOMETRY_MATERIAL SoTransform { translation 0.25 3.4 0 scaleFactor 0.14 3.33 0.44 } Rotation { rotation 1 0 2.8 1.57 } SoCylinder {radius .5 height 2.4 }}
+				USE CYLINDER_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP Separator { USE CYLINDER_OFF_GEOMETRY_MATERIAL SoTransform { translation 0.25 3.4 0 scaleFactor 0.14 3.33 0.44 } Rotation { rotation 1 0 2.8 1.57 } SoCylinder {radius .5 height 2.4 }}
+				USE CYLINDER_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP Separator { USE CYLINDER_ON_GEOMETRY_MATERIAL SoTransform { translation 0.25 3.4 0 scaleFactor 0.14 3.33 0.44 } Rotation { rotation 1 0 2.8 1.57 } SoCylinder {radius .5 height 2.4 }} 
+				USE CYLINDER_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP Separator { USE CYLINDER_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0.25 3.4 0 scaleFactor 0.14 3.33 0.44 } Rotation { rotation 1 0 2.8 1.57 } SoCylinder {radius .5 height 2.4 }}
+				USE CYLINDER_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "42"
+			
+		      } 
+
+		      SoWidgetLayoutGroup {
+		      numOfCols 1 numOfRows 2
+		      spacingDepth 0.22
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		        SoWidgetLayoutGroup {}
+		      
+		        DEF DEGREE_U SoIncrementalSlider {
+		      	  minValue 2 maxValue 6 
+		          increment 1
+			  hideSlider TRUE
+			  buttonSpace 0.342
+			  down SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE RIGHT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  }
+			  up SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LEFT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			  }
+			  statusBoxText "43"
+			}
+		      }}}
+
+		      SoWidgetLayoutGroup {
+		      numOfCols 1 numOfRows 2
+		      spacingDepth 0.22
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		        SoWidgetLayoutGroup {}
+		      
+		      DEF POINT_U SoIncrementalSlider {
+		      	minValue 2 maxValue 8 
+		        increment 1
+			hideSlider TRUE
+			down SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE RIGHT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			up SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LEFT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			buttonSpace 0.342
+			statusBoxText "44"
+			}
+		      }}}
+		      
+		      DEF CONE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP Separator { USE CONE_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 4.5 0 scaleFactor 0.14 3.33 0.44 } SoCone { bottomRadius 0.8 height 1.7 }}
+				USE CONE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP Separator { USE CONE_OFF_GEOMETRY_MATERIAL SoTransform { translation 0.3 4.5 0 scaleFactor 0.14 3.33 0.44 } SoCone { bottomRadius 0.8 height 1.7 }}
+				USE CONE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP Separator { USE CONE_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 4.5 0 scaleFactor 0.14 3.33 0.44 } SoCone { bottomRadius 0.8 height 1.7 }}
+				USE CONE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP Separator { USE CONE_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0.3 4.5 0 scaleFactor 0.14 3.33 0.44 } SoCone { bottomRadius 0.8 height 1.7 }}
+				USE CONE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "45"
+		      }  
+		      
+		      SoWidgetLayoutGroup {
+		      numOfCols 1 numOfRows 2
+		      spacingDepth 0.22
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		        SoWidgetLayoutGroup {}
+		      
+		      DEF DEGREE_V SoIncrementalSlider {
+		      	minValue 2 maxValue 6 
+		        increment 1
+			hideSlider TRUE
+			down SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE RIGHT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			up SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LEFT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			buttonSpace 0.342
+			statusBoxText "46"
+			}
+		      }}}
+
+		      SoWidgetLayoutGroup {
+		      numOfCols 1 numOfRows 2
+		      spacingDepth 0.22
+		      hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+
+		      elements NodeKitListPart { containerNode Group {
+
+		        SoWidgetLayoutGroup {}
+		      
+		      DEF POINT_V SoIncrementalSlider {
+		      	minValue 2 maxValue 8
+		        increment 1
+			hideSlider TRUE
+			down SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE RIGHT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE RIGHT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			up SoPushButton {
+			    onGeometry Separator { USE ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    offGeometry Separator { USE OFF_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOnGeometry Separator { USE HL_ON_GROUP USE LEFT_TEX USE LABEL_GEOMETRY }
+			    highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LEFT_TEX_H USE LABEL_GEOMETRY }
+			    disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			    disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			}
+			buttonSpace 0.342
+			statusBoxText "47"
+			}
+		      }}}
+
+
+		      DEF BOX SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP Separator { USE BOX_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.2 0 scaleFactor 0.14 3.33 0.44 } SoCube { width 1.8 depth 1.5 height 1.0 }}
+				USE BOX_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP Separator { USE BOX_OFF_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.2 0 scaleFactor 0.14 3.33 0.44 } SoCube { width 1.8 depth 1.5 height 1.0 }}
+				USE BOX_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP Separator { USE BOX_ON_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.2 0 scaleFactor 0.14 3.33 0.44 } SoCube { width 1.8 depth 1.5 height 1.0 }}
+				USE BOX_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP Separator { USE BOX_HILITE_GEOMETRY_MATERIAL SoTransform { translation 0.3 3.2 0 scaleFactor 0.14 3.33 0.44 } SoCube { width 1.8 depth 1.5 height 1.0 }}
+				USE BOX_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "48"
+		      }  
+
+
+		   }}
+		} 
+
+
+		#Backplanes for the siders
+		Translation { translation -0.037 0 0.025 }
+
+		Separator {
+		   Translation { translation -0.037 0.0002 -0.0125 }
+		   
+		   DEF DEG_U_PLANE Separator {
+			   Material { transparency  0.5 }
+			   USE AREA_DEGU_TEX
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.01125, -0.0365  0 0.01125, 0.0365 0 0.01125, 0.0365 0 -0.01125 ] }
+			   FaceSet {}
+		   }
+		   
+		   Translation { translation 0 0.0002 0.00625 }
+		   
+		   DEF DEG_U_RESULT Separator {
+			   Material { transparency  0 }
+			   DEF DEG_U_TEX Switch {
+			     USE RES_EMPT_TEX
+			     USE RES_1_TEX
+			     USE RES_2_TEX
+			     USE RES_3_TEX
+			     USE RES_4_TEX
+			     USE RES_5_TEX
+			     USE RES_6_TEX
+			   }
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.005, -0.0365  0 0.005, 0.0365 0 0.005, 0.0365 0 -0.005 ] }
+			   FaceSet {}
+		   }
+
+		}
+		Separator {
+		   Translation { translation 0.037 0.0002 -0.0125 }
+		   DEF POINT_U_PLANE Separator {
+			   Material { transparency  0.5 }
+			   USE AREA_POIU_TEX
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.01125, -0.0365  0 0.01125, 0.0365 0 0.01125, 0.0365 0 -0.01125 ] }
+			   FaceSet {}
+		   }
+		   
+		   Translation { translation 0 0.0002 0.00625 }
+		   
+		   DEF POINT_U_RESULT Separator {
+			   Material { transparency  0 }
+			   DEF POINT_U_TEX Switch {
+			     USE RES_EMPT_TEX
+			     USE RES_1_TEX
+			     USE RES_2_TEX
+			     USE RES_3_TEX
+			     USE RES_4_TEX
+			     USE RES_5_TEX
+			     USE RES_6_TEX
+			     USE RES_7_TEX
+			     USE RES_8_TEX
+			   }
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.005, -0.0365  0 0.005, 0.0365 0 0.005, 0.0365 0 -0.005 ] }
+			   FaceSet {}
+		   }
+
+		}
+		Separator {
+		   Translation { translation -0.037 0.0002 0.0125 }
+		   DEF DEG_V_PLANE Separator {
+			   Material { transparency  0.5 }
+			   USE AREA_DEGV_TEX
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.01125, -0.0365  0 0.01125, 0.0365 0 0.01125, 0.0365 0 -0.01125 ] }
+			   FaceSet {}
+		   }
+		   
+		   Translation { translation 0 0.0002 0.00625 }
+		   
+		   DEF DEG_V_RESULT Separator {
+			   Material { transparency  0 }
+			   DEF DEG_V_TEX Switch {
+			     USE RES_EMPT_TEX
+			     USE RES_1_TEX
+			     USE RES_2_TEX
+			     USE RES_3_TEX
+			     USE RES_4_TEX
+			     USE RES_5_TEX
+			     USE RES_6_TEX
+			     }
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.005, -0.0365  0 0.005, 0.0365 0 0.005, 0.0365 0 -0.005 ] }
+			   FaceSet {}
+		   }
+		}
+		Separator {
+		   Translation { translation 0.037 0.0002 0.0125 }
+		   DEF POINT_V_PLANE Separator {
+			   Material { transparency  0.5 }
+			   USE AREA_POIV_TEX
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.01125, -0.0365  0 0.01125, 0.0365 0 0.01125, 0.0365 0 -0.01125 ] }
+			   FaceSet {}
+		   }
+		   
+		   Translation { translation 0 0.0002 0.00625 }
+		   
+		   DEF POINT_V_RESULT Separator {
+			   Material { transparency  0 }
+			   DEF POINT_V_TEX Switch {
+			     USE RES_EMPT_TEX
+			     USE RES_1_TEX
+			     USE RES_2_TEX
+			     USE RES_3_TEX
+			     USE RES_4_TEX
+			     USE RES_5_TEX
+			     USE RES_6_TEX
+			     USE RES_7_TEX
+			     USE RES_8_TEX
+			   }
+			   TextureCoordinate2 { point [ 0 1, 0 0, 1 0, 1 1 ] }
+			   Coordinate3 { point [-0.0365  0 -0.005, -0.0365  0 0.005, 0.0365 0 0.005, 0.0365 0 -0.005 ] }
+			   FaceSet {}
+		   }
+
+
+		}
+		}#THREE_D_PART
+
+		DEF TWO_D_PART SoWidgetLayoutGroup { 
+		   width 0.073 depth 0.1225 height 0.003
+		   numOfCols 1 numOfRows 5
+		   spacingDepth 0.102
+		   hiddenGeometry SoAbortGroup { abortActions ( RENDER | BBOX | EVENT3D )  }
+				   
+		   elements NodeKitListPart { containerNode Group {
+
+		     DEF LINE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE LINE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE LINE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE LINE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE LINE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "49"
+		     }  
+
+		     DEF PLANE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE PLANE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE PLANE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE PLANE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "50"
+		     } 
+
+		     DEF CIRCLE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE CIRCLE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE CIRCLE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE CIRCLE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE CIRCLE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "51"
+		     }  
+
+		     DEF ELLIPSE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE ELLIPSE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE ELLIPSE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE ELLIPSE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE ELLIPSE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "52"
+		     } 
+
+		     DEF TRIANGLE SoPushButton { 
+		        onGeometry Separator { USE ON_GROUP USE TRIANGLE_TEX USE LABEL_GEOMETRY }
+			offGeometry Separator { USE OFF_GROUP USE TRIANGLE_TEX USE LABEL_GEOMETRY }
+			highlightedOnGeometry Separator { USE HL_ON_GROUP USE TRIANGLE_TEX USE LABEL_GEOMETRY }
+			highlightedOffGeometry Separator { USE HL_OFF_GROUP USE TRIANGLE_TEX_H USE LABEL_GEOMETRY }
+			disabledOnGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+		        disabledOffGeometry Separator { USE DA_GROUP USE LABEL_GEOMETRY }
+			statusBoxText "53"
+		     }  
+
+	           }}
+	        }#TWO_D_PART
+
+
+
+	   }#WORK_SPACE_SWITCH
+	}#WORK_SPACE
+
+}
+}#StatusBoxLayout
+
+}#PIPLAYOUT
+}#AbortGroup

@@ -1,0 +1,41 @@
+How to run Studierstube applications with H323 video background?
+Istvan Barakonyi, 3.2.2004
+
+Environment variable settings
+-----------------------------
+
+1.) Create H323ROOT env. variable and set it to your h323 installation directory (e.g. c:\development\h323)
+
+2.) Extend PATH environment variable 
+
+%H323ROOT%\pwlib\lib;%H323ROOT%\openh323\lib
+
+
+Visual Studio 6 project settings for Studierstube
+-------------------------------------------------
+
+The settings below have to be extended with the given strings
+
+1.) DEBUG
+
+a) C/C++ : Preprocessor
+
+Preprocessor definitions: USE_H323,P_WINSOCKv1
+Additional include directories: $(H323ROOT)\pwlib\include\ptlib\msos,$(H323ROOT)\pwlib\include\pwlib\mswin,$(H323ROOT)\pwlib\include\pwlib,$(H323ROOT)\pwlib\include,$(H323ROOT)\openh323\include
+
+b) Link : Input
+
+Object/library modules: openh323d.lib ptlibd.lib ptclibd.lib pwclibd.lib pwlibd.lib ptlibsd.lib
+Additional library path: $(H323ROOT)\pwlib\lib;$(H323ROOT)\openh323\lib
+
+2.) RELEASE
+
+a) C/C++ : Preprocessor
+
+Preprocessor definitions: USE_H323,P_WINSOCKv1
+Additional include directories: $(H323ROOT)\pwlib\include\ptlib\msos,$(H323ROOT)\pwlib\include\pwlib\mswin,$(H323ROOT)\pwlib\include\pwlib,$(H323ROOT)\pwlib\include,$(H323ROOT)\openh323\include
+
+b) Link : Input
+
+Object/library modules: openh323.lib ptlib.lib ptclib.lib pwclib.lib pwlib.lib ptlibs.lib
+Additional library path: $(H323ROOT)\pwlib\lib;$(H323ROOT)\openh323\lib

@@ -1,0 +1,620 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Studierstube Setup</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <link href="tutorial.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>Studierstube scripting mentor</h1>
+<h3>Studierstube Setup</h3>
+<p class="navbar">&lt;<a href="extending.html">prev</a>]
+- [<a href="index.html">up</a>]
+- [<a href="applications.html">next</a>&gt;</p>
+<p>The actual Studierstube
+workspace presents an application environment similar to a desktop for
+standard 2D GUI applications. This is the program that is started to
+display and run any Studierstube application. It provides configuration
+mechanisms to
+control input and output and the look of parts of the standard user
+interface presented to a user. This chapter will provide information on
+how to run the workspace, the possible configuration options and how to
+set them.</p>
+<h4>Starting the workspace</h4>
+<p>The workspace is a standalone
+program in the directory studierstube/bin/workspace. On windows you
+will find two versions, workspace.exe compiled as release version and
+workspaced.exe for debugging purposes. This is the main program of
+Studierstube. If you run it without further options, it will open a
+default window presenting a default application environment.</p>
+<p>To start with a certain
+application, pass in the path to an Open Inventor file containing an
+SoApplicationKit node with the command line option -a:</p>
+<pre class="source">workspace -a simple_stb.iv</pre>
+<p>It will then load all
+applications contained in the file simple_stb.iv. Each application is
+represented by an <a href="../stb/classSoApplicationKit.html">SoApplicationKit</a>
+and there can be more than one in the file passed to the workspace. The
+details of the SoApplicationKit and its parts will be discussed in the
+next chapter, but just to give a short outlook, the simple_stb.iv file
+in the provided example looks like the following. </p>
+<pre class="source">DEF TEST_APP SoApplicationKit {
+    contextKit  SoContextKit {
+    ...&nbsp;<br>        windowGroup Group {<br>            File { name "content/main.iv" }<br>        }<br>    }<br>}</pre>
+<p>Besides the applications, there is more to configure when running a
+  workspace. The basic configuration
+  elements include:
+</p>
+<ul>
+  <li>Input
+configuration of
+tracking equipment and how to use it in the
+Studierstube</li>
+  <li>Output configuration such as
+number and position of render windows, rendering styles for stereo
+displays, control of cameras</li>
+  <li>User-interface configuration
+for PIP and pen look-and-feel</li>
+</ul>
+<p>All together they are
+controlled by additional configuration files passed to the workspace
+program. A number of command line options are available to do that, and
+a few more to specify other less important options. The details can
+also be found on the <a href="../stb/commandline.html">Workspace
+Commandline Options</a> page. We
+will only discuss the most important ones here:</p>
+<table border="0" style="width: 100%;">
+    <tr>
+      <th>Longname</th>
+      <th>Shortname</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">--application </td>
+      <td nowrap="nowrap">-a </td>
+      <td>string </td>
+      <td>"" </td>
+      <td>path of Studierstube
+applation to load upon Workspace startup. This is an .iv file
+containing one or more <a href="../stb/classSoApplicationKit.html">SoApplicationKit</a>
+and all necessary parts. </td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">--tracker </td>
+      <td nowrap="nowrap">-tr </td>
+      <td>string </td>
+      <td>"defaultTracker.xml" </td>
+      <td>OpenTracker
+configuration file, see next section for details on it's contents.<br>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">--timings </td>
+      <td nowrap="nowrap">-time </td>
+      <td>flag </td>
+      <td>&nbsp; </td>
+      <td>use this flag to
+activate output of frame rate and other performance measurements on the
+console. </td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">--userkits </td>
+      <td nowrap="nowrap">-uk </td>
+      <td>string </td>
+      <td>"defaultUserKit.iv" </td>
+      <td>name of iv-file
+containing all users (SoUserKits), which shall enter the
+workspace. See the following sections for more details on it's contents.<br>
+note: UserKits can be added to the iv-file directly or by adding an
+SoFile-node <br>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">--workspacedir </td>
+      <td nowrap="nowrap">-wd </td>
+      <td>string </td>
+      <td>"./" </td>
+      <td>
+      <p>Directory of Workspace
+executable and support files. </p>
+      </td>
+    </tr>
+</table>
+<p>The option -tr will set the
+configuration file for the tracking configuration described in the next
+section. If not specified, it will use a default file found in the same
+directory as the workspace.exe. The option -uk will set the
+configuration file for display and user specific user interface
+elements. Again, if it is not specified, it will use a default file
+containing one user and creating one output window with a default
+viewer.</p>
+<p>The option -wd can be used to
+set the default directory for static geometry used in the workspace. If
+the STBROOT environment variable is set, it is usually not necessary to
+specify this option.</p>
+<p>The option -time will output
+some information on the rendering framerate and event handling rate of
+the running workspace.</p>
+<h4>Tracking configuration</h4>
+<p>The tracking configuration is
+delegated to a dedicated library called <a
+ href="http://www.studierstube.org/opentracker/">OpenTracker</a>.
+The <a
+ href="http://www.studierstube.org/opentracker/doc/userguide.html">User
+Guide</a>
+gives a detailed description of how to use and create configurations
+for OpenTracker. We will only describe how to interface
+Studierstube with OpenTracker here.</p>
+<p>OpenTracker reads data from
+various tracking devices, transforms it
+and forwards it
+over a defined interface to the Studierstube. Studierstube manages
+tracking input events in individual channels called stations. These are
+numbered from 0 upwards to the maximum station number configured in a
+setup. OpenTracker is then configured to pass events from certain
+sources into defined stations. The following figure
+gives an overview of the relationship between the two components.<br>
+</p>
+<p><img style="width: 680px; height: 318px;"
+ alt="Studierstube vs. OpenTracker connection"
+ src="../images/otvsstb.gif"></p>
+<p>Fig. : OpenTracker uses StbSink
+configuration elements to define which events to pass to which station
+channels in the Studierstube.</p>
+<p>Within the OpenTracker
+configuration file, the element StbSink is used to describe the
+mapping. The element has an attribute station and all events passing
+through it are forwared to the Studierstube runtime and processed for
+the defined station. A second attribute event defines if the events for
+this station are processed with the SoHandle3DEventAction and
+propagated over the scene graph or not. In any case, the events are
+available over the global fields associated with the station number and
+can be used in an SoTrakEngine or SoTrackedArtifactKit, for example.</p>
+<p>The following snippet of an
+OpenTracker configuration file shows the use of the StbSink element.
+The first part forwards the event coming from an StbKeyboardSource
+(with number 0) to the station 0 without propagating it over the scene
+graph, the second part uses the events for station 1 and defines to
+also pass the event over the scene graph.</p>
+<pre class="source">&lt;StbSink station="0"&gt;<br>    &lt;StbKeyboardSource number="0"/&gt;<br>&lt;/StbSink&gt;<br>&lt;StbSink station="1" event="on"&gt;<br>    &lt;StbMouseSource mode="relative"/&gt;<br>&lt;/StbSink&gt;</pre>
+<p>In addition to all the
+different <a
+ href="http://www.studierstube.org/opentracker/doc/html/Nodes.html">device
+drivers</a> and <a
+ href="http://www.studierstube.org/opentracker/doc/html/transform_nodes.html">transformations</a>
+included in OpenTracker,
+there are a number of special sources that are available, if it is used
+together with Studierstube. These sources allow inputs from the mouse
+or keyboard to be used as tracking input in the OpenTracker
+configuration. The following two elements are available:</p>
+<pre class="source">&lt;StbKeyboardSource number="2"/&gt;<br><br>&lt;StbMouseSource mode="relative"/&gt;</pre>
+<p>The <a href="../stb/classStbKeyboardSource.html">StbKeyboardSource</a>&nbsp;
+takes keyboard events entered into the active Studierstube window and
+creates tracking events from that. The functionality is described in
+detail in the <a href="../stb/classStbInputModule.html">StbInputModule</a>
+that allows to configure the individual key assignments. The <a
+ href="../stb/classStbMouseSource.html">StbMouseSource</a>
+outputs the position of the mouse pointer with the active Studierstube
+as x and y coordinates in the position part of a tracking event. The
+attribute mode configures whether the position is given relative in the
+interval [0,1] or absolute in pixel coordinates.</p>
+<p>An
+additional element <a href="../stb/classStbSource.html">SoStbSource</a>
+provides feedback from an Open Inventor node into the OpenTracker
+configuration again. It uses values from defined Open Inventor fields
+to create tracking events. Whenever one of the connected fields
+changes, it assembles a new tracking event and sends it through the
+OpenTracker graph. The following snippet gives an example:</p>
+<pre class="source">&lt;StbSource node="MyNode" position="translation" orientation="rotation" button="state" /&gt;</pre>
+<p>In the example above the fields
+translation, rotation and state from an Inventor node named MyNode (the
+node has the DEF name 'MyNode') are observed by the StbSource and their
+values are used to create tracking events. The following attributes are
+available to define the mapping:</p>
+<ul>
+  <li><code>node</code>
+if present this is the name of the OpenInventor node to refer the
+fields to. If the node field is empty the field
+names must be prefixed by a node name seperated with a '.'(dot). Then
+each field come from another node ! </li>
+  <li><code>position</code>
+the field name of a SoSFVec3f field that contains the position. </li>
+  <li><code>orientation</code>
+the field name of a SoSFRotation field that contains the orientation. </li>
+  <li><code>button</code>
+the field name of a SoSFInt32 field that contains button information. </li>
+  <li><code>confidence</code>
+the field name of a SoSFFloat field that
+contains confidence information. </li>
+</ul>
+<h4>User configuration</h4>
+<p>Besides the general tracking
+configuration as described above, there are many more parameters
+available to configure a Studierstube workspace for a given setup and
+application. The next two parts describe how to configure the display
+output and the general user interface present in the workspace. </p>
+<p>The configuration of displays
+and user interfaces are related to the concept of a User in
+Studierstube. Each user of Studierstube has a dedicated display that is
+supported by an individual window and an associated camera that is used
+to render into that window. A user is also associated with up to three
+default tracking channels or stations, one for the head-tracking (if
+required), one for a default 6DOF input device called pen, and one for
+a secondary input device usually used for the PIP (Personal Interaction
+Panel). All of these configurations are set with a dedicated Inventor
+node <a href="../stb/classSoUserKit.html">SoUserKit</a>
+and are provided to the workspace in a special configuration file
+containing only SoUserKit nodes, one for each user present in the
+setup. The documentation of <a href="../stb/classSoUserKit.html">SoUserKit</a>
+also provides a commented example configuration.</p>
+<p>The following Inventor snippet
+provides the basic layout of the SoUserKit node and its parameters:</p>
+<pre class="source">SoUserKit {<br>    userID 0   <br><br>    pen SoPenKit{ ... }<br>    pip SoPipKit { ... }   <br>    display SoDisplayKit { ... }<br>}</pre>
+<p>The first field userID provides
+a unique user number, all users configured need to have different
+numbers. Then there are three parts pen, pip and display which in turn
+contain dedicated nodes of type SoPenKit, SoPipKit and SoDisplayKit.
+These are used to configure the details of the primary input device,
+the PIP and the output display for that user. If they are not present,
+the corresponding object is not created for that user. For example, if
+the pen part is not present, no pen will be created and configured for
+that user; if the display part is not present no render window will be
+created for that user.</p>
+<h5>Display</h5>
+<p>The <a href="../stb/classSoDisplayKit.html">SoDisplayKit</a>
+node in the part display configures the parameters for the output
+render window and the camera of a user. At least for one user it has to
+be present to have any output in a Studierstube workspace. The
+configuration fields and parts of the SoDisplayKit fall into two
+categories, one for the output window itself and one for the virtual
+camera used to render the output image.</p>
+<p>The following fields are
+relvant for the output window and basic rendering attributes:</p>
+<table style="width: 100%;" border="0">
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>isRendering</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if an output window should be created at all
+      </td>
+    </tr>
+    <tr>
+      <td>xoffset</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFInt32&nbsp;</td>
+      <td class="memItemRight" valign="bottom">x
+position of the left-top corner of the window on the desktop
+      </td>
+    </tr>
+    <tr>
+      <td>yoffset</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFInt32&nbsp;</td>
+      <td class="memItemRight" valign="bottom">y
+position of the left-top corner of the window on the desktop </td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFInt32&nbsp;</td>
+      <td class="memItemRight" valign="bottom">width
+of the window </td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFInt32&nbsp;</td>
+      <td class="memItemRight" valign="bottom">height
+of the window </td>
+    </tr>
+    <tr>
+      <td>headlight</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if a headlight should be used or not. This is useful, if there are no
+lights in the scene
+      </td>
+    </tr>
+    <tr>
+      <td>headlightIntensity</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFFloat&nbsp;</td>
+      <td class="memItemRight" valign="bottom">sets
+the intensity of the headlight
+      </td>
+    </tr>
+    <tr>
+      <td>transparencyType</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFEnum&nbsp;</td>
+      <td class="memItemRight" valign="bottom">sets
+the transparency type to use for rendering. These are the same as
+defined for the So
+      </td>
+    </tr>
+    <tr>
+      <td>backgroundColor</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFColor&nbsp;</td>
+      <td class="memItemRight" valign="bottom">defines
+the background color of the render window
+      </td>
+    </tr>
+    <tr>
+      <td>videoBackground</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFNode&nbsp;</td>
+      <td class="memItemRight" valign="bottom">defines
+which video background implementation to use. If present a video from a
+camera or other source is used as a background of the window. See <a
+ href="../stb/classSoVideoBackground.html">SoVideoBackground</a>
+for possible types.
+      </td>
+    </tr>
+    <tr>
+      <td>pixelFormat</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFInt32&nbsp;</td>
+      <td class="memItemRight" valign="bottom">if
+present defines which OpenGL pixelFormat to use for the window. Only
+useful, if you know what you are doing.
+      </td>
+    </tr>
+    <tr>
+      <td>showMouse</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if the mouse cursor should be visible within the render window
+      </td>
+    </tr>
+    <tr>
+      <td>windowBorder</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if the window should be created with a boarder and title bar to be
+manipulated by the mouse
+      </td>
+    </tr>
+    <tr>
+      <td>decoration</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if the internal decorations for controlling the viewpoint should be
+visible
+      </td>
+    </tr>
+    <tr>
+      <td>windowOnTop</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if the window should always stay on top.
+      </td>
+    </tr>
+    <tr>
+      <td>stencilBuffer</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+      <td class="memItemRight" valign="bottom">controls
+if the OpenGL context used should support stencil buffering. This is
+required for using the <a href="../stb/classSoStencilBuffer.html">SoStencilBuffer</a>
+node.
+      </td>
+    </tr>
+</table>
+<p>The following are some examples
+to give an idea of what some of the options described above do. Not all
+of them can be demonstrated with a simpe example tough.</p>
+<table style="width: 100%; text-align: left;" border="0">
+    <tr>
+      <td style="width: 50%;">
+      <pre class="source">SoDisplayKit {<br>    xoffset 0 <br>    yoffset 0<br>    width 800<br>    height 600<br><br>    decoration TRUE<br>    windowBorder TRUE<br>    showMouse TRUE<br><br>    backgroundColor 0 0 0<br>    headlight TRUE<br>    headlightIntensity 1.0<br>}</pre>
+      </td>
+      <td style="width: 50%;">
+      <pre class="source">SoDisplayKit {<br>    xoffset 0 <br>    yoffset 0<br>    width 800<br>    height 600<br><br>    decoration FALSE<br>    windowBorder FALSE<br>    showMouse FALSE<br><br>    backgroundColor 0.1 0.1 0.8<br>    headlight TRUE<br>    headlightIntensity 0.8<br>}</pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Left typical desktop window</td>
+      <td>Render window for hmd output</td>
+    </tr>
+</table>
+<p>The remaining fields and parts
+control the camera used to render the view in the window. These include
+setting the camera parameters and how it is controlled within the
+workspace. A camera in an augmented reality application is usually
+associated with the viewpoint of a real user. Therefore it needs to be
+able to describe the different rendering parameters necessary to
+produce the correct view for that viewpoint. There are a number of
+issues to be aware of:</p>
+<ul>
+  <li>Stereo rendering.
+    <ul>
+      <li>Do we want to produce just one image for the user or two
+      separate images for each eye? </li>
+    </ul>
+  </li>
+  <ul><li>If we use two images how are they generated ? </li>
+    <li>And how are they output to the display device ?</li>
+  </ul>
+  <li>Camera control. </li>
+  <ul>
+    <li>Is the output a desktop viewer and the camera controlled by
+user interface elements ?</li>
+    <li>A fixed viewpoint in the world ?</li>
+    <li>A head mounted display where the eyepoint and the display
+surface move in space ?</li>
+    <li>A projection display with head tracking where the display
+surface is fixed and only the eyepoint moves in space ?</li>
+    <li>A projection display where the display surface moves
+independent of the eyepoint ?</li>
+  </ul>
+  <li>What are the fixed camera parameters ?  </li>
+</ul>
+<table style="width: 100%;" border="0">
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th colspan="2">Description</th>
+    </tr>
+    <tr>
+      <td>station<br>
+      </td>
+      <td>SoSFInt32<br>
+      </td>
+      <td colspan="2">The tracking station that controls the camera's movement, if
+an appropriate camera control mode is configured.</td>
+    </tr>
+    <tr>
+      <td>stereoCameraKit</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoSFNode</td>
+      <td colspan="2" class="memItemRight">This field contains a <a
+ href="../stb/classSoStereoCameraKit.html">SoStereoCameraKit</a> which
+in turn contains two cameras one for each eye and an optional
+additional camera for desktop viewing modes. The field can also contain
+an SoFile node which references a file containing an SoStereoCameraKit.</td>
+    </tr>
+    <tr class="chapteritem">
+      <td rowspan="6">display
+      </td>
+      <td rowspan="6"
+ valign="middle" nowrap="nowrap" class="memItemLeft" style="text-align: left;">SoDisplayMode part
+      </td>
+      <td colspan="2" class="memItemRight">This part configures the
+stereo rendering mode for the display. It contains one of the following subclasses of the <a
+ href="../stb/classSoDisplayMode.html">SoDisplayMode</a> class to
+describe which technique to use.</td>
+    </tr>
+    <tr class="chapteritem">
+      <td class="memItemRight"> <a
+ href="../stb/classSoMonoDisplayMode.html">SoMonoDisplayMode</a></td>
+      <td class="memItemRight">configures monoscopic rendering and is the default.</td>
+    </tr>
+    <tr class="chapteritem">
+      <td class="memItemRight"><a
+ href="../stb/classSoFieldSequentialDisplayMode.html">SoFieldSequentialDisplayMode</a></td>
+      <td class="memItemRight"><p>configures interleaved images for right and left eye. Usually implemented using OpenGL quad-buffered stereo rendering.</p>      </td>
+    </tr>
+    <tr class="chapteritem">
+      <td class="memItemRight"><a href="../stb/SoLineSequentialDisplayMode.html">SoLineSequentialDisplayMode</a></td>
+      <td class="memItemRight">configures interleaved line rendering for left and right eye. The even scanlines will correspond to one eye and the odd lines to the other eye. Two implementations based on stencil buffering or polgygon stippling are availabe. </td>
+    </tr>
+    <tr class="chapteritem">
+      <td class="memItemRight"><a href="../stb/SoAnaglyphDisplayMode.html">SoAnaglyphDisplayMode</a></td>
+      <td class="memItemRight">uses different color masks for left and right eye to create images viewable with tainted glasses. </td>
+    </tr>
+    <tr class="chapteritem">
+      <td class="memItemRight"><a href="../stb/SoDualChannelDisplayMode.html">SoDualChannelDisplayMode</a></td>
+      <td class="memItemRight">uses different viewports for left and right eye. Usually depends on additional hardware to separate the images for the display device. </td>
+    </tr>
+    <tr>
+      <td rowspan="5">cameraControl
+      </td>
+      <td rowspan="5"
+ valign="middle" nowrap="nowrap" class="memItemLeft" style="text-align: left;">SoCameraControlMode part
+      </td>
+      <td colspan="2" class="memItemRight">This part configures the
+camera control mode for the display. It contains one of the following subclasses of the
+      <a href="../stb/classSoCameraControlMode.html">SoCameraControlMode</a> class to configure the way the camera is moved.</td>
+    </tr>
+    <tr>
+      <td class="memItemRight"><a href="../stb/classSoDesktopControlMode.html">SoDesktopControlMode</a></td>
+      <td class="memItemRight">The default mode which uses standard Open Inventor viewer controls for desktop operation.</td>
+    </tr>
+    <tr>
+      <td class="memItemRight"><a href="../stb/classSoTrackedDisplayControlMode.html">SoTrackedDisplayControlMode</a></td>
+      <td class="memItemRight">A fixed camera that is moved in space. HMDs use this model. Uses the station field to define the tracking channel for the camera. </td>
+    </tr>
+    <tr>
+      <td class="memItemRight"><a href="../stb/classSoTrackedViewpointControlMode.html">SoTrackedViewpointControlMode</a></td>
+      <td class="memItemRight">A fixed display surface with a moving eyepoint. Projection displays with head tracking use this mode. Also uses the station field to define the tracking channel for the eyepoint </td>
+    </tr>
+    <tr>
+      <td class="memItemRight"> <a href="../stb/classSoTrackedViewpointMobileDisplayControlMode.html">SoTrackedViewpointMobileDisplayControlMode</a></td>
+      <td class="memItemRight">A mobile display surface with a moving eyepoint. Used by setups where both the display and the eyepoint are tracked and moving. Uses additional configurations for the two tracking channels required.</td>
+    </tr>
+    <tr>
+      <td>customEnvironment</td>
+      <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="middle">SoMFNode&nbsp;</td>
+      <td colspan="2" class="memItemRight">&nbsp;</td>
+    </tr>
+</table>
+<h5>Interface</h5>
+<p>The other parts of the SoUserKit allow to configure the specific user interface elements pen and PIP of a single user. See also the <a href="../stb/uiguide.html">Workspace
+  User-Interface Guide</a> for a short
+  overview of the different elements of the standard user interface.
+</p>
+<p>The part <code>pen</code> contains an <a href="../stb/classSoPenKit.html">SoPenKit</a> which is basically just an SoTrackedArtifactKit. Typically it is used to set the tracking station describing the movements of the pen device and the geometry of the pen to render. This is accomplished using the standard fields of the SoTrackedArtifactKit. The following example shows how this can look within an SoUserKit node:</p>
+<pre class="source">    pen SoPenKit{<br>        station 1<br>        geometry File { name &quot;content/pen.iv&quot; }<br>    }</pre>
+<p>The part <code>pip</code> contains a SoPipKit which describes the parameters of the PIP. It is also derived from the SoTrackedArtifactKit and uses the same basic fields to define tracking station and geometry. It also defines some additional fields to describe the area where application specific PIP sheets are presented and which default menus should be visible. The following fields are supported:</p>
+<table style="width: 100%;" border="0">
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>pipSize</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFVec3f</td>
+    <td class="memItemRight" valign="bottom">to total bounding box of the pip geometry </td>
+  </tr>
+  <tr>
+    <td>sheetAreaUpperLeft</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFVec2f&nbsp;</td>
+    <td class="memItemRight" valign="bottom">defines the upper left coordinate of the bounding area where PIP sheets are presented </td>
+  </tr>
+  <tr>
+    <td>sheetAreaLowerRight</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFVec2f</td>
+    <td class="memItemRight" valign="bottom">defines the lower right coordinate of the bounding area where PIP sheets are presented </td>
+  </tr>
+  <tr>
+    <td>systemBar</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool&nbsp;</td>
+    <td class="memItemRight" valign="bottom">controls if the system bar of system controls is visible or not </td>
+  </tr>
+  <tr>
+    <td>windowBar</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFBool</td>
+    <td class="memItemRight" valign="bottom">controls if the window bar of window controls is visible or not </td>
+  </tr>
+  <tr>
+    <td>skinFileName</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFString</td>
+    <td class="memItemRight" valign="bottom">defines the skin file which describes the layout of PIP components in details. See the <a href="http://www.studierstube.org/misc/skinWS1.iv">example</a> for more information. </td>
+  </tr>
+  <tr>
+    <td>skinDirectory</td>
+    <td style="text-align: left;" class="memItemLeft" nowrap="nowrap"
+ valign="top">SoSFString</td>
+    <td class="memItemRight" valign="bottom">directory information for the skin file </td>
+  </tr>
+</table>
+<p>A simple example for the definition of a user's PIP may look as follows. It only defines the tracking station to use and the geometry of the PIPs body. </p>
+<pre class="source">    pip SoPipKit {<br>        station 2<br>        geometry Group {<br>            File { name &quot;../content/pip.iv&quot; }<br>        }<br>    } </pre>
+<p class="navbar">&lt;p<a href="extending.html">rev</a>]
+  - [<a href="index.html">up</a>]
+- [<a href="applications.html">next</a>&gt;</p>
+</body>
+</html>

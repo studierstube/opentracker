@@ -1,0 +1,16 @@
+// -*- MPC -*-
+// Connection_Misc.mpc,v 1.2 2003/12/23 20:23:21 dhinton Exp
+
+project (*Handler) : aceexe {
+  exename = handler
+  Source_Files {
+    Connection_Handler.cpp
+  }
+}
+
+project (*test_upipe) : aceexe {
+  exename = test_upipe
+  Source_Files {
+    test_upipe.cpp
+  }
+}

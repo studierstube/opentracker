@@ -1,0 +1,140 @@
+Copyright (C) 2000-2003  Vienna University of Technology
+
+Install and Build Instructions
+==============================
+
+This file contains the build instructions for Studierstube.
+
+Studierstube uses GNU autoconf, automake and libtool for the configuration
+and compilation under operating systems like Linux and SGI Irix. Visual C++
+project files are provided for Win32.
+
+Before you can build Studierstube you will need the following packages set
+up on your system:
+
+Required packages:
+------------------
+o SoQt, SoGtk, SoXt or SoWin - http://www.coin3d.org/
+  (check out the most recent version from cvs)
+
+o Coin - http://www.coin3d.org/
+  (check out the most recent version from cvs)
+  or
+  SGI Open Inventor - http://oss.sgi.com/projects/inventor/
+
+o OpenTracker - http://www.studierstube.org/opentracker/
+  (check out the most recent version from cvs)
+
+o Xerces - http://xml.apache.org/xerces-c/index.html
+  (needed for OpenTracker)
+
+o ACE (The ADAPTIVE Communication Environment) -
+  http://www.cs.wustl.edu/~schmidt/ACE.html
+  (download the latest beta kit)
+
+Optional packages:
+------------------
+o ARToolkit - http://www.hitl.washington.edu/research/shared_space/download/
+  (get the most recent version and configure OpenTracker with ARToolkit to
+   make it available in StudierStube)
+
+o libccvt - http://www.gvu.gatech.edu/ccg/resources/usbstuff/code.html
+  (to use video background under Linux with USB cams without using ARToolkit
+   in OpenTracker)
+
+
+Studierstube has a different philosophy regarding the installation of the
+package than you are probably used to under other packages. You do not
+install it with 'make install' into your system. Instead the Studierstube
+source tree represents your work tree at the same time. The workspace
+binary gets installed under studierstube/bin/workspace/.
+
+To build the Studierstube stbapi library you have to issue a 'make' in the
+Studierstube root directory. For tools or apps you descend in the
+corresponding directories.  E.g., to build sman2 you would do the
+following: 'cd tools/sman2; make'. To build all apps you need to do this:
+'cd bin/apps; make'. To just build the animal app: 'cd bin/apps/animal;
+make'.
+
+
+Configuration Options
+=====================
+
+The configure script in the Studierstube root directory provides the following
+options:
+
+--help
+
+  Specifying this option will cause configure to list all its command
+  line options and exit.
+
+--enable-div
+
+  Specifying this option will cause configure to enable Distributed Inventor.
+  You will need to patch your Inventor library to be able to use it at the
+  moment. Patches can be found at http://www.studierstube.org/div/.
+  It's enabled by default. To disable it specify --disable-div.
+
+--enable-libccvt
+
+  Specifying this option will cause configure to enable the use of libccvt
+  which is a library that provides USB camera access under Linux. Use this if
+  you don't want to use the ARToolkit video code within OpenTracker. Copy the
+  libccvt.so library to a place where Studierstube can find it, e.g. 
+  $(STUDIERSTUBEPATH)/lib.
+  It's not enabled by default.
+
+--with-ace=DIR
+
+  With this option, you can specify where the ACE root directory resides.
+  A typical usage would be: --with-ace=../ACE_wrappers.
+
+--with-opentracker=DIR
+
+  With this option, you can specify prefix to where OpenTracker go installed
+  if it is not a default one. Usually not needed.
+
+--with-soqt
+--with-sogtk
+--with-soxt
+
+  Specify one of these options to tell configure which SoGui binding you want
+  to use. If you don't provide one of this options they will get probed one
+  after the other until one is found.
+
+CPPFLAGS="<string>"
+CFLAGS="<string>"
+CXXFLAGS="<string>"
+LDFLAGS="<string>"
+LIBS="<string>"
+
+  If you need to add command line flags to respectively the source code
+  preprocessor, the C compiler, the C++ compiler, and the linker, invoke
+  configure with an argument like one of the above.
+
+    ./configure CFLAGS="-ansi -pedantic" CXXFLAGS="-ansi -pedantic" [...]
+
+  This would cause compilation of both C and C++ files to be done with
+  the "-ansi" and "-pedantic" options.
+
+  You can also override other things like which compiler is used by
+  setting $CC, $CXX, $LD, $AR and $RANLIB amongst other variables.
+
+
+Example Usage
+=============
+
+Assuming that Studierstube resides in /scratch/studierstube/studierstube/
+and libraries like OpenTracker, ACE, ARToolkit and Xerces reside in
+/scratch/studierstube/, and soqt-config and coin can be found by your
+linker you would go on and issue the following:
+
+./configure --with-ace=../ACE_wrappers/
+
+To disable the usage of the Distributed Inventor and to specify another SoGui
+binding issue this:
+
+./configure --with-ace=../ACE_wrappers/ --disable-div --with-soxt
+
+--
+Tamer Fahmy <tamer@ims.tuwien.ac.at>

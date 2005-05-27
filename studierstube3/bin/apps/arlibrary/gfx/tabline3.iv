@@ -1,0 +1,274 @@
+#Inventor V2.1 ascii
+
+Separator
+{
+Translation
+{
+	translation -7.5 0 -2.5
+}
+
+
+DEF 3tab1 So3DButton
+{
+	width 1.2
+	height 0.5
+	depth 1.2
+	nodeId "3tab1"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE 3tab1 . pressed
+
+		DEF 3tab1Texture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/tab1.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.6 0.300 0.6,
+					  0.6 0.300 0.6,
+					  0.6 0.300 -0.6,
+					  -0.6 0.300 -0.6 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.25 0
+			}
+			USE 3tab1Texture
+		}
+	}
+}
+
+
+Translation
+{
+	translation 0 0 1.3
+
+}
+
+
+DEF 3tab2 So3DButton
+{
+	width 1.2
+	height 0.5
+	depth 1.2
+	nodeId "3tab2"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE 3tab2 . pressed
+
+		DEF 3tab2Texture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/tab2.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.6 0.300 0.6,
+					  0.6 0.300 0.6,
+					  0.6 0.300 -0.6,
+					  -0.6 0.300 -0.6 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.25 0
+			}
+			USE 3tab2Texture
+		}
+	}
+}
+
+
+Translation
+{
+	translation 0 0 1.3
+
+}
+
+
+DEF 3tab3 So3DButton
+{
+	width 1.2
+	height 0.5
+	depth 1.2
+	nodeId "3tab3"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE 3tab3 . pressed
+
+		DEF 3tab3Texture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/tab3dn.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.6 0.300 0.6,
+					  0.6 0.300 0.6,
+					  0.6 0.300 -0.6,
+					  -0.6 0.300 -0.6 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.25 0
+			}
+			USE 3tab3Texture
+		}
+	}
+}
+
+
+Translation
+{
+	translation 0 0 1.3
+
+}
+
+
+DEF 3tab4 So3DButton
+{
+	width 1.2
+	height 0.5
+	depth 1.2
+	nodeId "3tab4"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE 3tab4 . pressed
+
+		DEF 3tab4Texture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/tab4.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.6 0.300 0.6,
+					  0.6 0.300 0.6,
+					  0.6 0.300 -0.6,
+					  -0.6 0.300 -0.6 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.25 0
+			}
+			USE 3tab4Texture
+		}
+	}
+}
+
+
+Translation
+{
+	translation 0 0 1.3
+
+}
+
+
+DEF 3tab5 So3DButton
+{
+	width 1.2
+	height 0.5
+	depth 1.2
+	nodeId "3tab5"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE 3tab5 . pressed
+
+		DEF 3tab5Texture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/tab5.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.6 0.300 0.6,
+					  0.6 0.300 0.6,
+					  0.6 0.300 -0.6,
+					  -0.6 0.300 -0.6 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.25 0
+			}
+			USE 3tab5Texture
+		}
+	}
+}
+
+
+}

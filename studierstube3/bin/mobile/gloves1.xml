@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<?xml-stylesheet type="text/xsl" href="C:\Projects\opentracker\data\ot2dot.xsl"?>
+<!-- 
+  Tracker Configuration file for the glove pair 1
+  Copy the necessary parts to your own larger configuration
+-->
+<OpenTracker>
+  <configuration>
+    <ARToolKitConfig camera-parameter="data/pyrofirewire.dat" videomode="0 640 480 vertical" framerate="15" treshhold="100"/>
+    <ConsoleConfig interval="1" display="on"/>
+    <TimeConfig sleep="70"/>
+  </configuration>
+  <!-- 
+    Parallel Button input. Specify the right address here !
+   -->
+  <ConsoleSink comment="parallel port">
+    <ParButtonSource dev="0x378" DEF="ParallelButton"/>
+  </ConsoleSink>
+  <!-- 
+    Right Glove Set 1
+    This one uses the markers glove1.patt, glove2.patt and glove3.patt
+    A calibration transformation called calibOffsetR is present 
+  -->
+  <ConsoleSink comment="Right Glove" active="off">
+    <EventVirtualTransform translation="0 0 0" DEF="calibOffsetR">
+      <Merge>
+        <MergeDefault>
+          <ConsoleSink comment="marker 2" active="off">
+            <EventVirtualTransform rotation="0 0.70711 0 0.70711" translation="0.04809 0.0321 -0.0467">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="data/glove2.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+          </ConsoleSink>
+          <ConsoleSink comment="marker 3" active="off">
+            <EventVirtualTransform rotation="0 1 0 0" translation="0 0.0356 -0.09">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="data/glove3.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+          </ConsoleSink>
+          <ConsoleSink comment="marker 1" active="off">
+            <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+              <ConfidenceFilter treshhold="0.7">
+                <ARToolKitSource center="0 0" size="50" tag-file="data/glove1.patt"/>
+              </ConfidenceFilter>
+            </EventTransform>
+          </ConsoleSink>
+        </MergeDefault>
+        <MergeButton>
+          <ButtonFilter buttonmask="11110000" buttonmap="01234567">
+            <Ref USE="ParallelButton"/>
+          </ButtonFilter>
+        </MergeButton>
+      </Merge>
+    </EventVirtualTransform>
+  </ConsoleSink>
+  <!-- 
+    Left Glove Set 1
+    This one uses the markers glove4.patt, glove5.patt and glove6.patt
+    A calibration transformation called calibOffsetL is present
+    -->
+  <ConsoleSink comment="Left Glove" active="off">
+    <EventVirtualTransform translation="0 0 0" DEF="calibOffsetL">
+      <Merge>
+        <MergeDefault>
+          <ConsoleSink comment="marker 5" active="off">
+            <EventVirtualTransform rotation="0 -0.70711 0 0.70711" translation="-0.043 0.0293 -0.0581">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="data/glove5.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+          </ConsoleSink>
+          <ConsoleSink comment="marker 6" active="off">
+            <EventVirtualTransform rotation="0 -1 0 0" translation="0.0174 0.0256 -0.0853">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="data/glove6.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+          </ConsoleSink>
+          <ConsoleSink comment="marker 4" active="off">
+            <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+              <ConfidenceFilter treshhold="0.7">
+                <ARToolKitSource center="0 0" size="50" tag-file="data/glove4.patt"/>
+              </ConfidenceFilter>
+            </EventTransform>
+          </ConsoleSink>
+        </MergeDefault>
+        <MergeButton>
+          <ButtonFilter buttonmask="11110000" buttonmap="01234567">
+            <Ref USE="ParallelButton"/>
+          </ButtonFilter>
+        </MergeButton>
+      </Merge>
+    </EventVirtualTransform>
+  </ConsoleSink>
+</OpenTracker>

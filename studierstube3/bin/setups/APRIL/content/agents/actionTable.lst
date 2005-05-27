@@ -1,0 +1,4332 @@
+ActionTable 333
+~~~
+restartNow
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001776   -0.000927 
+  scalePos     0.95000000 1.10000000
+endOrient      0.150665  
+  scaleOrient  0.30000000 2.00000000
+~~~
+MoveToTest
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         1.000000   1.000000  
+  scalePos     0.95000000 1.10000000
+endOrient      0.150665  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicBodyLeft
+duration       5.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004552   -0.006018 
+  scalePos     0.95000000 1.10000000
+endOrient      3.843384  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicBodyRight
+duration       5.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004786   0.005234  
+  scalePos     0.95000000 1.10000000
+endOrient      4.140472  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicComeOn
+duration       3.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.017352  0.012157  
+  scalePos     0.95000000 1.10000000
+endOrient      4.360748  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicGoWhileStand
+duration       6.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.006777  -0.030546 
+  scalePos     0.95000000 1.10000000
+endOrient      4.035797  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicHampelmann
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000505   -0.005017 
+  scalePos     0.95000000 1.10000000
+endOrient      0.921112  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicPulpFiction
+duration       4.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.015420  -0.008510 
+  scalePos     0.95000000 1.10000000
+endOrient      8.928131  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicShakeLight
+duration       4.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004794   -0.025823 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.412109 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicShakeStrong
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.034315   0.025976  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.710236 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicSideKickRight
+duration       4.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.018867  -0.132143 
+  scalePos     0.95000000 1.10000000
+endOrient      0.950806  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepForthLeftClap
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.024834   -0.020735 
+  scalePos     0.95000000 1.10000000
+endOrient      0.586182  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepForthRightClap
+duration       3.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.017495   0.005827  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.375000 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepSideLeftClap
+duration       3.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001620  0.029598  
+  scalePos     0.95000000 1.10000000
+endOrient      -2.913361 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepSideRightClap
+duration       3.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.014821   -0.045004 
+  scalePos     0.95000000 1.10000000
+endOrient      2.284637  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepTurnLeft
+duration       3.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.095732   -0.034565 
+  scalePos     0.95000000 1.10000000
+endOrient      -175.926147
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStepTurnRight
+duration       3.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.132900   -0.043884 
+  scalePos     0.95000000 1.10000000
+endOrient      178.158676
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStretchLeft
+duration       4.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005168   0.004752  
+  scalePos     0.95000000 1.10000000
+endOrient      -3.852081 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicStretchRight
+duration       4.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007825   -0.003052 
+  scalePos     0.95000000 1.10000000
+endOrient      0.621185  
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicTurnLeft
+duration       3.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.030866   0.661401  
+  scalePos     0.95000000 1.10000000
+endOrient      -2.363800 
+  scaleOrient  0.30000000 2.00000000
+~~~
+aerobicTurnRight
+duration       3.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.017109   -0.747883 
+  scalePos     0.95000000 1.10000000
+endOrient      1.523804  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsBackAndForth
+duration       5.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000889   0.001704  
+  scalePos     0.95000000 1.10000000
+endOrient      0.691528  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsBackEnd
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.005599  0.002038  
+  scalePos     0.95000000 1.10000000
+endOrient      0.190765  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsBackHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000019   -0.000457 
+  scalePos     0.95000000 1.10000000
+endOrient      0.104675  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsBackStart
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000521   -0.003007 
+  scalePos     0.95000000 1.10000000
+endOrient      0.675781  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCestLaVie
+duration       3.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004094   -0.000534 
+  scalePos     0.95000000 1.10000000
+endOrient      0.344360  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCircleLeft
+duration       4.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.005739  -0.000122 
+  scalePos     0.95000000 1.10000000
+endOrient      3.130310  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCircleRight
+duration       5.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006797   -0.007052 
+  scalePos     0.95000000 1.10000000
+endOrient      0.320831  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCrossedEnd
+duration       1.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.006254  -0.002464 
+  scalePos     0.95000000 1.10000000
+endOrient      0.500458  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCrossedHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000004  0.000831  
+  scalePos     0.95000000 1.10000000
+endOrient      0.540680  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsCrossedStart
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.018354   0.006074  
+  scalePos     0.95000000 1.10000000
+endOrient      1.864258  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsGetAttention
+duration       2.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002310   0.001175  
+  scalePos     0.95000000 1.10000000
+endOrient      0.383087  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsHoldObjectFlatEnd
+duration       1.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004190   -0.004775 
+  scalePos     0.95000000 1.10000000
+endOrient      9.575745  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsHoldObjectFlatHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000283  0.000407  
+  scalePos     0.95000000 1.10000000
+endOrient      0.359894  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsHoldObjectFlatStart
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005893   0.002752  
+  scalePos     0.95000000 1.10000000
+endOrient      -7.178955 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsLiftClick
+duration       5.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007556   0.003346  
+  scalePos     0.95000000 1.10000000
+endOrient      1.523041  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsLiftClickEnd
+duration       1.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.017664   -0.001970 
+  scalePos     0.95000000 1.10000000
+endOrient      0.490997  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsLiftClickStart
+duration       2.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.010797  0.003607  
+  scalePos     0.95000000 1.10000000
+endOrient      1.651733  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsLookWatch
+duration       3.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003410   -0.002104 
+  scalePos     0.95000000 1.10000000
+endOrient      0.401062  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsOhLord
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005911   -0.001112 
+  scalePos     0.95000000 1.10000000
+endOrient      1.145508  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPlayBallEnd
+duration       3.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.025994  0.012556  
+  scalePos     0.95000000 1.10000000
+endOrient      1.196472  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPlayBallHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002274   -0.005731 
+  scalePos     0.95000000 1.10000000
+endOrient      3.015137  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPlayBallStart
+duration       1.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.035039   -0.010033 
+  scalePos     0.95000000 1.10000000
+endOrient      -5.389374 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPointAtMe
+duration       2.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000876  0.001241  
+  scalePos     0.95000000 1.10000000
+endOrient      0.785828  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPointAtUser
+duration       3.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.016817  -0.003834 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.405548 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighLeftEnd
+duration       1.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002461  -0.011968 
+  scalePos     0.95000000 1.10000000
+endOrient      27.394897 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighLeftHold
+duration       0.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001826  0.000039  
+  scalePos     0.95000000 1.10000000
+endOrient      7.129700  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighLeftStart
+duration       0.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004840   0.008325  
+  scalePos     0.95000000 1.10000000
+endOrient      -22.264984
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighRightEnd
+duration       1.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000594   -0.014582 
+  scalePos     0.95000000 1.10000000
+endOrient      -32.623596
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighRightHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001019  0.003821  
+  scalePos     0.95000000 1.10000000
+endOrient      -9.047272 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentHighRightStart
+duration       0.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.006905  0.002484  
+  scalePos     0.95000000 1.10000000
+endOrient      28.573730 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowLeftEnd
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.015233  -0.006909 
+  scalePos     0.95000000 1.10000000
+endOrient      39.866180 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowLeftHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002036  0.005659  
+  scalePos     0.95000000 1.10000000
+endOrient      3.091675  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowLeftStart
+duration       1.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.019122   0.016830  
+  scalePos     0.95000000 1.10000000
+endOrient      -27.067963
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowRightEnd
+duration       1.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000246   -0.002252 
+  scalePos     0.95000000 1.10000000
+endOrient      -20.962402
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowRightHold
+duration       0.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000153  0.000261  
+  scalePos     0.95000000 1.10000000
+endOrient      4.635223  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowRightStart
+duration       1.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.005714  -0.002634 
+  scalePos     0.95000000 1.10000000
+endOrient      17.122253 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowStraightEnd
+duration       1.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.011961   -0.009352 
+  scalePos     0.95000000 1.10000000
+endOrient      40.612579 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowStraightHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002522   -0.000462 
+  scalePos     0.95000000 1.10000000
+endOrient      5.732330  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentLowStraightStart
+duration       1.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.014072  -0.005265 
+  scalePos     0.95000000 1.10000000
+endOrient      -38.584045
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentMiddleStraightEnd
+duration       1.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.009644  -0.010393 
+  scalePos     0.95000000 1.10000000
+endOrient      27.014282 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentMiddleStraightHold
+duration       0.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000018   0.000864  
+  scalePos     0.95000000 1.10000000
+endOrient      0.071320  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPresentMiddleStraightStart
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009251   0.009193  
+  scalePos     0.95000000 1.10000000
+endOrient      -21.777161
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPutHandsToHipsEnd
+duration       1.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001500   0.001827  
+  scalePos     0.95000000 1.10000000
+endOrient      1.116791  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPutHandsToHipsHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000817  0.000800  
+  scalePos     0.95000000 1.10000000
+endOrient      0.301331  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsPutHandsToHipsStart
+duration       1.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.010629   0.005851  
+  scalePos     0.95000000 1.10000000
+endOrient      0.163116  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsScratchBelly
+duration       3.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009176   0.004758  
+  scalePos     0.95000000 1.10000000
+endOrient      2.238953  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsScratchBottom
+duration       4.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002196   -0.008089 
+  scalePos     0.95000000 1.10000000
+endOrient      2.497864  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsScratchCheek
+duration       4.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006650   0.001752  
+  scalePos     0.95000000 1.10000000
+endOrient      0.455841  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsScratchChin
+duration       4.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005166   0.002522  
+  scalePos     0.95000000 1.10000000
+endOrient      0.641022  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsScratchHead
+duration       5.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003466   0.002689  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.173584 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsShakeBoth
+duration       4.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004493   0.007159  
+  scalePos     0.95000000 1.10000000
+endOrient      1.754913  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsShakeLeft
+duration       3.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004224   0.001195  
+  scalePos     0.95000000 1.10000000
+endOrient      1.296936  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsShakeRight
+duration       3.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003256   0.001577  
+  scalePos     0.95000000 1.10000000
+endOrient      0.461823  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsShrugOffLightLeft
+duration       2.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009190   0.003111  
+  scalePos     0.95000000 1.10000000
+endOrient      1.200562  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsShrugOffLightRight
+duration       2.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.003959  -0.006148 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.214355 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsStopLight
+duration       2.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004009   0.006423  
+  scalePos     0.95000000 1.10000000
+endOrient      -4.159027 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsThinkingEnd
+duration       3.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.008038   -0.003259 
+  scalePos     0.95000000 1.10000000
+endOrient      3.540009  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsThinkingHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000049  0.000051  
+  scalePos     0.95000000 1.10000000
+endOrient      0.310913  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsThinkingStart
+duration       1.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006797   0.002249  
+  scalePos     0.95000000 1.10000000
+endOrient      -5.976929 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsThinkLeft
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.003623  -0.009377 
+  scalePos     0.95000000 1.10000000
+endOrient      2.644043  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsTurnImpatient
+duration       3.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.004511  0.005908  
+  scalePos     0.95000000 1.10000000
+endOrient      1.464325  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsUseWandHideWand
+duration       3.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001192  -0.008295 
+  scalePos     0.95000000 1.10000000
+endOrient      -4.760010 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsUseWandHoldWand
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000391   -0.000027 
+  scalePos     0.95000000 1.10000000
+endOrient      1.167358  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsUseWandTakeWand
+duration       2.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000622   0.001468  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.968323 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsUseWandTip
+duration       4.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003866   0.003344  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.860352 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsUseWandWave
+duration       3.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.007826  0.000295  
+  scalePos     0.95000000 1.10000000
+endOrient      0.708588  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveAwayBoth
+duration       3.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.011020  0.001718  
+  scalePos     0.95000000 1.10000000
+endOrient      0.856140  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveAwayRightLight
+duration       2.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001529  -0.001747 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.499329 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveAwayRightStrong
+duration       3.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.012304  -0.001453 
+  scalePos     0.95000000 1.10000000
+endOrient      -8.573853 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveComeBoth
+duration       4.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003681   -0.001385 
+  scalePos     0.95000000 1.10000000
+endOrient      2.115082  
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveComeRight
+duration       3.88000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003225   -0.003511 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.934113 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsWaveRight
+duration       2.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000628   0.002261  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.339691 
+  scaleOrient  0.30000000 2.00000000
+~~~
+armsYawn
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000897   0.004406  
+  scalePos     0.95000000 1.10000000
+endOrient      2.212585  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratBowLight
+duration       2.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001962   0.000956  
+  scalePos     0.95000000 1.10000000
+endOrient      1.195679  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratBowSweep
+duration       3.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000614   0.003731  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.169342 
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratBowSweet
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.012051  -0.004942 
+  scalePos     0.95000000 1.10000000
+endOrient      1.488068  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratBowTired
+duration       3.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.003565  -0.001533 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.237488 
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratClapHigh
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001435   -0.003088 
+  scalePos     0.95000000 1.10000000
+endOrient      1.380402  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratClapJoy
+duration       3.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.025901   0.002693  
+  scalePos     0.95000000 1.10000000
+endOrient      1.521484  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratClapLow
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006733   0.000017  
+  scalePos     0.95000000 1.10000000
+endOrient      0.456726  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratResigned
+duration       5.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003774   -0.002722 
+  scalePos     0.95000000 1.10000000
+endOrient      0.400085  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratSelfpleasant
+duration       4.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009142   -0.000756 
+  scalePos     0.95000000 1.10000000
+endOrient      1.046783  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratTheBest
+duration       4.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002927  -0.003153 
+  scalePos     0.95000000 1.10000000
+endOrient      0.251801  
+  scaleOrient  0.30000000 2.00000000
+~~~
+congratUnbelievingly
+duration       3.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.015867   0.000654  
+  scalePos     0.95000000 1.10000000
+endOrient      0.202698  
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceCharleston
+duration       7.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.012678   0.002745  
+  scalePos     0.95000000 1.10000000
+endOrient      -4.323334 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceCool1
+duration       11.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.010034  -0.003949 
+  scalePos     0.95000000 1.10000000
+endOrient      1.027740  
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceCool2
+duration       15.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.038421  0.004852  
+  scalePos     0.95000000 1.10000000
+endOrient      7.335846  
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceElvis1
+duration       7.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002524   0.015909  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.865814 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceElvis2
+duration       6.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.009217  0.005858  
+  scalePos     0.95000000 1.10000000
+endOrient      2.143463  
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceMichael1
+duration       10.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.139160   -0.242357 
+  scalePos     0.95000000 1.10000000
+endOrient      -93.295105
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceMichael2
+duration       14.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.067908  -0.021678 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.142822 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceMoonwalkBack
+duration       4.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.599298  -0.066405 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.023041 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceSoft1
+duration       6.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006128   0.008573  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.587494 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceSoft2
+duration       5.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.008630  0.006908  
+  scalePos     0.95000000 1.10000000
+endOrient      -2.182922 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceSoft3
+duration       6.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007483   0.005369  
+  scalePos     0.95000000 1.10000000
+endOrient      4.039642  
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceSoft4
+duration       6.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.011071  -0.006648 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.466614 
+  scaleOrient  0.30000000 2.00000000
+~~~
+danceSoft5
+duration       6.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.042491  0.017650  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.974579 
+  scaleOrient  0.30000000 2.00000000
+~~~
+headDownEnd
+duration       1.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.013287   -0.002724 
+  scalePos     0.95000000 1.10000000
+endOrient      1.033264  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headDownHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000758  0.001671  
+  scalePos     0.95000000 1.10000000
+endOrient      0.170166  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headDownStart
+duration       1.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.009839  -0.000934 
+  scalePos     0.95000000 1.10000000
+endOrient      0.200775  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigLeftEnd
+duration       1.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001963  -0.001281 
+  scalePos     0.95000000 1.10000000
+endOrient      2.212402  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigLeftHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000184  0.000486  
+  scalePos     0.95000000 1.10000000
+endOrient      0.135620  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigLeftStart
+duration       0.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001964   0.000407  
+  scalePos     0.95000000 1.10000000
+endOrient      1.613129  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigRightEnd
+duration       1.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000697   0.001590  
+  scalePos     0.95000000 1.10000000
+endOrient      1.435852  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigRightHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000438  -0.001653 
+  scalePos     0.95000000 1.10000000
+endOrient      0.098907  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookBigRightStart
+duration       1.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002852  0.000522  
+  scalePos     0.95000000 1.10000000
+endOrient      1.687256  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookLeftEnd
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002101   -0.000615 
+  scalePos     0.95000000 1.10000000
+endOrient      0.540680  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookLeftHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000872  -0.000329 
+  scalePos     0.95000000 1.10000000
+endOrient      0.059357  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookLeftStart
+duration       0.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000836   0.001192  
+  scalePos     0.95000000 1.10000000
+endOrient      0.410217  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookRightEnd
+duration       0.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003103   0.001363  
+  scalePos     0.95000000 1.10000000
+endOrient      1.233368  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookRightHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001252  0.000017  
+  scalePos     0.95000000 1.10000000
+endOrient      0.213989  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headLookRightStart
+duration       1.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001648  -0.000240 
+  scalePos     0.95000000 1.10000000
+endOrient      1.291046  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headNodLight
+duration       2.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001887   -0.000592 
+  scalePos     0.95000000 1.10000000
+endOrient      0.974579  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headNodStrong
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000730   0.001996  
+  scalePos     0.95000000 1.10000000
+endOrient      0.564056  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headShakeDownLight
+duration       3.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.008528   -0.001038 
+  scalePos     0.95000000 1.10000000
+endOrient      0.094879  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headShakeDownStrong
+duration       4.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006464   -0.002605 
+  scalePos     0.95000000 1.10000000
+endOrient      0.315277  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headShakeLight
+duration       5.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001190   -0.000565 
+  scalePos     0.95000000 1.10000000
+endOrient      0.165497  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headShakeSide
+duration       3.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.010454   -0.004805 
+  scalePos     0.95000000 1.10000000
+endOrient      1.525085  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headShakeStrong
+duration       4.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006801   0.000507  
+  scalePos     0.95000000 1.10000000
+endOrient      0.973572  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headUpEnd
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001515  -0.000753 
+  scalePos     0.95000000 1.10000000
+endOrient      0.213989  
+  scaleOrient  0.30000000 2.00000000
+~~~
+headUpHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000938   -0.000199 
+  scalePos     0.95000000 1.10000000
+endOrient      360.000000
+  scaleOrient  0.30000000 2.00000000
+~~~
+headUpStart
+duration       1.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002700   -0.000174 
+  scalePos     0.95000000 1.10000000
+endOrient      0.094879  
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpAngryLight
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.046646   -0.001005 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.717651 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpAngryStrong
+duration       3.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.035403  0.004105  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.129181 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpBackLong
+duration       2.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.334264  0.009091  
+  scalePos     0.95000000 1.10000000
+endOrient      0.345490  
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpBackShort
+duration       1.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.228612  0.028174  
+  scalePos     0.95000000 1.10000000
+endOrient      0.884247  
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpForwardLight
+duration       3.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.653099   -0.011547 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.627136 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpForwardLong
+duration       2.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.351948   -0.013867 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.230957 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpForwardShort
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.242354   -0.013535 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.710205 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpHappy3
+duration       4.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001269  -0.007225 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.216431 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpHappy5
+duration       5.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.008580   0.021197  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.416229 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpHappyHigh
+duration       4.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.008894   -0.008902 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.035095 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpHappyTurn180
+duration       2.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.127448   -0.017441 
+  scalePos     0.95000000 1.10000000
+endOrient      178.201691
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpHigh
+duration       4.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000889   0.041686  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.283234 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpLeftLong
+duration       2.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.015083  0.341362  
+  scalePos     0.95000000 1.10000000
+endOrient      -3.944519 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpLeftShort
+duration       1.88000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.018223   0.266907  
+  scalePos     0.95000000 1.10000000
+endOrient      -9.176392 
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpLow
+duration       4.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.014045   0.000506  
+  scalePos     0.95000000 1.10000000
+endOrient      0.421051  
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpRightLong
+duration       2.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009977   -0.319365 
+  scalePos     0.95000000 1.10000000
+endOrient      3.488739  
+  scaleOrient  0.30000000 2.00000000
+~~~
+jumpRightShort
+duration       2.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.031923  -0.250450 
+  scalePos     0.95000000 1.10000000
+endOrient      6.048248  
+  scaleOrient  0.30000000 2.00000000
+~~~
+knee1Left
+duration       2.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.207262   -0.034673 
+  scalePos     0.95000000 1.10000000
+endOrient      0.864563  
+  scaleOrient  0.30000000 2.00000000
+~~~
+knee1Right
+duration       2.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.223043   0.013261  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.330750 
+  scaleOrient  0.30000000 2.00000000
+~~~
+knee3L90
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.399972   0.201079  
+  scalePos     0.95000000 1.10000000
+endOrient      -87.582489
+  scaleOrient  0.30000000 2.00000000
+~~~
+knee50
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000286  -0.000127 
+  scalePos     0.95000000 1.10000000
+endOrient      4.719543  
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeBack1Left
+duration       1.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.237127  -0.025767 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.593201 
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeBack1Right
+duration       2.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.241488  0.023979  
+  scalePos     0.95000000 1.10000000
+endOrient      3.121796  
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeL90
+duration       3.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.186026   0.057064  
+  scalePos     0.95000000 1.10000000
+endOrient      -82.852722
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeR180
+duration       3.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.049341   0.015111  
+  scalePos     0.95000000 1.10000000
+endOrient      172.160477
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeR90
+duration       3.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.121626   -0.201702 
+  scalePos     0.95000000 1.10000000
+endOrient      86.271210 
+  scaleOrient  0.30000000 2.00000000
+~~~
+kneeToStand
+duration       3.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture KNEE feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.010225  -0.013323 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.680481 
+  scaleOrient  0.30000000 2.00000000
+~~~
+legsShakeBoth
+duration       4.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.016373  -0.008051 
+  scalePos     0.95000000 1.10000000
+endOrient      0.571991  
+  scaleOrient  0.30000000 2.00000000
+~~~
+legsShakeLeft
+duration       3.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000019  0.009418  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.988922 
+  scaleOrient  0.30000000 2.00000000
+~~~
+legsShakeRight
+duration       3.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000043   -0.014984 
+  scalePos     0.95000000 1.10000000
+endOrient      1.136597  
+  scaleOrient  0.30000000 2.00000000
+~~~
+makePictureEnd
+duration       3.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.010135   -0.002567 
+  scalePos     0.95000000 1.10000000
+endOrient      2.507324  
+  scaleOrient  0.30000000 2.00000000
+~~~
+makePictureHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001620  -0.001019 
+  scalePos     0.95000000 1.10000000
+endOrient      0.709961  
+  scaleOrient  0.30000000 2.00000000
+~~~
+makePictureStart
+duration       5.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.039340  -0.014985 
+  scalePos     0.95000000 1.10000000
+endOrient      1.787170  
+  scaleOrient  0.30000000 2.00000000
+~~~
+neutral10
+duration       -0.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000000   0.000000  
+  scalePos     0.95000000 1.10000000
+endOrient      0.000000  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sit50
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000602   -0.000038 
+  scalePos     0.95000000 1.10000000
+endOrient      0.776825  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitLeanBackEnd
+duration       2.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.072218   -0.018541 
+  scalePos     0.95000000 1.10000000
+endOrient      1.402496  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitLeanBackHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000422  0.000152  
+  scalePos     0.95000000 1.10000000
+endOrient      0.834869  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitLeanBackStart
+duration       1.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.067215  0.016367  
+  scalePos     0.95000000 1.10000000
+endOrient      1.651031  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitLook
+duration       6.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000617  -0.000946 
+  scalePos     0.95000000 1.10000000
+endOrient      1.805908  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitReleaseLegs
+duration       9.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007111   0.002742  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.353485 
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitScratchBack
+duration       4.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001612   -0.000195 
+  scalePos     0.95000000 1.10000000
+endOrient      1.988098  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitScratchFront
+duration       3.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001604  0.000032  
+  scalePos     0.95000000 1.10000000
+endOrient      1.473114  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitToStand
+duration       3.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.153141   -0.073041 
+  scalePos     0.95000000 1.10000000
+endOrient      0.665588  
+  scaleOrient  0.30000000 2.00000000
+~~~
+sitWave
+duration       3.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture SITCROSS feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001557  0.000015  
+  scalePos     0.95000000 1.10000000
+endOrient      0.449371  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standBlowStars
+duration       6.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.004485  -0.001801 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.836487 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standCestLaVie
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.002512   0.001089  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.073914 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyLeftEnd
+duration       1.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.103114   -0.048459 
+  scalePos     0.95000000 1.10000000
+endOrient      -31.694702
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyLeftHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000140  -0.003545 
+  scalePos     0.95000000 1.10000000
+endOrient      1.545227  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyLeftStart
+duration       2.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.048584  0.093113  
+  scalePos     0.95000000 1.10000000
+endOrient      33.539825 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyRightEnd
+duration       1.88000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.100330   0.108846  
+  scalePos     0.95000000 1.10000000
+endOrient      9.281647  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyRightHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000073   -0.000982 
+  scalePos     0.95000000 1.10000000
+endOrient      2.027191  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standEasyRightStart
+duration       1.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.053364  -0.112728 
+  scalePos     0.95000000 1.10000000
+endOrient      -14.357971
+  scaleOrient  0.30000000 2.00000000
+~~~
+standLookBigLeftBody
+duration       3.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.011389  -0.002279 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.465271 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standLookBigRightBody
+duration       4.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.017220   -0.004296 
+  scalePos     0.95000000 1.10000000
+endOrient      8.049683  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standLookShoulderLeft
+duration       4.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.013445   0.005195  
+  scalePos     0.95000000 1.10000000
+endOrient      -3.294678 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standLookShoulderRight
+duration       4.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000933  -0.003502 
+  scalePos     0.95000000 1.10000000
+endOrient      0.619293  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standPutHandsToHipsLight
+duration       3.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.004620  0.009258  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.503632 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standPutHandsToHipsStrong
+duration       4.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.013467  0.014213  
+  scalePos     0.95000000 1.10000000
+endOrient      -3.159698 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standScared
+duration       2.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.005832  -0.001412 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.274719 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standSearchUserSeekingLeft
+duration       5.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.014667  0.001410  
+  scalePos     0.95000000 1.10000000
+endOrient      4.927887  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standSearchUserSeekingRight
+duration       5.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.016195  -0.009853 
+  scalePos     0.95000000 1.10000000
+endOrient      0.990509  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standSearchUserSideLeft
+duration       4.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.013850  -0.006734 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.214172 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standSearchUserSideRight
+duration       3.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.013827   0.008103  
+  scalePos     0.95000000 1.10000000
+endOrient      2.379089  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standSearchUserUp
+duration       5.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.016268  -0.012018 
+  scalePos     0.95000000 1.10000000
+endOrient      -1.093597 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standShocking1
+duration       3.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.008240  0.004123  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.100861 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standShocking2
+duration       3.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001772  0.005829  
+  scalePos     0.95000000 1.10000000
+endOrient      0.535217  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standShrugOffStrongRight
+duration       4.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.011742   -0.004475 
+  scalePos     0.95000000 1.10000000
+endOrient      0.688995  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStill10
+duration       -0.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000000   0.000000  
+  scalePos     0.95000000 1.10000000
+endOrient      -0.019775 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStill30
+duration       0.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000340   -0.000253 
+  scalePos     0.95000000 1.10000000
+endOrient      0.086243  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStill50
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001776   -0.000927 
+  scalePos     0.95000000 1.10000000
+endOrient      0.150665  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStompAngryLight
+duration       2.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.015644   -0.000513 
+  scalePos     0.95000000 1.10000000
+endOrient      3.367615  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStompAngryStrong
+duration       3.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.000578  0.003512  
+  scalePos     0.95000000 1.10000000
+endOrient      0.202698  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStopStrongBoth
+duration       3.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007207   0.000325  
+  scalePos     0.95000000 1.10000000
+endOrient      -1.688751 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStopStrongBothHoldObject
+duration       1.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.019140   -0.012102 
+  scalePos     0.95000000 1.10000000
+endOrient      4.538116  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStopStrongLeft
+duration       3.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006434   -0.000196 
+  scalePos     0.95000000 1.10000000
+endOrient      11.323578 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStopStrongRight
+duration       3.88000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005773   -0.006548 
+  scalePos     0.95000000 1.10000000
+endOrient      -6.309723 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStretchAllAfterSleep
+duration       6.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.007555   0.004096  
+  scalePos     0.95000000 1.10000000
+endOrient      1.593109  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standStretchAllAfterSport
+duration       4.32000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003641   -0.005271 
+  scalePos     0.95000000 1.10000000
+endOrient      0.662628  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standTapHeadLeft
+duration       6.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002743  -0.015380 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.472290 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standTapHeadRight
+duration       6.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.019746  0.016274  
+  scalePos     0.95000000 1.10000000
+endOrient      0.241486  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standTapThinkLeft
+duration       5.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.043000  -0.002347 
+  scalePos     0.95000000 1.10000000
+endOrient      0.971375  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standTapThinkRight
+duration       5.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.003257  -0.011218 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.546844 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standThrowOutLeft
+duration       8.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.012966   -0.005914 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.247284 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standThrowOutRight
+duration       7.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.013077   0.011225  
+  scalePos     0.95000000 1.10000000
+endOrient      2.358002  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standThrowStars
+duration       4.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.015731  -0.010032 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.842285 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standToKnee
+duration       3.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.048460   -0.046048 
+  scalePos     0.95000000 1.10000000
+endOrient      1.868561  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standToSit
+duration       4.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.131329  -0.032115 
+  scalePos     0.95000000 1.10000000
+endOrient      4.369873  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaitBarEnd
+duration       1.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.025389   0.051204  
+  scalePos     0.95000000 1.10000000
+endOrient      2.056702  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaitBarHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001053   -0.000833 
+  scalePos     0.95000000 1.10000000
+endOrient      7.578369  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaitBarStart
+duration       2.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.019912  -0.038180 
+  scalePos     0.95000000 1.10000000
+endOrient      -7.917664 
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaveHighBothLight
+duration       5.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.010904  -0.000804 
+  scalePos     0.95000000 1.10000000
+endOrient      1.401245  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaveHighBothStrong
+duration       5.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.004684   0.001473  
+  scalePos     0.95000000 1.10000000
+endOrient      1.351624  
+  scaleOrient  0.30000000 2.00000000
+~~~
+standWaveHighRight
+duration       5.96000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001562  -0.023506 
+  scalePos     0.95000000 1.10000000
+endOrient      -0.605560 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustBack
+duration       1.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.104770  0.005717  
+  scalePos     0.95000000 1.10000000
+endOrient      1.281769  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustForth
+duration       1.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.161467   -0.015763 
+  scalePos     0.95000000 1.10000000
+endOrient      1.728729  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustLeft
+duration       1.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.006573   0.136121  
+  scalePos     0.95000000 1.10000000
+endOrient      -2.678619 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustLeftBack
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.149248  0.118475  
+  scalePos     0.95000000 1.10000000
+endOrient      -5.991150 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustLeftForth
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.093792   0.115428  
+  scalePos     0.95000000 1.10000000
+endOrient      -5.195313 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustRight
+duration       1.36000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005939   -0.140393 
+  scalePos     0.95000000 1.10000000
+endOrient      2.755615  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustRightBack
+duration       2.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.142366  -0.132134 
+  scalePos     0.95000000 1.10000000
+endOrient      2.088074  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepAdjustRightForth
+duration       1.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.176052   -0.176595 
+  scalePos     0.95000000 1.10000000
+endOrient      -6.051270 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL00Left
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.237114  0.009913  
+  scalePos     0.95000000 1.10000000
+endOrient      -7.801910 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL00LeftSmall
+duration       1.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.186910  0.014097  
+  scalePos     0.95000000 1.10000000
+endOrient      -4.739258 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL00Right
+duration       1.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.256347  -0.008811 
+  scalePos     0.95000000 1.10000000
+endOrient      -2.428162 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL00RightSmall
+duration       1.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.129443  -0.000383 
+  scalePos     0.95000000 1.10000000
+endOrient      1.589294  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL45Left
+duration       1.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.259472  0.235439  
+  scalePos     0.95000000 1.10000000
+endOrient      45.676300 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackL45Right
+duration       1.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.320882  0.204557  
+  scalePos     0.95000000 1.10000000
+endOrient      52.085876 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackR45Left
+duration       1.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.214626  -0.197211 
+  scalePos     0.95000000 1.10000000
+endOrient      -79.145874
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepBackR45Right
+duration       1.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.214280  -0.173896 
+  scalePos     0.95000000 1.10000000
+endOrient      -64.131317
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL00Left
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.360566   -0.010476 
+  scalePos     0.95000000 1.10000000
+endOrient      2.454468  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL00LeftSmall
+duration       1.84000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.282357   -0.016814 
+  scalePos     0.95000000 1.10000000
+endOrient      4.089783  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL00Right
+duration       1.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.324856   -0.016748 
+  scalePos     0.95000000 1.10000000
+endOrient      -7.205933 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL00RightSmall
+duration       1.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.193362   -0.016677 
+  scalePos     0.95000000 1.10000000
+endOrient      -9.566498 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL15Left
+duration       1.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.367740   0.109352  
+  scalePos     0.95000000 1.10000000
+endOrient      -33.789917
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL15Right
+duration       1.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.381519   0.135310  
+  scalePos     0.95000000 1.10000000
+endOrient      -41.085114
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL45Left
+duration       2.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.289180   0.226110  
+  scalePos     0.95000000 1.10000000
+endOrient      -56.208466
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL45Right
+duration       1.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.303198   0.263717  
+  scalePos     0.95000000 1.10000000
+endOrient      -60.968140
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepL90Left
+duration       1.44000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.066131   0.389677  
+  scalePos     0.95000000 1.10000000
+endOrient      -83.689789
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepR15Left
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.370353   -0.142337 
+  scalePos     0.95000000 1.10000000
+endOrient      24.741455 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepR15Right
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.365123   -0.159016 
+  scalePos     0.95000000 1.10000000
+endOrient      21.939667 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepR45Left
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.261711   -0.332209 
+  scalePos     0.95000000 1.10000000
+endOrient      51.868530 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepR45Right
+duration       1.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.250863   -0.313406 
+  scalePos     0.95000000 1.10000000
+endOrient      32.683746 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepR90Right
+duration       2.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.018760   -0.392848 
+  scalePos     0.95000000 1.10000000
+endOrient      81.097565 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepSideLeft
+duration       1.40000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.002924  0.255054  
+  scalePos     0.95000000 1.10000000
+endOrient      -6.917145 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepSideLeftSmall
+duration       1.20000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000872   0.193843  
+  scalePos     0.95000000 1.10000000
+endOrient      -5.568756 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepSideRight
+duration       1.52000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009018   -0.281467 
+  scalePos     0.95000000 1.10000000
+endOrient      2.176086  
+  scaleOrient  0.30000000 2.00000000
+~~~
+stepSideRightSmall
+duration       1.28000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.016511  -0.218107 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.461304 
+  scaleOrient  0.30000000 2.00000000
+~~~
+stuntHandstand
+duration       7.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.181453   0.036827  
+  scalePos     0.95000000 1.10000000
+endOrient      0.853180  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureCameraReadyHold
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.003708   0.000882  
+  scalePos     0.95000000 1.10000000
+endOrient      1.098419  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureCameraReadyStart
+duration       1.12000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.006422  0.002794  
+  scalePos     0.95000000 1.10000000
+endOrient      3.180450  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureHideCamera
+duration       3.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.000615   0.002231  
+  scalePos     0.95000000 1.10000000
+endOrient      4.497894  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureHoldCamera
+duration       0.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.001594  0.001511  
+  scalePos     0.95000000 1.10000000
+endOrient      1.424377  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureShot
+duration       0.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.009219   -0.004223 
+  scalePos     0.95000000 1.10000000
+endOrient      1.097534  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureShotEnd
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.005667  0.004835  
+  scalePos     0.95000000 1.10000000
+endOrient      6.610321  
+  scaleOrient  0.30000000 2.00000000
+~~~
+takePictureTakeCamera
+duration       4.24000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.022391   0.005974  
+  scalePos     0.95000000 1.10000000
+endOrient      9.635071  
+  scaleOrient  0.30000000 2.00000000
+~~~
+turn360Happy
+duration       2.80000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.117591  0.015640  
+  scalePos     0.95000000 1.10000000
+endOrient      -2.829865 
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL010
+duration       1.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.036578   0.010293  
+  scalePos     0.95000000 1.10000000
+endOrient      -33.760620
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL030
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005563   0.011311  
+  scalePos     0.95000000 1.10000000
+endOrient      -55.882324
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL060
+duration       2.00000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.005125   0.033805  
+  scalePos     0.95000000 1.10000000
+endOrient      -67.957642
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL090
+duration       2.04000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.033348   0.079299  
+  scalePos     0.95000000 1.10000000
+endOrient      -98.072479
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL120
+duration       1.88000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.017522  0.111300  
+  scalePos     0.95000000 1.10000000
+endOrient      -128.731415
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnL180
+duration       2.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.095648  0.034853  
+  scalePos     0.95000000 1.10000000
+endOrient      -174.831726
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR010
+duration       1.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.017996  -0.027423 
+  scalePos     0.95000000 1.10000000
+endOrient      27.939941 
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR030
+duration       1.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.013289  -0.067694 
+  scalePos     0.95000000 1.10000000
+endOrient      38.054108 
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR060
+duration       1.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.014310  -0.107107 
+  scalePos     0.95000000 1.10000000
+endOrient      62.601471 
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR090
+duration       2.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.001630   -0.127673 
+  scalePos     0.95000000 1.10000000
+endOrient      82.446960 
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR120
+duration       2.16000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.063106  -0.083181 
+  scalePos     0.95000000 1.10000000
+endOrient      120.609375
+  scaleOrient  0.30000000 2.00000000
+~~~
+turnR180
+duration       3.60000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.111130  -0.028981 
+  scalePos     0.95000000 1.10000000
+endOrient      178.356216
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL00Left
+duration       1.14000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.374472   -0.005342 
+  scalePos     0.95000000 1.10000000
+endOrient      -3.683655 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL00Right
+duration       1.18000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.338455   -0.036674 
+  scalePos     0.95000000 1.10000000
+endOrient      -9.063049 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL15Left
+duration       1.30000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.379845   0.184871  
+  scalePos     0.95000000 1.10000000
+endOrient      -32.472565
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL15Right
+duration       1.50000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.460844   0.190879  
+  scalePos     0.95000000 1.10000000
+endOrient      -39.818451
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL45Left
+duration       1.10000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.224489   0.196891  
+  scalePos     0.95000000 1.10000000
+endOrient      -49.240265
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL45Right
+duration       1.66000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.310813   0.307092  
+  scalePos     0.95000000 1.10000000
+endOrient      -61.622314
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartL90Left
+duration       1.18000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.046563   0.216338  
+  scalePos     0.95000000 1.10000000
+endOrient      -75.662750
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartR15Left
+duration       1.46000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.308721   -0.215603 
+  scalePos     0.95000000 1.10000000
+endOrient      30.043701 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartR15Right
+duration       1.18000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.263616   -0.140738 
+  scalePos     0.95000000 1.10000000
+endOrient      17.886414 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartR45Left
+duration       1.38000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.256745   -0.272354 
+  scalePos     0.95000000 1.10000000
+endOrient      38.302124 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartR45Right
+duration       1.18000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.135464   -0.147805 
+  scalePos     0.95000000 1.10000000
+endOrient      31.011841 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStartR90Right
+duration       1.22000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         -0.055785  -0.295291 
+  scalePos     0.95000000 1.10000000
+endOrient      67.101837 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL00Left
+duration       0.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.345165   -0.018266 
+  scalePos     0.95000000 1.10000000
+endOrient      5.876923  
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL00Right
+duration       0.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.404892   -0.000688 
+  scalePos     0.95000000 1.10000000
+endOrient      -6.947968 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL15Left
+duration       0.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.339655   0.085900  
+  scalePos     0.95000000 1.10000000
+endOrient      -27.897858
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL15Right
+duration       0.76000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.381034   0.101528  
+  scalePos     0.95000000 1.10000000
+endOrient      -46.099792
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL45Left
+duration       0.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.290035   0.163713  
+  scalePos     0.95000000 1.10000000
+endOrient      -47.317261
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL45Right
+duration       0.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.299588   0.036588  
+  scalePos     0.95000000 1.10000000
+endOrient      -33.150848
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL90Left
+duration       1.48000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.148748   0.331976  
+  scalePos     0.95000000 1.10000000
+endOrient      -78.437042
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepL90Right
+duration       1.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.106371   0.344871  
+  scalePos     0.95000000 1.10000000
+endOrient      -95.200745
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR15Left
+duration       0.64000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.382709   -0.150202 
+  scalePos     0.95000000 1.10000000
+endOrient      27.511963 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR15Right
+duration       0.68000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.272751   -0.151745 
+  scalePos     0.95000000 1.10000000
+endOrient      24.616608 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR45Left
+duration       0.92000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.324386   -0.237558 
+  scalePos     0.95000000 1.10000000
+endOrient      42.830566 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR45Right
+duration       0.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.213885   -0.231855 
+  scalePos     0.95000000 1.10000000
+endOrient      38.581146 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR90Left
+duration       1.08000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.013920   -0.350949 
+  scalePos     0.95000000 1.10000000
+endOrient      97.251648 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStepR90Right
+duration       0.72000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.129096   -0.291226 
+  scalePos     0.95000000 1.10000000
+endOrient      52.410156 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL00Left
+duration       0.62000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.231189   -0.018309 
+  scalePos     0.95000000 1.10000000
+endOrient      7.089233  
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL00Right
+duration       0.78000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.232857   -0.000664 
+  scalePos     0.95000000 1.10000000
+endOrient      -10.934570
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL15Left
+duration       0.74000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.272509   0.067451  
+  scalePos     0.95000000 1.10000000
+endOrient      -20.521271
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL15Right
+duration       1.02000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.325542   0.101897  
+  scalePos     0.95000000 1.10000000
+endOrient      -43.349792
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL45Left
+duration       1.10000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.285340   0.195382  
+  scalePos     0.95000000 1.10000000
+endOrient      -45.981628
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL45Right
+duration       0.98000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.277794   0.122714  
+  scalePos     0.95000000 1.10000000
+endOrient      -45.145020
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL90Left
+duration       0.90000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.163996   0.147736  
+  scalePos     0.95000000 1.10000000
+endOrient      -81.409515
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopL90Right
+duration       1.74000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.186637   0.167038  
+  scalePos     0.95000000 1.10000000
+endOrient      -81.723450
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR15Left
+duration       0.94000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.190842   -0.212456 
+  scalePos     0.95000000 1.10000000
+endOrient      61.833038 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR15Right
+duration       1.10000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.259785   -0.178373 
+  scalePos     0.95000000 1.10000000
+endOrient      22.109772 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR45Left
+duration       1.10000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.234591   -0.202317 
+  scalePos     0.95000000 1.10000000
+endOrient      43.432404 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR45Right
+duration       0.94000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.224240   -0.192883 
+  scalePos     0.95000000 1.10000000
+endOrient      29.200073 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR90Left
+duration       1.30000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.170348   -0.252728 
+  scalePos     0.95000000 1.10000000
+endOrient      73.548492 
+  scaleOrient  0.30000000 2.00000000
+~~~
+walkStopR90Right
+duration       1.02000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture WALKING feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.153385   -0.212462 
+  scalePos     0.95000000 1.10000000
+endOrient      65.021545 
+  scaleOrient  0.30000000 2.00000000
+~~~
+StartupAction
+duration       3.680000  
+  scaleSpeed   0.800000 1.300000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.0        0.0       
+  scalePos     0.950000   1.100000  
+endOrient      0.0       
+  scaleOrient  0.300000   2.000000  
+~~~
+ATestMove
+duration       14.760000 
+  scaleSpeed   0.800000 1.300000
+startStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet EITHER arms NORMAL head FREE object NONE
+effort         0.000000  
+endPos         0.0        0.0       
+  scalePos     0.950000   1.100000  
+endOrient      0.0       
+  scaleOrient  0.300000   2.000000  
+~~~
+===

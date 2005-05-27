@@ -1,0 +1,25 @@
+#Inventor V2.1 ascii
+  
+Separator {
+    Material {
+        diffuseColor~
+        emissiveColor~
+        ambientColor~
+        specularColor~
+        shininess~
+        transparency 0.5
+    }
+    ShapeHints {
+      vertexOrdering    COUNTERCLOCKWISE
+    }
+    PolygonOffset { units -1 factor -2 styles FILLED }
+    IndexedFaceSet {
+      vertexProperty VertexProperty {
+        vertex  [ -1 -1 0,
+                  -1 1 0,
+                  1 1 0,
+                  1 -1 0 ]
+      }
+      coordIndex    [ 0, 1, 2, 3, -1 ]
+    }
+}

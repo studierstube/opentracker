@@ -1,0 +1,35 @@
+#Inventor V2.1 ascii
+
+SoApplicationKit {
+    fields [ SFNode classLoader, SFNode contextKit, SFNode appGeom, SFNode info ]
+
+    contextKit	     SoContextKit {
+	fields [ SFInt32 appID, SFInt32 userID, SFNode templatePipSheet,
+		SFBool clonePipSheet,  ]
+
+	templatePipSheet SoPipSheetKit {
+		pipParts (PIP_BODY)
+	}
+	windowGroup Group {  SoWindowKit {
+            size	0.3 0.3 0.3
+   	    #appearance (BACK_WALL_SOLID_UNFOCUSED| FRONT_WALL_UNFOCUSED)
+	    appearance FRONT_WALL
+	    #style DEFAULT
+#	    position 0 0.4 0
+	    position 0.5 0.6 0
+	    orientation 1 0 0 -1.57
+	    title	"VRML Hand"        
+	    clientVolume Separator {
+			File{name "../apps/construct3d/content/viviani.wrl"}
+		}
+	    }
+	}
+	clonePipSheet       FALSE
+    }
+    appGeom         Separator {
+    			Texture2 { filename "../apps/construct3d/content/vrmllogo.gif" }
+    			}
+    info	    Info {
+    }
+
+}

@@ -1,0 +1,76 @@
+#Inventor V2.1 ascii
+DEF SCENE_ROOT Separator {
+  DEF GROUND Separator {
+    DEF ARTIFACTS Separator {
+    }
+    DEF TERRAIN_TRAFO Transform { 
+      translation -0.8 0.5 0 
+      rotation 1 0 0 1.04
+      scaleFactor 0.0008 0.0003 0.0005 
+    }
+    DEF TERRAIN Separator {
+      Texture2 { filename "data/noise.rgb" }
+      File { name "terrain2.iv" }
+      Texture2 { filename "data/water.rgb" }
+      Material { diffuseColor 0 0.5 1 }
+      DEF WATER Separator {
+        DEF WATER_OFFSET Translation { translation 950 100 950 }
+        DEF WATER_CUBE Cube { height 200 width 1900 depth 1900 }
+      }
+    }
+  }
+  DEF XRAY_SWITCH Switch {
+	whichChild 0
+	DEF XRAY_SEAM SoSeamKit { 
+      checkVisibility FALSE
+      seamGeometry DEF SEAM_COORD Coordinate3 { point [
+	      -6 0 -4,
+	       6 0 -4,
+	       6 0  4,
+	      -6 0  4,
+      ]}
+      secondaryWorld DEF SECONDARY Separator {
+        DEF SECONDARY_PEN Group {}
+    	DrawStyle { style LINES }
+        USE ARTIFACTS
+        USE TERRAIN_TRAFO
+        USE TERRAIN
+        DrawStyle { lineWidth 4 }
+        DEF U_SEP Separator {}
+        DEF U_SENSOR So3DSensor { DrawStyle { style LINES } USE WATER }
+        USE WATER_OFFSET
+        Separator {
+          DEF U_CURSOR_COLOR Material {}
+          DEF U_CURSOR_T Translation {}
+          Coordinate3 { point [-50 0.01 0,50 0.01 0,0 0.01 -50,0 0.01 50] }
+          LineSet { numVertices[2,2] }
+        }
+        Separator {
+          DrawStyle { lineWidth 1 }
+          Material {diffuseColor 0.4 0.4 0.4}
+          DEF U_CURSOR_T_EXACT Translation {}
+          Coordinate3 { point [-50 0.01 0,50 0.01 0,0 0.01 -50,0 0.01 50] }
+          LineSet { numVertices[2,2] }
+        }
+      }
+      seamTransform DEF TLENS Transform {
+    	translation 0 0 0 = DEF SEAM_TE SoTrakEngine  { station 2 } . translation
+    	rotation 0 0 0 1 = USE SEAM_TE . rotation
+      }
+	}
+  }
+  DEF CURRENT_SEAM_SWITCH Switch {
+    whichChild -1
+    Group {
+      DEF CURRENT_SEAM_SEP So3DSeparator {
+    	eventMask BM_NO_EVENT
+      }
+      DEF STORED_SEAM_SEP So3DSeparator {
+    	eventMask BM_NO_EVENT
+      }
+      Material { diffuseColor 0.5 0.1 0.2 }
+      DEF SEAM_FRAME_SEP Separator {
+      }
+    }
+  }
+}

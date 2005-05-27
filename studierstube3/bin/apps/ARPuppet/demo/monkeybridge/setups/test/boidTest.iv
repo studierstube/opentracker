@@ -1,0 +1,167 @@
+#Inventor V2.1 ascii
+
+DEF PUPPETEERTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+        } # end of templatePipSheet
+
+        windowGroup Group {
+
+            SoClassLoader {
+                className   "SoChoreographerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+            SoClassLoader {
+                className   "SoFMODSound"
+                fileName    "FMODSound"
+            }
+            SoClassLoader {
+                className   "SoCal3DPuppeteer"
+                fileName    "../apps/arpuppet/characters/cal3dpuppet/cal3dpuppet"
+            }
+            SoClassLoader {
+                className   "BoidFlock"
+                fileName    "../apps/arpuppet/demo/monkeybridge/monkeybridge"
+            }
+
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+
+                    SoChoreographerKit {
+                        id "choreographer"
+                        puppeteers Separator {
+                            DEF BOIDFLOCK BoidFlock {
+                                id "flock_of_boids"
+                                controlMode [ EXTERNAL , EXTERNAL ]
+                                positionOffset = SoInfo { string "0 0.2 0" }.string
+                                number 10
+                                whichPuppets -3
+                                filename "../apps/arpuppet/demo/monkeybridge/mesh/boid.iv"                                
+                                obstaclePosition [ 0 0 0 ]
+                                obstacleRadius [ 0 ]
+                                influenceRadiusSquared 400
+                                collisionFraction 0.8
+                                angleTweak 0.02
+                                pitchToSpeedRatio 0.002
+                                normalSpeed 0.4
+                                goal = SoCalculator {
+                                    a 0.1 # tileSize
+                                    b 5.0
+                                    c = SoElapsedTime { speed 0.4 }.timeOut
+                                    expression [
+                                        "oA[0] = a*b*sin(c)",
+                                        "oA[1] = 0",
+                                        "oA[2] = a*b*sin(c)*cos(c)"
+                                    ]
+                                }.oA
+                                obstaclePosition = SoCalculator {
+                                    a = SoDecomposeVec2f {
+                                        vector 10 10
+                                    }.x
+                                    b = SoDecomposeVec2f {
+                                        vector 10 10
+                                    }.y
+                                    c 0.1 
+                                    d = SoDecomposeVec2f {
+                                        vector [
+                                            2 2,
+                                            7 7
+                                        ]
+                                    }.x
+                                    e = SoDecomposeVec2f {
+                                        vector [
+                                            2 2,
+                                            7 7
+                                        ]
+                                    }.y
+                                    expression [
+                                        "oA[0]=(-(a/2.0-0.5)+d)*c",
+                                        "oA[1]=0",
+                                        "oA[2]=(-(b/2.0-0.5)+e)*c"
+                                    ]
+                                }.oA
+                                obstacleRadius [ 0.1 ]
+                            }
+                        } # end of puppeteers            
+                    } # end of Choreographer
+
+                    # pseudo-playfield
+                    Separator {
+                        Material { 
+                            diffuseColor 1 0 0 
+                            emissiveColor 1 0 0 
+                        }
+                        SoDrawStyle { style LINES }
+                        Cube { width 1.0 height 0.001 depth 1.0 }
+                    }
+
+                    # lighthouse
+                    Separator {
+                        Transform { 
+                            translation = SoSelectOne {
+                                type SoMFVec3f
+                                input = USE BOIDFLOCK.obstaclePosition
+                                index 0
+                            }.output
+                        }
+                        File { name "../apps/arpuppet/demo/monkeybridge/mesh/lighthouse.iv"}
+                    }
+                    
+                    # volcano
+                    Separator {
+                        Transform { 
+                            translation = SoSelectOne {
+                                type SoMFVec3f
+                                input = USE BOIDFLOCK.obstaclePosition
+                                index 1
+                            }.output
+                        }
+                        File { name "../apps/arpuppet/demo/monkeybridge/mesh/volcano.iv"}
+                    }
+                    
+                    # cursor showing the current goal of the boid flock
+                    Separator {
+                        Transform { translation = USE BOIDFLOCK.goal }
+                        Material { diffuseColor 1 0 0 }
+                        Sphere { radius 0.01 }
+                    }                    
+                        
+                    SoFMODSound {
+                        filename "../apps/arpuppet/demo/monkeybridge/sound/ocean.mp3"
+                        play TRUE
+                        loop TRUE
+                        volume 0.8
+                    }
+                    
+                        # debugger - connect field to debug to SoText3.string below
+                        SoSeparator {
+                            Transform { 
+                                translation 0 0.3 0
+                                scaleFactor 0.005 0.005 0.005
+                            }
+                            SoText3 {
+                                parts ALL
+                                string = USE BOIDFLOCK.goal
+                            }
+                        }
+                    
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

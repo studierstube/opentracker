@@ -1,0 +1,36 @@
+#Inventor V2.1 ascii
+
+	Info {
+	  string "this is the camera for the LEFT eye"
+	}
+	SoOffAxisCamera {
+	  viewportMapping LEAVE_ALONE
+	  nearDistance 0.16
+	  farDistance 5
+	  focalDistance 2
+	  size 0.35 0.27
+	  position 0 0 0 
+	  orientation 0 1 0 -1.54
+	  aspectRatio 1.33333
+	  nearDistance 0.16
+	  farDistance 5
+	  focalDistance 2
+
+	} 
+	Info {
+	  string "this is the camera for the RIGHT eye"
+	}
+	SoOffAxisCamera {
+	  viewportMapping LEAVE_ALONE
+	  nearDistance 0.16
+	  farDistance 5
+	  focalDistance 2
+	  size 0.35 0.27
+  	  position 0 0 0 
+	  orientation 0 1 0 -1.54
+	  aspectRatio 1.33333
+	  nearDistance 0.16
+	  farDistance 5
+	  focalDistance 2
+
+	} 

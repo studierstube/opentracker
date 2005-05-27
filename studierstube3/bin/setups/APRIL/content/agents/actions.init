@@ -1,0 +1,75 @@
+ActionTable 1500
+~~~
+restartNow
+# missing description
+# sorry
+# end-
+special        RESTART_HARD 0
+blending       5 5
+duration       1.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+effort         4.220780  
+endPos         0.001215   -0.000839 
+  scalePos     0.95000000 1.10000000
+rotDir UNKNOWN
+endOrient      360.000000
+  scaleOrient  0.30000000 2.00000000
+jHals standStill50 25.000000
+jHuefte standStill50 25.000000
+jOberkoerper standStill50 25.000000
+jRumpf standStill50 25.000000
+jLinksSchulter standStill50 25.000000
+jLinksEllbogen standStill50 25.000000
+jLinksHand standStill50 25.000000
+jLinksBein standStill50 25.000000
+jLinksKnie standStill50 25.000000
+jLinksFuss standStill50 25.000000
+jRechtsSchulter standStill50 25.000000
+jRechtsEllbogen standStill50 25.000000
+jRechtsHand standStill50 25.000000
+jRechtsBein standStill50 25.000000
+jRechtsKnie standStill50 25.000000
+jRechtsFuss standStill50 25.000000
+jRumpfTranslation standStill50 25.000000
+~~~
+MoveToTest
+# missing description
+# sorry
+# end-
+special        MOVE_TO 1 0 1
+blending       5 5
+duration       3.56000000
+  scaleSpeed   0.80000000 1.30000000
+startStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+endStatus
+    posture STAND feet LEFT arms NORMAL head FREE object NONE
+effort         4.220780  
+endPos         0.001215   -0.000839 
+  scalePos     0.95000000 1.10000000
+rotDir UNKNOWN
+endOrient      360.000000
+  scaleOrient  0.30000000 2.00000000
+jHals standStill50 25.000000
+jHuefte standStill50 25.000000
+jOberkoerper standStill50 25.000000
+jRumpf standStill50 25.000000
+jLinksSchulter standStill50 25.000000
+jLinksEllbogen standStill50 25.000000
+jLinksHand standStill50 25.000000
+jLinksBein standStill50 25.000000
+jLinksKnie standStill50 25.000000
+jLinksFuss standStill50 25.000000
+jRechtsSchulter standStill50 25.000000
+jRechtsEllbogen standStill50 25.000000
+jRechtsHand standStill50 25.000000
+jRechtsBein standStill50 25.000000
+jRechtsKnie standStill50 25.000000
+jRechtsFuss standStill50 25.000000
+jRumpfTranslation standStill50 25.000000
+~~~
+===

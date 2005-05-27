@@ -1,0 +1,42 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 12
+
+    pen SoPenKit {
+
+        station 0
+        geometry File {name "./graphix/DefaultPen.iv"}
+    }
+
+    pip SoPipKit {
+
+        station 1
+        pipSize 0.3 0.2 0.01
+        sheetAreaUpperLeft  0.05 0.05
+        sheetAreaLowerRight 0.95 0.95
+        offset Transform {
+		    translation 0 0 0
+            rotation 1 0 0 -1.57
+       }
+
+       geometry File {
+		   name "./graphix/DefaultPip.iv"
+	   }
+    }
+
+    display SoDisplayKit {
+
+        stereoCameraKit File {
+			name "defaultCameraKit.iv"
+		}
+
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 1 0 0
+	videoBackground TRUE
+        transparencyType DELAYED_BLEND
+		decoration FALSE
+    }
+}

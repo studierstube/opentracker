@@ -1,0 +1,361 @@
+#Inventor V2.1 ascii
+
+Separator {
+
+#
+# PIP partition cubes
+#
+
+    Separator {
+
+	Material {
+	    diffuseColor	0 0 0
+	}
+	Translation {
+	    translation	0 0.0015 0.04
+	}
+	Cube {
+	    width	0.3
+	    height	0.003
+	    depth	0.002
+	}
+	Translation {
+	    translation	0.06 0 -0.04
+	}
+	Cube {
+	    width	0.002
+	    height	0.003
+	    depth	0.2
+	}
+
+
+#
+# Sheet text
+#
+	Font {
+	    name	"Utopia-Regular"
+	    size	2
+	}
+
+	Separator{
+
+		Translation {
+	    	translation	-0.105 0 0.08
+		}
+
+		Scale {
+	    	scaleFactor	0.02 0.02 0.02
+		}
+	
+	 	RotationXYZ {
+	    	axis	X
+		    angle	-1.5708
+		}
+
+		Text3 {
+		    string	"System"
+	    	justification	CENTER
+		    parts	FRONT
+		}
+	}		
+
+
+	Separator{
+
+		Translation {
+	    	translation	0.058 0 -0.03
+		}
+
+		Scale {
+	    	scaleFactor	0.02 0.02 0.02
+		}
+	
+		RotationXYZ {
+	    	axis	Y
+		    angle	1.5708
+		}
+
+		RotationXYZ {
+	    	axis	X
+		    angle	-1.5708
+		}
+
+		Text3 {
+		    string	"Sheet"
+	    	justification	CENTER
+		    parts	FRONT
+		}
+	}		
+
+
+    }
+
+#
+# Sheet positioning/resizing
+#
+
+    Translation {
+	translation	-0.09 0.005 -0.065
+    }
+
+	Scale {
+	scaleFactor 0.006 0.005 0.0049 
+	}
+
+#
+# Application Buttons
+#
+
+    DEF SCSAppSwitch0 Switch {
+	whichChild	0
+
+	DEF SCSAppButton0 So3DButton {
+
+	width 12
+	height 2
+	depth  9	
+
+    }
+
+	}
+
+    DEF +2 Translation {
+	translation	13 0 0
+    }
+
+    DEF SCSAppSwitch1 Switch {
+	whichChild	0
+
+	DEF SCSAppButton1 So3DButton {
+
+	width 12
+	height 2
+	depth  9	
+
+    }
+
+	}
+
+    Translation {
+	translation	-13 0 10
+    }
+
+    DEF SCSAppSwitch2 Switch {
+	whichChild	0
+
+	DEF SCSAppButton2 So3DButton {
+
+	width 12
+	height 2
+	depth  9	
+
+    }
+
+	}
+
+    USE +2
+
+    DEF SCSAppSwitch3 Switch {
+	whichChild	0
+
+	DEF SCSAppButton3 So3DButton {
+
+	width 12
+	height 2
+	depth  9	
+
+    }
+
+	}
+	
+    Translation {
+	translation	9 0 0
+    }
+
+#
+# Arrow Buttons
+#
+
+    DEF SCSDownButton So3DButton {
+
+	width  3
+	height 2
+	depth  9	
+
+	textureSwitch		Switch {
+	    whichChild	0 =
+		USE SCSDownButton . pressed
+
+	    DEF +10 Group {
+		Texture2 {
+		    filename	"arrow_down.jpg"
+		}
+		FaceSet {
+		    vertexProperty			    VertexProperty {
+			vertex	[ -1.3 1.01 4.3,
+					  1.3 1.01 4.3,
+					  1.3 1.01 -4.3,
+					  -1.3 1.01 -4.3 ]
+			normal	0 1 0
+			texCoord	[ 0 0,
+					  1 0,
+					  1 1,
+					  0 1 ]
+			normalBinding	OVERALL
+		    }
+
+		    numVertices	4
+		}
+	    }
+	    Group {
+		Translation {
+		    translation	0 -1 0
+		}
+		USE +10
+	    }
+	}
+
+    }
+
+    Translation {
+	translation	0 0 -10
+    }
+
+    DEF SCSUpButton So3DButton {
+
+	width  3
+	height 2
+	depth  9	
+
+	textureSwitch		Switch {
+	    whichChild	0 =
+		USE SCSUpButton	. pressed
+
+	    DEF +13 Group {
+		Texture2 {
+		    filename	"arrow_up.jpg"
+		}
+		FaceSet {
+		    vertexProperty			    VertexProperty {
+			vertex	[ -1.3 1.01 4.3,
+					  1.3 1.01 4.3,
+					  1.3 1.01 -4.3,
+					  -1.3 1.01 -4.3 ]
+			normal	0 1 0
+			texCoord	[ 0 0,
+					  1 0,
+					  1 1,
+					  0 1 ]
+			normalBinding	OVERALL
+		    }
+
+		    numVertices	4
+		}
+	    }
+	    Group {
+		Translation {
+		    translation	0 -1 0
+		}
+		USE +13
+	    }
+	}
+
+    }
+
+    Translation {
+	translation	-2.5 0 17.75
+    }
+
+#
+# functional Buttons
+#
+
+
+    DEF SCSExitButton So3DButton {
+
+	width  8
+	height 2
+	depth  5	
+
+	textureSwitch		Switch {
+	    whichChild	0 =
+		USE SCSExitButton	. pressed
+
+	    DEF +14 Group {
+		Texture2 {
+		    filename	"exit.jpg"
+		}
+		FaceSet {
+		    vertexProperty			    VertexProperty {
+			vertex	[ -2.4 1.01 2.4,
+					  2.4 1.01 2.4,
+					  2.4 1.01 -2.4,
+					  -2.4 1.01 -2.4 ]
+			normal	0 1 0
+			texCoord	[ 0 0,
+					  1 0,
+					  1 1,
+					  0 1 ]
+			normalBinding	OVERALL
+		    }
+
+		    numVertices	4
+		}
+	    }
+	    Group {
+		Translation {
+		    translation	0 -1 0
+		}
+		USE +14
+	    }
+
+	}
+    }
+
+    Translation {
+	translation	-9 0 0
+    }
+
+    DEF SCSKillAppButton So3DButton {
+
+	width  8
+	height 2
+	depth  5	
+
+	textureSwitch		Switch {
+	    whichChild	0 =
+		USE SCSKillAppButton	. pressed
+
+	    DEF +15 Group {
+		Texture2 {
+		    filename	"stop.jpg"
+		}
+		FaceSet {
+		    vertexProperty			    VertexProperty {
+			vertex	[ -2.1 1.01 2.1,
+					  2.1 1.01 2.1,
+					  2.1 1.01 -2.1,
+					  -2.1 1.01 -2.1 ]
+			normal	0 1 0
+			texCoord	[ 0 0,
+					  1 0,
+					  1 1,
+					  0 1 ]
+			normalBinding	OVERALL
+		    }
+
+		    numVertices	4
+		}
+	    }
+	    Group {
+		Translation {
+		    translation	0 -1 0
+		}
+		USE +15
+	    }
+
+	}
+
+    }
+
+}

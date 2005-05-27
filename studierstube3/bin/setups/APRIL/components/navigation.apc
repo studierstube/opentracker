@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  navigation.apc
+  
+  This component wraps the navigation application of the OCAR setup. It uses
+  the GlobalField method to connect to fields in the navigation application
+  node. note that currently we only use either input or output fields.
+  
+  @author Gerhard Reitmayr
+  $Id: navigation.apc 3427 2004-07-14 12:20:49Z tamer $
+-->
+<component id="navigation" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../../tools/APRIL/april-component.xsd">
+  <interface>
+    <input id="destination" type="SFString" default=""/>
+    <output id="position" type="SFVec3f" default="0.0 0.0 0.0"/>
+    <output id="target" type="SFString" default=""/>
+    <output id="distance" type="SFFloat" default="0.0"/>
+    <output id="current" type="SFString" default=""/>
+  </interface>
+  <implementation>
+DEF <id/> Separator {
+  # input fields are GlobalFields with routes going into them
+  Info { 
+    string = GlobalField {
+      type SFString
+      <id/>_destination <in id="destination"/>
+    }.<id/>_destination 
+  }
+  # output fields are GlobalFields without any ingoing routes
+  # but they are used to connect the outputs to them.
+  Info { 
+    string = DEF <id/>_Position GlobalField {
+      type SFVec3f
+      <id/>_position 0 0 0
+    }.<id/>_position 
+  }
+  Info { 
+    string = DEF <id/>_Target GlobalField {
+      type SFString
+      <id/>_target ""
+    }.<id/>_target 
+  }
+  Info { 
+    string = DEF <id/>_Distance GlobalField {
+      type SFFloat
+      <id/>_distance 0
+    }.<id/>_distance 
+  }
+  Info { 
+    string = DEF <id/>_Current GlobalField {
+      type SFString
+      <id/>_current ""
+    }.<id/>_current 
+  }
+}
+    <out id="position">
+      <id/>_Position.<id/>_position</out>
+    <out id="target">
+      <id/>_Target.<id/>_target</out>
+    <out id="distance">
+      <id/>_Distance.<id/>_distance</out>
+    <out id="current">
+      <id/>_Current.<id/>_current</out>
+  </implementation>
+</component>

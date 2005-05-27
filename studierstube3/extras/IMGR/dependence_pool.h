@@ -1,0 +1,66 @@
+#ifndef DEPENDENCE_POOL_INCLUDED
+#define DEPENDENCE_POOL_INCLUDED
+
+#include "sample.h"
+#include "property.h"
+#include "feature.h"
+#include "weight.h"
+#include "feature_deviation.h"
+
+#include "property_list.h"
+#include "feature_list.h"
+#include "weight_list.h"
+#include "feature_deviation_list.h"
+
+//-dependence sample---------------------------------------------------------
+#define DEFINED_DEPENDENCE_COMPONENT_TYPE	float
+
+typedef sample<DEFINED_DEPENDENCE_COMPONENT_TYPE,2> DEPENDENCE_SAMPLE_2D;
+typedef sample<DEFINED_DEPENDENCE_COMPONENT_TYPE,3> DEPENDENCE_SAMPLE_3D;
+typedef sample<DEFINED_DEPENDENCE_COMPONENT_TYPE,6> DEPENDENCE_SAMPLE_6D;
+
+#define DEFINED_DEPENDENCE_SAMPLE_TYPE		DEPENDENCE_SAMPLE_2D
+//---------------------------------------------------------------------------
+//-dependence property-------------------------------------------------------
+#define DEFINED_DEPENDENCE_PROPERTY_TYPE	float
+
+typedef property_list<DEFINED_DEPENDENCE_PROPERTY_TYPE,DEFINED_DEPENDENCE_SAMPLE_TYPE,30> DEPENDENCE_PROPERTY_LIST_2D;
+typedef property_list<DEFINED_DEPENDENCE_PROPERTY_TYPE,DEFINED_DEPENDENCE_SAMPLE_TYPE,43> DEPENDENCE_PROPERTY_LIST_3D;
+typedef property_list<DEFINED_DEPENDENCE_PROPERTY_TYPE,DEFINED_DEPENDENCE_SAMPLE_TYPE,77> DEPENDENCE_PROPERTY_LIST_6D;
+
+#define DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE	DEPENDENCE_PROPERTY_LIST_2D
+//---------------------------------------------------------------------------
+//-dependence feature--------------------------------------------------------
+#define DEFINED_DEPENDENCE_FEATURE_TYPE float
+
+typedef feature_list<DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,15> DEPENDENCE_FEATURE_LIST_2D;
+typedef feature_list<DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,28> DEPENDENCE_FEATURE_LIST_3D;
+typedef feature_list<DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,56> DEPENDENCE_FEATURE_LIST_6D;
+
+#define DEFINED_DEPENDENCE_FEATURE_LIST_TYPE	DEPENDENCE_FEATURE_LIST_2D
+//---------------------------------------------------------------------------
+//-dependence weight---------------------------------------------------------
+#define DEFINED_DEPENDENCE_WEIGHT_TYPE	float
+
+typedef weight_list<DEFINED_DEPENDENCE_WEIGHT_TYPE,DEFINED_DEPENDENCE_FEATURE_LIST_TYPE,15> DEPENDENCE_WEIGHT_LIST_2D;
+typedef weight_list<DEFINED_DEPENDENCE_WEIGHT_TYPE,DEFINED_DEPENDENCE_FEATURE_LIST_TYPE,28> DEPENDENCE_WEIGHT_LIST_3D;
+typedef weight_list<DEFINED_DEPENDENCE_WEIGHT_TYPE,DEFINED_DEPENDENCE_FEATURE_LIST_TYPE,56> DEPENDENCE_WEIGHT_LIST_6D;
+
+#define DEFINED_DEPENDENCE_WEIGHT_LIST_TYPE	DEPENDENCE_WEIGHT_LIST_2D
+//---------------------------------------------------------------------------
+//-dependence feature deviation----------------------------------------------
+#define DEFINED_DEPENDENCE_FEATURE_DEVIATION_TYPE float
+
+typedef feature_deviation_list<DEFINED_DEPENDENCE_FEATURE_DEVIATION_TYPE,DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,15> DEPENDENCE_FEATURE_DEVIATION_LIST_2D;
+typedef feature_deviation_list<DEFINED_DEPENDENCE_FEATURE_DEVIATION_TYPE,DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,28> DEPENDENCE_FEATURE_DEVIATION_LIST_3D;
+typedef feature_deviation_list<DEFINED_DEPENDENCE_FEATURE_DEVIATION_TYPE,DEFINED_DEPENDENCE_FEATURE_TYPE,DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE,56> DEPENDENCE_FEATURE_DEVIATION_LIST_6D;
+
+#define DEFINED_DEPENDENCE_FEATURE_DEVIATION_LIST_TYPE	DEPENDENCE_FEATURE_DEVIATION_LIST_2D
+//---------------------------------------------------------------------------
+//-global dependency pool----------------------------------------------------
+DEFINED_DEPENDENCE_PROPERTY_LIST_TYPE				*DEPENDENCE_PROPERTY_LIST;
+DEFINED_DEPENDENCE_FEATURE_LIST_TYPE				*DEPENDENCE_FEATURE_LIST;
+DEFINED_DEPENDENCE_WEIGHT_LIST_TYPE					*DEPENDENCE_WEIGHT_LIST;
+DEFINED_DEPENDENCE_FEATURE_DEVIATION_LIST_TYPE		*DEPENDENCE_FEATURE_DEVIATION_LIST;
+//---------------------------------------------------------------------------
+#endif

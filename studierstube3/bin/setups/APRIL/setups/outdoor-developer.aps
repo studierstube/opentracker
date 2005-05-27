@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  outdoor-developer setup. used in conjunction with a desktop gps simulation application.
+  
+  Inputs : network
+  0 - user position and orientation in real world (instead of GPS + orientation)
+  
+  Outputs : StbSink
+  1 - pen 
+  2 - camera point = user position in real world (as opposed to camera point !)
+  5 - camera with transformation for raypicking, with events !
+
+  the camera is moved in real world space according to gps and orientation tracking.
+  all computed events are in the same reference frame defined by GPS origin and IC2 origin.
+-->
+<!DOCTYPE april SYSTEM "../../../../tools/april/april.dtd">
+<april xmlns="http://www.studierstube.org/april" xmlns:ot="http://www.studierstube.org/opentracker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../../tools/april/april.xsd">
+  <setup workspacepath="/studierstube/bin/workspace" otfile="../../../apps/ocar/config/absolute.xml">
+    <host>
+      <screen resolution="1280 1024"/>
+      <display screenSize="800 600" stereo="false" mode="VR" worldSize="0.58 0.45" worldPosition="0.0 0 -1.32" worldOrientation="0 1 0 1.57" debug="true">
+        <displaytracking otsource="camera"/>
+        <!--<pointer/>-->
+      </display>
+      <!-- camera with transformation for raypicking -->
+      <station id="raypicker" otsource="Picker" />
+    </host>
+  </setup>
+</april>

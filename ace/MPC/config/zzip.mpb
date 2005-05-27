@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// zzip.mpb,v 1.1 2004/05/24 12:40:29 elliott_c Exp
+
+feature(zzip) {
+  includes += $(ZZIP_ROOT)/include
+  libpaths += $(ZZIP_ROOT)/lib
+  lit_libs += zzlib
+}

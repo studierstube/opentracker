@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// lifecycle.mpb,v 1.5 2004/01/22 18:23:49 elliott_c Exp
+
+project : naming {
+  libs      += TAO_CosLifeCycle
+  after     += CosLifeCycle
+  tagchecks += LifeCycle
+}

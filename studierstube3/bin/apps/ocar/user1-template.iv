@@ -1,0 +1,61 @@
+#Inventor V2.1 ascii
+
+DEF User1 SoApplicationKit {
+
+    classLoader SoClassLoader {
+        className "UserContext"
+        fileName "../apps/ocar/ocar"
+    }
+
+    contextKit DEF UserKit UserContext {
+        templatePipSheet
+#include "userpip.iv"
+# end auto generated pip sheet !
+
+        name "Wassergeist"
+
+        mode = Calculator {            
+            a = USE off.on
+            b = USE follow.on
+            c = USE guide.on
+            d = USE meet.on
+            expression "oa = 0*a + 1*b + 2*c + 3*d"
+        }.oa
+ 
+        activeNeighbor = USE userList.selected
+ 
+        listboxFeedback = USE destination.selected
+        
+        navkitName "NavKit"
+ 
+        windowGroup So3DSeparator {
+            stations []
+            blocked FALSE        
+            # Legoman avatar
+            Switch {
+                whichChild = USE avatar.on
+                Group {}
+                SoContextSwitch {
+                    index -5
+                    Group { # slave shows avatar
+                        Transform {
+                            translation = DEF user1pos SoTrakEngine { station 10 }.translation
+                            rotation = USE user1pos.rotation
+                        }
+                        File { name "../apps/ocar/graphics/legoman.iv" }
+                    }
+                    Group {} # master never shows avatar
+                }
+            }
+            #debugging engines
+            # SoRouteDB { name "neighbor"        in = USE UserKit.neighbor }
+            # SoRouteDB { name "activeNeighbor"  in = USE UserKit.activeNeighbor }
+            # SoRouteDB { name "currentWaypoint" in = USE UserKit.currentWaypoint }
+            # SoRouteDB { name "destination"     in = USE UserKit.destination }
+            # SoRouteDB { name "mode"            in = USE UserKit.mode }
+        }
+    }
+    appGeom Separator {
+            Texture2 { filename "graphics/Collaboration_high.gif" }
+    }
+}

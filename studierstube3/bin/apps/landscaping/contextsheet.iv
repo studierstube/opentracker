@@ -1,0 +1,108 @@
+#Inventor V2.1 ascii
+DEF CONTEXT_SHEET Separator {
+  Material { diffuseColor 1 1 1 }
+  DrawStyle { lineWidth 2 }
+  DEF CROSS_HAIR Separator {
+    Coordinate3 { point [-0.5 0 0,0.5 0 0,0 0 -0.5,0 0 0.5] }
+    LineSet { numVertices [2,2] }
+  }
+  DEF CROSS_HAIR_OFFSET_SEP Separator {
+    DEF CROSS_HAIR_OFFSET Translation { translation 0 0 0 }
+    Material { diffuseColor 0.8 0.8 0 }
+    USE CROSS_HAIR
+    Font { size 1 name "Helvetica" }
+    Transform { translation 0 -0.01 0 rotation 1 0 0 1.57 }
+    DEF CROSS_HAIR_TEXT Text3 {}
+  }
+  DEF CONTEXT_SWITCH Switch {
+    whichChild -1
+	DEF GREEN_PALETTE Separator {
+	  Separator {
+    	Transform { translation -4.5 -0.4 2.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN00_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 0.0 0
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 1.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN02_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 0.2 0
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 0.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN04_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 0.4 0
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 -0.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN06_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 0.6 0
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 -1.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN08_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 0.8 0
+    	}
+	  }
+	  Separator {
+    	Transform { translation  -4.5 -0.4 -2.5 rotation 1 0 0 3.1415 }
+    	DEF GREEN10_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 0 1.0 0
+    	}
+	  }
+    }
+	DEF YELLOW_PALETTE Separator {
+	  Separator {
+    	Transform { translation -4.5 -0.4 2.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW10_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 0.0
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 1.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW08_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 0.2
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 0.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW06_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 0.4
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 -0.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW04_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 0.6
+    	}
+	  }
+	  Separator {
+    	Transform { translation -4.5 -0.4 -1.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW02_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 0.8
+    	}
+	  }
+	  Separator {
+    	Transform { translation  -4.5 -0.4 -2.5 rotation 1 0 0 3.1415 }
+    	DEF YELLOW00_BUTTON So3DButton {
+    	  width 0.9 height 0.8 depth 0.9
+    	  buttonColor 1.0 1.0 1.0
+    	}
+	  }
+    }
+  }
+}

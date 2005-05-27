@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "..\..\..\..\bin\workspace\opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ConsoleConfig headerline="Sample Tracking Input" interval="20"/>
+	</configuration>
+	<StbSink station="0" event="on">
+		<ConsoleSink comment="Catapult1">
+			<StbKeyboardSource number="0"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="1" event="on">
+		<ConsoleSink comment="Station1">
+			<StbKeyboardSource number="1"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="2" event="on">
+		<ConsoleSink comment="Station2">
+			<StbKeyboardSource number="2"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="3" event="on">
+		<ConsoleSink comment="Station3">
+			<StbKeyboardSource number="3"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="4" event="on">
+		<ConsoleSink comment="Station4">
+			<StbKeyboardSource number="4"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="5" event="on">
+		<ConsoleSink comment="Station5">
+			<StbKeyboardSource number="5"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="6" event="on">
+		<ConsoleSink comment="Station6">
+			<StbKeyboardSource number="6"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="7" event="on">
+		<ConsoleSink comment="Station7">
+			<StbKeyboardSource number="7"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="8" event="on">
+		<ConsoleSink comment="Station8">
+			<StbKeyboardSource number="8"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="9" event="on">
+		<ConsoleSink comment="Station9">
+			<StbKeyboardSource number="9"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="10" event="on">
+		<ConsoleSink comment="Station10">
+			<StbKeyboardSource number="10"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="11" event="on">
+		<ConsoleSink comment="Station11">
+			<StbKeyboardSource number="11"/>
+		</ConsoleSink>
+	</StbSink>
+</OpenTracker>

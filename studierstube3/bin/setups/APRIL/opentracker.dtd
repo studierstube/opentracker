@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Firefly (YRG) -->
+<!--
+OpenTracker Configuration file DTD
+Copyright (C) 2001  Vienna University of Technology
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+For further information please contact Gerhard Reitmayr under
+<reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
+Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna, Austria.
+-->
+<!-- $Id: opentracker.dtd 3427 2004-07-14 12:20:49Z tamer $
+<!-- Entitiy definitions for the different classes of elements
+      element names have to be seperated by |  -->
+<!ENTITY % ConfigElements "FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,NetworkSourceConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | DynaSightSource | MagicYSource | DwarfSource">
+<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | DwarfSink">
+<!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
+<!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
+<!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate | Override">
+<!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
+<!-- general elements that do not map to nodes -->
+<!ELEMENT OpenTracker (configuration, (%AllNodes;)+)>
+<!ATTLIST OpenTracker
+  xmlns CDATA #IMPLIED
+>
+<!ELEMENT configuration (%ConfigElements;)>
+<!-- basic elements
+there are several versions for the different interfaces
+Event prefix defines that the node implements an EventGenerator interface
+Queue prefix defines that the node implements an EventQueue interface
+Time prefix defines that the node implements an TimeDependend interface -->
+<!ELEMENT Ref EMPTY>
+<!ATTLIST Ref
+  USE IDREF #REQUIRED
+>
+<!-- general transformation elements -->
+<!-- event transform elements -->
+<!ELEMENT EventPositionTransform (%EventNodes;)>
+<!ATTLIST EventPositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventOrientationTransform (%EventNodes;)>
+<!ATTLIST EventOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventTransform (%EventNodes;)>
+<!ATTLIST EventTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventVirtualPositionTransform (%EventNodes;)>
+<!ATTLIST EventVirtualPositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+>
+<!ELEMENT EventVirtualOrientationTransform (%EventNodes;)>
+<!ATTLIST EventVirtualOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventVirtualTransform (%EventNodes;)>
+<!ATTLIST EventVirtualTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!-- queue transform elements -->
+<!ELEMENT QueuePositionTransform (%QueueNodes;)>
+<!ATTLIST QueuePositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueOrientationTransform (%QueueNodes;)>
+<!ATTLIST QueueOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueTransform (%QueueNodes;)>
+<!ATTLIST QueueTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueVirtualPositionTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualPositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+>
+<!ELEMENT QueueVirtualOrientationTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT QueueVirtualTransform (%QueueNodes;)>
+<!ATTLIST QueueVirtualTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!-- time transform elements -->
+<!ELEMENT TimePositionTransform (%TimeNodes;)>
+<!ATTLIST TimePositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeOrientationTransform (%TimeNodes;)>
+<!ATTLIST TimeOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeTransform (%TimeNodes;)>
+<!ATTLIST TimeTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  scale CDATA "1 1 1"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeVirtualPositionTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualPositionTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+>
+<!ELEMENT TimeVirtualOrientationTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualOrientationTransform
+  DEF ID #IMPLIED
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!ELEMENT TimeVirtualTransform (%TimeNodes;)>
+<!ATTLIST TimeVirtualTransform
+  DEF ID #IMPLIED
+  translation CDATA "0 0 0"
+  rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
+  rotation CDATA "0 0 0 1"
+>
+<!-- dynamic transformations and associated wrapper tag -->
+<!ELEMENT TransformBase (%EventNodes;)>
+<!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT EventDynamicPositionTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT EventDynamicOrientationTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
+<!ATTLIST EventDynamicOrientationTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT QueueDynamicPositionTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT QueueDynamicOrientationTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
+<!ATTLIST QueueDynamicOrientationTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT TimeDynamicPositionTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicPositionTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!ELEMENT TimeDynamicOrientationTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
+<!ATTLIST TimeDynamicOrientationTransform
+  DEF ID #IMPLIED
+  baseevent (true | false) "true"
+>
+<!-- inverting the described space -->
+<!ELEMENT EventInvertTransform (%EventNodes;)>
+<!ATTLIST EventInvertTransform
+  DEF ID #IMPLIED
+>
+<!ELEMENT QueueInvertTransform (%QueueNodes;)>
+<!ATTLIST QueueInvertTransform
+  DEF ID #IMPLIED
+>
+<!ELEMENT TimeInvertTransform (%TimeNodes;)>
+<!ATTLIST TimeInvertTransform
+  DEF ID #IMPLIED
+>
+<!-- general affine transformations for the points -->
+<!ELEMENT EventMatrixTransform (%EventNodes;)>
+<!ATTLIST EventMatrixTransform
+  DEF ID #IMPLIED
+  matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
+>
+<!ELEMENT QueueMatrixTransform (%QueueNodes;)>
+<!ATTLIST QueueMatrixTransform
+  DEF ID #IMPLIED
+  matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
+>
+<!ELEMENT TimeMatrixTransform (%TimeNodes;)>
+<!ATTLIST TimeMatrixTransform
+  DEF ID #IMPLIED
+  matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
+>
+<!-- EventQueue stores a queue of size length of the last received events.
+It implements the EventGenerator as well as the EventQueue interface. -->
+<!ELEMENT EventQueue (%EventNodes;)>
+<!ATTLIST EventQueue
+  DEF ID #IMPLIED
+  length CDATA "1"
+>
+<!--Merge Node and associated Wrapper nodes definitions-->
+<!ELEMENT MergeDefault ((%EventNodes;)+)>
+<!ELEMENT MergePosition ((%EventNodes;)+)>
+<!ELEMENT MergeOrientation ((%EventNodes;)+)>
+<!ELEMENT MergeButton ((%EventNodes;)+)>
+<!ELEMENT MergeTime ((%EventNodes;)+)>
+<!ELEMENT MergeConfidence ((%EventNodes;)+)>
+<!ELEMENT Merge (MergeDefault?, MergePosition?, MergeOrientation?, MergeButton?, MergeTime?, MergeConfidence?)>
+<!ATTLIST Merge
+  DEF ID #IMPLIED
+>
+<!-- Confidence Filter Node -->
+<!ELEMENT ConfidenceFilter (%EventNodes;)>
+<!ATTLIST ConfidenceFilter
+  DEF ID #IMPLIED
+  treshhold CDATA #REQUIRED
+  type (high | low) "high"
+>
+<!-- Confidence Select Node -->
+<!ELEMENT ConfidenceSelect ((%EventNodes;)+)>
+<!ATTLIST ConfidenceSelect
+  DEF ID #IMPLIED
+  timeout CDATA "100"
+  type (high | low) "high"
+>
+<!-- a simple filter that combines the last events to a new one by computing a weighted average and passing that on -->
+<!ELEMENT Filter (EventQueue)>
+<!ATTLIST Filter
+  DEF ID #IMPLIED
+  weight CDATA #REQUIRED
+  type (all | position | orientation) "all"
+>
+<!-- a filter to change button states. It allows to masks certain buttons and to remap buttons -->
+<!ELEMENT ButtonFilter (%EventNodes;)>
+<!ATTLIST ButtonFilter
+  DEF ID #IMPLIED
+  buttonmask CDATA "11111111"
+  buttonmap CDATA "01234567"
+  invert CDATA "00000000"
+>
+<!ELEMENT Arg1 (%EventNodes;)>
+<!ELEMENT Arg2 (%EventNodes;)>
+<!-- a node that applies a logical operation to the last events received through its two inputs and generates a new event from that, if something changed.-->
+<!ELEMENT ButtonOp (Arg1, Arg2)>
+<!ATTLIST ButtonOp
+  DEF ID #IMPLIED
+  op (OR | AND) "OR"
+>
+<!-- threshold filter that allows only events that are within a certain interval within the last passed event -->
+<!ELEMENT ThresholdFilter (%EventNodes;)>
+<!ATTLIST ThresholdFilter
+  DEF ID #IMPLIED
+  positionmin CDATA "0"
+  positionmax CDATA "inf"
+  rotationmin CDATA "0"
+  rotationmax CDATA "3.141592654"
+>
+<!--a node that acts as time gate. it only lets events pass that fall within a certain time interval of the last event received through the gate.-->
+<!ELEMENT Gate (%EventNodes;)>
+<!ELEMENT TimeGate ((Gate, (%EventNodes;)) | ((%EventNodes;), Gate))>
+<!ATTLIST TimeGate
+  DEF ID #IMPLIED
+  timeframe CDATA "100"
+  mode (pass | block) "pass"
+>
+<!-- elastic filter -->
+<!ELEMENT ElasticFilter (%EventNodes;)>
+<!ATTLIST ElasticFilter
+  DEF ID #IMPLIED
+  force CDATA "0.1"
+  damp CDATA "0.1"
+>
+<!-- GPS related filters -->
+<!ELEMENT EventEllipsoidTransform (%EventNodes;)>
+<!ATTLIST EventEllipsoidTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  mode (toEllipsoid | toCartesian) "toCartesian"
+>
+<!ELEMENT QueueEllipsoidTransform (%QueueNodes;)>
+<!ATTLIST QueueEllipsoidTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  mode (toEllipsoid | toCartesian) "toCartesian"
+>
+<!ELEMENT TimeEllipsoidTransform (%TimeNodes;)>
+<!ATTLIST TimeEllipsoidTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  mode (toEllipsoid | toCartesian) "toCartesian"
+>
+<!ELEMENT EventGKTransform (%EventNodes;)>
+<!ATTLIST EventGKTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
+  meridian CDATA "34"
+  mode (to | from) "to"
+>
+<!ELEMENT QueueGKTransform (%QueueNodes;)>
+<!ATTLIST QueueGKTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
+  meridian CDATA "34"
+  mode (to | from) "to"
+>
+<!ELEMENT TimeGKTransform (%TimeNodes;)>
+<!ATTLIST TimeGKTransform
+  DEF ID #IMPLIED
+  a CDATA #REQUIRED
+  b CDATA #IMPLIED
+  alpha CDATA #REQUIRED
+  beta CDATA #REQUIRED
+  gamma CDATA #REQUIRED
+  delta CDATA #REQUIRED
+  meridian CDATA "34"
+  mode (to | from) "to"
+>
+<!-- Range filter to filter out events with are not in certain ranges -->
+<!ELEMENT RangeFilter (%EventNodes;)>
+<!ATTLIST RangeFilter
+  DEF ID #IMPLIED
+  min CDATA #IMPLIED
+  max CDATA #IMPLIED
+>
+<!-- Source and Sink nodes grouped after functionality -->
+<!-- network sender elements -->
+<!ELEMENT NetworkSinkConfig EMPTY>
+<!ATTLIST NetworkSinkConfig
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+>
+<!ELEMENT NetworkSink (%EventNodes;)>
+<!ATTLIST NetworkSink
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+  number CDATA #REQUIRED
+  multicast-address CDATA #REQUIRED
+  port CDATA #REQUIRED
+  interface CDATA ""
+>
+<!--network receiver elements, acting as sources-->
+<!ELEMENT NetworkSourceConfig EMPTY>
+<!ELEMENT NetworkSource EMPTY>
+<!ATTLIST NetworkSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+  multicast-address CDATA #REQUIRED
+  port CDATA #REQUIRED
+>
+<!-- video source elements for ARToolKit library-->
+<!ELEMENT ARToolKitConfig EMPTY>
+<!ATTLIST ARToolKitConfig
+  camera-parameter CDATA #REQUIRED
+  treshhold CDATA "100"
+  framerate CDATA "10"
+  videomode CDATA #REQUIRED
+  videomode2 CDATA #IMPLIED
+  videolinuxmode CDATA #IMPLIED
+  videolinuxmode2 CDATA #IMPLIED
+  pattern-dir CDATA ""
+>
+<!ELEMENT ARToolKitSource EMPTY>
+<!ATTLIST ARToolKitSource
+  DEF ID #IMPLIED
+  tag-file CDATA #REQUIRED
+  center CDATA #REQUIRED
+  size CDATA #REQUIRED
+>
+<!-- test source elements -->
+<!ELEMENT TestSource EMPTY>
+<!ATTLIST TestSource
+  DEF ID #IMPLIED
+  frequency CDATA "1"
+  offset CDATA "0"
+  position CDATA #IMPLIED
+  orientation CDATA #IMPLIED
+  button CDATA #IMPLIED
+  confidence CDATA #IMPLIED
+  noise CDATA #IMPLIED
+>
+<!-- console based input / output elements -->
+<!ELEMENT KeyDefinition EMPTY>
+<!ATTLIST KeyDefinition
+  function (Move_X_plus | Move_X_minus | Move_Y_plus | Move_Y_minus | Move_Z_plus | Move_Z_minus | Rot_X_plus | Rot_X_minus | Rot_Y_plus | Rot_Y_minus | Rot_Z_plus | Rot_Z_minus | Accelerate | Brake | Button_1 | Button_2 | Button_3 | Button_4 | Station_0 | Station_1 | Station_2 | Station_3 | Station_4 | Station_5 | Station_6 | Station_7 | Station_8 | Station_9 | Reset | Quit) #REQUIRED
+  key CDATA #REQUIRED
+>
+<!ELEMENT ConsoleConfig (KeyDefinition*)>
+<!ATTLIST ConsoleConfig
+  headerline CDATA ""
+  interval CDATA "10"
+  display (on | off) "on"
+  curses (on | off) "on"
+>
+<!ELEMENT ConsoleSink (%EventNodes;)>
+<!ATTLIST ConsoleSink
+  DEF ID #IMPLIED
+  comment CDATA ""
+  active (on | off) "on"
+>
+<!ELEMENT ConsoleSource EMPTY>
+<!ATTLIST ConsoleSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+>
+<!-- Joystick Module -->
+<!ELEMENT JoystickConfig EMPTY>
+<!ELEMENT JoystickSource EMPTY>
+<!ATTLIST JoystickSource
+  DEF ID #IMPLIED
+  id CDATA "1"
+>
+<!-- FastTrak -->
+<!ELEMENT FastTrakConfig EMPTY>
+<!ATTLIST FastTrakConfig
+  type CDATA "fasttrak"
+  stations CDATA #REQUIRED
+  device CDATA #REQUIRED
+  hemisphere CDATA "1,0,0"
+  reference-frame CDATA "0,0,0,200,0,0,0,200,0"
+  init-string CDATA ""
+>
+<!ELEMENT FastTrakSource EMPTY>
+<!ATTLIST FastTrakSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+>
+<!-- CyberMouse source elements -->
+<!ELEMENT CyberMouseSource EMPTY>
+<!ATTLIST CyberMouseSource
+  DEF ID #IMPLIED
+>
+<!-- Wacom Graphire tablet source elements -->
+<!ELEMENT WacomGraphireSource EMPTY>
+<!ATTLIST WacomGraphireSource
+  DEF ID #IMPLIED
+  device CDATA "1"
+>
+<!-- General InterSense source module, will also include InterTrax soon -->
+<!ELEMENT ISTracker EMPTY>
+<!ATTLIST ISTracker
+  comport CDATA "0"
+  id CDATA #REQUIRED
+>
+<!ELEMENT InterSenseConfig (ISTracker*)>
+<!ELEMENT InterSenseSource EMPTY>
+<!ATTLIST InterSenseSource
+  DEF ID #IMPLIED
+  id CDATA #REQUIRED
+  station CDATA "0"
+>
+<!-- Callback node for a simple way to use the OpenTracker library -->
+<!ELEMENT Callback (%EventNodes;)>
+<!ATTLIST Callback
+  name CDATA #REQUIRED
+  DEF ID #IMPLIED
+>
+<!-- Time Module configuration element, manages timing of the main loop -->
+<!ELEMENT TimeConfig EMPTY>
+<!ATTLIST TimeConfig
+  sleep CDATA #IMPLIED
+  rate CDATA #IMPLIED
+  display (true | false) "false"
+>
+<!-- Selection Node and associated wrapper tag -->
+<!ELEMENT Select (%EventNodes;)>
+<!ELEMENT Selection ((Select, (%EventNodes;)) | ((%EventNodes;), Select))>
+<!ATTLIST Selection
+  DEF ID #IMPLIED
+  timeout CDATA "100"
+>
+<!-- File Input / Output Module and node. -->
+<!ELEMENT FileConfig EMPTY>
+<!ATTLIST FileConfig
+  append (true | false) "false"
+>
+<!ELEMENT FileSink (%EventNodes;)>
+<!ATTLIST FileSink
+  file CDATA #REQUIRED
+  station CDATA "0"
+  DEF ID #IMPLIED
+>
+<!ELEMENT FileSource EMPTY>
+<!ATTLIST FileSource
+  file CDATA #REQUIRED
+  station CDATA "0"
+  localtime (true | false) "false"
+  DEF ID #IMPLIED
+>
+<!-- Flock of Birds Tracker -->
+<!ELEMENT Bird EMPTY>
+<!ATTLIST Bird
+  number CDATA #IMPLIED
+  device CDATA #IMPLIED
+  anglealign CDATA #IMPLIED
+>
+<!ELEMENT FOBConfig (Bird+)>
+<!ATTLIST FOBConfig
+  mode (multi | single) #REQUIRED
+  master CDATA #REQUIRED
+  transmitter CDATA #IMPLIED
+  hemisphere (forward | rear | upper | lower | left | right) #IMPLIED
+  referenceframe CDATA #IMPLIED
+  xyzframe (false | true) "true"
+  scale (36 | 72) #IMPLIED
+>
+<!ELEMENT FOBSource EMPTY>
+<!ATTLIST FOBSource
+  number CDATA #REQUIRED
+  DEF ID #IMPLIED
+>
+<!-- Parallel Button Interface -->
+<!ELEMENT ParButtonSource EMPTY>
+<!ATTLIST ParButtonSource
+  dev CDATA ""
+  port CDATA ""
+  DEF ID #IMPLIED
+>
+<!--TCP Network module for the virtual show case project. This was developed with Oliver Bimber <obimber@crcg.edu>.-->
+<!ELEMENT TCPConfig EMPTY>
+<!ATTLIST TCPConfig
+  port CDATA "12345"
+>
+<!ELEMENT TCPSink (%EventNodes;)>
+<!ATTLIST TCPSink
+  DEF ID #IMPLIED
+  station CDATA "0"
+  position (on | off) "on"
+  orientation (on | off) "on"
+  button (on | off) "on"
+  time (on | off) "on"
+>
+<!--ART Data device driver. This is an optical tracking system.-->
+<!ELEMENT ARTDataTrackerConfig EMPTY>
+<!ATTLIST ARTDataTrackerConfig
+  maxbodies CDATA "0"
+  port CDATA #REQUIRED
+>
+<!ELEMENT ARTDataTrackerSource EMPTY>
+<!ATTLIST ARTDataTrackerSource
+  number CDATA #REQUIRED
+  DEF ID #IMPLIED
+>
+<!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube. 
+	These elements are only supported by the Studierstube runtime. -->
+<!-- StbKeyboard definitions, similar to console input -->
+<!ELEMENT StbInputConfig (KeyDefinition*)>
+<!ATTLIST StbInputConfig
+  keyevents (on | off) "off"
+  mouseevents (on | off) "on"
+>
+<!ELEMENT StbKeyboardSource EMPTY>
+<!ATTLIST StbKeyboardSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+>
+<!ELEMENT StbMouseSource EMPTY>
+<!ATTLIST StbMouseSource
+  DEF ID #IMPLIED
+  mode (absolute | relative) "relative"
+  window CDATA "-1"
+>
+<!--Studierstube interface sinks, station attribute is an integer between 0 and 15-->
+<!ELEMENT StbSink (%EventNodes;)>
+<!ATTLIST StbSink
+  DEF ID #IMPLIED
+  station CDATA #REQUIRED
+  event (on | off) "off"
+>
+<!--Studierstube generic sources.They output data generated by any node (or global field)-->
+<!ELEMENT StbSource EMPTY>
+<!ATTLIST StbSource
+  DEF ID #IMPLIED
+  node CDATA #IMPLIED
+  position CDATA #IMPLIED
+  orientation CDATA #IMPLIED
+  button CDATA #IMPLIED
+  confidence CDATA #IMPLIED
+>
+<!-- SpaceMouse source elements -->
+<!ELEMENT SpaceMouseSource EMPTY>
+<!ATTLIST SpaceMouseSource
+  DEF ID #IMPLIED
+>
+<!--ultratrak receiver acting as sources-->
+<!ELEMENT UltraTrakConfig EMPTY>
+<!ATTLIST UltraTrakConfig
+  DEF ID #IMPLIED
+  port CDATA #REQUIRED
+  positionMapping CDATA "0 1 2"
+  invertPosition CDATA "0 0 0"
+  orientationMapping CDATA "0 1 2"
+  invertOrientation CDATA "0 0 0"
+>
+<!ELEMENT UltraTrakSource EMPTY>
+<!ATTLIST UltraTrakSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+>
+<!-- Group gate nodes. It will only open one or more members of a set of nodes to let data pass through. The ActiveGate node
+      outputs the currently active GroupGate node for a set of nodes. -->
+<!ELEMENT GroupGateConfig ANY>
+<!ELEMENT Override (%EventNodes;)>
+<!ELEMENT GroupGate ((Override?, (%EventNodes;)?) | ((%EventNodes;)?, Override?))>
+<!ATTLIST GroupGate
+  DEF ID #IMPLIED
+  group NMTOKEN #REQUIRED
+  neighbors IDREFS #REQUIRED
+>
+<!ELEMENT ActiveGate EMPTY>
+<!ATTLIST ActiveGate
+  DEF ID #IMPLIED
+  group NMTOKEN #REQUIRED
+>
+<!-- SpeechRecoConfig definitions, similar to console input -->
+<!ELEMENT SpeechRecoConfig (CommandSet+)>
+<!ATTLIST SpeechRecoConfig
+  language CDATA #REQUIRED
+>
+<!ELEMENT CommandSet (Command+)>
+<!ATTLIST CommandSet
+  id CDATA #REQUIRED
+>
+<!ELEMENT Command EMPTY>
+<!ATTLIST Command
+  id CDATA #REQUIRED
+  name CDATA #REQUIRED
+  weight CDATA "1.0"
+>
+<!ELEMENT SpeechRecoSource EMPTY>
+<!ATTLIST SpeechRecoSource
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+  set CDATA #REQUIRED
+>
+<!-- configuring the P5Glove module-->
+<!ELEMENT P5GloveConfig EMPTY>
+<!ATTLIST P5GloveConfig
+  P5Id CDATA "0"
+>
+<!ELEMENT P5GloveSource EMPTY>
+<!ATTLIST P5GloveSource
+  DEF ID #IMPLIED
+  finger CDATA #REQUIRED
+>
+<!-- GPS driver -->
+<!ELEMENT GPSConfig EMPTY>
+<!ATTLIST GPSConfig
+  dev CDATA #REQUIRED
+  baudrate (300 | 600 | 1200 | 2400 | 4800 | 9600 | 14400 | 19200 | 38400 | 57600 | 115200) "9600"
+  DGPSserver CDATA ""
+  DGPSport CDATA "2101"
+  debug (on | off) "off"
+  logfile CDATA #IMPLIED
+>
+<!ELEMENT GPSSource EMPTY>
+<!ATTLIST GPSSource
+  DEF ID #IMPLIED
+>
+<!ELEMENT GPSDirectionSource EMPTY>
+<!ATTLIST GPSDirectionSource
+  DEF ID #IMPLIED
+>
+<!--DynaSight receiver acting as sources-->
+<!ELEMENT DynaSightConfig EMPTY>
+<!ATTLIST DynaSightConfig
+  device CDATA #REQUIRED
+  lookat CDATA ""
+>
+<!ELEMENT DynaSightSource EMPTY>
+<!ATTLIST DynaSightSource
+  DEF ID #IMPLIED
+  target CDATA #REQUIRED
+>
+<!--MagicY Module and acting as source node-->
+<!ELEMENT MagicYConfig EMPTY>
+<!ATTLIST MagicYConfig
+  hostname CDATA #REQUIRED
+  screens CDATA #REQUIRED
+  positionMapping CDATA "0 1 2"
+  invertPosition CDATA "0 0 0"
+  orientation CDATA "0.0 0.0 0.0 1.0"
+  z_value CDATA "0.0"
+>
+<!ELEMENT MagicYSource EMPTY>
+<!ATTLIST MagicYSource
+  DEF ID #IMPLIED
+  number CDATA #REQUIRED
+  average (true | false) "false"
+>
+<!-- Dwarf service configuration elements -->
+<!ELEMENT DwarfConfig (attribute*, (need | ability)*)>
+<!ATTLIST DwarfConfig
+  servicemanager CDATA #IMPLIED
+  name CDATA #REQUIRED
+  senddescription (true | false) "true"
+>
+<!ELEMENT attribute EMPTY>
+<!ATTLIST attribute
+  name CDATA #REQUIRED
+  value CDATA #REQUIRED
+>
+<!ELEMENT need (attribute*, connector*)>
+<!ATTLIST need
+  name CDATA #REQUIRED
+  type CDATA #REQUIRED
+  predicate CDATA ""
+  delegated CDATA ""
+  minInstances CDATA "1"
+  maxInstances CDATA "1"
+>
+<!ELEMENT connector EMPTY>
+<!ATTLIST connector
+  protocol CDATA #REQUIRED
+>
+<!ELEMENT ability (attribute*, connector*)>
+<!ATTLIST ability
+  name CDATA #REQUIRED
+  type CDATA #REQUIRED
+  thingid CDATA #REQUIRED
+  thingtype CDATA #REQUIRED
+>
+<!ELEMENT DwarfSink (%EventNodes;)>
+<!ATTLIST DwarfSink
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+>
+<!ELEMENT DwarfSource EMPTY>
+<!ATTLIST DwarfSource
+  DEF ID #IMPLIED
+  name CDATA #REQUIRED
+>

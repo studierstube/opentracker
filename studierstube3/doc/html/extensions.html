@@ -1,0 +1,183 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" --><!-- DW6 -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>Studierstube Extensions</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        
+    <td><!-- #BeginEditable "content" --> 
+      <h1>Studierstube Extensions</h1>
+      <p>This page describes how Studierstube extensions and integrations of other 
+        libraries and functionality should be handled. Please follow these guidelines 
+        in all future Studierstube work:</p>
+      <ol>
+        <li>Decide to which <a href="#level">level</a> your work belongs to. Compare 
+          it with the examples given. When in doupt, ask someone !</li>
+        <li><a href="#integration">Integrate</a> it in the appropriate ways detailed 
+          below.</li>
+        <li>Add external libraries to our <a href="#repository">repository</a>.</li>
+      </ol>
+      <h2><a name="level"></a>Functionality levels</h2>
+      <p>There are 4 levels of functionality of Studierstube classes : </p>
+      <h3>Core system</h3>
+      <p>Work that is tightly coupled with the framework of Studierstube. At best 
+        it provides an abstract interface for different implementations, but most 
+        is there to build the framework. </p>
+      <p>For example: 3D event system, viewer classes, User, SoContextKit.</p>
+      <h3>OpenInventor Extensions</h3>
+      <p> Nodes that extend OIV but which are not necessary for the Studierstube 
+        framework in general. However they do not depend on any other libraries 
+        then OIV and Studierstube itself.</p>
+      <p>For example: widgets, windows kits, most in misc.</p>
+      <h3>Extensions depending on external libraries</h3>
+      <p> These are extensions that incorporate functionality from other libraries. 
+        They are typically encapsulated into OIV nodes or extensions of Studierstube 
+        core interfaces. The external libraries themselves should go into our 
+        internal <a href="#repository">software repository</a>, so that other 
+        developers of our group can access them easily.</p>
+      <p>For example: SoChromium integrating Chromium framework, VTK. Also a propriatory 
+        video background implementation extending a Stb core interface.</p>
+      <h3>Applications</h3>
+      <p> These are distinct binaries from the Studierstube core, implemented 
+        to be loaded at runtime. They can also depend on external libraries but 
+        typically deal with them in their own way.</p>
+      <h2><a name="integration"></a>Integration and location</h2>
+      <p>The different levels of functionality are integrated differently into 
+        the Studierstube framework. This also influences the location of the source 
+        code and how the build system works for them. The following describes 
+        for each level how it is integrated in Studierstube.</p>
+      <h3>Core system and OpenInventor Extensions </h3>
+      <p>Any functionality related to these two levels goes into the studierstube 
+        binary (in form of the stbapi.so/dll). The extensions are kept there for 
+        convenience. The source code is kept in <font face="Courier New, Courier, mono">src/stbapi/ 
+        </font>.In a future stage they could be moved out to the next level. (see 
+        there).</p>
+      <h3>Extensions depending on external libraries </h3>
+      <p>Such extensions are compiled into standalone shared libraries (xxxx.so/dll) 
+        that may or may not depend on OIV or Studierstube. They can be loaded 
+        by configured applications or setups using the ClassLoader node by Andreas 
+        Zajic. We still have to test whether it is usable in this generality, 
+        but it should be and we will extend it if necessary. extension source 
+        code will go into a new directory <font face="Courier New, Courier, mono">src/extensions/</font> 
+        and will produce shared libraries in the same directory as the stbapi.so/dll. 
+        Their build process can depend on external libraries. To make these external 
+        libraries available to others, add them to our <a href="#repository">software 
+        repository</a>.</p>
+      <h3>Applications </h3>
+      <p>Applications are put into their own shared libraries as well which go 
+        into individual subdirectories in <font face="Courier New, Courier, mono">bin/apps/</font>. 
+        These subdirectories contain also any application specific data and configuration 
+        files. Source code goes into individual subdirectories under <font face="Courier New, Courier, mono">src/apps/</font>. 
+        They are kept as they are and may or may not depend on external libraries.</p>
+      <p>In the end we have the following scheme of source code and build targets</p>
+      <table width="100%" border="0" cellspacing="2">
+        <tr align="left"> 
+          <th>Source</th>
+          <th align="center">&nbsp;</th>
+          <th>Binaries</th>
+        </tr>
+        <tr> 
+          <td>src/stbapi/</td>
+          <td align="center">-&gt;</td>
+          <td>lib/stbapi.dll/so and bin/workspace/workspace</td>
+        </tr>
+        <tr> 
+          <td>src/extensions/</td>
+          <td align="center">-&gt;</td>
+          <td>lib/xxxx.dll/so</td>
+        </tr>
+        <tr> 
+          <td>src/apps/</td>
+          <td align="center">-&gt;</td>
+          <td>bin/apps/</td>
+        </tr>
+      </table>
+      <h2><a name="repository"></a>Library Repository</h2>
+      <p>We have a dedicated repository for external libraries that are needed 
+        for the Studierstube system. You can find these on the <a href="/internal/download.html">Internal 
+        Downloads</a> page. This page is only accessible by members of the Studierstube 
+        group. The links on this page either direct you to the appropriate online 
+        resource or to files that reside on the ftp server in /pub/studierstube/downloads. 
+        Please add new libraries it to the internal software repository, so that 
+        they are available to other members of the Studierstube group.</p>
+      <p>Because of licensing and support issues we cannot add external libraries 
+        to our Studierstube CVS repository or distributions. External parties 
+        will have to sort out their licensing and access issues to these libraries 
+        on their own. We cannot distribute any external libraries ourselves !</p>
+      <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,73 @@
+#Inventor V2.1 ascii
+# UserKit file for a single mobile user with monoscopic output on the Glasstron HMD.
+# This kit supports the pen and tablet interface with iPaq.
+
+SoUserKit {
+    userID 0
+    pen SoPenKit{
+       station 0
+
+       geometry Separator {                         
+            Translation {
+                translation     0 -0.09 0
+            }
+            RotationXYZ {
+                axis Z
+                angle 3.14
+            }
+   Material {
+        diffuseColor    0.6 0.6 0.6
+        transparency    0.5
+    }
+    Cube {
+        width           0.08
+        height          0.13
+        depth           0.015
+    }
+    Translation {
+        translation     0 -0.07 0
+    }
+    Material {
+        diffuseColor    0.1 0.1 1  = SelectOne { 
+                                    type SoMFVec3f 
+                                    input [ 0.1 0.1 1, 1 0 0 ]
+                                    index = SoTrakEngine { station 0 } . button0
+                                 } . output
+    }
+    Sphere {
+        radius          0.015
+    }    
+} 
+    }
+   
+    pip SoPipKit{
+       station 1
+       pipSize 0.125 0.092 0.003
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+       offset Transform {  # translation -0.04 -0.15 -0.03
+                     # rotation 0 1 0 3.1415926
+       }
+        geometry Separator {
+            File { name "../mobile/geometry/DefaultPip.iv" }
+        }
+
+    }
+
+    display SoDisplayKit {
+        stereoCameraKit  File { name "../mobile/firefly_4mm_Camera.iv"}
+    # display FieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+
+    cameraControl SoTrackedDisplayControlMode {}
+        # cameraControl TrackedViewpointControlMode {}
+        # cameraControl DesktopControlMode {}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType DELAYED_BLEND
+        width 800
+        height 600
+        videoBackground TRUE
+    }
+}

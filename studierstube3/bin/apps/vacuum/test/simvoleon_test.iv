@@ -1,0 +1,79 @@
+#Inventor V2.1 ascii
+
+DEF VACUUM SoApplicationKit {
+    readOnly TRUE
+
+    classLoader SoClassLoader {
+        className "SoVacuumKit"
+        fileName "../apps/vacuum/vacuum_stb"
+    }
+   
+    contextKit DEF context SoContextKit {
+        clonePipSheet FALSE
+
+        windowGroup Group {  
+            SoWindowKit {
+                state MAXIMIZED
+    
+                clientVolume Separator {
+    
+                    SoTransform {
+                        rotation = DEF MARKER_TRANS SoTrakEngine { station 2 }.rotation
+                        translation = USE MARKER_TRANS.translation
+                        scaleFactor 0.0005 0.0005 0.0005
+                    }
+    
+                    SoVacuumKit {
+                        reMap [0,255]
+                        fileName "../apps/vacuum/data/cthead.vol"
+                        transFunc SoTransferFunction {
+                            predefColorMap GLOW # TEMPERATURE
+                        }
+                        mode SoSwitch {
+                            whichChild 2
+                            # a Cone to kill bugs - keep it!
+                            SoCone { height 200 bottomRadius 200 }
+                            SoVolumeRender {
+                                interpolation LINEAR
+                                composition MAX_INTENSITY
+                            }
+                            SoOrthoSlice {
+                                interpolation LINEAR
+                                sliceNumber = DEF CALC SoCalculator { 
+                                    expression "oa = fabs(floor(a * 50.0) % b)" 
+                                    a = SoDecomposeVec3f {
+                                        vector = DEF MARKER_SLICE SoTrakEngine { station 3 }.translation
+                                    }.z
+                                    b 33
+                                }.oa 
+                                axis Z
+                            }
+                            Separator{ #SoObliqueSlice {}
+                                SoMaterial { diffuseColor 1 0 0 }
+                                SoTransform { 
+                                    scaleFactor 5 5 5 
+                                }
+                                SoText3 { 
+                                    parts ALL 
+                                    justification CENTER
+                                    string "CURRENTLY NOT SUPPORTED"
+                                }
+                            }
+
+                        }
+                    }
+                    
+                    SoMaterial { diffuseColor 0.2 0.2 0.9 }
+                    SoTransform { 
+                       translation -1 -1 0.0 
+                       scaleFactor 5 5 5 
+                    }
+                    SoText3 { 
+                       parts ALL 
+                       string = USE CALC.oa
+                    }
+                }
+            }
+        }
+    }
+}

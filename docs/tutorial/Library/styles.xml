@@ -1,0 +1,3 @@
+<mm:style name="code" type="char" apply="replace" code />
+<mm:style name="em" type="char" apply="replace" emphasis />
+<mm:style name="pre" format="pre" apply="replace" />

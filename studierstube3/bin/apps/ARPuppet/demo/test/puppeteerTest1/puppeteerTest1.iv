@@ -1,0 +1,248 @@
+#Inventor V2.1 ascii
+
+DEF PUPPETEERTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 0 1 0 }
+                DEF BUTTON_TRACKED SoToggleButton { 
+                    width 5 depth 5 height 2 on TRUE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 1 0 0 }
+                DEF BUTTON_CMD SoToggleButton { 
+                    width 5 depth 5 height 2 
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 1 0 1 }
+                DEF BUTTON_SHOWPUPPETEER SoToggleButton { 
+                    width 5 depth 5 height 2 on TRUE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 0 1 1 }
+                DEF BUTTON_SHOWATTRIBUTE SoToggleButton { 
+                    width 5 depth 5 height 2 on TRUE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 0 0 1 }
+                DEF BUTTON_SNAP SoToggleButton { 
+                    width 5 depth 5 height 2 on TRUE
+                }
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+
+            SoClassLoader {
+                className   "SoPuppeteerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+
+                    SoFrameBuffer {
+                        mask ALL
+                    }                       
+                    DEF PUPPETEER1 SoPuppeteerKit{
+                        id "clown"
+                        station [2, 3]
+                        controlMode [ ( DRAG | STATION ) , ( DRAG | STATION ), EXTERNAL ]
+                        #orientationOffset = SoTrakEngine { station 4 }.rotation
+                        scaleSet = SoInfo { string "2 2 2" }.string
+                        showPuppeteer = USE BUTTON_SHOWPUPPETEER.on
+                        showAttributes = USE BUTTON_SHOWATTRIBUTE.on
+                        whichPuppets [ 0 ]
+                        whichAttributes [ 0, 1, 2 ]
+                        dataNeedsValidation TRUE
+                        dataValid = USE BUTTON_CMD.on
+                        snapToStation = USE BUTTON_SNAP.on
+                        boundingBoxMode OBB
+                        boundingBoxOn FALSE
+                        #command "goTo 0.3 0.1 -0.2 2000"
+                        command "goTo 0 0 0 5000"
+                        highlightDragOn TRUE
+                        viewingFrustumOn TRUE
+                        velocityVisOn TRUE
+                        hotspotName [ "one", "two"]
+                        hotspotRot [ 1 0 0 1.57, 0 1 0 1.57 ]
+                        hotspotCoord [ 0.01 0.02 0.03, 0.04 0.05 0.06 ]
+                        bbMaterial SoMaterial {
+                            emissiveColor 1 1 0
+                            diffuseColor 1 1 0 
+                            ambientColor 1 1 0 
+                        }
+                        bbDrawStyle SoDrawStyle { style LINES }
+                        vfMaterial SoMaterial {
+                            emissiveColor 1 0 1
+                            diffuseColor 1 0 1
+                            ambientColor 1 0 1
+                        }
+                        vfDrawStyle SoDrawStyle { style LINES } 
+                        viewingFrustums SoNodeKitListPart {
+                            containerNode Separator {
+                                SoViewingFrustum {
+                                    positionOffset 0.0 0.05 0.0
+                                    nearDistance 0.02
+                                    farDistance 1.5
+                                    heightAngle 0.5
+                                }
+                            }
+                        }
+                        velocityVis SoStroke {
+                            geometry Group {
+                                Transform { rotation 0 0 1 -1.57 }
+                                Material { diffuseColor 1 0.5 0 emissiveColor 1 0.5 0 }
+                                Cylinder { height 1 radius 0.01 }
+                                Transform { translation 0 0.5 0 }
+                                Cone { bottomRadius 0.02 height 0.111111 }
+                            }
+                        }
+                        puppets SoDragKit {
+                            content Separator {
+                                SoMultiSwitch {
+                                    SoSeparator { # puppet 0
+                                        # head
+                                        Material { diffuseColor 1 1 0 }
+                                        SoSphere { radius 0.05 }
+                                        # nose
+                                        Separator {
+                                            Transform { rotation 1 0 0 1.57 translation 0 0 0.07 }
+                                            Material { diffuseColor 1 0 0 }
+                                            SoCone { bottomRadius 0.02 height 0.05}
+                                        }
+                                        # hat
+                                        Separator {
+                                            Transform { translation 0 0.055 0}
+                                            Material { diffuseColor 0 0 1 }
+                                            RotationXYZ {
+                                                axis Y
+                                                angle 0 = 
+                                                    DEF TIMER1 ElapsedTime {
+                                                        speed 0.5
+                                                    }.timeOut
+                                            }
+                                            SoCube { width 0.04 height 0.04 depth 0.04 }
+                                        }
+                                        # eyes
+                                        Material { diffuseColor 0 1 0 }
+                                        Separator { # left
+                                            Transform { translation -0.025 0.025 0.035}
+                                            SoSphere { radius 0.01 }
+                                        }
+                                        # right eye
+                                        Separator { # right
+                                            Transform { translation 0.025 0.025 0.035}
+                                            SoSphere { radius 0.01 }
+                                        }
+                                    }                           
+                                    SoSeparator { # puppet 1
+                                        RotationXYZ {
+                                            axis Z
+                                            angle 0 =
+                                                DEF TIMER2 ElapsedTime {
+                                                    speed 2.0
+                                                }.timeOut
+                                        }
+                                        Material { diffuseColor 1 0 0 }
+                                        SoCone { bottomRadius 0.1 height 0.1}
+                                    }
+                                    SoCube { width 0.2 height 0.05 depth 0.05 }
+                                } # SoMultiSwitch
+                            } # Separator
+                        } # end of puppets
+                        attributes SoMultiSwitch {
+                            SoBillboardKit {
+                                content SoSeparator {
+                                    SoSeparator {
+                                        Material { diffuseColor 0 0 1 }
+                                        SoTransform { translation -0.1 0.35 0 scaleFactor 0.01 0.01 0.01 }
+                                        SoText3 { 
+                                            parts ALL
+                                            string = USE PUPPETEER1.position
+                                        }
+                                    }
+                                }
+                            }
+                            SoSeparator {
+                                Material { diffuseColor 0 1 0 }
+                                SoTransform { translation -0.1 0.25 0 scaleFactor 0.01 0.01 0.01 }
+                                SoText3 { 
+                                    parts ALL
+                                    string = USE PUPPETEER1.orientation
+                                }
+                            }
+                            SoSeparator {
+                                Material { diffuseColor 0 1 1 }
+                                SoTransform { translation -0.1 0.15 0 scaleFactor 0.01 0.01 0.01 }
+                                SoText3 { 
+                                    parts ALL
+                                    string = USE PUPPETEER1.scale
+                                }
+                            }
+                            
+                        } # end of attributes
+
+                    } # end of SoPuppeteerKit
+                    
+                    Separator {
+                        Transform { translation 0.3 0.1 -0.2 }
+                        Material { diffuseColor 1 0 1 }
+                        SoSphere { radius 0.01 }
+                    }
+                    
+                    Separator {
+                        Material { diffuseColor 0 1 1 }
+                        SoTransform { translation -0.2 0.4 0 scaleFactor 0.01 0.01 0.01 }
+                        SoText3 {
+                            parts ALL
+                            string = USE PUPPETEER1.finishedCommandData
+                        }
+                    }
+                    Separator {
+                        Material { diffuseColor 1 0 0 }
+                        SoTransform { translation -0.2 -0.4 0 scaleFactor 0.01 0.01 0.01 }
+                        SoText3 {
+                            parts ALL
+                            string = USE PUPPETEER1.boundingBox
+                        }
+                    }
+                    Separator {
+                        Material { diffuseColor 1 1 1 }
+                        SoTransform { translation -0.2 -0.8 0 scaleFactor 0.01 0.01 0.01 }
+                        SoText3 {
+                            parts ALL
+                            string = USE PUPPETEER1.response
+                        }
+                    }
+                    
+                    SoSeparator {
+                        Transform { 
+                            translation = DEF TRAK SoTrakEngine { station 2 }.translation
+                            rotation = USE TRAK.rotation
+                        }
+                        Cube { width 0.2 height 0.002 depth 0.2 }
+                    }
+
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

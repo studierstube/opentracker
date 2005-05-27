@@ -1,0 +1,19 @@
+Faust Setup in the IMS VR Lab
+
+The basic setup is a two user AR workspace with two HMDs, two pens and two pips.
+These are tracked by a ascension flock of birds with 6 stations connected to
+a dedicated Linux tracking host. In addition to that another ARToolkit based
+optical tracking host may track a set of markers used to manipulate and start
+applications.
+
+faustWallTracker.xml is the common OpenTracker file for the Studierstube client.
+
+faustUser1.iv and faustHMD1.iv contain the UserKit and Camera file for the first user.
+
+faustUser2.iv and faustHMD2.iv contain the UserKit and Camera file for the second user.
+
+Four different configurations can be started using the provided batch files :
+
+* single first or second user
+* dual user without markers
+* dual user with markers

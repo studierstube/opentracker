@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<!-- #BeginTemplate "/Templates/master.dwt" --><!-- DW6 --><!-- #BeginEditable "doctitle" -->
+  <title>Qt 2 PIP Transformation</title>
+<!-- #EndEditable -->
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" href="/media/styles/studierstube.css"
+ type="text/css">
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tbody>
+    <tr>
+      <td background="/media/images/studierstube_header_background.gif">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td><a href="/index.html"><img
+ src="/media/images/studierstube_header_logo.gif" width="100"
+ height="100" vspace="15" hspace="15" border="0"></a></td>
+            <td>
+            <h1>Studierstube Augmented Reality Project</h1>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td background="/media/images/studierstube_dots_horiz.gif"
+ style="background-repeat: repeat-x;"><img
+ src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr>
+      <td align="right" bgcolor="#f6f6f6">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td background="/media/images/studierstube_dots_vert.gif"><img
+ src="/media/images/spacer.gif" width="1" height="20"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td background="/media/images/studierstube_dots_vert.gif"><img
+ src="/media/images/spacer.gif" width="1" height="20"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td background="/media/images/studierstube_dots_vert.gif"><img
+ src="/media/images/spacer.gif" width="1" height="20"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td background="/media/images/studierstube_dots_vert.gif"><img
+ src="/media/images/spacer.gif" width="1" height="20"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td background="/media/images/studierstube_dots_vert.gif"><img
+ src="/media/images/spacer.gif" width="1" height="20"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"
+ background="/media/images/studierstube_dots_horiz.gif"
+ style="background-repeat: repeat-x;"><img
+ src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+  <tbody>
+    <tr>
+      <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr>
+      <td>
+      <h1>Qt 2 PIP Transformation</h1>
+      <p>The qt2pip.xsl style sheet transforms a forms data file of Qt
+Designer 2.0 (part of <a href="http://www.trolltech.com/">Qt 3.0.x</a>)
+into a PIP sheet for <a href="http://www.studierstube.org/">Studierstube</a>
+applications. It uses as much information as possible from the widgets
+defined in the form file such as size and location, label or image,
+fore- and background color. It transforms the following widgets</p>
+      <table width="100%" border="0" cellspacing="2">
+        <tbody>
+          <tr>
+            <th>Qt Widget</th>
+            <th>Studierstube Widget</th>
+          </tr>
+          <tr>
+            <td>QDialog</td>
+            <td>PIP Sheet (as a SoPipSheetKit node)<br>
+            </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;">QTabWidget<br>
+            </td>
+            <td style="vertical-align: top;">underlying QWidgets (the
+tabs)
+will group their children into individual separators to get
+Studierstube
+tabs<br>
+            </td>
+          </tr>
+          <tr>
+            <td>QButtonGroup</td>
+            <td>SoGroup with all children widgets as children of the
+SoGroup</td>
+          </tr>
+          <tr>
+            <td>QRadioButton</td>
+            <td><a
+ href="http://www.studierstube.org/doc/stb/classSoRadioButton.html">SoRadioButton</a></td>
+          </tr>
+          <tr>
+            <td>QPushButton</td>
+            <td><a
+ href="http://www.studierstube.org/doc/stb/classSoPushButton.html">SoPushButton</a></td>
+          </tr>
+          <tr>
+            <td>QCheckBox</td>
+            <td><a
+ href="http://www.studierstube.org/doc/stb/classSoToggleButton.html">SoToggleButton</a></td>
+          </tr>
+          <tr>
+            <td>QSlider</td>
+            <td><a
+ href="http://www.studierstube.org/doc/stb/classSoSlider.html">SoSlider</a></td>
+          </tr>
+          <tr>
+            <td>QLabel</td>
+            <td>Either a text label or an image on the PIP</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;">QListBox<br>
+            </td>
+            <td style="vertical-align: top;"><a
+ href="../stbapi/classSoListBox.html">SoListBox </a>with items as
+values. <br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>The following properties of all widgets are used :</p>
+      <ul>
+        <li>x,y - position on the PIP sheet</li>
+        <li>width, height - dimension off the widget as width and depth</li>
+        <li>name - DEF name of the widget</li>
+        <li>text - text label on the widget</li>
+        <li>image - an image on the widget</li>
+        <li>paletteForegroundColor - color of the text label</li>
+        <li>paletteBackgroundColor - color of the widget geometry</li>
+      </ul>
+      <p>Other parameters of the widgets need to be set in the xsl
+script as
+parameters or global variables :</p>
+      <ul>
+        <li>height - the height of widgets </li>
+        <li>default text style, family or font name </li>
+        <li>geometry - there is a set of variables for each widget type
+which
+are substituted into the geometry parts of widgets. In the default
+settings they all reuse the same geometry, therefore all widgets
+will look the same.</li>
+        <li>highlight default color - the default highlight color to
+use, if
+no background color is specified.</li>
+        <li>testmode - true or false, default is false. If TRUE it will
+leave
+out field connections and generate a simple application wrapper to
+allow quick testing of pip designs.<br>
+        </li>
+      </ul>
+      <p>Some notes :</p>
+      <ul>
+        <li>The PipSheet will be scaled so that the larger dimension
+will
+have a length of 1. All dimensions of sub widgets etc. are scaled
+accordingly. The global height variable is not affected by this.</li>
+        <li>To use images on widgets or image labels, you need to do
+the
+following in Qt Designer :
+          <ol>
+            <li>Set the form properties to use a function to load
+images <em>(!
+not inline images !)</em></li>
+            <li>Set the pixmap parameter to the path and filename of
+the
+image you want to use. You will not get a preview of the image
+unfortunatly.</li>
+          </ol>
+        </li>
+        <li>A label with a pixmap property defined will always be
+transformed
+to an image label and ignore the text property. If you want to use
+the text property make sure to delete the pixmap property in the
+designer.</li>
+        <li>tab sheets are autoscaled by the Studierstube individually,
+the
+computation of widget dimensions is done for the whole dialog !
+Therefore individual tabs can be scaled incorrectly. Make sure you have
+widgets covering the same extensions in each tab, then you should be
+fine.</li>
+        <li>The stylesheet now uses new button geometry that is
+somewhat
+simpler than the old one and is compatible with the SoListBox default
+style.</li>
+        <li>Text on buttons will always be look ok, because it will
+only be
+uniformily scaled. However, if the string is too long, it can protrude
+over the ends of the button !</li>
+        <li>Text in labels is now horizontally aligned with the
+geometry by
+specifying either AlignLeft, AlignCenter or AlignRight. Every other
+alignment will default to centered. The text is also always uniformily
+scaled to fit with its height. Therefore it can also protrude over the
+label area if too long.</li>
+        <li>Text labels can also be vertical by specifying a tooltip
+text of
+'vertical'.</li>
+        <li>If a background color on a text label with text is
+specified, a
+background quad will be created carrying that color. This also makes
+text only labels count in bounding box calculations.<br>
+        </li>
+        <li>All in all, text is more sane now. Any label or button with
+the
+same widget height should result in the same text size, for vertical
+labels the width counts.</li>
+        <li>whatsThis field is used to define additional data for the
+widgets
+and other parts :</li>
+        <ul>
+          <li>QLabels can specify a nodename.fieldname to have a route
+connection written out for their text field. This allows to use text
+labels as message displays in a simple manner</li>
+          <li>QTabWidget (for tabbed sheets) can specify a
+space-separated
+list of file names that go into the tabTextures field to specify the
+button textures for individual tabs.</li>
+        </ul>
+        <li>entries of QListBoxes will be written to the inventor file
+as is.
+This allows you to specify more complex things in here !</li>
+        <li>Sliders only use background color for the static geometry
+and foreground color for knob geometry with a highlighted version.<br>
+        </li>
+      </ul>
+      <p>ToDo :</p>
+      <ul>
+        <li>Convert Qt inline image data to OIV inline image data
+(maybe :)</li>
+        <li>Do text alignment on buttons as well !<br>
+        </li>
+        <li>implement vertical text alignment ??</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tbody>
+    <tr>
+      <td colspan="3"
+ background="/media/images/studierstube_dots_horiz.gif"
+ style="background-repeat: repeat-x;"><img
+ src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr>
+      <td bgcolor="#f6f6f6">&nbsp; <a
+ href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+      <td bgcolor="#f6f6f6"><img src="/media/images/spacer.gif"
+ width="1" height="20"></td>
+      <td bgcolor="#f6f6f6" align="right"><a
+ href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a>
+&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="3"
+ background="/media/images/studierstube_dots_horiz.gif"
+ style="background-repeat: repeat-x;"><img
+ src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+  </tbody>
+</table>
+<!-- #EndTemplate -->
+</body>
+</html>

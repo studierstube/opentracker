@@ -1,0 +1,6 @@
+// -*- MPC -*-
+// Synch.mpc,v 1.1 2004/01/15 16:02:28 jwillemsen Exp
+
+project : aceexe {
+  exename = proc_sema
+}

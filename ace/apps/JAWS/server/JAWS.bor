@@ -1,0 +1,79 @@
+# Makefile for building the JAWS library with Borland C++ Make
+
+NAME = JAWS
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\HTTP_Config.$(OBJ_EXT) \
+	$(OBJDIR)\HTTP_Handler.$(OBJ_EXT) \
+	$(OBJDIR)\HTTP_Helpers.$(OBJ_EXT) \
+	$(OBJDIR)\HTTP_Request.$(OBJ_EXT) \
+	$(OBJDIR)\HTTP_Response.$(OBJ_EXT) \
+	$(OBJDIR)\HTTP_Server.$(OBJ_EXT) \
+	$(OBJDIR)\IO.$(OBJ_EXT) \
+	$(OBJDIR)\JAWS_Concurrency.$(OBJ_EXT) \
+	$(OBJDIR)\JAWS_Pipeline.$(OBJ_EXT) \
+	$(OBJDIR)\Parse_Headers.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\..\..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\..\..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+DLL_FLAGS = \
+        -DACE_BUILD_SVC_DLL
+!endif
+
+CFLAGS = \
+	-I"..\..\.." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = apps\JAWS\server
+
+#
+# Override defaults in outputdir.bor
+#
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+BINDIR = ..\..\..\lib
+
+!include <$(ACE_ROOT)\include\makeinclude\build_library.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Config.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Config.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Handler.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Handler.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Helpers.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Helpers.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Request.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Request.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Response.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Response.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y HTTP_Server.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\HTTP_Server.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y IO.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\IO.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y JAWS_Concurrency.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\JAWS_Concurrency.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y JAWS_Pipeline.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\JAWS_Pipeline.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Parse_Headers.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Parse_Headers.h 1> NUL

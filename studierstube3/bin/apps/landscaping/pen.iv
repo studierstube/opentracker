@@ -1,0 +1,41 @@
+#Inventor V2.1 ascii
+# ===========================================================================
+#  (C) 1998 Vienna University of Technology
+# ===========================================================================
+#  NAME:       pen.iv
+#  TYPE:       Inventor file
+#  PROJECT:    Studierstube/VT
+#  CONTENT:    Scene graph for pen tool 
+#  VERSION:    1.0
+# ===========================================================================
+#  ds			Dieter Schmalstieg (dieter@cg.tuwien.ac.at)
+# ===========================================================================
+
+DEF PEN_SEP Separator {
+  DEF PEN_TRAFO Transform { 
+    translation 0 0 0 = DEF PEN_TE SoTrakEngine { station 0 } . translation
+    rotation 0 0 1 0 = USE PEN_TE . rotation
+  }
+  DEF SCALE_INCH Scale { scaleFactor 0.0376 0.0376 0.0376 } #scale to inches
+  Material {
+    diffuseColor 1 0 0 = Calculator {
+      a 0 = USE PEN_TE . button0
+      expression  "oA = vec3f(1,1-a,1-a)"
+    }.oA
+  }
+  Sphere { radius 0.2 }
+  DEF PEN_BODY Switch {
+    whichChild 0
+    Group {
+      RotationXYZ { axis X angle -1.57 }
+      Material { diffuseColor 1 1 1 }
+      Translation { translation 0 -1 0 }
+      Cone { bottomRadius 0.5 height 2 }
+      Material { diffuseColor 0 0 1 }
+      Translation { translation 0 -4 0 }
+      Cylinder { radius 0.5 height 6 }
+    }
+  }
+  #virtual offset for pen (in inch)
+  #DEF PEN_VIRTUAL_TRANSLATION Translation { translation 0 1 -7 }
+}

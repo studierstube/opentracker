@@ -1,0 +1,186 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>Studierstube vs. OpenTracker</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../stb/stb.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td background="http://www.studierstube.org/media/images/studierstube_header_background.gif">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td><a href="/index.html"><img src="http://www.studierstube.org/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr>
+        <td align="right" bgcolor="#F6F6F6">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr>
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr>
+
+    <td><!-- #BeginEditable "content" -->
+      <h1>Using Studierstube with OpenTracker Support</h1>
+      <p>This is a step-by-step guide to compile <b>Studierstube</b> with prelimiary
+        <b>OpenTracker</b> support. The support is implemented as a new type of
+        tracker the OpenTracker Tracker. </p>
+      <h2> How it works</h2>
+      <p> Exchanging tracking data between OpenTracker and Studierstube: OpenTracker
+        reads data from various tracking devices, transforms it and forwards it
+        over a defined interface to the Studierstube. The following figure gives
+        an overview of the relationship between the two components.</p>
+      <p align="center"><img src="../images/otvsstb.gif" width="680" height="318"></p>
+      <center>
+        <p align="CENTER"><i>Figure 1 : Relationship between OpenTracker and Studierstube</i></p>
+      </center>
+      <h3> Studierstube part (to the right)</h3>
+      <p> Studierstube receives tracking data over a number of <i>stations</i>,
+        which expose position, orientation and button state of a single 'object'.
+        For example, the pen and the tablet (PIP) are each controlled by an individual
+        <i>station</i>. These <i>stations</i> are information channels for tracking
+        data which can be futher used within the Studierstube.</p>
+      <p> There are two ways to access the information of a <i>station</i>. First,
+        the data is exposed via <i>global fields</i> in OpenInventor. Second,
+        the station information is transported via <i>3D event</i> actions applied
+        to the scene graph. These actions can be processed by various nodes in
+        the scene graph, while others are ignored by the actions.</p>
+      <h3> OpenTracker part (to the left)</h3>
+      <p> OpenTracker only deals with nodes, not with <i>stations</i> themselves.
+        Therefore there are special nodes that provide the interface to the Studierstube
+        called <b>StbSink</b>. Each <b>StbSink</b> node is associated with a <i>station</i>
+        in the Studierstube and this <i>station</i> is defined by the <b><tt>station</tt></b>
+        attribute of the node. Another, attribute called <b><tt>event</tt></b>
+        defines whether the <i>station</i> should generate <i>3D event</i> actions
+        or not. Its possible values are on and off.</p>
+      <p> The remaining configuration of OpenTracker is arbitrary, any data flow
+        graph can input its data into the <b>StbSink</b> nodes. Therefore the
+        actual tracking configuration is transparent to the Studierstube. It only
+        deals with the individual channels = <i>stations</i> connected to it.</p>
+      <p> The number of stations initialized in the Studierstube is equal to the
+        largest <b><tt>station</tt></b> number in a <b>StbSink</b> node of OpenTracker.
+        There are allways all <i>stations</i> from <i>0</i> to <i>n</i> present,
+        even though not all of them are connected to a <b>StbSink</b> node.</p>
+      <h2>Compiling Studierstube</h2>
+      <p><font color="#000000">I assume you have downloaded and compiled OpenTracker
+        successfully. If not, please consult the <a href="/opentracker/docs/install.html">Install
+        HowTo</a> to get help on that.</font> Be sure that the environment variables
+        described there are set correctly. Then there are two procedures, depending
+        whether you use Windows or Unix.</p>
+      <h3>Windows32</h3>
+      <ol>
+        <li> Open then Studierstube project workspace.</li>
+        <li>Enter the settings tab and add the define USE_OPENTRACKER to your
+          desired compile configuration. You can also add it to all, if you want.</li>
+        <li>Add the library opentrackerd.lib to a debug target or opentracker.lib
+          to a release target.</li>
+        <li>Recompile the stbapi project.</li>
+        <li>If you get errors concerning the header file OpenTracker.h or the
+          library files, you possibly forgot to set the environment variable OTROOT
+          as described in the <font color="#000000"> <a href="/opentracker/docs/install.html">Install
+          HowTo</a>.</font></li>
+      </ol>
+      <h3>Unix</h3>
+      <p>Following soon !</p>
+      <h2>Using the OpenTracker tracker</h2>
+      <p>There is a option for the trackertype command line argument. You use
+        it as <tt><b>-ttype o</b></tt>. This tells the TrackerBuilder to create
+        an OpenTracker tracker. It will read its configuration from an OpenTracker
+        configuration file. The default file ist <tt><b>stb.xml</b></tt> and it
+        is searched for in the current directory. With the command line argument
+        <tt><b>--opentracker ( -ot )</b></tt> you can specify your own configuration
+        file. Make sure that the file <tt><b>opentracker.dtd</b></tt> is also
+        present and in the correct location as specified by the configuration
+        file in the dtd tag. </p>
+      <p>To get data into the Studierstube application use the <b>StbSink</b>
+        node in the configuration file. It has a single attribute <b><tt>station</tt></b>.
+        This is an integer <tt>0 &lt;= station &lt; trackerMaxUnits</tt> as defined
+        in the Tracker.h header file. Whenever a new data event is received by
+        such a node, it will be copied to the specified station. You may have
+        several nodes using the same station. In this case they may overwrite
+        the station data and you loose event ( a point to improve, I guess ).
+        To get an idea, what I'm writing about, read the OpenTracker <a href="http://www.studierstube.org/opentracker/docs/userguide.html">User's
+        Guide</a>.</p>
+      <p>Thats it, Have Fun !</p>
+      <h2>Some Notes for Studierstube Development</h2>
+      <h4>Win32 :</h4>
+      <ul>
+        <li> Do NOT use <tt>&lt;iostream.h&gt;</tt>, but use the new standard
+          C++ library <tt><b>&lt;iostream&gt;</b></tt> instead. OpenTracker uses
+          the STL library and it can only work with the new iostream library.
+          This does not affect <tt>&lt;stdio.h&gt;</tt> and similar headers.</li>
+      </ul>
+      <h4>Irix :</h4>
+      <ul>
+        <li>Do NOT use SGI native threads, use the <b>pthreads</b> library instead.
+          These are incompatible and may not be used in one program together.
+          The ACE library, used by OpenTracker, relies on pthreads.</li>
+      </ul>
+      <h2>On the technical side</h2>
+      <p>The support is implemented using the current tracker architecture. Whenever
+        getStation is called, the OpenTracker tracker performs on execution of
+        the OpenTracker main loop. That way the processing is somewhat synchronized
+        to the Studierstube main loop. Then copies the data from the StbSink nodes
+        into the station data structure. </p>
+      <!-- #EndEditable --></td>
+    </tr>
+    <tr>
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr>
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a>
+            &nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

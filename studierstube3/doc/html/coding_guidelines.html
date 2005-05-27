@@ -1,0 +1,269 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Studierstube Coding Guidelines</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        
+    <td><!-- #BeginEditable "content" --> 
+      <h1 align="center">Guidelines for Coding Style and Documentation<br>
+        in the VR Group</h1>
+      <p align="left">This document is a guideline for how to write and document 
+        source code with Doxygen for use by the VR Group. It is binding for all 
+        contributors of source code to the VR Groups software. Doxygen is available 
+        at <a href="http://www.doxygen.org/">http://www.doxygen.org/</a>.</p>
+      <h2 align="left">Coding Style DOs and DON'Ts</h2>
+      <p align="left">These are a short list of rules to ensure a uniform look 
+        of the source code. This helps other developers understand your code and 
+        simplifies maintaining the software.</p>
+      <h3>FORMATTING</h3>
+      <ul>
+        <li> lines shall be MAXIMAL 78 characters long 
+        <li> Indentation shall always use exactly 4 spaces 
+        <li>Don't use tabs, use spaces. 
+        <li>Curly brackets {} shall be either on the same line or in the same 
+          row. 
+      </ul>
+      <h3>File Conventions</h3>
+      <ul>
+        <li> Just one class per file 
+        <li> Extensions: .h, .cxx 
+        <li> For each class, there shall exist a .cxx and a .h file with the same 
+          name. 
+      </ul>
+      <h3>Naming Conventions</h3>
+      <ul>
+        <li> All code including comments shall be English. 
+        <li> Naming shall be "mixed case", for example : maxStationNumber, SoTrakEngine 
+        <li> Every data type, especially classes, shall start with a capital letter. 
+        <li> Every variable, function, method and constant shall start with a 
+          small letter. 
+        <li> #define for constants and macros shall not be used in C++, use const 
+          declarations or inlines instead. 
+      </ul>
+      <h2 align="left">Comments</h2>
+      <p align="left">There are two kinds of comments. Doxygen comments, which 
+        are extracted by Doxygen to generate documentation and the standard C++ 
+        comments. Doxygen comments follow the Javadoc style syntax :</p>
+      <table width="100%" border="0">
+        <tr> 
+          <td> <pre class="codeblock">/**
+ * multi line comment
+ */
+</pre></td>
+          <td align="center" valign="middle">or</td>
+          <td> <pre class="codeblock">/**
+   multi line comment
+ */
+</pre></td>
+        </tr>
+        <tr valign="top"> 
+          <td colspan="3">and</td>
+        </tr>
+        <tr> 
+          <td valign="middle"> <pre class="codeblock"> /// one line comment
+</pre></td>
+          <td align="center" valign="top">or</td>
+          <td valign="middle"> <pre class="codeblock"> /** one line comment */
+</pre></td>
+        </tr>
+      </table>
+      <p align="left">Both styles may be used, but they must not be mixed in one 
+        header or source file.</p>
+      <h3 align="left">File Headers</h3>
+      <p align="left">Each new file must start with a commentary header in the 
+        following format :</p>
+      <pre align="left" class="codeblock">/* ========================================================================<br> * Copyright (C) 2000,2001,2002  Vienna University of Technology<br> *<br> * This library is free software; you can redistribute it and/or<br> * modify it under the terms of the GNU Lesser General Public<br> * License as published by the Free Software Foundation; either<br> * version 2.1 of the License, or (at your option) any later version.<br> *<br> * This library is distributed in the hope that it will be useful,<br> * but WITHOUT ANY WARRANTY; without even the implied warranty of<br> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU<br> * Lesser General Public License for more details.<br> *<br> * You should have received a copy of the GNU Lesser General Public<br> * License along with this library; if not, write to the Free Software<br> * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA<br> *<br> * For further information please contact Dieter Schmalstieg under<br> * &lt;schmalstieg@ims.tuwien.ac.at&gt; or write to Dieter Schmalstieg,<br> * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,<br> * Austria.<br> * ========================================================================<br> * PROJECT: stbapi<br> * ======================================================================== */ 
+/** One sentence description of Test.h.
+  * Detailed description of Test.h. This may be longer.
+  *
+  * @author  Mister Nice Guy
+  *
+  * $Id: coding_guidelines.html 3427 2004-07-14 12:20:49Z tamer $
+  * @file                                                                   */
+ /* ======================================================================= */
+</pre>
+      <p align="left">The first part is the <a href="http://www.gnu.org/licenses/lgpl.html">LGPL</a> 
+        license that is used for Studierstube. If you write code not belonging 
+        to the Studierstube framework you can remove this part.</p>
+      <p align="left">The second part is the Doxygen file documentation part. 
+        Any additional Doxygen commands should be put there. Keywords between 
+        $ are CVS keywords and will be expanded once the file is checked out again. 
+        Do not change the expanded keyword !</p>
+      <h3 align="left">Declarations</h3>
+      <p align="left">Declarations are always put in header files ( .h ). Therefore 
+        the following documentation rules apply to header files in particular.</p>
+      <p align="left">A class declaration must be preceded by a Doxygen comment 
+        with at least the <tt>@author</tt> command in place. It must include a 
+        short one sentence description followed by a detailed description of the 
+        classes functionality. Other related classes or methods can be referenced 
+        by the <tt>@see</tt> command.</p>
+      <p align="left">Global functions and variables, methods and members of classes 
+        must be preceded by a Doxygen comment that includes a short one sentence 
+        description followed by a detailed description of the methods functionality 
+        or the members information. Method comments must include <tt>@param</tt>, 
+        <tt>@return</tt> and <tt>@exception</tt> commands to document parameters, 
+        return values and exceptions thrown, if they are present.</p>
+      <p align="left">The short one sentence description should be a catchy summary 
+        of the compounds function. The detailed description should state the purpose 
+        of the variable or function, summary of its functionality, details about 
+        the algorithm and so on. It should be informative and add something to 
+        the documentation besides a description of name and parameters.</p>
+      <p align="left">This is an example :</p>
+      <pre class="codeblock">
+/**
+  A test class. A more elaborate class description.
+  @author gr
+ */
+class Test
+{
+public:
+
+    /** 
+      An enum.
+      More detailed enum description.
+     */
+    enum TEnum { 
+          TVal1, /**< enum value TVal1. */  
+          TVal2, ///< enum value TVal2. alternative one line comment
+         } 
+       *enumPtr, /**< enum pointer. Details. */
+       enumVar;  /**< enum variable. Details. */
+       
+      /**
+        A constructor.
+        A more elaborate description of the constructor.
+       */
+      Test();
+
+      /**
+        A destructor.
+        A more elaborate description of the destructor.
+       */
+     ~Test();
+    
+      /**
+        a normal member taking two arguments and returning an integer value.
+       
+        @param a an integer argument.
+        @param s a constant character pointer.
+        @return The test results
+       */
+       int testMe(int a,const char *s);
+       
+      /** 
+        a public variable.
+        Details.
+       */
+       int publicVar;       
+};
+</pre>
+      <h3 align="left">Implementations</h3>
+      <p align="left">Implementations of global or member functions are typically 
+        put into source files ( .cxx ). Therefore the following rules apply to 
+        source files particularly. </p>
+      <p align="left">Implementations of global or member functions must be preceded 
+        by a short one line comment followed by an empty line:</p>
+      <pre align="left" class="codeblock">
+// a normal member taking two arguments and returning an integer value. 
+
+int Test::testMe(int a,const char *s)
+{
+    ... implementation ...
+}
+</pre>
+      <h3>Additional Commands</h3>
+      <p>This is a list of additional Doxygen commands that should be used if 
+        appropriate. These commands take a paragraph of text and format it differently 
+        in the resulting documentation. A paragraph is ended by an empty line 
+        or a new command.</p>
+      <dl>
+        <dt><tt>@see name description</tt></dt>
+        <dd>creates a see also link to another class, method, member, etc.</dd>
+        <dt><tt>@bug description</tt></dt>
+        <dd>describe a bug in the class, method, function, etc.</dd>
+        <dt><tt>@warning description</tt></dt>
+        <dd>describe an important issue related to the class, method, function, 
+          etc.</dd>
+        <dt><tt>@todo description</tt></dt>
+        <dd>describe things left todo</dd>
+      </dl>
+      <p>A <tt>name</tt> is the name of a Class, method or member. <tt>description</tt> 
+        is a paragraph of text. A paragraph ends with an empty line or a new command.</p>
+      <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

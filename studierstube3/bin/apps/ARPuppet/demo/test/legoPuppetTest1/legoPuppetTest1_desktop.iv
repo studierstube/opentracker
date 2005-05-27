@@ -1,0 +1,288 @@
+#Inventor V2.1 ascii
+
+DEF ACTORTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 1 0 0 }
+                DEF BUTTON_CMD SoToggleButton { 
+                    width 2 depth 2 height 1 on FALSE
+                }
+                Translation { translation 2 0 0 }
+                Material { diffuseColor 1 0 0 }
+                DEF SYNCHRONIZE SoToggleButton { 
+                    width 2 depth 2 height 1 on TRUE
+                }
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+
+            SoClassLoader {
+                className   "SoChoreographerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+            SoClassLoader {
+                className   "SoLegoPuppeteer"
+                fileName    "../apps/arpuppet/characters/legoPuppet/legoPuppet"
+            }
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                    
+                    SoTransform { scaleFactor 1.6 1.6 1.6 }
+                    DEF PUPPETEER1 SoLegoPuppeteer {
+                        synchRCX = USE SYNCHRONIZE.on
+                        id "legorobot"
+                        controlMode [ STATION, STATION ]
+                        station 3
+                        showPuppeteer TRUE
+                        showAttributes TRUE
+                        whichPuppets [ 0, 1 ]
+                        whichAttributes [ 0, 1, 2, 3 ]
+                        dataNeedsValidation TRUE
+                        dataValid = USE BUTTON_CMD.on
+                        #boundingBoxOn TRUE
+                        #highlightDragOn TRUE
+                        #viewingFrustumOn TRUE
+                        #velocityVisOn TRUE
+                        viewingFrustums SoNodeKitListPart {
+                            containerNode Separator {
+                                SoViewingFrustum {
+                                    positionOffset 0.0 0.0 0.0
+                                    nearDistance 0.02
+                                    farDistance 0.6
+                                    heightAngle 0.5
+                                }
+                            }
+                        }
+                        #command ["setSensor `lt*`", "motorState `+*+`", "motorDir `f*b`"]
+                        command = SoSelectOne {
+                            type SoMFString
+                            input [ "motorState `+*+`", "motorDir `f*b`", "motorDir `f*f`", "motorState `-*-`"]
+                            index = DEF VAR SoVariable {
+                                type INT
+                                a 0
+                                expression ["oa=(a+1+oa)%5", "ob=oa-1"]
+                                eval = USE BUTTON_CMD.on
+                            }.ob
+                        }.output
+                        puppets SoDragKit {
+                            content Separator {
+                                SoMultiSwitch {
+                                
+                                    # physical LEGO robot control
+                                    DEF PUPPET1 SoLegoPuppet {}
+                                    
+                                    # virtual LEGO robot model
+                                    Separator {
+                                        SoRotationXYZ { axis X angle -1.570796326 }
+                                        SoRotationXYZ { axis Z angle -1.570796326 }
+                                        SoTransform { translation 0.038 0.005 -0.07 scaleFactor 1.75 1.75 1.75 }
+                                        # show/hide full robot body
+                                        SoSwitch {
+                                            whichChild = USE PUPPETEER1.alive
+                                            # complete representation
+                                            Separator {
+                                                SoBaseColor { rgb 0.85 0.85 0.85 }
+                                                SoFile { name "../apps/arpuppet/demo/test/legoPuppetTest1/models/robot_whole.iv" }
+                                            }
+                                            Separator {}
+                                        }
+
+                                        # augmentation of the physical LEGO robot with engine models
+                                        Separator {
+                                            # left wheel + engine -> connected to engine C
+                                            SoSwitch {
+                                                whichChild 0 = USE PUPPETEER1.engineC
+                                                Separator {
+                                                    SoBaseColor { rgb 0.85 0.85 0.85 }
+                                                    DEF LEFTWHEEL SoFile { name "../apps/arpuppet/demo/test/legoPuppetTest1/models/robot_leftwheel.iv" }
+                                                }
+                                                Separator {
+                                                    SoBaseColor { rgb 1 0 0 }
+                                                    SoTransform { scaleFactor 1.05 1.05 1.05 }
+                                                    USE LEFTWHEEL
+                                                    SoTransform { translation 0 0.1 -0.02}
+                                                    SoSwitch {
+                                                        whichChild = USE PUPPETEER1.engineDirC
+                                                        DEF CLOCKWISEARROW Separator {
+                                                            RotationXYZ {
+                                                                axis Z 
+                                                                angle 1.57
+                                                            }
+                                                            RotationXYZ { 
+                                                                axis X 
+                                                                angle 0 = ElapsedTime { speed -3.0 }.timeOut
+                                                            }
+                                                            DEF ARROW SoFile { name "../apps/arpuppet/demo/test/legoPuppetTest1/models/arrow.iv" }
+                                                        }
+                                                        DEF ANTICLOCKWISEARROW Separator {
+                                                            RotationXYZ {
+                                                                axis Z
+                                                                angle 1.57
+                                                            }
+                                                            RotationXYZ {
+                                                                axis X
+                                                                angle 0 = ElapsedTime { speed 3.0 }.timeOut
+                                                            }
+                                                            RotationXYZ { axis Y angle 3.14 }
+                                                            USE ARROW
+                                                        }
+                                                    }
+                                                }
+                                            } #  end of left wheel SoSwitch
+                                            # right wheel + engine -> connected to engine A
+                                            SoSwitch {
+                                                whichChild 0 = USE PUPPETEER1.engineA
+                                                Separator {
+                                                    SoBaseColor { rgb 0.85 0.85 0.85 }
+                                                    DEF RIGHTWHEEL SoFile { name "../apps/arpuppet/demo/test/legoPuppetTest1/models/robot_rightwheel.iv" }
+                                                }
+                                                Separator {
+                                                    SoBaseColor { rgb 1 0 0 }
+                                                    SoTransform { scaleFactor 1.05 1.05 1.05 }
+                                                    USE RIGHTWHEEL
+                                                    SoTransform { translation 0 -0.1 -0.02 }
+                                                    SoSwitch {
+                                                        whichChild = USE PUPPETEER1.engineDirA
+                                                        USE CLOCKWISEARROW
+                                                        USE ANTICLOCKWISEARROW
+                                                    }
+                                                }
+                                            } #  end of right wheel SoSwitch
+                                        } # end of robot augmentation Separator
+                                        
+                                    } # end of virtual LEGO robot model
+
+                                    # purple sphere for calibration purposes
+                                    Separator {
+                                        SoBaseColor { rgb 1 0 1 }
+                                        Sphere { radius 0.01 }
+                                    }
+                                }
+                            }
+                        } # end of puppets
+                        attributes SoMultiSwitch {
+                            # battery power stripe
+                            Separator {
+                                SoTransform { 
+                                    translation = SoComposeVec3f {
+                                        x = SoCalculator {
+                                            a = USE PUPPETEER1.batteryPower
+                                            expression "oa = a / 9300 * 0.05 - 0.0575"
+                                        }.oa
+                                        y 0
+                                        z 0
+                                    }.vector
+                                }
+                                SoBaseColor { rgb 0.0 1.0 0.0 }
+                                DEF BATTERY_POWER SoCube {
+                                    width = SoCalculator {
+                                        a = USE PUPPETEER1.batteryPower
+                                        expression "oa = a / 9300 * 0.1"
+                                    }.oa
+                                    height 0.015
+                                    depth  0.015
+                                }
+                                SoTransform { translation 0.0575 0 0 }
+                                SoBaseColor { rgb 1.0 0.0 0.0 }
+                                SoCube {
+                                    width = SoCalculator {
+                                        a = USE BATTERY_POWER.width
+                                        expression "oa = 0.115 - a"
+                                    }.oa
+                                    height 0.015
+                                    depth  0.015
+                                }
+                            }
+                            # battery power text value
+                            Separator {
+                                SoTransform { 
+                                    translation -0.0575 0.035 0
+                                    scaleFactor 0.003 0.003 0.003  
+                                }
+                                SoBaseColor { rgb 0.0 0.0 1.0 }
+                                SoText3 {
+                                    string  = USE PUPPETEER1.batteryPower
+                                    parts ALL
+                                }
+                            }
+                            # A,B,C engine status
+                            Separator {
+                                # labels
+                                Separator {
+                                    SoTransform { 
+                                        translation -0.0675 0.11 0
+                                        scaleFactor 0.002 0.002 0.002 # SGI IV
+                                        #scaleFactor 0.005 0.005 0.005 # Coin
+                                    }
+                                    SoText3 {
+                                        string "A  B  C"
+                                        parts ALL
+                                    }
+                                }
+                                # indicators
+                                Separator {
+                                    SoTransform { translation -0.05 0.089 0 }
+                                    SoSwitch {
+                                        whichChild = USE PUPPETEER1.engineA
+                                        SoBaseColor { rgb 0.5 0.5 0.5 }
+                                        SoBaseColor { rgb 1 1 0 }
+                                    }
+                                    DEF INDICATOR SoCube { width 0.022 height 0.022 depth 0.01 }
+                                    SoTransform { translation 0.055 0 0 }
+                                    SoSwitch {
+                                        whichChild = USE PUPPETEER1.engineB
+                                        SoBaseColor { rgb 0.5 0.5 0.5 }
+                                        SoBaseColor { rgb 1 1 0 }
+                                    }
+                                    USE INDICATOR
+                                    SoTransform { translation 0.055 0 0 }
+                                    SoSwitch {
+                                        whichChild = USE PUPPETEER1.engineC
+                                        SoBaseColor { rgb 0.5 0.5 0.5 }
+                                        SoBaseColor { rgb 1 1 0 }
+                                    }
+                                    USE INDICATOR
+                                }
+                            } # end of ABC engine status Separator
+                            Separator {
+                                Material { diffuseColor 1 1 0 }
+                                SoTransform { 
+                                    translation -0.0675 0.21 0
+                                    #scaleFactor 0.002 0.002 0.002 # SGI IV
+                                    scaleFactor 0.005 0.005 0.005 # Coin
+                                }
+                                SoText3 {
+                                    string = USE PUPPETEER1.response #1.sensor1
+                                    parts ALL
+                                }
+                            } # end of sensor value Separator
+
+                        } # end of attributes
+
+                    } # end of SoLegoPuppeteer
+
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

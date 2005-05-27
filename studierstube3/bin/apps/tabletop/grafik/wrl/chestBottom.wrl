@@ -1,0 +1,77 @@
+#VRML V2.0 utf8
+
+#Cosmo Worlds V2.0
+
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	Material {
+	ambientIntensity	0
+	diffuseColor	0.44 0.15 0
+	specularColor	0.78 0.69 0.4
+	emissiveColor	0 0 0
+	shininess	0.12
+	transparency	0
+      }
+
+    }
+
+    geometry	Box {
+    }
+
+  }
+
+  translation	-0.0152106 0.564436 0.00482595
+  rotation	0 1 0  1.57079
+  scale	0.995161 0.564436 1.98478
+}
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	Material {
+	ambientIntensity	0
+	diffuseColor	0 0 0
+	specularColor	0.63 0.92 1
+	emissiveColor	0 0 0
+	shininess	0.2
+	transparency	0
+      }
+
+    }
+
+    geometry	DEF _0 IndexedFaceSet {
+      coord	Coordinate {
+	point	[ -1 -1 0,
+		  -1 1 0,
+		  1 1 0,
+		  1 -1 0 ]
+      }
+
+      coordIndex	[ 0, 1, 2, 3, -1 ]
+      solid	FALSE
+      normalIndex	[  ]
+      texCoordIndex	[  ]
+    }
+
+  }
+
+  translation	0.0161891 1.00105 1.05139
+  scale	0.206982 0.120689 1
+}
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	Material {
+      }
+
+    }
+
+    geometry	Cylinder {
+    }
+
+  }
+
+  translation	-0.0185279 1.04859 0.000455938
+  rotation	-0.57735 0.57735 0.57735  2.09439
+  scale	0.99954 1.98147 1.04858
+}

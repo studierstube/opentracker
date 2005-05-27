@@ -1,0 +1,5 @@
+#Inventor V2.1 ascii
+
+So2DMenueKit {
+menueText ["SAVE CALIBRATION","DISCARD CALIBRATION"]
+}

@@ -1,0 +1,88 @@
+#Inventor V2.1 ascii
+
+UserKit {
+    userID 2
+
+    pen PenKit{
+       station 22
+       focusPolicy CLICK_TO_MASTER
+
+#      offset Transform { rotation 1 0 0 3.141592 }
+       geometry File {name "../mobile/geometry/GlovePoint.iv"}
+    }
+
+    pip PipKit{
+       station 21
+       pipSize 0.125 0.092 0.003
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+       offset Transform {  #translation -0.04 -0.15 -0.03
+#             rotation 0 1 0 3.1415926
+       }
+        geometry Separator {
+            File { name "../mobile/geometry/DefaultPip.iv" }
+        }
+
+    }
+
+    display DisplayKit {
+        # select the camera in use here:
+#        stereoCameraKit  File { name "../mobile/firefly_4mm_camera.iv"}
+        stereoCameraKit  File { name "../mobile/default_camera.iv"}
+
+    cameraControl TrackedDisplayControlMode {}
+        station 20
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType SORTED_OBJECT_BLEND
+    	videoBackground TRUE
+	decoration FALSE
+	showMouse FALSE
+        width 800
+        height 600
+        xoffset 0
+        yoffset 0
+    }
+
+    # this is the left hand geometry
+    auxGeometry Separator {
+
+# a second pen should work
+        DEF secondHand PenKit {
+           station 23
+
+           geometry Separator {
+            MatrixTransform {
+                matrix  -1  0  0  0
+                     0 -1  0  0
+                     0  0 -1  0
+                     0  0  0  1
+            }
+            File {name "../mobile/geometry/GlovePoint.iv"}
+            }
+    }
+
+# and a third pen for the PIP pointer...
+    DEF PIPPointer PenKit {
+        station 24
+            geometry Separator {
+            RotationXYZ {axis  X angle 1.57 }
+        # Sphere { radius 0.001 }
+        Transform { translation 0 -0.0075 0 }
+        Material {
+              diffuseColor 0.9 0.9 0.0
+          transparency 0.5
+                }
+            Cone {
+            bottomRadius 0.005 height 0.015
+            }
+             }
+         }
+
+
+
+    }
+
+}
+

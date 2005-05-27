@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- OpenTracker configuration -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<configuration>
+		<ARToolKitConfig camera-parameter="../mobile/data/pyrofirewire.dat" videomode="0 640 480 vertical" framerate="6" treshhold="120"/>
+		<ConsoleConfig headerline="Receiver Test" interval="10"/>
+	</configuration>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Local ARToolkit Makers -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<Selection timeout="500" DEF="App1">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_1.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_11.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+        
+	<Selection timeout="500" DEF="App2">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_2.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_12.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App3">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_3.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_13.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App4">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_4.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_14.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App5">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_5.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_15.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App6">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_6.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_16.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App7">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_7.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_17.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App8">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_8.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_18.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App9">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_9.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+		<ARToolKitSource tag-file="../mobile/data/8x8_19.patt" center="0 0" size="90"/>
+	</EventTransform>
+    </Selection>
+
+	<Selection timeout="500" DEF="App10">
+	    <Select>
+        	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+        		<ARToolKitSource tag-file="../mobile/data/8x8_10.patt" center="0 0" size="90"/>
+        	</EventTransform>
+        </Select>
+    	<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+    		<ARToolKitSource tag-file="../mobile/data/8x8_20.patt" center="0 0" size="90"/>
+    	</EventTransform>
+    </Selection>
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- debug stuff -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<ConsoleSink comment="test1" active="off">
+		<Ref USE="App1"/>
+	</ConsoleSink>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- marker stations -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<StbSink station="101" event="off">
+		<Ref USE="App1"/>
+	</StbSink>
+	<StbSink station="102" event="off">
+		<Ref USE="App2"/>
+	</StbSink>
+	<StbSink station="103" event="off">
+		<Ref USE="App3"/>
+	</StbSink>
+	<StbSink station="104" event="off">
+		<Ref USE="App4"/>
+	</StbSink>
+	<StbSink station="105" event="off">
+		<Ref USE="App5"/>
+	</StbSink>
+	<StbSink station="106" event="off">
+		<Ref USE="App6"/>
+	</StbSink>
+	<StbSink station="107" event="off">
+		<Ref USE="App7"/>
+	</StbSink>
+	<StbSink station="108" event="off">
+		<Ref USE="App8"/>
+	</StbSink>
+	<StbSink station="109" event="off">
+		<Ref USE="App9"/>
+	</StbSink>
+	<StbSink station="110" event="off">
+		<Ref USE="App10"/>
+	</StbSink>
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Camera Tracking -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<StbSink station="0" DEF="camera">
+		<EventVirtualTransform DEF="calibOffsetCam">
+			<TestSource frequency="1" position="0 2 -1.9" orientation="0 .7071067810 .7071067810 0"/>
+			<!--<ConsoleSink comment="camera">
+				<StbKeyboardSource number="0"/>
+			</ConsoleSink>
+			-->
+		</EventVirtualTransform>
+	</StbSink>
+
+</OpenTracker>

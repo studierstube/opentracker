@@ -1,0 +1,26 @@
+#Inventor V2.1 ascii
+DEF SEAM_FRAME Separator {
+  DEF SEAM_FRAME_TRAFO Transform {
+    scaleFactor 0.0376 0.0376 0.0376  #scale to inches
+  }
+  Transform { 
+    translation -3.5 0 0 # 4 inches
+    rotation 0 1 0 1.57
+  }
+  Separator {
+    Translation { translation  0 0 4 }
+    DEF HCUBE Cube { width 10.5 height 0.1 depth 0.5 }
+  }
+  Separator {
+    Translation { translation  0 0 -4 }
+    USE HCUBE
+  }
+  Separator {
+    Translation { translation  5 0 0 }
+    DEF VCUBE Cube { width 0.5 height 0.1 depth 7.5 }
+  }
+  Separator {
+    Translation { translation  -5 0 0 }
+    USE VCUBE
+  }
+}

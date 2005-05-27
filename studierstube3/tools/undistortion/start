@@ -1,0 +1,10 @@
+./tmeas \
+  --trackertype u \
+  --port 12345 \
+  --address 192.168.1.7 \
+  --port2 12348 \
+  --address2 224.100.200.103 \
+  --stationnum 8 \
+  -set 12 \
+  $*
+

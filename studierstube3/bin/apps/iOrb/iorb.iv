@@ -1,0 +1,63 @@
+#Inventor V2.1 ascii
+
+SoClassLoader {
+    fileName "iOrb"
+    className "SoRotationTracker"
+}
+
+SoClassLoader {
+    fileName "iOrb"
+    className "SoFaderWidget"
+}
+
+SoClassLoader {
+    fileName "iOrb"
+    className "SoOptionBallWidget"
+}
+
+
+# This file contains an empty Studierstube application. It is used to
+# load content from an external file named "content.iv"
+
+DEF TEST_APP SoApplicationKit {
+
+    contextKit  SoContextKit {
+
+         windowGroup Group {
+        
+            #File { name "content/main.iv" }  
+             
+            # Red cube (tracks input from station 1)
+            Separator {
+                Transform { translation -0.2 0 0 }
+                Transform {
+                    rotation = DEF Tracker SoTrakEngine {
+                                    station 1
+                                }.rotation
+                }
+                
+                Material {  diffuseColor [ 1 0 0, 1 1 0, 0 0 1 ] }
+                Cube {
+                    width 0.1
+                    height 0.1
+                    depth 0.1
+                }
+            }
+            
+            Separator {
+            # improve the view so you can see it better:
+                Transform {
+                    rotation 1 0 0 0.900000
+                }
+                Transform {
+                    rotation 0 0 1 0.639892 
+                }
+                SoOptionBallWidget {
+                    station 1
+                    scaleRotation 2.0
+                
+                }
+            }
+        }    
+    }
+}

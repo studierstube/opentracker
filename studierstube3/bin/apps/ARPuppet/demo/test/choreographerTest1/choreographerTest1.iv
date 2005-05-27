@@ -1,0 +1,228 @@
+#Inventor V2.1 ascii
+
+DEF CHOREOGRAPHERTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 0 1 0 }
+                DEF BUTTON_TRACKED SoToggleButton { 
+                    width 5 depth 5 height 2 on FALSE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 1 0 0 }
+                DEF BUTTON_CMD SoToggleButton { 
+                    width 5 depth 5 height 2 on FALSE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 1 0 1 }
+                DEF BUTTON_SHOWPUPPETEER SoToggleButton { 
+                    width 5 depth 5 height 2 on FALSE
+                }
+                Translation { translation 5 0 0 }
+                Material { diffuseColor 0 1 1 }
+                DEF BUTTON_SHOWATTRIBUTE SoToggleButton { 
+                    width 5 depth 5 height 2 on TRUE
+                }
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+        
+            SoClassLoader {
+                className   "SoChoreographerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+
+                    DEF CHOREOGRAPHER SoChoreographerKit {
+                        id "choreographer"
+                        #command "*:  setPosition  0.35 puppeteer(clown).p.y -0.2 2000 # sam : play `angry` #sam: speak `Hello! How are you today?` " 
+                        #command "near `puppeteer(sphere1).p` `puppeteer(sphere2).p` 0.1" 
+                        command "lookingAt `puppeteer(clown)` `puppeteer(sphere1).p`" 
+                        dataNeedsValidation TRUE
+                        dataValid = USE BUTTON_CMD.on
+                        puppeteers Separator {
+                            DEF PUPPETEER1 SoPuppeteerKit{
+                                id "simple"
+                                #controlMode [ (STATION) , (STATION) ]
+                                whichPuppets 0
+                                #station 4
+                                showPuppeteer TRUE
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                Material { diffuseColor 0 1 0 }
+                                                Cube { width 0.14 height 0.04 depth 0.03 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            DEF PUPPETEER2 SoFileSubgraph { 
+                            #   fileName "..\apps\arpuppet\demo\test\choreographerTest1\import.iv"
+                            }
+                            DEF PUPPETEER3 SoPuppeteerKit{
+                                id "clown"
+                                controlMode [ (STATION) , (STATION) ]
+                                station 4
+                                position 0 0.2 0
+                                orientation 0 0 0 0
+                                showPuppeteer TRUE
+                                showAttributes TRUE
+                                whichPuppets [ 0 ]
+                                whichAttributes [ 0, 1 ]
+                                viewingFrustumOn TRUE
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            SoSeparator {
+                                                # head
+                                                Material { diffuseColor 1 1 0 }
+                                                SoSphere { radius 0.05 }
+                                                # nose
+                                                Separator {
+                                                    Transform { rotation 1 0 0 1.57 translation 0 0 0.07 }
+                                                    Material { diffuseColor 1 0 0 }
+                                                    SoCone { bottomRadius 0.02 height 0.05}
+                                                }
+                                                # hat
+                                                Separator {
+                                                    Transform { translation 0 0.055 0}
+                                                    Material { diffuseColor 0 0 1 }
+                                                    RotationXYZ {
+                                                        axis Y
+                                                        angle 0 = 
+                                                            DEF TIMER1 ElapsedTime {
+                                                                speed 0.5
+                                                            }.timeOut
+                                                    }
+                                                    SoCube { width 0.04 height 0.04 depth 0.04 }
+                                                }
+                                                # eyes
+                                                Material { diffuseColor 0 1 0 }
+                                                Separator { # left
+                                                    Transform { translation -0.025 0.025 0.035}
+                                                    SoSphere { radius 0.01 }
+                                                }
+                                                # right eye
+                                                Separator { # right
+                                                    Transform { translation 0.025 0.025 0.035}
+                                                    SoSphere { radius 0.01 }
+                                                }
+                                            }                           
+                                            SoSeparator { # puppet 1
+                                                RotationXYZ {
+                                                    axis Z
+                                                    angle 0 =
+                                                        DEF TIMER2 ElapsedTime {
+                                                            speed 2.0
+                                                        }.timeOut
+                                                }
+                                                Material { diffuseColor 1 0 0 }
+                                                SoCone { bottomRadius 0.1 height 0.1}
+                                            }
+                                            SoCube { width 0.2 height 0.05 depth 0.05 }
+                
+                                        } # end of puppet
+                                    }
+                                }
+                                attributes SoMultiSwitch {
+                                    SoSeparator {
+                                        SoTransform { translation -0.1 0.05 0 scaleFactor 0.01 0.01 0.01 }
+                                        SoText3 { 
+                                            parts ALL
+                                            string = USE TIMER1.timeOut 
+                                        }
+                                    }
+                                    SoSeparator {
+                                        SoTransform { translation -0.1 0.15 0 scaleFactor 0.01 0.01 0.01 }
+                                        SoText3 { 
+                                            parts ALL
+                                            string "attrib2"
+                                        }
+                                    }
+                                    SoSeparator {
+                                        SoTransform { translation -0.1 -0.05 0 scaleFactor 0.01 0.01 0.01 }
+                                        SoText3 { 
+                                            parts ALL
+                                            string "attrib3"
+                                        }
+                                    }
+                                } # end of attributes
+        
+                            } # end of SoPuppeteerKit PUPPETEER3
+                            DEF PUPPETEER4 SoPuppeteerKit{
+                                id "sphere1"
+                                controlMode [ (STATION) , (STATION) ]
+                                boundingBoxOn TRUE
+                                station 2
+                                whichPuppets 0
+                                showPuppeteer TRUE
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                Material { diffuseColor 1 0 0 }
+                                                Sphere { radius 0.05 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            DEF PUPPETEER5 SoPuppeteerKit{
+                                id "sphere2"
+                                controlMode [ (STATION) , (STATION) ]
+                                boundingBoxOn TRUE
+                                station 3
+                                whichPuppets 0
+                                showPuppeteer TRUE
+                                puppets SoDragKit {
+                                    content Separator {
+                                        SoMultiSwitch {
+                                            Separator {
+                                                Material { diffuseColor 0 1 0 }
+                                                Sphere { radius 0.05 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        } # end of Separator "puppeteers"
+
+                    } # end of SoChoreographerKit
+                    
+                    SoSeparator {
+                        Material { diffuseColor 1 1 0 }
+                        SoTransform { translation -0.1 0.35 0 scaleFactor 0.01 0.01 0.01 }
+                        SoText3 { 
+                            parts ALL
+                            string = USE CHOREOGRAPHER.response
+                        }
+                    }
+
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

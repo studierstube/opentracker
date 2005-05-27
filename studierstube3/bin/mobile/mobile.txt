@@ -1,0 +1,5 @@
+mobile.txt
+
+This directory contains runtime configuration files for the mobile Studierstube setup.
+To use these configurations copy over the directories graphics, system from bin/workspace.
+

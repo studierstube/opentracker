@@ -1,0 +1,29 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+   userID 0
+   display SoDisplayKit {
+      stereoCameraKit File { name "firefly_4mm_Camera.iv"}
+      cameraControl SoTrackedDisplayControlMode {}
+      station 1
+      headlight TRUE
+      headlightIntensity 1.0
+      backgroundColor 0 0 0
+      transparencyType DELAYED_BLEND
+      videoBackground SoVideoBackgroundH323 { ipAddress "128.131.167.207" }
+   }
+}
+
+SoUserKit {
+   userID 1
+   display SoDisplayKit {
+      stereoCameraKit File { name "firefly_4mm_Camera.iv"}
+      cameraControl SoTrackedDisplayControlMode {}
+      station 1
+      headlight TRUE
+      headlightIntensity 1.0
+      backgroundColor 0 0 0
+      transparencyType DELAYED_BLEND
+      videoBackground SoVideoBackgroundH323 {}
+   }
+}

@@ -1,0 +1,67 @@
+#Inventor V2.1 ascii
+
+Separator {
+  Transform { translation 0 0 -0.0424914 }
+  DEF Group01 Separator {
+    Transform {
+      translation	-0.04981 0.04659 -0.0399
+    }
+    DEF Box10 Separator {
+      Transform {
+	translation	0 0.01911 -0.003164
+	rotation	1 0 0  1.571
+	scaleFactor	1.779 1 1
+      }
+      Separator {
+	Transform {
+	  translation	0 0.002945 0
+	}
+	Separator {
+	  Cube {
+	    width	0.1046
+	    height	0.00589
+	    depth	0.004241
+	  }
+	}
+      }
+    }
+    DEF Box11 Separator {
+      Transform {
+	translation	0.08955 0.00611 -0.003164
+	rotation	1 0 0  1.571
+	scaleFactor	0.05095 0.9904 0.3372
+      }
+      Separator {
+	Transform {
+	  translation	0 0.003164 0
+	}
+	Separator {
+	  Cube {
+	    width	0.1242
+	    height	0.006328
+	    depth	0.06487
+	  }
+	}
+      }
+    }
+    DEF Box09 Separator {
+      Transform {
+	translation	-0.08985 -0.001959 -0.003164
+	rotation	1 0 0  1.571
+	scaleFactor	0.05145 1 0.5942
+      }
+      Separator {
+	Transform {
+	  translation	0 0.003164 0
+	}
+	Separator {
+	  Cube {
+	    width	0.1242
+	    height	0.006328
+	    depth	0.06487
+	  }
+	}
+      }
+    }
+  }
+}

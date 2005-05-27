@@ -1,0 +1,32 @@
+#Inventor V2.1 ascii
+
+Separator {
+    Material {
+          ambientColor   0 0 0
+          diffuseColor   0.75 0 0
+          specularColor  0 0 0
+          emissiveColor  0 0 0
+          shininess      0
+          transparency   0
+    }
+    Scale { scaleFactor 0.02 0.02 0.02 }
+
+ Cube {
+          width   1
+          height  0.1
+          depth   0.1
+     }
+
+ Cube {
+          width   0.1
+          height  1
+          depth   0.1
+     }
+ Cube {
+          width   0.1
+          height  0.1
+          depth   1
+     }
+
+
+}

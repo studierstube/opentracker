@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="choreographer" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../../tools/APRIL/april-component.xsd">
+	<interface>
+		<input id="id" type="SFString" default=""/>
+		<input id="command" type="MFString"/>
+		<input id="commandType" type="MFString"/>
+		<input id="puppeteerName" type="MFString"/>
+		<input id="targetList" type="MFString"/>
+		<input id="parameterList" type="MFString"/>
+		<input id="dataNeedsValidation" type="SFBool" default="FALSE"/>
+		<input id="dataValid" type="SFTrigger"/>
+		<input id="purgeQueue" type="SFTrigger"/>
+		<input id="responseIndex" type="SFInt32" default="0"/>
+		<output id="commandList" type="MFString"/>
+		<output id="commandFormatList" type="MFString"/>
+		<output id="response" type="MFString"/>
+		<output id="responseIndex" type="MFInt32"/>
+		<output id="finishedCommand" type="SFTrigger"/>
+		<output id="finishedCommandData" type="MFString"/>
+		<output id="finishedAll" type="SFTrigger"/>
+		<output id="responseString" type="SFString"/>
+		<part id="puppeteers"/>
+	</interface>
+	<implementation type="OpenInventor" requires="../apps/ARPuppet/arpuppet#SoChoreographerKit">
+
+DEF <id/> Separator {
+	DEF _Choreographer SoChoreographerKit {
+		puppeteers Separator {
+			<sub id="puppeteers"/>
+		}
+		id <in id="id"/>
+		command <in id="command"/>
+		puppeteerName <in id="puppeteerName"/>
+		commandType <in id="commandType"/>
+		targetList <in id="targetList"/>
+		parameterList <in id="parameterList"/>
+		dataNeedsValidation <in id="dataNeedsValidation"/>
+		dataValid <in id="dataValid"/>
+		purgeQueue <in id="purgeQueue"/>
+	}
+	
+	DEF _Info SoInfo {
+		string = SoSelectOne {
+			type SoMFString
+			input = USE _Choreographer.response
+			index = USE _Choreographer.responseIndex
+		}.output
+	}
+}
+
+		<out id="commandList"><id/>_Choreographer.commandList</out>
+		<out id="commandFormatList"><id/>_Choreographer.commandFormatList</out>
+		<out id="response"><id/>_Choreographer.response</out>
+		<out id="responseIndex"><id/>_Choreographer.responseIndex</out>
+		<out id="finishedCommand"><id/>_Choreographer.finishedCommand</out>
+		<out id="finishedCommandData"><id/>_Choreographer.finishedCommandData</out>
+		<out id="finishedAll"><id/>_Choreographer.finishedAll</out>
+		
+		<out id="responseString">_Info.string</out>
+
+	</implementation>
+</component>

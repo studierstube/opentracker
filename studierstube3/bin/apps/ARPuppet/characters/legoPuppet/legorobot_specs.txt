@@ -1,0 +1,47 @@
+LEGOROBOT commands
+------------------
+
+- motorState `abc`
+   possible values for motors a,b,c:
+    + = turn motor on
+    - = turn motor off
+    0 = release motor (turn off but let it run freely)
+    * = leave it as it was before
+
+  e.g. motorState `+*-` turns motor A on, motor C off and leaves motor B alone
+
+- motorDir `abc`
+   possible values for motors a,b,c:
+    f = set motor direction to forward
+    b = set motor direction to backward
+    * = = leave it as it was before
+
+   e.g. motorState `fb*` sets motor A forwards, motor B backwards and leaves motor C alone
+
+- setSensor `123`
+   possible values for sensors 1,2,3
+    l = light sensor (value is [0-100]%)
+    t = touch sensor (value is [0|1])
+    r = raw sensor (value is [0-1023])
+    c = temperature sensor
+    o = rotation sensor
+    * = leave it as it was before
+
+   e.g. setSensor `l*t` sets sensor 1 to light mode, sensor 3 to touch mode and leaves sensor 2 as it was before
+
+- sensorValue x
+   possible values for param. x
+    1 = set legorobot.response to the current value of sensor 1
+    2 = set legorobot.response to the current value of sensor 2
+    3 = set legorobot.response to the current value of sensor 3
+
+   e.g. sensorValue 2 retrieves the value of sensor 2
+
+- wait x
+   wait for x milliseconds
+
+- sound x
+   play sound type #x (0<=x<=5)
+
+- off
+   switches the RCX off

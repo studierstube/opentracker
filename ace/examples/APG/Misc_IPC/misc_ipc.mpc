@@ -1,0 +1,23 @@
+// -*- MPC -*-
+// misc_ipc.mpc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
+
+project(UDP Broadcast) : aceexe {
+  exename = UDP_Broadcast
+  Source_Files {
+    UDP_Broadcast.cpp
+  }
+}
+
+project(UDP Multicast) : aceexe {
+  exename = UDP_Multicast
+  Source_Files {
+    UDP_Multicast.cpp
+  }
+}
+
+project(UDP Unicast) : aceexe {
+  exename = UDP_Unicast
+  Source_Files {
+    UDP_Unicast.cpp
+  }
+}

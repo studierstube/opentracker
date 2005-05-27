@@ -1,0 +1,101 @@
+#Inventor V2.1 ascii
+
+
+DEF scrollup So3DButton
+{
+	width 0.70
+	height 0.5
+	depth 2.6
+	nodeId "scrollup"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE scrollup . pressed
+
+		DEF scrollupTexture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/arrow_up.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.35 0.330 1.3,
+					  0.35 0.30 1.3,
+					  0.35 0.30 -1.3,
+					  -0.35 0.30 -1.3 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.2 0
+			}
+			USE scrollupTexture
+		}
+	}
+}
+
+Translation
+{
+	translation 0 0.0 3.5
+}
+
+
+DEF scrolldown So3DButton
+{
+	width 0.70
+	height 0.5
+	depth 2.6
+	nodeId "scrolldown"
+
+	textureSwitch Switch 
+	{
+		whichChild 0 = USE scrolldown . pressed
+
+		DEF scrolldownTexture Group 
+		{
+			Texture2 
+			{
+			    filename "gfx/arrow_down.jpg"
+			}
+			FaceSet 
+			{
+				vertexProperty VertexProperty 
+				{
+				vertex	[ -0.35 0.330 1.3,
+					  0.35 0.30 1.3,
+					  0.35 0.30 -1.3,
+					  -0.35 0.30 -1.3 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+			}
+		}
+		Group 
+		{
+			Translation 
+			{
+		    		translation 0 -0.2 0
+			}
+			USE scrolldownTexture
+		}
+	}
+}
+

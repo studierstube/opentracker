@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig display="off"/>
+    <StbInputConfig keyevents="off" mouseevents="on"/>
+    <!-- <FileConfig loop="true" interval="0.3333"/> -->
+  </configuration>
+  <!-- PIP pointer is defined to be the pen now -->
+  <ConsoleSink comment="pointer" active="on">
+    <StbSink station="1" event="on" DEF="pen">
+      <Merge>
+        <MergeDefault>
+          <EventTransform scale="-0.1 -0.1 0" translation="-0.05 0.05 0.002" rotation="0 1 0 0">
+            <StbMouseSource mode="relative" DEF="TouchPad"/>
+          </EventTransform>
+        </MergeDefault>
+        <MergeButton>
+          <ButtonOp op="OR" DEF="Buttons">
+            <Arg1>
+              <Ref USE="TouchPad"/>
+            </Arg1>
+            <Arg2>
+              <StbKeyboardSource number="1"/>
+            </Arg2>
+          </ButtonOp>
+        </MergeButton>
+      </Merge>
+    </StbSink>
+  </ConsoleSink>
+  <!-- PIP -->
+  <StbSink station="0" DEF="pip">
+    <TimeGate mode="pass" timeframe="100">
+      <Gate>
+        <Ref USE="TouchPad"/>
+      </Gate>
+      <TestSource position="0 0 0"/>
+    </TimeGate>
+  </StbSink>
+  <!-- camera station from the manipulator -->
+  <ConsoleSink comment="camera" active="off">
+    <StbSink station="2" DEF="camera">
+    <Merge>
+      <MergeDefault>
+        <EventTransform scale="5 5 5">
+          <StbKeyboardSource number="0"/>
+        </EventTransform>
+        <!-- used for Graz integration tests
+        <EventTransform translation="0 4 0">
+          <EventVirtualOrientationTransform rotation="1 0 0 3.141592654" rotationtype="axisangle">
+            <FileSource file="testdata.txt" station="0" localtime="true" DEF="testdata" />
+          </EventVirtualOrientationTransform>
+        </EventTransform>
+        -->
+      </MergeDefault>
+    </Merge>      
+    </StbSink>
+  </ConsoleSink>
+  <!-- raypicker from the user avatar -->
+  <StbSink station="5" event="on">
+    <Merge>
+      <MergeDefault>
+        <EventVirtualOrientationTransform rotation="1 0 0 -1.57" rotationtype="axisangle">
+          <Ref USE="camera"/>
+        </EventVirtualOrientationTransform>
+      </MergeDefault>
+    </Merge>
+  </StbSink>
+  <!-- debug stuff -->
+  <!--
+  <ConsoleSink comment="testdata" active="on">
+    <Ref USE="testdata" />
+  </ConsoleSink>
+  -->
+</OpenTracker>

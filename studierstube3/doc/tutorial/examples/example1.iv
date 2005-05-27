@@ -1,0 +1,154 @@
+#Inventor V2.1 ascii
+
+Separator { # 1st line
+    
+    Transform {
+        translation 0 0.2 0
+    }
+    
+    Separator {
+        Transform {
+            translation -0.2 0 0
+        }
+        Material {
+            diffuseColor 1 0 0
+        }
+        DEF CONE Cone {
+            bottomRadius 0.05
+            height 0.12
+        }
+    }
+    
+    Separator {
+        Material {
+            diffuseColor 0 1 0
+        }
+        DEF SPHERE Sphere {
+            radius 0.05
+        }
+    }
+    
+    Separator {
+        Transform {
+            translation 0.2 0 0
+        }
+        Material {
+            diffuseColor 0 0 1
+            transparency 0.5
+        }
+        DEF CUBE Cube {
+            width 0.08
+            depth 0.08
+            height 0.08
+        }
+    }
+}
+
+Separator { #2nd line
+    
+    Coordinate3 { 
+        point [
+            -0.06 0.05 0.01,
+            0 0.06 0,
+            0.05 0.05 0,
+            -0.05 0 0,
+            0 0 0.01,
+            0.06 0 0,
+            -0.05 -0.05 0.01,
+            0 -0.05 0,
+            0.05 -0.05 -0.01
+        ]
+    }
+    
+    Separator {
+        Transform {
+            translation -0.2 0 0
+        }
+        Material {
+            diffuseColor 1 0 0
+            specularColor 1 1 1
+            shininess 0.8
+        }
+        QuadMesh {
+          verticesPerRow 3
+          verticesPerColumn 3
+        }
+    }
+    
+    Separator {
+        Material {
+            diffuseColor 1 1 0
+            specularColor 1 1 1
+            shininess 0.8
+        }
+        IndexedFaceSet {
+          coordIndex [ 0, 2, 1, -1,
+                       5, 4, 6, -1,
+                       3, 6, 8, -1]
+        }
+    }
+    
+    Separator {
+        Transform {
+            translation 0.2 0 0
+        }
+        Material {
+            diffuseColor 1 0.6 0.6
+        }
+        DrawStyle {
+            lineWidth 2
+        }
+        IndexedLineSet {
+            coordIndex [ 0, 1, 3, 5, 2, 7, 8, 4, 6 ]
+        }
+    }
+}
+
+Separator { #3rd line
+    Transform {
+        translation 0 -0.2 0
+    }
+    
+    Separator {
+        Transform {
+            translation -0.2 0 0
+        }
+        Blinker {
+            speed 0.1
+            USE CONE
+            USE SPHERE
+            USE CUBE
+        }
+    }
+
+    Separator {
+        Pendulum {
+            speed 0.2
+            rotation0 0 0 1 1.57
+            rotation1 0 0 1 -1.57
+        }
+        Material {
+            diffuseColor 0.4 0.4 0
+        }
+        USE CUBE
+    }
+
+    Separator {
+        Transform {
+            translation 0.2 0 0
+        }
+        Font {
+            size 0.05
+        }
+        Material {
+            diffuseColor 0.6 0.2 0.2
+        }
+        Text3 {
+            string "Text3"
+            justification CENTER
+        }
+    }
+}
+
+
+

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Gerhard (Vienna University of Technology) -->
+<furniture xmlns="http://www.expersite.com/AEKI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.expersite.com/AEKI
+..\apps\aeki\data\aeki.xsd">
+	<component>
+		<shape>
+			<cube/>
+		</shape>
+		<dimension unit="mm">
+			<width>330</width>
+			<height>330</height>
+			<depth>4</depth>
+		</dimension>
+		<connector unit="mm" name="board1-left">
+			<x>25</x>
+			<y>66</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board1-middle">
+			<x>146</x>
+			<y>70</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board1-right">
+			<x>267</x>
+			<y>66</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board2-left">
+			<x>25</x>
+			<y>130</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board2-middle">
+			<x>146</x>
+			<y>134</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board2-right">
+			<x>267</x>
+			<y>130</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board3-left">
+			<x>25</x>
+			<y>195</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board3-middle">
+			<x>146</x>
+			<y>199</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board3-right">
+			<x>267</x>
+			<y>195</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board4-left">
+			<x>25</x>
+			<y>259</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board4-middle">
+			<x>146</x>
+			<y>263</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="board4-right">
+			<x>267</x>
+			<y>259</y>
+			<z>0</z>
+		</connector>
+		<instance name="left" tracker="3"/>
+		<instance name="right" tracker="4"/>
+	</component>
+	<component>
+		<shape>
+			<cube/>
+		</shape>
+		<dimension unit="mm">
+			<width>241</width>
+			<height>324</height>
+			<depth>4</depth>
+		</dimension>
+		<connector unit="mm" name="left1">
+			<x>0</x>
+			<y>25</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="left2">
+			<x>0</x>
+			<y>145</y>
+			<z>4</z>
+		</connector>
+		<connector unit="mm" name="left3">
+			<x>0</x>
+			<y>267</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="right1">
+			<x>241</x>
+			<y>25</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="right2">
+			<x>241</x>
+			<y>145</y>
+			<z>4</z>
+		</connector>
+		<connector unit="mm" name="right3">
+			<x>241</x>
+			<y>267</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="back1">
+			<x>76</x>
+			<y>320</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="back2">
+			<x>163</x>
+			<y>320</y>
+			<z>0</z>
+		</connector>
+		<instance name="board1" tracker="5"/>
+		<instance name="board2" tracker="6"/>
+		<instance name="board3" tracker="7"/>
+		<instance name="board4" tracker="8"/>
+	</component>
+	<component>
+		<shape>
+			<cube/>
+		</shape>
+		<dimension unit="mm">
+			<width>119</width>
+			<height>290</height>
+			<depth>4</depth>
+		</dimension>
+		<connector unit="mm" name="leftw1">
+			<x>15</x>
+			<y>45</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="lefwt2">
+			<x>15</x>
+			<y>110</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="leftw3">
+			<x>15</x>
+			<y>174</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="leftw4">
+			<x>15</x>
+			<y>238</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="rightw1">
+			<x>101</x>
+			<y>45</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="rightw2">
+			<x>101</x>
+			<y>110</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="rightw3">
+			<x>101</x>
+			<y>174</y>
+			<z>0</z>
+		</connector>
+		<connector unit="mm" name="rightw4">
+			<x>101</x>
+			<y>238</y>
+			<z>0</z>
+		</connector>
+		<instance name="back" tracker="9"/>
+	</component>
+	<assembly>
+		<add-component name="left"/>
+		<!--<rotate axis="xneg" angle="90"/>-->
+		<add-component name="board1">
+			<connect>
+				<connector-ref name="left1"/>
+				<connector-ref name="board1-left" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left2"/>
+				<connector-ref name="board1-middle" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left3"/>
+				<connector-ref name="board1-right" componentRef="left"/>
+			</connect>
+		</add-component>
+		<add-component name="board2">
+			<connect>
+				<connector-ref name="left1"/>
+				<connector-ref name="board2-left" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left2"/>
+				<connector-ref name="board2-middle" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left3"/>
+				<connector-ref name="board2-right" componentRef="left"/>
+			</connect>
+		</add-component>
+		<add-component name="board3">
+			<connect>
+				<connector-ref name="left1"/>
+				<connector-ref name="board3-left" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left2"/>
+				<connector-ref name="board3-middle" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left3"/>
+				<connector-ref name="board3-right" componentRef="left"/>
+			</connect>
+		</add-component>
+		<add-component name="board4">
+			<connect>
+				<connector-ref name="left1"/>
+				<connector-ref name="board4-left" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left2"/>
+				<connector-ref name="board4-middle" componentRef="left"/>
+			</connect>
+			<connect>
+				<connector-ref name="left3"/>
+				<connector-ref name="board4-right" componentRef="left"/>
+			</connect>
+		</add-component>
+		<add-component name="right">
+			<connect>
+				<connector-ref name="board1-left"/>
+				<connector-ref name="right1" componentRef="board1"/>
+			</connect>
+			<connect>
+				<connector-ref name="board1-right"/>
+				<connector-ref name="right3" componentRef="board1"/>
+			</connect>
+			<connect>
+				<connector-ref name="board4-left"/>
+				<connector-ref name="right1" componentRef="board4"/>
+			</connect>
+			<connect>
+				<connector-ref name="board4-right"/>
+				<connector-ref name="right3" componentRef="board4"/>
+			</connect>
+		</add-component>
+		<rotate axis="xpos" angle="90"/>
+		<rotate axis="zpos" angle="90"/>
+		<add-component name="back">
+			<connect>
+				<connector-ref name="leftw1"/>
+				<connector-ref name="back1" componentRef="board1"/>
+			</connect>
+			<connect>
+				<connector-ref name="rightw1"/>
+				<connector-ref name="back2" componentRef="board1"/>
+			</connect>
+			<connect>
+				<connector-ref name="leftw4"/>
+				<connector-ref name="back1" componentRef="board4"/>
+			</connect>
+			<connect>
+				<connector-ref name="rightw4"/>
+				<connector-ref name="back2" componentRef="board4"/>
+			</connect>
+		</add-component>
+		<rotate axis="zpos" angle="90"/>
+	</assembly>
+</furniture>

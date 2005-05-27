@@ -1,0 +1,4 @@
+#Inventor V2.1 ascii
+
+SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/fixtile_foundation.iv" }
+SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/fixtile_plane.iv" }

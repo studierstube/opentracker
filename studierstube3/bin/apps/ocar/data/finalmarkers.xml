@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SpatialContainer baseType="SpatialContainerType" xmlns:noNamespaceSchemaLocation="bauml.xsd">
+  <annotation>building file, automatically created by iv2bauml from the file finalmarkers.iv</annotation>
+  <children>
+    <Building baseType="SpatialContainerType" id="Resselpark">
+      <pose>
+        <Transformation    translation="11.000100 10.001100 -96.040398"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Esperantopark">
+      <pose>
+        <Transformation    translation="-203.139999 10.000600 -216.139999"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Girardipark">
+      <pose>
+        <Transformation    translation="-141.479996 10.000400 -243.990005"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Technische_Universitaet_Wien">
+      <pose>
+        <Transformation    translation="-3.989770 10.001400 -25.000401"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Karlskirche">
+      <pose>
+        <Transformation    translation="141.550003 10.001800 50.579300"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Kunsthalle_Wien_am_Karlsplatz">
+      <pose>
+        <Transformation    translation="-181.339996 10.000800 -171.360001"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Archiv_der_Gesellschaft_der_Musikfreunde_in_Wien">
+      <pose>
+        <Transformation    translation="193.309998 10.000700 -197.720993"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Historisches_Museum_der_Stadt_Wien">
+      <pose>
+        <Transformation    translation="241.960007 10.001200 -67.910896"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Generali_Foundation">
+      <pose>
+        <Transformation    translation="-170.968994 10.002300 178.339996"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Kuenstlerhaus_Wien">
+      <pose>
+        <Transformation    translation="117.099998 10.000700 -198.380997"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Wachzimmer_Kaerntnertorpassage">
+      <pose>
+        <Transformation    translation="-60.400101 10.000700 -195.429993"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Botschaft_Australien">
+      <pose>
+        <Transformation    translation="209.720001 10.001700 29.169201"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Botschaft_Frankreich">
+      <pose>
+        <Transformation    translation="333.779999 10.001600 19.548901"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Botschaft_Griechenland">
+      <pose>
+        <Transformation    translation="148.820999 10.002500 211.438995"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Botschaft_Panama">
+      <pose>
+        <Transformation    translation="-151.759995 10.000000 -344.000000"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Spielplatz_Resselpark">
+      <pose>
+        <Transformation    translation="-49.919899 10.001100 -101.599998"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Handelsakademie_I_und_Handelsschule_I_der_Wiener_Kaufmannschaft_Akademiestrasse">
+      <pose>
+        <Transformation    translation="62.639801 10.000500 -240.539993"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Hauptschule_Karlsplatz">
+      <pose>
+        <Transformation    translation="-99.659897 10.001200 -67.480103"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Volksschule_der_evangelischen_Pfarrgemeinde_AB_Karlsplatz">
+      <pose>
+        <Transformation    translation="-99.659897 10.001200 -67.480103"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Johannes_Brahms">
+      <pose>
+        <Transformation    translation="133.949997 10.001100 -100.990997"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Donato_Bramante">
+      <pose>
+        <Transformation    translation="82.629799 10.000500 -235.630997"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Adam_Reichsfreiherr_von_Burg">
+      <pose>
+        <Transformation    translation="-20.379801 10.001400 -36.880299"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Christoph_Columbus">
+      <pose>
+        <Transformation    translation="62.149700 10.000500 -243.039993"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Georg_Raphael_Donner">
+      <pose>
+        <Transformation    translation="348.000000 10.000900 -143.690994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Albrecht_Duerer">
+      <pose>
+        <Transformation    translation="83.529800 10.000500 -233.690994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Heinrich_von_Ferstel">
+      <pose>
+        <Transformation    translation="37.050201 10.001500 -13.460500"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Alexander_Girardi">
+      <pose>
+        <Transformation    translation="-166.830002 10.000500 -231.080002"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Christoph_Willibald_Ritter_von_Gluck">
+      <pose>
+        <Transformation    translation="125.180000 10.001900 83.059402"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Ferdinand_Freiherr_von_Hochstetter">
+      <pose>
+        <Transformation    translation="-38.129799 10.001300 -44.270302"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Josef_Madersperger">
+      <pose>
+        <Transformation    translation="-47.000000 10.001000 -114.519997"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Michelangelo_di_Lodovico">
+      <pose>
+        <Transformation    translation="80.359802 10.000500 -230.080994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Johann_Josef_Ritter_von_Prechtl">
+      <pose>
+        <Transformation    translation="13.630200 10.001400 -23.320400"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Johann_von_Radinger">
+      <pose>
+        <Transformation    translation="-46.759800 10.001300 -47.480301"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Raffael">
+      <pose>
+        <Transformation    translation="83.089798 10.000500 -232.190994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Georg_Rebhann_Ritter_von_Aspernbruck">
+      <pose>
+        <Transformation    translation="28.920200 10.001500 -16.420401"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Joseph_Ressel_-_Resselpark">
+      <pose>
+        <Transformation    translation="11.240100 10.001200 -73.900398"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Peter_Paul_Rubens">
+      <pose>
+        <Transformation    translation="81.879799 10.000500 -234.541000"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Adam_Smith">
+      <pose>
+        <Transformation    translation="60.639801 10.000500 -242.740005"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Anton_von_Schroetter">
+      <pose>
+        <Transformation    translation="-30.239799 10.001400 -40.570301"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Simon_Stampfer">
+      <pose>
+        <Transformation    translation="21.520201 10.001400 -19.620399"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Tizian">
+      <pose>
+        <Transformation    translation="80.579803 10.000500 -233.330994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Diego_de_Velasquez">
+      <pose>
+        <Transformation    translation="82.219803 10.000500 -233.091003"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Leonardo_da_Vinci">
+      <pose>
+        <Transformation    translation="81.749802 10.000500 -231.220993"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="dietheater_Kuenstlerhaus">
+      <pose>
+        <Transformation    translation="115.589996 10.000700 -197.190994"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Magistratsabteilung_10_-_Museen_der_Stadt_Wien">
+      <pose>
+        <Transformation    translation="216.580002 10.001200 -65.960899"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Musikverein">
+      <pose>
+        <Transformation    translation="213.720001 10.000600 -220.501007"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Kuenstlerhaus">
+      <pose>
+        <Transformation    translation="115.139999 10.000700 -197.641006"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Cinemagic">
+      <pose>
+        <Transformation    translation="-139.720001 10.000300 -287.940002"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Hotel_Kaiserhof">
+      <pose>
+        <Transformation    translation="-103.719002 10.002100 136.889999"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+    <Building baseType="SpatialContainerType" id="Pension_Shermin">
+      <pose>
+        <Transformation    translation="-215.729004 10.002000 98.630096"/>
+      </pose>
+      <representation>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 1.000000"/>
+        <Vertex position="-1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 1.000000"/>
+        <Vertex position="1.000000 0.000000 1.000000"/>
+        <Vertex position="1.000000 10.000000 -1.000000"/>
+        <Vertex position="1.000000 0.000000 -1.000000"/>
+        <Vertex position="-1.000000 10.000000 -1.000000"/>
+        <Vertex position="-1.000000 0.000000 -1.000000"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+        <Polygon type="wall" vertices="0 1 3 2"/>
+        <Polygon type="wall" vertices="4 5 7 6"/>
+        <Polygon type="wall" vertices="6 7 1 0"/>
+        <Polygon type="wall" vertices="2 3 5 4"/>
+        <Polygon type="wall" vertices="6 0 2 4"/>
+        <Polygon type="wall" vertices="1 7 5 3"/>
+      </representation>
+    </Building>
+  </children>
+</SpatialContainer>

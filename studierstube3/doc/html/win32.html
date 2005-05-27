@@ -1,0 +1,589 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Studierstube on Windows</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+<!--==========================================================================
+    NAME:       win32
+    TYPE:       html file
+    CONTENT:    Studierstube/Win32
+   ===========================================================================
+    AUTHORS:    jp      Jan Prikryl
+                gh      Gerd Hesina
+   ===========================================================================
+    HISTORY:
+
+    06-Feb-01 10:30:38  jp      last modification
+    30-Jan-01  9:44:45  jp      imported gh textversion
+===========================================================================-->
+
+
+<h1>Studierstube on Windows</h1>
+
+<p>
+This document contains some remarks on compiling Studierstube and developing
+Studierstube applications on Windows using Visual C++ 6.0 and either <a
+href="http://www.tgs.com/">TGS version of Open Inventor</a>, or the <a
+href="http://oss.sgi.com/projects/inventor">Open Source Open Inventor</a>
+released by <a href="http://www.sgi.com/">SGI</a> and <a
+href="http://www.cg.tuwien.ac.at/hostings/openinventor/">ported to Windows</a>
+by Gerd Hesina.
+</p>
+
+<p>
+In order to compile Studierstube under Windows, you will need MS Visual C++
+compiler, plus some kind of Open Inventor libraries. The Studierstube
+distribution comes with a pre-configured Visual C++ workspace and project
+files that shall compile and run from scratch provided your working
+environment is set up correctly.
+
+<a name="environment"></a>
+<h2>Environment variables</h2>
+<p>
+We recommend that you set up the following environment variables
+for your Studierstube environment (under Windows 2000/NT, use the <span
+class="win">System</span> control panel, <span
+class="win">Advanced/Environment&nbsp;variables</span> section to do this):
+<ul>
+<li>Set <code>OSOIVHOME</code> to the root directory of your Open Source
+    Open Inventor installation (<tt>c:\osoiv\install</tt> in our
+    case).
+<li>Set <code>MSVSHOME</code> to the root directory of your MS Visual Stuio
+    installation
+    (<tt>c:\program&nbsp;files\microsoft&nbsp;visual&nbsp;studio</tt> in our
+    case). 
+<li>Set <code>STBROOT</code> to the root directory of your Studierstube
+    installation (<tt>c:\development\studierstube</tt> in our case).
+<li>Check that <code>QTDIR</code> is set and points to the root directory of
+    your Qt installation.
+<li>If you installed TGS Open Inventor, check that <code>OIVHOME</code> is
+    set and points to the root directory of the TGS Open Inventor
+    installation (<tt>c:\tgs\oiv2.6</tt> in our case).
+<li>Make yourself sure that your <code>PATH</code> environment variable contains
+    <tt>%STBROOT%/lib</tt>. If you are using OSOIV, add
+    <tt>%OSOIVHOME%/lib,%QTDIR%/lib</tt>, in case of TGS add
+    <tt>%OIVHOME/program</tt>.   
+</ul>
+
+<p>
+Of course you can work without this setup and edit your project files to fit
+your particular needs. However, we do not recommend this as we will
+continue to distribute pre-configured Visual C++ workspace files that you
+would need to manually edit for every new version of Studierstube.
+
+
+<h2>
+Compiling current version of Studierstube
+</h2>
+
+<p>
+The current version of Studierstube supports follwing configurations:
+
+<h3>TGS Open Inventor 2.6</h3>
+<p>
+The corresponding Studierstube configurations for Visual C++ are
+<ul>
+<li><strong>Win32 Debug - TGS</strong>. This is a debugging version which
+    links with debug libraries supplied with TGS Open Inventor.
+<li><strong>Win32 Release - TGS</strong>. This is a release version, links
+    with release versions of TGS Open Inventor libraries, and does not
+    generarte warning dialogs when something rotten has been found in the
+    course of the scene graph processing.
+</ul>
+<p>
+We assume that the
+<a href="#environment">corresponding environment variables</a> have been
+set prior to starting Visual Studio.
+</p>
+
+<h3>Open Source Open Inventor</h3>
+<p>
+There is only a single configuration that is currently available:
+<ul>
+<li><strong>Win32 Debug - OSOIV</strong>.
+<li>(Win32 Release - OSOIV is currently being tested.)
+</ul>
+
+<p>
+We assume that you have installed the Win32 port of the Open Source Open
+Inventor and SoQt from <a
+href="http://www.cg.tuwien.ac.at/hostings/openinventor/"
+>http://www.cg.tuwien.ac.at/hostings/openinventor/</a> and that the
+<a href="#environment">corresponding environment variables</a> have been set.
+</p>
+
+<h3>Compiling with Visual Studio</h3>
+
+<p>
+Compiling the current version of Studierstube shall be a mostly straghtforward
+task. If you have installed the necessary external libraries in proper places
+as specified above, the only step you need would be to open
+<tt>studierstube.dsw</tt> located in the topmost directory of the Studierstube
+source tree and perform a <span class="win">Batch build</span> that builds the
+Studierstube library plus all the applications and tools from the standard
+Studierstube distribution. 
+</p>
+
+<h2>
+Creating a new application from the Studierstube project template
+</h2>
+ 
+<p>
+A predefined simple version of an empty application project can be found in
+<tt>%STBROOT%\src\apps\sampleapp</tt>. Please note that the project template
+assumes it will find MS Visual Studio and Invenotr library in paths mentioned
+<a href="#paths">above</a>.
+<p>
+The easiest way of creating a new application is to edit copies of the sample
+files located in this directory. Proceed as follows:
+<ol>
+<li>Create a subdirecotry in the <tt>apps</tt> tree named after your
+    application in lowercase (for example, if your appilcation is called
+    "foobar", choose <tt>%STBROOT%\src\apps\foobar</tt> as the application
+    directory).
+<li>Copy the content of <tt>%STBROOT%\src\apps\sampleapp</tt> to a the newly
+    created subdirectory.
+<li>Rename <tt>sampleapp.dsp</tt> to <tt>foobar.dsp</tt>.
+<li>Rename <tt>sampleapp.cxx</tt> to <tt>foobar.cxx</tt>.
+<li>Open <tt>foobar.dsp</tt> as a text file in your favorite text editor.
+    Then, replace every occurence of string <code>@sampleapp@</code> with the
+    name of your application (<code>foobar</code> in this case). The name shall
+    be always written in lowercase!
+<li>Replace every occurence of string <code>@SAMPLEAPP@</code> with the
+    name of your application (<code>FOOBAR</code> in this case). The name shall
+    be always written in uppercase!
+<li>Save <tt>foobar.dsp</tt>.
+<li>Open the Studierstube workspace <tt>%STBROOT%\studierstube.dsw</tt> in
+    Visual Studio.
+<li>Go to <span class="win">Projects/Insert project into workspace</span>. Add
+    <tt>%STBROOT%\src\apps\foobar\foobar.dsp</tt> to the workspace, dependency
+    of <code>stbapi</code>, <code>workspace</code>, and
+    <code>appLoader</code>.
+<li>In the "File view" window you shall now see that the list of projects
+    belonging to the Studeirstube workspace includes also project
+    <code>foobar</code>.  Click on the project.
+<li>The click unfolds another hierarchy of items. There shall be an item
+    called <code>Header files</code> among them. Click on it.
+<li>Now <tt>foobar.h</tt> shall appear in the list of header files. Click it
+    - Visual Studio will open the file in editor.
+<li>Then, replace every occurence of string <code>@SAMPLEAPP@</code> with the
+    name of your application written in uppercase (<code>FOOBAR</code> in this
+    case) and every occurence of string <code>@sampleapp@</code> with the name
+    of your application written in lowercase (<code>foobar</code> in this
+    case).
+<li>Update the header information for <tt>foobar.h</tt>.
+<li>The <code>foobar</code> project list in the "File view" window contains
+    also a <code>Source files</code> item. It should contain
+    <tt>foobar.cxx</tt>.
+<li>Update the header information for <tt>foobar.cxx</tt>.
+<li>Using a text editor that can correctly save UNIX text files (none of the
+    standard MS editors can do it as far as I know so you better get a
+    <i>real</i> editor somewhere), update the header
+    information for <tt>%STBROOT%\src\apps\foobar\Makefile</tt>. 
+<li>Using the same UNIX-firendly editor, insert
+    <code>&lt;TAB&gt;./foobar&nbsp;\</code> into the <code>SUBDIRS</code> list
+    in <tt>%STBROOT%\src\apps\Makefile</tt>.
+<li>Start hacking. In case you do not use the ContextKit stuff, do not forget
+    using the macro <code>FOOBAR_API</code> as a return type of
+    <code>Stb_getMessage()</code>, <code>Stb_init()</code> and
+    <code>Stb_exit()</code> functions. Keep portability in mind, if
+    possible. Place system-specific parts in <tt>#ifdefs</tt>.
+</ol>
+
+<h2>
+Creating a new application project
+</h2>
+
+<p>
+If you for some reason want to create an application project from scratch,
+a step-by-step description follows:
+
+<p>
+First you will have to create an empty DLL project (as Studierstube
+applications are represented by dynamic libraries). We will assume that the
+name of your application will be <code>foobar</code>.
+
+<ol>
+<li>Click on <span class="win">File/New</span>.
+<li>Select <span class="win">Win32 Dynamic-Link Library</span>.
+<li>Set project location to <code>%STBROOT%\src\apps</code>.
+<li>Set project name to <code>foobar</code>.
+<li>Click <span class="win">OK</span>.
+<li>Select <span class="win">A DLL that exports some symbols</span>.
+<li>Click <span class="win">Finish</span>.
+<li>Click <span class="win">OK</span>.
+<li>Click <span class="win">Project/Settings</span>.
+</ol>
+
+<p>
+Now you have to configure general parameters for all configurations.
+
+<ol>
+<li>At <span class="win">Settings for</span> select <span class="win">All
+    Configurations</span>.
+<li>Select the <span class="win">General</span> tab.
+<li>In this tab, select <span class="win">Microsoft Foundation Classes: use
+    MFC in a Shared DLL</span>.
+<li>Select the <span class="win">C/C++</span> tab.
+<li>Select category <span class="win">Precompiled Headers</span>.
+<li>Select <span class="win">Not using precompiled headers</span>.
+</ol>
+
+<p>
+Now, set up preprocessor symbols that shall be defined for debug and release
+versions of your application:
+
+<ol>
+<li>At <span class="win">Settings for</span> select <span class="win">Win32
+    Debug</span>.
+<li>Select the <span class="win">C/C++</span> tab.
+<li>Select category <span class="win">Preprocessor</span>.
+<li>Add <code>_DEBUG,WIN32</code> to the <span class="win">Preprocessor
+    definitions</span> field. 
+<li>Select category <span class="win">Code Generation</span>.
+<li>Select <span class="win">Use run-time library: Debug Multithread
+    DLL</span>. 
+<li>At <span class="win">Settings for</span> select <span class="win">Win32
+    Release</span>.
+<li>Select the <span class="win">C/C++</span> tab.
+<li>Select category <span class="win">Preprocessor</span>.
+<li>Add <code>NDEBUG,WIN32</code> to the <span class="win">Preprocessor
+    definitions</span> field. 
+<li>Select category <span class="win">Code Generation</span>.
+<li>Select <span class="win">Use run-time library: Multithread
+    DLL</span>. 
+<li>Click <span class="win">OK</span>.
+</ol>
+ 
+<p>
+Next, a target-specific settings for Open Source Open Inventor and TGS Open
+Inventor have to be set. Use the <span class="win">Configuration</span> dialog
+to add four configurations:
+</p>
+
+<ul>
+<li>Win32 Debug - TGS (based on Win32 Debug),
+<li>Win32 Debug - OSOIV (based on Win32 Debug),
+<li>Win32 Release - TGS (based on Win32 Release),
+<li>Win32 Release - OSOIV (based on Win32 Release).
+</ul>
+
+<p>
+Then, use the same dialog to delete the original <span class="win">Win32
+Debug</span> and <span class="win">Win32 Release</span>. Note that the "Win32
+Release - OSOIV" configuration for Studierstube is under development and not
+yet included in the distribution.
+</p>
+
+<p>
+Now comes the stuff for the real Windows programmer. Let's first change the
+settings necessary for Open Source Open Inventor with SoQt.
+
+<ol>
+<li>In the <span class="win">Project/Settings</span> dialog select <span
+    class="win">Settings for: Multiple configurations</span> and click on
+    <code>Win32 Debug - OSOIV</code> and <code>Win32 Release - OSOIV</code>.
+<li>In <span class="win">C/C++</span> tab, select category <span
+    class="win">Preprocessor</span>.
+<li>Add <code>USE_SOQT_LIB</code> to <span class="win">Preprocessor
+    definitions</span>.
+<li>Click on <span class="win">Ignore standard include paths</span>.
+<li>Set <span class="win">Additional include directories</span> to contain the
+    following directories:
+    <ul>
+    <li><tt>$(MSVSHOME)\VC98\INCLUDE</tt>
+    <li><tt>$(QTDIR)\INCLUDE</tt>
+    <li><tt>$(OSOIVHOME)\INCLUDE</tt>
+    <li><tt>$(OSOIVHOME)\INCLUDE\INVENTOR</tt>
+    <li><tt>..\..</tt> (this is a path to includes for stbapi library)
+    </ul>
+<li>Select the <span class="win">Link</span> tab.
+<li>Go to the <span class="win">General</span> category.
+<li>Set the output file name to <tt>..\..\bin\apps\foobar\foobar_stb.dll</tt>.
+<li>Set <span class="win">Object/Library modules</span> to contain the
+    following libraries:
+    <ul>
+    <li><tt>qtmain.lib, qt220.lib</tt>
+    <li><tt>soqt.lib, inventor.lib</tt>
+    </ul>
+<li>Set <span class="win">Object/Library modules</span> to contain the
+    following library paths:
+    <ul>
+    <li><tt>$(QTDIR)\LIB</tt>
+    <li><tt>$(OSOIVHOME)\LIB</tt>
+    </ul>
+</ol>
+
+<p>
+Don't close the dialog yet. We shall repeat the previous step for TGS Open
+Inventor:
+</p>
+
+<ol>
+<li>Select <span
+    class="win">Settings for: Multiple configurations</span> and click on
+    <code>Win32 Debug - TGS</code> and <code>Win32 Release - TGS</code>.
+<li>In <span class="win">C/C++</span> tab, select category <span
+    class="win">Preprocessor</span>.
+<li>Add <code>USE_TGS</code> to <span class="win">Preprocessor
+    definitions</span>.
+<li>Make yourself sure that <span class="win">Ignore standard include
+    paths</span> is not active.
+<li>Set <span class="win">Additional include directories</span> to contain the
+    a path to includes for stbapi library, <tt>..\..</tt>.
+<li>Select the <span class="win">Link</span> tab.
+<li>Go to the <span class="win">General</span> category.
+<li>Set the output file name to <tt>..\..\bin\apps\foobar\foobar_stb.dll</tt>.
+<li>Select <span class="win">Settings for: Win32 Debug - TGS</span>.
+<li>Select the <span class="win">Link</span> tab.
+<li>Go to the <span class="win">General</span> category.
+<li>Set the additional link libraries to <tt>inv260d.lib</tt>.
+<li>Select <span class="win">Settings for: Win32 Release - TGS</span>.
+<li>Select the <span class="win">Link</span> tab.
+<li>Go to the <span class="win">General</span> category.
+<li>Set the additional link libraries to <tt>inv260.lib</tt>.
+<li>Now you may click <span class="win">OK</span> and close the settings
+    dialog.
+</ol>
+
+<p>
+It might be necessary to manually specify some additional libraries that
+your application has to link with, as <tt>winmm.lib</tt> for example.
+</p>
+<p>
+In the final step we will modify the auto-generated template files that have
+been prepared by Visual Studio for your application:
+</p>
+<ol>
+<li>Open the "File View" window.
+<li>You should see <span class="win">Source Files</span> and <span
+    class="win">Header Files</span> 
+<li>Open the auto-generated header file <tt>foobar.h</tt>.
+<li>Remove the class declaration and add a proper file header according to <a
+    href="coding_guidelines.html">Studierstube Coding Style &amp;
+    Documentation Guidelines</a>. Your file should now look like (substitute
+    <code>FOOBAR</code> with your application name written in uppercase):
+<pre>
+#ifdef FOOBAR_EXPORTS
+#define FOOBAR_API __declspec(dllexport)
+#else
+#define FOOBAR_API __declspec(dllimport)
+#endif
+</pre>
+<li>Apply the following modifications (substitute <code>FOOBAR</code> with
+    your application name written in uppercase):
+<pre>
+#ifdef WIN32
+#ifdef FOOBAR_EXPORTS
+#define FOOBAR_API __declspec(dllexport)
+#else
+#define FOOBAR_API __declspec(dllimport)
+#endif
+#else
+#define FOOBAR_API
+#endif
+</pre>
+
+<li>Open the auto-generated <tt>foobar.cpp</tt> source file and remove
+    everything below the <code>DllMain()</code> function.
+<li>Rename the file to <tt>foobar.cxx</tt>, delete the reference to
+    <tt>foobar.cpp</tt> from the project and replace it by reference to
+    <tt>foobar.cxx</tt>.
+<li>Open the <span class="win">Projects/Dependencies...</span> dialog and add
+    dependency on  of <code>stbapi</code>, <code>workspace</code>, and
+    <code>appLoader</code> to the <code>foobar</code> project.
+</ol>
+
+<p>
+Now you can start writing your application and have fun!
+
+<p>
+Note: In case you do not use the ContextKit stuff, do not forget using the
+macro <code>FOOBAR_API</code> as a return type of
+<code>Stb_getMessage()</code>, <code>Stb_init()</code> and
+<code>Stb_exit()</code> functions and to include the autogenerated header file
+in your application file.
+
+<h2>List of Environment Variables</h2>
+
+<p>
+As a sanity check you may consult the follwing list of enviroenmtn variables
+that are typically being set at our Studierstube setups.
+
+<pre>
+INCLUDE=C:\TGS\OIV2.6\INCLUDE
+LIB=C:\TGS\OIV2.6\LIB
+MSVSHOME=C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO
+OIVHOME=C:\TGS\OIV2.6
+OSOIVHOME=C:\OSOIV\INSTALL
+PATH=C:\WINNT\SYSTEM32;C:\WINNT;C:\WINNT\SYSTEM32\WBEM;C:\TGS\INVENTOR\DOC;C:\T
+GS\OIV2.6\PROGRAM;C:\TGS\OIV2.6\DOC;C:\PROGRAM FILES\SSH;C:\PROGRAM FILES\MICRO
+SOFT VISUAL STUDIO\VC98\BIN;C:\JDK\JDK1.1.8\BIN;C:\PROGRAM FILES\QT\BIN;F:\STUD
+IERSTUBECVS\STUDIERSTUBE\LIB;C:\OSOIV\INSTALL\LIB
+QTDIR=C:\PROGRAM FILES\QT
+</pre>
+
+<hr>
+<table>
+<tr>
+<td><a href="http://validator.w3.org/check/referer"><img border="0"
+src="http://www.w3.org/Icons/valid-html401.gif" alt="Valid HTML 4.01!"></a>
+<td><a href="http://jigsaw.w3.org/css-validator"><img border="0"
+src="http://jigsaw.w3.org/css-validator/images/vcss.gif" alt="Valid
+CSS!"</a>
+<td>
+<!-- cg-maintained-by user=prikryl -->
+<small>
+This page is maintained by <b>Jan Prikryl</b>. It was last updated on <b>February 7, 2001</b>.<br>
+If you have any comments, please send a message to <a href="mailto:prikryl@cg.tuwien.ac.at">prikryl@cg.tuwien.ac.at</a>.
+</small>
+<!-- /cg-maintained-by -->
+</tr>
+</table>
+
+<!-- 
+
+<hr>
+
+<div class="remarks">
+
+<h2>Remarks, notes</h2>
+
+<p>
+This is mainly old stuff thas has been either abandoned or already
+incorportated into the above text.
+</p>
+
+<p>
+Before compiling, every user has to edit include and library paths of all
+project files in Visual Studio (select all, edit at once).
+
+<h3>Configuration for SOQT</h3>
+
+<ol>
+<li>Add proper include paths (in our case
+    <tt>c:\program&nbsp;files\microsoft&nbsp;visual&nbsp;studio\vc98\include,
+    c:\program&nbsp;files\qt\include, c:\osoiv\install\include\inventor,
+    c:\osoiv\install\include</tt>).
+<li>Define <code>USE_SOQT_LIB</code> (for Open Source OIV + SoQT bindings)
+<li>Add proper library paths.
+<li>Add libraries to link with: <tt>qtmain.lib, qt220.lib, soqt.lib,
+    inventor.lib</tt>.
+</ol>
+
+
+<h3>Configuration for TGS Inventor</h3>
+
+<ol>
+<li>Change include paths to point to TGS
+<li>Replace <code>USE_SOQT_LIB</code> with <code>USE_TGS</code> (and maybe
+    replace SoQt linbrary paths with TGS; probably not necessary).
+<li>Delete <code>SoQt</code> libraries from library link list.
+</ol>
+
+<h3>Path settings</h3>
+
+<p>
+The studierstube libraries are now stored in &lt;STBAPI_ROOT&gt;/lib.  Windows
+won't find them until you add this dir to your PATH environment variable
+(Start/Settings/Control Panel/System/Advanced/Environment variables/User
+variable for &lt;user&gt;).
+</p>
+<p>
+DLL: Different version under same name =&gt; clean before changing
+configurations!!!!!
+
+<h3>Project file setup</h3>
+
+<p>
+TGS Inventor include & library settings set withing Visual Studio <span
+class="win">Directories</span> panel.  OSOIV + SOQT:
+C:\INVENTOR\INSTALL\{INCLUDE,LIB} QT: C:\PROGRAM FILES\QT Visual Studio
+include files: C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\VC98\INCLUDE
+</p>
+
+</div>
+
+-->
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,20 @@
+#Inventor V2.1 ascii
+Separator {
+  DEF ARRANGE_TEXTURE SoTexture2 { filename "arrange.rgb" } 
+  DEF BUILDINGS_TEXTURE SoTexture2 { filename "buildings.rgb" } 
+  DEF CAMERA_TEXTURE SoTexture2 { filename "camera.rgb" } 
+  DEF COLORIZE_TEXTURE SoTexture2 { filename "colorize.rgb" } 
+  DEF CONTEXT_TEXTURE SoTexture2 { filename "context.rgb" } 
+  DEF DELETE_TEXTURE SoTexture2 { filename "delete.rgb" } 
+  DEF DESELECTALL_TEXTURE SoTexture2 { filename "deselectall.rgb" } 
+  DEF EXIT_TEXTURE SoTexture2 { filename "exit.rgb" } 
+  DEF EXTEND_TEXTURE SoTexture2 { filename "extend.rgb" } 
+  DEF FISH_TEXTURE SoTexture2 { filename "fish.rgb" } 
+  DEF LASSO_TEXTURE SoTexture2 { filename "lasso.rgb" } 
+  DEF LOAD_TEXTURE SoTexture2 { filename "load.rgb" } 
+  DEF MAXIMIZE_TEXTURE SoTexture2 { filename "maximize.rgb" } 
+  DEF SAVE_TEXTURE SoTexture2 { filename "save.rgb" } 
+  DEF SEAMFILE_TEXTURE SoTexture2 { filename "seamfile.rgb" } 
+  DEF SELECTALL_TEXTURE SoTexture2 { filename "selectall.rgb" } 
+  DEF TREES_TEXTURE SoTexture2 { filename "trees.rgb" } 
+}

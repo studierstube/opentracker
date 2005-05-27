@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="puppeteer" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../../tools/APRIL/april-component.xsd">
+	<interface>
+	
+		<input id="id" type="SFString" default=""/>
+		<input id="command" type="MFString"/>
+		<input id="whichPuppets" type="MFInt" default="-1"/>
+		<input id="whichAttributes" type="MFInt" default="-1"/>
+		<input id="hotspotCoord" type="MFVec3f" default="0 0 0"/>
+		<input id="hotspotRot" type="MFRotation" default="0 0 1 0"/>
+		<input id="hotspotName" type="MFString" default="''"/>
+		<input id="showPuppeteer" type="SFBool" default="TRUE"/>
+		<input id="showAttributes" type="SFBool" default="TRUE"/>
+		<input id="tracked" type="SFBool" default="FALSE"/>
+		<!--input id="trackingMode" type="SFEnum" default="POSE"/-->
+		<input id="positionExt" type="SFVec3f" default="0.0 0.0 0.0"/>
+		<input id="orientationExt" type="SFRotation" default="1.0 0.0 0.0 0.0"/>
+		<input id="snapToStation" type="SFTrigger"/>
+		<input id="draggable" type="SFBool" default="FALSE"/>
+		<input id="dragButton" type="SFInt32" default="0"/>
+		<input id="boundingBoxOn" type="SFBool" default="FALSE"/>
+		<input id="highlightDragOn" type="SFBool" default="FALSE"/>
+		<input id="viewingFrustumOn" type="SFBool" default="FALSE"/>
+		<input id="velocityVisOn" type="SFBool" default="FALSE"/>
+		<input id="station" type="SFInt32" default="-1"/>
+		<input id="fovHotspot" type="MFString" default=""/>
+		<input id="pickupHotspot" type="MFString" default=""/>
+		<input id="dataNeedsValidation" type="SFBool" default="FALSE"/>
+		<input id="dataValid" type="SFTrigger"/>
+		<input id="purgeQueue" type="SFTrigger"/>
+		
+		<output id="commandList" type="MFString"/>
+		<output id="commandFormatList" type="MFString"/>
+		<output id="response" type="MFString"/>
+		<output id="responseIndex" type="MFInt32"/>
+		<output id="finishedCommandData" type="MFString"/>
+		<output id="finishedCommand" type="SFTrigger"/>
+		<output id="finishedAll" type="SFTrigger"/>
+		<output id="position" type="SFVec3f" default="0.0 0.0 0.0"/>
+		<output id="orientation" type="SFRotation" default="1.0 0.0 0.0 0.0"/>
+		<output id="scale" type="SFVec3f" default="1.0 1.0 1.0"/>
+		<output id="hotspotAbsCoord" type="MFVec3f" default="0.0 0.0 0.0"/>
+		<output id="hotspotAbsRot" type="MFRotation" default="0 0 1 0"/>
+		<output id="dragging" type="SFBool" default="FALSE"/>
+		<output id="draggingStation" type="SFInt32" default="-1"/>
+		<output id="boundingBox" type="MFVec3f" default="0.0 0.0 0.0, 0.0 0.0 0.0"/>
+		<output id="speechText" type="SFString" default=""/>
+		<output id="soundPlay" type="SoSFBool" default="FALSE"/>
+		<output id="soundFileName" type="SoSFString" default=""/>
+		<output id="soundLoop" type="SoSFBool" default="FALSE"/>
+		<output id="stopSpeech" type="SFTrigger"/>
+
+		<part id="puppets"/>
+		<part id="attributes"/>
+	</interface>
+	<!--implementation type="OpenInventor" requires="../apps/ARPuppet/arpuppet#SoPuppeteerKit"-->
+	<implementation>
+
+DEF <id/> Separator {
+	DEF _Puppeteer SoPuppeteerKit {
+	
+		puppets SoDragKit {
+			content Separator {
+				SoMultiSwitch {
+					<sub id="puppets"/>
+				}
+			}
+		}
+		attributes SoMultiSwitch {
+			<sub id="attributes"/>
+		}
+		id <in id="id"/>
+		command <in id="command"/>
+		whichPuppets <in id="whichPuppets"/>
+		whichAttributes <in id="whichAttributes"/>
+		hotspotCoord <in id="hotspotCoord"/>
+		hotspotRot <in id="hotspotRot"/>
+		hotspotName <in id="hotspotName"/>
+		showPuppeteer <in id="showPuppeteer"/>
+		showAttributes <in id="showAttributes"/>
+		tracked <in id="tracked"/>
+		# trackingMode <in id="trackingMode"/>
+		positionExt <in id="positionExt"/>
+		orientationExt <in id="orientationExt"/>
+		snapToStation <in id="snapToStation"/>
+		draggable <in id="draggable"/>
+		dragButton <in id="dragButton"/>
+		boundingBoxOn <in id="boundingBoxOn"/>
+		highlightDragOn <in id="highlightDragOn"/>
+		viewingFrustumOn <in id="viewingFrustumOn"/>
+		velocityVisOn <in id="velocityVisOn"/>
+		station <in id="station"/>
+		fovHotspot <in id="fovHotspot"/>
+		pickupHotspot <in id="pickupHotspot"/>
+		dataNeedsValidation <in id="dataNeedsValidation"/>
+		dataValid <in id="dataValid"/>
+		purgeQueue <in id="purgeQueue"/>
+	}
+}
+
+		<out id="commandList"><id/>_Puppeteer.commandList</out>
+		<out id="commandFormatList"><id/>_Puppeteer.commandFormatList</out>
+		<out id="response"><id/>_Puppeteer.response</out>
+		<out id="responseIndex"><id/>_Puppeteer.responseIndex</out>		
+		<out id="finishedCommandData"><id/>_Puppeteer.finishedCommandData</out>
+		<out id="finishedCommand"><id/>_Puppeteer.finishedCommand</out>
+		<out id="finishedAll"><id/>_Puppeteer.finishedAll</out>
+		<out id="position"><id/>_Puppeteer.position</out>
+		<out id="orientation"><id/>_Puppeteer.orientation</out>
+		<out id="scale"><id/>_Puppeteer.scale</out>
+		<out id="hotspotAbsCoord"><id/>_Puppeteer.hotspotAbsCoord</out>
+		<out id="hotspotAbsRot"><id/>_Puppeteer.hotspotAbsRot</out>
+		<out id="dragging"><id/>_Puppeteer.dragging</out>
+		<out id="draggingStation"><id/>_Puppeteer.draggingStation</out>
+		<out id="response"><id/>_Puppeteer.response</out>
+		<out id="finishedCommand"><id/>_Puppeteer.finishedCommand</out>
+		<out id="finishedCommandData"><id/>_Puppeteer.finishedCommandData</out>
+		<out id="boundingBox"><id/>_Puppeteer.boundingBox</out>
+		<out id="speechText"><id/>_Puppeteer.speechText</out>
+		<out id="soundPlay"><id/>_Puppeteer.soundPlay</out>
+		<out id="soundFileName"><id/>_Puppeteer.soundFileName</out>
+		<out id="soundLoop"><id/>_Puppeteer.soundLoop</out>
+		<out id="stopSpeech"><id/>_Puppeteer.stopSpeech</out>
+
+	</implementation>
+</component>

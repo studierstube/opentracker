@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0.1 U (http://www.xmlspy.com) by Vienna University of Technology (Vienna University of Technology) -->
+<!DOCTYPE OpenTracker SYSTEM "../studierstube/bin/workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="data/pyrofirewire.dat" videomode="0 320 240 vertical" framerate="10" treshhold="100"/>
+		<ConsoleConfig headerline="Sample Tracking Input" interval="20"/>
+	</configuration>
+	<StbSink station="0">
+		<ConsoleSink comment="Pen">
+			<StbKeyboardSource number="0"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="1">
+		<ConsoleSink comment="Pip">
+			<StbKeyboardSource number="1"/>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="66">
+		<ConsoleSink comment="VTK Volume">
+			<EventTransform scale="0.02 0.02 0.02" rotation="1 0 0 0" translation="0 0 0.5">
+				<ARToolKitSource center="0 0" size="50 50" tag-file="data/lambda.tag"/>
+			</EventTransform>
+		</ConsoleSink>
+	</StbSink>
+</OpenTracker>

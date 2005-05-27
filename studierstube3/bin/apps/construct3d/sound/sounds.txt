@@ -1,0 +1,69 @@
+http://www.research.att.com/~mjm/cgi-bin/ttsdemo
+
+#ifdef SOUND
+  #ifdef WIN32
+    PlaySound("sound/file_saved.wav",NULL,(SND_FILENAME|SND_NODEFAULT|SND_ASYNC));
+  #else
+    playMySoundFile("sound/file_saved.aiff");
+  #endif
+#endif
+
+existing:
+WAV:
+calcpoint: Please select, at least one point, one line or one plane.
+debug: debug
+del: Select objects for deletion.
+File saved: File saved
+genbox: Please select the lower left and the upper right corner.
+gencone: Please select midpoint, radius point and apex.
+gencyl: Please select, axis and point on cylinder or a tangent.
+genline: Please select two points.
+genplane: Please select three points or two lines.
+genplane2: Please select three points or one point and one line.
+gensphere: Please select midpoint, point on sphere or radius.
+isecterr: There is no intersection.
+line: Please select or generate two points.
+lnotintersect: Lines do not intersect.
+LPparallel: The selected line and plane are parallel.
+no2points: There are no two points. Please generate points.
+nointersect: Lines do not intersect. Cannot generate plane.
+noobjects: No objects available for selection.
+normal: Please select, elements for normal line or normal plane.
+nosave: Nothing to save.
+not_implem: This is not implemented yet.
+notenough: There are not enough objects for this action.
+parallel: Lines are parallel.
+welcome: Welcome!
+
+
+AIFF:
+calcpoint: Please select, at least one point, one line or one plane.
+debug: debug
+del: Select objects for deletion.
+File saved: File saved.
+genbox: Please select the lower left and the upper right corner.
+gencone: Please select midpoint, radius point and apex.
+gencyl: Please select, axis and point on cylinder or a tangent.
+genline: Please select two points.
+genplane: Please select three points or two lines.
+genplane2: Please select three points or one point and one line.
+gensphere: Please select midpoint, point on sphere or radius.
+isecterr: There is no intersection.
+line: Please select or generate two points.
+lnotintersect: Lines do not intersect.
+LPparallel: The selected line and plane are parallel.
+no2points: There are no two points. Please generate points.
+nointersect: Lines do not intersect. Cannot generate plane.
+noobjects: No objects available for selection.
+normal: Please select, elements for normal line or normal plane.
+nosave: Nothing to save.
+not_implem: This is not implemented yet.
+notenough: There are not enough objects for this action.
+parallel: Lines are parallel.
+welcome: Welcome!
+
+select: Selected.
+deselect: deselected.
+
+
+to be made:

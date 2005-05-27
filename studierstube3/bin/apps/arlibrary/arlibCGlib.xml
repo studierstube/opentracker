@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0.1 U (http://www.xmlspy.com) by Luftgeist (Vienna University of Technology) -->
+<!DOCTYPE OpenTracker SYSTEM "..\..\mobile\opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="data/firefly_4mm.dat" videomode="0 320 240 vertical" framerate="10" treshhold="180"/>
+		<ConsoleConfig headerline="Mobile User" interval="20" display="on"/>
+		
+		<InterSenseConfig>
+			<ISTracker id="0"/>
+		</InterSenseConfig>
+	
+		<StbInputConfig/>
+	</configuration>
+	<ConsoleSink comment="InterTrax" active="on">
+		<EventVirtualOrientationTransform rotationtype="matrix" rotation="0 0 1 -1 0 0 0 -1 0" DEF="orientation">
+			<EventOrientationTransform rotation="0 -1 0 0 0 -1 1 0 0" rotationtype="matrix">
+				<InterSenseSource id="0"/>
+				<!--<TestSource frequency="10000"/>-->
+			</EventOrientationTransform>
+		</EventVirtualOrientationTransform>
+	</ConsoleSink>
+	<ConsoleSink active="off">
+		<StbSink station="0" DEF="Pad">
+			<EventDynamicTransform baseevent="false">
+				<TransformBase>
+					<Ref USE="orientation"/>
+				</TransformBase>
+				<Selection timeout="10000">
+					<Select>
+						<ThresholdFilter rotationmax="1" rotationmin="0.1" DEF="PadReference">
+							<Filter weight="0.333333 0.333333 0.333333">
+								<EventQueue length="3">
+									<!--<EventVirtualTransform rotation="0 0 0.75 -0.75">-->
+									<EventVirtualTransform rotation="0 1 0 0">
+										<EventTransform rotation="0 1 0 0">
+											<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+												<ARToolKitSource tag-file="data/lambda.tag" center="0 0" size="80 80"/>
+											</EventTransform>
+										</EventTransform>
+									</EventVirtualTransform>
+									<!--</EventVirtualTransform>-->
+								</EventQueue>
+							</Filter>
+						</ThresholdFilter>
+					</Select>
+					<TestSource position="0 0 -10"/>
+				</Selection>
+			</EventDynamicTransform>
+		</StbSink>
+	</ConsoleSink>
+	<!--<ConsoleSink comment="Viewpoint">-->
+	<StbSink station="2">
+		<EventDynamicTransform>
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<!-- old camera on the helmet offset
+           <EventTransform translation=" -0.004 -0.148  0" rotation="-.9096828073e-1 -.4448448893e-2 -.4868302496e-1 .9946531794">
+                <TestSource frequency="10"/>
+            </EventTransform>-->
+			<!-- <ConsoleSink comment="offset">
+                <StbKeyboardSource number="1"/>
+            </ConsoleSink>-->
+			<!-- current camera in front of the eye offset -->
+			<TestSource position="0 0 -0.072" frequency="10"/>
+		</EventDynamicTransform>
+	</StbSink>
+	<ConsoleSink comment="new extra feature">
+		<StbSink station="1" event="on">
+			<EventDynamicTransform baseevent="true">
+				<TransformBase>
+					<Ref USE="Pad"/>
+				</TransformBase>
+				<EventTransform scale="-0.15 -0.1 0" translation="0.075 0.05 -0.007" rotation="0 0 0 1">
+					<StbMouseSource mode="relative"/>
+				</EventTransform>
+			</EventDynamicTransform>
+		</StbSink>
+	</ConsoleSink>
+	
+	
+	<!-- Bibliothek Marker -->
+	<StbSink station="10" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker0.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+	
+	<StbSink station="11" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker1.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="12" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker2.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="13" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker3.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="14" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker4.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="15" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker5.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="16" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker6.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="17" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker7.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="18" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker8.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="19" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker9.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="20" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker10.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="21" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker11.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="22" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker12.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="23" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker13.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="24" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker14.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="25" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker15.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="26" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker16.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="27" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker17.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="28" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker18.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="29" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker19.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="30" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker20.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="31" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker21.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="32" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker22.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="33" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker23.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="34" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker24.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="35" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker25.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="36" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker26.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="37" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker27.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="38" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker28.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="39" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker29.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="40" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker30.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="41" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker31.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="42" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker32.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="43" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker33.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="44" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker34.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="45" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker35.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="46" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker36.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="47" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker37.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="48" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker38.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="49" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker39.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="50" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker40.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="51" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker41.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="52" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker42.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="53" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker43.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="54" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker44.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="55" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker45.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="56" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker46.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="57" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker47.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="58" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100 100" tag-file="data/marker48.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="59" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker49.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="60" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker50.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="61" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker51.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="62" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker52.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="63" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker53.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="64" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker54.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="65" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker55.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="66" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker56.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="67" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker57.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="68" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker58.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+
+	<StbSink station="69" event="on">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<EventVirtualTransform rotation="0 0 0 1">
+				<EventTransform rotation="0 1 0 0 ">
+					<ConfidenceFilter treshhold="0.5" type="high">
+						<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+							<ARToolKitSource center="0 0" size="100" tag-file="data/marker59.patt"/>
+						</EventTransform>
+					</ConfidenceFilter>
+				</EventTransform>
+			</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+	
+</OpenTracker>

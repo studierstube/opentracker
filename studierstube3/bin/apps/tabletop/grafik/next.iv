@@ -1,0 +1,128 @@
+#Inventor V2.1 ascii
+
+Separator {
+  Material {
+	ambientColor	0.25 0.2125 0
+	diffuseColor	1 0.85 0
+	specularColor	0.87 0.25 0.25
+	shininess	1
+  }
+  Transform {
+      translation 0.0 0.085 0.0
+ 	scaleFactor 0.05 0.05 0.05
+  }
+  Separator {
+    Transform {
+      translation	0 0.962753 0
+      scaleFactor	1.0 2.7 1.0
+    }
+    Complexity {
+	 value 0.1
+        type OBJECT_SPACE
+    }
+    Cone {
+    }
+  }
+  Rotor {
+    speed 0.3
+    rotation 0.0 1.0 0.0 1.0
+  }
+  Separator {
+    Transform {
+      translation	-2.16764 4.16588 -0.0538673
+      scaleFactor	0.648782 0.648782 0.288551
+    }
+    Separator {
+      Transform {
+	translation	4.39959 0.937916 -0.0620844
+	rotation	-0.554588 -0.554588 0.620374  4.25212
+	scaleFactor	0.0561658 0.338776 0.0561655
+	scaleOrientation	0 0 1  0
+      }
+	DEF cubeNode Cube {}
+    }
+    Separator {
+      Transform {
+	translation	4.37838 0.447761 -0.0561655
+	scaleFactor	0.0561658 0.447761 0.0561655
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.56712 0.485731 -0.0561288
+	rotation	0 0 -1  0.464912
+	scaleFactor	0.0561292 0.54861 0.0561289
+	scaleOrientation	0 0 1  0
+	center	1.12437 -0.0224613 -4.22019e-008
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.54685 0.557465 -0.0561288
+	rotation	0 0 1  0.448084
+	scaleFactor	0.0561292 0.54861 0.0561289
+	scaleOrientation	0 0 1  0
+	center	1.12437 -0.0224613 -4.22019e-008
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.97973 0.056166 -0.0561655
+	rotation	0 0 1  1.5708
+	scaleFactor	0.0561658 0.229744 0.0561655
+	scaleOrientation	0 0 1  0
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.97973 0.466231 -0.0561655
+	rotation	0 0 1  1.5708
+	scaleFactor	0.0561658 0.229744 0.0561655
+	scaleOrientation	0 0 1  0
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.99323 0.932433 -0.0561655
+	rotation	0 0 -1  1.57079
+	scaleFactor	0.0561658 0.229744 0.0561655
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.71622 0.5 -0.0561655
+	scaleFactor	0.0561658 0.5 0.0561655
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	1.18976 0.559948 -0.056202
+	rotation	0 0 1  0.465673
+	scaleFactor	0.0561292 0.499675 0.0561289
+	center	1.12437 -0.0224613 -4.22019e-008
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2 0.5 -0.0561655
+	scaleFactor	0.0561658 0.5 0.0561655
+      }
+      USE cubeNode
+    }
+    Separator {
+      Transform {
+	translation	2.48649 0.5 -0.0561655
+	scaleFactor	0.0561658 0.5 0.0561655
+      }
+      USE cubeNode
+    }
+  }
+}

@@ -1,0 +1,13 @@
+#header
+1700
+#keyframes
+6 0 1000 suspicious 100
+8 0 500 6
+9 0 500 14
+11 0 500 -6
+12 0 500 -14
+13 0 500 -6
+14 0 500 -14
+15 0 300 def_face
+20 0 500 def_cheek
+6 700 1000 suspicious 100

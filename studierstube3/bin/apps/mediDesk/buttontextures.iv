@@ -1,0 +1,24 @@
+#Inventor V2.1 ascii
+Separator {
+  DEF EXIT_TEXTURE SoTexture2 { filename "rgb/exit.gif" } 
+
+  DEF VOLDIS_TEXTURE SoTexture2 { filename "rgb/reset_display.gif" } 
+
+  DEF LUT_TEXTURE SoTexture2 { filename "rgb/lookup_on.gif" } 
+  DEF NO_LUT_TEXTURE SoTexture2 { filename "rgb/lookup_off.gif" } 
+
+  DEF MIP_TEXTURE SoTexture2 { filename "rgb/mip.gif" } 
+  DEF OVER_TEXTURE SoTexture2 { filename "rgb/overblend.gif" } 
+
+  DEF BLUE_TEXTURE SoTexture2 { filename "rgb/blue_on.gif" }
+  DEF NO_BLUE_TEXTURE SoTexture2 { filename "rgb/blue_off.gif" }
+
+  DEF VOI_TEXTURE SoTexture2 { filename "rgb/freeze_on.gif" }
+  DEF NO_VOI_TEXTURE SoTexture2 { filename "rgb/freeze_off.gif" }
+
+  DEF MIRROR_TEXTURE SoTexture2 { filename "rgb/mirror_on.gif" } 
+  DEF NO_MIRROR_TEXTURE SoTexture2 { filename "rgb/mirror_off.gif" } 
+
+  DEF SLICE_TEXTURE SoTexture2 { filename "rgb/slice_on.gif" } 
+  DEF NO_SLICE_TEXTURE SoTexture2 { filename "rgb/slice_off.gif" } 
+}

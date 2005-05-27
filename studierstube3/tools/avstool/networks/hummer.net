@@ -1,0 +1,141 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg2)
+module downsize.user.0 -xy 328,152 -ex $Path/avs_library/mongo
+port_vis downsize.user.0:downsize -on
+module isosurface.user.1 -xy 308,262 -ex $Path/avs_library/tile
+port_vis isosurface.user.1:level -on
+port_vis isosurface.user.1:"optimize surf" -on
+module "read volume.user.2" -xy 448,82 -ex $Path/avs_library/mongo
+module stbWin.user.3 -xy 58,22 -ex /cg/disks/kagran/people/peci/DA/AVS/stbWin
+module stbGeom.user.4 -xy 158,372 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+module stbInt.user.5 -xy 268,92 -ex /cg/disks/kagran/people/peci/DA/AVS/stbInt
+module stbFloat.user.6 -xy 28,162 -ex /cg/disks/kagran/people/peci/DA/AVS/stbFloat
+port_connect downsize.user.0:0 isosurface.user.1:0
+port_connect isosurface.user.1:0 stbGeom.user.4:2
+port_connect "read volume.user.2":0 downsize.user.0:0
+port_connect stbWin.user.3:0 stbGeom.user.4:0
+port_connect stbWin.user.3:0 stbFloat.user.6:0
+port_connect stbWin.user.3:0 stbInt.user.5:0
+port_connect stbInt.user.5:0 downsize.user.0:1
+port_connect stbFloat.user.6:0 isosurface.user.1:3
+parm_set downsize.user.0:downsize 3
+parm_set isosurface.user.1:level 31.57549286 -range 0 255
+parm_set "read volume.user.2":"Read Volume Browser" $Path/data/volume/lobster.dat
+parm_set stbWin.user.3:connect true
+parm_set stbWin.user.3:"GeomSize x" 140
+parm_set stbWin.user.3:"GeomSize y" 140
+parm_set stbWin.user.3:"GeomSize z" 140
+parm_set stbWin.user.3:"GeomMove x" 16.5
+parm_set stbWin.user.3:"GeomMove y" 59.50000381
+parm_set stbWin.user.3:"GeomMove z" 59.5
+parm_set stbInt.user.5:Min.: 3
+parm_set stbInt.user.5:Max.: 10
+parm_set stbInt.user.5:Name: Detail
+parm_set stbInt.user.5:Wert: 3 -range 3 10
+parm_set stbInt.user.5:slider 3 -range 3 10
+parm_set stbFloat.user.6:Max.: 255
+parm_set stbFloat.user.6:Name: Level
+parm_set stbFloat.user.6:Wert: 31.57549286 -range 0 255
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,984
+  panel "Top Level Stack" -w master_stack -p Application -xy 1,100 -wh 256,700
+   panel downsize.user.0 -w panel -p "Top Level Stack" -xy 0,64 -wh 107,148
+    manipulator downsize.user.0:downsize -w idial -p downsize.user.0 \
+        -xy 8,8 -wh 90,130\
+   -P local_min real 4\
+   -P local_max real 10
+   panel isosurface.user.1 -w panel -p "Top Level Stack" -xy 0,64 -wh 137,211
+    manipulator isosurface.user.1:level -w dial -p isosurface.user.1 \
+        -xy 8,8 -wh 90,130
+    manipulator "isosurface.user.1:optimize wire" -w toggle -p isosurface.user.1 \
+        -xy 8,138 -wh 118,22
+    manipulator "isosurface.user.1:generate normals" -w toggle -p isosurface.user.1 \
+        -xy 8,160 -wh 118,22
+    manipulator "isosurface.user.1:flip normals" -w toggle -p isosurface.user.1 \
+        -xy 8,179 -wh 118,22
+    manipulator "isosurface.user.1:optimize surf" -w toggle -p isosurface.user.1 \
+        -xy 9,10 -wh 118,22
+   panel "read volume.user.2" -w panel -p "Top Level Stack" -xy 0,64 -wh 256,230
+    manipulator "read volume.user.2:Read Volume Browser" -w browser -p "read volume.user.2" \
+        -xy 9,10 -wh 235,194
+   panel stbWin.user.3 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,504
+    manipulator stbWin.user.3:Host: -w typein -p stbWin.user.3 -hide \
+        -xy 10,10 -wh 118,22
+    manipulator stbWin.user.3:Host -w text -p stbWin.user.3 -xy 10,32 -wh 118,22
+    manipulator stbWin.user.3:Port: -w typein -p stbWin.user.3 -hide \
+        -xy 10,54 -wh 118,22
+    manipulator stbWin.user.3:Port -w text -p stbWin.user.3 -xy 10,76 -wh 118,22
+    manipulator stbWin.user.3:connect -w toggle -p stbWin.user.3 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbWin.user.3:Pos x" -w typein_real -p stbWin.user.3 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbWin.user.3:Pos y" -w typein_real -p stbWin.user.3 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbWin.user.3:Pos z" -w typein_real -p stbWin.user.3 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbWin.user.3:Rot x" -w typein_real -p stbWin.user.3 \
+        -xy 10,186 -wh 118,22
+    manipulator "stbWin.user.3:Rot y" -w typein_real -p stbWin.user.3 \
+        -xy 10,208 -wh 118,22
+    manipulator "stbWin.user.3:Rot z" -w typein_real -p stbWin.user.3 \
+        -xy 10,230 -wh 118,22
+    manipulator "stbWin.user.3:Rot w" -w typein_real -p stbWin.user.3 \
+        -xy 10,252 -wh 118,22
+    manipulator "stbWin.user.3:Size x" -w typein_real -p stbWin.user.3 \
+        -xy 10,274 -wh 118,22
+    manipulator "stbWin.user.3:Size y" -w typein_real -p stbWin.user.3 \
+        -xy 10,296 -wh 118,22
+    manipulator "stbWin.user.3:Size z" -w typein_real -p stbWin.user.3 \
+        -xy 10,318 -wh 118,22
+    manipulator "stbWin.user.3:GeomSize x" -w typein_real -p stbWin.user.3 \
+        -xy 10,340 -wh 236,22
+    manipulator "stbWin.user.3:GeomSize y" -w typein_real -p stbWin.user.3 \
+        -xy 10,362 -wh 236,22
+    manipulator "stbWin.user.3:GeomSize z" -w typein_real -p stbWin.user.3 \
+        -xy 10,384 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove x" -w typein_real -p stbWin.user.3 \
+        -xy 10,406 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove y" -w typein_real -p stbWin.user.3 \
+        -xy 10,428 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove z" -w typein_real -p stbWin.user.3 \
+        -xy 10,450 -wh 236,22
+    manipulator "stbWin.user.3:fit Geometry" -w oneshot -p stbWin.user.3 \
+        -xy 10,472 -wh 118,22
+   panel stbGeom.user.4 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,64
+    manipulator "stbGeom.user.4:clear Geometry" -w radio_buttons -p stbGeom.user.4 \
+        -xy 10,10 -wh 118,44
+   panel stbInt.user.5 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,336
+    manipulator stbInt.user.5:Min.: -w typein_integer -p stbInt.user.5 \
+        -xy 10,10 -wh 118,22
+    manipulator stbInt.user.5:Max.: -w typein_integer -p stbInt.user.5 \
+        -xy 10,32 -wh 118,22
+    manipulator stbInt.user.5:Name: -w typein -p stbInt.user.5 \
+        -xy 10,54 -wh 118,22
+    manipulator stbInt.user.5:Order: -w typein_integer -p stbInt.user.5 \
+        -xy 10,76 -wh 118,22
+    manipulator stbInt.user.5:Wert: -w typein_integer -p stbInt.user.5 \
+        -xy 10,98 -wh 118,22
+    manipulator stbInt.user.5:select -w radio_buttons -p stbInt.user.5 \
+        -xy 10,120 -wh 118,44
+    manipulator stbInt.user.5:slider -w islider -p stbInt.user.5 \
+        -xy 10,164 -wh 236,32
+    manipulator stbInt.user.5:dial -w idial -p stbInt.user.5 \
+        -xy 10,196 -wh 90,130
+   panel stbFloat.user.6 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,336
+    manipulator stbFloat.user.6:Min.: -w typein_real -p stbFloat.user.6 \
+        -xy 10,10 -wh 118,22
+    manipulator stbFloat.user.6:Max.: -w typein_real -p stbFloat.user.6 \
+        -xy 10,32 -wh 118,22
+    manipulator stbFloat.user.6:Name: -w typein -p stbFloat.user.6 \
+        -xy 10,54 -wh 118,22
+    manipulator stbFloat.user.6:Order: -w typein_integer -p stbFloat.user.6 \
+        -xy 10,76 -wh 118,22
+    manipulator stbFloat.user.6:Wert: -w typein_real -p stbFloat.user.6 \
+        -xy 10,98 -wh 118,22
+    manipulator stbFloat.user.6:select -w radio_buttons -p stbFloat.user.6 \
+        -xy 10,120 -wh 118,44
+    manipulator stbFloat.user.6:slider -w slider -p stbFloat.user.6 \
+        -xy 10,164 -wh 236,32
+    manipulator stbFloat.user.6:dial -w dial -p stbFloat.user.6 \
+        -xy 10,196 -wh 90,130
+# End of file

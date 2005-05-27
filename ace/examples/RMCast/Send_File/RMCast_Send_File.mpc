@@ -1,0 +1,15 @@
+// -*- MPC -*-
+// RMCast_Send_File.mpc,v 1.5 2003/12/23 20:23:21 dhinton Exp
+
+project(*Sender) : aceexe, rmcast {
+  exename = sender
+  Source_Files {
+    Sender.cpp
+  }
+}
+project(*Receiver) : aceexe, rmcast {
+  exename = receiver
+  Source_Files {
+    Receiver.cpp
+  }
+}

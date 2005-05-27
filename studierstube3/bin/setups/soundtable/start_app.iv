@@ -1,0 +1,18 @@
+#Inventor V2.1 ascii
+
+DEF Starter SoApplicationKit {
+  classLoader SoClassLoader {
+    className   "SoViewerAppKit"
+      fileName  "../apps/viewer/viewer_stb"
+  }
+
+  contextKit SoViewerAppKit {
+    windowGroup Group {
+      DEF locale1 Info {
+        string "../setups/soundtable/app1.iv ../setups/soundtable/app2.iv ../setups/soundtable/app3.iv ../setups/soundtable/app4.iv ../setups/soundtable/app5.iv"
+      }
+    }
+
+    clonePipSheet       FALSE
+  }
+}

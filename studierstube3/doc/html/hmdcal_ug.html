@@ -1,0 +1,286 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>USER'S GUIDE for HMD-Calibration</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+
+<p><font size="5">USER'S GUIDE for HMD-Calibration</font> </p>
+
+<p>by Rainer Splechtna - splechtna@cg.tuwien.ac.at </p>
+
+<hr>
+
+<p>Starting the application: </p>
+
+<p><font size="2">The calibration-application (located in
+directory bin/apps/calibration/)</font> </p>
+
+<p><font size="2">is started using the workspace application
+loader.</font> </p>
+
+<p><font size="2">After the application has been started, the
+following menu is displayed on the PIP:</font> </p>
+
+<p>1. PIP-Menu<font size="2">:</font> </p>
+
+<p><font size="2"><b>full calibration:</b></font> </p>
+
+<p><font size="2">starts calibration with 8 marker positions per
+eye (more accurate)</font> </p>
+
+<p><font size="2"><b>short calibration:</b></font> </p>
+
+<p><font size="2">starts calibration with 4 marker positions per
+eye (quicker)</font> </p>
+
+<p><font size="2"><b>exit:</b></font> </p>
+
+<p><font size="2">exits the application</font> </p>
+
+<p><font size="2">After choosing full or short calibration, the
+calibration process starts.</font> </p>
+
+<p>Calibration process: </p>
+
+<p><font size="2">There are 8(4) calibration points to be
+registered per eye. The calibration process starts with the left
+eye.</font> </p>
+
+<p><font size="2">A virtual marker is displayed on the left
+display of the HMD. Press the button on the tip of the pen when
+the virtual marker and the real marker on the pen are perfectly
+aligned. After pressing the button the next virtual marker is
+displayed ...</font> </p>
+
+<p><font size="2">After all 8 (4) positions for one eye are
+registered, the program performs a test on the sampled data, to
+determine whether the data is valid or not. If the data is valid,
+the registration for the right eye begins, which works in the
+same way as for the left eye. If the data is not in valid
+boundaries, the calibration process for the left eye has to be
+repeated.</font> </p>
+
+<p><font size="2">When the calibration points for the right eye
+are also registered properly, the following menu is displayed on
+the PIP:</font> </p>
+
+<p>2. PIP-Menu: </p>
+
+<p><font size="2"><b>restart calibration:</b></font> </p>
+
+<p><font size="2">back to PIP-Menu 1 (all sampled data will be
+lost)</font> </p>
+
+<p><font size="2"><b>test calibration </b>(checkbox):</font> </p>
+
+<p><font size="2">checked: a virtual marker is displayed (3D) ,
+which should be aligned with the real world marker on the pen,
+showing the quality of the calibration</font> </p>
+
+<p><font size="2">unchecked: no virtual marker is displayed</font>
+</p>
+
+<p><font size="2"><b>keep calibration </b>(checkbox):</font> </p>
+
+<p><font size="2">checked: new HMD-setting (calibration) is
+activated</font> </p>
+
+<p><font size="2">(note: when pressed for the first time, the new
+HMD-setting is calculated and saved as file named &quot;userXHMD.iv&quot;
+(where X is the user-number), hence a short pause in the
+workspace enviroment (1-2 seconds) may occur)</font> </p>
+
+<p><font size="2">unchecked: the active HMD-setting is the HMD-setting,
+which was active when the program was started</font> </p>
+
+<p><font size="2"><b>exit:</b></font> </p>
+
+<p><font size="2">exits the application (note: the active HMD-setting
+stays active)</font> <br>
+&nbsp; </p>
+
+<p><font size="4">Step by step guide: HMD-calibration in ´workspace´</font>
+</p>
+
+<p><font size="2">after starting the calibration-application:</font>
+</p>
+
+<p><font size="2">a) choose calibration method</font> </p>
+
+<p><font size="2">- PIP-Menu 1 is displayed.</font> </p>
+
+<p><font size="2"><b>user action: </b>press button ´full
+calibration´ (recommended) or ´short calibration´</font> </p>
+
+<p><font size="2">b) registration of the left eye:</font> </p>
+
+<p><font size="2">repeated 8x (for full calibration) or 4x (for
+short calibration) :</font> </p>
+
+<p><font size="2">- a virtual marker is displayed on the left
+display of the HMD</font> </p>
+
+<p><font size="2"><b>user action: </b>align virtual marker and
+the real marker on the pen (same center and same size)</font> </p>
+
+<p><font size="2"><b>user action: </b>press the button on the tip
+of the pen when the virtual marker and the real marker on the pen
+are perfectly aligned</font> </p>
+
+<p><font size="2">c) validation of sampled data for the left eye:</font>
+</p>
+
+<p><font size="2">- valid data: registration of the right eye
+starts (continue with step d)</font> </p>
+
+<p><font size="2">- no valid data: &quot;repeat calibration (valid
+cuts = X)... press button&quot; is displayed on the HMD-display</font>
+</p>
+
+<p><font size="2"><b>user action: </b>press button on the tip of
+the pen to restart the calibration for the left eye (continue
+with step b).</font> </p>
+
+<p><font size="2">d) registration of the right eye:</font> </p>
+
+<p><font size="2">repeated 8x (for full calibration) or 4x (for
+short calibration) :</font> </p>
+
+<p><font size="2">- a virtual marker is displayed on the right
+display of the HMD</font> </p>
+
+<p><font size="2"><b>user action: </b>align virtual marker and
+the real marker on the pen (same center and same size)</font> </p>
+
+<p><font size="2"><b>user action: </b>press the button on the tip
+of the pen when the virtual marker and the real marker on the pen
+are perfectly aligned</font> </p>
+
+<p><font size="2">e) validation of sampled data for the right eye:</font>
+</p>
+
+<p><font size="2">- valid data: registration completed (continue
+with step f)</font> </p>
+
+<p><font size="2">- no valid data: &quot;repeat calibration (valid
+cuts = X)... press button&quot; is displayed on the HMD-display</font>
+</p>
+
+<p><font size="2"><b>user action: </b>press button on the tip of
+the pen to restart the calibration for the right eye (continue
+with step d).</font> </p>
+
+<p><font size="2">f) activate calibrated HMD-setting</font> </p>
+
+<p><font size="2">- PIP-Menu 2 is displayed</font> </p>
+
+<p><font size="2"><b>user action: </b>press button ´keep
+calibration´</font> </p>
+
+<p><font size="2">- the calibrated HMD-setting is activated and
+saved as file named &quot;userXHMD.iv&quot; (where X is the user-number)</font>
+</p>
+
+<p><font size="2"><b>user action: </b>press button ´exit´</font>
+</p>
+
+<p><font size="2">- the application is stopped (the calibrated
+HMD-setting stays active)</font> </p>
+
+<p><font size="4">Key Commands:</font> </p>
+
+<p><font size="2">M -&nbsp; turn on/off mirror-mode, only useful
+for video camera calibration (using video background)</font> <br>
+<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (note:
+mirror-mode can only be changed before starting the calibration
+process)</font> <br>
+<font size="2">S&nbsp; -&nbsp;&nbsp; start 'full calibration' (only
+before calibration process)</font> <br>
+<font size="2">BACKSPACE- repeat registration of previous marker
+position (only during calibration process)</font> <br>
+<font size="2">K - 'keep camera' (only after calibration process)</font>
+<br>
+<font size="2">C -&nbsp; exit application</font> </p>
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

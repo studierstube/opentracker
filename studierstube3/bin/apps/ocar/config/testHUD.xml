@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Firefly (YRG) -->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+  <!--
+  tracking test config for mobile setup for outdoor use 03-04-2003
+  includes :
+  simulates position, orientation input for user, pip and pen position
+  An calibOffsetCam for calibrating virtual camera offsets
+  
+  Inputs : StbKeyboardSource
+  0 - user position in real world (instead of GPS + orientation)
+  1 - buttons for pen from keyboard
+  5 - trigger sending positions as user 0
+  6 - trigger sending positions as user 1
+  7 - simulating user
+  
+  Outputs : StbSink
+  0 - pip with event for camera calibration
+  1 - pen 
+  2 - camera point (includes camera calibration
+  3 - 2D pointer position for calibration purposes
+  4 - user position in real world (as opposed to camera point !)
+  5 - camera with transformation for raypicking, with events !
+  6 - raw tracking output, necessary for calibration
+  8 - transformed mouse output for APRIL presentations
+  
+  10 - user 0 position from the network
+  11 - user 1 position from the network
+  
+  15 - simulated user position
+  
+  224.100.200.103:2003:0 - user0 location
+  224.100.200.104:2004:0 - user1 location
+  
+  the camera is moved in real world space according to gps and orientation tracking.
+  all computed events are in the same reference frame defined by GPS origin and IC2 origin.
+  
+  $Id: testHUD.xml 3826 2004-10-05 15:12:02Z reitmayr $
+  -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- OpenTracker configuration -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <configuration>
+    <ConsoleConfig headerline="Mobile Test Setup" interval="1" display="off"/>
+  </configuration>
+  <EventTransform scale="100 100 100" DEF="user">
+    <StbKeyboardSource number="0"/>
+  </EventTransform>
+  <!-- plus filtering with elastic filter to have smoother updates -->
+  <EventTransform DEF="location">
+    <EventDynamicPositionTransform baseevent="true">
+      <TransformBase>
+        <StbSource node="CalibNode" position="positionOffset" DEF="CalibParametersPosition"/>
+      </TransformBase>
+      <EventDynamicOrientationTransform baseevent="false" DEF="debug1">
+        <TransformBase>
+          <StbSource node="InertialOffset" orientation="rotation" DEF="InertialOffset"/>
+        </TransformBase>
+        <!--        <ElasticFilter force="0.1" damp="0.1"> -->
+        <Ref USE="user"/>
+        <!--        </ElasticFilter> -->
+      </EventDynamicOrientationTransform>
+    </EventDynamicPositionTransform>
+  </EventTransform>
+  <!-- output to camera station -->
+  <StbSink station="2" DEF="camera">
+    <EventVirtualTransform DEF="calibOffsetCam" translation="0 0 0">
+      <Ref USE="location"/>
+    </EventVirtualTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- Devices -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- PIP pointer is defined to be the pen now -->
+  <StbSink station="1" event="on" DEF="pen">
+    <Merge>
+      <MergeDefault>
+        <EventTransform scale="-0.1 -0.1 0" translation="-0.05 0.05 0.003" rotation="0 1 0 0">
+          <StbMouseSource mode="relative" DEF="TouchPad"/>
+        </EventTransform>
+      </MergeDefault>
+      <MergeButton>
+        <ButtonOp op="OR" DEF="Buttons">
+          <Arg1>
+            <Ref USE="TouchPad"/>
+          </Arg1>
+          <Arg2>
+            <StbKeyboardSource number="1"/>
+          </Arg2>
+        </ButtonOp>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+  <!-- PIP -->
+  <StbSink station="0" DEF="pip">
+    <TimeGate mode="pass" timeframe="100">
+      <Gate>
+        <Ref USE="TouchPad"/>
+      </Gate>
+      <TestSource position="0 0 0"/>
+    </TimeGate>
+  </StbSink>
+  <StbSink station="3">
+    <Ref USE="TouchPad"/>
+  </StbSink>
+  <StbSink station="4">
+    <Ref USE="location"/>
+  </StbSink>
+  <!-- raw tracking output, necessary for calibration -->
+  <StbSink station="6">
+    <Ref USE="user"/>
+  </StbSink>
+  <!-- 
+    use this to add a parallel button 
+  <ButtonFilter buttonmap="23016745">
+    <ParButtonSource dev="0x378"/>
+  </ButtonFilter>
+  -->
+  <!-- camera with transformation for raypicking -->
+  <StbSink station="5" event="on">
+    <Merge>
+      <MergeDefault>
+        <EventVirtualOrientationTransform rotation="1 0 0 -1.57" rotationtype="axisangle">
+          <Ref USE="camera"/>
+        </EventVirtualOrientationTransform>
+      </MergeDefault>
+      <MergeButton>
+        <Ref USE="Buttons"/>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+  <!-- output for APRIL presentations -->
+  <StbSink station="8" event="on">
+    <EventTransform scale="1 -1 1" translation="-0.5 0.5 0.002">
+      <Ref USE="TouchPad"/>
+    </EventTransform>
+  </StbSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- generic tracking distribution stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <StbSink station="10" DEF="user0rec">
+    <NetworkSource number="0" multicast-address="224.100.200.103" port="2003"/>
+  </StbSink>
+  <StbSink station="11" DEF="user1rec">
+    <NetworkSource number="0" multicast-address="224.100.200.104" port="2004"/>
+  </StbSink>
+  <NetworkSink name="user0" number="0" multicast-address="224.100.200.103" port="2003" DEF="user0">
+      <StbSource node="USER0" position="translation" orientation="rotation" />
+  </NetworkSink>
+  <NetworkSink name="user1" number="0" multicast-address="224.100.200.104" port="2004" DEF="user1">
+      <StbSource node="USER1" position="translation" orientation="rotation" />
+  </NetworkSink>
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- simulated user -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <StbSink station="15" DEF="destination" >
+    <EventTransform scale="30 30 30">
+      <StbKeyboardSource number="7"/>
+    </EventTransform>
+  </StbSink>  
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- debug stuff -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <ConsoleSink comment="Location">
+    <Ref USE="location"/>
+  </ConsoleSink>
+  <ConsoleSink comment="CalibParametersPosition" active="off">
+    <Ref USE="CalibParametersPosition"/>
+  </ConsoleSink>
+  <ConsoleSink comment="InertialOffset" active="off">
+    <Ref USE="InertialOffset"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Debug1" active="off">
+    <Ref USE="debug1"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Pip" active="off">
+    <Ref USE="pip"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Mouse" active="off">
+    <Ref USE="TouchPad"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Destination" active="off">
+      <Ref USE="destination"/>
+  </ConsoleSink>
+  <ConsoleSink comment="User0" active="off">
+        <Ref USE="user0"/>
+  </ConsoleSink>
+  <ConsoleSink comment="User1" active="off">
+        <Ref USE="user1"/>
+  </ConsoleSink>
+  <ConsoleSink comment="User0 Rec" active="off">
+          <Ref USE="user0rec"/>
+    </ConsoleSink>
+    <ConsoleSink comment="User1 Rec" active="off">
+          <Ref USE="user1rec"/>
+  </ConsoleSink>
+</OpenTracker>

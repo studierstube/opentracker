@@ -1,0 +1,81 @@
+#Inventor V2.1 ascii
+
+DEF ARTIFACTS Separator {
+    SoArtifactKit {
+	fields [ SFBool selected, SFBool dragable, SFInt32 dragButton, SFNode dragTransform,
+		SFNode pipTrafo, SFNode material, SFNode geometry, SFNode selectMaterial,
+		SFNode selectStyle, SFNode selectTranslation, SFNode selectGeometry, SFNode dragSep,
+		SFNode selectSwitch, SFNode selectGroup ]
+	selected	TRUE
+	dragable	FALSE
+	dragButton	2
+	dragTransform		DEF +0 Transform {
+	    translation	0.334796 -0.124935 0.387753
+	    rotation	-0.415029 -0.842624 -0.343127  1.07594
+	}
+
+	pipTrafo		DEF +1 MatrixTransform {
+	    matrix	0.0277621 -0.0037186 0.0107443 0
+		    0.0106236 -0.0151972 -0.03271 0
+		    0.00707246 0.0253747 -0.00949224 0
+		    -0.161569 -0.730012 -0.275725 1
+	}
+
+	material		DEF +2 Material {
+	    diffuseColor	1 1 1
+	}
+
+	geometry		DEF House+3 Separator {
+	    DEF BUILDING_TRAFO Transform {
+		rotation	1 0 0  3.1415
+		scaleFactor	1 1 1
+	    }
+	    File {
+		name	"data/house.iv"
+	    }
+	}
+
+	selectMaterial		DEF +4 Material {
+	    diffuseColor	1 1 1
+	    transparency	0.95
+	}
+
+	selectStyle		DEF +5 DrawStyle {
+	}
+
+	selectTranslation		DEF +6 Translation {
+	    translation	-8.9407e-08 -0.03 2.80142e-06
+	}
+
+	selectGeometry		DEF +7 Cube {
+	    width	1.65132
+	    height	1.98015
+	    depth	1.6515
+	}
+
+	dragSep		SoDragSeparator {
+	    fields [ SFVec3f translation, SFRotation rotation, SFInt32 dragButton,  ]
+	    translation	0.334796 -0.124935 0.387753
+	    rotation	-0.415029 -0.842624 -0.343127  1.07594
+	    dragButton	2
+	    USE +0
+	    USE +1
+	    USE +2
+	    USE House+3
+	    DEF +8 Switch {
+		whichChild	0
+		DEF +9 Group {
+		    USE +4
+		    USE +5
+		    USE +6
+		    USE +7
+		}
+	    }
+	}
+
+	selectSwitch		USE +8
+
+	selectGroup		USE +9
+
+    }
+}

@@ -1,0 +1,36 @@
+CISCO 350 WLAN card configuration on an iPAQ 3870 (PocketPC 2002)
+
+1.) WLAN card configuration (CISCO ACU - Aironet Client Utility)
+
+- SSID = imsap01
+- client name = test (unimportant)
+- infrastructure mode = yes
+- power save mode = CAM
+- NW security type = none
+- WEP = no WEP
+- authentication type = open
+- user name/pwsd/domain = leave blank
+- PAC provisioning mode = automatic
+- PAC authority = leave blank
+- mixed mode = enabled
+- world mode = disabled
+- data rates = auto
+- transmit power = max
+- offline channel scan = enabled
+
+2.) PocketPC network settings (for German PocketPC)
+
+- Einstellungen > Verbindungen tab > Netzwerkkarte > CISCO Wireless Adapter:
+    - IP-Adresse tab:
+        - select "Spezifische IP-Adresse" radio button
+        - IP-Adresse: 192.168.174.33 (assigned for MAC-address 00:07:0E:B3:5D:71)
+        - Subnetmask: 255.255.255.0
+        - Standardgateway: 192.168.174.254 (--> dschinn)
+    - Namensserver
+        - leave everything blank
+- Einstellungen > Verbindungen tab > Verbindungen
+    - Verbindungen mit dem Internet: Einstellungen Internet
+    - Verbindungen mit dem Buero: Einstellungen Arbeit
+    - Die Netzwerkkarte verbindet mit: Der Arbeit
+
+3.) SSH to dschinn (192.168.174.254) with "guest" account

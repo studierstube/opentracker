@@ -1,0 +1,88 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg2)
+module stbWin.user.0 -xy 161,51 -ex /cg/disks/kagran/people/peci/DA/AVS/stbWin
+module stbGeom.user.1 -xy 208,302 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+module "read geom.user.2" -xy 100,191 -ex $Path/avs_library/mongo
+module stbUser.user.3 -xy 448,192 -ex /cg/disks/kagran/people/peci/DA/AVS/stbUser
+module StbBoolean.user.4 -xy 298,362 -ex /cg/disks/kagran/people/peci/DA/AVS/stbBool
+port_connect stbWin.user.0:0 stbGeom.user.1:0
+port_connect stbWin.user.0:0 StbBoolean.user.4:0
+port_connect "read geom.user.2":0 stbGeom.user.1:2
+port_connect stbUser.user.3:0 stbGeom.user.1:1
+port_connect StbBoolean.user.4:0 stbUser.user.3:3
+parm_set stbWin.user.0:Host: knieriem
+parm_set stbWin.user.0:connect true
+parm_set stbWin.user.0:"GeomSize x" 8
+parm_set stbWin.user.0:"GeomSize y" 8
+parm_set stbWin.user.0:"GeomSize z" 8
+parm_set "read geom.user.2":filename $Path/data/geometry/teapot.geom
+parm_set stbUser.user.3:"User 1" true
+parm_set StbBoolean.user.4:Name: visible
+parm_set StbBoolean.user.4:Wert true
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,984
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 256,520
+   panel stbWin.user.0 -w panel -p "Top Level Stack" -xy 0,152 -wh 256,368
+    manipulator stbWin.user.0:Host: -w typein -p stbWin.user.0 -hide \
+        -xy 10,10 -wh 118,22
+    manipulator stbWin.user.0:Host -w text -p stbWin.user.0 -xy 10,10 -wh 118,22
+    manipulator stbWin.user.0:Port: -w typein -p stbWin.user.0 -hide \
+        -xy 10,32 -wh 118,22
+    manipulator stbWin.user.0:Port -w text -p stbWin.user.0 -xy 10,30 -wh 118,22
+    manipulator stbWin.user.0:connect -w toggle -p stbWin.user.0 \
+        -xy 10,50 -wh 118,22
+    manipulator "stbWin.user.0:Pos x" -w typein_real -p stbWin.user.0 \
+        -xy 10,72 -wh 118,22
+    manipulator "stbWin.user.0:Pos y" -w typein_real -p stbWin.user.0 \
+        -xy 10,94 -wh 118,22
+    manipulator "stbWin.user.0:Pos z" -w typein_real -p stbWin.user.0 \
+        -xy 10,116 -wh 118,22
+    manipulator "stbWin.user.0:Rot x" -w typein_real -p stbWin.user.0 \
+        -xy 10,138 -wh 118,22
+    manipulator "stbWin.user.0:Rot y" -w typein_real -p stbWin.user.0 \
+        -xy 10,160 -wh 118,22
+    manipulator "stbWin.user.0:Rot z" -w typein_real -p stbWin.user.0 \
+        -xy 10,182 -wh 118,22
+    manipulator "stbWin.user.0:Rot w" -w typein_real -p stbWin.user.0 \
+        -xy 10,204 -wh 118,22
+    manipulator "stbWin.user.0:Size x" -w typein_real -p stbWin.user.0 \
+        -xy 10,226 -wh 118,22
+    manipulator "stbWin.user.0:Size y" -w typein_real -p stbWin.user.0 \
+        -xy 10,248 -wh 118,22
+    manipulator "stbWin.user.0:Size z" -w typein_real -p stbWin.user.0 \
+        -xy 10,270 -wh 118,22
+    manipulator "stbWin.user.0:GeomSize x" -w typein_real -p stbWin.user.0 \
+        -xy 10,292 -wh 236,22
+    manipulator "stbWin.user.0:GeomSize y" -w typein_real -p stbWin.user.0 \
+        -xy 10,314 -wh 236,22
+    manipulator "stbWin.user.0:GeomSize z" -w typein_real -p stbWin.user.0 \
+        -xy 10,336 -wh 236,22
+   panel stbGeom.user.1 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,64
+    manipulator "stbGeom.user.1:clear Geometry" -w radio_buttons -p stbGeom.user.1 \
+        -xy 10,10 -wh 118,44
+   panel "read geom.user.2" -w panel -p "Top Level Stack" -xy 0,64 -wh 256,214
+    manipulator "read geom.user.2:filename" -w browser -p "read geom.user.2" \
+        -xy 10,10 -wh 236,194
+   panel stbUser.user.3 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,108
+    manipulator "stbUser.user.3:User 1" -w toggle -p stbUser.user.3 \
+        -xy 10,10 -wh 118,22
+    manipulator "stbUser.user.3:User 2" -w toggle -p stbUser.user.3 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbUser.user.3:User 3" -w toggle -p stbUser.user.3 \
+        -xy 10,54 -wh 118,22
+    manipulator "stbUser.user.3:User 4" -w toggle -p stbUser.user.3 \
+        -xy 10,76 -wh 118,22
+   panel StbBoolean.user.4 -w panel -p "Top Level Stack" -xy 0,152 -wh 256,281
+    manipulator StbBoolean.user.4:Name: -w typein -p StbBoolean.user.4 \
+        -xy 10,10 -wh 118,22
+    manipulator StbBoolean.user.4:Order: -w typein_integer -p StbBoolean.user.4 \
+        -xy 10,32 -wh 118,22
+    manipulator StbBoolean.user.4:select -w radio_buttons -p StbBoolean.user.4 \
+        -xy 10,60 -wh 118,66
+    manipulator StbBoolean.user.4:Wert -w toggle -p StbBoolean.user.4 \
+        -xy 50,133 -wh 118,22
+    manipulator StbBoolean.user.4:slider -w islider -p StbBoolean.user.4 -hide \
+        -xy 10,142 -wh 236,32
+    manipulator StbBoolean.user.4:dial -w idial -p StbBoolean.user.4 -hide \
+        -xy 71,141 -wh 90,130
+# End of file

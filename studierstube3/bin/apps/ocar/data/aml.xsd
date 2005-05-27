@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsdoc.xsl"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Firefly (Vienna University of Technology) -->
+<!-- 
+    This is a first schema proposal for a unified data base for indoor and outdoor ar application data.
+    Any comments please contact Gerhard Reitmayr <reitmayr@ims.tuwien.ac.at>
+    Copyright 2003 Vienna University of Technology 
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:annotation>
+    <xs:documentation>
+      <title>BAUML - Building Augmentation Utility Modeling Language</title>
+      <p>This schema describes a XML language to build a world model used for Augmented Reality and 
+      Ubiquitous Computing research projects at the Vienna University of Technology. It provides 
+      the structures to describe geometry and spatial relations between buildings and rooms contained
+      within building. in addition to that it allows to store locations of markers used for optical 
+      tracking within the building.</p>
+      <p>Its is also designed to be very extensible. A hierarchy of types defines the basic semantics
+      of elements. Elements then further specialize these to provide more application specific 
+      information. Therefore additional content can be embedded in structures already built with
+      this format.</p>
+      <p>This should be a basis for discussion and extension towards a larger schema for our world model.
+      Currently we plan to store the data for Signpost 2.0 and the OCAR application in this format. Please
+      contact Gerhard Reitmayr <a href="mailto:reitmayr@ims.tuwien.ac.at">&lt;reitmayr@ims.tuwien.ac.at&gt;</a> 
+      with any remarks you have.
+      </p>
+      <p>Version 2.1 - 18.1.2003</p>
+    </xs:documentation>
+  </xs:annotation>
+  <!-- some type definitions for attributes -->
+  <xs:simpleType name="UnitSphereValue">
+    <xs:annotation>
+      <xs:documentation>double values in the interval [-1,1] which is a handy type for quaternion representation.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:double">
+      <xs:maxInclusive value="1"/>
+      <xs:minInclusive value="-1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DoubleList">
+    <xs:annotation>
+      <xs:documentation>list of double values, base type for restricted data types like vectors, rotations, etc.</xs:documentation>
+    </xs:annotation>
+    <xs:list itemType="xs:double"/>
+  </xs:simpleType>
+  <xs:simpleType name="IntegerList">
+    <xs:annotation>
+      <xs:documentation>list of integer values, useful for list of indices.</xs:documentation>
+    </xs:annotation>
+    <xs:list itemType="xs:integer"/>
+  </xs:simpleType>
+  <xs:simpleType name="UnitSphereValueList">
+    <xs:annotation>
+      <xs:documentation>list of UnitSphereValue, base type for restricted data types like Quaternions etc.</xs:documentation>
+    </xs:annotation>
+    <xs:list itemType="xs:double"/>
+  </xs:simpleType>
+  <xs:simpleType name="Vec3">
+    <xs:annotation>
+      <xs:documentation>a simple type storing three double values separated by spaces.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="DoubleList">
+      <xs:length value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Quaternion">
+    <xs:annotation>
+      <xs:documentation>a simple type storing four double values in the interval [-1,1] separated by spaces.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="UnitSphereValueList">
+      <xs:length value="4"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- complex types for actual element declarations. we use these types to document the derivation hierarchy of elements and the objects they represent.-->
+  <!-- the following types define base types for parts of objects. -->
+  <xs:complexType name="AnnotationType">
+    <xs:annotation>
+      <xs:documentation>Annotation data for all objects. The idea is to add any meta-data of objects here. This could also included application specific data. Therefore we specify so far no further content model, but allow any content here.
+<note>RDF might be a good way to specify annotation data.</note>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="xs:anyType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RepresentationType">
+    <xs:annotation>
+      <xs:documentation>Geometrical representation of SpatialObjects. Any kind of representation could be possible. So far we support the simple vertex list, polygon model for BAUML.</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:sequence>
+        <xs:element name="Vertex" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This element stores a single vertex of a polygon based geometrical representation. At least one point is necessary for a non empty representation.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="position" type="Vec3">
+              <xs:annotation>
+                <xs:documentation>The position attribute specifies the vertex position as x y z.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="id"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Polygon" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A polygon specifies a list of vertices it is built from. In addition to that it can specify a certain type.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="vertices" type="IntegerList" use="required">
+              <xs:annotation>
+                <xs:documentation>list of vertices the polygon is built from</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" use="required">
+              <xs:annotation>
+                <xs:documentation>The polygon can be of one of the following types :
+<ul>
+                    <li>wall</li>
+                    <li>floor</li>
+                    <li>portal</li>
+                    <li>ceiling</li>
+                    <li>special</li>
+                  </ul>
+                </xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="wall"/>
+                  <xs:enumeration value="floor"/>
+                  <xs:enumeration value="portal"/>
+                  <xs:enumeration value="ceiling"/>
+                  <xs:enumeration value="special"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="name" type="xs:NCName" use="optional">
+              <xs:annotation>
+                <xs:documentation>a polygon can also have a name. This is for example used to relate the portal polygons to certain portals.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="PoseType">
+    <xs:annotation>
+      <xs:documentation>specifies pose of SpatialObjects. different ways to specify pose will be derived from that.</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="Transformation">
+        <xs:annotation>
+          <xs:documentation>This specifies a simple affine transformation consisting of a scale, a rotation and a translation in that order.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attribute name="translation" type="Vec3" use="optional" default="0 0 0">
+            <xs:annotation>
+              <xs:documentation>This attribute gives a translation of the transformation.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="rotation" type="DoubleList" use="optional" default="0 0 1 0">
+            <xs:annotation>
+              <xs:documentation>gives the rotational part of the transformation. The format itself is specified by the rotationType attribute.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="rotationType" use="optional" default="axisangle">
+            <xs:annotation>
+              <xs:documentation>this attribute specifies the format of the rotation attribute. It allows the following choices :
+<ul>
+                  <li>
+                    <b>axisangle</b> - gives the rotation as four doubles. The first three describe the axis of rotation and the fourth the angle in radians.</li>
+                  <li>
+                    <b>quaternion</b> - gives the rotation as a quaternion. The first three entries specify the x, y, z components of the vectorial part. The fourth entry is the homogenous part of the quaternion.</li>
+                  <li>
+                    <b>matrix</b> - gives the rotation as a 3x3 orthogonal matrix with determinant 1.</li>
+                  <li>
+                    <b>euler</b> - gives the rotation as Euler angles around x, y and z.</li>
+                </ul>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="axisangle"/>
+                <xs:enumeration value="quaternion"/>
+                <xs:enumeration value="matrix"/>
+                <xs:enumeration value="euler"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="scale" type="Vec3" use="optional" default="1 1 1">
+            <xs:annotation>
+              <xs:documentation>gives the non-uniform scale of the transformation.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="MatrixTransform">
+        <xs:annotation>
+          <xs:documentation>This specifies a general 4x4 transformation matrix. Use at your own risk :).</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attribute name="matrix">
+            <xs:annotation>
+              <xs:documentation>an arbitrary 4x4 transformation matrix.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="DoubleList">
+                <xs:length value="16"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+  <!-- The following types represent the actual object hierarchy, describing the ontology of our format -->
+  <xs:complexType name="ObjectType">
+    <xs:annotation>
+      <xs:documentation>Everything is represented as an object. Objects generally will follow this
+      type. There is some discussion needed about this type system (see note).
+      <note>The type system is based on the following idea :
+      <p>Important conceps get codified into a type system. Actual instance types are derived from one
+      of these main types and can extend these or other instances types. This allows to have
+      application dependend extensions to the main types.</p>
+          <p>At the same time, every instance type carries an attribute <em>baseType</em> that identifies
+      the main type it is derived from. This allows applications that do not know anything about the
+      instance type to revert to some default behaviour.</p>
+        </note>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence minOccurs="0">
+      <xs:element name="annotation" type="AnnotationType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="optional">
+      <xs:annotation>
+        <xs:documentation>The id attribute allows to define a unique identifier for any object of this type.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="SpatialObjectType">
+    <xs:annotation>
+      <xs:documentation>Any object that represents something at a location. It includes a pose and a 
+      geometric representation. Abstract objects at a location simply have no representation. 
+</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ObjectType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="pose" type="PoseType" minOccurs="0"/>
+          <xs:element name="representation" type="RepresentationType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SpatialContainerType">
+    <xs:annotation>
+      <xs:documentation>An object that is also a container of other spatial objects. It adds a 
+      children element to the general SpatialObject. The childrens pose is interpreted relative 
+      to the SpatialContainerType parent object. This allows us to build the ususal hierarchical 
+      spatial models.So far this is the only concept that we codify in our ontology. We also use 
+      the hierarchical structure of the XML format to express the relationship of containment 
+      implicitly. 
+      <question>Does this make sense ? The hierarchical structure gives one relationship that
+      we can implicitly define. Should this be the containment relationship ?</question>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SpatialObjectType">
+        <xs:sequence minOccurs="0">
+          <xs:element name="children" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>This subelement stores the list of children of the container type node. It allows all elements in the same substitution group as Object.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="Object"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- the declarations of actual elements used. these define the names and more detailed content models depending on the types defined in above section -->
+  <xs:element name="Object">
+    <xs:annotation>
+      <xs:documentation>This element describes any object. It can be used everywhere</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="ObjectType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="ObjectType">
+            <xs:annotation>
+              <xs:documentation>This attribute defines the type this element is derived from. Unfortunatly we have to add this atrtibute to each derived element, as we can not override it in the original object hierarchy.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SpatialObject" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>This element describes a spatially located object with or without a spatial representation</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialObjectType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialObjectType"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SpatialContainer" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>This element describes a spatially located object that contains other objects. If these are spatial objects their location is relative to this object.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialContainerType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialContainerType"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Building" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>A building in the BAUML part of the format. Note that the Building element is derived from SpatialContainerType and exports this fact in the fixed baseType attribute. This allows applications that do not know about Buildings to fall back on a default behaviour for SpatialContainerType objects.
+
+<question>Together with Markus Jobst, we identified that entry and exit points of buildings are an interesting feature to describe. These typically relate to addresses in existing data sets. Should we model these with a fixed sub element or rather as general children objects of a building ?
+</question>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialContainerType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialContainerType"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Room" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>A room in the BAUML part of the format. It is also a SpatialContainerType and in addition to that also specifies portals. These are special polygons that are connected to other polygons in other rooms. The portals are specified in a special Portal child element and reference polygons of the representation by name.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialContainerType">
+          <xs:sequence>
+            <xs:element name="portals" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>This element lists the portals of the room.</xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Portal" maxOccurs="unbounded">
+                    <xs:annotation>
+                      <xs:documentation>A portal defines directed link to another room (and a portal therein).</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:attribute name="room" type="xs:string" use="required">
+                        <xs:annotation>
+                          <xs:documentation>the id of the target room.</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                      <xs:attribute name="polygon" type="xs:string" use="required">
+                        <xs:annotation>
+                          <xs:documentation>the name of the polygon in this room.</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                      <xs:attribute name="polygonnb" type="xs:string" use="optional">
+                        <xs:annotation>
+                          <xs:documentation>The name of the target polygon in the target room. This is not required.</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialContainerType"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ARToolkitMarker" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>A marker is a spatial object. Its representation defines the four corners of a rectangular maker. It must contain 3 or 4 vertices in this order: top-left, top-right, bottom-left, and optional: bottom-right.
+
+<note>This is only a first kind of tracking reference object. We probably want to define a whole set of such object types, structured somehow ? Or simply have a super type to allow some kind of default semantics across all kinds of tracking references.</note>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialObjectType">
+          <xs:attribute name="number" type="xs:integer" use="required"/>
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialObjectType"/>
+          <xs:attribute name="pattern" type="xs:string" use="optional"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Waypoint" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>A waypoint is a node in a street skeleton graph for outdoor navigation. It has a pose and probably an empty representation. In addition it adds links to all its neighbor nodes to build a navigation graph.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialObjectType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialObjectType"/>
+          <xs:attribute name="neighbors" type="xs:string" use="required">
+            <xs:annotation>
+              <xs:documentation>This attribute stores a list of ids of the neighbor waypoints.
+<note>This should probably be restricted to a list of NCNames</note>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Annotation" substitutionGroup="Object">
+    <xs:annotation>
+      <xs:documentation>An annotation object is a spatial object specifically used by the annotation application to store data. It is modelled as its own object type to remove it from any default processing, as it really belongs only to the annotation app.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="SpatialObjectType">
+          <xs:attribute name="baseType" type="xs:NCName" use="required" fixed="SpatialObjectType"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

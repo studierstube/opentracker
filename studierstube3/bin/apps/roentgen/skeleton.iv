@@ -1,0 +1,23 @@
+#Inventor V2.1 ascii
+
+Separator {
+
+
+#
+# Geometry of male
+#
+
+
+	Separator {
+		Transform {
+			scaleFactor  0.01 0.01 0.01
+			rotation 	 1 0 0  -1.586
+		}
+
+    	File { name "skeletonq.wrl" }
+	}
+
+
+}
+
+

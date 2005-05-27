@@ -1,0 +1,98 @@
+Update 21.01.2004:
+Einleitung_1, Beschreibung_1_5, Beschreibung_3_1
+
+Einleitung_1:
+Willkommen bei Construct 3 dee.
+In der einen Hand hältst du das Menü, in der anderen den Stift  mit dem du das Programm bedienen kannst.
+
+Einleitung_2:
+Wenn du mit der Spitze des Stiftes auf einen Knopf auf dem Menü fährst, wird der Knopf gelb markiert.
+Diese Markierung zeigt an, daß der Knopf jetzt per Druck auf den Stiftknopf, aktiviert werden kann.
+Bewege nun die Stiftspitze auf den Knopf mit der Beschriftung next in der rechten oberen Ecke des Menüs um weiter zu gelangen.
+
+Einleitung_3
+Drücke nun auf den Stiftknopf um den Knopf next zu aktivieren.
+
+Einleitung_3_x
+Bewege die Stiftspitze wieder zurück auf den Knopf mit der Beschriftung next in der rechten oberen Ecke des Menüs um weiter zu gelangen.
+
+Einleitung_4
+Du kannst jederzeit auf den Knopf mit der Beschriftung riplay drücken, um die Ansage zu wiederholen.
+Nun schaue bitte auf das Menü.
+Am oberen Rand befinden sich die bereits vorgestellten Navigationsknöpfe für dieses Tutorial.
+Mit den Knöpfen darunter kannst du auf die verschiedenen Seiten des Menüs umschalten.
+In diesem Tutorial wirst du nur die Seiten Mäiin und Construct benötigen.
+Unter diesen Seitenknöpfen befinden sich die jeweiligen Funktionsknöpfe der Seite.
+In der Mäiinseite sind dies verschiedene Objekte zum konstruieren, wie Kreis oder Kugel.
+Ausserdem ist der derzeit rote Knopf mit der Beschriftung Pointt zum Umstellen zwischen dem Punktmodus und dem Selektiermodus auf dieser Seite.
+Wenn dieser Knopf rot leuchtet, kann man per Stiftknopf Punkte im Raum setzen.
+Sonst kann man mit dem Stiftknopf Punkte im Raum selektieren.
+Drücke nun auf den next Knopf um weiter zu gelangen.
+
+Beschreibung_1_1:
+Beispiel Eins.
+In diesem Beispiel sollst du einen Kegel erzeugen und dann mit einer Ebene schneiden.
+Um den Kegel zu erzeugen musst du drei Punkte setzen, die sich nicht in einer Ebene befinden.
+Um einen Punkt zu setzen muss der Punktemodus auf der Mäiinseite aktiviert sein.
+Der erste Punkt symbolisiert die Mitte der Kreisfläche des Kegels.
+Setze nun diesen Punkt in den Raum, in dem du den Stift an die gewünschte Stelle plazierst und dann den Knopf auf dem Stift drückst.
+
+Der zweite Punkt gibt die Lage der Spitze des Kegels an.
+Plaziere nun diesen Punkt im Raum.
+
+Der dritte Punkt für den Kegel, ist ein Punkt auf der Hülle.
+Plaziere nun noch den dritten und letzten Punkt für den Kegel im Raum.
+
+Beschreibung_1_2:
+Drücke nun den Kegelknopf auf der Mäiinseite um aus den drei Punkten einen Kegel zu machen.
+
+Beschreibung_1_3:
+Jetzt sollst du den Kegel mit einer Ebene schneiden.
+Setze dazu wieder drei Punkte im Raum.
+
+Beschreibung_1_4:
+Drücke nun den Pläin Knopf um eine Ebene zu erstellen.
+
+Beschreibung_1_5:
+Um nun diese Ebene mit dem Kegel zu schneiden mußt du zuerst Kegel und Ebene markieren.
+Dazu stelle den Selektiermodus ein.
+Dass heißt der Knopf mit der Beschriftung Pointt  darf nicht rot leuchten.
+Nun markiere den Kegel indem du so nahe an ihn heranfährst, bis sein Umriß erscheint.
+Dann drücke die Taste auf dem Stift um ihn zu markieren.
+Jetzt markiere auch noch die Ebene mit dem Stift.
+Wechsle jetzt auf die Construct Seite im Menü.
+Drücke nun auf den Knopf mit der Beschriftung Intersektion um Kegel und Ebene zu schneiden.
+
+Beschreibung_1_6:
+Du kannst nun die Punkte verschieben und die Auswirkungen auf die Schnittebene betrachten.
+Sobald du bereit für Beispiel 2 bist, drücke auf den next Knopf um weiter zu gelangen.
+
+Beschreibung_2_1:
+Beispiel Zwei.
+In diesem Beispiel erzeugst du einen Kegel mit einer Kugel auf der Spitze.
+Drücke nun auf den Knopf mit der Beschriftung Läija 2.   
+Setze nun wieder 3 Punkte.
+
+Beschreibung_2_2:
+Erzeuge nun durch druck auf den Kegelknopf erneut einen Kegel.
+
+Beschreibung_2_3:
+Stelle jetzt den Selektiermodus ein. 
+Dass heißt der Knopf mit der Beschriftung Pointt  darf nicht rot leuchten.
+Jetzt wähle die Spitze des Kegels aus, indem du mit dem Stift  sie berührst und den Knopf auf dem Stift drückst.
+
+Beschreibung_2_4:
+Nun stelle den Punktmodus wieder ein, indem du den Knopf mit der Beschriftung Pointt wieder einschaltest, damit er rot leuchtet.   
+Plaziere nun einen Punkt im Raum der auf der Oberfläche der Kugel liegt.   
+Drücke den Kugelknopf um fortzufahren.
+
+Beschreibung_2_5:
+Markiere nun wie im Beispiel Eins den Kugel und den Kegel und gehe auf die Seite Construct im Menü.
+Drücke nun auf den Knopf mit der Beschriftung Buulean    Junion um die beiden Objekte zu vereinigen.
+
+Beschreibung_2_6:
+Du kannst nun die Punkte verschieben und die Auswirkungen auf die Figur betrachten.
+Sobald du fertig bist, kannst du das Tutorial mit dem next Knopf beenden.
+
+Beschreibung_3_1:
+Gratulation! Du hast das Tutorial erfolgreich beendet.

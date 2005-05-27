@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="firefly_4mm.dat" videomode="WDM_CAP,videoWidth=640,videoHeight=480" framerate="30" treshhold="100" pattern-dir="../mobile/data" />
+		<ConsoleConfig headerline="Einstein Tracker" interval="10" display="off"/>
+		<InterSenseConfig>
+			<ISTracker id="0"/>
+		</InterSenseConfig>
+	</configuration>
+	<ConsoleSink comment="InterTrax" active="off">
+		<EventTransform DEF="orientation" translation="0 0 -1">
+            <EventVirtualOrientationTransform rotationtype="matrix" rotation="0 -1 0 1 0 0 0 0 1">
+                <EventOrientationTransform rotation="0 1 0 -1 0 0 0 0 1" rotationtype="matrix">
+                    <InterSenseSource id="0"/>
+                </EventOrientationTransform>
+            </EventVirtualOrientationTransform>
+        </EventTransform>
+	</ConsoleSink>
+	<!-- Camera tracking -->
+	<StbSink station="0" DEF="reference">
+		<EventVirtualTransform DEF="calibOffsetCam">
+		<EventDynamicTransform baseevent="true">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>
+			<TestSource position="0 0 0" frequency="10"/>
+		</EventDynamicTransform>
+		</EventVirtualTransform>
+	</StbSink>
+	<!-- PIP tracking -->
+	<StbSink station="1" DEF="PIP">
+	<EventDynamicTransform baseevent="false">
+	    <TransformBase>
+			<Ref USE="orientation"/>
+		</TransformBase>				    
+			    <EventVirtualTransform rotation="0 1 0 0" translation="0.01 -0.02 0">
+					<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+						<ARToolKitSource tag-file="../mobile/data/lambda.tag" center="0 0" size="50 50"/>
+					</EventTransform>
+				</EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+	<!-- PIP pointer -->
+	<StbSink station="4" event="on" DEF="POINTER">
+		<EventDynamicTransform baseevent="true">
+			<TransformBase>
+				<Ref USE="PIP"/>
+			</TransformBase>
+			<EventTransform scale="-0.3 -0.2 0" translation="0.15 0.1 -0.007" rotation="0 0 0 1">
+			   <ButtonFilter buttonmask="10000000">
+			    <StbMouseSource mode="relative" DEF="mouse"/>
+			   </ButtonFilter>
+			</EventTransform>
+		</EventDynamicTransform>
+	</StbSink>
+	<!-- Gloves tracking -->
+	<StbSink station="2" event="on" DEF="GLOVE">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="orientation"/>
+			</TransformBase>				
+     <EventVirtualTransform translation="0.002 0.017 -0.098" DEF="calibOffsetR">
+      <Merge>
+        <MergeDefault>
+            <EventVirtualTransform rotation="0 0.70711 0 0.70711" translation="0.04809 0.0321 -0.0467" DEF="G2">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="../mobile/data/glove2.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+            <EventVirtualTransform rotation="0 1 0 0" translation="0 0.0356 -0.09" DEF="G3">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+                <ConfidenceFilter treshhold="0.7">
+                  <ARToolKitSource center="0 0" size="50" tag-file="../mobile/data/glove3.patt"/>
+                </ConfidenceFilter>
+              </EventTransform>
+            </EventVirtualTransform>
+           <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0" DEF="G1">
+              <ConfidenceFilter treshhold="0.7">
+                <ARToolKitSource center="0 0" size="50" tag-file="../mobile/data/glove1.patt"/>
+              </ConfidenceFilter>
+            </EventTransform>
+        </MergeDefault>
+        <MergeButton>
+         <ButtonOp>
+         <Arg1>
+            <ButtonFilter buttonmask="11111000" buttonmap="00001111">
+              <ParButtonSource dev="0x378" DEF="ParallelButton"/>
+            </ButtonFilter>
+          </Arg1>
+          <Arg2>
+            <ButtonFilter buttonmask="01000000" buttonmap="00000000">
+                <Ref USE="mouse"/>
+            </ButtonFilter>
+          </Arg2>
+          </ButtonOp>
+        </MergeButton>
+      </Merge>
+    </EventVirtualTransform>
+		</EventDynamicTransform>
+	</StbSink>
+	<!-- debug output -->
+	<ConsoleSink comment="camera" active="on">
+	  <Ref USE="reference"/>
+	</ConsoleSink>
+	<ConsoleSink comment="Glove" active="off">
+	  <Ref USE="GLOVE"/>
+	</ConsoleSink>
+	<ConsoleSink comment="Pip" active="off">
+	  <Ref USE="PIP"/>
+	</ConsoleSink>
+	<ConsoleSink comment="Pointer" active="off">
+	  <Ref USE="POINTER"/>
+	</ConsoleSink>
+	<ConsoleSink comment="G1" active="off">
+	  <Ref USE="G1"/>
+	</ConsoleSink>
+	<ConsoleSink comment="G2" active="off">
+	  <Ref USE="G2"/>
+	</ConsoleSink>
+	<ConsoleSink comment="G3" active="off">
+	  <Ref USE="G3"/>
+	</ConsoleSink>
+</OpenTracker>

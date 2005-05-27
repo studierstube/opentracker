@@ -1,0 +1,946 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+
+<!-- /stb/studierstube3/bin/mobile/LogitechPro4000.dat -->
+
+  <configuration>
+    <ARToolKitPlusConfig camera-parameter="/stb/studierstube3/bin/apps/signpost/config/firefly_4mm.dat" marker-mode="idbased" treshold="110" videomode="320 240"/>
+    <ConsoleConfig display="on" headerline="Mobile Setup" interval="20"/>
+    <XSensConfig />
+  </configuration>
+
+  <ConsoleSink active="off" comment="icg">
+    <Merge DEF="RawTracking">
+      <MergeDefault>
+        <!--<GroupGate DEF="cell0" group="icg" neighbors="cell0">-->
+          <ConfidenceSelect timeout="100" type="high">
+            <EventTransform rotation="-0.999652 0.067207 0.019639 0.018374 0.996808 0.041805 -0.018907 0.043090 -0.997696" rotationtype="matrix" translation="11.864378 0.121936 3.761188">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 1-->
+                  <Filter DEF="MARKER_pattern001" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="001"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999161 -0.003959 0.040884 -0.002040 0.999956 0.008702 -0.040903 0.008547 -0.999125" rotationtype="matrix" translation="16.199479 0.135577 3.897460">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 2-->
+                  <Filter DEF="MARKER_pattern002" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="002"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.029592 -0.002636 -0.999554 -0.005031 0.999995 -0.002578 0.999549 0.001903 -0.029605" rotationtype="matrix" translation="17.036480 0.112322 3.320196">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 3-->
+                  <Filter DEF="MARKER_pattern003" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="003"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.020445 0.000660 -0.999786 -0.003764 0.999999 0.000676 0.999784 0.000779 -0.020443" rotationtype="matrix" translation="17.007031 0.144147 1.968252">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 4-->
+                  <Filter DEF="MARKER_pattern004" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="004"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.053604 0.019219 -0.998377 -0.003757 0.999812 0.019331 0.998555 0.002621 -0.053522" rotationtype="matrix" translation="17.040436 0.143370 0.722715">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 5-->
+                  <Filter DEF="MARKER_pattern005" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="005"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.028307 -0.000490 -0.999597 -0.016359 0.999898 -0.000086 0.999465 0.014252 -0.028312" rotationtype="matrix" translation="17.074407 0.166843 -0.515329">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 6-->
+                  <Filter DEF="MARKER_pattern006" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="006"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999782 0.002478 -0.020776 -0.002060 0.999994 0.002432 0.020781 -0.002381 0.999781" rotationtype="matrix" translation="16.229938 0.184774 -1.894243">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 7-->
+                  <Filter DEF="MARKER_pattern007" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="007"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999643 0.014503 -0.023626 -0.012541 0.999889 -0.003093 0.023585 0.003437 0.999714" rotationtype="matrix" translation="13.457031 0.652841 -1.970267">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 8-->
+                  <Filter DEF="MARKER_pattern008" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="008"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.021231 -0.000892 0.999774 0.005133 0.999987 0.000786 -0.999761 0.004982 0.021235" rotationtype="matrix" translation="11.405750 0.174259 -0.859402">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 9-->
+                  <Filter DEF="MARKER_pattern009" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="009"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.021444 -0.003383 0.999758 0.005392 0.999993 0.003343 -0.999756 0.001801 0.021462" rotationtype="matrix" translation="11.377461 0.164879 0.340490">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 10-->
+                  <Filter DEF="MARKER_pattern010" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="010"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.024604 0.005250 0.999683 -0.001842 0.999984 -0.005196 -0.999696 -0.002161 0.024613" rotationtype="matrix" translation="11.339888 0.158765 1.699768">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 11-->
+                  <Filter DEF="MARKER_pattern011" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="011"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999687 0.001245 0.024608 -0.004123 0.999928 0.011867 -0.024659 0.011902 -0.999611" rotationtype="matrix" translation="7.283383 -0.582463 3.732755">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 12-->
+                  <Filter DEF="MARKER_pattern012" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="012"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999723 0.016024 0.022961 -0.007336 0.995409 -0.094694 -0.022372 -0.094362 -0.995016" rotationtype="matrix" translation="9.861186 -0.590257 3.809785">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 13-->
+                  <Filter DEF="MARKER_pattern013" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="013"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.023068 -0.002706 -0.999726 -0.005495 0.999993 -0.002646 0.999719 0.002569 -0.023082" rotationtype="matrix" translation="11.187397 0.096106 3.154100">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 14-->
+                  <Filter DEF="MARKER_pattern014" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="014"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999619 0.000666 -0.027494 0.002245 1.000000 0.000053 0.027494 -0.000035 0.999618" rotationtype="matrix" translation="8.494521 0.105873 2.413396">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 15-->
+                  <Filter DEF="MARKER_pattern015" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="015"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999640 0.004125 -0.024990 -0.009607 0.999982 0.004551 0.025033 -0.004449 0.999662" rotationtype="matrix" translation="5.512717 0.145824 2.324629">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 16-->
+                  <Filter DEF="MARKER_pattern016" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="016"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.034579 0.003350 0.999108 0.002823 0.999634 -0.004277 -0.999398 0.026856 0.034556" rotationtype="matrix" translation="4.347265 0.121982 2.967480">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 17-->
+                  <Filter DEF="MARKER_pattern017" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="017"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.034740 0.001367 -0.999395 -0.003552 0.999994 0.001472 0.999390 0.003036 -0.034735" rotationtype="matrix" translation="4.340642 0.121340 2.972782">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 18-->
+                  <Filter DEF="MARKER_pattern018" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="018"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.041344 0.005545 -0.999120 0.002115 0.999982 0.005637 0.999143 0.002321 -0.041355" rotationtype="matrix" translation="4.250822 0.157880 2.174393">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 19-->
+                  <Filter DEF="MARKER_pattern019" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="019"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999651 -0.007423 -0.024534 0.009968 0.999943 0.007513 0.024459 -0.007698 0.999668" rotationtype="matrix" translation="3.711962 0.262401 -2.232980">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 20-->
+                  <Filter DEF="MARKER_pattern020" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="020"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999652 -0.008379 -0.024560 0.009732 0.999950 0.005246 0.024509 -0.005453 0.999684" rotationtype="matrix" translation="2.189215 0.693634 -2.274601">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 21-->
+                  <Filter DEF="MARKER_pattern021" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="021"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999760 0.005056 -0.021548 -0.003970 0.999987 0.001219 0.021553 -0.001110 0.999767" rotationtype="matrix" translation="0.035208 0.212382 -2.328465">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 22-->
+                  <Filter DEF="MARKER_pattern022" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="022"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999615 -0.008544 -0.021188 0.017782 0.999939 -0.007238 0.021315 0.007059 0.999705" rotationtype="matrix" translation="-1.489478 0.697148 -2.370644">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 23-->
+                  <Filter DEF="MARKER_pattern023" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="023"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999690 0.003065 -0.023935 -0.006868 0.999995 0.000270 0.023937 -0.000197 0.999706" rotationtype="matrix" translation="-3.335094 0.229398 -2.415300">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 24-->
+                  <Filter DEF="MARKER_pattern024" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="024"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.031457 -0.003890 0.999496 0.000313 0.999991 0.003932 -0.999505 -0.001375 0.031458" rotationtype="matrix" translation="-4.550568 0.265439 -1.701478">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 25-->
+                  <Filter DEF="MARKER_pattern025" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="025"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.048137 -0.026674 0.998469 0.000000 0.999628 0.026918 -0.998841 -0.005716 0.048119" rotationtype="matrix" translation="-4.589469 0.263761 -0.318848">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 26-->
+                  <Filter DEF="MARKER_pattern026" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="026"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.026870 -0.002854 0.999617 -0.003630 0.999993 0.002790 -0.999632 0.002338 0.026859" rotationtype="matrix" translation="-4.618779 0.264123 1.057767">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 27-->
+                  <Filter DEF="MARKER_pattern027" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="027"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999517 0.071146 0.019565 0.025507 0.994588 0.074421 -0.017730 0.075719 -0.995923" rotationtype="matrix" translation="-3.789838 0.262319 1.878196">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 28-->
+                  <Filter DEF="MARKER_pattern028" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="028"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.039457 -0.002356 0.999218 -0.004228 0.999983 0.002562 -0.999212 -0.005269 0.039447" rotationtype="matrix" translation="-3.745842 0.159482 2.752510">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 29-->
+                  <Filter DEF="MARKER_pattern029" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="029"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999513 -0.005187 0.030310 -0.007265 0.999976 0.004675 -0.030343 0.004520 -0.999527" rotationtype="matrix" translation="-2.697604 0.166492 3.380091">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 30-->
+                  <Filter DEF="MARKER_pattern030" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="030"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.998744 -0.008425 0.049938 -0.004082 0.999964 -0.000313 -0.049937 -0.000735 -0.998743" rotationtype="matrix" translation="2.917073 0.118419 3.529749">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 31-->
+                  <Filter DEF="MARKER_pattern031" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="031"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.013570 -0.005137 -0.999895 -0.003671 0.999980 -0.005085 0.999901 0.003735 -0.013588" rotationtype="matrix" translation="-7.435552 0.109832 0.460792">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 32-->
+                  <Filter DEF="MARKER_pattern032" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="032"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.015572 -0.004651 -0.999867 -0.015147 0.999856 -0.004396 0.999764 0.016316 -0.015640" rotationtype="matrix" translation="-7.396826 0.116312 -1.255886">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 33-->
+                  <Filter DEF="MARKER_pattern033" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="033"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999729 0.000405 -0.023213 0.001767 0.999996 0.002930 0.023208 -0.002922 0.999724" rotationtype="matrix" translation="-7.944598 0.131344 -2.509614">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 34-->
+                  <Filter DEF="MARKER_pattern034" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="034"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999784 -0.001622 -0.020745 0.001230 0.999977 0.006528 0.020738 -0.006563 0.999763" rotationtype="matrix" translation="-9.859895 0.587871 -2.547658">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 35-->
+                  <Filter DEF="MARKER_pattern035" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="035"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.027861 -0.011042 0.999549 0.002926 0.999939 0.011013 -0.999608 0.000873 0.027892" rotationtype="matrix" translation="-10.655731 0.093595 -1.460713">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 36-->
+                  <Filter DEF="MARKER_pattern036" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="036"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.021871 -0.010261 0.999708 -0.007391 0.999926 0.010402 -0.999733 -0.006583 0.021793" rotationtype="matrix" translation="-10.698667 0.115335 0.612070">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 37-->
+                  <Filter DEF="MARKER_pattern037" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="037"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.999764 -0.010704 0.019559 -0.009355 0.999923 0.006480 -0.019619 0.006271 -0.999787" rotationtype="matrix" translation="-9.108650 0.131559 1.776560">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 38-->
+                  <Filter DEF="MARKER_pattern038" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="038"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999748 -0.006395 -0.020711 0.008987 0.999876 0.014264 0.020584 -0.014399 0.999681" rotationtype="matrix" translation="-7.619848 0.094080 2.015669">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 39-->
+                  <Filter DEF="MARKER_pattern039" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="039"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.045638 -0.019296 0.998772 0.002302 0.999811 0.019176 -0.998955 0.002180 0.045673" rotationtype="matrix" translation="-7.268066 0.100115 1.913652">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 40-->
+                  <Filter DEF="MARKER_pattern040" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="040"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.019646 -0.004570 -0.999669 -0.024252 0.999955 -0.004405 0.999513 0.008285 -0.019756" rotationtype="matrix" translation="-5.033032 0.139947 1.953942">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 41-->
+                  <Filter DEF="MARKER_pattern041" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="041"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999672 -0.015994 -0.003208 0.025461 0.999800 0.011982 0.002902 -0.012033 0.999879" rotationtype="matrix" translation="-4.668564 0.146753 2.071420">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 42-->
+                  <Filter DEF="MARKER_pattern042" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="042"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="-0.039463 -0.005832 -0.999198 0.005243 0.999981 -0.005897 0.999207 -0.001763 -0.039432" rotationtype="matrix" translation="-3.775669 0.159574 2.752437">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 43-->
+                  <Filter DEF="MARKER_pattern043" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="043"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+            <EventTransform rotation="0.999723 -0.012506 -0.023349 0.002875 0.999920 0.001333 0.023346 -0.001625 0.999680" rotationtype="matrix" translation="-9.192828 0.171853 1.978344">
+              <EventInvertTransform>
+                <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+                  <!--Marker 44-->
+                  <Filter DEF="MARKER_pattern044" weight="0.2 0.2 0.2 0.2 0.2">
+                    <EventQueue length="5">
+                      <RangeFilter max="5000" min="0">
+                        <ConfidenceFilter treshhold="0.5" type="high">
+                          <ARToolKitPlusSource center="0 0" size="153.000000 153.000000" tag-id="044"/>
+                        </ConfidenceFilter>
+                      </RangeFilter>
+                    </EventQueue>
+                  </Filter>
+                </EventTransform>
+              </EventInvertTransform>
+            </EventTransform>
+          </ConfidenceSelect>
+        <!--</GroupGate>-->
+      </MergeDefault>
+    </Merge>
+  </ConsoleSink>
+
+  <ConfidenceFilter DEF="AllMarkers" treshhold="0.5" type="high">
+    <Merge>
+      <MergeDefault>
+        <Ref USE="MARKER_pattern001"/>
+        <Ref USE="MARKER_pattern002"/>
+        <Ref USE="MARKER_pattern003"/>
+        <Ref USE="MARKER_pattern004"/>
+        <Ref USE="MARKER_pattern005"/>
+        <Ref USE="MARKER_pattern006"/>
+        <Ref USE="MARKER_pattern007"/>
+        <Ref USE="MARKER_pattern008"/>
+        <Ref USE="MARKER_pattern009"/>
+        <Ref USE="MARKER_pattern010"/>
+        <Ref USE="MARKER_pattern011"/>
+        <Ref USE="MARKER_pattern012"/>
+        <Ref USE="MARKER_pattern013"/>
+        <Ref USE="MARKER_pattern014"/>
+        <Ref USE="MARKER_pattern015"/>
+        <Ref USE="MARKER_pattern016"/>
+        <Ref USE="MARKER_pattern017"/>
+        <Ref USE="MARKER_pattern018"/>
+        <Ref USE="MARKER_pattern019"/>
+        <Ref USE="MARKER_pattern020"/>
+        <Ref USE="MARKER_pattern021"/>
+        <Ref USE="MARKER_pattern022"/>
+        <Ref USE="MARKER_pattern023"/>
+        <Ref USE="MARKER_pattern024"/>
+        <Ref USE="MARKER_pattern025"/>
+        <Ref USE="MARKER_pattern026"/>
+        <Ref USE="MARKER_pattern027"/>
+        <Ref USE="MARKER_pattern028"/>
+        <Ref USE="MARKER_pattern029"/>
+        <Ref USE="MARKER_pattern030"/>
+        <Ref USE="MARKER_pattern031"/>
+        <Ref USE="MARKER_pattern032"/>
+        <Ref USE="MARKER_pattern033"/>
+        <Ref USE="MARKER_pattern034"/>
+        <Ref USE="MARKER_pattern035"/>
+        <Ref USE="MARKER_pattern036"/>
+        <Ref USE="MARKER_pattern037"/>
+        <Ref USE="MARKER_pattern038"/>
+        <Ref USE="MARKER_pattern039"/>
+        <Ref USE="MARKER_pattern040"/>
+        <Ref USE="MARKER_pattern041"/>
+        <Ref USE="MARKER_pattern042"/>
+        <Ref USE="MARKER_pattern043"/>
+        <Ref USE="MARKER_pattern044"/>
+      </MergeDefault>
+    </Merge>
+  </ConfidenceFilter>
+
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- Local ARToolkit Makers -->
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <EventVirtualTransform DEF="lambda" translation="-0.035 0.16 0.05">
+    <EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001">
+      <ARToolKitPlusSource center="0 0" size="80" tag-id="511"/>
+    </EventTransform>
+    </EventVirtualTransform>
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- Camera Tracking -->
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- All local events merged (for inertia tracking resets) -->
+
+  <!-- Intertrax oriented to typical OpenInventor camera space -->
+  
+  <EventVirtualOrientationTransform DEF="orientation" rotation=" 1 0  0 
+    					                         0 0 -1
+    					                         0 1  0 " rotationtype="matrix">
+    <EventOrientationTransform rotation="1  0 0
+  				  	 0  0 1 
+  					 0 -1 0" rotationtype="matrix">
+      <XSensSource comport="1"/>
+    </EventOrientationTransform>
+  </EventVirtualOrientationTransform>
+
+  <!-- Offsets the readings from inertia tracker by it's inverse everytime at least ONE marker is visible. we use allLocal to provide that -->
+
+  <EventDynamicTransform DEF="head_offset">
+    <TransformBase>
+      <EventInvertTransform>
+        <TimeGate timeframe="100">
+          <Gate>
+            <ConfidenceFilter treshhold="0.5" type="high">
+              <Ref USE="AllMarkers"/>
+            </ConfidenceFilter>
+          </Gate>
+          <Ref USE="orientation"/>
+        </TimeGate>
+      </EventInvertTransform>
+    </TransformBase>
+    <Ref USE="orientation"/>
+  </EventDynamicTransform>
+
+  <!-- output to camera station -->
+
+  <!-- output to camera station -->
+
+  <Merge DEF="Head">
+    <MergePosition>
+      <Filter weight="0.25 0.25 0.25 0.25">
+        <EventQueue length="4">
+          <Ref USE="RawTracking"/>
+        </EventQueue>
+      </Filter>
+    </MergePosition>
+    <MergeOrientation>
+      <EventDynamicTransform baseevent="false">
+        <TransformBase>
+          <ConfidenceFilter treshhold="0.5" type="high">
+            <Ref USE="RawTracking"/>
+          </ConfidenceFilter>
+        </TransformBase>
+        <Ref USE="head_offset"/>
+      </EventDynamicTransform>
+    </MergeOrientation>
+  </Merge>
+
+  <StbSink DEF="camera" station="2">
+    <EventVirtualTransform DEF="calibOffsetCam" rotation="-0.001828 -0.000715 -0.007485 0.999970" translation="-0.033293 0.053453 -0.0379999">
+      <Ref USE="Head"/>
+    </EventVirtualTransform>
+  </StbSink>
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- Devices -->
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- PIP -->
+
+  <StbSink DEF="pip" station="1">
+    <EventTransform translation="0 -0.06 0">
+      <EventDynamicTransform baseevent="true">
+        <TransformBase>
+          <Ref USE="Head"/>
+        </TransformBase>
+        <Ref USE="lambda"/>
+      </EventDynamicTransform>
+    </EventTransform>
+  </StbSink>
+
+  <StbSink station="6">
+    <Ref USE="lambda"/>
+  </StbSink>
+
+  <!-- PIP pointer -->
+
+  <StbSink event="on" station="3">
+    <Merge>
+      <MergeDefault>
+        <EventDynamicTransform baseevent="true">
+          <TransformBase>
+            <Ref USE="pip"/>
+          </TransformBase>
+          <EventTransform DEF="pointer" rotation="0 1 0 0" scale="-0.1 -0.1 0" translation="-0.05 0.05 0.001">
+            <StbMouseSource DEF="TouchPad" mode="relative"/>
+          </EventTransform>
+        </EventDynamicTransform>
+      </MergeDefault>
+      <MergeButton>
+        <ButtonOp DEF="Buttons" op="OR">
+          <Arg1>
+            <Ref USE="TouchPad"/>
+          </Arg1>
+          <Arg2>
+            <StbKeyboardSource number="0"/>
+          </Arg2>
+        </ButtonOp>
+      </MergeButton>
+    </Merge>
+  </StbSink>
+
+  <StbSink station="7">
+    <Ref USE="pointer"/>
+  </StbSink>
+
+  <StbSink station="4"> <!-- before: station 2 -->
+    <TestSource frequency="1" position="0 0 0"/>
+  </StbSink>
+
+  <!-- 
+    use this to add a parallel button 
+  <ButtonFilter buttonmap="23016745">
+    <ParButtonSource dev="0x378"/>
+  </ButtonFilter>
+  -->
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <!-- debug stuff -->
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+  <ConsoleSink comment="Inertial Tracker">
+    <Ref USE="orientation"/>
+  </ConsoleSink>
+
+  <ConsoleSink comment="All Local Markers">
+    <Ref USE="AllMarkers"/>
+  </ConsoleSink>
+
+  <ConsoleSink comment="Head Offset">
+    <Ref USE="head_offset"/>
+  </ConsoleSink>
+
+  <ConsoleSink active="on" comment="Head">
+    <Ref USE="Head"/>
+  </ConsoleSink>
+</OpenTracker>

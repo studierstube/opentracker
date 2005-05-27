@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig display="off"/>
+  </configuration>
+
+
+ <ConsoleSink comment="barco:trans" active="on">
+      <StbSink station="4">
+      <!-- rotation="0.707 0 0 0.707"-->
+        <EventTransform DEF="barco" translation=" -1.431 0.013 -2.723 " rotation="1 0 0 0" >
+        <EventVirtualTransform >
+          <EventVirtualTransform rotationtype="euler" rotation="-1.57079632 0 0">
+             <NetworkSource number="14" multicast-address="224.100.200.101" port="12346" />
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+        </EventTransform >
+      </StbSink>
+    </ConsoleSink>
+
+ <ConsoleSink comment="puc0:red" active="on">
+      <StbSink station="1">
+
+       <EventDynamicTransform baseevent="true">
+        <EventDynamicTransform baseevent="true">
+        <TransformBase>
+         <EventVirtualTransform translation="  -0.014742 -0.032259 0.022835">
+            <EventVirtualTransform rotationtype="euler" rotation=" 0 0 0">
+              <NetworkSource DEF="puc0" number="10" multicast-address="224.100.200.101" port="12346" />
+           </EventVirtualTransform>
+          </EventVirtualTransform>
+        </TransformBase>
+            <Merge>
+              <MergeOrientation>
+                <Ref USE="barco"/>
+              </MergeOrientation>
+            </Merge>
+        </EventDynamicTransform>
+            <TransformBase>
+              <EventInvertTransform>
+              <Ref USE="barco"/>
+              </EventInvertTransform>
+            </TransformBase>
+        </EventDynamicTransform>
+
+      </StbSink>
+    </ConsoleSink>
+
+<ConsoleSink comment="puc1:blue" active="on">
+      <StbSink station="0">
+
+         <EventDynamicTransform baseevent="true">
+            <EventDynamicTransform baseevent="true">
+            <TransformBase>
+             <EventVirtualTransform translation="0.016979 -0.035660 0.018225">
+              <!-- <EventVirtualTransform rotationtype="euler" rotation=" -1.57079632 0 0"> -->
+                <EventVirtualTransform rotationtype="euler" rotation=" 0 0 0">
+                  <NetworkSource DEF="puc1" number="11" multicast-address="224.100.200.101" port="12346" />
+               </EventVirtualTransform>
+              </EventVirtualTransform>
+            </TransformBase>
+                <Merge>
+                  <MergeOrientation>
+                    <Ref USE="barco"/>
+                  </MergeOrientation>
+                </Merge>
+            </EventDynamicTransform>
+                <TransformBase>
+                  <EventInvertTransform>
+                  <Ref USE="barco"/>
+                  </EventInvertTransform>
+                </TransformBase>
+            </EventDynamicTransform>
+
+
+      </StbSink>
+    </ConsoleSink>
+ <ConsoleSink comment="puc2:yellow" active="on">
+      <StbSink station="3">
+
+            <EventDynamicTransform baseevent="true">
+              <EventDynamicTransform baseevent="true">
+              <TransformBase>
+               <EventVirtualTransform translation=" -0.025080 -0.030751 0.018386  ">
+                <!--<EventVirtualTransform translation=" -0.016456 0.017519 0.0330200 "> -->
+                <!-- <EventVirtualTransform rotationtype="euler" rotation=" -1.57079632 0 0"> -->
+                  <EventVirtualTransform rotationtype="euler" rotation=" 0 0 0">
+                    <NetworkSource DEF="puc2" number="12" multicast-address="224.100.200.101" port="12346" />
+                 </EventVirtualTransform>
+                </EventVirtualTransform>
+              </TransformBase>
+                  <Merge>
+                    <MergeOrientation>
+                      <Ref USE="barco"/>
+                    </MergeOrientation>
+                  </Merge>
+              </EventDynamicTransform>
+                  <TransformBase>
+                    <EventInvertTransform>
+                    <Ref USE="barco"/>
+                    </EventInvertTransform>
+                  </TransformBase>
+              </EventDynamicTransform>
+
+
+      </StbSink>
+    </ConsoleSink>
+ <ConsoleSink comment="puc3:trans" active="on">
+      <StbSink station="2">
+
+               <EventDynamicTransform baseevent="true">
+                <EventDynamicTransform baseevent="true">
+                <TransformBase>
+                 <EventVirtualTransform translation=" -0.030783 0.034167 0.018155  ">
+                  <!--<EventVirtualTransform translation=" -0.016456 0.017519 0.0330200 "> -->
+                  <!-- <EventVirtualTransform rotationtype="euler" rotation=" -1.57079632 0 0"> -->
+                    <EventVirtualTransform rotationtype="euler" rotation=" 0 0 0">
+                      <NetworkSource DEF="puc3" number="13" multicast-address="224.100.200.101" port="12346" />
+                   </EventVirtualTransform>
+                  </EventVirtualTransform>
+                </TransformBase>
+                    <Merge>
+                      <MergeOrientation>
+                        <Ref USE="barco"/>
+                      </MergeOrientation>
+                    </Merge>
+                </EventDynamicTransform>
+                    <TransformBase>
+                      <EventInvertTransform>
+                      <Ref USE="barco"/>
+                      </EventInvertTransform>
+                    </TransformBase>
+                </EventDynamicTransform>
+
+
+
+
+
+      </StbSink>
+    </ConsoleSink>
+
+  <!--  <ConsoleSink comment="keyb0" active="on">
+      <Ref USE="keyb0" />
+    </ConsoleSink>
+-->
+</OpenTracker>

@@ -1,0 +1,175 @@
+#Inventor V2.1 ascii
+
+DEF PIANOTUTOR SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 0 1 0 }
+                DEF BUTTON_PLAY SoToggleButton { 
+                    width 0.5 depth 0.5 height 0.2
+                }
+                Translation { translation 0.5 0 0 }
+                Material { diffuseColor 1 0 0 }
+                DEF BUTTON_PAUSE SoToggleButton { 
+                    width 0.5 depth 0.5 height 0.2
+                }
+                Translation { translation 0.5 0 0 }
+                Material { diffuseColor 1 0 1 }
+                DEF BUTTON_STOP SoPushButton { 
+                    width 0.5 depth 0.5 height 0.2
+                }
+                Translation { translation 0.5 0 0 }
+                Material { diffuseColor 1 0 1 }
+                DEF BUTTON_ENABLEMIDIOUT SoPushButton { 
+                    width 0.5 depth 0.5 height 0.2
+                }
+            }
+        } # end of templatePipSheet
+        
+        windowGroup Group {
+        
+            SoClassLoader {
+                className "Piano"
+                fileName  "../apps/pianotutor/pianotutord"
+            }
+        
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                
+                    SoTrackedArtifactKit {
+                        station 3
+                        geometry Separator {
+                            Transform { translation -0.1275 0 0 scaleFactor 2.5 2.5 2.5 }
+                            Separator {
+                                Material { diffuseColor 1 0 0 }
+                                DEF PIANO Piano {
+                                    filename "../apps/pianotutor/test.mid"
+                                    play = USE BUTTON_PLAY.on
+                                    pause = USE BUTTON_PAUSE.on
+                                    stop = USE BUTTON_STOP.on
+                                    inputPortPreferred 1
+                                    outputPortPreferred 5
+                                    midiOutEnabled = USE BUTTON_ENABLEMIDIOUT.on
+                                    keyDown = SoGate {
+                                        type SoMFInt32
+                                        input [ 60, 64, 67 ] # C major
+                                        trigger = USE BUTTON_ENABLEMIDIOUT.on
+                                    }.output
+                                    keyboardGeometry SoMultiSwitch {
+                                        whichChildren = SoCalculator {
+                                            a = USE PIANO.keyDown
+                                            b = USE PIANO.keyPressed
+                                            expression "oa = (b==1) ? (a%12)+1 : 0"
+                                        }.oa
+                                        Separator {}
+                                        DEF KEY_C Separator {
+                                            DEF WHITEKEY Cube { width 0.01 height 0.01 depth 0.05 }
+                                        }
+                                        DEF KEY_CIS Separator {
+                                            Transform { translation 0.01 0.005 -0.01 }
+                                            DEF BLACKKEY Cube { width 0.01 height 0.01 depth 0.03 }
+                                        }
+                                        DEF KEY_D Separator {
+                                            Transform { translation 0.02 0 0 }
+                                            USE WHITEKEY
+                                        }
+                                        DEF KEY_DIS Separator {
+                                            Transform { translation 0.03 0.005 -0.01 }
+                                            USE BLACKKEY
+                                        }
+                                        DEF KEY_E Separator {
+                                            Transform { translation 0.04 0 0 }
+                                            USE WHITEKEY
+                                        }
+                                        DEF KEY_F Separator {
+                                            Transform { translation 0.05 0 0 }
+                                            USE WHITEKEY
+                                        }
+                                        DEF KEY_FIS Separator {
+                                            Transform { translation 0.06 0.005 -0.01 }
+                                            USE BLACKKEY
+                                        }
+                                        DEF KEY_G Separator {
+                                            Transform { translation 0.07 0 0 }
+                                            USE WHITEKEY
+                                        }                                
+                                        DEF KEY_GIS Separator {
+                                            Transform { translation 0.08 0.005 -0.01 }
+                                            USE BLACKKEY
+                                        }
+                                        DEF KEY_A Separator {
+                                            Transform { translation 0.09 0 0 }
+                                            USE WHITEKEY
+                                        }
+                                        DEF KEY_AIS Separator {
+                                            Transform { translation 0.1 0.005 -0.01 }
+                                            USE BLACKKEY
+                                        }
+                                        DEF KEY_H Separator {
+                                            Transform { translation 0.11 0 0 }
+                                            USE WHITEKEY
+                                        }
+                                    }
+                                }
+                            } # end of piano separator
+                        
+                            Separator {
+                                DEF WHITEMATERIAL Material { diffuseColor 1 1 1 }
+                                USE KEY_C
+                                DEF BLACKMATERIAL Material { diffuseColor 0.2 0.2 0.2 }
+                                USE KEY_CIS
+                                USE WHITEMATERIAL
+                                USE KEY_D
+                                USE BLACKMATERIAL
+                                USE KEY_DIS
+                                USE WHITEMATERIAL 
+                                USE KEY_E
+                                USE KEY_F
+                                USE BLACKMATERIAL
+                                USE KEY_FIS
+                                USE WHITEMATERIAL 
+                                USE KEY_G
+                                USE BLACKMATERIAL
+                                USE KEY_GIS
+                                USE WHITEMATERIAL 
+                                USE KEY_A
+                                USE BLACKMATERIAL
+                                USE KEY_AIS
+                                USE WHITEMATERIAL 
+                                USE KEY_H
+                            }
+                        } # end of geometry
+                    } # end of SoTrackedArtifactKit
+                    
+                    # debugger - connect field to debug to SoText3.string below
+                    SoSeparator {
+                        Transform { 
+                            translation 0 0.3 0
+                            scaleFactor 0.005 0.005 0.005
+                        }
+                        SoText3 {
+                            string = USE PIANO.keyDown
+                        }
+                    }
+
+
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

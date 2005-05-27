@@ -1,0 +1,22 @@
+#Inventor V2.1 ascii
+
+TransformSeparator {
+	Info {
+	    string	"this is the camera for the LEFT eye"
+	}
+	Translation {
+	    translation	-0.031685 0.150164 0.036059 
+	}
+	Rotation {
+	    rotation	0.999850 -0.015324 0.008057 3.060551
+	}
+	PerspectiveCamera {
+	    viewportMapping	LEAVE_ALONE
+	    position	0 0 0
+	    aspectRatio	1.332594
+	    nearDistance	0.16
+	    farDistance	5
+	    focalDistance	2
+	    heightAngle	0.307609
+	}
+}

@@ -1,0 +1,23 @@
+/usr/gfx/setmon -n 1024x768_96s
+./fullview \
+  -f full.iv \
+  --display FIELD \
+  --camcontrol VIEWPOINT \
+  --visualdevice 1 \
+  --width 1024 --height 768 \
+  --camera VTCameraCRCG.iv \
+  --stereokit VTCamKitCRCG.iv \
+  --headstation 0 \
+  --penstation 1 \
+  --pipstation 2 \
+  --makeundistortionfilter \
+  --samplefile crcg.fsp \
+  --radius 10 \
+  --trackertype f \
+  --port 12346 \
+  --address 224.100.200.101 \
+  --stationnum 3 \
+  --makesourceoffsetfilter \
+  -srx  1 -sry  0 -srz  0 -sra 1.04 \
+ $*
+/usr/gfx/setmon -n 72Hz

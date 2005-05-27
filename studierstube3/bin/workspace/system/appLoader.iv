@@ -1,0 +1,16 @@
+#Inventor V2.1 ascii
+
+Separator {
+
+	Texture2 {
+		filename "apploader.jpg"
+	}
+
+	
+
+	Cube {
+		width 11.5
+		depth 8.7
+		height 	0.01
+	}
+}

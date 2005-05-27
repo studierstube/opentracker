@@ -1,0 +1,54 @@
+#Inventor V2.1 ascii
+Separator
+{
+	# new rotation
+  	RotationXYZ {axis  X angle 1.57 }
+
+	DEF LEFT_DIAL SoDial
+	{
+    		width 5 depth 5 height 7
+	
+		normalGeometry SoSeparator
+		{
+			File {name "./Dial/normal.wrl"}
+		}
+
+		highlightedGeometry SoSeparator
+		{
+			File {name "./Dial/highlighted.wrl"}
+		}
+
+		draggedGeometry SoSeparator
+		{
+			File {name "./Dial/highlighted.wrl"}
+		}
+
+	}
+
+  	Translation { translation 10 0 0 }
+
+
+	DEF RIGHT_DIAL SoDial
+	{
+    		width 5 depth 5 height 7
+	
+		normalGeometry SoSeparator
+		{
+			File {name "./Dial/normal.wrl"}
+		}
+
+		highlightedGeometry SoSeparator
+		{
+			File {name "./Dial/highlighted.wrl"}
+		}
+
+		draggedGeometry SoSeparator
+		{
+			File {name "./Dial/highlighted.wrl"}
+		}
+
+	}
+
+	
+
+}

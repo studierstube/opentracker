@@ -1,0 +1,82 @@
+#Inventor V2.1 ascii
+
+DEF simple SoApplicationKit {
+    appGeom Separator {Texture2 { filename "../apps/fingerfarben/fingerfarben.gif" }}
+    info Info { }
+
+  contextKit DEF simple_context_05 SoContextKit {
+  templatePipSheet SoPipSheetKit {
+  autoScaling FALSE
+  pipParts (PIP_BODY| SHEET )
+  sheets Switch {
+
+   Separator {
+    SoClassLoader { className "SoPucServer" fileName "PUCd" }
+    SoClassLoader { className "SoPucPipLayout" fileName "PUCPipLayoutd" }
+
+  Scale { scaleFactor 0.01 0.01 0.01 }
+  Translation { translation -1 0 .5 }
+  RotationXYZ {axis  X angle 1.57 }
+
+  DEF LAYOUT_GROUP SoPucPipLayout {
+    width 26 depth 18 height 3
+    style PUC
+    units 3
+
+  pucAppliances
+
+   SoPucServer {
+          serverName "Studierstube Demo"
+          devices NodeKitListPart { containerNode Group {
+            DEF RADIUSDEVICE SoPucDevice {
+              deviceName "5th Example"
+              groups NodeKitListPart { containerNode Group {
+
+          DEF ROOT_GROUP SoPucGroup {
+             members NodeKitListPart { containerNode Group {
+
+              DEF BOOL_STATE SoPucStateBool { labels ["bool", "b"]  value FALSE
+                 explanation ["A simple toggle state",
+                             "it enables the int state"]
+              }
+              DEF INT_STATE SoPucStateInt { labels ["int", "i"]  value 4 min 1 max 9 incr 1
+                activeIf SoPucActiveIfNode {
+                  explanation ["This is state is active",
+                              "when the toggle button is on"]
+                  activeIf SoPucActiveIfClause { state = USE BOOL_STATE.value op EQUALS value 1 }
+                }
+              }
+              DEF FIXED_STATE SoPucStateFixed { labels ["fixed", "f."]  value 3.5 min 1 max 9 incr .5}
+              DEF FLOAT_STATE SoPucStateFloat { labels ["float", "f"]  value 2.6 min 1 max 8 }
+              DEF STRING_STATE SoPucStateString { labels ["string", "s"]  value "this is a string" }
+              DEF ENUM_STATE SoPucStateEnumerated { labels ["enumerated", "e"]  value 2
+              valueLabels ["1","2","3","4"]}
+
+              DEF EXIT_COMMAND SoPucCommand { labels ["exit", "X"]  }
+
+    } } } # SoPucGroup ROOT_GROUP
+
+
+      } } } # SoPucDevice
+  } } } # SoPucServer
+
+  }#SoPucPipLayout
+
+  SoRoute { from "EXIT_COMMAND.trigger" to "simple_context_05.exitTrigger" }
+
+  } # 1st sheet
+
+    } # sheets
+ } # pip sheet
+
+
+  clonePipSheet FALSE
+
+  windowGroup Group {
+
+  DEF SCENE_ROOT Separator {
+
+  } # SCENE_ROOT
+  } # windowGroup
+  } # ContextKit
+} # SoApplicationKit

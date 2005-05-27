@@ -1,0 +1,11 @@
+// -*- MPC -*-
+// Synch_Benchmarks.mpc,v 1.2 2003/12/23 20:23:21 dhinton Exp
+
+project : aceexe {
+  after    += Synch_Lib
+  libs     += Synch_Lib
+  libpaths += Synch_Lib
+  source_files {
+    synch_driver.cpp
+  }
+}

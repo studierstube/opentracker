@@ -1,0 +1,18 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 12
+    display SoDisplayKit {
+        stereoCameraKit  File { name "webcam.iv"}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType DELAYED_BLEND
+        cameraControl SoTrackedDisplayControlMode {}
+        xoffset 0
+        yoffset 0
+        decoration TRUE
+        videoBackground SoVideoBackgroundOT {}
+    }
+}

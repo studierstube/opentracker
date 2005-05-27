@@ -1,0 +1,14 @@
+#Inventor V2.1 ascii
+
+Separator {
+
+	Texture2 {
+		filename "avs.gif"
+	}
+
+	
+
+	Cube {
+		height 0.001
+	}
+}

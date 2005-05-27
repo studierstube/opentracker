@@ -1,0 +1,66 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 0
+    pen SoPenKit{
+       station 0
+       offset Transform {rotation 1 0 0 -1.570796}
+       geometry File {name "./graphix/DesignPen.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "..\setups\imsvrlab\faustHMD1.iv"}
+        station 2
+        display  SoFieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+        cameraControl SoTrackedDisplayControlMode {}
+        headlight TRUE
+        headlightIntensity 1.0
+	showMouse FALSE
+     	decoration FALSE
+	windowBorder FALSE
+        backgroundColor 0 0 0
+        # Specify position (upper-left corner)
+        xoffset 0
+        yoffset 0
+        # and size of the viewer-window (in pixels)
+        width 800
+        height 600
+        transparencyType SORTED_OBJECT_SORTED_TRIANGLE_BLEND
+    }
+    
+    auxGeometry Separator {
+    	Info {
+    	  string " " = SoStringMap {}.aOut
+    	}
+    	Transform {
+    	  translation = SoTrakEngine { station 2 }.translation
+    	}
+    }
+}
+
+SoUserKit {
+    userID 1
+    pen SoPenKit{
+       station 3
+       offset Transform {rotation 1 0 0 -1.570796}
+       geometry File {name "./graphix/DesignPen.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "..\setups\imsvrlab\faustHMD2.iv"}
+        station 5
+        display  SoFieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+        cameraControl SoTrackedDisplayControlMode {}
+        headlight TRUE
+        headlightIntensity 1.0
+	showMouse FALSE
+     	decoration FALSE
+	windowBorder FALSE
+        backgroundColor 0 0 0
+        # Specify position (upper-left corner)
+        xoffset 800
+        yoffset 0
+        # and size of the viewer-window (in pixels)
+        width 800
+        height 600
+        transparencyType SORTED_OBJECT_SORTED_TRIANGLE_BLEND
+    }
+}

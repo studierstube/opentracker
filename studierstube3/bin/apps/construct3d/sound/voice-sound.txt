@@ -1,0 +1,26 @@
+Auf der Bell Labs Seite wurde mit der Stimme MAN oder BIG MAN
+das Sample test.wav erstellt. 
+Da das Wave zu schnell gespielt wird, kann man danach in Cool Edit96
+unter 'Edit - Adjust sample Rate' die Sample Rate auf 11025 stellen.
+Dann wird das File in richtiger Tonlage abgespielt - 
+siehe line_old.wav
+Es koennen anscheinend nur samples mit 11250 oder 22500 richtig gespielt
+werden. samle rate vor 16000 wird falsch gespielt vom windows media
+player
+
+Die beste weibliche Stimme ist zu finden auf der AT&T Seite
+http://www.research.att.com/~mjm/cgi-bin/ttsdemo
+wirklich SEHR GUT!!!!
+siehe output_1 bzw. korrigierter (sample rate 22500) line.wav
+sample rate von 16000!
+wenn man gleich auf 22050 stellt beim erzeugen des samples muss man 
+nachher nicht konvertieren (siehe 'file saved.wav')
+dorthin kommt man ueber
+http://www.research.att.com/projects/tts/
+
+Links vieler text to speech systems auf
+http://www.cs.bham.ac.uk/~jpi/museum.html
+alle durchgeschaut, AT&T hat beste soundqualitaet
+
+ATT female voice hat beste soundqualitaet - besser als downloaded
+demo von digital.

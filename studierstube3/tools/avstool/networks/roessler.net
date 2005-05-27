@@ -1,0 +1,182 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg2)
+module "generate colormap.user.0" -xy 0,112
+module "Roessler-RK4 surface.user.1" -xy 18,352 -ex /usr/cg/projects/Vis/AVS/DynSys3D/AVSModules/executables/Roessler_RK4_surf
+module "Roessler-RK4 line.user.2" -xy 278,352 -ex /usr/cg/projects/Vis/AVS/DynSys3D/AVSModules/executables/Roessler_RK4_line
+module stbWin.user.3 -xy 238,22 -ex /cg/disks/kagran/people/peci/DA/AVS/stbWin
+module stbLine.user.4 -xy 168,82 -ex /cg/disks/kagran/people/peci/DA/AVS/stbLine
+module stbPoint.user.5 -xy 278,282 -ex /cg/disks/kagran/people/peci/DA/AVS/stbPoint
+module stbGeom.user.6 -xy 98,452 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+module stbGeom.user.7 -xy 348,452 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+port_connect "generate colormap.user.0":0 "Roessler-RK4 surface.user.1":1
+port_connect "Roessler-RK4 surface.user.1":0 stbGeom.user.6:2
+port_connect "Roessler-RK4 line.user.2":0 stbGeom.user.7:2
+port_connect stbWin.user.3:0 stbLine.user.4:0
+port_connect stbWin.user.3:0 stbPoint.user.5:0
+port_connect stbWin.user.3:0 stbGeom.user.6:0
+port_connect stbWin.user.3:0 stbGeom.user.7:0
+port_connect stbLine.user.4:0 "Roessler-RK4 surface.user.1":0
+port_connect stbPoint.user.5:0 "Roessler-RK4 line.user.2":0
+parm_set "Roessler-RK4 surface.user.1":INT-Stepsize 0.05000000075
+parm_set "Roessler-RK4 surface.user.1":LineLength 100
+parm_set "Roessler-RK4 surface.user.1":Max.Steps 2063
+parm_set "Roessler-RK4 surface.user.1":"max dist" 0.8000000119
+parm_set "Roessler-RK4 line.user.2":LineLength 500
+parm_set "Roessler-RK4 line.user.2":Accuracy 0.3334000111
+parm_set stbWin.user.3:"GeomSize x" 90
+parm_set stbWin.user.3:"GeomSize y" 90
+parm_set stbWin.user.3:"GeomSize z" 90
+parm_set stbWin.user.3:"GeomMove x" 13.27423096
+parm_set stbWin.user.3:"GeomMove y" 2.140419006
+parm_set stbWin.user.3:"GeomMove z" -0.7057880163
+parm_set stbLine.user.4:"to X:" -2.345122099
+parm_set stbLine.user.4:"to Y:" 3.493725061
+parm_set stbLine.user.4:"to Z:" 7.457992077
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,984
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 256,910\
+   -P columns integer 1
+   panel "generate colormap.user.0" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,566
+    manipulator "generate colormap.user.0:colormap" -w color_editor -p "generate colormap.user.0" \
+        -xy 10,10 -wh 236,416
+    manipulator "generate colormap.user.0:lo value" -w dial -p "generate colormap.user.0" \
+        -xy 10,426 -wh 90,130
+    manipulator "generate colormap.user.0:hi value" -w dial -p "generate colormap.user.0" \
+        -xy 100,426 -wh 90,130
+   panel "Roessler-RK4 surface.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,692
+    manipulator "Roessler-RK4 surface.user.1:param A" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 10,10 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:param B" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 100,10 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:param C" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 10,140 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:INT-Stepsize" -w typein_real -p "Roessler-RK4 surface.user.1" \
+        -xy 10,270 -wh 236,22
+    manipulator "Roessler-RK4 surface.user.1:LineLength" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 10,292 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:Time/Space Dist" -w radio_buttons -p "Roessler-RK4 surface.user.1" \
+        -xy 100,292 -wh 118,44
+    manipulator "Roessler-RK4 surface.user.1:Max.Steps" -w idial -p "Roessler-RK4 surface.user.1" \
+        -xy 10,422 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:max curv" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 100,422 -wh 90,130
+    manipulator "Roessler-RK4 surface.user.1:max dist" -w dial -p "Roessler-RK4 surface.user.1" \
+        -xy 124,140 -wh 90,130
+   panel "Roessler-RK4 line.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,614
+    manipulator "Roessler-RK4 line.user.2:param A" -w dial -p "Roessler-RK4 line.user.2" \
+        -xy 10,10 -wh 90,130
+    manipulator "Roessler-RK4 line.user.2:param B" -w dial -p "Roessler-RK4 line.user.2" \
+        -xy 100,10 -wh 90,130
+    manipulator "Roessler-RK4 line.user.2:param C" -w dial -p "Roessler-RK4 line.user.2" \
+        -xy 10,140 -wh 90,130
+    manipulator "Roessler-RK4 line.user.2:INT-Stepsize" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,270 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:LineLength" -w typein_real -p "Roessler-RK4 line.user.2" \
+        -xy 10,324 -wh 236,22
+    manipulator "Roessler-RK4 line.user.2:Time/Space Dist" -w radio_buttons -p "Roessler-RK4 line.user.2" \
+        -xy 10,346 -wh 118,44
+    manipulator "Roessler-RK4 line.user.2:MaxSteps" -w typein_integer -p "Roessler-RK4 line.user.2" \
+        -xy 10,390 -wh 236,22
+    manipulator "Roessler-RK4 line.user.2:Red" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,412 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:Green" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,444 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:Blue" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,476 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:MinLight" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,508 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:MaxLight" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,540 -wh 236,32
+    manipulator "Roessler-RK4 line.user.2:Accuracy" -w slider -p "Roessler-RK4 line.user.2" \
+        -xy 10,572 -wh 236,32
+   panel stbWin.user.3 -w panel -p "Top Level Stack" -xy 0,218 -wh 256,456
+    manipulator stbWin.user.3:Host: -w typein -p stbWin.user.3 -hide \
+        -xy 10,10 -wh 118,22
+    manipulator stbWin.user.3:Host -w text -p stbWin.user.3 -xy 10,10 -wh 118,22
+    manipulator stbWin.user.3:Port: -w typein -p stbWin.user.3 -hide \
+        -xy 10,32 -wh 118,22
+    manipulator stbWin.user.3:Port -w text -p stbWin.user.3 -xy 10,30 -wh 118,22
+    manipulator stbWin.user.3:connect -w toggle -p stbWin.user.3 \
+        -xy 10,50 -wh 118,22
+    manipulator "stbWin.user.3:Pos x" -w typein_real -p stbWin.user.3 \
+        -xy 10,72 -wh 118,22
+    manipulator "stbWin.user.3:Pos y" -w typein_real -p stbWin.user.3 \
+        -xy 10,94 -wh 118,22
+    manipulator "stbWin.user.3:Pos z" -w typein_real -p stbWin.user.3 \
+        -xy 10,116 -wh 118,22
+    manipulator "stbWin.user.3:Rot x" -w typein_real -p stbWin.user.3 \
+        -xy 10,138 -wh 118,22
+    manipulator "stbWin.user.3:Rot y" -w typein_real -p stbWin.user.3 \
+        -xy 10,160 -wh 118,22
+    manipulator "stbWin.user.3:Rot z" -w typein_real -p stbWin.user.3 \
+        -xy 10,182 -wh 118,22
+    manipulator "stbWin.user.3:Rot w" -w typein_real -p stbWin.user.3 \
+        -xy 10,204 -wh 118,22
+    manipulator "stbWin.user.3:Size x" -w typein_real -p stbWin.user.3 \
+        -xy 10,226 -wh 118,22
+    manipulator "stbWin.user.3:Size y" -w typein_real -p stbWin.user.3 \
+        -xy 10,248 -wh 118,22
+    manipulator "stbWin.user.3:Size z" -w typein_real -p stbWin.user.3 \
+        -xy 10,270 -wh 118,22
+    manipulator "stbWin.user.3:GeomSize x" -w typein_real -p stbWin.user.3 \
+        -xy 10,292 -wh 236,22
+    manipulator "stbWin.user.3:GeomSize y" -w typein_real -p stbWin.user.3 \
+        -xy 10,314 -wh 236,22
+    manipulator "stbWin.user.3:GeomSize z" -w typein_real -p stbWin.user.3 \
+        -xy 10,336 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove x" -w typein_real -p stbWin.user.3 \
+        -xy 10,358 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove y" -w typein_real -p stbWin.user.3 \
+        -xy 10,380 -wh 236,22
+    manipulator "stbWin.user.3:GeomMove z" -w typein_real -p stbWin.user.3 \
+        -xy 10,402 -wh 236,22
+    manipulator "stbWin.user.3:fit Geometry" -w oneshot -p stbWin.user.3 \
+        -xy 10,424 -wh 118,22
+   panel stbLine.user.4 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,434
+    manipulator stbLine.user.4:Name: -w typein -p stbLine.user.4 \
+        -xy 10,10 -wh 118,22
+    manipulator stbLine.user.4:Order: -w typein_integer -p stbLine.user.4 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbLine.user.4:with Texture" -w toggle -p stbLine.user.4 \
+        -xy 10,54 -wh 118,22
+    manipulator stbLine.user.4:Steps: -w typein_integer -p stbLine.user.4 \
+        -xy 10,76 -wh 118,22
+    manipulator "stbLine.user.4:from X:" -w typein_real -p stbLine.user.4 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbLine.user.4:from Y:" -w typein_real -p stbLine.user.4 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbLine.user.4:from Z:" -w typein_real -p stbLine.user.4 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbLine.user.4:to X:" -w typein_real -p stbLine.user.4 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbLine.user.4:to Y:" -w typein_real -p stbLine.user.4 \
+        -xy 10,186 -wh 118,22
+    manipulator "stbLine.user.4:to Z:" -w typein_real -p stbLine.user.4 \
+        -xy 10,208 -wh 118,22
+    manipulator stbLine.user.4:Texture: -w browser -p stbLine.user.4 -hide \
+        -xy 10,230 -wh 236,194
+   panel stbPoint.user.5 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,346
+    manipulator stbPoint.user.5:Name: -w typein -p stbPoint.user.5 \
+        -xy 10,10 -wh 118,22
+    manipulator stbPoint.user.5:Order: -w typein_integer -p stbPoint.user.5 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbPoint.user.5:with Texture" -w toggle -p stbPoint.user.5 \
+        -xy 10,54 -wh 118,22
+    manipulator stbPoint.user.5:X: -w typein_real -p stbPoint.user.5 \
+        -xy 10,76 -wh 118,22
+    manipulator stbPoint.user.5:Y: -w typein_real -p stbPoint.user.5 \
+        -xy 10,98 -wh 118,22
+    manipulator stbPoint.user.5:Z: -w typein_real -p stbPoint.user.5 \
+        -xy 10,120 -wh 118,22
+    manipulator stbPoint.user.5:Texture: -w browser -p stbPoint.user.5 -hide \
+        -xy 10,142 -wh 236,194
+   panel stbGeom.user.6 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,64
+    manipulator "stbGeom.user.6:clear Geometry" -w radio_buttons -p stbGeom.user.6 \
+        -xy 10,10 -wh 118,44
+   panel stbGeom.user.7 -w panel -p "Top Level Stack" -xy 0,218 -wh 138,64
+    manipulator "stbGeom.user.7:clear Geometry" -w radio_buttons -p stbGeom.user.7 \
+        -xy 10,10 -wh 118,44
+# End of file

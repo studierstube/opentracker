@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0.1 U (http://www.xmlspy.com) by Vienna University of Technology (Vienna University of Technology) -->
+<!DOCTYPE OpenTracker SYSTEM "../../../../bin/workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="data/webcam.dat" videomode="0 640 480 vertical" framerate="10" treshhold="82"/>
+		<ConsoleConfig headerline="TableTop Tracking Input" interval="20" display="off"/>
+	</configuration>
+	<StbSink station="0" event="on">
+		<ConsoleSink comment="Catapult1">
+			<EventVirtualOrientationTransform rotation="1 0 0 -1.570796" rotationtype="axisangle">
+				<EventTransform rotationtype="axisangle" rotation="1 0 0 0.7171">
+					<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 -0.1 1.5">
+				   		<Filter weight="0.2 0.2 0.2 0.2 0.2">
+						<EventQueue length="5">
+						<ARToolKitSource center="0 0" size="100 100" tag-file="../../src/apps/tabletop/data/zero.patt"/>
+						</EventQueue>
+		  				</Filter>
+					</EventTransform>
+				</EventTransform>
+			</EventVirtualOrientationTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="1" event="on">
+		<ConsoleSink comment="Fan1">
+			<EventVirtualOrientationTransform rotation="1 0 0 -1.570796" rotationtype="axisangle">
+				<EventTransform rotationtype="axisangle" rotation="1 0 0 0.7171">
+					<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 -0.1 1.5">
+				   		<Filter weight="0.2 0.2 0.2 0.2 0.2">
+						<EventQueue length="5">
+						<ARToolKitSource center="0 0" size="100 100" tag-file="../../src/apps/tabletop/data/one.patt"/>
+						</EventQueue>
+		  				</Filter>
+					</EventTransform>
+				</EventTransform>
+			</EventVirtualOrientationTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="2" event="on">
+		<ConsoleSink comment="Catapult2">
+			<EventVirtualOrientationTransform rotation="1 0 0 -1.570796" rotationtype="axisangle">
+				<EventTransform rotationtype="axisangle" rotation="1 0 0 0.7171">
+					<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 -0.1 1.5">
+				   		<Filter weight="0.2 0.2 0.2 0.2 0.2">
+						<EventQueue length="5">
+						<ARToolKitSource center="0 0" size="100 100" tag-file="../../src/apps/tabletop/data/two.patt"/>
+						</EventQueue>
+		  				</Filter>
+					</EventTransform>
+				</EventTransform>
+			</EventVirtualOrientationTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="3" event="on">
+		<ConsoleSink comment="Fan2">
+			<EventVirtualOrientationTransform rotation="1 0 0 -1.570796" rotationtype="axisangle">
+				<EventTransform rotationtype="axisangle" rotation="1 0 0 0.7171">
+					<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 -0.1 1.5">
+				   		<Filter weight="0.2 0.2 0.2 0.2 0.2">
+						<EventQueue length="5">
+						<ARToolKitSource center="0 0" size="100 100" tag-file="../../src/apps/tabletop/data/three.patt"/>
+						</EventQueue>
+		  				</Filter>
+					</EventTransform>
+				</EventTransform>
+			</EventVirtualOrientationTransform>
+		</ConsoleSink>
+	</StbSink>
+	<StbSink station="4" event="on">
+		<ConsoleSink comment="Menu">
+			<EventVirtualOrientationTransform rotation="1 0 0 -1.570796" rotationtype="axisangle">
+				<EventTransform rotationtype="axisangle" rotation="1 0 0 0.7171">
+					<EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 -0.1 1.5">
+				   		<Filter weight="0.2 0.2 0.2 0.2 0.2">
+						<EventQueue length="5">
+						<ARToolKitSource center="0 0" size="100 100" tag-file="../../src/apps/tabletop/data/four.patt"/>
+						</EventQueue>
+		  				</Filter>
+					</EventTransform>
+				</EventTransform>
+			</EventVirtualOrientationTransform>
+		</ConsoleSink>
+	</StbSink>
+</OpenTracker>

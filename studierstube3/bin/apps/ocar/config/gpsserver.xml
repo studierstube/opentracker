@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<!--
+  A dedicated tracking server for GPS input. Allows us to start the GPS
+  tracking without the actual application and also log transparently GPS data,
+  etc. Moreover, we can also play with the GPS settings without restarting the
+  application.
+  
+  DGPSServer info  128.130.78.38 2101
+
+  $Id: gpsserver.xml 3568 2004-08-03 13:20:40Z reitmayr $
+  -->
+<OpenTracker>
+  <configuration>
+    <NetworkSinkConfig name="GPSServer"/>
+    <ConsoleConfig headerline="GPSServer" interval="1" display="on"/>
+<!--    <InterSenseConfig>
+      <ISTracker comport="1" id="InertiaCube"/>
+    </InterSenseConfig> -->
+    <TimeConfig sleep="10"/>
+    <GPSConfig dev="COM4" baudrate="38400" debug="off" logfile="gpsraw.log"/>
+    <FileConfig append="true"/>
+  </configuration>
+  <!-- outputs the 2D coordinates in the local system of the data. This is the local map datum with an offset -->
+  <!-- adds a final measured offset -->
+  <EventPositionTransform DEF="gps" translation="6.01339 0 0.729923">
+    <!-- general offset between map datum and model -->
+    <EventPositionTransform translation="-977.279 0 -148.929">
+      <!-- general transformation from map datum to model space -->
+      <EventPositionTransform translation="-2580.7448188637277  0  340116.60490389727" scale="1 -1 1" rotation="0 1 0 0 0 -1 -1 0 0" rotationtype="matrix">
+        <!-- transforms ellipsoid to transversal mercator -->
+        <EventGKTransform a="6377397.155" b="6356078.963" mode="to" meridian="34" alpha="111120.6196" beta="15988.6385" gamma="16.73" delta="0.0218" DEF="gk">
+          <EventEllipsoidTransform a="6377397.155" b="6356078.963" mode="toEllipsoid" DEF="bessel">
+            <EventPositionTransform translation="-577.33 -90.13 -463.92" scale="0.99999758 0.99999758 0.99999758" rotation=".9999988335 .1472082123e-2 -.4074000352e-3 -.1471499346e-2 .9999978989 .1427100550e-2 .4094999886e-3 -.1426499396e-2 .9999988987" rotationtype="matrix">
+              <EventEllipsoidTransform a="6378137" b="6356752.31424523" mode="toCartesian" DEF="wgs84">
+                <GPSSource/>
+              </EventEllipsoidTransform>
+            </EventPositionTransform>
+          </EventEllipsoidTransform>
+        </EventGKTransform>
+      </EventPositionTransform>
+    </EventPositionTransform>
+  </EventPositionTransform>
+  <!-- directional source for logging -->
+  <GPSDirectionSource DEF="direction"/>
+  <!-- GPS info source for status information and logging -->
+  <GPSInfoSource DEF="status"/>
+  <!-- Intertrax oriented to typical OpenInventor camera space plus an optional offset to calibrate -->
+  <!--
+  <EventTransform DEF="orientation">
+    <EventVirtualOrientationTransform rotationtype="matrix" rotation="0 -1 0 1 0 0 0 0 1">
+      <EventOrientationTransform rotation="0 1 0 -1 0 0 0 0 1" rotationtype="matrix">
+        <InterSenseSource id="InertiaCube"/>
+      </EventOrientationTransform>
+    </EventVirtualOrientationTransform>
+  </EventTransform>-->
+  <!-- Transmits GPS data on the network -->
+  <NetworkSink name="gps" number="1" multicast-address="224.100.200.101" port="2000" interface="127.0.0.1">
+    <Ref USE="gps"/>
+  </NetworkSink>
+  <!-- Transmits orientation data on the network -->
+  <!--
+  <NetworkSink name="rot" number="2" multicast-address="224.100.200.101" port="2000" interface="127.0.0.1">
+    <Ref USE="orientation"/>
+  </NetworkSink>-->
+  <!-- Transmits GPS data on the network -->
+  <NetworkSink name="status" number="20" multicast-address="224.100.200.101" port="2000" interface="127.0.0.1">
+    <Ref USE="status"/>
+  </NetworkSink>
+  <!-- Output GPS data on the console -->
+  <ConsoleSink comment="GPS" active="on">
+    <Ref USE="gps"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Direction" active="off">
+    <Ref USE="direction"/>
+  </ConsoleSink>
+  <ConsoleSink comment="Status" active="on">
+      <Ref USE="status"/>
+  </ConsoleSink>
+  <!--
+  <ConsoleSink comment="Orientation" active="off">
+    <Ref USE="orientation"/>
+  </ConsoleSink>
+  -->
+  <!-- file logs of gps data -->
+  <FileSink file="gps.log" station="0">
+    <Ref USE="gps"/>
+  </FileSink>
+  <FileSink file="dir.log" station="0">
+    <Ref USE="direction"/>
+  </FileSink>
+  <FileSink file="status.log" station="0">
+      <Ref USE="status"/>
+  </FileSink>
+  <!-- special logs triggered over the network -->
+  <FileSink file="gps-1.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="1" multicast-address="224.100.200.102" port="2001" DEF="point1"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-1.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point1"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-2.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="2" multicast-address="224.100.200.102" port="2001" DEF="point2"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-2.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point2"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-3.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="3" multicast-address="224.100.200.102" port="2001" DEF="point3"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-3.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point3"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-4.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="4" multicast-address="224.100.200.102" port="2001" DEF="point4"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-4.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point4"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-5.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="5" multicast-address="224.100.200.102" port="2001" DEF="point5"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-5.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point5"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-6.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="6" multicast-address="224.100.200.102" port="2001" DEF="point6"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-6.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point6"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-7.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="7" multicast-address="224.100.200.102" port="2001" DEF="point7"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-7.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point7"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-8.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="8" multicast-address="224.100.200.102" port="2001" DEF="point8"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-8.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point8"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="gps-9.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <NetworkSource number="9" multicast-address="224.100.200.102" port="2001" DEF="point9"/>
+      </Gate>
+      <Ref USE="gps"/>
+    </TimeGate>
+  </FileSink>
+  <FileSink file="dir-9.log" station="0">
+    <TimeGate mode="pass" timeframe="30000">
+      <Gate>
+        <Ref USE="point9"/>
+      </Gate>
+      <Ref USE="direction"/>
+    </TimeGate>
+  </FileSink>
+</OpenTracker>

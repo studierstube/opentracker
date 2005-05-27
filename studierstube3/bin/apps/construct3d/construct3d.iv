@@ -1,0 +1,3643 @@
+#Inventor V2.1 ascii
+
+DEF AN SoApplicationKit {
+    fields [ SFBool readOnly,SFNode classLoader, SFNode contextKit, SFNode appGeom, SFNode info ]
+    readOnly TRUE
+    classLoader	    SoClassLoader {
+	fields [ SFString className, SFString fileName ]
+	className	"SoCnDKit"
+	fileName	"../apps/construct3d/construct3d_stb"
+    }
+
+    contextKit	    DEF CONSTRUCT SoCnDKit {
+	fields [ SFInt32 userID, MFNode windows, SFNode templatePipSheet, SFBool clonePipSheet ]
+	userID 0
+	
+
+	templatePipSheet SoPipSheetKit {
+
+	pipParts (PIP_BODY|SHEET|SHEET_TABS|SYSTEM_TABS)
+	autoScaling FALSE
+	sheetsRoot So3DSeparator { boundingBoxCheck FALSE eventMask BM_ALL_EVENTS }
+#	boundingBoxCheck FALSE 
+#	eventMask BM_ALL_EVENTS
+	sheets DEF AllSwitch Switch {
+    	DEF MainSeparator Separator {
+        	# new PIPsheet requires new rotation
+        	RotationXYZ {axis  X angle 1.57 }
+    		# enough space to avoid collision of button geometry with PIP
+	    	# but can still be clicked by pressing pen on board
+	    	#Translation { translation 0 0.0001 0 } 
+        	Translation { translation 0 0.0101 0 } 
+            #Translation { translation 0 0.0081 0 } 
+Complexity{ textureQuality 1.0 }
+        	DEF MainSheet Separator {
+    			Translation { translation 0.155 0 -0.03 } 
+#    			Translation { translation 0.13 0 -0.05 } 
+#    			Translation { translation 0.135 0. -0.13 } 
+
+#    			Translation { translation 0.13 0 -0.05 } 
+#    		Translation { translation 0.28 0 0.09 } 
+
+    		DEF Point SoToggleButton
+			{
+
+				width 0.05 depth 0.03 height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					DEF BUTTON_ON_SET Group {
+					DEF BUTTON_ON_INVISIBLE_MATERIAL Material { transparency 1 }
+					DEF BUTTON_INVISIBLE Cube { width 1 depth 1 height 5}
+						#DEF BUTTON_ON_TRANSLATION Translation { translation 0.0 -0.005 0.0 }
+						DEF BUTTON_ON_TRANSLATION Translation { translation 0.0 -0.4 0.0 }
+						DEF BUTTON_ON_MATERIAL Material { diffuseColor 0.9 0.0 0.0 }
+					   	DEF BUTTON_GEOMETRY Cube { width 1 depth 1 height 1 }
+					}
+
+					DEF POINT_ICON Group {
+						Separator {
+							DEF ICON_PROPERTIES Group {
+								Material { diffuseColor 0.35 0.3 0.8 }
+						    	#Translation { translation 0 0.025 0 }
+                                Translation { translation 0 1.5 -0.2 }
+							}
+   							#Cube { width 0.01 height 0.01 depth 0.01 }
+                            #Cube { width 0.2 height 1 depth 0.333333333 }
+							Scale{scaleFactor 0.2 1 0.333333333}
+							Sphere{ radius 0.6}
+						}
+					}
+
+					Texture2 { filename "../apps/construct3d/textures/point.png" }
+        				DEF BUTTON_TEXTURE_GEOMETRY Group {
+     	     					FaceSet {
+			    				vertexProperty VertexProperty {
+#								vertex	[ -0.025  0.0051 0.015,
+#										0.025 0.0051 0.015 ,
+#										0.025 0.0051 -0.015,
+#										-0.025 0.0051 -0.015 ]
+								vertex	[ -0.5  0.51 0.5,
+										0.5 0.51 0.5 ,
+										0.5 0.51 -0.5,
+										-0.5 0.51 -0.5 ]
+
+								normal	0 1 0
+								texCoord	[ 0 0,
+										1 0,
+										1 1,
+										0 1 ]
+								normalBinding	OVERALL
+							}
+							numVertices 4
+						}
+	                		}
+				}
+				offGeometry Separator
+				{
+					DEF BUTTON_OFF_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						DEF BUTTON_OFF_MATERIAL Material { diffuseColor 0.7 0.7 0.7 }
+						USE BUTTON_GEOMETRY
+					}
+					USE POINT_ICON
+					Texture2 { filename "../apps/construct3d/textures/point.png" }
+					USE BUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					DEF BUTTON_HIGHLIGHTEDON_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						USE BUTTON_ON_TRANSLATION
+						DEF BUTTON_HIGHLIGHTEDON_MATERIAL Material { diffuseColor 1.0 1.0 0.0 }
+						USE BUTTON_GEOMETRY
+					}
+					USE POINT_ICON
+					Texture2 { filename "../apps/construct3d/textures/point.png" }
+					USE BUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					DEF BUTTON_HIGHLIGHTEDOFF_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						DEF BUTTON_HIGHLIGHTEDOFF_MATERIAL Material { diffuseColor 0.9 0.9 0.0 }
+						USE BUTTON_GEOMETRY
+					}
+					USE POINT_ICON
+					Texture2 { filename "../apps/construct3d/textures/point.png" }
+					USE BUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			DEF leftTrans Translation { translation -0.06 0 0 }
+
+
+			DEF Line SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new line" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new line" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					DEF PUSHBUTTON_ON_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						#DEF PUSHBUTTON_ON_TRANSLATION Translation { translation 0.0 -0.005 0.0 }
+						DEF PUSHBUTTON_ON_TRANSLATION Translation { translation 0.0 -0.4 0.0 }
+						DEF PUSHBUTTON_ON_MATERIAL Material { diffuseColor 0.9 0.0 0.0 }
+					   	#DEF PUSHBUTTON_GEOMETRY Cube { width 0.05 depth 0.03 height 0.01 }
+						DEF PUSHBUTTON_GEOMETRY Cube { width 1 depth 1 height 1 }
+					}
+
+					DEF LINE_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+	                				DrawStyle { lineWidth 2 }
+	                				#Coordinate3 { point [ -0.02 -0.005 0.007, 0.0218 0.00128 -0.0178 ] }
+                                    #Coordinate3 { point [ -0.4 -0.3 0.14, 0.4 0.1 -0.3 ] }
+									Coordinate3 { point [ -0.4 -0.3 0, 0.4 0.5 0.7 ] }
+            					LineSet { startIndex 0 numVertices 2 }
+						}
+					}
+
+					Texture2 { filename "../apps/construct3d/textures/line.png" }
+					DEF PUSHBUTTON_TEXTURE_GEOMETRY Group {
+						USE BUTTON_TEXTURE_GEOMETRY
+					}
+				}
+				offGeometry Separator
+				{
+					DEF PUSHBUTTON_OFF_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						DEF PUSHBUTTON_OFF_MATERIAL Material { diffuseColor 0.7 0.7 0.7 }
+						USE PUSHBUTTON_GEOMETRY
+					}
+					USE LINE_ICON
+					Texture2 { filename "../apps/construct3d/textures/line.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					DEF PUSHBUTTON_HIGHLIGHTEDON_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						USE PUSHBUTTON_ON_TRANSLATION
+						DEF PUSHBUTTON_HIGHLIGHTEDON_MATERIAL Material { diffuseColor 1.0 1.0 0.0 }
+						USE PUSHBUTTON_GEOMETRY
+					}
+					USE LINE_ICON
+					Texture2 { filename "../apps/construct3d/textures/line.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					DEF PUSHBUTTON_HIGHLIGHTEDOFF_SET Group {
+					USE BUTTON_ON_INVISIBLE_MATERIAL
+					USE BUTTON_INVISIBLE
+						DEF PUSHBUTTON_HIGHLIGHTEDOFF_MATERIAL Material { diffuseColor 0.9 0.9 0.0 }
+						USE PUSHBUTTON_GEOMETRY
+					}
+					USE LINE_ICON
+					Texture2 { filename "../apps/construct3d/textures/line.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Plane SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new plane" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new plane" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF PLANE_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Coordinate3 {
+#								point [ -0.02 -0.0052 0.0,
+#									0.02 0.0102 0.0,
+#									-0.02 0.009 -0.02]
+								point [ -0.4 -0.1 0.4,
+									0.4 0.2 0.7,
+									-0.4 0.9 -0.4]
+							}
+							FaceSet { numVertices 3 }
+						}
+					}
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF circleCurve SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "circlecurve" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "circlecurve" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/circle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/circle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/circle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/circle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF ellipseCurve SoPushButton
+			{
+						width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "ellipse" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "ellipse" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/ellipse.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/ellipse.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/ellipse.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/ellipse.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.24 0 0.05 }
+
+
+			DEF Box SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "box" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "box" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF BOX_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Translation { translation 0 0.6 0.2 }
+							Cube { width 0.45 height 2.25 depth 0.75 }
+						}
+					}
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE BOX_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE BOX_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE BOX_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Sphere SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+	
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "sphere" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "sphere" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF SPHERE_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Translation { translation 0 0.6 0.2 }
+							Scale{scaleFactor 0.2 1 0.333333333}
+							Sphere{ radius 1.5}
+
+							#Sphere { radius 0.014 }
+						}
+					}
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE SPHERE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE SPHERE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE SPHERE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Cylinder SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "cylinder" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "cylinder" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF CYLINDER_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Translation { translation 0 0.6 0.2 }
+							Scale{scaleFactor 0.2 1 0.333333333}
+							Cylinder { radius 1.4 height 2.9 }
+#							Cylinder { radius 0.014 height 0.024 }
+						}
+					}
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE CYLINDER_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE CYLINDER_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE CYLINDER_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Cone SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "cone" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "cone" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF CONE_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Translation { translation 0 0.6 0.2 }
+							Scale{scaleFactor 0.2 1 0.333333333}
+							Cone { bottomRadius 1.5 height 3.5 }
+#							Cone { bottomRadius 0.014 height 0.024 }
+						}
+					}
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE CONE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE CONE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE CONE_ICON
+					#Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					#USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.18 0 0.06 }
+
+			DEF rightTrans Translation { translation 0.06 0 0 }
+
+			DEF Del SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "delete" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "delete" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/del.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/del.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/del.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/del.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF Desall SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "deselect" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "deselect" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/desall.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/desall.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/desall.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/desall.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF SelDepObj SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "select dependent objcts" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "select dependent objcts" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/seldependentobj.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/seldependentobj.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/seldependentobj.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/seldependentobj.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF Redo SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "redo" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "redo" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/redo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/redo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/redo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/redo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Undo SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "undo" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "undo" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/undo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/undo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/undo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/undo.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF Save SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "save" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "save" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/save.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/save.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/save.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/save.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF Load SoPushButton
+			{
+							width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "load" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "load" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/load.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/load.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/load.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/load.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation -0.035 0 0.04 }
+			USE rightTrans
+
+			DEF VisibleLayersTexture Separator
+			{
+				Texture2 { filename "../apps/construct3d/textures/visiblelayers.png" }
+				FaceSet {
+			    		vertexProperty VertexProperty {
+						vertex	[ -0.02 -0.004 0.01,
+					  			0.02 -0.004 0.01,
+					  			0.02 -0.004 -0.01,
+					  			-0.02 -0.004 -0.01 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								1 0,
+								1 1,
+								0 1 ]
+						normalBinding	OVERALL
+					}
+					numVertices 4
+				}
+			}
+
+			DEF LayerTextureButtonTrans Translation { translation 0.035 0 0 }
+
+
+    		DEF Layer1 SoToggleButton
+			{
+				width 0.02 depth 0.02 height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer one" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer one" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					DEF LAYERBUTTON_ON_SET Group {
+						#DEF LAYERBUTTON_ON_TRANSLATION Translation { translation 0.0 -0.005 0.0 }
+						USE BUTTON_ON_TRANSLATION
+						DEF LAYERBUTTON_ON_MATERIAL Material { diffuseColor 0.0 0.9 0.0 }
+					   	#DEF LAYERBUTTON_GEOMETRY Cube { width 0.02 depth 0.02 height 0.01 }
+						DEF LAYERBUTTON_GEOMETRY Cube { width 1 depth 1 height 1 }
+					}
+
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+        				DEF LAYERBUTTON_TEXTURE_GEOMETRY Group {
+     	     					FaceSet {
+			    				vertexProperty VertexProperty {
+#								vertex	[ -0.01 0.0051 0.01,
+#										0.01 0.0051 0.01,
+#					  					0.01 0.0051 -0.01,
+#					  					-0.01 0.0051 -0.01 ]
+								vertex	[ -0.5  0.51 0.5,
+										0.5 0.51 0.5 ,
+										0.5 0.51 -0.5,
+										-0.5 0.51 -0.5 ]
+								normal	0 1 0
+								texCoord	[ 0 0,
+										1 0,
+										1 1,
+										0 1 ]
+								normalBinding	OVERALL
+							}
+							numVertices 4
+						}
+	                		}
+				}
+				offGeometry Separator
+				{
+					DEF LAYERBUTTON_OFF_SET Group {
+						DEF LAYERBUTTON_OFF_MATERIAL Material { diffuseColor 0.7 0.7 0.7 }
+						USE LAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					DEF LAYERBUTTON_HIGHLIGHTEDON_SET Group {
+						#USE LAYERBUTTON_ON_TRANSLATION
+						USE BUTTON_ON_TRANSLATION
+						DEF LAYERBUTTON_HIGHLIGHTEDON_MATERIAL Material { diffuseColor 1.0 1.0 0.0 }
+						USE LAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					DEF LAYERBUTTON_HIGHLIGHTEDOFF_SET Group {
+						DEF LAYERBUTTON_HIGHLIGHTEDOFF_MATERIAL Material { diffuseColor 0.9 0.9 0.0 }
+						USE LAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			DEF LayerButtonTrans Translation { translation 0.03 0 0 }
+
+
+			DEF Layer2 SoToggleButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer two" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer two" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE LAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE LAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE LayerButtonTrans
+
+
+			DEF Layer3 SoToggleButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer three" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer three" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE LAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE LAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE LayerButtonTrans
+
+
+			DEF Layer4 SoToggleButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer four" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "layer four" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE LAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE LAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE LAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE LAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			DEF LayerActiveTrans Translation { translation 0.05 0 0 }
+
+			DEF ActiveLayersTexture Separator
+			{
+				Texture2 { filename "../apps/construct3d/textures/activelayer.png" }
+				FaceSet {
+					vertexProperty VertexProperty {
+						vertex	[ -0.02 -0.004 0.01,
+								0.02 -0.004 0.01,
+								0.02 -0.004 -0.01,
+								-0.02 -0.004 -0.01 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								1 0,
+								1 1,
+								0 1 ]
+						normalBinding	OVERALL
+					}
+					numVertices 4
+				}
+			}
+	
+			USE LayerTextureButtonTrans
+
+
+    		DEF Layer1Active SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer one" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer one" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					DEF ACTIVELAYERBUTTON_ON_SET Group {
+						#DEF ACTIVELAYERBUTTON_ON_TRANSLATION Translation { translation 0.0 -0.005 0.0 }
+						USE BUTTON_ON_TRANSLATION
+						DEF ACTIVELAYERBUTTON_ON_MATERIAL Material { diffuseColor 0.0 0.9 0.0 }
+					   	#DEF ACTIVELAYERBUTTON_GEOMETRY Cube { width 0.02 depth 0.02 height 0.01 }
+						DEF ACTIVELAYERBUTTON_GEOMETRY Cube { width 1 depth 1 height 1 }
+					}
+
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+        				DEF ACTIVELAYERBUTTON_TEXTURE_GEOMETRY Group {
+     	     					FaceSet {
+			    				vertexProperty VertexProperty {
+#								vertex	[ -0.01 0.0051 0.01,
+#										0.01 0.0051 0.01,
+#					  					0.01 0.0051 -0.01,
+#					  					-0.01 0.0051 -0.01 ]
+								vertex	[ -0.5  0.51 0.5,
+										0.5 0.51 0.5 ,
+										0.5 0.51 -0.5,
+										-0.5 0.51 -0.5 ]
+								normal	0 1 0
+								texCoord	[ 0 0,
+										1 0,
+										1 1,
+										0 1 ]
+								normalBinding	OVERALL
+							}
+							numVertices 4
+						}
+	                		}
+				}
+				offGeometry Separator
+				{
+					DEF ACTIVELAYERBUTTON_OFF_SET Group {
+						DEF ACTIVELAYERBUTTON_OFF_MATERIAL Material { diffuseColor 0.7 0.7 0.7 }
+						USE ACTIVELAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					DEF ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET Group {
+						#USE ACTIVELAYERBUTTON_ON_TRANSLATION
+						USE BUTTON_ON_TRANSLATION
+						DEF ACTIVELAYERBUTTON_HIGHLIGHTEDON_MATERIAL Material { diffuseColor 1.0 1.0 0.0 }
+						USE ACTIVELAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					DEF ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET Group {
+						DEF ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_MATERIAL Material { diffuseColor 0.9 0.9 0.0 }
+						USE ACTIVELAYERBUTTON_GEOMETRY
+					}
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE LayerButtonTrans
+
+
+			DEF Layer2Active SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer two" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer two" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE LayerButtonTrans
+
+
+			DEF Layer3Active SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer three" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer three" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE LayerButtonTrans
+
+
+			DEF Layer4Active SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer four" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "set layer four" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+		} # end of main sheet separator
+	} # end of main sheet
+
+
+	DEF ConstructSeparator Separator {
+		RotationXYZ {axis  X angle 1.57 }
+		Translation { translation 0 0.0101 0 } 
+#        Translation { translation 0 0.0081 0 } 
+Complexity{ textureQuality 1.0 }
+		DEF ConstructSheet Separator {
+    		Translation { translation 0.155 0 -0.03 } 
+#			Translation { translation 0.13 0 -0.05 } 
+#    		Translation { translation 0.135 0. -0.13 } 
+
+			DEF Intersect SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "intersect" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "intersect" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/intersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/intersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/intersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/intersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+	
+			DEF leftTrans Translation { translation -0.06 0 0 }
+
+
+			DEF NormalLine SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "normal line" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "normal line" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/planenormal.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/planenormal.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/planenormal.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/planenormal.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+ 
+			DEF leftTrans Translation { translation -0.06 0 0 }
+
+
+			DEF NormalPlane SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "normal plane" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "normal plane" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/normalplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/normalplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/normalplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/normalplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			DEF leftTrans Translation { translation -0.06 0 0 }
+
+
+			DEF SymmetryPlane SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "symmetry plane" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "symmetry plane" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/symmplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/symmplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/symmplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/symmplane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.18 0 0.05 }
+
+
+			DEF BoolDiff SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean difference" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean difference" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/booldiff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/booldiff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/booldiff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/booldiff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF BoolIntersect SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean intersection" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean intersection" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/boolintersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/boolintersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/boolintersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/boolintersect.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF BoolUnion SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean union" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "boolean union" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/boolunion.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/boolunion.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/boolunion.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/boolunion.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+			Translation { translation -0.03 0 -0.01 }
+		      RotationXYZ {axis Y angle 1.57 }
+
+			DEF SurfaceXSlider SoSpeechSlider
+			{
+				width 0.03 height 0.02 depth 0.06
+
+				minValue 2 maxValue 8
+				minVector 0 0 -0.03
+				maxVector 0 0 0.03
+
+				alpha 0.0
+
+				actionUpGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "surface X up"]
+					},
+				]
+				actionDownGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "surface X down"]
+					},
+				]
+				step 0.166666666666666666
+			}
+			
+			RotationXYZ {axis Y angle -1.57 }
+			Translation { translation 0.0 0 0.04 }
+			
+			DEF bsplineSurface SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "b spline Surface" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "b spline Surface" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinesurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinesurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinesurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinesurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+						
+			Translation { translation 0.0 0 -0.02 }
+			USE leftTrans
+		      
+			DEF SurfaceYSlider SoSpeechSlider
+			{
+				width 0.03 height 0.02 depth 0.06
+
+				minValue 2 maxValue 8
+				minVector 0 0 -0.03
+				maxVector 0 0 0.03
+
+				alpha 0.0
+
+				actionUpGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "surface Y up"]
+					},
+				]
+				actionDownGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "surface Y down"]
+					},
+				]
+				step 0.166666666666666666
+			}
+			Translation { translation 0.27 0 0.04 } # 0.12
+
+			DEF bsplineCurve SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "b spline curve" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "b spline curve" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinecurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinecurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinecurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/bsplinecurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF pointsonCurve SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+				
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "points on curve" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "points on curve" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsoncurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsoncurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsoncurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsoncurve.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+		      
+			DEF DegreeSlider SoSpeechSlider
+			{
+				width 0.03 height 0.02 depth 0.06
+
+				minValue 2 maxValue 6
+				minVector 0 0 -0.03
+				maxVector 0 0 0.03
+
+				alpha 0.0
+
+				actionUpGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "degree up"]
+					},
+				]
+				actionDownGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "degree down"]
+					},
+				]
+				step 0.25
+			}
+
+			Translation { translation -0.04 0 0.00 }
+		      
+			DEF DegreeSliderY SoSpeechSlider
+			{
+				width 0.03 height 0.02 depth 0.06
+
+				minValue 2 maxValue 6
+				minVector 0 0 -0.03
+				maxVector 0 0 0.03
+
+				alpha 0.0
+
+				actionUpGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "degree v up"]
+					},
+				]
+				actionDownGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "degree v down"]
+					},
+				]
+				step 0.25
+			}
+
+			Translation { translation -0.05 0.00 0.02 }
+			
+			DEF pointsonSurface SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "points on surface" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "points on surface" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsonsurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsonsurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsonsurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/pointsonsurface.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation -0.065 0 0.03 }
+
+			USE VisibleLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1
+			USE LayerButtonTrans
+			USE Layer2
+			USE LayerButtonTrans
+			USE Layer3
+			USE LayerButtonTrans
+			USE Layer4
+			USE LayerActiveTrans 
+			USE ActiveLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1Active
+			USE LayerButtonTrans
+			USE Layer2Active
+			USE LayerButtonTrans
+			USE Layer3Active
+			USE LayerButtonTrans
+			USE Layer4Active
+
+		} # end of construct sheet separator
+	} # end of construct sheet
+
+
+	Separator {
+		RotationXYZ {axis  X angle 1.57 }
+		Translation { translation 0 0.0101 0 } 
+#        Translation { translation 0 0.0081 0 } 
+Complexity{ textureQuality 1.0 }
+		DEF MeasureSheet Separator {
+    		Translation { translation 0.155 0 -0.03 } 
+#			Translation { translation 0.13 0 -0.05 } 
+#    		Translation { translation 0.135 0. -0.13 } 
+
+			DEF PPDistance SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "distance" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "distance" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/p_pdistance.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/p_pdistance.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/p_pdistance.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/p_pdistance.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF centreofline SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "midpoint" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "midpoint" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/midpoint.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/midpoint.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/midpoint.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/midpoint.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+			USE leftTrans
+
+			DEF slicing SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "slicing" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "slicing" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/slicing.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/slicing.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/slicing.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/slicing.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+			
+			USE leftTrans
+			
+			DEF sweeping SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "sweeping" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "sweeping" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/sweeping.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/sweeping.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/sweeping.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/sweeping.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+			
+			USE leftTrans
+			
+			DEF SkewPolygon SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "skew polygon" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "skew polygon" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/measureangle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/measureangle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/measureangle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/measureangle.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			DEF rightTrans Translation { translation 0.06 0 0 } 
+			USE rightTrans 
+			USE rightTrans 
+			USE rightTrans 
+
+			DEF downTrans Translation { translation 0.0 0 0.04 }
+			#Translation { translation 0.0 0 0.15 }
+			
+			DEF AngleBisector SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "skew polygon" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "skew polygon" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/anglebisector.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/anglebisector.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/anglebisector.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/anglebisector.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+			DEF sizePlane SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new plane" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new plane" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					DEF PLANE_ICON Group {
+						Separator {
+							USE ICON_PROPERTIES
+							Coordinate3 {
+#								point [ -0.02 -0.0052 0.0,
+#									0.02 0.0102 0.0,
+#									-0.02 0.009 -0.02]
+								point [ -0.4 -0.1 0.4,
+									0.4 0.2 0.7,
+									-0.4 0.9 -0.4]
+							}
+							FaceSet { numVertices 3 }
+						}
+					}
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					USE PLANE_ICON
+					Texture2 { filename "../apps/construct3d/textures/plane.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+			
+			USE leftTrans			
+			USE leftTrans			
+			USE leftTrans			
+			DEF upTrans Translation { translation 0.0 0 -0.04 }
+            		Translation { translation -0.035 0 0.15 }
+    
+			USE VisibleLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1
+			USE LayerButtonTrans
+			USE Layer2
+			USE LayerButtonTrans
+			USE Layer3
+			USE LayerButtonTrans
+			USE Layer4
+			USE LayerActiveTrans 
+			USE ActiveLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1Active
+			USE LayerButtonTrans
+			USE Layer2Active
+			USE LayerButtonTrans
+			USE Layer3Active
+			USE LayerButtonTrans
+			USE Layer4Active
+
+		} # end of measure sheet separator
+	} # end of measure sheet
+
+	Separator {
+		RotationXYZ {axis  X angle 1.57 }
+		Translation { translation 0 0.0101 0 } 
+#        Translation { translation 0 0.0081 0 } 
+Complexity{ textureQuality 1.0 }
+		DEF PropertySheet Separator {
+    		Translation { translation 0.155 0 -0.03 } 
+#			Translation { translation 0.07 0.005 -0.04 } 
+#			Translation { translation 0.13 0 -0.01 } 
+#    		Translation { translation 0.135 0. -0.13 } 
+
+
+			DEF Wireframe SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "wireframe" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "wireframe" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/wireframe.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/wireframe.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/wireframe.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/wireframe.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+#
+#			DEF TransparencySlider SoSpeechSlider
+#			{
+#				width 0.03 height 0.02 depth 0.06
+#
+#				minValue 0 maxValue 1
+#				minVector 0 0 -0.03
+#				maxVector 0 0 0.03
+#
+#				alpha 0.0
+#
+#				actionUpGestures
+#				[
+#					SoSpeechGesture
+#					{
+#						stations [ 6 ] blocked FALSE
+#						SpeechCommands [ "transparency up"]
+#					},
+#				]
+#				actionDownGestures
+#				[
+#					SoSpeechGesture
+#					{
+#						stations [ 6 ] blocked FALSE
+#						SpeechCommands [ "transparency down"]
+#					},
+#				]
+#				step 0.2
+#			}
+    
+			Translation { translation -0.05 0 0.05 } 
+
+
+			DEF PropLayer1 SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer one" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer one" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer1.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.03 0 0 }
+
+
+			DEF PropLayer2 SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer two" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer two" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer2.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.03 0 0 }
+
+
+			DEF PropLayer3 SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer three" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer three" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer3.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.03 0 0 }
+
+
+			DEF PropLayer4 SoRadioButton
+			{
+				width 0.02 depth 0.02 height 0.01
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer four" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "property layer four" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE ACTIVELAYERBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/layer4.png" }
+					USE ACTIVELAYERBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+            Translation { translation -0.255 0 0.1 }
+    
+			USE VisibleLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1
+			USE LayerButtonTrans
+			USE Layer2
+			USE LayerButtonTrans
+			USE Layer3
+			USE LayerButtonTrans
+			USE Layer4
+			USE LayerActiveTrans 
+			USE ActiveLayersTexture
+			USE LayerTextureButtonTrans
+			USE Layer1Active
+			USE LayerButtonTrans
+			USE Layer2Active
+			USE LayerButtonTrans
+			USE Layer3Active
+			USE LayerButtonTrans
+			USE Layer4Active
+
+		} # end of property sheet separator
+	} # end of property sheet
+
+	Separator {
+		RotationXYZ {axis  X angle 1.57 }
+		Translation { translation 0 0.0101 0 } 
+#        Translation { translation 0 0.0081 0 } 
+Complexity{ textureQuality 1.0 }
+		DEF SystemSheet Separator {
+    		Translation { translation 0.155 0 -0.03 } 
+#			Translation { translation 0.13 0 -0.05 } 
+#    		Translation { translation 0.135 0. -0.13 } 
+
+			DEF New SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new start" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "new start" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/start.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/start.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/start.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/start.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF GridOn SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "grid on" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "grid on" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/gridon.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/gridon.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/gridon.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/gridon.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			USE leftTrans
+
+
+			DEF GridOff SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "grid off" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "grid off" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/gridoff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/gridoff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/gridoff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/gridoff.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+			Translation { translation 0.12 0 0.05 }
+
+			DEF ExportVRML2 SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "export vrml" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "export vrml" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/vrml2export.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/vrml2export.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/vrml2export.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/vrml2export.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+
+            USE leftTrans
+
+			DEF LoadInWindow SoPushButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "load in window" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "load in window" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/loadinwin.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/loadinwin.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/loadinwin.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/loadinwin.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    
+			}
+			
+			Translation { translation 0.12 0 0.05 }
+			USE leftTrans
+			USE leftTrans
+
+			DEF HorizontalProjection SoToggleButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/horizontalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/horizontalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/horizontalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/horizontalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    		    
+			}
+				
+			Translation { translation 0.12 0 0.05 }
+			USE leftTrans
+
+			DEF RightProjection SoToggleButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/rightprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/rightprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/rightprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/rightprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}			    		   
+			}
+
+			USE leftTrans
+
+			DEF VerticalProjection SoToggleButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/verticalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/verticalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/verticalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/verticalprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+			}
+
+			USE leftTrans
+			
+			DEF LeftProjection SoToggleButton
+			{
+				width 0.05 
+				depth 0.03 
+				height 0.01
+
+				actionEnterGestures
+				[
+					SoEnterGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionExitGestures
+				[
+					SoExitGesture{ stations [ 6 ] blocked TRUE }
+				]
+				actionStartGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech TRUE },
+					SoButtonPressGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+				actionEndGestures
+				[
+					SoSpeechGesture { stations [ 6 ] blocked FALSE SpeechCommands [ "point" ] actionBeginSpeech FALSE },
+					SoButtonReleaseGesture{ buttonNumber 0 stations [ 6 ] blocked TRUE }
+				]
+
+				onGeometry Separator
+				{
+					USE PUSHBUTTON_ON_SET
+					Texture2 { filename "../apps/construct3d/textures/leftprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+				offGeometry Separator
+				{
+					USE PUSHBUTTON_OFF_SET
+					Texture2 { filename "../apps/construct3d/textures/leftprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOnGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDON_SET
+					Texture2 { filename "../apps/construct3d/textures/leftprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+                    	}
+				highlightedOffGeometry Separator
+				{
+					USE PUSHBUTTON_HIGHLIGHTEDOFF_SET
+					Texture2 { filename "../apps/construct3d/textures/leftprojection.png" }
+					USE PUSHBUTTON_TEXTURE_GEOMETRY
+				}
+			}
+
+			Translation { translation -0.12 0.008 -0.05 }
+
+			DEF GridSlider SoSpeechSlider
+			{
+				width 0.03 height 0.02 depth 0.1
+
+				minValue 0 maxValue 1
+				minVector 0 0 -0.05
+				maxVector 0 0 0.05
+
+				alpha 0.0
+
+				actionUpGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "grid up"]
+					},
+				]
+				actionDownGestures
+				[
+					SoSpeechGesture
+					{
+						stations [ 6 ] blocked FALSE
+						SpeechCommands [ "grid down"]
+					},
+				]
+				step 0.2
+			}
+		} # end of system sheet separator
+	} # end of system sheet
+
+}
+
+tabTextures [Texture2 { filename	"../apps/construct3d/textures/mainmenu.png"},
+             Texture2 { filename	"../apps/construct3d/textures/constructmenu.png"},
+             Texture2 { filename	"../apps/construct3d/textures/measuremenu.png"},
+             Texture2 { filename	"../apps/construct3d/textures/propmenu.png"},
+             Texture2 { filename	"../apps/construct3d/textures/systemmenu.png"}
+            ]
+
+	}
+	
+
+	clonePipSheet  TRUE
+}    
+    appGeom Separator {
+    			Texture2 { filename "../apps/construct3d/textures/construct_logo.png" }
+    		}
+    
+    info Info {   }
+}

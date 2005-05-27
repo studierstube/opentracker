@@ -1,0 +1,2475 @@
+/**
+@page intro Introduction to Studierstube concepts
+
+@section sec_intro Introduction
+
+ Studierstube (pronounced "stoo-deer-stoo-bah") is an environment for the development of collaborative augmented reality applications. The german term can be roughly translated as "study room" and is meant to indicate a place (room) in which special computer tools are available to obtain insight.
+
+ The concept covers both a particular hardware setup (including interaction devices and display setup) as well as a software framework called Studierstube Application Programmer's Interface (StbAPI). StbAPI is realized as as a set of C++ classes built on top of the Open Inventor (OIV) graphics toolkit.
+
+@image html stube.gif "Typical view of two users working in Studierstube."
+
+This text assumes that you are at least a little familiar with the following:
+
+@li fundamentals of interactive computer graphics
+@li C++ programming
+@li The Open Inventor toolkit (to learn about OIV, read the book "The Inventor Mentor")
+
+For further information, also consult the following resources:
+
+<a href="http://www.cg.tuwien.ac.at/research/vr/studierstube/jvrs-paper.pdf">Overview paper on Studierstube</a>
+
+<a href="http://www.studierstube.org">Studierstube research home page</a>
+
+
+@section hardware Hardware
+
+Different hardware setups for input and output are possible for a Studierstube installation. For processing input data, our tracking middleware OpenTracker is used as an additional layer between the possibly heterogenous tracking hardware and the StbAPI. Most Studierstube setups require at least one 6-degrees-of-freedom (6DOF) tracking device with at least 3 independent sensors, to locate a user and her props in space. OpenTracker support many different tracking devices, which can be configured to work togehter in a single setup.
+
+Output for augmented reality requires some kind of stereoscopic display device. Three principal options for display are possible:
+
+See-through head mounted display (HMD): For "true" augmented reality, an HMD with semi-transparent screens is required. By wearing such as device, users can see the computer graphics overlaid onto the real environment. Multiple users may each wear an HMD and obtain individual views on the scene while still being able to collaborate. At TUW, i-glasses from Virtual IO (now called IO Display Systems) and Glasstrons from Sony are used as HMDs.
+
+Virtual Table (VT) and other back-projection display surfaces (e. g., a stereo wall or CAVE). Alternatively to using HMDs, the Studierstube software can also be run with the Virtual Table, a large workbench-like projection screen device (the actual hardware is called Barco BARON table). Stereo graphics capabilities are made available by using LCD shutter glasses (CrystalEyes from Stereographics).
+
+Semi-transparent mirror setups, like the <a href="http://www.studierstube.org/virtualshowcase">Virtual Showcase</a>, reflect the projected image from a half-silvered mirror, to allow the optical combination of a real object behind the mirror and stereoskopically projected virtual content.
+
+
+
+Stereo rendering on either HMDs or the VT works as follows (for more information on stereo rendering hardware, see the Stereo3D web site): Stereo rendering with HMD setup: your HMDs have either separate video inputs for left and right eye, or they accept field interleaved (i.e., alternating images) stereo or line interleaves stereo (i.e., the stereo pair is encoded in the even and odd lines of a single image). Your computer/graphics card combination must be capable of producing stereo images in a format that is acceptible to the HMD you use.
+
+Stereo rendering with VT or VS setup: Stereo graphics require rendering left and right images into separate OpenGL stereo buffers. Depending on the workstation, software access to these buffers may be slightly different, but in general is easy to do.
+
+For both solution, you have to track the position and orientation of the users head to render the correct images.
+
+@section pip Personal Interaction Panel
+
+The Personal Interaction Panel (PIP) is a tool for two-handed interaction with virtual objects. It is composed of a notebook-sized (20x25cm = 10x12") flat panel and a pen (equipped with 1 or 2 buttons). Both props are equipped with a 6DOF tracker each, and serve as general purpose tools for interaction in and with Studierstube. The props are custom made, and you will have to make your own.
+
+@image html pip.gif "The personal interaction is a pen-and-pad combination that is overlaid with graphics"
+
+Material: When using HMDs, the pad is made from light wood or plastik (remember you will need to hold it in your hand for longer time!), and the pen from a plastik tube (PVC piping has proven a good solution). When using the VT, the props need to be transparent so that graphics can be displayed from behind. Plexiglass is a good solution.
+
+@image html pen.gif "The pen must be custom made and equipped one or two buttons"
+
+@section tracking Tracking
+
+@subsection opentracker OpenTracker
+
+Studierstube requires a flexible and versatile support for 6DOF tracking. There is a myriad of different ways of connecting trackers to computers. Rather than supporting them all, Studierstube supports several ways of tracking, but the preferred setup is via a middleware called <a href="http://www.studierstube.org/opentracker">OpenTracker</a>. OpenTracker communicates with the tracking hardware, reading its data and sending it to the Studierstube software, optionally multi-casting it over the LAN for other clients. Client workstations pick up the data from the network or their local OpenTracker instance and use it for the application (in particular, render the graphics).
+
+@subsection trackscene Tracking data and the scenegraph
+
+A client workstation picks up the tracker data and uses it in the Studierstube application. The data is fed into the scenegraph as a sequence of 3D-events, and can therefore be picked up and used by any node in the scenegraph. To distinguish the different sources of the tracking data (as a setup can and will have multiple tracked targets, for example the PIP, the Pen and the head of the user), these sources are assigned station numbers by OpenTracker.
+
+Nodes in the Studierstube scenegraph can either implement their own handling of 3D events, or use standard components provided by the StbAPI. For example, TrakEngine allows Studierstube applications to directly access tracker data for choreographing dragging and similar direction manipulations.
+
+@subsection trakengine TrakEngine as source for position/orientation data
+
+The primary function of the TrakEngine is to act as a source for position and orientation data. OIV provides a conventient concept of making parts of the scene graph dependent from various data sources - such data source objects are called engines. By simply instantiating a TrakEngine (do not forget to set the desired tracker station!) and connecting its outputs to the inputs of some field, tracker values will influence the scene graph. The most common way is to connect the TrakEngine's outputs to the translation and rotation fields of an SoTransform node so that some scene object is coupled to tracker movement. Note that the TrakEngine also provides the current state of the pen buttons (pressed or released).
+
+@subsection 3devent 3D Event System
+
+While raw tracker data alone is principally sufficient for 3D applicatrions, for choreographing complex 3D interaction a more convenient programming model is desirable. Interaction programming usually relies on event propragation, so we chose to adopt an event-driven model as well. Unfortunately, the event system of OIV does not support 3D events. We therefore have created our own 3D event handling. Nodes dealing with 3D interaction can be made 3D aware, which means they are interested in 3D events and able to react to the accordingly. If you plan on creating your own 3D aware nodes, remember to derive them from Base3D and SoNode (use multiple inheritance).
+
+@section widgets
+
+For use with the PIP, simple 3D widgets (similar to their desktop counterpart) have been implemented: buttons, dials, and sliders. In general, these items are placed on the PIP for controlling the application.
+
+@subsection windows 3D Windows
+
+For structuring complex Studierstube applications, 3D geometry is rendered into multiple windows. These windows have the shape of 3D boxes. Window manipulation in 3D is very similar to the 2D counterpart - windows have a title bar, can be resized etc.
+
+@image html windows.gif "Sample view of a workspace session with 2 windows, 2 users and 2 PIPs"
+
+@section workspace The Workspace
+
+The workspace is the part of Studierstube software that provides an execution environment for multiple concurrent applications. It is similar to an operating system or graphical user interface in the respect that is allows multiple applications to execute concurrently. Unlike conventional user interfaces, multiple users are present in the same space at the same time. Every user is equiped with a separate pen and pad, and can interact with any currently executing application. This creates the requirement to make applications multi-user aware, so that they can deal with multiple users simultaneously. Workspace provides the resources and mechanisms to implement multi-user aware applications, while the actual policy what to do with competing interactions from multiple users (e. g. two users trying to access the same slider) are left to the application developer.
+
+@section summary Summary
+
+Studierstube's software design in a nutshell: Studierstube is a software framework built on top and tied into OpenInventor. The full power of OpenInventor is available to the application programmer as a foundation of StbAPI. Studierstube complements that with the interfaces (classes) necessary for creating multi-user, multi-tasking applications with complex 3D interactions, in particular supporting the PIP. Based on a module for device (i.e. tracker) I/O, a true 3D event system is added to OIV to deal with 6DOF data in a convenient way. The 3D event system is used by various classes such as 3D widgets, but also by the 3D window system. 3D windows serve as the containts for the visible portions (scene graphics) of multiple concurrent applications. Besides these components, manager classes provide capabilities required to manage non-graphical aspects of the system such as management of users, resources, and windows in a multi-user safe way.
+
+@image html swarchitecture.gif "The Studierstube software architecture in overview "
+
+@section conclusion Concluding remarks
+
+Studierstube is an experimental, incomplete project and probably will always be. We are well aware that this documentation is ad-hoc and inadequate to serve as a reference for reasonable software development. Nevertheless the project and its future possibilities are very exiting, and we intend to support it. If you are working with Studierstube and having trouble, do not hesitate to contact us - we will try to solve the problem and also enhance this documention so that a future developer may be able to more quickly find an answer. We also invite everybody to contribute further explanations, examples - any useful extention will be appreciated.
+
+*/
+
+/**
+@page uiguide The Workspace User-Interface Guide
+
+@section uiintro Introduction
+
+The workspace user-interface provides means for application- and window-handling within the Studierstube-environment. It uses the Studierstube interaction-devices PEN and PIP (see @link intro Studierstube-introduction @endlink) and virtual interaction-elements displayed on the PIP (mostly virtual 3D-buttons). To highlight an element just position the PEN's tip within the element's geometry (actually its bounding-box). The element's color should turn yellow, to indicate that it is highlighted. To trigger a virtual button, highlight it and press the primary button of the PEN and release it again.The virtual button should turn red and its geometry changes, to indicate that it is currently pressed. In the following description of the virtual interaction-elements "pressing a button" stands for the actions needed to press a virtual button.
+
+@section elements Elements of the Workspace's UI
+
+@image html pipdetails.jpg The Studierstube PIP with System-bar, Task-bar, Window-bar and Application-bar.
+
+@subsection systembar The System-bar
+
+current-task button: shows the currently focussed application, switches on/off the task-bar when pressed exit button: stops the currently focussed application and all its contexts (if it is a context-application)
+it also exits the workspace, if the focussed application is either the clipboard or the application-loader application.
+
+new-context button: creates a new context for the currently focussed application (only available for context-applications)
+
+delete-context button: deletes the currently focussed context (only available for context-applications)
+
+@subsection taskbar The Task-bar
+
+The task-bar shows all running applications, each having its own button, identified by the icon-texture of the associated application. To switch to an application (i.e. to switch to its pip-sheet and focus its window) just press the corresponding button. If the application has multiple contexts, a pulldown-menue will be shown, when the corresponding task-bar button is highlighted. To switch to one of the shown contexts, press the corresponding pulldown-button, or press the main task-bar button to switch to the first context in the pulldown-list.
+The currently active task (and/or context) is marked by a special color of its task-bar button (default green).
+
+@subsection windowbar The Window-bar
+
+The window-bar provides manipulation widgets for the currently focussed window.
+Each button is textured accordingly to its current functionality, which depends on the current state of the window
+(e.g.: if the window is minimized, the minimze button becomes a restore button). minimize button:
+
+if the window is not minimized: minimizes the window
+
+if the window is minimized: restores the window
+
+
+maximize button:
+
+if the window is not maximized: maximizes the window
+
+if the window is maximized: restores the window
+
+
+border on/off button:
+
+turns on the border of the window
+
+turns off the border of the window
+
+
+@section apphandling Application-handling
+
+@subsection startapp Starting Applications
+
+Workspace-applications are started using the application-loader. The application-loader has three PIP-sheets.
+To switch to a sheet just press one of the sheet-selector buttons.
+
+The first sheet contains all context applications: just press the corresponding button to start an application. (note: if the application is already running, a new context is created for this application).
+The second sheet contains all old-style (legacy) applications (non-context): just press the corresponding button to start an application. (note: legacy applications should only be started once).
+The third sheet contains a filebrowser. The filter of the filebrowser is set to display only workspace-applications.
+Browse through the directories by pressing the corresponding buttons (directories are displayed green).
+To start an application press the browser-button labeled with the name of the application.
+
+To create a new context for an already running application, press the new-context button on the systme-bar.
+
+@subsection switchapp Switching Applications
+
+There are two ways to switch to a specifc application/context:
+1. Focus the window of the application/context by moving the PEN into the window and clicking the primary PEN-button.
+2. Use the task-bar.
+
+@subsection stopapp Stopping Applications
+
+To stop a specific application, it has to be focussed (see "switching applications").
+If it is focussed, just press the exit button on the system-bar to stop the whole application and all its contexts.
+To delete only one context, press the delete-context button on the system-bar.
+
+@section windowhandling Window Handling
+
+Use the window-bar to minimze, maximize and restore the window. Also for toggling the border of the window on and off.
+To move and/or rotate the window, highlight its border, press and hold the primary PEN-button and drag the window until it is in the desired position, then release the PEN-button.
+To change the size of the window, highlight a corner of the window, press and hold the primary PEN-button and move the PEN until the size fits your needs, then release the PEN-button.
+
+*/
+
+/**
+@page winsetup Setting up Studierstube on Windows
+
+The default environemnt for Studierstube on Windows is now the Visual Studio .Net 2003 environment, Coin3D for rendering
+and SoWin as toolkit interface. Therefore a couple of environment variables are different from older settings. The older
+ones are still dokumented in the last section.
+
+@section environment Environment Variables
+
+To allow all programs to find the necessary DLLs, you need to set a number of environment variables. It is practical to do this on a per-user basis to avoid conflicting settings by different users. Set the following variables :
+
+@li COINROOT to the directory inventor (e.g. c:\\stb\\Coin3D-2)
+@li STBROOT to the directory studierstube (e.g. c:\\stb\\studierstube)
+@li ACEROOT to the directory ACE (e.g. c:\\stb\\ACE)
+@li XERCESCROOT to the directory xerces (e.g. c:\\stb\\xerces)
+@li OTROOT to the directory opentracker (e.g. c:\\stb\\opentracker)
+@li Append the following to the PATH variable: %COINROOT%\\bin;%STBROOT%\\lib;%ACEROOT%\\lib;%XERCESCROOT%\\bin;%OTROOT%\\bin
+
+@section fonts Fonts for OpenInventor
+
+This applies only, if you are using the Open Source Open Inventor. Coin supports all true type fonts.
+Go to the fonts directory ( e.g. c:\\WINNT\\fonts ) and issue the following commands for creating copies of the default font files that inventor can read:
+
+@code
+cd \WINDOWS\Fonts
+
+REM for family SERIF:
+copy times.ttf Utopia-Regular
+copy timesi.ttf Utopia-Italic
+copy timesbd.ttf Utopia-Bold
+copy timesbi.ttf Utopia-BoldItalic
+
+REM for family TYPEWRITER
+copy cour.ttf Courier
+copy couri.ttf Courier-Oblique
+copy courbd.ttf Courier-Bold
+copy courbi.ttf Courier-BoldOblique
+
+REM for family SANS
+copy arial.ttf Helvetica
+copy ariali.ttf Helvetica-Oblique
+copy arialbd.ttf Helvetica-Bold
+copy arialbi.ttf Helvetica-BoldOblique
+@endcode
+
+The names without extensions are correct, do not append .ttf! Of course you can also rename your own fonts to a name without extension and use them in a SoFontStyle node.
+
+@section Older setting
+
+Using VC 6.0 the following environment variable is required:
+@li MSVSHOME to your MSVC 6.0 directory
+
+Using Open Source Open Inventor the following environment variable is required:
+@li OSOIVHOME to the directory inventor (e.g. c:\\stb\\inventor)
+
+Also using SoQt requires to setup the QTDIR variable and having it in the PATH variable.
+
+
+
+*/
+
+/**
+@page windowsguide Studierstube on Windows systems
+
+This document contains some remarks on compiling Studierstube and developing Studierstube applications on Windows using Visual C++ 6.0 and either TGS version of Open Inventor, or the Open Source Open Inventor released by SGI and ported to Windows by Gerd Hesina.
+
+In order to compile Studierstube under Windows, you will need MS Visual C++ compiler, plus some kind of Open Inventor libraries. The Studierstube distribution comes with a pre-configured Visual C++ workspace and project files that shall compile and run from scratch provided your working environment is set up correctly.
+
+@section win_environment Environment Variables
+
+We recommend that you set up the following environment variables for your Studierstube environment (under Windows XP/2000/NT, use the System control panel, Advanced/Environment variables section to do this):
+
+@li OSOIVHOME : Root directory of your Open Source Open Inventor installation.
+@li MSVSHOME : Root directory of your MS Visual Stuio installation (c:\\program files\\microsoft visual studio in our case).
+@li STBROOT : Root directory of your Studierstube installation.
+@li QTDIR points to the root directory of your Qt installation.
+@li If you installed TGS Open Inventor, check that  OIVHOME  is set and points to the root directory of the TGS Open Inventor installation.
+@li Make sure that your  PATH  environment variable contains %%STBROOT%/lib. If you are using OSOIV, add \\%OSOIVHOME%/lib,\\%QTDIR%/lib.
+
+Of course you can work without this setup and edit your project files to fit your particular needs. However, we do not recommend this as we will continue to distribute pre-configured Visual C++ workspace files that you would need to manually edit for every new version of Studierstube.
+
+@section compiling Compiling Studierstube
+
+The current version of Studierstube supports follwing configurations:
+
+@subsection tgs TGS Open Inventor 2.6
+
+The corresponding Studierstube configurations for Visual C++ are
+
+@li  Win32 Debug - TGS . This is a debugging version which links with debug libraries supplied with TGS Open Inventor.
+@li  Win32 Release - TGS . This is a release version, links with release versions of TGS Open Inventor libraries, and does not generate warning dialogs when something rotten has been found in the course of the scene graph processing.
+
+We assume that the corresponding environment variables have been set prior to starting Visual Studio.
+
+@subsection osoiv Open Source Open Inventor (OSOIV)
+
+The corresponding Studierstube configurations for Visual C++ are
+
+@li  Win32 Debug - OSOIV
+@li  Win32 Release - OSOIV
+
+We assume that you have installed the Win32 port of the Open Source Open Inventor and SoQt from http://www.cg.tuwien.ac.at/hostings/openinventor/ and that the corresponding environment variables have been set.
+
+@subsection vcpp Compiling with Visual Studio
+
+Compiling the current version of Studierstube shall be a mostly straghtforward task. If you have installed the necessary external libraries in proper places as specified above, the only step you need would be to open studierstube.dsw located in the topmost directory of the Studierstube source tree and perform a Batch build that builds the Studierstube library plus all the applications and tools from the standard Studierstube distribution.
+
+@section newapp Creating a new application
+
+A predefined simple version of an empty application project can be found in %%STBROOT%\\src\\apps\\sampleapp. Please note that the project template assumes it will find MS Visual Studio and Invenotr library in paths mentioned above.
+
+The easiest way of creating a new application is to edit copies of the sample files located in this directory. Proceed as follows:
+
+<ol>
+<li>Create a subdirecotry in the apps tree named after your application in lowercase (for example, if your appilcation is called "foobar", choose %%STBROOT%\\src\\apps\\foobar as the application directory).
+<li>Copy the content of %%STBROOT%\\src\\apps\\sampleapp to a the newly created subdirectory.
+<li>Rename sampleapp.dsp to foobar.dsp.
+<li>Rename sampleapp.cxx to foobar.cxx.
+<li>Open foobar.dsp as a text file in your favorite text editor. Then, replace every occurence of string @sampleapp@ with the name of your application (foobar in this case). The name shall be always written in lowercase!
+<li>Replace every occurence of string @SAMPLEAPP@ with the name of your application (FOOBAR in this case). The name shall be always written in uppercase!
+<li>Save foobar.dsp.
+<li>Open the Studierstube workspace %%STBROOT%\\studierstube.dsw in Visual Studio.
+<li>Go to Projects/Insert project into workspace. Add %%STBROOT%\\src\\apps\\foobar\\foobar.dsp to the workspace, dependency of stbapi, workspace, and appLoader.
+<li>In the "File view" window you shall now see that the list of projects belonging to the Studeirstube workspace includes also project foobar. Click on the project.
+<li>The click unfolds another hierarchy of items. There shall be an item called Header files among them. Click on it.
+<li>Now foobar.h shall appear in the list of header files. Click it - Visual Studio will open the file in editor.
+<li>Then, replace every occurence of string @SAMPLEAPP@ with the name of your application written in uppercase (FOOBAR in this case) and every occurence of string @sampleapp@ with the name of your application written in lowercase (foobar in this case).
+<li>Update the header information for foobar.h.
+<li>The foobar project list in the "File view" window contains also a Source files item. It should contain foobar.cxx.
+<li>Update the header information for foobar.cxx.
+<li>Using a text editor that can correctly save UNIX text files (none of the standard MS editors can do it as far as I know so you better get a real editor somewhere), update the header information for %%STBROOT%\\src\\apps\\foobar\\Makefile.
+<li>Using the same UNIX-firendly editor, insert <TAB>./foobar \\ into the SUBDIRS list in %%STBROOT%\\src\\apps\\Makefile.
+<li>Start hacking. In case you do not use the ContextKit stuff, do not forget using the macro FOOBAR_API as a return type of Stb_getMessage(), Stb_init() and Stb_exit() functions. Keep portability in mind, if possible. Place system-specific parts in #ifdefs.
+ </ol>
+
+@subsection newproj Creating a new application project
+
+
+If you for some reason want to create an application project from scratch, a step-by-step description follows:
+
+First you will have to create an empty DLL project (as Studierstube applications are represented by dynamic libraries). We will assume that the name of your application will be foobar.
+
+<ol>
+<li>Click on File/New.
+<li>Select Win32 Dynamic-Link Library.
+<li>Set project location to %STBROOT%\\src\\apps.
+<li>Set project name to foobar.
+<li>Click OK.
+<li>Select A DLL that exports some symbols.
+<li>Click Finish.
+<li>Click OK.
+<li>Click Project/Settings.
+</ol>
+
+Now you have to configure general parameters for all configurations.
+
+<ol>
+<li>At Settings for select All Configurations.
+<li>Select the General tab.
+<li>In this tab, select Microsoft Foundation Classes: use MFC in a Shared DLL.
+<li>Select the C/C++ tab.
+<li>Select category Precompiled Headers.
+<li>Select Not using precompiled headers.
+</ol>
+
+Now, set up preprocessor symbols that shall be defined for debug and release versions of your application:
+
+<ol>
+<li>At Settings for select Win32 Debug.
+<li>Select the C/C++ tab.
+<li>Select category Preprocessor.
+<li>Add _DEBUG,WIN32 to the Preprocessor definitions field.
+<li>Select category Code Generation.
+<li>Select Use run-time library: Debug Multithread DLL.
+<li>At Settings for select Win32 Release.
+<li>Select the C/C++ tab.
+<li>Select category Preprocessor.
+<li>Add NDEBUG,WIN32 to the Preprocessor definitions field.
+<li>Select category Code Generation.
+<li>Select Use run-time library: Multithread DLL.
+<li>Click OK.
+</ol>
+
+Next, a target-specific settings for Open Source Open Inventor and TGS Open Inventor have to be set. Use the Configuration dialog to add four configurations:
+
+@li Win32 Debug - TGS (based on Win32 Debug),
+@li Win32 Debug - OSOIV (based on Win32 Debug),
+@li Win32 Release - TGS (based on Win32 Release),
+@li Win32 Release - OSOIV (based on Win32 Release).
+
+Then, use the same dialog to delete the original Win32 Debug and Win32 Release. Note that the "Win32 Release - OSOIV" configuration for Studierstube is under development and not yet included in the distribution.
+
+Now comes the stuff for the real Windows programmer. Let's first change the settings necessary for Open Source Open Inventor with SoQt.
+
+<ol>
+<li>In the Project/Settings dialog select Settings for: Multiple configurations and click on Win32 Debug - OSOIV and Win32 Release - OSOIV.
+<li>In C/C++ tab, select category Preprocessor.
+<li>Add USE_SOQT_LIB to Preprocessor definitions.
+<li>Click on Ignore standard include paths.
+<li>Set Additional include directories to contain the following directories:
+          * $(MSVSHOME)\\VC98\\INCLUDE
+          * $(QTDIR)\\INCLUDE
+          * $(OSOIVHOME)\\INCLUDE
+          * $(OSOIVHOME)\\INCLUDE\\INVENTOR
+          * ..\\.. (this is a path to includes for stbapi library)
+<li>Select the Link tab.
+<li>Go to the General category.
+<li>Set the output file name to ..\\..\\bin\\apps\\foobar\\foobar_stb.dll.
+<li>Set Object/Library modules to contain the following libraries:
+          * qtmain.lib, qt220.lib
+          * soqt.lib, inventor.lib
+<li>Set Object/Library modules to contain the following library paths:
+          * $(QTDIR)\\LIB
+          * $(OSOIVHOME)\\LIB
+</ol>
+
+Don't close the dialog yet. We shall repeat the previous step for TGS Open Inventor:
+
+<ol>
+<li>Select Settings for: Multiple configurations and click on Win32 Debug - TGS and Win32 Release - TGS.
+<li>In C/C++ tab, select category Preprocessor.
+<li>Add USE_TGS to Preprocessor definitions.
+<li>Make yourself sure that Ignore standard include paths is not active.
+<li>Set Additional include directories to contain the a path to includes for stbapi library, ..\\...
+<li>Select the Link tab.
+<li>Go to the General category.
+<li>Set the output file name to ..\\..\\bin\\apps\\foobar\\foobar_stb.dll.
+<li>Select Settings for: Win32 Debug - TGS.
+<li>Select the Link tab.
+<li>Go to the General category.
+<li>Set the additional link libraries to inv260d.lib.
+<li>Select Settings for: Win32 Release - TGS.
+<li>Select the Link tab.
+<li>Go to the General category.
+<li>Set the additional link libraries to inv260.lib.
+<li>Now you may click OK and close the settings dialog.
+</ol>
+It might be necessary to manually specify some additional libraries that your application has to link with, as winmm.lib for example.
+
+In the final step we will modify the auto-generated template files that have been prepared by Visual Studio for your application:
+<ol>
+<li>Open the "File View" window.
+<li>You should see Source Files and Header Files
+<li>Open the auto-generated header file foobar.h.
+<li>Remove the class declaration and add a proper file header according to Studierstube Coding Style & Documentation Guidelines. Your file should now look like (substitute FOOBAR with your application name written in uppercase):
+
+@code
+#ifdef FOOBAR_EXPORTS
+#define FOOBAR_API __declspec(dllexport)
+#else
+#define FOOBAR_API __declspec(dllimport)
+#endif
+@endcode
+
+<li>Apply the following modifications (substitute FOOBAR with your application name written in uppercase):
+
+@code
+#ifdef WIN32
+#ifdef FOOBAR_EXPORTS
+#define FOOBAR_API __declspec(dllexport)
+#else
+#define FOOBAR_API __declspec(dllimport)
+#endif
+#else
+#define FOOBAR_API
+#endif
+@endcode
+
+<li>Open the auto-generated foobar.cpp source file and remove everything below the DllMain() function.
+<li>Rename the file to foobar.cxx, delete the reference to foobar.cpp from the project and replace it by reference to foobar.cxx.
+<li>Open the Projects/Dependencies... dialog and add dependency on of stbapi, workspace, and appLoader to the foobar project.
+</ol>
+Now you can start writing your application and have fun!
+
+Note: In case you do not use the ContextKit stuff, do not forget using the macro FOOBAR_API as a return type of Stb_getMessage(), Stb_init() and Stb_exit() functions and to include the autogenerated header file in your application file.
+
+
+
+*/
+
+/**
+@page unixsetup Building Studierstube under Unix
+
+Copyright (C) 2000-2003  Vienna University of Technology<br>
+(by Tamer Fahmy <tamer@ims.tuwien.ac.at>)
+
+@section us_content Content
+<ul>
+<li> \ref us_abstract
+<li> \ref us_dependencies
+<li> \ref us_fs_hierarchy
+<li> \ref us_libdepends_compile
+  <ul>
+  <li>\ref us_ACE_build
+  <li>\ref us_xerces_build
+  <li>\ref us_artool_build
+  <li>\ref us_simage_build
+  <li>\ref us_coin_build
+  <li>\ref us_sogui_build
+  <li>\ref us_stb_build
+  </ul>
+<li> \ref us_patches
+</ul>
+
+@section us_abstract Abstract
+
+This document covers how to get a running Studierstube setup and where
+the different libraries and apps are located within the Studierstube tree.
+
+@section us_dependencies The Studierstube library dependencies
+
+I differentiate between 2 dependency styles. The hard dependencies and the soft dependencies. To the hard dependencies I
+count those libraries and frameworks that are absolutely necessary so one will be able to compile and launch the Studierstube (stbapi) core and
+workspace. Soft dependencies are optional libraries that are not really needed by the core Studierstube framework but instead allow to exploit
+further functionality or to make Studierstube applications work as those apps depend on them.
+
+Further i differ between libraries that get installed into your system so that the compiler will find them in its search path and libs that
+stay somewhere on your filesystem where you then have to tell the build system where to find them so they can get found and linked in.
+
+Studierstube currently has hard dependencies to the following libraries and frameworks:
+
+<ul>
+<li>OpenTracker - an Open Architecture for Reconfigurable Tracking based on XML (http://www.studierstube.org/opentracker/)
+<li>ACE - the Adaptive Communication Environment (http://www.cs.wustl.edu/~schmidt/ACE.html)
+<li>Xerces-C++ - a C++ XML Parser (http://xml.apache.org/xerces-c/)
+<li>Coin3D - a 3D graphics library with an C++ Application Programming Interface based on the Open Inventor 2.1 API
+    that runs on a multitude of platforms. among them *nix, Linux, MacOSX and Windows. (http://www.coin3d.org/)
+<li>one of the SoGui bindings from Systems in Motion [currently SoQt is recommended] (http://www.coin3d.org/)
+</ul>
+
+To exploit the full functionality of certain Studierstube applications the currently optional libraries are needed:
+<ul>
+<li>ARToolkit - a computer vision tracking library (http://www.hitl.washington.edu/research/shared_space/)
+<li>ACIS - a CAD modeling library. (http://www.spatial.com/)
+<li>OpenH323 - an open source implementation of the ITU H.323 teleconferencing protocol (http://www.openh323.org/)
+<li>SimVoleon - a volume rendering library. (http://www.sim.no/)
+<li>VTK - The Visualization Toolkit (http://public.kitware.com/VTK/)
+<li>Chromium - Chromium is a system for interactive rendering on clusters of workstations. (http://www.cs.virginia.edu/~humper/chromium_documentation/)
+</ul>
+
+@image html stb_dependencies.png "The Studierstube library dependencies"
+
+@section us_fs_hierarchy My preferred filesystem hierarchy
+
+To build Studierstube and all it's dependencies I usually layout the sources in the following way.
+This is just my preferred way of doing Studierstube builds so you don't have to copy this, of course.
+
+@image html dir_layout.png "The Studierstube library dependencies"
+
+@section us_libdepends_compile Getting the hard dependencies compiled and installed
+
+First of all we need to compile OpenTracker. In order to compile OpenTracker the following libraries need to get
+build first.
+
+@subsection us_ACE_build Building ACE - The Adaptive Communication Environment
+
+We make use of ACE in our Distributed Inventor (DIV) implementation.
+
+First of all check if your distribution doesn't provide ACE in binary or in some 'we will compile it for you' form already. E.g. with Gentoo Linux you
+can say 'emerge ace' and everything gets build and installed into the system automatically.
+
+If you have to compile it yourself we usually recommend that you grab the 'latest betakit' of ACE.
+
+The recommended procedure for Linux is as follows:
+@code
+> export ACE_ROOT=/scratch/studierstube/ACE_wrappers
+> export LD_LIBRARY_PATH=/scratch/studierstube/ACE_wrappers/ace
+
+> cd /scratch/studierstube/ACE_wrappers/ace/
+> ln -s config-linux.h config.h
+> cd /scratch/studierstube/ACE_wrappers/include/makeinclude/
+> ln -s platform_linux.GNU platform_macros.GNU
+> cd /scratch/studierstube/ACE_wrappers/
+> make
+@endcode
+
+Make sure to read the 'ACE-INSTALL' file in the ACE root directory for further or platform specific instructions.
+
+@image html ace_layout.png "the relevant ACE filesystem layout"
+
+@subsection us_xerces_build Building Xerces - XML C++ library
+
+OpenTracker uses Xerces for parsing the config files.
+
+Again check if your Unix system doesn't already provide binary packages for Xerces.
+
+To compile it from source issue the following for a Linux system:
+@code
+> export XERCESCROOT=/scratch/studierstube/xerces
+> cd /scratch/studierstube
+> ln -s xerces-c-src2_2_0 xerces
+> cd xerces/src/xercesc
+> runConfigure -plinux -cgcc -xg++ -minmem -nsocket -tnative -rpthread
+> make
+@endcode
+
+@image html xerces_layout.png "the relevant Xerces C++ filesystem layout"
+
+@subsection us_artool_build Building ARToolkit - a computer vision tracking library (optional)
+
+OpenTracker uses ARToolkit to provide tracking through ARToolkit. Studierstube additionally
+uses ARToolkit for its video background implementation.
+
+In order to build ARToolkit issue the following:
+@code
+> cd /scratch/studierstube/
+> ln -s ARToolKit2.6.1 artool
+> cd /scratch/studierstube/artool
+> ./Configure
+Select a video capture driver.
+  1: Video4Linux
+  2: Digital Video Camcoder through IEEE 1394 (DV Format)
+  3: Digital Video Camera through IEEE 1394 (VGA NONCOMPRESSED Image Format)
+Enter: 3
+> make
+@endcode
+
+You can of course make another choice of the video capture driver depending on what
+you want artoolkit to support.
+
+@subsection us_opentracker_build Building OpenTracker - an Open Architecture for Reconfigurable Tracking based on XML
+
+Check out OpenTracker from CVS, like so:
+@code
+> export CVSROOT=:pserver:anonymous@www.studierstube.org:/home/cvs/cvsroot
+> cvs login
+Logging in to :pserver:anonymous@www.studierstube.org:2401/home/cvs/cvsroot
+CVS password:
+> cvs -z3 co opentracker
+@endcode
+
+The password is 'cvs'. After you have checked out the code go to the OpenTracker
+root directory and use 'configure' to configure OpenTracker.
+
+A possible 'configure' invocation can look like this:
+
+@code
+> cd /scratch/studierstube/opentracker
+> ./configure [LIBS="-ldc1394_control -lraw1394"]
+              --with-ace=../ACE_wrappers
+              --with-xerces=../xerces
+              [--with-artoolkit=../artool]
+              [--enable-speech]
+              [--enable-joystick]
+@endcode
+
+where --with-ace and --with-xerces can be omitted in case you installed those
+libraries into your system as the build system then will find them automatically.
+The options specified in brackets are optional. In case you want ARToolkit support
+compiled in don't forget to specify the additional libs in the LIBS parameter as
+I did in the example above for the IEEE 1394 libs.
+
+After the 'configure' line got invoked you should end up with a configuration summary
+similar to this:
+@code
+opentracker configuration settings:
+  ACE root directory: /scratch/studierstube/ACE_wrappers
+  Xerces root directory: /scratch/studierstube/xerces
+  ARToolkit root directory: /scratch/studierstube/artool
+  Enable speech recognition: no
+  Enable joysticks: no
+
+Now, run  make , cross your fingers, start a prayer and get yourself
+a cup of coffee to build opentracker.
+> make install
+@endcode
+
+Issue a 'make' now and then a 'make install' as root once OpenTracker got successfully
+built to get OpenTracker installed into your system.
+
+
+@subsection us_simage_build Building simage - a support lib for Coin3D
+
+Get simage from CVS. Instructions in how to do this can be found at
+http://www.coin3d.org/Coin/dl_src.php
+
+Here the recommended steps to build simage:
+@code
+> cd /scratch/coin/
+  # install libsndfile for .wav, etc. sound support
+  # install liboggvorbis for .ogg support
+  # install libtiff, libjpeg, libpng etc. for image format support
+> mkdir simage-build
+> cd /scratch/coin/simage-build
+> ../simage/configure
+> make install
+@endcode
+
+@subsection us_coin_build Building Coin3D - a 3D graphics library
+
+Get Coin-2 from CVS or grab the latest stable release from here: ftp://ftp.coin3d.org/pub/coin/src/
+Instructions in how to obtain the CVS version can be found at http://www.coin3d.org/Coin/dl_src.php
+
+Here the recommended steps to build Coin3D:
+@code
+> cd /scratch/coin/
+> mkdir coin-build
+> cd coin-build
+> ../Coin-2/configure
+  # --with-mesa prefer MesaGL (if found) over OpenGL [default=yes]
+  # -> ../Coin-2/configure --without-mesa
+  # you probably want to apply our Coin-2 DIV patch for
+  # Distributed Inventor functionality
+> make install
+@endcode
+
+Caveat: in case you have the MesaGL library somewhere on your system you might
+want to invoke 'configure' with the '--without-mesa' option to link Coin3D against
+your hardware accelerated OpenGL libs. You also probably would like to install
+the OpenAL library from http://www.openal.org/ in order to get OpenAL support.
+
+@image html coin_layout.png "the Coin3D filesystem layout"
+
+@subsection us_sogui_build Building SoQt/SoGtk/SoXt - Toolkit bindings for Coin3D
+
+The same instructions as in the previous Coin3D section apply.
+
+Here the recommended steps to build one of the toolkit bindings:
+@code
+> cd /scratch/coin/
+> mkdir soqt-build
+> cd /scratch/coin/soqt-build
+> ../SoQt/configure
+> make install
+@endcode
+
+
+@subsection us_stb_build Building Studierstube - an Augmented Reality framework
+
+Now that every library dependency Studierstube depends on is in place we can actually
+start to build Studierstube.
+
+@code
+> cd /scratch/studierstube/studierstube
+> ./configure --with-ace=../ACE_wrappers/
+             [--with-soqt {| --with-sogtk | --with-soxt} ]
+             [--with-opentracker=...]
+             [--disable-div]
+             [--enable-libccvt]
+@endcode
+
+You invoke the 'configure' solely with the '--with-acis' option in case you didn't
+install ACE into the system. Everything else should be autodeceted. In case you
+didn't patch Coin3D with our DIV patch you should specify '--disable-div' so that
+DIV support doesn't get configured in. Otherwise you won't be able to build
+the DIV sources in the Studierstube core.
+You can also specify the SoGui toolkit binding you want Studierstube to link against. If you omit
+this option the availability of the different toolkit bindings gets probed at configure time in the order
+given above.
+
+If in addition you would like to compile in libccvt USB cam video background support
+for Linux specify --enable-libccvt.
+
+On my system the configuration output ends up like this:
+
+@code
+studierstube configuration settings:
+  ACE root directory:           /scratch/studierstube/studierstube/../ACE_wrappers
+  OpenTracker root directory:
+  SimVoleon root directory:
+  VTK root directory:           /usr/local
+  ACIS root directory:          /usr/local/acis/
+  OpenH323 root directory:      /usr/local
+  Enable Distributed Inventor:  yes
+  Videobackgrounds available:   NONE OT H323 USB
+  SoGUI binding:                SoQt
+
+Now, run 'make', cross your fingers, start a prayer and get yourself
+a cup of coffee to build studierstube.
+@endcode
+
+You don't install Studierstube into your system. Instead you work in your build
+directory. After Studierstube got successfully built you can launch the workspace
+executable which is located in bin/workspace.
+
+@code
+> /scratch/studierstube/studierstube/bin/workspace/
+> ./workspace
+@endcode
+
+You should now see the Studierstube workspace.
+
+In order to compile the different apps go to the bin/apps directory and issue
+a simple 'make' to build all of the apps that are able to be built. This depends
+on which additional libraries you installed. e.g. the Construct3D application wouldn't
+be build if you didn't install ACIS.
+
+Instead of building all apps available you can also build only single applications by
+descending into their specific directory in bin/apps and issueing a 'make' there.
+
+@code
+> cd /scratch/studierstube/studierstube/bin/apps
+> make
+  # or
+> cd animal && make
+> cd /scratch/studierstube/studierstube/bin/workspace
+> ./workspace -a animal.iv
+@endcode
+
+The different apps should be invoked by their start scripts that you should
+find in their respective apps directories.
+
+In case you want to use DIV then descend to the sman2 directory in tools/sman2 to
+build the sman2 server.
+
+@code
+> cd /scratch/studierstube/studierstube/tools/sman2
+> make
+@endcode
+
+@image html stb_layout.png "the Studierstube filesystem layout"
+
+@section us_patches Patches
+The following patches are provided to get DIV support in Studierstube and Coin3D
+and recent firewire library support in ARToolkit.
+
+<ul>
+<li> Coin3D DIV patch against the latest Coin-2 CVS version: http://www.studierstube.org/patches/coin2_stb_div.patch </li>
+<li> ARToolkit firewire library patch: http://www.studierstube.org/patches/artool_firewire.patch </li>
+</ul>
+
+to apply the patches use the following commands:
+@code
+> cd /scratch/coin/Coin-2
+> patch -p0 < path/to/coin2_stb_div.patch
+> cd /scratch/studierstube/artool
+> patch -p1 < path/to/artool_firewire.patch
+@endcode
+
+and then recompile them in case you compiled them already.
+
+*/
+
+/**
+@page unixbuildsystemguide The Studierstube Autotools Build System Howto
+
+Copyright (C) 2000-2003  Vienna University of Technology<br>
+<b>the essential guide for Studierstube build system Rambo's and wannabe's</b><br>
+(by Tamer Fahmy <tamer@ims.tuwien.ac.at>)
+
+@section bs_content Content
+
+<ul>
+<li> \ref bs_abstract
+<li> \ref bs_overview
+<li> \ref bs_build_system_specific
+<li> \ref bs_rec_tasks
+  <ul>
+  <li> \ref bs_src_files
+    <ul>
+    <li> \ref bs_conventions
+    <li> \ref bs_add_sources
+    <li> \ref bs_add_directories
+    <li> \ref bs_add_application
+    </ul>
+  <li> \ref bs_conditionals
+  <li> \ref bs_opt_libs
+  <li> \ref bs_automated_tests
+  <li> \ref bs_build_targets
+  </ul>
+</ul>
+
+@section bs_abstract Abstract
+
+Welcome to the Studierstube autotools build system howto! You probably read
+this document, because you have to deal with our build system or somebody
+told you to read it or you are in a desperate mood disillusioned by life.
+Whatever your motives really are, I will try to make this read worthwhile
+to you.
+
+@section bs_overview Overview
+
+First of all I want to state that to give a complete introduction to the
+autotools is universes beyond the scope of this document. A good resource
+for learning about the autotools is "the goat book"[1] which can be read
+online at ** http://sources.redhat.com/autobook/ **.
+
+The info manuals from the tools themselves prove their usefulness (and
+suddenly start to make sense) once you read "the goat book" or other
+tutorials and understand how the different tools correlate.
+
+You will have to do the appropriate RTFM session yourself. Learn by looking
+at other software that use autotools and by experimenting. In the beginning
+nothing is easy and nothing comes for free. But once you master something by
+yourself the feeling is simply unmatched!
+
+Please read the <b>INSTALL</b> file that provides the necessary information
+in how to build Studierstube itself.
+
+See <b>doc/DIRECTORIES.TXT</b> for an overview of the directory structure in
+Studierstube.
+
+--<br>
+[1] "The Goat Book" - GNU Autoconf, Automake and Libtool - http://sources.redhat.com/autobook/
+
+
+@section bs_build_system_specific Build system specific files and directories
+
+To understand the relationships in the build system the best read is
+** http://sources.redhat.com/autobook/autobook/autobook_276.html#SEC276 **.
+
+Replace every occurence of <b>configure.in</b> with <b>configure.ac</b> as this is new
+naming convention used in newer autoconf versions and used by us in
+Studierstube.
+
+Now to the files, that really bother you regarding Studierstube.
+<ul>
+<li><b>configure.ac:</b><br>
+  This is the main file that contains all the macro calls and information
+  for autoconf. Out of this the configure script will be created.
+<br>
+<li><b>cfg/m4/:</b><br>
+  This directory contains all the additional m4 macros that are used in
+  configure.ac.  The purpose of each macro is explained in the macro
+  itself.
+<br>
+<li><b>Makefile.am:</b><br>
+  The Makefile.am files all over the place contain the build targets and
+  rules to create the Makefiles out of the Makefile.in's.
+<br>
+<li><b>bootstrap:</b><br>
+  This script calls all the necessary tools if you modify one of the build
+  system files to generate the updated files.
+<br>
+</ul>
+Please read
+** http://sources.redhat.com/autobook/autobook/autobook_43.html#SEC43 **
+for a better understanding.
+
+
+@section bs_rec_tasks Recurring tasks
+
+@subsection bs_src_files integrate source files
+
+
+@subsection bs_conventions Conventions regarding Makefile.am editing:
+
+
+<ul>
+<li><b>8 spaces no tabs!</b><br>
+
+    Please fix your editor in this regard. For emacs users this means to set
+    the variable 'indent-tabs-mode' to 'nil'.
+
+<li><b>The alphabet was invented for a reason!</b><br>
+
+    Order the entries in alphabetical order to make it easier to look up the
+    entries.
+</ul>
+
+@subsection bs_add_sources how to add sources
+
+Let's start simple and assume that you want to add 2 new source files to
+src/stbapi/util namely StbExample.cxx and StbExample.h.
+
+What you need to do is to edit <b>Makefile.am</b>.
+<table>
+<tr><td>
+At the time I wrote this guide it contained the following:
+
+@code
+## Makefile.am -- Process this file with automake to produce Makefile.in
+
+include $(top_srcdir)/src/Makefile.common
+
+noinst_LTLIBRARIES = libutil.la
+libutil_la_SOURCES = \
+        ReactorTask.cxx \
+        ReactorTask.h \
+        buffer.cxx \
+        buffer.h \
+        container.cxx \
+        container.h \
+        fileBrowser.cxx \
+        fileBrowser.h \
+        ivio.cxx \
+        ivio.h \
+        ivutil.cxx \
+        ivutil.h \
+        lock.cxx \
+        lock.h \
+        multicast.cxx \
+        multicast.h \
+        option.cxx \
+        option.h \
+        os.cxx \
+        os.h \
+        sockets.cxx \
+        sockets.h \
+        sound.cxx \
+        sound.h \
+        timerutility.cxx \
+        timerutility.h \
+        zpthread.cxx \
+        zpthread.h
+@endcode
+</td>
+
+<td>
+So our new <b>Makefile.am</b> would look like:
+
+@code
+## Makefile.am -- Process this file with automake to produce Makefile.in
+
+include $(top_srcdir)/src/Makefile.common
+
+noinst_LTLIBRARIES = libutil.la
+libutil_la_SOURCES = \
+        ReactorTask.cxx \
+        ReactorTask.h \
+        StbExample.cxx \
+        StbExample.h \
+        buffer.cxx \
+        buffer.h \
+        container.cxx \
+        container.h \
+        fileBrowser.cxx \
+        fileBrowser.h \
+        ivio.cxx \
+        ivio.h \
+        ivutil.cxx \
+        ivutil.h \
+        lock.cxx \
+        lock.h \
+        multicast.cxx \
+        multicast.h \
+        option.cxx \
+        option.h \
+        os.cxx \
+        os.h \
+        sockets.cxx \
+        sockets.h \
+        sound.cxx \
+        sound.h \
+        timerutility.cxx \
+        timerutility.h \
+        zpthread.cxx \
+        zpthread.h
+@endcode
+</td></tr>
+</table>
+
+The only thing that is left now is to issue the <b>'./bootstrap'</b> script and a
+<b>'./configure'</b> in the Studierstube root directory to create the new
+Makefile.in and Makefile.am. You will have to do this btw. for any change
+in the build system to let the changes take effect.
+
+If you issue <b>'make'</b> now the new source files should build and the autotools
+should worry about the resulting new dependencies automagically.
+
+To remove files issue a <b>'make clean'</b> in the source directory where the
+files you want to remove reside to get rid of autogenerated files by the
+build system. Edit the corresponding <b>Makefile.am</b> and remove the file
+entries.  Then initiate the <b>bootstrap-configure-make</b> procedure explained
+above again.
+
+@subsection bs_add_directories how to add directories
+
+To add new directories that contain a <b>Makefile.am</b> file and should be
+included in a build and bootstrap, edit the <b>configure.ac</b> file in the
+main directory. Add a line denoting the path to the Makefile residing in
+your new directory to the <b>AC_CONFIG_FILES()</b> macro. The macro is
+located at the very bottom of the file.
+
+To remove a directory again issue a <b>'make clean'</b>, remove the
+directory and reverse the procedure outlined for adding directories in the
+previous paragraph again by removing the line denoting the path to the
+Makefile in this directory. Then initiate the
+<b>bootstrap-configure-make</b> procedure explained above again.
+
+@subsection bs_add_application how to add applications
+
+Application Makefiles reside in bin/apps/appname and not in
+src/apps/application as one could assume. The reason for is related to the
+nature of the Studierstube directory layout. The resulting dynamic link
+libraries are placed in bin/apps/appname so it was easier to put the lib
+generating tools in the bin/apps dirs too.
+
+Let's look at the animal app <b>Makefile.am</b> residing in
+<b>bin/apps/animal/Makefile.am</b> to discuss in how to write an app <b>Makefile.am</b>.
+
+At the time I wrote this guide it contained the following:
+
+@code
+## Makefile.am -- Process this file with automake to produce Makefile.in
+
+include $(top_srcdir)/src/Makefile.common
+
+lib_LTLIBRARIES = animal_stb.la
+
+animal_stb_la_SOURCES = \
+        $(top_srcdir)/src/apps/animal/SoAnimalKit.cxx \
+        $(top_srcdir)/src/apps/animal/SoAnimalKit.h
+
+animal_stb_la_LDFLAGS = -no-undefined -module -avoid-version
+@endcode
+
+
+Line by line dissection:
+
+@code
+include $(top_srcdir)/src/Makefile.common
+@endcode
+
+tells the configury that we would like to have the contents of
+Makefile.common - which contains general definitions needed for all
+Makefile.am - to be included.
+
+The $(top_srcdir) variable set by automake points to the Studierstube root
+directory.
+
+@code
+lib_LTLIBRARIES = animal_stb.la
+@endcode
+
+This line tells libtool what our lib is call. Libtool figures out the
+platform dependent stuff like suffixes and linker flags etc. The suffix for
+libtool libs is .la.
+
+@code
+animal_stb_la_SOURCES = \
+        $(top_srcdir)/src/apps/animal/SoAnimalKit.cxx \
+        $(top_srcdir)/src/apps/animal/SoAnimalKit.h
+@endcode
+
+Here we tell automake what files belong to our lib build target. It is the
+library name followed by a <b>_SOURCES</b> suffix. Every occurence of a dot
+character like in animal_stb.la has to be replaced with an underscore.
+Again the files have to be specified relative to the Studierstube root
+directory so that they can be found as they reside in the <b>src/apps/appname</b>
+directory in Studierstube.
+
+
+@subsection bs_conditionals conditional build options
+
+If the need arises to use flags like USE_DIV to compile code conditionally
+one would have to do the following:
+
+Here is the configury check for Distributed Inventor in configure.ac:
+
+@code
+# Check for the use of DIV
+AC_ARG_ENABLE([div],
+              AC_HELP_STRING([--enable-div], [enable Distributed Inventor (default=yes)]),
+              stb_div=$enable_div, stb_div=yes)
+if test "$stb_div" = yes; then
+  AC_DEFINE(USE_DIV, 1, [Enable the use of the Distributed Inventor])
+fi
+SIM_AC_CONFIGURATION_SETTING([Enable Distributed Inventor], [$stb_div])
+@endcode
+
+The relevant part here is the autoconf macro call
+@code
+AC_DEFINE(USE_DIV, 1, [Enable the use of the Distributed Inventor])
+@endcode
+which set a compiler flag named USE_DIV.
+
+Now one can use <b>#ifdef USE_DIV conditional code here #endif preprocessor</b>
+directives in the code as it currently happens in
+<b>src/stbapi/div/divmain.cxx</b>.
+
+
+@subsection bs_opt_libs optional libraries
+
+Assume we have a library that Studierstube doesn't necessarily depend on to
+operate properly. I will demonstrate the procedure on the current video
+background situation. You can optionally use libccvt or opentracker to
+handle video background under Linux.
+
+Here is the configury check for this case in configure.ac:
+
+@code
+# Check for the use of libccvt
+AC_ARG_ENABLE([libccvt],
+              AC_HELP_STRING([--enable-libccvt], [use libccvt for video background (default=no)]),
+              stb_libccvt=$enable_libccvt, stb_libccvt=no)
+if test "$stb_libccvt" = yes; then
+  AC_DEFINE(PC_USBCAM, 1, [Enable the use of the libccvt])
+  stb_libccvt_msg="yes (using libccvt)"
+else
+  AC_DEFINE(OPENTRACKER_VIDEO, 1, [Enable the use of the libccvt])
+  stb_libccvt_msg="no (OpenTracker has no ARToolKit support)"
+  if `$stb_ac_ot_configcmd --have-feature artoolkit`
+  then
+    AC_DEFINE(USE_ARTOOLKIT, 1, [Enable the use of the libccvt])
+    stb_libccvt_msg="yes (using OpenTracker with ARToolKit)"
+  fi
+fi
+AM_CONDITIONAL(USE_LIBCCVT, test "$stb_libccvt" = yes)
+@endcode
+which creates a <b>USE_LIBCCVT</b> conditional flag for automake to be used in a
+<b>Makefile.am</b>.
+
+In <b>src/stbapi/resource/viewer/Makefile.am</b> one can now use the conditional
+to tell it which sources it should compile.
+
+It contains the following:
+
+@code
+## Makefile.am -- Process this file with automake to produce Makefile.in
+
+include $(top_srcdir)/src/Makefile.common
+
+if USE_LIBCCVT
+libccvt = VideoDevice.cxx VideoDevice.h
+else
+libccvt =
+endif
+
+noinst_LTLIBRARIES = libviewer.la
+libviewer_la_SOURCES = \
+        GLtools.cxx \
+        GLtools.h \
+        ...
+        SoVideoOpenTracker.cxx \
+        SoVideoOpenTracker.h \
+        SoVideoPCUSB.cxx \
+        SoVideoPCUSB.h \
+        SoVideoSGIdmedia.cxx \
+        SoVideoSGIdmedia.h \
+        SoVideoSGIVideo.cxx \
+        SoVideoSGIVideo.h \
+        $(libccvt)
+@endcode
+
+Here I set the variable libccvt to additional source file or none depending
+on what the flag is set to by the configury.
+
+A second file which has to be set accordingly is <b>bin/workspace/Makefile.am</b>.
+
+@code
+## Makefile.am -- Process this file with automake to produce Makefile.in
+
+include $(top_srcdir)/src/Makefile.common
+
+if USE_LIBCCVT
+libccvt = -lccvt
+else
+libccvt =
+endif
+
+noinst_PROGRAMS = workspace
+
+workspace_SOURCES =  $(top_srcdir)/src/stbapi/workspace/workspace.cxx
+workspace_LDADD = $(top_builddir)/lib/libStbAPI.la $(libccvt) -lGLU @LIBLTDL@ @LIBADD_DL@ @sogui_libs@ @stb_ac_ace_libs@ @stb_ac_ot_libs@
+workspace_LDFLAGS = -L$(top_builddir)/lib @sogui_ldflags@ @stb_ac_ace_ldflags@ @stb_ac_ot_ldflags@
+@endcode
+
+This also depending on the situation adds the necessary compile flags
+needed to be able to link to the libccvt library if needed.
+
+
+@subsection bs_automated_tests writing automated tests
+
+A test for an option, a library etc. can either be taken out in the
+configure.ac file itself or by creating an m4 file in cfg/m4 for a more
+complicated test.
+
+Say you wanted to check for the availability of the zlib library then the
+readily available autoconf macro <b>AC_CHECK_LIB</b> can be used like so:
+
+@code
+AC_CHECK_LIB([z], [deflate], [], [AC_MSG_ERROR([cannot link to the zlib library.])])
+@endcode
+
+Check the autoconf documentation for available macros and their meaning.
+
+This line you would add to <b>configure.ac</b>.
+
+Let's say you wanted to check for OpenTracker and determine it's
+parameters. For this case it is better to write a separate m4 macro as
+this needed to be treated specially and is likely to be reused in other
+projects depending on OpenTracker.
+
+Have a look at <b>cfg/m4/opentracker.m4</b> in how to accomplish things like that
+and make sure you read the m4 introduction in the "Goat Book" and know how
+to write shell scripts.
+
+After writing a macro like this it can be used in <b>configure.ac</b> to perform a
+check for the availability of OpenTracker.
+
+@code
+# Check for OpenTracker.
+STB_AC_HAVE_OPENTRACKER_IFELSE([], [AC_MSG_ERROR([cannot link to the OpenTracker library. consider --with-opentracker=path_to_opentracker])])
+
+AC_SUBST([stb_ac_ot_cppflags])
+AC_SUBST([stb_ac_ot_ldflags])
+AC_SUBST([stb_ac_ot_libs])
+
+SIM_AC_CONFIGURATION_SETTING([OpenTracker root directory], [$stb_ac_ot_root])
+@endcode
+
+The AC_SUBST macro replaces occurences of
+e.g. @stb_ac_ot_cppflags@ in Makefile.am's with the contents of the
+determined stb_ac_ot_cppflags variable.
+
+@subsection bs_build_targets build targets
+
+There is no concept of build targets in the configury. If one would like to
+have an optimized version without any DEBUG code compiled in, one could add
+an option to the configure.ac which sets the specific flags needed like
+described in the "conditional build options" section. At any time compiler
+flags for optimization and additional libraries can be added to the
+<b>'./configure'</b> script as described in the <b>INSTALL</b> file like so:
+
+@code
+./configure CXXFLAGS="-O3" LIBS="-lfoo" --disable-div
+@endcode
+
+
+*/
+
+/**
+@page codingguide Studierstube Coding Conventions
+
+@section bs_coding_mainsec Guidelines for Coding Style and Documentation in the VR Group
+
+This document is a guideline for how to write and document source code with Doxygen for use by the VR Group. It is binding for all contributors of source code to the VR Groups software. Doxygen is available at http://www.doxygen.org/.
+
+@section bs_do Coding Style DOs and DON'Ts
+
+These are a short list of rules to ensure a uniform look of the source code. This helps other developers understand your code and simplifies maintaining the software.
+
+@subsection bs_format Formatting
+
+@li lines shall be MAXIMAL 78 characters long
+@li Indentation shall always use exactly 4 spaces
+@li Don't use tabs, use spaces.
+@li Curly brackets {} shall be either on the same line or in the same row.
+
+@subsection bs_file File Conventions
+
+@li Just one class per file
+@li Extensions: .h, .cxx
+@li For each class, there shall exist a .cxx and a .h file with the same name.
+
+@subsection bs_naming Naming Conventions
+
+@li All code including comments shall be English.
+@li Naming shall be "mixed case", for example : maxStationNumber, SoTrakEngine
+@li Every data type, especially classes, shall start with a capital letter.
+@li Every variable, function, method and constant shall start with a small letter.
+@li #define for constants and macros shall not be used in C++, use const declarations or inlines instead.
+
+@subsection bs_comments Comments
+
+There are two kinds of comments. Doxygen comments, which are extracted by Doxygen to generate documentation and the standard C++ comments. Doxygen comments follow the Javadoc style syntax :
+
+@include multiline_comment.txt
+
+and
+
+@include oneline_comment.txt
+
+Both styles may be used, but they must not be mixed in one header or source file.
+
+@section bs_headers File Headers
+
+Each new file must start with a commentary header in the following format :
+
+@include header.txt
+
+The first part is the LGPL license that is used for Studierstube. If you write code not belonging to the Studierstube framework you can remove this part.
+
+The second part is the Doxygen file documentation part. Any additional Doxygen commands should be put there. Keywords between $ are CVS keywords and will be expanded once the file is checked out again. Do not change the expanded keyword !
+
+@section bs_decl Declarations
+
+Declarations are always put in header files ( .h ). Therefore the following documentation rules apply to header files in particular.
+
+A class declaration must be preceded by a Doxygen comment with at least the \@author command in place. It must include a short one sentence description followed by a detailed description of the classes functionality. Other related classes or methods can be referenced by the \@see command.
+
+Global functions and variables, methods and members of classes must be preceded by a Doxygen comment that includes a short one sentence description followed by a detailed description of the methods functionality or the members information. Method comments must include \@param, \@return and \@exception commands to document parameters, return values and exceptions thrown, if they are present.
+
+The short one sentence description should be a catchy summary of the compounds function. The detailed description should state the purpose of the variable or function, summary of its functionality, details about the algorithm and so on. It should be informative and add something to the documentation besides a description of name and parameters.
+
+This is an example :
+
+@include comment_example.txt
+
+@section bs_impl Implementations
+
+Implementations of global or member functions are typically put into source files ( .cxx ). Therefore the following rules apply to source files particularly.
+
+Implementations of global or member functions must be preceded by a short one line comment followed by an empty line:
+
+@code
+// a normal member taking two arguments and returning an integer value.
+
+int Test::testMe(int a,const char *s)
+{
+    ... implementation ...
+}
+@endcode
+
+@section bs_additional Additional Commands
+
+This is a list of additional Doxygen commands that should be used if appropriate. These commands take a paragraph of text and format it differently in the resulting documentation. A paragraph is ended by an empty line or a new command.
+
+\@see name description
+    creates a see also link to another class, method, member, etc.
+
+\@bug description
+    describe a bug in the class, method, function, etc.
+
+\@warning description
+    describe an important issue related to the class, method, function, etc.
+
+\@todo description
+    describe things left todo
+
+A name is the name of a Class, method or member. description is a paragraph of text. A paragraph ends with an empty line or a new command.
+
+
+@section bs_emacs Emacs footer for Studierstube source files
+
+If you are using GNU Emacs for editing Studierstube source files, placing this comment at the end of your sources will make your life easier. It instructs Emacs to implement some of the code-formatting rules that one shall obey.
+
+@code
+/* ===========================================================================
+    End of @FILENAME@
+   ===========================================================================
+    Automatic Emacs configuration follows.
+    Local Variables:
+    mode:c++
+    c-basic-offset: 4
+    eval: (c-set-offset 'substatement-open 0)
+    eval: (c-set-offset 'case-label '+)
+    eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+    eval: (setq indent-tabs-mode nil)
+    End:
+=========================================================================== */
+@endcode
+*/
+
+/**
+@page cvsguide Studierstube CVS repository guidelines
+
+*/
+
+/**
+@page extensionguide Studierstube extensions guidelines
+
+This page describes how Studierstube extensions and integrations of other libraries and functionality should be handled. Please follow these guidelines in all future Studierstube work:
+
+@li Decide to which level your work belongs to. Compare it with the examples given. When in doubt, ask someone !
+@li Integrate it in the appropriate ways detailed below.
+@li Add external libraries to our repository.
+
+
+@section levels Functionality levels
+
+There are 4 levels of functionality of Studierstube classes :
+
+@subsection core Core system
+
+Work that is tightly coupled with the framework of Studierstube. At best it provides an abstract interface for different implementations, but most is there to build the framework.
+
+For example: 3D event system, viewer classes, User, SoContextKit.
+
+@subsection oivext OpenInventor Extensions
+
+Nodes that extend OIV but which are not necessary for the Studierstube framework in general. However they do not depend on any other libraries then OIV and Studierstube itself.
+
+For example: widgets, windows kits, most in misc/.
+
+@subsection extext Extensions depending on external libraries
+
+These are extensions that incorporate functionality from other libraries. They are typically encapsulated into OIV nodes or extensions of Studierstube core interfaces. The external libraries themselves should go into our internal software repository, so that other developers of our group can access them easily.
+
+For example: SoChromium integrating Chromium framework, VTK. Also a propriatory video background implementation extending a Stb core interface.
+
+@subsection apps Applications
+
+These are distinct binaries from the Studierstube core, implemented to be loaded at runtime. They can also depend on external libraries but typically deal with them in their own way.
+
+@section integr Integration and location
+
+The different levels of functionality are integrated differently into the Studierstube framework. This also influences the location of the source code and how the build system works for them. The following describes for each level how it is integrated in Studierstube.
+
+@subsection coreint Core system and OpenInventor Extensions
+
+Any functionality related to these two levels goes into the studierstube binary (in form of the stbapi.so/dll). The extensions are kept there for convenience. The source code is kept in src/stbapi/. In a future stage they could be moved out to the next level. (see there).
+
+@subsection extint Extensions depending on external libraries
+
+Such extensions are compiled into standalone shared libraries (xxxx.so/dll) that may or may not depend on OIV or Studierstube. They can be loaded by configured applications or setups using the ClassLoader node by Andreas Zajic. We still have to test whether it is usable in this generality, but it should be and we will extend it if necessary. extension source code will go into a new directory src/extensions/ and will produce shared libraries in the same directory as the stbapi.so/dll. Their build process can depend on external libraries. To make these external libraries available to others, add them to our software repository.
+
+@subsection appint Applications
+
+Applications are put into their own shared libraries as well which go into individual subdirectories in bin/apps/. These subdirectories contain also any application specific data and configuration files. Source code goes into individual subdirectories under src/apps/. They are kept as they are and may or may not depend on external libraries.
+
+In the end we have the following scheme of source code and build targets
+
+@code
+Source                      Binaries
+-------------------------------------------------------------------------
+src/stbapi/        ->       lib/stbapi.(dll|so) and bin/workspace/workspace
+src/extensions/    ->       lib/xxxx.(dll|so)
+src/apps/          ->       bin/apps/
+@endcode
+
+@section librep Library Repository
+
+We have a dedicated repository for external libraries that are needed for the Studierstube system. You can find these on the Internal Downloads page. This page is only accessible by members of the Studierstube group. The links on this page either direct you to the appropriate online resource or to files that reside on the ftp server in /pub/studierstube/downloads. Please add new libraries it to the internal software repository, so that they are available to other members of the Studierstube group.
+
+Because of licensing and support issues we cannot add external libraries to our Studierstube CVS repository or distributions. External parties will have to sort out their licensing and access issues to these libraries on their own. We cannot distribute any external libraries ourselves !
+*/
+
+/**
+@page commandline Workspace 3.2 Commandline Options
+
+      <table border="3">
+          <tr>
+            <td nowrap="nowrap"><b>Longname</b></td>
+            <td nowrap="nowrap"><b>Shortname</b></td>
+            <td><b>Type</b></td>
+            <td><b>Default</b></td>
+
+            <td><b>Comment</b></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--application</td>
+            <td nowrap="nowrap">-a</td>
+            <td>string</td>
+            <td>""</td>
+
+            <td>path of Studierstube applation to load upon Workspace
+              startup. This is now an .iv file containing an SoApplicationKit
+              and all necessary parts.</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--tracker</td>
+            <td nowrap="nowrap">-tr</td>
+            <td>string</td>
+            <td>"defaultTracker.xml"</td>
+
+            <td>opentracker configuration file</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--timings</td>
+            <td nowrap="nowrap">-time</td>
+            <td>flag</td>
+            <td>&nbsp;</td>
+
+            <td>use this flag to activate ourput of frame rate and
+              other performance measurements on the console</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--userkits</td>
+            <td nowrap="nowrap">-uk</td>
+            <td>string</td>
+            <td>"defaultUserKit.iv"</td>
+
+            <td>name of iv-file containing all users (SoUserKits),
+              which shall enter the workspace&nbsp; (see SoUserKit)<br>
+              note: UserKits can be added to the iv-file directly or by adding
+              an SoFile-node (containing an SoUserKit) &nbsp;</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--workspacedir</td>
+
+            <td nowrap="nowrap">-wd</td>
+            <td>string</td>
+            <td>"./"</td>
+            <td><p>Directory of Workspace executable and support
+                files</p></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--smaaddress</td>
+
+            <td nowrap="nowrap">-smo</td>
+            <td>string</td>
+            <td>"127.0.0.1"</td>
+            <td>address of a running sessionmanager</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--smport</td>
+
+            <td nowrap="nowrap">-smp</td>
+            <td>integer</td>
+            <td>"1234"</td>
+            <td>port number of a running sessionmanager</td>
+          </tr>
+          <tr>
+            <td colspan="5"><em>The following options are only for locale management
+              and will be removed in future versions.</em></td>
+
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--defaultlocale</td>
+            <td nowrap="nowrap">-dl</td>
+            <td>string</td>
+            <td>"default"</td>
+            <td>the locale to start applications and local userkits
+              in</td>
+
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--createlocale</td>
+            <td nowrap="nowrap">-cl</td>
+            <td>string</td>
+            <td>""</td>
+            <td>comma separated list of locale names specifying
+              locales to be created in the Studierstube instance</td>
+
+          </tr>
+          <tr>
+            <td nowrap="nowrap">--joinlocale</td>
+            <td nowrap="nowrap">-jl</td>
+            <td>string</td>
+            <td>""</td>
+            <td>comma separated list of locale names specifying
+              locales that are joined. These locales are then shared in the distributed
+              system.</td>
+
+          </tr>
+          <tr>        
+            <td nowrap="nowrap">--stuberena</td>
+            <td nowrap="nowrap">-sr</td>
+            <td>string</td>
+            <td>""</td>
+            <td>used for stuberena to define blending mask of a tile. The blending mask is
+            an iv file that was created with the calibration procedure of stuberena.</td>
+          </tr>
+      </table>
+*/
+
+/**
+@page userInterfaces Generating User-Interfaces in Studierstube
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_all All widgets
+This section describes the fields which are inheritated from SoLayoutKit or SoBehaviorKit and proper to all widgets.
+@subsection ws_all_sizes width, depth, height
+Determine the size of the widget.
+@subsection ws_all_label label, labelplacing
+The field 'label' allows you to indicate textual or graphical information describing the widget. It contains one SoLabelKit that, inheritated from SoShapeKit, can have
+any shape. A textual label can be entered by means of the multiple field 'text'. The different entries of this multiple field will then be separated by a line break.<BR>
+The field labelplacing may take as possible values NONE, TOP, LEFT, RIGHT, BOTTOM or ONWIDGET and indicates where the label should be placed.<BR>
+See: SoLabelKit
+@subsection ws_all_enable enable
+Indicates if the widget should be enabled (TRUE) or not.
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_push The SoPushButton
+The SoPushButton implements a "normal" button. When pressed, the button goes down, a command is executed and the button releases immediately.
+@subsection ws_pb_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/push.jpg"></td>
+<td><pre><tt>SoPushButton {}
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_toggle The SoToggleButton
+The SoToggleButton implements a 2D check box widget. It can have two values: pushed or not pushed. When the button is pushed, it goes down and stays at
+that position until you release it by pressing it a second time.
+@subsection ws_tb_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/toggle.jpg"></td>
+<td><pre><tt>SoToggleButton { label SoLabelKit { text "1" } labelPlacing LEFT}
+SoToggleButton { label SoLabelKit { text "2" } labelPlacing LEFT}
+SoToggleButton { label SoLabelKit { text "3" } labelPlacing LEFT}
+SoToggleButton { label SoLabelKit { text "4" } labelPlacing LEFT}
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_simslider The SoSimpleSlider
+The SoSimpleSlider class implements a typical 2D slider widget. It allows setting a range of values and selecting from that by moving the slider knob.
+@subsection ws_ss_minmax minValue, maxValue
+The minimum and the maximum of the range of values are specified by these fields. The minimum value is reached when the slider knob is moved completely to the left,
+the maximum at the further right.<BR>
+Note: It is also possible to implement a decreasing slider by specifiying a minValue bigger than the maxValue.
+
+@subsection ws_ss_value value, alpha
+The value of the slider is always coherent with the position of the slider knob. If one of both changes, the other is adapted too.<BR>
+The alpha represents a normalized version of the value [0;1]. It also changes with the value and the slider knob, and the slider may be controled by it.
+
+@subsection ws_ss_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/simslider.jpg"></td>
+<td><pre><tt>SoSimpleSlider {
+    width 10 depth 4 height 3
+        label SoLabelKit { text "slider" }
+    labelPlacing TOP
+}
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_inslider The SoIncrementalSlider
+The SoIncrementalSlider class implements a typical 2D slider widget. It allows setting a range of values and selecting from that by moving the slider knob or pressing
+the buttons on the left and the right.
+@subsection ws_is_minmax minValue, maxValue, value, alpha, widthDragger, scaleDraggerPath
+Same behavior as for the SoSimpleSlider (see above).
+@subsection ws_is_incr increment, cropValueToIncrement
+The increment specifies the resolution of the slider, i.e. the interval between two possible values.
+
+@subsection ws_is_hide hideSlider
+If TRUE the slider and the moving knob will not be rendered. Interaction is now only possible with the increment and decrement buttons.
+
+@subsection ws_is_button buttonSpace
+Specifies how much space of the slider should be used by one of the increment and decrement buttons. The portion of space is given in normalized percentage [0;1].
+
+@subsection ws_is_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/slider.jpg"></td>
+<td><pre><tt>SoIncrementalSlider {
+    width 10 depth 4 height 3
+        increment 1.5
+    label SoLabelKit { text "slider" }
+    labelPlacing TOP
+} #SoIncrementalSlider
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_labellist The SoLabelListBox
+ This class provides a simple list box interface with a number of buttons showing different items and a SoIncrementalSlider allowing navigating through the
+ possible items. When there are more items than buttons, the slider can be used to navigate up and down through the list. When all the items can
+ be displayed on one page, the slider is disabled.
+
+@subsection ws_ll_select multipleSelections, noneSelectionAllowed
+These two fields specify how many items can be simultaneously selected. If both are FALSE (default), only one item can be selected, if multipleSelections is TRUE
+multiple items can be selected and if noneSelectionAllowed is TRUE, no selection may be made.
+
+Default values: multipleSelections = FALSE, noneSelectionAllowed = FALSE
+
+@subsection ws_ll_num numOfRows, numOfCols
+These fields determine the structure of the list box. The visible items are placed in numOfRows rows and numOfCols columns, so these fields determine additionally
+the maximum number of buttons that will be visible. When the navigation slider is used, this structure remains unmodified; only the connections button-to-item will be
+changed.
+
+Default values: numOfRows = 5, numOfCols = 1
+
+@subsection ws_ll_space spacingWidth, spacingDepth, startEndSpacingDepth, startEndSpacingWidth
+With means of these fields the spaces between all the components of the list box can be specified. The fields spacingWidth and spacingDepth indicate the space between
+two buttons, the field startEndSpacingDepth specifies the size of the top and bottom margin, and startEndSpacingWidth the size of the left and right
+margin. All the values are given in percent [0;1].
+
+Default values: spacingWidth = spacingDepth = startEndSpacingDepth = startEndSpacingWidth = 0.05 (5 %)
+
+@subsection ws_ll_nav navigationSize, navigationButtonToSliderRatio, navigationPlacing
+These fields specify location, size and structure of the navigation slider. The ratio of the navigation buttons to the whole slider is given by the field
+navigationButtonToSliderRatio, the ratio of the navigation slider to the whole list box is given by the field navigationSize. Both values are given in percent
+[0;1]. The position of the navigation slider can be specified by the field navigationPlacing. Possible values for this enumeration field are NONE, TOP, LEFT, RIGHT,
+BOTTOM, INLINE_ROW and INLINE_COL. For the INLINE values no slider will be displayed. Instead the first and last visible buttons will be used as buttons to navigate
+through the list.
+
+Default values: navigationSize = 0.2, navigationButtonToSliderRatio = 0.2, navigationPlacing = LEFT
+
+@subsection ws_ll_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/labellist.jpg"></td>
+<td><pre><tt>SoLabelListBox {
+    width 15 depth  6 height 3
+    numOfRows 2 numOfCols 2
+    spacingWidth 0.1 spacingDepth 0.1
+    startEndSpacingWidth 0.1 startEndSpacingDepth 0.1
+    navigationPlacing LEFT
+    navigationButtonToSliderRatio 0.2
+
+    labels NodeKitListPart { containerNode Group {
+    SoLabelKit {
+      appearance SoAppearanceKit {  material SoMaterial {diffuseColor .8 .2 .2  } }
+      shape SoCube {width .4 height .4 depth .4 }}
+
+    SoLabelKit {
+      appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .8 .2  } }
+      shape SoCube {width .4 height .4 depth .4 }}
+
+    SoLabelKit {
+      appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .2 .8  } }
+      shape SoCube {width .4 height .4 depth .4 }}
+
+    SoLabelKit {
+      appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .8 .8  } }
+      shape SoCube {width .4 height .4 depth .4 }}
+
+    SoLabelKit {
+      appearance SoAppearanceKit {  material SoMaterial {diffuseColor .8 .2 .2  } }
+      shape SoSphere { radius .2 }}
+}}} #SoLabelListBox
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_textlist The SoTextListBox
+This class implements a list box with similar appearance and behaviour as the SoLabelListBox. The only difference lies in the type of the labels. In the SoTextListBox, labels
+representing the different items can only be text strings, and are specified in the field 'values'.
+
+@subsection ws_tl_inher Field inherited from SoLabelListBox
+The fields multipleSelections, noneSelectionAllowed, numOfRows, numOfCols, spacingWidth, spacingDepth, startEndSpacingDepth, startEndSpacingWidth,
+navigationSize, navigationButtonToSliderRatio and navigationPlacing are inherited from SoLabelListBox and have the same characteristics as those described above.
+
+@subsection ws_tl_values values
+This multiple field encloses text strings for the different items. These strings are taken as textual labels for the buttons of the list box.
+
+Default value: values = ""
+
+@subsection ws_tl_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "250"><img src = "../images/PUC/textlist.jpg"></td>
+<td><pre><tt>SoTextListBox {
+      width 10 depth 8 height 2
+      numOfRows 2 numOfCols 2
+      spacingDepth .05
+      spacingWidth .05
+      navigationSize .2
+      multipleSelections TRUE
+
+      navigationButtonToSliderRatio 0.1
+
+      values ["1" "2" "3" "4" "5"]
+
+    } #SoTextListBox
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_howto The SoWidgetLayoutGroup
+The SoWidgetLayoutGroup allows you to build user interfaces without explicitally specify the transformations and size of each widget. Therefore all widgets
+are structured onto a grid whith a specified number of columns and rows. This grid can then be hierarchically subdivided furthermore in a more detailed grid.
+<p>&nbsp;</p>
+To build the layout for your purposes you need to structure the widgets into SoWidgetLayoutGroup's. A SoWidgetLayoutGroup can contain widgets and SoWidgetLayoutsGroup's
+which can themselves contain other widgets and SoWidgetLayoutGroup's. For each SoWidgetLayoutGroup
+you may specify the number of rows and columns, their sizes, the spacings between widgets, and all the widgets and groups being element of this group. These elements are then placed on the specified grid.
+
+
+@subsection ws_wlg_el elements
+In this part the different elements of this SoWidgetLayoutGroup are defined. Everything what is inheritated from SoLayoutKit may be added as element.
+<p><b>Example:</b></p>
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "400"><img src = "../images/PUC/screenshot1.jpg"></td>
+<td><pre><tt>SoWidgetLayoutGroup {
+  width 22 depth 17 height 0.5
+  numOfCols 2
+  numOfRows 2
+
+    elements NodeKitListPart { containerNode Group {
+
+      SoPushButton { label SoLabelKit { text "1" } }
+      SoPushButton { label SoLabelKit { text "2" } }
+
+      SoWidgetLayoutGroup {
+      numOfCols 1
+      numOfRows 2
+
+    elements NodeKitListPart { containerNode Group {
+        SoPushButton { label SoLabelKit { text "3" } }
+        SoPushButton { label SoLabelKit { text "4" } }
+
+       }}} #SoWidgetLayoutGroup
+
+      SoPushButton { label SoLabelKit { text "5" } }
+
+}}} #SoWidgetLayoutGroup
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+
+@subsection ws_sizes width, depth, height
+Fields inheritated from SoLayoutKit. To start the building process, you need to set these fields of the first SoWidgetLayoutGroup, representing
+the space of the pip sheet which should be filled up by the UI.
+Width and depth will then be calculated individually for each child. The height will remain constantly over all subhierarchies
+
+Note: It isn't possible to change the sizes of the widgets in lower hierarchies by manually setting their width and depth. These ones will be overwritten. You will
+should change the spacingWidth and spacingDepth instead.
+
+<BR>@subsection ws_numColRow numOfCols, numOfRows
+By setting these values you will be able to determine the structure of the layout. Default value is for both of the fields -1. There are 3 possible cases:
+@li just one of the values is set: the other one is calculated so that all the children will find a place in the grid
+@li both of the values are set: if there aren't enough places in the grid to include all children, the number of rows is increased
+@li none of the values is set: the number of rows is determined by taking the square root of the number of children to achieve an approximately regular
+distribution of the widgets.
+
+You will obtain best results by setting just one of both values.
+
+<BR>@subsection ws_sizeColRow sizeOfCols, sizeOfRows
+With means of these fields you can vary the width of the rows and columns. The fields take as input a multiple field with a number of integers which indicate the size
+of each row and column. If the array is longer than the respective number of rows or columns, it will just be truncated, if it is shorter it will be filled up
+with 1's.
+<p><b>Example:</b></p>
+<br>In this example distribution sizeOfCols [1, 2, 2] has been used. The second and third columns appear twice as big as the first.
+
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "400"><img src = "../images/PUC/screenshot2.jpg"></td>
+<td><pre><tt>SoWidgetLayoutGroup {
+  width 22 depth 10 height 0.5
+  numOfCols 3
+  numOfRows -1
+  sizeOfCols [1, 2, 2]
+  spacingDepth 0.2
+
+    elements NodeKitListPart { containerNode Group {
+
+      SoToggleButton { label SoLabelKit { text "1" } }
+      SoIncrementalSlider { label SoLabelKit { text "2" } }
+      SoIncrementalSlider { label SoLabelKit { text "3" } }
+      SoToggleButton { label SoLabelKit { text "4" } }
+      SoIncrementalSlider { label SoLabelKit { text "5" } }
+      SoIncrementalSlider { label SoLabelKit { text "6" } }
+
+
+}}} #SoWidgetLayoutGroup
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+
+<BR>@subsection ws_spacing spacingWidth, spacingDepth
+These fields specify how much space should be left between each row and column. Given as a normalized number representing a percentage of the size
+of an average row or column. <BR>
+Default value: 0.20 (20 %)
+
+
+@subsection ws_wlg_examples Example
+
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "400"><img src = "../images/PUC/screenshot4.jpg"></td>
+<td><pre><tt>    SoWidgetLayoutGroup {
+      width 21 depth 16 height 2
+      numOfCols 1 numOfRows 2
+      sizeOfRows [3, 2]
+      spacingDepth .2
+
+      elements NodeKitListPart { containerNode Group {
+
+    SoWidgetLayoutGroup {
+      numOfCols 2 numOfRows -1
+      spacingWidth .2
+
+      elements NodeKitListPart { containerNode Group {
+
+        SoWidgetLayoutGroup {
+          numOfCols 1
+          numOfRows -1
+
+          elements NodeKitListPart { containerNode Group {
+
+        SoIncrementalSlider { label SoLabelKit { text "X" } }
+        SoIncrementalSlider { label SoLabelKit { text "Y" } }
+        SoIncrementalSlider { label SoLabelKit { text "Z" } }
+
+        }}} #SoWidgetLayoutGroup
+
+        SoLabelListBox {
+          numOfRows 2 numOfCols 2
+
+          labels NodeKitListPart { containerNode Group {
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .8 .8 .2  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .8 .2 .2  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .8 .2  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .2 .8  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .2 .8 .8  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+        SoLabelKit {
+            appearance SoAppearanceKit {  material SoMaterial {diffuseColor .8 .2 .8  } }
+            shape SoCube {width .5 height .5 depth .1 }}
+
+          }}} #SoLabelListBox
+
+           }}} #SoWidgetLayoutGroup
+
+        SoWidgetLayoutGroup {
+      numOfCols 3
+      numOfRows -1
+      sizeOfCols [1 1 2]
+      spacingWidth .25
+
+      elements NodeKitListPart { containerNode Group {
+
+        SoToggleButton { label SoLabelKit { text "1" } labelPlacing LEFT}
+        SoToggleButton { label SoLabelKit { text "2" } labelPlacing LEFT}
+        SoWidgetLayoutGroup {}
+
+        SoToggleButton { label SoLabelKit { text "3" } labelPlacing LEFT}
+        SoToggleButton { label SoLabelKit { text "4" } labelPlacing LEFT}
+
+        SoWidgetLayoutGroup {
+          numOfCols 2
+          numOfRows -1
+
+          elements NodeKitListPart { containerNode Group {
+        SoPushButton { label SoLabelKit { text "Button 1" } }
+        SoPushButton { label SoLabelKit { text "Button 2" } }
+        }}} #SoWidgetLayoutGroup
+
+    }}} #SoWidgetLayoutGroup
+
+    }}} #SoWidgetLayoutGroup
+    </pre></tt>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_panel The SoPanelGroup
+The SoPanelGroup represents a panel structure, which consists of a SoLabelListBox specified in 'titles' and a certain number of SoWidgetLayoutGroup's specfied
+in 'sheets'. The list box is placed at the top or at the right side of the pip and the remaining space is reserved for the different sheets. Each button of the
+list box is coupled with a panel sheet corresponding to the order in which they have been defined.
+
+To definde a panel structure, only the SoPanelGroup is needed where the 'titles' and 'sheets' have to be specified. The SoPanel is an intermediary
+class needed to commute the real geometry of this structure. The sheets of the SoPanelGroup are then transferred to the SoPanel, which adds them as
+children of a SoSwitch node.
+
+@subsection ws_pn_titles titles
+This part must contain a SoLabelListBox or SoTextListBox where each of the items correspond to the designation of one of the panel sheets. Each button is then coupled
+to one of the panel sheets and you can change the current visible sheet by pressing one of the buttons.
+The navigator of the SoLabelListBox will be placed INLINE_COL or INLINE_ROW.
+
+@subsection ws_pn_sheets sheets
+This list part contains the different panel sheets defined as SoLayoutKit or inheritances of it. Usually these are SoWidgetLayoutGroup's, but you can also nest multiple
+SoPanelGroup's or define a single widget as panel sheet.
+
+@subsection ws_pn_nav navigationPlacing, titlesToSheetsRatio, numOfButtons
+These fields determine the structure and layout of the panel group. The field navigationPlacing specifies where the navigation list box should be placed.
+Possible values are LEFT and TOP. The field titlesToSheetsRatio defines the percentage of space that should be assigned to the navigation list box, and numOfButtons
+specifies how many buttons should be displayed.
+
+Default values: navigationPlacing = TOP, titlesToSheetsRatio = 0.20, numOfButtons = 3
+
+@subsection ws_pn_ex Example
+@htmlonly
+<p><table border = 0>
+<tr valign="top">
+<td width = "400"><img src = "../images/PUC/panelgroup.jpg"></td>
+<td><pre><tt>SoPanelGroup {
+    width 22 depth 17 height 2
+    navigationPlacing TOP
+    numOfButtons 2
+    titlesToSheetsRatio 0.20
+
+    titles SoTextListBox {
+              values ["Sliders" "Push Buttons"]
+              }
+    sheets NodeKitListPart { containerNode Group {
+        SoWidgetLayoutGroup {
+        numOfCols 1 numOfRows -1
+        elements NodeKitListPart { containerNode Group {
+           SoIncrementalSlider { label SoLabelKit { text "slider 1" } labelPlacing LEFT}
+           SoIncrementalSlider { label SoLabelKit { text "slider 2" } labelPlacing LEFT}
+           SoIncrementalSlider { label SoLabelKit { text "slider 3" } labelPlacing LEFT}
+           SoIncrementalSlider { label SoLabelKit { text "slider 4" } labelPlacing LEFT}
+
+        }}} #SoWidgetLayoutGroup
+
+        SoWidgetLayoutGroup {
+        numOfCols 1 numOfRows -1
+          elements NodeKitListPart { containerNode Group {
+            SoPushButton { label SoLabelKit { text "1" } labelPlacing LEFT}
+            SoPushButton { label SoLabelKit { text "2" } labelPlacing LEFT}
+            SoPushButton { label SoLabelKit { text "3" } labelPlacing LEFT}
+            SoPushButton { label SoLabelKit { text "4" } labelPlacing LEFT}
+
+        }}} #SoWidgetLayoutGroup
+
+}}} #SoPanelGroup
+</tt></pre>
+</td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+@section ws_pucpiplayout Automatic generation of GUI: the SoPucPipLayout
+The SoPucPipLayout is able to automatically generate GUI's for appliances that are able to control them. All appliances functions are specified in "pucAppliances" where they should be hierarchically grouped to form a "group tree". Additionally some layout hints concerning size and style may be indicated in the corresponding fields. The generation of the user interface is then performed in three steps:
+
+@li In the first step the base structure of the group tree is analysed: if the first child of the first group tree is of type SoPucStateEnumerated and all the remaining ones of type SoPucGroup, then a SoPanelGroup is created where each of the SoPucGroup's corresponds to one separate panel sheet, and the titles of these sheets are extracted from the different enumerations of the SoPucStateEnumerated.
+@li In the second step the layout of each sheet is generated by following some layout rules which differ for each style.
+@li In the third step each state and command is transformed into a widget.
+<p>&nbsp;</p>
+
+@subsection ws_ppl_appl pucAppliances
+In this part all appliances functions need to be specified with the state variables and commands: SoPucCommand, SoPucStateBool, SoPucStateInt, SoPucStateFixed, SoPucStateFloat, SoPucStateEnumerated and SoPucStateString. The SoPucGroup allows you to hierarchically structure these elements into a group tree. This group tree has to be specified as part in a SoPucDevice belonging to a SoPucServer.<BR>
+Example:
+@htmlonly
+<pre><tt>DEF LAYOUT_GROUP SoPucPipLayout {
+     width 23 depth 18 height 2.0
+
+     pucAppliances SoPucServer {
+      serverName "Studierstube Demo"
+      devices NodeKitListPart { containerNode Group {
+        DEF RADIUSDEVICE SoPucDevice {
+          deviceName "example"
+          groups NodeKitListPart { containerNode Group {
+
+         SoPucGroup { #root of the group tree
+                ...
+
+         }#SoPucGroup
+     }}}#SoPucDevice
+       }}}#SoPucServer
+}#SoPucPipLayout
+</pre></tt>
+@endhtmlonly
+<p>&nbsp;</p>
+
+@subsection ws_ppl_width width, depth, height
+These fields indicate the total size of the space that the user interface should fill up. The values will be assigned to the main SoWidgetLayoutGroup or SoPanelGroup determing the initial structure of the user interface.
+<p>&nbsp;</p>
+
+@subsection ws_ppl_style style, units, columns
+These field allow you to specify some layout hints. The field 'style' may take three different values producing a layout based on different layout rules.
+
+@li The default style, the PUC-style, arranges the components in a one-column layout with adjacent labels as in the PUC system. This style thus supports only a small number of components. Lower hierarchies of puc groups are ignored.
+@li The PUCEXT-style allows generating an extended version of the puc style. You can indicate the number of columns in the field 'columns'. To preserve balance, the widgets are placed individually in the column having the lowest level of widgets at that point. Lower hierarchies of puc groups are still not taken in account.
+@li The STB-style is an approach to respect grouping in between the widgets of one panel sheet. The main structure consists of a number of rows that are filled up subsequently with widgets. The widgets of two different SoPucGroup's are never placed in a same row. This implies that grouping is preserved, the layout may however not be balanced. The number of widgets placed in one row can be specified by the field 'units', where each button corresponds to one unit, and each slider and list box to two units.
+
+The PUC-style always chooses the longest possibility as label; the PUCEXT- and STB-style always chosest the shortest one.
+<p>&nbsp;</p>
+
+@subsection ws_ppl_ex Examples
+@htmlonly
+<pre><tt>    DEF LAYOUT_GROUP SoPucPipLayout {
+     width 22 depth 18 height 2.0
+     style PUC
+
+     pucAppliances SoPucServer {
+      serverName "Studierstube Demo"
+      devices NodeKitListPart { containerNode Group {
+        DEF RADIUSDEVICE SoPucDevice {
+          deviceName "example"
+          groups NodeKitListPart { containerNode Group {
+
+         SoPucGroup {
+            priority 10
+                members NodeKitListPart { containerNode Group {
+
+            DEF GROUP1 SoPucGroup {
+                   members NodeKitListPart { containerNode Group {
+                     DEF BOOL_STATE1 SoPucStateBool { labels ["bool", "boolean state"]}
+                     DEF BOOL_STATE2 SoPucStateBool { labels ["bool", "boolean state"]}
+                     DEF INT_STATE1 SoPucStateInt { labels ["int", "integer"] min 0 max 6 incr 2 }
+                         DEF FIXED_STATE1 SoPucStateFixed { labels ["fixed", "fixed point"] min 0 max 3.14 incr 1.57 pointpos 2}
+                         DEF FIXED_STATE2 SoPucStateFixed { labels ["fixed", "fixed point"] min 0 max 2 incr 0.1 }
+                         DEF FLOAT_STATE SoPucStateFloat { labels ["float", "floating point"] min 0 max 1 }
+                }}} # SoPucGroup
+
+            DEF GROUP2 SoPucGroup {
+                   members NodeKitListPart { containerNode Group {
+
+             DEF ENUM_STATE1 SoPucStateEnumerated { labels ["enum", "4 enumerations"]  valueLabels ["a", "b", "c", "d"]}
+                     DEF ENUM_STATE2 SoPucStateEnumerated { labels ["enum", "7 enumerations"]  valueLabels ["a", "b", "c", "d", "e", "f", "g"]}
+                     DEF COMMAND1 SoPucCommand { labels ["command"]}
+                     DEF COMMAND2 SoPucCommand { labels ["command"]}
+
+
+                }}} # SoPucGroup
+             }}} # SoPucGroup
+
+        }}} # SoPucDevice
+    }}} # SoPucServer
+   }#SoPucPipLayout
+</tt></pre>
+<p><table border = 0>
+<tr>
+<td width = "410"><img src = "../images/PUC/pucstyle.jpg"></td>
+<td width = "100"><pre><tt>style   PUC
+</tt></pre></td>
+<tr>
+<td width = "410"><img src = "../images/PUC/pucextstyle2.jpg"></td>
+<td width = "150"><pre ><tt>style   PUCEXT
+columns 2
+</tt></pre></td>
+<td width = "410"><img src = "../images/PUC/pucextstyle3.jpg"></td>
+<td><pre><tt>style   PUCEXT
+columns 3
+</tt></pre></td>
+<tr>
+<td width = "410"><img src = "../images/PUC/stbstyle4.jpg"></td>
+<td><pre><tt>style   STB
+units 4
+</tt></pre></td>
+<td width = "410"><img src = "../images/PUC/stbstyle6.jpg"></td>
+<td><pre><tt>style   STB
+units 6
+</tt></pre></td>
+<tr>
+</table>
+</p>
+@endhtmlonly
+
+*/
+
+/**
+@page distributedworkspace Studierstube 3 Distributed Workspace
+
+This page documents how to use the distribution features of the Studierstube workspace. If you always wanted to know what the words
+locale, session manager and so on mean, this is the place to start.
+
+The distribution features of the Studierstube workspace provide a management layer above the basic 
+technical distribution functionaliy provided by DIV. The workspace supports a flexible model 
+of how several users can work with multiple applications using several Studierstube processes to improve performance,
+provide independence by giving each user an individual machine or remote collaboration. 
+The model can be tweaked further to support such features as rendering slaves for cluster rendering and passive stereo projections.
+
+@section concepts Some concepts
+
+An  @em application is a single Studierstube application that can be started and stopped as one entity. An application is represented
+by a scene graph rooted in an @ref SoApplicationKit. The encapsulated @ref SoContextKit or derived node usually provides the real
+functionality but the @ref SoApplicationKit describes a single application instance. Such a scene graph can be loaded into a workspace at
+runtime or written out via saving an application.
+
+A @em user is a single userkit definition in a user kit file with a unique user id. A @ref SoUserKit node
+defines a user's properties such as pip, pen and rendering window.
+
+A @em host is a single studierstube process. It can run several applications and support several users at once.
+
+Distributed applications in the workspace are managed in so-called @em locales. A locale is basically a single coordinate system in
+which a set of applications and users exists. For example a standalone host defines a default locale named @c default and places all
+applications in that locale. All of this is happening transparently to the user.
+
+A standalone host can also define several locales and load applications into them. This requires using the internal APIs of the
+studierstube workspace.
+
+To distribute applications a locale is shared between different hosts. That is, several studierstube processes will use the same
+set of applications and users defined in one locale. The applications are then automatically distributed via DIV between the hosts
+sharing a locale. User information is also shared between the hosts if required.
+
+All of this is coordinated by a server program called sman2 or session manager. It organises several studierstube processes to work
+together and provides the necessary information exchange. It does not perform the distribution of the applications, this is handled
+by DIV for each application individually. See @link sman2manual @endlink for details on the session manager.
+
+Some more information can be found in chapter 6 of the following thesis 
+http://www.ims.tuwien.ac.at/media/documents/publications/reitmayr_diss.pdf
+or the following paper
+http://www.ims.tuwien.ac.at/media/documents/publications/migration_presence.pdf
+
+@section prerequisites Prerequisites
+
+@li sman2 needs to be running on some wellknown host. You can watch its output to get an idea of what is happening. 
+
+@li Studierstube needs to be compiled with the USE_DIV option. This simply enables DIV and also requires that coin is patched for use with DIV.
+
+@section configuration How to configure
+
+Configurating locales is currently only possible via command line options to the workspace binary. The options are
+documented in detail here @link commandline @endlink. Basically -smo, -smp, -dl, -cl and -jl are interesting here. 
+
+The options @c -smo and @c -smp provide the information where to find the session manager. If the host cannot connect to the session
+manager at startup the distributed workspace features will be disabled. One can still use locales, but no application sharing will
+be possible.
+
+A Studierstube process will always use a default locale. The name of the default locale can be set with the option @c -dl. 
+
+To use more than one locale within one Studierstube process use the option @c -cl to create additional locales. More than one locale name
+can be configured by separating the names with ';'. For example @c 'test;shared' will create two additional locales named @c test and @c shared.
+
+Up to now the locales are only created within the host but not shared. To share a locale as well use the @c -jl option. It works like the @c -cl
+option and tells the host to also share or join the named locales. The host will inform the session manager at startup that it 
+participates in these locales and should receive all updates to them. Note, that the locales need to be created with @c -cl in addition 
+to being shared with @c -jl.
+
+Some examples:
+@verbatim workspace -dl shared -jl shared -smo mymanager.some.where @endverbatim
+
+This workspace uses a default locale shared and also joins it to work with distributed applications. Also, it tries to find the
+session manager at the given host address.
+
+@verbatim workspace -cl "shared;private" -jl shared @endverbatim
+
+This workspace creates two additional locales shared and private but only shares the locale called shared.
+
+
+
+in the simple setup use '-jl default' to tell the workspace process to share the locale "default" with other workspace processes. The session manager will register the new process. any applications started in one of the workspaces will automaticall be distributed to the other processes.
+
+@section advanced Advanced topics
+
+@subsection masterslave Masters and slaves
+
+The host that starts an application in a shared locale will have the master copy of that application by default. If the application
+is stopped it will be removed from all hosts again. If the master host however shuts down without closing the application, the
+master property will go to another slave host.
+
+@subsection users Users
+
+Users are also members of a locale (by default members of the "default" locale). the user kits of the different hosts will be all
+distributed to all other hosts, but only to create the appropriate runtime environment and will not open new rendering windows.
+Only the originating host will open a render window.
+
+If a user with a given user id already exists at an host it will not receive a copy of the user kits from another host. This option
+allows you to define differnt user settings on all the hosts. and is probably what you want for the slave setup.
+
+@subsection tracking Tracking
+
+tracking is a special issue. The distribution of the required tracking data is not really handled by the workspace management. Most
+tracking aware nodes use a station id to identify their tracking source. Even in distributed mode a lot of tracking aware nodes
+assume to receive tracking information locally for latency and performance reasons. Therefore the tracking setup on each host must
+provide the same tracking source via the same station.
+
+@section examples Example setups
+
+@subsection simple Simple test setup
+
+A simple test setup only requires two hosts and sharing the default locale on each with @c '-jl default'. This is a good staring point
+to experiment with the different user / application configurations.
+
+@subsection two Two user - two hosts 
+
+A more complex setup involves two users working in a collaborative workspace. Each user is supported by an individual Studierstube 
+process typically running on a separate computer. All applications are shared between the users. Each user can start an application
+via her system sheet and it will be automatically distributed to the other host. Only the starting user can stop the application again, 
+because her system hosts the master copy of the application.
+
+<table>
+<tr>
+  <td></td><td><b>Host 1</b></td><td><b>Host 2</b></td>
+</tr>
+<tr>
+<td><b>Users</b></td>
+<td>
+@code
+SoUserKit {
+  id 1
+  # any other configuration
+}
+@endcode
+</td>
+<td>
+@code
+SoUserKit {
+  id 2
+  # any other configuration
+}
+@endcode
+</td>
+</tr>
+<tr>
+<td><b>Command line</b></td>
+<td>
+@code
+-jl default -smo ... -smp ...
+@endcode
+</td>
+<td>
+@code
+-jl default -smo ... -smp ...
+@endcode
+</td>
+</tr>
+</table>
+
+
+@subsection renderslaves Render slaves setup
+
+A more complex setup that uses a master host to drive two slave hosts that provide only rendering. The idea is here to share one
+locale across the three hosts but have only one real and distributed user in the configuration. The slave hosts only use basic 
+pseudo users to provide the rendering configuration. However, their userkits feature not in the distributed part of the configuration.
+
+
+The following configurations are necessary
+<table>
+<tr>
+  <td></td><td><b>Master host</b></td><td><b>Slave 1</b></td><td><b>Slave 2</b></td>
+</tr>
+<tr>
+<td><b>Users</b></td>
+<td>
+@code
+SoUserKit {
+  id 0
+  # any other configuration 
+  # pip
+  # pen
+}
+@endcode
+</td>
+<td>
+@code
+SoUserKit {
+  id 1
+  # only render configuration
+  # NO pip or pen
+}
+@endcode
+</td>
+<td>
+@code
+SoUserKit {
+  id 1     # can have the same id...
+  # only render configuration
+  # NO pip or pen
+}
+@endcode
+</td>
+</tr>
+<tr>
+<td><b>Command line</b></td>
+<td>
+@code
+-dl shared -jl shared
+@endcode
+</td>
+<td>
+@code
+-cl shared -jl shared
+@endcode
+</td>
+<td>
+@code
+-cl shared -jl shared
+@endcode
+</td>
+</tr>
+</table>
+
+
+Create userkits for each host using different user ids. configure the rendering for each host as required.
+For example, an examine viewer for the master host and a tracked viewpoint for the slave hosts with cameras fitting the projections required in the rendering.
+The master host user should be equipped with a pen and a pip, but the slave host users not.
+
+The master host gets a different default locale called 'shared' and shares it. The slave hosts also use the 'shared' locale but not
+as default, they create it as an additional locale.
+
+Now there is one shared locale 'shared' with one user from the master host and her pip and pen will also appear in the slave hosts and should probably act normally. the slave hosts will have individual users only to define the rendering but these will not interfere with the rest.
+
+*/

@@ -1,0 +1,44 @@
+#Inventor V2.1 ascii
+
+	Separator {
+	
+	Font {
+		size 	4.0
+	}
+
+	Material {
+		emissiveColor 0.8 0 0
+	}
+
+	Text3 {
+		justification CENTER
+		string  "Save Calibration ?"
+	}
+
+
+   RotationXYZ {axis  X angle 1.57 }
+   Translation {translation -12 0 10}	
+		DEF YES_BUTTON So3DButton {
+						width	12
+						depth	12
+						height	2
+						}	
+		Translation {
+			translation			14 0.0 0	
+		}
+		DEF NO_BUTTON So3DButton {
+						width	12
+						depth	12
+						height	2
+						}	
+		Translation {
+			translation			14 0.0 0.0	
+		}
+		DEF CANCEL_BUTTON So3DButton {
+						width	12
+						depth	12
+						height	2
+						}	
+
+	}
+

@@ -1,0 +1,97 @@
+#Inventor V2.1 ascii
+
+Separator {
+    RotationXYZ { axis Y angle 3.1415 }
+    Separator {
+      Translation { translation -4.5 -0.4 -1 }
+      RotationXYZ { axis Z angle 3.1415 }
+      DEF COPY_COLOR_BUTTON So3DButton { width 0.9 depth 0.9 height 0.8 }
+    }
+
+    Transform {
+        #translation     -2 0.625 0
+        translation     -2 -1 0
+        rotation 0 0 1 3.1415
+        scaleFactor     25 25 25
+    }
+    Material {
+        diffuseColor    0.1 0.1 0.1
+    }
+    DEF SELECTED_COLOR Material {
+        diffuseColor    0.6 0.6 0.1 =
+            ComposeVec3f {
+                x       0.6 =
+                    DEF +0 So3DSlider {
+                        startPoint      -20 0 0
+                        endPoint        20 0 0
+                        position        0.2
+                        radius  0.042
+                        width   0.15
+                        increment       0.1
+ 						callback ALWAYS
+
+                    }
+                    . currentValue
+
+                y       0.6 =
+
+                    DEF +1 So3DSlider {
+                        startPoint      -20 0 0
+                        endPoint        20 0 0
+                        position        0.2
+                        radius  0.042
+                        width   0.15
+                        increment       0.1
+ 						callback ALWAYS
+                    }
+                    . currentValue
+
+                z       0.2 =
+                    DEF +2 So3DSlider {
+                        startPoint      -20 0 0
+                        endPoint        20 0 0
+                        position        0.9
+                        radius  0.042
+                        width   0.15
+                        increment       0.1
+ 						callback ALWAYS
+                    }
+                    . currentValue
+
+            }
+            . vector
+
+        transparency    0  =
+            DEF +3 So3DDial {
+                position   0
+                radius  0.03
+                height  0.02
+				callback ALWAYS
+               }
+            . currentValue
+
+    }
+    Cube {
+        width   0.1
+        height  0.03
+        depth   0.05
+    }
+    Translation {
+        translation     0 -0.005 0.08
+    }
+    USE +3
+    Translation {
+        translation     -0.2 -0.003 -0.04
+    }
+    RotationXYZ {
+        axis    Y
+        angle   1.5708
+    }
+    USE +0
+    DEF +4 Translation {
+        translation     0 0 0.05
+    }
+    USE +1
+    USE +4
+    USE +2
+}

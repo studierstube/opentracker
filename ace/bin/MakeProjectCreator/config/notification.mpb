@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// notification.mpb,v 1.7 2004/05/06 17:19:13 elliott_c Exp
+
+project : etcl, dynamicany, portableserver, svc_utils {
+  after     += CosNotification
+  libs      += TAO_CosNotification
+  tagchecks += Notify
+}

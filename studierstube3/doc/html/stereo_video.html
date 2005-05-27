@@ -1,0 +1,307 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>How to configure a stereo video background</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+<h1>How to configure a (stereo) video background.</h1>
+
+<p><strong>Initial steps:</strong></p>
+<blockquote>
+  <p>Download the latest Studierstube/OpenTracker sources from our <a href="http://www.studierstube.org/internal/index.html">CVS
+      repository</a> (authorization required).<br>
+Get the latest ARToolKit binaries (arvideolib-ds.zip) from the <a href="http://www.studierstube.org/opentracker/download/">OpenTracker
+      download page</a>.<br>
+Build OpenTracker/Studierstube with <strong>USE_ARTOOLKIT</strong>.<br>
+    Define an <strong>SoVideoBackgroundOT</strong> node in your
+          inventor file (as part of  SoDisplayKit).<br>
+          Specify both <strong>videomode</strong> and <strong>videomode2</strong> attribute
+        strings (see below) in your OpenTracker XML config file.</p>
+  </blockquote>
+<p>Example files:</p>
+<blockquote>
+  <p><a href="StereoMovie.zip"><strong>StereoMovie.zip</strong></a> (stereoscopic
+    video background from two AVI files / requires DivX codec)<br>
+    <strong><a href="StereoVideoUnibrain.zip">StereoVideoUnibrain.zip</a></strong>  (for use with the TU-Graz
+    UniBrain camera)</p>
+  </blockquote>
+<p>&nbsp;</p>
+<p><font size="+1"><strong>How to format the <font color="#FF0000">Open</font>Tracker <em>videomode</em> attribute
+        string:<br>
+  </strong></font>The attribute string is either empty, or consists
+        of a list of tokens, separated by commas &quot;,&quot;</p>
+<table width="100%" border="0">
+  <tr>
+    <td colspan="2" bgcolor="#3F3F3F"><strong><font color="#FFFFFF" size="+1">BINARY TOKENS</font></strong></td>
+    </tr>
+  <tr>
+    <td width="146">flipH</td>
+    <td width="593">Flip image horizontally (WARNING: non-optimal performance)</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FAFAFA">flipV</td>
+    <td bgcolor="#FAFAFA">Flip image vertically (WARNING: non-optimal performance)</td>
+  </tr>
+  <tr>
+    <td>showDlg</td>
+    <td>Displays either the WDM capture filter's property page or the MSDV decoder
+      format dialog (depending on source media type). Only applies to WDM_CAP,
+      will
+      be ignored for AVI_FILE.</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FAFAFA">loopAVI</td>
+    <td bgcolor="#FAFAFA">Continuously loop through an AVI file (applies only
+      to AVI_FILE).</td>
+  </tr>
+  <tr>
+    <td>noClock</td>
+    <td>Do not use a ReferenceClock to synchronize samples; use this flag
+      for offline post-processing (applies only to AVI_FILE).</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FAFAFA">renderSec</td>
+    <td bgcolor="#FAFAFA"><p>Render secondary streams (applies only to AVI_FILE).
+        An AVI file can contain an arbitrary number of multiplexed A/V substreams,
+        usually there
+        are at most 2 substreams (1st: video, 2nd: audio). The AVI_FILE input
+        module will only try to render stream 0x00 (assuming that it's video)
+        and ignore
+        the remaning substreams. Use this flag to force IGraphBuilder-&gt;Render(IPin*)
+          calls on substreams 1..n, but DO NOT SET this flag if your AVI file
+        contains more than one video stream.<br>
+        <br>
+    </p>
+      </td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#3F3F3F"><strong><font color="#FFFFFF" size="+1">PARAMETRIZED TOKENS</font></strong></td>
+    </tr>
+  <tr>
+    <td>inputDevice=?</td>
+    <td><p>Selects input device type. Supported parameters:</p>
+      <ul>
+        <li>&quot;<strong>WDM_CAP</strong>&quot; (WDM_VIDEO_CAPTURE_FILTER) uses
+          the DirectShow WDM wrapper to obtain live video input from a streaming
+          capture device
+          such as a IEEE 1394 DV
+camera or USB webcam. Use deviceName=?, friendlyName=? and/or ieee1394id=? for
+better
+control
+over the choice of suitable WDM drivers.<br>
+        </li>
+        <li>&quot;<strong>AVI_FILE</strong>&quot; (ASYNC_FILE_INPUT_FILTER) uses
+          an Asynchronous File Input Filter to read &amp; decode AVI video data.
+          NOTE:
+          be sure to specify the input file name by pointing fileName=? to a
+          valid AVI
+          file.</li>
+        </ul>
+      <p>EXAMPLE: &quot;inputDevive=WDM_CAP&quot;, or &quot;inputDevice=AVI_FILE&quot;<br>
+Default setting: &quot;WDM_CAP&quot; will be selected if you omit this token<br>
+              <br>
+          </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FAFAFA">videoWidth=?</td>
+    <td bgcolor="#FAFAFA">Preferred video width, i.e.&quot;videoWidth=720&quot;,<br>
+      only applies to WDM_CAP, will be ignored for AVI_FILE</td>
+  </tr>
+  <tr>
+    <td>videoHeight=?</td>
+    <td> Preferred video height, i.e. &quot;videoHeight=576&quot;,<br>
+      only applies to WDM_CAP, will be ignored for AVI_FILE</td>
+  </tr>
+  <tr bgcolor="#FAFAFA">
+    <td>pixelFormat=?</td>
+    <td bgcolor="#FAFAFA"> <p>Internal pixel format. Supported
+        types are:</p>
+      <ul><li> PIXELFORMAT_UYVY</li>
+        <li>PIXELFORMAT_YUY2</li>
+        <li>PIXELFORMAT_RGB565</li>
+        <li>PIXELFORMAT_RGB555</li>
+        <li>PIXELFORMAT_RGB24</li>
+        <li><strong>PIXELFORMAT_RGB32 </strong>(default)</li>
+        </ul>      
+      <p>PERFORMANCE WARNING: Be sure to match your internal OpenGL
+          texture format to whatever you specify here.</p>
+      <p>EXAMPLE: &quot;pixelFormat=PIXELFORMAT_RGB24&quot;<br>
+          NOTE: if you omit the pixelFormat=? token, the global constant (default_PIXELFORMAT,
+          usually PIXELFORMAT_RGB32) will be selected.</p></td>
+  </tr>
+  <tr>
+    <td>friendlyName=?</td>
+    <td><p>Used to select a preferred WDM device (WARNING: WDM &quot;friendly
+        names&quot; are
+  locale-dependent), i.e. try to match substring &lt;?&gt; with the <em>&quot;friendly
+  names&quot;</em> of enumerated DirectShow WDM wrappers (ksproxy.ax). WILL BE
+  IGNORED IF deviceName=? IS SET.</p>
+      <p>Only applies to WDM_CAP, will be IGNORED if &quot;inputDevice=WDM_CAP&quot; is
+          not set.</p>
+      <p>          EXAMPLE: &quot;friendlyName=Microsoft DV Camera&quot; for
+        IEEE1394 DV devices, &quot;friendlyName=QuickCam&quot; for Logitech QuickCam</p></td>
+  </tr>
+  <tr bgcolor="#FAFAFA">
+    <td>deviceName=?</td>
+    <td bgcolor="#FAFAFA"><p>Used to select preferred WDM device, i.e. try to match substring &lt;?&gt; with
+  the <em>&quot;device names&quot;</em> of enumerated DirectShow WDM wrappers
+  (ksproxy.ax). Only applies to WDM_CAP, will be IGNORED if &quot;inputDevice=WDM_CAP&quot; is
+        not set.</p>
+      <p>Device names look like: &quot;@device:*:{860BB310-5D01-11d0-BD3B-00A0C911CE86}&quot;<br>
+          Use <strong><a href="http://www.ims.tuwien.ac.at/%7Ethomas/files/graphedt.exe">GraphEdit</a></strong> (part
+          of the DirectX SDK, under \DXSDK\bin\DxUtils\graphedt.exe) to figure
+          out your camera's device name. </p>
+      <p>Example for determining a camera's device name using GraphEdit:</p>      <p><img src="stereo_video_graphedt.gif" width="745" height="210"></p>      <p>          NOTE: deviceName=? WILL ALWAYS WILL OVERRIDE friendlyName=?<br>
+          EXAMPLE: &quot;deviceName=1394#unibrain&amp;fire-i_1.2#4510000061431408&quot;<br>
+                </p></td>
+  </tr>
+  <tr>
+    <td>fileName=?</td>
+    <td><p>Specifies the input file name, if it's just a file name (without its
+        full path), the WIN32 API fuction SearchPath() (Winbase.h) will be used
+        to locate the file. Only applies to AVI_FILE, will be IGNORED if &quot;inputDevice=AVI_FILE&quot; is
+        not set.<br>
+        <br>
+        EXAMPLES: &quot;fileName=C:\Some Directory\Another Directory\Video.AVI&quot; or &quot;fileName=video.AVI&quot; (will
+        only succeed if C:\Some Directory\Another Directory\ is: either the application's
+        startup directory, or the current directory
+          listed in the PATH environment variable).</p>
+      </td>
+  </tr>
+  <tr bgcolor="#FAFAFA">
+    <td>ieee1394id=?</td>
+    <td bgcolor="#FAFAFA">only applies to WDM_CAP, will be IGNORED if &quot;inputDevice=WDM_CAP&quot; is
+      not set.<br>
+Selects a device by its <em>unique 64-bit device identifier</em>, as defined by IEEE
+1394.<br>
+Hexadecimal value expected, i.e. &quot;ieee1394id=437d3b0201460008&quot;<br>
+Use the <strong><a href="http://www.ims.tuwien.ac.at/%7Ethomas/files/IEEE1394_id.exe">IEEE
+1394 ID-Tool</a></strong> (/bin/IEEE394_id.exe) to determine your camera's ID.</td>
+  </tr>
+  <tr>
+    <td>deinterlaceState=?</td>
+    <td><p>Optional video deinterlacing. Supported parameters (see VFX_STATE_names[]):</p>
+      <ul>
+        <li>&quot;off&quot; : disable deinterlacing (DEFAULT)</li>
+        <li>&quot;on&quot; : force deinterlacing (even for progressive frames)</li>
+        <li>&quot;auto&quot; : enable deinterlacing only if (VIDEOINFOHEADER.dwInterlaceFlags &amp; AMINTERLACE_IsInterlaced)</li>
+        </ul>
+      <p>WARNING: EXPERIMENTAL FEATURE!<br>
+            </p></td>
+  </tr>
+  <tr bgcolor="#FAFAFA">
+    <td>deinterlaceMethod=?</td>
+    <td><p>Select deinterlacing method. Supported
+          parameters:</p>
+      <ul>
+        <li> &quot;blend&quot; : blend fields (best quality)</li>
+        <li>&quot;duplicate1&quot; : duplicate first field</li>
+        <li>&quot;duplicate2&quot; : duplicate second field</li>
+      </ul>
+      <p>NOTE: omitting this token results in default mode (DEINTERLACE_BLEND)
+                      being used.<br>
+              WARNING: EXPERIMENTAL FEATURE!<br>
+              <br>
+          </p>
+      </td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#3F3F3F"><strong><font color="#FFFFFF" size="+1">EXAMPLES</font></strong></td>
+    </tr>
+  <tr>
+    <td colspan="2"> <p>&quot;&quot; (empty string)<br>&quot;inputDevive=WDM_CAP,showDlg&quot;<br>
+&quot;inputDevive=WDM_CAP,flipH,flipV,showDlg&quot;<br>
+&quot;inputDevive=WDM_CAP,pixelFormat=PIXELFORMAT_RGB24,showDlg&quot;<br>
+&quot;inputDevive=WDM_CAP,showDlg,deinterlaceState=on,deinterlaceMethod=duplicate1&quot;<br>
+&quot;inputDevive=WDM_CAP,videoWidth=640,flipH,videoHeight=480,showDlg,deinterlaceState=auto&quot;<br>
+&quot;inputDevive=WDM_CAP,friendlyName=Microsoft DV Camera,videoWidth=720,videoHeight=480&quot;<br>
+&quot;inputDevive=WDM_CAP,friendlyName=Logitech,videoWidth=320,videoHeight=240,flipV&quot;<br>
+&quot;inputDevive=WDM_CAP,friendlyName=Microsoft DV Camera,ieee1394id=437d3b0201460008&quot;<br>
+&quot;inputDevive=WDM_CAP,deviceName=1394#unibrain&amp;fire-i_1.2#4510000061431408&quot;<br>
+&quot;inputDevive=AVI_FILE,fileName=C:\Some Directory\Another Directory\Video.AVI&quot;<br>
+&quot;inputDevive=AVI_FILE,fileName=Video.AVI,pixelFormat=PIXELFORMAT_RGB24&quot;</p>
+      </td>
+    </tr>
+</table>
+<p>&nbsp;
+        <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

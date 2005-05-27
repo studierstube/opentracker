@@ -1,0 +1,9 @@
+// -*- MPC -*-
+// ciao_deployment_stub.mpb,v 1.7 2004/07/01 22:00:06 jai Exp
+
+project : portableserver,taoidldefaults {
+  after += Deployment_stub
+  libs  += Deployment_stub
+  includes += $(CIAO_ROOT)/DAnCE/ciao $(CIAO_ROOT)/DAnCE
+  idlflags += -I$(CIAO_ROOT)/DAnCE -I$(CIAO_ROOT)/DAnCE/ciao -Sc
+}

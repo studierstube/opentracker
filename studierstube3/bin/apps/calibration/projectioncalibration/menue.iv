@@ -1,0 +1,12 @@
+#Inventor V2.1 ascii
+
+2DMenueKit {
+menueText ["Start Stylus Calibration",
+           "Start Display Calibration",
+           "Start World Coordinate Registration",
+           "Start Prop Calibration",
+	     "",
+           "Exit"]
+menuePosition 0 0
+
+}

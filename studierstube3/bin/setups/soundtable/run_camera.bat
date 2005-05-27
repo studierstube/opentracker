@@ -1,0 +1,2 @@
+opentracker camera.xml
+pause

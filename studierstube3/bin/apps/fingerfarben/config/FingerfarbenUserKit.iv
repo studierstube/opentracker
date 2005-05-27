@@ -1,0 +1,71 @@
+#Inventor V2.1 ascii
+
+UserKit {
+    userID 10
+    pen PenKit{
+       station 2
+       focusPolicy POINT_TO_FOCUS
+
+       geometry Group {
+            SoClassLoader {
+                className   "SoDropItem"
+                fileName    "../apps/fingerfarben/fingerfarben_stb"
+            }
+            SoDropItem {
+                geometry DEF pen_material Material {
+                    diffuseColor 0.7 0 0.2
+                    transparency 0.3
+                }
+            }
+
+            File {name "../apps/fingerfarben/geometry/GlovePoint.iv"}
+       }
+    }
+    pip PipKit{
+      station 1
+      pipSize 0.17 0.14 0.01
+      sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+       offset Transform {translation 0 0 0
+                         rotation 1 0 0 0
+       }
+       geometry File {name "./graphix/DefaultPip.iv"}
+    }
+    display DisplayKit {
+        stereoCameraKit  File { name "../mobile/pyro_firewire_Camera.iv"}
+	cameraControl TrackedDisplayControlMode {}
+        station 0
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType SORTED_OBJECT_BLEND
+	videoBackground TRUE
+        width 800
+        height 600
+        xoffset 0
+        yoffset 0
+    }
+    
+    # this is the left hand geometry
+    auxGeometry Separator {
+    
+# a second pen should work
+    	DEF secondHand PenKit {
+	       station 3
+	
+	       geometry Separator {
+    		   MatrixTransform {
+    				matrix	-1  0  0  0
+    					     0 -1  0  0
+    					     0  0 -1  0
+    					     0  0  0  1
+    			}    			
+    			USE pen_material
+ 			File {name "../apps/fingerfarben/geometry/GlovePoint.iv"}
+    		}
+	}
+	
+    }
+
+}
+

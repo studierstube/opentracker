@@ -1,0 +1,16 @@
+RCS file: /export/cvsroot/Coin-2/src/misc/SoNotification.cpp,v
+retrieving revision 1.1.1.1
+diff -u -r1.1.1.1 SoNotification.cpp
+--- SoNotification.cpp	27 Feb 2003 15:37:32 -0000	1.1.1.1
++++ SoNotification.cpp	9 Sep 2003 20:19:07 -0000
+@@ -83,7 +83,8 @@
+   this->tail = rec;
+   if (!this->head) this->head = rec;
+ 
+-  if (!this->firstnoderec) this->firstnoderec = rec;
++  if (!this->firstnoderec && rec->getBase() &&
+rec->getBase()->isOfType(SoNode::getClassTypeId())) 
++      this->firstnoderec = rec;
+ }
+ 
+ /*!

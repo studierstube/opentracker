@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="clipplane" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../studierstube/tools/april/april-component.xsd">
+    <interface>
+        <field type="SFVec3f" id="position" default="0.0 0.0 0.0"/>
+        <field type="SFRotation" id="orientation" default="1.0 0.0 0.0 0.0"/>
+        <field id="active" type="SFBool" default="TRUE"/>
+        <part id="children"/>
+    </interface>
+    <implementation>
+
+DEF <id/> Separator {
+    DEF <id/>_Plane ClipPlane {
+        on <in id="active"/>
+        plane 1 0 0 0 = ComposeVec4f {
+                    x 1 = DEF <id/>_decompose DecomposeVec3f {
+                            vector 1 0 0 = DEF <id/>_vec TransformVec3f {
+                                vector 1 0 0
+                                matrix 1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1 = DEF <id/>_matrix ComposeMatrix {
+                                    rotation <in id="orientation"/>
+                                }.matrix
+                            }.normalDirection
+                        }.x 
+                    y 0 = USE <id/>_decompose.y
+                    z 0 = USE <id/>_decompose.z
+                    w 0 = DEF <id/>_calc Calculator {
+                            A 0 0 1 = USE <id/>_vec.normalDirection  # normal vector
+                            B <in id="position"/>
+    
+                            expression "oa = A[0]*B[0] + A[1]*B[1] + A[2]*B[2] / sqrt ( A[0]*A[0] + A[1]*A[1] + A[2]*A[2] ) "
+                        }.oa 
+    
+                }.vector
+    }
+    <sub id="children"/>
+}
+
+<out id="position"><id/>calc.B</out>
+<out id="orientation"><id/>_matrix.rotation</out>
+<out id="active"><id/>_Plane.on</out>
+
+</implementation>
+</component>

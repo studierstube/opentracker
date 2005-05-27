@@ -1,0 +1,13 @@
+#Inventor V2.1 ascii
+DEF LASSO_SHEET Separator {
+  DEF LASSO_SENSOR So3DSensor {
+    Translation { translation 0 -0.5 -0.5 }
+    DrawStyle { style INVISIBLE }
+    Cube { width 8 height 1 depth 7 }
+  }
+  DEF LASSO_COORD Coordinate3 {}
+  Material { diffuseColor 1 0 0 }
+  DrawStyle { style LINES lineWidth 2 }
+  DEF LASSO_LINE LineSet {}
+  DEF MARKER_SEP Separator {}
+}

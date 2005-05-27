@@ -1,0 +1,74 @@
+# Makefile for building the gatewayd exe with Borland C++ Make
+
+NAME = gatewayd
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\gatewayd.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\..\..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\..\..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	Gateway$(LIB_DECORATOR).lib \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+!endif
+
+CFLAGS = \
+	-I"..\..\.." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = apps\Gateway\Gateway
+
+#
+# Override defaults in outputdir.bor
+#
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+
+BASE_BINDIR = .
+
+!include <$(ACE_ROOT)\include\makeinclude\build_exe.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Concrete_Connection_Handlers.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Concrete_Connection_Handlers.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Config_Files.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Config_Files.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Connection_Handler.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Connection_Handler.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Connection_Handler_Acceptor.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Connection_Handler_Acceptor.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Connection_Handler_Connector.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Connection_Handler_Connector.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Consumer_Dispatch_Set.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Consumer_Dispatch_Set.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Event.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Event.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Event_Channel.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Event_Channel.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Event_Forwarding_Discriminator.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Event_Forwarding_Discriminator.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y File_Parser.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\File_Parser.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Gateway.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Gateway.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Options.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Options.h 1> NUL

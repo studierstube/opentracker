@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ConsoleConfig display="off"/>
+	</configuration>
+
+    <ConsoleSink comment="panel0" active="on">
+      <StbSink station="1">
+           <EventVirtualTransform translation="0.0 -0.008 0.0" >
+           <EventVirtualTransform translation="0.165601 -0.010010 0.076995" >
+             <EventVirtualTransform  rotation="0 0.707 0 0.707">
+                 <NetworkSource number="2" multicast-address="224.100.200.101" port="12346" DEF="pip0"/>
+             </EventVirtualTransform>
+           </EventVirtualTransform>
+           </EventVirtualTransform>
+	</StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd0" active="on">
+      <StbSink station="2">
+          <NetworkSource number="3" multicast-address="224.100.200.101" port="12346" DEF="hmd0"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="panel1" active="on">
+      <StbSink station="4">
+
+<!--         <EventTransform translation="-0.137 0.008 -0.066">-->
+	<!-- <EventDynamicTransform baseevent="true" >
+                  <StbKeyboardSource number="0" DEF="keyb0"/>
+        <TransformBase> -->
+        <!-- -0.111 -0.008 -0.097 -->
+         <EventTransform translation="0 0 0"> 
+           <EventVirtualTransform translation=" -0.111 -0.008 -0.097">
+           <EventVirtualTransform translation=" 0.128880 -0.040718 0.114731">
+             <EventVirtualTransform  rotation="0 1 0 0">
+                 <NetworkSource number="5" multicast-address="224.100.200.101" port="12346" DEF="pip1"/>
+             </EventVirtualTransform>
+           </EventVirtualTransform>
+           </EventVirtualTransform>
+         </EventTransform> 
+        <!-- </TransformBase>
+      </EventDynamicTransform>
+	-->      
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd1" active="on">
+      <StbSink station="5">
+        <NetworkSource number="6" multicast-address="224.100.200.101" port="12346" DEF="hmd1"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="personalCamera" active="on">
+      <StbSink station="6">
+        <NetworkSource number="7" multicast-address="224.100.200.101" port="12346" DEF="personalCamera"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="panel2" active="on">
+      <StbSink station="8">
+        <EventVirtualTransform translation="0.203825 -0.014916 0.082440">
+          <EventVirtualTransform rotationtype="euler" rotation="0  3.14 0">
+             <NetworkSource number="9" multicast-address="224.100.200.101" port="12346" DEF="pip2"/>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+    
+    <ConsoleSink comment="white_puc" active="on">
+      <StbSink station="9">
+         <EventVirtualTransform translation="-0.002 -0.005 0.05">
+             <NetworkSource number="13" multicast-address="224.100.200.101" port="12346" DEF="puc1"/>
+         </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+
+</OpenTracker>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+    <configuration>
+        <ConsoleConfig headerline="Sample Tracking Input" interval="20"/>
+    </configuration>
+    <StbSink station="0">
+        <ConsoleSink comment="Pen">
+            <StbKeyboardSource number="0"/>
+        </ConsoleSink>
+    </StbSink>
+    <StbSink station="1">
+        <ConsoleSink comment="Pip">
+            <StbKeyboardSource number="1"/>
+        </ConsoleSink>
+    </StbSink>     
+</OpenTracker>

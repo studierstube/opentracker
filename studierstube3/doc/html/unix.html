@@ -1,0 +1,154 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Studierstube Development on Unix</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+<b><h1>Studierstube Development on Unix</h1>
+</FONT><i><h2>Getting Started</h2>
+<ol>
+
+</B></I></FONT><font><li>Check out Studierstube from the cvs server</li>
+<li>Change to the Studierstube base directory $(STBROOT), e. g., $(HOME)/studierstube/ if you checked out from your home directory</li>
+<li>Make sure the link Config.site points to the right OS-dependent config 
+file, i. e., either Config.Irix if you are running Irix, or Config.Linux
+ if you are running Linux.</li>
+<li>Edit the settings in Config.global and Config.[YOUR_UNIX] to reflect your
+ particular development environment. The config file contains instructions
+ what needs to be done.</li>
+<li>Execute &quot;make all&quot; to build the Studierstube software</li></ol>
+
+</FONT><b><i><h2>Creating a new application</h2>
+<ol>
+
+</B></I></FONT><font><li>When you create a new application, you must make sure it will run under both Unix and Win32 OS families. Therefore you need to also to consult the instructions for </FONT><a href="win32.html"><font>Win32</font></a><font>.</li>
+<li>Create a Makefile for Unix in your application’s source directory. Use $(STBROOT)/SAMPLE_MAKEFILE as a template</li>
+<li>Enter your application into the list of application projects in $(STBROOT)/src/apps/Makefile</li>
+<li>Compile, test!</li></ol>
+
+</FONT>
+<br><p>
+<h2>How to get Studierstube
+work under Linux: Compiling Studierstube under Linux</h2>
+<font size=+1>(tested with SUSE 7.1, Kernel 2.4)</font>
+<p>In order to run Studierstube you must compile SGI OpenInventor (OIV)
+first. After having compiled OIV, compiling the studierstube is no major
+issue.
+<br>Before you start compiling OIV you must have Mesa (OpenGL for Linux)
+installed plus all header files. You also need the LessTif header files
+(=Xm header files)
+<p><font size=+2>Inventor:</font>
+<br>Get SGI OpenInventor from <a href="ftp://oss.sgi.com/projects/inventor/download/">
+ftp://oss.sgi.com/projects/inventor/download/</a>
+<br>We used inventor-2.1.5-6.src.tar.gz
+<br>Uncompress it and compile it. It didn't fully compile on our system
+(applications were not compiled) but the libInventor.so was created and
+libInventorSoXt.so was created too. You don't need more. Install the files
+on your system.
+<br>If you want to compile the applications like ivcat, ivview,...... you
+can do this manually. It should work.
+<p><font size=+2>Studierstube:</font>
+<br>Check out the latest Studierstube from the cvs server (check the CVS
+documentation for instructions about how to check out under Linux).
+<br>Edit studierstube/Config.global and studierstube/Config.Linux to make
+sure that you build Studierstube for SGI OpenInventor!
+<br>Make
+<br>If it compiled successfully (it is supposed to do so), run workspace
+and have fun!
+<br>&nbsp;
+<p><font size=+1>Known problems:</font>
+<ul>
+<li>
+We did not compile any font library, therefore Text did not work in our
+examples.</li>
+
+<li>
+We could not use the Gesture Library by Oliver Bimber. It does not compile
+correctly.&nbsp;<br>
+Comment it out (this avoids compilation of IMGR) by removing "#define GRT_IMGR"
+in studierstube/src/stbapi/misc/GRT_defs.h
+<br>There will soon be a compiler option in Config.Irix to avoid conflicts and to avoid
+fiddling around with the GRT_defs.h file!</li>
+</ul>
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

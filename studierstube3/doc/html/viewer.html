@@ -1,0 +1,210 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>specification</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+<h1>&quot;Versatile Viewer Architecture for Studierstube&quot;</h1>
+
+<h2>OVERVIEW</h2>
+
+<p>The new viewer architecture for Studierstube represents a
+flexible and extensible implementation. <br>
+In its new form the viewer architecture separates the display
+mode from the camera control mode. The following modes are
+available in the current implementation:</p>
+
+<h3>Display modes:
+</h3>
+
+<ul>
+    <li>mono (for onscreen display)</li>
+    <li>line interleaved (for iglasses)</li>
+    <li>field interleaved (for glasstron and shutter glasses)</li>
+    <li>dual channel (for onyx + barco doubleprojector with
+        passive polarisation)</li>
+</ul>
+
+<h3>Camera control modes:</h3>
+
+<ul>
+    <li>desktop (no head tracking, camera is moved with the mouse)</li>
+    <li>tracked display (for hmds)</li>
+    <li>tracked viewpoint (for projectionsystems, e.g. virtual
+        table)</li>
+</ul>
+
+<p>Any combination of display mode and camera control mode may be
+used, hence the total number of combinations is 12 (4*3). </p>
+
+<p>Apart from the decoupling of display mode and camera control
+mode the viewer implementation has the following features, to
+give the user a flexible architecture: </p>
+
+<ul>
+    <li>support for X-windows and MS-windows</li>
+    <li>configurable window-size and position</li>
+    <li>support for up to 4 users per workstation (impact channel
+        option!)</li>
+    <li>etc.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3>Possible Hardware for output:</h3>
+
+<h4>Workstations:</h4>
+
+<ul>
+    <li>SGI Indigo2 Maximum Impact with Impact Channel Option (max.
+        4 users)</li>
+    <li>Intergraph TDZ2000 Wildcat</li>
+    <li>SGI O2</li>
+    <li>SGI Octane</li>
+    <li>SGI Onyx with 8 channels</li>
+</ul>
+
+<h4>Display devices:</h4>
+
+<ul>
+    <li>various monitors</li>
+    <li>Virtual-io iglasses HMD</li>
+    <li>Sony glasstron HMD</li>
+    <li>StereoGraphics CrystalEyes shutter glasses</li>
+    <li>Barco BARON Virtual Table (including shutter glasses)</li>
+    <li>barco doubleprojector with passive polarisation </li>
+</ul>
+
+<p>&nbsp;</p>
+
+<h3>Configuration examples:</h3>
+
+<p>The following configurations show some examples of possible
+useful usage of the new viewer architecture:</p>
+
+<h4>mono/desktop:</h4>
+
+<p>output: on screen without stereo, no head tracking (control:
+mouse, keyboard) <br>
+usage: for control purposes and demos for larger groups, &#133;<br>
+supported hardware: indigo2, o2, octane, onyx, intergraph (Windows-NT)</p>
+
+<h4>field interleaved/desktop: </h4>
+
+<p>output: on screen or virtual table with stereo (using shutter
+glasses), no head tracking (control: mouse, keyboard) <br>
+usage: stereo demos for groups, &#133;<br>
+supported hardware: indigo2, octane, o2</p>
+
+<h4>dual channel/desktop</h4>
+
+<p>output: on large projection screens with stereo, no head
+tracking (control: mouse, keyboard) <br>
+usage: stereo demos for groups, &#133;<br>
+supported hardware: onyx</p>
+
+<h4>line interleaved/tracked display</h4>
+
+<p>output: iglasses (stereo), head tracking<br>
+usage: standard-studierstube <br>
+supported hardware: indigo2, o2, intergraph</p>
+
+<h4>field interleaved/tracked display</h4>
+
+<p>output: glasstron (stereo), head tracking<br>
+usage: standard-studierstube <br>
+supported hardware: indigo2, intergraph</p>
+
+<h4>field interleaved/tracked head</h4>
+
+<p>output: on screen or virtual table with stereo (using shutter
+glasses), head tracking <br>
+usage: standard-studierstube <br>
+supported hardware: indigo2, octane, o2</p>
+
+<h4>dual channel/tracked head</h4>
+
+<p>output: on large projection screens with stereo, head tracking<br>
+usage: standard-studierstube <br>
+supported hardware: onyx</p>
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,9 @@
+// -*- MPC -*-
+// avstreams.mpb,v 1.7 2004/01/22 18:23:49 elliott_c Exp
+
+project: property, naming, qos {
+  after     += AV
+  libs      += TAO_AV
+  tagchecks += AV
+}
+

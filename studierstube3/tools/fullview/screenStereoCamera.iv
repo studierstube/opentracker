@@ -1,0 +1,44 @@
+#Inventor V2.1 ascii
+
+
+Switch {
+
+  TransformSeparator {
+
+	Info {
+	  string "this is the camera for the LEFT eye"
+	}
+	SoOffAxisCamera {
+	  fields [ SFEnum viewportMapping, SFVec3f position, SFRotation orientation, SFFloat aspectRatio,
+		  SFFloat nearDistance, SFFloat farDistance, SFFloat focalDistance, SFVec2f size,
+		  SFVec3f eyepointPosition]
+	  viewportMapping LEAVE_ALONE
+	  position 0 0 0 
+	  orientation 0 0 1 0
+	  aspectRatio 1.33333
+	  nearDistance 0.16
+	  farDistance 100
+	  focalDistance 1
+	  size 0.35 0.28
+	  eyepointPosition -0.025 0 0.75
+	} 
+ }
+  TransformSeparator {
+
+	Info {
+	  string "this is the camera for the RIGHT eye"
+	}
+	SoOffAxisCamera {
+	  fields [ SFEnum viewportMapping, SFVec3f position, SFRotation orientation, SFFloat aspectRatio,
+		  SFFloat nearDistance, SFFloat farDistance, SFFloat focalDistance, SFVec2f size,
+		  SFVec3f eyepointPosition ]
+	  viewportMapping LEAVE_ALONE
+	  position 0 0 0 
+	  orientation 0 0 1 0
+	  aspectRatio 1.33333
+	  nearDistance 0.16
+	  farDistance 100
+	  focalDistance 1
+	  size 0.35 0.28
+	  eyepointPosition 0.025 0 0.75
+	}  }}

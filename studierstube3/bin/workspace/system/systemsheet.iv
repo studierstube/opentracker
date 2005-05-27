@@ -1,0 +1,98 @@
+#Inventor V2.1 ascii
+SoPipSheetKit {
+    sheets Switch {
+	    Separator {
+
+            RotationXYZ {axis  X angle 1.57 }
+            DEF OPEN_BUTTON So3DButton { 
+            width 5 depth 5 height 2 
+            buttonColor 1 0 0
+            textureSwitch Switch {
+                whichChild 0 = USE OPEN_BUTTON . pressed
+                Group {
+                  Translation { translation 0 1 0 }
+                  Texture2 { filename "./graphix/open.jpg" }
+                  Cube { width 4 depth 4 height 1 }                  
+                }
+                Group {
+                  Texture2 { filename "./graphix/open.jpg" }
+                  Cube { width 4 depth 4 height 1 }
+                }
+            }
+            
+            }
+            Translation { translation 6 0 0 }
+            DEF SAVE_BUTTON So3DButton { 
+            width 5 depth 5 height 2 
+            buttonColor 1 0 0
+            textureSwitch Switch {
+                whichChild 0 = USE SAVE_BUTTON . pressed
+                Group {
+                  Translation { translation 0 1 0 }
+                  Texture2 { filename "./graphix/save.jpg" }
+                  Cube { width 4 depth 4 height 1 }                  
+                }
+                Group {
+                  Texture2 { filename "./graphix/save.jpg" }
+                  Cube { width 4 depth 4 height 1 }
+                }
+            }
+            
+            }
+            Translation { translation 6 0 0 }
+            DEF SAVEAS_BUTTON So3DButton { 
+            width 5 depth 5 height 2 
+            buttonColor 1 0 0
+            textureSwitch Switch {
+                whichChild 0 = USE SAVEAS_BUTTON . pressed
+                Group {
+                  Translation { translation 0 1 0 }
+                  Texture2 { filename "./graphix/saveas.jpg" }
+                  Cube { width 4 depth 4 height 1 }                  
+                }
+                Group {
+                  Texture2 { filename "./graphix/saveas.jpg" }
+                  Cube { width 4 depth 4 height 1 }
+                }
+            }
+            
+            }
+            Translation { translation 6 0 0 }
+            DEF SAVEALL_BUTTON So3DButton { 
+            width 5 depth 5 height 2 
+            buttonColor 1 0 0
+            textureSwitch Switch {
+                whichChild 0 = USE SAVEALL_BUTTON . pressed
+                Group {
+                  Translation { translation 0 1 0 }
+                  Texture2 { filename "./graphix/saveall.jpg" }
+                  Cube { width 4 depth 4 height 1 }                  
+                }
+                Group {
+                  Texture2 { filename "./graphix/saveall.jpg" }
+                  Cube { width 4 depth 4 height 1 }
+                }
+            }
+            
+            }
+            Translation { translation 0 0 6 }
+            DEF SHUTDOWN_BUTTON So3DButton { 
+            width 5 depth 5 height 2 
+            buttonColor 0 0 1
+            textureSwitch Switch {
+                whichChild 0 = USE SHUTDOWN_BUTTON . pressed
+                Group {
+                  Translation { translation 0 1 0 }
+                  Texture2 { filename "./graphix/stop.jpg" }
+                  Cube { width 4 depth 4 height 1 }                  
+                }
+                Group {
+                  Texture2 { filename "./graphix/stop.jpg" }
+                  Cube { width 4 depth 4 height 1 }
+                }
+            }
+            
+            }            
+        }
+    }
+}

@@ -1,0 +1,128 @@
+#-----------------------------------------------------------------------------
+#
+# Flock of Birds initialization file for single and multiple serial interfaces
+#
+# Recognized commands:
+#
+# [common]
+#
+#   tracker=n 0<n<15
+#   parallel[1|..|8]_devname=(Name of the parallel port connected with buttons)
+#   baseport[1|..|8]=(Port associated with the parallel_devname, e.g. 0x378)
+#
+# [station n]
+#
+#   hemisphere=Forward(default)|Aft|Upper|Lower|Left|Right
+#   position_scaling=36(default)|72
+#   xyz_reference_frame=on|off(default)
+#   format=Position_Quaternion(default)|Position_Angles|Position_Matrix
+#   init=(byte sequence to be sent)
+#   button[1|..|8]=None(default)|(S(station number);(bitnumber)i(inverse))
+#   scale_x,scale_y,scale_z(default=1.0)
+#   	(Scaling factor referring to world_[x|y|z], not to track_[x|y|z])
+#   rf_azimuth,rf_elevation,rf_roll(default=0.0)
+#   	(Angle in degrees, ranging -180 to 180 degree for azimuth and roll
+#   	 and -90 to 90 for elevation)
+#   position_filter=Box_Filter|Aniso_Filter
+#   position_filter_param=40(default)
+#   orientation_filter=Box_Filter|Kalman_Filter
+#   orientation_filter_param=40(default)
+#   serial_devname=(Name of the serial port connected to the Bird)
+#   stationname=(Name that will be assigned to that station)
+#   servername=(Name that will be assigned to the trackerserver)
+#
+# [geometry]
+#
+#   world_[x|y|z]=track_[x|y|z]
+#   world_q[x|y|z]=track_q[x|y|z]
+#   reverse_q[x|y|z]=on|off(default)
+#
+#-----------------------------------------------------------------------------
+
+[common]
+tracker=6
+servername=Ascension FOB on tracksuck
+#Hemisphere options: Forward, Aft, Upper, Lower, Left, Right
+hemisphere=Right
+position_scaling=72
+xyz_reference_frame=on
+scale_x=-1.0
+scale_y=1.0
+scale_z=-1.0
+format=Position_Quaternion
+#Azimuth, Elevation and Roll of the Reference Frame
+rf_azimuth=-90.0
+rf_elevation=0.0
+rf_roll=-90.0
+
+# filter: 7 ... all OFF
+#         6 ... only DC ON
+#         2 ... DC & narrow ON
+#         4 ... DC & wide ON
+#
+# P(change value)\0x04(filter status)\filter(LSB)\0x00(MSB)
+#
+# Set filter to DC & narrow ON
+init=P\0x04\0x02\0x00
+
+parallel1_devname=/dev/port
+baseport1=0x378
+
+
+[station 1]
+# crt sync \0x00 off   \0x01 50-72Hz   \0x02 72-144Hz
+init=A\0x00
+serial_devname=/dev/cua0
+stationname=PIP1
+
+[station 2]
+serial_devname=/dev/cua1
+stationname=HMDA
+#position_filter=Aniso_Filter
+#position_filter_param=10
+#orientation_filter=Kalman_Filter
+
+[station 3]
+serial_devname=/dev/cua2
+button1=P1;1
+button2=P1;2
+stationname=PEN2
+
+[station 4]
+serial_devname=/dev/cua3
+stationname=PIP2
+
+[station 5]
+serial_devname=/dev/cua4
+stationname=HMDB
+#position_filter=Aniso_Filter
+#position_filter_param=10
+#orientation_filter=Kalman_Filter
+
+[station 6]
+button1=S6;6
+button2=S6;5
+serial_devname=/dev/cua5
+stationname=PEN1
+#position_filter=Box_Filter
+#position_filter_param=10
+
+
+[geometry]
+#
+#
+# position
+#
+world_x=track_z
+world_y=track_x
+world_z=track_y
+
+#
+# quaternion
+#
+world_qx=track_qx
+world_qy=track_qz
+world_qz=track_qy
+reverse_qx=on
+reverse_qy=on
+reverse_qz=on

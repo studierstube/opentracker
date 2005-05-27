@@ -1,0 +1,1685 @@
+#Inventor V2.1 ascii
+
+# coordinate system of PIP looks like this
+# positive x axis points from upper left to upper right corner
+# positive y axis points out/ is normal to PIP
+# positive z axis points from upper left to lower left corner
+
+DEF SheetKit PipSheetKit {
+	pipParts (PIP_BODY|SHEET|SHEET_TABS|SYSTEM_TABS)
+	autoScaling FALSE
+	sheets DEF AllSwitch Switch {
+    	DEF MainSeparator Separator {
+        	# new PIPsheet requires new rotation
+        	RotationXYZ {axis  X angle 1.57 }
+    		# enough space to avoid collision of button geometry with PIP
+	    	# but can still be clicked by pressing pen on board
+	    	#Translation { translation 0 0.0001 0 } 
+        	Translation { translation 0 0.0101 0 } 
+
+        	DEF MainSheet Separator {
+    			Translation { translation 0.13 0 -0.05 } 
+    			DEF Point So3DCheckBox { 
+    				width 0.05 depth 0.03 height 0.01 
+    				buttonColor 0 0.6 1 = ComposeVec3f {
+		    			x	0 = USE Point.pressed
+		    			y	0.6
+		    			z	1
+					}.vector
+#      highlightColor 1 0 0
+#      dragColor 0 0 1
+				    textureSwitch Switch { 
+        				whichChild 0 = USE Point . pressed 
+        				Group {
+        					DEF Point_ICON Group {
+#            					DEF GENERIC_FIGURE Group {
+           						Texture2 { filename	"point.gif"}
+           						FaceSet {
+		    						vertexProperty VertexProperty {
+										vertex	[ -0.025  0.0051 0.015,
+											0.025 0.0051 0.015 ,
+											0.025 0.0051 -0.015,
+											-0.025 0.0051 -0.015 ]
+										normal	0 1 0
+										texCoord	[ 0 0,
+													1 0,
+													1 1,
+													0 1 ]
+										normalBinding	OVERALL
+										}
+									numVertices 4
+									}
+	                			}
+#       		    			}
+            				}
+	        				Group{
+    	        				Translation { translation	0 -0.005 0	}
+        	    				USE Point_ICON # if pressed
+            				}
+        				}
+						textSwitch Switch {
+		    				whichChild	0 =	USE Point . pressed
+		    				Separator {
+    							DEF p1 Material {
+	    		    				diffuseColor	0.35 0.3 0.8
+		    					}
+				    			Translation {
+				        			translation	0 0.024 0
+    							}
+    							DEF p2 Cube {
+    				    			width 0.009
+	    		    				height 0.009
+    			    				depth 0.009
+    							}
+	    	    		}
+    		    		Separator {
+	    					USE p1
+    						Translation {translation	0 0.02 0}
+    						USE p2
+		    			}
+					}
+			    
+				}
+
+				DEF leftTrans Translation { translation -0.06 0 0 }
+
+				DEF Line So3DButton	#green
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.1 0.7 0.2
+					nodeId "Line"
+
+					textureSwitch Switch {
+		    			whichChild	0 = USE Line . pressed
+
+						DEF LineTexture Group {
+							Texture2 {
+				    			filename	"line.gif"
+							}
+							FaceSet {
+			    				vertexProperty VertexProperty {
+									vertex	[ -0.025 0.0051 0.015,
+											  0.025 0.0051 0.015,
+											  0.025 0.0051 -0.015,
+											-0.025 0.0051 -0.015 ]
+									normal	0 1 0
+									texCoord	[ 0 0,
+												  1 0,
+												  1 1,
+												  0 1 ]
+									normalBinding	OVERALL
+								}
+								numVertices 4
+							}
+	    				}
+		    			Group {
+							Translation {
+			    				translation	0 -0.005 0
+								}
+							USE LineTexture
+		    			}
+					}
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Line . pressed
+
+		    			Separator {
+							DEF l1 Material {
+			    				diffuseColor	0.35 0.3 0.8
+							}
+							Translation {
+			    				translation	0 0.024 0
+							}
+            				DEF l2 Separator {
+                				DrawStyle{lineWidth 2}
+	
+                				Coordinate3 {point	[ -0.02 -0.005 0.007,
+			                				0.0218 0.00128 -0.0178 ]
+                	        				}
+            					LineSet {
+	                				startIndex	0
+					                numVertices	2
+	            		        }
+            				}
+						}
+		    			Separator {
+							USE l1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE l2
+		    			}
+					}
+
+				}
+
+				USE leftTrans
+
+				DEF Plane So3DButton	#green
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.1 0.7 0.2
+					nodeId "Plane"
+
+					textureSwitch Switch {
+		    			whichChild	0 = USE Plane . pressed
+
+						DEF PlaneTexture Group {
+							Texture2 {
+				    			filename	"plane.gif"
+							}
+							FaceSet {
+			    				vertexProperty VertexProperty {
+									vertex	[ -0.025 0.0051 0.015,
+											0.025 0.0051 0.015,
+											0.025 0.0051 -0.015,
+											-0.025 0.0051 -0.015 ]
+									normal	0 1 0
+									texCoord	[ 0 0,
+												1 0,
+												1 1,
+											  0 1 ]
+									normalBinding	OVERALL
+								}
+								numVertices 4
+							}
+	    				}
+		    			Group {
+							Translation {
+			    				translation	0 -0.005 0
+							}
+							USE PlaneTexture
+		    			}
+					}
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Plane . pressed
+
+		    			Separator {
+							DEF pl1 Material {
+			    				diffuseColor	0.35 0.3 0.8
+							}
+							Translation {
+			    				translation	0 0.024 0
+							}
+							DEF pl2 Separator {
+								Coordinate3 {
+									point [ -0.02 -0.0052 0.0,
+											0.02 0.0102 0.0,
+											-0.02 0.009 -0.02]
+								}
+								FaceSet {
+									numVertices 3
+								}
+		    				}
+						}
+		    			Separator {
+							USE pl1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE pl2
+		    			}
+					}
+
+				}
+
+				Translation { translation 0.12 0 0.05 }
+
+				DEF Box So3DButton	#blue
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.3 0.1 0.8
+					nodeId "Box"
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Box . pressed
+
+		    			Separator {
+							DEF m1 Material {
+			    				diffuseColor	0.35 0.3 0.8
+#			    transparency 0.2
+							}
+							Translation {
+			    				translation	0 0.024 0
+							}
+							DEF b1 Cube {
+			    				width 0.024
+			    				height 0.024
+                				depth 0.024
+							}
+		    			}
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE b1
+		    			}
+					}
+				}
+
+				USE leftTrans
+				
+#				DEF RESET_BUTTON SoPushButton
+#					{
+#					onGeometry Separator{
+#						Material{diffuseColor 1 0 0}
+#					   	Cube{width 0.05 depth 0.03 height 0.01}
+#                        }
+#                    offGeometry Separator{
+#						Material{diffuseColor 0 1 0}
+#					   	Cube{width 0.05 depth 0.03 height 0.01}
+#                        }
+#					highlightedOnGeometry Separator{
+#						Material{diffuseColor 0 0 1}
+#					   	Cube{width 0.05 depth 0.03 height 0.01}
+#                        }
+#					}
+#				USE leftTrans
+
+				DEF Sphere So3DButton	#blue
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.3 0.1 0.8
+					nodeId "Sphere"
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Sphere . pressed
+
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.024 0
+							}
+							DEF s1 Sphere {
+			    				radius 0.014
+							}
+		    			}
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE s1
+		    			}
+					}
+				}
+
+				USE leftTrans
+				DEF Cylinder So3DButton	#blue
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.3 0.1 0.8
+					nodeId "Cylinder"
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Cylinder . pressed
+
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.024 0
+							}
+							DEF c1 Cylinder {
+							    radius 0.014
+			    				height 0.024
+							}
+		    			}
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE c1
+		    			}
+					}
+				}
+
+				USE leftTrans
+				DEF Cone So3DButton	#blue
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.3 0.1 0.8
+					nodeId "Cone"
+
+					textSwitch Switch {
+		    			whichChild	0 =	USE Cone . pressed
+
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.024 0
+							}
+							DEF co1 Cone {
+							    bottomRadius 0.014
+			    				height 0.024
+							}
+		    			}
+		    			Separator {
+							USE m1
+							Translation {
+			    				translation	0 0.02 0
+							}
+							USE co1
+		    			}
+					}
+				}
+
+				Translation { translation 0.18 0 0.06 }
+				DEF Del So3DButton	#white
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.8 0.1 0.2
+					nodeId "Del"
+
+					textureSwitch Switch {
+		    			whichChild	0 = USE Del . pressed
+
+						DEF DelTexture Group {
+							Texture2 {
+				    			filename	"del.gif"
+							}
+							FaceSet {
+			    				vertexProperty VertexProperty {
+									vertex	[ -0.025 0.0051 0.015,
+											0.025 0.0051 0.015,
+											0.025 0.0051 -0.015,
+											-0.025 0.0051 -0.015 ]
+									normal	0 1 0
+									texCoord	[ 0 0,
+												1 0,
+												1 1,
+												0 1 ]
+									normalBinding	OVERALL
+								}
+								numVertices 4
+							}
+	    				}
+		    			Group {
+							Translation {
+			    				translation	0 -0.005 0
+							}
+							USE DelTexture
+		    			}
+					}
+	
+				}
+
+				USE leftTrans
+				DEF Desall So3DButton	#white
+				{
+					width 0.05
+					height 0.01
+					depth 0.03
+#		buttonColor 0.8 0.1 0.2
+					nodeId "Desall"
+
+					textureSwitch Switch {
+		    			whichChild	0 = USE Desall . pressed
+
+						DEF DesallTexture Group {
+							Texture2 {
+				    			filename	"desall.gif"
+							}
+							FaceSet {
+			    				vertexProperty VertexProperty {
+									vertex	[ -0.025 0.0051 0.015,
+											0.025 0.0051 0.015,
+											0.025 0.0051 -0.015,
+										  -0.025 0.0051 -0.015 ]
+									normal	0 1 0
+									texCoord	[ 0 0,
+												1 0,
+												1 1,
+												0 1 ]
+									normalBinding	OVERALL
+								}
+								numVertices 4
+							}
+	    				}
+		    			Group {
+							Translation {
+			    				translation	0 -0.005 0
+							}
+							USE DesallTexture
+		    			}
+					}
+				}
+
+
+	USE leftTrans
+	DEF Undo So3DButton	#white
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+#		buttonColor 0.8 0.1 0.2
+		nodeId "Undo"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE Undo.pressed
+
+			DEF UndoTexture Group {
+				Texture2 {
+				    filename	"undo.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE UndoTexture
+		    }
+		}
+	}
+
+    USE leftTrans
+#	Translation { translation -0.04 0 0 }
+
+	DEF Save So3DButton	#white
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+#		buttonColor 0.8 0.1 0.2
+		nodeId "Save"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE Save . pressed
+
+			DEF SaveTexture Group {
+				Texture2 {
+				    filename	"save.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE SaveTexture
+		    }
+		}
+	}
+
+    USE leftTrans
+
+	DEF Load So3DButton	
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "Load"
+		textureSwitch Switch {
+		    whichChild	0 = USE Load . pressed
+
+			DEF LoadTexture Group {
+				Texture2 {
+				    filename	"load.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE LoadTexture
+		    }
+		}
+	}
+
+#	Translation { translation -0.042 0 0.04 }
+	Translation { translation -0.035 0 0.04 }
+
+	DEF VisibleLayersTexture Group {
+				Texture2 {
+				    filename	"visiblelayers.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.02 -0.004 0.01,
+					  0.02 -0.004 0.01,
+					  0.02 -0.004 -0.01,
+					  -0.02 -0.004 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	}
+
+	DEF LayerTextureButtonTrans Translation { translation 0.035 0 0 }
+
+	DEF Layer1 So3DCheckBox
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer1"
+		buttonColor 0 1 0
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer1 . pressed
+
+			DEF Layer1Texture Group {
+				Texture2 {
+				    filename	"layer1.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer1Texture
+		    }
+		}
+	}
+
+	DEF LayerButtonTrans Translation { translation 0.03 0 0 }
+
+	DEF Layer2 So3DCheckBox
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer2"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer2 . pressed
+
+			DEF Layer2Texture Group {
+				Texture2 {
+				    filename	"layer2.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer2Texture
+		    }
+		}
+	}
+
+	USE LayerButtonTrans
+
+	DEF Layer3 So3DCheckBox
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer3"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer3 . pressed
+
+			DEF Layer3Texture Group {
+				Texture2 {
+				    filename	"layer3.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer3Texture
+		    }
+		}
+	}
+
+	USE LayerButtonTrans
+
+	DEF Layer4 So3DCheckBox
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer4"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer4 . pressed
+
+			DEF Layer4Texture Group {
+				Texture2 {
+				    filename	"layer4.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer4Texture
+		    }
+		}
+	}
+
+	DEF LayerActiveTrans Translation { translation 0.05 0 0 }
+
+	DEF ActiveLayersTexture Group {
+				Texture2 {
+				    filename	"activelayer.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.02 -0.004 0.01,
+					  0.02 -0.004 0.01,
+					  0.02 -0.004 -0.01,
+					  -0.02 -0.004 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	}
+	
+	USE LayerTextureButtonTrans
+
+	DEF Layer1Active So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer1Active"
+		separatorName "ActiveLayers"
+#		buttonColor 0 1 0
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer1Active . pressed
+
+			DEF Layer1ActiveTexture Group {
+				Texture2 {
+				    filename	"layer1.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer1ActiveTexture
+		    }
+		}
+	}
+
+	USE LayerButtonTrans
+
+	DEF Layer2Active So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer2Active"
+		separatorName "ActiveLayers"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer2Active . pressed
+
+			DEF Layer2ActiveTexture Group {
+				Texture2 {
+				    filename	"layer2.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer2ActiveTexture
+		    }
+		}
+	}
+
+	USE LayerButtonTrans
+
+	DEF Layer3Active So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer3Active"
+		separatorName "ActiveLayers"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer3Active . pressed
+
+			DEF Layer3ActiveTexture Group {
+				Texture2 {
+				    filename	"layer3.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer3ActiveTexture
+		    }
+		}
+	}
+
+	USE LayerButtonTrans
+
+	DEF Layer4Active So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "Layer4Active"
+		separatorName "ActiveLayers"
+		textureSwitch Switch {
+		    whichChild	0 = USE Layer4Active . pressed
+
+			DEF Layer4ActiveTexture Group {
+				Texture2 {
+				    filename	"layer4.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE Layer4ActiveTexture
+		    }
+		}
+	}
+
+
+}
+    }
+    DEF ConstructSeparator Separator {
+        RotationXYZ {axis  X angle 1.57 }
+	    Translation { translation 0 0.0101 0 } 
+        DEF ConstructSheet Separator {
+    Translation { translation 0.13 0 -0.05 } 
+	DEF Intersect So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "Intersect"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE Intersect . pressed
+
+			DEF IntersectTexture Group {
+				Texture2 {
+				    filename	"intersect.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE IntersectTexture
+		    }
+		}
+	}
+	
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF NormalLine So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "NormalLine"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE NormalLine . pressed
+
+			DEF NormalLineTexture Group {
+				Texture2 {
+				    filename	"planenormal.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE NormalLineTexture
+		    }
+		}
+	}
+ 
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF NormalPlane So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "NormalPlane"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE NormalPlane . pressed
+
+			DEF NormalPlaneTexture Group {
+				Texture2 {
+				    filename	"normalplane.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE NormalPlaneTexture
+		    }
+		}
+	}
+
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF SymmetryPlane So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "SymmetryPlane"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE SymmetryPlane . pressed
+
+			DEF SymmetryPlaneTexture Group {
+				Texture2 {
+				    filename	"symmplane.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE SymmetryPlaneTexture
+		    }
+		}
+	}
+
+	Translation { translation 0.18 0 0.05 }
+
+	DEF BoolDiff So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "BoolDiff"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE BoolDiff . pressed
+
+			DEF BoolDiffTexture Group {
+				Texture2 {
+				    filename	"booldiff.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE BoolDiffTexture
+		    }
+		}
+	}
+
+	USE leftTrans
+
+	DEF BoolIntersect So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "BoolIntersect"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE BoolIntersect . pressed
+
+			DEF BoolIntersectTexture Group {
+				Texture2 {
+				    filename	"boolintersect.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE BoolIntersectTexture
+		    }
+		}
+	}
+
+	USE leftTrans
+
+	DEF BoolUnion So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "BoolUnion"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE BoolUnion . pressed
+
+			DEF BoolUnionTexture Group {
+				Texture2 {
+				    filename	"boolunion.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE BoolUnionTexture
+		    }
+		}
+	}
+    
+    Translation { translation -0.155 0 0.1 }
+    
+    USE VisibleLayersTexture
+    USE LayerTextureButtonTrans
+    USE Layer1
+    USE LayerButtonTrans
+    USE Layer2
+    USE LayerButtonTrans
+    USE Layer3
+    USE LayerButtonTrans
+    USE Layer4
+    USE LayerActiveTrans 
+    USE ActiveLayersTexture
+    USE LayerTextureButtonTrans
+    USE Layer1Active
+    USE LayerButtonTrans
+    USE Layer2Active
+    USE LayerButtonTrans
+    USE Layer3Active
+    USE LayerButtonTrans
+    USE Layer4Active
+}
+    }
+    Separator {
+        RotationXYZ {axis  X angle 1.57 }
+	    Translation { translation 0 0.0101 0 } 
+        DEF MeasureSheet Separator {
+    Translation { translation 0.13 0 -0.05 } 
+	DEF PPDistance So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "PPDistance"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE PPDistance . pressed
+
+			DEF PPDistanceTexture Group {
+				Texture2 {
+				    filename	"p_pdistance.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE PPDistanceTexture
+		    }
+		}
+	}
+    Translation { translation -0.275 0 0.15 }
+    
+    USE VisibleLayersTexture
+    USE LayerTextureButtonTrans
+    USE Layer1
+    USE LayerButtonTrans
+    USE Layer2
+    USE LayerButtonTrans
+    USE Layer3
+    USE LayerButtonTrans
+    USE Layer4
+    USE LayerActiveTrans 
+    USE ActiveLayersTexture
+    USE LayerTextureButtonTrans
+    USE Layer1Active
+    USE LayerButtonTrans
+    USE Layer2Active
+    USE LayerButtonTrans
+    USE Layer3Active
+    USE LayerButtonTrans
+    USE Layer4Active
+}
+    }
+    Separator {
+        RotationXYZ {axis  X angle 1.57 }
+	    Translation { translation 0 0.0101 0 } 
+        DEF PropertySheet Separator {
+
+    Translation { translation 0.07 0.005 -0.04 } 
+	DEF TransparencySlider So3DSlider {
+                            bodyColor 1 1 1
+                            startPoint      0 0 0
+                            endPoint        0 50 0
+                            position        0
+                            currentValue    0
+                            radius      0.03
+                            width       0.15
+                            increment       1
+                 callback ALWAYS
+                        }
+    
+	Translation { translation -0.05 0 0.05 } 
+    
+	DEF PropLayer1 So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "PropLayer1"
+		separatorName "LayerProperties"
+		textureSwitch Switch {
+		    whichChild	0 = USE PropLayer1 . pressed
+
+			DEF PropLayer1Texture Group {
+				Texture2 {
+				    filename	"layer1.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE PropLayer1Texture
+		    }
+		}
+	}
+
+	Translation { translation 0.03 0 0 }
+
+	DEF PropLayer2 So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "PropLayer2"
+		separatorName "LayerProperties"
+		textureSwitch Switch {
+		    whichChild	0 = USE PropLayer2 . pressed
+
+			DEF PropLayer2Texture Group {
+				Texture2 {
+				    filename	"layer2.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE PropLayer2Texture
+		    }
+		}
+	}
+
+	Translation { translation 0.03 0 0 }
+
+	DEF PropLayer3 So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "PropLayer3"
+		separatorName "LayerProperties"
+		textureSwitch Switch {
+		    whichChild	0 = USE PropLayer3 . pressed
+
+			DEF PropLayer3Texture Group {
+				Texture2 {
+				    filename	"layer3.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE PropLayer3Texture
+		    }
+		}
+	}
+
+	Translation { translation 0.03 0 0 }
+
+	DEF PropLayer4 So3DRadioButton
+	{
+		width 0.02
+		height 0.01
+		depth 0.02
+		nodeId "PropLayer4"
+		separatorName "LayerProperties"
+		textureSwitch Switch {
+		    whichChild	0 = USE PropLayer4 . pressed
+
+			DEF PropLayer4Texture Group {
+				Texture2 {
+				    filename	"layer4.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.01 0.0051 0.01,
+					  0.01 0.0051 0.01,
+					  0.01 0.0051 -0.01,
+					  -0.01 0.0051 -0.01 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE PropLayer4Texture
+		    }
+		}
+	}
+
+}
+    }
+    Separator {
+        RotationXYZ {axis  X angle 1.57 }
+	    Translation { translation 0 0.0101 0 } 
+        DEF SystemSheet Separator {
+    Translation { translation 0.13 0 -0.05 } 
+	DEF New So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "New"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE New . pressed
+
+			DEF NewTexture Group {
+				Texture2 {
+				    filename	"start.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE NewTexture
+		    }
+		}
+	}
+
+    USE leftTrans
+
+	DEF GridOn So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "GridOn"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE GridOn . pressed
+
+			DEF GridOnTexture Group {
+				Texture2 {
+				    filename	"gridon.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE GridOnTexture
+		    }
+		}
+	}
+
+    USE leftTrans
+
+	DEF GridOff So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "GridOff"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE GridOff . pressed
+
+			DEF GridOffTexture Group {
+				Texture2 {
+				    filename	"gridoff.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE GridOffTexture
+		    }
+		}
+	}
+#
+#  slider section
+#
+    SoSeparator {
+      SoRotation {
+        rotation 0 1 0 1.57079633
+      }
+      Translation {
+            translation     -0.06 0.005 -0.13
+        }
+        DEF GridSlider So3DSlider {
+                            bodyColor 1 1 1
+                            startPoint      0 0 0
+                            endPoint        0 50 0
+                            position        0
+                            currentValue    0
+                            radius      0.03
+                            width       0.15
+                            increment       1
+                 callback ON_RELEASE
+                        }
+    }
+
+}
+    }
+}
+tabTextures [Texture2 { filename	"mainmenu.gif"},
+             Texture2 { filename	"constructmenu.gif"},
+             Texture2 { filename	"measuremenu.gif"},
+             Texture2 { filename	"propmenu.gif"},
+             Texture2 { filename	"systemmenu.gif"}
+            ]
+}

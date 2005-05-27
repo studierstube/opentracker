@@ -1,0 +1,5 @@
+raw2fsp -f data/p1.tmp \
+  -nx 13 -ny 8 -nz 12 \
+  -sx 0.147 -sy 0.147 -sz 0.147 \
+  -ox -0.926 -oy -0.735 -oz 0.125
+

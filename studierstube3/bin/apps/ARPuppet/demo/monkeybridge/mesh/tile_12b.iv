@@ -1,0 +1,11 @@
+#Inventor V2.1 ascii
+
+Transform { translation 0.015279408 0 0 }
+Separator {                            
+    Transform { translation 0.012 0 0 scaleFactor 0.45 1 1 }
+    SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_22.iv"}
+}
+Separator {                            
+    Transform { translation -0.035 0 0 scaleFactor 0.6 1 1 }
+    SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12a.iv"}
+}

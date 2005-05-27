@@ -1,0 +1,61 @@
+# Makefile for building the Howto_Syslog exe with Borland C++ Make
+
+NAME = Howto_Syslog
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\Howto_Syslog.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\..\..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\..\..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+!endif
+
+CFLAGS = \
+	-I"..\..\.." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = examples\APG\Logging
+
+#
+# Override defaults in outputdir.bor
+#
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+
+BASE_BINDIR = .
+
+!include <$(ACE_ROOT)\include\makeinclude\build_exe.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Callback-2.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Callback-2.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Callback-3.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Callback-3.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Callback.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Callback.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y LogManager.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\LogManager.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Log_Msg_Alt.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Log_Msg_Alt.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Trace.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Trace.h 1> NUL

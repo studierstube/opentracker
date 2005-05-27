@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig display="off"/>
+    <StbInputConfig mouseevents="on" keyevents="on"/>
+  </configuration>
+  <!--
+  <StbSink station="2">
+    <ConsoleSink comment="2">
+      <StbKeyboardSource number="2"/>
+    </ConsoleSink>
+  </StbSink>
+  -->
+  <StbSink station="3" event="on">
+    <ConsoleSink comment="3" active="on">
+      <StbMouseSource/>
+    </ConsoleSink>
+  </StbSink>
+  <StbSink station="4">
+    <ConsoleSink comment="4" active="off">
+      <StbSource node="CAMERA" position="position" orientation="orientation"/>
+    </ConsoleSink>
+  </StbSink>
+  <!-- Transmits emulated GPS data on the network -->
+  <NetworkSink name="gps" number="1" multicast-address="224.100.200.101" port="2000" interface="127.0.0.1">
+    <StbSource node="ICON_TRANS" position="translation"/>
+  </NetworkSink>
+  <!-- Transmits emulated orientation data on the network -->
+  <NetworkSink name="rot" number="2" multicast-address="224.100.200.101" port="2000" interface="127.0.0.1">
+    <StbSource node="ICON_ROT" orientation="rotation"/>
+  </NetworkSink>
+</OpenTracker>

@@ -1,0 +1,76 @@
+#Inventor V2.1 ascii
+
+DEF Viewer SoApplicationKit {
+  classLoader SoClassLoader {
+    className   "SoViewerAppKit"
+      fileName  "../apps/viewer/viewer_stb"
+  }
+
+  contextKit SoViewerAppKit {
+    toAuxGeom Group {
+      DEF APPCONTROL1 SoAppControl {
+        stations 10
+        timeOut 5
+
+        locale "locale3"
+        application "app1"
+        becomeMaster TRUE
+        shouldStop SLAVE
+        min 1 -1 -1
+        max 3 1 1
+      }
+      DEF APPCONTROL2 SoAppControl {
+        stations 11
+        timeOut 5
+
+        locale "locale3"
+        application "app2"
+        becomeMaster TRUE
+        shouldStop SLAVE
+        min 1 -1 -1
+        max 3 1 1
+      }
+      DEF APPCONTROL3 SoAppControl {
+        stations 12
+        timeOut 5
+
+        locale "locale3"
+        application "app3"
+        becomeMaster TRUE
+        shouldStop SLAVE
+        min 1 -1 -1
+        max 3 1 1
+      }
+      DEF APPCONTROL4 SoAppControl {
+        stations 13
+        timeOut 5
+
+        locale "locale3"
+        application "app4"
+        becomeMaster TRUE
+        shouldStop SLAVE
+        min 1 -1 -1
+        max 3 1 1
+      }
+      DEF APPCONTROL5 SoAppControl {
+        stations 14
+        timeOut 5
+
+        locale "locale3"
+        application "app5"
+        becomeMaster TRUE
+        shouldStop SLAVE
+        min 1 -1 -1
+        max 3 1 1
+      }      
+    }
+
+    windowGroup Group {
+      DrawStyle { style LINES }
+      Transform { translation 2 0 0 }
+      Cube { width 2 height 2 depth 2 }
+    }
+
+      clonePipSheet       FALSE
+  }
+}

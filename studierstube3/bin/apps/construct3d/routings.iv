@@ -1,0 +1,267 @@
+#Inventor V2.1 ascii
+
+#----------------------------------------------------------------------------------------------
+#START_TRIGGER: Triggers once after the scene is loaded
+#DEF GEN_COUNTER SoTimeCounter { min 0 max 100 step 1 frequency 0.1 }
+#DEF COUNTER SoCounter { min 0 max 3 trigger = USE GEN_COUNTER.syncOut }
+#DEF STOP_TRIGGER SoConditionalTrigger { intIn = USE COUNTER.output triggerInt 1 token "FALSE" }
+#DEF GEN_COUNTER_2 SoTimeCounter { min 0 max 100 step 1 frequency 1.0 on = USE STOP_TRIGGER.tokenOut }
+#DEF COUNTER_2 SoCounter { min 0 max 3 trigger = USE GEN_COUNTER_2.syncOut }
+#DEF START_TRIGGER SoConditionalTrigger { intIn = USE COUNTER_2.output triggerInt 1 token "-1" }
+
+#----------------------------------------------------------------------------------------------
+#MAIN MENU
+
+DEF FILE_TRIGGER_ON SoConditionalTrigger { boolIn = USE FILE.on triggerBool TRUE token "0" }
+DEF FILE_TRIGGER_OFF SoConditionalTrigger { boolIn = USE FILE.on triggerBool FALSE token "-1" }
+DEF VIEW_TRIGGER_ON SoConditionalTrigger { boolIn = USE VIEW.on triggerBool TRUE token "0"}
+DEF VIEW_TRIGGER_OFF SoConditionalTrigger { boolIn = USE VIEW.on triggerBool FALSE token "-1" }
+DEF EDIT_TRIGGER_ON SoConditionalTrigger { boolIn = USE EDIT.on triggerBool TRUE token "0" }
+DEF EDIT_TRIGGER_OFF SoConditionalTrigger { boolIn = USE EDIT.on triggerBool FALSE token "-1" }
+
+DEF FILE_FAN_MENU SoFanIn {  type MFString
+    in0 = USE FILE_TRIGGER_ON.tokenOut
+    in1 = USE FILE_TRIGGER_OFF.tokenOut }
+   # in2 = USE START_TRIGGER.tokenOut }
+
+DEF VIEW_FAN_MENU SoFanIn { type MFString
+    in0 = USE VIEW_TRIGGER_ON.tokenOut
+    in1 = USE VIEW_TRIGGER_OFF.tokenOut }
+  #  in2 = USE START_TRIGGER.tokenOut }
+
+DEF EDIT_FAN_MENU SoFanIn {  type MFString
+    in0 = USE EDIT_TRIGGER_ON.tokenOut
+    in1 = USE EDIT_TRIGGER_OFF.tokenOut }
+  #  in2 = USE START_TRIGGER.tokenOut }
+
+
+DEF FILE_STATE_ON SoConditionalTrigger { boolIn = USE FILE.on  triggerBool TRUE  token "FALSE" }
+DEF VIEW_STATE_ON SoConditionalTrigger { boolIn = USE VIEW.on  triggerBool TRUE  token "FALSE" }
+DEF EDIT_STATE_ON SoConditionalTrigger { boolIn = USE EDIT.on  triggerBool TRUE  token "FALSE" }
+
+DEF FILE_FAN_STATE SoFanIn { type MFString
+    in0 = USE VIEW_STATE_ON.tokenOut
+    in1 = USE EDIT_STATE_ON.tokenOut }
+
+DEF VIEW_FAN_STATE SoFanIn { type MFString
+    in0 = USE FILE_STATE_ON.tokenOut
+    in1 = USE EDIT_STATE_ON.tokenOut }
+
+DEF EDIT_FAN_STATE SoFanIn { type MFString
+    in0 = USE VIEW_STATE_ON.tokenOut
+    in1 = USE FILE_STATE_ON.tokenOut }
+
+ SoRoute { from "FILE_FAN_MENU.out" to "FILE_MENU_SWITCH.whichChild"}
+ SoRoute { from "VIEW_FAN_MENU.out" to "VIEW_MENU_SWITCH.whichChild"}
+ SoRoute { from "EDIT_FAN_MENU.out" to "EDIT_MENU_SWITCH.whichChild"}
+
+ SoRoute { from "FILE_FAN_STATE.out" to "FILE.on"}
+ SoRoute { from "EDIT_FAN_STATE.out" to "EDIT.on"}
+ SoRoute { from "VIEW_FAN_STATE.out" to "VIEW.on"}
+
+ #----------------------------------------------------------------------------------------------
+ #CONSTRUCTION MENU
+
+DEF TRANSFORM_TRIGGER SoConditionalTrigger { boolIn = USE TRANSFORM.on triggerBool TRUE token "0" }
+DEF INTERSECT_TRIGGER SoConditionalTrigger { boolIn = USE INTERSECT.on triggerBool TRUE token "1" }
+DEF CONSTRUCT_TRIGGER SoConditionalTrigger { boolIn = USE CONSTRUCT.on triggerBool TRUE token "2" }
+DEF THREE_D_TRIGGER SoConditionalTrigger { boolIn = USE THREE_D.on triggerBool TRUE token "3"}
+DEF TWO_D_TRIGGER SoConditionalTrigger { boolIn = USE TWO_D.on triggerBool TRUE token "4" }
+
+#check if none is selected
+DEF CONSTR_NONE_1 SoBoolOperation {
+    a = USE INTERSECT.on
+    b = USE CONSTRUCT.on
+    operation NOT_A_AND_NOT_B }
+
+DEF CONSTR_NONE_2 SoBoolOperation {
+    a = USE THREE_D.on
+    b = USE TWO_D.on
+    operation NOT_A_AND_NOT_B }
+
+DEF CONSTR_NONE_3 SoBoolOperation {
+    a = USE CONSTR_NONE_1.output
+    b = USE CONSTR_NONE_2.output
+    operation A_AND_B }
+
+DEF CONSTR_NONE SoBoolOperation {
+    a = USE CONSTR_NONE_3.output
+    b = USE TRANSFORM.on
+    operation A_AND_NOT_B }
+
+DEF NONE_TRIGGER SoConditionalTrigger { boolIn = USE CONSTR_NONE.output  triggerBool TRUE  token "-1" }
+
+
+DEF CONSTR_FAN SoFanIn {  type MFString
+    in0 = USE TRANSFORM_TRIGGER.tokenOut
+    in1 = USE INTERSECT_TRIGGER.tokenOut
+    in2 = USE CONSTRUCT_TRIGGER.tokenOut 
+    in3 = USE THREE_D_TRIGGER.tokenOut 
+    in4 = USE TWO_D_TRIGGER.tokenOut 
+    in5 = USE NONE_TRIGGER.tokenOut 
+  #  in6 = USE START_TRIGGER.tokenOut 
+}
+
+#if one button is selected, set the other on false
+DEF TRANSFORM_STATE_ON SoConditionalTrigger { boolIn = USE TRANSFORM.on  triggerBool TRUE  token "FALSE" }
+DEF INTERSECT_STATE_ON SoConditionalTrigger { boolIn = USE INTERSECT.on  triggerBool TRUE  token "FALSE" }
+DEF CONSTR_STATE_ON SoConditionalTrigger { boolIn = USE CONSTRUCT.on  triggerBool TRUE  token "FALSE" }
+DEF THREE_D_STATE_ON SoConditionalTrigger { boolIn = USE THREE_D.on  triggerBool TRUE  token "FALSE" }
+DEF TWO_D_STATE_ON SoConditionalTrigger { boolIn = USE TWO_D.on  triggerBool TRUE  token "FALSE" }
+
+DEF TRANSFORM_FAN_STATE SoFanIn { type MFString
+    in0 = USE INTERSECT_STATE_ON.tokenOut
+    in1 = USE CONSTR_STATE_ON.tokenOut
+    in2 = USE THREE_D_STATE_ON.tokenOut 
+    in3 = USE TWO_D_STATE_ON.tokenOut }
+
+DEF INTERSECT_FAN_STATE SoFanIn { type MFString
+    in0 = USE TRANSFORM_STATE_ON.tokenOut
+    in1 = USE CONSTR_STATE_ON.tokenOut
+    in2 = USE THREE_D_STATE_ON.tokenOut 
+    in3 = USE TWO_D_STATE_ON.tokenOut }
+
+DEF CONSTR_FAN_STATE SoFanIn { type MFString
+    in0 = USE TRANSFORM_STATE_ON.tokenOut
+    in1 = USE INTERSECT_STATE_ON.tokenOut
+    in2 = USE THREE_D_STATE_ON.tokenOut 
+    in3 = USE TWO_D_STATE_ON.tokenOut }
+
+DEF THREE_D_FAN_STATE SoFanIn { type MFString
+    in0 = USE TRANSFORM_STATE_ON.tokenOut
+    in1 = USE INTERSECT_STATE_ON.tokenOut
+    in2 = USE CONSTR_STATE_ON.tokenOut 
+    in3 = USE TWO_D_STATE_ON.tokenOut }
+
+DEF TWO_D_FAN_STATE SoFanIn { type MFString
+    in0 = USE TRANSFORM_STATE_ON.tokenOut
+    in1 = USE INTERSECT_STATE_ON.tokenOut
+    in2 = USE CONSTR_STATE_ON.tokenOut 
+    in3 = USE THREE_D_STATE_ON.tokenOut }
+
+
+SoRoute { from "CONSTR_FAN.out" to "WORK_SPACE_SWITCH.whichChild"}
+
+SoRoute { from "TRANSFORM_FAN_STATE.out" to "TRANSFORM.on"}
+SoRoute { from "INTERSECT_FAN_STATE.out" to "INTERSECT.on"}
+SoRoute { from "CONSTR_FAN_STATE.out" to "CONSTRUCT.on"}
+SoRoute { from "THREE_D_FAN_STATE.out" to "THREE_D.on"}
+SoRoute { from "TWO_D_FAN_STATE.out" to "TWO_D.on"}
+
+
+  
+ #----------------------------------------------------------------------------------------------
+ #LAYERS
+
+DEF NUM_DOWN SoCounter {
+ min 0 max 3
+ step 1
+ trigger = USE DOWN_BUTTON.triggerOut
+ reset 0 }
+
+DEF NUM_UP SoCounter {
+ min 0 max 3
+ step 1
+ trigger = USE UP_BUTTON.triggerOut
+ reset 0 }
+
+DEF CUR_LAYER SoCalculator {
+ a = USE NUM_DOWN.output
+ b = USE NUM_UP.output
+ expression ["oa=a-b+4", "ob=fmod(oa, 4)"]
+ }
+
+SoRoute { from "CUR_LAYER.ob" to "LAYER_SWITCH.whichChild"}
+
+#DEF ENABLE_UP SoConditionalTrigger { intIn = USE CUR_LAYER.ob  triggerInt 0}
+#DEF ENABLE_DOWN SoConditionalTrigger { intIn = USE CUR_LAYER.ob  triggerInt 3}
+
+#DEF INV_UP SoBoolOperation { a = USE ENABLE_UP.boolOut operation A }
+#DEF INV_DOWN SoBoolOperation { a = USE ENABLE_DOWN.boolOut operation A }
+
+#SoRoute { from "INV_UP.inverse" to "UP_BUTTON.enable"}
+#SoRoute { from "INV_DOWN.inverse" to "DOWN_BUTTON.enable"}
+
+#if one button is selected, set the other on false
+DEF L1_ON SoConditionalTrigger { boolIn = USE LAYER_1.on  triggerBool TRUE  token "FALSE" }
+DEF L2_ON SoConditionalTrigger { boolIn = USE LAYER_2.on  triggerBool TRUE  token "FALSE" }
+DEF L3_ON SoConditionalTrigger { boolIn = USE LAYER_3.on  triggerBool TRUE  token "FALSE" }
+DEF L4_ON SoConditionalTrigger { boolIn = USE LAYER_4.on  triggerBool TRUE  token "FALSE" }
+DEF L5_ON SoConditionalTrigger { boolIn = USE LAYER_5.on  triggerBool TRUE  token "FALSE" }
+DEF L6_ON SoConditionalTrigger { boolIn = USE LAYER_6.on  triggerBool TRUE  token "FALSE" }
+
+DEF L1_FAN_STATE SoFanIn { type MFString
+    in0 = USE L2_ON.tokenOut
+    in1 = USE L3_ON.tokenOut
+    in2 = USE L4_ON.tokenOut
+    in3 = USE L5_ON.tokenOut
+    in4 = USE L6_ON.tokenOut }
+
+DEF L2_FAN_STATE SoFanIn { type MFString
+    in0 = USE L1_ON.tokenOut
+    in1 = USE L3_ON.tokenOut
+    in2 = USE L4_ON.tokenOut
+    in3 = USE L5_ON.tokenOut
+    in4 = USE L6_ON.tokenOut }
+
+DEF L3_FAN_STATE SoFanIn { type MFString
+    in0 = USE L1_ON.tokenOut
+    in1 = USE L2_ON.tokenOut
+    in2 = USE L4_ON.tokenOut
+    in3 = USE L5_ON.tokenOut
+    in4 = USE L6_ON.tokenOut }
+
+DEF L4_FAN_STATE SoFanIn { type MFString
+    in0 = USE L1_ON.tokenOut
+    in1 = USE L2_ON.tokenOut
+    in2 = USE L3_ON.tokenOut
+    in3 = USE L5_ON.tokenOut
+    in4 = USE L6_ON.tokenOut }
+
+DEF L5_FAN_STATE SoFanIn { type MFString
+    in0 = USE L1_ON.tokenOut
+    in1 = USE L2_ON.tokenOut
+    in2 = USE L3_ON.tokenOut
+    in3 = USE L4_ON.tokenOut
+    in4 = USE L6_ON.tokenOut }
+
+DEF L6_FAN_STATE SoFanIn { type MFString
+    in0 = USE L1_ON.tokenOut
+    in1 = USE L2_ON.tokenOut
+    in2 = USE L3_ON.tokenOut
+    in3 = USE L4_ON.tokenOut
+    in4 = USE L5_ON.tokenOut }
+
+
+SoRoute { from "L1_FAN_STATE.out" to "LAYER_1.on"}
+SoRoute { from "L2_FAN_STATE.out" to "LAYER_2.on"}
+SoRoute { from "L3_FAN_STATE.out" to "LAYER_3.on"}
+SoRoute { from "L4_FAN_STATE.out" to "LAYER_4.on"}
+SoRoute { from "L5_FAN_STATE.out" to "LAYER_5.on"}
+SoRoute { from "L6_FAN_STATE.out" to "LAYER_6.on"}
+
+
+ #----------------------------------------------------------------------------------------------
+ # SLIDERS
+
+ SoRoute { from "DEGREE_U.value" to "DEG_U_TEX.whichChild"}
+ SoRoute { from "POINT_U.value" to "POINT_U_TEX.whichChild"}
+ SoRoute { from "DEGREE_V.value" to "DEG_V_TEX.whichChild"}
+ SoRoute { from "POINT_V.value" to "POINT_V_TEX.whichChild"}
+
+
+ #----------------------------------------------------------------------------------------------
+ # HELP NOTES
+ SoRoute { from "STATUSBOX.text" to "STATUSBOX_SWITCH.whichChild"}
+
+ DEF H_ON SoConditionalTrigger { boolIn = USE HELP_NOTES.on  triggerBool TRUE  token "0" }
+ DEF H_OFF SoConditionalTrigger { boolIn = USE HELP_NOTES.on  triggerBool FALSE  token "-1" }
+
+ DEF HELP_FAN_STATE SoFanIn { type MFString
+    in0 = USE H_ON.tokenOut
+    in1 = USE H_OFF.tokenOut }
+
+SoRoute { from "HELP_FAN_STATE.out" to "SHOW_HELPNOTES.whichChild"}
+
+ #----------------------------------------------------------------------------------------------
+

@@ -1,0 +1,405 @@
+<html><!-- #BeginTemplate "/Templates/master.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Display Modes</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="/media/styles/studierstube.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td background="/media/images/studierstube_header_background.gif"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td><a href="/index.html"><img src="/media/images/studierstube_header_logo.gif" width="100" height="100" vspace="15" hspace="15" border="0"></a></td>
+                    <td><h1>Studierstube Augmented Reality Project</h1></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td align="right" bgcolor="#F6F6F6"> 
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/index.html" class="navMain">Home</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/research_master.php" class="navMain">Research</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/developer.html" class="navMain">Development</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/projects.html" class="navMain">Projects</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td background="/media/images/studierstube_dots_vert.gif"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;<a href="/search/index.php3" class="navMain">Search</a>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr> 
+        <td colspan="2" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="15">
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+    <tr> 
+        <td><!-- #BeginEditable "content" -->
+
+
+
+<h1>Display modes:</h1>
+
+<h2>General options:</h2>
+
+<h4>position of the window (in pixels) for up to four viewers:</h4>
+
+<h4>option: --xoffset[234] 0</h4>
+
+<p>x-coordinate of the upper left corner of the window</p>
+
+<h4>option: --yoffset[234] 0</h4>
+
+<p>y-coordinate of the upper left corner of the window</p>
+
+<address>
+    note: the upper left corner of the screen has the coordinates
+    x = 0, y = 0 
+</address>
+
+<h4>size of the window (in pixels) for up to four viewers:</h4>
+
+<h4>option: --width[234] 640</h4>
+
+<p>width of the window</p>
+
+<h4>option: --height[234] 480</h4>
+
+<p>height of the window</p>
+
+<address>
+    note: the default values for position and size are set for
+    usage with display mode LINE using iglasses 
+</address>
+
+<h2>Mono: </h2>
+
+<h4>option: --display MONO (default)</h4>
+
+<p>creates an examiner-viewer style window with widgets</p>
+
+<address>
+    note: only the left camera will be used for rendering, but
+    the camera-file specified with the option &#145;&#151;camera&#146;
+    must always contain two cameras (see also camera control
+    modes for further details)
+</address>
+
+<h2>Line interleaved:</h2>
+
+<h4>option: --display LINE</h4>
+
+<p>use this mode for iglasses<br>
+creates a window without a border<br>
+the frames for left and right eye are rendered in the same buffer,
+where the even lines are used for the left eye and the odd lines
+for the right eye</p>
+
+<address>
+    note: always use an even number of lines (window height),
+    otherwise the left and right eye will be rendered in the
+    wrong buffer
+</address>
+
+<h2>Field interleaved:</h2>
+
+<h4 dir="ltr">option: --display FIELD</h4>
+
+<p dir="ltr">use this mode for shutter glasses<br>
+creates a window without a border, this mode uses quadbuffering
+or STR_TOP stereo rendering</p>
+
+<h4 dir="ltr">option: --splitstereo</h4>
+
+<p dir="ltr">use STR_TOP mode</p>
+
+<address>
+    note: because this display mode stretches the desktop in
+    vertical direction, the window size height should be the half
+    of the desktop height and the window width should equal that
+    of the desktop 
+</address>
+
+<h4>option &#151;visualdevice 1</h4>
+
+<p>choose visual device (only needed for quad-buffer rendering) </p>
+
+<p>possible values: <br>
+0 &#133; not supported (no stereo rendering)<br>
+1 &#133; standard visual device supporting stereo (stereo
+rendering: works for Impact graphics adapter and Intense 3D
+Wildcat 4000)</p>
+
+<address>
+    note: for other graphics hardware a new StbVisual class may
+    be needed
+</address>
+
+<h2>Dual channel:</h2>
+
+<h4>option: --display DUAL</h4>
+
+<p>use this mode for barco doubleprojector with passive
+polarisation<br>
+this display mode also uses only one window (without border), but
+two viewports.</p>
+
+<p>Per default the window is split vertically, so that the frame
+for the left eye is rendered in the left half of the window. When
+the</p>
+
+<h4>option: --splitstereo</h4>
+
+<p>is used the window is split horizontally, so that the frame
+for the left eye is rendered in the upper half of the window.<br>
+The window position and size must be set accordingly. </p>
+
+<p>&nbsp;</p>
+
+<hr>
+
+<h1><a name="100">Camera</a> control modes:</h1>
+
+<p>&nbsp;</p>
+
+<h2>General options:</h2>
+
+<h4>option: --camera defaultCamera.iv</h4>
+
+<p>specifies the camera-file to search for cameras<br>
+The camera-file must always contain two SoOffAxisCameras, the
+first camera found in the file will be used as camera for the
+left eye and the second for the right eye. </p>
+
+<p>&nbsp;</p>
+
+<h2>Desktop control:</h2>
+
+<h4>option: --camcontrol DESKTOP (default)</h4>
+
+<p>this control mode works like an Examiner-Viewer, hence the
+user controls the camera with the mouse or keyboard.</p>
+
+<h4>additonal key commands (to Examiner-Viewer viewing control):</h4>
+
+<p>home &#133; home position<br>
+insert &#133; save home position<br>
+end &#133;... view all</p>
+
+<h4>option: --headlight</h4>
+
+<p>turns the headlight on</p>
+
+<address>
+    note: this option only works correctly for desktop control
+    mode
+</address>
+
+<h4>ad option: --camera </h4>
+
+<p>The desktop control mode calculates the middle eye position
+and orientation for a &quot;middle eye camera&quot;, hence even
+if the display mode is mono, there need to be two valid cameras
+in the specified file<br>
+(tip: in the case of mono rendering just use the same camera for
+left and right eye)</p>
+
+<h4>camera example: (useful for display mode mono)</h4>
+
+<pre>#Inventor V2.1 ascii</pre>
+
+<pre>Info {
+	string &quot;this is the camera for the LEFT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping ADJUST_CAMERA
+	nearDistance 0.01
+	farDistance 100
+	focalDistance 2
+	size 0.35 0.27
+	eyepointPosition 0 0 0.5
+} 
+
+Info {
+	string &quot;this is the camera for the RIGHT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping ADJUST_CAMERA
+	nearDistance 0.01
+	farDistance 100
+	focalDistance 2
+	size 0.35 0.27
+	eyepointPosition 0 0 0.5
+} </pre>
+
+<p>&nbsp;</p>
+
+<h2>Tracked viewpoint:</h2>
+
+<h4>option: --camcontrol VIEWPOINT</h4>
+
+<p>This control mode tracks the head (left and right eye) but the
+projection planes of the cameras are fixed.</p>
+
+<h4>option: --stereokit myKit.iv</h4>
+
+<p>specifies the file which contains a SoStereoCameraKit</p>
+
+<p>Only the fields eyeOffsetLeft and eyeOffsetRight need to be
+specified.<br>
+eyeOffsetLeft: the offset between head tracker and the left eye
+in head tracker space<br>
+eyeOffsetRight: the offset between head tracker and the right eye
+in head tracker space</p>
+
+<address>
+    note: the file must not contain any other node, see example
+    below
+</address>
+
+<h4>stereokit example:</h4>
+
+<pre>#Inventor V2.1 ascii</pre>
+
+<pre>SoStereoCameraKit {
+	eyeOffsetLeft -0.0305979 0.147538 0.0151514
+	eyeOffsetRight 0.0373777 0.148288 0.0177628
+}</pre>
+
+<h4>camera example:</h4>
+
+<pre>#Inventor V2.1 ascii</pre>
+
+<pre>Info {
+	string &quot;this is the camera for the LEFT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping LEAVE_ALONE
+	nearDistance 0.16
+	farDistance 5
+	focalDistance 2
+	size 0.35 0.27
+	position -0.26 -0.58 -0.95
+	orientation 0 1 0 -1.574
+} 
+
+Info {
+	string &quot;this is the camera for the RIGHT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping LEAVE_ALONE
+	nearDistance 0.16
+	farDistance 5
+	focalDistance 2
+	size 0.35 0.27
+	position -0.26 -0.58 -0.95
+	orientation 0 1 0 -1.574
+} </pre>
+
+<address>
+    note: for tracked viewpoint control the parameters for the
+    projection plane should be the same for the left and right
+    eye (position, orientation, size), whereas the
+    eyepointPosition has no effect (because it is updated
+    permanently using the tracker data and the specified offsets)
+</address>
+
+<p>&nbsp;</p>
+
+<h2>Tracked display:</h2>
+
+<h4>option: --camcontrol DISPLAY</h4>
+
+<p>The tracked display control mode uses headtracking but
+contrary to the tracked viewpoint control mode moves the whole
+camera (projection plane and eyepoint), hence the name tracked
+display.<br>
+The camera parameters are relative to the head tracker (in head
+tracker space).</p>
+
+<h4>camera example: (for iglasses)</h4>
+
+<pre>#Inventor V2.1 ascii</pre>
+
+<pre>Info {
+	string &quot;this is the camera for the LEFT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping LEAVE_ALONE
+	position -0.037045 0.168842 0.236637
+	orientation 0.999133 -0.00585241 0.0412087 2.99499
+	nearDistance 0.16
+	farDistance 5
+	focalDistance 2
+	size 0.1 0.075
+	eyepointPosition -0.0305979 0.147538 0.0151514
+} 
+
+Info {
+	string &quot;this is the camera for the RIGHT eye&quot;
+}
+SoOffAxisCamera {
+	viewportMapping LEAVE_ALONE
+	position 0.0252067 0.170702 0.245833
+	orientation 0.999225 0.00158786 0.0393301 3.02502
+	nearDistance 0.16
+	farDistance 5
+	focalDistance 2
+	size 0.1 0.075
+	eyepointPosition 0.0373777 0.148288 0.0177628
+} </pre>
+
+<address>
+    note: the easiest way to determine the parameters is to use
+    the calibration application located in the directory bin/apps/calibration.<br>
+    This application creates a file which can be directly used as
+    parameter for the --camera option. (See LINK!!!) 
+</address>
+
+            <!-- #EndEditable --></td>
+    </tr>
+    <tr> 
+        <td><img src="/media/images/spacer.gif" width="1" height="1"></td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+    <tr> 
+        <td bgcolor="#F6F6F6">&nbsp; <a href="mailto:reitmayr@studierstube.org" class="navMain">Webmaster</a></td>
+        <td bgcolor="#F6F6F6"><img src="/media/images/spacer.gif" width="1" height="20"></td>
+        <td bgcolor="#F6F6F6" align="right"><a href="http://www.studierstube.org/" class="navMainCopyright">www.studierstube.org</a> 
+            &nbsp;</td>
+    </tr>
+    <tr> 
+        <td colspan="3" background="/media/images/studierstube_dots_horiz.gif" style="background-repeat:repeat-x"><img src="/media/images/spacer.gif" width="100%" height="1"></td>
+    </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

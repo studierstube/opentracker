@@ -1,0 +1,52 @@
+#Inventor V2.1 ascii
+# UserKit file for a single mobile user with stereographic output on the Glasstron HMD.
+# This kit supports the pen and tablet interface with Wacom and tracked pen.
+
+SoUserKit {
+    userID 0
+    auxGeometry SoSeparator {
+	SoTrackedArtifactKit {
+	    station 1
+            geometry Separator {
+	        RotationXYZ {axis  X angle 1.57 }
+		Transform { translation 0 -0.0075 0 }
+		Material {
+          	  diffuseColor 0.9 0.9 0.0
+		  transparency 0.5
+                }
+        	Cone {
+			bottomRadius 0.005 height 0.015
+        	}
+    	     }
+         }
+    }
+    pip SoPipKit{
+       station 0
+       pipSize 0.125 0.092 0.01
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+       offset Transform {  #translation -0.04 -0.15 -0.03
+			 rotation 0 1 0 3.1415926
+       }
+       # geometry File {name "../mobile/graphix/TouchPip.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "aeki_firefly_4mm_Camera.iv"}
+	#  display SoFieldSequentialDisplayMode {stereoMode QUAD_BUFFER}
+        cameraControl SoTrackedDisplayControlMode {}
+        # cameraControl SoTrackedViewpointControlMode {}
+        # cameraControl SoDesktopControlMode {}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        #backgroundColor 0.5 0.5 0.5
+	    backgroundColor 0 0 0
+	    transparencyType DELAYED_BLEND
+	    width 800
+	    height 600
+	    videoBackground SoVideoBackgroundOT {}
+	    showMouse FALSE
+	    decoration FALSE
+	    windowBorder FALSE
+    }
+}

@@ -1,0 +1,490 @@
+#Inventor V2.1 ascii
+
+SoVCMainPanelKit {
+    subPanels Switch {
+                  SoVCSubPanelKit {
+                      title "SYSTEM"
+                      widgets Switch {
+                                  SoVCCalibrationWidgetKit {}
+                                     }
+                                  }
+                  SoVCSubPanelKit {
+                      title "COLORS"
+                      widgets Switch {
+                                  SoVCPushWidgetKit { 
+                                      widgetName "RED"
+                                      scaleContent FALSE
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 1 0 0 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {
+                                                       DEF ANIMAL_COLOR_01 SoVCPushWidgetKit  {
+                                                                               widgetName "RED_1"
+                                                                               widgetContent Switch {
+                                                                                                 Separator { Material { diffuseColor 0.16 0 0 }
+                                                                                                             Transform { rotation 1 0 0 -1
+                                                                                                                         scaleFactor 0.2 0.2 0.2 }
+                                                                                                             Cube { width 1 height 1 depth 1 }
+                                                                                                           }
+                                                                                                    }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_02 SoVCPushWidgetKit  {
+                                                                                widgetName "RED_2"
+                                                                                widgetContent Switch {
+                                                                                                 Separator { Material { diffuseColor 0.32 0 0 }
+                                                                                                             Transform { rotation 1 0 0 -1
+                                                                                                                         scaleFactor 0.2 0.2 0.2 }
+                                                                                                             Cube { width 1 height 1 depth 1 }
+                                                                                                           }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_03 SoVCPushWidgetKit  {
+                                                                                widgetName "RED_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.48 0 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                             }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_04 SoVCPushWidgetKit  {
+                                                                                widgetName "RED_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.64 0 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                             }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_05 SoVCPushWidgetKit  {
+                                                                                widgetName "RED_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.8 0 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_06 SoVCPushWidgetKit  {
+                                                                                widgetName "RED_6"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 1 0 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                           }   
+                                                    }
+
+                                  SoVCPushWidgetKit { 
+                                      widgetName "GREEN"
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 0 1 0 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {                                                       
+                                                       DEF ANIMAL_COLOR_11 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_1"
+                                                                                widgetContent Switch {                                                        
+                                                                                                  Separator { Material { diffuseColor 0 0.16 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                      }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_12 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_2"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.32 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_13 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.48 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_14 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.64 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_15 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.8 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_16 SoVCPushWidgetKit  {
+                                                                                widgetName "GREEN_6"
+                                                                                widgetContent Switch {                                                                
+                                                                                                  Separator { Material { diffuseColor 0 1 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                           }          
+                                                    }
+
+                                  SoVCPushWidgetKit { 
+                                      widgetName "BLUE"
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 0 0 1 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {
+                                                       DEF ANIMAL_COLOR_21 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_1"
+                                                                                widgetContent Switch {                                                                       
+                                                                                                  Separator { Material { diffuseColor 0 0 0.16 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_22 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_2"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0 0.32 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_23 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0 0.48 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                               Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_24 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0 0.64 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_25 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0 0.8 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                             }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_26 SoVCPushWidgetKit  {
+                                                                                widgetName "BLUE_6"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0 1 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                           }   
+                                                    }
+
+                                  SoVCPushWidgetKit { 
+                                      widgetName "CYAN"
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 0 1 1 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {
+                                                       DEF ANIMAL_COLOR_31 SoVCPushWidgetKit  {
+                                                                                widgetName "CYAN_1"
+                                                                                widgetContent Switch {                                
+                                                                                                  Separator { Material { diffuseColor 0 0.16 0.16 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_32 SoVCPushWidgetKit  {
+                                                                                 widgetName "CYAN_2"
+                                                                                 widgetContent Switch {
+                                                                                                   Separator { Material { diffuseColor 0 0.32 0.32 }
+                                                                                                               Transform { rotation 1 0 0 -1
+                                                                                                                           scaleFactor 0.2 0.2 0.2 }
+                                                                                                               Cube { width 1 height 1 depth 1 }
+                                                                                                             }
+                                                                                                      }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_33 SoVCPushWidgetKit  {
+                                                                                widgetName "CYAN_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.48 0.48 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_34 SoVCPushWidgetKit  {
+                                                                                widgetName "CYAN_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.64 0.64 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_35 SoVCPushWidgetKit  {
+                                                                                widgetName "CYAN_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 0.8 0.8 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_36 SoVCPushWidgetKit  {
+                                                                                widgetName "CYAN_6"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0 1 1 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                        
+                                                                                                      }
+                                                                                              }   
+                                                           }
+                                                    }
+                                  SoVCPushWidgetKit { 
+                                      widgetName "MAGENTA"
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 1 0 1 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {
+                                                       DEF ANIMAL_COLOR_41 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_1"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.16 0 0.16 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_42 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_2"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.32 0 0.32 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_43 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.48 0 0.48 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                      }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_44 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.64 0 0.64 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_45 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.8 0 0.8 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_46 SoVCPushWidgetKit  {
+                                                                                widgetName "MAGENTA_6"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 1 0 1 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                           }   
+                                                    }
+
+                                  SoVCPushWidgetKit { 
+                                      widgetName "YELLOW"
+                                      widgetContent Switch {
+                                                        Separator { Material { diffuseColor 1 1 0 }
+                                                                    Transform { rotation 1 0 0 -1
+                                                                                scaleFactor 0.2 0.2 0.2 }
+                                                                    Cube { width 1 height 1 depth 1 }
+                                                                  }
+                                                           }
+                                      childWidgets Switch  {
+                                                       DEF ANIMAL_COLOR_51 SoVCPushWidgetKit  {
+                                                                                widgetName "YELLOW_1"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.16 0.16 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_52 SoVCPushWidgetKit  {
+                                                                                widgetName "YELLOW_2"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.32 0.32 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_53 SoVCPushWidgetKit  {
+                                                                                widgetName "YELLOW_3"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.48 0.48 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_54 SoVCPushWidgetKit  {
+                                                                                widgetName "YELLOW_4"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.64 0.64 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_55 SoVCPushWidgetKit  {
+                                                                                widgetName "YELLOW_5"
+                                                                                widgetContent Switch {
+                                                                                                  Separator { Material { diffuseColor 0.8 0.8 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                              }
+                                                       DEF ANIMAL_COLOR_E0 SoVCPushWidgetKit  {
+                                                                                widgetName "EXTRA"
+                                                                                widgetContent Switch {                                        
+                                                                                                  Separator { Material { diffuseColor 1 1 0 }
+                                                                                                              Transform { rotation 1 0 0 -1
+                                                                                                                          scaleFactor 0.2 0.2 0.2 }
+                                                                                                              Cube { width 1 height 1 depth 1 }
+                                                                                                            }
+                                                                                                     }
+                                                                                childWidgets Switch  {
+                                                                                                  DEF ANIMAL_COLOR_56 SoVCPushWidgetKit   {
+                                                                                                                           widgetName "YELLOW_6"
+                                                                                                                           widgetContent Switch {
+                                                                                                                                             Separator { Material { diffuseColor 1 1 1 }
+                                                                                                                                                         Transform { rotation 1 0 0 -1
+                                                                                                                                                                     scaleFactor 0.2 0.2 0.2 }
+                                                                                                                                                         Cube { width 1 height 1 depth 1 }
+                                                                                                                                                       }
+                                                                                                                                                }
+                                                                                                                                          }
+                                                                                                  DEF ANIMAL_COLOR_E1 SoVCToggleWidgetKit {
+                                                                                                                           widgetName "EXTRA_1"
+                                                                                                                           hideWhenLeaf FALSE
+                                                                                                                           widgetContent Switch {
+                                                                                                                                             Separator { Material { diffuseColor 1 1 0 }
+                                                                                                                                                         Transform { rotation 1 0 0 -1
+                                                                                                                                                                     scaleFactor 0.2 0.2 0.2 }
+                                                                                                                                                         Cube { width 1 height 1 depth 1 }
+                                                                                                                                                       }
+                                                                                                                                                }
+                                                                                                                                          }
+                                                                                                  DEF ANIMAL_COLOR_E2 SoVCDialWidgetKit   {
+                                                                                                                           widgetName "EXTRA_2"
+                                                                                                                           hideWhenLeaf FALSE
+                                                                                                                           widgetContent Switch {
+                                                                                                                                             Separator { Material { diffuseColor 1 0 1 }
+                                                                                                                                                         Transform { rotation 1 0 0 -1
+                                                                                                                                                                     scaleFactor 0.2 0.2 0.2 }
+                                                                                                                                                         Cube { width 1 height 1 depth 1 }
+                                                                                                                                                       }
+                                                                                                                                                }
+                                                                                                                                          }
+                                                                                                     }
+
+                                                                                              }   
+                                                           }
+                                                    }
+                                     }
+                                  }
+                     }
+                 }

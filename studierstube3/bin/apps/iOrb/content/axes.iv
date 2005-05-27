@@ -1,0 +1,61 @@
+#Inventor V2.1 ascii
+
+# this is needed to block update notification if context changes
+# otherwise we would constantly re-trigger rendering
+SoContextSeparator {
+
+    Font {  
+        name "Arial"
+        size 0.02
+    }
+    
+    Material { diffuseColor 0 1 0 }
+
+    SoContext {
+        index "axis-name"
+        value "Y"
+    }    
+
+    DEF AXIS Separator {
+        Transform {
+            translation 0 0.15 0
+        }
+        Cylinder {
+            radius 0.003
+            height 0.3
+        }
+        Transform {
+            translation 0 0.15 0
+        }
+        Cone {
+            bottomRadius 0.007
+            height 0.02
+        }
+        Transform {
+            translation 0.01 0 0
+        }
+        DEF axisname SoContextReport {
+            index "axis-name"
+        }
+        Text3 { 
+            string = USE axisname.value
+            parts FRONT
+        }
+    }
+    
+    Material { diffuseColor 1 0 0 }
+    Rotation { rotation 0 0 1 -1.57 }
+    SoContext {
+        index "axis-name"
+        value "X"
+    }    
+    USE AXIS
+    
+    Material { diffuseColor 0 0 1 }
+    Rotation { rotation 1 0 0 1.57 }
+    SoContext {
+        index "axis-name"
+        value "Z"
+    }    
+    USE AXIS
+}

@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// tmcast.mpb,v 1.4 2004/06/13 18:11:00 jwillemsen Exp
+
+project: acelib {
+  after        += TMCast
+  libs         += TMCast
+  requires     += exceptions threads
+}

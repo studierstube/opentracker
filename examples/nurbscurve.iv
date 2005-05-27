@@ -1,0 +1,72 @@
+#Inventor V2.1 ascii
+
+SoApplicationKit {
+    contextKit SoContextKit {
+    templatePipSheet Separator {
+        RotationXYZ {axis  X angle 1.57 }
+        Scale { scaleFactor 1 0.3 1 }
+        DEF BUTTON SoPushButton {}
+    }
+    windowGroup Group {
+        SoWindowKit {
+            clientVolume Separator {
+                DEF H0 SoDragKit {
+                    translation -0.3 0 0
+                    content DEF HANDLE Separator {
+                        Material { diffuseColor  0.3 0.3 0.9 }
+                        Cube { width 0.05 height 0.05 depth 0.05 }
+                    }
+                    highlightedContent DEF HIGH_HANDLE Separator {
+                        Material { diffuseColor  0.9 0.3 0.3 }
+                        Cube { width 0.05 height 0.05 depth 0.05 }
+                    }
+                }
+                DEF H1 SoDragKit {
+                    translation -0.1 0 0
+                    content USE HANDLE
+                    highlightedContent USE HIGH_HANDLE
+                }
+                DEF H2 SoDragKit {
+                    translation 0.1 0 0
+                    content USE HANDLE
+                    highlightedContent USE HIGH_HANDLE
+                }
+                DEF H3 SoDragKit {
+                    translation 0.3 0 0
+                    content USE HANDLE
+                    highlightedContent USE HIGH_HANDLE
+                }
+                Coordinate3 {
+                    point [ -0.3 0 0, -0.1 0 0, 0.1 0 0, 0.3 0 0 ] = Concatenate {
+                        type SoMFVec3f
+                        input0 = USE H0.translation
+                        input1 = USE H1.translation
+                        input2 = USE H2.translation
+                        input3 = USE H3.translation
+                    }.output
+                }
+                Switch {
+                    whichChild 0 = Counter {
+                        min 0
+                        max 2
+                        trigger = USE BUTTON.on
+                    }.output
+                    NurbsCurve {
+                        numControlPoints 2
+                        knotVector [0, 0.333, 0.6666,  1 ]
+                    }
+                    NurbsCurve {
+                        numControlPoints 4
+                        knotVector [0, 0.2, 0.4, 0.6, 0.8,  1,2 ]
+                    }
+                    NurbsCurve {
+                        numControlPoints 3
+                        knotVector [0, 0.25, 0.5, 0.75, 1,2 ]
+                    }
+                }
+            }
+        }
+    }
+    clonePipSheet FALSE
+    }
+}

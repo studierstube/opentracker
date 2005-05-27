@@ -1,0 +1,25 @@
+// -*- MPC -*-
+// QOS_Change_Sender_FlowSpec.mpc,v 1.4 2003/12/23 20:23:21 dhinton Exp
+
+project(*receiver) : aceexe, qos {
+  exename = receiver
+  requires += qos
+  Source_Files {
+    Fill_ACE_QoS.cpp
+    QoS_Signal_Handler.cpp
+    QoS_Util.cpp
+    receiver.cpp
+    Receiver_QoS_Event_Handler.cpp
+  }
+}
+project(*sender) : aceexe, qos {
+  exename = sender
+  requires += qos
+  Source_Files {
+    Fill_ACE_QoS.cpp
+    QoS_Signal_Handler.cpp
+    QoS_Util.cpp
+    sender.cpp
+    Sender_QoS_Event_Handler.cpp
+  }
+}

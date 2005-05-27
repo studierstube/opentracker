@@ -1,0 +1,51 @@
+#Inventor V2.1 ascii
+Separator {
+    DEF PLAYER0_SWITCH Switch { whichChild 0
+      SoDragKit {
+        yTranslationOn FALSE
+        rotationOn FALSE
+        translation -0.02 -0.06 -0.02
+        content Separator {
+          Material { diffuseColor 1 0 0 }
+          DEF FIGURINE File { name "figurine.iv" }
+        }
+      }
+      Group {} # dummy
+    }
+    DEF PLAYER1_SWITCH Switch { whichChild 0
+      SoDragKit {
+        yTranslationOn FALSE
+        rotationOn FALSE
+        translation 0.02 -0.06 -0.02
+        content Separator {
+          Material { diffuseColor 1 1 0 }
+          USE FIGURINE
+        }
+      }
+      Group {} # dummy
+    }
+    DEF PLAYER2_SWITCH Switch { whichChild 0
+      SoDragKit {
+        yTranslationOn FALSE
+        rotationOn FALSE
+        translation -0.02 -0.06 0.02
+        content Separator {
+          Material { diffuseColor 0.1 0.7 0 }
+          USE FIGURINE
+        }
+      }
+      Group {} # dummy
+    }
+    DEF PLAYER3_SWITCH Switch { whichChild 0
+      SoDragKit {
+        yTranslationOn FALSE
+        rotationOn FALSE
+        translation 0.02 -0.06 0.02
+        content Separator {
+          Material { diffuseColor 0.3 0 0.9 }
+          USE FIGURINE
+        }
+      }
+      Group {} # dummy
+    }
+}

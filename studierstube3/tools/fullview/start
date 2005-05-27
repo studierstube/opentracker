@@ -1,0 +1,5 @@
+/usr/gfx/setmon -n -S 4@640x480_60_ext
+./fullview \
+ --display LINE --camcontrol DISPLAY \
+ $*
+/usr/gfx/setmon -n 72Hz

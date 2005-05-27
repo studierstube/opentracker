@@ -1,0 +1,58 @@
+#! /bin/sh
+
+###
+# Author:
+#     Tamer Fahmy <tamer@ims.tuwien.ac.at>
+#
+# Description:
+#     shell script to retrieve config options for OpenTracker
+#
+
+program="$0"
+me=`echo "$0" | sed 's,^.*[/\\],,g'`
+wd=`echo "$0" | sed 's,/[^/]*$,,'`
+prefix=`cd "$wd/.."; pwd`
+
+usage="\
+Usage: $me [OPTIONS]
+Options:
+  --version
+  --have-feature <featurename> 
+  --cppflags
+  --ldflags
+  --libs
+  --usage | --help"
+
+# never changing facts
+STBLIBS=-lStbAPI
+STBINCS=-I$prefix/src
+STBLDFLAGS=-L$prefix/lib
+
+# features indicators determined during configure
+have_speech=@HAVE_FEATURE_SAPISPEECH@
+have_artoolkit=@HAVE_FEATURE_ARTOOLKIT@
+have_joystick=@HAVE_FEATURE_JOYSTICK@
+
+while test $# -gt 0
+do
+  case $1 in    
+    --usage | --help)  echo "$usage"       ;;
+	--version)  echo @STB_VERSION@          ;;
+	--cppflags)	echo $STBINCS @CPPFLAGS@    ;;
+	--ldflags)	echo $STBLDFLAGS @LDFLAGS@  ;;
+	--libs) 	echo $STBLIBS @LIBS@        ;;
+	--have-feature)
+		exitcode=1
+		feature="`echo $2 | tr '-' '_'`"
+		eval "test x\${have_$feature} = x1 && exitcode=0"
+		exit $exitcode
+	;;
+	*)
+      echo >&2 "$me: Invalid option: \"$1\""
+      echo >&2 "$usage"
+      exit 1
+      ;;
+  esac
+  shift
+done
+

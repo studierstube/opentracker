@@ -1,0 +1,25 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 1
+    pen SoPenKit{
+       station 2
+       geometry File {name "./graphix/DefaultPen.iv"}
+    }
+    pip SoPipKit{
+       station 3
+       pipSize 0.3 0.2 0.01
+       skinFileName "skinWS1.iv"
+       offset Transform {translation 0 0 0 
+                         rotation 1 0 0 -1.57
+       }
+       geometry File {name "./graphix/DefaultPip.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "defaultCameraKit.iv"}
+        station 4
+        headlight TRUE
+        width 1024
+    }
+}
+

@@ -1,0 +1,83 @@
+#Inventor V2.1 ascii
+Complexity{ textureQuality 1.0}
+
+#-------------------------------------------------------------------------------------------------------
+# Highlighted blue textures
+DEF FILE_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file.png" }
+DEF VIEW_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view.png" }
+DEF EDIT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_edit.png" }
+
+DEF NEW_START_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_newstart.png" }
+DEF HELP_NOTES_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_helpnotes.png" }
+DEF EXPORT_VRML_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_export.png" }
+DEF IMPORT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_import.png" }
+DEF LOAD_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_load.png" }
+DEF SAVE_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_file_save.png" }
+
+DEF WIREFRAME_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view_wireframe.png" }
+DEF RIGHT_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view_right.png" }
+DEF LEFT_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view_left.png" }
+DEF FRONT_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view_front.png" }
+DEF TOP_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_view_top.png" }
+
+DEF DELETE_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_edit_delete.png" }
+DEF REDO_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_edit_redo.png" }
+DEF UNDO_BUTTON_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_edit_undo.png" }
+DEF DESELECT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_edit_deselectAll.png" }
+
+DEF TRANSFORM_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_main_transform.png" }
+DEF INTERSECT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_main_intersect.png" }
+DEF CONSTRUCT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_main_construct.png" }
+DEF THREE_D_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_main_3d.png" }
+DEF TWO_D_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_main_2d.png" }
+DEF POINT_TEX_H Texture2 { filename "textures/menubuttons/hiliteblue/hiliteblue_button_point.png" }
+
+DEF LAYER_VIS_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_eye.png" }
+DEF LAYER_1_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L1.png" }
+DEF LAYER_2_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L2.png" }
+DEF LAYER_3_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L3.png" }
+DEF LAYER_4_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L4.png" }
+DEF LAYER_5_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L5.png" }
+DEF LAYER_6_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_L6.png" }
+DEF UP_BUTTON_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_more-up.png" }
+DEF DOWN_BUTTON_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_more-down.png" }
+DEF MOVE_TO_TEX_H Texture2 { filename "textures/layerbuttons/hiliteblue/hiliteblue_button_layer_move-to.png" }
+
+DEF COPY_ON_OFF_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_transform_copy.png" }
+DEF TRANSLATE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_transform_translate.png" }
+DEF ROTATE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_transform_rotate.png" }
+DEF MIRROR_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_transform_mirror.png" }
+DEF SWEEP_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_transform_sweep.png" }
+
+DEF INTERSECTION_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_intersect_intersection.png" }
+DEF BOOLEAN_UNION_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_intersect_booleanUnion.png" }
+DEF BOOLEAN_INTERSECTION_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_intersect_booleanIntersection.png" }
+DEF BOOLEAN_DIFFERENCE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_intersect_booleanDifference.png" }
+DEF SLICE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_intersect_slice.png" }
+
+DEF NORMAL_PLANE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_NormalPlane.png" }
+DEF ARC_BISECTOR_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_ArcBisector.png" }
+DEF MID_POINT_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_MidPoint.png" }
+DEF TANGENTIAL_PLANE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_TangentialPlane.png" }
+DEF TANGENT_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_Tangent.png" }
+DEF PLANE_SYMMETRY_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_PlaneSymmetry.png" }
+DEF NORMAL_VECTOR_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_construct_NormalVector.png" }
+DEF DISTANCE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_constructMeasure_Distance.png" }
+DEF ANGLE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_constructMeasure_Angle.png" }
+
+DEF B_SPLINE_CURVE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_b-spline-curve.png" }
+DEF POINTS_SURFACE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_points-on-surface.png" }
+DEF SPHERE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_sphere.png" } 
+DEF POINTS_CURVE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_points-on-curve.png" }
+DEF B_SPLINE_SURFACE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_b-spline-surface.png" }
+DEF CYLINDER_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_cylinder.png" }
+DEF RIGHT_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_slider-right.png" }		
+DEF LEFT_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_slider-left.png" }
+DEF CONE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_cone.png" }
+DEF BOX_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_3d_box.png" }
+
+DEF LINE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_2d_line.png" }
+DEF PLANE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_2d_plane.png" }
+DEF CIRCLE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_2d_circle.png" }
+DEF ELLIPSE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_2d_ellipse.png" }
+DEF TRIANGLE_TEX_H Texture2 { filename "textures/arbeitsbuttons/hiliteblue/hiliteblue_button_menu_2d_triangle.png" }

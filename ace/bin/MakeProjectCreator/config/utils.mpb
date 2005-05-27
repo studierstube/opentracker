@@ -1,0 +1,7 @@
+// -*- MPC -*-
+// utils.mpb,v 1.1 2004/01/26 13:20:15 elliott_c Exp
+
+project : portableserver {
+  after += Utils
+  libs  += TAO_Utils
+}

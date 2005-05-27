@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding = "Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="DsRenderer"
+	ProjectGUID="{312B6BA0-F12F-42E7-AD1E-751678327DFB}"
+	SccProjectName=""
+	SccLocalPath="">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/LDd"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)/../src"
+				PreprocessorDefinitions="WIN32;_DEBUG;STRICT"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3">
+				<IntelOptions
+					Optimization="0"
+					MinimalRebuild="1"
+					BasicRuntimeChecks="3"
+					RuntimeLibrary="1"
+					AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../src&quot; /Zi /nologo /W3 /Od /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;STRICT&quot; /D &quot;_WINDLL&quot; /D &quot;_MBCS&quot; /Gm /EHsc /RTC1 /MTd /Fo&quot;.\Debug/&quot; /Fd&quot;.\Debug/&quot; /Gd /TP /LDd"
+					MSOriginalAdditionalOptions="/LDd"/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Registering DirectX Media Filters..."
+				CommandLine="$(WINDIR)\SYSTEM32\regsvr32.exe /s /c &quot;$(TargetPath)&quot;
+"
+				Outputs="null"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 /fixed:no"
+				AdditionalDependencies="winmm.lib strmbasd.lib opengl32.lib"
+				OutputFile="$(ProjectDir)..\bin.vc70\$(ProjectName)d.ax"
+				Version="0.0.6"
+				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames="libmmt.lib, libircmt.lib"
+				ModuleDefinitionFile="$(ProjectDir)/$(ProjectName).DEF"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(ProjectDir)/../bin.vc70/$(ProjectName)d.pdb"
+				SubSystem="2"
+				BaseAddress="0x1d200000"
+				ImportLibrary="$(ProjectDir)..\lib.vc70\$(ProjectName)d.lib">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /OUT:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\bin.vc70\DsRendererd.ax&quot; /VERSION:0.0.6 winmm.lib strmbasd.lib opengl32.lib /NODEFAULTLIB:&quot;libmmt.lib&quot; /NODEFAULTLIB:&quot; libircmt.lib&quot; /DEF:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/DsRenderer.DEF&quot; /DEBUG /PDB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../bin.vc70/DsRendererd.pdb&quot; /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:&quot;0x1d200000&quot; /IMPLIB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\lib.vc70\DsRendererd.lib&quot; /MACHINE:I386 /fixed:no kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions="/MACHINE:I386 /fixed:no"/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+			<IntelOptions
+				CompilerName="1"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\Release"
+			IntermediateDirectory=".\Release"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/LD"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="1"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				AdditionalIncludeDirectories="$(ProjectDir)/../src"
+				PreprocessorDefinitions="WIN32;NDEBUG;STRICT"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				AssemblerListingLocation=".\Release/"
+				ObjectFile=".\Release/"
+				ProgramDataBaseFileName=".\Release/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3">
+				<IntelOptions
+					Optimization="2"
+					GlobalOptimizations="1"
+					InlineFunctionExpansion="1"
+					EnableIntrinsicFunctions="1"
+					FavorSizeOrSpeed="1"
+					OmitFramePointers="1"
+					OptimizeForProcessor="0"
+					StringPooling="1"
+					RuntimeLibrary="0"
+					BufferSecurityCheck="1"
+					EnableFunctionLevelLinking="1"
+					AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../src&quot; /Zi /nologo /W3 /O2 /Og /Ob1 /Oi /Ot /Oy /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /D &quot;STRICT&quot; /D &quot;_WINDLL&quot; /D &quot;_MBCS&quot; /GF /FD /EHsc /MT /GS /Gy /Fo&quot;.\Release/&quot; /Fd&quot;.\Release/&quot; /Gd /TP /LD"
+					MSOriginalAdditionalOptions="/LD"/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Registering DirectX Media Filters..."
+				CommandLine="$(WINDIR)\SYSTEM32\regsvr32.exe /s /c &quot;$(TargetPath)&quot;
+"
+				Outputs="null"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 /LTCG"
+				AdditionalDependencies="winmm.lib strmbase.lib opengl32.lib"
+				OutputFile="$(ProjectDir)..\bin.vc70\$(ProjectName).ax"
+				Version="0.0.6"
+				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames=""
+				ModuleDefinitionFile="$(ProjectDir)/$(ProjectName).DEF"
+				SubSystem="2"
+				BaseAddress="0x1d200000"
+				ImportLibrary="$(ProjectDir)..\lib.vc70\$(ProjectName).lib">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /OUT:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\bin.vc70\DsRenderer.ax&quot; /VERSION:0.0.6 winmm.lib strmbase.lib opengl32.lib /DEF:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/DsRenderer.DEF&quot; /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:&quot;0x1d200000&quot; /IMPLIB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\lib.vc70\DsRenderer.lib&quot; /MACHINE:I386 /LTCG kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions="/MACHINE:I386 /LTCG"/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release (Intel)|Win32"
+			OutputDirectory="Release (Intel)"
+			IntermediateDirectory="Release (Intel)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/LD"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
+				AdditionalIncludeDirectories="$(ProjectDir)/../src"
+				PreprocessorDefinitions="WIN32;NDEBUG;STRICT"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				AssemblerListingLocation=".\Release (Intel)/"
+				ObjectFile=".\Release (Intel)/"
+				ProgramDataBaseFileName=".\Release (Intel)/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3">
+				<IntelOptions
+					WholeProgramOptimization="1"
+					Optimization="2"
+					GlobalOptimizations="1"
+					InlineFunctionExpansion="2"
+					EnableIntrinsicFunctions="1"
+					FavorSizeOrSpeed="1"
+					OmitFramePointers="1"
+					OptimizeForProcessor="2"
+					StringPooling="1"
+					RuntimeLibrary="0"
+					BufferSecurityCheck="1"
+					EnableFunctionLevelLinking="1"
+					AllOptions="/c  /GL /I &quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../src&quot; /Zi /nologo /W3 /O2 /Og /Ob2 /Oi /Ot /Oy /G6 /D &quot;WIN32&quot; /D &quot;NDEBUG&quot; /D &quot;STRICT&quot; /D &quot;_WINDLL&quot; /D &quot;_MBCS&quot; /GF /FD /EHsc /MT /GS /Gy /Fo&quot;.\Release (Intel)/&quot; /Fd&quot;.\Release (Intel)/&quot; /Gd /TP /LD"
+					MSOriginalAdditionalOptions="/LD"/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Registering DirectX Media Filters..."
+				CommandLine="$(WINDIR)\SYSTEM32\regsvr32.exe /s /c &quot;$(TargetPath)&quot;
+"
+				Outputs="null"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 /LTCG"
+				AdditionalDependencies="winmm.lib strmbase.lib opengl32.lib"
+				OutputFile="$(ProjectDir)..\bin.vc70\$(ProjectName).ax"
+				Version="0.0.6"
+				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames=""
+				ModuleDefinitionFile="$(ProjectDir)/$(ProjectName).DEF"
+				SubSystem="2"
+				BaseAddress="0x1d200000"
+				ImportLibrary="$(ProjectDir)..\lib.vc70\$(ProjectName).lib">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /LTCG /OUT:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\bin.vc70\DsRenderer.ax&quot; /VERSION:0.0.6 winmm.lib strmbase.lib opengl32.lib /DEF:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/DsRenderer.DEF&quot; /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:&quot;0x1d200000&quot; /IMPLIB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\lib.vc70\DsRenderer.lib&quot; /MACHINE:I386 /LTCG kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions="/MACHINE:I386 /LTCG"/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Copying DSRenderer.ax to \bin"
+				CommandLine="copy $(ProjectDir)..\bin.vc70\$(ProjectName).ax $(ProjectDir)..\..\bin.vc70"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+			<IntelOptions
+				WholeProgramOptimization="1"/>
+		</Configuration>
+		<Configuration
+			Name="Debug (intel)|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/LDd"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)/../src"
+				PreprocessorDefinitions="WIN32;_DEBUG;STRICT"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3">
+				<IntelOptions
+					Optimization="2"
+					InlineFunctionExpansion="1"
+					OmitFramePointers="1"
+					StringPooling="1"
+					BasicRuntimeChecks="3"
+					RuntimeLibrary="1"
+					BufferSecurityCheck="1"
+					EnableFunctionLevelLinking="1"
+					AllOptions="/c  /I &quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../src&quot; /Zi /nologo /W3 /O2 /Ob1 /Oy /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;STRICT&quot; /D &quot;_WINDLL&quot; /D &quot;_MBCS&quot; /GF /FD /EHsc /RTC1 /MTd /GS /Gy /Fo&quot;.\Debug/&quot; /Fd&quot;.\Debug/&quot; /Gd /TP /LDd"
+					MSOriginalAdditionalOptions="/LDd"/>
+			</Tool>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Registering DirectX Media Filters..."
+				CommandLine="$(WINDIR)\SYSTEM32\regsvr32.exe /s /c &quot;$(TargetPath)&quot;
+"
+				Outputs="null"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386 /fixed:no"
+				AdditionalDependencies="winmm.lib strmbasd.lib opengl32.lib"
+				OutputFile="$(ProjectDir)..\bin.vc70\$(ProjectName)d.ax"
+				Version="0.0.6"
+				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames=""
+				ModuleDefinitionFile="$(ProjectDir)/$(ProjectName).DEF"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(ProjectDir)/../bin.vc70/$(ProjectName)d.pdb"
+				SubSystem="2"
+				BaseAddress="0x1d200000"
+				ImportLibrary="$(ProjectDir)..\lib.vc70\$(ProjectName)d.lib">
+				<IntelOptions
+					AllOptions="/NOLOGO /DLL /OUT:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\bin.vc70\DsRendererd.ax&quot; /VERSION:0.0.6 winmm.lib strmbasd.lib opengl32.lib /DEF:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/DsRenderer.DEF&quot; /DEBUG /PDB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\/../bin.vc70/DsRendererd.pdb&quot; /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:&quot;0x1d200000&quot; /IMPLIB:&quot;s:\__cvsroot\ARVideoLib\DsVideoLib\src\..\lib.vc70\DsRendererd.lib&quot; /MACHINE:I386 /fixed:no kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+					MSOriginalAdditionalOptions="/MACHINE:I386 /fixed:no"/>
+			</Tool>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References/>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="CPU.cpp"/>
+			<File
+				RelativePath="DsRenderer.cpp"/>
+			<File
+				RelativePath="MemCopy.cpp"/>
+			<File
+				RelativePath="PixelFormat.cpp"/>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl">
+			<File
+				RelativePath="CPU.h"/>
+			<File
+				RelativePath="DsRenderer.h"/>
+			<File
+				RelativePath="GlDebug.h"/>
+			<File
+				RelativePath="MemCopy.h"/>
+			<File
+				RelativePath="PixelFormat.h"/>
+			<File
+				RelativePath="PixelFormatTypes.h"/>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="DsRenderer.RC"/>
+			<File
+				RelativePath="resource.h"/>
+		</Filter>
+		<Filter
+			Name="COM Interface Headers"
+			Filter="">
+			<File
+				RelativePath="IRendererParam.h"/>
+			<File
+				RelativePath="IRendererVFx.h"/>
+			<File
+				RelativePath="IRenderTargetDirect3D.h"/>
+			<File
+				RelativePath="IRenderTargetMemoryBuffer.h"/>
+			<File
+				RelativePath="IRenderTargetOpenGL.h"/>
+			<File
+				RelativePath="IRenderTargetUserCallback.h"/>
+		</Filter>
+		<Filter
+			Name="VFx Source Files"
+			Filter="">
+			<File
+				RelativePath="VFxBase.cpp"/>
+			<File
+				RelativePath="VFxDeinterlace.cpp"/>
+			<File
+				RelativePath="VFxFlip.cpp"/>
+		</Filter>
+		<Filter
+			Name="VFx Header Files"
+			Filter="">
+			<File
+				RelativePath="VFxBase.h"/>
+			<File
+				RelativePath="VFxBaseParam.h"/>
+			<File
+				RelativePath="VFxDeinterlace.h"/>
+			<File
+				RelativePath="VFxDeinterlaceParam.h"/>
+			<File
+				RelativePath="VFxFlip.h"/>
+		</Filter>
+		<File
+			RelativePath="..\LICENSE.txt"/>
+		<File
+			RelativePath="..\README.txt"/>
+	</Files>
+	<Globals>
+		<Global
+			Name="DevPartner_IsInstrumented"
+			Value="0"/>
+	</Globals>
+</VisualStudioProject>

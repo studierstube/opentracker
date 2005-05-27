@@ -1,0 +1,262 @@
+#Inventor V2.1 ascii
+
+Separator
+{
+
+	Translation
+	{
+		translation 3.0 0.0 2.6
+	}
+
+
+	
+	DEF critswitch Switch
+	{
+		whichChild 0	
+	
+
+		DEF critpic11 So3DButton
+		{
+			width 1.00
+			height 0.7
+			depth 0.9
+			nodeId "critpic11"
+
+			textureSwitch Switch 
+			{
+				whichChild 0 = USE critpic11 . pressed
+
+				DEF critpic11Texture Group 
+				{
+					Texture2 
+					{
+						filename "gfx/tab1.jpg"
+					}
+					FaceSet 
+					{
+						vertexProperty VertexProperty 
+						{
+						vertex	[ -0.5 0.36 0.4,
+							  0.5 0.36 0.4,
+							  0.5 0.36 -0.4,
+							  -0.5 0.36 -0.4 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								  1 0,
+								  1 1,
+								  0 1 ]
+						normalBinding	OVERALL
+						}
+						numVertices 4
+					}
+				}
+				Group 
+				{
+					Translation 
+					{
+		    				translation 0 -0.2 0
+					}
+					USE critpic11Texture
+				}
+
+			}		
+		}
+
+
+		DEF critpic21 So3DButton
+		{
+			width 1.00
+			height 0.7
+			depth 0.9
+			nodeId "critpic21"
+
+			textureSwitch Switch 
+			{
+				whichChild 0 = USE critpic21 . pressed
+
+				DEF critpic21Texture Group 
+				{
+					Texture2 
+					{
+						filename "gfx/tab2.jpg"
+					}
+					FaceSet 
+					{
+						vertexProperty VertexProperty 
+						{
+						vertex	[ -0.5 0.36 0.4,
+							  0.5 0.36 0.4,
+							  0.5 0.36 -0.4,
+							  -0.5 0.36 -0.4 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								  1 0,
+								  1 1,
+								  0 1 ]
+						normalBinding	OVERALL
+						}
+						numVertices 4
+					}
+				}
+				Group 
+				{
+					Translation 
+					{
+		    				translation 0 -0.2 0
+					}
+					USE critpic21Texture
+				}
+
+			}		
+		}
+
+
+		DEF critpic31 So3DButton
+		{
+			width 1.00
+			height 0.7
+			depth 0.9
+			nodeId "critpic31"
+
+			textureSwitch Switch 
+			{
+				whichChild 0 = USE critpic31 . pressed
+
+				DEF critpic31Texture Group 
+				{
+					Texture2 
+					{
+						filename "gfx/tab3.jpg"
+					}
+					FaceSet 
+					{
+						vertexProperty VertexProperty 
+						{
+						vertex	[ -0.5 0.36 0.4,
+							  0.5 0.36 0.4,
+							  0.5 0.36 -0.4,
+							  -0.5 0.36 -0.4 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								  1 0,
+								  1 1,
+								  0 1 ]
+						normalBinding	OVERALL
+						}
+						numVertices 4
+					}
+				}
+				Group 
+				{
+					Translation 
+					{
+		    				translation 0 -0.2 0
+					}
+					USE critpic31Texture
+				}
+
+			}		
+		}
+
+
+		DEF critpic41 So3DButton
+		{
+			width 1.00
+			height 0.7
+			depth 0.9
+			nodeId "critpic41"
+
+			textureSwitch Switch 
+			{
+				whichChild 0 = USE critpic41 . pressed
+
+				DEF critpic41Texture Group 
+				{
+					Texture2 
+					{
+						filename "gfx/tab4.jpg"
+					}
+					FaceSet 
+					{
+						vertexProperty VertexProperty 
+						{
+						vertex	[ -0.5 0.36 0.4,
+							  0.5 0.36 0.4,
+							  0.5 0.36 -0.4,
+							  -0.5 0.36 -0.4 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								  1 0,
+								  1 1,
+								  0 1 ]
+						normalBinding	OVERALL
+						}
+						numVertices 4
+					}
+				}
+				Group 
+				{
+					Translation 
+					{
+		    				translation 0 -0.2 0
+					}
+					USE critpic41Texture
+				}
+
+			}		
+		}
+
+
+		DEF critpic51 So3DButton
+		{
+			width 1.00
+			height 0.7
+			depth 0.9
+			nodeId "critpic51"
+
+			textureSwitch Switch 
+			{
+				whichChild 0 = USE critpic51 . pressed
+
+				DEF critpic51Texture Group 
+				{
+					Texture2 
+					{
+						filename "gfx/tab5.jpg"
+					}
+					FaceSet 
+					{
+						vertexProperty VertexProperty 
+						{
+						vertex	[ -0.5 0.36 0.4,
+							  0.5 0.36 0.4,
+							  0.5 0.36 -0.4,
+							  -0.5 0.36 -0.4 ]
+						normal	0 1 0
+						texCoord	[ 0 0,
+								  1 0,
+								  1 1,
+								  0 1 ]
+						normalBinding	OVERALL
+						}
+						numVertices 4
+					}
+				}
+				Group 
+				{
+					Translation 
+					{
+		    				translation 0 -0.2 0
+					}
+					USE critpic51Texture
+				}
+
+			}		
+		}
+
+
+
+
+	}
+
+}

@@ -1,0 +1,213 @@
+# Initial step, only RCX visible
+0
+nil
+explain
+The starting piece is the
+RCX, the brain of the robot 
+and the construction base.
+# Explain infrared
+0
+0
+explain
+The RCX receives infrared 
+signals from, and sends status
+messages to the computer.
+# Turn upside down
+0
+nil
+turn_upsidedown
+Turn robot upside down to see
+the bottom of the RCX.
+# Mount bottom frame
+1
+nil
+place 2 `bottom_back`
+Mount a frame at the bottom
+to support the engines for 
+the back wheels.
+# Turn upside down
+1
+nil
+turn_upsidedown
+Turn robot upside down to work 
+on the top again.
+# Mount engine A
+2
+nil
+place 1 `right`
+Mount engine onto the frame
+on the right side of the RCX.
+# Mount engine C
+3
+nil
+place 1 `left`
+Mount engine onto the frame
+on the left side of the RCX.
+# Mount front frame side 1.
+4
+nil
+place 2 `right`
+Mount brick on the right side
+by inserting the pin into the 
+front right hole on the RCX.
+# Mount front frame side 2.)
+5
+nil
+place 2 `left`
+Mount brick on the left side
+by inserting the pin into the 
+front left hole on the RCX.
+# Mount front frame front
+6
+nil
+place 2 `front`
+Mount bricks in the front to
+connect and fix the two side 
+bricks.
+# Turn upside down
+6
+nil
+turn_upsidedown
+Turn robot upside down to see
+the bottom of the RCX.
+# Mount front frame bottom 1.)
+7
+nil
+place 2 `bottom_right`
+Mount plate at the bottom to
+connect and fix the front frame
+on the right side.
+# Mount front frame bottom 2.)
+8
+nil
+place 2 `bottom_left`
+Mount plate at the bottom to
+connect and fix the front frame
+on the left side.
+# Turn upside down
+8
+nil
+turn_upsidedown
+Turn robot upside down to work 
+on the top again.
+# Mount front wheel mount 1.)
+9
+nil
+place 1 `right`
+Mount the small round plates
+with the pins on the right side 
+to support the front wheel.
+# Mount front wheel mount 2.)
+10
+nil
+place 1 `left`
+Mount the small round plates
+with the pins on the left side 
+to support the front wheel.
+# Mount frame stiffener
+11
+nil
+place 1 `top_right`
+Mount a small plate to stiffen
+the front frame on the right side.
+# Mount frame stiffener
+12
+nil
+place 1 `top_left`
+Mount a small plate to stiffen
+the front frame on the left side.
+# Mount front wheel 1.)
+13
+nil
+place 2 `right`
+Mount front wheel onto the pin
+on the right side.
+# Mount front wheel 2.)
+14
+nil
+place 2 `left`
+Mount front wheel onto the pin
+on the left side.
+# Mount back wheel 1.)
+15
+nil
+place 2 `right`
+Mount back wheel onto the pin
+on the right side.
+# Mount front wheel 2.)
+16
+nil
+place 2 `left`
+Mount back wheel onto the pin
+on the left side.
+# Connect engine A
+17
+1
+connect
+Connect right engine to 
+connector 'A'.
+# Connect engine C
+18
+2
+connect
+Connect left engine to 
+connector 'C'.
+# Turn RCX on
+18
+3
+press_down
+Turn the RCX on by pressing 
+the 'On-Off' button. 
+# Explain infrared
+18
+0
+explain
+Turn the IR sensor towards 
+the USB tower. Beeps indicate 
+correct IR communication.
+# Check LCD screen (program number)
+18
+4
+explain
+Look at the LCD screen. If it
+doesn't look like the example 
+screen, press the 'Prgm' button.
+# Check construction + function
+18
+5 6
+motorState `+-+`
+Compare the appearance and 
+behavior of the real and the
+virtual robot using your PUC.
+# Mount push sensor
+19
+5 6 7
+connect
+Connect the push sensor to
+connector 1.
+# Test push sensor
+19
+5 6 8
+sensorState `+--`
+Test the sensor by pushing the
+yellow button. 
+# Mount light sensor
+20
+5 6 9
+connect
+Connect the light sensor to
+connector 3.
+# Test light sensor
+20
+5 6 10
+sensorState `--+`
+Test the sensor by holding
+grayscale paper stripes in
+front of it.
+# Construction is complete
+20 19
+5 6 8 10
+sensorState `+-+`
+You are done with your
+robot, have fun playing
+around!

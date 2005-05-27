@@ -1,0 +1,7 @@
+// -*- MPC -*-
+// amh.mpb,v 1.3 2004/01/29 20:05:27 elliott_c Exp
+
+project: taoidldefaults {
+  requires += ami // There is no separate 
+  idlflags += -GH
+}

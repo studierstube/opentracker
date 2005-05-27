@@ -1,0 +1,3 @@
+cd ../../../bin/workspace
+start -un 2 -a ../apps/avsdisplay/avsdisplay_stb.so
+cd ../../src/apps/avsdisplay/

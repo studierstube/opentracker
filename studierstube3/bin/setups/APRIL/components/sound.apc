@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="sound" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../../../studierstube/tools/april/april-component.xsd">
+    <interface>
+        <input id="src" type="SFString" default=""/>
+        <input id="play" type="SFBool" default="FALSE"/>
+        <input id="loop" type="SFBool" default="FALSE"/>
+        <input id="volume" type="SFFloat" default="1.0"/>
+    </interface>
+    <implementation>
+
+DEF <id/> SoAudio {
+    fileName <in id="src"/>
+    trigger <in id="play"/>
+}
+
+    </implementation>
+</component>

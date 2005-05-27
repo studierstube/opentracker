@@ -1,0 +1,1190 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
+<Building xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="icg">
+   <Room id="vrlab">
+    <Geometry>
+      <Vertex position="4.33811000 	0.197564000 3.04953300"/> <!-- name="1.0" -->
+      <Vertex position="4.34343000 	0.198108000 2.89648900"/> <!-- name="2.0" -->
+      <Vertex position="4.34322100 	0.0452570000 2.89602500"/> <!-- name="3.0" -->
+      <Vertex position="4.33780500 	0.0444320000 3.04908000"/> <!-- name="4.0" -->
+      <Vertex position="4.24812400 	0.234554000 2.25105000"/> <!-- name="5.0" -->
+      <Vertex position="4.25445800 	0.234230000 2.09798000"/> <!-- name="6.0" -->
+      <Vertex position="4.25361000 	0.0813120000 2.09762500"/> <!-- name="7.0" -->
+      <Vertex position="4.24709700 	0.0814250000 2.25091900 	"/> <!-- name="8.0" -->
+      <Vertex position="3.78783400 	0.339577000 -2.23154900 	"/> <!-- name="9.0" -->
+      <Vertex position="3.63469000 	0.338050000 -2.23529600 	"/> <!-- name="10.0" -->
+      <Vertex position="3.63582400 	0.185286000 -2.23412000 	"/> <!-- name="11.0" -->
+      <Vertex position="3.78949900 	0.186690000 -2.23095600 	"/> <!-- name="12.0" -->
+      <Vertex position="2.26526200 	0.770834000 -2.27311300 	"/> <!-- name="13.0" -->
+      <Vertex position="2.11190000 	0.769341000 -2.27687300 	"/> <!-- name="14.0" -->
+      <Vertex position="2.11318000 	0.616594000 -2.27604000 	"/> <!-- name="15.0" -->
+      <Vertex position="2.26651600 	0.617769000 -2.27237800 	"/> <!-- name="16.0" -->
+      <Vertex position="0.112000000	0.288604000 -2.32688000 	"/> <!-- name="17.0" -->
+      <Vertex position="-0.0406110000	0.289210000 -2.33017000 	 "/> <!-- name="18.0" -->
+      <Vertex position="-0.0413850000	0.136120000 -2.33000000 	 "/> <!-- name="19.0" -->
+      <Vertex position="0.110826000	0.135594000 -2.32681000 	 "/> <!-- name="20.0" -->
+      <Vertex position="-1.41410000 	0.774815000 -2.36863800 	 "/> <!-- name="21.0" -->
+      <Vertex position="-1.56633000 	0.772107000 -2.37188400 	 "/> <!-- name="22.0" -->
+      <Vertex position="-1.56503000 	0.619968000 -2.37295800 	 "/> <!-- name="23.0" -->
+      <Vertex position="-1.41245000 	0.621700000 -2.36909500 	 "/> <!-- name="24.0" -->
+      <Vertex position="-3.25829000 	0.305100000 -2.41371000 	 "/> <!-- name="25.0" -->
+      <Vertex position="-3.41156300 	0.306153000 -2.41738000 	 "/> <!-- name="26.0" -->
+      <Vertex position="-3.41203000 	0.153800000 -2.41735000 	 "/> <!-- name="27.0" -->
+      <Vertex position="-3.25849400 	0.152540000 -2.41276000 	 "/> <!-- name="28.0" -->
+      <Vertex position="-4.54822100 	0.341813000 -1.77814000 	 "/> <!-- name="29.0" -->
+      <Vertex position="-4.55304100 	0.341765000 -1.62499000 	 "/> <!-- name="30.0" -->
+      <Vertex position="-4.55244700 	0.189080000 -1.62478000 	 "/> <!-- name="31.0" -->
+      <Vertex position="-4.54856200 	0.189100000 -1.77800000 	 "/> <!-- name="32.0" -->
+      <Vertex position="-4.58687400 	0.339911000 -0.395216000 	 "/> <!-- name="33.0" -->
+      <Vertex position="-4.59420700 	0.339911000 -0.243055000 	 "/> <!-- name="34.0" -->
+      <Vertex position="-4.59016100 	0.188283000 -0.242188000 	 "/> <!-- name="35.0" -->
+      <Vertex position="-4.58663400 	0.186940000 -0.394932000 	 "/> <!-- name="36.0" -->
+      <Vertex position="-4.61692200 	0.340309000 0.981749000 	 "/> <!-- name="37.0" -->
+      <Vertex position="-4.62102300 	0.340863000 1.13431800 	 "/> <!-- name="38.0" -->
+      <Vertex position="-4.62058600 	0.187743000 1.13396000 	 "/> <!-- name="39.0" -->
+      <Vertex position="-4.61658600 	0.187577000 0.981040000 	 "/> <!-- name="40.0" -->
+      <Vertex position="-3.86402000 	0.340284000 1.87964000 	 "/> <!-- name="41.0" -->
+      <Vertex position="-3.70955000 	0.336342000 1.88238000 	 "/> <!-- name="42.0" -->
+      <Vertex position="-3.72036300 	0.185181000 1.87087200 	 "/> <!-- name="43.0" -->
+      <Vertex position="-3.86542000 	0.187470000 1.87989200 	 "/> <!-- name="44.0" -->
+      <Vertex position="-3.74314800 	0.235632000 2.67608900 	 "/> <!-- name="45.0" -->
+      <Vertex position="-3.74916700 	0.236277000 2.82851300 	 "/> <!-- name="46.0" -->
+      <Vertex position="-3.74880700 	0.0834900000 2.82931800 	 "/> <!-- name="47.0" -->
+      <Vertex position="-3.74224600 	0.0825290000 2.67612000 	 "/> <!-- name="48.0" -->
+      <Vertex position="-2.77365500 	0.242416000 3.37782500 	 "/> <!-- name="49.0" -->
+      <Vertex position="-2.62163600 	0.243521000 3.38244000 	 "/> <!-- name="50.0" -->
+      <Vertex position="-2.62084300 	0.0906570000 3.38174900 	 "/> <!-- name="51.0" -->
+      <Vertex position="-2.77428000 	0.0893750000 3.37835000 	 "/> <!-- name="52.0" -->
+      <Vertex position="2.84687200 	0.194562000 3.52524000 	 "/> <!-- name="53.0" -->
+      <Vertex position="2.99049300 	0.195149000 3.53242100 	 "/> <!-- name="54.0" -->
+      <Vertex position="2.99177700 	0.0427440000 3.53253300 	 "/> <!-- name="55.0" -->
+      <Vertex position="2.83915000 	0.0412220000 3.52880000 	 "/> <!-- name="56.0" -->
+      <Vertex position="4.29219400 	-1.62534400 3.55336400 	 "/> <!-- name="57.0" -->
+      <Vertex position="4.24022000 	-1.61303000 2.28894900 	 "/> <!-- name="58.0" -->
+      <Vertex position="4.31406900 	1.04296000 3.55953700 	 "/> <!-- name="59.0" -->
+      <Vertex position="4.25177400 	1.02325700 2.30060700 	 "/> <!-- name="60.0" -->
+      <Vertex position="4.25558800 	1.02875700 2.09917600 	 "/> <!-- name="61.0" -->
+      <Vertex position="4.26603000 	1.51407000 2.09825300 	 "/> <!-- name="62.0" -->
+      <Vertex position="4.35812800 	1.50350000 -2.09385300 	 "/> <!-- name="63.0" -->
+      <Vertex position="4.35012600 	1.37574000 -2.08999100 	 "/> <!-- name="64.0" -->
+      <Vertex position="4.34885800 	1.37569500 -2.19377000 	 "/> <!-- name="65.0" -->
+      <Vertex position="4.35353300 	0.990029000 -2.19572300 	 "/> <!-- name="66.0" -->
+      <Vertex position="4.35609700 	-0.749462000 -2.19565500 	 "/> <!-- name="67.0" -->
+      <Vertex position="4.35646000 	-0.752315000 -2.05779400 	 "/> <!-- name="68.0" -->
+      <Vertex position="4.33871000 	-1.62053500 -2.05621300 	 "/> <!-- name="69.0" -->
+      <Vertex position="3.19800800 	0.405330000 -2.24691600 	 "/> <!-- name="70.0" -->
+      <Vertex position="3.19797100 	-0.748064000 -2.24700000 	 "/> <!-- name="71.0" -->
+      <Vertex position="0.996526000 	0.402640000 -2.28968900 	 "/> <!-- name="72.0" -->
+      <Vertex position="0.996429000 	-0.747862000 -2.28935700 	 "/> <!-- name="73.0" -->
+      <Vertex position="0.996429000 	-0.747862000 -2.28935700 	 "/> <!-- name="73.0" -->   
+      <Vertex position="0.932309000 	0.989011000 -2.30443500 	 "/> <!-- name="75.0" -->
+      <Vertex position="0.930999000 	1.38218400 -2.30138200 	 "/> <!-- name="76.0" -->
+      <Vertex position="0.931403000 	1.50596900 -2.30219100 	 "/> <!-- name="77.0" -->
+      <Vertex position="0.934710000 	1.50174000 -2.17874900 	 "/> <!-- name="78.0" -->
+      <Vertex position="0.933537000 	1.37165000 -2.17599800 	 "/> <!-- name="79.0" -->
+      <Vertex position="0.700682000 	-1.63323000 -1.80125100 	 "/> <!-- name="80.0" -->
+      <Vertex position="0.404080000 	-1.63536600 -1.81107000 	 "/> <!-- name="81.0" -->
+      <Vertex position="0.407120000 	-1.62805000 -2.16138300 	 "/> <!-- name="82.0" -->
+      <Vertex position="-0.283326000 	-0.747969000 -2.31407200 	 "/> <!-- name="83.0" -->
+      <Vertex position="-0.286296000 	0.401214000 -2.31654500 	 "/> <!-- name="84.0" -->
+      <Vertex position="-0.220899000 	1.06288400 -2.30339600 	 "/> <!-- name="85.0" -->
+      <Vertex position="-0.224009000 	1.37156300 -2.33514400 	 "/> <!-- name="86.0" -->
+      <Vertex position="-0.224700000 	1.50385000 -2.33851900 	 "/> <!-- name="87.0" -->
+      <Vertex position="-0.235890000 	1.49149400 -2.20609700 	 "/> <!-- name="88.0" -->
+      <Vertex position="-0.236024000 	1.37024800 -2.20809000 	 "/> <!-- name="89.0" -->
+      <Vertex position="-3.70330000 	1.48706400 -2.29256000 	 "/> <!-- name="90.0" -->
+      <Vertex position="-3.70803800 	1.37064000 -2.29553500 	 "/> <!-- name="91.0" -->
+      <Vertex position="-3.70828600 	1.36473000 -2.40191800 	 "/> <!-- name="92.0" -->
+      <Vertex position="-3.65403000 	0.995419000 -2.42008900 	 "/> <!-- name="93.0" -->
+      <Vertex position="-3.06332200 	0.401311000 -2.41015900 	 "/> <!-- name="94.0" -->
+      <Vertex position="-3.06623900 	-0.748480000 -2.41038900 	 "/> <!-- name="95.0" -->
+      <Vertex position="-4.55786700 	1.47930000 -2.42238700 	 "/> <!-- name="96.0" -->
+      <Vertex position="-4.54283000 	-0.746600000 -2.41425100 	 "/> <!-- name="97.0" -->
+      <Vertex position="-4.54507400 	-0.736370000 -2.29229000 	 "/> <!-- name="98.0" -->
+      <Vertex position="-4.51690100 	-1.61881000  -2.27772100 	"/> <!-- name="99.0" -->
+      <Vertex position="-4.63296100 	-1.62729800 1.85574300 	 "/> <!-- name="100.0" -->
+      <Vertex position="-4.64970300 	1.51684000 1.86223000 	 "/> <!-- name="101.0" -->
+      <Vertex position="-3.59472500 	-1.62174000 1.88832000 	 "/> <!-- name="102.0" -->
+      <Vertex position="-3.60734700 	1.03510000 1.88652300 	 "/> <!-- name="103.0" -->
+      <Vertex position="-3.60340000 	-1.62085000 2.08041300 	 "/> <!-- name="104.0" -->
+      <Vertex position="-3.60986000 	1.02462000 2.07590900 	 "/> <!-- name="105.0" -->
+      <Vertex position="-3.74011800 	-1.62825700 3.33253700 	 "/> <!-- name="106.0" -->
+      <Vertex position="-3.75831600 	1.04258000 3.34840000 	 "/> <!-- name="107.0" -->
+      <Vertex position="-1.52809000 	-1.62577000 3.39243700 	 "/> <!-- name="108.0" -->
+      <Vertex position="-1.53233300 	1.03350000 3.40738700 	 "/> <!-- name="109.0" -->
+      <Vertex position="1.95135600 	-1.62898500 3.49720000 	 "/> <!-- name="110.0" -->
+      <Vertex position="1.95277000 	1.03679600 3.50066000 	 "/> <!-- name="111.0" -->
+      <Vertex position="0.700682000 	-1.62805000 -2.16138300 	 "/> <!-- name="112.0" -->
+      <Vertex position="0.700682000 	1.50000000 -1.80125100 	 "/> <!-- name="113.0" -->
+      <Vertex position="0.404080000 	1.50000000 -1.81107000 	 "/> <!-- name="114.0" -->
+      <Vertex position="0.407120000 	1.50000000 -2.16138300 	 "/> <!-- name="115.0" -->
+      <Vertex position="0.700682000 	1.50000000 -2.16138300 	 "/> <!-- name="116.0" -->
+      <Vertex position="4.35000000 	1.50000000 -2.19000000 	 "/> <!-- name="117.0" -->
+      <Vertex position="-3.70000000 	1.48000000 -2.40000000 	 "/> <!-- name="118.0" -->
+      <Vertex position="4.3430385 	  -1.6190643 2.2914995 	"/> <!-- name="119 -->    
+      <Vertex position="4.3321539 	  -1.6225017 2.4112868   "/> <!-- name="120 -->    
+      <Vertex position="4.3581761   	1.0542224 2.2987815 	"/> <!-- name="121.0" -->
+      <Vertex position="4.3432867  	1.0458609 2.4206611 	"/> <!-- name="122.0" -->
+      <Vertex position="-3.71414910      -1.62583090 2.24771200	"/> <!-- name="123.0" -->
+      <Vertex position="-3.75149500	-1.63156740 3.26927050	"/> <!-- name="124.0" -->
+      <Vertex position="-3.77224000	0.0825200000 2.67612000	"/> <!-- name="125.0" -->
+      <Vertex position="-3.77916700	0.236277000 2.82851300	"/> <!-- name="126.0" -->
+      <Vertex position="-3.77314800	0.2356320002.67608900	"/> <!-- name="127.0" -->
+      <Vertex position="-3.6870664  -1.6298412 2.1007355  "/> <!-- name="128.0" -->
+      <Vertex position="-3.6970828 	-1.62870170 2.2282822 	 "/>  <!-- name="129.0" -->
+      <Vertex position="-3.7136953  1.0624188 2.091949   "/> <!-- name="130.0" -->
+      <Vertex position="-3.7237117  1.0567687 2.2194957  "/> <!-- name="131.0" -->      
+      
+        <Polygon type="floor" vertices="69 99 100 102 104 128 129 106 108 110 57 120 119 58"/>
+        <Polygon type="ceiling" vertices="61 60 121 122 59 111 109 107 131 130 105 103"/>
+        <Polygon type="ceiling" vertices="101 96 118 87 77 117 63 62"/> 
+	    
+        <Polygon type="wall" vertices="68 69 99 98"/> 
+        <Polygon type="wall" vertices="100 101 96 97 98 99"/>
+        <Polygon type="wall" vertices="100 102 103 61 62 101"/>     
+			
+			
+	<Polygon type="wall" vertices="60 58 69 68 67 66 65 64 63 62 61"/>
+	<Polygon type="wall" vertices="67 66 65 117 77 87 118 96 97"/>
+	<Polygon type="wall" vertices="67 68 98 97"/>
+	<Polygon type="wall" vertices="105 103 102 104"/>
+	<Polygon type="wall" vertices="105 130 128 104"/>   	
+	<Polygon type="wall" vertices="129 128 130 131"/>
+	<Polygon type="wall" vertices="109 107 106 108"/>
+	<Polygon type="wall" vertices="59 111 110 57"/>
+	<Polygon type="wall" vertices="121 60 58 119"/>
+	<Polygon type="wall" vertices="122 121 119 120"/>			
+	    
+     	<!-- Saeule im Raum -->
+	<Polygon type="wall" vertices="113 116 112 80"/>
+	<Polygon type="wall" vertices="116 115 82 112"/>
+	<Polygon type="wall" vertices="114 115 82 81"/>
+	<Polygon type="wall" vertices="113 114 81 80"/>
+     
+	<!-- rolling shutters -->
+	<Polygon type="wall" vertices="63 78 77 117"/>
+	<Polygon type="wall" vertices="63 78 79 64"/>					
+	<Polygon type="wall" vertices="65 64 79 76"/>						
+	<Polygon type="wall" vertices="63 117 65 64"/>
+	<Polygon type="wall" vertices="78 77 76 79"/>	
+	<Polygon type="wall" vertices="88 87 86 89"/>		
+	<Polygon type="wall" vertices="90 118 92 91"/>
+	<Polygon type="wall" vertices="88 87 118 90"/>		
+	<Polygon type="wall" vertices="90 91 89 88"/>
+	<Polygon type="wall" vertices="89 86 92 91"/>		  
+			
+	<!-- door to corridor --> 	
+	<Polygon name="to_corridor" type="portal" vertices="59 122 120 57"/>
+		
+	<!-- second door -->	
+	<Polygon name="to_corrdaniel" type="portal" vertices="107 131 129 106"/>
+		
+	<!-- window inside -->
+	<Polygon type="portal" vertices="111 109 108 110"/>
+		  
+	<!-- windows outside 	-->
+	<Polygon type="portal" vertices="65 76 75 66"/>
+	<Polygon type="portal" vertices="70 72 73 71"/>		
+	<Polygon type="portal" vertices="85 86 92 93"/>
+	<Polygon type="portal" vertices="84 94 95 83"/>		
+			
+    </Geometry>  
+   
+    <Tracking>   
+      <ARToolkit>     
+        <Marker4PNT number="18" size="0.153" name="pattern018">
+          <Vertex position="4.34343000 0.198108000	2.89648900 	 "/> <!-- name="2.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="4.33811000 0.197564000	3.04953300 	 "/> <!-- name="1.0" -->
+   	  <!-- 2 top right -->
+          <Vertex position="4.34322100 0.0452570000	2.89602500 	 "/> <!-- name="3.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="4.33780500 0.0444320000	3.04908000 	 "/> <!-- name="4.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="19" size="0.153" name="pattern019">
+          <Vertex position="4.25445800 0.234230000	2.09798000 	 "/> <!-- name="6.0" -->
+	  <!-- 1 top left -->
+          <Vertex position="4.24812400 0.234554000	2.25105000 	 "/> <!-- name="5.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="4.25361000 0.0813120000	2.09762500 	 "/> <!-- name="7.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="4.24709700 0.0814250000	2.25091900 	 "/> <!-- name="8.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="20" size="0.153" name="pattern020">
+      	  <Vertex position="3.63469000 0.338050000	-2.23529600 	 "/> <!-- name="10.0" -->
+	  <!-- 1 top left-->
+      	  <Vertex position="3.78783400 0.339577000	-2.23154900 	 "/> <!-- name="9.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="3.63582400 0.185286000	-2.23412000 	 "/> <!-- name="11.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="3.78949900 0.186690000	-2.23095600 	 "/> <!-- name="12.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="21" size="0.153" name="pattern021">
+      	  <Vertex position="2.11190000 0.769341000	-2.27687300 	 "/> <!-- name="14.0" -->
+	  <!-- 1 top left -->
+ 	  <Vertex position="2.26526200 0.770834000	-2.27311300 	 "/> <!-- name="13.0" -->
+ 	  <!-- 2 top right -->
+      	  <Vertex position="2.11318000 0.616594000	-2.27604000 	 "/> <!-- name="15.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="2.26651600 0.617769000	-2.27237800 	 "/> <!-- name="16.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="22" size="0.153" name="pattern022">
+      	  <Vertex position="-0.0406110000 0.289210000	-2.33017000 	 "/> <!-- name="18.0" -->
+	  <!-- 1 top left-->
+      	  <Vertex position="0.112000000 0.288604000	-2.32688000 	 "/> <!-- name="17.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="-0.0413850000 0.136120000	-2.33000000 	 "/> <!-- name="19.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="0.110826000 0.135594000	-2.32681000 	 "/> <!-- name="20.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="23" size="0.153" name="pattern023">
+      	  <Vertex position="-1.56633000 0.772107000	-2.37188400 	 "/> <!-- name="22.0" -->
+	  <!-- 1 top left -->
+	  <Vertex position="-1.41410000 0.774815000	-2.36863800 	 "/> <!-- name="21.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="-1.56503000 	0.61996800 -2.37295800 	 "/> <!-- name="23.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="-1.41245000 0.621700000	-2.36909500 	 "/> <!-- name="24.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+								
+        <Marker4PNT number="24" size="0.153" name="pattern024">
+      	  <Vertex position="-3.41156300 0.306153000	-2.41738000 	 "/> <!-- name="26.0" -->
+	  <!-- 1 top left-->
+	  <Vertex position="-3.25829000 0.305100000	-2.41371000 	 "/> <!-- name="25.0" -->
+	  <!-- 2 top right -->
+      	  <Vertex position="-3.41203000 0.153800000	-2.41735000 	 "/> <!-- name="27.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="-3.25849400 	0.152540000 -2.41276000 	 "/> <!-- name="28.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="25" size="0.153" name="pattern025">
+      	  <Vertex position="-4.55304100 0.341765000	-1.62499000 	 "/> <!-- name="30.0" -->
+	  <!-- 1 top left-->
+      	  <Vertex position="-4.54822100 0.341813000	-1.77814000 	 "/> <!-- name="29.0" -->
+	  <!-- 2 top right -->
+      	  <Vertex position="-4.55244700 0.189080000 	-1.62478000 	"/> <!-- name="31.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="-4.54856200 0.189100000	-1.77800000 	 "/> <!-- name="32.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+				
+        <Marker4PNT number="26" size="0.153" name="pattern026">
+      	  <Vertex position="-4.59420700 0.339911000	-0.243055000 	 "/> <!-- name="34.0" -->
+	  <!-- 1 top left-->
+      	  <Vertex position="-4.58687400 0.339911000	-0.395216000 	 "/> <!-- name="33.0" -->
+    	  <!-- 2 top right -->
+      	  <Vertex position="-4.59016100 0.188283000	-0.242188000 	 "/> <!-- name="35.0" -->
+      	  <!-- 3 bottom left -->
+      	  <Vertex position="-4.58663400 0.186940000	-0.394932000 	 "/> <!-- name="36.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="27" size="0.153" name="pattern027">
+      	  <Vertex position="-4.62102300 	0.340863000 1.13431800 	 "/> <!-- name="38.0" -->
+	  <!-- 1 top left -->
+      	  <Vertex position="-4.61692200 0.340309000	0.981749000 	 "/> <!-- name="37.0" -->
+	  <!-- 2 top right -->
+      	  <Vertex position="-4.62058600 	0.187743000 1.13396000 	 "/> <!-- name="39.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="-4.61658600 0.187577000	0.981040000 	 "/> <!-- name="40.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="28" size="0.153" name="pattern028">
+      	  <Vertex position="-3.70955000 0.336342000	1.88238000 	 "/> <!-- name="42.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="-3.86402000 	0.340284000 1.87964000 	 "/> <!-- name="41.0" -->
+	  <!-- 2 top right -->
+     	  <Vertex position="-3.72036300 	0.185181000 1.87087200 	 "/> <!-- name="43.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="-3.86542000 	0.187470000 1.87989200 	 "/> <!-- name="44.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+			
+	<Marker4PNT number="29" size="0.153" name="pattern029">
+      	  <Vertex position="-3.74916700 0.236277000	2.82851300 	 "/> <!-- name="46.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="-3.74314800 0.235632000	2.67608900 	 "/> <!-- name="45.0" -->
+    	  <!-- 2 top right -->
+	  <Vertex position="-3.74880700 0.0834900000	2.82931800 	 "/> <!-- name="47.0" -->
+      	  <!-- 3 bottom left -->
+      	  <Vertex position="-3.74224600 0.0825290000	2.67612000 	 "/> <!-- name="48.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+			
+	<Marker4PNT number="30" size="0.153" name="pattern030">
+      	  <Vertex position="-2.62163600 0.243521000	3.38244000 	 "/> <!-- name="50.0" -->
+	  <!-- 1 top left -->
+      	  <Vertex position="-2.77365500 0.242416000	3.37782500 	 "/> <!-- name="49.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="-2.62084300 0.0906570000	3.38174900 	 "/> <!-- name="51.0" -->
+	  <!-- 3 bottom left -->
+    	  <Vertex position="-2.77428000 0.0893750000	3.37835000 	 "/> <!-- name="52.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="31" size="0.153" name="pattern031">
+      	  <Vertex position="2.99049300 0.195149000	3.53242100 	 "/> <!-- name="54.0" -->
+	  <!-- 1 top left-->
+      	  <Vertex position="2.84687200 0.194562000	3.52524000 	 "/> <!-- name="53.0" -->
+	  <!-- 2 top right -->
+      	  <Vertex position="2.99177700 0.0427440000	3.53253300 	 "/> <!-- name="55.0" -->
+	  <!-- 3 bottom left -->
+      	  <Vertex position="2.83915000 0.0412220000	3.52880000 	 "/> <!-- name="56.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+
+  
+      </ARToolkit>
+    </Tracking>
+    <Portals>
+      <Portal room="corridor" polygon="to_corridor" polygonnb="to_vrlab"/>
+      <Portal room="corrdaniel" polygon="to_corrdaniel" polygonnb="to_vrlab"/>
+    </Portals>     
+    </Room>
+  
+    <Room id="corridor">
+    <Geometry>
+      <Vertex position="15.4605610 1.03036550	3.87674020 	"/> <!-- name="1.0" -->
+      <Vertex position="16.9847760 1.03877380	3.92221450 	"/> <!-- name="2.0" -->
+      <Vertex position="17.0363360 0.187888100	3.39694460 	"/> <!-- name="3.0" -->
+      <Vertex position="17.0399610 0.0362606170	3.24365850 	"/> <!-- name="4.0" -->
+      <Vertex position="17.0094710 1.02758340	2.45400640 	"/> <!-- name="5.0" -->
+      <Vertex position="11.0086940 -1.63643270	2.75002730 	"/> <!-- name="6.0" -->
+      <Vertex position="10.6269860 -1.63760330	3.51313160 	"/> <!-- name="7.0" -->
+      <Vertex position="9.78550880 -0.514771750	3.80489920 	"/> <!-- name="8.0" -->
+      <Vertex position="9.93782380 -0.513654040	3.80830770 	"/> <!-- name="9.0" -->
+      <Vertex position="9.93536990 -0.666087460	3.82275790 	"/> <!-- name="10.0" -->
+      <Vertex position="9.78604170 -0.666513260	3.80317440 "/> <!-- name="11.0" -->
+      <Vertex position="11.1855310 0.171917450 3.22820930 "/> <!-- name="12.0" -->
+      <Vertex position="11.1889710 0.172736900	3.07912500 	"/> <!-- name="13.0" -->
+      <Vertex position="11.1893840 0.0201093340	3.07873290 	"/> <!-- name="14.0" -->
+      <Vertex position="11.1857040 0.0196592570	3.23033310 	"/> <!-- name="15.0" -->
+      <Vertex position="8.57017030 0.182346280	2.41542010 	"/> <!-- name="16.0" -->
+      <Vertex position="8.41914560 0.182007170	2.41126620 	"/> <!-- name="17.0" -->
+      <Vertex position="8.41904410 0.0295671400	2.41127150 	"/> <!-- name="18.0" -->
+      <Vertex position="8.56972300 0.0295724530	2.41562630 	"/> <!-- name="19.0" -->
+      <Vertex position="4.34992360 0.198608200	2.89231360 	"/> <!-- name="20.0" -->
+      <Vertex position="4.34463640 0.198176620	3.04512560 	"/> <!-- name="21.0" -->
+      <Vertex position="4.34412380 0.0452184740	3.04101620 	"/> <!-- name="22.0" -->
+      <Vertex position="4.35037810 0.0459250300	2.89146500 	"/> <!-- name="23.0" -->
+      <Vertex position="4.37920350 0.879631780	3.75606680 	"/> <!-- name="24.0" -->
+      <Vertex position="4.38533850 0.882254400	3.56018010 	"/> <!-- name="25.0" -->
+      <Vertex position="4.35575730 1.04148540	3.55787690 	"/> <!-- name="26.0" -->
+      <Vertex position="4.35138340 0.888984610	3.55413410 	"/> <!-- name="27.0" -->
+      <Vertex position="4.34885640 -1.62902860	3.54682800 	"/> <!-- name="28.0" -->
+      <Vertex position="4.37492820 -1.63229710	3.55886580 	"/> <!-- name="29.0" -->
+      <Vertex position="4.39798190 -1.63135700	3.65359760 	"/> <!-- name="30.0" -->
+      <Vertex position="4.39611150 -0.436614790	3.65934840 	"/> <!-- name="31.0" -->
+      <Vertex position="4.38722760 -0.434245310	3.75445460 	"/> <!-- name="32.0" -->
+      <Vertex position="8.21745060 -0.441307270	3.76285060 	"/> <!-- name="33.0" -->
+      <Vertex position="8.18818010 -0.449588490	3.87238770 	"/> <!-- name="34.0" -->
+      <Vertex position="8.22351930 -1.62461040	3.85154020 	"/> <!-- name="35.0" -->
+      <Vertex position="8.21934020 -1.62298460	3.76210180 	"/> <!-- name="36.0" -->
+      <Vertex position="9.58216900 -0.443039630	3.80318740 	"/> <!-- name="37.0" -->
+      <Vertex position="9.58507950 -0.435975490	3.88024860 	"/> <!-- name="38.0" -->
+      <Vertex position="11.0775950 -0.442036690	3.84884690 	"/> <!-- name="39.0" -->
+      <Vertex position="11.0788570 -0.439854010	3.92775410 	"/> <!-- name="40.0" -->
+      <Vertex position="11.0735890 -1.63281010	3.82759200 	"/> <!-- name="41.0" -->
+      <Vertex position="11.0833730 -1.63565950	3.73342090 	"/> <!-- name="42.0" -->
+      <Vertex position="11.1463150 -1.63889690	3.73127400 	"/> <!-- name="43.0" -->
+      <Vertex position="11.1554830 0.887637650	3.73655810 	"/> <!-- name="44.0" -->
+      <Vertex position="11.1424760 1.04046240	3.73143570 	"/> <!-- name="45.0" -->
+      <Vertex position="11.0849250 0.878314950	3.74066110 	"/> <!-- name="46.0" -->
+      <Vertex position="11.0790450 0.877738500	3.93057060 	"/> <!-- name="47.0" -->
+      <Vertex position="11.1796860 1.04202530	2.49819950 	"/> <!-- name="48.0" -->
+      <Vertex position="11.1796940 -1.63023130	2.49006890 	"/> <!-- name="49.0" -->
+      <Vertex position="11.1772440 -1.63084390	2.61058590 	"/> <!-- name="50.0" -->
+      <Vertex position="11.1730450 1.03629710	2.62104080 	"/> <!-- name="51.0" -->
+      <Vertex position="7.23796380 1.04662570	2.37810500 	"/> <!-- name="52.0" -->
+      <Vertex position="7.24389710 -1.62733900	2.37206230 	"/> <!-- name="53.0" -->
+      <Vertex position="4.39444850 -1.62206430	2.29279950 	"/> <!-- name="54.0" -->
+      <Vertex position="4.40958610 1.05122240	2.30008150 	"/> <!-- name="55.0" -->
+      <Vertex position="4.39469670 1.04286090	2.42196110 	"/> <!-- name="56.0" -->
+      <Vertex position="4.38356390 -1.62550170	2.41258680 	"/> <!-- name="57.0" -->
+<!--  in the following:
+     		points of gang1.xml, to get the whole points of the corridor
+     		points 5-16 (from gang1) are the points 178-189 of the following points
+-->   <Vertex position="7.2086333 -0.50694902  3.7317868  "/> <!-- name="58.0" -->
+      <Vertex position="7.3584158 -0.50633132  3.7354814  "/> <!-- name="59.0" -->
+      <Vertex position="7.3582268 -0.65817166  3.7336741  "/> <!-- name="60.0" -->
+      <Vertex position="7.2082571 -0.65839974  3.7300791  "/> <!-- name="61.0" -->
+      <Vertex position="5.5878813  0.22122656 2.3263343   "/> <!-- name="62.0" -->
+      <Vertex position="5.4378027  0.22266893 2.3225760   "/> <!-- name="63.0" -->
+      <Vertex position="5.4371738  0.070209884 2.3232543   "/> <!-- name="64.0" -->
+      <Vertex position="5.5880121  0.069189866 2.3263494   "/> <!-- name="65.0" -->
+      <Vertex position="8.3436154  -1.6250995 2.3979467  "/> <!-- name="66.0" -->
+      <Vertex position="8.3317013 1.0497111  2.4076778   "/> <!-- name="67.0" -->
+      <Vertex position="9.5736318  -1.6254932 3.8746338  "/> <!-- name="68.0" -->
+      <Vertex position="9.5774525  -1.6181660 3.7952592 "/> <!-- name="69.0" -->
+    
+        <Polygon name="" type="ceiling" vertices="56 55 52 67 48 51 45 26"/>
+	<Polygon name="" type="ceiling" vertices="24 25 46 47"/>
+		  
+	<Polygon name="" type="wall" vertices="57 56 55 54"/>
+	<Polygon name="" type="wall" vertices="54 55 52 53"/>
+	<Polygon name="" type="wall" vertices="66 67 48 49"/>
+	<Polygon name="" type="wall" vertices="48 51 50 49"/>
+	<Polygon name="" type="wall" vertices="42 43 44 46"/>		
+        <Polygon name="" type="wall" vertices="41 42 46 47 40 39"/>
+	<Polygon name="" type="wall" vertices="45 26 25 46"/>
+	<Polygon name="" type="wall" vertices="28 29 25 27"/>
+	<Polygon name="" type="wall" vertices="29 30 31 32 24 25"/>
+	<Polygon name="" type="wall" vertices="33 34 32 31"/>
+	<Polygon name="" type="wall" vertices="35 34 33 36"/>
+	<Polygon name="" type="wall" vertices="33 31 30 36"/>
+	<Polygon name="" type="wall" vertices="37 38 68 69"/>
+	<Polygon name="" type="wall" vertices="37 69 41 39"/>
+        <Polygon name="" type="wall" vertices="39 40 38 37"/>
+	<Polygon name="" type="wall" vertices="25 26 27"/>
+	<Polygon name="" type="wall" vertices="44 45 46"/>		
+      
+	<Polygon name="" type="floor" vertices="30 29 28 57 54 53 66 49 50 43 42 41 69 68 35 36"/>
+			
+	<!-- door to office041104 -->	
+	<Polygon name="to_office041104" type="portal" vertices="50 51 45 44 43"/>
+	
+	<!-- door to VR-labor -->	
+	<Polygon name="to_vrlab" type="portal" vertices="26 56 57 28 27"/>
+		
+	<!-- door to dieter´s office -->	
+	<Polygon name="to_dieter" type="portal" vertices="52 67 66 53"/>
+  
+     </Geometry>
+      <Tracking>
+      <ARToolkit>
+     
+        <Marker4PNT number="12" size="0.153" name="pattern012">
+          <Vertex position="7.3584158  -0.50633132 3.7354814  "/> <!-- name="59.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="7.2086333 -0.50694902  3.7317868  "/> <!-- name="58.0" -->
+          <!-- 2 bottom left -->
+ 	  <Vertex position="7.3582268 -0.65817166  3.7336741  "/> <!-- name="60.0" -->
+     	  <!-- 3 bottom left -->
+          <Vertex position="7.2082571  -0.65839974 3.7300791  "/> <!-- name="61.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="13" size="0.153" name="pattern013">
+          <Vertex position="9.93782380 -0.513654040	3.80830770 	 "/> <!-- name="9.0" -->
+	  <!-- 1 top left -->
+	  <Vertex position="9.78550880 -0.514771750	3.80489920 	 "/> <!-- name="8.0" -->
+      	  <!-- 2 top right -->
+          <Vertex position="9.93536990 -0.666087460	3.82275790 	 "/> <!-- name="10.0" -->
+ 	  <!-- 3 bottom left -->
+          <Vertex position="9.78604170 -0.666513260	3.80317440 	 "/> <!-- name="11.0" -->
+	<!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="14" size="0.153" name="pattern014">
+	  <Vertex position="11.1889710 0.172736900	3.07912500 	"/> <!-- name="13.0" -->
+	  <!-- 1 top left-->
+	  <Vertex position="11.1855310 0.171917450	3.22820930 	"/> <!-- name="12.0" -->
+   	  <!-- 2 top right -->
+	  <Vertex position="11.1893840 0.0201093340	3.07873290 	"/> <!-- name="14.0" -->
+  	  <!-- 3 bottom left -->
+	  <Vertex position="11.1857040 0.0196592570	3.23033310 	"/> <!-- name="15.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="15" size="0.153" name="pattern015">
+	  <Vertex position="8.41914560 0.182007170	2.41126620 	"/> <!-- name="17.0" -->
+	  <!-- 1 top left -->
+	  <Vertex position="8.57017030 0.182346280	2.41542010 	"/> <!-- name="16.0" -->
+     	  <!-- 2 top right -->
+	  <Vertex position="8.41904410 0.0295671400	2.41127150 	"/> <!-- name="18.0" -->
+     	  <!-- 3 bottom left -->
+	  <Vertex position="8.56972300 0.0295724530	2.41562630 	"/> <!-- name="19.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="16" size="0.153" name="pattern016">
+	  <Vertex position=" 5.4378027 0.22266893  2.3225760    "/> <!-- name="63.0" -->
+      	  <!-- 1 top left-->
+          <Vertex position=" 5.5878813  0.22122656 2.3263343    "/> <!-- name="62.0" -->
+ 	  <!-- 2 top right -->
+	  <Vertex position=" 5.4371738  0.070209884  2.3232543   "/> <!-- name="64.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position=" 5.5880121  0.069189866 2.3263494    "/> <!-- name="65.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="17" size="0.153" name="pattern017">
+          <Vertex position="4.34463640 0.198176620	3.04512560 	"/> <!-- name="21.0" -->
+	  <!-- 1 top left -->
+          <Vertex position="4.34992360 0.198608200	2.89231360 	"/> <!-- name="20.0" -->
+  	  <!-- 2 top right -->
+          <Vertex position="4.34412380 0.0452184740	3.04101620 	"/> <!-- name="22.0" -->
+    	  <!-- 3 bottom left -->
+          <Vertex position="4.35037810 0.0459250300	2.89146500 	"/> <!-- name="23.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>						
+	
+      </ARToolkit>
+    </Tracking>  		
+    <Portals>
+      <Portal room="office041104" polygon="to_office041104" polygonnb="to_corridor"/>
+      <Portal room="vrlab" polygon="to_vrlab" polygonnb="to_corridor"/>
+    </Portals>  
+  </Room>
+  
+  
+  <Room id="office041104">
+   <Geometry>
+      <Vertex position="11.3138480 1.52174440	2.30037830 	 "/> <!-- name="1.0" -->
+      <Vertex position="11.3176480 1.05146910	2.29733740 	 "/> <!-- name="2.0" -->
+      <Vertex position="11.3215280 1.04202560	2.49802250 	 "/> <!-- name="3.0" -->
+      <Vertex position="11.3388250 -1.62141790	2.48101660 	 "/> <!-- name="4.0" -->
+      <Vertex position="11.1848730 1.03726910	3.74049840 	 "/> <!-- name="5.0" -->
+      <Vertex position="11.1865150 -1.62801830	3.72913210 	 "/> <!-- name="6.0" -->
+      <Vertex position="11.4404750 1.54088690 	-2.02000680 	"/> <!-- name="7.0" -->
+      <Vertex position="11.4446610 1.00876760 	-2.01625050 	 "/> <!-- name="8.0" -->
+      <Vertex position="11.4451950 0.418503760 -2.01451160 	 "/> <!-- name="9.0" -->
+      <Vertex position="11.4439000 -0.732542470	-2.01658880 	 "/> <!-- name="10.0" -->
+      <Vertex position="11.7051720 -1.61200650	-1.79788480 	 "/> <!-- name="11.0" -->
+      <Vertex position="11.6895670 -1.61288310 	-1.45302810 	"/> <!-- name="12.0" -->
+      <Vertex position="12.0306550 -1.61312650	-1.50880990 	 "/> <!-- name="13.0" -->
+      <Vertex position="12.0440360 -1.61190210	-1.85009500 	 "/> <!-- name="14.0" -->
+      <Vertex position="14.8055100 -0.733364240	-1.93652080 	 "/> <!-- name="15.0" -->
+      <Vertex position="14.8021830 0.422744500	-1.93126980 	 "/> <!-- name="16.0" -->
+      <Vertex position="14.8007410 1.00677720	-1.93404080 	 "/> <!-- name="17.0" -->
+      <Vertex position="14.8004430 1.53047230	-1.93597820 	 "/> <!-- name="18.0" -->
+      <Vertex position="17.1164160 1.52508460	-1.86586690 	 "/> <!-- name="19.0" -->
+      <Vertex position="11.7054720 1.53669720	-1.78602310 	 "/> <!-- name="20.0" -->
+      <Vertex position="16.9768560 -1.62330120	2.64436380 	 "/> <!-- name="21.0" -->
+      <Vertex position="16.9964730 1.01682600	2.65519360 	 "/> <!-- name="22.0" -->
+      <Vertex position="16.9927770 1.04259260	3.92322550 	 "/> <!-- name="23.0" -->
+      <Vertex position="16.9786630 -1.63117470	3.90189510 	 "/> <!-- name="24.0" -->
+      <Vertex position="17.0078250 1.02986300 	2.45394850 	"/> <!-- name="25.0" -->
+      <Vertex position="17.0180380 1.51136590	2.46181490 	 "/> <!-- name="26.0" -->
+      <Vertex position="15.4602710 -1.63251390	3.86231440 	 "/> <!-- name="27.0" -->
+      <Vertex position="15.4633820 1.02632930	3.87647440 	 "/> <!-- name="28.0" -->
+      <Vertex position="12.9551620 1.02651090	3.79555790 	 "/> <!-- name="29.0" -->
+      <Vertex position="12.9553270 -1.63096060	3.78431290 	 "/> <!-- name="30.0" -->
+      <Vertex position="9.59298190 -0.442520960	3.79627090 	 "/> <!-- name="31.0" -->
+      <Vertex position="9.58327100 -1.63392960	3.79152190 	 "/> <!-- name="32.0" -->
+      <Vertex position="9.78397060 -0.667772150	3.80407600 	 "/> <!-- name="33.0" -->
+      <Vertex position="9.78119710 -0.515449700	3.80617020 	 "/> <!-- name="34.0" -->
+      <Vertex position="11.7908070 0.199686610 	3.76167610 	"/> <!-- name="35.0" -->
+      <Vertex position="11.9441010 0.196869060	3.76457550 	 "/> <!-- name="36.0" -->
+      <Vertex position="11.9338370 0.0446337550	3.75799460 	 "/> <!-- name="37.0" -->
+      <Vertex position="11.7887680 0.0465551250	3.76050570 	 "/> <!-- name="38.0" -->
+      <Vertex position="16.1231580 0.211974700 	3.89477610 	 "/> <!-- name="39.0" -->
+      <Vertex position="16.2755120 0.212285700	3.90101310 	 "/> <!-- name="40.0" -->
+      <Vertex position="16.2761180 0.0592134820	3.89970470 	 "/> <!-- name="41.0" -->
+      <Vertex position="16.1231290 0.0588322290	3.89434790 	 "/> <!-- name="42.0" -->
+      <Vertex position="17.0340070 0.188410620	3.39682610 	 "/> <!-- name="43.0" -->
+      <Vertex position="17.0385320 0.189179990	3.24398000 	 "/> <!-- name="44.0" -->
+      <Vertex position="17.0389350 0.0362829730	3.24368900 	 "/> <!-- name="45.0" -->
+      <Vertex position="17.0344470 0.0354135370	3.39628700 	 "/> <!-- name="46.0" -->
+      <Vertex position="17.0055370 0.230241750	2.04484130 	 "/> <!-- name="47.0" -->
+      <Vertex position="17.0086650 0.230817680	1.89187900 	 "/> <!-- name="48.0" -->
+      <Vertex position="17.0085510 0.0580549780	1.89174450 	 "/> <!-- name="49.0" -->
+      <Vertex position="17.0053720 0.0574736620	2.04454380 	 "/> <!-- name="50.0" -->
+      <Vertex position="17.0368060 0.219307140	0.800009550 	 "/> <!-- name="51.0" -->
+      <Vertex position="17.0450630 0.219885810	0.646195580 	 "/> <!-- name="52.0" -->
+      <Vertex position="17.0421450 0.0680835010	0.645797670 	 "/> <!-- name="53.0" -->
+      <Vertex position="17.0377300 0.0662033180	0.798855590 	 "/> <!-- name="54.0" -->
+      <Vertex position="17.0721810 0.242069770	-0.437492620 	 "/> <!-- name="55.0" -->
+      <Vertex position="17.0765270 0.244581450	-0.590944020 	 "/> <!-- name="56.0" -->
+      <Vertex position="17.0766020 0.0915135780	-0.593125830 	 "/> <!-- name="57.0" -->
+      <Vertex position="17.0723180 0.0892091930	-0.439752910 	 "/> <!-- name="58.0" -->
+      <Vertex position="16.3071180 0.261191030	-1.89277950 	 "/> <!-- name="59.0" -->
+      <Vertex position="16.1533820 0.261507720	-1.89597500 	 "/> <!-- name="60.0" -->
+      <Vertex position="16.1530030 0.108570300	-1.89561080 	 "/> <!-- name="61.0" -->
+      <Vertex position="16.3062510 0.107828380	-1.89260640 	 "/> <!-- name="62.0" -->
+      <Vertex position="13.5341530 0.728357290	-1.96839520 	 "/> <!-- name="63.0" -->
+      <Vertex position="13.3817380 0.730269360	-1.97199120 	 "/> <!-- name="64.0" -->
+      <Vertex position="13.3795200 0.577351480	-1.97251680 	 "/> <!-- name="65.0" -->
+      <Vertex position="13.5327150 0.575386470	-1.96816340 	 "/> <!-- name="66.0" -->
+      <Vertex position="11.4073500 0.251081670	-0.935840350 	 "/> <!-- name="67.0" -->
+      <Vertex position="11.4040920 0.250294030	-0.782420860 	 "/> <!-- name="68.0" -->
+      <Vertex position="11.4042280 0.0977977920	-0.783180680 	 "/> <!-- name="69.0" -->
+      <Vertex position="11.4073280 0.0978628110	-0.936165390 	 "/> <!-- name="70.0" -->
+      <Vertex position="11.3788030 0.241735870	0.264131470 	 "/> <!-- name="71.0" -->
+      <Vertex position="11.3755220 0.240910920	0.417099470 	 "/> <!-- name="72.0" -->
+      <Vertex position="11.3760390 0.0880678270 0.416824230 	 "/> <!-- name="73.0" -->
+      <Vertex position="11.3794780 0.0888005690	0.263905800 	 "/> <!-- name="74.0" -->
+      <Vertex position="11.3419360 0.235187070	1.62305870 	 "/> <!-- name="75.0" -->
+      <Vertex position="11.3381700 0.235468980	1.77607800 	 "/> <!-- name="76.0" -->
+      <Vertex position="11.3373660 0.0823417310	1.77640890 	 "/> <!-- name="77.0" -->
+      <Vertex position="11.3420810 0.0820642100	1.62352560 	 "/> <!-- name="78.0" -->
+      <Vertex position="11.4365370 -0.736270120	-1.87236150 	 "/> <!-- name="79.0" -->
+      <Vertex position="11.4527630 -1.60139990	-1.85321830 	 "/> <!-- name="80.0" -->
+      <Vertex position="17.1090960 -0.736067130	-1.71792170 	 "/> <!-- name="81.0" -->
+      <Vertex position="17.1216460 -0.732185280	-1.87533850 	 "/> <!-- name="82.0" -->
+      <Vertex position="17.1046940 -1.61410290	-1.72432770 	 "/> <!-- name="83.0" -->
+      <Vertex position="11.0057800 -1.63449040	2.75129220 	 "/> <!-- name="84.0" -->
+      <Vertex position="10.6196500 -1.64073450	3.51601160 	 "/> <!-- name="85.0" -->
+      <Vertex position="11.6898660 1.53539950	-1.44116800 	 "/> <!-- name="86.0" -->
+      <Vertex position="12.0309550 1.53557720	-1.49694830 	 "/> <!-- name="87.0" -->
+      <Vertex position="12.0443360 1.53686160	-1.83823320 	 "/> <!-- name="88.0" -->
+      <Vertex position="11.229694 -1.6258279	  2.4855389 	 "/> <!-- name="89" -->
+      <Vertex position="11.227244  -1.6264339 	2.6060559 	 "/> <!-- name="90" -->      
+      <Vertex position="11.229686 1.0464353	  2.4936695 	"/> <!-- name="91.0" -->
+      <Vertex position="11.223045   1.0407071	2.6165108 	 "/> <!-- name="92.0" -->      
+
+        <!-- all the polygons -->
+	<Polygon name="" type="ceiling" vertices="1 7 18 19 26"/>
+	<Polygon name="" type="ceiling" vertices="3 2 25 22 23 5 92 91"/>
+		  
+	<Polygon name="" type="wall" vertices="1 2 25 26"/>
+	<Polygon name="" type="wall" vertices="1 7 8 9 10 79 80 4 3 2"/>
+	<Polygon name="" type="wall" vertices="5 6 30 29"/>
+	<Polygon name="" type="wall" vertices="23 28 27 24"/>
+	<Polygon name="" type="wall" vertices="22 25 26 19 82 81 83 21"/>
+	<Polygon name="" type="wall" vertices="79 10 82 81"/>
+        <Polygon name="" type="wall" vertices="81 83 80 79"/>
+	<Polygon name="" type="wall" vertices="19 82 10 7 18"/>
+			
+	<Polygon name="" type="wall" vertices="4 89 91 3"/>
+	<Polygon name="" type="wall" vertices="90 89 91 92"/>
+		
+	<Polygon name="" type="floor" vertices="80 83 21 24 27 30 6 90 89 4"/>
+			
+	<!-- door to corridor -->	
+	<Polygon vertices="92 90 6 5" type="portal" name="to_corridor"/>
+			
+	<!-- unused door -->	
+	<Polygon vertices="21 22 23 24" type="portal" name="unused_door"/>
+			
+	<!-- window inside -->	
+	<Polygon vertices="27 28 29 30" type="portal" name="window_inside"/>
+		  
+	<!-- windows outside -->			
+        <Polygon vertices="17 8 7 18" type="portal" name="window_outside1"/>
+        <Polygon vertices="15 10 9 16" type="portal" name="window_outside2"/>      						
+						  
+	<!-- Saeule im Raum -->	
+	<Polygon name="" type="wall" vertices="13 87 88 14"/>
+	<Polygon name="" type="wall" vertices="14 88 20 11"/>
+        <Polygon name="" type="wall" vertices="11 20 86 12"/>
+	<Polygon name="" type="wall" vertices="12 86 87 13"/>
+			    
+    </Geometry>
+      <Tracking>
+      <ARToolkit>
+        <Marker4PNT number="1" size="0.153" name="pattern001">
+	  <Vertex position="11.9441010 0.196869060	3.76457550 	 "/> <!-- name="36.0" -->
+	  <!-- 1 top left-->
+	  <Vertex position="11.7908070 0.199686610	3.76167610 	 "/> <!-- name="35.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="11.9338370 0.0446337550	3.75799460 	 "/> <!-- name="37.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="11.7887680 0.0465551250	3.76050570 	 "/> <!-- name="38.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="2" size="0.153" name="pattern002">
+	  <Vertex position="16.2755120 0.212285700	3.90101310 	 "/> <!-- name="40.0" -->
+	  <!-- 1 top left -->
+	  <Vertex position="16.1231580 0.211974700	3.89477610 	 "/> <!-- name="39.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="16.2761180 0.0592134820	3.89970470 	 "/> <!-- name="41.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="16.1231290 0.0588322290 	3.89434790 	"/> <!-- name="42.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="3" size="0.153" name="pattern003">
+	  <Vertex position="17.0385320 0.189179990	3.24398000 	 "/> <!-- name="44.0" -->
+	  <!-- 1 top left-->
+	  <Vertex position="17.0340070 0.188410620 	3.39682610 	"/> <!-- name="43.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="17.0389350 0.0362829730 	3.24368900 	"/> <!-- name="45.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="17.0344470 0.0354135370	3.39628700 	 "/> <!-- name="46.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="4" size="0.153" name="pattern004">
+	  <Vertex position="17.0086650 0.230817680	1.89187900 	 "/> <!-- name="48.0" -->
+	  <!-- 1 top left -->
+	  <Vertex position="17.0055370 0.230241750	2.04484130 	 "/> <!-- name="47.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="17.0085510 0.0580549780 	1.89174450 	"/> <!-- name="49.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="17.0053720 0.0574736620 	2.04454380 	"/> <!-- name="50.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+			
+        <Marker4PNT number="5" size="0.153" name="pattern005">
+	  <Vertex position="17.0450630 0.219885810	0.646195580 	 "/> <!-- name="52.0" -->
+	  <!-- 1 top left-->
+	  <Vertex position="17.0368060 0.219307140	0.800009550 	 "/> <!-- name="51.0" -->
+	  <!-- 2 top right -->
+	  <Vertex position="17.0421450 0.0680835010	0.645797670 	 "/> <!-- name="53.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="17.0377300 0.0662033180	0.798855590 	 "/> <!-- name="54.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>			
+
+	<Marker4PNT number="6" size="0.153" name="pattern006">
+          <Vertex position="17.0765270 0.244581450	-0.590944020 	 "/> <!-- name="56.0" -->
+	  <!-- 1 top left -->
+          <Vertex position="17.0721810 0.242069770	-0.437492620 	 "/> <!-- name="55.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="17.0766020 0.0915135780	-0.593125830 	 "/> <!-- name="57.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="17.0723180 0.0892091930 	-0.439752910 	"/> <!-- name="58.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>	
+								
+        <Marker4PNT number="7" size="0.153" name="pattern007">
+          <Vertex position="16.1533820 0.261507720	-1.89597500 	 "/> <!-- name="60.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="16.3071180 0.261191030	-1.89277950 	 "/> <!-- name="59.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="16.1530030 0.108570300	-1.89561080 	 "/> <!-- name="61.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="16.3062510 0.107828380	-1.89260640 	 "/> <!-- name="62.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="8" size="0.153" name="pattern008">
+          <Vertex position="13.3817380 0.730269360	-1.97199120 	 "/> <!-- name="64.0" -->
+	  <!-- 1 top left -->
+          <Vertex position="13.5341530 0.728357290	-1.96839520 	 "/> <!-- name="63.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="13.3795200 0.577351480	-1.97251680 	 "/> <!-- name="65.0" -->
+	  <!-- 3 bottom left -->
+	  <Vertex position="13.5327150 0.575386470	-1.96816340 	 "/> <!-- name="66.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+			
+        <Marker4PNT number="9" size="0.153" name="pattern009">
+          <Vertex position="11.4040920 0.250294030	-0.782420860 	 "/> <!-- name="68.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="11.4073500 0.251081670	-0.935840350 	 "/> <!-- name="67.0" -->
+    	  <!-- 2 top right -->
+          <Vertex position="11.4042280 0.0977977920	-0.783180680 	 "/> <!-- name="69.0" -->
+      	  <!-- 3 bottom left -->
+          <Vertex position="11.4073280 0.0978628110	-0.936165390 	 "/> <!-- name="70.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+	<Marker4PNT number="10" size="0.153" name="pattern010">
+          <Vertex position="11.3755220 0.240910920	0.417099470 	 "/> <!-- name="72.0" -->
+	   <!-- 1 top left -->
+          <Vertex position="11.3788030 0.241735870	0.264131470 	 "/> <!-- name="71.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="11.3760390 0.0880678270	0.416824230 	 "/> <!-- name="73.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="11.3794780 0.0888005690	0.263905800 	 "/> <!-- name="74.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+				
+        <Marker4PNT number="11" size="0.153" name="pattern011">
+          <Vertex position="11.3381700 0.235468980	1.77607800 	 "/> <!-- name="76.0" -->
+	  <!-- 1 top left-->
+          <Vertex position="11.3419360 0.235187070	1.62305870 	 "/> <!-- name="75.0" -->
+	  <!-- 2 top right -->
+          <Vertex position="11.3373660 0.0823417310	1.77640890 	 "/> <!-- name="77.0" -->
+	  <!-- 3 bottom left -->
+          <Vertex position="11.3420810 0.0820642100	1.62352560 	 "/> <!-- name="78.0" -->
+	  <!-- 4 bottom right -->
+	</Marker4PNT>
+      </ARToolkit>
+    </Tracking>
+    <Portals>
+      <Portal room="corridor" polygon="to_corridor" polygonnb="to_office041104"/>
+    </Portals>  
+  </Room>
+  
+      
+   <Room id="daniel">
+    <Geometry>
+      <Vertex position="-7.43695140 -0.781644050	-2.34488170  "/> <!-- name="1.0" -->
+      <Vertex position="-7.38653860  1.48944010 	-2.33477380 "/> <!-- name="2.0" -->
+      <Vertex position="-7.44785240 1.49023560	-2.33895600   "/> <!-- name="3.0" -->
+      <Vertex position="-7.44589740 1.49048820 	-2.49986770  "/> <!-- name="4.0" -->
+      <Vertex position="-7.43184610 -0.773157810	-2.49669490   "/> <!-- name="5.0" -->
+      <Vertex position="-7.38291870 -1.64871660	-2.31958690   "/> <!-- name="6.0" -->
+      <Vertex position="-7.43623400 -1.65496920	-2.33778080   "/> <!-- name="7.0" -->
+      <Vertex position="-8.42718490 -0.785295020	-2.52310200   "/> <!-- name="8.0" -->
+      <Vertex position="-8.42084140 -0.781975290	-2.79804820   "/> <!-- name="9.0" -->
+      <Vertex position="-8.43917630 1.48530070	-2.51598030   "/> <!-- name="10.0" -->
+      <Vertex position="-8.43279470 1.49894730	-2.79617450   "/> <!-- name="11.0" -->
+      <Vertex position="-10.6307610 1.46707920	-2.84691100   "/> <!-- name="12.0" -->
+      <Vertex position="-10.6395770 1.46532400 	-2.56541100  "/> <!-- name="13.0" -->
+      <Vertex position="-10.6200460 -0.801342450	-2.81245260   "/> <!-- name="14.0" -->
+      <Vertex position="-10.6256420	-0.806985600 -2.41481170   "/> <!-- name="15.0" -->
+      <Vertex position="-10.6035510	-1.67195330 -2.40161280   "/> <!-- name="16.0" -->
+      <Vertex position="-10.6287240	-0.805325630 -2.57650780    "/> <!-- name="17.0" -->
+      <Vertex position="-10.6368820 0.937482200	-2.55455830    "/> <!-- name="18.0" -->
+      <Vertex position="-10.6322610 0.353930180	-2.55400790    "/> <!-- name="19.0" -->
+      <Vertex position="-8.43275120 0.370632400	-2.51924660    "/> <!-- name="20.0" -->
+      <Vertex position="-8.43086620 0.956727490	-2.51631700   "/> <!-- name="21.0" -->
+      <Vertex position="-8.01805880 0.997599570	1.80788560 	 "/> <!-- name="22.0" -->
+      <Vertex position="-8.01670510 0.999728220	1.94508230 	 "/> <!-- name="23.0" -->
+      <Vertex position="-8.02023560 -1.66194950	1.94011070 	 "/> <!-- name="24.0" -->
+      <Vertex position="-8.00940210 -1.65991590	1.78686180 	 "/> <!-- name="25.0" -->
+      <Vertex position="-7.46384650 -1.65580740	1.79972940 	 "/> <!-- name="26.0" -->
+      <Vertex position="-7.47052070 1.47764890	1.80881870 	 "/> <!-- name="27.0" -->
+      <Vertex position="-8.98080550 -1.66333750	1.76805590 	 "/> <!-- name="28.0" -->
+      <Vertex position="-8.97945180 -1.66120890	1.90525260 	 "/> <!-- name="29.0" -->
+      <Vertex position="-8.99721710 0.988513900	1.78283010 	 "/> <!-- name="30.0" -->
+      <Vertex position="-8.99586330 0.990642550	1.92002670 	 "/> <!-- name="31.0" -->
+      <Vertex position="-10.7350140 1.44774220	1.73988310 	 "/> <!-- name="32.0" -->
+      <Vertex position="-10.6988200 -1.67389440	1.71696880 	 "/> <!-- name="33.0" -->
+      <Vertex position="-6.40576930 1.07348440 	6.39547540 	"/> <!-- name="34.0" -->
+      <Vertex position="-7.38452680 -1.66908070	7.81489750 	 "/> <!-- name="35.0" -->
+      <Vertex position="-8.86921400 0.887657980 	6.34013870 	"/> <!-- name="36.0" -->
+      <Vertex position="-8.92810160 -1.67384770	1.98578280 	 "/> <!-- name="37.0" -->
+      <Vertex position="-8.06841170 -1.66685820	2.00635250 	 "/> <!-- name="38.0" -->
+      <Vertex position="-8.07942830 0.334894460	2.00604230 	 "/> <!-- name="39.0" -->
+      <Vertex position="-8.93817610 0.329720520	1.98463630 	 "/> <!-- name="40.0" -->
+      <Vertex position="-7.43668680 0.186024470	0.537937960	 "/> <!-- name="41.0" -->
+      <Vertex position="-7.43460430 0.186587800	0.384484230	 "/> <!-- name="42.0" -->
+      <Vertex position="-7.43381950 0.0338033560	0.383913580	 "/> <!-- name="43.0" -->
+      <Vertex position="-7.43709580 0.0329136570	0.536833190	 "/> <!-- name="44.0" -->
+      <Vertex position="-7.39818180 0.191584870	-1.17821790   "/> <!-- name="45.0" -->
+      <Vertex position="-7.39580150 0.193900210	-1.33104170   "/> <!-- name="46.0" -->
+      <Vertex position="-7.39509100 0.0411486570	-1.33353440   "/> <!-- name="47.0" -->
+      <Vertex position="-7.39822830 0.0386139130	-1.18075030   "/> <!-- name="48.0" -->
+      <Vertex position="-7.86814650 0.208016790 	-2.50786520  "/> <!-- name="49.0" -->
+      <Vertex position="-8.02114290  0.207746400 	-2.51141690 "/> <!-- name="50.0" -->
+      <Vertex position="-8.02120490 0.0546777420	-2.51096970   "/> <!-- name="51.0" -->
+      <Vertex position="-7.86789840 0.0549368980	-2.50820400   "/> <!-- name="52.0" -->
+      <Vertex position="-9.78347210 0.664375770	-2.54638330   "/> <!-- name="53.0" -->
+      <Vertex position="-9.93655670 0.664187420 	-2.54955860  "/> <!-- name="54.0" -->
+      <Vertex position="-9.93630910 0.511497910	-2.54855650   "/> <!-- name="55.0" -->
+      <Vertex position="-9.78324080 0.511424080	-2.54613350   "/> <!-- name="56.0" -->
+      <Vertex position="-10.6539050 0.170313080	-1.53834780   "/> <!-- name="57.0" -->
+      <Vertex position="-10.6582180 0.169860090	-1.38360650   "/> <!-- name="58.0" -->
+      <Vertex position="-10.6565290 0.0169054210	-1.38374010   "/> <!-- name="59.0" -->
+      <Vertex position="-10.6542730 0.0173027150	-1.53715690   "/> <!-- name="60.0" -->
+      <Vertex position="-10.6974470 0.191255640	0.534843970 	 "/> <!-- name="61.0" -->
+      <Vertex position="-10.7008010 0.192389040	0.688158520	 "/> <!-- name="62.0" -->
+      <Vertex position="-10.6992310 0.0393942950	0.689165810	 "/> <!-- name="63.0" -->
+      <Vertex position="-10.6971910 0.0382998500	0.536112490	 "/> <!-- name="64.0" -->
+      <Vertex position="-9.18591290 0.207305310	1.77531690 	 "/> <!-- name="65.0" -->
+      <Vertex position="-9.03279900 0.208738070	1.77832160 	 "/> <!-- name="66.0" -->
+      <Vertex position="-9.03116230 0.0558491040	1.77736270 	 "/> <!-- name="67.0" -->
+      <Vertex position="-9.18472480 0.0543416400	1.77523820 	 "/> <!-- name="68.0" -->
+
+
+        <Polygon type="floor" vertices="16 7 6 26 25 24 29 28 33"/>
+        <Polygon type="ceiling" vertices="13 12 11 10 4 3 2 27 32"/>
+	     
+     	<Polygon type="wall" vertices="18 19 20 21"/> 
+    	<Polygon type="wall" vertices="9 8 10 11"/>
+	<Polygon type="wall" vertices="13 18 19 17 14 12"/>     
+	<Polygon type="wall" vertices="15 17 14 9 8 5 1"/>
+	<Polygon type="wall" vertices="15 1 3 2 6 7 16"/>
+        <Polygon type="wall" vertices="2 27 26 6"/>
+	<Polygon type="wall" vertices="26 25 22 30 28 33 32 27"/>
+	<Polygon type="wall" vertices="23 31 30 22"/>
+	<Polygon type="wall" vertices="25 24 23 22"/>
+	<Polygon type="wall" vertices="29 28 30 31"/>			
+	<Polygon type="wall" vertices="32 33 16 15 17 19 18 13"/>	
+	<Polygon type="wall" vertices="8 10 4 5"/>			
+	<Polygon type="wall" vertices="4 3 1 5"/>	
+			
+	<!-- windows outside 	-->
+	<Polygon type="portal" vertices="14 9 11 12"/>
+	
+	<!-- door to corridor -->	
+	<Polygon name="to_corrdaniel" type="portal" vertices="24 29 31 23"/>
+
+    </Geometry>
+
+     <Tracking>
+      <ARToolkit>
+          <Marker4PNT number="32" size="0.153" name="pattern032">
+            <Vertex position="-7.43460430 0.186587800	0.384484230	 "/> <!-- name="42.0" -->
+  	    <!-- 1 top left-->
+            <Vertex position="-7.43668680 0.186024470	0.537937960	 "/> <!-- name="41.0" -->
+	    <!-- 2 top right -->
+    	    <Vertex position="-7.43381950 0.0338033560	0.383913580	 "/> <!-- name="43.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-7.43709580 0.0329136570	0.536833190	 "/> <!-- name="44.0" -->
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+      
+          <Marker4PNT number="33" size="0.153" name="pattern033">
+            <Vertex position="-7.39580150 0.193900210	-1.33104170   "/> <!-- name="46.0" -->
+	    <!-- 1 top left-->
+            <Vertex position="-7.39818180  0.191584870	-1.17821790  "/> <!-- name="45.0" -->
+	    <!-- 2 top right -->
+            <Vertex position="-7.39509100 0.0411486570	-1.33353440   "/> <!-- name="47.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-7.39822830 0.0386139130	-1.18075030   "/> <!-- name="48.0" -->
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+           
+          <Marker4PNT number="34" size="0.153" name="pattern034">
+            <Vertex position="-8.02114290 0.207746400	-2.51141690   "/> <!-- name="50.0" -->
+	    <!-- 1 top left-->
+            <Vertex position="-7.86814650 0.208016790	-2.50786520   "/> <!-- name="49.0" -->
+            <!-- 2 top right -->
+            <Vertex position="-8.02120490  0.0546777420	-2.51096970  "/> <!-- name="51.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-7.86789840 0.0549368980	-2.50820400   "/> <!-- name="52.0" -->   
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+      
+          <Marker4PNT number="35" size="0.153" name="pattern035">
+            <Vertex position="-9.93655670 0.664187420	-2.54955860   "/> <!-- name="54.0" -->
+	    <!-- 1 top left-->
+            <Vertex position="-9.78347210 0.664375770	-2.54638330   "/> <!-- name="53.0" -->
+	    <!-- 2 top right -->
+            <Vertex position="-9.93630910 0.511497910	-2.54855650   "/> <!-- name="55.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-9.78324080 0.511424080	-2.54613350   "/> <!-- name="56.0" -->
+      	    <!-- 4 bottom right -->
+	  </Marker4PNT>   
+				  
+          <Marker4PNT number="36" size="0.153" name="pattern036">
+            <Vertex position="-10.6582180 0.169860090	-1.38360650   "/> <!-- name="58.0" -->
+  	    <!-- 1 top left-->
+            <Vertex position="-10.6539050 0.170313080	-1.53834780   "/> <!-- name="57.0" -->
+	    <!-- 2 top right -->
+            <Vertex position="-10.6565290 0.0169054210	-1.38374010   "/> <!-- name="59.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-10.6542730 0.0173027150	-1.53715690   "/> <!-- name="60.0" -->  
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+      
+          <Marker4PNT number="37" size="0.153" name="pattern037">
+            <Vertex position="-10.7008010 0.192389040	0.688158520	 "/> <!-- name="62.0" -->
+    	    <!-- 1 top left-->
+            <Vertex position="-10.6974470 0.191255640	0.534843970 	 "/> <!-- name="61.0" -->
+  	    <!-- 2 top right -->
+            <Vertex position="-10.6992310 0.0393942950	0.689165810	 "/> <!-- name="63.0" -->
+     	    <!-- 3 bottom left -->
+            <Vertex position="-10.6971910 0.0382998500	0.536112490	 "/> <!-- name="64.0" -->
+ 	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+           
+          <Marker4PNT number="38" size="0.153" name="pattern038">
+ 	    <Vertex position="-9.03279900 0.208738070	1.77832160 	 "/> <!-- name="66.0" -->
+     	    <!-- 1 top left-->
+     	    <Vertex position="-9.18591290 0.207305310	1.77531690 	 "/> <!-- name="65.0" -->
+      	    <!-- 2 top right -->
+            <Vertex position="-9.03116230 0.0558491040	1.77736270 	 "/> <!-- name="67.0" -->
+	    <!-- 3 bottom left -->
+            <Vertex position="-9.18472480 0.0543416400	1.77523820 	 "/> <!-- name="68.0" -->	   
+             <!-- 4 bottom right -->
+	  </Marker4PNT>          
+      
+      </ARToolkit>
+    </Tracking>
+    <Portals>
+      <Portal room="corrdaniel" polygon="to_corrdaniel" polygonnb="to_daniel"/>
+    </Portals>      
+  </Room>
+  
+   <Room id="corrdaniel">
+    <Geometry>
+      <Vertex position="-7.14980130 -1.65178330	-2.76410950      "/> <!-- name="1.0" -->
+      <Vertex position="-7.16475540 1.00167480	-2.77267370      "/> <!-- name="2.0" -->
+      <Vertex position="-4.97038440 1.01128060	-2.72245410      "/> <!-- name="3.0" -->
+      <Vertex position="-4.95003610 -1.63892160	-2.72402390      "/> <!-- name="4.0" -->
+      <Vertex position="-5.03390750 1.05056330	2.06373760 	 "/> <!-- name="5.0" -->
+      <Vertex position="-5.01605960 -1.64879560	2.06655360 	 "/> <!-- name="6.0" -->
+      <Vertex position="-3.75875810 -1.62305160	2.09626100 	 "/> <!-- name="7.0" -->
+      <Vertex position="-3.78538700 1.06920840	2.08747450 	 "/> <!-- name="8.0" -->
+      <Vertex position="-3.76877450 -1.62870170	2.22380770 	 "/> <!-- name="9.0" -->
+      <Vertex position="-3.71515730 -1.63108810	2.24456640 	 "/> <!-- name="10.0" -->
+      <Vertex position="-3.74440070 0.375739110	2.24799280 	 "/> <!-- name="11.0" -->
+      <Vertex position="-3.7954034 1.0635583	2.2150212 	 "/> <!-- name="12.0" -->
+      <Vertex position="-3.83000770 1.04936960	3.34392550 	 "/> <!-- name="13.0" -->
+      <Vertex position="-3.80184320 -1.63251530	3.34696620 	 "/> <!-- name="14.0" -->
+      <Vertex position="-3.75632660 -1.63412090	3.27156600 	 "/> <!-- name="15.0" -->
+      <Vertex position="-3.78213670 0.375881190	3.26875290 	 "/> <!-- name="16.0" -->
+      <Vertex position="-3.86192600 -1.63390550	3.34820410 	 "/> <!-- name="17.0" -->
+      <Vertex position="-3.88278610 0.879362070	3.34859270 	 "/> <!-- name="18.0" -->
+      <Vertex position="-3.89129140 0.881567640	3.53808420 	 "/> <!-- name="19.0" -->
+      <Vertex position="-3.86833220 -0.441293320	3.54282640 	 "/> <!-- name="20.0" -->
+      <Vertex position="-3.87352220 -0.440738510	3.44642660 	 "/> <!-- name="21.0" -->
+      <Vertex position="-3.86831580 -1.63249500	3.44067600 	 "/> <!-- name="22.0" -->
+      <Vertex position="-5.06083790 -1.64756760	3.42883420 	 "/> <!-- name="23.0" -->
+      <Vertex position="-5.06499800 -1.64817620	3.50196530 	 "/> <!-- name="24.0" -->
+      <Vertex position="-5.06439470 -0.450081600	3.42992650 	 "/> <!-- name="25.0" -->
+      <Vertex position="-5.06439930 -0.452304810	3.51489280 	 "/> <!-- name="26.0" -->
+      <Vertex position="-5.06620560 -0.644863410	3.51265810 	 "/> <!-- name="27.0" -->
+      <Vertex position="-9.31922650 -1.67357140	6.43158120 	 "/> <!-- name="28.0" -->
+      <Vertex position="-9.30574830 -1.66802830	6.32882470 	 "/> <!-- name="29.0" -->
+      <Vertex position="-9.31746990 -0.478165580	6.33825380 	 "/> <!-- name="30.0" -->
+      <Vertex position="-9.31987050 -0.477241420	6.41528440 	 "/> <!-- name="31.0" -->
+      <Vertex position="-9.31933030 -0.664558670	6.33715810 	 "/> <!-- name="32.0" -->
+      <Vertex position="-9.27502890 -0.673520260	3.42339100 	 "/> <!-- name="33.0" -->
+      <Vertex position="-9.27456400 -0.478186840	3.42569050 	 "/> <!-- name="34.0" -->
+      <Vertex position="-9.28258180 -0.476787260	3.33753700 	 "/> <!-- name="35.0" -->
+      <Vertex position="-9.27164180 -1.67234350	3.32505370 	 "/> <!-- name="36.0" -->
+      <Vertex position="-9.26281870 -1.66775120	3.41657020 	 "/> <!-- name="37.0" -->
+      <Vertex position="-8.87320600 0.886070460	6.33843020 	 "/> <!-- name="38.0" -->
+      <Vertex position="-6.40243010 1.07278330	6.39342630 	 "/> <!-- name="39.0" -->
+      <Vertex position="-8.86284440 0.844969460	3.23789520 	 "/> <!-- name="40.0" -->
+      <Vertex position="-8.86627970 1.01016980	3.23813700 	 "/> <!-- name="41.0" -->
+      <Vertex position="-9.04303380 -1.66853750	1.98602550 	 "/> <!-- name="42.0" -->
+      <Vertex position="-9.06480480 0.988314620	1.97863450 	 "/> <!-- name="43.0" -->
+      <Vertex position="-7.97063880 1.00228680	2.00143240 	 "/> <!-- name="44.0" -->
+      <Vertex position="-7.96384270 -1.66294900 	2.00517660 	"/> <!-- name="45.0" -->
+      <Vertex position="-7.26033690 -1.66253360	2.02934040 	 "/> <!-- name="46.0" -->
+      <Vertex position="-7.28446640 1.03179680	2.01582290 	 "/> <!-- name="47.0" -->
+      <Vertex position="-8.92804510 -1.67250620	1.98648890 	 "/> <!-- name="48.0" -->
+      <Vertex position="-8.06781540 -1.66591130	2.00940400 	 "/> <!-- name="49.0" -->
+      <Vertex position="-8.08169410 0.338484920	2.00445680 	 "/> <!-- name="50.0" -->
+      <Vertex position="-8.93819100 0.331579070 	1.98498210 	"/> <!-- name="51.0" -->
+      <Vertex position="-7.26601980 0.176799940	1.83643120 	 "/> <!-- name="52.0" -->
+      <Vertex position="-7.27306110 0.176444730	1.99055750 	 "/> <!-- name="53.0" -->
+      <Vertex position="-7.27011210 0.0236442390	1.99022440 	 "/> <!-- name="54.0" -->
+      <Vertex position="-7.26306990 0.0235702770	1.83739360 	 "/> <!-- name="55.0" -->
+      <Vertex position="-5.03519350 0.212408700	2.02902460 	 "/> <!-- name="56.0" -->
+      <Vertex position="-5.03224580 0.216047330	1.87906060 	 "/> <!-- name="57.0" -->
+      <Vertex position="-5.03156290 0.0666066480	1.87782240 	 "/> <!-- name="58.0" -->
+      <Vertex position="-5.03312450 0.0647259960	2.02985910 	 "/> <!-- name="59.0" -->
+      <Vertex position="-4.59273910 0.224643330	2.07070510 	 "/> <!-- name="60.0" -->
+      <Vertex position="-4.74664940 0.220723320	2.07025830 	 "/> <!-- name="61.0" -->
+      <Vertex position="-4.74424040 0.0701365310	2.07207060 	 "/> <!-- name="62.0" -->
+      <Vertex position="-4.59062510 0.0715105180	2.07264760 	 "/> <!-- name="63.0" -->
+      <Vertex position="-3.77916850 0.236188030	2.82856450 	 "/> <!-- name="64.0" -->
+      <Vertex position="-3.77314100 0.235387160	2.67594880 	 "/> <!-- name="65.0" -->
+      <Vertex position="-3.77225150 0.0828628080	2.67621770 	 "/> <!-- name="66.0" -->
+      <Vertex position="-3.77811550 0.0838589300	2.82901730 	 "/> <!-- name="67.0" -->
+      <Vertex position="-9.11601250 0.248059430	1.97965460 	 "/> <!-- name="68.0" -->
+      <Vertex position="-9.27058770 0.247614860	1.97604490 	 "/> <!-- name="69.0" -->
+      <Vertex position="-9.26868250 0.0952865330	1.97629250 	 "/> <!-- name="70.0" -->
+      <Vertex position="-9.11602900 0.0964507730	1.98138550 	 "/> <!-- name="71.0" -->
+      <Vertex position="-7.54371460 0.171236360	2.01565180 	 "/> <!-- name="72.0" -->
+      <Vertex position="-7.69684760 0.169859840	2.01249890 	 "/> <!-- name="73.0" -->
+      <Vertex position="-7.69587070 0.0171169050	2.01469850 	 "/> <!-- name="74.0" -->
+      <Vertex position="-7.54295750 0.0181060070	2.01982590 	 "/> <!-- name="75.0" -->
+      <Vertex position="-5.14763950 -1.64705820	6.39568090 	 "/> <!-- name="76.0" -->
+      <Vertex position="-5.13731230 -1.65308810	6.49286150 	 "/> <!-- name="77.0" -->
+      <Vertex position="-5.12615060 -0.453293300 6.50633190 	"/> <!-- name="78.0" -->
+      <Vertex position="-5.12810990 -0.453108210	6.42017770 	- "/> <!-- name="79.0" -->
+      <Vertex position="-5.12454730 -0.653634950	6.41290210 	 "/> <!-- name="80.0" -->
+      <Vertex position="-8.8713497   0.847069460 3.4273867       "/> <!-- name="81.0" -->
+      <Vertex position="-9.27058770 -1.66853750	1.97604490 	 "/>  <!-- name="82.0" -->
+      <Vertex position="-9.27058770 0.988314620	1.97604490 	 "/>  <!-- name="83.0" -->   
+      <Vertex position="-8.98553945 -1.67052185  1.9862572  "/> <!-- name="84.0" -->
+      <Vertex position="-8.01582905  -1.66443015 2.0072903 "/> <!-- name="85.0" -->
+      <Vertex position="-8.99233555   0.99471395 1.982513 "/> <!-- name="86.0" -->
+      <Vertex position="-8.02262515  1.00080565  2.0035461 "/> <!-- name="87.0" -->
+      
+        <Polygon type="floor" vertices="42 84 85 46 1 4 6 7 9 14 17 22 23 24 76 77 28 29 37 36 82"/>
+        <Polygon type="ceiling" vertices="86 87 47 2 3 5 8 12 13 41 83"/>
+        <Polygon type="ceiling" vertices="18 19 81 40"/>
+	    
+     	<Polygon type="wall" vertices="34 35 36 37 33"/> 
+    	<Polygon type="wall" vertices="33 37 29 32"/>
+	<Polygon type="wall" vertices="31 30 32 29 28"/>     
+	<Polygon type="wall" vertices="43 42 82 70 69 83"/>
+	<Polygon type="wall" vertices="43 86 84 42"/>	
+	<Polygon type="wall" vertices="87 44 45 85"/>
+	<Polygon type="wall" vertices="44 47 46 45"/>
+        <Polygon type="wall" vertices="47 2 1 46"/>
+	<Polygon type="wall" vertices="2 1 4 3"/>
+	<Polygon type="wall" vertices="3 5 6 4"/>
+     	<Polygon type="wall" vertices="5 8 7 6"/> 
+    	<Polygon type="wall" vertices="8 12 9 7"/>
+	<Polygon type="wall" vertices="13 18 17 14"/>     
+	<Polygon type="wall" vertices="18 19 20 21 22 17"/>
+	<Polygon type="wall" vertices="21 20 26 25"/>
+        <Polygon type="wall" vertices="21 25 23 22"/>
+	<Polygon type="wall" vertices="25 26 27 24 23"/>
+	<Polygon type="wall" vertices="24 27 80 76"/>		
+     	<Polygon type="wall" vertices="79 78 77 76 80"/> 
+    	<Polygon type="wall" vertices="41 40 18 13"/>
+					
+	<!-- door to daniel 	-->
+	<Polygon name="to_daniel" type="portal" vertices="86 87 85 84"/>
+	
+	<!-- door to vrlab -->	
+	<Polygon name="to_vrlab" type="portal" vertices="13 14 9 12"/>
+
+    </Geometry>
+
+    <Tracking>
+      <ARToolkit>
+
+          <Marker4PNT number="39" size="0.153" name="pattern039">
+            <Vertex position="-7.69684760 0.169859840	2.01249890 	 "/> <!-- name="73.0" -->
+	    <!-- 1 top left-->
+	    <Vertex position="-7.54371460 0.171236360 	2.01565180 	"/> <!-- name="72.0" -->
+   	    <!-- 2 top right -->
+	    <Vertex position="-7.69587070 0.0171169050	2.01469850 	 "/> <!-- name="74.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-7.54295750 0.0181060070	2.01982590 	 "/> <!-- name="75.0" -->
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+      
+          <Marker4PNT number="40" size="0.153" name="pattern040">
+            <Vertex position="-7.27306110 0.176444730	1.99055750 	 "/> <!-- name="53.0" -->
+	    <!-- 1 top left-->
+	    <Vertex position="-7.26601980 0.176799940	1.83643120 	 "/> <!-- name="52.0" -->
+	    <!-- 2 top right -->
+            <Vertex position="-7.27011210 0.0236442390	1.99022440 	 "/> <!-- name="54.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-7.26306990 0.0235702770	1.83739360 	 "/> <!-- name="55.0" -->	    	    
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+           
+          <Marker4PNT number="41" size="0.153" name="pattern041">
+	    <Vertex position="-5.03224580 0.216047330	1.87906060 	 "/> <!-- name="57.0" -->
+	    <!-- 1 top left-->
+	    <Vertex position="-5.03519350 0.212408700	2.02902460 	 "/> <!-- name="56.0" -->
+ 	    <!-- 2 top right -->
+	    <Vertex position="-5.03156290 0.0666066480	1.87782240 	 "/> <!-- name="58.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-5.03312450 0.0647259960 	2.02985910 	"/> <!-- name="59.0" -->   
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>    
+      
+          <Marker4PNT number="42" size="0.153" name="pattern042">
+	    <Vertex position="-4.74664940 0.220723320	2.07025830 	 "/> <!-- name="61.0" -->
+	    <!-- 1 top left-->
+	    <Vertex position="-4.59273910 0.224643330	2.07070510 	 "/> <!-- name="60.0" -->
+	    <!-- 2 top right -->
+	    <Vertex position="-4.74424040 0.0701365310	2.07207060 	 "/> <!-- name="62.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-4.59062510 0.0715105180	2.07264760 	 "/> <!-- name="63.0" -->
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>  
+	
+          <Marker4PNT number="43" size="0.153" name="pattern043">
+	    <Vertex position="-3.77314100 0.235387160	2.67594880 	 "/> <!-- name="65.0" -->
+	    <!-- 1 top left-->
+	    <Vertex position="-3.77916850 0.236188030	2.82856450 	 "/> <!-- name="64.0" -->
+	    <!-- 2 top right -->
+	    <Vertex position="-3.77225150 0.0828628080	2.67621770 	 "/> <!-- name="66.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-3.77811550 0.0838589300	2.82901730 	 "/> <!-- name="67.0" -->    
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>          
+	  
+          <Marker4PNT number="44" size="0.153" name="pattern044">
+	    <Vertex position="-9.27058770 0.247614860	1.97604490 	 "/> <!-- name="69.0" -->
+	    <!-- 1 top left-->
+            <Vertex position="-9.11601250 0.248059430	1.97965460 	 "/> <!-- name="68.0" -->
+   	    <!-- 2 top right -->
+	    <Vertex position="-9.26868250 0.0952865330	1.97629250 	 "/> <!-- name="70.0" -->
+	    <!-- 3 bottom left -->
+	    <Vertex position="-9.11602900 0.0964507730	1.98138550 	 "/> <!-- name="71.0" -->   
+	    <!-- 4 bottom right -->
+	  </Marker4PNT>             
+      
+      </ARToolkit>
+    </Tracking>
+    <Portals>
+      <Portal room="daniel" polygon="to_daniel" polygonnb="to_corrdaniel"/>
+      <Portal room="vrlab" polygon="to_vrlab" polygonnb="to_corrdaniel"/>
+    </Portals> 
+  </Room>
+</Building>

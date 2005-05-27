@@ -1,0 +1,14 @@
+// -*- MPC -*-
+// qt_moc.mpb,v 1.1 2004/04/05 15:39:28 elliott_c Exp
+
+project : qt {
+  Define_Custom(MOC) {
+    automatic        = 0
+    command          = $(QTDIR)/bin/moc
+    output_option    = -o
+    pch_postrule     = 1
+    inputext         = .h
+    pre_extension    = _moc
+    source_outputext = .cpp
+  }
+}

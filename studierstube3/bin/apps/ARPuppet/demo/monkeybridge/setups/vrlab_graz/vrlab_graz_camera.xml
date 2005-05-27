@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+	    <ARToolKitConfig camera-parameter="firefly_istvan.dat" videomode="inputDevive=WDM_CAP,videoWidth=640,videoHeight=480" framerate="100" treshhold="100"/>
+		<ConsoleConfig display="on"/>
+	</configuration>
+
+    <ConsoleSink comment="playfield_in_center" active="on">
+      <StbSink station="0">
+        <StbKeyboardSource number="0"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="bird1-puc1" active="on">
+      <StbSink station="1">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25" >
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <NetworkSource number="1" multicast-address="224.0.0.10" port="12345" DEF="bird1"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+      
+    <ConsoleSink comment="bird2-puc2" active="on">
+      <StbSink station="2">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <NetworkSource number="2" multicast-address="224.0.0.10" port="12345" DEF="bird2"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="bird3-camera" active="on">
+      <StbSink station="3">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.358 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <NetworkSource number="3" multicast-address="224.0.0.10" port="12345" DEF="bird3"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="bird4-hmd2" active="on">
+      <StbSink station="4">
+        <EventTransform rotation="0 0.3826834323651 0 -0.9238795325113" scale="0.25 0.25 0.25">
+          <EventTransform translation="0.047 -0.328 -0.005">
+            <EventVirtualTransform rotation="-0.508 -0.500 0.446 0.541">
+              <EventTransform rotation="0.7071067812 0 0 0.7071067812">
+                <NetworkSource number="4" multicast-address="224.0.0.10" port="12345" DEF="bird4"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventTransform>
+        </EventTransform>
+      </StbSink>
+    </ConsoleSink>
+
+</OpenTracker>

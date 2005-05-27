@@ -1,0 +1,15 @@
+#Inventor V2.1 ascii
+Separator {
+  DirectionalLight {}
+  Transform { 
+    rotation 1 0 0  0 = 
+      DEF TRAKENGINE SoTrakEngine { station 1 } . rotation
+    translation 0 0 0 = USE TRAKENGINE . translation
+  }
+  Transform { 
+    scaleFactor 0.1 0.1 0.1 
+    translation 0 0.3 0
+  }
+  Material { diffuseColor 1 0 1 }
+  Cone {}
+}

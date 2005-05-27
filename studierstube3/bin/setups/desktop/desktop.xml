@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ARToolKitConfig camera-parameter="../../workspace/data/webcam.dat" videomode="inputDevive=WDM_CAP,showDlg" framerate="100" treshhold="100"/>
+    <ConsoleConfig headerline="Receiver Test" interval="1" display="off"/>
+    <TimeConfig display="true"/>
+  </configuration>
+  <StbSink station="0">
+    <ConsoleSink comment="pi">
+      <Merge>
+        <MergeDefault>
+          <EventVirtualPositionTransform translation="0 -0.07 0">
+            <EventVirtualTransform rotation="0 0 1 2.356194490" rotationtype="axisangle">
+              <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0.5">
+                <ARToolKitSource center="0 0" size="50 50" tag-file="../../workspace/data/pi.patt" DEF="PI"/>
+              </EventTransform>
+            </EventVirtualTransform>
+          </EventVirtualPositionTransform>
+        </MergeDefault>
+        <MergeButton>
+          <StbKeyboardSource number="0"/>
+        </MergeButton>
+      </Merge>
+    </ConsoleSink>
+  </StbSink>
+  <StbSink station="1">
+    <ConsoleSink comment="Lambda">
+      <EventVirtualPositionTransform translation="0.14 0 0.05">
+        <EventVirtualOrientationTransform rotation="0.5 0.5 0.5 0.5">
+          <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0.5">
+            <ARToolKitSource center="0 0" size="80 80" tag-file="../../workspace/data/lambda.patt" DEF="LA"/>
+          </EventTransform>
+        </EventVirtualOrientationTransform>
+      </EventVirtualPositionTransform>
+    </ConsoleSink>
+  </StbSink>
+  <StbSink station="2">
+    <TestSource frequency="1" position="0 0 0.5"/>
+  </StbSink>
+  <ConsoleSink comment="test">
+    <Ref USE="PI"/>
+  </ConsoleSink>
+</OpenTracker>

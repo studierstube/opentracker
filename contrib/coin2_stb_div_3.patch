@@ -1,0 +1,750 @@
+Index: include/Inventor/fields/SoMField.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/fields/SoMField.h,v
+retrieving revision 1.2
+diff -u -r1.2 SoMField.h
+--- include/Inventor/fields/SoMField.h	13 Jan 2004 12:22:43 -0000	1.2
++++ include/Inventor/fields/SoMField.h	21 Jun 2004 08:42:17 -0000
+@@ -46,6 +46,9 @@
+   SbBool set1(const int index, const char * const valuestring);
+   void get1(const int index, SbString & valuestring);
+ 
++  void setIndex(const int index);
++  SbBool getChangedIndexString(int & index, SbString & valuestring);
++
+   static void initClass(void);
+ 
+   virtual void enableDeleteValues(void);
+@@ -64,6 +67,7 @@
+ 
+   int num;
+   int maxNum;
++  int changedIndex;
+   SbBool userDataIsUsed;
+ 
+ private:
+@@ -87,6 +91,13 @@
+ {
+   this->evaluate();
+   return this->num;
++}
++
++inline void 
++SoMField::setIndex(const int index)
++{ 
++  this->changedIndex = index;
++  return;
+ }
+ 
+ #endif // !COIN_SOMFIELD_H
+Index: include/Inventor/fields/SoSubField.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/fields/SoSubField.h,v
+retrieving revision 1.4
+diff -u -r1.4 SoSubField.h
+--- include/Inventor/fields/SoSubField.h	14 Jan 2004 20:13:14 -0000	1.4
++++ include/Inventor/fields/SoSubField.h	21 Jun 2004 08:42:17 -0000
+@@ -356,7 +356,9 @@
+   if (idx+1 > this->maxNum) this->allocValues(idx+1); \
+   else if (idx+1 > this->num) this->num = idx+1; \
+   this->values[idx] = value; \
++  this->setIndex(idx); \
+   this->valueChanged(); \
++  this->setIndex(-1); \
+ } \
+  \
+ void \
+@@ -364,7 +366,9 @@
+ { \
+   this->allocValues(1); \
+   this->values[0] = value; \
++  this->setIndex(0); \
+   this->valueChanged(); \
++  this->setIndex(-1); \
+ } \
+  \
+ SbBool \
+@@ -405,6 +409,7 @@
+  \
+   assert(newnum >= 0); \
+  \
++  this->setIndex(-1); \
+   if (newnum == 0) { \
+     if (!this->userDataIsUsed) delete[] this->values; /* don't fetch pointer through valuesPtr() (avoids void* cast) */ \
+     this->setValuesPtr(NULL); \
+Index: include/Inventor/misc/SoNotification.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/misc/SoNotification.h,v
+retrieving revision 1.2
+diff -u -r1.2 SoNotification.h
+--- include/Inventor/misc/SoNotification.h	13 Jan 2004 12:22:44 -0000	1.2
++++ include/Inventor/misc/SoNotification.h	21 Jun 2004 08:42:17 -0000
+@@ -43,7 +43,9 @@
+   SoNotRec * getFirstRec(void) const;
+   SoNotRec * getLastRec(void) const;
+   SoNotRec * getFirstRecAtNode(void) const;
++  SoNotRec * getPreviousNodeRec(void) const;
+   SoField * getLastField(void) const;
++  SoField * getPreviousField(void) const;
+   SoEngineOutput * getLastEngineOutput(void) const;
+   uint32_t getTimeStamp(void) const;
+ 
+@@ -53,7 +55,9 @@
+   SoNotRec * head;
+   SoNotRec * tail;
+   SoNotRec * firstnoderec;
++  SoNotRec * previousnoderec;
+   SoField * lastfield;
++  SoField * previousfield;
+   SoEngineOutput * lastengine;
+   uint32_t stamp;
+ };
+Index: include/Inventor/nodes/SoGroup.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/nodes/SoGroup.h,v
+retrieving revision 1.2
+diff -u -r1.2 SoGroup.h
+--- include/Inventor/nodes/SoGroup.h	13 Jan 2004 12:22:44 -0000	1.2
++++ include/Inventor/nodes/SoGroup.h	21 Jun 2004 08:42:17 -0000
+@@ -34,6 +34,16 @@
+   SO_NODE_HEADER(SoGroup);
+ 
+ public:
++  enum SoGroupChangedType {
++    GROUP_UNSPECIFIED,
++    GROUP_NO_GROUP,
++    GROUP_ADDCHILD,
++    GROUP_INSERTCHILD,
++    GROUP_REPLACECHILD,
++    GROUP_REMOVECHILD,
++    GROUP_REMOVEALLCHILDREN
++  };
++
+   static void initClass(void);
+   SoGroup(void);
+ 
+@@ -42,8 +52,11 @@
+   virtual void addChild(SoNode * node);
+   virtual void insertChild(SoNode * child, int newchildindex);
+   virtual SoNode * getChild(int index) const;
++  virtual SoNode * getChangedChild(void) const;
+   virtual int findChild(const SoNode * node) const;
+   virtual int getNumChildren(void) const;
++  virtual int getChangedIndex(void) const;
++  virtual SoGroupChangedType getChangedType(void) const;
+   virtual void removeChild(int childindex);
+   virtual void removeChild(SoNode * child);
+   virtual void removeAllChildren(void);
+@@ -71,8 +84,12 @@
+ 
+   virtual void copyContents(const SoFieldContainer * from,
+                             SbBool copyconnections);
++  virtual void resetChangedStatus(void);
+ 
+   SoChildList * children;
++  SoNode * changedChild;
++  SoGroupChangedType changedType;
++  int changedIndex;
+ 
+ private:
+   friend class SoUnknownNode; // Let SoUnknownNode access readChildren().
+Index: include/Inventor/sensors/SoDataSensor.h
+===================================================================
+RCS file: /export/cvsroot/Coin-2/include/Inventor/sensors/SoDataSensor.h,v
+retrieving revision 1.2
+diff -u -r1.2 SoDataSensor.h
+--- include/Inventor/sensors/SoDataSensor.h	13 Jan 2004 12:22:45 -0000	1.2
++++ include/Inventor/sensors/SoDataSensor.h	21 Jun 2004 08:42:17 -0000
+@@ -25,6 +25,7 @@
+ \**************************************************************************/
+ 
+ #include <Inventor/sensors/SoDelayQueueSensor.h>
++#include <Inventor/nodes/SoGroup.h>
+ #include <stdlib.h> // for NULL definition
+ 
+ class SoNode;
+@@ -42,10 +43,15 @@
+ 
+   void setDeleteCallback(SoSensorCB * function, void * data = NULL);
+   SoNode * getTriggerNode(void) const;
++  SoNode * getTriggerChild(void) const;
++  SoNode * getTriggerPrevNode(void) const;
+   SoField * getTriggerField(void) const;
++  SoField * getTriggerPrevField(void) const;
+   SoPath * getTriggerPath(void) const;
+   void setTriggerPathFlag(SbBool flag);
+   SbBool getTriggerPathFlag(void) const;
++  int getTriggerIndex(void) const;
++  SoGroup::SoGroupChangedType getTriggerType(void) const;
+ 
+   virtual void trigger(void);
+   virtual void notify(SoNotList * l);
+@@ -59,8 +65,13 @@
+   void * cbdata;
+   SbBool findpath;
+   SoField * triggerfield;
++  SoField * triggerpreviousfield;
+   SoNode * triggernode;
++  SoNode * triggerchild;
++  SoNode * triggerpreviousnode;
+   SoPath * triggerpath;
++  SoGroup::SoGroupChangedType triggerchangetype;
++  int triggerindex;
+ };
+ 
+ #endif // !COIN_SODATASENSOR_H
+Index: src/fields/SoMFEngine.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/fields/SoMFEngine.cpp,v
+retrieving revision 1.5
+diff -u -r1.5 SoMFEngine.cpp
+--- src/fields/SoMFEngine.cpp	14 Jan 2004 20:13:15 -0000	1.5
++++ src/fields/SoMFEngine.cpp	21 Jun 2004 08:42:18 -0000
+@@ -199,6 +199,7 @@
+     }
+ 
+     this->values[idx] = newval;
++    this->setIndex(idx);
+ #ifdef COIN_INTERNAL_SOMFPATH
+     this->pathheads[idx] = newval ? newval->getHead() : NULL;
+ #endif // COIN_INTERNAL_SOMFPATH
+Index: src/fields/SoMFNode.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/fields/SoMFNode.cpp,v
+retrieving revision 1.7
+diff -u -r1.7 SoMFNode.cpp
+--- src/fields/SoMFNode.cpp	14 Jan 2004 20:13:15 -0000	1.7
++++ src/fields/SoMFNode.cpp	21 Jun 2004 08:42:18 -0000
+@@ -201,6 +201,7 @@
+     }
+ 
+     this->values[idx] = newval;
++    this->setIndex(idx);
+ #ifdef COIN_INTERNAL_SOMFPATH
+     this->pathheads[idx] = newval ? newval->getHead() : NULL;
+ #endif // COIN_INTERNAL_SOMFPATH
+Index: src/fields/SoMFPath.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/fields/SoMFPath.cpp,v
+retrieving revision 1.5
+diff -u -r1.5 SoMFPath.cpp
+--- src/fields/SoMFPath.cpp	14 Jan 2004 20:13:15 -0000	1.5
++++ src/fields/SoMFPath.cpp	21 Jun 2004 08:42:18 -0000
+@@ -200,6 +200,7 @@
+     }
+ 
+     this->values[idx] = newval;
++    this->setIndex(idx);
+ #ifdef COIN_INTERNAL_SOMFPATH
+     this->pathheads[idx] = newval ? newval->getHead() : NULL;
+ #endif // COIN_INTERNAL_SOMFPATH
+Index: src/fields/SoMField.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/fields/SoMField.cpp,v
+retrieving revision 1.6
+diff -u -r1.6 SoMField.cpp
+--- src/fields/SoMField.cpp	18 Jun 2004 13:48:08 -0000	1.6
++++ src/fields/SoMField.cpp	21 Jun 2004 08:48:38 -0000
+@@ -335,14 +335,16 @@
+   // make sure the array has room for the new item
+   if (index >= this->maxNum) this->allocValues(index+1);
+   else if (index >= this->num) this->num = index+1;
+-  
++
+   SoInput in;
+   in.setBuffer((void *)valuestring, strlen(valuestring));
+   if (!this->read1Value(&in, index)) {
+     this->num = oldnum; // restore old number of items in field
+     return FALSE;
+   }
++  this->changedIndex = index;
+   this->valueChanged();
++  this->changedIndex = -1;
+   return TRUE;
+ }
+ 
+@@ -419,6 +421,21 @@
+     (void) mfield_buffer_realloc(mfield_buffer, STARTSIZE);
+   }
+   CC_MUTEX_UNLOCK(somfield_mutex);
++}
++
++/*!
++  Return the value of the changed index at \a index in the \a valuestring string.
++  Returns \c TRUE if the index changed, otherwise \c FALSE.
++*/
++SbBool
++SoMField::getChangedIndexString(int & index, SbString & valuestring)
++{
++  if(this->changedIndex >= 0) {
++    index = this->changedIndex;
++    this->get1(index, valuestring);
++    return TRUE;
++  }
++  return FALSE;
+ }
+ 
+ /*!
+Index: src/misc/SoNotification.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/misc/SoNotification.cpp,v
+retrieving revision 1.2
+diff -u -r1.2 SoNotification.cpp
+--- src/misc/SoNotification.cpp	13 Jan 2004 12:22:49 -0000	1.2
++++ src/misc/SoNotification.cpp	21 Jun 2004 08:42:18 -0000
+@@ -45,6 +45,8 @@
+   this->firstnoderec = NULL;
+   this->lastfield = NULL;
+   this->lastengine = NULL;
++  this->previousfield = NULL;
++  this->previousnoderec = NULL;
+   // this is used in SoNode::notify() to stop a notification
+   // when a node has already been notified.
+   this->stamp = SoNode::getNextNodeId();
+@@ -99,6 +101,20 @@
+   assert(field);
+   this->lastfield = field;
+   this->append(rec);
++
++  if (this->lastfield == NULL) {
++    this->lastfield = field;
++    this->firstnoderec = rec;
++    this->previousnoderec = rec;
++  }
++  else {
++    if (this->previousfield == NULL)
++      this->previousfield = this->lastfield;
++    else
++      this->previousfield = NULL;
++    this->lastfield = field;
++    this->firstnoderec = rec;
++  }
+ }
+ 
+ /*!
+@@ -160,12 +176,30 @@
+ }
+ 
+ /*!
++  Returns the previous record in the list which is derived from SoBase.
++*/
++SoNotRec *
++SoNotList::getPreviousNodeRec(void) const
++{ 
++  return this->previousnoderec;
++}
++
++/*!
+   Returns the last field touched by notification.
+ */
+ SoField *
+ SoNotList::getLastField(void) const
+ {
+   return this->lastfield;
++}
++
++/*!
++  Returns the previous field touched by notification.
++*/
++SoField *
++SoNotList::getPreviousField(void) const
++{ 
++  return this->previousfield;
+ }
+ 
+ /*!
+Index: src/nodes/SoGroup.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/nodes/SoGroup.cpp,v
+retrieving revision 1.4
+diff -u -r1.4 SoGroup.cpp
+--- src/nodes/SoGroup.cpp	13 Jan 2004 12:22:49 -0000	1.4
++++ src/nodes/SoGroup.cpp	21 Jun 2004 08:42:18 -0000
+@@ -201,6 +201,17 @@
+   List of managed child nodes.
+ */
+ 
++/*!
++  \enum SoGroup::SoGroupChangedType
++
++  Enumerated values for the available SoGroup changed types.
++
++  Please note that this enumeration is an extension to the original SGI
++  Inventor API.  
++
++  \sa getChangedType()
++*/
++
+ // *************************************************************************
+ 
+ SO_NODE_SOURCE(SoGroup);
+@@ -214,6 +225,7 @@
+   SO_NODE_INTERNAL_CONSTRUCTOR(SoGroup);
+ 
+   this->children = new SoChildList(this);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+@@ -229,6 +241,7 @@
+   SO_NODE_INTERNAL_CONSTRUCTOR(SoGroup);
+ 
+   this->children = new SoChildList(this, nchildren);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+@@ -254,6 +267,18 @@
+ }
+ 
+ /*!
++  Returns pointer to the changed child node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++*/
++SoNode *
++SoGroup::getChangedChild(void) const
++{
++  return this->changedChild;
++}
++
++/*!
+   Returns number of child nodes managed by this group.
+ 
+   Please note that this method is not virtual in the original SGI
+@@ -265,6 +290,30 @@
+   return this->getChildren()->getLength();
+ }
+ 
++/*!
++  Returns the index of the changed child node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++*/
++int
++SoGroup::getChangedIndex(void) const
++{
++  return this->changedIndex;
++}
++
++/*!
++  Returns the type of the changed child node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++*/
++SoGroup::SoGroupChangedType
++SoGroup::getChangedType(void) const
++{
++  return this->changedType;
++}
++
+ // Doc from superclass.
+ SbBool
+ SoGroup::readInstance(SoInput * in, unsigned short flags)
+@@ -362,6 +411,21 @@
+ }
+ 
+ /*!
++  Resets the values of the changed status variables to their defaults.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++*/
++void
++SoGroup::resetChangedStatus(void)
++{
++  this->changedChild = NULL;
++  this->changedIndex = -1;
++  this->changedType = SoGroup::GROUP_UNSPECIFIED;
++  return;
++}
++
++/*!
+   Append a child \a node to the list of children nodes this group node
+   is managing.
+ 
+@@ -372,7 +436,12 @@
+ SoGroup::addChild(SoNode * node)
+ {
+   assert(node != NULL);
++
++  this->changedChild = node;
++  this->changedIndex = -1;
++  this->changedType = SoGroup::GROUP_ADDCHILD;
+   this->getChildren()->append(node);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+@@ -392,7 +461,11 @@
+     return;
+   }
+ #endif // COIN_DEBUG
++  this->changedChild = child;
++  this->changedIndex = newchildindex;
++  this->changedType = SoGroup::GROUP_INSERTCHILD;
+   this->getChildren()->insert(child, newchildindex);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+@@ -412,7 +485,11 @@
+     return;
+   }
+ #endif // COIN_DEBUG
++  this->changedChild = NULL;
++  this->changedIndex = childindex;
++  this->changedType = SoGroup::GROUP_REMOVECHILD;
+   this->getChildren()->remove(childindex);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+@@ -673,7 +750,11 @@
+ void
+ SoGroup::removeAllChildren(void)
+ {
++  this->changedChild= NULL;
++  this->changedIndex= -1;
++  this->changedType = SoGroup::GROUP_REMOVEALLCHILDREN;
+   this->getChildren()->truncate(0);
++  this->resetChangedStatus();
+ }
+ 
+ /*!
+Index: src/sensors/SoDataSensor.cpp
+===================================================================
+RCS file: /export/cvsroot/Coin-2/src/sensors/SoDataSensor.cpp,v
+retrieving revision 1.4
+diff -u -r1.4 SoDataSensor.cpp
+--- src/sensors/SoDataSensor.cpp	12 Feb 2004 13:13:12 -0000	1.4
++++ src/sensors/SoDataSensor.cpp	21 Jun 2004 08:42:18 -0000
+@@ -34,7 +34,7 @@
+ #include <Inventor/sensors/SoDataSensor.h>
+ #include <Inventor/SoPath.h>
+ #include <Inventor/misc/SoNotification.h>
+-#include <Inventor/nodes/SoNode.h>
++#include <Inventor/fields/SoSFNode.h>
+ 
+ #if COIN_DEBUG
+ #include <Inventor/errors/SoDebugError.h>
+@@ -57,8 +57,13 @@
+     cbdata(NULL),
+     findpath(FALSE),
+     triggerfield(NULL),
++    triggerpreviousfield(NULL),
+     triggernode(NULL),
+-    triggerpath(NULL)
++    triggerchild(NULL),
++    triggerpreviousnode(NULL),
++    triggerpath(NULL),
++    triggerchangetype(SoGroup::GROUP_UNSPECIFIED),
++    triggerindex(-1)
+ {
+ }
+ 
+@@ -74,8 +79,13 @@
+     cbdata(NULL),
+     findpath(FALSE),
+     triggerfield(NULL),
++    triggerpreviousfield(NULL),
+     triggernode(NULL),
+-    triggerpath(NULL)
++    triggerchild(NULL),
++    triggerpreviousnode(NULL),
++    triggerpath(NULL),
++    triggerchangetype(SoGroup::GROUP_UNSPECIFIED),
++    triggerindex(-1)
+ {
+ }
+ 
+@@ -121,6 +131,52 @@
+ }
+ 
+ /*!
++  Returns a pointer to the child node causing the sensor to trigger, or \c
++  NULL if there was no such node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++
++  \sa getTriggerNode()
++*/
++SoNode *
++SoDataSensor::getTriggerChild(void) const
++{
++  if (this->getPriority() != 0) {
++#ifdef DEBUG
++    SoDebugError::postWarning("SoDataSensor::getTriggerChild",
++                              "Sensor priority is not zero"
++                              " (priority is %d)", getPriority());
++#endif
++    return NULL;
++  }
++  return this->triggerchild;
++}
++
++/*!
++  Returns a pointer to the previous node causing the sensor to trigger, or \c
++  NULL if there was no such node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++
++  \sa getTriggerNode()
++*/
++SoNode *
++SoDataSensor::getTriggerPrevNode(void) const
++{
++  if (this->getPriority() != 0) {
++#ifdef DEBUG
++    SoDebugError::postWarning("SoDataSensor::getTriggerPrevNode",
++                              "Sensor priority is not zero"
++                              " (priority is %d)", getPriority());
++#endif
++    return NULL;
++  }
++  return this->triggerpreviousnode;
++}
++
++/*!
+   Returns a pointer to the field causing the sensor to trigger, or \c
+   NULL if the change didn't start at a field.
+ 
+@@ -138,6 +194,29 @@
+ }
+ 
+ /*!
++  Returns a pointer to the previous field causing the sensor to trigger, or \c
++  NULL if the change didn't start at a field.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++
++  \sa getTriggerField()
++*/
++SoField *
++SoDataSensor::getTriggerPrevField(void) const
++{
++  if (this->getPriority() != 0) {
++#ifdef DEBUG
++    SoDebugError::postWarning("SoDataSensor::getTriggerPrevField",
++                              "Sensor priority is not zero"
++                              " (priority is %d)", getPriority());
++#endif
++    return NULL;
++  }
++  return this->triggerpreviousfield;
++}
++
++/*!
+   Returns a pointer to the path from the node under the surveillance
+   of this sensor (either directly or indirectly through a field
+   watch) down to the node which caused the sensor to be triggered.
+@@ -183,6 +262,52 @@
+   return this->findpath;
+ }
+ 
++/*!
++  Returns the index of the node causing the sensor to trigger, or \c
++  NULL if there was no such node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++
++  \sa getTriggerNode()
++*/
++int
++SoDataSensor::getTriggerIndex(void) const
++{
++  if (this->getPriority() != 0) {
++#ifdef DEBUG
++    SoDebugError::postWarning("SoDataSensor::getTriggerIndex",
++                              "Sensor priority is not zero"
++                              " (priority is %d)", getPriority());
++#endif
++    return -1;
++  }
++  return this->triggerindex;
++}
++
++/*!
++  Returns the type of the node causing the sensor to trigger, or \c
++  NULL if there was no such node.
++
++  Please note that this method is an extension to the original SGI
++  Inventor API.  
++
++  \sa getTriggerNode()
++*/
++SoGroup::SoGroupChangedType
++SoDataSensor::getTriggerType(void) const
++{
++  if (this->getPriority() != 0) {
++#ifdef DEBUG
++    SoDebugError::postWarning("SoDataSensor::getTriggerType",
++                              "Sensor priority is not zero"
++                              " (priority is %d)", getPriority());
++#endif
++    return SoGroup::GROUP_UNSPECIFIED;
++  }
++  return this->triggerchangetype;
++}
++
+ // Doc from superclass.
+ void
+ SoDataSensor::trigger(void)
+@@ -192,6 +317,11 @@
+   this->triggernode = NULL;
+   if (this->triggerpath) this->triggerpath->unref();
+   this->triggerpath = NULL;
++  this->triggerindex = -1;
++  this->triggerchild = NULL;
++  this->triggerchangetype = SoGroup::GROUP_UNSPECIFIED;
++  this->triggerpreviousfield = NULL;
++  this->triggerpreviousnode = NULL;
+ }
+ 
+ /*!
+@@ -217,6 +347,20 @@
+     SoNotRec * record = l->getFirstRecAtNode();
+     this->triggernode = (SoNode *) (record ? record->getBase() : NULL);
+ 
++    if (this->triggerfield && this->triggerfield->isOfType(SoSFNode::getClassTypeId())) {
++      this->triggerpreviousfield = l->getPreviousField();
++      SoNotRec * prevNodeRec = l->getPreviousNodeRec();
++
++      if (prevNodeRec)
++        this->triggerpreviousnode = (SoNode *) prevNodeRec->getBase();
++      else
++        this->triggerpreviousnode = NULL;
++    }
++    else {
++      this->triggerpreviousfield = NULL;
++      this->triggerpreviousnode = NULL;
++    }
++
+     if (this->findpath && this->triggernode) {
+       const SoNotRec * record = l->getLastRec();
+       // find last record with node base (we know there's at least one
+@@ -231,6 +375,17 @@
+         record = record->getPrevious();
+         this->triggerpath->append((SoNode*) record->getBase());
+       }
++    }
++
++    if (this->triggernode && this->triggernode->isOfType(SoGroup::getClassTypeId())) {
++      this->triggerchild = ((SoGroup*) this->triggernode)->getChangedChild();
++      this->triggerindex = ((SoGroup*) this->triggernode)->getChangedIndex();
++      this->triggerchangetype = ((SoGroup*) this->triggernode)->getChangedType();
++    }
++    else {
++      this->triggerchild = NULL;
++      this->triggerindex = -1;
++      this->triggerchangetype = SoGroup::GROUP_NO_GROUP;
+     }
+   }
+   this->schedule();

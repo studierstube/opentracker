@@ -1,0 +1,133 @@
+#Inventor V2.1 ascii
+
+DEF model1 SoApplicationKit {
+
+    classLoader SoClassLoader {
+        className   "SoFingerfarbenAppKit"
+        fileName    "../apps/fingerfarben/fingerfarben_stb"
+    }
+    
+    templatePipSheet Separator {
+        File {name "../apps/fingerfarben/geometry/splashpip.iv" }
+    }
+
+    appGeom Separator {
+        Texture2 { filename "../apps/fingerfarben/fingerfarben.gif" }
+    }
+    
+    info Info {
+    }
+    
+    contextKit DEF testNAME SoFingerfarbenAppKit {
+
+        clonePipSheet FALSE
+
+        windowGroup Group {
+        
+            SoTrackedArtifactKit {
+                station 102
+                timeOut 2
+                artifactRoot So3DSeparator {
+                    boundingBoxCheck FALSE
+                    eventMask BM_ALL_EVENTS
+                }
+                geometry Group {
+                    Translation { translation -0.03 0 0 }
+                    SoTemplateKit {
+                        trigger IMMEDIATE
+                        check COORDS
+                        
+                        geometry Separator {
+                            Translation { translation 0 0 0.02 }
+                            DEF TEMPLATE Material {
+                                diffuseColor 1 1 0.5
+                                transparency 0.2
+                            }
+                            Cube { width 0.04 height 0.04 depth 0.04 }
+                        }
+                        bounds Cube { width 0.06 height 0.06 depth 0.06 }
+                    }
+                    Translation { translation 0.06 0 0 }
+                    SoTemplateKit {
+                        trigger IMMEDIATE
+                        check COORDS
+                        
+                        geometry Separator {
+                            Translation { translation 0 0 0.02 }
+                            DEF TEMPLATE Material {
+                                diffuseColor 0.7 0.0 0.2
+                                transparency 0.3
+                            }
+                            Cube { width 0.04 height 0.04 depth 0.04 }
+                        }
+                        bounds Cube { width 0.06 height 0.06 depth 0.06 }
+                    }
+                }
+            }
+        
+            SoTrackedArtifactKit {
+                station 103
+                timeOut 2
+                artifactRoot So3DSeparator {
+                    boundingBoxCheck FALSE
+                    eventMask BM_ALL_EVENTS
+                }
+                geometry Group {
+                    SoTemplateKit {
+                        trigger TIMED
+                        triggerTime 2
+                        check COORDS
+                        geometry Group {
+                            Material {
+                                diffuseColor 1 1 0
+                                transparency 0.7
+                            }
+                            Cube { width 0.2 height 0.2 depth 0.2 }
+                            DEF TEMPLATE Group {}
+                        }
+                        hoverGeometry Group {
+                            Material {
+                                diffuseColor 1 0 0
+                                transparency 0.7
+                            }
+                            Cube { width 0.2 height 0.2 depth 0.2 }
+                        }
+                        actionGeometry Group {
+                            Material {
+                                diffuseColor 0 1 0
+                                transparency 0.7
+                            }
+                            Cube { width 0.2 height 0.2 depth 0.2 }
+                        }
+                    }
+                }
+            }
+        
+                
+            SoTrackedArtifactKit {
+                station 101
+                artifactRoot So3DSeparator {
+                    boundingBoxCheck FALSE
+                    eventMask BM_ALL_EVENTS
+                }
+                geometry Group {
+                    Translation { translation 0 0 0.25 }
+                    SoWindowKit {
+                        size 0.5 0.5 0.5
+                        state MAXIMIZED
+                        clientVolume Separator {
+                            SoDropItem {
+                                geometry DEF modelGeometry Group {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+        
+        
+    }
+}

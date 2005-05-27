@@ -1,0 +1,14 @@
+#Inventor V2.1 ascii
+
+SoSeparator {
+	SoRenderSync {
+		clientNum 0
+		address "224.100.200.102"
+		serveraddress "192.168.1.5"
+		multicastport 32544
+		udpserver_port 32546
+		udpclient_port 32545
+		serverMode FALSE
+		clientCount 2	
+	}
+}

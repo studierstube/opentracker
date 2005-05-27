@@ -1,0 +1,723 @@
+3DC {
+ asci 1
+ vs "1.0"
+ sf "Carrara 1.0"
+ vers ""
+ prvw 0
+ CamL {
+  }
+ Modu {
+  srnm {
+   xdat {
+    name ""
+    comt ""
+    widt 640
+    heig 480.00000000
+    dpi 72
+    pxlr 1
+    kpro 0
+    dept 8
+    C 1
+    A 0
+    D 0
+    I 0
+    N 0
+    P 0
+    S 0
+    came "Camera 1"
+    ImFF ANIB
+    hour 1
+    min 0
+    rbat {
+     frnd {
+      abuf {
+       OVER 1
+       FLAT 1
+       Shdw 1
+       Flec 1
+       Tran 1
+       LTTO 0
+       BUMP 1
+       FRAC 1
+       MaxD 8
+       SubS 0
+       LitS 1
+       isEx 1
+       }
+      }
+     }
+    oopt 1
+    Ofil ""
+    movi 0
+    smpR 1
+    AtoS 1
+    fldR 0
+    anim {
+     begT 0,1800
+     endT 3600,1800
+     FSec 6
+     movi {
+      movi {
+       WAVI {
+        isEx 1
+        }
+       }
+      }
+     }
+    }
+   isEx 1
+   }
+  }
+ }
+reff {
+ ambi {
+  cobr {
+   colo 1,1,1
+   brig 0.20000000
+   isEx 0
+   }
+  }
+ data {
+  pprf {
+   efid 1835361382
+   sfid 1835361382
+   enab 1
+   save 0
+   isEx 1
+   }
+  }
+ }
+sc {
+ nm ""
+ hjmp 0
+ ob {
+  vmda {
+   nm "Vertex Object and Cube"
+   hjmp 0
+   fidl 0
+   prim {
+    vmda {
+     Mode 1
+     Zoom 0
+     ZIni 0
+     ZMin 0
+     ZMax 0
+     ScrH 0
+     ScrV 0
+     CaIx 0
+     CaIy 0
+     CaIz 0
+     CaJx 0
+     CaJy 0
+     CaJz 0
+     CaKx 0
+     CaKy 0
+     CaKz 0
+     PlIx 0
+     PlIy 0
+     PlIz 0
+     PlJx 0
+     PlJy 0
+     PlJz 0
+     PlKx 0
+     PlKy 0
+     PlKz 0
+     PlCx 0
+     PlCy 0
+     PlCz 0
+     PlAc 0
+     PlSB 1
+     PlSR 0
+     PlSL 0
+     PlSP 0
+     PlDL 0
+     PLST -2147481128
+     PlSH 0
+     PlSN 0
+     PlDx 0
+     PlDy 0
+     PlDz 0
+     NEW 1
+     HSNM 0
+     xdat {
+      PmSt {
+       Pmsh {
+        UVMo 3
+        UPSA 0,1
+        NRev 0
+        ABoo 3
+        USMn 0,0
+        USMx 1,1
+        UAxM 2
+        UAxs 0,0,0
+        UMaI -0,-0,-0
+        UMaJ -0,-0,-0
+        UMaK -0,-0,-0
+        NLay 1
+        Lays {
+         PmsL {
+          Vrts {
+           VerD {
+            Posn 2.00549483,-5.41208839,1.97802162
+            Flag 24
+            UV 2.00549483,2.00549483
+            }
+           VerD {
+            Posn 2.00549483,-2.60989093,1.97802162
+            Flag 24
+            UV 2.00549483,2.00549483
+            }
+           VerD {
+            Posn 2.82967114,-2.60989093,1.97802162
+            Flag 24
+            UV 2.82967114,2.82967114
+            }
+           VerD {
+            Posn 2.82967114,-5.41208839,1.97802162
+            Flag 24
+            UV 2.82967114,2.82967114
+            }
+           VerD {
+            Posn 2.82967114,-2.60989093,10.27472496
+            Flag 24
+            UV 2.82967114,2.82967114
+            }
+           VerD {
+            Posn 2.82967114,-5.41208839,10.27472496
+            Flag 24
+            UV 2.82967114,2.82967114
+            }
+           VerD {
+            Posn 2.00549483,-2.60989093,10.27472496
+            Flag 24
+            UV 2.00549483,2.00549483
+            }
+           VerD {
+            Posn 2.00549483,-5.41208839,10.27472496
+            Flag 24
+            UV 2.00549483,2.00549483
+            }
+           VerD {
+            Posn 4.91758298,-1.28389358,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 3.66758298,0.88117003,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 1.16758287,0.88116979,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn -0.08241701,-1.28389382,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 1.16758322,-3.44895720,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 3.66758346,-3.44895696,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 6.41758298,-1.28389358,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 4.41758298,2.18020820,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 0.41758275,2.18020796,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn -1.58241701,-1.28389394,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 0.41758334,-4.74799537,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 4.41758346,-4.74799490,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-4.13996219,5.74451446
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-4.05621337,6.26027154
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-2.60989093,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.03278541,-2.60989093,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-2.60989093,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-2.70267891,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-2.60989093,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-2.60989093,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-2.61731410,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82748794,-2.60989093,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967138,-4.74799490,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-4.11330032,5.90870666
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-3.78387379,7.93744802
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-4.74799537,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967114,-3.44895696,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-3.44895720,10
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.82967138,-3.35537576,2
+            Flag 0
+            UV -0,-0
+            }
+           VerD {
+            Posn 2.00549483,-3.83121419,2
+            Flag 0
+            UV -0,-0
+            }
+           }
+          Edgs {
+           EdgC 0,1
+           EdgC 1,2
+           EdgC 2,0
+           EdgC 2,3
+           EdgC 3,0
+           EdgC 2,26
+           EdgC 4,25
+           EdgC 4,5
+           EdgC 5,3
+           EdgC 4,6
+           EdgC 6,5
+           EdgC 6,7
+           EdgC 7,5
+           EdgC 6,22
+           EdgC 1,28
+           EdgC 0,7
+           EdgC 6,23
+           EdgC 5,0
+           EdgC 20,3
+           EdgC 21,7
+           EdgC 24,4
+           EdgC 27,1
+           EdgC 29,2
+           EdgS 13,8
+           EdgS 8,9
+           EdgS 9,10
+           EdgS 10,11
+           EdgS 11,12
+           EdgS 12,35
+           EdgS 19,14
+           EdgS 14,15
+           EdgS 15,16
+           EdgS 16,17
+           EdgS 17,18
+           EdgS 18,33
+           EdgS 13,19
+           EdgS 14,8
+           EdgS 15,9
+           EdgS 16,10
+           EdgS 17,11
+           EdgS 18,12
+           EdgC 23,22
+           EdgC 25,24
+           EdgC 28,27
+           EdgC 26,29
+           EdgC 27,29
+           EdgS 30,19
+           EdgC 30,20
+           EdgC 31,20
+           EdgS 34,13
+           EdgC 34,25
+           EdgC 35,32
+           EdgC 36,26
+           EdgC 37,33
+           EdgC 21,32
+           EdgC 21,33
+           EdgC 28,37
+           EdgC 30,36
+           EdgC 31,34
+           EdgC 22,35
+           EdgC 23,24
+           }
+          Pgns {
+           PgSz 3
+           Pgon 0,1,2
+           PgSz 3
+           Pgon 2,3,0
+           PgSz 3
+           Pgon 5,4,6
+           PgSz 3
+           Pgon 6,7,5
+           PgSz 3
+           Pgon 6,23,22
+           PgSz 3
+           Pgon 0,3,5
+           PgSz 3
+           Pgon 5,7,0
+           PgSz 6
+           Pgon 36,30,20,3,2,26
+           PgSz 6
+           Pgon 35,32,21,7,6,22
+           PgSz 7
+           Pgon 37,28,1,0,7,21,33
+           PgSz 4
+           Pgon 23,6,4,24
+           PgSz 4
+           Pgon 2,29,27,1
+           PgSz 3
+           Pgon 25,4,24
+           PgSz 7
+           Pgon 5,4,25,34,31,20,3
+           PgSz 3
+           Pgon 28,1,27
+           PgSz 3
+           Pgon 29,2,26
+           PgSz 4
+           Pgon 13,19,14,8
+           PgSz 4
+           Pgon 9,8,14,15
+           PgSz 4
+           Pgon 9,15,16,10
+           PgSz 4
+           Pgon 10,16,17,11
+           PgSz 4
+           Pgon 11,17,18,12
+           PgSz 6
+           Pgon 13,19,30,20,31,34
+           PgSz 12
+           Pgon 23,22,35,12,11,10,9,8,13,34,25,24
+           PgSz 14
+           Pgon 36,26,29,27,28,37,33,18,17,16,15,14,19,30
+           PgSz 6
+           Pgon 12,18,33,21,32,35
+           }
+          }
+         }
+        }
+       }
+      }
+     isEx 1
+     }
+    }
+   }
+  }
+ shdr {
+  mash {
+   name "Default"
+   shdr {
+    scmp {
+     Shc0 {
+      shdr {
+       sclr {
+        colr 0.5,0.5,0.5
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc1 {
+      shdr {
+       sval {
+        Val 0.25
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc2 {
+      shdr {
+       sval {
+        Val 0.20000000
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc4 {
+      shdr {
+       sval {
+        Val 0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc5 {
+      shdr {
+       sval {
+        Val 0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc7 {
+      shdr {
+       sclr {
+        colr 0,0,0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     ampl 1
+     hitr 0
+     isEx 1
+     chnl 1
+     prkd 0
+     }
+    }
+   }
+  mash {
+   name "Shader"
+   shdr {
+    scmp {
+     Shc0 {
+      shdr {
+       sclr {
+        colr 0.83002972,0.81000989,0.78004121
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc1 {
+      shdr {
+       sval {
+        Val 0.25
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc2 {
+      shdr {
+       sval {
+        Val 0.20000000
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc4 {
+      shdr {
+       sval {
+        Val 0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc5 {
+      shdr {
+       sval {
+        Val 0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     Shc7 {
+      shdr {
+       sclr {
+        colr 0,0,0
+        isEx 1
+        chnl 1
+        prkd 0
+        }
+       }
+      }
+     ampl 1
+     hitr 0
+     isEx 1
+     chnl 1
+     prkd 0
+     }
+    }
+   }
+  }
+ tr {
+  gr {
+   nm "Universe"
+   AnTr 1
+   Cloa 1
+   Cast 1
+   Catc 0
+   Show 1
+   Anim 1
+   amet {
+    keyf {
+     xdat {
+      po 0,0,0
+      }
+     isEx 1
+     }
+    }
+   so {
+    li {
+     lite {
+      dist {
+       colo 1,1,1
+       brit 1
+       shad 1
+       dire 0,0,0
+       shdw 1
+       isEx 1
+       }
+      }
+     nm "Light 1"
+     AnTr 1
+     Cloa 1
+     Cast 1
+     Catc 0
+     Show 1
+     Anim 1
+     amet {
+      keyf {
+       xdat {
+        mat 0.70710676,-0.40824830,0.57735025,0.70710676,0.40824827,-0.57735025,0,0.81649655,0.57735025
+        po 14,-14,14
+        }
+       isEx 1
+       }
+      }
+     so {
+      }
+     only 1
+     shdF {
+      RayT {
+       isEx 1
+       }
+      }
+     }
+    inpr {
+     nm "Vertex Object and Cube"
+     AnTr 1
+     Cloa 1
+     Cast 1
+     Catc 0
+     Show 1
+     Anim 1
+     amet {
+      keyf {
+       xdat {
+        hp 2.41758298,-1.61594009,6.12637329
+        po 2.41758298,-1.61594009,6.12637329
+        }
+       isEx 1
+       }
+      }
+     so {
+      }
+     shnm "Default"
+     ob "Vertex Object and Cube"
+     fleF {
+      RayT {
+       maxF 2
+       maxA 0.85000002
+       isEx 1
+       }
+      }
+     fraF {
+      RayT {
+       maxF 2
+       maxA 0.85000002
+       isEx 1
+       }
+      }
+     bkFM 1
+     }
+    }
+   boxM 16,16,16
+   boxm -16,-16,-16
+   open 1
+   }
+  }
+ TMgr {
+  time 0
+  mxTm 3600
+  }
+ }

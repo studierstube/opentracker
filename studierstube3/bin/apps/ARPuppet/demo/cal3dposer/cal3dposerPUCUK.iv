@@ -1,0 +1,20 @@
+#Inventor V2.1 ascii
+
+SoUserKit {
+    userID 12
+    pen SoPenKit {
+       station 0
+       geometry File {name "./graphix/DefaultPen.iv"}
+    }
+    display SoDisplayKit {
+        stereoCameraKit  File { name "defaultCameraKit.iv"}
+        station 2
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType BLEND
+	xoffset 0
+	yoffset 0
+	decoration TRUE
+    }
+}

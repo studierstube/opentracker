@@ -1,0 +1,253 @@
+#Inventor V2.1 ascii
+
+DEF PIP_VISIBLE_SWITCH Switch { #surface of the pip
+   whichChild 0
+   #SoSketchKit {}
+   DEF PIP_ROOT Separator {
+
+      Separator {
+         Separator {
+	    Translation { translation  -3.5 0.0 0.0 }
+	    RotationXYZ { axis Y angle 1.57 }
+	    DEF SCALE_SLIDER So3DSlider {
+	       minValue 0.1
+	       maxValue 2.5
+	       currentValue 1.0
+	       width 3.0
+	       radius 1.0
+	       callback ALWAYS
+	    }
+	 }
+	 Separator {
+	    Translation { translation  -3.5 -0.5 2.0 }
+	    RotationXYZ { axis X angle -1.57 }
+	    Font {
+               name    "arial"
+               size    0.5
+	    }  
+	    Group {
+               Material {
+        	  diffuseColor        0.87 0.16 0.16
+               }
+	    }
+	    Text3 {
+               string         "SCALE"
+               spacing        1
+               justification  CENTER
+	    }
+	 }
+
+	 # look up table control
+	 Separator {
+	    Translation { translation  2.0 0.0 1.0 }
+	    DEF LUT_CENTER_SLIDER So3DSlider {
+	       minValue 0
+	       maxValue 255
+	       currentValue 160
+	       width 3.0
+	       radius 1.0
+	       callback ALWAYS
+	    }
+	 }
+	 Separator {
+	    Translation { translation  2.0 0.0 2.0 }
+	    RotationXYZ { axis X angle -1.57 }
+	    Font {
+               name    "Arial"
+               size    0.5
+	    }
+	    Group {
+               Material {
+        	  diffuseColor        0.87 0.16 0.16
+               }
+	    }
+	    Text3 {
+               string         "MEAN"
+               spacing        1
+               justification  CENTER
+	    }
+	 }
+
+	 Separator {
+	    Translation { translation  2.0 0.0 0.0 }
+	    DEF LUT_WIDTH_SLIDER So3DSlider {
+	       minValue 0
+	       maxValue 255
+	       currentValue 60
+	       width 3.0
+	       radius 1.0
+	       callback ALWAYS
+	    }
+	 }
+	 Separator {
+	    Translation { translation  2.0 0.0 -0.7 }
+	    RotationXYZ { axis X angle -1.57 }
+	    Font {
+               name    "Arial"
+               size    0.5
+	    }  
+	    Group {
+               Material {
+        	  diffuseColor        0.87 0.16 0.16
+               }
+	    }
+	    Text3 {
+               string         "TOLERANCE"
+               spacing        1
+               justification  CENTER
+	    }
+	}
+
+
+	Separator {
+	  Translation { translation  -0.5 -0.15 1.0 } 
+	  DEF LUT_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+
+	# buttons to select blending functions
+	# MIP
+	Separator {
+	  Translation { translation  -0.5 -0.15 0.0 } 
+	  DEF MIP_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+	# ATTENUATE
+	Separator {
+	  Translation { translation  -0.5 -0.15 -1.0 } 
+	  DEF ATTENUATE_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+
+	# Volume of interest
+	Separator {
+	  Translation { translation  -2.0 -0.15 -1.0 } 
+	  DEF VOI_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+
+	# Mirror
+	Separator {
+	  Translation { translation  -2.0 -0.15 -0.0 } 
+	  DEF MIRROR_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+
+	# slice
+	Separator {
+	  Translation { translation  -2.0 -0.15 1.0 }
+	  DEF SLICE_BUTTON So3DButton {
+	    width 0.9
+	    height 0.4
+	    depth 0.9
+	    buttonColor  1.0 1.0 1.0
+	  }
+	}
+
+#	VertexProperty {
+#	  vertex [ 
+#              -6 0 -4,
+#               6 0 -4,
+#               6 0  5,
+#              -6 0  5,
+#              -6 0 -4,
+#	  ]
+#	  orderedRGBA [ ]
+#	  materialBinding OVERALL
+#	  normalBinding PER_VERTEX_INDEXED
+#	} 
+#	Material {
+#	   diffuseColor        0.87 0.16 0.16
+#	}
+#	LineSet {
+#	  vertexProperty NULL
+#	  startIndex 0
+#	  numVertices 5
+#	} 
+
+     }
+   }    # PIP_ROOT end
+
+   # PIP_CLIP
+   DEF PIP_TRANS Separator {
+      #transform the pip so it has a coordinate system from its middle
+      DEF PIP_OFFSET Transform {
+	translation 0 0 0
+      }
+#      DEF PIP_COORD Coordinate3 { point [ #these are the pip corners
+#          -5 0 -4,
+#           5 0 -4,
+#           5 0  4,
+#          -5 0  4,
+#      ]}
+#      Separator {
+#	Material { diffuseColor 0.2 0.2 0.5 transparency 0 }
+#	IndexedFaceSet { coordIndex[3,2,1,0,-1] }
+#      }
+	VertexProperty {
+	  vertex [ 
+              -6 0 -4,
+               6 0 -4,
+               6 0  5,
+              -6 0  5,
+              -6 0 -4,
+	  ]
+	  orderedRGBA [ ]
+	  materialBinding OVERALL
+	  normalBinding PER_VERTEX_INDEXED
+	} 
+	Material {
+	   diffuseColor        0.87 0.16 0.16
+	}
+	LineSet {
+	  vertexProperty NULL
+	  startIndex 0
+	  numVertices 5
+	} 
+   }
+
+   # PIP_SLICE
+   DEF PIP_SLICE_ROOT Separator {
+      Separator {
+        Transform { 
+          rotation 1 0 0 3.1415 
+          translation 0 0.2 0
+        }
+        DEF SLICE_SKETCH MySoSketchKit {
+          xSize 6
+          ySize 6
+          height 1.0
+          surfaceVisible -1
+          sketchColor 1 0 0 
+        }
+      }
+      Transform {
+         rotation        1 0 0 -1.57
+      }
+      Transform {
+         scaleFactor   30.0  30.0  30.0
+      }
+      DEF PIP_SLICE Separator {
+      }
+   }
+}

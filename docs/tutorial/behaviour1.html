@@ -1,0 +1,625 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Basic Behaviour</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="tutorial.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Studierstube scripting mentor</h1>
+<h3>Basic behaviour</h3>
+<p class="navbar">&lt;<a href="content1.html">prev</a>] - [<a href="index.html">up</a>] 
+  - [<a href="interaction.html">next</a>&gt;</p>
+<p>After the previous chapters, you have the knowledge to build scene graphs that 
+  include aspects of geometry and appearance, and to organize these objects into 
+  groups. You also learned how to reference nodes and fields in other parts of 
+  the scene graph. But up to now, these arrangements have been purely static. 
+  To introduce behaviour to your scenes, you will want to change the scene over 
+  time - be it in predefined ways, or by allowing the user to interact with your 
+  application.</p>
+<p>To make a scene dynamic, there are several possibilities. Either some of the 
+  fields of the scene can change over time, causing objects to move, change visibility 
+  or other properties, or the <em>structure</em> of the scene graph can be modified 
+  by introducing new objects or rearranging or deleting existing ones. While the 
+  latter is usually not possible in simple scripted applications and requires 
+  to implement the desired behavior in C++, the first possibility, changing field 
+  values over time, can be easily accomplished.</p>
+<h4>Engines</h4>
+<p>So far we have learned how to connect fields together using the <code>DEF</code> 
+  / <code>USE</code> mechanism. This allows only a 1:1 connection, which means 
+  that the value of the referenced field is always copied over unmodified to to 
+  target field. If we want to model a functional dependency between fields (with 
+  the target field value being the result of a function applied to one or multiple 
+  input fields), Open Inventor provides us with a mechanism to do this: engines.</p>
+<p>Engines take a number of input fields, and provide a number of outputs that 
+  can be connected to other fields (either inputs of another engine, or fields 
+  of a node). Some engines are connected by default to the <code>realTime</code> 
+  global field, a built-in field that supplies them with the current system time. 
+  It is therefore possible for these engines to change their output depending 
+  on the current time, which can be used for animations and continuous field changes 
+  in the application.</p>
+<p>Engines are written to iv-files like nodes, but they must always be connected 
+  to at least one field. The field is defined normally, defining a possible default 
+  value, followed by an = sign, the engine specification, a dot (.) and the name 
+  of the engine output to be used. For example:</p>
+<pre class="source">#Inventor V2.0 ascii
+ 
+Text2 {
+    string &quot;&lt;undefined&gt;&quot; = ElapsedTime {
+        on TRUE
+        speed 2.0
+    }.timeOut
+}</pre>
+<p>In this example, the string field of the Text2 node is connected to an engine 
+  that outputs the elapsed time since the application has started, in double speed.</p>
+<p>Note that engines are <em>not</em> part of the scene graph, but only part of 
+  the dependency graph between fields! They are connected to individual fields, 
+  but if you study the above definition carefully, you will notice that the engine 
+  is actually not written as part of the scene graph. If it would be, then it 
+  would have to be a child of the Text2 node in the above example, which is clearly 
+  not the case. Note that this means that engines are never traversed in the scene 
+  graph, which means (amongst other things) that they can never contain anything 
+  that should be rendered on screen. Engines always only model functional dependencies 
+  between fields.</p>
+<p>Another more complex example shows how to <code>DEF</code> / <code>USE</code> 
+  engines to use them multiple times:</p>
+<pre class="source">#Inventor V2.0 ascii
+ 
+Text2 {
+    string &quot;&lt;undefined&gt;&quot; = Concatenate {
+        inputType MFString
+        input1 &quot;X value:&quot;
+        input2 &quot;&quot; = DEF VEC DecomposeVec3f {
+            vector 1 2 3
+        }.x
+        input3 &quot;Y value:&quot;
+        input4 &quot;&quot; = USE VEC.y
+    }.output
+}</pre>
+<p>In this example, a single <code>Vec3f</code> value is decomposed into its components 
+  by the <code>DecomposeVec3f</code> engine. The individual components - x, y 
+  and z - can then be accessed as Float values from that engine. In this case, 
+  they are used to compose a multi-line label, using a Concatenate engine to concatenate 
+  multiple single string values to produce a <code>MFString</code> value.</p>
+<p>Some engines allow to specify the type of data they operate on at runtime. 
+  For these engines, the first field of the declaration always has to be the type 
+  field, followed by the name of the type the engine should operate on. In the 
+  above example, we set up the <code>Concatenate</code> engine to operate on <code>MFString</code> 
+  inputs.</p>
+<p>The following table lists some engines that are handy for routing and converting 
+  data between different field types:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th width="18%">Name</th>
+    <th width="48%">Description</th>
+    <th width="17%">Inputs</th>
+    <th width="17%">Outputs</th>
+  </tr>
+  <tr bgcolor="#CCCCCC"> 
+    <td colspan="4" class="innerheader">Composing component values</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeMatrix.html">SoComposeMatrix</a></td>
+    <td>Composes a transformation matrix</td>
+    <td class="fildstable"> <p>SoMFVec3f translation<br>
+        SoMFRotation rotation <br>
+        SoMFVec3f scaleFactor<br>
+        SoMFRotation scaleOrientation<br>
+        SoMFVec3f center</p></td>
+    <td class="fildstable">(SoMFMatrix) matrix</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeRotation.html">SoComposeRotation</a></td>
+    <td>Composes a rotation from axis and angle values</td>
+    <td class="fildstable">SoMFVec3f axis<br>
+      SoMFFloat angle</td>
+    <td class="fildstable">(SoMFRotation) rotation</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeVec2f.html">SoComposeVec2f</a> 
+      <br> </td>
+    <td>Composes 2D vectors from floating-point values</td>
+    <td class="fildstable">SoMFFloat x<br>
+      SoMFFloat y</td>
+    <td class="fildstable">(SoMFVec2f) vector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeVec3f.html">SoComposeVec3f</a> 
+      <br> </td>
+    <td>Composes 3D vectors from floating-point values</td>
+    <td class="fildstable">SoMFFloat x<br>
+      SoMFFloat y<br>
+      SoMFFloat z</td>
+    <td class="fildstable">(SoMFVec3f) vector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeVec4f.html">SoComposeVec4f</a> 
+    </td>
+    <td>Composes 4D vectors from floating-point values</td>
+    <td class="fildstable">SoMFFloat x<br>
+      SoMFFloat y<br>
+      SoMFFloat z<br>
+      SoMFFloat w</td>
+    <td class="fildstable">(SoMFVec4f) vector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoConcatenate.html">SoConcatenate</a></td>
+    <td> Joins separate fields into a single multiple-value field</td>
+    <td class="fildstable"><p>type &lt;inputType&gt;<br>
+        &lt;inputType&gt; input[0..9] <br>
+      </p></td>
+    <td class="fildstable"><p>(&lt;outputType&gt;) output</p></td>
+  </tr>
+  <tr> 
+    <td colspan="4" bgcolor="#CCCCCC" class="innerheader">Decomposing component 
+      values</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDecomposeMatrix.html">SoDecomposeMatrix</a> 
+      <br> </td>
+    <td>Decomposes transformation matrices into values for translation, rotation, 
+      and scale </td>
+    <td class="fildstable">SoMFMatrix matrix<br>
+      SoMFVec3f center</td>
+    <td class="fildstable">(SoMFVec3f) translation<br>
+      (SoMFRotation) rotation<br>
+      (SoMFVec3f) scaleFactor<br>
+      (SoMFRotation) scaleOrientation</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDecomposeRotation.html">SoDecomposeRotation</a></td>
+    <td>Decomposes rotation values</td>
+    <td class="fildstable">SoMFRotation rotation</td>
+    <td class="fildstable">(SoMFVec3f) axis<br>
+      (SoMFFloat) angle</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDecomposeVec2f.html">SoDecomposeVec2f</a></td>
+    <td>Decomposes 2D vectors into floating-point values</td>
+    <td class="fildstable">SoMFVec2f vector</td>
+    <td class="fildstable">(SoMFFloat) x<br>
+      (SoMFFloat) y</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDecomposeVec3f.html">SoDecomposeVec3f</a></td>
+    <td>Decomposes 3D vectors into floating-point values</td>
+    <td class="fildstable">SoMFVec3f vector</td>
+    <td class="fildstable">(SoMFFloat) x<br>
+      (SoMFFloat) y<br>
+      (SoMFFloat) z</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDecomposeVec4f.html">SoDecomposeVec4f</a></td>
+    <td>Decomposes 4D vectors into floating-point values</td>
+    <td class="fildstable">SoMFVec4f vector</td>
+    <td class="fildstable">(SoMFFloat) x<br>
+      (SoMFFloat) y<br>
+      (SoMFFloat) z<br>
+      (SoMFFloat) w</td>
+  </tr>
+  <tr> 
+    <td colspan="4" bgcolor="#CCCCCC" class="innerheader">Transforming &amp; Calculating</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTransformVec3f.html">SoTransformVec3f</a> 
+    </td>
+    <td>Transforms a 3D vector by a 4x4 matrix</td>
+    <td class="fildstable">SoMFVec3f vector<br>
+      SoMFMatrix matrix<br></td>
+    <td class="fildstable">(SoMFVec3f) point<br>
+      (SoMFVec3f) direction<br>
+      (SoMFVec3f) normalDirection</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComposeRotationFromTo.html">SoComposeRotationFromTo</a><br> 
+    </td>
+    <td>Composes a rotation that rotates from one vector into another</td>
+    <td class="fildstable">SoMFVec3f from<br>
+      SoMFVec3f to 
+      <p></p></td>
+    <td class="fildstable">(SoMFRotation) rotation</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoMultMatrix.html">SoMultMatrix</a>*</td>
+    <td>an engine that multiplies matrices</td>
+    <td class="fildstable">SoSFMatrix matrix1<br>
+      SoSFMatrix matrix2</td>
+    <td class="fildstable">(SoSFMatrix) product<br>
+      (SoSFMatrix) inverse</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoFactorRotation.html">SoFactorRotation</a>*</td>
+    <td>This engine factors incoming rotations into two outgoing rotations</td>
+    <td class="fildstable">SoMFRotation rotation<br>
+      SoMFEnum axis<br>
+      SoMFEnum order<br> </td>
+    <td class="fildstable">(SoMFRotation) factor<br>
+      (SoMFRotation) remainder<br>
+      (SoMFRotation) factorInverse<br>
+      (SoMFRotation) remainderInverse</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoComputeBoundingBox.html">SoComputeBoundingBox</a> 
+    </td>
+    <td>Computes the bounding box and center of a scene graph</td>
+    <td class="fildstable">SoSFNode node<br>
+      SoSFPath path</td>
+    <td class="fildstable">(SoSFVec3f) min<br>
+      (SoSFVec3f) max<br>
+      (SoSFVec3f) boxCenter<br>
+      (SoSFVec3f) objectCenter</td>
+  </tr>
+  <tr> 
+    <td colspan="4" bgcolor="#CCCCCC" class="innerheader">Route multiple outputs 
+      into one input</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoFanIn.html">SoFanIn</a>*</td>
+    <td>Provides a fan-in mechanism, i.e. multiple inputs can be routed into one.</td>
+    <td class="fildstable"><p>MFType type &lt;inputType&gt;<br>
+        SoSFInt32 index<br>
+        &lt;inputType&gt; in0 <br>
+        &lt;inputType&gt; in1 <br>
+        &lt;inputType&gt; in2 <br>
+        &lt;inputType&gt; in3 <br>
+        &lt;inputType&gt; in4 <br>
+        &lt;inputType&gt; in5 <br>
+        &lt;inputType&gt; in6 <br>
+        &lt;inputType&gt; in7 <br>
+        &lt;inputType&gt; in8 <br>
+        &lt;inputType&gt; in9 </p></td>
+    <td class="fildstable">(&lt;inputType&gt;) out</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTriggerAny.html">SoTriggerAny</a></td>
+    <td> Provides fan-in for triggers</td>
+    <td class="fildstable">SoSFTrigger input0<br>
+      SoSFTrigger input1<br>
+      SoSFTrigger input2<br>
+      SoSFTrigger input3<br>
+      SoSFTrigger input4<br>
+      SoSFTrigger input5<br>
+      SoSFTrigger input6<br>
+      SoSFTrigger input7<br>
+      SoSFTrigger input8<br>
+      SoSFTrigger input9</td>
+    <td class="fildstable">(SoSFTrigger) output</td>
+  </tr>
+</table>
+<h4>Global Fields</h4>
+<p>If a field plays a very significant role for the application, or has to be 
+  shared across multiple input files (the <code>DEF</code> / <code>USE</code> 
+  syntax works only inside a single input file), a global field can be created. 
+  Global fields are not part of a node, and are therefore not part of the scene 
+  graph, but provide a place for the storage of values that is accessible from 
+  anywhere. The syntax to create global fields is similar to the engine syntax: 
+  after the = sign, the keyword GlobalField instead of the engine name creates 
+  the global field. After an opening brace, the type of the field is specified 
+  with the <code>type</code> keyword, followed by the field name and its value. 
+  The field name is also used as a name for the &quot;output&quot; of the global 
+  field. For example:</p>
+<pre class="source">Text3 {
+    string &quot;&quot; = GlobalField {
+        type SFString
+        userName &quot;Faust&quot;
+    }.userName
+}</pre>
+<p>In this example, a global <code>SFString</code> field with the name &quot;userName&quot; 
+  is created, it is assigned the value &quot;Faust&quot; and connected to the 
+  string input of a <code>Text3</code> node. The same field can be used elsewhere 
+  in the application using the same syntax, no <code>DEF</code> / <code>USE</code> 
+  name has to be established. Note that to define a global field, it always has 
+  to be connected to at least one node field, to be able to specify it.</p>
+<h4>Animation</h4>
+<p>Animation is basically the continuous change of one or more field values over 
+  time. As already mentioned, some engines are connected per default to the <code>realTime</code> 
+  global field, a built-in field that exposes the system time to applications. 
+  These engines expose outputs that change over time, and can therefore be used 
+  to drive animations.</p>
+<p>For most animations, two types on engines are needed to create the desired 
+  effect. A time-based engine generates an output value on a normalized scale, 
+  for example the <code>OneShot</code> engine will output a value that continuously 
+  increases from 0.0 to 1.0. A second engine uses this value to interpolate between 
+  a starting- and an end value, depending on the type of input needed by the field 
+  to be animated. For example:</p>
+<pre class="source">Transform {
+    translation 0 0 0 = InterpolateVec3f {  # interpolates between two Vec3f values
+        input0 -1 0 0
+        input1  1 0 0
+        alpha 0 = OneShot {                 # outputs an increasing value between 0.0 and 1.0
+            duration 2.0
+            flags HOLD_FINAL
+            on TRUE
+        }.ramp
+    }.output
+}
+            </pre>
+<p>The following engines can be used for animating fields:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Inputs</th>
+    <th>Outputs</th>
+  </tr>
+  <tr> 
+    <td colspan="4" class="innerheader">Time-based Engines</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoElapsedTime.html">SoElapsedTime</a></td>
+    <td> Basic controllable time source.</td>
+    <td class="fildstable">SoSFTime timeIn<br>
+      SoSFFloat speed<br>
+      SoSFBool on<br>
+      SoSFBool pause<br>
+      SoSFTrigger reset</td>
+    <td class="fildstable">(SoSFTime) timeOut 
+      <p></p></td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoOneShot.html">SoOneShot</a></td>
+    <td> Timer that runs for a pre-set amount of time, and outputs a value from 
+      0.0 - 1.0 in its <code>ramp</code> field.</td>
+    <td class="fildstable">SoSFTime timeIn<br>
+      SoSFTime duration<br>
+      SoSFTrigger trigger<br>
+      SoSFBitMask flags<br>
+      SoSFBool disable</td>
+    <td class="fildstable">(SoSFTime) timeOut<br>
+      (SoSFBool) isActive<br>
+      (SoSFFloat) ramp</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTimeCounter.html">SoTimeCounter</a> 
+    </td>
+    <td>Timed integer counter</td>
+    <td class="fildstable">SoSFTime timeIn<br>
+      SoSFShort min<br>
+      SoSFShort max<br>
+      SoSFShort step<br>
+      SoSFBool on<br>
+      SoSFFloat frequency<br>
+      SoMFFloat duty<br>
+      SoSFShort reset<br>
+      SoSFTrigger syncIn</td>
+    <td class="fildstable">(SoSFShort) output<br>
+      (SoSFTrigger) syncOut</td>
+  </tr>
+  <tr> 
+    <td colspan="4" class="innerheader">Interpolation Engines</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoInterpolateFloat.html">SoInterpolateFloat</a><br> 
+    </td>
+    <td>Interpolates floating-point values</td>
+    <td class="fildstable">SoMFFloat input0<br>
+      SoMFFloat input1<br>
+      SoSFFloat alpha 
+      <p></p></td>
+    <td class="fildstable">(SoMFFloat) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoInterpolateRotation.html">SoInterpolateRotation</a><br> 
+      <br></td>
+    <td> Interpolates rotation values</td>
+    <td class="fildstable">SoMFRotation input0<br>
+      SoMFRotation input1<br>
+      SoSFFloat alpha</td>
+    <td class="fildstable">(SoMFRotation) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoInterpolateVec2f.html">SoInterpolateVec2f</a><br> 
+    </td>
+    <td> Interpolates 2D floating-point vectors</td>
+    <td class="fildstable">SoMFVec2f input0<br>
+      SoMFVec2f input1<br>
+      SoSFFloat alpha</td>
+    <td class="fildstable"> (SoMFVec2f) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoInterpolateVec3f.html">SoInterpolateVec3f</a> 
+      <br> </td>
+    <td>Interpolates 3D floating-point vectors</td>
+    <td class="fildstable">SoMFVec3f input0<br>
+      SoMFVec3f input1<br>
+      SoSFFloat alpha</td>
+    <td class="fildstable">(SoMFVec3f) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoInterpolateVec4f.html">SoInterpolateVec4f</a> 
+    </td>
+    <td>Interpolates 4D floating-point vectors</td>
+    <td class="fildstable">SoMFVec4f input0<br>
+      SoMFVec4f input1<br>
+      SoSFFloat alpha</td>
+    <td class="fildstable">(SoMFVec4f) output</td>
+  </tr>
+</table>
+<h4>Debugging</h4>
+<p>The <a href="../stb/classSoRouteDB.html"><code>SoRouteDB</code></a>* 
+  node allows you to output any value that is connected to its <code>in</code> 
+  field to the console. This is very useful for debugging your scripts. The file 
+  format is as follows:</p>
+<pre class="source">SoRouteDB {
+  # field name # default value # type        # description
+    name         &quot;&quot;            # SoSFBString # the name, will be displayed in the output
+    timeStamp    FALSE         # SoSFBool    # whether to print the timestamp in the output
+    in           &quot;&quot;            # SoMFString  # input value(s)
+    display      TRUE          # SoSFBool    # whether to print to the console
+    priority     100           # SoSFUInt32  # 
+}</pre>
+<h4>Adding Logic</h4>
+<p>With basic capabilities for routing, converting and animating fields, we can 
+  build quite complex applications by adding a few more engines that can control 
+  the dataflow between fields. For example, the <code>Calculator</code> engine 
+  can be used to calculate arbitrary expressions:</p>
+<pre class="source">#Inventor V2.0 ascii
+ 
+DEF POS1 Transform { translation 1 2 3 }
+DEF POS2 Transform { translation 3 4 5 }
+Text3 {
+    string &quot;&lt;undefined&gt;&quot; = Calculator {
+        A 0 0 0 = USE POS1.transform # vector input A
+        B 0 0 0 = USE POS2.transform # vector input B
+ 
+        # the expression first stores the distance vector in a temporary variable tA
+        # then, the length is calculated and stored in output oa
+ 
+        expression &quot;tA = A - B; oa = sqrt(tA[0]*tA[0]+tA[1]*tA[1]+tA[2]*tA[2])&quot;
+    }.oa
+}</pre>
+			
+<p>The following table lists the remaining engines that can be used for controlling 
+  dataflow:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Inputs</th>
+    <th>Outputs</th>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoSelectOne.html">SoSelectOne</a></td>
+    <td>Selects one value from a multiple-value field</td>
+    <td class="fildstable">MFType type &lt;inputType&gt;<br>
+      SoSFInt32 index<br> &lt;inputType&gt; input</td>
+    <td class="fildstable">(&lt;inputType&gt;) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoBoolOperation.html">SoBoolOperation</a> 
+    </td>
+    <td>Performs Boolean operations</td>
+    <td class="fildstable">SoMFBool a<br>
+      SoMFBool b<br>
+      SoMFEnum operation</td>
+    <td class="fildstable">(SoMFBool output<br>
+      (SoMFBool inverse</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoCalculator.html">SoCalculator</a> 
+    </td>
+    <td>A general-purpose calculator</td>
+    <td class="fildstable"><p>SoMFFloat a<br>
+        SoMFFloat b<br>
+        SoMFFloat c<br>
+        SoMFFloat d<br>
+        SoMFFloat e<br>
+        SoMFFloat f<br>
+        SoMFFloat g<br>
+        SoMFFloat h</p>
+      <p>SoMFVec3f A<br>
+        SoMFVec3f B<br>
+        SoMFVec3f C<br>
+        SoMFVec3f D<br>
+        SoMFVec3f E<br>
+        SoMFVec3f F<br>
+        SoMFVec3f G<br>
+        SoMFVec3f H</p>
+      <p>SoMFString expression</p></td>
+    <td class="fildstable">(SoMFFloat oa)<br>
+      (SoMFFloat ob)<br>
+      (SoMFFloat oc)<br>
+      (SoMFFloat od)<br>
+      (SoMFVec3f oA)<br>
+      (SoMFVec3f oB)<br>
+      (SoMFVec3f oC)<br>
+      (SoMFVec3f oD)</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoStringCalculator.html">SoStringCalculator</a>*</td>
+    <td> a calculator engine for string operations (concatenation, substring)</td>
+    <td class="fildstable"><p>SoMFString a<br>
+        SoMFString b<br>
+        SoMFString c<br>
+        SoMFString d<br>
+        SoMFString e<br>
+        SoMFString f<br>
+        SoMFString g<br>
+        SoMFString h</p>
+      <p>SoMFString expression </p></td>
+    <td class="fildstable">(SoMFString) oa<br>
+      (SoMFString) ob<br>
+      (SoMFString) oc<br>
+      (SoMFString) od</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoStringMap.html">SoStringMap</a>*</td>
+    <td>a utility engine to map strings onto other strings</td>
+    <td class="fildstable">SoMFString a<br>
+      SoMFString b<br>
+      SoMFString aIn<br>
+      SoMFString bIn<br>
+      SoSFEnum mode</td>
+    <td class="fildstable">(SoMFString) aOut<br>
+      (SoMFString) bOut<br> </td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoConditionalTrigger.html">SoConditionalTrigger</a>*</td>
+    <td>A general purpose trigger</td>
+    <td class="fildstable">SoMFBool triggerBool<br>
+      SoMFFloat triggerFloat<br>
+      SoMFInt32 triggerInt<br>
+      SoMFString triggerString<br>
+      SoMFNode triggerNode<br>
+      SoMFBool boolIn<br>
+      SoMFFloat floatIn<br>
+      SoMFInt32 intIn<br>
+      SoMFString stringIn<br>
+      SoMFNode nodeIn<br>
+      SoSFTrigger triggerIn<br>
+      SoSFBool triggerAtInit<br>
+      SoSFEnum comparison<br>
+      SoSFString token</td>
+    <td class="fildstable">(SoSFTrigger) trigger<br>
+      (SoSFString) tokenOut<br>
+      (SoSFBool) boolOut</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoNodeToName.html">SoNodeToName</a>*</td>
+    <td>This engine converts a list of nodes into a list of strings containing 
+      the names of these nodes ('DEF names')</td>
+    <td class="fildstable">SoMFNode input<br>
+      SoSFBool compact<br>
+    </td>
+    <td class="fildstable">(SoMFString) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoCounter.html">SoCounter</a> 
+    </td>
+    <td>Triggered integer counter</td>
+    <td class="fildstable">SoSFShort min<br>
+      SoSFShort max<br>
+      SoSFShort step<br>
+      SoSFTrigger trigger<br>
+      SoSFShort reset</td>
+    <td class="fildstable">(SoSFShort) output<br>
+      (SoSFTrigger) syncOut</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoGate.html">SoGate</a> 
+    </td>
+    <td>Selectively copies its input to its output</td>
+    <td class="fildstable">MFType type &lt;inputType&gt;<br>
+      &lt;inputType&gt; input<br>
+      SoSFBool enable<br>
+      SoSFTrigger trigger<br> </td>
+    <td class="fildstable">(&lt;inputType&gt;) output</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoOnOff.html">SoOnOff</a> 
+    </td>
+    <td>Engine that functions as an on/off switch</td>
+    <td class="fildstable">SoSFTrigger on<br>
+      SoSFTrigger off<br>
+      SoSFTrigger toggle</td>
+    <td class="fildstable">(SoSFBool) isOn<br>
+      (SoSFBool) isOff</td>
+  </tr>
+</table>
+<p><a href="examples/example2.iv">example2.iv</a> is an example of a scene using 
+  engines for dynamic behavior. </p>
+<p class="navbar">&lt;<a href="content1.html">prev</a>] - [<a href="index.html">up</a>] 
+  - [<a href="interaction.html">next</a>&gt;</p>
+</body>
+</html>

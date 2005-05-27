@@ -1,0 +1,149 @@
+#Inventor V2.1 ascii
+
+DEF Calibration SoApplicationKit {
+
+    classLoader SoClassLoader {
+        className "CalibrationContext"
+        fileName "ocar"
+    }
+
+    contextKit SoContextKit {
+        templatePipSheet
+#include "calibrationpip.iv"
+# end auto generated pip sheet !
+
+        windowGroup Separator {
+           
+            # kit doing all the calibration calculations        
+            CalibrationContext {            
+                # calibration context fields ...
+                # these define the fixed position and direction for the absolute calibration process
+                calibrationPosition     0 0 0
+                calibrationDirection    0 0 -1
+        
+                # inputs for user position
+                userPosition = DEF User SoTrakEngine { station 2 }.translation
+                userOrientation = USE User.rotation
+        
+                # inputs for pen position and button
+                pointer = DEF Pointer SoTrakEngine { station 3 }.translation
+                pointerButton = USE Pointer.button0
+        
+                # button inputs from pip sheet
+                absoluteButton = USE absolute.on
+                positionButton = USE position.on
+                # orientationButton = USE orientation.on
+                orientationButton FALSE
+            }
+        
+#            Switch {
+#              whichChild 0 = USE camera.on
+#
+#              SoClassLoader {
+#                  className   "SoDisplayCalibrationKit"
+#                  fileName    "../apps/fingerfarben/fingerfarben_stb"
+#              }
+#
+#              SoDisplayCalibrationKit {
+#                  station             0
+#                  otNodeName          "calibOffsetCam"
+#                  timeOut  2.0
+#                  calibTranslation  Translation {
+#                                        translation = Calculator {
+#                                            A 0 0 -0.5
+#                                            B = SoTrakEngine { station 4 }.translation
+#                                            expression "oA = A + B"
+#                                        }.oA
+#                                    }
+#
+#                  calibGeometry       Separator {
+#                                          Material {
+#                                              diffuseColor 1 1 0
+#                                              transparency 0.5
+#                                          }
+#                                          Cube { width 0.1 height 0.1 depth 0.001 }
+#                                          Material {
+#                                              diffuseColor 1 1 0
+#                                              transparency 0.0
+#                                          }
+#                                          Separator {
+#                                              Translation { translation -0.024 0.024 0.0 }
+#                                              Cube { width 0.002 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation -0.024 0.024 0.0 }
+#                                              Cube { width 0.002 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation -0.024 0.024 0.0 }
+#                                              Cube { width 0.002 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation -0.024 0.024 0.0 }
+#                                              Cube { width 0.002 height 0.002 depth 0.002 }
+#                                          }
+#                                      }
+#                  stationGeometry     Separator {         # geometry that is overlayed on the station
+#                                          Material {
+#                                              diffuseColor 1 0 0
+#                                              transparency 0.7
+#                                          }
+#                                          Separator {
+#                                              Translation { translation 0.0 0.03 0.0 }
+#                                              Cone {
+#                                                  bottomRadius 0.003
+#                                                  height 0.015
+#                                              }
+#                                          }
+#                                          Separator {
+#                                              Translation { translation 0.0 0.024 0.0 }
+#                                              Cube { width 0.05 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation 0.0 0.024 0.0 }
+#                                              Cube { width 0.05 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation 0.0 0.024 0.0 }
+#                                              Cube { width 0.05 height 0.002 depth 0.002 }
+#                                          }
+#                                          Rotation { rotation 0 0 1  1.5707963 }
+#                                          Separator {
+#                                              Translation { translation 0.0 0.024 0.0 }
+#                                              Cube { width 0.05 height 0.002 depth 0.002 }
+#                                          }
+#                                      }
+#              }
+#        }
+        # For Inertial Tracker registration
+        DEF InertialOffset Transform {
+            rotation 0 0 1 0 = DEF CalibGate Gate {
+                type MFRotation
+                enable = USE orientation.on
+                input = DEF R1 MultRotRot {
+                    rotationA = DEF INV MultRotRot {
+                        rotationA = DEF Raw SoTrakEngine{ station 6 }.rotation
+                    }.inverse
+                    rotationB = Gate { 
+                        type MFRotation
+                        enable TRUE = BoolOperation { 
+                            operation NOT_A
+                            a  = USE orientation.on
+                        }.output
+                        input = USE User.rotation
+                    }.output
+                }.product
+            }.output
+        }        
+        SoRouteDB { name "R1" in = USE R1.product display FALSE } # this is required so that part of the engine network is evaluated !
+      } # end of windowGroup
+    }
+    appGeom Separator {
+            Texture2 { filename "graphics/Calibration_high.gif" }
+    }
+}

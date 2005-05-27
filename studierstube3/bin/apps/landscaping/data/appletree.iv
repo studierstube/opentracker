@@ -1,0 +1,13 @@
+#Inventor V2.1 ascii
+Separator {
+  Separator {
+    Texture2Transform { scaleFactor 4 4 }
+    Texture2 { filename "data/olivered_paper.rgb" }
+    Material { diffuseColor 0.7 0.6 0.2 }
+    Sphere {radius 0.8 }
+  }
+  Transform { translation 0 -1 0 }
+  Texture2 { filename "wood.1.bw" }
+  Material { diffuseColor 0.9 0.8 0 }
+  Cylinder { radius 0.2 height 0.5 }
+}

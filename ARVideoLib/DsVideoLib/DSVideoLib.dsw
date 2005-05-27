@@ -1,0 +1,113 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "DSVideoLib"=.\src\DSVideoLib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "DsRenderer"=.\src\DsRenderer.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "OpenGLTextureSample"=.\samples\OpenGLTextureSample.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name DSVideoLib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DsRenderer
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "glutBufferSample"=.\samples\glutBufferSample.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name DSVideoLib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DsRenderer
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "glutCallbackSample"=.\samples\glutCallbackSample.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name DSVideoLib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DsRenderer
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "glutStereoBufferSample"=.\samples\glutStereoBufferSample.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name DsRenderer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DSVideoLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

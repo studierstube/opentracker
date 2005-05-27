@@ -1,0 +1,25 @@
+#Inventor V2.1 ascii
+
+Separator {
+  Separator {
+    Transform {
+      translation	0 0 0
+      rotation 1 0 0 1.57
+    }
+    Transform {
+      rotation 0 1 0 1.57
+    }
+
+    Separator {
+      Material {
+	transparency	0.5
+      }
+      Texture2 {
+			filename "EarthMap.jpg"
+      }
+      Sphere {
+	radius	0.25
+      }
+    }
+  }
+}

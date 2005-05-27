@@ -1,0 +1,32 @@
+#Inventor V2.1 ascii
+
+SoClassLoader {
+    fileName "pyscript"
+    className "SoPyScript"
+}
+
+Separator {
+
+    DEF Concat SoPyScript {
+        fields [ SoSFString a, SoSFString b, SoSFString out ]
+        a "Time "
+        b = SoTimeCounter { max 10 }.output    
+        script "
+# write any initialisation directly in the script
+print 'This script concatenates the inputs a and b and outputs everything on out\n'
+
+# handle_a is called, if a changed
+def handle_a():
+    out.setValue( a.getValue().getString() + b.getValue().getString())
+
+# handle_b is called, if a changed
+def handle_b():
+    out.setValue( a.getValue().getString() + b.getValue().getString())    
+"    
+    }
+
+    Translation { translation 0.1 0.1 0 }
+    Text2 {
+        string = USE Concat.out
+    }
+}

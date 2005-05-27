@@ -1,0 +1,29 @@
+#Inventor V2.1 ascii
+
+Separator {
+  DEF Box01 Separator {
+    Transform {
+      translation	0.05836 0.03182 -0.004415
+      scaleFactor	0.00042 0.0005 0.0002669
+    }
+    Separator {
+      Transform {
+	translation	0 17.73 0
+      }
+      Separator {
+	Material {
+	  ambientColor	0.8392 0 0
+	  diffuseColor	0.8392 0 0
+	  specularColor	0 0 0
+	  shininess	0.145
+	  transparency	0
+	}
+	Cube {
+	  width	90.3
+	  height	35.46
+	  depth	98.06
+	}
+      }
+    }
+  }
+}

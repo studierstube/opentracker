@@ -1,0 +1,181 @@
+#Inventor V2.1 ascii
+
+SoClassLoader {
+    className "AnnotationCreator"
+    fileName "ocar"
+}
+
+DEF Annotation SoApplicationKit {
+
+    contextKit SoContextKit {
+        templatePipSheet
+#include "annotationpip.iv"
+# end auto generated pip sheet !
+
+        windowGroup Separator {
+            DEF AnnNode AnnotationCreator {
+                name = USE NAME.string
+            
+                markerTemplate Separator {
+                    DEF USER Info { string "user" }
+                    Transform { }
+                    Info { string "color" }
+                    SoContextSwitch {
+                        index 11
+                        defaultChild 0
+                        # the first child is the 3D icon displayed and used for picking
+                        Group {
+                            DrawStyle { style FILLED }
+                            DEF Geometry Group {
+                                Info { string "icon" }
+                            }
+                        }   
+                        # the second child is the actual content displayed to the user
+                        Group {
+                            DrawStyle { style FILLED }
+                            USE Geometry
+                            DrawStyle { style LINES }
+                            USE Geometry 
+                        }
+                    }
+                }
+            
+                icons DEF AnnData SoMultiSwitch { 
+                    ordered TRUE
+                    whichChildren -2 
+                }
+                        
+                markerMap DEF MarkerMap SoStringMap {
+                    mode INTERSECTION
+                    a []
+                    b []
+                    aIn = USE AnnotList.selected
+                }
+            
+                indexMap DEF ItemMap SoStringMap {
+                    mode MAPPING
+                    a []
+                    b []
+                    aIn = USE MarkerMap.bOut
+                }
+            
+                markers DEF TUPLESPACE SoDivGroup {
+                    multicastGroup "224.100.200.110"
+                    port 6789
+                    initFromMaster FALSE
+                    active FALSE
+                    isMaster TRUE
+                }
+                
+                iconTemplate = SelectOne {
+                    type SoMFNode
+                    index = Calculator {
+                        a = USE SphereIcon.on
+                        b = USE BoxIcon.on
+                        c = USE ConeIcon.on
+                        expression "oa = 0 * a + 1 * b + 2 * c"
+                    }.oa
+                    input [
+                        File { name "graphics/question.iv" },
+                        File { name "graphics/plus.iv" },
+                        File { name "graphics/mark.iv" }
+                    ]
+                }.output
+                
+                colorTemplate = SelectOne {
+                    type SoMFNode
+                    index = Calculator {
+                        a = USE Red.on
+                        b = USE Yellow.on
+                        c = USE Green.on
+                        expression "oa = 0 * a + 1 * b + 2 * c"
+                    }.oa
+                    input [
+                        Group { Material { diffuseColor 1 0 0 } DEF COLOR Info { string "red" } },
+                        Group { Material { diffuseColor 1 1 0 } DEF COLOR Info { string "yellow" } },
+                        Group { Material { diffuseColor 0 1 0 } DEF COLOR Info { string "green" } }
+                    ]
+                }.output
+            }
+            SoRoute { from "AnnNode.markerKeywords" to "AnnotList.values" }
+            
+            # Graphics
+            So3DSeparator {
+                stations []
+                blocked FALSE
+                # information icons
+                Switch {
+                    whichChild -3 = USE On.on
+                    Group {}
+                    DEF Icons Separator {
+                        SoContext { index 11 value 0 mode ADD }
+                        SoMultiSwitch {
+                            whichChildren -3 = USE ItemMap.bOut
+                        }
+                        USE AnnData
+                    }
+                }
+            }
+            
+            # Raypicker interaction device 
+            DEF Raypicker SoRayPicker {
+                visible FALSE
+                active FALSE = BoolOperation {
+                    operation A_AND_B
+                    a = USE Ray.on
+                    b = USE On.on
+                }.output 
+                stations 5
+                pickGraph Group {
+                    SoMultiSwitch { whichChildren -3 }
+                    USE Model
+                }
+                content Separator {
+#                    Cube { width 1 depth 1 height 1}
+                }
+            }
+            So3DSeparator {
+                stations []
+                blocked FALSE 
+                Switch {
+                    whichChild = USE On.on
+                    Group {}
+                    Group {
+                        # eye-cursor
+                        Switch {
+                            whichChild = USE Raypicker.isPicking
+                            Group {}
+                            Separator {
+                                Transform { translation = USE Raypicker.pickedPoint }
+                                Material { diffuseColor 1 0.5 0 emissiveColor 0.8 0.8 0 }
+                                Sphere { radius 1 }
+                            }
+                        }
+                        # target cross hairs :)
+                        Switch {
+                            whichChild = USE Ray.on
+                            Group {}
+                            Separator {
+                                OrthographicCamera { aspectRatio 1.33333 viewportMapping ADJUST_CAMERA }
+                                Material { diffuseColor 1 0 0 }
+                                DrawStyle { lineWidth 2 }
+                                Transform { translation 0.12 -0.15 0 }
+                                LineSet {
+                                    vertexProperty VertexProperty { vertex [ 0.1 0.1 0, -0.1 -0.1 0, -0.1 0.1 0, 0.1 -0.1 0 ] }
+                                    numVertices [ 2, 2 ]
+                                }
+                            }
+                        }                       
+                    }
+                }
+            }
+            SoRoute { from "Raypicker.isPicking" to "AnnNode.isPicking" }
+            SoRoute { from "Raypicker.button" to "AnnNode.pickButton" }
+            SoRoute { from "Raypicker.pickedPoint" to "AnnNode.cursorPosition" }
+            SoRoute { from "Raypicker.pickedNormal" to "AnnNode.pickNormal" }
+        }
+    }
+    appGeom Separator {
+            Texture2 { filename "graphics/Information_high.gif" }
+    }
+}

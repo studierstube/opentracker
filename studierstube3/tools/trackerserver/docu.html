@@ -1,0 +1,409 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body>
+
+<h1>
+Trackerserver</h1>
+
+<h3>
+Installation</h3>
+Use "make" to create the executeable named "trackerserver". The linux version
+of ZPT needs to be compiled first.
+<h3>
+Options</h3>
+Available options for the trackerserver are:
+<br>&nbsp;
+<table BORDER >
+  <tr> 
+    <td><b>--mode</b></td>
+    <td><b>-m</b></td>
+    <td>Operational modes can be: 'FOBmulti' (default), 'FOBsingle', 'Polhemus' 
+      or 'Parbutton'. <br>
+      'FOBmulti' refers to the Ascension Flock of Birds with individual serial 
+      interfaces to each bird. <br>
+      'FOBsingle' refers to the Ascension Flock of Birds with a single serial 
+      interface to the master bird. <br>
+      'Polhemus' refers to the Polhemus Fastrak. <br>
+      'Parbutton' only tracks buttons via the parallel interface.</td>
+  </tr>
+  <tr> 
+    <td><b>--initfilename&nbsp;</b></td>
+    <td><b>-i</b></td>
+    <td>Name of the initfile needed to configure the tracker. Default is 'tracker.init'.</td>
+  </tr>
+  <tr> 
+    <td><b>--port</b></td>
+    <td><b>-p</b></td>
+    <td>Port of the multicast group. Default is '12346'.</td>
+  </tr>
+  <tr>
+    <td><b>--address</b></td>
+    <td><b>-a</b></td>
+    <td>Address of the multicast group. Default is '224.100.200.101'</td>
+  </tr>
+  <tr> 
+    <td><b>--serialbaudrate</b></td>
+    <td><b>-s</b></td>
+    <td>the baud rate of the serial interface for Flock of Birds. Default is '57600'.</td>
+  </tr>
+  <tr> 
+    <td><b>--erc</b></td>
+    <td><b>-e</b></td>
+    <td>Additional ERC bird address. Default is '0' ( not present ). See <a href="#erc">note</a>.</td>
+  </tr>
+</table>
+
+<h3>
+Initfile</h3>
+The Initfile is divided into three types of sections, which are [common],
+[station n] and [geometry]. Every option specified in the [common] section
+is used for each station, unless it is overwritten in the [station] section.
+The only exception is the 'init=' option, which is sent to all stations
+when specified in the [common] section. If an 'init=' option is also specified
+in a [station] section, it will be sent to that station afterwards. On
+the Polhemus Fastrak multiple 'init=' options per section are possible.
+<p>Options valid only in the [common] section:
+<br>&nbsp;
+<table BORDER NOSAVE >
+<tr>
+<td><b>tracker</b></td>
+
+<td>Number of stations used. (0&lt;n&lt;15)</td>
+</tr>
+
+<tr>
+<td><b>parallel</b>[<b>1</b>|..|<b>8</b>]<b>_devname</b></td>
+
+<td>Name of the parallel device used for button input.</td>
+</tr>
+
+<tr>
+<td><b>baseport</b>[<b>1</b>|..|<b>8</b>]</td>
+
+<td>Number in hex (with preceeding 0x) of the baseport of the parallel
+device that is associated with the number of the baseport (1 to 8) argument.</td>
+</tr>
+
+<tr>
+<td><b>serial_mouse</b></td>
+
+<td>Name of the serial device used for button input. (Polhemus Fastrak
+only)</td>
+</tr>
+</table>
+
+<p>Options valid in the [common] and [station n] sections:
+<br>&nbsp;
+<table BORDER NOSAVE >
+<tr>
+<td><b>hemisphere</b></td>
+
+<td>For Ascension Flock Of Birds: 'Forward' (default), 'Aft', 'Upper',
+'Lower', 'Left' or 'Right'.
+<br>For Polhemus Fastrak: x,y,z -component of a vector pointing in the
+direction of the operational hemisphere (default value is 1,0,0)</td>
+</tr>
+
+<tr>
+<td><b>position_scaling</b></td>
+
+<td>'36' (default) or '72'. (Ascension Flock Of Birds only)</td>
+</tr>
+
+<tr>
+<td><b>xyz_reference_frame</b></td>
+
+<td>'off' (default) or 'on'. (Ascension Flock Of Birds only)</td>
+</tr>
+
+<tr>
+<td><b>init</b></td>
+
+<td>(byte sequence to be sent. Either actual ascii characters or bytes
+written in hex preceeded by '\0x'.)</td>
+</tr>
+
+<tr>
+<td><b>scale_x</b></td>
+
+<td>Scaling value (default 1.0), referring to <b>world_x</b>, not <b>track_x</b>.</td>
+</tr>
+
+<tr>
+<td><b>scale_y</b></td>
+
+<td>Scaling value (default 1.0), referring to <b>world_y</b>, not<b> track_y</b>.</td>
+</tr>
+
+<tr>
+<td><b>scale_z&nbsp;</b></td>
+
+<td>Scaling value (default 1.0), referring to <b>world_z</b>, not <b>track_z</b>.</td>
+</tr>
+
+<tr>
+<td><b>button</b>[<b>1</b>|..|<b>8</b>]</td>
+
+<td>'None' (default), or 'S'|'P' (station number);(bitnumber)i(inverse).
+E.g.: 'button3=S4;5' would specifiy that the buttonbit number 3 of this
+section's station, uses the bit number 5 from Station 4 as input. 'button2=P3;4'
+would mean that the buttonbit number 2 is read from the parallel interface
+(using the name from <b>parallel3_devname</b>) for that station.</td>
+</tr>
+
+<tr>
+<td><b>rf_azimuth</b></td>
+
+<td>Azimuth (Zang) of the reference frame in degrees. (default is 0.0;
+range -180.0 to 180.0) (Ascension Flock Of Birds only)</td>
+</tr>
+
+<tr>
+<td><b>rf_elevation</b></td>
+
+<td>Elevation (Yang) of the reference frame in degrees. (default is 0.0;
+range -90.0 to 90.0) (Ascension Flock Of Birds only)</td>
+</tr>
+
+<tr>
+<td><b>rf_roll</b></td>
+
+<td>Roll (Xang) of the reference frame in degrees. (default is 0.0; range
+-180.0 to 180.0) (Ascension Flock Of Birds only)</td>
+</tr>
+
+<tr>
+<td><b>reference_frame</b></td>
+
+<td>Ox,Oy,Oz,Xx,Xy,Xz,Yx,Yy,Yz (Ox,Oy,Oz are the cartesian coordinates
+of the origin of the new reference frame. Xx,Xy,Xz are the coordinates
+of the point defining the positive direction of the X-axis of the new reference
+frame. Yx,Yy,Yz are the coordinates of a third point that is in the positive
+Y direction from the X-axis. (Polhemus Fastrak only)</td>
+</tr>
+
+<tr>
+<td><b>format</b></td>
+
+<td>'Position_Quaternion'(default)|'Position_Angles'|'Position_Matrix'
+(Position_Matrix is Ascension FOB only)</td>
+</tr>
+
+<tr>
+<td><b>serial_devname</b></td>
+
+<td>Name of the serial interface to the station. If <b>FOBsingle</b> is
+used, only the <b>serial_devname</b> of [station 1] is of significance.</td>
+</tr>
+
+<tr>
+<td><b>stationname</b></td>
+
+<td>Name of the station that will be sent via the network.</td>
+</tr>
+
+<tr>
+<td><b>servername</b></td>
+
+<td>Name of the trackerserver that will be sent via the network.</td>
+</tr>
+
+<tr>
+<td><b>position_filter</b></td>
+
+<td>'None' (default), 'Box_Filter' or 'Aniso_Filter'.</td>
+</tr>
+
+<tr>
+<td><b>position_filter_param</b></td>
+
+<td>Number of stages in the Box_- and Aniso_Filter.</td>
+</tr>
+
+<tr>
+<td><b>orientation_filter</b></td>
+
+<td>'None' (default) or 'Box_Filter' or 'Kalman_Filter'.</td>
+</tr>
+
+<tr>
+<td><b>orientation_filter_param</b></td>
+
+<td>Number of stages in the Box_Filter.</td>
+</tr>
+</table>
+
+<p>Options valid only in the [geometry] section:
+<br>&nbsp;
+<table BORDER NOSAVE >
+<tr>
+<td><b>world_</b>[<b>x</b>|<b>y</b>|<b>z</b>]</td>
+
+<td>'track_x', 'track_y' or 'track_z'. Assignment of the axis from the
+tracker to those used in the multicasted packet.</td>
+</tr>
+
+<tr>
+<td><b>world_q</b>[<b>x</b>|<b>y</b>|<b>z</b>]</td>
+
+<td>'track_qx', 'track_qy' or 'track_qz'. Assignment of the quaternion
+from the tracker to those used in the multicasted packet.</td>
+</tr>
+
+<tr>
+<td><b>reverse_q</b>[<b>x</b>|<b>y</b>|<b>z</b>]</td>
+
+<td>'off' (default) or 'on'. Negation of the quaternion.</td>
+</tr>
+</table>
+Example:
+<br>&nbsp;
+<table BORDER NOSAVE >
+<tr>
+<td><tt>#-----------------------------------------------------------------------------</tt>
+<br><tt>#</tt>
+<br><tt># Flock of Birds initialization file for single and multiple serial
+interfaces</tt>
+<br><tt>#</tt>
+<br><tt># Recognized commands:</tt>
+<br><tt>#</tt>
+<br><tt># [common]</tt>
+<br><tt>#</tt>
+<br><tt>#&nbsp;&nbsp; tracker=n 0&lt;n&lt;15</tt>
+<br><tt>#&nbsp;&nbsp; parallel[1|..|8]_devname=(Name of the parallel port
+connected with buttons)</tt>
+<br><tt>#&nbsp;&nbsp; baseport[1|..|8]=(Port associated with the parallel_devname,
+e.g. 0x378)</tt>
+<br><tt>#</tt>
+<br><tt># [station n]</tt>
+<br><tt>#</tt>
+<br><tt>#&nbsp;&nbsp; hemisphere=Forward(default)|Aft|Upper|Lower|Left|Right</tt>
+<br><tt>#&nbsp;&nbsp; position_scaling=36(default)|72</tt>
+<br><tt>#&nbsp;&nbsp; xyz_reference_frame=on|off(default)</tt>
+<br><tt>#&nbsp;&nbsp; format=Position_Quaternion(default)|Position_Angles|Position_Matrix</tt>
+<br><tt>#&nbsp;&nbsp; init=(byte sequence to be sent)</tt>
+<br><tt>#&nbsp;&nbsp; button[1|..|8]=None(default)|(S(station number);(bitnumber)i(inverse))</tt>
+<br><tt>#&nbsp;&nbsp; scale_x,scale_y,scale_z(default=1.0)</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp; (Scaling factor referring to world_[x|y|z],
+not to track_[x|y|z])</tt>
+<br><tt>#&nbsp;&nbsp; rf_azimuth,rf_elevation,rf_roll(default=0.0)</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp; (Angle in degrees, ranging -180 to 180 degree
+for azimuth and roll</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp;&nbsp; and -90 to 90 for elevation)</tt>
+<br><tt>#&nbsp;&nbsp; position_filter=Box_Filter|Aniso_Filter</tt>
+<br><tt>#&nbsp;&nbsp; position_filter_param=40(default)</tt>
+<br><tt>#&nbsp;&nbsp; orientation_filter=Box_Filter|Kalman_Filter</tt>
+<br><tt>#&nbsp;&nbsp; orientation_filter_param=40(default)</tt>
+<br><tt>#&nbsp;&nbsp; serial_devname=(Name of the serial port connected
+to the Bird)</tt>
+<br><tt>#&nbsp;&nbsp; stationname=(Name that will be assigned to that station)</tt>
+<br><tt>#&nbsp;&nbsp; servername=(Name that will be assigned to the trackerserver)</tt>
+<br><tt>#</tt>
+<br><tt># [geometry]</tt>
+<br><tt>#</tt>
+<br><tt>#&nbsp;&nbsp; world_[x|y|z]=track_[x|y|z]</tt>
+<br><tt>#&nbsp;&nbsp; world_q[x|y|z]=track_q[x|y|z]</tt>
+<br><tt>#&nbsp;&nbsp; reverse_q[x|y|z]=on|off(default)</tt>
+<br><tt>#</tt>
+<br><tt>#-----------------------------------------------------------------------------</tt><tt></tt>
+<p><tt>[common]</tt>
+<br><tt>tracker=6</tt>
+<br><tt>servername=Ascension FOB on tracksuck</tt>
+<br><tt>#Hemisphere options: Forward, Aft, Upper, Lower, Left, Right</tt>
+<br><tt>hemisphere=Right</tt>
+<br><tt>position_scaling=72</tt>
+<br><tt>xyz_reference_frame=on</tt>
+<br><tt>scale_x=-1.0</tt>
+<br><tt>scale_y=1.0</tt>
+<br><tt>scale_z=-1.0</tt>
+<br><tt>format=Position_Quaternion</tt>
+<br><tt>#Azimuth, Elevation and Roll of the Reference Frame</tt>
+<br><tt>rf_azimuth=-90.0</tt>
+<br><tt>rf_elevation=0.0</tt>
+<br><tt>rf_roll=-90.0</tt><tt></tt>
+<p><tt># filter: 7 ... all OFF</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 ... only DC
+ON</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 ... DC &amp;
+narrow ON</tt>
+<br><tt>#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 ... DC &amp;
+wide ON</tt>
+<br><tt>#</tt>
+<br><tt># P(change value)\0x04(filter status)\filter(LSB)\0x00(MSB)</tt>
+<br><tt>#</tt>
+<br><tt># Set filter to DC &amp; narrow ON</tt>
+<br><tt>init=P\0x04\0x02\0x00</tt><tt></tt>
+<p><tt>parallel1_devname=/dev/port</tt>
+<br><tt>baseport1=0x378</tt>
+<br><tt></tt>&nbsp;<tt></tt>
+<p><tt>[station 1]</tt>
+<br><tt># crt sync \0x00 off&nbsp;&nbsp; \0x01 50-72Hz&nbsp;&nbsp; \0x02
+72-144Hz</tt>
+<br><tt>init=A\0x00</tt>
+<br><tt>serial_devname=/dev/cua0</tt>
+<br><tt>stationname=PIP1</tt><tt></tt>
+<p><tt>[station 2]</tt>
+<br><tt>serial_devname=/dev/cua1</tt>
+<br><tt>stationname=HMDA</tt><tt></tt>
+<p><tt>[station 3]</tt>
+<br><tt>serial_devname=/dev/cua2</tt>
+<br><tt>button1=P1;1</tt>
+<br><tt>button2=P1;2</tt>
+<br><tt>stationname=PEN2</tt><tt></tt>
+<p><tt>[station 4]</tt>
+<br><tt>serial_devname=/dev/cua3</tt>
+<br><tt>stationname=PIP2</tt><tt></tt>
+<p><tt>[station 5]</tt>
+<br><tt>serial_devname=/dev/cua4</tt>
+<br><tt>stationname=HMDB</tt><tt></tt>
+<p><tt>[station 6]</tt>
+<br><tt>button1=S6;6</tt>
+<br><tt>button2=S6;5</tt>
+<br><tt>serial_devname=/dev/cua5</tt>
+<br><tt>stationname=PEN1</tt><tt></tt>
+<p><tt>[geometry]</tt>
+<br><tt>#</tt>
+<br><tt>#</tt>
+<br><tt># position</tt>
+<br><tt>#</tt>
+<br><tt>world_x=track_z</tt>
+<br><tt>world_y=track_x</tt>
+<br><tt>world_z=track_y</tt><tt></tt>
+<p><tt>#</tt>
+<br><tt># quaternion</tt>
+<br><tt>#</tt>
+<br><tt>world_qx=track_qx</tt>
+<br><tt>world_qy=track_qz</tt>
+<br><tt>world_qz=track_qy</tt>
+<br><tt>reverse_qx=on</tt>
+<br><tt>reverse_qy=on</tt>
+<br><tt>reverse_qz=on</tt>
+<br>&nbsp;</td>
+</tr>
+</table>
+
+<p>In the above example the buttons bits 1 and 2 at station 6 come from
+the station bits 5 and 6 itself.
+<br>In this example station 3 gets its button bits 1 and 2 from /dev/port
+at 0x378, defined under parallel1_devname.
+<br>&nbsp;
+<p><b><font size=+1>Parbutton Mode</font></b>
+<p>If the trackerserver is run in 'Parbutton' mode, the only thing it does is 
+  collecting button data via the parallel interface and sending the data via network. 
+  The only options of interest in the configuration file are therefore 'tracker', 
+  'parallel_devname', 'baseport', 'servername', 'stationname' and the 'button' 
+  option. 
+<p><b><font size="+1"><a name="erc"></a>Extended Range Controller</font></b>
+<p>If you use an extended range controller that you do not connect to the trackerserver, 
+  you have to put it behind all other birds. So there will be no station section 
+  in the configuration file ( because you didn't connect it ). Then you have to 
+  give the number of the ERC bird to the trackerserver program using the command 
+  option <b>-e</b>.
+<p>It also sets the scale to 144 inches, because the ERC works only with that 
+  scale.
+</body>
+</html>

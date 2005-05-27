@@ -1,0 +1,33 @@
+#Inventor V2.1 ascii
+
+DEF VTK SoApplicationKit {
+   
+   classLoader SoClassLoader {
+	  className   "SoVtkKit"
+	  fileName    "vtk_stb"
+   }
+   
+   contextKit DEF VTKKIT SoVtkKit {
+
+	  windowGroup Group {
+		 SoWindowKit {
+			size    1 1 1
+			title   "VTK goes OpenInventor"        
+			thickness 0.025 
+			size 1 1 1
+			state NORMAL 
+			style BORDER
+			appearance FRONT_WALL 
+			
+			clientVolume Separator {
+			}
+		 }
+	  }
+	  
+	  clonePipSheet FALSE
+   }
+   
+   appGeom Separator {
+	  Texture2 { filename "../apps/vtk/vtk.gif" }
+   }
+}

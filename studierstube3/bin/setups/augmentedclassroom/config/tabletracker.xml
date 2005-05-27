@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../../workspace/opentracker.dtd">
+<OpenTracker>
+	<!--
+To configure other setups:
+==========================
+
+- exchange or add new network ports
+- for more than 2 clients: copy whole "localToOther" node for each other client
+	and extend the selects for station calculation accordingly
+-->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- OpenTracker configuration -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<configuration>
+		<ARToolKitConfig camera-parameter="../mobile/data/pyrofirewire.dat" videomode="0 640 480 vertical" framerate="5" treshhold="100"/>
+		<ConsoleConfig headerline="Receiver Test" interval="10"/>
+	</configuration>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Shared tracking setup -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- User 1 -->
+	<ConfidenceSelect timeout="200" DEF="LocalToUser1">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="0" multicast-address="224.100.200.100" port="12345" DEF="a_1"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="a">
+					<ARToolKitSource tag-file="../mobile/data/a.tag" center="0 0" size="90"/>
+				</EventTransform>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="1" multicast-address="224.100.200.100" port="12345" DEF="x_1"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="x">
+					<ARToolKitSource tag-file="../mobile/data/x.tag" center="0 0" size="90"/>
+				</EventTransform>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="2" multicast-address="224.100.200.100" port="12345" DEF="disk_1"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="disk">
+					<ARToolKitSource tag-file="../mobile/data/disk.tag" center="0 0" size="90"/>
+				</EventTransform>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="3" multicast-address="224.100.200.100" port="12345" DEF="trashcan_1"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="trashcan">
+					<ARToolKitSource tag-file="../mobile/data/trashcan.tag" center="0 0" size="90"/>
+				</EventTransform>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="4" multicast-address="224.100.200.100" port="12345" DEF="printer_1"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<EventTransform rotation="1 0 0 0" scale="0.001 0.001 0.001" DEF="printer">
+					<ARToolKitSource tag-file="../mobile/data/printer.tag" center="0 0" size="90"/>
+				</EventTransform>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+	</ConfidenceSelect>
+	<EventInvertTransform DEF="User1ToLocal">
+		<Ref USE="LocalToUser1"/>
+	</EventInvertTransform>
+	<!-- User 2 -->
+	<ConfidenceSelect timeout="200" DEF="LocalToUser2">
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="0" multicast-address="224.100.200.100" port="12346" DEF="a_2"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<Ref USE="a"/>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="1" multicast-address="224.100.200.100" port="12346" DEF="x_2"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<Ref USE="x"/>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="2" multicast-address="224.100.200.100" port="12346" DEF="disk_2"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<Ref USE="disk"/>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="3" multicast-address="224.100.200.100" port="12346" DEF="trashcan_2"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<Ref USE="trashcan"/>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<NetworkSource number="4" multicast-address="224.100.200.100" port="12346" DEF="printer_2"/>
+			</TransformBase>
+			<EventInvertTransform>
+				<Ref USE="printer"/>
+			</EventInvertTransform>
+		</EventDynamicTransform>
+	</ConfidenceSelect>
+	<EventInvertTransform DEF="User2ToLocal">
+		<Ref USE="LocalToUser2"/>
+	</EventInvertTransform>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Network Inputs (those not used for shared tracking calculations above) -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Local ARToolkit Makers -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Shared Markers -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<Selection timeout="200" DEF="A">
+		<Select>
+			<Ref USE="a"/>
+		</Select>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="User1ToLocal"/>
+			</TransformBase>
+			<Ref USE="a_1"/>
+		</EventDynamicTransform>
+	</Selection>
+	<Selection timeout="200" DEF="X">
+		<Select>
+			<Ref USE="x"/>
+		</Select>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="User1ToLocal"/>
+			</TransformBase>
+			<Ref USE="x_1"/>
+		</EventDynamicTransform>
+	</Selection>
+	<Selection timeout="200" DEF="DISK">
+		<Select>
+			<Ref USE="disk"/>
+		</Select>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="User1ToLocal"/>
+			</TransformBase>
+			<Ref USE="disk_1"/>
+		</EventDynamicTransform>
+	</Selection>
+	<Selection timeout="200" DEF="TRASHCAN">
+		<Select>
+			<Ref USE="trashcan"/>
+		</Select>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="User1ToLocal"/>
+			</TransformBase>
+			<Ref USE="trashcan_1"/>
+		</EventDynamicTransform>
+	</Selection>
+	<Selection timeout="200" DEF="PRINTER">
+		<Select>
+			<Ref USE="printer"/>
+		</Select>
+		<EventDynamicTransform baseevent="false">
+			<TransformBase>
+				<Ref USE="User1ToLocal"/>
+			</TransformBase>
+			<Ref USE="printer_1"/>
+		</EventDynamicTransform>
+	</Selection>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- debug stuff -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- marker stations -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<StbSink station="100" event="on">
+		<Ref USE="A"/>
+	</StbSink>
+	<StbSink station="101" event="on">
+		<Ref USE="X"/>
+	</StbSink>
+	<StbSink station="102" event="on">
+		<Ref USE="DISK"/>
+	</StbSink>
+	<StbSink station="103" event="on">
+		<Ref USE="TRASHCAN"/>
+	</StbSink>
+	<StbSink station="104" event="on">
+		<Ref USE="PRINTER"/>
+	</StbSink>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Locales    -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- our own locale -->
+	<StbSink station="200" DEF="thiscoords">
+		<TestSource frequency="1" position="0 0 0"/>
+	</StbSink>
+	<!-- User1 -->
+	<StbSink station="201">
+		<Ref USE="User1ToLocal"/>
+	</StbSink>
+	<!-- User2 -->
+	<StbSink station="202">
+		<Ref USE="User2ToLocal"/>
+	</StbSink>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Camera Tracking -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<StbSink station="0" DEF="reference">
+		<EventVirtualTransform DEF="calibOffsetCam">
+			<TestSource frequency="1" position="0 0 0"/>
+		</EventVirtualTransform>
+	</StbSink>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Devices -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- PIP -->
+	<StbSink station="1" DEF="PIP">
+		<TestSource position="0 0 100"/>
+	</StbSink>
+	<!-- Pen -->
+	<StbSink station="2" DEF="Pen">
+		<TestSource position="0 0 100"/>
+	</StbSink>
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Network Sinks for other clients -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<NetworkSink name="a" number="0" multicast-address="224.100.200.100" port="12344">
+		<Filter weight="0.33333 0.33333 0.33333">
+			<EventQueue length="3">
+				<Ref USE="a"/>
+			</EventQueue>
+		</Filter>
+	</NetworkSink>
+	<NetworkSink name="x" number="1" multicast-address="224.100.200.100" port="12344">
+		<Filter weight="0.33333 0.33333 0.33333">
+			<EventQueue length="3">
+				<Ref USE="x"/>
+			</EventQueue>
+		</Filter>
+	</NetworkSink>
+	<NetworkSink name="disk" number="2" multicast-address="224.100.200.100" port="12344">
+		<Filter weight="0.33333 0.33333 0.33333">
+			<EventQueue length="3">
+				<Ref USE="disk"/>
+			</EventQueue>
+		</Filter>
+	</NetworkSink>
+	<NetworkSink name="trashcan" number="3" multicast-address="224.100.200.100" port="12344">
+		<Filter weight="0.33333 0.33333 0.33333">
+			<EventQueue length="3">
+				<Ref USE="trashcan"/>
+			</EventQueue>
+		</Filter>
+	</NetworkSink>
+	<NetworkSink name="printer" number="4" multicast-address="224.100.200.100" port="12344">
+		<Filter weight="0.33333 0.33333 0.33333">
+			<EventQueue length="3">
+				<Ref USE="printer"/>
+			</EventQueue>
+		</Filter>
+	</NetworkSink>
+</OpenTracker>

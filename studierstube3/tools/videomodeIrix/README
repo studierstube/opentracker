@@ -1,0 +1,29 @@
+videomode
+=========
+Commandline tool to switch the videomode on an SGI Impact board
+between a user defined default mode and 
+800x600 60Hz, 2 channels (the glasstron stereo mode!).
+This tool switches the videomode and restarts the X server.
+Unfortunately there is NO way to avoid the X restart because the 'special 2
+channel mode' has other visuals.
+
+Instructions:
+-------------
+Compile videomode.cxx (just type make)
+
+su to root and do:
+chown root.sys videomode
+chmod 4711 videomode
+echo "cmb/2@800x600_60_ext" >/var/X11/Xvc/2@800x600_60_ext
+echo "1280x1024_76" >/var/X11/Xvc/default
+exit
+
+If you have/need/want a different default videomode on your SGI box simply
+substitute the 1280x1024_76 string with your default mode.
+
+Usage:
+------
+videomode --glasstron | -g    :   switch to 2x800x600 60Hz (glasstron) mode
+videomode --normal    | -n    :   switch back to standard video mode
+
+Questions? Drop me a note at hesina@cg.tuwien.ac.at

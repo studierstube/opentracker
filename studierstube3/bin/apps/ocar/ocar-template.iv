@@ -1,0 +1,35 @@
+#Inventor V2.1 ascii
+
+# This template file is used to generate the resulting ocar.iv file that
+# describes the full setup.
+# $Id: ocar-template.iv 3827 2004-10-05 15:42:39Z reitmayr $
+
+# contains specific configuration data
+DEF Info SoApplicationKit {
+    contextKit SoContextKit {        
+        windowGroup Separator {
+            DEF NAME Info { string "Wassergeist" }
+            DEF STATION Info { string "10" }
+            DEF USER0 Transform {
+                translation = DEF Tracker SoTrakEngine { station 2 }.translation
+                rotation = USE Tracker.rotation
+            }
+            DEF USER1 Transform { }
+        }
+    }
+}
+
+#include "model.iv"
+
+#include "navigation.iv"
+
+    #include "user.iv"
+
+#include "calibration.iv"
+
+#include "annotation.iv"    
+  
+#include "browser.iv"
+
+  #include "gpslogger.iv"
+

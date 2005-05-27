@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE april SYSTEM "http://www.studierstube.org/april/april.dtd">
+<april xmlns="http://www.studierstube.org/april" xmlns:ot="http://www.studierstube.org/opentracker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../april.xsd">
+	<setup>
+		<host>
+			<screen resolution="1280 1024"/>
+			<display screenSize="50% 50%" stereo="false" mode="VR" worldSize="0.4 0.3" worldPosition="0.5 0.3 0" worldOrientation="0 1 0 1.57" debug="true">
+				<headtracking>
+					<ot:EventTransform translation="1 0.5 0">
+						<ot:StbKeyboardSource number="1"/>
+					</ot:EventTransform>
+				</headtracking>
+				<pointer/>
+			</display>
+			<display screenSize="50% 50%" screenPosition="50% 0" stereo="false" mode="VR" worldPosition="0 0.3 0.5" worldOrientation="1 0 0 0" worldSize="0.4 0.3">
+				<headtracking>
+					<ot:EventTransform translation="0 0.5 1">
+						<ot:StbKeyboardSource number="2"/>
+					</ot:EventTransform>
+				</headtracking>
+			</display>
+			<station id="tool">
+				<ot:StbKeyboardSource number="3"/>
+			</station>
+		</host>
+	</setup>
+</april>

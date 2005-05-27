@@ -1,0 +1,218 @@
+#Inventor V2.1 ascii
+
+Separator {
+# new rotation
+  RotationXYZ {axis  X angle 1.57 }
+  #################PIPSHEET BUTTONS
+  Separator {
+    Translation { translation -6 1 8 }
+    DEF CTRL_BUTTON So3DRadioButton { 
+      width 5 depth 5 height 2 
+      pressed 1
+      buttonColor 0.6 0.6 1
+      separatorName "SHEETS"
+      textureSwitch Switch { 
+        whichChild 1 = USE CTRL_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF CTRL_TXT Group { 
+            Texture2 { filename "ctrl.gif" }
+            Cube { width 4 height 0.1 depth 4 }
+          }
+        }
+        USE CTRL_TXT # if pressed
+      }
+    }
+  }
+  Separator {
+    Translation { translation -6 1 15 }
+    DEF SORTER_BUTTON So3DRadioButton { 
+      width 5 depth 5 height 2 
+      pressed 0
+      buttonColor 1 0.6 0.6
+      separatorName "SHEETS"
+      textureSwitch Switch { 
+        whichChild 0 = USE SORTER_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF SORTER_TXT Group { 
+            Texture2 { filename "sort.gif" }
+            Cube { width 4 height 0.1 depth 4 }
+          }
+        }
+        USE SORTER_TXT # if pressed
+      }
+    }
+  }
+  DEF RIGHT_DELIMITER Separator {
+    Translation { translation 27 0 8 }
+    Cube { width 0.01 height 0.01 depth 0.01 }
+  }
+  ##### start pip sheet
+  DEF PIP_SHEET_SWITCH Switch { whichChild 0 = USE SORTER_BUTTON . pressed
+  DEF CTRL_GROUP Group {
+  Separator {
+    Translation { translation 12 1 15 }
+    DEF SCENE_SLIDER So3DIntSlider {
+      minValue 0
+      maxValue 2
+      currentValue 0
+      width 17
+    }
+  }
+  #################SCENE BUTTONS
+  Separator {
+    Translation { translation 0 1 15 }
+    DEF CREATE_BUTTON So3DButton { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE CREATE_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF CREATE_TXT Group { 
+            Texture2 { filename "new.gif" }
+            Cube { width 4 height 0.1 depth 4 }
+          }
+        }
+        USE CREATE_TXT # if pressed
+      }
+    }
+  }
+  Separator {
+    Translation { translation 24 1 15 }
+    DEF DELETE_BUTTON So3DButton { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE DELETE_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF DEL_TXT Group { 
+            Texture2 { filename "del.gif" }
+            Cube { width 4 height 0.1 depth 4 }
+          }
+        }
+        USE DEL_TXT # if pressed
+      }
+    }
+  }
+  #################FIGURE BUTTONS
+  Separator {
+    Translation { translation 0 1 8 }
+    DEF FIGURE1_BUTTON So3DCheckBox { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE FIGURE1_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF FIGURE1_ICON Group {
+            Material { diffuseColor 1 0 0 }
+            DEF GENERIC_FIGURE Group {
+              Rotation { rotation 1 0 0 -1.57 }
+              Cone { bottomRadius 1.5 height 4 }
+              Translation { translation 0 1.1 0 }
+              Sphere { radius 0.8 }
+            }
+          }
+        }
+        USE FIGURE1_ICON # if pressed
+      }
+    }
+  }
+  Separator {
+    Translation { translation 6 1 8 }
+    DEF FIGURE2_BUTTON So3DCheckBox { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE FIGURE2_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF FIGURE2_ICON Group { 
+            Material { diffuseColor 1 1 0 }
+            USE GENERIC_FIGURE
+          }
+        }
+        USE FIGURE2_ICON # if pressed
+      }
+    }
+  }
+  Separator {
+    Translation { translation 12 1 8 }
+    DEF FIGURE3_BUTTON So3DCheckBox { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE FIGURE3_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF FIGURE3_ICON Group { 
+            Material { diffuseColor 0.1 0.7 0 }
+            USE GENERIC_FIGURE
+          }
+        }
+        USE FIGURE3_ICON # if pressed
+      }
+    }
+  }
+  Separator {
+    Translation { translation 18 1 8 }
+    DEF FIGURE4_BUTTON So3DCheckBox { 
+      width 5 depth 5 height 2 
+      textureSwitch Switch { 
+        whichChild 0 = USE FIGURE4_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF FIGURE4_ICON Group { 
+            Material { diffuseColor 0.3 0 0.9 }
+            USE GENERIC_FIGURE
+          }
+        }
+        USE FIGURE4_ICON # if pressed
+      }
+    }
+  }
+  #################CAM BUTTON
+  #Separator {
+  #  Translation { translation 24 1 8 }
+  #  DEF CAM_BUTTON So3DCheckBox { 
+  #    pressed 1
+  #    width 5 depth 5 height 2
+  #    textureSwitch Switch { 
+  #      whichChild 1 = USE CAM_BUTTON . pressed 
+  #      Group {
+  #        Translation { translation 0 1 0 }
+  #        Texture2 { filename "cam2.gif" }
+  #        Cube { width 4 height 0.1 depth 4 }
+  #      }
+  #      Group {
+  #        Texture2 { filename "cam1.gif" }
+  #        Cube { width 4 height 0.1 depth 4 }
+  #      }
+  #    }
+  #  }
+  #}
+  #################VIEW BUTTON
+  Separator {
+    Translation { translation 24 1 8 }
+    DEF VIEW_BUTTON So3DCheckBox { 
+      pressed 0
+      width 5 depth 5 height 2
+      textureSwitch Switch { 
+        whichChild 0 = USE VIEW_BUTTON . pressed 
+        Group {
+          Translation { translation 0 1 0 }
+          DEF VIEW_TXT Texture2 { filename "view.gif" }
+          Cube { width 4 height 0.1 depth 4 }
+        }
+        Group {
+          USE VIEW_TXT
+          Cube { width 4 height 0.1 depth 4 }
+        }
+      }
+    }
+  }
+  } # CTRL_GROUP
+  DEF SORTER_GROUP Group {
+    Transform { translation 4 0.2 4 }
+    #DEF SORTER_KIT SoSorterKit { xspacing 8 yspacing 8 }
+  }
+} # PIP_SHEET_SWITCH
+}

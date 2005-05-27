@@ -1,0 +1,20 @@
+#Inventor V2.1 ascii
+
+SoApplicationKit {
+    contextKit  SoContextKit {
+        windowGroup Group {  
+            Scale { scaleFactor 0.1 0.1 0.1 }
+                    Translation {
+                        translation = Calculator {
+                            a = TimeCounter{ max 360 step 1 frequency 0.075 }.output
+                            expression [ "ta=a*M_PI/180", "tb=5*cos(5*ta)", 
+                                         "td=tb*cos(ta)", "te=tb*sin(ta)", 
+                                         "oA=vec3f(td,0,te)" ]
+                        }.oA
+                    }
+                    Scale { scaleFactor 0.5 0.5 0.5 }
+                    File { name "spaceship.iv" }
+        }    
+        clonePipSheet FALSE
+    }
+}

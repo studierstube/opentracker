@@ -1,0 +1,8 @@
+#Inventor V2.1 ascii
+
+Separator {
+	Transform { translation 0 -0.018 0}
+    Texture2 { filename "beard3.jpg"}
+    Cube { width 0.055 depth 0.00005 height 0.055 }
+}
+

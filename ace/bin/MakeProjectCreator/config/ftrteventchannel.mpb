@@ -1,0 +1,9 @@
+// -*- MPC -*-
+// ftrteventchannel.mpb,v 1.3 2004/06/20 19:52:02 ossama Exp
+
+project : ftrtevent, utils {
+  after     += FTRT_EventChannel
+  libs      += TAO_FTRT_EventChannel
+  includes  += $(TAO_ROOT)/orbsvcs/FtRtEvent/EventChannel
+  requires  += corba_messaging
+}

@@ -1,0 +1,5 @@
+// -*- MPC -*-
+// orbsvcsexe.mpb,v 1.9 2004/02/04 20:23:43 parsons Exp
+
+project : taoexe {
+}

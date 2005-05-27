@@ -1,0 +1,7 @@
+// -*- MPC -*-
+// Synch_Benchmarks_Synch_Lib.mpc,v 1.2 2003/12/23 20:23:21 dhinton Exp
+
+project(Synch_Lib) : aceexe {
+  sharedname = Synch_Lib
+  dynamicflags += SYNCHLIB_BUILD_DLL
+}

@@ -1,0 +1,78 @@
+# Makefile for building the gperf exe with Borland C++ Make
+
+NAME = gperf
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\Bool_Array.$(OBJ_EXT) \
+	$(OBJDIR)\Gen_Perf.$(OBJ_EXT) \
+	$(OBJDIR)\Hash_Table.$(OBJ_EXT) \
+	$(OBJDIR)\Iterator.$(OBJ_EXT) \
+	$(OBJDIR)\Key_List.$(OBJ_EXT) \
+	$(OBJDIR)\List_Node.$(OBJ_EXT) \
+	$(OBJDIR)\Options.$(OBJ_EXT) \
+	$(OBJDIR)\Vectors.$(OBJ_EXT) \
+	$(OBJDIR)\Version.$(OBJ_EXT) \
+	$(OBJDIR)\gperf.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\..\..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\..\..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+!endif
+
+CFLAGS = \
+	-I"..\..\.." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = apps\gperf\src
+
+#
+# Override defaults in outputdir.bor
+#
+INSTALL_THIS_TARGET = 1
+
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+
+# We use BINDIR for install instead of BASE_BINDIR, because
+# this is the location for all scripts too.
+BINDIR = ..\..\..\bin
+
+!include <$(ACE_ROOT)\include\makeinclude\build_exe.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Bool_Array.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Bool_Array.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Gen_Perf.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Gen_Perf.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Hash_Table.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Hash_Table.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Iterator.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Iterator.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Key_List.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Key_List.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y List_Node.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\List_Node.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Options.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Options.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Vectors.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Vectors.h 1> NUL

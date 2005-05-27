@@ -1,0 +1,95 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "libAR"=.\libAR\SRC\AR\libAR.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libARgsub"=.\libAR\SRC\Gl\libARgsub.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libARvideo"=.\libAR\SRC\VIDEOWIN32DIRECTSHOW\libARvideo.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "mk_patt"=.\util\mk_patt\mk_patt.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libAR
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libARgsub
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libARvideo
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "simpleTest"=.\examples\simple\simpleTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libAR
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libARgsub
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libARvideo
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

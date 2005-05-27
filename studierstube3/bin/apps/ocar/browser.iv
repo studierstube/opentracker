@@ -1,0 +1,205 @@
+#Inventor V2.1 ascii
+
+SoClassLoader {
+    fileName "SmallChange1"
+    className "DepthBuffer"
+}
+
+DEF AnnData File { name "data/annotation.iv" }
+
+DEF Browser SoApplicationKit {
+
+    contextKit SoContextKit {
+        templatePipSheet
+        
+#include "browsepip.iv"
+
+# end auto generated pip sheet !
+        
+        windowGroup Separator {
+            # Graphics
+            So3DSeparator {
+                stations []
+                blocked FALSE
+                
+                # clear stencil buffer for correct outline display 
+                SoStencilBuffer {
+                    clearValue 0
+                    clear TRUE
+                }                
+                # information icons
+                Switch {
+                    whichChild 0 = Calculator {
+                        a = USE On.on
+                        b = USE Show.on
+                        expression "oa = a * b"
+                    }.oa
+                    Group {}
+                    DEF Icons Separator {
+                        SoContext { index 11 value 1 mode ADD }
+                        SoMultiSwitch {
+                            whichChildren -3 = SoFanIn {
+                                type MFString
+                                in0 = DEF SELECTED SoStringMap {
+                                    mode MAPPING
+#include "data/indexmap.iv"
+                                    aIn = SoStringMap {
+                                        mode INTERSECTION
+#include "data/keywordmap.iv"
+                                        aIn = USE KeywordList.selected
+                                    }.bOut
+                                }.bOut
+                                in1 = GlobalField {
+                                    type MFString
+                                    globalKeywords ""
+                                }.globalKeywords
+                            }.out
+                        }
+                        USE AnnData
+                    }
+                }
+            }
+            
+            # Raypicker interaction device 
+            DEF Raypicker SoRayPicker {
+                visible FALSE
+                active FALSE = BoolOperation {
+                    operation A_AND_B
+                    a = USE Ray.on
+                    b = USE On.on
+                }.output 
+                stations 5
+                pickGraph Group {
+                    SoContext { index 11 value 0 mode ADD }
+                        SoMultiSwitch {
+                            whichChildren -3 = USE SELECTED.bOut
+                        }
+                        USE AnnData
+                }
+                content Group {
+#                    Cube { width 1 depth 1 height 1}
+                }
+            }            
+            So3DSeparator {
+                stations []
+                blocked FALSE 
+                Switch {
+                    whichChild = USE On.on
+                    Group {}
+                    Group {
+                        # eye-cursor
+                        Switch {
+                            whichChild = USE Raypicker.isPicking
+                            Group {}
+                            Separator {
+                                Transform { translation = USE Raypicker.pickedPoint }
+                                Material { diffuseColor 1 0.5 0 emissiveColor 0.8 0.8 0 }
+                                Sphere { radius 1 }
+                            }
+                        }          
+                        # and display 3D representation
+                        # this could be optimized by using a multiswitch inside the annotation data
+                        Separator {
+                            DEF ResultSwitch SoMultiSwitch { 
+                                whichChildren -1 = SoFanIn {
+                                    type MFString
+                                    in0 = DEF ITEMS SoStringMap {
+                                        mode UNION
+#include "data/indexmap.iv"
+                                        aIn = SoNodeToName { 
+                                            compact TRUE 
+                                            input = USE Raypicker.pickedNodes
+                                        }.output                                
+                                    }.bOut
+                                    in1 = GlobalField {
+                                        type MFString
+                                        globalItems ""
+                                    }.globalItems
+                                }.out
+                            }
+                            SoContext { index 11 value 1 mode ADD }
+                            USE AnnData
+                        }
+                        # display content 
+                        Separator {
+                            USE ResultSwitch
+                            SoContext { index 11 value 2 mode ADD }
+                            USE AnnData
+                        }
+                        # target cross hairs :)
+                        Switch {
+                            whichChild = USE Ray.on
+                            Group {}
+                            Separator {
+                                OrthographicCamera { aspectRatio 1.33333 viewportMapping ADJUST_CAMERA }
+                                Material { diffuseColor 1 0 0 }
+                                DrawStyle { lineWidth 2 }
+                                Transform { translation 0.12 -0.15 0 }
+                                LineSet {
+                                    vertexProperty VertexProperty { vertex [ 0.1 0.1 0, -0.1 -0.1 0, -0.1 0.1 0, 0.1 -0.1 0 ] }
+                                    numVertices [ 2, 2 ]
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+            # DIV group to communicate stuff !
+            SoAbortGroup {
+                abortActions ( RENDER | CB | BBOX | EVENT | PICK | MATRIX | EVENT3D )
+                DEF BROWSESPACE SoDivGroup {
+                    multicastGroup "224.100.200.111"
+                    port 7890
+                    initFromMaster FALSE
+                    active TRUE
+                    isMaster TRUE
+                    
+                    DEF SharedKeywords Text2 { 
+                        string [] = Gate {
+                            type MFString
+                            input = USE SELECTED.bOut
+                            enable = USE Guide.on
+                        }.output 
+                    }
+                    DEF SharedItems Text2 { 
+                        string [] = Gate {
+                            type MFString
+                            input = USE ITEMS.bOut
+                            enable = USE Guide.on
+                        }.output
+                    }
+                }
+                Info {
+                    string = DEF GK GlobalField {
+                        type MFString
+                        globalKeywords "" = Gate {
+                            type MFString
+                            input = USE SharedKeywords.string
+                            enable = USE Listen.on
+                        }.output
+                    }.globalKeywords
+                }
+                Info { 
+                    string = DEF GI GlobalField {
+                        type MFString
+                        globalItems "" = Gate {
+                            type MFString
+                            input = USE SharedItems.string
+                            enable = USE Listen.on
+                        }.output
+                    }.globalItems
+                }                            
+            }
+            # Debug stuff
+            # SoRouteDB { name "Listen" in = USE Listen.on }
+            # SoRouteDB { name "Guide" in = USE Guide.on }
+            # SoRouteDB { name "raylist" in = USE ITEMS.bOut }
+            # SoRouteDB { name "globalKeywords" in = USE GK.globalKeywords }
+            # SoRouteDB { name "globalItems" in = USE GI.globalItems }
+            # SoRouteDB { name "sharedItems" in = USE SharedItems.string }
+        }        
+    }
+    appGeom Separator {
+            Texture2 { filename "graphics/Information_high.gif" }
+    }
+}

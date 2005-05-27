@@ -1,0 +1,23 @@
+// Simple1.cpp,v 1.1 2004/01/01 21:01:00 shuston Exp
+
+#include "ace/Log_Msg.h"
+
+void foo (void);
+
+int ACE_TMAIN (int, ACE_TCHAR *[])
+{
+  ACE_TRACE(ACE_TEXT ("main"));
+    
+  ACE_DEBUG ((LM_INFO, ACE_TEXT ("%IHi Mom\n")));
+  foo();
+  ACE_DEBUG ((LM_INFO, ACE_TEXT ("%IGoodnight\n")));
+
+  return 0;
+}
+
+void foo (void)
+{
+  ACE_TRACE (ACE_TEXT ("foo"));
+
+  ACE_DEBUG ((LM_INFO, ACE_TEXT ("%IHowdy Pardner\n")));
+}

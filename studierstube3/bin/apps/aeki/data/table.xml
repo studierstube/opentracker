@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<furniture xmlns="http://www.expersite.com/AEKI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.expersite.com/AEKI ../apps/aeki/data/aeki.xsd">
+  <component>
+    <shape>
+      <cube/>
+    </shape>
+    <dimension unit="mm">
+      <width>1600</width>
+      <height>900</height>
+      <depth>35</depth>
+    </dimension>
+    <connector name="p_c1" unit="mm">
+      <x>20</x>
+      <y>20</y>
+      <z>35</z>
+    </connector>
+    <connector name="p_c2" unit="mm">
+      <x>25</x>
+      <y>20</y>
+      <z>35</z>
+    </connector>
+    <connector name="p_c3" unit="mm">
+      <x>20</x>
+      <y>25</y>
+      <z>35</z>
+    </connector>
+    <connector name="p_c4" unit="mm">
+      <x>1580</x>
+      <y>20</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c5" unit="mm">
+      <x>1575</x>
+      <y>20</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c6" unit="mm">
+      <x>1580</x>
+      <y>25</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c7" unit="mm">
+      <x>20</x>
+      <y>880</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c8" unit="mm">
+      <x>25</x>
+      <y>880</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c9" unit="mm">
+      <x>20</x>
+      <y>875</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c10" unit="mm">
+      <x>1580</x>
+      <y>880</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c11" unit="mm">
+      <x>1575</x>
+      <y>880</y>
+      <z>35</z>
+    </connector>    
+    <connector name="p_c12" unit="mm">
+      <x>1580</x>
+      <y>875</y>
+      <z>35</z>
+    </connector>    
+    <instance name="platte"/>
+  </component>
+  <component>
+    <shape>
+      <cube/>
+    </shape>
+    <dimension unit="mm">
+      <width>100</width>
+      <height>700</height>
+      <depth>100</depth>
+    </dimension>
+    <connector name="tb_c1" unit="mm">
+      <x>5</x>
+      <y>700</y>
+      <z>5</z>
+    </connector>
+    <connector name="tb_c2" unit="mm">
+      <x>10</x>
+      <y>700</y>
+      <z>5</z>
+    </connector>
+    <connector name="tb_c3" unit="mm">
+      <x>5</x>
+      <y>700</y>
+      <z>10</z>
+    </connector>
+    <connector name="tb_c4" unit="mm">
+      <x>50</x>
+      <y>690</y>
+      <z>100</z>
+    </connector>
+    <connector name="tb_c5" unit="mm">
+      <x>50</x>
+      <y>680</y>
+      <z>100</z>
+    </connector>
+    <connector name="tb_c6" unit="mm">
+      <x>100</x>
+      <y>690</y>
+      <z>50</z>
+    </connector>
+    <connector name="tb_c7" unit="mm">
+      <x>100</x>
+      <y>680</y>
+      <z>50</z>
+    </connector>
+    <instance name="tb_lu"/>
+    <instance name="tb_ru"/>
+    <instance name="tb_lo"/>
+    <instance name="tb_ro"/>
+  </component>
+  <component>
+    <shape>
+      <cube/>
+    </shape>
+    <dimension unit="mm">
+      <width>1370</width>
+      <height>100</height>
+      <depth>10</depth>
+    </dimension>
+    <connector name="a1_c1" unit="mm">
+      <x>0</x>
+      <y>90</y>
+      <z>5</z>
+    </connector>
+    <connector name="a1_c2" unit="mm">
+      <x>0</x>
+      <y>80</y>
+      <z>5</z>
+    </connector>
+    <connector name="a1_c3" unit="mm">
+      <x>1370</x>
+      <y>90</y>
+      <z>5</z>
+    </connector>
+    <connector name="a1_c4" unit="mm">
+      <x>1370</x>
+      <y>80</y>
+      <z>5</z>
+    </connector>
+    <instance name="a1_u"/>
+    <instance name="a1_o"/>
+  </component>
+  <component>
+    <shape>
+      <cube/>
+    </shape>
+    <dimension unit="mm">
+      <width>670</width>
+      <height>100</height>
+      <depth>10</depth>
+    </dimension>
+    <connector name="a2_c1" unit="mm">
+      <x>0</x>
+      <y>90</y>
+      <z>5</z>
+    </connector>
+    <connector name="a2_c2" unit="mm">
+      <x>0</x>
+      <y>80</y>
+      <z>5</z>
+    </connector>
+    <connector name="a2_c3" unit="mm">
+      <x>670</x>
+      <y>90</y>
+      <z>5</z>
+    </connector>
+    <connector name="a2_c4" unit="mm">
+      <x>670</x>
+      <y>80</y>
+      <z>5</z>
+    </connector>
+    <instance name="a2_l"/>
+    <instance name="a2_r"/>
+  </component>
+  <assembly>
+    <add-component name="platte"/>
+    <rotate axis="xneg" angle="90"/>    
+    <add-component name="tb_lu">
+      <connect>
+        <connector-ref name="tb_c1"/>
+        <connector-ref name="p_c1" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c2"/>
+        <connector-ref name="p_c2" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c3"/>
+        <connector-ref name="p_c3" componentRef="platte"/>
+      </connect>
+    </add-component>
+    <add-component name="tb_ru">
+      <connect>
+        <connector-ref name="tb_c1"/>
+        <connector-ref name="p_c4" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c2"/>
+        <connector-ref name="p_c6" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c3"/>
+        <connector-ref name="p_c5" componentRef="platte"/>
+      </connect>
+    </add-component>
+    <add-component name="tb_lo">
+      <connect>
+        <connector-ref name="tb_c1"/>
+        <connector-ref name="p_c7" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c2"/>
+        <connector-ref name="p_c9" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c3"/>
+        <connector-ref name="p_c8" componentRef="platte"/>
+      </connect>
+    </add-component>
+    <add-component name="tb_ro">
+      <connect>
+        <connector-ref name="tb_c1"/>
+        <connector-ref name="p_c10" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c2"/>
+        <connector-ref name="p_c11" componentRef="platte"/>
+      </connect>
+      <connect>
+        <connector-ref name="tb_c3"/>
+        <connector-ref name="p_c12" componentRef="platte"/>
+      </connect>
+    </add-component>
+    <add-component name="a1_u">
+      <connect>
+        <connector-ref name="a1_c1"/>
+        <connector-ref name="tb_c6" componentRef="tb_lu"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c2"/>
+        <connector-ref name="tb_c7" componentRef="tb_lu"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c3"/>
+        <connector-ref name="tb_c4" componentRef="tb_ru"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c4"/>
+        <connector-ref name="tb_c5" componentRef="tb_ru"/>
+      </connect>
+    </add-component>
+    <add-component name="a1_o">
+      <connect>
+        <connector-ref name="a1_c1"/>
+        <connector-ref name="tb_c4" componentRef="tb_lo"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c2"/>
+        <connector-ref name="tb_c5" componentRef="tb_lo"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c3"/>
+        <connector-ref name="tb_c6" componentRef="tb_ro"/>
+      </connect>
+      <connect>
+        <connector-ref name="a1_c4"/>
+        <connector-ref name="tb_c7" componentRef="tb_ro"/>
+      </connect>
+    </add-component>
+    <add-component name="a2_l">
+      <connect>
+        <connector-ref name="a2_c1"/>
+        <connector-ref name="tb_c4" componentRef="tb_lu"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c2"/>
+        <connector-ref name="tb_c5" componentRef="tb_lu"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c3"/>
+        <connector-ref name="tb_c6" componentRef="tb_lo"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c4"/>
+        <connector-ref name="tb_c7" componentRef="tb_lo"/>
+      </connect>
+    </add-component>
+    <add-component name="a2_r">
+      <connect>
+        <connector-ref name="a2_c1"/>
+        <connector-ref name="tb_c6" componentRef="tb_ru"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c2"/>
+        <connector-ref name="tb_c7" componentRef="tb_ru"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c3"/>
+        <connector-ref name="tb_c4" componentRef="tb_ro"/>
+      </connect>
+      <connect>
+        <connector-ref name="a2_c4"/>
+        <connector-ref name="tb_c5" componentRef="tb_ro"/>
+      </connect>
+    </add-component>
+    <rotate axis="xpos" angle="180"/>
+  </assembly>
+</furniture>

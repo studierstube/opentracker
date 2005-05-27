@@ -1,0 +1,117 @@
+#Inventor V2.1 ascii
+
+DEF VARIABLETEST1 SoApplicationKit {
+
+	info Info {}
+
+	appGeom Separator {
+	}
+
+	contextKit SoContextKit {
+
+		clonePipSheet  FALSE
+
+		templatePipSheet Separator {
+
+			Separator {
+				RotationXYZ {axis  X angle 1.57 }
+				Material { diffuseColor 0 1 0 }
+				DEF BUTTON_EVAL1 SoToggleButton { 
+					width 5 depth 5 height 2 on FALSE
+				}
+				Translation { translation 5 0 0 }
+				Material { diffuseColor 1 0 0 }
+				DEF BUTTON_EVAL2 SoToggleButton { 
+					width 5 depth 5 height 2 
+				}
+				Translation { translation 5 0 0 }
+				Material { diffuseColor 1 0 1 }
+				DEF BUTTON_EVAL3 SoToggleButton { 
+					width 5 depth 5 height 2 on FALSE
+				}
+				Translation { translation 5 0 0 }
+				Material { diffuseColor 1 0 1 }
+				DEF BUTTON_EVAL4 SoToggleButton { 
+					width 5 depth 5 height 2 on FALSE
+				}
+			}
+
+		} # end of templatePipSheet
+
+		windowGroup Group {
+
+			SoWindowKit {
+				state MAXIMIZED
+				clientVolume Separator {
+					Separator {
+						Material { diffuseColor 1 0 0 }
+						SoTransform { translation -0.1 0.45 0 scaleFactor 0.005 0.005 0.005 }
+						DEF INTVAR SoText3 {
+							parts ALL
+							string = SoVariable {
+								name "intVar"
+								type "INT"
+								a [ 3 , 2 ]
+								b [  1 , 2 ]
+								ob [ 0 , 0 ]
+								expression ["ta=a+b", "tc=ta+a", "ob=tA+tc+ob"]
+								eval = USE BUTTON_EVAL1.on
+							}.ob
+						}
+					}
+					Separator {
+						Material { diffuseColor 1 1 0 }
+						SoTransform { translation -0.1 0.35 0 scaleFactor 0.005 0.005 0.005 }
+						DEF VEC3FVAR SoText3 {
+							parts ALL
+							string = SoVariable {
+								name "vec3Var"
+								type "VEC3F"
+								a ["3.0 0.5 0.4", "1.0 2 -3.0"]
+								b ["12.0 4.0 5.0", "0.2 0.2 0.2"]
+								ob ["0 0 0","0 0 0"]
+								expression ["ta=a+b", "tc=ta+a", "ob=tA+tc+ob"]
+								eval = USE BUTTON_EVAL2.on
+							}.ob
+						}
+					}
+					Separator {
+						Material { diffuseColor 0 1 0 }
+						SoTransform { translation -0.1 0.25 0 scaleFactor 0.005 0.005 0.005 }
+						DEF STRVAR SoText3 {
+							parts ALL
+							string = SoVariable {
+								name "stringVar"
+								type "STRING"
+								a ["Test", "Hello"]
+								b ["Example", "Test String"]
+								expression ["ta = a(1,2) + b(2,6)", "ta = ta + ta(1,6)", "ob= ob(0,1)+ta(1,7)+ob(1,2)"]
+								eval = USE BUTTON_EVAL3.on
+							}.ob
+						}
+					}
+					Separator {
+						Material { diffuseColor 0 0 1 }
+						SoTransform { translation -0.1 0.15 0 scaleFactor 0.005 0.005 0.005 }
+						DEF BOOLVAR SoText3 {
+							parts ALL
+							string = SoVariable {
+								name "invert" 
+								type "BOOL"
+								a ["1", "FALSE"]
+								b = USE BUTTON_EVAL4.on
+								eval = USE BUTTON_EVAL4.on
+								expression ["oa=b && a"]
+							}.oa
+						}
+					}
+					
+				} # end of clientVolume
+
+			} # end of windowKit
+
+		} # end of windowGroup
+
+	} # end of contextKit
+
+} # end of applicationKit

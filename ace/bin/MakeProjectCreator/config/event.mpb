@@ -1,0 +1,9 @@
+// -*- MPC -*-
+// event.mpb,v 1.10 2004/06/20 19:27:49 ossama Exp
+
+project : messaging, ec_use_typed_events, naming {
+  after     += CosEvent
+  libs      += TAO_CosEvent
+  tagchecks += CosEvent
+  avoids    += minimum_corba
+}

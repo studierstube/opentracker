@@ -1,0 +1,13 @@
+#Inventor V2.1 ascii
+
+Separator {
+    IndexedFaceSet {
+      vertexProperty          VertexProperty {
+        vertex  [ -350 0 -370,
+              -350 0 370,
+              300 0 370,
+              300 0 -370 ]
+      }
+      coordIndex    [ 0, 1, 2, 3, -1 ]
+    }
+}

@@ -1,0 +1,28 @@
+#Inventor V2.1 ascii
+Separator 
+{
+	Translation 
+	{
+		translation 0 -0.2 0
+	}
+
+	Cube
+	{
+		height 0.01
+	}
+
+	Translation
+	{
+		translation 0 1.7 0
+	}
+
+	Scale
+	{
+		scaleFactor 0.3 1 0.2
+	}
+
+	Sphere
+	{
+		radius 1.5
+	}
+}

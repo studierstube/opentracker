@@ -1,0 +1,156 @@
+#Inventor V2.1 ascii
+
+DEF ARLEGO SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+            RotationXYZ {axis  X angle 1.57 }
+            Material { diffuseColor 1 0 0 }
+            DEF BUTTON_RESET SoPushButton { 
+                width 1 depth 1 height 0.4
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+        
+            SoClassLoader {
+                className   "SoPuppeteerKit"
+                fileName    "../apps/arpuppet/characters/arpuppetd"
+            }
+            SoClassLoader {
+                className   "SoCal3DPuppeteer"
+                fileName    "../apps/arpuppet/characters/cal3dpuppet/cal3dpuppetd"
+            }
+            SoClassLoader {
+                className   "SoLegoPuppeteer"
+                fileName    "../apps/arpuppet/characters/legopuppet/legopuppetd"
+            }
+            SoClassLoader {
+                className   "SoBoundingVolume"
+                fileName    "../apps/arpuppet/characters/arpuppetd"
+            }
+            SoClassLoader {
+                className   "SoMD2Puppeteer"
+                fileName    "../apps/arpuppet/characters/md2Puppet/md2Puppetd"
+            }
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                
+                    Separator {
+                        DEF MD2PUPPETEER SoMD2Puppeteer{
+                            id "md2"
+                            controlMode [ (STATION|DRAG), (STATION|DRAG) ]
+                            station 2
+                            boundingBoxOn FALSE
+                            highlightDragOn TRUE
+                            viewingFrustumOn FALSE
+                            velocityVisOn FALSE
+                            bbMaterial SoMaterial {
+                                emissiveColor 1 1 0
+                                diffuseColor 1 1 0 
+                                ambientColor 1 1 0 
+                            }
+                            bbDrawStyle SoDrawStyle { style LINES }
+                            vfMaterial SoMaterial {
+                                emissiveColor 1 0 1
+                                diffuseColor 1 0 1
+                                ambientColor 1 0 1
+                            }
+                            vfDrawStyle SoDrawStyle { style LINES } 
+                            viewingFrustums SoNodeKitListPart {
+                                containerNode Separator {
+                                    SoViewingFrustum {
+                                        positionOffset 0.0 0.05 0.0
+                                        nearDistance 0.02
+                                        farDistance 0.9
+                                        heightAngle 0.5
+                                    }
+                                }
+                            }
+                            velocityVis SoStroke {
+                                geometry Group {
+                                    Transform { rotation 0 0 1 -1.57 }
+                                    Material { diffuseColor 1 0.5 0 emissiveColor 1 0.5 0 }
+                                    Cylinder { height 1 radius 0.01 }
+                                    Transform { translation 0 0.5 0 }
+                                    Cone { bottomRadius 0.02 height 0.111111 }
+                                }
+                            }                       
+                            animationMap [ "idle st 5.0", "run run 1.0", "point point 1.5" ]
+                            puppets SoDragKit {
+                                content Separator {
+                                    SoMultiSwitch {
+                                        SoSeparator {
+                                            Transform { scaleFactor 1.1 1.1 1.1 }
+                                            DEF MD2PUPPET SoMD2NodeKit {
+                                                meshname "../apps/arpuppet/characters/md2puppet/data/marvin/marvin.md2"
+                                                skinname "../apps/arpuppet/characters/md2puppet/data/marvin/marvin.jpg"
+                                                rotation 0 1 0 -1.57
+                                            }
+                                        }
+                                    }
+                                }
+                            } # end of puppets
+    
+                        } # end of SoMD2Puppeteer
+                    }
+                    
+                    DEF BVDRAWER SoBoundingVolume {
+                        volumeType BOX
+                        mode DRAWING # EXTERNAL
+                        visualization TRUE
+                        eventGeneration TRUE
+                        cursorPosition = DEF CURSOR_TRAK SoTrakEngine { station 0 }.translation
+                        cursorButton = USE CURSOR_TRAK.button0
+                        reset = USE BUTTON_RESET.on
+                        materialPointIn SoMaterial { diffuseColor 1 1 0 emissiveColor 1 1 0 }
+                        materialPointOut SoMaterial { diffuseColor 1 0 0 emissiveColor 1 0 0 }
+                        drawStyle SoDrawStyle { style LINES lineWidth 2 }
+                        coords SoCoordinate3 { 
+                            point [
+                                -0.110158 -0.141203 0.000000,
+                                0.075108 -0.141203 0.000000,
+                                0.075108 -0.141203 -0.460664,
+                                -0.110158 -0.141203 -0.460664
+                                -0.110158 0.121174 0.000000
+                                0.075108 0.121174 0.000000
+                                0.075108 0.121174 -0.460664
+                                -0.110158 0.121174 -0.460664 
+                            ]
+                        }
+                        boundingVolumeTest = USE MD2PUPPETEER.position
+                        boundingVolumeTestType POINT
+                    }
+
+                    # debugging
+                    Separator {
+                        Transform { 
+                            translation 0 -0.08 0
+                            scaleFactor 0.002 0.002 0.002 
+                        }
+                        SoText3 { 
+                            parts ALL 
+                            string = USE BVDRAWER.boundingVolume
+                        }
+                    }
+                    
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

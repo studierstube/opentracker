@@ -1,0 +1,99 @@
+#Inventor V2.1 ascii
+
+DEF simple SoApplicationKit {
+    appGeom Separator {
+        Texture2 { filename "../apps/fingerfarben/fingerfarben.gif" }
+    }
+
+    info Info {}
+
+contextKit DEF simple_context SoContextKit {
+
+  templatePipSheet Separator {
+     RotationXYZ {axis  X angle 1.57 }
+              Material { diffuseColor 0 1 0 }
+  }
+
+  clonePipSheet FALSE
+
+  windowGroup Group {
+  Separator {
+    renderCaching OFF
+    boundingBoxCaching  OFF
+    renderCulling OFF
+    pickCulling OFF
+
+    SoClassLoader {
+      className "SoPucServer" fileName "PUCd"
+    }
+
+
+  DEF SCENE_ROOT Separator {
+    renderCaching OFF
+    boundingBoxCaching  OFF
+    renderCulling OFF
+    pickCulling OFF
+
+    SoPucServer {
+      serverName "Studierstube Demo"
+      devices NodeKitListPart { containerNode Group {
+        DEF RADIUSDEVICE SoPucDevice {
+          deviceName "TestDevice"
+          groups NodeKitListPart { containerNode Group {
+            SoPucGroup {
+              labels ["main group"] priority 10
+              members NodeKitListPart { containerNode Group {
+                DEF SELECTGROUP SoPucStateEnumerated {
+                    labels ["select group"]
+                    valueLabels ["enabled", "disabled", "none"]
+                    value 1 priority 10
+                }
+                DEF SELECTGROUP1 SoPucStateEnumerated {
+                    labels ["select group"]
+                    valueLabels ["enabled", "disabled", "none"]
+                    value 1 priority 10
+                }
+                DEF INT_STATE SoPucStateInt {
+                    labels ["and"]
+                    activeIf DEF INT_ACTIVE SoPucActiveIfNode {
+                       activeIf SoPucActiveIfOperator {
+                         op AND
+                         clauses NodeKitListPart { containerNode Group {
+                           SoPucActiveIfClause { state = USE SELECTGROUP.value op EQUALS value 0 }
+                           SoPucActiveIfClause { state = USE SELECTGROUP1.value op EQUALS value 0 }
+                          } }
+                       }
+                    }
+                    value 0
+                    min 0 max 10
+                }
+                DEF INT_STATE1 SoPucStateInt {
+                    labels ["OR"]
+                    activeIf DEF INT_ACTIVE1 SoPucActiveIfNode {
+                       activeIf SoPucActiveIfOperator {
+                         op OR
+                         clauses NodeKitListPart { containerNode Group {
+                           SoPucActiveIfClause { state = USE SELECTGROUP.value op EQUALS value 0 }
+                           SoPucActiveIfClause { state = USE SELECTGROUP1.value op EQUALS value 0 }
+                          } }
+                       }
+                    }
+                    value 0
+                    min 0 max 10
+                }
+            } } } # SoPucGroup
+        } } } # SoPucDevice
+    } } } # SoPucServer
+
+
+    Translation { translation 0 .04 0 }
+    SoFont { size .1 }
+    Text3 { string "not init" = USE INT_ACTIVE.active }
+    Translation { translation 0 .04 0 }
+    Text3 { string "not init" = USE INT_ACTIVE1.active }
+
+  } # SCENE_ROOT
+  } # clientVolume
+  } # windowGroup
+  } # ContextKit
+} # SoApplicationKit

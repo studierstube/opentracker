@@ -1,0 +1,6 @@
+// -*- MPC -*-
+// active_objects.mwc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
+
+workspace {
+  active_objects.mpc
+}

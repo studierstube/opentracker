@@ -1,0 +1,4 @@
+## Makefile.common -- Makefile definitions that are common for all Makefiles
+
+AM_CPPFLAGS = -I$(top_srcdir)/src @INCLTDL@ @stb_ac_ace_cppflags@ @stb_ac_ot_cppflags@ @sogui_cppflags@ @stb_ac_simvol_cppflags@
+

@@ -1,0 +1,627 @@
+#Inventor V2.1 ascii
+
+
+DEF undo_redo_List SoUndoRedoListKit {
+  fields [ MFNode undo_redo_List, SFInt32 undo_redo_List_pos, SFInt32 num_of_Items, SFTime startTime, SFNode callbackList ]
+  undo_redo_List [ 
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_0"
+      objectType "fixPoint"
+      selectedObjectNames [  ]
+      position 0.1 0.1 0.1
+      userID 0
+      time 1076110331.886699
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_0"
+      selectedObjectNames [  ]
+      time 1076095370.083061
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_1"
+      objectType "fixPoint"
+      selectedObjectNames "P_0"
+      position 0.40000001 0.1 0.1
+      userID 0
+      time 1076110331.892786
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_1"
+      selectedObjectNames [  ]
+      time 1076095371.105112
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_2"
+      objectType "fixPoint"
+      selectedObjectNames [ "P_0",
+          "P_1" ]
+      position 0.25 0.32598075 0.1
+      userID 0
+      time 1076110331.898813
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_2"
+      selectedObjectNames [  ]
+      time 1076095372.558236
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_3"
+      objectType "fixPoint"
+      selectedObjectNames [ "P_0",
+          "P_1",
+          "P_2" ]
+      position 0.25 0.18660255 0.31056672
+      userID 0
+      time 1076110331.904476
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_3"
+      selectedObjectNames [  ]
+      time 1076063395.472773
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_4"
+      objectType "Line"
+      selectedObjectNames [ "P_0",
+          "P_1",
+          "P_2",
+          "P_3" ]
+      userID 0
+      time 1076110331.910295
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_5"
+      objectType "Line"
+      selectedObjectNames [ "P_2",
+          "P_3" ]
+      userID 0
+      time 1076110331.914333
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "release"
+      objectName "Point"
+      selectedObjectNames [  ]
+      userID 0
+      time 1076064958.542032
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_2"
+      selectedObjectNames [  ]
+      time 1076064978.412611
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_1"
+      selectedObjectNames [  ]
+      time 1076064980.819706
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_6"
+      objectType "Line"
+      selectedObjectNames [ "P_2",
+          "P_1" ]
+      userID 0
+      time 1076110331.922676
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_3"
+      selectedObjectNames [  ]
+      time 1076064989.762682
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_0"
+      selectedObjectNames [  ]
+      time 1076064991.8705
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_7"
+      objectType "Line"
+      selectedObjectNames [ "P_3",
+          "P_0" ]
+      userID 0
+      time 1076110331.929195
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_2"
+      selectedObjectNames [  ]
+      time 1076064998.500001
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_0"
+      selectedObjectNames [  ]
+      time 1076065002.333664
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_8"
+      objectType "Line"
+      selectedObjectNames [ "P_2",
+          "P_0" ]
+      userID 0
+      time 1076110331.936216
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_3"
+      selectedObjectNames [  ]
+      time 1076065009.109611
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_1"
+      selectedObjectNames [  ]
+      time 1076065012.143794
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_9"
+      objectType "Line"
+      selectedObjectNames [ "P_3",
+          "P_1" ]
+      userID 0
+      time 1076110331.942782
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_8"
+      selectedObjectNames [  ]
+      time 1076110359.653828
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_6"
+      selectedObjectNames [  ]
+      time 1076110361.454794
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_9"
+      selectedObjectNames [  ]
+      time 1076110363.831684
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_5"
+      selectedObjectNames [  ]
+      time 1076110365.729163
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_10"
+      objectType "centrePoint"
+      selectedObjectNames [ "L_8",
+          "L_6",
+          "L_9",
+          "L_5" ]
+      userID 0
+      time 1076110374.647308
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_11"
+      objectType "centrePoint"
+      selectedObjectNames [ "L_6",
+          "L_9",
+          "L_5" ]
+      userID 0
+      time 1076110374.860423
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_12"
+      objectType "centrePoint"
+      selectedObjectNames [ "L_9",
+          "L_5" ]
+      userID 0
+      time 1076110375.356369
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "P_13"
+      objectType "centrePoint"
+      selectedObjectNames "L_5"
+      userID 0
+      time 1076110376.280165
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_10"
+      selectedObjectNames [  ]
+      time 1076110386.233245
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_1"
+      selectedObjectNames [  ]
+      time 1076110388.865203
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_14"
+      objectType "Line"
+      selectedObjectNames [ "P_10",
+          "P_1" ]
+      userID 0
+      time 1076110392.032874
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_11"
+      selectedObjectNames [  ]
+      time 1076110394.330194
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_0"
+      selectedObjectNames [  ]
+      time 1076110396.983243
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_15"
+      objectType "Line"
+      selectedObjectNames [ "P_11",
+          "P_0" ]
+      userID 0
+      time 1076110400.082772
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_12"
+      selectedObjectNames [  ]
+      time 1076110403.394418
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_2"
+      selectedObjectNames [  ]
+      time 1076110407.124338
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_16"
+      objectType "Line"
+      selectedObjectNames [ "P_12",
+          "P_2" ]
+      userID 0
+      time 1076110411.403197
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_13"
+      selectedObjectNames [  ]
+      time 1076110414.740677
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_6"
+      selectedObjectNames [  ]
+      time 1076110417.421233
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_6"
+      selectedObjectNames [  ]
+      time 1076110417.860333
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_1"
+      selectedObjectNames [  ]
+      time 1076110419.120464
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_17"
+      objectType "Line"
+      selectedObjectNames [ "P_13",
+          "P_1" ]
+      userID 0
+      time 1076110425.172822
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_15"
+      selectedObjectNames [  ]
+      time 1076110426.779836
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_14"
+      selectedObjectNames [  ]
+      time 1076110427.83881
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "I_18"
+      objectType "Intersect"
+      selectedObjectNames [ "L_15",
+          "L_14" ]
+      userID 0
+      time 1076110435.327823
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_16"
+      selectedObjectNames [  ]
+      time 1076110437.22973
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_17"
+      selectedObjectNames [  ]
+      time 1076110438.747625
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "I_20"
+      objectType "Intersect"
+      selectedObjectNames [ "L_16",
+          "L_17" ]
+      userID 0
+      time 1076110440.64655
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_19"
+      selectedObjectNames [  ]
+      time 1076110442.273489
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_3"
+      selectedObjectNames [  ]
+      time 1076110444.533166
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_22"
+      objectType "Line"
+      selectedObjectNames [ "P_19",
+          "P_3" ]
+      userID 0
+      time 1076110453.183127
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_21"
+      selectedObjectNames [  ]
+      time 1076110457.382699
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "P_0"
+      selectedObjectNames [  ]
+      time 1076110460.238457
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "L_23"
+      objectType "Line"
+      selectedObjectNames [ "P_21",
+          "P_0" ]
+      userID 0
+      time 1076110462.791761
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_22"
+      selectedObjectNames [  ]
+      time 1076110464.662224
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "select"
+      objectName "L_23"
+      selectedObjectNames [  ]
+      time 1076110465.658189
+
+    },
+      
+    SoCommandKit {
+      fields [ SFName command, SFName objectName, SFName objectType, SFName filePath, MFName selectedObjectNames, SFVec3f position, SFVec3f startPosition, SFVec3f endPosition, SFInt32 degree, SFInt32 degreeold, SFFloat sliderValueNew, SFFloat sliderValueOld, SFInt32 userID, SFInt32 aktiveLayerNew, SFInt32 aktiveLayerOld, SFTime time, SFNode callbackList ]
+      command "add"
+      objectName "I_24"
+      objectType "Intersect"
+      selectedObjectNames [ "L_22",
+          "L_23" ]
+      userID 0
+      time 1076110471.514658
+
+    } ]
+  undo_redo_List_pos 60
+  num_of_Items 60
+  startTime 1076095365.461702
+
+}

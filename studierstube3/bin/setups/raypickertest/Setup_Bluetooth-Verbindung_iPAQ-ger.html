@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Setup Bluetooth-Verbindung iPAQ</title>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<h1>Setup der Bluetooth-Verbindung</h1>
+<p>Dieses Dokument beschreibt die Schritte, die zum Herstellen einer
+seriellen Verbindung zwischen iPAQ und Notebook n&ouml;tig sind, sowie
+die Bedienung der Java-Applikationen, die den Input von Cursor-Tasten
+vom iPAQ an die Studierstube  &uuml;bertragen.</p>
+<h2>Herstellen der seriellen Verbindung</h2>
+<ol>
+  <li><strong>Notebook:</strong> Starten Sie den Bluetooth Connection
+Manager. (Luftgeist: <code>C:\Programme\3Com\Bluetooth\BTCM.exe</code>)</li>
+  <li><strong>iPAQ</strong> Aktivieren Sie den Bluetooth-Funk:
+    <ol>
+      <li>Klicken Sie auf das blaue Symbol rechts unten am Display. Ein
+Kontextmen&uuml; erscheint.</li>
+      <li>W&auml;hlen Sie <em>Funk einschalten</em>. Am iPAQ blinkt
+die blaue LED links oben, um zu signalisieren, dass der Bluetooth-Funk
+aktiviert ist.</li>
+      <li>Starten Sie den Bluetooth Manager (unter <em>Start-&gt;Bluetooth
+Manager</em>). Der Bluethooth-Manager zeigt alle aktivierten
+Bluetooth-Ger&auml;te in Reichweite.</li>
+      <li>W&auml;hlen Sie das gew&uuml;nschte Ger&auml;t, z.B. <em>Luftgeist</em>.
+Ein Fenster mit Ger&auml;teinformationen erscheint.</li>
+      <li>W&auml;hlen Sie aus dem Men&uuml; <em>Aktionen</em> den Punkt <em>Verbindung
+herstellen zu serielle Schnittstelle</em>. Die Verbindung wird
+hergestellt und eine Best&auml;tigung erscheint im unteren Teil des
+Fensters.</li>
+    </ol>
+  </li>
+</ol>
+<h2>Starten der Applikationen zur Eingabeweiterleitung</h2>
+<ol>
+  <li><strong>Notebook:</strong> Starten Sie die Java-Applikation <em>ConnectionListener</em>
+    <p>Benutzen Sie dazu die Verkn&uuml;pfung <em>ConnectionListener @
+COM5</em> auf dem Desktop. Wenn Sie die Applikation selbst starten
+wollen, rufen sie sie folgenderma&szlig;en auf:</p>
+    <p><code>java ConnectionListener COM &lt;COM-Port&gt;</code></p>
+    <p><em>COM-Port</em> ist der Name der seriellen Schnittstellen, z.B.
+COM5</p>
+    <p>Ein Fenster erscheint, dass &uuml;bertragene Zeichen in Textform
+darstellt. Es dient lediglich Debug-Zwecken.</p>
+  </li>
+  <li><strong>iPAQ:</strong> Starten Sie die Java-Applikation
+startInputCatcher. Benutzen Sie dazu die Verkn&uuml;pfung <em>COM8ButtonInputCatcher</em>
+unter <em>Start-&gt;Programme</em>.         Ein Fenster erscheint, das
+die gedr&uuml;ckten Tasten in Textform zeigt. Dieses Fenster muss den
+Eingabefokus behalten, damit Eingaben &uuml;bertragen werden
+k&ouml;nnen. </li>
+</ol>
+<strong>Die Verbindung ist nun eingerichtet, Events werden beim
+Dr&uuml;cken und Loslassen der Cursor-Tasten generiert, &uuml;ber die
+serielle Bluetooth-Verbindung &uuml;bertragen und von ConnectionListener
+an das Multicast-Socket mit Adresse 224.100.200.101 geschickt, wo
+OpenTracker die ButtonState-Pakete in Empfang nehmen kann.</strong>
+<h2>N&ouml;tige Dateien:</h2>
+<h3>Notebook</h3>
+<ul>
+  <li><code>ConnectionListener.class</code> im Verzeichnis <code>&lt;classpath&gt;\at\ac\tuwien\ims\vrlu</code>,
+wobei <em>classpath</em> ein Verzeichnis sein muss, das in der
+Umgebungsvariable <code>classpath</code> angef&uuml;hrt ist, oder beim
+Aufruf (siehe oben) von ConnectionListener als argument &uuml;bergeben
+wird.</li>
+  <li>Das JavaComm - Package:
+    <ul>
+      <li><code>Win32Comm.dll</code> im Verzeichnis <code>&lt;JDK-Root&gt;\jre\bin</code></li>
+      <li><code>comm.jar</code> im Verzeichnis <code>&lt;JDK-Root&gt;\jre\lib\ext</code></li>
+      <li><code>javax.comm.properties</code> im Verzeichnis <code>&lt;JDK-Root&gt;\jre\lib</code> </li>
+    </ul>
+  </li>
+</ul>
+<h3>iPAQ</h3>
+<ul>
+  <li><code>startInputCatcher.class</code> im Verzeichnis <code>&lt;classpath&gt;\jre\bin</code></li>
+  <li><code>ButtonInputCatcher.class</code> im Verzeichnis <code>&lt;classpath&gt;\jre\bin</code></li>
+  <li>eine Verkn&uuml;pfung, z.B. <code>COM8ButtonInputCatcher.lnk</code>
+im Verzeichnis <code>\Programme</code>, die die iPAQ-Java-Konsole
+(siehe n&auml;chster Punkt) mit der startInputCatcher-Klasse startet.</li>
+  <li>Die Jeode Runtime Engine (Java f&uuml;r iPAQ)</li>
+  <li>Das JavaComm-Package f&uuml;r den iPAQ:
+    <ul>
+      <li><code>commapi.dll</code> im Verzeichnis <code>\Windows</code></li>
+      <li><code>CESerial.jar</code> im Verzeichnis <code>\Windows\lib</code></li>
+      <li><code>comm.jar</code> im Verzeichnis <code>\Windows\lib</code></li>
+    </ul>
+  </li>
+</ul>
+</body>
+</html>

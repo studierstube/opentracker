@@ -1,0 +1,260 @@
+#Inventor V2.1 ascii
+
+DEF ACTORTEST1 SoApplicationKit {
+
+    info Info {}
+
+    appGeom Separator {
+    }
+
+    contextKit SoContextKit {
+
+        clonePipSheet  FALSE
+
+        templatePipSheet Separator {
+
+            Separator {
+                RotationXYZ {axis  X angle 1.57 }
+                Material { diffuseColor 1 0 0 }
+                DEF BUTTON_CMD SoToggleButton { 
+                    width 1 depth 1 height 0.4 on FALSE
+                }
+            }
+
+        } # end of templatePipSheet
+
+        windowGroup Group {
+
+            SoClassLoader {
+                className   "SoChoreographerKit"
+                fileName    "../apps/arpuppet/characters/arpuppet"
+            }
+            SoClassLoader {
+                className   "SoFacePuppeteer"
+                fileName    "../apps/arpuppet/characters/facePuppet/facePuppet"
+            }
+            SoClassLoader {
+                className   "SoCal3DPuppeteer"
+                fileName    "../apps/arpuppet/characters/cal3dPuppet/cal3dPuppet"
+            }
+            SoClassLoader {
+                className   "SoMD2Puppeteer"
+                fileName    "../apps/arpuppet/characters/md2puppet/md2puppet"
+            }
+
+
+            SoWindowKit {
+                state MAXIMIZED
+                clientVolume Separator {
+                    
+                    DEF VAR1 SoVariable {
+                        type INT
+                        oa -1
+                        expression ["oa=(oa+1)%4", "ob=(oa==0) ? 1 : 0"]
+                        eval = USE BUTTON_CMD.on
+                    }
+
+                    DEF VAR2 SoVariable {
+                        type INT
+                        oa -1
+                        expression ["oa=(oa+1)%4", "ob=(oa==1) ? 1 : 0"]
+                        eval = USE BUTTON_CMD.on
+                    }
+                    
+                    DEF VAR3 SoVariable {
+                        type INT
+                        oa -1
+                        expression ["oa=(oa+1)%4", "ob=(oa==2) ? 1 : 0"]
+                        eval = USE BUTTON_CMD.on
+                    }
+                    
+                    DEF VAR4 SoVariable {
+                        type INT
+                        oa -1
+                        expression ["oa=(oa+1)%4", "ob=(oa==3) ? 1 : 0"]
+                        eval = USE BUTTON_CMD.on
+                    }
+                    
+                    DEF CHOREOGRAPHER SoChoreographerKit {
+                        puppeteers Separator {
+                            Separator {
+                                Transform { translation 0 -0.05 0.04 }
+                                DEF PUPPET_CLOWN SoPuppeteerKit{
+                                    id "clown"
+                                    controlMode [ (STATION) , (STATION) ]
+                                    station 3
+                                    showPuppeteer = USE VAR1.ob
+                                    showAttributes TRUE
+                                    whichPuppets [ 0 ]
+                                    puppets SoDragKit {
+                                        content Separator {
+                                            SoMultiSwitch {
+                                                SoSeparator {
+                                                    Transform { translation 0 0.2 0 }
+                                                    # head
+                                                    Material { diffuseColor 1 1 0 }
+                                                    SoSphere { radius 0.05 }
+                                                    # nose
+                                                    Separator {
+                                                        Transform { rotation 1 0 0 1.57 translation 0 0 0.07 }
+                                                        Material { diffuseColor 1 0 0 }
+                                                        SoCone { bottomRadius 0.02 height 0.05}
+                                                    }
+                                                    # hat
+                                                    Separator {
+                                                        Transform { translation 0 0.055 0}
+                                                        Material { diffuseColor 0 0 1 }
+                                                        RotationXYZ {
+                                                            axis Y
+                                                            angle 0 = 
+                                                                DEF TIMER1 ElapsedTime {
+                                                                    speed 0.5
+                                                                }.timeOut
+                                                        }
+                                                        SoCube { width 0.04 height 0.04 depth 0.04 }
+                                                    }
+                                                    # eyes
+                                                    Material { diffuseColor 0 1 0 }
+                                                    Separator { # left
+                                                        Transform { translation -0.025 0.025 0.035}
+                                                        SoSphere { radius 0.01 }
+                                                    }
+                                                    # right eye
+                                                    Separator { # right
+                                                        Transform { translation 0.025 0.025 0.035}
+                                                        SoSphere { radius 0.01 }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } # end of puppet
+                                
+                                } # end of SoPuppeteerKit PUPPET_CLOWN
+                            }
+
+                            Separator {
+                                Transform { translation 0 0.15 0.05 }                           
+                                DEF PUPPET_FACE SoFacePuppeteer{
+                                    id "face"
+                                    controlMode [ (STATION) , (STATION) ]
+                                    station 3
+                                    showPuppeteer = USE VAR2.ob
+                                    showAttributes TRUE
+                                    command = DEF DATAVALIDGATE SoGate {
+                                        type SoMFString
+                                        input ["speak `I can easily get angry!`",  "play `anger` 100 150"]
+                                        enable = USE VAR2.ob
+                                    }.output 
+                                    whichPuppets [ 0 ]
+                                    whichAttributes [ 1 ]
+                                    puppets SoDragKit {
+                                        content Separator {
+                                            SoMultiSwitch {
+                                                Separator {
+                                                    DEF MIKE SoFacePuppet{
+                                                        character "mike"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } # end of puppet
+                                    attributes SoMultiSwitch {
+                                        SoSeparator {
+                                            SoSeparator {
+                                                SoTransform { translation 0 0.2 0 scaleFactor 0.003 0.003 0.003 }
+                                                SoText3 { 
+                                                    parts ALL
+                                                    justification CENTER
+                                                    string = USE MIKE.speechText
+                                                }
+                                            }
+                                            SoSeparator {
+                                                SoTransform { translation 0 0.25 0 scaleFactor 0.003 0.003 0.003 }
+                                                SoText3 { 
+                                                    parts ALL
+                                                    justification CENTER
+                                                    string = USE MIKE.character
+                                                }
+                                            }
+                                        }
+                                    } # end of attributes
+                                
+                                } # end of SoFacePuppeteer
+                            }
+                            
+                            Separator {
+                                Transform { translation 0 0.03 0.05 }
+                                DEF CAL3D_PUPPETEER SoCal3DPuppeteer{
+                                    id "cal3d"
+                                    showPuppeteer = USE VAR3.ob
+                                    controlMode [ (STATION) , (STATION) ]
+                                    command "state `walk`"
+                                    station 3
+                                    animationPrefix "cally_"
+                                    whichPuppets [ 0 ]
+                                    puppets SoDragKit {
+                                        content Separator {
+                                            SoMultiSwitch {
+                                                DEF CAL3DPUPPET SoCal3DPuppet {
+                                                    pathName "../apps/arpuppet/characters/cal3dpuppet/data"
+                                                    fileName "cally.cfg"
+                                                    lod 100
+                                                    visible TRUE
+                                                    animate TRUE
+                                                    skeleton FALSE
+                                                    wireframe FALSE
+                                                    mesh TRUE
+                                                    delayIn 0.4
+                                                    delayOut 0.4
+                                                } # end of SoCal3DPuppet
+                                            }
+                                        }
+                                    } # end of puppets
+                                    
+                                } # end of SoCal3DPuppeteer
+                            }
+                            
+                            Separator {
+                                DEF MD2_PUPPETEER SoMD2Puppeteer{
+                                    id "ryla"
+                                    controlMode [ (STATION) , (STATION) ]
+                                    station 3
+                                    showPuppeteer = USE VAR4.ob
+                                    showAttributes TRUE
+                                    animationMap [ "idle run 0.9", "run run 0.9" ]
+                                    whichPuppets [ 0 ]
+                                    whichAttributes [ 0 ]
+                                    puppets SoDragKit {
+                                        content Separator {
+                                            SoMultiSwitch {
+                                                Separator {
+                                                    Transform { 
+                                                        translation 0 0.12 0 
+                                                        scaleFactor 1.2 1.2 1.2
+                                                    }
+                                                    SoMD2NodeKit {
+                                                        meshname "../apps/md2_art/data/Ryla.md2"
+                                                        skinname "../apps/md2_art/data/Ryla.jpg"
+                                                        rotation 0 1 0 -1.57
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } # end of puppets
+                            
+                                } # end of SoMD2Puppeteer
+                            }
+                    
+                        } # end of Separator "puppeteers"
+
+                    } # end of SoChoreographerKit
+                    
+                } # end of clientVolume
+
+            } # end of windowKit
+
+        } # end of windowGroup
+
+    } # end of contextKit
+
+} # end of applicationKit

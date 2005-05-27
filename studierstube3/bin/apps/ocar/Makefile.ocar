@@ -1,0 +1,45 @@
+applications = ocar.iv ocar2.iv
+
+data = data/model.iv data/modelindex.iv data/navpoints.iv data/navedges.iv data/navindex.iv data/navlist.iv data/navkeys.iv data/navmap.iv
+
+annotation = data/annotation.iv data/indexmap.iv data/keywordmap.iv data/keywordlist.iv
+
+pips = navigationpip.iv modelpip.iv userpip.iv userpip2.iv calibrationpip.iv annotationpip.iv browsepip.iv
+
+all : $(applications)
+
+annotation.iv : annotationpip.iv
+	touch annotation.iv
+
+browser.iv : browsepip.iv $(annotation)
+	touch browser.iv
+
+user.iv : userpip.iv
+	touch user.iv
+
+# user2.iv : userpip2.iv
+
+calibration.iv : calibrationpip.iv
+	touch calibration.iv
+
+model.iv : modelpip.iv
+	touch model.iv
+
+navigation.iv : navigationpip.iv
+	touch navigation.iv
+
+ocar.iv : model.iv navigation.iv browser.iv annotation.iv user.iv calibration.iv gpslogger.iv $(data)
+
+ocar2.iv : model.iv navigation.iv browser.iv annotation.iv user.iv calibration.iv  $(data)
+
+$(applications): %.iv : %-template.iv
+	python pym.py $< > $@
+
+$(pips): %.iv : %.ui ../../../tools/qt2pip/qt2pip.xsl
+	saxon -o $@ $< ../../../tools/qt2pip/qt2pip.xsl fontname="Arial Fett"
+
+$(data): data/smallmodel.xml data/aml2ocar.xsl data/tools.xslt
+	cd data; saxon smallmodel.xml aml2ocar.xsl model="model.iv" modelindex="modelindex.iv" navpoints="navpoints.iv" navedges="navedges.iv" navindex="navindex.iv" navlist="navlist.iv" navkeys="navkeys.iv" navmap="navmap.iv"
+
+$(annotation): data/smallmodel.xml data/aml2annot.xslt data/tools.xslt
+	cd data; saxon smallmodel.xml aml2annot.xslt model="annotation.iv" indexmap="indexmap.iv" keywordmap="keywordmap.iv" keywordlist="keywordlist.iv"

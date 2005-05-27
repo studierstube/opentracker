@@ -1,0 +1,132 @@
+#Inventor V2.1 ascii
+
+DEF AN SoApplicationKit {
+    readOnly TRUE
+    classLoader     SoClassLoader {
+      className "SoAnimalKit"
+      fileName  "../apps/animal/animal_stb"
+    }
+
+
+    contextKit      DEF ANIMAL SoAnimalKit {
+  userID 0
+  currentColorR 1
+  currentColorG 0
+  currentColorB 0
+
+#  currentColor 1 0 0 = DEF CU_MAT SoComposeVec3f {x 1 y 0 z 0}.vector
+
+  templatePipSheet    Separator {
+
+        SoClassLoader { className "SoPucServer" fileName "PUCd"}
+
+        SoPucServer {
+              serverName "Stuberena"
+              devices NodeKitListPart { containerNode Group {
+            DEF STATES_DEVICE SoPucDevice {
+                         deviceName "Cow Device"
+                         groups NodeKitListPart { containerNode Group {
+
+                         DEF MAIN_GROUP SoPucGroup { labels ["main group"] priority 10
+                         members NodeKitListPart { containerNode Group {
+
+                          DEF RESET_COMMAND SoPucCommand {
+                            labels ["reset"]
+                          }
+
+                          DEF CU3_COLOR_R SoPucStateFixed { labels ["red"] min 0 max 1 value 1   incr .1 pointpos 2 priority 5  }
+                          DEF CU3_COLOR_G SoPucStateFixed { labels ["green"] min 0 max 1 value 0 incr .1 pointpos 2 priority 5  }
+                          DEF CU3_COLOR_B SoPucStateFixed { labels ["blue"] min 0 max 1 value 0  incr .1 pointpos 2 priority 5  }
+
+                     } } } # SoPucGroup Main / Selector
+           } } } # SoPucDevice UBIGIS_CONTROL
+
+    } } } # SoPucServer STB
+
+# new rotation
+  RotationXYZ {axis  X angle 1.57 }
+##### begin color buttons
+  Separator {
+    Translation { translation 0 0 0 }
+    DEF ANIMAL_COLOR_0 So3DButton {
+      width 8 height 3 depth 8 buttonColor 0 0 0
+    }
+  }
+  Separator {
+    Translation { translation 10 0 0 }
+    DEF ANIMAL_COLOR_1 So3DButton {
+      width 8 height 3 depth 8 buttonColor 1 0 0
+    }
+  }
+  Separator {
+    Translation { translation 20 0 0 }
+    DEF ANIMAL_COLOR_2 So3DButton {
+      width 8 height 3 depth 8 buttonColor 0 1 0
+    }
+  }
+  Separator {
+    Translation { translation 30 0 0 }
+    DEF ANIMAL_COLOR_3 So3DButton {
+      width 8 height 3 depth 8 buttonColor 1 1 0
+    }
+  }
+  Separator {
+    Translation { translation 0 0 10 }
+    DEF ANIMAL_COLOR_4 So3DButton {
+      width 8 height 3 depth 8 buttonColor 0 0 1
+    }
+  }
+  Separator {
+    Translation { translation 10 0 10 }
+    DEF ANIMAL_COLOR_5 So3DButton {
+      width 8 height 3 depth 8 buttonColor 1 0 1
+    }
+  }
+  Separator {
+    Translation { translation 20 0 10 }
+    DEF ANIMAL_COLOR_6 So3DButton {
+      width 8 height 3 depth 8 buttonColor 0 1 1
+    }
+  }
+  Separator {
+    Translation { translation 30 0 10 }
+    DEF ANIMAL_COLOR_7 So3DButton {
+      width 8 height 3 depth 8 buttonColor 1 1 1
+    }
+  }
+##### end color buttons
+  Separator {
+    Translation { translation 40 0 -1.6 }
+    DEF ANIMAL_RESET So3DButton {
+      width 6 height 3 depth 4 buttonColor 0.3 0.2 0.6
+    }
+  }
+  Separator {
+    Transform { translation 40 2 10 rotation 0 1 0 1.57}
+    DEF ANIMAL_SIZE So3DSlider {
+    minValue 0.01 maxValue 0.1 increment 0.01 currentValue 0.03
+    width 20 radius 5
+    }
+  }
+
+  SoRouter {from "RESET_COMMAND.trigger" to "ANIMAL.reset" pri 30 route TRUE }
+  SoRouter {from "CU3_COLOR_R.value" to "ANIMAL.currentColorR" pri 40 route TRUE }
+  SoRouter {from "CU3_COLOR_G.value" to "ANIMAL.currentColorG" pri 40 route TRUE }
+  SoRouter {from "CU3_COLOR_B.value" to "ANIMAL.currentColorB" pri 40 route TRUE }
+
+  SoRouter {to "CU3_COLOR_R.value" from "ANIMAL.currentColorR" pri 30 route TRUE }
+  SoRouter {to "CU3_COLOR_G.value" from "ANIMAL.currentColorG" pri 30 route TRUE }
+  SoRouter {to "CU3_COLOR_B.value" from "ANIMAL.currentColorB" pri 30 route TRUE }
+
+}
+
+  clonePipSheet       FALSE
+    }
+    appGeom         Separator {
+          Texture2 { filename "../apps/animal/cow.gif" }
+          }
+    info      Info {
+    }
+
+}
+

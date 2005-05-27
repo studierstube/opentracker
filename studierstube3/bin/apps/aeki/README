@@ -1,0 +1,38 @@
+_______________________________________________________________________________
+ A E K I  -  C O N S T R U C T I O N  G U I D E
+
+Manuel Linsmayer [manuel.linsmayer@expersite.com]
+Reza Mostafaie [reza_m11@yahoo.com]
+
+_______________________________________________________________________________
+ W I C H T I G E  D A T E I E N
+
+run.bat startet die Applikation unter Verwendung von ./config/default.xml.
+run-debug.bat startet ebenfalls die Applikation, verwendet aber
+./config/debug.xml. Im Debug-Modus werden Pip und Pen per Keyboard gesteuert.
+
+Es stehen drei Modelle zur Verfuegung:
+
+Bei data/smallbox.xml handelt es sich um ein kleines Regal. Den einzelnen
+Komponenten sind Tracking-Stations zugeordnet. Die dazu benoetigten Marker
+findest Du in tools/marker.pdf.
+
+Bei data/table.xml handelt es sich um einen Tisch.
+
+data/simple.xml eignet sich herovrragend, um sich das XML-Datenformat naeher
+anzusehen.
+
+Das XML-Datenformat ist in data/aeki.xsd (XML Schema) definiert. In
+tools/xml-schema.pdf ist die Struktur grafisch veranschaulicht.
+
+_______________________________________________________________________________
+ H I N W E I S E
+
+Die Applikation liest grundsaetzlich data/smallbox.xml. Um die Applikation mit
+einem anderen Modell zu starten, muss entweder die entsprechende Zeile im Code
+geaendert werden, oder die gewuenschte Datei in smallbox.xml umbenannt werden.
+
+Der Dateiname wird dem Node Kit SoAekiFurnitureKit mit Hilfe des Attributes
+filename uebergeben.
+
+Die Marker sollten in der Ursprungsecke der Gegenstände angebracht werden.

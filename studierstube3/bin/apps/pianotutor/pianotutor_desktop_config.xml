@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
+<!--simple test configuration for the new tracker serve system-->
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ARToolKitConfig camera-parameter="../../workspace/data/webcam.dat" videomode="inputDevive=WDM_CAP,showDlg" framerate="100" treshhold="100"/>
+    <ConsoleConfig headerline="Marker output" interval="1" display="on"/>
+    <TimeConfig display="true"/>
+  </configuration>
+  <StbSink station="0">
+    <ConsoleSink comment="pen">       
+       <EventTransform scale="0.6 -0.4 0">
+       <EventVirtualTransform translation="-0.5 -0.5 0">
+         <StbMouseSource mode="relative" window="1"/>
+       </EventVirtualTransform>
+       </EventTransform>       
+    </ConsoleSink>
+  </StbSink>
+  <StbSink station="1">
+    <ConsoleSink comment="pip">
+      <EventTransform translation="0 0.1 -0.012" rotation="0.707 0 0 0.707">
+        <StbKeyboardSource number="0"/>
+      </EventTransform>
+    </ConsoleSink>
+  </StbSink>
+  <StbSink station="2">
+    <TestSource frequency="1" position="0 0 0.5"/>
+  </StbSink>
+  <StbSink station="3">
+    <ConsoleSink comment="marker">
+      <EventVirtualOrientationTransform rotation="0 0.707 0 0.707" DEF="MARKER_USER0">
+        <EventVirtualPositionTransform translation="0.14 0 0.05">
+          <EventVirtualOrientationTransform rotation="0.5 0.5 0.5 0.5">
+            <EventTransform scale="0.001 0.001 0.001" rotation="1 0 0 0" translation="0 0 0">
+              <ARToolKitSource center="0 0" size="90 90" tag-file="../../workspace/data/lambda.patt"/>
+            </EventTransform>
+          </EventVirtualOrientationTransform>
+        </EventVirtualPositionTransform>
+      </EventVirtualOrientationTransform>
+    </ConsoleSink>
+  </StbSink>
+</OpenTracker>

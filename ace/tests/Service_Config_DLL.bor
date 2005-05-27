@@ -1,0 +1,54 @@
+# Makefile for building the Service_Config_DLL library with Borland C++ Make
+
+NAME = Service_Config_DLL
+
+NO_FULL_PATH=1
+
+OBJFILES = \
+	$(OBJDIR)\Service_Config_DLL.$(OBJ_EXT)
+
+LFLAGS = \
+	-L"..\lib\$(CONFIG_SUBDIR)" \
+	-j"..\lib\$(CONFIG_SUBDIR)" 
+
+LIBFILES = \
+	ACE$(LIB_DECORATOR).lib \
+	$(DUMMY_VALUE_NOT_ENDING_IN_BACKSLASH)
+
+!ifdef STATIC
+LIB_FLAGS = \
+        -DACE_AS_STATIC_LIBS
+!else
+DLL_FLAGS = \
+        -DSERVICE_CONFIG_DLL_BUILD_DLL
+!endif
+
+CFLAGS = \
+	-I".." \
+	$(LIB_FLAGS) \
+	$(DLL_FLAGS)
+
+CPPDIR = .
+CDIR   = .
+
+INCDIR_NAME = tests
+
+#
+# Override defaults in outputdir.bor
+#
+STATIC_DIR=.
+DEBUG_DIR=.
+PASCAL_DIR=.
+UNICODE_DIR=.
+
+INSTALL_DLLDIR=$(INSTALL_DIR)\lib
+INCLUDES_INSTALL=1
+BINDIR = ..\lib
+
+!include <$(ACE_ROOT)\include\makeinclude\build_library.bor>
+
+includes_install: $(INCLUDES)
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Service_Config_DLL.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Service_Config_DLL.h 1> NUL
+	-@if not exist $(INSTALL_DIR)\include\$(INCDIR_NAME)\. mkdir $(INSTALL_DIR)\include\$(INCDIR_NAME)\.
+	-&copy /Y Service_Config_DLL_Export.h $(INSTALL_DIR)\include\$(INCDIR_NAME)\Service_Config_DLL_Export.h 1> NUL

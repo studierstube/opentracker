@@ -1,0 +1,61 @@
+Chromium steps :
+
+compilation
+* comment out RELEASE=1 in cr.mk
+* comment out two return 0; in tcpip.c and udptcpip.c
+
+* copied all *.lib files from built/* into a lib directory for simpler access
+* set the correct include and lib paths in the 'chromium' and 'oiv render spu' projects
+
+added a state that tells the cr_server mainloop when a frame is finished.
+the state is set in the swap buffer callback 
+
+removed most of context and window creation code. now it renders into the 
+openinventor context.
+
+the oiv render spu overrides the following functions :
+glClear -> renderspuClear drops all glClear calls
+glLoadIdentity-> renderspuLoadIdentity 
+all matrix changing functions: if drops all calls to change the projection matrix
+
+it would be nicer to make an additional dispath table for the opengl functions,
+instead of calling the opengl functions directly. this would make the implementation
+platform independent.
+
+current state :
+* geometry is rendered in the same coordinate system as the oiv geometry
+* that is actually a problem as it can be anywhere (depends very much on the 
+  embeded gl program)
+* automatic setting of clipping planes in oiv can clip cr geometry easily
+* oiv has no idea about dimension of the cr geometry
+* there can be only one SoChromiumNode currently. A rewrite of the server 
+  would be necessary to support several instances !
+* new cr frames are only rendered if oiv renders a frame.
+* whole windows system freezes if oiv window is resized !!
+
+Specification for the SoChromiumNode :
+
+SoChromium {
+    SoSFString mothership "localhost"
+}
+
+mothership and port should somehow be passed to the crserver inside the SoChromium node.
+
+ToDo :
+
+* save the model matrix stack before executing cr loop and reset to that 
+  matrix whenever LoadIdentity is called for the model matrix mode.
+* find a way to compute a valid bounding box and pass that to openinventor !
+* add some configurable flags to the SoChromium node to select whether certain
+  things should be possible or not (changing z-buffer tests, protect stencil planes
+  etc ... )
+  flags are there, find a better connection to the render spu
+* make server multithreaded by constantly buffering messages and only rendering the
+  last buffer of a whole frame.
+* change the server code to support several servers and thus SoChromium nodes
+* an ideal solution would be to generate detail information from the cr stream
+  possibly in a dedicated thread. 
+* write a node that constructs a scene graph that represents the current frame of the
+  cr stream ...
+  ( ok now we get a little bit carried away :).
+  

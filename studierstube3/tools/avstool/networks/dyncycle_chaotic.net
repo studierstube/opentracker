@@ -1,0 +1,295 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg2)
+module ScaleLines.user.0 -xy 258,332 -ex /usr/cg/projects/Vis/AVS/DynSys3D/AVSModules/executables/ScaleLines
+module "generate colormap.user.1" -xy 118,192
+module "DynCy-RK4 colLine.user.2" -xy 268,262 -ex /usr/cg/projects/Vis/AVS/DynSys3D/AVSModules/executables/DynCyc_RK4_colLine
+port_vis "DynCy-RK4 colLine.user.2":DS-E -on
+port_vis "DynCy-RK4 colLine.user.2":LineLength -on
+module "generate axes.user.5" -xy 106,257 -ex $Path/avs_library/mongo
+module stbLine.user.6 -xy 388,122 -ex /cg/disks/kagran/people/peci/DA/AVS/stbLine
+module stbGeom.user.7 -xy 98,432 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+module stbGeom.user.8 -xy 288,432 -ex /cg/disks/kagran/people/peci/DA/AVS/stbGeom
+module stbWin.user.9 -xy 278,52 -ex /cg/disks/kagran/people/peci/DA/AVS/stbWin
+module stbFloat.user.10 -xy 88,132 -ex /cg/disks/kagran/people/peci/DA/AVS/stbFloat
+module stbFloat.user.11 -xy 238,132 -ex /cg/disks/kagran/people/peci/DA/AVS/stbFloat
+port_connect ScaleLines.user.0:0 stbGeom.user.8:2
+port_connect "generate colormap.user.1":0 "DynCy-RK4 colLine.user.2":1
+port_connect "DynCy-RK4 colLine.user.2":0 ScaleLines.user.0:0
+port_connect "generate axes.user.5":0 stbGeom.user.7:2
+port_connect stbLine.user.6:0 "DynCy-RK4 colLine.user.2":0
+port_connect stbWin.user.9:0 stbLine.user.6:0
+port_connect stbWin.user.9:0 stbGeom.user.8:0
+port_connect stbWin.user.9:0 stbGeom.user.7:0
+port_connect stbWin.user.9:0 stbFloat.user.11:0
+port_connect stbWin.user.9:0 stbFloat.user.10:0
+port_connect stbFloat.user.10:0 "DynCy-RK4 colLine.user.2":10
+port_connect stbFloat.user.11:0 "DynCy-RK4 colLine.user.2":4
+parm_set "DynCy-RK4 colLine.user.2":DS-E 0
+parm_set "DynCy-RK4 colLine.user.2":"Time/Space Dist" Time
+parm_set "DynCy-RK4 colLine.user.2":Accuracy 0.01502388064
+parm_set "DynCy-RK4 colLine.user.2":StartLength 100
+parm_set "DynCy-RK4 colLine.user.2":localAttsChoice Velocity
+parm_set "generate axes.user.5":"Colored Axes" false
+parm_set "generate axes.user.5":min "0.000000 0.000000 0.000000"
+parm_set "generate axes.user.5":max "1 0.5 0.7"
+parm_set "generate axes.user.5":"Tick Length" 0.200000003
+parm_set "generate axes.user.5":"Label Height" 0.07861111313
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,1024
+  panel "Top Level Stack" -w master_stack -p Application -xy 1,100 -wh 256,2357
+   panel ScaleLines.user.0 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,85
+    manipulator "ScaleLines.user.0:Scale Factor X" -w typein_real -p ScaleLines.user.0 \
+        -xy 9,10 -wh 236,22
+    manipulator "ScaleLines.user.0:Scale Factor Y" -w typein_real -p ScaleLines.user.0 \
+        -xy 9,32 -wh 236,22
+    manipulator "ScaleLines.user.0:Scale Factor Z" -w typein_real -p ScaleLines.user.0 \
+        -xy 9,54 -wh 236,22
+   panel "generate colormap.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,566
+    manipulator "generate colormap.user.1:colormap" -w color_editor -p "generate colormap.user.1" \
+        -xy 9,10 -wh 236,416
+    manipulator "generate colormap.user.1:lo value" -w dial -p "generate colormap.user.1" \
+        -xy 9,426 -wh 90,130
+    manipulator "generate colormap.user.1:hi value" -w dial -p "generate colormap.user.1" \
+        -xy 99,426 -wh 90,130
+   panel "DynCy-RK4 colLine.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,546
+    manipulator "DynCy-RK4 colLine.user.2:DS-B" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,10 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:DS-D" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,32 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:DS-G" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,76 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:DS-H" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,97 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:DS-Q" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,119 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:DS-R" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,141 -wh 118,22
+    manipulator "DynCy-RK4 colLine.user.2:INT-Stepsize" -w slider -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,163 -wh 236,32
+    manipulator "DynCy-RK4 colLine.user.2:LineLength" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,218 -wh 236,22
+    manipulator "DynCy-RK4 colLine.user.2:Time/Space Dist" -w radio_buttons -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,240 -wh 118,44
+    manipulator "DynCy-RK4 colLine.user.2:MaxSteps" -w typein_integer -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,283 -wh 236,22
+    manipulator "DynCy-RK4 colLine.user.2:Accuracy" -w slider -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,305 -wh 236,32
+    manipulator "DynCy-RK4 colLine.user.2:StartLength" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,336 -wh 236,22
+    manipulator "DynCy-RK4 colLine.user.2:transientChoice" -w radio_buttons -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,360 -wh 118,44
+    manipulator "DynCy-RK4 colLine.user.2:localAttsChoice" -w radio_buttons -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,404 -wh 118,66
+    manipulator "DynCy-RK4 colLine.user.2:mappingChoice" -w radio_buttons -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,469 -wh 118,66
+    manipulator "DynCy-RK4 colLine.user.2:DS-E" -w typein_real -p "DynCy-RK4 colLine.user.2" \
+        -xy 9,54 -wh 118,22
+   panel "generate axes.user.5" -w panel -p "Top Level Stack" \
+       -xy 0,64 -wh 256,2095
+    manipulator "generate axes.user.5:Regenerate" -w oneshot -p "generate axes.user.5" \
+        -xy 9,10 -wh 118,22
+    manipulator "generate axes.user.5:Colored Axes" -w toggle -p "generate axes.user.5" \
+        -xy 9,32 -wh 118,22
+    manipulator "generate axes.user.5:center text" -w text -p "generate axes.user.5" \
+        -xy 9,54 -wh 236,22
+    manipulator "generate axes.user.5:center" -w typein -p "generate axes.user.5" \
+        -xy 9,76 -wh 236,22
+    manipulator "generate axes.user.5:min text" -w text -p "generate axes.user.5" \
+        -xy 9,97 -wh 236,22
+    manipulator "generate axes.user.5:min" -w typein -p "generate axes.user.5" \
+        -xy 9,119 -wh 236,22
+    manipulator "generate axes.user.5:max text" -w text -p "generate axes.user.5" \
+        -xy 9,141 -wh 236,22
+    manipulator "generate axes.user.5:max" -w typein -p "generate axes.user.5" \
+        -xy 9,163 -wh 236,22
+    manipulator "generate axes.user.5:axis" -w radio_buttons -p "generate axes.user.5" \
+        -xy 99,187 -wh 118,88
+    manipulator "generate axes.user.5:Tick Marks" -w toggle -p "generate axes.user.5" \
+        -xy 99,276 -wh 118,22
+    manipulator "generate axes.user.5:Tick Labels" -w toggle -p "generate axes.user.5" \
+        -xy 99,298 -wh 118,22
+    manipulator "generate axes.user.5:Tick Spacing" -w dial -p "generate axes.user.5" \
+        -xy 99,319 -wh 90,130
+    manipulator "generate axes.user.5:Label Spacing" -w dial -p "generate axes.user.5" \
+        -xy 9,319 -wh 90,130
+    manipulator "generate axes.user.5:Tick Length" -w dial -p "generate axes.user.5" \
+        -xy 9,187 -wh 90,130
+    manipulator "generate axes.user.5:Tick Decimal Precision" -w islider -p "generate axes.user.5" \
+        -xy 9,450 -wh 236,32
+    manipulator "generate axes.user.5:Label Font" -w islider -p "generate axes.user.5" \
+        -xy 9,481 -wh 236,32
+    manipulator "generate axes.user.5:Label Height" -w slider -p "generate axes.user.5" \
+        -xy 9,513 -wh 236,32
+    manipulator "generate axes.user.5:Tick Label Font" -w islider -p "generate axes.user.5" \
+        -xy 9,546 -wh 236,32
+    manipulator "generate axes.user.5:Tick Label Height" -w slider -p "generate axes.user.5" \
+        -xy 9,578 -wh 236,32
+    manipulator "generate axes.user.5:X Tick Marks" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,276 -wh 118,22
+    manipulator "generate axes.user.5:X Tick Labels" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,298 -wh 118,22
+    manipulator "generate axes.user.5:X Tick Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 99,319 -wh 90,130
+    manipulator "generate axes.user.5:X Label Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,319 -wh 90,130
+    manipulator "generate axes.user.5:X Tick Length" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,187 -wh 90,130
+    manipulator "generate axes.user.5:X Tick Decimal Precision" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,450 -wh 236,32
+    manipulator "generate axes.user.5:X Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,481 -wh 236,32
+    manipulator "generate axes.user.5:X Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,513 -wh 236,32
+    manipulator "generate axes.user.5:X Tick Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,546 -wh 236,32
+    manipulator "generate axes.user.5:X Tick Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,578 -wh 236,32
+    manipulator "generate axes.user.5:X Label String" -w typein -p "generate axes.user.5" -hide \
+        -xy 9,609 -wh 236,22
+    manipulator "generate axes.user.5:Y Tick Marks" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,276 -wh 118,22
+    manipulator "generate axes.user.5:Y Tick Labels" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,298 -wh 118,22
+    manipulator "generate axes.user.5:Y Tick Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 99,319 -wh 90,130
+    manipulator "generate axes.user.5:Y Label Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,319 -wh 90,130
+    manipulator "generate axes.user.5:Y Tick Length" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,187 -wh 90,130
+    manipulator "generate axes.user.5:Y Tick Decimal Precision" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,450 -wh 236,32
+    manipulator "generate axes.user.5:Y Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,481 -wh 236,32
+    manipulator "generate axes.user.5:Y Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,513 -wh 236,32
+    manipulator "generate axes.user.5:Y Tick Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,546 -wh 236,32
+    manipulator "generate axes.user.5:Y Tick Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,578 -wh 236,32
+    manipulator "generate axes.user.5:Y Label String" -w typein -p "generate axes.user.5" -hide \
+        -xy 9,609 -wh 236,22
+    manipulator "generate axes.user.5:Z Tick Marks" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,276 -wh 118,22
+    manipulator "generate axes.user.5:Z Tick Labels" -w toggle -p "generate axes.user.5" -hide \
+        -xy 99,298 -wh 118,22
+    manipulator "generate axes.user.5:Z Tick Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 99,319 -wh 90,130
+    manipulator "generate axes.user.5:Z Label Spacing" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,319 -wh 90,130
+    manipulator "generate axes.user.5:Z Tick Length" -w dial -p "generate axes.user.5" -hide \
+        -xy 9,187 -wh 90,130
+    manipulator "generate axes.user.5:Z Tick Decimal Precision" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,450 -wh 236,32
+    manipulator "generate axes.user.5:Z Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,481 -wh 236,32
+    manipulator "generate axes.user.5:Z Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,513 -wh 236,32
+    manipulator "generate axes.user.5:Z Tick Label Font" -w islider -p "generate axes.user.5" -hide \
+        -xy 9,546 -wh 236,32
+    manipulator "generate axes.user.5:Z Tick Label Height" -w slider -p "generate axes.user.5" -hide \
+        -xy 9,578 -wh 236,32
+    manipulator "generate axes.user.5:Z Label String" -w typein -p "generate axes.user.5" -hide \
+        -xy 9,609 -wh 236,22
+   panel stbLine.user.6 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,434
+    manipulator stbLine.user.6:Name: -w typein -p stbLine.user.6 \
+        -xy 10,10 -wh 118,22
+    manipulator stbLine.user.6:Order: -w typein_integer -p stbLine.user.6 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbLine.user.6:with Texture" -w toggle -p stbLine.user.6 \
+        -xy 10,54 -wh 118,22
+    manipulator stbLine.user.6:Steps: -w typein_integer -p stbLine.user.6 \
+        -xy 10,76 -wh 118,22
+    manipulator "stbLine.user.6:from X:" -w typein_real -p stbLine.user.6 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbLine.user.6:from Y:" -w typein_real -p stbLine.user.6 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbLine.user.6:from Z:" -w typein_real -p stbLine.user.6 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbLine.user.6:to X:" -w typein_real -p stbLine.user.6 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbLine.user.6:to Y:" -w typein_real -p stbLine.user.6 \
+        -xy 10,186 -wh 118,22
+    manipulator "stbLine.user.6:to Z:" -w typein_real -p stbLine.user.6 \
+        -xy 10,208 -wh 118,22
+    manipulator stbLine.user.6:Texture: -w browser -p stbLine.user.6 -hide \
+        -xy 10,230 -wh 236,194
+   panel stbGeom.user.7 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,64
+    manipulator "stbGeom.user.7:clear Geometry" -w radio_buttons -p stbGeom.user.7 \
+        -xy 10,10 -wh 118,44
+   panel stbGeom.user.8 -w panel -p "Top Level Stack" -xy 0,64 -wh 138,64
+    manipulator "stbGeom.user.8:clear Geometry" -w radio_buttons -p stbGeom.user.8 \
+        -xy 10,10 -wh 118,44
+   panel stbWin.user.9 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,416
+    manipulator stbWin.user.9:Host: -w typein -p stbWin.user.9 \
+        -xy 10,10 -wh 118,22
+    manipulator stbWin.user.9:Host -w text -p stbWin.user.9 -hide \
+        -xy 10,32 -wh 118,22
+    manipulator stbWin.user.9:Port: -w typein -p stbWin.user.9 \
+        -xy 10,54 -wh 118,22
+    manipulator stbWin.user.9:Port -w text -p stbWin.user.9 -hide \
+        -xy 10,76 -wh 118,22
+    manipulator stbWin.user.9:connect -w toggle -p stbWin.user.9 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbWin.user.9:Pos x" -w typein_real -p stbWin.user.9 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbWin.user.9:Pos y" -w typein_real -p stbWin.user.9 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbWin.user.9:Pos z" -w typein_real -p stbWin.user.9 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbWin.user.9:Rot x" -w typein_real -p stbWin.user.9 \
+        -xy 10,186 -wh 118,22
+    manipulator "stbWin.user.9:Rot y" -w typein_real -p stbWin.user.9 \
+        -xy 10,208 -wh 118,22
+    manipulator "stbWin.user.9:Rot z" -w typein_real -p stbWin.user.9 \
+        -xy 10,230 -wh 118,22
+    manipulator "stbWin.user.9:Rot w" -w typein_real -p stbWin.user.9 \
+        -xy 10,252 -wh 118,22
+    manipulator "stbWin.user.9:Size x" -w typein_real -p stbWin.user.9 \
+        -xy 10,274 -wh 118,22
+    manipulator "stbWin.user.9:Size y" -w typein_real -p stbWin.user.9 \
+        -xy 10,296 -wh 118,22
+    manipulator "stbWin.user.9:Size z" -w typein_real -p stbWin.user.9 \
+        -xy 10,318 -wh 118,22
+    manipulator "stbWin.user.9:GeomSize x" -w typein_real -p stbWin.user.9 \
+        -xy 10,340 -wh 236,22
+    manipulator "stbWin.user.9:GeomSize y" -w typein_real -p stbWin.user.9 \
+        -xy 10,362 -wh 236,22
+    manipulator "stbWin.user.9:GeomSize z" -w typein_real -p stbWin.user.9 \
+        -xy 10,384 -wh 236,22
+   panel stbFloat.user.10 -w panel -p "Top Level Stack" -xy 0,64 -wh 256,336
+    manipulator stbFloat.user.10:Min.: -w typein_real -p stbFloat.user.10 \
+        -xy 10,10 -wh 118,22
+    manipulator stbFloat.user.10:Max.: -w typein_real -p stbFloat.user.10 \
+        -xy 10,32 -wh 118,22
+    manipulator stbFloat.user.10:Name: -w typein -p stbFloat.user.10 \
+        -xy 10,54 -wh 118,22
+    manipulator stbFloat.user.10:Order: -w typein_integer -p stbFloat.user.10 \
+        -xy 10,76 -wh 118,22
+    manipulator stbFloat.user.10:Wert: -w typein_real -p stbFloat.user.10 \
+        -xy 10,98 -wh 118,22
+    manipulator stbFloat.user.10:select -w radio_buttons -p stbFloat.user.10 \
+        -xy 10,120 -wh 118,44
+    manipulator stbFloat.user.10:slider -w slider -p stbFloat.user.10 \
+        -xy 10,164 -wh 236,32
+    manipulator stbFloat.user.10:dial -w dial -p stbFloat.user.10 \
+        -xy 10,196 -wh 90,130
+   panel stbFloat.user.11 -w panel -p "Top Level Stack" -xy 0,262 -wh 256,336
+    manipulator stbFloat.user.11:Min.: -w typein_real -p stbFloat.user.11 \
+        -xy 10,10 -wh 118,22
+    manipulator stbFloat.user.11:Max.: -w typein_real -p stbFloat.user.11 \
+        -xy 10,32 -wh 118,22
+    manipulator stbFloat.user.11:Name: -w typein -p stbFloat.user.11 \
+        -xy 10,54 -wh 118,22
+    manipulator stbFloat.user.11:Order: -w typein_integer -p stbFloat.user.11 \
+        -xy 10,76 -wh 118,22
+    manipulator stbFloat.user.11:Wert: -w typein_real -p stbFloat.user.11 \
+        -xy 10,98 -wh 118,22
+    manipulator stbFloat.user.11:select -w radio_buttons -p stbFloat.user.11 \
+        -xy 10,120 -wh 118,44
+    manipulator stbFloat.user.11:slider -w slider -p stbFloat.user.11 \
+        -xy 10,164 -wh 236,32
+    manipulator stbFloat.user.11:dial -w dial -p stbFloat.user.11 \
+        -xy 10,196 -wh 90,130
+# End of file

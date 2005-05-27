@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml2="http://www.safe.com/gml2" targetNamespace="http://www.safe.com/gml2" elementFormDefault="qualified">
+<import namespace="http://www.opengis.net/gml" schemaLocation="feature.xsd"/>
+<element name="FeatureCollection" type="gml2:FeatureCollectionType" substitutionGroup="gml:_FeatureCollection"/>
+<element name="ADDRESS_point" type="gml2:ADDRESS_pointType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_line" type="gml2:ADDRESS_lineType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_area" type="gml2:ADDRESS_areaType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_nil" type="gml2:ADDRESS_nilType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_multipoint" type="gml2:ADDRESS_multipointType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_multiline" type="gml2:ADDRESS_multilineType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_multipoly" type="gml2:ADDRESS_multipolyType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_arc" type="gml2:ADDRESS_arcType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_circle" type="gml2:ADDRESS_circleType" substitutionGroup="gml:_Feature"/>
+<element name="ADDRESS_rectangle" type="gml2:ADDRESS_rectangleType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_point" type="gml2:LANDMARK_pointType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_line" type="gml2:LANDMARK_lineType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_area" type="gml2:LANDMARK_areaType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_nil" type="gml2:LANDMARK_nilType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_multipoint" type="gml2:LANDMARK_multipointType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_multiline" type="gml2:LANDMARK_multilineType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_multipoly" type="gml2:LANDMARK_multipolyType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_arc" type="gml2:LANDMARK_arcType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_circle" type="gml2:LANDMARK_circleType" substitutionGroup="gml:_Feature"/>
+<element name="LANDMARK_rectangle" type="gml2:LANDMARK_rectangleType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_point" type="gml2:ROUTESEG_pointType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_line" type="gml2:ROUTESEG_lineType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_area" type="gml2:ROUTESEG_areaType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_nil" type="gml2:ROUTESEG_nilType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_multipoint" type="gml2:ROUTESEG_multipointType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_multiline" type="gml2:ROUTESEG_multilineType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_multipoly" type="gml2:ROUTESEG_multipolyType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_arc" type="gml2:ROUTESEG_arcType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_circle" type="gml2:ROUTESEG_circleType" substitutionGroup="gml:_Feature"/>
+<element name="ROUTESEG_rectangle" type="gml2:ROUTESEG_rectangleType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_point" type="gml2:BBLOCK_pointType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_line" type="gml2:BBLOCK_lineType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_area" type="gml2:BBLOCK_areaType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_nil" type="gml2:BBLOCK_nilType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_multipoint" type="gml2:BBLOCK_multipointType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_multiline" type="gml2:BBLOCK_multilineType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_multipoly" type="gml2:BBLOCK_multipolyType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_arc" type="gml2:BBLOCK_arcType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_circle" type="gml2:BBLOCK_circleType" substitutionGroup="gml:_Feature"/>
+<element name="BBLOCK_rectangle" type="gml2:BBLOCK_rectangleType" substitutionGroup="gml:_Feature"/>
+
+<complexType name="FeatureCollectionType">
+<complexContent>
+<extension base="gml:AbstractFeatureCollectionType">
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_pointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_lineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_areaType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_nilType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_multipointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_multilineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_multipolyType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_arcType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_circleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ADDRESS_rectangleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="EASTING" type="double"/>
+<element name="NORTHING" type="double"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_pointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_lineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_areaType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_nilType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_multipointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_multilineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_multipolyType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_arcType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_circleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="LANDMARK_rectangleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="STREETNAME" type="string"/>
+<element name="HNUMBER" type="string"/>
+<element name="NAME" type="string"/>
+<element name="PIC_FILENAME" type="string"/>
+<element name="LMID" type="int"/>
+<element name="ACTIVENAME" type="string"/>
+<element name="SYMBOL" type="string"/>
+<element name="PRIORITY" type="int"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_pointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_lineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_areaType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_nilType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_multipointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_multilineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_multipolyType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_arcType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_circleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="ROUTESEG_rectangleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="SEGID" type="int"/>
+<element name="FRNODE" type="int"/>
+<element name="TONODE" type="int"/>
+<element name="STREETNAME" type="string"/>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_pointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_lineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_areaType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_nilType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_multipointType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:pointProperty"/>
+<element ref="gml:multiPointProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_multilineType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_multipolyType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_arcType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:lineStringProperty"/>
+<element ref="gml:multiLineStringProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_circleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+
+<complexType name="BBLOCK_rectangleType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<choice>
+<element ref="gml:polygonProperty"/>
+<element ref="gml:multiPolygonProperty"/>
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+</schema>

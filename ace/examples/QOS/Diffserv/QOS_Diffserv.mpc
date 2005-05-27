@@ -1,0 +1,17 @@
+// -*- MPC -*-
+// QOS_Diffserv.mpc,v 1.4 2003/12/23 20:23:21 dhinton Exp
+
+project(*client) : aceexe, qos {
+  exename = client
+  requires += qos
+  Source_Files {
+    diffserv_test.cpp
+  }
+}
+project(*server) : aceexe, qos {
+  exename = server
+  requires += qos
+  Source_Files {
+    server.cpp
+  }
+}

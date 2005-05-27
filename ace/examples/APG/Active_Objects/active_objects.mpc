@@ -1,0 +1,16 @@
+// -*- MPC -*-
+// active_objects.mpc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
+
+project(AO) : aceexe {
+  exename = AO
+  Source_Files {
+    AO.cpp
+  }
+}
+
+project(AO2) : aceexe {
+  exename = AO2
+  Source_Files {
+    AO2.cpp
+  }
+}

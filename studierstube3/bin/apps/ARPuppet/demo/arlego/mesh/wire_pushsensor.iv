@@ -1,0 +1,24 @@
+#Inventor V2.1 ascii
+
+Separator {
+  DEF Box16 Separator {
+    Transform {
+      translation	0.1344 0.03983 0.1035
+      rotation	0.00304902 0.707103 -0.707103  3.135
+      scaleFactor	1.857 1 1
+      scaleOrientation	-0.0002924 0 -1  0.000690534
+    }
+    Separator {
+      Transform {
+	translation	0 0.002945 0
+      }
+      Separator {
+	Cube {
+	  width	0.1046
+	  height	0.00589
+	  depth	0.004241
+	}
+      }
+    }
+  }
+}

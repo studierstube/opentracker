@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../workspace/opentracker.dtd">
+<OpenTracker>
+	<configuration>
+		<ARToolKitConfig camera-parameter="../../mobile/data/firefly_4mm.dat" treshhold="100" framerate="15" videomode="videoWidth=320,videoHeight=240" videolinuxmode="-mode=320x240_YUV422"/>
+		<ConsoleConfig display="off"/>
+	</configuration>
+
+    <ConsoleSink comment="pen0" active="on">
+      <StbSink station="0">
+            <EventVirtualTransform translation=" 0.014520 -0.055368 -0.153760" >
+               <EventVirtualTransform rotationtype="euler" rotation="0 -1.57 0"  >
+                 <NetworkSource number="1" multicast-address="224.100.200.101" port="12346" DEF="pen0"/>
+	       </EventVirtualTransform>
+            </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="panel0" active="on">
+      <StbSink station="1">
+           <EventVirtualTransform translation="0.0 -0.008 0.0" >
+           <EventVirtualTransform translation="0.165601 -0.010010 0.076995" >
+             <EventVirtualTransform  rotation="0 0.707 0 0.707">
+                 <NetworkSource number="2" multicast-address="224.100.200.101" port="12346" DEF="pip0"/>
+             </EventVirtualTransform>
+           </EventVirtualTransform>
+           </EventVirtualTransform>
+	</StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd0" active="on">
+      <StbSink station="2">
+          <NetworkSource number="3" multicast-address="224.100.200.101" port="12346" DEF="hmd0"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="pen1" active="on">
+      <StbSink station="3">
+        <EventVirtualTransform translation="-0.009455 0.229220 0.027066" rotation="0.707 0 0 0.707">
+          <EventVirtualTransform rotationtype="euler" rotation="3.14 0 0">
+             <NetworkSource number="4" multicast-address="224.100.200.101" port="12346" DEF="pen1"/>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="panel1" active="on">
+      <StbSink station="4">
+
+<!--         <EventTransform translation="-0.137 0.008 -0.066">-->
+	<!-- <EventDynamicTransform baseevent="true" >
+                  <StbKeyboardSource number="0" DEF="keyb0"/>
+        <TransformBase> -->
+        <!-- -0.111 -0.008 -0.097 -->
+         <EventTransform translation="0 0 0"> 
+           <EventVirtualTransform translation=" -0.111 -0.008 -0.097">
+           <EventVirtualTransform translation=" 0.128880 -0.040718 0.114731">
+             <EventVirtualTransform  rotation="0 1 0 0">
+                 <NetworkSource number="5" multicast-address="224.100.200.101" port="12346" DEF="pip1"/>
+             </EventVirtualTransform>
+           </EventVirtualTransform>
+           </EventVirtualTransform>
+         </EventTransform> 
+        <!-- </TransformBase>
+      </EventDynamicTransform>
+	-->      
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="hmd1" active="on">
+      <StbSink station="5">
+        <NetworkSource number="6" multicast-address="224.100.200.101" port="12346" DEF="hmd1"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="personalCamera" active="on">
+      <StbSink station="6">
+        <NetworkSource number="7" multicast-address="224.100.200.101" port="12346" DEF="personalCamera"/>
+      </StbSink>
+    </ConsoleSink>
+
+    <ConsoleSink comment="pen2" active="on">
+      <StbSink station="7">
+      <!-- rotation="0.707 0 0 0.707"-->
+        <EventVirtualTransform translation="-0.061335 -0.004683 -0.163889">
+          <EventVirtualTransform rotationtype="euler" rotation="0  2.4 0">
+             <NetworkSource number="8" multicast-address="224.100.200.101" port="12346" DEF="pen2"/>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+
+ 
+    <ConsoleSink comment="panel2" active="on">
+      <StbSink station="8">
+        <EventVirtualTransform translation="0.203825 -0.014916 0.082440">
+          <EventVirtualTransform rotationtype="euler" rotation="0  3.14 0">
+             <NetworkSource number="9" multicast-address="224.100.200.101" port="12346" DEF="pip2"/>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </StbSink>
+    </ConsoleSink>
+    
+    <StbSink station="10">
+     <ARToolKitSource center="0 0" size="90 90" tag-file="../../mobile/data/8x8_4.patt"/>
+    </StbSink>
+
+<!--    <ConsoleSink comment="keyb0" active="on">
+      <Ref USE="keyb0" />
+    </ConsoleSink>
+-->
+</OpenTracker>

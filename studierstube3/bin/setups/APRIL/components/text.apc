@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component id="text" xmlns="http://www.studierstube.org/april" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.studierstube.org/april ../april-component.xsd">
+  <interface>
+    <input id="string" type="SFString" default=""/>
+    <input type="SFVec3f" id="position" default="0.0 0.0 0.0"/>
+    <input type="SFRotation" id="orientation" default="0.0 0.0 0.0 0.0"/>
+    <input type="SFVec3f" id="scale" default="1.0 1.0 1.0"/>
+    <input id="color" type="SFColor" default="0.0 0.0 0.0"/>
+    <input id="visible" type="SFInt32" default="1"/>
+  </interface>
+  <implementation>
+DEF <id/> Separator {
+    DEF <id/>_Switch Switch {
+        whichChild <in id="visible"/>
+        
+        # Dummy Child for switching off
+        Group {}
+        
+        # actual content
+        Group {
+            DEF <id/>_Transform Transform {
+                translation <in id="position"/>
+                rotation <in id="orientation"/>
+                scaleFactor <in id="scale"/>
+            }
+            DEF <id/>_Material Material {
+                diffuseColor <in id="color"/>
+            }
+            SoText3 {
+				parts ALL
+    			string <in id="string"/>
+			}
+        }
+    }
+}
+
+    </implementation>
+</component>

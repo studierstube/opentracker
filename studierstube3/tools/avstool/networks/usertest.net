@@ -1,0 +1,146 @@
+#!/usr/bin/avs -network
+version 5.01 (50.53 sg2)
+module stbWin.user.0 -xy 78,22 -ex /cg/disks/kagran/people/peci/DA/AVS/stbWin
+module stbLine.user.1 -xy 218,222 -ex /cg/disks/kagran/people/peci/DA/AVS/stbLine
+module stbLine.user.2 -xy 218,332 -ex /cg/disks/kagran/people/peci/DA/AVS/stbLine
+module StbBoolean.user.3 -xy 38,222 -ex /cg/disks/kagran/people/peci/DA/AVS/stbBool
+module StbBoolean.user.4 -xy 28,332 -ex /cg/disks/kagran/people/peci/DA/AVS/stbBool
+module stbUser.user.5 -xy 288,92 -ex /cg/disks/kagran/people/peci/DA/AVS/stbUser
+module stbUser.user.6 -xy 368,272 -ex /cg/disks/kagran/people/peci/DA/AVS/stbUser
+port_connect stbWin.user.0:0 stbLine.user.2:0
+port_connect stbWin.user.0:0 stbLine.user.1:0
+port_connect stbWin.user.0:0 StbBoolean.user.4:0
+port_connect stbWin.user.0:0 StbBoolean.user.3:0
+port_connect StbBoolean.user.3:0 stbUser.user.5:3
+port_connect StbBoolean.user.4:0 stbUser.user.6:3
+port_connect stbUser.user.5:0 stbLine.user.1:1
+port_connect stbUser.user.6:0 stbLine.user.2:1
+parm_set stbWin.user.0:connect true
+parm_set stbLine.user.1:Name: line1
+parm_set stbLine.user.1:Order: 2
+parm_set stbLine.user.2:Name: line2
+parm_set stbLine.user.2:Order: 3
+parm_set StbBoolean.user.3:Name: "Line1 for user1"
+parm_set StbBoolean.user.4:Name: "Line2 for user1"
+parm_set StbBoolean.user.4:Order: 1
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,984
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 256,564
+   panel stbWin.user.0 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,368
+    manipulator stbWin.user.0:Host: -w typein -p stbWin.user.0 -hide \
+        -xy 10,10 -wh 118,22
+    manipulator stbWin.user.0:Host -w text -p stbWin.user.0 -xy 10,10 -wh 118,22
+    manipulator stbWin.user.0:Port: -w typein -p stbWin.user.0 -hide \
+        -xy 10,32 -wh 118,22
+    manipulator stbWin.user.0:Port -w text -p stbWin.user.0 -xy 10,30 -wh 118,22
+    manipulator stbWin.user.0:connect -w toggle -p stbWin.user.0 \
+        -xy 10,50 -wh 118,22
+    manipulator "stbWin.user.0:Pos x" -w typein_real -p stbWin.user.0 \
+        -xy 10,72 -wh 118,22
+    manipulator "stbWin.user.0:Pos y" -w typein_real -p stbWin.user.0 \
+        -xy 10,94 -wh 118,22
+    manipulator "stbWin.user.0:Pos z" -w typein_real -p stbWin.user.0 \
+        -xy 10,116 -wh 118,22
+    manipulator "stbWin.user.0:Rot x" -w typein_real -p stbWin.user.0 \
+        -xy 10,138 -wh 118,22
+    manipulator "stbWin.user.0:Rot y" -w typein_real -p stbWin.user.0 \
+        -xy 10,160 -wh 118,22
+    manipulator "stbWin.user.0:Rot z" -w typein_real -p stbWin.user.0 \
+        -xy 10,182 -wh 118,22
+    manipulator "stbWin.user.0:Rot w" -w typein_real -p stbWin.user.0 \
+        -xy 10,204 -wh 118,22
+    manipulator "stbWin.user.0:Size x" -w typein_real -p stbWin.user.0 \
+        -xy 10,226 -wh 118,22
+    manipulator "stbWin.user.0:Size y" -w typein_real -p stbWin.user.0 \
+        -xy 10,248 -wh 118,22
+    manipulator "stbWin.user.0:Size z" -w typein_real -p stbWin.user.0 \
+        -xy 10,270 -wh 118,22
+    manipulator "stbWin.user.0:GeomSize x" -w typein_real -p stbWin.user.0 \
+        -xy 10,292 -wh 236,22
+    manipulator "stbWin.user.0:GeomSize y" -w typein_real -p stbWin.user.0 \
+        -xy 10,314 -wh 236,22
+    manipulator "stbWin.user.0:GeomSize z" -w typein_real -p stbWin.user.0 \
+        -xy 10,336 -wh 236,22
+   panel stbLine.user.1 -w panel -p "Top Level Stack" -xy 0,196 -wh 138,218
+    manipulator stbLine.user.1:Name: -w typein -p stbLine.user.1 \
+        -xy 10,10 -wh 118,22
+    manipulator stbLine.user.1:Order: -w typein_integer -p stbLine.user.1 \
+        -xy 10,32 -wh 118,22
+    manipulator stbLine.user.1:Steps: -w typein_integer -p stbLine.user.1 \
+        -xy 10,54 -wh 118,22
+    manipulator "stbLine.user.1:from X:" -w typein_real -p stbLine.user.1 \
+        -xy 10,76 -wh 118,22
+    manipulator "stbLine.user.1:from Y:" -w typein_real -p stbLine.user.1 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbLine.user.1:from Z:" -w typein_real -p stbLine.user.1 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbLine.user.1:to X:" -w typein_real -p stbLine.user.1 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbLine.user.1:to Y:" -w typein_real -p stbLine.user.1 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbLine.user.1:to Z:" -w typein_real -p stbLine.user.1 \
+        -xy 10,186 -wh 118,22
+   panel stbLine.user.2 -w panel -p "Top Level Stack" -xy 0,196 -wh 138,218
+    manipulator stbLine.user.2:Name: -w typein -p stbLine.user.2 \
+        -xy 10,10 -wh 118,22
+    manipulator stbLine.user.2:Order: -w typein_integer -p stbLine.user.2 \
+        -xy 10,32 -wh 118,22
+    manipulator stbLine.user.2:Steps: -w typein_integer -p stbLine.user.2 \
+        -xy 10,54 -wh 118,22
+    manipulator "stbLine.user.2:from X:" -w typein_real -p stbLine.user.2 \
+        -xy 10,76 -wh 118,22
+    manipulator "stbLine.user.2:from Y:" -w typein_real -p stbLine.user.2 \
+        -xy 10,98 -wh 118,22
+    manipulator "stbLine.user.2:from Z:" -w typein_real -p stbLine.user.2 \
+        -xy 10,120 -wh 118,22
+    manipulator "stbLine.user.2:to X:" -w typein_real -p stbLine.user.2 \
+        -xy 10,142 -wh 118,22
+    manipulator "stbLine.user.2:to Y:" -w typein_real -p stbLine.user.2 \
+        -xy 10,164 -wh 118,22
+    manipulator "stbLine.user.2:to Z:" -w typein_real -p stbLine.user.2 \
+        -xy 10,186 -wh 118,22
+   panel StbBoolean.user.3 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,281
+    manipulator StbBoolean.user.3:Name: -w typein -p StbBoolean.user.3 \
+        -xy 10,10 -wh 118,22
+    manipulator StbBoolean.user.3:Order: -w typein_integer -p StbBoolean.user.3 \
+        -xy 10,32 -wh 118,22
+    manipulator StbBoolean.user.3:select -w radio_buttons -p StbBoolean.user.3 \
+        -xy 10,60 -wh 118,66
+    manipulator StbBoolean.user.3:Wert -w toggle -p StbBoolean.user.3 \
+        -xy 50,133 -wh 118,22
+    manipulator StbBoolean.user.3:slider -w islider -p StbBoolean.user.3 -hide \
+        -xy 10,142 -wh 236,32
+    manipulator StbBoolean.user.3:dial -w idial -p StbBoolean.user.3 -hide \
+        -xy 71,141 -wh 90,130
+   panel StbBoolean.user.4 -w panel -p "Top Level Stack" -xy 0,196 -wh 256,281
+    manipulator StbBoolean.user.4:Name: -w typein -p StbBoolean.user.4 \
+        -xy 10,10 -wh 118,22
+    manipulator StbBoolean.user.4:Order: -w typein_integer -p StbBoolean.user.4 \
+        -xy 10,32 -wh 118,22
+    manipulator StbBoolean.user.4:select -w radio_buttons -p StbBoolean.user.4 \
+        -xy 10,60 -wh 118,66
+    manipulator StbBoolean.user.4:Wert -w toggle -p StbBoolean.user.4 \
+        -xy 50,133 -wh 118,22
+    manipulator StbBoolean.user.4:slider -w islider -p StbBoolean.user.4 -hide \
+        -xy 10,142 -wh 236,32
+    manipulator StbBoolean.user.4:dial -w idial -p StbBoolean.user.4 -hide \
+        -xy 71,141 -wh 90,130
+   panel stbUser.user.5 -w panel -p "Top Level Stack" -xy 0,174 -wh 138,108
+    manipulator "stbUser.user.5:User 1" -w toggle -p stbUser.user.5 \
+        -xy 10,10 -wh 118,22
+    manipulator "stbUser.user.5:User 2" -w toggle -p stbUser.user.5 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbUser.user.5:User 3" -w toggle -p stbUser.user.5 \
+        -xy 10,54 -wh 118,22
+    manipulator "stbUser.user.5:User 4" -w toggle -p stbUser.user.5 \
+        -xy 10,76 -wh 118,22
+   panel stbUser.user.6 -w panel -p "Top Level Stack" -xy 0,196 -wh 138,108
+    manipulator "stbUser.user.6:User 1" -w toggle -p stbUser.user.6 \
+        -xy 10,10 -wh 118,22
+    manipulator "stbUser.user.6:User 2" -w toggle -p stbUser.user.6 \
+        -xy 10,32 -wh 118,22
+    manipulator "stbUser.user.6:User 3" -w toggle -p stbUser.user.6 \
+        -xy 10,54 -wh 118,22
+    manipulator "stbUser.user.6:User 4" -w toggle -p stbUser.user.6 \
+        -xy 10,76 -wh 118,22
+# End of file

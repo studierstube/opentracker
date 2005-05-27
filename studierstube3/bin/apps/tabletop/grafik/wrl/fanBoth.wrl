@@ -1,0 +1,71 @@
+#VRML V2.0 utf8
+
+#Cosmo Worlds V2.0
+
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	DEF _0 Material {
+      }
+
+    }
+
+    geometry	Box {
+    }
+
+  }
+
+  translation	0.0287081 2.4067 0
+  scale	0.210251 2.4085 0.230628
+}
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	Material {
+      }
+
+    }
+
+    geometry	Box {
+    }
+
+  }
+
+  translation	0.0366067 4.57099 0.116838
+  rotation	-1.40625e-009 1.57355e-008 1  0.766377
+  scale	2.30492 0.0899216 0.158597
+  scaleOrientation	0 0 1  0
+}
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	Material {
+      }
+
+    }
+
+    geometry	Box {
+    }
+
+  }
+
+  translation	0.00930365 4.60543 0.11684
+  rotation	-4.30879e-016 3.84586e-016 -1  0.759503
+  scale	2.30492 0.0899216 0.158597
+  scaleOrientation	0 0 1  0
+}
+Transform {
+  children	Shape {
+    appearance	Appearance {
+      material	USE _0
+
+    }
+
+    geometry	Sphere {
+    }
+
+  }
+
+  translation	0.0242452 4.56839 0.467358
+  scale	0.154834 0.154834 0.154834
+}

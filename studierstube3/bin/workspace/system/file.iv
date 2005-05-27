@@ -1,0 +1,14 @@
+#Inventor V2.1 ascii
+Separator 
+{
+	Texture2
+	{
+		filename "directory2.rgb"
+	}
+	
+	Cube
+	{
+		depth 2.66
+		height 0.01
+	}
+}

@@ -1,0 +1,17 @@
+// -*- MPC -*-
+// Reactor_Dgram.mpc,v 1.2 2003/12/23 20:23:21 dhinton Exp
+
+project(*CO) : aceexe {
+  exename = codgram
+  Source_Files {
+    CODgram.cpp
+  }
+}
+
+project : aceexe {
+  exename = dgram
+  Source_Files {
+    Dgram.cpp
+  }
+}
+

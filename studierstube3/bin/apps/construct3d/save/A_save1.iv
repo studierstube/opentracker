@@ -1,0 +1,127 @@
+#Inventor V2.1 ascii
+
+DEF undo_redo_List SoUndoRedoListKit {
+    fields [ MFNode undo_redo_List, SFInt32 undo_redo_List_pos, SFInt32 num_of_Items,  ]
+    undo_redo_List	[ 		    SoCommandKit {
+			command	"add"
+			objectName	"P_0"
+			objectType	"Point"
+			position	0.039 0.104 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_0"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"P_1"
+			objectType	"Point"
+			objectNames	"P_0"
+			position	0.116 0.104 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_1"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"P_2"
+			objectType	"Point"
+			objectNames	[ "P_0",
+					  "P_1" ]
+			position	0.116 0.142 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_2"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"P_3"
+			objectType	"Point"
+			objectNames	[ "P_0",
+					  "P_1",
+					  "P_2" ]
+			position	0.083 0.175 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_3"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"P_4"
+			objectType	"Point"
+			objectNames	[ "P_0",
+					  "P_1",
+					  "P_2",
+					  "P_3" ]
+			position	0.083 0.065 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_4"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"P_5"
+			objectType	"Point"
+			objectNames	[ "P_0",
+					  "P_1",
+					  "P_2",
+					  "P_3",
+					  "P_4" ]
+			position	0.105 0.065 0
+		    }
+,
+		      		    SoCommandKit {
+			fields [ SFName command, SFName objectName, MFName objectNames,  ]
+			command	"select"
+			objectName	"P_5"
+			objectNames	[  ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"Z_6"
+			objectType	"Cylinder"
+			objectNames	[ "P_0",
+					  "P_1",
+					  "P_2",
+					  "P_3",
+					  "P_4",
+					  "P_5" ]
+		    }
+,
+		      		    SoCommandKit {
+			command	"add"
+			objectName	"Z_7"
+			objectType	"Cylinder"
+			objectNames	[ "P_3",
+					  "P_4",
+					  "P_5" ]
+		    }
+ ]
+    undo_redo_List_pos	13
+    num_of_Items	13
+}

@@ -1,0 +1,13 @@
+#ifndef RECOGNIZER_POOL_INCLUDED
+#define RECOGNIZER_POOL_INCLUDED
+
+#include "recognizer.h"
+#include "fuzzy_logic_recognizer.h"
+#include "perceptron_recognizer.h"
+
+#define FUZZY_LOGIC_RECOGNIZER fuzzy_logic_recognizer<DEFINED_PROPERTY_LIST_TYPE,DEFINED_FEATURE_TYPE,DEFINED_FEATURE_LIST_TYPE> 
+#define PERCEPTRON_RECOGNIZER perceptron_recognizer<DEFINED_PROPERTY_LIST_TYPE,DEFINED_FEATURE_TYPE,DEFINED_FEATURE_LIST_TYPE>
+
+#define DEFINED_RECOGNIZER_TYPE PERCEPTRON_RECOGNIZER
+
+#endif

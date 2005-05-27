@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+	<Folder FolderName="XML Files" ExtStr="xml;cml;math;mtx;rdf;smil;svg;wml">
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\absolute.xml" HomeFolder="Yes"/>
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\absoluteVideo.xml" HomeFolder="Yes"/>
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\gpsserver.xml" HomeFolder="Yes"/>
+		<File FilePath=".\model.xml" HomeFolder="Yes"/>
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\replay.xml" HomeFolder="Yes"/>
+		<File FilePath=".\smallmodel.xml" HomeFolder="Yes"/>
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\test.xml" HomeFolder="Yes"/>
+		<File FilePath="E:\studierstube\bin\apps\ocar\config\testHUD.xml" HomeFolder="Yes"/>
+		<File FilePath=".\tuwien-map.gml" HomeFolder="Yes"/>
+		<File FilePath=".\tuwien-map.xmp" HomeFolder="Yes"/>
+	</Folder>
+	<Folder FolderName="XSL Files" ExtStr="xsl;xslt">
+		<File FilePath=".\aml2annot.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\aml2ocar.xsl" HomeFolder="Yes"/>
+		<File FilePath=".\filteraml.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\gml2aml.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\..\..\..\..\tools\qt2pip\qt2pip.xsl" HomeFolder="Yes"/>
+		<File FilePath=".\quaternion.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\repairModel.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\tools.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\transform.xslt" HomeFolder="Yes"/>
+		<File FilePath=".\xsdoc.xsl" HomeFolder="Yes"/>
+	</Folder>
+	<Folder FolderName="HTML Files" ExtStr="html;htm;xhtml;asp"/>
+	<Folder FolderName="DTD/Schemas" ExtStr="dtd;dcd;xdr;biz;xsd">
+		<File FilePath=".\aml.xsd" HomeFolder="Yes"/>
+		<File FilePath=".\tuwien-map.xsd" HomeFolder="Yes"/>
+	</Folder>
+	<Folder FolderName="Entities" ExtStr="ent"/>
+</Project>

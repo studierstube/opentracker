@@ -1,0 +1,167 @@
+#Inventor V2.1 ascii
+
+Separator {
+    Translation { translation 0.13 0 -0.05 } 
+	DEF Intersect So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "Intersect"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE Intersect . pressed
+
+			DEF IntersectTexture Group {
+				Texture2 {
+				    filename	"intersect.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE IntersectTexture
+		    }
+		}
+	}
+	
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF NormalLine So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "NormalLine"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE NormalLine . pressed
+
+			DEF NormalLineTexture Group {
+				Texture2 {
+				    filename	"planenormal.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE NormalLineTexture
+		    }
+		}
+	}
+ 
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF NormalPlane So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "NormalPlane"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE NormalPlane . pressed
+
+			DEF NormalPlaneTexture Group {
+				Texture2 {
+				    filename	"normalplane.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE NormalPlaneTexture
+		    }
+		}
+	}
+
+    DEF leftTrans Translation { translation -0.06 0 0 }
+
+	DEF SymmetryPlane So3DButton
+	{
+		width 0.05
+		height 0.01
+		depth 0.03
+		nodeId "SymmetryPlane"
+
+		textureSwitch Switch {
+		    whichChild	0 = USE SymmetryPlane . pressed
+
+			DEF SymmetryPlaneTexture Group {
+				Texture2 {
+				    filename	"symmplane.gif"
+				}
+			FaceSet {
+			    vertexProperty VertexProperty {
+				vertex	[ -0.025 0.0051 0.015,
+					  0.025 0.0051 0.015,
+					  0.025 0.0051 -0.015,
+					  -0.025 0.0051 -0.015 ]
+				normal	0 1 0
+				texCoord	[ 0 0,
+						  1 0,
+						  1 1,
+						  0 1 ]
+				normalBinding	OVERALL
+				}
+				numVertices 4
+				}
+	    		}
+		    Group {
+			Translation {
+			    translation	0 -0.005 0
+			}
+			USE SymmetryPlaneTexture
+		    }
+		}
+	}
+
+}

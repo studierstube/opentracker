@@ -1,0 +1,19 @@
+#Inventor V2.1 ascii
+Separator {
+   Separator {
+      Transform {
+          translation	0.0 0.115 0.0025
+      }
+      SoRotor
+      {
+          rotation 0 0 1 -1  #z-axis
+          speed 0.6
+      }
+      File {
+           name "grafik/windmillTop.iv"
+      }
+   }
+   File {
+         name "grafik/windmillBottom.iv"
+   }
+}

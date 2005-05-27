@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// taodefaults.mpb,v 1.2 2004/02/04 20:23:43 parsons Exp
+
+project {
+  staticflags += TAO_AS_STATIC_LIBS
+  includes    += $(TAO_ROOT)
+  libpaths    += $(ACE_ROOT)/lib
+}

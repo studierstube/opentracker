@@ -1,0 +1,10 @@
+#Inventor V2.1 ascii
+
+File { name "bau.iv" }
+
+File { name "aug.iv" }
+
+# not using WIM here because its not really visible and only adds rendering lag
+# File { name "wim.iv" } 
+
+File { name "nav.iv" }

@@ -1,0 +1,21 @@
+#Inventor V2.1 ascii
+Separator {
+# new rotation
+  Separator {
+	RotationXYZ {axis  X angle 1.57 }
+    Transform { translation -0.4 0 0 scaleFactor 0.4 0.1 0.4 }
+    DEF BUTTON_NEW_GAME So3DButton { 
+      width 1 depth 1 height 1 
+      buttonColor 0 1 0
+    }
+  }
+  Separator {
+	RotationXYZ {axis  X angle 1.57 }
+    Transform { translation 0.4 0 0 scaleFactor 0.4 0.1 0.4 }    
+    DEF BUTTON_GAME_MODE So3DButton { 
+      width 1 depth 1 height 1 
+      buttonColor 0 0 1
+    }
+  }
+}
+

@@ -1,0 +1,86 @@
+#Inventor V2.1 ascii
+# Model file derived from AML source file by aml2ocar.xsl
+      
+# Annotation data icons !
+# a context switch allows to control the mode, index = 11
+SoMultiSwitch {
+    whichChildren -2
+    # Annotation object 1
+    Separator {
+        SoContextSwitch {
+            index 11
+            defaultChild 0
+            # the first child is the 3D icon displayed and used for picking
+            ShapeKit {
+                transform Transform { translation 125.7 14.8 16.3 }
+                appearance AppearanceKit { 
+                    material Material { diffuseColor 1 1 0 }
+                    drawStyle DrawStyle { style FILLED }
+                }
+                shape Cube { width 2 height 2 depth 2 }
+            }
+            # the second child is the actual content displayed to the user
+            Separator {  # here we have on screen text that is overlayed using an orthogonal camera
+                DEF HUD_CAM OrthographicCamera { aspectRatio 1.33333 viewportMapping ADJUST_CAMERA }
+                Transform { translation -1.3 +0.77 0 }
+                Material { diffuseColor 1 1 1 }
+                FontStyle { family SANS size 0.05 style BOLD }
+                Text3 { parts FRONT spacing 1.5 justification LEFT
+                    string ["The Karlskirche is one of", "Viennas oldest and most", "interesting churches."]
+                }
+            }
+        }
+    }
+    # Annotation object 2
+    Separator {
+        SoContextSwitch {
+            index 11
+            defaultChild 0
+            # the first child is the 3D icon displayed and used for picking
+            ShapeKit {
+                transform Transform { translation 144 24 12.5 }
+                appearance AppearanceKit { 
+                    material Material { diffuseColor 1 1 0 }
+                    drawStyle DrawStyle { style FILLED }
+                }
+                shape Cube { width 2 height 2 depth 2 }
+            }
+            # the second child is the actual content displayed to the user
+            Separator {  # this is an overlay image as a texture on a patch
+                USE HUD_CAM
+                Transform { translation -1.3333 0 -0.01 }
+                Texture2 { filename "content/karlskirche.jpg" model DECAL }
+                Coordinate3 { point [0 0 0, 1 0 0, 1 1 0, 0 1 0] }
+                TextureCoordinateBinding { value PER_VERTEX }
+                TextureCoordinate2 { point [ 0 0, 0 1, 1 1, 1 0 ] }
+                IndexedFaceSet { coordIndex [ 1, 2, 3, 0, -1 ] }
+            }
+        }
+    }  
+    # Annotation object 2
+    Separator {
+        SoContextSwitch {
+            index 11
+            defaultChild 0
+            # the first child is the 3D icon displayed and used for picking
+            ShapeKit {
+                transform Transform { translation 60 14 12 }
+                appearance AppearanceKit { 
+                    material Material { diffuseColor 1 1 0 }
+                    drawStyle DrawStyle { style FILLED }
+                }
+                shape Cube { width 2 height 2 depth 2 }
+            }
+            # the second child is the actual content displayed to the user
+            Separator {  # this is an overlay image as a texture on a patch
+                DEF HUD_CAM OrthographicCamera { aspectRatio 1.33333 viewportMapping ADJUST_CAMERA }
+                    Transform { translation -1.3 +0.77 0 }
+                    Material { diffuseColor 1 1 1 }
+                    FontStyle { family SANS size 0.05 style BOLD }
+                    Text3 { parts FRONT spacing 1.5 justification LEFT
+                        string ["The Vienna University of Technology", "is at the forefront", "of many scientific areas."]
+                }
+            }
+        }
+    }
+}

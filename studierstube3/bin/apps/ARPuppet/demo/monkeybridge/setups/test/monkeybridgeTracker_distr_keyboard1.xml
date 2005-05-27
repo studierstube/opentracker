@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "../../../../../../workspace/opentracker.dtd">
+
+<OpenTracker>
+
+    <configuration>
+        <ConsoleConfig headerline="Monkeybridge distributed keyboard tracker" interval="1" display="on"/>
+        <!--TimeConfig display="true"/-->
+    </configuration>
+
+    <!-- playfield pose calibration -->
+    <StbSink station="0" event="on">
+        <ConsoleSink comment="playfield_pose_calibration" active="on">
+            <StbKeyboardSource number="0"/>
+        </ConsoleSink>
+    </StbSink>
+
+    <!-- first interaction marker -->
+    <StbSink station="1" event="on">
+        <ConsoleSink comment="cursor_marker" active="on" DEF="MARKER_USER0">
+            <StbKeyboardSource number="1"/>
+        </ConsoleSink>
+    </StbSink>
+    <NetworkSink name="cursor_nw_sink" number="1" multicast-address="224.15.15.15" port="12345">
+        <Ref USE="MARKER_USER0"/>
+    </NetworkSink>
+
+    <!-- second interaction marker -->
+    <StbSink station="2" event="on">
+        <ConsoleSink comment="cursor_nw_source" active="on">
+            <NetworkSource number="1" multicast-address="224.15.15.15" port="12346"/>
+        </ConsoleSink>
+    </StbSink>
+
+</OpenTracker>

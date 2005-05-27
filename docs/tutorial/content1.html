@@ -1,0 +1,531 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating Basic Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="tutorial.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Studierstube scripting mentor</h1>
+<h3>Creating your first applications</h3>
+<p class="navbar">&lt;<a href="fileformat.html">prev</a>] - [<a href="index.html">up</a>] 
+  - [<a href="behaviour1.html">next</a>&gt;</p>
+<p>After the basic syntax of the file format has been explained, we can now start 
+  to introduce the most important and useful nodes and create simple scenes with 
+  them. </p>
+<h4>Defining geometry</h4>
+<p>Open Inventor offers a wide range of <em>shape nodes </em>that can be used 
+  to create an application's geometry. Besides the usual 3-dimensional graphics 
+  primitives and text, it is possible to create arbitrary polygon or NURBS geometry, 
+  possibly exported from a 3D modelling package.</p>
+<p>The geometry of primitive objects and text is determined by fields provided 
+  by the shape node. For arbitrary shaped surfaces like polygon and NURBS surfaces, 
+  it is necessary to specify the coordinates of all vertices, as well as additional 
+  information like surface normals, material or texture coordinates for each vertex, 
+  explicitly. This information is stored in seperate nodes, to allow sharing of 
+  this information between multiple nodes. Vertex coordinates are set by adding 
+  a <code>Coordinate3</code> node to the scene graph, which contains a single 
+  field, <code>point</code>, of type <code>MFVec3f</code> to specify the current 
+  set of vertices. This node adds the specified coordinates to the traversal state, 
+  from which they can be used by shape nodes to render their geometry. For example: 
+</p>
+<pre class="source">Coordinate3 {                        # defines the set of coordinates to operate on
+    point [ 0 0 0 , 0 1 0, 0 0 1, 0 1 1 ]
+}
+IndexedFaceSet {                     # render an IndexedFaceSet
+    coordinateIndex [ 0, 1, 2, -1,   # vertex indices of polygons to render, 
+                      1, 2, 3, -1 ]  # -1 starts a new polygon
+}</pre>
+<p>The following table lists the most important geometry nodes provided by Open 
+  Inventor. For the beginning, you will be working mostly with basic primitives 
+  and text nodes to create simple content. Generic surfaces allow users to create 
+  arbitrarily shaped surfaces.</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Fields</th>
+  </tr>
+  <tr> 
+    <td colspan="3" bgcolor="#CCCCCC" class="innerheader">Basic Primitives</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoCone.html">SoCone</a><br> </td>
+    <td>Cone shape</td>
+    <td class="fildstable"> SFBitMask parts<br>
+      SFFloat bottomRadius<br>
+      SFFloat height</td>
+  </tr>
+  <tr> 
+    <td class="nametable">
+<p><a href="http://doc.coin3d.org/Coin/classSoCube.html">SoCube</a></p></td>
+    <td>Cube with adjustable sides</td>
+    <td class="fildstable">SFFloat width<br>
+      SFFloat height<br>
+      SFFloat depth</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoCylinder.html">SoCylinder</a></td>
+    <td>Cylinder shape</td>
+    <td class="fildstable">SFFloat radius<br>
+      SFFloat height<br>
+      SFBitMask parts</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoSphere.html">SoSphere 
+      </a></td>
+    <td>Sphere shape</td>
+    <td class="fildstable">SFFloat radius</td>
+  </tr>
+  <tr> 
+    <td colspan="3" bgcolor="#CCCCCC" class="innerheader">Text</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoText2.html">SoText2</a> 
+    </td>
+    <td>Node for rendering 2-dimensional text, always facing the viewer. Each 
+      value of the MFString input is rendered on a seperate line.</td>
+    <td class="fildstable">MFString string<br>
+      SFFloat spacing<br>
+      SFEnum justification</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoText3.html">SoText3</a> 
+    </td>
+    <td>Node for rendering extruded, 3-dimensional text that can be freely positioned 
+      in space. Each value of the MFString input is rendered on a seperate line.</td>
+    <td class="fildstable">MFString string<br>
+      SFFloat spacing<br>
+      SFEnum justification<br>
+      SFBitMask parts</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoAsciiText.html">SoAsciiText</a></td>
+    <td>Node for rendering flat 3D text. Each value of the MFString input is rendered 
+      on a seperate line.</td>
+    <td class="fildstable">MFString string<br>
+      SFFloat spacing<br>
+      SFEnum justification<br>
+      MFFloat width</td>
+  </tr>
+  <tr> 
+    <td colspan="3" bgcolor="#CCCCCC" class="innerheader">Generic Surfaces</td>
+  </tr>
+  <tr> 
+    <td height="23" class="nametable"><a href="http://doc.coin3d.org/Coin/classSoIndexedFaceSet.html">SoIndexedFaceSet</a><br> 
+    </td>
+    <td>Constructs a 3D shape by drawing its faces from an indexed list of vertices</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      MFInt32 coordIndex<br>
+      MFInt32 materialIndex<br>
+      MFInt32 normalIndex<br>
+      MFInt32 textureCoordIndex</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoIndexedNurbsSurface.html">SoIndexedNurbsSurface</a><br> 
+    </td>
+    <td>Renders NURBS-based surfaces.</td>
+    <td class="fildstable">SFInt32 numUControlPoints<br>
+      SFInt32 numVControlPoints<br>
+      MFInt32 coordIndex<br>
+      MFFloat uKnotVector<br>
+      MFFloat vKnotVector<br>
+      SFInt32 numSControlPoints<br>
+      SFInt32 numTControlPoints<br>
+      MFInt32 textureCoordIndex<br>
+      MFFloat sKnotVector<br>
+      MFFloat tKnotVector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTriangleStripSet.html">SoTriangleStripSet</a><br> 
+    </td>
+    <td>Render and control non-indexed triangle strips</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      SoSFInt32 startIndex MFInt32 numVertices</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoIndexedTriangleStripSet.html">SoIndexedTriangleStripSet</a><br> 
+    </td>
+    <td>&nbsp;</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      MFInt32 coordIndex<br>
+      MFInt32 materialIndex<br>
+      MFInt32 normalIndex<br>
+      MFInt32 textureCoordIndex</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoQuadMesh.html">SoQuadMesh</a><br> 
+    </td>
+    <td>&nbsp;</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      SoSFInt32 startIndex <br>
+      SFInt32 verticesPerColumn<br>
+      SFInt32 verticesPerRow</td>
+  </tr>
+  <tr> 
+    <td colspan="3" bgcolor="#CCCCCC" class="innerheader">Lines &amp; Points</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoLineSet.html">SoLineSet</a></td>
+    <td>render and organize non-indexed polylines</td>
+    <td class="fildstable"><p>SoSFNode vertexProperty<br>
+        SoSFInt32 startIndex <br>
+        SoMFInt32 numVertices</p></td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoIndexedLineSet.html">SoIndexedLineSet</a></td>
+    <td>render and organize polylines with arbitrary vertex order</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      SoMFInt32 coordIndex<br>
+      SoMFInt32 materialIndex<br>
+      SoMFInt32 normalIndex<br>
+      SoMFInt32 textureCoordIndex</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoNurbsCurve.html">SoNurbsCurve</a></td>
+    <td>render and organize non-indexed NURBS curves</td>
+    <td class="fildstable">SoSFInt32 numControlPoints<br>
+      SoMFFloat knotVector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoIndexedNurbsCurve.html">SoIndexedNurbsCurve</a> 
+    </td>
+    <td>render and organize NURBS curves with arbitrary vertex order</td>
+    <td class="fildstable">SoSFInt32 numControlPoints<br>
+      SoMFInt32 coordIndex<br>
+      SoMFFloat knotVector</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoPointSet.html">SoPointSet</a> 
+    </td>
+    <td>render a point cloud</td>
+    <td class="fildstable">SoSFNode vertexProperty<br>
+      SoSFInt32 startIndex </td>
+
+
+
+
+
+
+
+
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoStroke.html">SoStroke</a>* 
+      (Kit) </td>
+    <td>This class provides a stroke geometry similar to strokes in vector drawing 
+      programs</td>
+    <td class="fildstable">SoMFVec3f point<br>
+      SoSFEnum scale<br>
+      (SoSFNode) geometry</td>
+  </tr>
+  <tr> 
+    <td colspan="3" bgcolor="#CCCCCC" class="innerheader">Geometry Support</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoCoordinate3.html">SoCoordinate3</a></td>
+    <td>a node for providing coordinates to shape nodes</td>
+    <td class="fildstable">SoMFVec3f point</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoNormal.html">SoNormal</a></td>
+    <td>a node for providing normals to the state</td>
+    <td class="fildstable">SoMFVec3f vector</td>
+  </tr>
+</table>
+<h4>Transformations</h4>
+<p>For positioning geometry in space, transformation nodes are used. A transformation 
+  nodes can be used to translate, rotate or scale geometry. All transformations 
+  are accumulated in the traversal state, therefore transformations are cumulative 
+  and affect all nodes that are traversed afterwards.</p>
+<p>Simple animation can be realized by using animated transformation nodes. These 
+  nodes will change their transformation values at a predefined speed.</p>
+<p>The following table lists the available transformation nodes:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Fields</th>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTransform.html">SoTransform</a></td>
+    <td>&quot;All-purpose&quot; transformation node. Specify the rotation by 4 
+      numbers: the rotation axis (x,y,z vector) and the angle in radians.</td>
+    <td class="fildstable">SoSFVec3f translation<br>
+      SoSFRotation rotation<br>
+      SoSFVec3f scaleFactor<br>
+      SoSFRotation scaleOrientation<br>
+      SoSFVec3f center</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoTranslation.html">SoTranslation</a></td>
+    <td>Node for specifying geometry translations</td>
+    <td class="fildstable"><p>SoSFVec3f translation</p></td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoScale.html">SoScale</a></td>
+    <td>Node for scaling geometry</td>
+    <td class="fildstable">SoSFVec3f scaleFactor</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoRotation.html">SoRotation</a> 
+    </td>
+    <td>Specifies a rotation transformation. Specify the rotation by 4 numbers: 
+      the rotation axis (x,y,z vector) and the angle in radians.</td>
+    <td class="fildstable"><p>SoSFRotation rotation</p></td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoRotationXYZ.html">SoRotationXYZ</a> 
+    </td>
+    <td>Node for specifying rotation around a particular axis</td>
+    <td class="fildstable">SoSFEnum axis<br>
+      SoSFFloat angle</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoMatrixTransform.html">SoMatrixTransform</a> 
+    </td>
+    <td>Node that takes a matrix to specify the transformation.</td>
+    <td class="fildstable">SoSFMatrix matrix</td>
+  </tr>
+  <tr bgcolor="#CCCCCC"> 
+    <td colspan="3" class="innerheader">Animated transformations</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoRotor.html">SoRotor</a></td>
+    <td>animated rotation node</td>
+    <td class="fildstable"><p>SoSFRotation rotation<br>
+        SoSFFloat speed<br>
+        SoSFBool on<br>
+      </p></td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoPendulum.html">SoPendulum</a></td>
+    <td>animated oscillating rotation node</td>
+    <td class="fildstable">SoSFRotation rotation0<br>
+      SoSFRotation rotation1<br>
+      SoSFFloat speed<br>
+      SoSFBool on<br>
+      SoSFRotation rotation</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoShuttle.html">SoShuttle</a></td>
+    <td>animated oscillating translation node</td>
+    <td class="fildstable">SoSFVec3f translation<br>
+      SoSFVec3f translation0<br>
+      SoSFVec3f translation1<br>
+      SoSFFloat speed<br>
+      SoSFBool on</td>
+  </tr>
+</table>
+<p>The following example shows how geometry nodes and transformations are combined:</p>
+<pre class="source">#Inventor V2.0 ascii
+
+
+# This is a simple coordinate system, built from geometry primitives
+ 
+DEF AXIS Group {               # this is our Y-axis
+    Transform {
+        translation 0 0.1 0    # go to center of axis
+    }
+    DEF LINE Cylinder {        # cylinder stretches in both directions
+        radius 0.0025
+        height 0.2
+    }
+    Transform {
+        translation 0 0.1 0    # go to tip of axis
+    }
+    DEF ARROW Cone {           # use cone as arrow
+        bottomRadius 0.005
+        height 0.02
+    }
+    Transform {
+        translation 0 0 -0.2   # un-do translations
+    }
+}
+Transform {
+    rotation 0 0 1 1.5708      # rotate 90 degrees around z-axis
+}
+USE AXIS                       # X-axis
+Transform {
+    rotation 0 1 0 1.5708      # rotate 90 degrees around y-axis
+}
+USE AXIS                       # Z-axis</pre>
+Note that transformations accumulate during traversal - this means that temporary 
+transformations, like the transformations needed to place the line and arrow parts 
+correctly, must be undone explicitly. A better way to deal with this behaviour 
+will be explained below. 
+<h4>Material &amp; Appearance</h4>
+<p>Open Inventor provides several nodes that influence the appearance of geometry. 
+  All nodes that are traversed before the geometry node influence the appearance 
+  of that node. For example:</p>
+<pre class="source">Material {               # set the color to red
+    diffuseColor 1 0 0
+}
+DrawStyle {              # set style to wireframe
+    style LINES          
+}
+Sphere {                 # will render a red sphere in wireframe
+    radius 0.1
+}</pre>
+<p>The following table lists some useful appearance nodes provided by Open Inventor:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Fields</th>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoLineSet.html">SoBaseColor</a></td>
+    <td>Sets the base color to be used for subsequent shapes</td>
+    <td class="fildstable">SoMFColor rgb</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoDrawStyle.html">SoDrawStyle</a></td>
+    <td>Specificies common rendering properties for shapes</td>
+    <td class="fildstable">SoSFEnum style<br>
+      SoSFFloat pointSize<br>
+      SoSFFloat lineWidth<br>
+      SoSFUShort linePattern</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoEnvironment.html">SoEnvironment</a></td>
+    <td>Node for specifying global rendering parameters</td>
+    <td class="fildstable">SoSFFloat ambientIntensity<br>
+      SoSFColor ambientColor<br>
+      SoSFVec3f attenuation<br>
+      SoSFEnum fogType<br>
+      SoSFColor fogColor<br>
+      SoSFFloat fogVisibility</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoFont.html">SoFont</a></td>
+    <td>Appearance node for setting fonts</td>
+    <td class="fildstable">SoSFName name<br>
+      SoSFFloat size</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoLightModel.html">SoLightModel</a></td>
+    <td>Sets the light model used for rendering (BASE_COLOR or PHONG)</td>
+    <td class="fildstable">SoSFEnum model</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoMaterial.html">SoMaterial</a></td>
+    <td>Setting up material values for scene geometry</td>
+    <td class="fildstable">SoMFColor ambientColor<br>
+      SoMFColor diffuseColor<br>
+      SoMFColor specularColor<br>
+      SoMFColor emissiveColor<br>
+      SoMFFloat shininess<br>
+      SoMFFloat transparency</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoShapeHints.html">SoShapeHints</a></td>
+    <td>Containing hints about how to render geometry</td>
+    <td class="fildstable">SoSFEnum vertexOrdering<br>
+      SoSFEnum shapeType<br>
+      SoSFEnum faceType<br>
+      SoSFFloat creaseAngle</td>
+  </tr>
+</table>
+<h4>Group Nodes</h4>
+<p>Group nodes are not only useful for strucutring your files to keep an overview, 
+  but can also be referenced as a single object and control how appearance and 
+  other properties are applied to their children. The basic group node is <code>SoGroup</code> 
+  - it has no side effect besides grouping its children into a single referenceable 
+  entity. Another important group node is <code>SoSeparator</code>. A separator 
+  stores the traversal state - including material, transformations, textures, 
+  cameras, lights... - and will restore the whole traversal state after traversing 
+  its children. Therefore, any state change (like material, transformation etc.) 
+  defined inside a Separator will not affect nodes that are outside this Separator. 
+  For example:</p>
+<pre class="source">Material { diffuseColor 0 0 1 }      # sets color to blue
+DEF SPHERE Sphere {}                 # renders a blue sphere
+Transform { translation 1 0 0 }      # move 1 meter in x-direction
+Separator {                          # push state to the stack
+    Material { diffuseColor 1 0 0 }  # sets color to red
+    USE SPHERE                       # renders a red sphere
+}                                    # state is reset again
+Transform { translation 1 0 0 }      # move 1 meter in x-direction
+USE SPHERE                           # renders BLUE sphere
+</pre>
+<p>Note that transformations are also influenced by a separator - if the first 
+  transform in the above example would have been defined inside the separator, 
+  it would have been reset after the separator, resulting in the 2nd and 3rd sphere 
+  being drawn at the same location. Because the transformation is defined at the 
+  top level, the transformations accumulate, resulting in the three spheres being 
+  positioned next to each other. </p>
+<p>Another fundamental group node is the <code>Switch</code> node, which will 
+  select <em>one</em> of its children for traversal, as set by the <code>whichChild</code> 
+  field.</p>
+<p>The following table gives an overview of the most useful group nodes:</p>
+<table width="100%" border="0">
+  <tr> 
+    <th>Name</th>
+    <th>Description</th>
+    <th>Fields</th>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoGroup.html">SoGroup</a></td>
+    <td>Basic group node.</td>
+    <td class="fildstable">-</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoSeparator.html">SoSeparator</a></td>
+    <td>Group node that preserves state after processing its children.</td>
+    <td class="fildstable">SoSFEnum renderCaching<br>
+      SoSFEnum boundingBoxCaching<br>
+      SoSFEnum renderCulling<br>
+      SoSFEnum pickCulling</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoSwitch.html">SoSwitch</a></td>
+    <td>selects one child for traversal</td>
+    <td class="fildstable">SoSFInt32 whichChild</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoBlinker.html">SoBlinker</a></td>
+    <td>Cycling through its children at a given speed</td>
+    <td class="fildstable">SoSFFloat speed<br>
+      SoSFBool on</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoFile.html">SoFile</a></td>
+    <td>Include another iv-file</td>
+    <td class="fildstable">SoSFString name</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoLevelOfDetail.html">SoLevelOfDetail</a></td>
+    <td>choose a child based on projected size</td>
+    <td class="fildstable">SoMFFloat screenArea</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="http://doc.coin3d.org/Coin/classSoLOD.html">SoLOD</a></td>
+    <td>choose a child based distance between viewer and object (faster)</td>
+    <td class="fildstable">SoMFFloat range<br>
+      SoSFVec3f center</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoAbortGroup.html">SoAbortGroup</a>*</td>
+    <td>This class implements a group-node that stops any action from traversing 
+      its children, depending on the value of the field abortActions.</td>
+    <td class="fildstable">SoSFBitMask abortActions</td>
+  </tr>
+  <tr> 
+    <td class="nametable"><a href="../stb/classSoMultiSwitch.html">SoMultiSwitch</a>*</td>
+    <td>Switch that allows to specify a subset of the children to be traversed. 
+      The ordered field determines how the children are traversed. If it is TRUE 
+      they are processed in the same order as they appear in the scene graph (left-to-right) 
+      and only once, otherwise they are traversed as they appear in the whichChildren 
+      field. This allows some fancy tricks with reusing of children several times. 
+    </td>
+    <td class="fildstable">SoMFInt32 whichChildren<br>
+      SoSFBool ordered</td>
+  </tr>
+</table>
+<p><a href="examples/example1.iv">example1.iv</a> contains an elaborate example 
+  that uses some of the features introduced in this section.</p>
+<p class="navbar">&lt;<a href="fileformat.html">prev</a>] - [<a href="index.html">up</a>] 
+  - [<a href="behaviour1.html">next</a>&gt;</p>
+</body>
+</html>

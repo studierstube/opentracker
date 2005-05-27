@@ -1,0 +1,8 @@
+// -*- MPC -*-
+// property.mpb,v 1.6 2004/01/22 18:23:49 elliott_c Exp
+
+project : portableserver {
+  after     += CosProperty
+  libs      += TAO_CosProperty
+  tagchecks += Property
+}

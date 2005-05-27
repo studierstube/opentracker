@@ -1,0 +1,10 @@
+New in Studierstube 3.1 (2003-01-28):
+* Coin3d compliant code.
+* unified SoGUI architecture for different Coin3d GUI bindings.
+  (SoQt, SoGtk, SoXt, SoWin)
+* SoQt specific code now works with the current SoQt by Coin3d and the
+  Qt 3.0 library.
+* improved unix build system. now based on autotools.
+* a lot of cleanup work.
+* Daniel Wagner's md2 quake model loader nodekit.
+  *coolness factor guaranteed* ;)

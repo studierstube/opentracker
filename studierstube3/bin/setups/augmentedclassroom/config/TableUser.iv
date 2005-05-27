@@ -1,0 +1,40 @@
+#Inventor V2.1 ascii
+
+UserKit {
+    userID 0
+
+    pen PenKit{
+       station 2
+       focusPolicy CLICK_TO_FOCUS
+       geometry Group {}
+    }
+
+    pip PipKit{
+       station 1
+       pipSize 0.125 0.092 0.01
+       sheetAreaUpperLeft  0.05 0.05
+       sheetAreaLowerRight 0.95 0.95
+        geometry Separator {
+        }
+    }
+
+    display DisplayKit {
+    	# select the camera in use here:
+#        stereoCameraKit  File { name "../mobile/firefly_4mm_camera.iv"}
+        stereoCameraKit  File { name "../mobile/default_camera.iv"}
+        
+	cameraControl TrackedDisplayControlMode {}
+        station 0
+        headlight TRUE
+        headlightIntensity 1.0
+        backgroundColor 0 0 0
+        transparencyType SORTED_OBJECT_BLEND
+	videoBackground TRUE
+        width 800
+        height 600
+        xoffset 0
+        yoffset 0
+    }
+    
+}
+
