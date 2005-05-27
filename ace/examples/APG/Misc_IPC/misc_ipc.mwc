@@ -1,6 +1,0 @@
-// -*- MPC -*-
-// misc_ipc.mwc,v 1.2 2004/03/12 13:20:06 jwillemsen Exp
-
-workspace {
-  misc_ipc.mpc
-}

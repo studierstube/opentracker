@@ -1,6 +1,0 @@
-// -*- MPC -*-
-// sleexe.mpt,v 1.1 2004/03/30 16:48:43 jwillemsen Exp
-
-conditional_include "common"
-
-type_is_binary  = 1

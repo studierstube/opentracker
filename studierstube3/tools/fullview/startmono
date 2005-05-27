@@ -1,5 +1,0 @@
-./fullview \
- --display MONO --camcontrol DESKTOP \
- -x -1 -y -1 -w 800 -h 600 \
- --camera monoCamera.iv \
- $*

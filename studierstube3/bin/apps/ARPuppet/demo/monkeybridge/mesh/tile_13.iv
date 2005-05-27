@@ -1,6 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {                            
-    Transform { scaleFactor 1 2 1 }
-    SoFile { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12a.iv"}
-}

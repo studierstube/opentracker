@@ -1,8 +1,0 @@
-// -*- MPC -*-
-// acedefaults.mpb,v 1.11 2004/01/28 19:28:00 elliott_c Exp
-
-project: ace_qt, zzip {
-  staticflags += ACE_AS_STATIC_LIBS
-  includes    += $(ACE_ROOT)
-  libpaths    += $(ACE_ROOT)/lib
-}

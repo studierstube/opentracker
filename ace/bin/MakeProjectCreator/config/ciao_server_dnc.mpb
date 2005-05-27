@@ -1,7 +1,0 @@
-// -*- MPC -*-
-// ciao_server_dnc.mpb,v 1.2 2004/06/30 15:59:33 bala Exp
-
-project : ciao_component_dnc {
-  after += CIAO_DnC_Server
-  libs    += CIAO_DnC_Server
-}

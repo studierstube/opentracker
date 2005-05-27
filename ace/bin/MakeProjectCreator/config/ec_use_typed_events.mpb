@@ -1,8 +1,0 @@
-// -*- MPC -*-
-// ec_use_typed_events.mpb,v 1.1 2004/01/17 15:04:05 jwillemsen Exp
-
-feature(ec_typed_events)  {
-  macros  += TAO_HAS_TYPED_EVENT_CHANNEL
-  libs    += TAO_IFR_Client TAO_DynamicInterface
-  after   += IFR_Client DynamicInterface
-}

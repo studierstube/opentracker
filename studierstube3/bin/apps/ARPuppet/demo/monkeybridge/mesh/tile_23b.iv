@@ -1,7 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {
-    File { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_22.iv"}
-    Transform { translation 0 0.036 0 }
-    File { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_12b.iv"}
-}

@@ -1,6 +1,0 @@
-#Inventor V2.1 ascii
-
-So2DMenueKit {
-menuePosition 0 0
-menueText ["NEXT PROP","PREVIOUS PROP","CALIBRATE PROP","","EXIT"]
-}

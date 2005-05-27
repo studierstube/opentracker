@@ -1,1 +1,0 @@
-%STBROOT%\bin\workspace\workspace -a test.iv -uk config\TestUser.iv -tr config\testtracker.xml -time

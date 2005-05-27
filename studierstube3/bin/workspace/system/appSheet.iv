@@ -1,5 +1,0 @@
-#Inventor V2.1 ascii
-
-PipSheetKit {
-	pipParts (SHEET|PIP_BODY|SYSTEM_TABS|SHEET_TABS)
-}

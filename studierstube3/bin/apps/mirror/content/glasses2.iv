@@ -1,8 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {
-	Transform { translation 0 -0.07 0}
-    Texture2 { filename "glasses2.jpg" }
-    Cube { width 0.12 depth 0.00005 height 0.04 }
-}
-

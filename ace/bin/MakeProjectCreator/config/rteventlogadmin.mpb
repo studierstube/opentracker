@@ -1,7 +1,0 @@
-// -*- MPC -*-
-// rteventlogadmin.mpb,v 1.3 2004/02/06 15:35:52 elliott_c Exp
-
-project : dslogadmin, rtoldevent {
-  after      += RTEventLogAdmin
-  libs       += TAO_RTEventLogAdmin
-}

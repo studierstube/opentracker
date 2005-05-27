@@ -1,8 +1,0 @@
-0 Name: robot_leftwheel.ldr
-0 Author: Istvan Barakonyi
-0 ROTATION CENTER 0 0 0 1 "Custom" 
-0 ROTATION CONFIG 0 0
-1 0 -110 -32 40 0 0 1 0 1 0 -1 0 0 71427C01.DAT
-1 15 -170 8 40 0 0 1 0 1 0 -1 0 0 2903.DAT
-1 0 -170 8 40 0 0 1 0 1 0 -1 0 0 2902.DAT
-0

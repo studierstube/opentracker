@@ -1,9 +1,0 @@
-// -*- MPC -*-
-// ciao_deployment_svnt.mpb,v 1.7 2004/07/01 22:04:28 jai Exp
-
-project : portableserver, taoidldefaults {
-  after += Deployment_svnt
-  libs  += Deployment_svnt
-  includes += $(CIAO_ROOT)/DAnCE/ciao $(CIAO_ROOT)/DAnCE
-  idlflags += -I$(CIAO_ROOT)/DAnCE -I$(CIAO_ROOT)/DAnCE/ciao -Sc
-}

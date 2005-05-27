@@ -1,9 +1,0 @@
-#Inventor V2.1 ascii
-Separator {
-      Scale {
-   		scaleFactor 0.05 0.05 0.05
-      }
-	Cube {
-		height 0.1
-	}
-}

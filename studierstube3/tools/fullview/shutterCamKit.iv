@@ -1,7 +1,0 @@
-#Inventor V2.1 ascii
-
-
-SoStereoCameraKit {
-  eyeOffsetLeft -0.0305979 0.147538 0.0151514
-  eyeOffsetRight 0.0373777 0.148288 0.0177628
-}

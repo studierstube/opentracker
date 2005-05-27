@@ -1,9 +1,0 @@
-// -*- MPC -*-
-// loadbalancing.mpb,v 1.7 2004/06/20 20:05:49 ossama Exp
-
-project : messaging, naming, portablegroup {
-  libs      += TAO_CosLoadBalancing
-  after     += CosLoadBalancing
-  tagchecks += CosLoadBalancing
-  requires  += ami
-}

@@ -1,7 +1,0 @@
-until
-./trackerserver -i tracker.init.fob
-do
-sleep 5 
-echo restarting...
-done
-

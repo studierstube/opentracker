@@ -1,8 +1,0 @@
-// -*- MPC -*-
-// qos.mpb,v 1.5 2004/04/12 17:55:54 elliott_c Exp
-
-feature(qos) {
-  after  += QoS
-  libs   += ACE_QoS
-  macros += ACE_HAS_QOS
-}

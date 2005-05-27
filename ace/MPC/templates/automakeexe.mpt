@@ -1,4 +1,0 @@
-// -*- MPC -*-
-// automakeexe.mpt,v 1.1 2004/07/28 14:16:39 elliott_c Exp
-
-conditional_include "automakedll"

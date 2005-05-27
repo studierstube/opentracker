@@ -1,2 +1,0 @@
-// compilecommand    ww
-cc seek.cxx -o seek

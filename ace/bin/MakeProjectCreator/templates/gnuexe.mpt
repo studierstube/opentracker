@@ -1,4 +1,0 @@
-// -*- MPC -*-
-// gnuexe.mpt,v 1.9 2004/01/29 20:05:27 elliott_c Exp
-
-conditional_include "common"

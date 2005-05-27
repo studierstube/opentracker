@@ -1,6 +1,0 @@
-// -*- MPC -*-
-// taoversion.mpb,v 1.25 2004/07/31 16:09:07 bala Exp
-
-project {
-  version = 1.4.1
-}

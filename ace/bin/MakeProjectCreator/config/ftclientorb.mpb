@@ -1,9 +1,0 @@
-// -*- MPC -*-
-// ftclientorb.mpb,v 1.4 2004/04/12 18:57:21 elliott_c Exp
-
-project : ftorbutils {
-  after     += FT_ClientORB 
-  libs      += TAO_FT_ClientORB
-  requires  += ace_uuid
-  tagchecks += FT_ClientORB
-}

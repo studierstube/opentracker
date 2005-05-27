@@ -1,7 +1,0 @@
-// -*- MPC -*-
-// Bounded_Packet_Relay.mpc,v 1.2 2004/07/08 20:01:25 shuston Exp
-
-project : aceexe {
-  exename = bpr_thread
-  macros += ACE_HAS_DEFERRED_TIMER_COMMANDS
-}

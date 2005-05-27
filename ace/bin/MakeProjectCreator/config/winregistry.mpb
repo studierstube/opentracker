@@ -1,6 +1,0 @@
-// -*- MPC -*-
-// winregistry.mpb,v 1.1 2004/05/11 09:25:27 jwillemsen Exp
-
-feature(winregistry) {
-  requires += winregistry
-}

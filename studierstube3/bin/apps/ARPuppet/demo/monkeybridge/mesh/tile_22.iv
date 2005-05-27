@@ -1,6 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {
-    File { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_foundation.iv"}
-    File { name "../apps/arpuppet/demo/monkeybridge/mesh/tile_plane.iv"}
-}

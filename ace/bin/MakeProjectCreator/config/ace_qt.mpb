@@ -1,6 +1,0 @@
-// -*- MPC -*-
-// ace_qt.mpb,v 1.1 2004/01/28 19:28:00 elliott_c Exp
-
-feature(qt): qt {
-  macros += ACE_HAS_QT
-}

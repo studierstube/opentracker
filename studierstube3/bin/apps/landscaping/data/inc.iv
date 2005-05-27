@@ -1,8 +1,0 @@
-#Inventor V2.1 ascii
-DEF PIP_LAYOUT Separator {
-  Separator {
-    Material { diffuseColor 0 0 1 transparency 0.5 } 
-    Cube {} 
-  }
-  File { name "skyscrpr.wrl" }
-}

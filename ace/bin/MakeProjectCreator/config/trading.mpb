@@ -1,8 +1,0 @@
-// -*- MPC -*-
-// trading.mpb,v 1.5 2004/01/22 18:23:50 elliott_c Exp
-
-project : dynamicany, portableserver {
-  after     += CosTrading 
-  libs      += TAO_CosTrading
-  tagchecks += Trader
-}

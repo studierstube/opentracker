@@ -1,8 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {
-# HORN
-    Transform { translation 0 -0.10 0.05 rotation 1 0 0 1.57 }
-    Texture2 { filename "horn.jpg" }
-    Cone { bottomRadius 0.02 height 0.15 }
-}

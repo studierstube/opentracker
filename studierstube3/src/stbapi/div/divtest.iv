@@ -1,9 +1,0 @@
-#Inventor V2.1 ascii
-
-Separator {
-    TransformBoxManip {}
-    Cube {}
-}
-Material { diffuseColor 1 0 0 }
-Cube {}
-    
