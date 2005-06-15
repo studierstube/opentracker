@@ -55,7 +55,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#if defined(_WIN32) || defined(WIN32) || defined(__WIN32__)
+#if !defined(OPENTRACKER_STATIC) && (defined(_WIN32) || defined(WIN32) || defined(__WIN32__))
     #define	DLLEXPORT __declspec(dllexport)
     #define	DLLENTRY __cdecl
     typedef void (* DLL_EP)(void);

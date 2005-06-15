@@ -90,6 +90,7 @@
 
 #ifdef WIN32
 
+#ifndef OPENTRACKER_STATIC
 BOOL APIENTRY DllMain( HANDLE hModule, 
 					  DWORD  ul_reason_for_call, 
 					  LPVOID lpReserved
@@ -110,7 +111,9 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     }
     return TRUE;
 }
-#endif
+#endif //OPENTRACKER_STATIC
+
+#endif //WIN32
 
 // initializes context
 

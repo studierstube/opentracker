@@ -48,6 +48,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "opentrackerLib"=.\opentrackerLib.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "tinyxml_dll"=..\tinyxml\tinyxml_dll.vcp - Package Owner=<4>
 
 Package=<5>

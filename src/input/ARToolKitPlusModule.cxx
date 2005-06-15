@@ -30,6 +30,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 
 #include "../OpenTracker.h"
 
@@ -37,17 +40,30 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-// this will remove the warning 4786
-#include "../tool/disable4786.h"
-
 #include "ARToolKitPlusModule.h"
 #include "ARToolKitSource.h"
 #include "ARToolKitMultiMarkerSource.h"
 
-#include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
-
 
 #ifdef USE_ARTOOLKITPLUS
+
+
+#ifdef ARTOOLKITPLUS_DLL
+#  include <ARToolKitPlus/TrackerSingleMarker.h>
+#else
+#  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
+#endif
+
+#include <ARToolKitPlus/Logger.h>
+
+
+//#ifdef ARTOOLKITPLUS_DLL
+//#  if defined(DEBUG) || defined(_DEBUG)
+//#    pragma comment(lib, "ARToolKitPlusDllD.lib")
+//#  else
+//#    pragma comment(lib, "ARToolKitPlusDll.lib")
+//#  endif
+//#endif //ARTOOLKITPLUS_DLL
 
 
 class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
@@ -122,7 +138,27 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 
 	logger = new ARToolKitPlusModuleLogger;
 
-    tracker = NULL;
+#ifdef ARTOOLKITPLUS_DLL
+
+#  ifdef ARTOOLKITPLUS_FOR_STB3
+	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 12,12,12, ARToolKitPlus::PIXEL_FORMAT_RGBA);
+#  else
+	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 12,12,12, ARToolKitPlus::PIXEL_FORMAT_RGB565);
+#  endif //ARTOOLKITPLUS_FOR_STB3
+
+#else
+
+#  ifdef ARTOOLKITPLUS_FOR_STB3
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
+#  else
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
+#  endif //ARTOOLKITPLUS_FOR_STB3
+
+#endif //ARTOOLKITPLUS_DLL
+
+	tracker->init(NULL, trackerNear, trackerFar, logger);
+	tracker->setThreshold(100);
+	//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 
 	bestCFs = NULL;
 	maxMarkerId = MAX_MARKERID;
@@ -292,7 +328,7 @@ Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& att
 		}
 		else
 		{
-			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg \"%s\"\n", filename.c_str());
+			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
 			return NULL;
 		}
 	}
@@ -307,6 +343,17 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     cameradata = attributes.get("camera-parameter");
     patternDirectory = attributes.get("pattern-dir");
+
+	int tmpThreshold=100;
+    
+    if( attributes.get("treshhold", &tmpThreshold ) == 1 )
+    {
+        if( tmpThreshold < 0 )
+            tmpThreshold = 0;
+        else if( tmpThreshold > 255 )
+            tmpThreshold = 255;
+    }
+	tracker->setThreshold(tmpThreshold);
 
 #ifdef ARTOOLKITPLUS_FOR_STB3
 	videomode = attributes.get("videomode");
@@ -327,33 +374,6 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	if( attributes.get("marker-mode").compare("idbased") == 0 )
 		idbasedMarkers = true;
-
-#ifdef ARTOOLKITPLUS_FOR_STB3
-#define __ARTKPIXELFORMAT ARToolKitPlus::PIXEL_FORMAT_RGBA
-#else
-#define __ARTKPIXELFORMAT ARToolKitPlus::PIXEL_FORMAT_RGB565
-#endif //ARTOOLKITPLUS_FOR_STB3
-
-    if (idbasedMarkers) {
-        tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, __ARTKPIXELFORMAT>(320,240);
-    }
-    else {
-        tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<16,16,64, __ARTKPIXELFORMAT>(320,240);
-    }
-	tracker->init(NULL, trackerNear, trackerFar, logger);
-
-    int tmpThreshold=100;
-    
-    if( attributes.get("treshold", &tmpThreshold ) == 1 )
-    {
-        if( tmpThreshold < 0 )
-            tmpThreshold = 0;
-        else if( tmpThreshold > 255 )
-            tmpThreshold = 255;
-    }
-	tracker->setThreshold(tmpThreshold);
-
-//tracker.setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
 
 	if( attributes.get("border-width").length()>0 )
 	{
@@ -845,7 +865,6 @@ ARToolKitPlusModule::start()
 
 	LOG_ACE_ERROR("Initialized video capture object.\n");
 
-/*
 	if(!CVSUCCESS(vidCap->Connect(0)))
 	{
 		vidCap->Uninit();
@@ -853,42 +872,33 @@ ARToolKitPlusModule::start()
 		LOG_ACE_ERROR("ERROR: connecting to camera failed.\n");
 		return;
 	}
-*/
 
 	int numDev = 0, useDev = -1;;
 	vidCap->GetNumDevices(numDev);
 
-	if(numDev==0)
-	{
-		vidCap->Uninit();
-		CVPlatform::GetPlatform()->Release(vidCap);
-		LOG_ACE_ERROR("ERROR: No camera found. ARToolKitPlusModule will not serve video input.\n");
-		return;
-	}
-
-	LOG_ACE_INFO("Found %d camera devices. Trying each...\n", numDev);
+	const char* cfgCamName = "NO_CAMERA_NAME";
 
 	for(int i=0; i<numDev; i++)
 	{
-		CVVidCapture::VIDCAP_DEVICE deviceInfo;
+		int devNameLen = 0;
+		vidCap->GetDeviceName(0,devNameLen);
+		devNameLen++;
+		char* cameraName = new char[devNameLen];
+		vidCap->GetDeviceName(cameraName,devNameLen);
 
-		vidCap->GetDeviceInfo(i, deviceInfo);
-		LOG_ACE_INFO("Trying camera: %s\n", deviceInfo.DeviceString);
-
-		if(CVSUCCESS(vidCap->Connect(i)))
-		{
+		// TODO: get camera name from config file
+		if(!strcmp(cameraName, cfgCamName))
 			useDev = i;
-			LOG_ACE_INFO("--> using camera %s.\n", deviceInfo.DeviceString);
+		delete cameraName;
+
+		if(i!=0)
 			break;
-		}
 	}
 
-	if(useDev==-1)
+	if(useDev == -1)
 	{
-		vidCap->Uninit();
-		CVPlatform::GetPlatform()->Release(vidCap);
-		LOG_ACE_ERROR("ERROR: connecting to all %d camera(s) failed.\nARToolKitPlusModule will not serve video input.\n", numDev);
-		return;
+		LOG_ACE_ERROR("WARNING: camera '%s' not found. using default camera (0)\n", cfgCamName);
+		useDev = 0;
 	}
 
 
@@ -923,9 +933,7 @@ ARToolKitPlusModule::start()
 			if(modeInfo.XRes==videoWidth && modeInfo.YRes==videoHeight)
 			{
 				videoModeId = curmode;
-				LOG_ACE_INFO("--> best video mode so far: %d, %dx%d @ %d frames/sec (%s)\n", curmode, modeInfo.XRes, modeInfo.YRes, modeInfo.EstFrameRate, vidCap->GetFormatModeName(modeInfo.InputFormat));
-				if(modeInfo.InputFormat == VIDCAP_FORMAT_RGB24)
-					break;
+				break;
 			}
 
 	if(videoModeId==-1)

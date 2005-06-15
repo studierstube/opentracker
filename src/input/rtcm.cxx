@@ -69,6 +69,9 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #if !defined(STANDALONE)	/* used in another program */
 // #include "config.h"
 #include "rtcm.h"

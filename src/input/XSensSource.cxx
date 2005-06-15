@@ -31,9 +31,13 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// this will remove the warning 4786
+#include "../tool/disable4786.h"
+
 #include <ace/Log_Msg.h>
 
 #ifdef WIN32
+
 #include <objbase.h>
 #include <xsens/IMTObj.h>
 #endif

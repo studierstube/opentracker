@@ -3,7 +3,31 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "ARToolKitPlusDll"=..\ARToolKitPlus\build\VC6\ARToolKitPlusDll.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "opentracker"=.\opentracker.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "opentrackerLib"=.\opentrackerLib.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
