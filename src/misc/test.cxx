@@ -42,7 +42,8 @@ using namespace std;
 
 using namespace ot;
 
-CallbackFunction testCB;
+CallbackFunction *testCB;
+
 
 /**
  * The main function for the test program. It expects a
@@ -71,7 +72,7 @@ int main(int argc, char **argv)
 
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );
-    cbModule->setCallback( "TIMER", &testCB );
+    cbModule->setCallback( "TIMER", testCB );
     
     cout << "Parsing complete." << endl << endl << "Press return to start mainloop !" << endl;
     char foo;
@@ -83,7 +84,9 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void testCB( const Node & node, const State & event, void * data ){
+void testCB( Node & node,  State & event, void * data ){
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
     cout << node.getName() << " time diff " << diff << endl;
 }
+
+

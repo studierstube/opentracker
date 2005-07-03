@@ -54,7 +54,7 @@
 #ifndef _LOGMODULE_H
 #define _LOGMODULE_H
 
-#include "..\OpenTracker.h"
+#include "../OpenTracker.h"
 
 namespace ot {
 

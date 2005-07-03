@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/src/Makefile.common
 
-SUBDIRS = common core input misc network
+SUBDIRS = common core input misc network tool
 
 otinc_HEADERS = \
         OpenTracker.h \

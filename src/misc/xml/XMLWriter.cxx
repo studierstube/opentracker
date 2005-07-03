@@ -44,7 +44,7 @@
 #include <memory>
 
 #include "XMLWriter.h"
-#include "../../tool/OT_ACE_LOG.h"
+#include "../../tool/OT_ACE_Log.h"
 
 //using namespace std;
 

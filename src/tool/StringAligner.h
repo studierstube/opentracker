@@ -10,7 +10,11 @@ class StringAligner
 public:
    StringAligner(const char* nPtr) : ptr(nPtr), myptr(0)
    {
+#ifdef USE_64_BIT
+       if((reinterpret_cast<unsigned long>(nPtr) & 0x03f) != 0)
+#else
        if((reinterpret_cast<unsigned int>(nPtr) & 0x03f) != 0)
+#endif
            strcpy(myptr = new char[strlen(nPtr)+1], nPtr);
    }
 

@@ -199,7 +199,7 @@ ConsoleModule::ConsoleModule() : Module(), NodeFactory(), sinks(), sources(), ke
 #else        
         // This keycode map reflects my german sgi keyboard !!
         // Not everything makes sense, but it works :)
-	keyCodeMap[string("down")] = 0x1;
+	keyCodeMap[std::string("down")] = 0x1;
         keyCodeMap["down"]  = KEY_DOWN;
         keyCodeMap["up"]    = KEY_UP;
         keyCodeMap["left"]  = KEY_LEFT;

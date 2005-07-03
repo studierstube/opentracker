@@ -52,7 +52,7 @@
 
 #include "ParButtonSource.h"
 #include "ParButtonModule.h"
-#include "../tool/OT_ACE_LOG.h"
+#include "../tool/OT_ACE_Log.h"
 
 // enable this define, if you want to use an alternative implementation of
 // the parallel port access. You will also have to make sure to include the
