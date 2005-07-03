@@ -14,6 +14,7 @@ libOpenTracker_la_LIBADD = \
         $(top_builddir)/src/common/libcommon.la \
         $(top_builddir)/src/core/libcore.la \
         $(top_builddir)/src/input/libinput.la \
+        $(top_builddir)/src/tool/libtool.la \
         $(top_builddir)/src/misc/libmisc.la \
         $(top_builddir)/src/misc/xml/libxml.la \
         $(top_builddir)/src/network/libnetwork.la \

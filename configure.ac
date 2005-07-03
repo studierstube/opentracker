@@ -133,6 +133,7 @@ AC_CONFIG_FILES([Makefile
                  src/common/Makefile
                  src/core/Makefile
                  src/input/Makefile
+                 src/tool/Makefile
                  src/misc/Makefile
                  src/misc/xml/Makefile
                  src/network/Makefile
