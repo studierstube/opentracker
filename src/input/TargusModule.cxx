@@ -40,6 +40,8 @@ Node * TargusModule::createNode( const std::string& name, StringTable& attribute
 
    if( name.compare("TargusSource") == 0 ) {       
       TargusSource * source = new TargusSource;
+      source->state.button = 0;
+      source->state.confidence = 1.0f;
       nodes.push_back( source );
       ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build TargusSource node\n")));
       initialized = 1;
@@ -70,7 +72,7 @@ void TargusModule::start() {
       }
       
       // get the XKeys object for handling registring keyevents
-      xkeys = new XKeys("/mount/homes/breiting/.xbindkeysrc");
+      xkeys = new XKeys("/root/.xbindkeysrc");
       assert(xkeys);
       xkeys->showKeys(display);
       
@@ -121,7 +123,7 @@ void TargusModule::pushState() {
 // 	       buttons = buttons | 0x02;
 // 	 }
 
-	 source->state.button = buttons;
+// 	 source->state.button = buttons;
 
 	 switch (e.type) {
 	 case KeyPress:
@@ -249,9 +251,9 @@ void TargusModule::pushState() {
 	   break;
 	 };
 
-	 source->state.button = source->state.button++;
-	 source->state.timeStamp();
-	 source->updateObservers(source->state);
+// 	 source->state.button = source->state.button++;
+// 	 source->state.timeStamp();
+// 	 source->updateObservers(source->state);
 
 
       }
