@@ -77,6 +77,7 @@
 #include "../input/ARToolKitModule.h"
 #include "../input/ARToolKitPlusModule.h"
 #include "../input/CyberMouseModule.h"
+#include "../input/TargusModule.h"
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
 #include "../input/SpaceMouseModule.h"
@@ -169,6 +170,12 @@ void OPENTRACKER_API initializeContext( Context & context )
     CyberMouseModule * cmouse = new CyberMouseModule;
     context.addFactory( * cmouse );
     context.addModule( "CyberMouseConfig", * cmouse );
+#endif	
+
+#ifdef USE_TARGUSMODULE
+    TargusModule * targusmodule = new TargusModule;
+    context.addFactory( * targusmodule );
+    context.addModule( "TargusConfig", * targusmodule );
 #endif	
 
 #ifdef USE_JOYSTICK

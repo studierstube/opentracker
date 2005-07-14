@@ -8,8 +8,8 @@
 
 # set -x -v
 
-aclocal-1.9 -I cfg/m4 \
+aclocal -I cfg/m4 \
 && libtoolize --force --copy \
 && autoheader \
-&& automake-1.9 --add-missing --copy \
+&& automake --add-missing --copy \
 && autoconf

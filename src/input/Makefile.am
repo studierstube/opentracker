@@ -53,7 +53,9 @@ otinputinc_HEADERS = \
         UltraTrakSource.h \
         rtcm.h \
         XSensModule.h \
-        XSensSource.h
+        XSensSource.h \
+	TargusModule.h \
+	TargusSource.h
 
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
@@ -134,4 +136,5 @@ libinput_la_SOURCES = \
         XSensModule.cxx \
         XSensModule.h \
         XSensSource.cxx \
-        XSensSource.h
+        XSensSource.h \
+	TargusModule.cxx
