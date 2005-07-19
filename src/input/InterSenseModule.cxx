@@ -188,7 +188,8 @@ void InterSenseModule::start()
         if( (*it)->info.TrackerType == ISD_INTERTRAX_SERIES || 
             (*it)->info.TrackerModel == ISD_IS300 ||
             (*it)->info.TrackerModel == ISD_ICUBE2 ||
-            (*it)->info.TrackerModel == ISD_ICUBE2_PRO )
+            (*it)->info.TrackerModel == ISD_ICUBE2_PRO ||
+			(*it)->info.TrackerModel == ISD_ICUBE3)
         {
             for( int j = 1; j <= ISD_MAX_STATIONS; j++ )                
                 ISD_ResetHeading((*it)->handle, j);
