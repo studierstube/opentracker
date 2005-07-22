@@ -34,7 +34,7 @@
 #ifndef _GPS_HANDLER_H
 #define _GPS_HANDLER_H
 
-// #include <ace/version.h>
+#include <ace/version.h>
 #include <ace/Connector.h>
 #include <ace/TTY_IO.h>
 #include <ace/DEV_Connector.h>

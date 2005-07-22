@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "ARToolKitPlus"=..\ARToolKitPlus\build\VC6\ARToolKitPlus.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ARToolKitPlusDll"=..\ARToolKitPlus\build\VC6\ARToolKitPlusDll.dsp - Package Owner=<4>
 
 Package=<5>

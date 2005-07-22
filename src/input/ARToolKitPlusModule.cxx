@@ -47,23 +47,21 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
-
 #ifdef ARTOOLKITPLUS_DLL
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
 #else
 #  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
+#  if defined(DEBUG) || defined(_DEBUG)
+#    pragma comment(lib, "ARToolKitPlusD.lib")
+#    pragma message("linking against ARToolKitPlusD.lib")
+#  else
+#    pragma comment(lib, "ARToolKitPlus.lib")
+#    pragma message("linking against ARToolKitPlus.lib")
+#  endif
 #endif
 
 #include <ARToolKitPlus/Logger.h>
 
-
-//#ifdef ARTOOLKITPLUS_DLL
-//#  if defined(DEBUG) || defined(_DEBUG)
-//#    pragma comment(lib, "ARToolKitPlusDllD.lib")
-//#  else
-//#    pragma comment(lib, "ARToolKitPlusDll.lib")
-//#  endif
-//#endif //ARTOOLKITPLUS_DLL
 
 
 class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
@@ -141,9 +139,9 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 #ifdef ARTOOLKITPLUS_DLL
 
 #  ifdef ARTOOLKITPLUS_FOR_STB3
-	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 12,12,12, ARToolKitPlus::PIXEL_FORMAT_RGBA);
+	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA);
 #  else
-	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 12,12,12, ARToolKitPlus::PIXEL_FORMAT_RGB565);
+	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565);
 #  endif //ARTOOLKITPLUS_FOR_STB3
 
 #else
@@ -210,21 +208,7 @@ Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& att
         int id;
         std::string filename = attributes.get("tag-file");
 		std::string markerid = attributes.get("tag-id");
-		std::string undistmode = attributes.get("undist-mode");
-		std::string detectmode = attributes.get("detect-mode");
         std::string fullname;
-
-		if(detectmode.length() && detectmode=="lite")
-			useMarkerDetectLite = true;
-
-		if(undistmode.length())
-		{
-			if(undistmode=="none" || undistmode=="NONE")
-				tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
-			else
-			if(undistmode=="lut" || undistmode=="LUT")
-				tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
-		}
 
 		// see if we have a marker-id field
 		if(markerid.length())
@@ -343,6 +327,21 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     cameradata = attributes.get("camera-parameter");
     patternDirectory = attributes.get("pattern-dir");
+
+	std::string undistmode = attributes.get("undist-mode");
+	std::string detectmode = attributes.get("detect-mode");
+
+	if(detectmode.length() && detectmode=="lite")
+		useMarkerDetectLite = true;
+
+	if(undistmode.length())
+	{
+		if(undistmode=="none" || undistmode=="NONE")
+			tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
+		else
+		if(undistmode=="lut" || undistmode=="LUT")
+			tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+	}
 
 	int tmpThreshold=100;
     
