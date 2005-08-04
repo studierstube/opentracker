@@ -72,6 +72,7 @@ void TargusModule::start() {
       }
       
       // get the XKeys object for handling registring keyevents
+//       xkeys = new XKeys("/mount/homes/breiting/.xbindkeysrc");
       xkeys = new XKeys("/root/.xbindkeysrc");
       assert(xkeys);
       xkeys->showKeys(display);
@@ -135,7 +136,16 @@ void TargusModule::pushState() {
 
 // 	    state.button = states[B1] | (states[B2] << 1) | (states[B3] << 2) | (states[B4] << 3);
 
-	    source->state.button = 1;
+	    if (e.xkey.keycode == 130) {
+	       source->state.button = 1;  // 00000001
+	    } else if(e.xkey.keycode == 162) {
+	       source->state.button = 2;  // 00000010
+	    } else if(e.xkey.keycode == 174) {
+	       source->state.button = 4;  // 00000100
+	    } else  {
+	       source->state.button = 1;
+	    }
+
 	    source->state.timeStamp();
 	    source->updateObservers(source->state);
 
