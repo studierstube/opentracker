@@ -55,10 +55,10 @@ class GPSDriver;
  * @ingroup input
  * @author Gerhard Reitmayr
  */
-#if ACE_MAJOR_VERSION==5 && ACE_MINOR_VERSION==3
-class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_TTY_IO::PEER_ADDR, ACE_NULL_SYNCH> 
+#if defined(WIN32) || defined _SGI_SOURCE
+class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_TTY_IO::PEER_ADDR, ACE_NULL_SYNCH>
 #else
-class GPS_Handler : public  ACE_Svc_Handler<ACE_DEV_STREAM, ACE_NULL_SYNCH>
+class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_NULL_SYNCH>
 #endif
 {
 public:
