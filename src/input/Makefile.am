@@ -8,6 +8,8 @@ otinputinc_HEADERS = \
         ARTDataTrackerModule.h \
         ARTDataTrackerSource.h \
         ARToolKitModule.h \
+        ARToolKitMultiMarkerSource.h \
+        ARToolKitPlusModule.h \
         ARToolKitSource.h \
         CyberMouseModule.h \
         CyberMouseSource.h \
@@ -35,6 +37,9 @@ otinputinc_HEADERS = \
         MagicYModule.h \
         MagicYSource.h \
         MulticastInputModule.h \
+        MulticastInputSource.h \
+        P5GloveModule.h \
+        P5GloveSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
         WacomGraphireModule.h \
@@ -66,6 +71,9 @@ libinput_la_SOURCES = \
         ARTDataTrackerSource.h \
         ARToolKitModule.cxx \
         ARToolKitModule.h \
+        ARToolKitMultiMarkerSource.h \
+        ARToolKitPlusModule.cxx \
+        ARToolKitPlusModule.h \
         ARToolKitSource.h \
         CyberMouseModule.cxx \
         CyberMouseModule.h \
@@ -105,6 +113,10 @@ libinput_la_SOURCES = \
         MagicYSource.h \
         MulticastInputModule.cxx \
         MulticastInputModule.h \
+        MulticastInputSource.h \
+        P5GloveModule.cxx \
+        P5GloveModule.h \
+        P5GloveSource.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \

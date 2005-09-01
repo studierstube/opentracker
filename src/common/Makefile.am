@@ -42,7 +42,7 @@ otcommoninc_HEADERS = \
         GroupGateModule.h \
         GroupGateNode.h \
         LogModule.h
- 
+
 noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
         ButtonFilterNode.cxx \

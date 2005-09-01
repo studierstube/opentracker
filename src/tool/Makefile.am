@@ -4,7 +4,11 @@ include $(top_srcdir)/src/Makefile.common
 
 ottoolincdir = $(otincdir)/tool
 ottoolinc_HEADERS = \
-	OT_ACE_Log.h
+	OT_ACE_Log.h \
+	StringAligner.h \
+	StringFixer.h \
+	XMLSelection.h \
+	disable4786.h
 
 noinst_LTLIBRARIES = libtool.la
 libtool_la_SOURCES = \
