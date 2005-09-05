@@ -85,11 +85,14 @@
  *       the server parameters and two nodes @ref vrpnsource to receive data from a VRPN
  *       server and @ref vrpnsink to act as a device in the server. On Windows, set the
  *       environment variable @c VRPNROOT to the vrpn directory to configure the build system.
+ * @li @b USE_UBISENSE
+ *      \n enables Ubisense support and the @ref ubisensesource node and @ref ubisensemodule. This works only
+ *      on Windows.
  * 
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
-#define USE_ARTOOLKIT 1
+//#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
 //#define USE_ARTOOLKITPLUS 1
@@ -117,7 +120,7 @@
 //#define TINYXML_STATIC
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
-#define USE_MSDEV_DEBUGOUTPUT 1
+//#define USE_MSDEV_DEBUGOUTPUT 1
 
 /**
  * This define enables the correction of ARToolkit transformation matrices
@@ -165,3 +168,9 @@
   * @c VRPNROOT environment variable !
   */
 // #define USE_VRPN 1
+
+#ifdef WIN32
+/** uncomment the following line to compile support for the Ubisense system.
+  * Support for this is only available on windows. */
+// #define USE_UBISENSE 1
+#endif

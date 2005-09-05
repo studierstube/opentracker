@@ -84,6 +84,7 @@
 #include "../input/SpeechModule.h"
 #include "../input/P5GloveModule.h"
 #include "../input/MulticastInputModule.h"
+#include "../input/UbisenseModule.h"
 #include "../network/DwarfModule.h"
 #include "../network/VRPNModule.h"
 
@@ -296,6 +297,12 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( *xsens );
     context.addModule( "XSensConfig", *xsens );
 #endif //_WIN32_WCE
+
+#ifdef USE_UBISENSE
+    UbisenseModule * ubisense = new UbisenseModule;
+    context.addFactory( * ubisense );
+    context.addModule( "UbisenseConfig", *ubisense );
+#endif
 }
 
 } // namespace ot
