@@ -35,7 +35,6 @@
 
 #include "UbisenseModule.h"
 #include "UbisenseSource.h"
-//#include <iostream>
 
 #ifdef USE_UBISENSE
 
@@ -77,7 +76,7 @@ Node* UbisenseModule::createNode(const std::string &name,StringTable &attributes
 void UbisenseModule::start()
 {
 	for (Set<String>::const_iterator i = cells.begin();i != cells.end();++ i)
-		/*std::cout << "loading cell \'" << *i << "\' " << (*/locationClient.load_cell(*i) /*? "succeeded": "failed") << std::endl*/;
+		locationClient.load_cell(*i);
 }
 
 void UbisenseModule::close()

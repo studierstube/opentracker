@@ -64,9 +64,9 @@ bool UbisenseSource::calcState()
 	if (locationClient.get_object_location(object,location) && location.time_ > lastTime)
 	{
 		state = State();
-		state.position[0] = location.pos_.x_; 
-		state.position[1] = location.pos_.y_; 
-		state.position[2] = location.pos_.z_;
+		state.position[0] = static_cast<float>(location.pos_.x_); 
+		state.position[1] = static_cast<float>(location.pos_.y_); 
+		state.position[2] = static_cast<float>(location.pos_.z_);
 		if (buttonTime > lastTime)
 		{
 			state.button = button;
