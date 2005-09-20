@@ -62,6 +62,7 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes) = 0;
+    virtual ~NodeFactory() {};
 };
 
 } // namespace ot
