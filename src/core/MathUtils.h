@@ -94,6 +94,13 @@ public:
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
     static float* axisAngleToQuaternion(const float* axisa, float* qResult);
+    /** converts an axis angle representation into a quaternion. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
+     * @param axisa double[4] containing axis and angle in radiants
+     * @param qResult double[4] where the result is stored
+     * @return pointer to result array */
+    static double* axisAngleToQuaternion(const double* axisa, Quaternion qResult);
     /** computes a quaternion from euler angles representing a rotation.
      * @deprecated use the other overloaded variant instead.
      * @param roll rotation around looking axis
@@ -136,6 +143,14 @@ public:
      * @param qResult float[4] where the result is stored
      * @return pointer to result array */
     static float* multiplyQuaternion(const float* q1, const float* q2, float* qResult);
+    /** multiplies two quaternions and stores result in a third. This method
+     * operates directly on the arguments. Therefore using the same pointers
+     * for several arguments will produce wrong results !
+     * @param q1 Quaternion storing first quaternion
+     * @param q2 Quaternion storing second quaternion
+     * @param qResult Quaternion where the result is stored
+     * @return pointer to result array */
+    static double* multiplyQuaternion(const Quaternion q1, const Quaternion q2, Quaternion qResult);
     /** normalizes quaternion to unit length. Here the computation is
      * done in place and the parameter is changed !
      * @param q float[4] storing quaternion

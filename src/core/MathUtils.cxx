@@ -91,6 +91,15 @@ float* MathUtils::axisAngleToQuaternion(const float* axisa, float* qResult)
     qResult[2] = (float)(axisa[2]*s);
     return qResult;
 }
+double* MathUtils::axisAngleToQuaternion(const double* axisa, Quaternion qResult)
+{
+    double s = sin( axisa[3]/2 );
+    qResult[3] = cos( axisa[3]/2 );
+    qResult[0] = (axisa[0]*s);
+    qResult[1] = (axisa[1]*s);
+    qResult[2] = (axisa[2]*s);
+    return qResult;
+}
 
 // computes a quaternion from euler angles representing a rotation.
 
@@ -206,6 +215,17 @@ float* MathUtils::matrixToQuaternion(const float matrix[3][3], float* qResult)
 // multiplies two quaternions and returns result in a third.
 
 float* MathUtils::multiplyQuaternion(const float* q1,const float* q2, float* qResult)
+{
+    qResult[0] = q1[3]*q2[0]+q1[0]*q2[3]+q1[1]*q2[2]-q1[2]*q2[1];
+    qResult[1] = q1[3]*q2[1]-q1[0]*q2[2]+q1[1]*q2[3]+q1[2]*q2[0];
+    qResult[2] = q1[3]*q2[2]+q1[0]*q2[1]-q1[1]*q2[0]+q1[2]*q2[3];
+    qResult[3] = q1[3]*q2[3]-q1[0]*q2[0]-q1[1]*q2[1]-q1[2]*q2[2];
+    return qResult;
+}
+
+double* MathUtils::multiplyQuaternion(const ot::MathUtils::Quaternion q1, 
+				      const ot::MathUtils::Quaternion q2, 
+				      ot::MathUtils::Quaternion qResult)
 {
     qResult[0] = q1[3]*q2[0]+q1[0]*q2[3]+q1[1]*q2[2]-q1[2]*q2[1];
     qResult[1] = q1[3]*q2[1]-q1[0]*q2[2]+q1[1]*q2[3]+q1[2]*q2[0];
