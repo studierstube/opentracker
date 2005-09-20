@@ -246,6 +246,18 @@ float* MathUtils::normalizeQuaternion(float* q)
     return q;
 }
 
+// normalizes a quaternion to a unit quaternion.
+
+double* MathUtils::normalizeQuaternion(Quaternion q)
+{
+    double mod = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+    q[0] = q[0] / mod;
+    q[1] = q[1] / mod;
+    q[2] = q[2] / mod;
+    q[3] = q[3] / mod;
+    return q;
+}
+
 // rotates a vector by a given quaternion.
 
 float* MathUtils::rotateVector(const float* q, const float* v, float* vResult)

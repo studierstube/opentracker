@@ -156,6 +156,11 @@ public:
      * @param q float[4] storing quaternion
      * @return pointer to result array */
     static float* normalizeQuaternion(float* q);
+    /** normalizes quaternion to unit length. Here the computation is
+     * done in place and the parameter is changed !
+     * @param q Quaternion storing quaternion
+     * @return pointer to result array */
+    static double* normalizeQuaternion(Quaternion q);
     /** rotates a vector using a given unit quaternion. It does
      * not normalize the quaternion or check for unit length ! This method
      * operates directly on the arguments. Therefore using the same pointers

@@ -55,7 +55,7 @@
 #include "../input/DynaSightModule.h"
 #include "../input/FastTrakModule.h"
 #include "../input/FOBModule.h"
-#endif _WIN32_WCE
+#endif //_WIN32_WCE
 
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
@@ -78,6 +78,7 @@
 #include "../input/ARToolKitPlusModule.h"
 #include "../input/CyberMouseModule.h"
 #include "../input/TargusModule.h"
+#include "../input/LinmouseModule.h"
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
 #include "../input/SpaceMouseModule.h"
@@ -171,6 +172,12 @@ void OPENTRACKER_API initializeContext( Context & context )
     CyberMouseModule * cmouse = new CyberMouseModule;
     context.addFactory( * cmouse );
     context.addModule( "CyberMouseConfig", * cmouse );
+#endif	
+
+#ifdef USE_LINMOUSEMODULE
+    LinmouseModule * linmousemodule = new LinmouseModule;
+    context.addFactory( * linmousemodule );
+    context.addModule( "LinmouseConfig", * linmousemodule );
 #endif	
 
 #ifdef USE_TARGUSMODULE
