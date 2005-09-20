@@ -39,4 +39,4 @@ void LOG_ACE_INFO(const char* nString, ...);
 void LOG_ACE_ERROR(const char* nString, ...);
 
 
-#endif __OT_ACE_LOG_HEADERFILE__
+#endif //__OT_ACE_LOG_HEADERFILE__
