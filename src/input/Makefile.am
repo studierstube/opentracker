@@ -59,6 +59,8 @@ otinputinc_HEADERS = \
         rtcm.h \
         XSensModule.h \
         XSensSource.h \
+        LinmouseModule.h \
+        LinmouseSource.h \
 	TargusModule.h \
 	TargusSource.h
 
@@ -149,4 +151,5 @@ libinput_la_SOURCES = \
         XSensModule.h \
         XSensSource.cxx \
         XSensSource.h \
+	LinmouseModule.cxx \
 	TargusModule.cxx
