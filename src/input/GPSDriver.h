@@ -67,6 +67,7 @@ public:
      * @param uderData a pointer to user data stored when registering the listener.
      */
 	virtual void newData( const GPResult * point, const char * line, void * userData ) = 0;
+	virtual ~GPSListener() {};
 };
 
 /**
