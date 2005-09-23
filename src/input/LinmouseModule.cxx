@@ -114,6 +114,8 @@ void LinmouseModule::run()
 
    //ACE_DEBUG((LM_INFO, ACE_TEXT("The device on %s says it's name is %s\n"), fdfilename.c_str(), name));
 
+   bool wheelflag;
+
    while(1) {
 
       if (stop != 0) {
@@ -131,6 +133,8 @@ void LinmouseModule::run()
 	ev.time.tv_sec, ev.time.tv_usec, ev.type,
 	ev.code, ev.value);*/
 
+      wheelflag = false;
+
       switch (ev.type) {
       case EV_KEY :
 	 switch (ev.code) {
@@ -142,36 +146,53 @@ void LinmouseModule::run()
 	    break;
 	 case BTN_MIDDLE:
 	    if (ev.value) buttons |= 0x0004; else buttons &= ~0x0004;
-	    break;
-	 case BTN_SIDE:
+	    break;	 
+	 case BTN_FORWARD:
 	    if (ev.value) buttons |= 0x0008; else buttons &= ~0x0008;
 	    break;
+	 /*
 	 case BTN_EXTRA:
 	    if (ev.value) buttons |= 0x0010; else buttons &= ~0x0010;
-	    break;
-	 case BTN_FORWARD:
+	    break;	 
+	 case BTN_SIDE:
 	    if (ev.value) buttons |= 0x0020; else buttons &= ~0x0020;
-	    break;
+	    break;	
+	 */
 	 case BTN_BACK:
 	    if (ev.value) buttons |= 0x0040; else buttons &= ~0x0040;
 	    break;
 	 case BTN_TASK:
 	    if (ev.value) buttons |= 0x0080; else buttons &= ~0x0080;
 	    break;
+	    // not more than eight buttons allowed in studierstube
+	 /*
+	 case 0x118:
+	    if (ev.value) buttons |= 0x0100; else buttons &= ~0x0100;
+	    break;
+	 case 0x119:
+	    if (ev.value) buttons |= 0x0200; else buttons &= ~0x0200;
+	    break;
+	 case 0x11a:
+	    if (ev.value) buttons |= 0x0400; else buttons &= ~0x0400;
+	    break;
+	 case 0x11b:
+	    if (ev.value) buttons |= 0x0800; else buttons &= ~0x0800;
+	    break;
+	 */
 	 default:
 	    break;
 	 }
 	 break;
       case EV_REL: // relative movement
-      ot::MathUtils::Quaternion relquat;
-      ot::MathUtils::Quaternion startquat;
-      startquat[0] = orientation[0];
-      startquat[1] = orientation[1];
-      startquat[2] = orientation[2];
-      startquat[3] = orientation[3];
-      double axisa[4]; axisa[0] = axisa[1] = axisa[2] = 0;
-      axisa[3] = 1;
-      
+	 ot::MathUtils::Quaternion relquat;
+	 ot::MathUtils::Quaternion startquat;
+	 startquat[0] = orientation[0];
+	 startquat[1] = orientation[1];
+	 startquat[2] = orientation[2];
+	 startquat[3] = orientation[3];
+	 double axisa[4]; axisa[0] = axisa[1] = axisa[2] = 0;
+	 axisa[3] = 1;
+	 
 	 if (ev.code == REL_X) {
 	    axisa[0] = ev.value/100.0;
 	 }
@@ -180,6 +201,11 @@ void LinmouseModule::run()
 	 }
 	 else if (ev.code == REL_Z) { 
 	    axisa[2] = ev.value/100.0;
+	 }
+	 else if (ev.code == REL_WHEEL) {
+	    if (ev.value == -1) buttons |= 0x0010; 
+	    else if (ev.value == 1) buttons |= 0x0020; 
+	    wheelflag = true;
 	 }
 	 
 	 ot::MathUtils::axisAngleToQuaternion(axisa, relquat);
@@ -191,6 +217,10 @@ void LinmouseModule::run()
       default:
 	 continue;
 	 break;
+      }
+
+      if (!wheelflag) {  // the wheel does reset the button
+	 buttons &= 0xffcf;
       }
 
       NodeVector::iterator it;
