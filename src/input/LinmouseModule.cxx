@@ -114,113 +114,114 @@ void LinmouseModule::run()
 
    //ACE_DEBUG((LM_INFO, ACE_TEXT("The device on %s says it's name is %s\n"), fdfilename.c_str(), name));
 
-   bool wheelflag;
+   bool wheelflag = false;
 
    while(1) {
 
       if (stop != 0) {
 	 break;
       }
-      
-      read_bytes = read(fd, &ev, sizeof(struct input_event));
 
-      if (read_bytes < (int) sizeof(struct input_event)) {
-	 perror("evtest: short read");
-	 exit (1);
-      }
-      
-      /*printf("Event: time %ld.%06ld, type %d, code %d, value %d\n",
-	ev.time.tv_sec, ev.time.tv_usec, ev.type,
-	ev.code, ev.value);*/
-
-      wheelflag = false;
-
-      switch (ev.type) {
-      case EV_KEY :
-	 switch (ev.code) {
-	 case BTN_LEFT:
-	    if (ev.value) buttons |= 0x0001; else buttons &= ~0x0001;
-	    break;
-	 case BTN_RIGHT:
-	    if (ev.value) buttons |= 0x0002; else buttons &= ~0x0002;
-	    break;
-	 case BTN_MIDDLE:
-	    if (ev.value) buttons |= 0x0004; else buttons &= ~0x0004;
-	    break;	 
-	 case BTN_FORWARD:
-	    if (ev.value) buttons |= 0x0008; else buttons &= ~0x0008;
-	    break;
-	 /*
-	 case BTN_EXTRA:
-	    if (ev.value) buttons |= 0x0010; else buttons &= ~0x0010;
-	    break;	 
-	 case BTN_SIDE:
-	    if (ev.value) buttons |= 0x0020; else buttons &= ~0x0020;
-	    break;	
-	 */
-	 case BTN_BACK:
-	    if (ev.value) buttons |= 0x0040; else buttons &= ~0x0040;
-	    break;
-	 case BTN_TASK:
-	    if (ev.value) buttons |= 0x0080; else buttons &= ~0x0080;
-	    break;
-	    // not more than eight buttons allowed in studierstube
-	 /*
-	 case 0x118:
-	    if (ev.value) buttons |= 0x0100; else buttons &= ~0x0100;
-	    break;
-	 case 0x119:
-	    if (ev.value) buttons |= 0x0200; else buttons &= ~0x0200;
-	    break;
-	 case 0x11a:
-	    if (ev.value) buttons |= 0x0400; else buttons &= ~0x0400;
-	    break;
-	 case 0x11b:
-	    if (ev.value) buttons |= 0x0800; else buttons &= ~0x0800;
-	    break;
-	 */
-	 default:
-	    break;
-	 }
-	 break;
-      case EV_REL: // relative movement
-	 ot::MathUtils::Quaternion relquat;
-	 ot::MathUtils::Quaternion startquat;
-	 startquat[0] = orientation[0];
-	 startquat[1] = orientation[1];
-	 startquat[2] = orientation[2];
-	 startquat[3] = orientation[3];
-	 double axisa[4]; axisa[0] = axisa[1] = axisa[2] = 0;
-	 axisa[3] = 1;
-	 
-	 if (ev.code == REL_X) {
-	    axisa[0] = ev.value/100.0;
-	 }
-	 else if (ev.code == REL_Y) {
-	    axisa[1] = ev.value/100.0;
-	 }
-	 else if (ev.code == REL_Z) { 
-	    axisa[2] = ev.value/100.0;
-	 }
-	 else if (ev.code == REL_WHEEL) {
-	    if (ev.value == -1) buttons |= 0x0010; 
-	    else if (ev.value == 1) buttons |= 0x0020; 
-	    wheelflag = true;
-	 }
-	 
-	 ot::MathUtils::axisAngleToQuaternion(axisa, relquat);
-	 ot::MathUtils::normalizeQuaternion(relquat);
-	 ot::MathUtils::multiplyQuaternion(startquat, relquat, orientation);
-	 ot::MathUtils::normalizeQuaternion(orientation);
-	    
-	 break;
-      default:
-	 continue;
-	 break;
-      }
-
-      if (!wheelflag) {  // the wheel does reset the button
+      if (wheelflag) {  // the wheel does not reset the button -> insert artificial button release event
 	 buttons &= 0xffcf;
+	 wheelflag = false;
+      }
+      else { // "normal" case -> read from devict
+	 read_bytes = read(fd, &ev, sizeof(struct input_event));
+	 
+	 if (read_bytes < (int) sizeof(struct input_event)) {
+	    perror("evtest: short read");
+	    exit (1);
+	 }
+     
+	 /*printf("Event: time %ld.%06ld, type %d, code %d, value %d\n",
+	   ev.time.tv_sec, ev.time.tv_usec, ev.type,
+	   ev.code, ev.value);*/
+
+
+	 switch (ev.type) {
+	 case EV_KEY :
+	    switch (ev.code) {
+	    case BTN_LEFT:
+	       if (ev.value) buttons |= 0x0001; else buttons &= ~0x0001;
+	       break;
+	    case BTN_RIGHT:
+	       if (ev.value) buttons |= 0x0002; else buttons &= ~0x0002;
+	       break;
+	    case BTN_MIDDLE:
+	       if (ev.value) buttons |= 0x0004; else buttons &= ~0x0004;
+	       break;	 
+	    case BTN_FORWARD:
+	       if (ev.value) buttons |= 0x0008; else buttons &= ~0x0008;
+	       break;
+	       /*
+		 case BTN_EXTRA:
+		 if (ev.value) buttons |= 0x0010; else buttons &= ~0x0010;
+		 break;	 
+		 case BTN_SIDE:
+		 if (ev.value) buttons |= 0x0020; else buttons &= ~0x0020;
+		 break;	
+	       */
+	    case BTN_BACK:
+	       if (ev.value) buttons |= 0x0040; else buttons &= ~0x0040;
+	       break;
+	    case BTN_TASK:
+	       if (ev.value) buttons |= 0x0080; else buttons &= ~0x0080;
+	       break;
+	       // not more than eight buttons allowed in studierstube
+	       /*
+		 case 0x118:
+		 if (ev.value) buttons |= 0x0100; else buttons &= ~0x0100;
+		 break;
+		 case 0x119:
+		 if (ev.value) buttons |= 0x0200; else buttons &= ~0x0200;
+		 break;
+		 case 0x11a:
+		 if (ev.value) buttons |= 0x0400; else buttons &= ~0x0400;
+		 break;
+		 case 0x11b:
+		 if (ev.value) buttons |= 0x0800; else buttons &= ~0x0800;
+		 break;
+	       */
+	    default:
+	       break;
+	    }
+	    break;
+	 case EV_REL: // relative movement
+	    ot::MathUtils::Quaternion relquat;
+	    ot::MathUtils::Quaternion startquat;
+	    startquat[0] = orientation[0];
+	    startquat[1] = orientation[1];
+	    startquat[2] = orientation[2];
+	    startquat[3] = orientation[3];
+	    double axisa[4]; axisa[0] = axisa[1] = axisa[2] = 0;
+	    axisa[3] = 1;
+	 
+	    if (ev.code == REL_X) {
+	       axisa[0] = ev.value/100.0;
+	    }
+	    else if (ev.code == REL_Y) {
+	       axisa[1] = ev.value/100.0;
+	    }
+	    else if (ev.code == REL_Z) { 
+	       axisa[2] = ev.value/100.0;
+	    }
+	    else if (ev.code == REL_WHEEL) {
+	       if (ev.value == -1) buttons |= 0x0010; 
+	       else if (ev.value == 1) buttons |= 0x0020; 
+	       wheelflag = true;
+	    }
+	 
+	    ot::MathUtils::axisAngleToQuaternion(axisa, relquat);
+	    ot::MathUtils::normalizeQuaternion(relquat);
+	    ot::MathUtils::multiplyQuaternion(startquat, relquat, orientation);
+	    ot::MathUtils::normalizeQuaternion(orientation);
+	    
+	    break;
+	 default:
+	    continue;
+	    break;
+	 }
       }
 
       NodeVector::iterator it;
