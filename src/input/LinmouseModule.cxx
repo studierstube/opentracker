@@ -123,6 +123,7 @@ void LinmouseModule::run()
       }
 
       if (wheelflag) {  // the wheel does not reset the button -> insert artificial button release event
+	 usleep(50000);
 	 buttons &= 0xffcf;
 	 wheelflag = false;
       }
@@ -209,6 +210,7 @@ void LinmouseModule::run()
 	    else if (ev.code == REL_WHEEL) {
 	       if (ev.value == -1) buttons |= 0x0010; 
 	       else if (ev.value == 1) buttons |= 0x0020; 
+	       //ACE_DEBUG((LM_INFO, ACE_TEXT("Wheel %d - %d"), ev.value, buttons));
 	       wheelflag = true;
 	    }
 	 
