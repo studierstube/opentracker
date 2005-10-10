@@ -1,33 +1,33 @@
 /* ========================================================================
-* Copyright (C) 2001  Vienna University of Technology
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 2.1 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*
-* For further information please contact Gerhard Reitmayr under
-* <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
-* Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
-* Austria.
-* ========================================================================
-* PROJECT: OpenTracker
-* ======================================================================== */
+ * Copyright (C) 2001  Vienna University of Technology
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * For further information please contact Gerhard Reitmayr under
+ * <reitmayr@ims.tuwien.ac.at> or write to Gerhard Reitmayr,
+ * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
+ * Austria.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for ARTDataTrackerChomp class.
-*
-* @author Christopher Schmidt
-*
-* $Id$
-* @file                                                                   */
+ *
+ * @author Christopher Schmidt
+ *
+ * $Id$
+ * @file                                                                   */
 /* ======================================================================= */
 
 // this will remove the warning 4786
@@ -40,313 +40,453 @@
 #include <stdio.h>
 
 #include <iostream>
+#include <sstream>
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
-
 namespace ot {
 
-// Destructor method
+    // Destructor method
 
-ARTDataTrackerChomp::~ARTDataTrackerChomp()
-{	
-}
+    ARTDataTrackerChomp::~ARTDataTrackerChomp()
+    {	
+    }
 
 
-ARTDataTrackerChomp::ARTDataTrackerChomp()
-{
-}
+    ARTDataTrackerChomp::ARTDataTrackerChomp()
+    {
+    }
 
-void ARTDataTrackerChomp::chomp(std::string datagramm)
-{
-	
-	positionStart = 0;
-	positionStart = datagramm.find("fr");
-	if (positionStart != 0)
-	{
+    void ARTDataTrackerChomp::chomp(std::string datagramm)
+    {
+	using namespace std;
+
+	istringstream iss(datagramm);
+              
+	int linenumber = 0;
+
+	unsigned long elcount = 0;
+	int station = -1;
+	double timestamp = 0.0;
+
+	std::map<int, BodyRecord>::iterator bdit;
+	std::map<int, MarkerRecord>::iterator mkit;
+	std::map<int, FlystickRecord>::iterator fsit;
+	std::map<int, MeasuretargetRecord>::iterator mtit;
+	for ( bdit = tempBodyRecord.begin(); bdit != tempBodyRecord.end(); bdit++) {
+	    ((*bdit).second).valid = false;
+	}
+	for ( mkit = tempMarkerRecord.begin(); mkit != tempMarkerRecord.end(); mkit++) {
+	    ((*mkit).second).valid = false;
+	}
+	for ( fsit = tempFlystickRecord.begin(); fsit != tempFlystickRecord.end(); fsit++) {
+	    ((*fsit).second).valid = false;
+	}
+	for ( mtit = tempMeasuretargetRecord.begin(); mtit != tempMeasuretargetRecord.end(); mtit++) {
+	    ((*mtit).second).valid = false;
+	}
+	numberTrackedBodies = 0;
+	numberTrackedMarkers = 0;
+	numberTrackedFlysticks = 0;
+	numberTrackedMeasuretargets = 0;
+
+	while (not iss.eof()) {
+	    stringbuf linetype;
+	    stringbuf linecontent;
+
+	    iss.get(linetype,' ');
+	    
+	    if ((linenumber == 0) && (linetype.str() != "fr")) {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error receiving correct Data!!! [#001]\n")));
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Check if Format in ARTTracker Software is set to ASCII !!!\n")));
-		return;
-	}
-	
-	// get the frame number
-	positionStart = 3;
-	positionEnd = datagramm.find("\n", positionStart +1);
-	subLength = positionEnd - positionStart;	
-	// c++ string format
-	temp = datagramm.substr(positionStart, subLength);
-	// c string format needed to be able to convert to int
-	tempChar = temp.c_str();
-	// convert c string to int
-	frameNumber = atol(tempChar);
-	// Bodies
-	// get position of substring for Number of Bodies
-	positionStart = datagramm.find("6d") + 3;
-	positionEnd = datagramm.find(" ", positionStart +1); 
-	subLength = positionEnd - positionStart;	
-	// get the number of bodies 
-	// c++ string format
-	temp = datagramm.substr(positionStart, subLength);
-	// c string format needed to be able to covert to int
-	tempChar = temp.c_str();
-	// convert c string to int
-	numberTrackedBodies = atol(tempChar);
-	// remove the [] from the body data and replace them with blanks
-	// also check if there are two blanks in row. If so erase one of them
-	endj = 3 * numberTrackedBodies;
-	for (j = 0; j < endj; j++)
-	{
-		positionEnd = datagramm.find("[");
-		datagramm.erase(positionEnd, 1);
-		positionEnd = datagramm.find("]");
-		datagramm.replace(positionEnd, 1, " ", 1);
-		positionEnd = datagramm.find("  ");
-		if (positionEnd >= 0)
-		{
-			datagramm.erase(positionEnd, 1);
-		}
-	} // end for j
-	
-	//-------------------------------
-	// Find if extended Options are used the Number of calibrated Bodies
-	/*
-	positionStart = datagramm.find("6dcal");
-	if (positionStart >= 0)
-	{
-		positionStart = positionStart + 6;
-		positionEnd = datagramm.size();
-		subLength = positionEnd - positionStart;
-		temp = datagramm.substr(positionStart, subLength);
-		tempChar = temp.c_str();
-		numberTrackedCalBodies = (int)atof(tempChar);
-		if (numberTrackedCalBodies != maxBodyNumber)
-		{
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error receiving correct Data!!! [#002]\n")));
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Check if the No. of calibrated bodies is equal to maxbodies in XML !!!\n")));
-			exit ( -1 );
-		}
-	}
-	else
-	{
-		numberTrackedCalBodies = 0;
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error receiving correct Data!!! [#003]\n")));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Check if the Trackersoftware DTRacke is set to send the Number of calibrated bodies !!!\n")));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Has to be set in ../Setup/system.ini\n")));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:at [SYSTEM] OutpuNoOf6DTargets=1 !!!!!\n")));
-		exit ( -1 );
-	}
-    */
-	
-	//-------------------------------
-	
-    std::map<int, BodyRecord>::iterator it;
-    for ( it = tempBodyRecord.begin(); it != tempBodyRecord.end(); it++)
-	{
-		((*it).second).valid = false;
-	}
-	
-	positionStart = datagramm.find("6d") + 5;
-	
-	for (i = 0; i < numberTrackedBodies; i++)
-	{
-		positionEnd = datagramm.find(" ",positionStart +1); 
-		subLength = positionEnd - positionStart;	
-		temp = datagramm.substr(positionStart, subLength);
-		tempChar = temp.c_str();
-		bodieID = atol(tempChar);
-		tempBodyRecord[bodieID].id = atol(tempChar);
-		positionStart = positionEnd;
-		
-		positionEnd = datagramm.find(" ",positionStart +1); 
-		subLength = positionEnd - positionStart;	
-		temp = datagramm.substr(positionStart, subLength);
-		tempChar = temp.c_str();
-		tempBodyRecord[bodieID].quality = (float)atof(tempChar);
-		positionStart = positionEnd;
-		tempBodyRecord[bodieID].valid = true;
-		
-		for (j = 0; j < 3; j++)
-		{
-			positionEnd = datagramm.find(" ",positionStart +1); 
-			subLength = positionEnd - positionStart;	
-			temp = datagramm.substr(positionStart, subLength);
-			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].location[j] = (float)atof(tempChar);
-			positionStart = positionEnd;
-		}
-		
-		for (j = 0; j < 3; j++)
-		{
-			positionEnd = datagramm.find(" ",positionStart +1); 
-			subLength = positionEnd - positionStart;	
-			temp = datagramm.substr(positionStart, subLength);
-			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].eulerAngles[j] = (float)atof(tempChar);
-			positionStart = positionEnd;
-		}
-		
-		for (j = 0; j < 9; j++) 
-		{
-			positionEnd = datagramm.find(" ",positionStart +1); 
-			subLength = positionEnd - positionStart;	
-			temp = datagramm.substr(positionStart, subLength);
-			tempChar = temp.c_str();
-			tempBodyRecord[bodieID].rotationMatrix[j] = (float)atof(tempChar);
-			positionStart = positionEnd;
-		}
-		
-	}// end for i
+		return;       
+	    }
 
-	/*
-	// Markers
-	// get position of substring for Number of Markers
-	positionStart = datagramm.find("3d");
-	if (positionStart >= 0)
-	{
-		positionEnd = datagramm.find(" ",positionStart +1); 
-		subLength = positionEnd - positionStart;	
-		// get the number of Markers 
-		// c++ string format
-		temp = datagramm.substr(positionStart, subLength);
-		// c string format needed to be able to convert to int
-		tempChar = temp.c_str();
-		// convert c string to int
-		numberTRackedMarkers = atol(tempChar);
-		// remove the [] from the marker data and replace them with blanks
-		// also check if there are two blanks in row. If so erase one of them
-		endj = 2 * numberTRackedMarkers;
-		for (j = 0; j < endj; j++)
-		{
-			positionEnd = datagramm.find("[");
-			datagramm.erase(positionEnd, 1);
-			positionEnd = datagramm.find("]");
-			datagramm.replace(positionEnd, 1, " ", 1);
-			positionEnd = datagramm.find("  ");
-			if (positionEnd >= 0)
-			{
-				datagramm.erase(positionEnd, 1);
-			}
-		} // end for j
-		tempMarkerRecord = new MarkerRecord[numberTRackedMarkers];
+	    //ACE_DEBUG((LM_INFO, ACE_TEXT("%d linetype    |%s|\n"), linenumber, linetype.str().c_str() ));	    
+	    if (linetype.str() == "fr") {
+		iss >> frameNumber;
 		
-		positionStart = datagramm.find("3d") + 5;
-		for (i = 0; i < numberTRackedMarkers; i++)
-		{
-			positionEnd = datagramm.find(" ",positionStart +1); 
-			subLength = positionEnd - positionStart;	
-			temp = datagramm.substr(positionStart, subLength);
-			tempChar = temp.c_str();
-			bodieID = atol(tempChar);
-			tempMarkerRecord[bodieID].id = atol(tempChar);
-			positionStart = positionEnd;
-			
-			positionEnd = datagramm.find(" ",positionStart +1); 
-			subLength = positionEnd - positionStart;	
-			temp = datagramm.substr(positionStart, subLength);
-			tempChar = temp.c_str();
-			tempMarkerRecord[bodieID].quality = atof(tempChar);
-			positionStart = positionEnd;
-			
-			for (j = 0; j < 3; j++)
-			{
-				positionEnd = datagramm.find(" ",positionStart +1); 
-				subLength = positionEnd - positionStart;	
-				temp = datagramm.substr(positionStart, subLength);
-				tempChar = temp.c_str();
-				tempMarkerRecord[bodieID].location[j] = atof(tempChar);
-				positionStart = positionEnd;
-			}
-		}	
-		delete [] tempMarkerRecord;
+		iss.get(linecontent);
+
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "ts") {		
+		iss >> timestamp;
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d timestamp  |%f|\n"), linenumber, timestamp ));
+		iss.get(linecontent);
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "6d") {
+		iss >> numberTrackedBodies;
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d 6dcount   |%d|\n"), linenumber, numberTrackedBodies ));
+
+		if (numberTrackedBodies > 0) iss.ignore(2);
+		
+		int i;
+		for (i=0; i<numberTrackedBodies; i++) {
+		    iss >> station;
+		    //ACE_DEBUG((LM_INFO, ACE_TEXT("%d station   |%d|\n"), linenumber, station ));
+		    
+		    tempBodyRecord[station].id = station;
+		    iss >> tempBodyRecord[station].quality;
+		    iss.ignore(2);
+		    iss >> tempBodyRecord[station].location[0];
+		    iss >> tempBodyRecord[station].location[1];
+		    iss >> tempBodyRecord[station].location[2];
+		    iss >> tempBodyRecord[station].eulerAngles[0];
+		    iss >> tempBodyRecord[station].eulerAngles[1];
+		    iss >> tempBodyRecord[station].eulerAngles[2];
+		    iss.ignore(2);
+		    iss >> tempBodyRecord[station].rotationMatrix[0];
+		    iss >> tempBodyRecord[station].rotationMatrix[1];
+		    iss >> tempBodyRecord[station].rotationMatrix[2];
+		    iss >> tempBodyRecord[station].rotationMatrix[3];
+		    iss >> tempBodyRecord[station].rotationMatrix[4];
+		    iss >> tempBodyRecord[station].rotationMatrix[5];
+		    iss >> tempBodyRecord[station].rotationMatrix[6];
+		    iss >> tempBodyRecord[station].rotationMatrix[7];
+		    iss >> tempBodyRecord[station].rotationMatrix[8];
+
+		    tempBodyRecord[station].valid = true;
+
+		    if (i < numberTrackedBodies-1) iss.ignore(3); else iss.ignore(1);		    
+		}
+
+		iss.get(linecontent);		
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "3d") {
+		iss >> numberTrackedMarkers;
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d 3dcount   |%d|\n"), linenumber, numberTrackedMarkers ));
+
+		if (numberTrackedMarkers > 0) iss.ignore(2);
+
+		int i;		
+		for (i=0; i<numberTrackedMarkers; i++) {
+		    iss >> station;
+		    //ACE_DEBUG((LM_INFO, ACE_TEXT("%d station   |%d|\n"), linenumber, station ));
+		    
+		    tempMarkerRecord[station].id = station;
+		    iss >> tempMarkerRecord[station].quality;
+		    
+		    iss.ignore(2);
+		    iss >> tempMarkerRecord[station].location[0];
+		    iss >> tempMarkerRecord[station].location[1];
+		    iss >> tempMarkerRecord[station].location[2];
+
+		    tempMarkerRecord[station].valid = true;
+
+		    if (i < numberTrackedMarkers-1) iss.ignore(3); else iss.ignore(1);
+		}
+    
+		iss.get(linecontent);		
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "6df") {		
+		iss >> numberTrackedFlysticks;		
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d 6dfcount   |%d|\n"), linenumber, numberTrackedFlysticks ));
+
+		if (numberTrackedFlysticks > 0) iss.ignore(2);
+		
+		int i;
+		for (i=0; i<numberTrackedFlysticks; i++) {
+		    iss >> station;
+		    //ACE_DEBUG((LM_INFO, ACE_TEXT("%d station   |%d|\n"), linenumber, station ));
+		    
+		    tempFlystickRecord[station].id = station;
+		    iss >> tempFlystickRecord[station].quality;
+		    iss >> tempFlystickRecord[station].buttons;
+		    iss.ignore(2);
+		    iss >> tempFlystickRecord[station].location[0];
+		    iss >> tempFlystickRecord[station].location[1];
+		    iss >> tempFlystickRecord[station].location[2];
+		    iss >> tempFlystickRecord[station].eulerAngles[0];
+		    iss >> tempFlystickRecord[station].eulerAngles[1];
+		    iss >> tempFlystickRecord[station].eulerAngles[2];
+		    iss.ignore(2);
+		    iss >> tempFlystickRecord[station].rotationMatrix[0];
+		    iss >> tempFlystickRecord[station].rotationMatrix[1];
+		    iss >> tempFlystickRecord[station].rotationMatrix[2];
+		    iss >> tempFlystickRecord[station].rotationMatrix[3];
+		    iss >> tempFlystickRecord[station].rotationMatrix[4];
+		    iss >> tempFlystickRecord[station].rotationMatrix[5];
+		    iss >> tempFlystickRecord[station].rotationMatrix[6];
+		    iss >> tempFlystickRecord[station].rotationMatrix[7];
+		    iss >> tempFlystickRecord[station].rotationMatrix[8];
+
+		    tempFlystickRecord[station].valid = true;
+
+		    if (i < numberTrackedFlysticks-1) iss.ignore(3); else iss.ignore(1);		    
+		}
+
+		iss.get(linecontent);		
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "6dmt") {
+		iss >> numberTrackedMeasuretargets;
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d 6dmtcount   |%d|\n"), linenumber, numberTrackedMeasuretargets ));
+
+		if (numberTrackedMeasuretargets > 0) iss.ignore(2);
+						
+		int i;
+		for (i=0; i<numberTrackedMeasuretargets; i++) {
+		    iss >> station;
+		    //ACE_DEBUG((LM_INFO, ACE_TEXT("%d station   |%d|\n"), linenumber, station ));
+		    
+		    tempMeasuretargetRecord[station].id = station;
+		    iss >> tempMeasuretargetRecord[station].quality;
+		    iss >> tempMeasuretargetRecord[station].buttons;
+		    iss.ignore(2);
+		    iss >> tempMeasuretargetRecord[station].location[0];
+		    iss >> tempMeasuretargetRecord[station].location[1];
+		    iss >> tempMeasuretargetRecord[station].location[2];
+		    iss.ignore(2);
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[0];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[1];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[2];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[3];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[4];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[5];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[6];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[7];
+		    iss >> tempMeasuretargetRecord[station].rotationMatrix[8];
+
+		    tempMeasuretargetRecord[station].valid = true;
+
+		    if (i < numberTrackedMeasuretargets-1) iss.ignore(3); else iss.ignore(1);		    
+		}
+		
+		iss.get(linecontent);		
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    else if (linetype.str() == "6dcal") {
+		iss >> numberTrackedCalBodies;
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("%d 6dcalcount   |%d|\n"), linenumber, numberTrackedCalBodies ));
+		iss.get(linecontent);
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}		
+	    }
+	    else {
+		iss.get(linecontent);
+		if (static_cast<int>(iss.peek()) == 10) {		    
+		    iss.ignore(1);
+		}
+	    }
+	    
+	    ++linenumber;
 	}
-	*/
-}
+
+    }
 
 
-void ARTDataTrackerChomp::displayRecords()
-{
+    void ARTDataTrackerChomp::displayRecords()
+    {
 	// Output
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Contens of tempBodyRecord & tempMarkerRecord\n")));
-    std::map<int, BodyRecord>::iterator it;
-    for ( it = tempBodyRecord.begin(); it != tempBodyRecord.end(); it++)
-	{
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Contents of tempBodyRecord, tempMarkerRecord, tempFlystickRecord and tempMeasuretargetRecord\n")));
+
+
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), tempBodyRecord.size() ));
+	std::map<int, BodyRecord>::iterator itb;
+	for ( itb = tempBodyRecord.begin(); itb != tempBodyRecord.end(); itb++)
+	    {
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Numer of  Tracked Bodies for 6d: %d\n"), numberTrackedBodies));
-		if ( tempBodyRecord[i].valid == true )
-		{
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].id  %d\n"), i, tempBodyRecord[i].id));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].quality %f\n"), i, tempBodyRecord[i].quality));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), numberTrackedBodies));
+		if ( itb->second.valid == true )
+		    {
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].id  %d\n"), itb->first, itb->second.id));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].quality %f\n"), itb->first, itb->second.quality));
 			int j;
 			for(j=0; j < 3; j++)
-			{
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), i,j, tempBodyRecord[i].location[j]));
-			}
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), 
+					   itb->first, j, itb->second.location[j]));
+			    }
 			for(j=0; j < 3; j++)
-			{
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].eulerAngles[%d]: \n"), i,j, tempBodyRecord[i].eulerAngles[j]));
-			}
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].eulerAngles[%d]: \n"), 
+					   itb->first, j, itb->second.eulerAngles[j]));
+			    }
 			for(j=0; j < 9; j++)
-			{
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].rotationMatrix[%d]: \n"), i,j, tempBodyRecord[i].rotationMatrix[j]));
-			}
-		}// END if
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].rotationMatrix[%d]: \n"), 
+					   itb->first, j, itb->second.rotationMatrix[j]));
+			    }
+		    }// END if
 		else
-		{
+		    {
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Body ####")));
-		}// END else
-	}
-    int i;
-	for(i=0; i < numberTRackedMarkers; i++)
-	{
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Numer of Markers for 3d: %d\n"), numberTRackedMarkers));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].id %d\n"), i, tempMarkerRecord[i].id));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].quality %d\n"), i, tempMarkerRecord[i].quality));
+		    }// END else
+	    }
 
-		for(int j=0; j < 3; j++)
-		{
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), i,j, tempBodyRecord[i].location[j]));
-		}
-	}
+	std::map<int, MarkerRecord>::iterator itm;
+	for(itm = tempMarkerRecord.begin(); itm != tempMarkerRecord.end(); itm++)
+	    {
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of Markers for 3d: %d\n"), numberTrackedMarkers));
+
+		if ( itm->second.valid == true )
+		    {
+
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].id %d\n"), itm->first, itm->second.id));
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].quality %d\n"), itm->first, itm->second.quality));
+			
+			for(int j=0; j < 3; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), itm->first, j, itm->second.location[j]));
+			    }
+		    }
+		else
+		    {
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Marker ####")));
+		    }
+	    }
+
+	std::map<int, FlystickRecord>::iterator itf;
+	for ( itf = tempFlystickRecord.begin(); itf != tempFlystickRecord.end(); itf++)
+	    {
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Flysticks: %d\n"), numberTrackedFlysticks));
+		if ( itf->second.valid == true )
+		    {
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].id  %d\n"), itf->first, itf->second.id));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].quality %f\n"), itf->first, itf->second.quality));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].buttons %d\n"), itf->first, itf->second.buttons));
+			int j;
+			for(j=0; j < 3; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].location[%d]: \n"), 
+					   itf->first, j, itf->second.location[j]));
+			    }
+			for(j=0; j < 3; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].eulerAngles[%d]: \n"), 
+					   itf->first, j, itf->second.eulerAngles[j]));
+			    }
+			for(j=0; j < 9; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].rotationMatrix[%d]: \n"), 
+					   itf->first, j, itf->second.rotationMatrix[j]));
+			    }
+		    }// END if
+		else
+		    {
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Flystick ####")));
+		    }// END else
+	    }
+
+	std::map<int, MeasuretargetRecord>::iterator itmt;
+	for ( itmt = tempMeasuretargetRecord.begin(); itmt != tempMeasuretargetRecord.end(); itmt++)
+	    {
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Measurement Targets: %d\n"), numberTrackedMeasuretargets));
+		if ( itmt->second.valid == true )
+		    {
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].id  %d\n"), itmt->first, itmt->second.id));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].quality %f\n"), itmt->first, itmt->second.quality));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].buttons %d\n"), itmt->first, itmt->second.buttons));
+			int j;
+			for(j=0; j < 3; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].location[%d]: \n"), 
+					   itmt->first, j, itmt->second.location[j]));
+			    }
+			for(j=0; j < 9; j++)
+			    {
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].rotationMatrix[%d]: \n"), 
+					   itmt->first, j, itmt->second.rotationMatrix[j]));
+			    }
+		    }// END if
+		else
+		    {
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Measurement Target ####")));
+		    }// END else
+	    }
+
+
 	if(numberTrackedCalBodies != 0)
-	{
+	    {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of calibrated Bodies: %d\n"), numberTrackedCalBodies));
-	}
-}
+	    }
 
-int ARTDataTrackerChomp::getFrameNumber()
-{
+	//assert(0);
+	//assert(tempBodyRecord.size() != 0);
+
+    }
+
+    int ARTDataTrackerChomp::getFrameNumber()
+    {
 	return frameNumber;
-}
+    }
 
-int ARTDataTrackerChomp::getTrackedBodyNumber()
-{
+    int ARTDataTrackerChomp::getTrackedBodyNumber()
+    {
 	return numberTrackedBodies;
-}
+    }
 
-std::map<int, ARTDataTrackerChomp::BodyRecord > & ARTDataTrackerChomp::getBodyRecord()
-{
+    std::map<int, ARTDataTrackerChomp::BodyRecord > & ARTDataTrackerChomp::getBodyRecord()
+    {
 	return tempBodyRecord;
-}
+    }
 
-int ARTDataTrackerChomp::getTrackedMarkerNumber()
-{
-	return numberTRackedMarkers;
-}
+    int ARTDataTrackerChomp::getTrackedMarkerNumber()
+    {
+	return numberTrackedMarkers;
+    }
 
-ARTDataTrackerChomp::MarkerRecord* ARTDataTrackerChomp::getMarkerRecord()
-{
+    std::map<int, ARTDataTrackerChomp::MarkerRecord > &ARTDataTrackerChomp::getMarkerRecord()
+    {
 	return tempMarkerRecord;
-}
+    }
 
-void ARTDataTrackerChomp::pushMarkerRecord(ARTDataTrackerChomp::MarkerRecord* markerrecord)
-{
-	tempMarkerRecord = markerrecord;
-}
+    int ARTDataTrackerChomp::getTrackedFlystickNumber()
+    {
+	return numberTrackedFlysticks;
+    }
 
-int ARTDataTrackerChomp::getCalibratedTrackedBodyNumber()
-{
+    std::map<int, ARTDataTrackerChomp::FlystickRecord > &ARTDataTrackerChomp::getFlystickRecord()
+    {
+	return tempFlystickRecord;
+    }
+
+    int ARTDataTrackerChomp::getTrackedMeasuretargetNumber()
+    {
+	return numberTrackedMeasuretargets;
+    }
+
+    std::map<int, ARTDataTrackerChomp::MeasuretargetRecord > &ARTDataTrackerChomp::getMeasuretargetRecord()
+    {
+	return tempMeasuretargetRecord;
+    }
+
+    int ARTDataTrackerChomp::getCalibratedTrackedBodyNumber()
+    {
 	return numberTrackedCalBodies;
-}
+    }
 
 } // namespace ot
+
+/* ===========================================================================
+   End of ARTDataTrackerChomp.cxx
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */

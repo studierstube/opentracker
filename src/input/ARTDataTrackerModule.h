@@ -23,34 +23,34 @@
 * PROJECT: OpenTracker
 * ======================================================================== */
 /** header file for ARTDataTrackerModule module.
-*
-* @author Christopher Schmidt
-*
-* $Id$
-* @file                                                                   */
+ *
+ * @author Christopher Schmidt
+ *
+ * $Id$
+ * @file                                                                   */
 /* ======================================================================= */
 
 /**
-* @page module_ref Module Reference
-* @section artdatatrackermodule ARTDataTrackerModule
-* The ARTDataTrackerModule is a device driver module for the optical tracking
-* system by ART Data. It uses @ref artdatatrackersource nodes to input data into
-* the tracking tree. It does something useful as soon as at least one @ref artdatatrackersource node is created.
-* It is configured using the configuration element 'ARTDataTrackerConfig'. This
-* element has the following attributes :
-* @li @c maxbodies  the maximal number of different objects tracked
-* @li @c port the port number to listen on, the ART tracker should be configured to send to this number
-* 
-* An example configuration element looks like this :
-* @verbatim
-<ARTDataTrackerConfig maxbodies="10" port="12346"/>@endverbatim
-*
-* Some hints to configuring the ART Tracker host to work with this driver :
-* @li When you calibrate the rigid body, you need to choose the "due to
-*     body" setting.
-* @li Go to the general settings and make sure they are set as displayed in this picture :
-*     @image html artsettings.jpg
-*/
+ * @page module_ref Module Reference
+ * @section artdatatrackermodule ARTDataTrackerModule
+ * The ARTDataTrackerModule is a device driver module for the optical tracking
+ * system by ART Data. It uses @ref artdatatrackersource nodes to input data into
+ * the tracking tree. It does something useful as soon as at least one @ref artdatatrackersource node is created.
+ * It is configured using the configuration element 'ARTDataTrackerConfig'. This
+ * element has the following attributes :
+ * @li @c maxbodies  the maximal number of different objects tracked
+ * @li @c port the port number to listen on, the ART tracker should be configured to send to this number
+ * 
+ * An example configuration element looks like this :
+ * @verbatim
+ <ARTDataTrackerConfig maxbodies="10" port="12346"/>@endverbatim
+ *
+ * Some hints to configuring the ART Tracker host to work with this driver :
+ * @li When you calibrate the rigid body, you need to choose the "due to
+ *     body" setting.
+ * @li Go to the general settings and make sure they are set as displayed in this picture :
+ *     @image html artsettings.jpg
+ */
 
 #ifndef _ARTDATATRACKERMODULE_H
 #define _ARTDATATRACKERMODULE_H
@@ -67,99 +67,108 @@ class ACE_SOCK_Dgram;
 
 namespace ot {
 
-typedef std::vector<Node*> NodeVector;
+  typedef std::vector<Node*> NodeVector;
 
-/**
-* The module and factory to drive the ARTDataTrackersource nodes. It constructs
-* ARTDataTrackerSource nodes via the NodeFactory interface and pushes events into
-* the tracker tree according to the nodes configuration.
-* @author Christopher Schmidt
-* @ingroup input
-*/
-class OPENTRACKER_API ARTDataTrackerModule : public ThreadModule, public NodeFactory
-{
-	// Members
+  /**
+   * The module and factory to drive the ARTDataTrackersource nodes. It constructs
+   * ARTDataTrackerSource nodes via the NodeFactory interface and pushes events into
+   * the tracker tree according to the nodes configuration.
+   * @author Christopher Schmidt
+   * @ingroup input
+   */
+  class OPENTRACKER_API ARTDataTrackerModule : public ThreadModule, public NodeFactory
+    {
+      // Members
 	
-protected:
+    protected:
     
-    /// list of ARTDataTrackerSource nodes in the tree
-    NodeVector sources;
-	/// port number
-	int port;
-	/// stop flag 
-	int stop;
-	/// pointer to socket class
-	ACE_SOCK_Dgram * socket;
+      /// list of ARTDataTrackerSource nodes in the tree
+      NodeVector sources;
+      /// port number
+      int port;
+      /// stop flag 
+      int stop;
+      /// pointer to socket class
+      ACE_SOCK_Dgram * socket;
 	
-private:
+    private:
 
-	// Methods
+      // Methods
 	
-protected:
-	/**
-	* Mainloop */
-	void run();
+    protected:
+      /**
+       * Mainloop */
+      void run();
 	
-public:
+    public:
 	
-	typedef struct MarkerRecord     // Structur for the 3d Markers
-	{
-		unsigned long id;			// Marker ID taken from the Datagramm
-		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-		float location[3];			// Array for the loaction of the Body (s0 s1 s2)		
-	} MarkerRecord;
+      int       bodyID;
+      int       receiveBufferSize;
+      char      *receiveBuffer;
 
-	int		bodyID;
-	int		receiveBufferSize;
-	char	*receiveBuffer;
+      ARTDataTrackerChomp *DataTracker;
 
-    ARTDataTrackerChomp *DataTracker;
-
-	/** constructor method. */
-    ARTDataTrackerModule();
+      /** constructor method. */
+      ARTDataTrackerModule();
 	
-	/** Destructor method, clears nodes member. */
-    virtual ~ARTDataTrackerModule();
+      /** Destructor method, clears nodes member. */
+      virtual ~ARTDataTrackerModule();
     
-	/** This method is called to construct a new Node. It compares
-	* name to the ARTDataTrackerSource element name, and if it matches
-	* creates a new ARTDataTrackerSource node.
-	* @param name reference to string containing element name
-	* @attributes refenrence to StringMap containing attribute values
-	* @return pointer to new Node or NULL. The new Node must be
-	*         allocated with new ! */
-    virtual Node * createNode( const std::string& name,  StringTable& attributes);
+      /** This method is called to construct a new Node. It compares
+       * name to the ARTDataTrackerSource element name, and if it matches
+       * creates a new ARTDataTrackerSource node.
+       * @param name reference to string containing element name
+       * @attributes refenrence to StringMap containing attribute values
+       * @return pointer to new Node or NULL. The new Node must be
+       *         allocated with new ! */
+      virtual Node * createNode( const std::string& name,  StringTable& attributes);
 	
 	
-	/**
-	* This method is called after initialisation is finished and before the
-	* main loop is started.*/
-    virtual void start();
+      /**
+       * This method is called after initialisation is finished and before the
+       * main loop is started.*/
+      virtual void start();
 	
-	/**
-	* Convert the Data from the Arrays to the Quaternion Format */
-    virtual void convert(ARTDataTrackerChomp::BodyRecord & BodyRecordTemp);
+      /**
+       * Convert the Data from the Arrays to the Quaternion Format */
+      virtual void convert(ARTDataTrackerChomp::BodyRecord & BodyRecordTemp);
+      virtual void convert(ARTDataTrackerChomp::FlystickRecord & FlystickRecordTemp);
+      virtual void convert(ARTDataTrackerChomp::MeasuretargetRecord & MeasuretargetRecordTemp);
 	
-	/**
-	* Close */
-	virtual void close();
+      /**
+       * Close */
+      virtual void close();
 	
-    /**
-	* pushes events into the tracker tree. Checks all source nodes for
-	* new states and pushes them into the tracker tree.
-	*/
-    virtual void pushState();
+      /**
+       * pushes events into the tracker tree. Checks all source nodes for
+       * new states and pushes them into the tracker tree.
+       */
+      virtual void pushState();
 	
-    /**
-	* initializes the ARTDataTrackerModule. 
-	* @param attributes StringMap of elements attribute values. Should be
-	*        possibly , but is not for convenience.
-	* @param localTree pointer to root of configuration nodes tree
-	*/
-    virtual void init(StringTable& attributes, ConfigNode * localTree);
+      /**
+       * initializes the ARTDataTrackerModule. 
+       * @param attributes StringMap of elements attribute values. Should be
+       *        possibly , but is not for convenience.
+       * @param localTree pointer to root of configuration nodes tree
+       */
+      virtual void init(StringTable& attributes, ConfigNode * localTree);
 	
-};
+    };
 
 } // namespace ot
 
 #endif
+
+/* ===========================================================================
+   End of ARTDataTrackerModule
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */

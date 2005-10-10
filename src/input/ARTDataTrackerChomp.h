@@ -105,66 +105,103 @@ Zusatzzeile am Ende des Pakets gibt Anzahl der einkalibrierten 6D Bosies an
 
 namespace ot {
 
-class ARTDataTrackerChomp
-{	
+    class ARTDataTrackerChomp
+    {	
 	
-public:
+    public:
 	
 	typedef struct BodyRecord		// Structur for the 6d Bodies
 	{
-		unsigned long id;			// Body ID taken from the Datagramm
-		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-		float location[3];			// Array for the loaction of the Body (s0 s1 s2)
-		float eulerAngles[3];		// Array for the Eulerangles
-		float rotationMatrix[9];	// Array for the Rotation Matrix
-		float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
-		float position[3];			// Array for the position (location) pushed in the Nodetree
-		bool  valid;				// Flag is true if body is tracked by DTrack
+	    unsigned long id;			// Body ID taken from the Datagramm
+	    float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+	    float location[3];			// Array for the loaction of the Body (s0 s1 s2)
+	    float eulerAngles[3];		// Array for the Eulerangles
+	    float rotationMatrix[9];	        // Array for the Rotation Matrix
+	    float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
+	    bool  valid;			// Flag is true if body is tracked by DTrack
 	} BodyRecord;
 	
-	typedef struct MarkerRecord     // Structur for the 3d Markers
+	typedef struct MarkerRecord             // Structur for the 3d Markers
 	{
-		unsigned long id;			// Marker ID taken from the Datagramm
-		float quality;				// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-		float location[3];			// Array for the loaction of the Body (s0 s1 s2)		
+	    unsigned long id;			// Marker ID taken from the Datagramm
+	    float quality;			// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+	    float location[3];			// Array for the loaction of the Body (s0 s1 s2)		
+	    bool  valid;			// Flag is true if body is tracked by DTrack
+
 	} MarkerRecord;
 
-	int bodieID;
+	typedef struct FlystickRecord
+	{
+	    unsigned long id;
+	    float quality;
+	    unsigned long buttons;
+	    float location[3];
+	    float eulerAngles[3];	         // Array for the Eulerangles
+	    float rotationMatrix[9];	         // Array for the Rotation Matrix
+	    float orientation[4];		 // Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
+	    bool  valid;		         // Flag is true if body is tracked by DTrack
+	} FlystickRecord;
+
+	typedef struct MeasuretargetRecord
+	{	    
+	    unsigned long id;
+	    float quality;
+	    unsigned long buttons;
+	    float location[3];
+	    float rotationMatrix[9];	         // Array for the Rotation Matrix
+	    float orientation[4];		// Array for the Quaternion (calculated by ARTDataTrackerModule) pushed in the Nodetree
+	    bool  valid;			// Flag is true if body is tracked by DTrack
+	} MeasuretargetRecord;
+
+    protected:
 	int frameNumber;
 	int numberTrackedBodies;
-	int numberTRackedMarkers;
+	int numberTrackedMarkers;
+	int numberTrackedFlysticks;
+	int numberTrackedMeasuretargets;
 	int numberTrackedCalBodies;
-	int i;
-	int j;
-	int endj;
-	int positionStart;
-	int positionEnd;
-	int subLength;
 
-	const char *tempChar;
-    std::map<int, BodyRecord > tempBodyRecord;
-	MarkerRecord *tempMarkerRecord;
-	std::string temp;
+	std::map<int, BodyRecord > tempBodyRecord;
+	std::map<int, MarkerRecord > tempMarkerRecord;
+	std::map<int, MeasuretargetRecord > tempMeasuretargetRecord;
+	std::map<int, FlystickRecord > tempFlystickRecord;
 
-/* Methods of ARTDataTrackerChomp
- *
- */
+	/* Methods of ARTDataTrackerChomp
+	 *
+	 */
 
 
-public:
+    public:
 	ARTDataTrackerChomp();
-    virtual ~ARTDataTrackerChomp();
-	virtual void displayRecords();			// Dsiplay the contens of the RecordArray
-	virtual void chomp(std::string Datagramm);		// Main part that chomp the string
-	virtual int getFrameNumber();								// return the framenumber
-	virtual int getTrackedBodyNumber();						// return the Number of tracked Bodies
-	virtual int getTrackedMarkerNumber();						// return the Number of tracked Markers	
-	virtual int getCalibratedTrackedBodyNumber();				// return the Number of calibrated & tracked Bodies	
-	virtual std::map<int, BodyRecord > & getBodyRecord();	    // return the BodyRecord
-	virtual MarkerRecord* getMarkerRecord();					// return the MarkerRecord
-	virtual void pushMarkerRecord(MarkerRecord* markerrecord);	// push the MarkerRecord
-};
+	virtual ~ARTDataTrackerChomp();
+	virtual void displayRecords();                                 // Display the contens of the RecordArray
+	virtual void chomp(std::string Datagramm);                     // Main part that chomp the string
+	virtual int getFrameNumber();                                  // return the framenumber
+	virtual int getTrackedBodyNumber();                            // return the Number of tracked Bodies
+	virtual int getCalibratedTrackedBodyNumber();		       // return the Number of calibrated & tracked Bodies	
+	virtual std::map<int, BodyRecord > & getBodyRecord();	       // return the BodyRecord
+	virtual int getTrackedMarkerNumber();			       // return the Number of tracked Markers	
+	virtual std::map<int, MarkerRecord > & getMarkerRecord();      // return the MarkerRecord
+	virtual int getTrackedFlystickNumber();			             // return the Number of tracked flysticks
+	virtual std::map<int, FlystickRecord > & getFlystickRecord();        // return the FlystickRecord
+	virtual int getTrackedMeasuretargetNumber();		              // return the Number of tracked measurement targets
+	virtual std::map<int, MeasuretargetRecord > & getMeasuretargetRecord();  // return the MeasuretargetRecord
+    };
 
 } // namespace ot
 
 #endif
+
+/* ===========================================================================
+   End of ARTDataTrackerChomp.h
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */
