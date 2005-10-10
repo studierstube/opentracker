@@ -668,6 +668,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT ARTDataTrackerSource EMPTY>
 <!ATTLIST ARTDataTrackerSource
   number CDATA #REQUIRED
+  type (6d | 3d | fly | pen ) "6d"
   DEF ID #IMPLIED
 >
 <!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube.
