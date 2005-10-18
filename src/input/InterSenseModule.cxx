@@ -89,7 +89,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
             ISD_TRACKER_HANDLE handle = ISD_OpenTracker( 0, comport, FALSE, verbose );
             if( handle <= 0 )
             {                
-				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open tracker %d\n"), id));
+				ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open tracker %s\n"), id.c_str()));
             } 
             else {
                 ISTracker * tracker = new ISTracker;
@@ -100,7 +100,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                 res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                 if( res == FALSE )
                 {                    
-					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to get tracker config for %d\n"), id));
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to get tracker config for %s\n"), id.c_str()));
                 }
 				/* InterTrax does not support quaternions */
                 if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES ) 
@@ -128,17 +128,17 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                         }               
                         if( error )
                         {
-							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s state for tracker %d station %d \n"), ((error == 1 ) ? "get " : "set "), id, j));
+							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s state for tracker %s station %d \n"), ((error == 1 ) ? "get " : "set "), id.c_str(), j));
 							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:- orientation measure may not be quaternion.\n")));
                         }                       
                     }
                 }   // setup not intertrax
                 trackers.push_back( tracker );                
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Configured tracker %d of %d\n"), id, tracker->info.TrackerType));
+				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Configured tracker %s of %d\n"), id.c_str(), tracker->info.TrackerType));
             }       // open tracker ok
         }           // got a new tracker
         else {      // some conflict with another tracker            
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tracker %d at port %d conflicts with with %d\n"), id, comport, (*it)->id));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tracker %s at port %d conflicts with with %s\n"), id.c_str(), comport, (*it)->id.c_str()));
         }
     }               // all ConfigNodes
 }
@@ -174,7 +174,7 @@ Node * InterSenseModule::createNode( const std::string& name, StringTable& attri
             return source;
         }
         else {            
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:No tracker %d configured !\n"), id));
+			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:No tracker %s configured !\n"), id.c_str()));
         }
     }
     return NULL;
