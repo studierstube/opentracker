@@ -90,7 +90,7 @@ namespace ot {
 	numberTrackedFlysticks = 0;
 	numberTrackedMeasuretargets = 0;
 
-	while (not iss.eof()) {
+	while (!iss.eof()) {
 	    stringbuf linetype;
 	    stringbuf linecontent;
 
