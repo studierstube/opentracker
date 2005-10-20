@@ -54,6 +54,8 @@
 #include "UbisenseModule.h"
 #include "UClientAPI/location_client.h"
 #include "UClientAPI/data_client.h"
+#include "UClientAPI/name_client.h"
+#include <iostream>
 
 using namespace UClientAPI;
 
@@ -101,6 +103,16 @@ private:
 	const Object object;
 	const LocationClient &locationClient;
 	DataClient &dataClient;
+};
+
+
+class MyNameClient : public NameClient 
+{ public: MyNameClient() { }
+virtual void on_insert(const Object& object, const String& name) { std::cout << "Insert " << object.to_string() << " name " << name; }
+virtual void on_update(const Object& object, const String& name) { std::cout << "Update " << object.to_string() << " name " << name; }
+virtual void on_remove(const Object& object, const String& name) { std::cout << "Remove " << object.to_string() << " name " << name; }
+virtual void on_commit() { std::cout << "Commit"; }
+virtual void on_establish() { std::cout << "Establish"; } 
 };
 
 } // namespace ot

@@ -61,12 +61,35 @@ UbisenseSource::~UbisenseSource()
 bool UbisenseSource::calcState()
 {
 	Location location;
+	MyNameClient client;
+    
+	printf("\n");
+	//std::cout << "Getting all named people:"; 
+	UClientAPI::Map<Object,String> all_people = client.get_all_named(Type("Person")); 
+	//for (UClientAPI::Map<Object,String>::const_iterator i = all_people.begin(); i != all_people.end(); ++i) 
+	//{   printf("\n");
+	    //std::cout << " " << (*i).first.to_string() << " has name " << (*i).second << std::endl; 
+	//}
+
+	String found_name; 
+	if (!client.get_object_name(object,found_name)) 
+	{ std::cout << "Cannot get name of " << object.to_string(); 
+	  return false; 
+	} 
+	std::cout << "Ubitag name: " << found_name;
+
 	if (locationClient.get_object_location(object,location) && location.time_ > lastTime)
 	{
 		state = State();
 		state.position[0] = static_cast<float>(location.pos_.x_); 
 		state.position[1] = static_cast<float>(location.pos_.y_); 
 		state.position[2] = static_cast<float>(location.pos_.z_);
+
+		
+		printf("\n  location x: %f", state.position[0]);
+		printf("\n  location y: %f", state.position[1]);
+		printf("\n  location z: %f\n\n", state.position[2]);
+
 		if (buttonTime > lastTime)
 		{
 			state.button = button;

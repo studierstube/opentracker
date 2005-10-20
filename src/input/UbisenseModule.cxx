@@ -35,10 +35,13 @@
 
 #include "UbisenseModule.h"
 #include "UbisenseSource.h"
+#include <iostream>
 
 #ifdef USE_UBISENSE
 
+
 #include "UClientAPI/name_client.h"
+#include "UClientAPI/location_client.h"
 
 #ifdef WIN32
 #pragma comment(lib,"UClientAPI.lib")
@@ -47,7 +50,29 @@
 namespace ot {
 
 UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources),cells(locationClient.get_all_cells())
+//UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources)
 {
+	// all lines from Gerhard for testing
+	//String cell_name; 
+	//UClientAPI::Set<String> tmpCells = locationClient.get_all_cells();
+
+	//std::set<std::string> myCells;
+
+	//cells.insert(tmpCells.begin(), tmpCells.end());
+
+    
+/*
+	std::cout << "detected location cell: ";
+	for (UClientAPI::Set<String>::const_iterator i = cells.begin(); i != cells.end(); ++i) 
+	{   std::cout << " " << *i; 
+	}
+    if (cells.empty()) 
+	{   std::cout << "No available cells"; 
+	}
+*/
+	//cell_name = *(cells.begin()); 
+	//std::cout << "Loading cell " << cell_name;
+	//std::cout << "  ";
 }
 
 UbisenseModule::~UbisenseModule()
@@ -63,7 +88,9 @@ Node* UbisenseModule::createNode(const std::string &name,StringTable &attributes
     {
 		NameClient nameClient;
 		Object object;
-		if (nameClient.get_named_object(attributes.get("object").c_str(),object))
+		const char* objectString =    attributes.get("object").c_str();
+		UClientAPI::String str(objectString);
+		if (nameClient.get_named_object(objectString,object))
 		{
 			UbisenseSource* pSource = new UbisenseSource(object,locationClient,dataClient);
 			pSources.push_back(pSource);
@@ -75,8 +102,12 @@ Node* UbisenseModule::createNode(const std::string &name,StringTable &attributes
 
 void UbisenseModule::start()
 {
-	for (Set<String>::const_iterator i = cells.begin();i != cells.end();++ i)
+	for (UClientAPI::Set<String>::const_iterator i = cells.begin();i != cells.end();++ i)
 		locationClient.load_cell(*i);
+
+//	for (std::set<std::string>::const_iterator i = cells.begin();i != cells.end();++ i)
+//		locationClient.load_cell(i->c_str());
+
 }
 
 void UbisenseModule::close()
@@ -98,12 +129,33 @@ void UbisenseModule::init(StringTable &attributes,ConfigNode* pLocalTree)
 {
 	NameClient nameClient;
 	Object object;
+
 	cells.clear();
 	for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
 	{
 		ConfigNode* pNode = reinterpret_cast<ConfigNode*>(pLocalTree->getChild(i));
-		if (! pNode->getType().compare("UbisenseCell"))
-			cells.insert(pNode->getAttributes().get("name").c_str());
+ 		if (! pNode->getType().compare("UbisenseCell"))
+		{
+			ot::StringTable& attributes = pNode->getAttributes(); //Gerhard
+			std::string str = attributes.get("name");             //Gerhard   
+			//cells.insert(pNode->getAttributes().get("name").c_str());
+			cells.insert(str.c_str()); //Gerhard
+
+
+			std::cout << "ot location cell: ";
+			for (UClientAPI::Set<String>::const_iterator i = cells.begin(); i != cells.end(); ++i) 
+//			for (std::set<std::string>::const_iterator i = cells.begin();i != cells.end();++ i)
+			{   std::cout << " " << *i << std::endl; 
+			}
+			if (cells.empty()) 
+			{   std::cout << "No available cells" << std::endl; 
+			}
+
+			//cell_name = *(cells.begin()); 
+			//std::cout << "Loading cell " << cell_name;
+			std::cout << "  ";
+
+		}
 	}
 }
 

@@ -137,7 +137,8 @@ private:
 
 	LocationClient locationClient;
 	WrappedDataClient dataClient;
-	Set<String> cells;
+	UClientAPI::Set<String> cells; 
+	//std::set<std::string> cells;
 };
 
 } // namespace ot
