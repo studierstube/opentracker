@@ -70,7 +70,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     DCB dcb;
     DWORD baud;
 
-    port->handle = CreateFile(params->pathname,
+    port->handle = CreateFileA(params->pathname,
         GENERIC_READ | GENERIC_WRITE,
         0, 0, OPEN_EXISTING, 0, 0);
 

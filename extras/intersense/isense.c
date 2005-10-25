@@ -444,7 +444,7 @@ static DLL *dll_load( const char *name )
 {
 #if defined(_WIN32) || defined(WIN32) || defined(__WIN32__)
     
-    return (DLL *) LoadLibrary( name );
+    return (DLL *) LoadLibraryA( name );
     
 #else // UNIX
     

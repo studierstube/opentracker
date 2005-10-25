@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentracker", "opentracker.vcproj", "{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentrackerlib", "opentrackerlib.vcproj", "{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Debug|Win32.Build.0 = Debug|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Release|Win32.ActiveCfg = Release|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Release|Win32.Build.0 = Release|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Debug|Win32.Build.0 = Debug|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Release|Win32.ActiveCfg = Release|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

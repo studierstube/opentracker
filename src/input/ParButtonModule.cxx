@@ -135,7 +135,7 @@ Node * ParButtonModule::createNode( const std::string& name,  StringTable& attri
  
 			HANDLE hUserPort;
 
-		  hUserPort = CreateFile("\\\\.\\UserPort", GENERIC_READ, 0, NULL,OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		  hUserPort = CreateFileA("\\\\.\\UserPort", GENERIC_READ, 0, NULL,OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		  CloseHandle(hUserPort); // Activate the driver
 			Sleep(100); // We must make a process switch
 

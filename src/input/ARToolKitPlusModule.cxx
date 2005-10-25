@@ -53,6 +53,11 @@
 
 #ifdef ARTOOLKITPLUS_DLL
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
+#  if defined(DEBUG) || defined(_DEBUG)
+#    pragma comment(lib, "ARToolKitPlusDllD.lib")
+#  else
+#    pragma comment(lib, "ARToolKitPlusDll.lib")
+#  endif
 #else
 #  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
 #  if defined(DEBUG) || defined(_DEBUG)
@@ -476,7 +481,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 		return false;
 #endif //ARTOOLKITPLUS_FOR_STB3
 
-	ARToolKitPlus::ARUint8 * frameData = NULL;
+	const ARToolKitPlus::ARUint8 * frameData = NULL;
     ARToolKitPlus::ARMarkerInfo * markerInfo;
     int markerNum;
     int j;
@@ -492,8 +497,10 @@ bool ARToolKitPlusModule::updateARToolKit()
 	imgFormat = ImageGrabber::RGBX8888;
 	frameData = curCapImage->GetRawDataPtr();
 #else
-	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
-		return false;
+	{
+		if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
+			return false;
+	}
 #endif //ARTOOLKITPLUS_FOR_STB3
 
 	if(imgFormat!=imgFormat0)
@@ -510,7 +517,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 
 	if(doBench)
 	{
-		if(tracker->arDetectMarker( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+		if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 			return false;
 
 		ARFloat source_center[2], source_size;
@@ -559,7 +566,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	//
 	if(useMarkerDetectLite)
 	{
-		if(tracker->arDetectMarkerLite( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+		if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 		{
 #ifdef ARTOOLKITPLUS_FOR_STB3
 		unlock();
@@ -569,7 +576,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	}
 	else
 	{
-		if(tracker->arDetectMarker( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+		if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 		{
 #ifdef ARTOOLKITPLUS_FOR_STB3
 		unlock();
