@@ -307,7 +307,7 @@ namespace ot {
 			    {
 				if( MeasuretargetRecordTemp[bodyID-60].valid == true )
 				    {
-					std::cerr <<" ---------"<< std::endl;
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("---------\n"), errno));
 					// convert Data such as quaternion and euler-Angles
 					convert( MeasuretargetRecordTemp[bodyID-60] );
 					// Brings the locationdata from BodyRecordTemp to  source->state.position !

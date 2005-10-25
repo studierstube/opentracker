@@ -43,9 +43,13 @@
 #include "ARToolKitPlusModule.h"
 #include "ARToolKitSource.h"
 #include "ARToolKitMultiMarkerSource.h"
+#include <ARToolKitPlus/MemoryManager.h>
+#include <ARToolKitPlus/MemoryManagerMemMap.h>
 
 
 #ifdef USE_ARTOOLKITPLUS
+
+//#undef ARTOOLKITPLUS_DLL
 
 #ifdef ARTOOLKITPLUS_DLL
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
@@ -125,6 +129,8 @@ const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  
 
 ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(), NodeFactory()
 {
+	doBench = false;
+
 	//wparam = NULL;
 	sizeX = sizeY = -1;
 	flipX = flipY = false;
@@ -149,6 +155,9 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 #  ifdef ARTOOLKITPLUS_FOR_STB3
 	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
 #  else
+//	if(ARToolKitPlus::memManager && !ARToolKitPlus::memManager->didInit())
+//		ARToolKitPlus::memManager->init(ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>::getMemoryRequirements());
+
 	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
 #  endif //ARTOOLKITPLUS_FOR_STB3
 
@@ -498,6 +507,27 @@ bool ARToolKitPlusModule::updateARToolKit()
 		return false;
 	}
 
+
+	if(doBench)
+	{
+		if(tracker->arDetectMarker( frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+			return false;
+
+		ARFloat source_center[2], source_size;
+
+		source_center[0] = 0.0f;
+		source_center[1] = 0.0f;
+		source_size = 80.0f;
+
+		//tracker->arGetTransMat(&markerInfo[markerNum-1], source_center, source_size, matrix);
+
+		for(j=0; j<markerNum; j++)
+			tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix);
+
+		return true;
+	}
+
+
 	// if the image size changed we have to reinitialize
 	// some ARToolKit internal stuff...
 	if(newSizeX!=sizeX || newSizeY!=sizeY)
@@ -557,7 +587,6 @@ bool ARToolKitPlusModule::updateARToolKit()
         return false;
 	}
 
-
 	// we use an array of best confidences to quickly find
 	// the best markers for each id. a simple check against all
 	// other visible markers would result in O(n²), now this method 
@@ -588,6 +617,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 
 	// walk through all markers in the image...
 	//
+
 	for(j=0; j<markerNum; j++)
 	{
 		int id = markerInfo[j].id;
@@ -655,62 +685,19 @@ bool ARToolKitPlusModule::updateARToolKit()
 	}
 
 
+//	if(doBench)
+//	{
+//		ARFloat source_center[2] = { 0.0f, 0.0f }, source_size = 80.0f;
+//		tracker->arGetTransMat(&markerInfo[0], source_center, source_size, matrix);
+//		return true;
+//	}
+
+
 	// reset array of best confidences
 	//
 	for(j=0; j<markerNum; j++)
 		bestCFs[markerInfo[j].id] = 0.0f;
 
-
-/*
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-    {
-        source = (ARToolKitSource *)*it;
-        k = -1;
-        // searches for the most confident marker matching the source's markerId
-        for( j = 0; j < markerNum; j ++ )
-        {
-            if( source->markerId == markerInfo[j].id )
-            {
-				visibleMarkers.push_back(source);
-                if( k == -1 )
-                {
-                    k = j;
-                }
-                else
-                {
-                    if( markerInfo[k].cf < markerInfo[j].cf )
-                    {
-                        k = j;
-                    }
-                }
-            }
-        }
-        if( k != -1 )
-        {
-            // if one found transform it to coordinates,
-			ARFloat source_center[2], source_size;
-			
-			source_center[0] = source->center[0];
-			source_center[1] = source->center[1];
-			source_size = source->size;
-
-            if(tracker->arGetTransMat(&markerInfo[k], source_center, source_size, matrix)>=0)
-				updateSource(source, markerInfo[k].cf, matrix);
-        } 
-		else  // marker not found 
-		{
-			// only if marker was found in the last grab (state.confidence > epsilon) set 
-			// confidence to 0.0!
-			State & state = source->buffer;
-			if (state.confidence > 0.00000001f) 
-			{
-				state.confidence = 0.0f;
-				state.timeStamp();
-				source->modified = 1;
-			}
-		}
-    }
-*/
 
 #ifdef ARTOOLKITPLUS_FOR_STB3
 	unlock();

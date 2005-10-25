@@ -153,8 +153,6 @@ protected:
 
 	void init(StringTable& attributes, ConfigNode * localTree);
 
-	bool updateARToolKit();
-
 	void updateSource(Node *source, float cf, float matrix[3][4]);
 
 	ImageGrabber* imageGrabber;
@@ -228,6 +226,10 @@ public:
 
 	NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
 
+	// this method should be protected
+	bool updateARToolKit();
+
+	bool doBench;
 
 
 #ifdef ARTOOLKITPLUS_FOR_STB3

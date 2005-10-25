@@ -55,6 +55,7 @@
 #include "../input/DynaSightModule.h"
 #include "../input/FastTrakModule.h"
 #include "../input/FOBModule.h"
+#include "../input/ARTDataTrackerModule.h"
 #endif //_WIN32_WCE
 
 #include "../network/NetworkSinkModule.h"
@@ -63,7 +64,6 @@
 #include "../common/FileModule.h"
 #include "../network/TCPModule.h"
 
-#include "../input/ARTDataTrackerModule.h"
 #include "../input/UltraTrakModule.h"
 #include "../common/GroupGateModule.h"
 #include "../common/InterpolatorModule.h"
@@ -237,9 +237,11 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addModule( "FastTrakConfig", *ftrak );
 #endif //_WIN32_WCE
 
+#ifndef _WIN32_WCE
     ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
     context.addFactory( *dtrak );
     context.addModule( "ARTDataTrackerConfig", *dtrak );
+#endif //_WIN32_WCE
 
     UltraTrakModule * ultra = new UltraTrakModule;
     context.addFactory( * ultra );

@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "ReleaseLibVC6"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Zi /O2 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Zi /O1 /I "extras" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLROOT)" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
 # ADD RSC /l 0xc07 /d "NDEBUG"
