@@ -3,38 +3,71 @@
 #define __XML_SELECTION__
 
 #ifdef USE_TINYXML
-  #include <tinyxml.h>
-  #define OT_DOMDOCUMENT TiXmlDocument
-  #define OT_DOMELEMENT TiXmlElement
-  #ifdef WIN32
-    #ifdef TINYXML_STATIC
-      #ifdef _DEBUG
-        // this is the static linking version of the TinyXML library
-		// modified by Daniel Wagner
-        #pragma comment( lib, "tinyxml_libd.lib" )
-      #else
-        #pragma comment( lib, "tinyxml_lib.lib" )
-      #endif 
-    #elif defined(TINYXML_DLL)
-        // this is the dynamic linking version of the TinyXML library
-		// modified by Daniel Wagner
-      #ifdef _DEBUG
-        #pragma comment( lib, "tinyxml_dlld.lib" )
-      #elif DEBUG
-        #pragma comment( lib, "tinyxml_dlld.lib" )
-      #else
-        #pragma comment( lib, "tinyxml_dll.lib" )
-      #endif 
-    #else
-        // this is the default version of the TinyXML library
-      #ifdef _DEBUG
-        #pragma comment( lib, "tinyxmld.lib" )
-      #else
-        #pragma comment( lib, "tinyxml.lib" )
-      #endif 
-    #endif
-  #endif
+
+#  include <tinyxml.h>
+
+#  if defined(TINYXML_MOD)
+
+//   this is the modified TinyXML version modified by Daniel Wagner called TinyXML_Mod.
+//   Under Windows can either be linked statically or as DLL.
+
+#    pragma message("XMLSelection: compiling against TinyXML_Mod")
+
+#    if defined(WIN32) || defined (_WIN32_WCE)
+#      ifdef TINYXML_MOD_STATIC
+
+
+#        if defined(_DEBUG) || defined(DEBUG)
+#          pragma message("XMLSelection: linking against static-version: TinyXML_ModLibd.lib")
+#          pragma comment( lib, "TinyXML_ModLibd.lib" )
+#        else
+#          pragma message("XMLSelection: linking against static-version: TinyXML_ModLib.lib")
+#          pragma comment( lib, "TinyXML_ModLib.lib" )
+#        endif 
+
+#      elif defined(TINYXML_MOD_DLL)
+
+//       this is the dynamic linking version of the TinyXML library
+//       modified by Daniel Wagner
+
+#        if defined(_DEBUG) || defined(DEBUG)
+#          pragma message("XMLSelection: linking against DLL-version: TinyXML_Modd.lib")
+#          pragma comment( lib, "TinyXML_Modd.lib" )
+#        else
+#          pragma message("XMLSelection: linking against DLL-version: TinyXML_Mod.lib")
+#          pragma comment( lib, "TinyXML_Mod.lib" )
+#        endif 
+
+#      else  //!defined(TINYXML_MOD_DLL)
+
+#        pragma message("XMLSelection: TinyXML_Mod must be linked either static or dynamic.")
+#        pragma message("              Please define either TINYXML_MOD_STATIC or TINYXML_MOD_DLL")
+#        pragma error
+
+#      endif  //!defined(TINYXML_MOD_DLL)
+
+#    endif  //defined(WIN32) || defined (_WIN32_WCE)
+
+#  else			// defined(TINYXML_MOD)
+
+//   this is the default version of the TinyXML library
+#    pragma message("XMLSelection: compiling against standard TinyXML")
+
+#    if defined(_DEBUG) || defined(DEBUG))
+#      pragma message("XMLSelection: linking against tinyxmld.lib")
+#      pragma comment( lib, "tinyxmld.lib" )
+#    else
+#      pragma message("XMLSelection: linking against tinyxml.lib")
+#      pragma comment( lib, "tinyxml.lib" )
+#    endif 
+
+#  endif		// defined(TINYXML_MOD)
+
+#  define OT_DOMDOCUMENT TiXmlDocument
+#  define OT_DOMELEMENT TiXmlElement
+
 #else
+  #pragma message("compiling against XERCESC")
   #include <xercesc/dom/DOM.hpp>
   #define OT_DOMDOCUMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument
   #define OT_DOMELEMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMElement

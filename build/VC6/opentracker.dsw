@@ -1,24 +1,9 @@
-Microsoft eMbedded Visual Tools Workspace File, Format Version 4.00
+Microsoft Developer Studio Workspace File, Format Version 6.00
 # WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
 
 ###############################################################################
 
-Project: "OTTest"=.\src\misc\wince\OTTest.vcp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name opentracker
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "libce"=..\libce\build\EVC4\libce.vcp - Package Owner=<4>
+Project: "ARToolKitPlus"=..\..\..\ARToolKitPlus\build\VC6\ARToolKitPlus.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -30,25 +15,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "opentracker"=.\opentracker.vcp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name libce
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name tinyxml_dll
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "opentrackerLib"=.\opentrackerLib.vcp - Package Owner=<4>
+Project: "ARToolKitPlusDll"=..\..\..\ARToolKitPlus\build\VC6\ARToolKitPlusDll.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -60,7 +27,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "tinyxml_dll"=..\tinyxml\tinyxml_dll.vcp - Package Owner=<4>
+Project: "opentracker"=.\opentracker.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "opentrackerLib"=.\opentrackerLib.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

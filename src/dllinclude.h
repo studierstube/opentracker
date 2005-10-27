@@ -40,7 +40,7 @@
 #ifndef _OPENTRACKER_H_INCLUDED
 #define _OPENTRACKER_H_INCLUDED
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32_WCE)
 #pragma warning(disable:4786)
 #pragma warning(disable:4251)
 //#pragma warning(disable:4275)

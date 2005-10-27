@@ -37,6 +37,7 @@
 #pragma warning(disable:4786)
 #endif
 
+#include "../tool/FixWinCE.h"
 #include "DGPSIP_Handler.h"
 #include "rtcm.h"
 

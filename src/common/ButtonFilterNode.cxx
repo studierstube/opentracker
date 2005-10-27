@@ -40,7 +40,7 @@
 
 
 #define DEBUG_BUTTONFILTER 
-#if defined(DEBUG_BUTTONFILTER) && defined(_DEBUG) 
+#if defined(DEBUG_BUTTONFILTER) && defined(_DEBUG) && !defined(_WIN32_WCE)
 #define DEBUG_CODE(a) {a;}
 #else
 #define DEBUG_CODE(a) {}

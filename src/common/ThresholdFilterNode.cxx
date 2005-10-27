@@ -58,7 +58,7 @@ int ThresholdFilterNode::isEventGenerator()
 
 void ThresholdFilterNode::onEventGenerated( State& event, Node& generator)
 {
-    float deltaPos = sqrt(
+    float deltaPos = (float)sqrt(
         (event.position[0]-lastState.position[0])*(event.position[0]-lastState.position[0]) +
         (event.position[1]-lastState.position[1])*(event.position[1]-lastState.position[1]) +
         (event.position[2]-lastState.position[2])*(event.position[2]-lastState.position[2]));

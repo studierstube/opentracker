@@ -31,6 +31,7 @@
  /* ======================================================================= */
 
 
+#include "../tool/FixWinCE.h"
 #include <ace/OS.h>
 #include <ace/FILE.h>
 

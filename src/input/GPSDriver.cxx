@@ -35,6 +35,7 @@
 #include "../tool/disable4786.h"
 
 #include "../OpenTracker.h"
+#include "../tool/FixWinCE.h"
 #include <ace/Reactor.h>
 #include <iostream>
 #include <algorithm>

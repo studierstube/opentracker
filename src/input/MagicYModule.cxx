@@ -33,6 +33,7 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 
+#include "../tool/FixWinCE.h"
 #include <ace/Time_Value.h>
 
 #include "MagicYModule.h"

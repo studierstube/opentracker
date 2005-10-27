@@ -30,6 +30,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include "../tool/FixWinCE.h"
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>
 #include "../tool/OT_ACE_Log.h"
