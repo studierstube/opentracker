@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "ReleaseLib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /Zi /O1 /I "../../extras" /I "../../extras/intersense" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLMODROOT)/src/TinyXML" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /D "TINYXML_MOD_STATIC" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /Zi /O1 /I "../../extras" /I "../../extras/intersense" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLMODROOT)/src/TinyXML" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /D "TINYXML_MOD_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0xc07 /d "NDEBUG"
 # ADD RSC /l 0xc07 /d "NDEBUG"
@@ -65,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "DebugLib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../../extras" /I "../../extras/intersense" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLMODROOT)/src/TinyXML" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /D "TINYXML_MOD_STATIC" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../../extras" /I "../../extras/intersense" /I "$(ACEROOT)" /I "$(XERCESCROOT)/src" /I "extras/intersense" /I "$(ARTOOLKITROOT)/include" /I "../wintab/include" /I "$(VRPNROOT)/vrpn" /I "$(ARTOOLKITPLUSROOT)/include" /I "$(TINYXMLMODROOT)/src/TinyXML" /I "$(OPENVIDEOROOT)/src/vidcapture" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "OPENTRACKER_STATIC" /D "ACE_AS_STATIC_LIBS" /D "ARTOOLKITPLUS_DLL" /D "TINYXML_MOD_DLL" /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0xc07 /d "_DEBUG"
 # ADD RSC /l 0xc07 /d "_DEBUG"
