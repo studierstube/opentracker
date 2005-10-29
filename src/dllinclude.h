@@ -43,6 +43,7 @@
 #if defined(WIN32) || defined(_WIN32_WCE)
 #pragma warning(disable:4786)
 #pragma warning(disable:4251)
+#pragma warning(disable:4996)
 //#pragma warning(disable:4275)
 //#pragma warning(disable:4305)
     #ifdef OPENTRACKER_STATIC

@@ -283,7 +283,7 @@ namespace ot {
 					source->state.orientation[2] = FlystickRecordTemp[bodyID-40].orientation[2];
 					source->state.orientation[3] = FlystickRecordTemp[bodyID-40].orientation[3];
 					// buttons ...
-					source->state.button = FlystickRecordTemp[bodyID-40].buttons;
+					source->state.button = (unsigned short)FlystickRecordTemp[bodyID-40].buttons;
 					// Bring a timeStamp to source->state
 					source->state.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
@@ -320,7 +320,7 @@ namespace ot {
 					source->state.orientation[2] = MeasuretargetRecordTemp[bodyID-60].orientation[2];
 					source->state.orientation[3] = MeasuretargetRecordTemp[bodyID-60].orientation[3];
 					// buttons ...
-					source->state.button = MeasuretargetRecordTemp[bodyID-60].buttons;
+					source->state.button = (unsigned short)MeasuretargetRecordTemp[bodyID-60].buttons;
 					// Bring a timeStamp to source->state
 					source->state.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
