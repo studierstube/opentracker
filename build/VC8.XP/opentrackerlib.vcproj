@@ -105,7 +105,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(ACEROOT);$(XERCESCROOT)/include;$(TINYXMLROOT);$(TINYXMLMODROOT)/src/TinyXML;../../extras;../../extras/intersense;$(ARTOOLKITROOT)/include;$(ARTOOLKITPLUSROOT)/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
