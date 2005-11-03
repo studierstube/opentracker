@@ -42,7 +42,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
-				Optimization="0"
+				Optimization="1"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;ACE_NO_INLINE;ACE_AS_STATIC_LIBS;ACE_NO_NEW2;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
