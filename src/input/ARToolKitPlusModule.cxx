@@ -42,13 +42,13 @@
 #include "ARToolKitPlusModule.h"
 #include "ARToolKitSource.h"
 #include "ARToolKitMultiMarkerSource.h"
-#include <ARToolKitPlus/MemoryManager.h>
-#include <ARToolKitPlus/MemoryManagerMemMap.h>
 
 
 #ifdef USE_ARTOOLKITPLUS
 
-//#undef ARTOOLKITPLUS_DLL
+#include <ARToolKitPlus/MemoryManager.h>
+#include <ARToolKitPlus/MemoryManagerMemMap.h>
+
 
 #ifdef ARTOOLKITPLUS_DLL
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
