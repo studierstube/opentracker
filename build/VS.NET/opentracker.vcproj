@@ -35,7 +35,7 @@
 				AdditionalDependencies="aced.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ACEROOT)/lib/Win32;$(ACEROOT);$(TINYXMLROOT)/lib;$(TINYXMLMODROOT)/lib/Win32;$(XERCESCROOT)/lib;$(ARTOOLKITROOT)/lib.vc70;$(OPENVIDEOROOT)/lib;$(ARTOOLKITPLUSROOT)/lib/Win32"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="../../lib/Win32/opentrackerd.pdb"
 				SubSystem="2"
