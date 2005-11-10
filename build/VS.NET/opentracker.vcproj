@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ACEROOT);$(XERCESCROOT)/include;$(TINYXMLROOT);$(TINYXMLMODROOT)/src/TinyXML;../../extras;../../extras/intersense;$(ARTOOLKITROOT)/include;$(ARTOOLKITPLUSROOT)/include"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(VIDCAPROOT)/Source/VidCapture&quot;;&quot;$(VIDCAPROOT)/Source/CVCommon&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;TINYXML_MOD_DLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -33,7 +33,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="aced.lib"
-				OutputFile="../../bin/Win32/opentrackerd.dll"
+				OutputFile="$(OTROOT)/bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="TRUE"
@@ -70,7 +70,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ACEROOT);$(XERCESCROOT)/include;$(TINYXMLROOT);$(TINYXMLMODROOT)/src/TinyXML;../../extras;../../extras/intersense;$(ARTOOLKITROOT)/include;$(ARTOOLKITPLUSROOT)/include"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;TINYXML_MOD_DLL"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -82,9 +82,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ace.lib"
-				OutputFile="../../bin/Win32/opentracker.dll"
+				OutputFile="$(OTROOT)/bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ACEROOT)/lib/Win32;$(ACEROOT);$(TINYXMLROOT)/lib;$(TINYXMLMODROOT)/lib/Win32;$(XERCESCROOT)/lib;$(ARTOOLKITROOT)/lib.vc70;$(OPENVIDEOROOT)/lib;$(ARTOOLKITPLUSROOT)/lib/Win32"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
 				SubSystem="2"
