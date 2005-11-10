@@ -58,8 +58,8 @@ class GPSDriver;
 
 // Uncomment the following line and comment the one after if the GPS is unable to connect.
 // An ACE versioning problem may be the cause of the problem.
-//#if defined(WIN32) || defined _SGI_SOURCE												//Uncomment this.
-#if defined (_SGI_SOURCE) || (ACE_MAJOR_VERSION==5 && ACE_MINOR_VERSION==4)				//And comment this.
+//#if (defined(WIN32) || defined (_SGI_SOURCE) || (ACE_MAJOR_VERSION==5 && (ACE_MINOR_VERSION==3 || ACE_MINOR_VERSION==4)))	//Uncomment this
+#if (defined (_SGI_SOURCE) || (ACE_MAJOR_VERSION==5 && (ACE_MINOR_VERSION==3 || ACE_MINOR_VERSION==4)))						//And comment this.
 
 class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_TTY_IO::PEER_ADDR, ACE_NULL_SYNCH>
 #else
