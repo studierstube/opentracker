@@ -105,11 +105,11 @@ int GPSDriver::open( const std::string & device, int baud, const std::string & s
 		{
 			receiver = NULL;
 			//std::cerr << "GPSDriver could not open serial port " << device << " !\n";
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open serial port %d\n"), device));
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open serial port %d\n"), device.c_str()));
 		}
 	}
     if( getDebug())
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened serial port %d\n"), device));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened serial port %d\n"), device.c_str()));
 	
 	// open the tcp connection to the server, if required
 	if( result == 0 && serveraddr.compare("") != 0 )
