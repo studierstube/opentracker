@@ -144,9 +144,11 @@ void LinmouseModule::run()
 	 case EV_KEY :
 	    switch (ev.code) {
 	    case BTN_LEFT:
+	    case BTN_SIDE:
 	       if (ev.value) buttons |= 0x0001; else buttons &= ~0x0001;
 	       break;
 	    case BTN_RIGHT:
+	    case BTN_EXTRA:
 	       if (ev.value) buttons |= 0x0002; else buttons &= ~0x0002;
 	       break;
 	    case BTN_MIDDLE:
