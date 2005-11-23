@@ -51,6 +51,7 @@
 
 
 #ifdef ARTOOLKITPLUS_DLL
+#  pragma message("compiling against ARToolKitPlus DLL")
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
 //#  if defined(DEBUG) || defined(_DEBUG)
 //#    pragma comment(lib, "ARToolKitPlusDllD.lib")
@@ -61,13 +62,14 @@
 //#  endif
 #else
 #  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
-//#  if defined(DEBUG) || defined(_DEBUG)
-//#    pragma comment(lib, "ARToolKitPlusD.lib")
-//#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlusD.lib")
-//#  else
-//#    pragma comment(lib, "ARToolKitPlus.lib")
-//#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlus.lib")
-//#  endif
+#  pragma message("compiling against ARToolKitPlus Lib")
+#  if (defined(DEBUG) || defined(_DEBUG))
+#    pragma comment(lib, "ARToolKitPlusD.lib")
+#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlusD.lib")
+#  else
+#    pragma comment(lib, "ARToolKitPlus.lib")
+#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlus.lib")
+#  endif
 #endif
 
 #include <ARToolKitPlus/Logger.h>
