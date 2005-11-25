@@ -23,17 +23,19 @@ otinputinc_HEADERS = \
         FastTrakSource.h \
         GPSDirectionSource.h \
         GPSDriver.h \
-        GPS_Handler.h \
         GPSGarminAltitude.h \
         GPSGarminCompass.h \
         GPSInfoSource.h \
         GPSModule.h \
         GPSParser.h \
         GPSSource.h \
+        GPS_Handler.h \
         InterSenseModule.h \
         InterSenseSource.h \
         JoystickModule.h \
         JoystickSource.h \
+        LinmouseModule.h \
+        LinmouseSource.h \
         MagicYModule.h \
         MagicYSource.h \
         MulticastInputModule.h \
@@ -42,8 +44,6 @@ otinputinc_HEADERS = \
         P5GloveSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
-        WacomGraphireModule.h \
-        WacomGraphireSource.h \
         SpaceMouseModule.h \
         SpaceMouseSource.h \
         SpeechCore.h \
@@ -54,15 +54,17 @@ otinputinc_HEADERS = \
         SpeechSource.h \
         SpeechVoice.h \
         SpeechVoiceModule.h \
+        TargusModule.h \
+        TargusSource.h \
+        UbisenseModule.h \
+        UbisenseSource.h \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        rtcm.h \
+        WacomGraphireModule.h \
+        WacomGraphireSource.h \
         XSensModule.h \
         XSensSource.h \
-        LinmouseModule.h \
-        LinmouseSource.h \
-	TargusModule.h \
-	TargusSource.h
+        rtcm.h
 
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
@@ -80,8 +82,8 @@ libinput_la_SOURCES = \
         CyberMouseModule.cxx \
         CyberMouseModule.h \
         CyberMouseSource.h \
-        DGPSIP_Handler.h \
         DGPSIP_Handler.cxx \
+        DGPSIP_Handler.h \
         DGPSMirror_Handler.cxx \
         DGPSMirror_Handler.h \
         DynaSightModule.cxx \
@@ -96,20 +98,23 @@ libinput_la_SOURCES = \
         GPSDirectionSource.h \
         GPSDriver.cxx \
         GPSDriver.h \
-        GPS_Handler.cxx \
-        GPS_Handler.h \
         GPSInfoSource.h \
         GPSModule.cxx \
         GPSModule.h \
         GPSParser.cxx \
         GPSParser.h \
         GPSSource.h \
+        GPS_Handler.cxx \
+        GPS_Handler.h \
         InterSenseModule.cxx \
         InterSenseModule.h \
         InterSenseSource.h \
         JoystickModule.cxx \
         JoystickModule.h \
         JoystickSource.h \
+        LinmouseModule.cxx \
+        LinmouseModule.h \
+        LinmouseSource.h \
         MagicYModule.cxx \
         MagicYModule.h \
         MagicYSource.h \
@@ -122,9 +127,6 @@ libinput_la_SOURCES = \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
-        WacomGraphireModule.cxx \
-        WacomGraphireModule.h \
-        WacomGraphireSource.h \
         SpaceMouseModule.cxx \
         SpaceMouseModule.h \
         SpaceMouseSource.h \
@@ -142,14 +144,20 @@ libinput_la_SOURCES = \
         SpeechVoice.h \
         SpeechVoiceModule.cxx \
         SpeechVoiceModule.h \
+        TargusModule.cxx \
+        UbisenseModule.cxx \
+        UbisenseModule.h \
+        UbisenseSource.cxx \
+        UbisenseSource.h \
         UltraTrakModule.cxx \
         UltraTrakModule.h \
         UltraTrakSource.h \
-        rtcm.h \
-        rtcm.cxx \
+        WacomGraphireModule.cxx \
+        WacomGraphireModule.h \
+        WacomGraphireSource.h \
         XSensModule.cxx \
         XSensModule.h \
         XSensSource.cxx \
         XSensSource.h \
-	LinmouseModule.cxx \
-	TargusModule.cxx
+        rtcm.cxx \
+        rtcm.h

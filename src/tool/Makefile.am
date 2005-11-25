@@ -4,6 +4,7 @@ include $(top_srcdir)/src/Makefile.common
 
 ottoolincdir = $(otincdir)/tool
 ottoolinc_HEADERS = \
+	FixWinCE.h \
 	OT_ACE_Log.h \
 	StringAligner.h \
 	StringFixer.h \
