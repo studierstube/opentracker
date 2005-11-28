@@ -640,7 +640,11 @@ fill_frame(void)
 #ifdef DEBUG
     if (debug)
 	fprintf(stderr, "ff=%d: %08x %08x %d %d %d %d %s\n", frame_fill,
+#if USE_64_BIT
+		(u_long)fillptr,
+#else
 		(u_int)fillptr,
+#endif
 	data_word, msg_len, word_count, pf_count, seqno, state_name[rtcm_state]);
 #endif
     if ((seqno < 0) || (((seqno +1) & 0x7) == seq))
@@ -655,7 +659,11 @@ fprintf(stderr,"2\n");
 #ifdef DEBUG
     if (debug)
 	fprintf(stderr, "ff=%d: %08x %08x %d %d %d %d %s\n", frame_fill,
+#if USE_64_BIT
+		(u_long)fillptr,
+#else
 		(u_int)fillptr,
+#endif
 	data_word, msg_len, word_count, pf_count, seqno, state_name[rtcm_state]);
 #endif
     if (rtcm_state == FRAME_SYNCING) { /* be very tough */
@@ -682,7 +690,11 @@ fprintf(stderr,"2\n");
 #ifdef DEBUG
     if (debug)
 	fprintf(stderr, "ff=%d: %08x %08x %d %d %d %d %s\n", frame_fill,
+#if USE_64_BIT
+		(u_long)fillptr,
+#else
 		(u_int)fillptr,
+#endif
 	data_word, msg_len, word_count, pf_count, seqno, state_name[rtcm_state]);
 #endif
     if (!data_word && !pfptr)
