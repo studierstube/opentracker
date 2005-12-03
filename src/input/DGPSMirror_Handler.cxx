@@ -35,6 +35,7 @@
 #pragma warning(disable:4786)
 #endif
 
+#include <stdlib.h>
 #include "GPSDriver.h"
 #include "DGPSMirror_Handler.h"
 

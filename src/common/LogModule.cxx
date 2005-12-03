@@ -30,6 +30,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <stdlib.h>
 #include "LogModule.h"
 
 #ifndef _WIN32_WCE

@@ -33,6 +33,7 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 
+#include <stdlib.h>
 #include "FileModule.h"
 #include "FileSink.h"
 #include "FileSource.h"

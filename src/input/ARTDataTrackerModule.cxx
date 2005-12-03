@@ -33,6 +33,7 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 
+#include <stdlib.h>
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>

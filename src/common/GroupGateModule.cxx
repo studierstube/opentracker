@@ -31,6 +31,7 @@
   * @file                                                                    */
  /* ======================================================================= */
 
+#include <stdlib.h>
 #include "GroupGateModule.h"
 #include "GroupGateNode.h"
 

@@ -34,6 +34,7 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+#include <stdlib.h>
 #include <string>
 #include <algorithm>
 
@@ -188,7 +189,7 @@ void NetworkSinkModule::start()
 			}			
 			if((*it)->nic.compare("") != 0 )
 			{
-				(*it)->socket.set_nic((*it)->nic.c_str());
+				(*it)->socket.set_nic(ACE_TEXT_CHAR_TO_TCHAR((*it)->nic.c_str()));
 			}
             (*it)->data.maxStationNum = htons((*it)->data.maxStationNum);
         }

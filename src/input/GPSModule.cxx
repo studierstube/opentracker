@@ -31,6 +31,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <stdlib.h>
 #include "../tool/FixWinCE.h"
 #include <ace/OS.h>
 #include <ace/Reactor.h>

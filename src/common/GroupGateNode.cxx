@@ -34,6 +34,7 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 
+#include <stdlib.h>
 #include "GroupGateNode.h"
 
 #include <stdio.h>

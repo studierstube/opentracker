@@ -30,6 +30,8 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <stdlib.h>
+
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 

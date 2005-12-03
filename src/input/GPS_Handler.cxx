@@ -31,6 +31,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <stdlib.h>
 #include "../tool/FixWinCE.h"
 #include "GPS_Handler.h"
 #include "GPSDriver.h"

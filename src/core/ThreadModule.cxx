@@ -35,6 +35,8 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+
+#include <stdlib.h>
 #include <string>
 
 #include <ace/Thread.h>

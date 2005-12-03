@@ -33,6 +33,7 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+#include <stdlib.h>
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
