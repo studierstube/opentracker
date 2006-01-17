@@ -446,8 +446,11 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
         return;
 	}
 
-	//tracker->activateIdBasedMarkers(idbasedMarkers);
+#if defined(ARTOOLKITPLUS_VERSION_MAJOR) && (ARTOOLKITPLUS_VERSION_MAJOR==2)
 	tracker->setMarkerMode(idbasedMarkers ? ARToolKitPlus::MARKER_ID_SIMPLE : ARToolKitPlus::MARKER_TEMPLATE);
+#else
+	tracker->activateIdBasedMarkers(idbasedMarkers);
+#endif
 
 	initialized = 1;
 }
