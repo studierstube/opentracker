@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentracker", "opentracker.vcproj", "{DA01276B-D483-4DAA-A15C-FFB774576158}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standalone", "src\misc\standalone.vcproj", "{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA01276B-D483-4DAA-A15C-FFB774576158} = {DA01276B-D483-4DAA-A15C-FFB774576158}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{DA01276B-D483-4DAA-A15C-FFB774576158}.Debug.ActiveCfg = Debug|Win32
+		{DA01276B-D483-4DAA-A15C-FFB774576158}.Debug.Build.0 = Debug|Win32
+		{DA01276B-D483-4DAA-A15C-FFB774576158}.Release.ActiveCfg = Release|Win32
+		{DA01276B-D483-4DAA-A15C-FFB774576158}.Release.Build.0 = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.ActiveCfg = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.Build.0 = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.ActiveCfg = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
