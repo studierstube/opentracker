@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="opentracker"
 	ProjectGUID="{9C260567-A9B4-4489-8B2C-F3663004A18D}"
+	RootNamespace="opentracker"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -35,11 +36,11 @@
 				AdditionalDependencies="aced.lib"
 				OutputFile="$(OTROOT)/bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(VIDCAPROOT)/Build/VidCapLib/Lib&quot;"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="../../lib/Win32/opentrackerd.pdb"
+				ProgramDatabaseFile="$(OTROOT)/lib/Win32/opentrackerd.pdb"
 				SubSystem="2"
-				ImportLibrary="../../lib/Win32/opentrackerd.lib"
+				ImportLibrary="$(OTROOT)/lib/Win32/opentrackerd.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -70,7 +71,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(VIDCAPROOT)/Source/VidCapture&quot;;&quot;$(VIDCAPROOT)/Source/CVCommon&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;TINYXML_MOD_DLL"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -84,13 +85,13 @@
 				AdditionalDependencies="ace.lib"
 				OutputFile="$(OTROOT)/bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
+				ProgramDatabaseFile="$(OTROOT)/lib/Win32/opentracker.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="../../lib/Win32/opentracker.lib"
+				ImportLibrary="$(OTROOT)/lib/Win32/opentracker.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>

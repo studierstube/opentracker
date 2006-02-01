@@ -42,11 +42,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opentracker.lib odbc32.lib odbccp32.lib"
-				OutputFile="$(OTROOT)/bin/opentracker.exe"
+				OutputFile="$(OTROOT)/bin/win32/opentracker.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(OTROOT)/lib"
-				ProgramDatabaseFile=".\Release/opentracker.pdb"
+				AdditionalLibraryDirectories="$(OTROOT)/lib/win32"
+				ProgramDatabaseFile="$(OTROOT)/lib/Win32/standalone.pdb"
 				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
@@ -86,7 +86,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(ACEROOT)/include&quot;;&quot;$(OTROOT)/src&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)/src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -104,12 +104,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opentrackerd.lib odbc32.lib odbccp32.lib"
-				OutputFile="$(OTROOT)/bin/opentrackerd.exe"
+				OutputFile="$(OTROOT)/bin/Win32/opentrackerd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(OTROOT)/lib"
+				AdditionalLibraryDirectories="$(OTROOT)/lib/Win32"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
+				ProgramDatabaseFile="$(OTROOT)/lib/Win32/standaloned.pdb"
 				SubSystem="1"
 				TargetMachine="1"/>
 			<Tool
