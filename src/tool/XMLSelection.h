@@ -53,7 +53,7 @@
 //   this is the default version of the TinyXML library
 #    pragma message("XMLSelection: compiling against standard TinyXML")
 
-#    if defined(_DEBUG) || defined(DEBUG))
+#    if defined(_DEBUG) || defined(DEBUG)
 #      pragma message("XMLSelection: linking against tinyxmld.lib")
 #      pragma comment( lib, "tinyxmld.lib" )
 #    else
