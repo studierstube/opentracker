@@ -96,9 +96,8 @@ InputSource * OpenTrackerResolver::resolveEntity( XMLResourceIdentifier * resour
         XMLCh * test = XMLString::transcode("opentracker.dtd");
         if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
         {
-            ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
-            std::string otrootvalue = (std::string)otroot;
-            std::string otdatadir;
+			std::string otrootvalue = ACE_OS::getenv ("OTROOT");
+			std::string otdatadir;
             if( otrootvalue.compare("") != 0 )
             {
                 otdatadir = otrootvalue + "/data";
