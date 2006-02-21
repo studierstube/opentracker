@@ -2,9 +2,9 @@ OpenTracker
 
 (C) 2000,2001,2002,2003 Vienna University of Technology
 
-OpenTracker is distributed under the Lesser GNU Public License. See the file
-LICENSE.TXT for details. A short build and installation guide can be found
-in docs/install.html. For detailed information about building, integrating
+OpenTracker is distributed under the BSD License. See the file LICENSE.TXT
+for details. A short build and installation guide can be found in
+docs/install.html. For detailed information about building, integrating
 and extending OpenTracker, please visit the web site at
 http://www.studierstube.org/opentracker/.
 
