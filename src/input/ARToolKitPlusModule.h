@@ -164,7 +164,9 @@ protected:
 
 	void init(StringTable& attributes, ConfigNode * localTree);
 
-	void updateSource(Node *source, float cf, float matrix[3][4]);
+	void updateSingleMarkerSource(Node *source, float cf, float matrix[3][4]);
+	void updateMultiMarkerSource(Node *source, float cf, float matrix[3][4]);
+	void updateState(State &state, float matrix[3][4]);
 
 	ImageGrabber* imageGrabber;
 

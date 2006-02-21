@@ -683,7 +683,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 			source_size = (ARFloat)sourceA->size;
 
             if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
-				updateSource(sourceA, markerInfo[j].cf, matrix);
+				updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
 		}
 		else
 		if(source->getType()=="ARToolKitPlusMultiMarkerSource")
@@ -703,7 +703,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 				ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
 
 				if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
-					updateSource(sourceM, 1.0f, mmConfig->trans);
+					updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
 
 				processedSources.push_back(source);
 			}
@@ -752,14 +752,8 @@ ARToolKitPlusModule::artLogEx(const char* nStr, ...)
 }*/
 
 
-void
-ARToolKitPlusModule::updateSource(Node *node, float cf, ARFloat matrix[3][4])
+void ARToolKitPlusModule::updateState(State &state, float matrix[3][4])
 {
-	ARToolKitSource* source = (ARToolKitSource*)node;
-
-	State & state = source->buffer;
-	state.confidence = cf;
-
 #ifdef ARTOOLKIT_UNFLIP_V
 #undef ARTOOLKIT_UNFLIP_V
 #endif
@@ -808,6 +802,25 @@ ARToolKitPlusModule::updateSource(Node *node, float cf, ARFloat matrix[3][4])
 	//  -----------------------------------------------------------
 #endif
 	state.timeStamp();
+}
+
+void ARToolKitPlusModule::updateSingleMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
+{
+	ARToolKitSource* source = (ARToolKitSource*)node;
+
+	State & state = source->buffer;
+	state.confidence = cf;
+	updateState(state,matrix);
+	source->modified = 1;
+}
+
+void ARToolKitPlusModule::updateMultiMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
+{
+	ARToolKitMultiMarkerSource* source = (ARToolKitMultiMarkerSource*)node;
+
+	State & state = source->buffer;
+	state.confidence = cf;
+	updateState(state,matrix);
 	source->modified = 1;
 }
 

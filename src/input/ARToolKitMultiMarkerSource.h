@@ -91,7 +91,7 @@ protected:
      */
     ARToolKitMultiMarkerSource(std::string& cfgfile_, void* mmConfig_) : 
         Node(),
-        cfgfile( cfgfile ),
+        cfgfile( cfgfile_ ),
 		mmConfig(mmConfig_),
         modified(0)
     {
