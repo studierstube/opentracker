@@ -41,9 +41,7 @@
   * @file                                                                   */
  /* ======================================================================= */
 
-#include <stdlib.h>
 #include "../tool/FixWinCE.h"
-
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>
 #include "../tool/OT_ACE_Log.h"
@@ -96,8 +94,9 @@ InputSource * OpenTrackerResolver::resolveEntity( XMLResourceIdentifier * resour
         XMLCh * test = XMLString::transcode("opentracker.dtd");
         if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
         {
-			std::string otrootvalue = ACE_OS::getenv ("OTROOT");
-			std::string otdatadir;
+            ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
+            std::string otrootvalue = (std::string)otroot;
+            std::string otdatadir;
             if( otrootvalue.compare("") != 0 )
             {
                 otdatadir = otrootvalue + "/data";
