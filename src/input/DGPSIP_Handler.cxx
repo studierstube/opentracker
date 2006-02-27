@@ -48,10 +48,9 @@
 #pragma warning(disable:4786)
 #endif
 
-#include <stdlib.h>
 #include "../tool/FixWinCE.h"
 #include "DGPSIP_Handler.h"
-#include "rtcm.h"
+//#include "rtcm.h"
 
 
 namespace ot {
@@ -97,12 +96,13 @@ int DGPSIP_Handler::handle_input(ACE_HANDLE fd)
     if ((cnt = peer().recv( buf, sizeof(buf))) > 0) {
         ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input received %i bytes\n", cnt));
         // this is the rtcm decoder, use for debug purposes		
-        if ( parent->getDebug() ) {
-            int i;
-            for (i = 0; i < cnt; i++) {
-                new_byte(buf[i]);
-            }
-        }
+	// commented out since code of 'new_byte()" in 'rtcm.cxx' is under the GPL
+//         if ( parent->getDebug() ) {
+//             int i;
+//             for (i = 0; i < cnt; i++) {
+// 	      new_byte(buf[i]);
+//             }
+//         }
         ACE_DEBUG((LM_DEBUG, "DGPSIP_Handler::handle_input send to rtcm\n"));
         // send data to GPS receiver
         parent->send_rtcm( buf, cnt );

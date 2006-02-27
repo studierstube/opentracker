@@ -63,8 +63,7 @@ otinputinc_HEADERS = \
         WacomGraphireModule.h \
         WacomGraphireSource.h \
         XSensModule.h \
-        XSensSource.h \
-        rtcm.h
+        XSensSource.h
 
 noinst_LTLIBRARIES = libinput.la
 libinput_la_SOURCES = \
@@ -158,6 +157,4 @@ libinput_la_SOURCES = \
         XSensModule.cxx \
         XSensModule.h \
         XSensSource.cxx \
-        XSensSource.h \
-        rtcm.cxx \
-        rtcm.h
+        XSensSource.h
