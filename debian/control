@@ -1,0 +1,24 @@
+Source: libopentracker
+Section: libs
+Priority: optional
+Maintainer: Jonas Smedegaard <dr@jones.dk>
+Build-Depends: d-shlibs (>= 0.18), debhelper (>= 4.1.0), dh-buildinfo, pkg-config
+Standards-Version: 3.6.1
+
+Package: libOpenTracker1-dev
+Section: libdevel
+Architecture: any
+Depends: libOpenTracker1 (= ${Source-Version}), ${devlibs:Depends}, pkg-config
+Provides: libOpenTracker-dev 
+Conflicts: libOpenTracker1-dev, libOpenTracker-dev
+Description: Opentracker (development)
+ Opentracker
+
+Package: libOpenTracker1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Provides: libOpenTracker
+Conflicts: libOpenTracker1
+Description: Opentracker
+ Opentracker

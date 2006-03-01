@@ -1,0 +1,54 @@
+libopentracker (1.1a-7) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Wed, 21 Dec 2005 13:40:50 +0100
+
+libopentracker (1.1a-6) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Wed, 23 Nov 2005 10:34:39 +0100
+
+libopentracker (1.1a-5) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Tue, 18 Oct 2005 15:12:28 +0200
+
+libopentracker (1.1a-4) unstable; urgency=low
+
+  * wheel support in linmouse 
+
+ -- root <root@cheetah>  Fri, 23 Sep 2005 10:31:17 +0200
+
+libopentracker (1.1a-3) unstable; urgency=low
+
+  * new version with linmouse support 
+
+ -- root <root@cheetah>  Tue, 20 Sep 2005 09:43:36 +0200
+
+libopentracker (1.1a-2) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Mon, 12 Sep 2005 10:06:43 +0200
+
+libopentracker (1.1a-1) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Mon, 22 Aug 2005 15:35:02 +0200
+
+libopentracker (1.0-2) unstable; urgency=low
+
+  * new version 
+
+ -- root <root@cheetah>  Mon, 22 Aug 2005 11:50:18 +0200
+
+libopentracker (1.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Alexander Bornik <bornik@icg.tu-graz.ac.at>  Wed, 10 Nov 2004 13:00:00 +0100
+
