@@ -246,13 +246,16 @@ void NetworkSinkModule::pullState()
             MulticastGroup * group = sink->group;
             State & state = sink->state;
             short int size, si[5];
+            int time[2];
             float temp[4];
             char * index = ( char * ) group->nextRecord;
             
             // 3 position and 4 quaternion entries +
             // 5 short ints for other data + length of station name
+            // + 1 double for timestamp
             size = (3+4)*sizeof(float) + 5*sizeof(short int);
             size += sink->stationName.length();
+            size += sizeof(double);
             
             // Data per Station:
             // short int number of the station
@@ -284,6 +287,13 @@ void NetworkSinkModule::pullState()
             convertFloatsHToNl(state.orientation,temp, 4 );
             memcpy(index, temp, 4*sizeof( float ));    
              
+	    // copy timestamp data
+            index += 4*sizeof( float );
+            time[0] = htonl( ( (long*)(&state.time) )[0] );
+            time[1] = htonl( ( (long*)(&state.time) )[1] );
+            memcpy(index, time, 2*sizeof(int));
+            index += 2*sizeof( int );
+                    
             // add to nextRecord and numOfStations
             group->nextRecord += size;
             group->data.numOfStations++;

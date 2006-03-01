@@ -203,6 +203,7 @@ void NetworkSourceModule::run( void * data )
                 {
                     State & state = (*station)->state;
                     int size = 5*sizeof(short int)+ntohs( si[4] );
+                    int time[2];
                     // copy station, this is a critical section                        
                     rec->mutex.acquire();                        
                     state.button = ntohs( si[2] );
@@ -214,21 +215,31 @@ void NetworkSourceModule::run( void * data )
                         case positionQuaternion :
                             memcpy( state.orientation, &stationdata[size], 4*sizeof(float));
                             convertFloatsNToHl( state.orientation, state.orientation, 4);
+                            size += 4*sizeof(float);
                             break;
                         case positionAngles :                            
                             memcpy( help, &stationdata[size], 3*sizeof(float));
                             convertFloatsNToHl( help[0], help[0], 3);
                             MathUtils::eulerToQuaternion( help[0][0], help[0][1], help[0][2],
                                                          state.orientation );
+			    size += 3*sizeof(float);	                                                         
                             break;
                         case positionMatrix :
                             memcpy( help, &stationdata[size], 9*sizeof(float));
                             convertFloatsNToHl( (float*)help, (float*)help, 9 );
                             MathUtils::matrixToQuaternion( help, state.orientation );
+                            size += 9*sizeof(float);
                             break;
                     }
+                    
+                    // copy timestamp data
+                    time[0] = ntohl( ( (long*) &stationdata[size] )[0] );
+                    time[1] = ntohl( ( (long*) &stationdata[size] )[1] );
+                    memcpy(&state.time, (char*)&time, 2*sizeof(long));
+                    size += 2*sizeof(int);
+                    
                     (*station)->modified = 1;
-                    state.timeStamp();
+                   
                     rec->mutex.release();
                     // end of critical section
                 }
