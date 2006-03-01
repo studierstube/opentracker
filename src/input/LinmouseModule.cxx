@@ -123,7 +123,7 @@ void LinmouseModule::run()
       }
 
       if (wheelflag) {  // the wheel does not reset the button -> insert artificial button release event
-	 //usleep(50000);
+	 usleep(10000);
 	 buttons &= 0xffcf;
 	 wheelflag = false;
       }
@@ -249,8 +249,8 @@ void LinmouseModule::run()
 	 source->state.confidence = 1.0;
 	 source->changed = 1;
 	 
-	 unlock();      
       }
+      unlock();      
    }
 }
 
