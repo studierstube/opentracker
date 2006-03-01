@@ -122,7 +122,7 @@ Node * FileModule::createNode( const std::string& name, StringTable& attributes)
 			LOG_ACE_ERROR("ot:Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
             return sink;
         }         
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id));
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id.c_str()));
 
     } else if( name.compare("FileSource") == 0 )
     {
@@ -171,10 +171,10 @@ Node * FileModule::createNode( const std::string& name, StringTable& attributes)
             }
             FileSource * source = new FileSource( station, localTime );
             vector.push_back( source );
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %d with station %d and localtime %s\n"), id, station, localTime ? "'true'" : "'false'"));
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %d with station %d and localtime %s\n"), id.c_str(), station, localTime ? "'true'" : "'false'"));
             return source;
         } 
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSource referencing output file %d\n"), id));
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSource referencing output file %d\n"), id.c_str()));
     }
     return NULL;
 }
