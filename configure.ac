@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Opentracker], [1.1], [opentracker@studierstube.org])
+AC_INIT([Opentracker], [1.1.1], [opentracker@studierstube.org])
 
 AC_CONFIG_AUX_DIR(cfg)
 AC_CONFIG_SRCDIR([src/core/Node.cxx])
@@ -8,7 +8,7 @@ AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
-OT_VERSION="1.1a"
+OT_VERSION="1.1.1"
 AC_SUBST([OT_VERSION])
 
 # Checks for programs.
