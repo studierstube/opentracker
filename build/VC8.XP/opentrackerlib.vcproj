@@ -395,10 +395,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\rtcm.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\SelectionNode.cxx"
 				>
 			</File>
@@ -914,10 +910,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\RefNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\rtcm.h"
 				>
 			</File>
 			<File
