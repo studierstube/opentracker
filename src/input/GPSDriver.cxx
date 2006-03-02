@@ -42,6 +42,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+
+// required for WinCE to make sure time_t is 32-bits !!!
+// crappy WinCE SDK defines 32-bit version AND 64-bit version,
+// while ACE expects the 32-bits version...
+#include <stdlib.h>
+
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 #include <cstdlib>

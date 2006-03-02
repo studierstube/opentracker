@@ -41,10 +41,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				ExecutionBucket="7"
 				Optimization="0"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -119,7 +120,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -194,7 +195,7 @@
 				ExecutionBucket="7"
 				Optimization="1"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -269,7 +270,7 @@
 				ExecutionBucket="7"
 				Optimization="2"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -562,10 +563,6 @@
 				</File>
 				<File
 					RelativePath="..\..\src\input\P5GloveModule.cxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\input\rtcm.cxx"
 					>
 				</File>
 				<File

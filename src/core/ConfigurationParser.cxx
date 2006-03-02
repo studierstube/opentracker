@@ -41,6 +41,10 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+// WinCE: We have to include stdlib.h to make sure the
+//        right version of qsort is seen first...
+#include <stdlib.h>
+
 #include "../tool/FixWinCE.h"
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>

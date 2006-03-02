@@ -72,7 +72,7 @@ class GPSDriver;
 #define ACE_VERSION_NUM(a, b, c) (((a) << 16) + ((b) << 8) + (c))
 #define ACE_VERSION_CURRENT ACE_VERSION_NUM(ACE_MAJOR_VERSION, ACE_MINOR_VERSION, ACE_BETA_VERSION)
 
-#if (ACE_VERSION_CURRENT < ACE_VERSION_NUM(5, 4, 7))
+#if (ACE_VERSION_CURRENT < ACE_VERSION_NUM(5, 4, 7)) || (defined(_WIN32_WCE) && (_MSC_VER<1300))
 class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_TTY_IO::PEER_ADDR, ACE_NULL_SYNCH>
 #else
 class GPS_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_NULL_SYNCH>

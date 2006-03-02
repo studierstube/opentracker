@@ -45,7 +45,7 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML;$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;ACE_NO_NEW2;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -208,7 +208,7 @@
 				ExecutionBucket="7"
 				Optimization="1"
 				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=420;$(PLATFORMDEFINES);WINCE;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;ACE_NO_NEW2;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -448,10 +448,6 @@
 				</File>
 				<File
 					RelativePath="..\..\src\input\P5GloveModule.cxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\input\rtcm.cxx"
 					>
 				</File>
 				<File

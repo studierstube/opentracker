@@ -62,25 +62,34 @@
 #include <ARToolKitPlus/MemoryManagerMemMap.h>
 
 
+// in SAM we use another mechanism to link against ARToolKitPlus
+// in order to use the release DLL even in debug mode.
+// for that case we can define OT_DO_NOT_LINK_ARTOOLKITPLUS
+// to deactivate the automatic linking process
+//
 #ifdef ARTOOLKITPLUS_DLL
-#  pragma message("compiling against ARToolKitPlus DLL")
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
-//#  if defined(DEBUG) || defined(_DEBUG)
-//#    pragma comment(lib, "ARToolKitPlusDllD.lib")
-//#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlusDllD.lib")
-//#  else
-//#    pragma comment(lib, "ARToolKitPlusDll.lib")
-//#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlusDll.lib")
-//#  endif
+#  pragma message("compiling against ARToolKitPlus DLL")
+#  ifndef OT_DO_NOT_LINK_ARTOOLKITPLUS
+#    if defined(DEBUG) || defined(_DEBUG)
+#      pragma comment(lib, "ARToolKitPlusDllD.lib")
+#      pragma message("ARToolKitPlusModule: linking against ARToolKitPlusDllD.lib")
+#    else
+#      pragma comment(lib, "ARToolKitPlusDll.lib")
+#      pragma message("ARToolKitPlusModule: linking against ARToolKitPlusDll.lib")
+#    endif
+#  endif
 #else
-#  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
 #  pragma message("compiling against ARToolKitPlus Lib")
-#  if (defined(DEBUG) || defined(_DEBUG))
-#    pragma comment(lib, "ARToolKitPlusD.lib")
-#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlusD.lib")
-#  else
-#    pragma comment(lib, "ARToolKitPlus.lib")
-#    pragma message("ARToolKitPlusModule: linking against ARToolKitPlus.lib")
+#  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
+#  ifndef OT_DO_NOT_LINK_ARTOOLKITPLUS
+#    if (defined(DEBUG) || defined(_DEBUG))
+#      pragma comment(lib, "ARToolKitPlusD.lib")
+#      pragma message("ARToolKitPlusModule: linking against ARToolKitPlusD.lib")
+#    else
+#      pragma comment(lib, "ARToolKitPlus.lib")
+#      pragma message("ARToolKitPlusModule: linking against ARToolKitPlus.lib")
+#    endif
 #  endif
 #endif
 
@@ -146,6 +155,45 @@ namespace ot {
 const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  };
 
 
+bool
+convertPixelFormat_ImageGrabber_to_ARToolKitPlus(ImageGrabber::FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
+{
+	switch(nSrcFormat)
+	{
+	case ImageGrabber::RGBX8888:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGBA;
+		return true;
+	case ImageGrabber::RGB565:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB565;
+		return true;
+	case ImageGrabber::LUM8:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_LUM;
+		return true;
+	default:
+		return false;
+	}
+}
+
+
+bool
+convertPixelFormat_ARToolKitPlus_to_ImageGrabber(ARToolKitPlus::PIXEL_FORMAT nSrcFormat, ImageGrabber::FORMAT &nDstFormat)
+{
+	switch(nSrcFormat)
+	{
+	case ARToolKitPlus::PIXEL_FORMAT_RGBA:
+		nDstFormat = ImageGrabber::RGBX8888;
+		return true;
+	case ARToolKitPlus::PIXEL_FORMAT_RGB565:
+		nDstFormat = ImageGrabber::RGB565;
+		return true;
+	case ARToolKitPlus::PIXEL_FORMAT_LUM:
+		nDstFormat = ImageGrabber::LUM8;
+		return true;
+	default:
+		return false;
+	}
+}
+
 
 ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(), NodeFactory()
 {
@@ -170,18 +218,33 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565);
 #  endif //ARTOOLKITPLUS_FOR_STB3
 
-#else
+#else //ARTOOLKITPLUS_DLL
 
 #  ifdef ARTOOLKITPLUS_FOR_STB3
-	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>(320,240);
-#  else
-//	if(ARToolKitPlus::memManager && !ARToolKitPlus::memManager->didInit())
-//		ARToolKitPlus::memManager->init(ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA>::getMemoryRequirements());
 
-	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
+#    if (ARTOOLKITPLUS_VERSION_MAJOR==2) && (ARTOOLKITPLUS_VERSION_MINOR>0)
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, 32,32>(320,240);
+	// TODO: pixel format should be set corresponding on the input format!
+	tracker->setPixelFormat(ARToolKitPlus::PIXEL_FORMAT_RGBA);
+#    else
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGBA, 32,32>(320,240);
+#    endif
+
+#  else //ARTOOLKITPLUS_FOR_STB3
+
+#    if (ARTOOLKITPLUS_VERSION_MAJOR==2) && (ARTOOLKITPLUS_VERSION_MINOR>0)
+        tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, 32,32>(320,240);
+		// TODO: pixel format should be set corresponding on the input format!
+        tracker->setPixelFormat(ARToolKitPlus::PIXEL_FORMAT_RGB565);
+#    else
+	    tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565, 32,32>(320,240);
+#    endif
+
 #  endif //ARTOOLKITPLUS_FOR_STB3
 
+
 #endif //ARTOOLKITPLUS_DLL
+
 
 	tracker->init(NULL, trackerNear, trackerFar, logger);
 	tracker->setThreshold(100);
@@ -506,8 +569,11 @@ bool ARToolKitPlusModule::updateARToolKit()
     int j;
     ARFloat matrix[3][4];
 	int newSizeX, newSizeY;
-	ImageGrabber::FORMAT imgFormat0 = tracker->getPixelFormat()==ARToolKitPlus::PIXEL_FORMAT_RGBA ? ImageGrabber::RGBX8888 : ImageGrabber::RGB565,
-						 imgFormat = imgFormat0;
+	ImageGrabber::FORMAT imgFormat0, imgFormat;
+
+	if(!convertPixelFormat_ARToolKitPlus_to_ImageGrabber(tracker->getPixelFormat(), imgFormat0))
+		return false;
+	imgFormat = imgFormat0;
 
 #ifdef ARTOOLKITPLUS_FOR_STB3
 	lock();
@@ -522,11 +588,23 @@ bool ARToolKitPlusModule::updateARToolKit()
 	}
 #endif //ARTOOLKITPLUS_FOR_STB3
 
+	// did grab() return another pixel format than ARToolKitPlus expects?
 	if(imgFormat!=imgFormat0)
 	{
+#if (ARTOOLKITPLUS_VERSION_MAJOR==2) && (ARTOOLKITPLUS_VERSION_MINOR>0)
+		// ARToolKitPlus 2.1 and later can change pixel format at runtime!
+		//
+		ARToolKitPlus::PIXEL_FORMAT artkpFormat;
+		if(!convertPixelFormat_ImageGrabber_to_ARToolKitPlus(imgFormat, artkpFormat))
+			return false;
+		tracker->setPixelFormat(artkpFormat);
+#else
+
 		LOG_ACE_ERROR("ot:ARToolkitPlusModule got wrong image format\n");
 		LOG_ACE_ERROR("       (%s instead of %s)\n", imgFormat==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565",
 													 imgFormat0==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565");
+#endif
+
 #ifdef ARTOOLKITPLUS_FOR_STB3
 		unlock();
 #endif
@@ -580,6 +658,7 @@ bool ARToolKitPlusModule::updateARToolKit()
 	}
 	visibleMarkers.clear();
 
+	//useMarkerDetectLite = true;
 
 	// try to find markers in the camera image
 	//
@@ -603,6 +682,13 @@ bool ARToolKitPlusModule::updateARToolKit()
 			return false;
 		}
 	}
+
+
+	//{
+	//	char str[256];
+	//	sprintf(str, "POS: %.2f %.2f  %.2f %.2f  %.2f %.2f  %.2f %.2f\n", markerInfo->vertex[0][0], markerInfo->vertex[0][1], markerInfo->vertex[1][0], markerInfo->vertex[1][1], markerInfo->vertex[2][0], markerInfo->vertex[2][1], markerInfo->vertex[3][0], markerInfo->vertex[3][1]);
+	//	OutputDebugStringA(str);
+	//}
 
 
     if( markerNum < 1 )
@@ -828,7 +914,8 @@ void ARToolKitPlusModule::updateMultiMarkerSource(Node *node, float cf, ARFloat 
 const char*
 ARToolKitPlusModule::getARToolKitPlusDescription() const
 {
-	return tracker->getDescription();
+	const char* descr = tracker->getDescription();
+	return descr;
 }
 
 
