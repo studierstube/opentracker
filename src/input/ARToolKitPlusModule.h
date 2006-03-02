@@ -107,9 +107,13 @@ public:
 	static const char* formatStrings[3];
 
 	enum FORMAT {
-		RGBX8888 = 0,
-		RGB565 = 1,
-		LUM8 = 2
+		XBGR8888 = 0,
+		BGRX8888 = 1,
+		BGR888 = 2,
+		RGBX8888 = 3,
+		RGB888 = 4,
+		RGB565 = 5,
+		LUM8 = 6
 	};
 
 	virtual bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, FORMAT& nFormat) = 0;

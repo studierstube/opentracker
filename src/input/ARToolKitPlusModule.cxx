@@ -160,8 +160,20 @@ convertPixelFormat_ImageGrabber_to_ARToolKitPlus(ImageGrabber::FORMAT nSrcFormat
 {
 	switch(nSrcFormat)
 	{
+	case ImageGrabber::XBGR8888:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_ABGR;
+		return true;
+	case ImageGrabber::BGRX8888:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGRA;
+		return true;
+	case ImageGrabber::BGR888:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGR;
+		return true;
 	case ImageGrabber::RGBX8888:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGBA;
+		return true;
+	case ImageGrabber::RGB888:
+		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB;
 		return true;
 	case ImageGrabber::RGB565:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB565;
@@ -180,8 +192,20 @@ convertPixelFormat_ARToolKitPlus_to_ImageGrabber(ARToolKitPlus::PIXEL_FORMAT nSr
 {
 	switch(nSrcFormat)
 	{
+	case ARToolKitPlus::PIXEL_FORMAT_ABGR:
+		nDstFormat = ImageGrabber::XBGR8888;
+		return true;
+	case ARToolKitPlus::PIXEL_FORMAT_BGRA:
+		nDstFormat = ImageGrabber::BGRX8888;
+		return true;
+	case ARToolKitPlus::PIXEL_FORMAT_BGR:
+		nDstFormat = ImageGrabber::BGR888;
+		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_RGBA:
 		nDstFormat = ImageGrabber::RGBX8888;
+		return true;
+	case ARToolKitPlus::PIXEL_FORMAT_RGB:
+		nDstFormat = ImageGrabber::RGB888;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_RGB565:
 		nDstFormat = ImageGrabber::RGB565;
