@@ -1,0 +1,17 @@
+For building a debian package just type
+
+./bootstrap
+
+./debian/rules binary
+
+Note:
+
+the name libOpenTracker.so for the library is against debian naming conventions.
+Change the following in /usr/bin/dpkg_gencontrol.
+
+
+  } elsif (m/^-p(.*)/) {
+    $oppackage= $1;
+    #&error("Illegal package name \`$1'");
+  } elsif (m/^-c/) {
+		       
