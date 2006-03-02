@@ -28,7 +28,7 @@ Options:
 # and whether there is some macro to use instead of the hardcoded path
 OTLIBS="-lOpenTracker -lX11"
 OTINCS=-I$prefix/include/OpenTracker
-OTLDFLAGS="-L$prefix/lib -L/usr/X11/lib"
+OTLDFLAGS="-L$prefix/lib -L/usr/X11R6/lib"
 
 # features indicators determined during configure
 have_speech=@HAVE_FEATURE_SAPISPEECH@
