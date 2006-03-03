@@ -478,6 +478,8 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   marker-mode CDATA "template"
   pattern-dir CDATA ""
   border-width CDATA "0.250"
+  ov-config CDATA #REQUIRED
+  ov-sink CDATA #REQUIRED
 >
 <!ELEMENT ARToolKitPlusSource EMPTY>
 <!ATTLIST ARToolKitPlusSource

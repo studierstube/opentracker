@@ -36,6 +36,7 @@
 /** header file for ARToolKitPlusModule module.
   *
   * @author Daniel Wagner
+  * @author Erick Mendez
   *
   * $Header$
   * @file                                                                   */
@@ -50,8 +51,6 @@
 #ifndef _ARTOOLKITMODULEPLUS_H
 #define _ARTOOLKITMODULEPLUS_H
 
-//#define ARTOOLKITPLUS_FOR_STB3
-
 #include "../dllinclude.h"
 
 #include <vector>
@@ -61,51 +60,45 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
+#include <openvideo/configOV.h>
+#include <openvideo/State.h>
+#include <openvideo/nodes/VideoSink.h>
+#include <openvideo/nodes/VideoSinkSubscriber.h>
+#include "OTOpenVideoContext.h"
 
-#ifdef ARTOOLKITPLUS_FOR_STB3
+namespace openvideo
+{
+	class State;
+	class VideoSink;
+	class VideoSinkSubscriber;
+}
 
-namespace ot {
-
-	struct MemoryBufferHandle
-	{
-		unsigned long  n; // sample number
-		__int64 t;		  // timestamp
-
-		MemoryBufferHandle() : n(0), t(0)
-		{}
-	};
-
-} // namespace ot
-
-class CVVidCapture;
-
-#define STEREO_L 0
-#define STEREO_R 1
-
-class CVImage;
-
-#endif //ARTOOLKITPLUS_FOR_STB3
-
-
-namespace ARToolKitPlus {
+namespace ARToolKitPlus
+{
 	class TrackerSingleMarker;
 	class Logger;
 }
 
 class ARToolKitPlusModuleLogger;
 
-//#include <ARToolKitPlus/TrackerSingleMarker.h>
 
 
-namespace ot {
+namespace ot 
+{
 
+class ARToolKitPlusModule;
 typedef std::vector<Node*> NodeVector;
 typedef std::map<int,Node*> MarkerIdMap;
 
-class ImageGrabber {
+/*
+ * Abstract Image grabbing function
+ */
+class ImageGrabber
+{
 public:
 	static const char* formatStrings[3];
 
+	// These are the supported Pixel Formats
 	enum FORMAT {
 		XBGR8888 = 0,
 		BGRX8888 = 1,
@@ -116,7 +109,52 @@ public:
 		LUM8 = 6
 	};
 
+	/*
+	 * This function is called by updateARToolkit() and is in charge of returning the pointer to the image frame
+	 */
 	virtual bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, FORMAT& nFormat) = 0;
+};
+
+/*
+ * Inherits from both Open Video's VideoSinkSubscriber and the ImageGrabber.
+ * This is the class that actually links OpenVideo and OpenTracker.
+ */
+class OVImageGrabber : public ot::ImageGrabber, public openvideo::VideoSinkSubscriber
+{
+public:
+	const unsigned char* image;
+	int sizeX, sizeY;
+	FORMAT format;
+	ot::ARToolKitPlusModule *myARToolKitPlusMod;
+	bool isStarted;
+
+	OVImageGrabber(){isStarted=false;};
+
+	/*
+	 * Registers itself with VideoSink
+	 */
+
+	void init(const char *name);
+
+	/*
+	 * Registers itself with ARToolKitPlusModule 
+	 */
+	void registerARToolkitPlusMod(ot::ARToolKitPlusModule *newARToolkitPlusMod);
+
+	/*
+	 * Implementation of inherited grab function. Passes along the pointer to the image frame.
+	 */
+	bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, ImageGrabber::FORMAT& nFormat);
+
+	/*
+	 * Called by VideoSink. This way OpenVideo sends the pointer to the Video Frame.
+	 */
+	void update(openvideo::State* curState);
+
+	/*
+	 * All supported pixel formats on the OpenVideo end should be added here.
+	 */
+	void initPixelFormats();
 };
 
 
@@ -147,6 +185,12 @@ protected:
 
     /// file name of cameradata file
     std::string cameradata;
+
+	/// config file of openvideo
+	std::string ovConfigFile;
+
+	/// openvideo sink name
+	std::string ovSinkName;
 
     /// size of the image in pixels
     int sizeX, sizeY;
@@ -248,60 +292,11 @@ public:
 
 	bool doBench;
 
+    /** returns the config file name of OpenVideo */
+	const char *getOVConfigFileName();
 
-#ifdef ARTOOLKITPLUS_FOR_STB3
-	virtual void run();
-
-	virtual void start();
-
-	virtual void close();
-
-	void shutDownVidCapture();
-
-
-    /** returns whether two cameras are configured */
-    bool isStereo();
-
-    /** returns the width of the grabbed image in pixels */
-    int getSizeX(int stereo_buffer = STEREO_L);
-
-    /** returns the height of the grabbed image in pixels */
-    int getSizeY(int stereo_buffer = STEREO_L);
-
-    /** returns whether the grabbed image is flipped horizontally
-	  * or vertically */
-    void getFlipping(bool* isFlippedH, bool* isFlippedV, int stereo_buffer = STEREO_L);
-
-    /** returns a pointer to the grabbed image. The image format
-     * is depending on the pixel format and typically RGB or RGBA 
-     * times X times Y bytes. 
-     * @return pointer to image buffer */
-    unsigned char * lockFrame(MemoryBufferHandle* pHandle, int stereo_buffer = STEREO_L);
-	// formerly getFrame()
-
-    /** releases the pointer to the grabbed image.
-     * @release frame pointer */
-    void unlockFrame(MemoryBufferHandle Handle, int stereo_buffer = STEREO_L);
-
-    /** 
-     * returns the OpenGL flag that is used by ARToolkit to describe
-     * the pixel format in the frame buffer. This is a simple way to 
-     * pass the necessary information to use the image data in GL calls. */
-    int getImageFormat(int stereo_buffer = STEREO_L);
-
-	void setCapturedImage(CVImage* nImage);
-
-protected:
-	CVVidCapture* vidCap;
-	CVImage* curCapImage;
-
-	double		rate;
-	std::string videomode;
-	int			videoWidth, videoHeight;
-	bool		didLockImage;
-	//CRITICAL_SECTION CriticalSection; 
-
-#endif //ARTOOLKITPLUS_FOR_STB3
+	/** returns the VideoSink name*/
+	const char *getOVSinkName();
 };
 
 } // namespace ot

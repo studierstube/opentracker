@@ -169,9 +169,16 @@ void OPENTRACKER_API initializeContext( Context & context )
 #endif
 
 #ifdef USE_ARTOOLKITPLUS
-    ARToolKitPlusModule * artoolplus = new ARToolKitPlusModule;
-    context.addFactory( * artoolplus );
-    context.addModule( "ARToolKitPlusConfig", *artoolplus );
+	// Create an ARToolKitPlusModule instance
+	ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
+	context.addFactory( * artoolplus );
+	context.addModule( "ARToolKitPlusConfig", *artoolplus );
+
+	// Create an Image Grabber instance
+	OVImageGrabber *grabber=new OVImageGrabber;
+	// Register the Grabber
+	grabber->registerARToolkitPlusMod(artoolplus);
+
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
