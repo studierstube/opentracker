@@ -1020,11 +1020,11 @@ static void processIntrackSensorRecord(InterSenseTrackerType *tracker, char *cmd
     statMess[1] = 0x00;
 
     statMess[0] = cmdbuf[3];
-    sscanf((const char *) statMess, "%hx", &statHigh);
+    sscanf((const char *) statMess, "%d", &statHigh);
     statMess[0] = cmdbuf[4];
-    sscanf((const char *) statMess, "%hx", &statMed);
+    sscanf((const char *) statMess, "%d", &statMed);
     statMess[0] = cmdbuf[5];
-    sscanf((const char *) statMess, "%hx", &statLow);
+    sscanf((const char *) statMess, "%d", &statLow);
 
     if((statMed&IT_COM_SENSOR_JUMP_MODE_BIT) == IT_COM_SENSOR_JUMP_MODE_BIT)
     {
