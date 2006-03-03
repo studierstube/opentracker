@@ -292,7 +292,7 @@ void FOBModule::init(StringTable& attributes,  ConfigNode * localTree)
 
         Bird * bird = new Bird( number, childAttr.get("device"), scale, angles );        
         birds[number] = bird;        
-		LOG_ACE_INFO("ot:created bird %d on dev %s\n", number, childAttr.get("device"));
+		LOG_ACE_INFO("ot:created bird %d on dev %s\n", number, childAttr.get("device").c_str());
     }
     
     if( birds.find(master) == birds.end())
@@ -613,7 +613,9 @@ void FOBModule::pushState()
 int FOBModule::resetBirds()
 {    
     if( mode == SINGLE )
+      {
     	birds[master]->reset();
+      }
     else
     {
         std::map<int, Bird *>::iterator it;
@@ -882,7 +884,6 @@ inline int Bird::reset()
     setRTSSerialPort( &port, 1);
     OSUtils::sleep(100);
     return setRTSSerialPort( &port, 0);
-    OSUtils::sleep(100);
 }
 
 inline int Bird::setGroupMode( bool value )

@@ -303,6 +303,8 @@ void DynaSightModule::run()
     char serialPortBuffer[DYNASIGHT_COMM_BUFFER_SIZE];
     // packet buffer for the target data assembly
     char packetBuffer[DYNASIGHT_PACKET_MAX_LENGTH];
+    for (count=0; count < DYNASIGHT_PACKET_MAX_LENGTH; count++) packetBuffer[count] = 0;
+    count = 0;
     char *characterPointer = NULL;
     char newCharacter = ' ';
     bool isMarker = FALSE;

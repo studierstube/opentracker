@@ -11,7 +11,9 @@
 //   this is the modified TinyXML version modified by Daniel Wagner called TinyXML_Mod.
 //   Under Windows can either be linked statically or as DLL.
 
+#if defined (WIN32)
 #    pragma message("XMLSelection: compiling against TinyXML_Mod")
+#endif
 
 #    if defined(WIN32) || defined (_WIN32_WCE)
 #      ifdef TINYXML_MOD_STATIC
@@ -67,7 +69,9 @@
 #  define OT_DOMELEMENT TiXmlElement
 
 #else
+#if defined (WIN32)
   #pragma message("compiling against XERCESC")
+#endif
   #include <xercesc/dom/DOM.hpp>
   #define OT_DOMDOCUMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument
   #define OT_DOMELEMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMElement

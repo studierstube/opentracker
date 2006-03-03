@@ -103,7 +103,7 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
         trackerType = ISOTRAK;
     else
     {
-		LOG_ACE_ERROR("ot:FastTrakModule : unknown trackertype %s\n", attributes.get("type"));
+		LOG_ACE_ERROR("ot:FastTrakModule : unknown trackertype %s\n", attributes.get("type").c_str());
         exit(-1);
     }
 
@@ -114,7 +114,7 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
     initString = attributes.get("init-string");
     
     ThreadModule::init( attributes, localTree );
-	LOG_ACE_INFO("ot:FastTrakModule : initialized !\nusing tracker protocol for %s\n", attributes.get("type"));
+	LOG_ACE_INFO("ot:FastTrakModule : initialized !\nusing tracker protocol for %s\n", attributes.get("type").c_str());
 }
 
 // This method is called to construct a new Node 

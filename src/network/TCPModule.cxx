@@ -155,9 +155,12 @@ void TCPModule::pullState(){
                 }
                 if( sink->timeFlag == 1 ){
                     *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))&&0xffffffff);
-                    index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))>>32);
-                    index += sizeof(int);
+                    
+		    // FIXXXME : What are the following lines good for?
+		    // Since they do not make any sense to me and the cause a warning I commented them out
+		    // *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))>>32);
+		    // index += sizeof(int);
+		     
                 }
                 // send to all connections
                 lock();
