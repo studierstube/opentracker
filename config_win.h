@@ -106,7 +106,7 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-#define USE_ARTOOLKITPLUS 1
+//#define USE_ARTOOLKITPLUS 1
 
 
 /** uncomment the following line to compile ARToolKitPlusModule be a video source
@@ -114,6 +114,7 @@
 //#define ARTOOLKITPLUS_FOR_STB3  --- depricated !!!
 
 
+/** We use TinyXML as standard library */
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 #define USE_TINYXML 1
 
