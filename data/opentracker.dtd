@@ -434,9 +434,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
   DEF ID #IMPLIED
   name CDATA #REQUIRED
   number CDATA #REQUIRED
-  multicast-address CDATA #REQUIRED
+  multicast-address CDATA #IMPLIED
   port CDATA #REQUIRED
   interface CDATA ""
+  mode (unicast | multicast) "multicast"
 >
 <!--network receiver elements, acting as sources-->
 <!ELEMENT NetworkSourceConfig EMPTY>
@@ -444,8 +445,10 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ATTLIST NetworkSource
   DEF ID #IMPLIED
   number CDATA #REQUIRED
-  multicast-address CDATA #REQUIRED
+  multicast-address CDATA #IMPLIED
   port CDATA #REQUIRED
+  address CDATA #IMPLIED
+  mode (unicast | multicast) "multicast"
 >
 <!-- video source elements for ARToolKit library-->
 <!ELEMENT ARToolKitConfig EMPTY>

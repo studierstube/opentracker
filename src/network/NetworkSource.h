@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for NetworkSource Node.
   *
-  * @author Gerhard Reitmayr
+  * @author Gerhard Reitmayr, Mathis Csisinko
   *
   * $Id$
   * @file                                                                   */
@@ -47,13 +47,16 @@
  * The NetworkSource node is a simple EventGenerator that inserts events from
  * the network into the tracker tree. The NetworkSource element has the 
  * following attributes :
- * @li @c number the stations number, between 0 and any positive number
- * @li @c multicast-address the multicast group to send to
- * @li @c port port to send to
+ * @li @c mode (unicast|multicast) chooses between multicast and unicast mode
+ * @li @c number the (nonnegative) station number
+ * @li @c multicast-address the multicast group to receive from in multicast mode
+ * @li @c address the address to receive from in unicast mode
+ * @li @c port port to receive from 
  *  
  * An example element looks like this :
  * @verbatim
-<NetworkSource number="1" multicast-address="224.0.0.10" port="12345"/>@endverbatim
+<NetworkSource mode="unicast" number="0" address="localhost" port="54321"/>
+<NetworkSource mode="multicast" number="1" multicast-address="224.0.0.10" port="12345"/>@endverbatim
  */
 
 #ifndef _NETWORKSOURCE_H

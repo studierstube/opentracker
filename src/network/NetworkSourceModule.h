@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for NetworkSourceModule module.
   *
-  * @author Gerhard Reitmayr
+  * @author Gerhard Reitmayr, Mathis Csisinko
   *
   * $Id$
   * @file                                                                    */
@@ -45,9 +45,12 @@
  * @page module_ref Module Reference
  * @section networksourcemodule NetworksourceModule
  * The NetworkSourceModule listens for data from the Network sent to 
- * multicast groups and pushes the state updates into the tracker tree
- * via @ref networksource nodes. It has no attributes and need not be present
- * in the configuration section to operate.
+ * multicast groups or by unicast datagrams and pushes the state updates into
+ * the tracker tree via @ref networksource nodes. It has no attributes and need
+ * not be present in the configuration section to operate.
+ * In unicast mode and in absence of received data polling datagrams are
+ * regularily sent to indicate interest in tracking data and a single leave
+ * datagram on termination.
  */
 
 #ifndef _NETWORKSOURCEMODULE_H
@@ -57,21 +60,25 @@
 #include "Network.h"
 #include "NetworkSource.h"
 
-class ACE_Thread_Manager;
+//class ACE_Thread_Manager;
 
 namespace ot {
 
+struct NetworkReceiver;
 struct MulticastReceiver;
+struct UnicastReceiver;
 
-typedef std::vector<MulticastReceiver *> ReceiverVector;
+typedef std::vector<MulticastReceiver *> MulticastReceiverVector;
+typedef std::vector<UnicastReceiver *> UnicastReceiverVector;
 
 /**
  * The module and factory to drive the reception of network state updates.
  * It builds NetworkSource nodes that insert data from the network into
  * the tracker tree. It uses the Flexible Network Protocol from the 
- * studierstube. It uses its a thread per multicast group to receive data.
+ * studierstube. It uses a thread per multicast group or unicast port to
+ * receive and send (if necessary) data.
  *
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Mathis Csisinko
  * @ingroup network
  */
 class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
@@ -80,9 +87,11 @@ class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
 protected:    
     
     /// ACE Thread manager
-    ACE_Thread_Manager * manager;
-    /// list of groups to listen for
-    ReceiverVector groups;
+    //ACE_Thread_Manager * manager;
+    /// list of multicast groups to listen for
+    MulticastReceiverVector multicasts;
+    /// list of unicast receivers to listen for
+    UnicastReceiverVector unicasts;
     
 // methods
 protected:
@@ -92,17 +101,16 @@ protected:
      * @param num number of floats to convert
      */
     static void convertFloatsNToHl(float* floats, float* result, int num);
-    /** the work method for the module thread. This is executed by the new
-     * module thread. In this class it does nothing but subclasses should
-     * override it to add their implementation. */
-    static void run( void * data );
+    static void runMulticastReceiver( void * data );
+    static void runUnicastTransceiver( void * data );
+    static bool processRecord( NetworkReceiver * receiver );
     
 public:    
     /** basic constructor */
-     NetworkSourceModule();
+    NetworkSourceModule();
 
-     /** destructor */
-     virtual ~NetworkSourceModule();
+    /** destructor */
+    virtual ~NetworkSourceModule();
 
     /** This method is called to construct a new Node. It compares
      * name to the NetworkSource element name, and if it matches

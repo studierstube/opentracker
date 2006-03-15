@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for NetworkSink Node.
   *
-  * @author Gerhard Reitmayr
+  * @author Gerhard Reitmayr, Mathis Csisinko
   *
   * $Id$
   * @file                                                                   */
@@ -49,15 +49,19 @@
  * each pass, whether a NetworkSink node stored a new event and sends that data
  * as the specified station to the network. The NetworkSink element has the 
  * following attributes :
+ * @li @c mode (unicast|multicast) chooses between multicast and unicast mode
  * @li @c name the stations name
- * @li @c number the stations number, between 0 and any positive number
- * @li @c multicast-address the multicast group to send to
- * @li @c port port to send to
+ * @li @c number the (nonnegative) stations number
+ * @li @c multicast-address the multicast group to send to in multicast mode
+ * @li @c port port to send to in multicast mode or to listen for in unicast mode
  * @li @c interface ip address of the interface to work on 
  *  
  * An example element looks like this :
  * @verbatim
-<NetworkSink name="station name" number="1" multicast-address="224.0.0.10" port="12345" interface="192.168.2.100">
+<NetworkSink mode="unicast" name="station name" number="0" port="54321">
+    <Any EventGenerator element type>
+</NetworkSink>
+<NetworkSink mode="multicast" name="station name" number="1" multicast-address="224.0.0.10" port="12345" interface="192.168.2.100">
     <Any EventGenerator element type>
 </NetworkSink>@endverbatim
  */
@@ -70,7 +74,7 @@
 
 namespace ot {
 
-struct MulticastGroup;
+struct NetworkSender;
 
 /**
  * This class implements a simple node that stores a copy of the last
@@ -88,8 +92,8 @@ public:
     std::string stationName;
     /// station number
     short int stationNumber;
-    /// multicast group pointer
-    MulticastGroup * group;
+    /// network sender pointer
+    NetworkSender * networkSender;
     /// flag whether it was modified since last turn
     int modified;
     /// the state that is stored
@@ -100,13 +104,13 @@ protected:
     /** constructor method,sets members 
      * @param name_ the station name 
      * @param number_ the station number
-     * @param group_ pointer of the multicast group this station belongs to
+     * @param networkSender_ pointer to the network sender this station belongs to
      */
-    NetworkSink( std::string & name_,short int number_, MulticastGroup * group_ ) :
+    NetworkSink( std::string & name_,short int number_, NetworkSender * networkSender_ ) :
         Node(),     
         stationName( name_ ),
         stationNumber( number_ ),
-        group( group_ ),
+        networkSender( networkSender_ ),
         modified( 0 )
     {}
     

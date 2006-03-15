@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for NetworkSinkModule module.
   *
-  * @author Gerhard Reitmayr
+  * @author Gerhard Reitmayr, Mathis Csisinko
   *
   * $Id$
   * @file                                                                    */
@@ -45,9 +45,9 @@
  * @page module_ref Module Reference
  * @section networksinkmodule NetworkSinkModule
  * The NetworkSinkModule graps states from the tracker tree and sends them
- * to other hosts via multicast groups. The receiving groups addresses are
- * set in the @ref networksink nodes. It implements the Flexible Network protocol
- * from the Studierstube.
+ * to other hosts either via multicast groups or by unicast datagrams. The
+ * receiving groups addresses are set in the @ref networksink nodes. It
+ * implements the Flexible Network protocol from the Studierstube.
  * It's configuration element has the following attributes :
  * @li @c name a string idenfifying the server
  *
@@ -65,8 +65,13 @@
 
 namespace ot {
 
-/** a list of MulticastGroup records */
-typedef std::vector<MulticastGroup *> GroupVector;
+struct MulticastSender;
+struct UnicastSender;
+
+/** a list of MulticastSender records */
+typedef std::vector<MulticastSender *> MulticastSenderVector;
+/** a list of UnicastSender records */
+typedef std::vector<UnicastSender *> UnicastSenderVector;
 
 /** a list of NetworkSink nodes */
 typedef std::vector<NetworkSink *> SinkVector;
@@ -74,9 +79,9 @@ typedef std::vector<NetworkSink *> SinkVector;
 /**
  * The module and factory to drive the transmission of tracker states via
  * the network. It grabs the states from various NetworkSink nodes and 
- * distributes them to specified multicast groups.
+ * distributes them to specified multicast groups or unicast datagrams.
  *
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Mathis Csisinko
  * @ingroup network
  */
 class OPENTRACKER_API NetworkSinkModule : public Module, public NodeFactory
@@ -85,8 +90,10 @@ class OPENTRACKER_API NetworkSinkModule : public Module, public NodeFactory
 protected:
     /// list of NetworkSink nodes
     SinkVector nodes;
-    /// list of MulticastGroup objects
-    GroupVector groups;
+    /// list of MulticastSender objects
+    MulticastSenderVector multicasts;
+    /// list of UnicastSender objects
+    UnicastSenderVector unicasts;
     /// server name
     std::string serverName;
     
@@ -98,7 +105,15 @@ protected:
      * @param num number of floats to convert */
     void convertFloatsHToNl(float* floats, float* result, int num);
     
+    static void runUnicastTransceiver( void * data );
+
 public:
+    /** basic constructor */
+    NetworkSinkModule();
+
+    /** destructor */
+    virtual ~NetworkSinkModule();
+
     /**
      * initializes the tracker module. 
      * @param attributes StringMap of elements attribute values. Should be

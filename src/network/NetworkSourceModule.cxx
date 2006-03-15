@@ -47,9 +47,13 @@
 #endif
 #include <stdlib.h>
 #include <string>
+#include <algorithm>
 
-#include <ace/Thread_Manager.h>
+//#include <ace/Thread_Manager.h>
+#include <ace/Thread.h>
 #include <ace/Synch.h>
+#include <ace/Thread_Mutex.h>
+#include <ace/Guard_T.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram_Mcast.h>
  
@@ -86,21 +90,80 @@ const int positionMatrix=3;
 const int magicNum=0xbeef;
 const int revNum=0x0200;
 
-struct MulticastReceiver
+struct NetworkReceiver
 {
-    ACE_SOCK_Dgram_Mcast socket;
     /// Mutex to synchronize access to Station data
     ACE_Thread_Mutex mutex;
     /// buffer for incoming package
     FlexibleTrackerDataRecord buffer;
     StationVector sources;
-    std::string group;
-    int port;
     int stop;
 
-    MulticastReceiver( const std::string & group_, int port_ ) :
-        group( group_ ), port( port_ ), stop(0)
-    {};
+    NetworkReceiver( ) :
+        stop(0)
+    {}
+};
+
+struct UdpReceiver: NetworkReceiver
+{
+    unsigned short port;
+
+    UdpReceiver( unsigned short port_ ) :
+        NetworkReceiver(), port( port_ )
+    {}
+};
+
+struct MulticastReceiver: UdpReceiver
+{
+    ACE_SOCK_Dgram_Mcast socket;
+    std::string group;
+
+    MulticastReceiver( const std::string & group_, unsigned short port_ ) :
+        UdpReceiver( port_ ), group( group_ )
+    {}
+};
+
+struct UnicastReceiver: UdpReceiver
+{
+    ACE_SOCK_Dgram socket;
+    std::string host;
+    ACE_INET_Addr address;
+
+    UnicastReceiver( const std::string & host_, unsigned short port_, const ACE_INET_Addr & address_ ) :
+        UdpReceiver( port_ ), host( host_ ), address( address_ )
+    {}
+};
+
+/** simple functor to find the right multicast receiver. */
+struct FindMulticastReceiver {
+	std::string group;
+	unsigned short port;
+
+	FindMulticastReceiver( const std::string & group_, unsigned short & port_ ) :
+		group( group_ ), port( port_)
+	{}
+
+	bool operator()( const MulticastReceiver * other )
+	{
+		return (    group.compare( other->group ) == 0 
+			     && port == other->port );
+	}
+};
+
+/** simple functor to find the right unicast receiver. */
+struct FindUnicastReceiver {
+	std::string host;
+	unsigned short port;
+
+	FindUnicastReceiver( const std::string & host_, unsigned short & port_ ) :
+		host( host_ ), port( port_)
+	{}
+
+	bool operator()( const UnicastReceiver * other )
+	{
+		return (    host.compare( other->host ) == 0 
+				 && port == other->port );
+	}
 };
 
 // constructor initializing the thread manager
@@ -112,16 +175,24 @@ NetworkSourceModule::NetworkSourceModule() : Module(), NodeFactory()
 // destructor cleans up any allocated memory
 NetworkSourceModule::~NetworkSourceModule()
 {
-    for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
+    for( MulticastReceiverVector::iterator mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
     {
-        for( StationVector::iterator st = (*it)->sources.begin(); st != (*it)->sources.end(); st++ )
+        for( StationVector::iterator st = (*mc_it)->sources.begin(); st != (*mc_it)->sources.end(); ++st )
         {
             delete (*st);            
         }
-        (*it)->sources.clear();
-        delete (*it);
+        (*mc_it)->sources.clear();
+        delete (*mc_it);
     }
-    groups.clear();
+    for( UnicastReceiverVector::iterator uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
+    {
+        for( StationVector::iterator st = (*uc_it)->sources.begin(); st != (*uc_it)->sources.end(); ++st )
+        {
+            delete (*st);            
+        }
+        (*uc_it)->sources.clear();
+        delete (*uc_it);
+    }
 }
 
 // Converts num floats from network byte order.
@@ -136,21 +207,20 @@ void NetworkSourceModule::convertFloatsNToHl(float* floats, float* result, int n
 
     for (i=0; i<num; i++)                
     {
-	convert.f = floats[i];
-	convert.l = ntohl(convert.l);  // Convert host to network byte order
-	result[i] = convert.f;
+	    convert.f = floats[i];
+	    convert.l = ntohl(convert.l);  // Convert host to network byte order
+	    result[i] = convert.f;
     }
 }
 
 // reads from the network and parses network packages
-void NetworkSourceModule::run( void * data )
+void NetworkSourceModule::runMulticastReceiver( void * data )
 {
     MulticastReceiver * rec = (MulticastReceiver *) data;
     FlexibleTrackerDataRecord & buffer = rec->buffer;
     ACE_INET_Addr remoteAddr;
     ACE_Time_Value timeOut( 1, 0 );
     int retval;
-    float help[3][3];
    
     while(1)
     {
@@ -168,44 +238,94 @@ void NetworkSourceModule::run( void * data )
         } while( retval < 0 && rec->stop == 0);
         if( rec->stop != 0 )
             break;
-	    if( ((unsigned short) ntohs(buffer.headerId) != magicNum)||
-		((unsigned short) ntohs(buffer.revNum) != revNum))
-	        continue;
-        int maxNumber = ntohs(buffer.maxStationNum);
-        int number = ntohs(buffer.numOfStations);
-        // skip server name 
-        char * stationdata = &buffer.data[ntohs(buffer.commentLength)];
-        short int si[5];
-        for( int cnt = 0; cnt < number; cnt ++ )
+        processRecord( rec );
+    }
+    if( rec->socket.close() == -1)
+	{
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSourceModule !\n")));
+	}
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
+}
+    
+// reads from and writes to the network and parses network packages
+void NetworkSourceModule::runUnicastTransceiver( void * data )
+{
+    UnicastReceiver * rec = (UnicastReceiver *) data;
+    FlexibleTrackerDataRecord & buffer = rec->buffer;
+    ACE_INET_Addr remoteAddr;
+    ACE_Time_Value timeOut( 1, 0 );
+    int retval;
+    const char poll = 'P';
+    const char leave = 'L';
+   
+    while(1)
+    {
+        do
         {
-            memcpy(si, stationdata, 5*sizeof( short int ));
-            // Data per Station:
-            // short int number of the station
-            // short int format (Quaternion, Euler, Matrix)
-            // short int button states (binary coded)
-            // short int bytes per station (incl. this header)
-            // short int length of the name of the station
-            // n bytes name of the station
-            // position and orientation according to format
-            int stationNumber = ntohs(si[0]);
-            int format = ntohs( si[1] );
-            if( stationNumber >= 0 && stationNumber <= maxNumber && 
-                format == positionQuaternion )
+            if((retval = rec->socket.recv( &buffer, sizeof( buffer ), remoteAddr, 0,
+                    &timeOut )) == -1 )
             {
-                StationVector::iterator station;
-                for( station = rec->sources.begin(); 
-                     station != rec->sources.end(); station++ )
+                if( errno == ETIME )
                 {
-                    if( (*station)->number == stationNumber )
-                        break;
+                    rec->socket.send( &poll, sizeof(poll), rec->address,0, &ACE_Time_Value::zero );
                 }
-                if( station != rec->sources.end())
+            }    
+        } while( retval < 0 && rec->stop == 0);
+        if( rec->stop != 0 )
+            break;
+        processRecord( rec );
+    }
+    rec->socket.send( &leave, sizeof(leave), rec->address,0, &ACE_Time_Value::zero );
+    if( rec->socket.close() == -1)
+	{
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSourceModule !\n")));
+	}
+	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
+}
+ 
+bool NetworkSourceModule::processRecord( NetworkReceiver * rec )
+{
+    FlexibleTrackerDataRecord & buffer = rec->buffer;
+    float help[3][3];
+	if( ((unsigned short) ntohs(buffer.headerId) != magicNum)||
+	((unsigned short) ntohs(buffer.revNum) != revNum))
+	    return false;
+    int maxNumber = ntohs(buffer.maxStationNum);
+    int number = ntohs(buffer.numOfStations);
+    // skip server name 
+    char * stationdata = &buffer.data[ntohs(buffer.commentLength)];
+    short int si[5];
+    for( int cnt = 0; cnt < number; cnt ++ )
+    {
+        memcpy(si, stationdata, 5*sizeof( short int ));
+        // Data per Station:
+        // short int number of the station
+        // short int format (Quaternion, Euler, Matrix)
+        // short int button states (binary coded)
+        // short int bytes per station (incl. this header)
+        // short int length of the name of the station
+        // n bytes name of the station
+        // position and orientation according to format
+        int stationNumber = ntohs(si[0]);
+        int format = ntohs( si[1] );
+        if( stationNumber >= 0 && stationNumber <= maxNumber && 
+            format == positionQuaternion )
+        {
+            StationVector::iterator station;
+            for( station = rec->sources.begin(); 
+                    station != rec->sources.end(); ++station )
+            {
+                if( (*station)->number == stationNumber )
+                    break;
+            }
+            if( station != rec->sources.end())
+            {
+                State & state = (*station)->state;
+                int size = 5*sizeof(short int)+ntohs( si[4] );
+                int time[2];
+                // copy station, this is a critical section                        
                 {
-                    State & state = (*station)->state;
-                    int size = 5*sizeof(short int)+ntohs( si[4] );
-                    int time[2];
-                    // copy station, this is a critical section                        
-                    rec->mutex.acquire();                        
+                    ACE_Guard<ACE_Thread_Mutex> guard( rec->mutex );
                     state.button = ntohs( si[2] );
                     memcpy(state.position,&stationdata[size],3*sizeof(float));
                     convertFloatsNToHl(state.position,state.position,3);
@@ -221,8 +341,8 @@ void NetworkSourceModule::run( void * data )
                             memcpy( help, &stationdata[size], 3*sizeof(float));
                             convertFloatsNToHl( help[0], help[0], 3);
                             MathUtils::eulerToQuaternion( help[0][0], help[0][1], help[0][2],
-                                                         state.orientation );
-			    size += 3*sizeof(float);	                                                         
+                                                        state.orientation );
+			                size += 3*sizeof(float);	                                                         
                             break;
                         case positionMatrix :
                             memcpy( help, &stationdata[size], 9*sizeof(float));
@@ -239,70 +359,96 @@ void NetworkSourceModule::run( void * data )
                     size += 2*sizeof(int);
                     
                     (*station)->modified = 1;
-                   
-                    rec->mutex.release();
-                    // end of critical section
                 }
             }
-            // goto next station
-            stationdata += ntohs(si[3]);
-        }        
-    }
-    rec->socket.close();
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
+        }
+        // goto next station
+        stationdata += ntohs(si[3]);
+    }        
+    return true;
 }
-    
- 
+
 //  constructs a new Node
 Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("NetworkSource") == 0 )
     { 
-        int number, port;
+        int number;
+        unsigned short port;
         int num = sscanf(attributes.get("number").c_str(), " %i", &number );
         if( num == 0 ){
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSource number !\n")));
             return NULL;
         }
-        std::string group = attributes.get("multicast-address");
-        num = sscanf(attributes.get("port").c_str(), " %i", &port );
+        num = sscanf(attributes.get("port").c_str(), " %hu", &port );
         if( num == 0 ){
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSource port number !\n")));
             return NULL;
         }
-        NetworkSource * source = new NetworkSource; 
-        ReceiverVector::iterator it;
-        for( it = groups.begin(); it != groups.end(); it++)
+        if( attributes.get("mode").compare("multicast") == 0 )
         {
-            if((*it)->group.compare( group ) == 0 && (*it)->port == port )
-                break;        
+            std::string group = attributes.get("multicast-address");
+            NetworkSource * source = new NetworkSource; 
+            MulticastReceiverVector::iterator it = std::find_if( multicasts.begin(), multicasts.end(), FindMulticastReceiver( group, port ));
+            MulticastReceiver * receiver;
+            if( multicasts.end() == it )
+            {
+                receiver = new MulticastReceiver( group, port );           
+                multicasts.push_back( receiver );
+                receiver->sources.push_back( new Station( number, source ));
+            } else
+            {
+                receiver = *it;
+                StationVector::iterator sit;        
+                for(sit = receiver->sources.begin(); sit != receiver->sources.end();
+                        ++sit )
+                {
+                    if((*sit)->number == number )
+                        break;
+                }
+                if( sit != receiver->sources.end())
+                {
+                    LOG_ACE_ERROR("ot:There is already a node for station %d in group %s:%hu !\n", number, group.c_str(), port);
+                    delete source;
+                    return NULL;
+                }
+                receiver->sources.push_back( new Station( number, source ));
+            }                        
+		    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
+            return source;
         }
-        MulticastReceiver * receiver;
-        if( it == groups.end())
+        if( attributes.get("mode").compare("unicast") == 0 )
         {
-            receiver = new MulticastReceiver( group, port );           
-            groups.push_back( receiver );
-            receiver->sources.push_back( new Station( number, source ));
-        } else
-        {
-            receiver = *it;
-            StationVector::iterator sit;        
-            for(sit = receiver->sources.begin(); sit != receiver->sources.end();
-                    sit++ )
+            std::string address = attributes.get("address");
+            NetworkSource * source = new NetworkSource; 
+            UnicastReceiverVector::iterator it = std::find_if( unicasts.begin(), unicasts.end(), FindUnicastReceiver( address, port ));
+            UnicastReceiver * receiver;
+            if( unicasts.end() == it )
             {
-                if((*sit)->number == number )
-                    break;
-            }
-            if( sit != receiver->sources.end())
+                receiver = new UnicastReceiver( address, port, ACE_INET_Addr( port, address.c_str() ) );           
+                unicasts.push_back( receiver );
+                receiver->sources.push_back( new Station( number, source ));
+            } else
             {
-				LOG_ACE_ERROR("ot:There is allready a node for station %d in group %s !\n", number, group.c_str());
-                delete source;
-                return NULL;
-            }
-            receiver->sources.push_back( new Station( number, source ));
-        }                        
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
-        return source;
+                receiver = *it;
+                StationVector::iterator sit;        
+                for(sit = receiver->sources.begin(); sit != receiver->sources.end();
+                        ++sit )
+                {
+                    if((*sit)->number == number )
+                        break;
+                }
+                if( sit != receiver->sources.end())
+                {
+                    LOG_ACE_ERROR("ot:There is already a node for station %d in %s:%hu !\n", number, address, port);
+                    delete source;
+                    return NULL;
+                }
+                receiver->sources.push_back( new Station( number, source ));
+            }                        
+		    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
+            return source;
+        }
     }
     return NULL;
 }        
@@ -310,46 +456,76 @@ Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& a
 // opens the sockets needed for communication and starts the receive thread
 void NetworkSourceModule::start()
 {
-    if( groups.size() == 0 )
-        return;
-    for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
+    for( MulticastReceiverVector::iterator mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
     {
-        (*it)->socket.subscribe( ACE_INET_Addr((*it)->port, (*it)->group.c_str()));
-        ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::run, *it );
+        (*mc_it)->socket.subscribe( ACE_INET_Addr((*mc_it)->port, (*mc_it)->group.c_str()));
+        ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runMulticastReceiver, *mc_it );
     }    
+    for( UnicastReceiverVector::iterator uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
+    {
+        if( (*uc_it)->socket.open(ACE_Addr::sap_any) == -1 )
+		{
+			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSourceModule !\n")));
+			exit(1);
+		}			
+        ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runUnicastTransceiver, *uc_it );
+    }
 }
  
 // closes the module and closes any communication sockets and stops thread 
 void NetworkSourceModule::close()
 {
-    for( ReceiverVector::iterator it = groups.begin(); it != groups.end(); it++)
+    for( MulticastReceiverVector::iterator mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
     {
-        (*it)->mutex.acquire();
-        (*it)->stop = 1;
-        (*it)->mutex.release();
+        ACE_Guard<ACE_Thread_Mutex> guard( (*mc_it)->mutex );
+        (*mc_it)->stop = 1;
+    }
+    for( UnicastReceiverVector::iterator uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
+    {
+        ACE_Guard<ACE_Thread_Mutex> guard( (*uc_it)->mutex );
+        (*uc_it)->stop = 1;
     }
 }   
 
 // pushes state information into the tree
 void NetworkSourceModule::pushState()
 {
-    for(ReceiverVector::iterator rec = groups.begin();rec != groups.end();rec++)
+    for(MulticastReceiverVector::iterator mc_it = multicasts.begin();mc_it != multicasts.end();++mc_it)
     {
-        for(StationVector::iterator it =(*rec)->sources.begin();
-                it != (*rec)->sources.end(); it ++ )
-        {          
-	        // critical section start
-			(*rec)->mutex.acquire();
-            if((*it)->modified == 1 )
+        for(StationVector::iterator it =(*mc_it)->sources.begin();
+                it != (*mc_it)->sources.end(); ++it )
+        {   
+            bool updateObservers = false;
+	        // critical section
             {
-                (*it)->source->state = (*it)->state;
-                (*it)->modified = 0;
-		        (*rec)->mutex.release();
-	            (*it)->source->updateObservers( (*it)->source->state );
+                ACE_Guard<ACE_Thread_Mutex> guard( (*mc_it)->mutex );
+                if((*it)->modified == 1 )
+                {
+                    (*it)->source->state = (*it)->state;
+                    (*it)->modified = 0;
+                    updateObservers = true;
+                }
             }
-			else
-		        (*rec)->mutex.release();
-			// end of critical section
+	        (*it)->source->updateObservers( (*it)->source->state );
+        }
+    }  
+    for(UnicastReceiverVector::iterator uc_it = unicasts.begin();uc_it != unicasts.end();++uc_it)
+    {
+        for(StationVector::iterator it =(*uc_it)->sources.begin();
+                it != (*uc_it)->sources.end(); ++it )
+        {          
+            bool updateObservers = false;
+	        // critical section
+            {
+                ACE_Guard<ACE_Thread_Mutex> guard( (*uc_it)->mutex );
+                if((*it)->modified == 1 )
+                {
+                    (*it)->source->state = (*it)->state;
+                    (*it)->modified = 0;
+                    updateObservers = true;
+                }
+            }
+	        (*it)->source->updateObservers( (*it)->source->state );
         }
     }  
 }          
