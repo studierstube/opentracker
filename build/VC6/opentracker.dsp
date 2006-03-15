@@ -336,10 +336,6 @@ SOURCE=..\..\src\common\RangeFilterNode.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\input\rtcm.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\common\SelectionNode.cxx
 # End Source File
 # Begin Source File
@@ -833,10 +829,6 @@ SOURCE=..\..\src\common\RangeFilterNode.h
 # Begin Source File
 
 SOURCE=..\..\src\core\RefNode.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\input\rtcm.h
 # End Source File
 # Begin Source File
 
