@@ -327,12 +327,14 @@ void NetworkSinkModule::pullState()
     if( nodes.size() == 0 )
         return;
     // clear the network buffers
-    for( MulticastSenderVector::iterator mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
+    MulticastSenderVector::iterator mc_it;
+    for( mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
     {
         (*mc_it)->data.numOfStations = 0;
         (*mc_it)->nextRecord = ((char *)&(*mc_it)->data) + ntohs((*mc_it)->data.headerLength);
     }
-    for( UnicastSenderVector::iterator uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
+    UnicastSenderVector::iterator uc_it;
+    for( uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
     {
         (*uc_it)->data.numOfStations = 0;
         (*uc_it)->nextRecord = ((char *)&(*uc_it)->data) + ntohs((*uc_it)->data.headerLength);
