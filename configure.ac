@@ -25,11 +25,14 @@ AC_LANG(C++)
 # AM_DISABLE_STATIC
 AC_DISABLE_FAST_INSTALL
 AC_PROG_LIBTOOL
+AC_PROG_INSTALL
 
 # Checks for header files.
 AC_HEADER_STDC
+AC_HEADER_STDBOOL
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
 AC_C_CONST
 AC_C_INLINE
 AC_HEADER_TIME
@@ -37,9 +40,12 @@ AC_STRUCT_TM
 AC_CXX_HAVE_STD
 AC_CXX_HAVE_STL
 AC_CXX_TYPENAME
+AC_CXX_HAVE_SSTREAM
 
 # Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
+AC_FUNC_ERROR_AT_LINE
+AC_CHECK_FUNCS([floor pow sqrt])
 
 # Check for curses.
 AC_CHECK_CURSES
@@ -123,6 +129,23 @@ if test x"$opt_joystick" = xyes; then
 fi
 SIM_AC_CONFIGURATION_SETTING([Enable joysticks], [$opt_joystick])
 
+# Check for the use of OTQt
+HAVE_FEATURE_OTQT=0
+AC_ARG_ENABLE([otqt],
+              AC_HELP_STRING([--enable-otqt], [enable the OTQt module (default=no)]),
+              opt_otqt=$enable_otqt, opt_otqt=no)
+SIM_AC_CONFIGURATION_SETTING([Enable OTQt], [$opt_otqt])
+AM_CONDITIONAL([WANT_OTQT], [test x"$opt_otqt" = xyes])
+if test x"$opt_otqt" = xyes; then
+  # Check for Qt
+  gw_CHECK_QT
+  SIM_AC_CONFIGURATION_SETTING([Qt root directory], [$QTDIR])
+  # autoconf settings
+  AC_DEFINE(USE_OTQT, 1, [Enable the use of OTQt])
+  HAVE_FEATURE_OTQT=1
+  AC_SUBST([HAVE_FEATURE_OTQT])
+fi
+
 AC_SUBST([LIBS])
 AC_SUBST([CXXFLAGS])
 AC_SUBST([CPPFLAGS])
@@ -137,11 +160,15 @@ AC_CONFIG_FILES([Makefile
                  src/misc/Makefile
                  src/misc/xml/Makefile
                  src/network/Makefile
+                 src/otqt/Makefile
                  extras/Makefile
                  extras/intersense/Makefile
                  extras/intersense/unix/Makefile
+                 extras/newmat10/Makefile
+                 extras/tclap/Makefile
                  lib/Makefile
-                 bin/Makefile])
+                 bin/Makefile
+                 data/Makefile])
 
 AC_OUTPUT
 
