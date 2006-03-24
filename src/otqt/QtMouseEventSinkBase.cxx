@@ -1,0 +1,127 @@
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
+/**
+ * @file   QtMouseEventSinkBase.cxx
+ * @author Christian Pirchheim
+ *
+ * @brief  Implementation of class @c QtMouseEventSinkBase
+ *
+ * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
+ */
+
+#include <dllinclude.h>
+#if USE_OTQT
+
+#include "QtMouseEventSinkBase.h"
+
+namespace ot {
+
+//--------------------------------------------------------------------------------
+QtMouseEventSinkBase::QtMouseEventSinkBase(StringTable & xml_attrib_table)
+  : state_(0),
+    curr_event_(State::null),
+    prev_event_(State::null),
+    xml_attrib_table_(xml_attrib_table)
+{
+
+  ///// compute thresholds
+
+  float one_meter = 0.0;
+  xml_attrib_table.get("TrackingSystemScaleOneMeter", &one_meter);
+
+  // position threshold filter radius
+  float radius = 0.0;
+  xml_attrib_table.get("PosThreshRadiusInMeter", &radius);
+  if (radius > 0) {
+    POS_THRESH_RADIUS = one_meter * radius;
+    enableState(POS_THRESH_FILTER, true);
+  }
+
+  // orientation threshold filter angle
+  float angle = 0.0;
+  xml_attrib_table.get("OrientThreshAngle", &angle);
+  if (angle != 0) {
+    MathUtils::eulerToQuaternion(angle, angle, angle, MathUtils::XYZ, ORIENT_THRESH_QUAT);
+    enableState(ORIENT_THRESH_FILTER, true);
+  }
+
+}
+
+//--------------------------------------------------------------------------------
+bool QtMouseEventSinkBase::enableState(StateFlag flag, bool enable)
+{
+  if (enable) { state_ |= flag; }
+  else { state_ &= ~flag; }
+  return (state_ & flag);
+}
+
+//--------------------------------------------------------------------------------
+bool
+QtMouseEventSinkBase::isInsidePosThreshSphere(State const & event) const
+{
+  return (OTQtMath::distance(event.position, curr_event_.position) <= POS_THRESH_RADIUS);
+}
+
+//--------------------------------------------------------------------------------
+bool
+QtMouseEventSinkBase::isInsideOrientThreshCone(State const & event) const
+{
+  float orient_conj[4];
+  MathUtils::invertQuaternion(curr_event_.orientation, orient_conj);
+  float orient_diff[4];
+  MathUtils::multiplyQuaternion(event.orientation, orient_conj, orient_diff);
+
+  for (int i = 0; i < 4; i++) {
+    if (fabsf(orient_diff[i]) > fabsf(ORIENT_THRESH_QUAT[i]))
+      return false;
+  }
+  return true;
+}
+
+//--------------------------------------------------------------------------------
+void
+QtMouseEventSinkBase::acquireEvent(State const & event)
+{
+  // acquire tracking event
+  prev_event_ = curr_event_;
+  curr_event_ = event;
+  // set pending flag
+  state_ |= EVENT_PENDING;
+}
+
+} // namespace ot
+
+#endif // USE_OTQT
