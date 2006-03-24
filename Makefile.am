@@ -1,3 +1,9 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
-SUBDIRS = src extras lib bin
+include $(top_srcdir)/src/Makefile.common
+
+SUBDIRS = extras src lib bin data
+
+otinc_HEADERS = \
+        config.h \
+        config_win.h
