@@ -54,7 +54,7 @@
  * Some device drivers require additional libraries and might
  * not be available on all platforms. These source files are bracketed by
  * conditional compile clauses to only be compiled in, if desired. You can select
- * these by enabling the defines in the file config.h. Edit this
+ * these by enabling the defines in the file config_win.h. Edit this
  * file to set your configuration. This should only be changed, if you
  * recompile the library, as the include files that you use for other
  * projects will also require this file. Note that you
@@ -84,13 +84,13 @@
  *      define enables support via the Microsoft SpeechAPI and works only under Windows.
  * @li @b USE_P5GLOVE
  *		\n enables support for Essentialreality's P5 glove using the @ref p5glovemodule and
- *       @ref p5glovesource. Support for this is only available on windows yet. 
- *       Linux support is under development. 
+ *       @ref p5glovesource. Support for this is only available on windows yet.
+ *       Linux support is under development.
  * @li @b USE_DWARF
  *		\n enables interoperability of DWARF and OpenTracker. Using the @ref dwarfmodule
- *       allows you configure an OpenTracker process as a DWARF service where @ref 
+ *       allows you configure an OpenTracker process as a DWARF service where @ref
  *       dwarfsink act as abilities and @ref dwarfsource act as needs.
- * @li @b USE_VRPN 
+ * @li @b USE_VRPN
  *      \n enables interoperability with VRPN. OpenTracker can act both as a server and
  *       as a client to other VRPN processes. There is @ref vrpnmodule which allows setting
  *       the server parameters and two nodes @ref vrpnsource to receive data from a VRPN
@@ -99,7 +99,12 @@
  * @li @b USE_UBISENSE
  *      \n enables Ubisense support and the @ref ubisensesource node and @ref ubisensemodule. This works only
  *      on Windows.
- * 
+ * @li @b USE_OTQT
+ *      \n enables the %OTQt modules and sink nodes (see @ref page_otqt_manual). The @ref
+ *      qtmouseeventmodule simulates the behaviour of the desktop mouse in 2D Qt GUI
+ *      applications by deriving mouse events from tracking data. Requires Trolltech Qt
+ *      library from series 3. See dedicated VS .NET 7.1 solution and project files to
+ *      build OTQt. Untested on Windows!
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
@@ -123,7 +128,7 @@
           the standard release always links statically and does not support link selection */
 //#define TINYXML_DLL
 
-/** umcomment the following line to compile against a LIB version of TinyXML (rather than DLL 
+/** umcomment the following line to compile against a LIB version of TinyXML (rather than DLL
     note: this is only required for Daniel Wagner's modified version of TinyXML
           the standard release always links statically and does not support link selection */
 //#define TINYXML_STATIC
@@ -183,3 +188,9 @@
   * Support for this is only available on windows. */
 // #define USE_UBISENSE 1
 #endif
+
+/** uncomment the following line to compile support for the OTQt.
+  */
+// #define USE_OTQT 1
+
+
