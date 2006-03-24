@@ -60,7 +60,8 @@ INPUT                  = ../src \
                          ../config_win.h \
                          contributions.txt \
                          changes.txt \
-                         intersense.txt
+                         intersense.txt \
+                         otqt_manual.h
 FILE_PATTERNS          = *.h \
                          *.cxx
 RECURSIVE              = YES
@@ -161,7 +162,7 @@ SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
 # Configuration::addtions related to external references   
 #---------------------------------------------------------------------------
-TAGFILES               = 
+TAGFILES               = qt3-doc.tag=http://doc.trolltech.com/3.3
 GENERATE_TAGFILE       = opentracker.tag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
