@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentracker+otqt.dll", "opentracker+otqt.dll.vcproj", "{9C260567-A9B4-4489-8B2C-F3663004A18D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentracker+otqt.bin", "opentracker+otqt.bin.vcproj", "{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C260567-A9B4-4489-8B2C-F3663004A18D} = {9C260567-A9B4-4489-8B2C-F3663004A18D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "otqt-mem-calib.bin", "otqt-mem-calib.bin.vcproj", "{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C260567-A9B4-4489-8B2C-F3663004A18D} = {9C260567-A9B4-4489-8B2C-F3663004A18D}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{9C260567-A9B4-4489-8B2C-F3663004A18D}.Debug.ActiveCfg = Debug|Win32
+		{9C260567-A9B4-4489-8B2C-F3663004A18D}.Debug.Build.0 = Debug|Win32
+		{9C260567-A9B4-4489-8B2C-F3663004A18D}.Release.ActiveCfg = Release|Win32
+		{9C260567-A9B4-4489-8B2C-F3663004A18D}.Release.Build.0 = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.ActiveCfg = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.Build.0 = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.ActiveCfg = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.Build.0 = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.ActiveCfg = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug.Build.0 = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.ActiveCfg = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
