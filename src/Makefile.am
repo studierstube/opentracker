@@ -2,8 +2,8 @@
 
 include $(top_srcdir)/src/Makefile.common
 
-SUBDIRS = common core input misc network tool
+SUBDIRS = common core input misc network tool otqt
 
 otinc_HEADERS = \
-        OpenTracker.h \
-        dllinclude.h
+	OpenTracker.h \
+	dllinclude.h
