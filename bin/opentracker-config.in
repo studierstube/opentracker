@@ -34,13 +34,14 @@ OTLDFLAGS="-L$prefix/lib -L/usr/X11R6/lib"
 have_speech=@HAVE_FEATURE_SAPISPEECH@
 have_artoolkit=@HAVE_FEATURE_ARTOOLKIT@
 have_joystick=@HAVE_FEATURE_JOYSTICK@
+have_otqt=@HAVE_FEATURE_OTQT@
 
 while test $# -gt 0
 do
   case $1 in    
     --usage | --help)  echo "$usage"       ;;
 	--version)  echo @OT_VERSION@          ;;
-	--cppflags)	echo $OTINCS @CPPFLAGS@    ;;
+	--cppflags)	echo @DEFS@ $OTINCS @CPPFLAGS@    ;;
 	--ldflags)	echo $OTLDFLAGS @LDFLAGS@  ;;
 	--libs) 	echo $OTLIBS @LIBS@        ;;
 	--have-feature)
