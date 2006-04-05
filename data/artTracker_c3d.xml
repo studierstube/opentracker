@@ -6,7 +6,7 @@
 		<NetworkSinkConfig name="artTrackerServer"/>
 		<ConsoleConfig interval="100" display="on"/>
 		<TimeConfig sleep="1"/>
-		<ARTDataTrackerConfig port="5000" maxbodies="10"/>
+		<ARTDataTrackerConfig port="5000"/>
 	</configuration>
 
 <ConsoleSink comment="station0:oldPrototypePen">
