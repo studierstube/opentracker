@@ -2,19 +2,23 @@ include $(top_srcdir)/src/Makefile.common
 
 ## Qt3 - MOC
 %.moc.cxx: %.h
-	$(MOC) -o $@ $<
+	$(QTDIR)/bin/moc -o $@ $<
 
 ## Qt3 - UIC
 %.h: %.ui
-	$(UIC) -o $@ $<
+	$(QTDIR)/bin/uic -o $@ $<
+
 %.cxx: %.ui
-	$(UIC) -o $@ -impl $*.h $<
+	$(QTDIR)/bin/uic -o $@ -impl $*.h $<
 
 noinst_LTLIBRARIES = libotqt.la
 
 if WANT_OTQT
 libotqt_la_MOC = OTQt.moc.cxx
 endif
+
+BUILT_SOURCES = \
+	${libotqt_la_MOC}
 
 libotqt_la_SOURCES = \
 	${libotqt_la_MOC} \
