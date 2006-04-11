@@ -7,8 +7,8 @@ Group:		Development/Tools
 Source:		%{name}-%{version}.tar.gz
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
-Requires:	ACE Xerces-c
-BuildRequires:	ACE-devel Xerces-c-devel
+Requires:	ACE Xerces-c boost
+BuildRequires:	ACE-devel Xerces-c-devel boost-devel
 Prefix:		/usr
 BuildRoot: 	/tmp/buildroot-%{name}-%{version}
 
