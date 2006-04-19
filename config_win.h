@@ -133,6 +133,11 @@
           the standard release always links statically and does not support link selection */
 //#define TINYXML_STATIC
 
+/** An alternative to tinyxml is using the tinyXMLMod version*/
+//#define TINYXML_MOD 1
+//#define TINYXML_MOD_STATIC 1
+//#define TINYXML_MOD_DLL 1
+
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1
 
