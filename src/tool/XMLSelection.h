@@ -4,7 +4,7 @@
 
 #ifdef USE_TINYXML
 
-#  include <tinyxml.h>
+#  include <tinyxml/tinyxml.h>
 
 #  if defined(TINYXML_MOD)
 
