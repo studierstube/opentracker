@@ -143,6 +143,22 @@ inline void State::timeStamp()
     time = OSUtils::currentTime();
 }
 
+/**
+   Wrapper class for OpenTracker-1.2 compatibility
+*/
+class OPENTRACKER_API Event: public State
+{
+public:
+  inline unsigned short &getButton() { return button; }
+  inline const unsigned short &getButton() const { return button; }
+  inline float& getConfidence() { return confidence; }
+  inline const float& getConfidence() const { return confidence; }
+  inline float* getOrientation() { return orientation; }
+  inline const float* getOrientation() const { return orientation; }
+  inline float* getPosition() { return position; }
+  inline const float* getPosition() const { return position; }
+};
+
 } // namespace ot
 
 #endif

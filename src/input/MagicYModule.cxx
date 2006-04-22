@@ -120,11 +120,7 @@ int MagicYModule::receive()
     std::string message(""), accumulated("");
     char buffer[32], t='X';
     int retval, x, y, pos; 
-#ifdef USE_64_BIT
-    unsigned long trans_bytes = 0;
-#else
-    unsigned int trans_bytes = 0;
-#endif
+    size_t trans_bytes = 0;
     bool complete, trigger;
     
     points.clear();	

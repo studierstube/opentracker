@@ -180,6 +180,12 @@ public:
     /** calls pullState on all modules to get data out again.*/
     void pullStates();
 
+    /** OpenTracker-1.2 compatibility */
+    inline void pushEvents() { pushStates(); }
+
+    /** OpenTracker-1.2 compatibility */
+    inline void pullEvents() { pullStates(); }
+
     /** This method implements the main loop and runs until it is stopped
      * somehow. Then it calls close() on all modules. */
     void run();
