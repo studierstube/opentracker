@@ -57,7 +57,7 @@ using namespace ot;
 #include <vrpn_Tracker.h>
 #include <vrpn_Button.h>
 
-void trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info )
+void __stdcall trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info )
 {
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;
@@ -78,7 +78,7 @@ void trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info )
     self->updateObservers( self->state );
 }
 
-void buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
+void __stdcall  buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
 {
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;
@@ -125,7 +125,7 @@ void VRPNSource::start()
     switch(type){
     case TRACKER:
         tracker = new vrpn_Tracker_Remote( name.c_str());
-        tracker->register_change_handler( this, trackerPosOriCallback );
+        tracker->register_change_handler( this, trackerPosOriCallback);
         trackerObj = tracker;
         break;
     case BUTTON:

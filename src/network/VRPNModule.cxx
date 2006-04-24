@@ -57,7 +57,7 @@
 
 #include <vrpn_Connection.h>
 
-//using namespace std;
+using namespace std;
 using namespace ot;
 
 VRPNModule::VRPNModule() : 
@@ -92,7 +92,7 @@ void VRPNModule::init(StringTable & attributes,  ConfigNode * localTree)
 
 // called to construct a new Node.
 
-Node * VRPNModule::createNode( const string& name, StringTable& attributes)
+ot::Node * VRPNModule::createNode( const std::string& name, StringTable& attributes)
 {
     ACE_TRACE(ACE_TEXT("VRPNModule::createNode"));
     if( name.compare("VRPNSource") == 0 )
@@ -138,9 +138,9 @@ void VRPNModule::start()
     }
 
     if( ip.compare("") == 0 )
-        connection = new vrpn_Synchronized_Connection( port );
+        connection = new vrpn_Connection( port );
     else
-        connection = new vrpn_Synchronized_Connection( port, NULL, NULL, ip.c_str() );
+        connection = new vrpn_Connection( port, NULL, NULL, ip.c_str() );
 
     VRPNSinkVector::iterator it2;
     for( it2 = sinks.begin(); it2 != sinks.end(); it2++ )
