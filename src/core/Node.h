@@ -50,7 +50,7 @@
  * @defgroup core Core Classes
  * This group contains the basic interfaces and functionality to parse
  * a configuration file, build the data structures and drive the event model.
- * Typically these classes are subclassed to provide new nodes or modules 
+ * Typically these classes are subclassed to provide new nodes or modules
  * with additional functionality. Any changed to these classes may result
  * in widespread changes throughout the library.
  */
@@ -92,7 +92,7 @@ typedef std::vector<Node *> NodeVector;
 class OPENTRACKER_API Node
 {
 
-protected:    
+protected:
 	/** Pointer to the parent XML element.*/
 	void * parent;
 
@@ -101,15 +101,15 @@ protected:
 
     /// the unique ID given in the XML configuration file.
     std::string name;
-    
+
     /// the type of the node, equals the name of the configuration element
     std::string type;
-    
+
 public:
 	/// error type returned by some graph manipulation functions
     enum error { OK=0,				///< operation succeded
 				 GRAPH_CONSTRAINT,  ///< operation failed because it is not allowed in the XML tree
-				 READONLY,			///< operation failed because the node is readonly				 
+				 READONLY,			///< operation failed because the node is readonly
 				 CONTEXT_ERROR,		///< operation failed because the node belongs to another context
 				 NOT_FOUND			///< operation failed because a node was not found
 				};
@@ -118,13 +118,13 @@ protected:
 
 	virtual void setParent( void * parElement );
 
-	/** 
-	 * adds a reference node to the list of references. Parents of 
+	/**
+	 * adds a reference node to the list of references. Parents of
 	 * references need to be updated in case of an event generated.
 	 * @param reference the reference node to add
 	 */
 	void addReference( Node * reference );
-	
+
 	/**
 	 * removes a reference from the list.
 	 * @param reference the reference node to remove
@@ -140,7 +140,7 @@ protected:
      * declared friend classes of the nodes.
      */
     Node();
-    
+
     /** @name Attributes Control Interface
      * This set of methods allows to manipulate the attributes of a node
      * in a safe and abstract manner. These methods operate on the
@@ -148,12 +148,12 @@ protected:
      * the implementation of the node should take care to update the
      * XML elements attributes as well.*/
     //@{
-    
+
     /** returns a value stored in the map
-     * @param key the key the value is for 
+     * @param key the key the value is for
      * @returns the string value or an empty string, if the key is not found */
     std::string get( const std::string & key );
-    /** stores a key value pair in the table, overwritting a possible prior 
+    /** stores a key value pair in the table, overwritting a possible prior
      * value
      * @param key the key to store it under
      * @param value the value to store */
@@ -162,22 +162,22 @@ protected:
      * removes a key value pair from the table
      * @param key the key to the pair */
     void remove( const std::string &key );
- 
-    /** 
+
+    /**
      * sets an int value, the value is converted to a string and stored
      * under the given key.
      * @param key key string of the entry
      * @param value the integer value to store
      */
     void put(const std::string & key, const int value);
-    /** 
+    /**
      * sets a float value, the value is converted to a string and stored
      * under the given key.
      * @param key key string of the entry
      * @param value the floating point value to store
      */
     void put(const std::string & key, const float value);
-    /** 
+    /**
      * sets a double value, the value is converted to a string and stored
      * under the given key.
      * @param key key string of the entry
@@ -185,16 +185,16 @@ protected:
      */
     void put(const std::string & key, const double value);
 
-    /** 
+    /**
      * sets an array of int values. It is converted to a string where the
      * values are separated by spaces and stored
      * under the given key.
      * @param key key string of the entry
      * @param value pointer to the array of integer values to store
      * @param len the length of the array
-     */    
+     */
     void put(const std::string & key, const int * value, int len);
-    /** 
+    /**
      * sets an array of float values. It is converted to a string where the
      * values are separated by spaces and stored
      * under the given key.
@@ -203,7 +203,7 @@ protected:
      * @param len the length of the array
      */
     void put(const std::string & key, const float * value, int len);
-    /** 
+    /**
      * sets an array of double values. It is converted to a string where the
      * values are separated by spaces and stored
      * under the given key.
@@ -218,7 +218,7 @@ protected:
      * integers are separated by spaces. It returns the number of actually
      * converted integers.
      * @param key the key of the entry to parse
-     * @param value pointer to the array of integers to store the parsed values 
+     * @param value pointer to the array of integers to store the parsed values
      * @param len the length of the array, default 1 to use it for a single int only
      * @return number of actually parsed values
      */
@@ -228,7 +228,7 @@ protected:
      * floats are separated by spaces. It returns the number of actually
      * converted floats.
      * @param key the key of the entry to parse
-     * @param value pointer to the array of integers to store the parsed values 
+     * @param value pointer to the array of integers to store the parsed values
      * @param len the length of the array, default 1 to use it for a single float only
      * @return number of actually parsed values
      */
@@ -238,7 +238,7 @@ protected:
      * doubles are separated by spaces. It returns the number of actually
      * converted doubles.
      * @param key the key of the entry to parse
-     * @param value pointer to the array of doubles to store the parsed values 
+     * @param value pointer to the array of doubles to store the parsed values
      * @param len the length of the array, default 1 to use it for a single double only
      * @return number of actually parsed values
      */
@@ -255,8 +255,8 @@ public:
 
     /**
      * returns the type of the node, that is the element name of the underlying
-     * configuration element. An implementation can then use this information 
-     * to down cast a node reference or pointer to the correct class. 
+     * configuration element. An implementation can then use this information
+     * to down cast a node reference or pointer to the correct class.
      * @return string containing the node type
      */
     const std::string & getType() const
@@ -274,7 +274,7 @@ public:
        return name;
     }
 
-    /** 
+    /**
      * returns a pointer to the Context this node lives in.
      * @return pointer to Context
      */
@@ -308,7 +308,7 @@ public:
      */
 	Node * getChild( unsigned int index );
 
-    /** 
+    /**
      * adds a new child to the direct children of the node. This method
      * will only work, if it does not violate any rules for the graph.
      * @param child the new child node to add
@@ -319,15 +319,15 @@ public:
     /**
      * removes a child from the direct children of a node. This method
      * will only work, if the passed node is actually a child of the
-     * node.     
+     * node.
      * @param child the child node to remove
-     * @return error code describing outcome of the operation 
+     * @return error code describing outcome of the operation
      */
     error removeChild(Node & child);
 
     /**
      * returns the number of NodePorts present on this Node. This is the
-     * number of NodePorts actually used, not the total number possible 
+     * number of NodePorts actually used, not the total number possible
      * by the content definition.
      * @returns unsigned number of NodePorts */
     unsigned int countPorts();
@@ -339,13 +339,13 @@ public:
      * @returns pointer to the child NodePort or NULL if none of this name is present.
      */
 	NodePort * getPort( const std::string & name );
-    
+
     /**
      * returns a NodePort child object by index. The order of the NodePorts is not fixed
      * but may depend on the configuration file used.
      * @param index unsigned number => 0 and < countWrappedChildren
      * @returns pointer to the child NodePort or NULL if index is out of range.
-     */    
+     */
     NodePort * getPort( unsigned int index );
 
     /**
@@ -358,24 +358,24 @@ public:
 
     /**
      * removes a child NodePort object. Again similar to removeChild(), but
-     * for NodePorts. This method will only work, 
+     * for NodePorts. This method will only work,
      * if a NodePort of the passed name is present on the node.
      * @param name the name of the wrapper element
      * @return error code describing outcome of the operation
-     */ 
+     */
     error removePort( const std::string & name );
-    
+
     error removePort( NodePort & port);
-    
+
     error removePort( unsigned int index );
 
     //@}
-	
+
     /** @name EventGenerator & EventObserver Interface
      * This is the classic event passing interface, working from children nodes
-     * up to parent nodes. A child node creates a new event and its parent node 
-     * is automatically notified of the event. 
-     * The type of an event is of class State. 
+     * up to parent nodes. A child node creates a new event and its parent node
+     * is automatically notified of the event.
+     * The type of an event is of class State.
      */
     //@{
 
@@ -394,14 +394,24 @@ public:
 	/**
      * this method notifies the object that a new event was generated.
      * It is called by an EventGenerator.
+     *
+     * \b OpenTracker-1.2 \b compatibility
+     *
+     * This method is called within updateObservers(State&). OpenTracker 1.1 nodes
+     * override this method. OpenTracker 1.2 nodes implement the onEventGenerated(Event&,
+     * Node&) method instead. This method forwards the given event to that method.
+     *
      * @param event reference to the new event. Do not change the
      *        event values, make a copy and change that !
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
     virtual void onEventGenerated( State& event, Node& generator)
-	{
-	}
+    {
+      onEventGenerated(static_cast<Event &>(event), generator);
+    }
+    /** OpenTracker-1.2 compatibility */
+    virtual void onEventGenerated( Event& event, Node& generator) { }
 
     /**
      * Updates the parent node and any reference nodes whenever a new
@@ -415,11 +425,11 @@ public:
 
 	/** @name EventQueue Interface
      * The EventQueue interface allows access to a queue of events, ordered
-     * by their timestamps, with the latest event coming first, at slot 0. 
-     * This works from parents to children, i.e. parents query their children 
+     * by their timestamps, with the latest event coming first, at slot 0.
+     * This works from parents to children, i.e. parents query their children
      * for a certain event in the queue.
      */
-     
+
     //@{
 
     /**
@@ -461,8 +471,8 @@ public:
 	//@}
 
 	/** @name TimeDependend Interface
-     * The TimeDependend Interface allows access to a continous function of 
-     * states in time. It also works from parents to children, i.e. a parent 
+     * The TimeDependend Interface allows access to a continous function of
+     * states in time. It also works from parents to children, i.e. a parent
      * queries a child for the state at a given point in time.
      */
     //@{

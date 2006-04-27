@@ -84,7 +84,7 @@ public:
      * @param time_ timestamp
      * @param isValid_ valid or not ?
      * @param confidence_ good or bad measurement */
-    State(double time_ = 0.0, float confidence_ = 0);    
+    State(double time_ = 0.0, float confidence_ = 0);
     /** copy constructor, copies the values of another state in the new
      * @param other the state to copy from */
     State( const State & other );
@@ -135,7 +135,7 @@ inline State& State::operator=(const State& other)
 inline State::State( const State & other )
 {
     *this = other;
-} 
+}
 
 // timestamp a state to current time
 inline void State::timeStamp()
@@ -149,6 +149,10 @@ inline void State::timeStamp()
 class OPENTRACKER_API Event: public State
 {
 public:
+  inline Event() : State() {}
+  inline Event(State const & state) : State(state) { }
+
+public:
   inline unsigned short &getButton() { return button; }
   inline const unsigned short &getButton() const { return button; }
   inline float& getConfidence() { return confidence; }
@@ -157,6 +161,10 @@ public:
   inline const float* getOrientation() const { return orientation; }
   inline float* getPosition() { return position; }
   inline const float* getPosition() const { return position; }
+  inline void setPosition(const float *value) { for (int i=0; i<3; i++) position[i] = value[i]; }
+  inline void setOrientation(const float *value) { for (int i=0; i<4; i++) orientation[i] = value[i]; }
+  inline void setButton(const unsigned short &value) { button = value; }
+  inline void setConfidence(const float &value) { confidence = value; }
 };
 
 } // namespace ot

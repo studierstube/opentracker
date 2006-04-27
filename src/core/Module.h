@@ -83,7 +83,7 @@ public:
     {};
 
 	/// virtual destructor (as it befits any true class hierarchy)
-	virtual ~Module() 
+	virtual ~Module()
 	{};
 
     /**
@@ -110,16 +110,36 @@ public:
      * pulls state information out of the tracker tree. It enables the module
      * to query any EventQueue or TimeDependend node in the shared memory. It
      * is called after pushState was executed on each module.
+     *
+     * \b OpenTracker-1.2 \b compatibility
+     *
+     * This method is called (amongst others) by Context::run(). OpenTracker 1.1 modules
+     * override this method (default). OpenTracker 1.2 nodes implement the pullEvent()
+     * method instead. This method forwards the given event to that method.
      */
     virtual void pullState()
-    {};
+    {
+      pullEvent();
+    }
+    /* OpenTracker-1.2  compatibility */
+    virtual void pullEvent() {}
     /**
      * pushes state information into the tracker tree. It enables the module
      * to push new data into the tree by updating EventGenerator nodes and
      * thereby triggering an event.
+     *
+     * \b OpenTracker-1.2 \b compatibility
+     *
+     * This method is called (amongst others) by Context::run(). OpenTracker 1.1 modules
+     * override this method (default). OpenTracker 1.2 nodes implement the pushEvent()
+     * method instead. This method forwards the given event to that method.
      */
     virtual void pushState()
-    {};
+    {
+      pushEvent();
+    }
+    /* OpenTracker-1.2  compatibility */
+    virtual void pushEvent() {}
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. It allows the module to finish any setups that
