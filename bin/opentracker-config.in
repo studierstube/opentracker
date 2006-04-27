@@ -41,7 +41,7 @@ do
   case $1 in    
     --usage | --help)  echo "$usage"       ;;
 	--version)  echo @OT_VERSION@          ;;
-	--cppflags)	echo @DEFS@ $OTINCS @CPPFLAGS@    ;;
+	--cppflags)	echo $OTINCS @CPPFLAGS@    ;;
 	--ldflags)	echo $OTLDFLAGS @LDFLAGS@  ;;
 	--libs) 	echo $OTLIBS @LIBS@        ;;
 	--have-feature)
