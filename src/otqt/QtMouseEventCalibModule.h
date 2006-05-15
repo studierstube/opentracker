@@ -56,6 +56,14 @@
  *
  * @li @c TrackingSystemScaleOneMeter one real-world meter in tracking system scale
  * (optional; default value: "1.0")
+ * @li @c ScreenDepthFrontInMeter lenght of depth vector (z-axis) perpendicular
+ * on the screen plane, spanning the mouse sensitive volume (screen cuboid) in
+ * the front direction of the target desktop screen plane (optional; default
+ * value: "0.01" - is 1 cm)
+ * @li @c ScreenDepthBackInMeter lenght of depth vector (z-axis) perpendicular
+ * on the screen plane, spanning the mouse sensitive volume (screen cuboid) in
+ * the back direction of the target desktop screen plane (optional; default
+ * value: "0.005" (yes, also a positive value!) - is 5 mm)
  *
  * An example element looks like this:
  *

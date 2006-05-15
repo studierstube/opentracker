@@ -101,9 +101,13 @@ void QtMouseEventModule::init(StringTable & attributes, ConfigNode * localTree)
 
         // add values to attribute table
         StringTable & attrib_table = child->getAttributes();
-        float tracking_one_meter;
-        xml_attrib_table_.get("TrackingSystemScaleOneMeter", &tracking_one_meter);
-        attrib_table.put("TrackingSystemScaleOneMeter", tracking_one_meter);
+        // add all attributes of the module
+        KeyIterator it(xml_attrib_table_);
+        while (it.hasMoreKeys()) {
+          std::string key = it.nextElement();
+          std::string value = xml_attrib_table_.get(key);
+          attrib_table.put(key, value);
+        }
 
         // create config node
         as_ = new QtAppScreen(attrib_table);
@@ -209,7 +213,7 @@ void QtMouseEventModule::pullState()
     // MPD is inside SC (FIRST CYCLE)
     if (mpd_loc_changed_this_cycle) {
 
-      OTQT_INFO("QtMouseEventModule()::pullState(): --> MPD inside first cycle\n");
+      OTQT_DEBUG("QtMouseEventModule()::pullState(): --> MPD inside first cycle\n");
 
       // unlock MBS event generation
       if (mb_sink_ != NULL) {
@@ -226,20 +230,12 @@ void QtMouseEventModule::pullState()
 
     // SPECIAL CASE: MPD is outside of screen cuboid (FIRST CYCLE)
     if  (mpd_loc_changed_this_cycle) {
-      OTQT_INFO("QtMouseEventModule()::pullState(): -> MPD outside first cycle\n");
+      OTQT_DEBUG("QtMouseEventModule()::pullState(): -> MPD outside first cycle\n");
 
       if (mb_sink_ != NULL) {
         // reset all mouse buttons to released state no matter if event is currently
         // pending or not
         mb_sink_->acquireEvent(State::null);
-//         if (mb_sink_->isEventPending()) {
-//           mb_sink_->curr_event_ = State::null;
-//         }
-//         else {
-//           mb_sink_->prev_event_ = mb_sink_->curr_state_;
-//           mb_sink_->curr_state_ = State::null;
-//           mb_sink_->enableState(QtMouseButtonSink::EVENT_PENDING, false);
-//         }
         // lock MBS event acquisition
         mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
       }
@@ -251,8 +247,6 @@ void QtMouseEventModule::pullState()
     // MPD is outside of screen cuboid for >= 2 cycles
     else {
       OTQT_DEBUG("QtMouseEventModule()::pullState(): -> MPD outside >= 2 cylces\n");
-//       // reset pending event bits
-//       resetPendingEventBitAllSinks();
       return;
     }
   }
@@ -268,7 +262,6 @@ void QtMouseEventModule::pullState()
     QPoint mpos_desktop_global_curr = QCursor::pos();
     OTQT_DEBUG("QtMouseEventModule()::pullState(): Cursor::pos() = %d, %d\n",
                mpos_desktop_global_curr.x(), mpos_desktop_global_curr.y());
-//    resetPendingEventBitAllSinks();
     return;
   }
 
@@ -288,7 +281,6 @@ void QtMouseEventModule::pullState()
   ///// Quit if no Qt widget under current desktop mouse position
 
   if (widget == NULL) {
-//    resetPendingEventBitAllSinks();
     return;
   }
 
@@ -374,12 +366,6 @@ void QtMouseEventModule::pullState()
             press.timestamp >= dbl_click_thresh &&
             press.target_widget == widget)
           {
-//             // check identity of target widget
-//             QWidget * widget_press = QApplication::widgetAt(press.global_pos, true);
-//             OTQT_DEBUG("QtMouseEventModule()::pullState(): widget_press = %x (NULL?)\n",
-//                        (unsigned int)widget_press);
-//             if (widget_press != NULL && widget_press == widget)
-//               {
                 // get latest release event
                 ButtonEvent release = button_event_history->last_release;
 
@@ -391,17 +377,9 @@ void QtMouseEventModule::pullState()
                     release.timestamp >= dbl_click_thresh &&
                     release.target_widget == widget)
                   {
-//                     // check identity of target widget
-//                     QWidget * widget_release = QApplication::widgetAt(release.global_pos, true);
-//                     OTQT_DEBUG("QtMouseEventModule()::pullState(): widget_release = %x (NULL?)\n",
-//                                (unsigned int)widget_release);
-//                     if (widget_release != NULL && widget_release == widget)
-//                       {
                         // YES, it is a double click
                         is_double_click = true;
-//                       }
                   }
-//               }
           }
 
         OTQT_DEBUG("QtMouseEventModule()::pullState(): is_double_click = %d\n", is_double_click);
@@ -545,11 +523,7 @@ void QtMouseEventModule::pullState()
   qt_mouse_events.clear();
   qt_wheel_events.clear();
 
-  // reset pending event bit
-//  resetPendingEventBitAllSinks();
-
   OTQT_DEBUG("QtMouseEventModule()::pullState(): *** FINISHED.\n");
-
 }
 
 } // namespace ot

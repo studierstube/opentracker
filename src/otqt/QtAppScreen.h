@@ -138,10 +138,6 @@ namespace ot {
  *
  */
 class OPENTRACKER_API QtAppScreen : public ConfigNode {
-protected:
-  /// default negative scalar multiplier of screen plane depth unit vector
-  static float const AS_DEPTH_SCALAR_BACK_DEFAULT = 0.005;
-
 public:
   /**
    * @class ASCorner

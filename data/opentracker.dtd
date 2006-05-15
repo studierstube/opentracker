@@ -515,11 +515,14 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT QtMouseEventCalibConfig EMPTY>
 <!ATTLIST QtMouseEventCalibConfig
 	TrackingSystemScaleOneMeter CDATA "1.0"
+	ScreenDepthFrontInMeter CDATA "0.01"
+	ScreenDepthBackInMeter CDATA "0.005"
 >
 <!ELEMENT QtMouseEventConfig (QtAppScreen)>
 <!ATTLIST QtMouseEventConfig
 	TrackingSystemScaleOneMeter CDATA "1.0"
-	ScreenDepthInMeter CDATA "0.01"
+	ScreenDepthFrontInMeter CDATA "0.01"
+	ScreenDepthBackInMeter CDATA "0.005"
 >
 <!ELEMENT QtAppScreen EMPTY>
 <!ATTLIST QtAppScreen

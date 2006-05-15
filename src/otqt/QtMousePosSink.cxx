@@ -73,31 +73,6 @@ void QtMousePosSink::onEventGenerated(State & event, Node & generator) {
     acquireEvent(event);
   // pass original event to parent nodes
   updateObservers(event);
-
-//   ///// 3D position position threshold filtering
-
-//   if ((state_ & POS_THRESH_FILTER) &&
-//       (OTQtMath::distance(event.position, curr_state_.position) <= POS_THRESH_RADIUS))
-//   {
-//     updateObservers(event);
-//     return;
-//   }
-
-//   ///// check incoming tracking event
-
-//   for (int i = 0; i < 3; i++) {
-//     if (event.position[i] != curr_state_.position[i]) {
-
-//       // acquire tracking event
-//       prev_state_ = curr_state_;
-//       curr_state_ = event;
-//       // set pending flag
-//       state_ |= EVENT_PENDING;
-//       break;
-//     }
-//   }
-
-//   updateObservers(event);
 }
 
 } // namespace ot

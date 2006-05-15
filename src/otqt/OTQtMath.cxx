@@ -135,13 +135,12 @@ OTQtMath::isWithinPlaneBorders(RowVector const & mpos,
   b = (normal * (point_on_plane + normal).t()).AsScalar();
   distances(2) = fabs(tmp2 - b) / normal_length;
 
-  OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): distances = %f %f\n",
-             distances(1), distances(2));
-
   // compare with max distance
   double max_distance = normal_length;
   OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): max_distance = %f\n",
              max_distance);
+  OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): *** END. distances = %f %f\n",
+             distances(1), distances(2));
   return (distances(1) <= max_distance && distances(2) <= max_distance);
 }
 

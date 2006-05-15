@@ -81,12 +81,11 @@ QtAppScreen::QtAppScreen(StringTable & table)
   // compute screen depth scale
   float tracking_one_meter;
   attributes.get("TrackingSystemScaleOneMeter", &tracking_one_meter);
-  float as_depth_in_meter;
-  attributes.get("ScreenDepthInMeter", &as_depth_in_meter);
-  as_data_init_.as_depth_scalar_front = tracking_one_meter * as_depth_in_meter;
-  as_data_init_.as_depth_scalar_back =
-    OTQtMath::fsignum(as_data_init_.as_depth_scalar_front) *
-    AS_DEPTH_SCALAR_BACK_DEFAULT;
+  float as_depth_front_in_meter, as_depth_back_in_meter;
+  attributes.get("ScreenDepthFrontInMeter", &as_depth_front_in_meter);
+  attributes.get("ScreenDepthBackInMeter", &as_depth_back_in_meter);
+  as_data_init_.as_depth_scalar_front = tracking_one_meter * as_depth_front_in_meter;
+  as_data_init_.as_depth_scalar_back = tracking_one_meter * as_depth_back_in_meter;
 
   ///// assign current data the initial values
 
@@ -252,6 +251,8 @@ void QtAppScreen::updateMPD(State const & mpd_pos)
 
   // base vector "z-axis" as cross product width x height
   RowVector depth = - OTQtMath::crossProductR3(width, height);
+  OTQT_DEBUG("QtAppScreen::updateMPD(): depth = width x height = %f %f %f\n",
+             depth(1), depth(2), depth(3));
   RowVector depth1 = depth / depth.NormFrobenius();
   // add negative depth (back side of screen depth)
   depth = depth1 * (as_data_.as_depth_scalar_front + as_data_.as_depth_scalar_back);
@@ -280,24 +281,17 @@ void QtAppScreen::updateMPD(State const & mpd_pos)
     mp_data_.mpd_loc_inside_screen_cuboid = false;
 
     if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-      OTQT_INFO("QtAppScreen::updateMPD(): depth = %f %f %f\n",
+      OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f %f %f\n",
 		  depth(1), depth(2), depth(3));
-      OTQT_INFO("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
+      OTQT_DEBUG("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
 		  width.NormFrobenius(), distances_width(1), distances_width(2));
-      OTQT_INFO("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
+      OTQT_DEBUG("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
 		  height.NormFrobenius(), distances_height(1), distances_height(2));
-      OTQT_INFO("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+      OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
 		  depth.NormFrobenius(), distances_depth(1), distances_depth(2));
     }
     return;
   }
-
-  OTQT_INFO("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
-            width.NormFrobenius(), distances_width(1), distances_width(2));
-  OTQT_INFO("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
-            height.NormFrobenius(), distances_height(1), distances_height(2));
-  OTQT_INFO("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
-            depth.NormFrobenius(), distances_depth(1), distances_depth(2));
 
   // NOTE: MPD position is within screen cuboid
 
@@ -332,11 +326,11 @@ void QtAppScreen::updateMPD(State const & mpd_pos)
   mp_data_.desktop_coords = desktop_coords_new;
 
   if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-    OTQT_INFO("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
+    OTQT_DEBUG("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
               width.NormFrobenius(), distances_width(1), distances_width(2));
-    OTQT_INFO("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
+    OTQT_DEBUG("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
               height.NormFrobenius(), distances_height(1), distances_height(2));
-    OTQT_INFO("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+    OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
               depth.NormFrobenius(), distances_depth(1), distances_depth(2));
   }
 

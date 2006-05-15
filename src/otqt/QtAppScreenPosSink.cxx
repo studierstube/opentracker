@@ -65,38 +65,34 @@ void QtAppScreenPosSink::onEventGenerated(State & event, Node & generator) {
     }
   }
   if (acquire) {
-    bool filter = true;
+
+    // at least one filter check must be performed
+    bool one_true = false;
+    // all performed filter checks must apply
+    bool all_true = true;
+
     // within position threshold sphere ?!
-    if (filter && (state_ & POS_THRESH_FILTER))
-      filter &= isInsidePosThreshSphere(event); // true <- true & true; false <- true & false
+    if (all_true && (state_ & POS_THRESH_FILTER)) {
+      one_true = true;
+      all_true &= isInsidePosThreshSphere(event);
+    }
     // within orientation thresh cone ?!
-    if (filter && (state_ & ORIENT_THRESH_FILTER))
-      filter &= isInsideOrientThreshCone(event); // true <- true & true; false <- false & (true | false)
+    if (all_true && (state_ & ORIENT_THRESH_FILTER)) {
+      one_true = true;
+      all_true &= isInsideOrientThreshCone(event);
+    }
+
+    // do NOT filter per default
+    bool discard = (one_true && all_true);
 
     // do NOT acquire only if ALL filters apply
-    acquire = !filter; // false <- !true; true <- !false
+    acquire = !discard;
   }
-
   // acquire tracking event
   if (acquire)
     acquireEvent(event);
   // pass original event to parent nodes
   updateObservers(event);
-
-
-//   ///// store event which is different in pos / orient
-
-//   for (int i = 0; i < 3; i++) {
-//     if (event.position[i] != curr_state_.position[i] ||
-//         event.orientation[i] != curr_state_.orientation[i]) {
-//       prev_state_ = curr_state_;
-//       curr_state_ = event;
-//       state_ |= EVENT_PENDING;
-//       break;
-//     }
-//   }
-//   updateObservers(event);
-
 }
 
 } // namespace ot
