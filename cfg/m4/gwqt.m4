@@ -74,22 +74,22 @@ QT_IS_EMBEDDED="no"
 case "${host}" in
     *-cygwin)
 	AC_DEFINE_UNQUOTED(WIN32, "", Defined if on Win32 platform)
-        if test -f "$QTDIR/lib/qt.lib" ; then
-            QT_LIB="qt.lib"
-            QT_IS_STATIC="yes"
-            QT_IS_MT="no"
-        elif test -f "$QTDIR/lib/qt-mt.lib" ; then
+        if test -f "$QTDIR/lib/qt-mt.lib" ; then
             QT_LIB="qt-mt.lib" 
             QT_IS_STATIC="yes"
             QT_IS_MT="yes"
-        elif test -f "$QTDIR/lib/qt$QT_VER.lib" ; then
-            QT_LIB="qt$QT_VER.lib"
-            QT_IS_STATIC="no"
+        elif test -f "$QTDIR/lib/qt.lib" ; then
+            QT_LIB="qt.lib"
+            QT_IS_STATIC="yes"
             QT_IS_MT="no"
         elif test -f "$QTDIR/lib/qt-mt$QT_VER.lib" ; then
             QT_LIB="qt-mt$QT_VER.lib"
             QT_IS_STATIC="no"
             QT_IS_MT="yes"
+        elif test -f "$QTDIR/lib/qt$QT_VER.lib" ; then
+            QT_LIB="qt$QT_VER.lib"
+            QT_IS_STATIC="no"
+            QT_IS_MT="no"
         fi
         ;;
 
@@ -107,19 +107,19 @@ case "${host}" in
             fi
         fi
 
-        if test "x`ls $QTDIR/lib/libqt.* 2> /dev/null`" != x ; then
-            QT_LIB="-lqt"
-            QT_IS_MT="no"
-        elif test "x`ls $QTDIR/lib/libqt-mt.* 2> /dev/null`" != x ; then
+        if test "x`ls $QTDIR/lib/libqt-mt.* 2> /dev/null`" != x ; then
             QT_LIB="-lqt-mt"
             QT_IS_MT="yes"
-        elif test "x`ls $QTDIR/lib/libqte.* 2> /dev/null`" != x ; then
-            QT_LIB="-lqte"
+        elif test "x`ls $QTDIR/lib/libqt.* 2> /dev/null`" != x ; then
+            QT_LIB="-lqt"
             QT_IS_MT="no"
-            QT_IS_EMBEDDED="yes"
         elif test "x`ls $QTDIR/lib/libqte-mt.* 2> /dev/null`" != x ; then
             QT_LIB="-lqte-mt"
             QT_IS_MT="yes"
+            QT_IS_EMBEDDED="yes"
+        elif test "x`ls $QTDIR/lib/libqte.* 2> /dev/null`" != x ; then
+            QT_LIB="-lqte"
+            QT_IS_MT="no"
             QT_IS_EMBEDDED="yes"
         fi
         ;;
