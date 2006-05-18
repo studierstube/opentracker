@@ -45,6 +45,27 @@
 /**
  * @page module_ref Module Reference
  * @section artoolkitplusmodule ARToolKitPlusModule
+ * The ARToolKitModule interfaces to the ARToolKit library to track the 
+ * position and orientation of visual markers with a video camera. It uses
+ * the information provided by @ref artoolkitplussource nodes and inserts the state
+ * events through @ref artoolkitplussource nodes into the tree. The configuration 
+ * element is @c ARToolKitConfig and has the following attributes :
+ * @li @c camera-parameter: file containing camera calibration data
+ * @li @c ov-config: file containing the openvideo configuration
+ * @li @c treshold: either a numerical value (0-255) or 'auto' for automatic thresholding. Default is '100'
+ * @li @c ov-sink: name of the openvideo sink
+ * @li @c undist-mode: undistortion mode; one of 'none', 'lut' or 'std' (default)
+ * @li @c detect-mode: marker detection mode (marker history); either 'lite' or 'std' (default)
+ * @li @c pose-estimator: pose estimator selection; one of the following 'std' (default), 'cont' (better version of std) or 'rpp' (robust pose estimator)
+ * @li @c marker-mode: one of the following: 'template' (default), 'idbased' or 'bch'
+ * @li @c border-width: width of the border; default value is '0.250'
+ * @li @c pattern-dir an optional string that is prefixed to any pattern filename or
+ *        the camera data filename. It tries to find the file under the original as
+ *        well the prefixed name, in that order.
+ *
+ * An example configuration element looks like this :
+ * @verbatim
+ <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" ov-config="openvideo.xml" ov-sink="artoolkitPluSink"/>
  */
 
 
