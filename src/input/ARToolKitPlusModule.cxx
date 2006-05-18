@@ -46,6 +46,8 @@
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 #include <stdlib.h>
+#include <algorithm>
+#include <cctype>
 
 #include "../OpenTracker.h"
 
@@ -286,30 +288,26 @@ ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(),
 {
 	doBench = false;
 	sizeX = sizeY = -1;
-	flipX = flipY = false;
-	idbasedMarkers = false;
+	//flipX = flipY = false;
 
 	trackerNear = 1.0f;
 	trackerFar = 1000.0f;
 
 	logger = new ARToolKitPlusModuleLogger;
 
+
 #ifdef ARTOOLKITPLUS_DLL
-	// FIXME:
-	// These Pixel Formats should not be hardcoded.
-	// Erick Mendez 20060303
-	#ifdef _WIN32_WCE
-		tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565);
-	#else
-		tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB);
-	#endif //_WIN32_WCE
-#else //ARTOOLKITPLUS_DLL
-	#ifdef _WIN32_WCE
-		tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB565>(320,240);
-	#else
-		tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, ARToolKitPlus::PIXEL_FORMAT_RGB>(320,240);
-	#endif //_WIN32_WCE
+
+	tracker = ARToolKitPlus::createTrackerSingleMarker(320,240, 6,6,6);
+
+#else
+
+	// NOTE: if you get an error here complaining about 6 template parameters
+	//       then please update to the latest version of ARToolKitPlus
+	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<6,6,6, 32,32>(320,240);
+
 #endif //ARTOOLKITPLUS_DLL
+
 
 	tracker->init(NULL, trackerNear, trackerFar, logger);
 	tracker->setThreshold(100);
@@ -479,6 +477,8 @@ const char *ARToolKitPlusModule::getOVSinkName()
 
 // initializes the ARToolKit module
 
+#define MAKE_STRING_LOWER(STR)  std::transform(STR.begin(), STR.end(), STR.begin(), std::tolower);
+
 void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 {
 	cameradata = attributes.get("camera-parameter");
@@ -488,6 +488,17 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	std::string undistmode = attributes.get("undist-mode");
 	std::string detectmode = attributes.get("detect-mode");
+	std::string posemode = attributes.get("pose-estimator");
+	std::string threshold = attributes.get("treshold");
+	std::string markermode = attributes.get("marker-mode");
+
+	MAKE_STRING_LOWER(undistmode);
+	MAKE_STRING_LOWER(detectmode);
+	MAKE_STRING_LOWER(posemode);
+	MAKE_STRING_LOWER(threshold);
+	MAKE_STRING_LOWER(markermode);
+
+
 
 	// Start the OpenVideo Instance
 	OTOpenVideoContext::getInstance()->startOpenVideo(ovConfigFile.c_str());
@@ -496,46 +507,109 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	((OVImageGrabber *)imageGrabber)->init(ovSinkName.c_str());
 
 
-	if(detectmode.length() && detectmode=="lite")
-		useMarkerDetectLite = true;
-
-	if(undistmode.length())
+	// marker detection mode: lite vs. full
+	//
+	if(useMarkerDetectLite = (detectmode=="lite"))
 	{
-		if(undistmode=="none" || undistmode=="NONE")
-			tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
-		else
-		if(undistmode=="lut" || undistmode=="LUT")
-			tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+		LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'lite'\n");
+	}
+	else
+	{
+		LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'normal'\n");
 	}
 
-	int tmpThreshold=100;
-    
-    if( attributes.get("treshhold", &tmpThreshold ) == 1 )
-    {
-        if( tmpThreshold < 0 )
-            tmpThreshold = 0;
-        else if( tmpThreshold > 255 )
-            tmpThreshold = 255;
-    }
-	tracker->setThreshold(tmpThreshold);
 
-	if( attributes.get("flipX").compare("true") == 0 )
-		flipX = true;
-	if( attributes.get("flipY").compare("true") == 0 )
-		flipY = true;
+	if(undistmode=="none")
+	{
+		tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
+		LOG_ACE_INFO("ot:ARToolkitModule lens undistortion disabled\n");
+	}
+	else if(undistmode=="lut")
+	{
+		tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+		LOG_ACE_INFO("ot:ARToolkitModule lens undistortion set to lookup-table\n");
+	}
+	else
+	{
+		LOG_ACE_INFO("ot:ARToolkitModule using default lens undistortion (this will be slow!)\n");
+	}
 
-	if( attributes.get("marker-mode").compare("idbased") == 0 )
-		idbasedMarkers = true;
 
-	if( attributes.get("border-width").length()>0 )
+	// pose estimator settings
+	//
+	if(posemode=="cont")
+	{
+		tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_ORIGINAL_CONT);
+		LOG_ACE_INFO("ot:ARToolkitModule using CONT pose estimator\n");
+	}
+	else if(posemode=="rpp")
+	{
+		tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_RPP);
+		LOG_ACE_INFO("ot:ARToolkitModule using robust pose estimator\n");
+	}
+	else
+	{
+		LOG_ACE_INFO("ot:ARToolkitModule using default pose estimator\n");
+	}
+
+
+	// setting of threshold value
+	//
+	if(threshold == "auto")
+	{
+		tracker->activateAutoThreshold(true);
+		LOG_ACE_INFO("ot:ARToolkitModule auto-thresholding activated\n");
+	}
+	else
+	{
+		int tmpThreshold = atoi(threshold.c_str());
+
+		if( tmpThreshold < 0 )
+			tmpThreshold = 0;
+		else if( tmpThreshold > 255 )
+			tmpThreshold = 255;
+
+		tracker->setThreshold(tmpThreshold);
+		LOG_ACE_INFO("ot:ARToolkitModule manual thresholding with '%s'\n", tmpThreshold);
+	}
+
+
+
+	// setting for id-based vs. template-based markers
+	//
+	if(markermode == "idbased")
+	{
+		tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_SIMPLE);
+		LOG_ACE_INFO("ot:ARToolkitModule using id-based markers\n");
+	}
+	else
+	if(markermode == "bch")
+	{
+		tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_BCH);
+		LOG_ACE_INFO("ot:ARToolkitModule using BCH markers\n");
+	}
+	else
+	{
+		LOG_ACE_INFO("ot:ARToolkitModule using template markers\n");
+	}
+
+
+	// setting for the border width - default value is 0.250
+	//
+	if(attributes.get("border-width").length()>0)
 	{
 		float w = (float)atof(attributes.get("border-width").c_str());
-		LOG_ACE_INFO("ot:ARToolkitModule sets border width to %f\n", w);
+		LOG_ACE_INFO("ot:ARToolkitModule using border-width of %.3f\n", w);
 		tracker->setBorderWidth(w);
+	}
+	else
+	{
+		LOG_ACE_INFO("ot:ARToolkitModule using default border-width of 0.250\n");
 	}
 
 
     // parsing camera config hints
+	//
 	if(cameraDeviceHint.length()>0)
 		for(unsigned int i = 0; i <localTree->countChildren(); i++)
 		{
@@ -555,6 +629,9 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 
 	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s\n", cameradata.c_str());
 
+
+	// setting for template pattern folder
+	//
     if( patternDirectory.compare("") != 0)
         context->addDirectoryFirst( patternDirectory );
 
@@ -574,6 +651,9 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     if( patternDirectory.compare("") != 0)
         context->removeDirectory( patternDirectory );
 
+
+	// finally load the camera file
+	//
 	if(!tracker->loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
 	{
 		LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
@@ -581,13 +661,9 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
         return;
 	}
 
-#if defined(ARTOOLKITPLUS_VERSION_MAJOR) && (ARTOOLKITPLUS_VERSION_MAJOR==2)
-	tracker->setMarkerMode(idbasedMarkers ? ARToolKitPlus::MARKER_ID_SIMPLE : ARToolKitPlus::MARKER_TEMPLATE);
-#else
-	tracker->activateIdBasedMarkers(idbasedMarkers);
-#endif
 
 	initialized = 1;
+	LOG_ACE_INFO("ot:ARToolkitModule initialization finished\n");
 }
 
 void ARToolKitPlusModule::update()
@@ -618,20 +694,12 @@ bool ARToolKitPlusModule::updateARToolKit()
 	// did grab() return another pixel format than ARToolKitPlus expects?
 	if(imgFormat!=imgFormat0)
 	{
-#if (ARTOOLKITPLUS_VERSION_MAJOR==2) && (ARTOOLKITPLUS_VERSION_MINOR>0)
 		// ARToolKitPlus 2.1 and later can change pixel format at runtime!
 		//
 		ARToolKitPlus::PIXEL_FORMAT artkpFormat;
 		if(!convertPixelFormat_ImageGrabber_to_ARToolKitPlus(imgFormat, artkpFormat))
 			return false;
 		tracker->setPixelFormat(artkpFormat);
-#else
-
-		LOG_ACE_ERROR("ot:ARToolkitPlusModule got wrong image format\n");
-		LOG_ACE_ERROR("       (%s instead of %s)\n", imgFormat==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565",
-													 imgFormat0==ImageGrabber::RGBX8888 ? "RGBX888" : "RGB565");
-#endif
-		return false;
 	}
 
 /*

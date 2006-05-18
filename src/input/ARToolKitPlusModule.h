@@ -196,7 +196,7 @@ protected:
     int sizeX, sizeY;
 
 	/// should ARToolKitPPCModule flip the image in x- or y-direction?
-	bool flipX, flipY;
+	//bool flipX, flipY;
 
 	/// an optional prefix for pattern filenames
 	std::string patternDirectory;
@@ -221,7 +221,6 @@ protected:
 	float trackerNear,trackerFar;
 	ARToolKitPlus::TrackerSingleMarker* tracker;
 	ARToolKitPlus::Logger* logger;
-	bool idbasedMarkers;
 
 	// implement ARToolKitPlus::Logger
 	//virtual void artLog(const char* nStr);
@@ -266,7 +265,7 @@ public:
 
     /** returns whether the grabbed image is flipped horizontally
 	  * or vertically */
-    void getFlipping(bool* isFlippedH, bool* isFlippedV)  {  *isFlippedH = flipX;  *isFlippedV = flipY;  }
+    //void getFlipping(bool* isFlippedH, bool* isFlippedV)  {  *isFlippedH = flipX;  *isFlippedV = flipY;  }
 
 	void registerImageGrabber(ImageGrabber* nGrabber)  {  imageGrabber = nGrabber;  }
 
