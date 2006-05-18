@@ -100,6 +100,7 @@
  * @date 2001, 2002, 2003
  */
 
+
 #include "dllinclude.h"
 
 #include "core/ThreadModule.h"
@@ -109,6 +110,16 @@
 #include "core/StringTable.h"
 #include "core/OSUtils.h"
 #include "core/NodePort.h"
+
+
+#define OPENTRACKER_VERSION_MAJOR 1
+#define OPENTRACKER_VERSION_MINOR 1
+
+enum OPENTRACKER_VERSION {
+	VERSION_MAJOR = OPENTRACKER_VERSION_MAJOR,
+	VERSION_MINOR = OPENTRACKER_VERSION_MINOR
+};
+
 
 /**
  * a Vector of Node pointers. Very useful to implement a simple
