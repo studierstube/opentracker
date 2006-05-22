@@ -62,7 +62,6 @@
 
 //#include <ARToolKitPlus/MemoryManager.h>
 //#include <ARToolKitPlus/MemoryManagerMemMap.h>
-#include "../input/OTOpenVideoContext.h"
 
 
 // in SAM we use another mechanism to link against ARToolKitPlus
@@ -129,31 +128,8 @@ namespace ot {
 // The pixel formats of ImageGrabber, ARToolkitPlus and OpenVideo are not coincident 
 // therefore translation functions had to be implemented. A common Pixel Format should be used.
 // Erick Mendez 20060303
-const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  };
+//const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  };
 
-bool convertPixelFormat_OpenVideo_to_ImageGrabber(PIXEL_FORMAT nSrcFormat, ImageGrabber::FORMAT &nDstFormat)
-{
-	switch(nSrcFormat)
-	{
-	case PIXEL_FORMAT(FORMAT_B8G8R8X8):
-		nDstFormat = ImageGrabber::BGRX8888;
-		return true;
-	case PIXEL_FORMAT(FORMAT_B8G8R8):
-		nDstFormat = ImageGrabber::BGR888;
-		return true;
-	case PIXEL_FORMAT(FORMAT_R8G8B8X8):
-		nDstFormat = ImageGrabber::RGBX8888;
-		return true;
-	case PIXEL_FORMAT(FORMAT_R8G8B8):
-		nDstFormat = ImageGrabber::RGB888;
-		return true;
-	case PIXEL_FORMAT(FORMAT_L8):
-		nDstFormat = ImageGrabber::LUM8;
-		return true;
-	default:
-		return false;
-	}
-}
 
 bool convertPixelFormat_ImageGrabber_to_ARToolKitPlus(ImageGrabber::FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
 {
@@ -215,74 +191,6 @@ bool convertPixelFormat_ARToolKitPlus_to_ImageGrabber(ARToolKitPlus::PIXEL_FORMA
 	}
 }
 
-void OVImageGrabber::init(const char *name)
-{
-	// Retrieve OpenVideo's VideoSink node and subscribe to it.
-	openvideo::Node *myNode=OTOpenVideoContext::getInstance()->getOpenVideoNode(name);
-
-	// We need to check also the node's type
-	//if (myNode&&(myNode->getNodeTypeId()))
-	if (myNode)
-	{
-		openvideo::VideoSink *sink=(openvideo::VideoSink *)myNode;
-		sink->subscribe(this);
-	}
-	else
-	{
-		printf("ERROR: OpenVideo could not find sink node\"%s\" or it is not of VideoSink type\n",name);
-		isStarted=false;
-		return;
-	}
-	isStarted=true;
-}
-
-void OVImageGrabber::registerARToolkitPlusMod(ot::ARToolKitPlusModule *newARToolkitPlusMod)
-{
-	if (!newARToolkitPlusMod)
-	{
-		printf("ERROR: OpenVideo could not register to ARToolKitPlusModule\n");
-		isStarted=false;
-		return;
-	}
-	myARToolKitPlusMod=(ot::ARToolKitPlusModule *) newARToolkitPlusMod;
-	if (myARToolKitPlusMod)
-		myARToolKitPlusMod->registerImageGrabber(this);
-	isStarted=true;
-}
-
-bool OVImageGrabber::grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, ImageGrabber::FORMAT& nFormat)
-{
-	nImage = image;
-	nSizeX = sizeX;
-	nSizeY = sizeY;
-	nFormat = format;
-	return true;
-}
-
-void OVImageGrabber::initPixelFormats()
-{
-	this->pixelFormats.push_back(PIXEL_FORMAT(FORMAT_R8G8B8));
-	this->pixelFormats.push_back(PIXEL_FORMAT(FORMAT_B8G8R8));
-	this->pixelFormats.push_back(PIXEL_FORMAT(FORMAT_R8G8B8X8));
-	this->pixelFormats.push_back(PIXEL_FORMAT(FORMAT_B8G8R8X8));
-	this->pixelFormats.push_back(PIXEL_FORMAT(FORMAT_L8));
-}
-
-void OVImageGrabber::update(openvideo::State* curState)
-{
-	if (curState && curState->frame)
-	{
-		image=curState->frame;
-		sizeX=curState->width;
-		sizeY=curState->height;
-		// FIXME:
-		// We Must not hardcode this.
-		// Erick Mendez 22060303
-		//convertPixelFormat_OpenVideo_to_ImageGrabber(curState->format,format);
-		format=ImageGrabber::RGB888;
-		myARToolKitPlusMod->update();
-	}
-}
 
 ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(), NodeFactory()
 {
@@ -465,15 +373,6 @@ Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& att
     return NULL;
 }
 
-const char *ARToolKitPlusModule::getOVConfigFileName()
-{
-	return ovConfigFile.c_str();
-}
-
-const char *ARToolKitPlusModule::getOVSinkName()
-{
-	return ovSinkName.c_str();
-}
 
 // initializes the ARToolKit module
 
@@ -482,8 +381,6 @@ const char *ARToolKitPlusModule::getOVSinkName()
 void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 {
 	cameradata = attributes.get("camera-parameter");
-	ovConfigFile= attributes.get("ov-config");
-	ovSinkName= attributes.get("ov-sink");
     patternDirectory = attributes.get("pattern-dir");
 
 	std::string undistmode = attributes.get("undist-mode");
@@ -497,14 +394,6 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	MAKE_STRING_LOWER(posemode);
 	MAKE_STRING_LOWER(threshold);
 	MAKE_STRING_LOWER(markermode);
-
-
-
-	// Start the OpenVideo Instance
-	OTOpenVideoContext::getInstance()->startOpenVideo(ovConfigFile.c_str());
-
-	// Register with the Video Sink
-	((OVImageGrabber *)imageGrabber)->init(ovSinkName.c_str());
 
 
 	// marker detection mode: lite vs. full

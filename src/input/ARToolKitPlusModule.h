@@ -51,9 +51,7 @@
  * events through @ref artoolkitplussource nodes into the tree. The configuration 
  * element is @c ARToolKitConfig and has the following attributes :
  * @li @c camera-parameter: file containing camera calibration data
- * @li @c ov-config: file containing the openvideo configuration
  * @li @c treshold: either a numerical value (0-255) or 'auto' for automatic thresholding. Default is '100'
- * @li @c ov-sink: name of the openvideo sink
  * @li @c undist-mode: undistortion mode; one of 'none', 'lut' or 'std' (default)
  * @li @c detect-mode: marker detection mode (marker history); either 'lite' or 'std' (default)
  * @li @c pose-estimator: pose estimator selection; one of the following 'std' (default), 'cont' (better version of std) or 'rpp' (robust pose estimator)
@@ -65,7 +63,7 @@
  *
  * An example configuration element looks like this :
  * @verbatim
- <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" ov-config="openvideo.xml" ov-sink="artoolkitPluSink"/>
+ <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" />
  */
 
 
@@ -81,11 +79,6 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
-#include <openvideo/configOV.h>
-#include <openvideo/State.h>
-#include <openvideo/nodes/VideoSink.h>
-#include <openvideo/nodes/VideoSinkSubscriber.h>
-#include "OTOpenVideoContext.h"
 
 namespace openvideo
 {
@@ -117,7 +110,7 @@ typedef std::map<int,Node*> MarkerIdMap;
 class ImageGrabber
 {
 public:
-	static const char* formatStrings[3];
+	//static const char* formatStrings[3];
 
 	// These are the supported Pixel Formats
 	enum FORMAT {
@@ -127,55 +120,14 @@ public:
 		RGBX8888 = 3,
 		RGB888 = 4,
 		RGB565 = 5,
-		LUM8 = 6
+		LUM8 = 6,
+		UNKNWON = 7
 	};
 
 	/*
 	 * This function is called by updateARToolkit() and is in charge of returning the pointer to the image frame
 	 */
 	virtual bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, FORMAT& nFormat) = 0;
-};
-
-/*
- * Inherits from both Open Video's VideoSinkSubscriber and the ImageGrabber.
- * This is the class that actually links OpenVideo and OpenTracker.
- */
-class OVImageGrabber : public ot::ImageGrabber, public openvideo::VideoSinkSubscriber
-{
-public:
-	const unsigned char* image;
-	int sizeX, sizeY;
-	FORMAT format;
-	ot::ARToolKitPlusModule *myARToolKitPlusMod;
-	bool isStarted;
-
-	OVImageGrabber(){isStarted=false;};
-
-	/*
-	 * Registers itself with VideoSink
-	 */
-
-	void init(const char *name);
-
-	/*
-	 * Registers itself with ARToolKitPlusModule 
-	 */
-	void registerARToolkitPlusMod(ot::ARToolKitPlusModule *newARToolkitPlusMod);
-
-	/*
-	 * Implementation of inherited grab function. Passes along the pointer to the image frame.
-	 */
-	bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, ImageGrabber::FORMAT& nFormat);
-
-	/*
-	 * Called by VideoSink. This way OpenVideo sends the pointer to the Video Frame.
-	 */
-	void update(openvideo::State* curState);
-
-	/*
-	 * All supported pixel formats on the OpenVideo end should be added here.
-	 */
-	void initPixelFormats();
 };
 
 
@@ -206,12 +158,6 @@ protected:
 
     /// file name of cameradata file
     std::string cameradata;
-
-	/// config file of openvideo
-	std::string ovConfigFile;
-
-	/// openvideo sink name
-	std::string ovSinkName;
 
     /// size of the image in pixels
     int sizeX, sizeY;
@@ -311,15 +257,10 @@ public:
 	bool updateARToolKit();
 
 	bool doBench;
-
-    /** returns the config file name of OpenVideo */
-	const char *getOVConfigFileName();
-
-	/** returns the VideoSink name*/
-	const char *getOVSinkName();
 };
 
 } // namespace ot
+
 
 #endif //#ifdef USE_ARTOOLKITPLUS
 

@@ -292,9 +292,6 @@
 				RelativePath="..\..\src\tool\OT_ACE_Log.cxx">
 			</File>
 			<File
-				RelativePath="..\..\src\input\OTOpenVideoContext.cxx">
-			</File>
-			<File
 				RelativePath="..\..\src\input\P5GloveModule.cxx">
 			</File>
 			<File
@@ -670,9 +667,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\tool\OT_ACE_Log.h">
-			</File>
-			<File
-				RelativePath="..\..\src\input\OTOpenVideoContext.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\P5GloveModule.h">

@@ -111,7 +111,8 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-//#define USE_ARTOOLKITPLUS 1
+#define USE_ARTOOLKITPLUS 1
+#define ARTOOLKITPLUS_DLL 1
 
 
 /** uncomment the following line to compile ARToolKitPlusModule be a video source
@@ -126,7 +127,7 @@
 /** umcomment the following line to compile against a DLL version of TinyXML (rather than static linkage
     note: this is only required for Daniel Wagner's modified version of TinyXML
           the standard release always links statically and does not support link selection */
-//#define TINYXML_DLL
+#define TINYXML_DLL
 
 /** umcomment the following line to compile against a LIB version of TinyXML (rather than DLL
     note: this is only required for Daniel Wagner's modified version of TinyXML
