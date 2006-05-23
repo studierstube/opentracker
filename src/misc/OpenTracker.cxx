@@ -98,6 +98,7 @@
 #include "../input/P5GloveModule.h"
 #include "../input/MulticastInputModule.h"
 #include "../input/UbisenseModule.h"
+#include "../input/OpenVideoModule.h"
 #include "../network/DwarfModule.h"
 #include "../network/VRPNModule.h"
 
@@ -174,6 +175,11 @@ void OPENTRACKER_API initializeContext( Context & context )
 	context.addFactory( * artoolplus );
 	context.addModule( "ARToolKitPlusConfig", *artoolplus );
 	context.registerVideoUser(artoolplus);
+#endif
+
+#ifdef USE_OPENVIDEO
+	OpenVideoModule * ovModule = new OpenVideoModule(&context);
+	context.addModule( "OpenVideoConfig", *ovModule );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE

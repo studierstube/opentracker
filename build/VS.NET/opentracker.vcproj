@@ -286,6 +286,9 @@
 				RelativePath="..\..\src\misc\OpenTracker.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\input\OpenVideoModule.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\core\OSUtils.cxx">
 			</File>
 			<File

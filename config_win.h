@@ -122,6 +122,11 @@
 //#define ARTOOLKITPLUS_FOR_STB3  --- depricated !!!
 
 
+/** uncomment the following line to build with an integrated OpenVideo server
+    NOTE: this is not required for Studierstube 4, since Stb4 creates its oen OpenVideo instance! */
+//#define USE_OPENVIDEO 1
+
+
 /** We use TinyXML as standard library */
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 #define USE_TINYXML 1
