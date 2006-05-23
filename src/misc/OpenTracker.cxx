@@ -173,6 +173,7 @@ void OPENTRACKER_API initializeContext( Context & context )
 	ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
 	context.addFactory( * artoolplus );
 	context.addModule( "ARToolKitPlusConfig", *artoolplus );
+	context.registerVideoUser(artoolplus);
 #endif
 
 #ifdef USE_WACOMGRAPHIRE

@@ -60,9 +60,6 @@
 
 #ifdef USE_ARTOOLKITPLUS
 
-//#include <ARToolKitPlus/MemoryManager.h>
-//#include <ARToolKitPlus/MemoryManagerMemMap.h>
-
 
 // in SAM we use another mechanism to link against ARToolKitPlus
 // in order to use the release DLL even in debug mode.
@@ -124,36 +121,30 @@ class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
 
 namespace ot {
 
-// FIXME: 
-// The pixel formats of ImageGrabber, ARToolkitPlus and OpenVideo are not coincident 
-// therefore translation functions had to be implemented. A common Pixel Format should be used.
-// Erick Mendez 20060303
-//const char* ImageGrabber::formatStrings[3] = {  "RGBX8888",  "RGB565",  "LUM8"  };
 
-
-bool convertPixelFormat_ImageGrabber_to_ARToolKitPlus(ImageGrabber::FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
+bool convertPixelFormat_OpenTracker_to_ARToolKitPlus(ot::PIXEL_FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
 {
 	switch(nSrcFormat)
 	{
-	case ImageGrabber::XBGR8888:
+	case ot::FORMAT_X8B8G8R8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_ABGR;
 		return true;
-	case ImageGrabber::BGRX8888:
+	case ot::FORMAT_B8G8R8X8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGRA;
 		return true;
-	case ImageGrabber::BGR888:
+	case ot::FORMAT_B8G8R8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGR;
 		return true;
-	case ImageGrabber::RGBX8888:
+	case ot::FORMAT_R8G8B8X8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGBA;
 		return true;
-	case ImageGrabber::RGB888:
+	case ot::FORMAT_R8G8B8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB;
 		return true;
-	case ImageGrabber::RGB565:
+	case ot::FORMAT_R5G6B5:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB565;
 		return true;
-	case ImageGrabber::LUM8:
+	case ot::FORMAT_L8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_LUM;
 		return true;
 	default:
@@ -161,30 +152,30 @@ bool convertPixelFormat_ImageGrabber_to_ARToolKitPlus(ImageGrabber::FORMAT nSrcF
 	}
 }
 
-bool convertPixelFormat_ARToolKitPlus_to_ImageGrabber(ARToolKitPlus::PIXEL_FORMAT nSrcFormat, ImageGrabber::FORMAT &nDstFormat)
+bool convertPixelFormat_ARToolKitPlus_to_OpenTracker(ARToolKitPlus::PIXEL_FORMAT nSrcFormat, ot::PIXEL_FORMAT &nDstFormat)
 {
 	switch(nSrcFormat)
 	{
 	case ARToolKitPlus::PIXEL_FORMAT_ABGR:
-		nDstFormat = ImageGrabber::XBGR8888;
+		nDstFormat = ot::FORMAT_X8B8G8R8;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_BGRA:
-		nDstFormat = ImageGrabber::BGRX8888;
+		nDstFormat = ot::FORMAT_B8G8R8X8;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_BGR:
-		nDstFormat = ImageGrabber::BGR888;
+		nDstFormat = ot::FORMAT_B8G8R8;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_RGBA:
-		nDstFormat = ImageGrabber::RGBX8888;
+		nDstFormat = ot::FORMAT_R8G8B8X8;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_RGB:
-		nDstFormat = ImageGrabber::RGB888;
+		nDstFormat = ot::FORMAT_R8G8B8;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_RGB565:
-		nDstFormat = ImageGrabber::RGB565;
+		nDstFormat = ot::FORMAT_R5G6B5;
 		return true;
 	case ARToolKitPlus::PIXEL_FORMAT_LUM:
-		nDstFormat = ImageGrabber::LUM8;
+		nDstFormat = ot::FORMAT_L8;
 		return true;
 	default:
 		return false;
@@ -192,11 +183,10 @@ bool convertPixelFormat_ARToolKitPlus_to_ImageGrabber(ARToolKitPlus::PIXEL_FORMA
 }
 
 
-ARToolKitPlusModule::ARToolKitPlusModule() : imageGrabber(NULL), ThreadModule(), NodeFactory()
+ARToolKitPlusModule::ARToolKitPlusModule() : ThreadModule(), NodeFactory()
 {
 	doBench = false;
 	sizeX = sizeY = -1;
-	//flipX = flipY = false;
 
 	trackerNear = 1.0f;
 	trackerFar = 1000.0f;
@@ -555,65 +545,36 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	LOG_ACE_INFO("ot:ARToolkitModule initialization finished\n");
 }
 
-void ARToolKitPlusModule::update()
-{
-	updateARToolKit();
-}
 
-bool ARToolKitPlusModule::updateARToolKit()
+void
+ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
 {
 	if(!initialized || maxMarkerId<0)
-		return false;
+		return;
 
-	const ARToolKitPlus::ARUint8 * frameData = NULL;
     ARToolKitPlus::ARMarkerInfo * markerInfo;
     int markerNum;
     int j;
     ARFloat matrix[3][4];
-	int newSizeX, newSizeY;
-	ImageGrabber::FORMAT imgFormat0, imgFormat;
+	PIXEL_FORMAT artkpImgFormat;
 
-	if(!convertPixelFormat_ARToolKitPlus_to_ImageGrabber(tracker->getPixelFormat(), imgFormat0))
-		return false;
-	imgFormat = imgFormat0;
+	if(!convertPixelFormat_ARToolKitPlus_to_OpenTracker(tracker->getPixelFormat(), artkpImgFormat))
+		return;
 
-	if(!imageGrabber || !imageGrabber->grab(frameData, newSizeX, newSizeY, imgFormat))
-		return false;
-
-	// did grab() return another pixel format than ARToolKitPlus expects?
-	if(imgFormat!=imgFormat0)
+	// did we get another pixel format than ARToolKitPlus currently expects?
+	if(imgFormat!=artkpImgFormat)
 	{
 		// ARToolKitPlus 2.1 and later can change pixel format at runtime!
 		//
 		ARToolKitPlus::PIXEL_FORMAT artkpFormat;
-		if(!convertPixelFormat_ImageGrabber_to_ARToolKitPlus(imgFormat, artkpFormat))
-			return false;
+		if(!convertPixelFormat_OpenTracker_to_ARToolKitPlus(imgFormat, artkpFormat))
+			return;
 		tracker->setPixelFormat(artkpFormat);
 	}
 
-/*
-	if(doBench)
-	{
-		if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
-			return false;
 
-		ARFloat source_center[2], source_size;
-
-		source_center[0] = 0.0f;
-		source_center[1] = 0.0f;
-		source_size = 80.0f;
-
-		//tracker->arGetTransMat(&markerInfo[markerNum-1], source_center, source_size, matrix);
-
-		for(j=0; j<markerNum; j++)
-			tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix);
-
-		return true;
-	}
-*/
-
-	// if the image size changed we have to reinitialize
-	// some ARToolKit internal stuff...
+	// if the image size changed we have to reinitialize some ARToolKitPlus internal stuff...
+	// 
 	if(newSizeX!=sizeX || newSizeY!=sizeY)
 	{
 		sizeX = newSizeX;
@@ -644,20 +605,20 @@ bool ARToolKitPlusModule::updateARToolKit()
 	{
 		if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 		{
-			return false;
+			return;
 		}
 	}
 	else
 	{
 		if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
 		{
-			return false;
+			return;
 		}
 	}
 
     if( markerNum < 1 )
 	{
-        return false;
+        return;
 	}
 
 	// we use an array of best confidences to quickly find
@@ -758,20 +719,12 @@ bool ARToolKitPlusModule::updateARToolKit()
 	}
 
 
-//	if(doBench)
-//	{
-//		ARFloat source_center[2] = { 0.0f, 0.0f }, source_size = 80.0f;
-//		tracker->arGetTransMat(&markerInfo[0], source_center, source_size, matrix);
-//		return true;
-//	}
-
-
 	// reset array of best confidences
 	//
 	for(j=0; j<markerNum; j++)
 		bestCFs[markerInfo[j].id] = 0.0f;
 
-	return true;
+	return;
 }
 
 // pushes events into the tracker tree.
@@ -869,6 +822,10 @@ ARToolKitPlusModule::getARToolKitPlusDescription() const
 	const char* descr = tracker->getDescription();
 	return descr;
 }
+
+
+bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+
 
 } //namespace ot
 

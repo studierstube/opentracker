@@ -428,4 +428,33 @@ bool Context::findFile( const std::string & filename, std::string & fullname )
     return false;
 }
 
+
+void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format)
+{
+	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+		(*it)->newVideoFrame(image, width, height, format);
+}
+
+
+void Context::registerVideoUser(VideoUser* videoUser)
+{
+	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+		if(*it == videoUser)
+			return;
+
+	videoUsers.push_back(videoUser);
+}
+
+
+void Context::unregisterVideoUser(VideoUser* videoUser)
+{
+	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+		if(*it == videoUser)
+		{
+			videoUsers.erase(it);
+			return;
+		}
+}
+
+
 } // namespace ot

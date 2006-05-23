@@ -49,9 +49,11 @@
 #include "Node.h"
 #include "Module.h"
 #include "NodeFactoryContainer.h"
+#include "VideoUser.h"
 
 
 namespace ot {
+
 
 /// a string map to store modules in
 typedef std::map<std::string, Module *> ModuleMap;
@@ -106,6 +108,8 @@ protected:
     std::vector<std::string> directories;
     /// stores the namespace string of the root element
     std::string rootNamespace;
+
+	VideoUserVector videoUsers;
 
 // Methods
 public:
@@ -227,6 +231,19 @@ public:
      * @return string reference containing the XML namespace
      */
     const std::string & getRootNamespace();
+
+
+	/// Called by a video providing instance to pass a new video frame into OpenTracker
+	void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+
+
+	/// Called by a module to register itself as a video user
+	void registerVideoUser(VideoUser* videoUser);
+
+
+	/// Called by a module to unregister itself as a video user
+	void unregisterVideoUser(VideoUser* videoUser);
+
 
     friend class ConfigurationParser;
 };

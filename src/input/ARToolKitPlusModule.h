@@ -76,16 +76,11 @@
 #include <map>
 
 #include "../OpenTracker.h"
+#include "../core/VideoUser.h"
+
 
 #ifdef USE_ARTOOLKITPLUS
 
-
-namespace openvideo
-{
-	class State;
-	class VideoSink;
-	class VideoSinkSubscriber;
-}
 
 namespace ARToolKitPlus
 {
@@ -104,32 +99,6 @@ class ARToolKitPlusModule;
 typedef std::vector<Node*> NodeVector;
 typedef std::map<int,Node*> MarkerIdMap;
 
-/*
- * Abstract Image grabbing function
- */
-class ImageGrabber
-{
-public:
-	//static const char* formatStrings[3];
-
-	// These are the supported Pixel Formats
-	enum FORMAT {
-		XBGR8888 = 0,
-		BGRX8888 = 1,
-		BGR888 = 2,
-		RGBX8888 = 3,
-		RGB888 = 4,
-		RGB565 = 5,
-		LUM8 = 6,
-		UNKNWON = 7
-	};
-
-	/*
-	 * This function is called by updateARToolkit() and is in charge of returning the pointer to the image frame
-	 */
-	virtual bool grab(const unsigned char*& nImage, int& nSizeX, int& nSizeY, FORMAT& nFormat) = 0;
-};
-
 
 /**
  * The module and factory to drive the test source nodes. It constructs
@@ -138,8 +107,7 @@ public:
  * @author Gerhard Reitmayr
  * @ingroup core
  */
-
-class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory, public VideoUser
 {
 // Members
 protected:
@@ -162,9 +130,6 @@ protected:
     /// size of the image in pixels
     int sizeX, sizeY;
 
-	/// should ARToolKitPPCModule flip the image in x- or y-direction?
-	//bool flipX, flipY;
-
 	/// an optional prefix for pattern filenames
 	std::string patternDirectory;
 
@@ -183,15 +148,9 @@ protected:
 	void updateMultiMarkerSource(Node *source, float cf, float matrix[3][4]);
 	void updateState(State &state, float matrix[3][4]);
 
-	ImageGrabber* imageGrabber;
-
 	float trackerNear,trackerFar;
 	ARToolKitPlus::TrackerSingleMarker* tracker;
 	ARToolKitPlus::Logger* logger;
-
-	// implement ARToolKitPlus::Logger
-	//virtual void artLog(const char* nStr);
-	//virtual void artLogEx(const char* nStr, ...);
 
 // Methods
 public:
@@ -230,12 +189,6 @@ public:
     /** returns the height of the grabbed image in pixels */
     int getSizeY() const  {  return sizeY;  }
 
-    /** returns whether the grabbed image is flipped horizontally
-	  * or vertically */
-    //void getFlipping(bool* isFlippedH, bool* isFlippedV)  {  *isFlippedH = flipX;  *isFlippedV = flipY;  }
-
-	void registerImageGrabber(ImageGrabber* nGrabber)  {  imageGrabber = nGrabber;  }
-
 	ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return tracker;  }
 
 	const char* getARToolKitPlusDescription() const;
@@ -253,8 +206,7 @@ public:
 
 	NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
 
-	// this method should be protected
-	bool updateARToolKit();
+	void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
 
 	bool doBench;
 };

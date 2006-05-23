@@ -112,7 +112,9 @@
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
 #define USE_ARTOOLKITPLUS 1
-#define ARTOOLKITPLUS_DLL 1
+
+/** uncomment the following line to compile and link against the DLL version of ARToolKitPlus */
+//#define ARTOOLKITPLUS_DLL 1
 
 
 /** uncomment the following line to compile ARToolKitPlusModule be a video source
