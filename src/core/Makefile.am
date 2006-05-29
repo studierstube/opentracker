@@ -21,7 +21,8 @@ otcoreinc_HEADERS = \
         StringTable.h \
         TestModule.h \
         TestSource.h \
-        ThreadModule.h
+        ThreadModule.h \
+        VideoUser.h
 
 noinst_LTLIBRARIES = libcore.la
 libcore_la_SOURCES = \
@@ -54,4 +55,5 @@ libcore_la_SOURCES = \
         TestModule.h \
         TestSource.h \
         ThreadModule.cxx \
-        ThreadModule.h
+        ThreadModule.h \
+        VideoUser.h

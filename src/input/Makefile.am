@@ -40,6 +40,7 @@ otinputinc_HEADERS = \
         MagicYSource.h \
         MulticastInputModule.h \
         MulticastInputSource.h \
+        OpenVideoModule.h \
         P5GloveModule.h \
         P5GloveSource.h \
         ParButtonModule.h \
@@ -120,6 +121,7 @@ libinput_la_SOURCES = \
         MulticastInputModule.cxx \
         MulticastInputModule.h \
         MulticastInputSource.h \
+        OpenVideoModule.h \
         P5GloveModule.cxx \
         P5GloveModule.h \
         P5GloveSource.h \
