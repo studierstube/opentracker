@@ -141,6 +141,8 @@
           the standard release always links statically and does not support link selection */
 //#define TINYXML_STATIC
 
+/** umcomment the following line to to direct console output to the MSDev debug console */
+//#define USE_MSDEV_DEBUGOUTPUT 1
 
 /**
  * This define enables the correction of ARToolkit transformation matrices
