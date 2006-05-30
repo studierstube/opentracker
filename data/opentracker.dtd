@@ -42,10 +42,10 @@ $Id$
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "LogConfig?,FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,ARToolKitPlusConfig?,NetworkSourceConfig?,QtMouseEventCalibConfig?,QtMouseEventConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,LinmouseConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?,UbisenseConfig?">
 <!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | ARToolKitPlusSource | ARToolKitPlusMultiMarkerSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | LinmouseSource | TargusSource | WacomGraphireSource | InterSenseSource | FileSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource | UbisenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
+<!ENTITY % EventNodes "%SourceEventNodes; | EventUtilityNode | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
-<!ENTITY % WrapperNodes "MergeDefault | MergePosition | MergeOrientation | MergeButton | MergeTime | MergeConfidence | TransformBase | Select | Gate | Override">
+<!ENTITY % WrapperNodes "MergeDefault | MergeAttribute | MergeTime | MergeTrigger | TransformBase | Select | Gate | Override">
 <!ENTITY % AllNodes "%EventNodes; | %QueueNodes; | %TimeNodes;">
 <!-- general elements that do not map to nodes -->
 <!ELEMENT OpenTracker (configuration, (%AllNodes;)*)>
@@ -54,10 +54,10 @@ $Id$
 >
 <!ELEMENT configuration (%ConfigElements;)>
 <!-- basic elements
-there are several versions for the different interfaces
-Event prefix defines that the node implements an EventGenerator interface
-Queue prefix defines that the node implements an EventQueue interface
-Time prefix defines that the node implements an TimeDependend interface -->
+     there are several versions for the different interfaces
+     Event prefix defines that the node implements an EventGenerator interface
+     Queue prefix defines that the node implements an EventQueue interface
+     Time prefix defines that the node implements an TimeDependend interface -->
 <!ELEMENT Ref EMPTY>
 <!ATTLIST Ref
 	USE IDREF #REQUIRED
@@ -103,6 +103,13 @@ Time prefix defines that the node implements an TimeDependend interface -->
 	translation CDATA "0 0 0"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
+>
+<!ELEMENT EventUtilityNode (%EventNodes;)>
+<!ATTLIST EventUtilityNode
+	DEF ID #IMPLIED
+	rename CDATA ""
+	create CDATA ""
+	discard CDATA ""
 >
 <!-- queue transform elements -->
 <!ELEMENT QueuePositionTransform (%QueueNodes;)>
@@ -263,22 +270,26 @@ Time prefix defines that the node implements an TimeDependend interface -->
 	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
 >
 <!-- EventQueue stores a queue of size length of the last received events.
-It implements the EventGenerator as well as the EventQueue interface. -->
+     It implements the EventGenerator as well as the EventQueue interface. -->
 <!ELEMENT EventQueue (%EventNodes;)>
 <!ATTLIST EventQueue
 	DEF ID #IMPLIED
 	length CDATA "1"
 >
 <!--Merge Node and associated Wrapper nodes definitions-->
-<!ELEMENT MergeDefault ((%EventNodes;)+)>
-<!ELEMENT MergePosition ((%EventNodes;)+)>
-<!ELEMENT MergeOrientation ((%EventNodes;)+)>
-<!ELEMENT MergeButton ((%EventNodes;)+)>
+<!ELEMENT MergeDefault ((%EventNodes;))>
+<!ELEMENT MergeAttribute ((%EventNodes;)+)>
+<!ATTLIST MergeAttribute
+	  DEF ID #IMPLIED
+	  attributeName CDATA #REQUIRED
+	  >
 <!ELEMENT MergeTime ((%EventNodes;)+)>
-<!ELEMENT MergeConfidence ((%EventNodes;)+)>
-<!ELEMENT Merge (MergeDefault?, MergePosition?, MergeOrientation?, MergeButton?, MergeTime?, MergeConfidence?)>
+<!ELEMENT MergeTrigger ((%EventNodes;)+)>
+<!ELEMENT Merge (MergeDefault?, MergeTime?, MergeTrigger?, MergeAttribute*)>
 <!ATTLIST Merge
 	DEF ID #IMPLIED
+	agingFactor CDATA "1"
+	confidenceCalculation (min | max | multiply) "min"
 >
 <!-- Confidence Filter Node -->
 <!ELEMENT ConfidenceFilter (%EventNodes;)>
@@ -649,6 +660,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	append (true | false) "false"
 	loop (true | false) "true"
 	interval CDATA #IMPLIED
+	ot11Format (true | false) "false"
 >
 <!ELEMENT FileSink (%EventNodes;)>
 <!ATTLIST FileSink
@@ -718,7 +730,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	DEF ID #IMPLIED
 >
 <!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube.
-	These elements are only supported by the Studierstube runtime. -->
+     These elements are only supported by the Studierstube runtime. -->
 <!-- StbKeyboard definitions, similar to console input -->
 <!ELEMENT StbInputConfig (KeyDefinition*)>
 <!ATTLIST StbInputConfig
@@ -774,7 +786,7 @@ It implements the EventGenerator as well as the EventQueue interface. -->
 	number CDATA #REQUIRED
 >
 <!-- Group gate nodes. It will only open one or more members of a set of nodes to let data pass through. The ActiveGate node
-      outputs the currently active GroupGate node for a set of nodes. -->
+     outputs the currently active GroupGate node for a set of nodes. -->
 <!ELEMENT GroupGateConfig ANY>
 <!ELEMENT Override (%EventNodes;)>
 <!ELEMENT GroupGate ((Override?, (%EventNodes;)?) | ((%EventNodes;)?, Override?))>
