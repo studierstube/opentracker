@@ -141,14 +141,14 @@ typedef struct
     /* Following items are used to configure the tracker and can be set in
        the isenseX.ini file */
 
-    WORD   SyncState;   /* 4 states: 0 - OFF, system is in free run 
+    WORD   SyncEvent;   /* 4 events: 0 - OFF, system is in free run 
                                      1 - ON, hardware genlock frequency is automatically 
                                          determined (if supported by the firmware)
                                      2 - ON, hardware genlock frequency is specified by the user
                                      3 - ON, no hardware sygnal, lock to the user specified frequency */ 
 
     float  SyncRate;    /* Sync frequency - number of hardware sync signals per second, 
-                           or, if SyncState is 3 - data record output frequency */
+                           or, if SyncEvent is 3 - data record output frequency */
 
     WORD   SyncPhase;   /* 0 to 100 per cent */
 
@@ -157,15 +157,15 @@ typedef struct
 
 
 /* ISD_STATION_CONFIG_TYPE can only be used with IS Precision Series tracking devices.
-   If passed to ISD_SetStationState or ISD_GetStationState with InterTrax, FALSE is returned. */
+   If passed to ISD_SetStationEvent or ISD_GetStationEvent with InterTrax, FALSE is returned. */
 
 typedef struct
 {
     WORD    ID;             /* unique number identifying a station. It is the same as that 
-                               passed to the ISD_SetStationState and ISD_GetStationState   
+                               passed to the ISD_SetStationEvent and ISD_GetStationEvent   
                                functions and can be 1 to ISD_MAX_STATIONS */
 
-    IS_BOOL    State;          /* TRUE if ON, FALSE if OFF */
+    IS_BOOL    Event;          /* TRUE if ON, FALSE if OFF */
 
     IS_BOOL    Compass;        /* 0, 1 or 2 for OFF, PARTIAL and FULL. Older versions of tracker
                                firmware supported only 0 and 1, which stood for ON or OFF. 
@@ -182,7 +182,7 @@ typedef struct
     WORD    Prediction;     /* 0 to 50 ms */
     WORD    AngleFormat;    /* ISD_EULER or ISD_QUATERNION */
     IS_BOOL    TimeStamped;    /* TRUE if time stamp is requested */
-    IS_BOOL    GetButtons;     /* TRUE if joystick of stylus button state is requested */
+    IS_BOOL    GetButtons;     /* TRUE if joystick of stylus button event is requested */
 
 } ISD_STATION_CONFIG_TYPE;
 
@@ -192,7 +192,7 @@ typedef struct
     float Orientation[4];   /* Supports both Euler and Quaternion formats */
     float Position[3];      /* Always in meters */
     float TimeStamp;        /* Only if requested */
-    int   ButtonState[MAX_NUM_BUTTONS];  /* Only if requested */
+    int   ButtonEvent[MAX_NUM_BUTTONS];  /* Only if requested */
 
 } ISD_STATION_DATA_TYPE;
 
@@ -213,22 +213,22 @@ ISENSE_API ISD_TRACKER_HANDLE ISD_OpenTracker( DWORD commPort, IS_BOOL infoScree
 
 ISENSE_API IS_BOOL  ISD_CloseTracker( ISD_TRACKER_HANDLE );
 
-ISENSE_API IS_BOOL  ISD_GetTrackerState( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE *, IS_BOOL verbose );
-ISENSE_API IS_BOOL  ISD_SetTrackerState( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE *, IS_BOOL verbose );
+ISENSE_API IS_BOOL  ISD_GetTrackerEvent( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE *, IS_BOOL verbose );
+ISENSE_API IS_BOOL  ISD_SetTrackerEvent( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE *, IS_BOOL verbose );
 
 
 /* Get RecordsPerSec and KBitsPerSec without requesting genlock settings from the tracker.
-   Use this instead of ISD_GetTrackerState to prevent your program from stalling while
+   Use this instead of ISD_GetTrackerEvent to prevent your program from stalling while
    waiting for the tracker response. */
 
-ISENSE_API IS_BOOL  ISD_GetCommState( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE * );
+ISENSE_API IS_BOOL  ISD_GetCommEvent( ISD_TRACKER_HANDLE, ISD_TRACKER_TYPE * );
 
 
 /* stationNum is a number from 1 to ISD_MAX_STATIONS */
-ISENSE_API IS_BOOL  ISD_SetStationState( ISD_TRACKER_HANDLE, ISD_STATION_CONFIG_TYPE *, 
+ISENSE_API IS_BOOL  ISD_SetStationEvent( ISD_TRACKER_HANDLE, ISD_STATION_CONFIG_TYPE *, 
                            WORD stationNum, IS_BOOL verbose );
 
-ISENSE_API IS_BOOL  ISD_GetStationState( ISD_TRACKER_HANDLE, ISD_STATION_CONFIG_TYPE *, 
+ISENSE_API IS_BOOL  ISD_GetStationEvent( ISD_TRACKER_HANDLE, ISD_STATION_CONFIG_TYPE *, 
                            WORD stationNum, IS_BOOL verbose );
 
 /* Get data from all configured stations. */

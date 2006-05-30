@@ -107,7 +107,7 @@ IS_BOOL itComUpdatePredictionString( InterSenseTrackerType *tracker, DWORD senso
 IS_BOOL itComUpdateStatusRecord( InterSenseTrackerType *tracker, float timeOut );
 IS_BOOL itComUpdateImu( InterSenseTrackerType *tracker, DWORD sensorNum );
 IS_BOOL itComUpdateSensitivityVal( InterSenseTrackerType *tracker, DWORD sensorNum );
-IS_BOOL itComUpdateSyncState( InterSenseTrackerType *tracker );
+IS_BOOL itComUpdateSyncEvent( InterSenseTrackerType *tracker );
 
 
 #endif

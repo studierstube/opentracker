@@ -99,7 +99,7 @@
 
 typedef struct
 {
-    WORD   state;
+    WORD   event;
 
     WORD   compass;      /* yaw comp */
     WORD   jumpMode;     /* compatibility with old firmware */       
@@ -116,9 +116,9 @@ typedef struct
     float  Orientation[4];
     float  TimeStamp;
 
-    int    ButtonState[MAX_NUM_BUTTONS];
+    int    ButtonEvent[MAX_NUM_BUTTONS];
 
-}ItComSensorStateType;
+}ItComSensorEventType;
 
 
 typedef struct
@@ -138,7 +138,7 @@ typedef struct
     char  id[IT_COM_NUM_ID_BYTES];
     float firmwareVersion;
 
-} ItComSystemStateType;
+} ItComSystemEventType;
 
 
 typedef struct
@@ -149,8 +149,8 @@ typedef struct
 
     COMM_PORT  CommPort;
     
-    ItComSystemStateType     state;
-    ItComSensorStateType     station[MAX_NUM_STATIONS];
+    ItComSystemEventType     event;
+    ItComSensorEventType     station[MAX_NUM_STATIONS];
 
     int numBytesReceived;
     int numSamplesReceived;
@@ -182,13 +182,13 @@ typedef struct
 
     /* user accessible variables */
 
-    WORD   SyncState;   /* 4 states: 0 - OFF, system is in free run 
+    WORD   SyncEvent;   /* 4 events: 0 - OFF, system is in free run 
                                      1 - ON, hardware genlock frequency is automatically determined
                                      2 - ON, hardware genlock frequency is specified by the user
                                      3 - ON, no hardware sygnal, lock to the user specified frequency */ 
 
     float  SyncRate;    /* Genlock frequency - number of hardware sync signals per second, 
-                           or, if SyncState is 3 - record output frequency */
+                           or, if SyncEvent is 3 - record output frequency */
 
     WORD   syncNumFrames;
     WORD   SyncPhase;   
@@ -198,11 +198,11 @@ typedef struct
 
 IS_BOOL ISD_openTracker( InterSenseTrackerType *, DWORD, IS_BOOL, IS_BOOL );
 IS_BOOL ISD_closeTracker( InterSenseTrackerType * );
-IS_BOOL ISD_getCommState( InterSenseTrackerType *, ISD_TRACKER_TYPE * );
-IS_BOOL ISD_getTrackerState( InterSenseTrackerType *, ISD_TRACKER_TYPE *, IS_BOOL );
-IS_BOOL ISD_setTrackerState( InterSenseTrackerType *, ISD_TRACKER_TYPE *, IS_BOOL );
-IS_BOOL ISD_getStationState( InterSenseTrackerType *, ISD_STATION_CONFIG_TYPE *, WORD, IS_BOOL );
-IS_BOOL ISD_setStationState( InterSenseTrackerType *, ISD_STATION_CONFIG_TYPE *, WORD, IS_BOOL, IS_BOOL );
+IS_BOOL ISD_getCommEvent( InterSenseTrackerType *, ISD_TRACKER_TYPE * );
+IS_BOOL ISD_getTrackerEvent( InterSenseTrackerType *, ISD_TRACKER_TYPE *, IS_BOOL );
+IS_BOOL ISD_setTrackerEvent( InterSenseTrackerType *, ISD_TRACKER_TYPE *, IS_BOOL );
+IS_BOOL ISD_getStationEvent( InterSenseTrackerType *, ISD_STATION_CONFIG_TYPE *, WORD, IS_BOOL );
+IS_BOOL ISD_setStationEvent( InterSenseTrackerType *, ISD_STATION_CONFIG_TYPE *, WORD, IS_BOOL, IS_BOOL );
 void ISD_getTrackerData( InterSenseTrackerType * );
  
 IS_BOOL ISD_sendCommand( InterSenseTrackerType * , char * );

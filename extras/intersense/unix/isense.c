@@ -127,22 +127,22 @@ ISENSE_API IS_BOOL  ISD_NumOpenTrackers( WORD *num )
 
 /*****************************************************************************
 *
-*   functionName:   ISD_GetCommState
+*   functionName:   ISD_GetCommEvent
 *   Description:
 *   Created:        12/3/98
 *   Author:         Yury Altshuler
 *
 *   Comments:       Get RecordsPerSec and KBitsPerSec without requesting 
 *                   genlock settings from the tracker. Use this instead of 
-*                   ISD_GetTrackerState to prevent your program from stalling while
+*                   ISD_GetTrackerEvent to prevent your program from stalling while
 *                   waiting for the tracker response   
 *
 ******************************************************************************/
-ISENSE_API IS_BOOL ISD_GetCommState( ISD_TRACKER_HANDLE handle, ISD_TRACKER_TYPE *Tracker )
+ISENSE_API IS_BOOL ISD_GetCommEvent( ISD_TRACKER_HANDLE handle, ISD_TRACKER_TYPE *Tracker )
 {
     if( handle > 0 && handle <= ISD_MAX_TRACKERS)
     {
-        return ISD_getCommState( &ISD_tracker[ handle - 1 ], Tracker );
+        return ISD_getCommEvent( &ISD_tracker[ handle - 1 ], Tracker );
     }
     return FALSE;
 }
@@ -150,7 +150,7 @@ ISENSE_API IS_BOOL ISD_GetCommState( ISD_TRACKER_HANDLE handle, ISD_TRACKER_TYPE
 
 /*****************************************************************************
 *
-*   functionName:   ISD_GetTrackerState
+*   functionName:   ISD_GetTrackerEvent
 *   Description:
 *   Created:        12/3/98
 *   Author:         Yury Altshuler
@@ -158,12 +158,12 @@ ISENSE_API IS_BOOL ISD_GetCommState( ISD_TRACKER_HANDLE handle, ISD_TRACKER_TYPE
 *   Comments:          
 *
 ******************************************************************************/
-ISENSE_API IS_BOOL ISD_GetTrackerState( ISD_TRACKER_HANDLE handle, 
+ISENSE_API IS_BOOL ISD_GetTrackerEvent( ISD_TRACKER_HANDLE handle, 
                           ISD_TRACKER_TYPE *Tracker, IS_BOOL verbose )
 {
     if( handle > 0 && handle <= ISD_MAX_TRACKERS)
     {
-        return ISD_getTrackerState( &ISD_tracker[ handle - 1 ], Tracker, verbose );
+        return ISD_getTrackerEvent( &ISD_tracker[ handle - 1 ], Tracker, verbose );
     }
     return FALSE;
 }
@@ -171,7 +171,7 @@ ISENSE_API IS_BOOL ISD_GetTrackerState( ISD_TRACKER_HANDLE handle,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_SetTrackerState
+*   functionName:   ISD_SetTrackerEvent
 *   Description:
 *   Created:        12/3/98
 *   Author:         Yury Altshuler
@@ -179,12 +179,12 @@ ISENSE_API IS_BOOL ISD_GetTrackerState( ISD_TRACKER_HANDLE handle,
 *   Comments:        
 *
 ******************************************************************************/
-ISENSE_API IS_BOOL ISD_SetTrackerState( ISD_TRACKER_HANDLE handle, 
+ISENSE_API IS_BOOL ISD_SetTrackerEvent( ISD_TRACKER_HANDLE handle, 
                           ISD_TRACKER_TYPE *Tracker, IS_BOOL verbose )
 {
     if( handle > 0 && handle <= ISD_MAX_TRACKERS)
     {
-        return ISD_setTrackerState( &ISD_tracker[ handle - 1 ], Tracker, verbose );
+        return ISD_setTrackerEvent( &ISD_tracker[ handle - 1 ], Tracker, verbose );
     }
     return FALSE;
 }
@@ -192,7 +192,7 @@ ISENSE_API IS_BOOL ISD_SetTrackerState( ISD_TRACKER_HANDLE handle,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_SetStationState
+*   functionName:   ISD_SetStationEvent
 *   Description:
 *   Created:        12/3/98
 *   Author:         Yury Altshuler
@@ -200,13 +200,13 @@ ISENSE_API IS_BOOL ISD_SetTrackerState( ISD_TRACKER_HANDLE handle,
 *   Comments:          
 *
 ******************************************************************************/
-ISENSE_API IS_BOOL ISD_SetStationState( ISD_TRACKER_HANDLE handle, 
+ISENSE_API IS_BOOL ISD_SetStationEvent( ISD_TRACKER_HANDLE handle, 
                           ISD_STATION_CONFIG_TYPE *Station, 
                           WORD stationNum, IS_BOOL verbose )
 {
     if( handle > 0 && handle <= ISD_MAX_TRACKERS)
     {
-        return ISD_setStationState( &ISD_tracker[ handle - 1 ], Station, 
+        return ISD_setStationEvent( &ISD_tracker[ handle - 1 ], Station, 
                                      stationNum, verbose, TRUE );
     }
     return FALSE;
@@ -215,7 +215,7 @@ ISENSE_API IS_BOOL ISD_SetStationState( ISD_TRACKER_HANDLE handle,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_GetStationState
+*   functionName:   ISD_GetStationEvent
 *   Description:
 *   Created:        12/3/98
 *   Author:         Yury Altshuler
@@ -223,13 +223,13 @@ ISENSE_API IS_BOOL ISD_SetStationState( ISD_TRACKER_HANDLE handle,
 *   Comments:          
 *
 ******************************************************************************/
-ISENSE_API IS_BOOL ISD_GetStationState( ISD_TRACKER_HANDLE handle, 
+ISENSE_API IS_BOOL ISD_GetStationEvent( ISD_TRACKER_HANDLE handle, 
                           ISD_STATION_CONFIG_TYPE *Station,
                           WORD stationNum, IS_BOOL verbose )
 {
     if( handle > 0 && handle <= ISD_MAX_TRACKERS )
     {
-        return ISD_getStationState( &ISD_tracker[ handle - 1 ], Station, 
+        return ISD_getStationEvent( &ISD_tracker[ handle - 1 ], Station, 
                                      stationNum, verbose );
     }
     return FALSE;
@@ -271,10 +271,10 @@ ISENSE_API IS_BOOL ISD_GetTrackerData( ISD_TRACKER_HANDLE handle, ISD_DATA_TYPE 
 
             Data->Station[i].TimeStamp = tracker->station[i].TimeStamp;
 
-	    // PS stbvt Added for retreiving button state from stations
+	    // PS stbvt Added for retreiving button event from stations
 	    for( j = 0; j < MAX_NUM_BUTTONS; j++ )
-		Data->Station[i].ButtonState[j]
-		    = tracker->station[i].ButtonState[j];
+		Data->Station[i].ButtonEvent[j]
+		    = tracker->station[i].ButtonEvent[j];
         }
         return TRUE;
     }

@@ -59,7 +59,7 @@ int   rs232InChar( COMM_PORT *port, char *c, int flush );
 WORD  rs232RxCount( COMM_PORT *port );
 int   rs232SendString( COMM_PORT *port, char *commandString );
 int   rs232PutChar( COMM_PORT *port, char c );
-IS_BOOL  rs232SetRTSState( COMM_PORT *port, DWORD value );
+IS_BOOL  rs232SetRTSEvent( COMM_PORT *port, DWORD value );
 IS_BOOL  waitForChar( COMM_PORT *port, char *ch );
 IS_BOOL  waitForShort( COMM_PORT *port, short *num );
 

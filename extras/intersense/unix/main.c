@@ -69,7 +69,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
     char   *modelName[5]  = {"Unknown", "IS-300 Series", "IS-600 Series", "IS-900 Series", "InterTrax 30"};
 
 
-    if(ISD_GetTrackerState( handle, &Tracker, TRUE ))
+    if(ISD_GetTrackerEvent( handle, &Tracker, TRUE ))
     {
         printf("\n********** InterSense Tracker Information ***********\n\n");
 
@@ -83,18 +83,18 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
             {
                 numStations = ISD_MAX_STATIONS;
             }
-            printf("\nStation\tTime\tState\tCube  Enhancement  Sensitivity  Prediction\n");
+            printf("\nStation\tTime\tEvent\tCube  Enhancement  Sensitivity  Prediction\n");
 
             for(i = 1; i <= numStations; i++)
             {
                 printf("%d\t", i);
 
-                if(ISD_GetStationState( handle, &Station, i, FALSE ))
+                if(ISD_GetStationEvent( handle, &Station, i, FALSE ))
                 {
                     sprintf(buf, "%d", Station.InertiaCube);
                     printf("%s\t%s\t%s\t   %u\t\t%u\t   %u\n", 
                         Station.TimeStamped ? "ON" : "OFF", 
-                        Station.State ? "ON" : "OFF", 
+                        Station.Event ? "ON" : "OFF", 
                         Station.InertiaCube == -1 ? "None" : buf, 
                         Station.Enhancement, 
                         Station.Sensitivity, 
@@ -102,7 +102,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
                 }
                 else
                 {
-                    printf("ISLIB_GetStationState failed\n");
+                    printf("ISLIB_GetStationEvent failed\n");
                     break;
                 }
             }
@@ -111,7 +111,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
     }
     else
     {
-        printf("ISLIB_GetTrackerState failed\n");
+        printf("ISLIB_GetTrackerEvent failed\n");
     }
 }
 
@@ -155,51 +155,51 @@ int main()
             switch(getch())
             {
                 case 'E':
-                    ISD_GetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
                     Station.Enhancement++;
                     if(Station.Enhancement > 2) Station.Enhancement = 0;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
                 case 'S':
-                    ISD_GetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
                     Station.Sensitivity++;
                     if(Station.Sensitivity > 4) Station.Sensitivity = 1;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
                 case 'I':
-                    ISD_GetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
                 
                     if(Station.InertiaCube == -1) Station.InertiaCube = 1;
                     else                          Station.InertiaCube++;
                 
                     if(Station.InertiaCube > 4) Station.InertiaCube = -1;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
                 case 'P':
-                    ISD_GetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
                     Station.Prediction += 10;
                     if(Station.Prediction > 50) Station.Prediction = 0;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
                 case 'X':
-                    ISD_GetStationState( handle, &Station, station, verbose );
-                    Station.State = !Station.State;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
+                    Station.Event = !Station.Event;
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
                 case 'T':
-                    ISD_GetStationState( handle, &Station, station, verbose );
+                    ISD_GetStationEvent( handle, &Station, station, verbose );
                     Station.TimeStamped = !Station.TimeStamped;
-                    ISD_SetStationState( handle, &Station, station, verbose );
+                    ISD_SetStationEvent( handle, &Station, station, verbose );
                     showTrackerStats( handle );
                     break;
                 
@@ -225,7 +225,7 @@ int main()
                 
                 case 'D':
                     /* Get comm port statistics for display with tracker data */
-                    if(ISD_GetCommState( handle, &Tracker ))
+                    if(ISD_GetCommEvent( handle, &Tracker ))
                     {
                         printf("%5.2fKbps %3d Updates/s %7.3f %7.3f %7.3f %7.2f %7.2f %7.2f\n",
                             Tracker.KBitsPerSec, Tracker.RecordsPerSec, 
@@ -251,7 +251,7 @@ int main()
                     printf("3 -- make station 3 current\n");
                     printf("4 -- make station 4 current\n");
                     printf("D -- display data\n");
-                    printf("X -- toggle station state\n");
+                    printf("X -- toggle station event\n");
                     printf("I -- change InertiaCube assignement\n");
                     printf("E -- change enhancement mode\n");
                     printf("S -- change sensitivity\n");
@@ -269,7 +269,7 @@ station = 3;
             if(timeNow() - lastTime > 0.1f)
             {
                 lastTime = timeNow();
-                if(ISD_GetCommState( handle, &Tracker ))
+                if(ISD_GetCommEvent( handle, &Tracker ))
                 {
                     printf("%5.2fKbps %3d Updates/s %7.3f %7.3f %7.3f %7.2f %7.2f %7.2f\n",
                         Tracker.KBitsPerSec, Tracker.RecordsPerSec,

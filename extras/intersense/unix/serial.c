@@ -29,8 +29,8 @@
 #include "isdriver.h"
 #include "timer.h"
 
-static IS_BOOL setCommStateBYTE(COMM_PORT *port, DCB *dcb, BYTE *target, BYTE value);
-static IS_BOOL setCommStateDWORD(COMM_PORT *port, DCB *dcb, DWORD *target, DWORD value);
+static IS_BOOL setCommEventBYTE(COMM_PORT *port, DCB *dcb, BYTE *target, BYTE value);
+static IS_BOOL setCommEventDWORD(COMM_PORT *port, DCB *dcb, DWORD *target, DWORD value);
 static void errorMessage(char *message);
 
 
@@ -86,9 +86,9 @@ int rs232InitCommunications(COMM_PORT *port, DWORD comPort, DWORD baudRate)
     FillMemory(&dcb, sizeof(dcb), 0);
     dcb.DCBlength = sizeof(dcb);
 
-    if (!GetCommState(port->portHandle, &dcb))
+    if (!GetCommEvent(port->portHandle, &dcb))
     {
-        errorMessage( "Failed to get communications state");
+        errorMessage( "Failed to get communications event");
         return FALSE;
     }
 
@@ -99,9 +99,9 @@ int rs232InitCommunications(COMM_PORT *port, DWORD comPort, DWORD baudRate)
     dcb.fBinary = TRUE;
     dcb.fAbortOnError = FALSE;   
 
-    if (!SetCommState(port->portHandle, &dcb))
+    if (!SetCommEvent(port->portHandle, &dcb))
     {
-        errorMessage( "Failed to set communications state");
+        errorMessage( "Failed to set communications event");
         return FALSE;
     }
 
@@ -128,21 +128,21 @@ int rs232DeinitCommunications(COMM_PORT *port)
 }
 
 
-/************************* setCommStateBYTE ***************************/
-static IS_BOOL setCommStateBYTE(COMM_PORT *port, DCB *dcb, BYTE *target, BYTE value)
+/************************* setCommEventBYTE ***************************/
+static IS_BOOL setCommEventBYTE(COMM_PORT *port, DCB *dcb, BYTE *target, BYTE value)
 {
     IS_BOOL fSuccess;
 
     FillMemory(dcb, sizeof(*dcb), 0);
 
-    if (!GetCommState(port->portHandle, dcb))     /* get current DCB */
+    if (!GetCommEvent(port->portHandle, dcb))     /* get current DCB */
     {
         errorMessage( "Failed to set control byte");
         return FALSE;
     }
     *target = value;
 
-    fSuccess = SetCommState(port->portHandle, dcb);
+    fSuccess = SetCommEvent(port->portHandle, dcb);
     rs232RxFlush(port, 0);
 
     if (!fSuccess)
@@ -154,21 +154,21 @@ static IS_BOOL setCommStateBYTE(COMM_PORT *port, DCB *dcb, BYTE *target, BYTE va
 }
 
 
-/********************** setCommStateDWORD **************************/
-static IS_BOOL setCommStateDWORD(COMM_PORT *port, DCB *dcb, DWORD *target, DWORD value)
+/********************** setCommEventDWORD **************************/
+static IS_BOOL setCommEventDWORD(COMM_PORT *port, DCB *dcb, DWORD *target, DWORD value)
 {
     IS_BOOL fSuccess;
 
     FillMemory(dcb, sizeof(*dcb), 0);
 
-    if (!GetCommState(port->portHandle, dcb))     /* get current DCB */
+    if (!GetCommEvent(port->portHandle, dcb))     /* get current DCB */
     {
         errorMessage( "Failed to set control word");
         return FALSE;
     }
     *target = value;
 
-    fSuccess = SetCommState(port->portHandle, dcb);
+    fSuccess = SetCommEvent(port->portHandle, dcb);
     rs232RxFlush(port, 0);
 
     if (!fSuccess)
@@ -184,7 +184,7 @@ static IS_BOOL setCommStateDWORD(COMM_PORT *port, DCB *dcb, DWORD *target, DWORD
 int rs232SetSpeed(COMM_PORT *port, DWORD baudRate)
 {
     DCB dcb;
-    return( setCommStateDWORD(port, &dcb, &(dcb.BaudRate), baudRate));
+    return( setCommEventDWORD(port, &dcb, &(dcb.BaudRate), baudRate));
 }
 
 
@@ -354,27 +354,27 @@ WORD rs232RxCount(COMM_PORT *port)
 }
 
 
-/********************** setCommStateRTSState *****************************/
-IS_BOOL rs232SetRTSState(COMM_PORT *port, DWORD value)
+/********************** setCommEventRTSEvent *****************************/
+IS_BOOL rs232SetRTSEvent(COMM_PORT *port, DWORD value)
 {
     IS_BOOL fSuccess;
     DCB dcb;
 
     FillMemory(&dcb, sizeof(dcb), 0);
 
-    if (!GetCommState(port->portHandle, &dcb))     /* get current DCB */
+    if (!GetCommEvent(port->portHandle, &dcb))     /* get current DCB */
     {
-        errorMessage( "Failed to set RTS line state" );
+        errorMessage( "Failed to set RTS line event" );
         return FALSE;
     }
     dcb.fRtsControl = value;
 
-    fSuccess = SetCommState(port->portHandle, &dcb);
+    fSuccess = SetCommEvent(port->portHandle, &dcb);
     rs232RxFlush(port, 0);
 
     if (!fSuccess)
     {
-         errorMessage( "Failed to set RTS line state" );
+         errorMessage( "Failed to set RTS line event" );
          return FALSE;
     }
     return TRUE;

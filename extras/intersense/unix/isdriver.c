@@ -117,7 +117,7 @@ IS_BOOL ISD_detectTracker(InterSenseTrackerType *tracker, DWORD commPort)
                     }
 
                     ISD_printf(tracker, "\n\n%s device detected on port %d\n",
-                        systemName[toIndex(tracker->state.hardwareVersion)], port);
+                        systemName[toIndex(tracker->event.hardwareVersion)], port);
 
                     ISD_printf(tracker, "Firmware Version: ");
 
@@ -126,8 +126,8 @@ IS_BOOL ISD_detectTracker(InterSenseTrackerType *tracker, DWORD commPort)
                         /* bug fix for Intrack versions 2.0.5b and below. Version string
                            starts with a blank */
 
-                        if(tracker->state.ver[0] == ' ')  ISD_printf(tracker, "%s\n",  tracker->state.ver);
-                        else                              ISD_printf(tracker, " %s\n", tracker->state.ver);
+                        if(tracker->event.ver[0] == ' ')  ISD_printf(tracker, "%s\n",  tracker->event.ver);
+                        else                              ISD_printf(tracker, " %s\n", tracker->event.ver);
                     }
                     else
                     {
@@ -178,9 +178,9 @@ static IS_BOOL ISD_resetInterTrax(InterSenseTrackerType *tracker)
     for(pass = 0; pass < 2; pass++)
     {
         /* Toggle RTS line */
-        rs232SetRTSState(port, FALSE);
+        rs232SetRTSEvent(port, FALSE);
         tdelay(0.15f);
-        rs232SetRTSState(port, TRUE);
+        rs232SetRTSEvent(port, TRUE);
 
         rs232PutChar(port,  'c');
         status = waitForChar(port,  &byte);
@@ -196,7 +196,7 @@ static IS_BOOL ISD_resetInterTrax(InterSenseTrackerType *tracker)
        here we have to jump through a few hoops to connect to the tracker */
 
     /* First, check if tracker is already running */
-    tracker->state.transmitMode = ISD_INTERTRAX_SAMPLE_MODE;
+    tracker->event.transmitMode = ISD_INTERTRAX_SAMPLE_MODE;
     rs232SetSpeed(port, 38400L);
     num = tracker->numSamplesReceived;
     tdelay(0.1);
@@ -375,9 +375,9 @@ void ISD_requestTrackerUpdate(InterSenseTrackerType *tracker)
     {
         case ISD_PRECISION_SERIES:
 
-            if(tracker->state.transmitMode == IT_COM_SYS_POLLED)
+            if(tracker->event.transmitMode == IT_COM_SYS_POLLED)
             {
-                if(tracker->RecvUpdateFlag >= tracker->state.numActive ||
+                if(tracker->RecvUpdateFlag >= tracker->event.numActive ||
                      (timeNow() - tracker->LastReqTime) > 0.1)
                 {
                     tracker->LastReqTime = timeNow();
@@ -389,7 +389,7 @@ void ISD_requestTrackerUpdate(InterSenseTrackerType *tracker)
 
         case ISD_INTERTRAX_SERIES:
 
-            if(tracker->state.transmitMode == IT_COM_SYS_POLLED)
+            if(tracker->event.transmitMode == IT_COM_SYS_POLLED)
             {
                 if(tracker->RecvUpdateFlag > 0 ||
                     (timeNow() - tracker->LastReqTime) > 0.1)
@@ -474,7 +474,7 @@ IS_BOOL ISD_openTracker(InterSenseTrackerType *tracker,
     tracker->numBytesReceived = 0;
     tracker->numSamplesReceived = 0;
     tracker->hardware = ISD_NONE;
-    tracker->state.numActive = 0;
+    tracker->event.numActive = 0;
     tracker->RecordsPerSec = 0;
     tracker->KBitsPerSec = 0.0f;   
     tracker->applyPSEConfigPending = FALSE;
@@ -501,7 +501,7 @@ IS_BOOL ISD_openTracker(InterSenseTrackerType *tracker,
 
     if(tracker->hardware == ISD_INTERTRAX_SERIES)
     {
-        tracker->state.transmitMode = ISD_INTERTRAX_SAMPLE_MODE;
+        tracker->event.transmitMode = ISD_INTERTRAX_SAMPLE_MODE;
         return PASS;
     }
 
@@ -511,7 +511,7 @@ IS_BOOL ISD_openTracker(InterSenseTrackerType *tracker,
     /* set default station configuration */
     for (i = 1, status = TRUE; i <= ISD_MAX_STATIONS && status;  i++)
     {
-        /* no joystick button state unless requested by application */
+        /* no joystick button event unless requested by application */
         Station.GetButtons = FALSE;
 
         /* no time stamp unless requested by application */
@@ -550,7 +550,7 @@ IS_BOOL ISD_closeTracker(InterSenseTrackerType *tracker)
 
 /*****************************************************************************
 *
-*   functionName:   ISD_getCommState
+*   functionName:   ISD_getCommEvent
 *   Description:
 *   Created:        12/4/98
 *   Author:         Yury Altshuler
@@ -558,7 +558,7 @@ IS_BOOL ISD_closeTracker(InterSenseTrackerType *tracker)
 *   Comments:       
 *
 ******************************************************************************/
-IS_BOOL ISD_getCommState(InterSenseTrackerType *tracker, 
+IS_BOOL ISD_getCommEvent(InterSenseTrackerType *tracker, 
                                  ISD_TRACKER_TYPE *Tracker)
 {
     WORD systemModel[MAX_HARDWARE_VERSIONS] =
@@ -569,7 +569,7 @@ IS_BOOL ISD_getCommState(InterSenseTrackerType *tracker,
     
     if(tracker->hardware == ISD_PRECISION_SERIES)
     {
-        Tracker->TrackerModel = systemModel[toIndex(tracker->state.hardwareVersion)];   
+        Tracker->TrackerModel = systemModel[toIndex(tracker->event.hardwareVersion)];   
     }
     else
     {
@@ -586,7 +586,7 @@ IS_BOOL ISD_getCommState(InterSenseTrackerType *tracker,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_getTrackerState
+*   functionName:   ISD_getTrackerEvent
 *   Description:
 *   Created:        12/4/98
 *   Author:         Yury Altshuler
@@ -594,7 +594,7 @@ IS_BOOL ISD_getCommState(InterSenseTrackerType *tracker,
 *   Comments:       
 *
 ******************************************************************************/
-IS_BOOL ISD_getTrackerState(InterSenseTrackerType *tracker, 
+IS_BOOL ISD_getTrackerEvent(InterSenseTrackerType *tracker, 
                          ISD_TRACKER_TYPE *Tracker, IS_BOOL verbose)
 {
     WORD systemModel[MAX_HARDWARE_VERSIONS] =
@@ -605,7 +605,7 @@ IS_BOOL ISD_getTrackerState(InterSenseTrackerType *tracker,
     
     if(tracker->hardware == ISD_PRECISION_SERIES)
     {
-        Tracker->TrackerModel = systemModel[toIndex(tracker->state.hardwareVersion)];   
+        Tracker->TrackerModel = systemModel[toIndex(tracker->event.hardwareVersion)];   
     }
     else
     {
@@ -624,12 +624,12 @@ IS_BOOL ISD_getTrackerState(InterSenseTrackerType *tracker,
         if((status = itComUpdateStatusRecord(tracker, IT_COM_STATUS_REC_TIMEOUT)) == PASS)
         {
             /* genlock feature is available with firmware versions 3.016 and above */
-            if(tracker->state.firmwareVersion >= 3.0160f)
+            if(tracker->event.firmwareVersion >= 3.0160f)
             {
-                /* get sync state */
-                status = itComUpdateSyncState(tracker);
+                /* get sync event */
+                status = itComUpdateSyncEvent(tracker);
 
-                Tracker->SyncState = tracker->SyncState;  
+                Tracker->SyncEvent = tracker->SyncEvent;  
                 Tracker->SyncRate  = tracker->SyncRate;     
                 Tracker->SyncPhase = tracker->SyncPhase; 
             }
@@ -645,7 +645,7 @@ IS_BOOL ISD_getTrackerState(InterSenseTrackerType *tracker,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_setTrackerState
+*   functionName:   ISD_setTrackerEvent
 *   Description:
 *   Created:        12/4/98
 *   Author:         Yury Altshuler
@@ -653,7 +653,7 @@ IS_BOOL ISD_getTrackerState(InterSenseTrackerType *tracker,
 *   Comments:       
 *
 ******************************************************************************/
-IS_BOOL ISD_setTrackerState(InterSenseTrackerType *tracker, 
+IS_BOOL ISD_setTrackerEvent(InterSenseTrackerType *tracker, 
                          ISD_TRACKER_TYPE *Tracker, IS_BOOL verbose)
 {
     IS_BOOL status = FAIL;
@@ -661,21 +661,21 @@ IS_BOOL ISD_setTrackerState(InterSenseTrackerType *tracker,
     if(tracker->hardware == ISD_PRECISION_SERIES)
     {
         /* genlock is supported by firmware versions 3.0160 and higher */
-        if(tracker->state.firmwareVersion >= 3.0160f)
+        if(tracker->event.firmwareVersion >= 3.0160f)
         {
             /* send sync command */
-            itSendCommand(tracker, "MG%d,%.2f\r\n", (int) Tracker->SyncState, (float) Tracker->SyncRate);
+            itSendCommand(tracker, "MG%d,%.2f\r\n", (int) Tracker->SyncEvent, (float) Tracker->SyncRate);
             itSendCommand(tracker, "MGP%d\r\n", (int) Tracker->SyncPhase);
         }
     }
 
-    return ISD_getTrackerState(tracker, Tracker, verbose);
+    return ISD_getTrackerEvent(tracker, Tracker, verbose);
 }
 
 
 /*****************************************************************************
 *
-*   functionName:   ISD_getStationState
+*   functionName:   ISD_getStationEvent
 *   Description:
 *   Created:        12/4/98
 *   Author:         Yury Altshuler
@@ -683,7 +683,7 @@ IS_BOOL ISD_setTrackerState(InterSenseTrackerType *tracker,
 *   Comments:       
 *
 ******************************************************************************/
-IS_BOOL ISD_getStationState(InterSenseTrackerType *tracker, 
+IS_BOOL ISD_getStationEvent(InterSenseTrackerType *tracker, 
                          ISD_STATION_CONFIG_TYPE *Station,
                          WORD stationNum, IS_BOOL verbose)
 {
@@ -732,7 +732,7 @@ IS_BOOL ISD_getStationState(InterSenseTrackerType *tracker,
         status = itComUpdateStationStat(tracker, stationNum);
         if(status)
         {
-            Station->State = tracker->station[stationNum-1].state;
+            Station->Event = tracker->station[stationNum-1].event;
 
             status = itComUpdateSensorStat(tracker, stationNum);
             if(status)
@@ -746,7 +746,7 @@ IS_BOOL ISD_getStationState(InterSenseTrackerType *tracker,
                     Station->Prediction = tracker->station[stationNum-1].prediction;
 
                     /* InertiaCube assignment is a feature of firmware 3.0 and above */
-                    if(tracker->state.firmwareVersion >= 3.0f)
+                    if(tracker->event.firmwareVersion >= 3.0f)
                     {
                         status = itComUpdateImu(tracker, stationNum);
                         if(status)
@@ -802,9 +802,9 @@ IS_BOOL ISD_setOutputRecordList (InterSenseTrackerType *tracker,
     }
 
     /* only use time stamps if firmware version is greater than 3.0 */
-    if(tracker->state.firmwareVersion >= 3.0f)
+    if(tracker->event.firmwareVersion >= 3.0f)
     {
-        switch(tracker->state.hardwareVersion)
+        switch(tracker->event.hardwareVersion)
         {
             case IS300:
                 pos += sprintf(&command[pos], "O%c,%d", stationToChar(stationNum),
@@ -841,7 +841,7 @@ IS_BOOL ISD_setOutputRecordList (InterSenseTrackerType *tracker,
 
 /*****************************************************************************
 *
-*   functionName:   ISD_setStationState
+*   functionName:   ISD_setStationEvent
 *   Description:
 *   Created:        12/4/98
 *   Author:         Yury Altshuler
@@ -849,11 +849,11 @@ IS_BOOL ISD_setOutputRecordList (InterSenseTrackerType *tracker,
 *   Comments:       
 *
 ******************************************************************************/
-IS_BOOL ISD_setStationState (InterSenseTrackerType *tracker, 
+IS_BOOL ISD_setStationEvent (InterSenseTrackerType *tracker, 
                           ISD_STATION_CONFIG_TYPE *Station,
                           WORD stationNum, IS_BOOL verbose, IS_BOOL apply)
 {
-    ISD_STATION_CONFIG_TYPE PrevStationState;
+    ISD_STATION_CONFIG_TYPE PrevStationEvent;
 
     /* this function should only be used with IS series devices  */
     if(tracker->hardware != ISD_PRECISION_SERIES)
@@ -861,11 +861,11 @@ IS_BOOL ISD_setStationState (InterSenseTrackerType *tracker,
         return FAIL;
     }
 
-    /* start by obtaining current state of the station */
-    if(ISD_getStationState(tracker, &PrevStationState, stationNum, FALSE))
+    /* start by obtaining current event of the station */
+    if(ISD_getStationEvent(tracker, &PrevStationEvent, stationNum, FALSE))
     {
         /* check if any changes are requested */
-        if(memcmp((void *)&PrevStationState, 
+        if(memcmp((void *)&PrevStationEvent, 
                    (void *)&Station, sizeof(ISD_STATION_CONFIG_TYPE)) != 0)
         {
             if(verbose)
@@ -878,10 +878,10 @@ IS_BOOL ISD_setStationState (InterSenseTrackerType *tracker,
             itSendCommand(tracker, "MQ%c,%d\r\n", stationToChar(stationNum), (short)Station->Sensitivity);
             itSendCommand(tracker, "MF%c,%d\r\n", stationToChar(stationNum), (short)Station->Enhancement);
 
-            if(Station->State)   itSendCommand(tracker, "l%c,1\r\n", stationToChar(stationNum));
+            if(Station->Event)   itSendCommand(tracker, "l%c,1\r\n", stationToChar(stationNum));
             else                 itSendCommand(tracker, "l%c,0\r\n", stationToChar(stationNum));
 
-            if(tracker->state.firmwareVersion < 3.0160f)
+            if(tracker->event.firmwareVersion < 3.0160f)
             {    
                 if(Station->Compass != 0) itSendCommand(tracker, "MH%c\r\n", stationToChar(stationNum));
                 else                      itSendCommand(tracker, "Mh%c\r\n", stationToChar(stationNum));
@@ -892,13 +892,13 @@ IS_BOOL ISD_setStationState (InterSenseTrackerType *tracker,
             }
 
             /* only send InertiaCube command if different from current configuration */
-            if(PrevStationState.InertiaCube != Station->InertiaCube)
+            if(PrevStationEvent.InertiaCube != Station->InertiaCube)
             {
                 /* disassociate InertiaCube from the station */
-                if(Station->InertiaCube == -1 && PrevStationState.InertiaCube > 0)
+                if(Station->InertiaCube == -1 && PrevStationEvent.InertiaCube > 0)
                 {
                     itSendCommand(tracker, "MCi%c,%d\r\n", stationToChar(stationNum), 
-                        PrevStationState.InertiaCube);
+                        PrevStationEvent.InertiaCube);
 
                     if(apply)
                     {
@@ -929,7 +929,7 @@ IS_BOOL ISD_setStationState (InterSenseTrackerType *tracker,
                 ISD_printf(tracker, "done\n");
 
             /* confirm new configuration */
-            return(ISD_getStationState(tracker, Station, stationNum, verbose));
+            return(ISD_getStationEvent(tracker, Station, stationNum, verbose));
         }
     }
     return FAIL;
@@ -981,7 +981,7 @@ IS_BOOL ISD_configureTracker(InterSenseTrackerType *tracker, IS_BOOL verbose)
     /* Get system status parameters so that data records can be
        correctly interpreted */
 
-    status = ISD_getTrackerState(tracker, &Tracker, FALSE);
+    status = ISD_getTrackerEvent(tracker, &Tracker, FALSE);
 
     if(verbose)
         ISD_printf(tracker, "%s\n", status == PASS ? "done" : "failed");

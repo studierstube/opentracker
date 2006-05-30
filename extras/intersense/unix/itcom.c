@@ -172,7 +172,7 @@ void serviceSerialPort(InterSenseTrackerType *tracker)
 /*********************** ISD_INTERTRAX_serviceSerialPort *****************************/
 void ISD_INTERTRAX_serviceSerialPort(InterSenseTrackerType *tracker)
 {
-    if(tracker->state.transmitMode == IT_COM_SYS_POLLED)
+    if(tracker->event.transmitMode == IT_COM_SYS_POLLED)
     {
         ISD_INTERTRAX_serviceSerialPortPolled( tracker );
     }
@@ -433,14 +433,14 @@ static int computeRecordSize(InterSenseTrackerType *tracker, int station)
             case 5:
             case 6:
             case 7:
-                if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                     pos+=12;
                 else
                     pos+=21;
                 break;
  
             case 11:
-                if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                     pos+=16;
                 else
                     pos+=28;
@@ -460,14 +460,14 @@ static int computeRecordSize(InterSenseTrackerType *tracker, int station)
                 break;
 
             case 21:        /* time stamp */
-                if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                     pos+=4;
                 else
                     pos+=14;
                 break;
 
             case 22:        /* joystick buttons */
-                if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                     pos+=1;
                 else
                     pos+=5;
@@ -543,9 +543,9 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
 
                     case 2: /* position in meters */
                            
-                        linMult = (tracker->state.units==IT_COM_SYS_INCHES ? 0.0254f : 0.01f);
+                        linMult = (tracker->event.units==IT_COM_SYS_INCHES ? 0.0254f : 0.01f);
 
-                        if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                        if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                         {
                             if(numChars-pos >= 12)
                             {
@@ -573,7 +573,7 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                         break;
 
                     case 4: /* euler orientation angles in degrees */
-                        if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                        if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                         {
                             if(numChars-pos >= 12)
                             {
@@ -608,7 +608,7 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                         break;
 
                     case 11:  /* orientation quaternion format */
-                        if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                        if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                         {
                             if(numChars-pos >= 16)
                             {
@@ -682,13 +682,13 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                         break;
 
                     case 21:    /* time stamp */
-                        if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                        if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                         {
                             if(numChars-pos >= 4)
                             {
                                 tracker->station[station].TimeStamp = byteOrder(buffer);
 
-                                if(tracker->state.timeUnits == MICROSECONDS)
+                                if(tracker->event.timeUnits == MICROSECONDS)
                                 {
                                     tracker->station[station].TimeStamp /= 1000000.0f;
                                 }
@@ -706,7 +706,7 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                             {
                                 tracker->station[station].TimeStamp = values[0];
 
-                                if(tracker->state.timeUnits == MICROSECONDS)
+                                if(tracker->event.timeUnits == MICROSECONDS)
                                 {
                                     tracker->station[station].TimeStamp /= 1000000.0f;
                                 }
@@ -721,7 +721,7 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                         break;
 
                     case 22:
-                        if(tracker->state.outputFormat == IT_COM_SYS_BINARY)
+                        if(tracker->event.outputFormat == IT_COM_SYS_BINARY)
                         {
                             if(numChars-pos >= 1)
                             {
@@ -742,14 +742,14 @@ static void processSystemDataRecord(InterSenseTrackerType *tracker,
                             buffer = &cmdbuf[pos];
                         }
 
-                        tracker->station[station].ButtonState[0] = (int)(joystickByte & 0x01);
-                        tracker->station[station].ButtonState[1] = (int)(joystickByte & 0x02);
-                        tracker->station[station].ButtonState[2] = (int)(joystickByte & 0x04);
-                        tracker->station[station].ButtonState[3] = (int)(joystickByte & 0x08);
-                        tracker->station[station].ButtonState[4] = (int)(joystickByte & 0x10);
-                        tracker->station[station].ButtonState[5] = (int)(joystickByte & 0x20);
-                        tracker->station[station].ButtonState[6] = (int)(joystickByte & 0x40);
-                        tracker->station[station].ButtonState[7] = (int)(joystickByte & 0x80);
+                        tracker->station[station].ButtonEvent[0] = (int)(joystickByte & 0x01);
+                        tracker->station[station].ButtonEvent[1] = (int)(joystickByte & 0x02);
+                        tracker->station[station].ButtonEvent[2] = (int)(joystickByte & 0x04);
+                        tracker->station[station].ButtonEvent[3] = (int)(joystickByte & 0x08);
+                        tracker->station[station].ButtonEvent[4] = (int)(joystickByte & 0x10);
+                        tracker->station[station].ButtonEvent[5] = (int)(joystickByte & 0x20);
+                        tracker->station[station].ButtonEvent[6] = (int)(joystickByte & 0x40);
+                        tracker->station[station].ButtonEvent[7] = (int)(joystickByte & 0x80);
                         break;
 
                     default:
@@ -886,7 +886,7 @@ static IS_BOOL processSystemOutputListRecord(InterSenseTrackerType *tracker, cha
 
     if(station >= MAX_NUM_STATIONS) return FAIL;
 
-    if(tracker->state.firmwareVersion < 3.0f)
+    if(tracker->event.firmwareVersion < 3.0f)
     {
         /* Bug fix for INTRACK vervion 2.0.5b and below. Output List records
            are not terminated by CR and LF. To find the end of the output
@@ -966,39 +966,39 @@ static void processSystemStatusRecord(InterSenseTrackerType *tracker, char *cmdb
 
     if((statLow&IT_COM_SYS_OUT_BIT) == IT_COM_SYS_OUT_BIT)
     {
-        tracker->state.outputFormat = IT_COM_SYS_BINARY;
+        tracker->event.outputFormat = IT_COM_SYS_BINARY;
     }
     else
     {
-        tracker->state.outputFormat = IT_COM_SYS_ASCII;
+        tracker->event.outputFormat = IT_COM_SYS_ASCII;
     }
 
     if((statLow&IT_COM_SYS_UNITS_BIT) == IT_COM_SYS_UNITS_BIT)
     {
-        tracker->state.units = IT_COM_SYS_CENT;
+        tracker->event.units = IT_COM_SYS_CENT;
     }
     else
     {
-        tracker->state.units = IT_COM_SYS_INCHES;
+        tracker->event.units = IT_COM_SYS_INCHES;
     }
 
     if((statLow&IT_COM_SYS_TRANS_BIT) == IT_COM_SYS_TRANS_BIT)
     {
-        tracker->state.transmitMode = IT_COM_SYS_CONTINUOUS;
+        tracker->event.transmitMode = IT_COM_SYS_CONTINUOUS;
     }
     else
     {
-        tracker->state.transmitMode = IT_COM_SYS_POLLED;
+        tracker->event.transmitMode = IT_COM_SYS_POLLED;
     }
 
-    strncpy((char *)tracker->state.bitError, (char *)status.bitError, IT_COM_NUM_BIT_ERROR_BYTES);
-    strncpy((char *)tracker->state.ver, (char *)status.ver, IT_COM_NUM_VER_BYTES);
-    strncpy((char *)tracker->state.id, (char *)status.id, IT_COM_NUM_ID_BYTES);
+    strncpy((char *)tracker->event.bitError, (char *)status.bitError, IT_COM_NUM_BIT_ERROR_BYTES);
+    strncpy((char *)tracker->event.ver, (char *)status.ver, IT_COM_NUM_VER_BYTES);
+    strncpy((char *)tracker->event.id, (char *)status.id, IT_COM_NUM_ID_BYTES);
 
-    tracker->state.ver[IT_COM_NUM_VER_BYTES] = '\0';
-    tracker->state.id[IT_COM_NUM_ID_BYTES] = '\0';
+    tracker->event.ver[IT_COM_NUM_VER_BYTES] = '\0';
+    tracker->event.id[IT_COM_NUM_ID_BYTES] = '\0';
 
-    sscanf(tracker->state.ver, "%f", &tracker->state.firmwareVersion);
+    sscanf(tracker->event.ver, "%f", &tracker->event.firmwareVersion);
 
     tracker->ItComStatusUpdateFlag = TRUE;
 }
@@ -1037,7 +1037,7 @@ static void processIntrackSensorRecord(InterSenseTrackerType *tracker, char *cmd
         tracker->station[station].enhancement = 0;
     }
 
-    if(tracker->state.firmwareVersion < 3.0157f)
+    if(tracker->event.firmwareVersion < 3.0157f)
     {    
         if((statLow&IT_COM_SENSOR_YAW_COMP_MODE_BIT) == IT_COM_SENSOR_YAW_COMP_MODE_BIT)
         {
@@ -1055,7 +1055,7 @@ static void processIntrackSensorRecord(InterSenseTrackerType *tracker, char *cmd
             (((statLow & 0x04) == 0x04) ? 1 : 0);
     }
 
-    if(tracker->state.firmwareVersion >= 3.0f)
+    if(tracker->event.firmwareVersion >= 3.0f)
     {
         tracker->station[station].enhancement = min(statMed, MAX_PPF_LEVEL);
     }
@@ -1084,17 +1084,17 @@ static void processIntrackSystemRecord(InterSenseTrackerType *tracker, char *cmd
 
     if((statLow&IT_COM_SYS_TIME_BIT)==IT_COM_SYS_TIME_BIT)
     {
-        tracker->state.timeUnits = MICROSECONDS;
+        tracker->event.timeUnits = MICROSECONDS;
     }
     else
     {
-        tracker->state.timeUnits = MILLISECONDS;
+        tracker->event.timeUnits = MILLISECONDS;
     }
 
-    tracker->state.boresightMode = (statLow & IT_COM_SYS_BORESIGHT_BIT) ? 1 : 0;
-    tracker->state.ledEnable = (statLow & IT_COM_LED_ENABLE_BIT) ? 1 : 0;
-    tracker->state.win32Platform = statMed & IT_COM_PLATFORM_BIT;
-    tracker->state.productID = (BYTE) charToNum(cmdbuf[3]);
+    tracker->event.boresightMode = (statLow & IT_COM_SYS_BORESIGHT_BIT) ? 1 : 0;
+    tracker->event.ledEnable = (statLow & IT_COM_LED_ENABLE_BIT) ? 1 : 0;
+    tracker->event.win32Platform = statMed & IT_COM_PLATFORM_BIT;
+    tracker->event.productID = (BYTE) charToNum(cmdbuf[3]);
 
     tracker->ItComSystemUpdateFlag = TRUE;
 }
@@ -1133,19 +1133,19 @@ static void processSystemStationRecord(InterSenseTrackerType *tracker, char *cmd
     {
         for(i=0; i<MAX_NUM_STATIONS && i+3<numChars && cmdbuf[i+3] != '\r'; i++)
         {
-            tracker->station[i].state = (WORD)(cmdbuf[i+3]-0x30);
+            tracker->station[i].event = (WORD)(cmdbuf[i+3]-0x30);
         }
         tracker->ItComStationUpdateFlag = TRUE;
     }
 
     /* recompute number of active stations */
-    tracker->state.numActive = 0;
+    tracker->event.numActive = 0;
 
     for(i=0; i<MAX_NUM_STATIONS; i++)
     {
-        if(tracker->station[i].state)
+        if(tracker->station[i].event)
         {
-            tracker->state.numActive++;
+            tracker->event.numActive++;
         }
     }
 
@@ -1183,16 +1183,16 @@ static void processSensitivityRecord(InterSenseTrackerType *tracker, char *cmdbu
 /********************* processSyncRecord *********************/
 static void processSyncRecord(InterSenseTrackerType *tracker, char *cmdbuf, int numChars)
 {
-    int state, numFrames, numConverted;
+    int event, numFrames, numConverted;
     float rate;
 
     tracker->ItComSyncRecordFlag = TRUE;
 
-    numConverted = sscanf(&cmdbuf[2], "%d %f %d", &state, &rate, &numFrames);
+    numConverted = sscanf(&cmdbuf[2], "%d %f %d", &event, &rate, &numFrames);
 
     if(numConverted >= 2)
     {
-        tracker->SyncState = (WORD) state;
+        tracker->SyncEvent = (WORD) event;
         tracker->SyncRate = rate;
 
         tracker->ItComSyncRecordFlag = TRUE;
@@ -1331,15 +1331,15 @@ IS_BOOL itComUpdateIntrackSystemStat(InterSenseTrackerType *tracker, float timeO
 /* 28 Feb 2000 Set the hardware version to be IS900 to circumvent firmware problem */
 #if 1
                 /* default to IS-600 */
-                tracker->state.hardwareVersion = IS600;
+                tracker->event.hardwareVersion = IS600;
 
-                if(tracker->state.productID & IT_IS300)
-                    tracker->state.hardwareVersion = IS300;
+                if(tracker->event.productID & IT_IS300)
+                    tracker->event.hardwareVersion = IS300;
 
-                if(tracker->state.productID & IT_IS900)
-                    tracker->state.hardwareVersion = IS900;
+                if(tracker->event.productID & IT_IS900)
+                    tracker->event.hardwareVersion = IS900;
 #else
-tracker->state.hardwareVersion = IS900;
+tracker->event.hardwareVersion = IS900;
 #endif
 
                 return PASS;
@@ -1351,7 +1351,7 @@ tracker->state.hardwareVersion = IS900;
             }
         }
     }
-    tracker->state.hardwareVersion = IS300;
+    tracker->event.hardwareVersion = IS300;
     return FAIL;
 }
 
@@ -1484,8 +1484,8 @@ IS_BOOL itComUpdateSensitivityVal(InterSenseTrackerType *tracker, DWORD stationN
 }
 
 
-/************************ itComUpdateSyncState ********************/
-IS_BOOL itComUpdateSyncState(InterSenseTrackerType *tracker)
+/************************ itComUpdateSyncEvent ********************/
+IS_BOOL itComUpdateSyncEvent(InterSenseTrackerType *tracker)
 {
     float startTime;
     int attempt;

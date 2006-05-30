@@ -116,7 +116,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
             break;
         }
         
-        printf("\nStation\tTime\tState\tCube  Enhancement  Sensitivity  Compass  Prediction\n");
+        printf("\nStation\tTime\tEvent\tCube  Enhancement  Sensitivity  Compass  Prediction\n");
         
         for(i = 1; i <= numStations; i++)
         {
@@ -128,7 +128,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
                 
                 printf("%s\t%s\t%s\t   %u\t\t%u\t  %u\t  %u\n", 
                     Station.TimeStamped ? "ON" : "OFF", 
-                    Station.State ? "ON" : "OFF", 
+                    Station.Event ? "ON" : "OFF", 
                     Station.InertiaCube == -1 ? "None" : buf, 
                     Station.Enhancement, 
                     Station.Sensitivity, 
@@ -207,11 +207,11 @@ void showStationData( ISD_TRACKER_HANDLE             handle,
             // Currently available products have at most 5 buttons,
             // stylus has 2, wand has 5
             printf("%d%d%d%d%d ", 
-                (int) data->ButtonState[0], 
-                (int) data->ButtonState[1], 
-                (int) data->ButtonState[2], 
-                (int) data->ButtonState[3], 
-                (int) data->ButtonState[4]);
+                (int) data->ButtonEvent[0], 
+                (int) data->ButtonEvent[1], 
+                (int) data->ButtonEvent[2], 
+                (int) data->ButtonEvent[3], 
+                (int) data->ButtonEvent[4]);
 
             printf("%d %d ", data->AnalogData[0], data->AnalogData[1]); 
         }

@@ -180,13 +180,13 @@ typedef struct
     // Following items are used to configure the tracker and can be set in
     // the isenseX.ini file 
 
-    DWORD  SyncState;   // 4 states: 0 - OFF, system is in free run 
+    DWORD  SyncEvent;   // 4 events: 0 - OFF, system is in free run 
                         //           1 - ON, hardware genlock frequency is automatically determined
                         //           2 - ON, hardware genlock frequency is specified by the user
                         //           3 - ON, no hardware signal, lock to the user specified frequency  
 
     float  SyncRate;    // Sync frequency - number of hardware sync signals per second, 
-                        // or, if SyncState is 3 - data record output frequency 
+                        // or, if SyncEvent is 3 - data record output frequency 
 
     DWORD  SyncPhase;   // 0 to 100 per cent    
 
@@ -221,7 +221,7 @@ typedef struct
                             // passed to the ISD_SetStationConfig and ISD_GetStationConfig   
                             // functions and can be 1 to ISD_MAX_STATIONS 
 
-    Bool    State;          // TRUE if ON, FALSE if OFF 
+    Bool    Event;          // TRUE if ON, FALSE if OFF 
 
     Bool    Compass;        // 0, 1 or 2 for OFF, PARTIAL and FULL. Older versions of tracker
                             // firmware supported only 0 and 1, which stood for ON or OFF. Please
@@ -289,7 +289,7 @@ typedef struct
     float   Position[3];      // Always in meters 
     float   TimeStamp;        // Seconds, reported only if requested 
     
-    Bool    ButtonState[ISD_MAX_BUTTONS];    // Only if requested 
+    Bool    ButtonEvent[ISD_MAX_BUTTONS];    // Only if requested 
 
     // Current hardware is limited to 10 channels, only 2 are used. 
     // The only device using this is the IS-900 wand that has a built-in
