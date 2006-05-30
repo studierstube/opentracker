@@ -7,19 +7,19 @@
 CFG=opentracker - Win32 (WCE ARMV4) Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentracker.vcn".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentracker.vcn" CFG="opentracker - Win32 (WCE ARMV4) Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "opentracker - Win32 (WCE ARMV4) Release" (based on "Win32 (WCE ARMV4) Dynamic-Link Library")
 !MESSAGE "opentracker - Win32 (WCE ARMV4) Debug" (based on "Win32 (WCE ARMV4) Dynamic-Link Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -93,7 +93,7 @@ LINK32="C:\Program Files\Microsoft eMbedded C++ 4.0\EVC\WCE500\bin\xilinke44"
 # ADD LINK32 commctrl.lib coredll.lib Ccrtrtti.lib ACEd.lib gpp_WMMX40_d.lib /nologo /base:"0x00100000" /stack:0x10000,0x1000 /entry:"_DllMainCRTStartup" /dll /pdb:"../../lib/PPC2003/opentrackerd.pdb" /debug /nodefaultlib:"$(CENoDefaultLib)" /out:"../../bin/PPC2003/opentrackerd.dll" /implib:"../../lib/PPC2003/opentrackerd.lib" /libpath:"$(ACEROOT)/lib/PPC2003" /libpath:"$(TINYXMLMODROOT)/lib/PPC2003" /libpath:"$(INTELGPPROOT)/lib" /libpath:"$(ARTOOLKITPLUSROOT)/lib/PPC2003" /subsystem:$(CESubsystem) /align:"4096" /MACHINE:ARM
 # SUBTRACT LINK32 /pdb:none
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -204,7 +204,7 @@ DEP_CPP_CONFI=\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
 	"..\..\src\core\RefNode.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -212,7 +212,7 @@ DEP_CPP_CONFI=\
 	"..\..\src\tool\FixWinCE.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
 	"..\..\src\tool\XMLSelection.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -385,14 +385,14 @@ DEP_CPP_CONTE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\FixWinCE.h"\
 	"..\..\src\tool\XMLSelection.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -415,9 +415,9 @@ DEP_CPP_EVENT=\
 	"..\..\config_win.h"\
 	"..\..\src\core\EventQueueImplementation.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\dllinclude.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -430,7 +430,7 @@ DEP_CPP_MATHU=\
 	"..\..\config_win.h"\
 	"..\..\src\core\MathUtils.h"\
 	"..\..\src\dllinclude.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -456,13 +456,13 @@ DEP_CPP_NODE_=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\XMLSelection.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -481,11 +481,11 @@ DEP_CPP_NODEF=\
 	"..\..\src\core\NodeFactory.h"\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -574,7 +574,7 @@ DEP_CPP_OSUTI=\
 	"..\..\config_win.h"\
 	"..\..\src\core\OSUtils.h"\
 	"..\..\src\dllinclude.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -586,17 +586,45 @@ SOURCE=..\..\src\core\RefNode.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.cxx
+SOURCE=..\..\src\core\Event.cxx
 DEP_CPP_STATE=\
 	"..\..\config_win.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\dllinclude.h"\
-	
+
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.h
+SOURCE=..\..\src\core\Event.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttributeBase.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttributeBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.h
 # End Source File
 # Begin Source File
 
@@ -606,7 +634,7 @@ DEP_CPP_STRIN=\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -695,13 +723,13 @@ DEP_CPP_TESTM=\
 	"..\..\src\core\Node.h"\
 	"..\..\src\core\NodeFactory.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\TestModule.h"\
 	"..\..\src\core\TestSource.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -816,11 +844,11 @@ DEP_CPP_THREA=\
 	"..\..\src\core\Module.h"\
 	"..\..\src\core\Node.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -917,13 +945,13 @@ DEP_CPP_BUTTO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1017,13 +1045,13 @@ DEP_CPP_BUTTON=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1044,13 +1072,13 @@ DEP_CPP_BUTTONH=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1071,13 +1099,13 @@ DEP_CPP_BUTTONO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1171,14 +1199,14 @@ DEP_CPP_CALLB=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1296,14 +1324,14 @@ DEP_CPP_COMMO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1324,13 +1352,13 @@ DEP_CPP_CONFID=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1351,13 +1379,13 @@ DEP_CPP_CONFIDE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1378,14 +1406,14 @@ NODEP_CPP_CONSO=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
 	".\src\common\ConsoleModule.h"\
 	".\src\common\ConsoleSink.h"\
 	".\src\common\ConsoleSource.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -1418,13 +1446,13 @@ DEP_CPP_DYNAM=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1445,13 +1473,13 @@ DEP_CPP_ELAST=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1473,13 +1501,13 @@ DEP_CPP_ELLIP=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1501,13 +1529,13 @@ DEP_CPP_EVENTQ=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1607,14 +1635,14 @@ DEP_CPP_FILEM=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1643,13 +1671,13 @@ DEP_CPP_FILTE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1671,13 +1699,13 @@ DEP_CPP_GKTRA=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1771,13 +1799,13 @@ DEP_CPP_GROUP=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1871,13 +1899,13 @@ DEP_CPP_GROUPG=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1971,13 +1999,13 @@ DEP_CPP_INTER=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -1999,13 +2027,13 @@ DEP_CPP_INVER=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2098,12 +2126,12 @@ DEP_CPP_LOGMO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2125,13 +2153,13 @@ DEP_CPP_MATRI=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2152,13 +2180,13 @@ DEP_CPP_MERGE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2179,12 +2207,12 @@ DEP_CPP_POSIT=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2205,13 +2233,13 @@ DEP_CPP_RANGE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2232,13 +2260,13 @@ DEP_CPP_SELEC=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2260,13 +2288,13 @@ DEP_CPP_STATI=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2287,13 +2315,13 @@ DEP_CPP_THRES=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2314,13 +2342,13 @@ DEP_CPP_TIMEG=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2413,13 +2441,13 @@ DEP_CPP_TIMEM=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2440,13 +2468,13 @@ DEP_CPP_TRANS=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2469,13 +2497,13 @@ DEP_CPP_VIRTU=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2563,7 +2591,7 @@ NODEP_CPP_ARTDA=\
 	"..\ACE_5_3_3\ace\Unbounded_Queue.inl"\
 	".\src\input\ARTDataTrackerChomp.h"\
 	".\src\tool\disable4786.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -2670,7 +2698,7 @@ DEP_CPP_ARTDAT=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -2679,7 +2707,7 @@ DEP_CPP_ARTDAT=\
 	"..\..\src\input\ARTDataTrackerSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -2840,7 +2868,7 @@ DEP_CPP_ARTOO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -2850,7 +2878,7 @@ DEP_CPP_ARTOO=\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -2946,7 +2974,7 @@ DEP_CPP_CYBER=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -2954,10 +2982,10 @@ DEP_CPP_CYBER=\
 	"..\..\src\input\CyberMouseSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 NODEP_CPP_CYBER=\
 	"..\..\src\input\freeddll.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -3224,9 +3252,8 @@ DEP_CPP_DGPSI=\
 	"..\..\src\input\DGPSIP_Handler.h"\
 	"..\..\src\input\GPSDriver.h"\
 	"..\..\src\input\GPSParser.h"\
-	"..\..\src\input\rtcm.h"\
 	"..\..\src\tool\FixWinCE.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -3488,7 +3515,7 @@ DEP_CPP_DGPSM=\
 	"..\..\src\input\DGPSMirror_Handler.h"\
 	"..\..\src\input\GPSDriver.h"\
 	"..\..\src\input\GPSParser.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -3583,14 +3610,14 @@ NODEP_CPP_DYNAS=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
 	".\src\input\DynaSightModule.h"\
 	".\src\tool\disable4786.h"\
 	".\src\tool\OT_ACE_Log.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -3690,7 +3717,7 @@ NODEP_CPP_FASTT=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
@@ -3698,7 +3725,7 @@ NODEP_CPP_FASTT=\
 	".\src\input\FastTrakSource.h"\
 	".\src\tool\disable4786.h"\
 	".\src\tool\OT_ACE_Log.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -3798,7 +3825,7 @@ NODEP_CPP_FOBMO=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
@@ -3806,7 +3833,7 @@ NODEP_CPP_FOBMO=\
 	".\src\input\FOBSource.h"\
 	".\src\tool\disable4786.h"\
 	".\src\tool\OT_ACE_Log.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -4076,7 +4103,7 @@ DEP_CPP_GPS_H=\
 	"..\..\src\input\GPSDriver.h"\
 	"..\..\src\input\GPSParser.h"\
 	"..\..\src\tool\FixWinCE.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -4366,7 +4393,7 @@ DEP_CPP_GPSDR=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -4379,7 +4406,7 @@ DEP_CPP_GPSDR=\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\FixWinCE.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -4574,7 +4601,7 @@ DEP_CPP_GPSMO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -4589,7 +4616,7 @@ DEP_CPP_GPSMO=\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\FixWinCE.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -4742,7 +4769,7 @@ DEP_CPP_GPSPA=\
 	"..\..\..\Ace_5_3_3\ace\Unbounded_Set.h"\
 	"..\..\..\Ace_5_3_3\ace\Unbounded_Set.inl"\
 	"..\..\src\input\GPSParser.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -4839,7 +4866,7 @@ NODEP_CPP_INTERS=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
@@ -4847,7 +4874,7 @@ NODEP_CPP_INTERS=\
 	".\src\input\InterSenseSource.h"\
 	".\src\tool\disable4786.h"\
 	".\src\tool\StringAligner.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -4873,7 +4900,7 @@ DEP_CPP_JOYST=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -4881,7 +4908,7 @@ DEP_CPP_JOYST=\
 	"..\..\src\input\JoystickSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5007,7 +5034,7 @@ DEP_CPP_MAGIC=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5016,7 +5043,7 @@ DEP_CPP_MAGIC=\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
 	"..\..\src\tool\FixWinCE.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5126,7 +5153,7 @@ DEP_CPP_MULTI=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5134,7 +5161,7 @@ DEP_CPP_MULTI=\
 	"..\..\src\input\MulticastInputModule.h"\
 	"..\..\src\input\MulticastInputSource.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5158,7 +5185,7 @@ DEP_CPP_P5GLO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5166,10 +5193,10 @@ DEP_CPP_P5GLO=\
 	"..\..\src\input\P5GloveSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 NODEP_CPP_P5GLO=\
 	"..\..\src\input\P5dll.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5195,90 +5222,6 @@ SOURCE=..\..\src\input\ParButtonSource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\input\rtcm.cxx
-DEP_CPP_RTCM_=\
-	"..\..\..\Ace_5_3_3\ace\ACE_export.h"\
-	"..\..\..\Ace_5_3_3\ace\ace_wchar.h"\
-	"..\..\..\Ace_5_3_3\ace\ace_wchar.inl"\
-	"..\..\..\Ace_5_3_3\ace\ARGV.h"\
-	"..\..\..\Ace_5_3_3\ace\ARGV.i"\
-	"..\..\..\Ace_5_3_3\ace\Argv_Type_Converter.h"\
-	"..\..\..\Ace_5_3_3\ace\Argv_Type_Converter.inl"\
-	"..\..\..\Ace_5_3_3\ace\Base_Thread_Adapter.h"\
-	"..\..\..\Ace_5_3_3\ace\Base_Thread_Adapter.inl"\
-	"..\..\..\Ace_5_3_3\ace\Basic_Types.h"\
-	"..\..\..\Ace_5_3_3\ace\Basic_Types.i"\
-	"..\..\..\Ace_5_3_3\ace\config-all.h"\
-	"..\..\..\Ace_5_3_3\ace\config-borland-common.h"\
-	"..\..\..\Ace_5_3_3\ace\config-g++-common.h"\
-	"..\..\..\Ace_5_3_3\ace\config-ghs-common.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-borland.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-common.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-ghs.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-mingw.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-msvc-5.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-msvc-6.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-msvc-7.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-msvc.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32-visualage.h"\
-	"..\..\..\Ace_5_3_3\ace\config-win32.h"\
-	"..\..\..\Ace_5_3_3\ace\config-WinCE.h"\
-	"..\..\..\Ace_5_3_3\ace\config.h"\
-	"..\..\..\Ace_5_3_3\ace\Default_Constants.h"\
-	"..\..\..\Ace_5_3_3\ace\Global_Macros.h"\
-	"..\..\..\Ace_5_3_3\ace\iosfwd.h"\
-	"..\..\..\Ace_5_3_3\ace\Log_Msg.h"\
-	"..\..\..\Ace_5_3_3\ace\Log_Msg_Callback.h"\
-	"..\..\..\Ace_5_3_3\ace\Log_Priority.h"\
-	"..\..\..\Ace_5_3_3\ace\Malloc_Base.h"\
-	"..\..\..\Ace_5_3_3\ace\Managed_Object.cpp"\
-	"..\..\..\Ace_5_3_3\ace\Managed_Object.h"\
-	"..\..\..\Ace_5_3_3\ace\Managed_Object.i"\
-	"..\..\..\Ace_5_3_3\ace\Min_Max.h"\
-	"..\..\..\Ace_5_3_3\ace\Node.cpp"\
-	"..\..\..\Ace_5_3_3\ace\Node.h"\
-	"..\..\..\Ace_5_3_3\ace\Object_Manager.h"\
-	"..\..\..\Ace_5_3_3\ace\Object_Manager.i"\
-	"..\..\..\Ace_5_3_3\ace\OS.h"\
-	"..\..\..\Ace_5_3_3\ace\OS.i"\
-	"..\..\..\Ace_5_3_3\ace\OS_Dirent.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_Dirent.inl"\
-	"..\..\..\Ace_5_3_3\ace\OS_Errno.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_Errno.inl"\
-	"..\..\..\Ace_5_3_3\ace\OS_Export.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_Log_Msg_Attributes.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_Log_Msg_Attributes.inl"\
-	"..\..\..\Ace_5_3_3\ace\OS_Memory.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_Memory.inl"\
-	"..\..\..\Ace_5_3_3\ace\OS_String.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_String.inl"\
-	"..\..\..\Ace_5_3_3\ace\OS_TLI.h"\
-	"..\..\..\Ace_5_3_3\ace\OS_TLI.inl"\
-	"..\..\..\Ace_5_3_3\ace\post.h"\
-	"..\..\..\Ace_5_3_3\ace\pre.h"\
-	"..\..\..\Ace_5_3_3\ace\streams.h"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Adapter.h"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Adapter.inl"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Control.h"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Control.inl"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Exit.h"\
-	"..\..\..\Ace_5_3_3\ace\Thread_Hook.h"\
-	"..\..\..\Ace_5_3_3\ace\Time_Value.h"\
-	"..\..\..\Ace_5_3_3\ace\Time_Value.inl"\
-	"..\..\..\Ace_5_3_3\ace\Trace.h"\
-	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.cpp"\
-	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.h"\
-	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.inl"\
-	"..\..\src\input\rtcm.h"\
-	"..\..\src\tool\disable4786.h"\
-	
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\input\rtcm.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\input\SpaceMouseModule.cxx
 DEP_CPP_SPACE=\
 	"..\..\config_win.h"\
@@ -5291,7 +5234,7 @@ DEP_CPP_SPACE=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5299,12 +5242,12 @@ DEP_CPP_SPACE=\
 	"..\..\src\input\SpaceMouseSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 NODEP_CPP_SPACE=\
 	"..\..\src\input\si.h"\
 	"..\..\src\input\siapp.h"\
 	"..\..\src\input\spwmacro.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5328,7 +5271,7 @@ DEP_CPP_SPEEC=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5338,7 +5281,7 @@ DEP_CPP_SPEEC=\
 	"..\..\src\input\SpeechSet.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5366,7 +5309,7 @@ DEP_CPP_SPEECH=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5380,7 +5323,7 @@ DEP_CPP_SPEECH=\
 	"..\..\src\input\SpeechVoiceModule.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5400,7 +5343,7 @@ DEP_CPP_SPEECHS=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5410,7 +5353,7 @@ DEP_CPP_SPEECHS=\
 	"..\..\src\input\SpeechSet.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5438,7 +5381,7 @@ DEP_CPP_SPEECHV=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5449,7 +5392,7 @@ DEP_CPP_SPEECHV=\
 	"..\..\src\input\SpeechVoice.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5469,7 +5412,7 @@ DEP_CPP_SPEECHVO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5479,7 +5422,7 @@ DEP_CPP_SPEECHVO=\
 	"..\..\src\input\SpeechVoiceModule.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5585,14 +5528,14 @@ DEP_CPP_ULTRA=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\input\UltraTrakModule.h"\
 	"..\..\src\input\UltraTrakSource.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5688,7 +5631,7 @@ DEP_CPP_WACOM=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -5696,11 +5639,11 @@ DEP_CPP_WACOM=\
 	"..\..\src\input\WacomGraphireSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 NODEP_CPP_WACOM=\
 	"..\..\src\input\pktdef.h"\
 	"..\..\src\input\wintab.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -5797,13 +5740,13 @@ NODEP_CPP_XSENS=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
 	".\src\input\XSensModule.h"\
 	".\src\input\XSensSource.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -5898,12 +5841,12 @@ NODEP_CPP_XSENSS=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\
 	".\src\input\XSensSource.h"\
-	
+
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -6043,7 +5986,7 @@ DEP_CPP_OPENT=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\TestModule.h"\
 	"..\..\src\core\ThreadModule.h"\
@@ -6090,12 +6033,12 @@ DEP_CPP_OPENT=\
 	"..\..\src\network\TCPSink.h"\
 	"..\..\src\network\VRPNModule.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 NODEP_CPP_OPENT=\
 	"..\..\src\input\P5dll.h"\
 	"..\..\src\input\UClientAPI\data_client.h"\
 	"..\..\src\input\UClientAPI\location_client.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6133,7 +6076,7 @@ DEP_CPP_XMLWR=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6141,7 +6084,7 @@ DEP_CPP_XMLWR=\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
 	"..\..\src\tool\XMLSelection.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6165,7 +6108,7 @@ DEP_CPP_DWARF=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6174,7 +6117,7 @@ DEP_CPP_DWARF=\
 	"..\..\src\network\DwarfSource.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\disable4786.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6341,7 +6284,7 @@ DEP_CPP_NETWO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6349,7 +6292,7 @@ DEP_CPP_NETWO=\
 	"..\..\src\network\NetworkSinkModule.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6517,7 +6460,7 @@ DEP_CPP_NETWOR=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6525,7 +6468,7 @@ DEP_CPP_NETWOR=\
 	"..\..\src\network\NetworkSourceModule.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6643,7 +6586,7 @@ DEP_CPP_TCPMO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6651,7 +6594,7 @@ DEP_CPP_TCPMO=\
 	"..\..\src\network\TCPSink.h"\
 	"..\..\src\OpenTracker.h"\
 	"..\..\src\tool\OT_ACE_Log.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6747,7 +6690,7 @@ DEP_CPP_VRPNM=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
@@ -6755,7 +6698,7 @@ DEP_CPP_VRPNM=\
 	"..\..\src\network\VRPNSink.h"\
 	"..\..\src\network\VRPNSource.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6775,13 +6718,13 @@ DEP_CPP_VRPNS=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\network\VRPNSink.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6873,13 +6816,13 @@ DEP_CPP_VRPNSO=\
 	"..\..\src\core\NodeFactoryContainer.h"\
 	"..\..\src\core\NodePort.h"\
 	"..\..\src\core\OSUtils.h"\
-	"..\..\src\core\State.h"\
+	"..\..\src\core\Event.h"\
 	"..\..\src\core\StringTable.h"\
 	"..\..\src\core\ThreadModule.h"\
 	"..\..\src\dllinclude.h"\
 	"..\..\src\network\VRPNSource.h"\
 	"..\..\src\OpenTracker.h"\
-	
+
 # End Source File
 # Begin Source File
 
@@ -6965,7 +6908,7 @@ DEP_CPP_OT_AC=\
 	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.cpp"\
 	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.h"\
 	"..\..\..\Ace_5_3_3\ace\Unbounded_Queue.inl"\
-	
+
 # End Source File
 # Begin Source File
 

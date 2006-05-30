@@ -283,11 +283,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.cxx"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\common\EventQueueNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.cxx"
 				>
 			</File>
 			<File
@@ -471,10 +483,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.cxx"
 				>
 			</File>
@@ -512,6 +520,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.cxx"
 				>
 			</File>
 			<File
@@ -713,11 +725,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\common\EventQueueNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.h"
 				>
 			</File>
 			<File
@@ -1001,10 +1029,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.h"
 				>
 			</File>
@@ -1078,6 +1102,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.h"
 				>
 			</File>
 			<File

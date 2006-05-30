@@ -7,19 +7,19 @@
 CFG=opentrackerLib - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentrackerLib.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentrackerLib.mak" CFG="opentrackerLib - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "opentrackerLib - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "opentrackerLib - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -76,7 +76,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../lib/Win32/opentrackerLibD.lib"
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -363,7 +363,19 @@ SOURCE=..\..\src\input\SpeechVoiceModule.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.cxx
+SOURCE=..\..\src\core\Event.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttributeBase.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.cxx
 # End Source File
 # Begin Source File
 
@@ -871,7 +883,23 @@ SOURCE=..\..\src\input\SpeechVoiceModule.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.h
+SOURCE=..\..\src\core\Event.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttributeBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.h
 # End Source File
 # Begin Source File
 

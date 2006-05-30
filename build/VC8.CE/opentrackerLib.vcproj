@@ -486,7 +486,19 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\core\State.cxx"
+					RelativePath="..\..\src\core\Event.cxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\core\EventAttributeBase.cxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\core\Translator.cxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\common\EventUtilityNode.cxx"
 					>
 				</File>
 				<File

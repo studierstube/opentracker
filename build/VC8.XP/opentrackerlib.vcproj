@@ -439,7 +439,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.cxx"
+				RelativePath="..\..\src\core\Event.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.cxx"
 				>
 			</File>
 			<File
@@ -969,7 +981,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.h"
+				RelativePath="..\..\src\core\Event.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.h"
 				>
 			</File>
 			<File

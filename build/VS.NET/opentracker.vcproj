@@ -337,7 +337,7 @@
 				RelativePath="..\..\src\input\SpeechVoiceModule.cxx">
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.cxx">
+				RelativePath="..\..\src\core\Event.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\common\StaticTransformation.cxx">
@@ -732,7 +732,7 @@
 				RelativePath="..\..\src\input\SpeechVoiceModule.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\State.h">
+				RelativePath="..\..\src\core\Event.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\StaticTransformation.h">

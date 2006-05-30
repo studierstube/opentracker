@@ -7,19 +7,19 @@
 CFG=opentracker - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentracker.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "opentracker.mak" CFG="opentracker - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "opentracker - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "opentracker - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -85,7 +85,7 @@ LINK32=link.exe
 # ADD LINK32 aced.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"../../lib/Win32/opentrackerd.pdb" /debug /machine:I386 /out:"../../bin/Win32/opentrackerd.dll" /implib:"../../lib/Win32/opentrackerd.lib" /pdbtype:sept /libpath:"$(ACEROOT)/ace" /libpath:"$(ACEROOT)/lib.vc6" /libpath:"$(XERCESCROOT)/bin_win32" /libpath:"$(ARTOOLKITROOT)/lib.vc60" /libpath:"../wintab/lib" /libpath:"$(VRPNROOT)/vrpn/pc_win32/Release" /libpath:"$(TINYXMLROOT)/lib" /libpath:"$(TINYXMLMODROOT)/lib/Win32" /libpath:"$(OPENVIDEOROOT)/lib" /libpath:"$(ARTOOLKITPLUSROOT)/lib/Win32"
 # SUBTRACT LINK32 /pdb:none
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -372,7 +372,19 @@ SOURCE=..\..\src\input\SpeechVoiceModule.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.cxx
+SOURCE=..\..\src\core\EventAttributeBase.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Event.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.cxx
 # End Source File
 # Begin Source File
 
@@ -880,7 +892,23 @@ SOURCE=..\..\src\input\SpeechVoiceModule.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\core\State.h
+SOURCE=..\..\src\core\EventAttributeBase.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\EventAttribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Event.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\core\Translator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\common\EventUtilityNode.h
 # End Source File
 # Begin Source File
 
