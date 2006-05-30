@@ -135,7 +135,7 @@
 	src/tool/tool.dsp, opentracker.dsw:
 	
 	added GUI tool for OpenTracker based on QT.  Currently in very
-	alpha state but working.
+	alpha event but working.
 
 2001-11-21 12:43  reitmayr
 
@@ -502,7 +502,7 @@
 	core/ConfigurationParser.h, core/Context.cxx, core/Context.h,
 	core/EventQueueImplementation.h, core/Node.cxx, core/Node.h,
 	core/NodeFactory.h, core/NodeFactoryContainer.cxx,
-	core/NodeFactoryContainer.h, core/RefNode.h, core/State.h,
+	core/NodeFactoryContainer.h, core/RefNode.h, core/Event.h,
 	core/StringTable.cxx, core/StringTable.h, core/TestModule.cxx,
 	core/TestModule.h, core/TestSource.h, core/WrapperNode.cxx,
 	core/WrapperNode.h, input/ARToolKitModule.cxx,
@@ -706,9 +706,9 @@
 
 2001-06-12 00:01  reitmayr
 
-	* src/core/: OSUtils.h, State.h:
+	* src/core/: OSUtils.h, Event.h:
 	
-	updated State to also use OSUtils, added documentation
+	updated Event to also use OSUtils, added documentation
 
 2001-06-12 00:01  reitmayr
 
@@ -768,7 +768,7 @@
 
 	* src/common/: ConsoleModule.cxx, ConsoleModule.h:
 	
-	changed button interface : a keystroke now toggles the button state
+	changed button interface : a keystroke now toggles the button event
 	between pressed and released
 
 2001-05-28 17:24  reitmayr
@@ -1024,7 +1024,7 @@
 	common/StaticTransformation.h, common/Transformation.h,
 	common/VirtualTransformation.h, core/DOMTreeErrorReporter.h,
 	core/Module.h, core/Node.cxx, core/Node.h, core/NodeFactory.h,
-	core/NodeFactoryContainer.h, core/RefNode.h, core/State.h,
+	core/NodeFactoryContainer.h, core/RefNode.h, core/Event.h,
 	core/StringTable.cxx, core/StringTable.h, core/TestModule.h,
 	core/TestSource.h, core/ThreadModule.h, core/WrapperNode.h,
 	input/ARToolKitModule.h, input/ARToolKitSource.h,
@@ -1056,7 +1056,7 @@
 	* src/: common/DynamicTransformation.cxx, common/MergeNode.cxx,
 	common/StaticTransformation.cxx, common/Transformation.cxx,
 	core/Context.h, core/EventQueueImplementation.cxx, core/Makefile,
-	core/Node.cxx, core/Node.h, core/State.cxx, core/ThreadModule.cxx,
+	core/Node.cxx, core/Node.h, core/Event.cxx, core/ThreadModule.cxx,
 	core/ThreadModule.h, input/CyberMouseModule.cxx,
 	input/CyberMouseModule.h, input/CyberMouseSource.h,
 	input/InterTraxModule.cxx, input/InterTraxSource.h,
@@ -1266,8 +1266,8 @@
 	core/EventQueueImplementation.cxx, core/EventQueueImplementation.h,
 	core/MathUtils.cxx, core/MathUtils.h, core/Module.h, core/Node.cxx,
 	core/Node.h, core/NodeFactory.h, core/NodeFactoryContainer.cxx,
-	core/NodeFactoryContainer.h, core/RefNode.h, core/State.cxx,
-	core/State.h, core/TestModule.cxx, core/TestModule.h,
+	core/NodeFactoryContainer.h, core/RefNode.h, core/Event.cxx,
+	core/Event.h, core/TestModule.cxx, core/TestModule.h,
 	core/TestSource.h, core/ThreadModule.cxx, core/ThreadModule.h,
 	core/WrapperNode.cxx, core/WrapperNode.h,
 	input/ARToolKitModule.cxx, input/ARToolKitModule.h,
@@ -1339,7 +1339,7 @@
 	src/core/MathUtils.h, src/core/Module.h, src/core/Node.cxx,
 	src/core/Node.h, src/core/NodeFactory.h,
 	src/core/NodeFactoryContainer.h, src/core/RefNode.h,
-	src/core/State.cxx, src/core/State.h, src/core/TestModule.h,
+	src/core/Event.cxx, src/core/Event.h, src/core/TestModule.h,
 	src/core/TestSource.h, src/core/ThreadModule.h,
 	src/core/TimeDependend.h, src/core/TreeNode.cxx,
 	src/core/TreeNode.h, src/core/WrapperNode.cxx,
@@ -1620,7 +1620,7 @@
 	src/core/EventQueueImplementation.h, src/core/EventQueueNode.cxx,
 	src/core/EventQueueNode.h, src/core/MathUtils.h, src/core/Module.h,
 	src/core/Node.h, src/core/NodeFactory.h,
-	src/core/NodeFactoryContainer.h, src/core/State.h,
+	src/core/NodeFactoryContainer.h, src/core/Event.h,
 	src/core/TestModule.h, src/core/ThreadModule.h,
 	src/core/TimeDependend.h, src/core/Transformation.cxx,
 	src/core/Transformation.h, src/core/TreeNode.h,
@@ -1666,7 +1666,7 @@
 	core/ConfigNode.h, core/ConfigurationParser.cxx,
 	core/ConfigurationParser.h, core/Context.cxx,
 	core/EventQueueNode.h, core/Module.h, core/OpenTracker.cxx,
-	core/OpenTracker.h, core/State.h, core/main.cxx:
+	core/OpenTracker.h, core/Event.h, core/main.cxx:
 	
 	some restructuring of headers, fixes etc.
 

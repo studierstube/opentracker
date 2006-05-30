@@ -114,9 +114,9 @@
         is now ready to perform any computations.</p>      <p>Next the member function <span class="name">start</span> tells all modules 
         that the processing is about to begin. Then the following member functions 
         are called in order in a loop to process the data flow.</p>      <ol>
-        <li><span class="name">pushStates</span> - calls pushStates on all modules 
+        <li><span class="name">pushEvents</span> - calls pushEvents on all modules 
           to create new events and process them. </li>
-        <li><span class="name">pullStates</span> - calls pullStates on all modules 
+        <li><span class="name">pullEvents</span> - calls pullEvents on all modules 
           to read data out of the data flow graph and process any Queue an Timedependend 
           nodes.</li>
         <li><span class="name">stop</span> - queries all modules, if they encountered 
@@ -138,8 +138,8 @@ context.start();                                       // start the context when
 while( context.stop() != 1 &amp;&amp; quit != 1 )              // loop until context our your code quits
 {
     ... do your own processing
-    context.pushState();                               // push state and
-    context.pullState();                               // pull state
+    context.pushEvent();                               // push event and
+    context.pullEvent();                               // pull event
 }
 ... your own cleanup
 context.close();                                       // clean up finally</pre></div>
@@ -157,7 +157,7 @@ context.run();                                         // does everything for yo
         a pointer to the callback module from the context. The module is stored 
         under the name &quot;CallbackConfig&quot;. The following code example 
         shows how to do this :</p>
-        <div class="fragment"><pre>void callbackF( State &amp; event );                    // definition of the callback function 
+        <div class="fragment"><pre>void callbackF( Event &amp; event );                    // definition of the callback function 
  
 Context context( 1 );                               // create a context
                                                     // get callback module from the context

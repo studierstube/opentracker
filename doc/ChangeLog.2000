@@ -31,7 +31,7 @@
 	core/MathUtils.cxx, core/MathUtils.h, core/Module.h, core/Node.h,
 	core/NodeFactory.h, core/NodeFactoryContainer.cxx,
 	core/NodeFactoryContainer.h, core/OpenTracker.cxx,
-	core/OpenTracker.h, core/State.h, core/TestModule.cxx,
+	core/OpenTracker.h, core/Event.h, core/TestModule.cxx,
 	core/TestModule.h, core/TestSource.h, core/ThreadModule.h,
 	core/TimeDependend.h, core/Transformation.cxx,
 	core/Transformation.h, core/TreeNode.cxx, core/TreeNode.h,
@@ -60,8 +60,8 @@
 	Module.h, NetworkModule.cxx, NetworkModule.h, NetworkSource.cxx,
 	NetworkSource.h, NetworkSourceModule.cxx, NetworkSourceModule.h,
 	Node.cxx, Node.h, NodeFactory.cxx, NodeFactory.h,
-	NodeFactoryContainer.cxx, NodeFactoryContainer.h, State.cxx,
-	State.h, Station.cxx, Station.h, TestModule.cxx, TestModule.h,
+	NodeFactoryContainer.cxx, NodeFactoryContainer.h, Event.cxx,
+	Event.h, Station.cxx, Station.h, TestModule.cxx, TestModule.h,
 	TestSource.cxx, TestSource.h, TrackerServer.CBD, TrackerServer.h,
 	Transformation.cxx, Transformation.h, TreeNode.cxx, TreeNode.h,
 	VideoModule.cxx, VideoModule.h, VirtualTransformation.cxx,
@@ -114,7 +114,7 @@
 	src/NetworkSourceModule.cxx, src/NetworkSourceModule.h,
 	src/NodeFactory.cxx, src/NodeFactory.h,
 	src/NodeFactoryContainer.cxx, src/NodeFactoryContainer.h,
-	src/State.cxx, src/State.h, src/Station.cxx, src/Station.h,
+	src/Event.cxx, src/Event.h, src/Station.cxx, src/Station.h,
 	src/TestModule.cxx, src/TestModule.h, src/TestSource.cxx,
 	src/TestSource.h, src/TrackerServer.CBD, src/TrackerServer.h,
 	src/Transformation.cxx, src/Transformation.h, src/TreeNode.cxx,
@@ -224,7 +224,7 @@
 
 	* src/: Transformation.cxx, Transformation.h:
 	
-	added localState member
+	added localEvent member
 
 2000-08-16 22:10  reitmayr
 
@@ -234,7 +234,7 @@
 	MaxConfidenceFilter.cxx, MaxConfidenceFilter.h, Module.cxx,
 	Module.h, NetworkDriver.cxx, NetworkDriver.h, Node.cxx, Node.h,
 	NodeFactory.cxx, NodeFactory.h, NodeFactoryContainer.cxx,
-	NodeFactoryContainer.h, State.cxx, State.h, Station.cxx, Station.h,
+	NodeFactoryContainer.h, Event.cxx, Event.h, Station.cxx, Station.h,
 	TestModule.cxx, TestModule.h, TestSource.cxx, TestSource.h,
 	TrackerServer.CBD, TrackerServer.h, Transformation.cxx,
 	Transformation.h, TreeNode.cxx, TreeNode.h, VideoSource.cxx,
@@ -267,7 +267,7 @@
 
 	* src/NetworkDriver.cxx:
 	
-	fixed bug with empty state not being handled
+	fixed bug with empty event not being handled
 
 2000-08-13 22:02  reitmayr
 
@@ -317,7 +317,7 @@
 	src/Module.cxx, src/Module.h, src/NetworkDriver.h, src/Node.cxx,
 	src/Node.h, src/NodeFactory.cxx, src/NodeFactory.h,
 	src/NodeFactoryContainer.cxx, src/NodeFactoryContainer.h,
-	src/State.cxx, src/State.h, src/Station.cxx, src/Station.h,
+	src/Event.cxx, src/Event.h, src/Station.cxx, src/Station.h,
 	src/TestModule.cxx, src/TestModule.h, src/TestSource.cxx,
 	src/TestSource.h, src/TrackerServer.CBD, src/TrackerServer.h,
 	src/Transformation.cxx, src/Transformation.h, src/TreeNode.cxx,
@@ -371,7 +371,7 @@
 	MathUtils.h, MaxConfidenceFilter.cxx, MaxConfidenceFilter.h,
 	Module.cxx, Module.h, NetworkDriver.cxx, NetworkDriver.h, Node.cxx,
 	Node.h, NodeFactory.cxx, NodeFactory.h, NodeFactoryContainer.cxx,
-	NodeFactoryContainer.h, State.cxx, State.h, Station.cxx, Station.h,
+	NodeFactoryContainer.h, Event.cxx, Event.h, Station.cxx, Station.h,
 	TrackerServer.h, Transformation.cxx, Transformation.h,
 	TreeNode.cxx, TreeNode.h, VideoSource.cxx, VideoSource.h,
 	VirtualTransformation.cxx, VirtualTransformation.h, main.cxx,

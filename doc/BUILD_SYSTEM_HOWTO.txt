@@ -36,7 +36,7 @@ to you.
 Overview 
 ========
 
-First of all I want to state that to give a complete introduction to the
+First of all I want to event that to give a complete introduction to the
 autotools is universes beyond the scope of this document. A good resource
 for learning about the autotools is "the goat book"[1] which can be read
 online at ** http://sources.redhat.com/autobook/ **.
