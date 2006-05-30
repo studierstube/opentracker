@@ -113,7 +113,7 @@ Node * TCPModule::createNode( const std::string& name,  StringTable& attributes)
 
 // checks the stations for changes and transmits changes to clients
 
-void TCPModule::pullState(){
+void TCPModule::pullEvent(){
     char buffer[8*sizeof(int)+2*sizeof(short unsigned)+sizeof(double)];
     short unsigned protocol;
     int index;
@@ -121,7 +121,7 @@ void TCPModule::pullState(){
     if( isInitialized() == 1 && connections.size() != 0 && sinks.size() != 0 ){
         for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it ++ ){
             TCPSink * sink = (TCPSink*) (*it);
-            State & state = sink->state;
+            Event & event = sink->event;
             if( sink->changed == 1 ){
                 protocol = sink->posFlag | (sink->orientFlag << 1) | (sink->buttonFlag << 2) |
                            (sink->timeFlag << 3);
@@ -132,35 +132,38 @@ void TCPModule::pullState(){
                 *(short unsigned *)(&buffer[index]) = htons(protocol);
                 index += sizeof(short unsigned);
                 if( sink->posFlag == 1 ){
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.position[0]));             
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getPosition()[0]));             
                     index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.position[1])); 
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getPosition()[1])); 
                     index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.position[2]));
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getPosition()[2]));
                     index += sizeof(int);
                 }
                 if( sink->orientFlag == 1 ){
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.orientation[0]));
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getOrientation()[0]));
                     index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.orientation[1]));
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getOrientation()[1]));
                     index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.orientation[2]));
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getOrientation()[2]));
                     index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl(*(int*)(&state.orientation[3]));
+                    *(int*)(&buffer[index]) = htonl(*(int*)(&event.getOrientation()[3]));
                     index += sizeof(int);
                 }
                 if( sink->buttonFlag == 1 ){
-                    *(short int*)(&buffer[index]) = htons(state.button);
+                    *(short int*)(&buffer[index]) = htons(event.getButton());
                     index += sizeof(short int);
                 }
                 if( sink->timeFlag == 1 ){
-                    *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))&&0xffffffff);
+                    *(int*)(&buffer[index]) = htonl((*(long*)(&event.time))&&0xffffffff);
                     
 		    // FIXXXME : What are the following lines good for?
 		    // Since they do not make any sense to me and the cause a warning I commented them out
 		    // *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))>>32);
 		    // index += sizeof(int);
 		     
+                    index += sizeof(int);
+                    *(int*)(&buffer[index]) = htonl((*(long*)(&event.time))>>32);
+                    index += sizeof(int);
                 }
                 // send to all connections
                 lock();

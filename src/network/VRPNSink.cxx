@@ -91,23 +91,23 @@ void VRPNSink::mainloop()
     server->mainloop();
 }
 
-void VRPNSink::onEventGenerated( State& event, Node& generator)
+void VRPNSink::onEventGenerated( Event& event, Node& generator)
 {
     switch(type){
     case TRACKER:
         {
             vrpn_float64 position[3] = 
             {
-                event.position[0],
-                event.position[1],
-                event.position[2]
+                event.getPosition()[0],
+                event.getPosition()[1],
+                event.getPosition()[2]
             };
             vrpn_float64 orientation[4] = 
             {
-                event.orientation[0],
-                event.orientation[1],
-                event.orientation[2],
-                event.orientation[3]
+                event.getOrientation()[0],
+                event.getOrientation()[1],
+                event.getOrientation()[2],
+                event.getOrientation()[3]
             };
 
             timeval time;
@@ -122,7 +122,7 @@ void VRPNSink::onEventGenerated( State& event, Node& generator)
             int i;
             for( i = 0; i < 8; i++ )
             {
-                ((vrpn_Button_Server *)server)->set_button(i, (event.button & (1 << i)));
+                ((vrpn_Button_Server *)server)->set_button(i, (event.getButton() & (1 << i)));
             }
         }
         break;

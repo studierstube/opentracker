@@ -47,7 +47,7 @@
  * The NetworkSink node is a simple EventObserver / EventGenerator that passes
  * events on and stores a copy of the last one. The @ref networksinkmodule checks on
  * each pass, whether a NetworkSink node stored a new event and sends that data
- * as the specified station to the network. The NetworkSink element has the 
+ * as the specified station to the network. The NetworkSink element has the
  * following attributes :
  * @li @c mode (unicast|multicast) chooses between multicast and unicast mode
  * @li @c name the stations name
@@ -78,7 +78,7 @@ struct NetworkSender;
 
 /**
  * This class implements a simple node that stores a copy of the last
- * event it received and passed on for output to the console. The 
+ * event it received and passed on for output to the console. The
  * associated NetworkSinkModule checks for changes and generates a
  * new network package if necessary.
  * @author Gerhard Reitmayr
@@ -96,13 +96,13 @@ public:
     NetworkSender * networkSender;
     /// flag whether it was modified since last turn
     int modified;
-    /// the state that is stored
-    State state;
+    /// the event that is stored
+    Event event;
 
 // Methods
 protected:
-    /** constructor method,sets members 
-     * @param name_ the station name 
+    /** constructor method,sets members
+     * @param name_ the station name
      * @param number_ the station number
      * @param networkSender_ pointer to the network sender this station belongs to
      */
@@ -113,7 +113,7 @@ protected:
         networkSender( networkSender_ ),
         modified( 0 )
     {}
-    
+
 public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -122,7 +122,7 @@ public:
     {
         return 1;
     }
-    
+
     /**
      * this method notifies the object that a new event was generated.
      * It stores a copy of the received event and passes the event on
@@ -132,11 +132,11 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State & event, Node & generator)
+    virtual void onEventGenerated( Event & e, Node & generator)
     {
-        state = event;
+        event = e;
         modified = 1;
-        updateObservers( state );
+        updateObservers( event );
     }
 
     friend class NetworkSinkModule;

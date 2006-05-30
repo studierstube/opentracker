@@ -134,7 +134,7 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class VRPNModule;
 };

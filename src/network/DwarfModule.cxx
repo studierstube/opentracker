@@ -191,12 +191,12 @@ Node * DwarfModule::createNode( const string& name, StringTable& attributes)
 
 // pushes events into the tracker tree.
 
-void DwarfModule::pushState()
+void DwarfModule::pushEvent()
 {
     // here we would push new events from any needs/DwarfSources into the graph
 }
 
-void DwarfModule::pullState()
+void DwarfModule::pullEvent()
 {
     vector<DwarfSink *>::iterator it;
     for( it = sinks.begin(); it != sinks.end(); it ++ )
@@ -208,13 +208,13 @@ void DwarfModule::pullState()
             if( sender != NULL )
             {
                 // FIXME: better to use the array copy, after switch to doubles !!
-                sender->setPos( 0, sink->state.position[0]);
-                sender->setPos( 1, sink->state.position[1]);
-                sender->setPos( 2, sink->state.position[2]);
-                sender->setOri( 0, sink->state.orientation[0]);
-                sender->setOri( 1, sink->state.orientation[1]);
-                sender->setOri( 2, sink->state.orientation[2]);
-                sender->setOri( 3, sink->state.orientation[3]);
+                sender->setPos( 0, sink->event.getPosition()[0]);
+                sender->setPos( 1, sink->event.getPosition()[1]);
+                sender->setPos( 2, sink->event.getPosition()[2]);
+                sender->setOri( 0, sink->event.getOrientation()[0]);
+                sender->setOri( 1, sink->event.getOrientation()[1]);
+                sender->setOri( 2, sink->event.getOrientation()[2]);
+                sender->setOri( 3, sink->event.getOrientation()[3]);
 
                 // FIXME: use opentracker time with setTimestamp
                 sender->updateTimestamp();

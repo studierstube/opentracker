@@ -149,7 +149,7 @@ void VRPNModule::start()
     }
 }
 
-void VRPNModule::pushState()
+void VRPNModule::pushEvent()
 {
     VRPNSourceVector::iterator it;
     for( it = sources.begin(); it != sources.end(); it++ )
@@ -158,9 +158,9 @@ void VRPNModule::pushState()
     }
 }
 
-void VRPNModule::pullState()
+void VRPNModule::pullEvent()
 {
-    ACE_TRACE(ACE_TEXT("VRPNModule::pullState"));
+    ACE_TRACE(ACE_TEXT("VRPNModule::pullEvent"));
     VRPNSinkVector::iterator it;
     for( it = sinks.begin(); it != sinks.end(); it++ )
     {

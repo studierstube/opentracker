@@ -64,18 +64,18 @@ void __stdcall trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info
     if( info.sensor != self->station )
         return;
 
-    self->state.position[0] = info.pos[0];
-    self->state.position[1] = info.pos[1];
-    self->state.position[2] = info.pos[2];
+    self->event.getPosition()[0] = info.pos[0];
+    self->event.getPosition()[1] = info.pos[1];
+    self->event.getPosition()[2] = info.pos[2];
     
-    self->state.orientation[0] = info.quat[0];
-    self->state.orientation[1] = info.quat[1];
-    self->state.orientation[2] = info.quat[2];
-    self->state.orientation[3] = info.quat[3];
+    self->event.getOrientation()[0] = info.quat[0];
+    self->event.getOrientation()[1] = info.quat[1];
+    self->event.getOrientation()[2] = info.quat[2];
+    self->event.getOrientation()[3] = info.quat[3];
     
-    self->state.time = info.msg_time.tv_sec * 1000.0 + info.msg_time.tv_usec / 1000.0;
+    self->event.time = info.msg_time.tv_sec * 1000.0 + info.msg_time.tv_usec / 1000.0;
 
-    self->updateObservers( self->state );
+    self->updateObservers( self->event );
 }
 
 void __stdcall  buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
@@ -83,19 +83,19 @@ void __stdcall  buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info 
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;
 
-    if( info.button > 7 ) // we only use the first 8 buttons
+    if( info.getButton() > 7 ) // we only use the first 8 buttons
         return;
 
-    if( info.state == VRPN_BUTTON_ON )
-        self->state.button |= 1 << info.button;
+    if( info.event == VRPN_BUTTON_ON )
+        self->event.getButton() |= 1 << info.getButton();
     else
-        self->state.button &= ~(1 << info.button);
+        self->event.getButton() &= ~(1 << info.getButton());
 
     // appearantly VRPN doesn't send any timestamp with the buttons !
-    // self->state.time = info.msg_time.tv_sec * 1000.0 + info.msg_time.tv_usec / 1000.0;
-    self->state.timeStamp();
+    // self->event.time = info.msg_time.tv_sec * 1000.0 + info.msg_time.tv_usec / 1000.0;
+    self->event.timeStamp();
     
-    self->updateObservers( self->state );
+    self->updateObservers( self->event );
 }
 
 VRPNSource::VRPNSource():

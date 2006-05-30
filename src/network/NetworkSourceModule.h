@@ -44,8 +44,8 @@
 /**
  * @page module_ref Module Reference
  * @section networksourcemodule NetworksourceModule
- * The NetworkSourceModule listens for data from the Network sent to 
- * multicast groups or by unicast datagrams and pushes the state updates into
+ * The NetworkSourceModule listens for data from the Network sent to
+ * multicast groups or by unicast datagrams and pushes the event updates into
  * the tracker tree via @ref networksource nodes. It has no attributes and need
  * not be present in the configuration section to operate.
  * In unicast mode and in absence of received data polling datagrams are
@@ -64,48 +64,63 @@
 
 namespace ot {
 
-struct NetworkReceiver;
-struct MulticastReceiver;
-struct UnicastReceiver;
+  struct NetworkReceiver;
+  struct MulticastReceiver;
+  struct UnicastReceiver;
 
-typedef std::vector<MulticastReceiver *> MulticastReceiverVector;
-typedef std::vector<UnicastReceiver *> UnicastReceiverVector;
+  typedef std::vector<MulticastReceiver *> MulticastReceiverVector;
+  typedef std::vector<UnicastReceiver *> UnicastReceiverVector;
 
-/**
- * The module and factory to drive the reception of network state updates.
- * It builds NetworkSource nodes that insert data from the network into
- * the tracker tree. It uses the Flexible Network Protocol from the 
- * studierstube. It uses a thread per multicast group or unicast port to
- * receive and send (if necessary) data.
- *
- * @author Gerhard Reitmayr, Mathis Csisinko
- * @ingroup network
- */
-class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
-{
-// members
-protected:    
-    
+  /**
+   * The module and factory to drive the reception of network event updates.
+   * It builds NetworkSource nodes that insert data from the network into
+   * the tracker tree. It uses a thread per multicast group or unicast port to
+   * receive and send (if necessary) data.
+   *
+   * @author Gerhard Reitmayr, Mathis Csisinko, Jochen von Spiczak
+   * @ingroup network
+   */
+  class OPENTRACKER_API NetworkSourceModule : public Module, public NodeFactory
+  {
+    // members
+  protected:
+
     /// ACE Thread manager
     //ACE_Thread_Manager * manager;
     /// list of multicast groups to listen for
     MulticastReceiverVector multicasts;
     /// list of unicast receivers to listen for
     UnicastReceiverVector unicasts;
-    
-// methods
-protected:
+
+    // methods
+  protected:
     /** Converts num floats from network byte order.
      * @param floats pointer to source data
      * @param result pointer to result array
      * @param num number of floats to convert
      */
     static void convertFloatsNToHl(float* floats, float* result, int num);
+    /**
+     * Runs the multicast receiver thread. The function reads from the network
+     * and parses network packages.
+     * @param data the multicast receiver
+     */
     static void runMulticastReceiver( void * data );
+    /**
+     * Runs the unicast transceiver thread. The function reads from and writes
+     * to the network and parses network packages.
+     * @param data the unicast receiver
+     */
     static void runUnicastTransceiver( void * data );
+    /**
+     * Processes the received data buffer and writes the decoded data the event
+     * of the station defined by the station number.
+     * @param receiver the network receiver
+     * @return whether the record could be successfully processed
+     */
     static bool processRecord( NetworkReceiver * receiver );
-    
-public:    
+
+  public:
     /** basic constructor */
     NetworkSourceModule();
 
@@ -119,21 +134,21 @@ public:
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-     virtual Node * createNode( const std::string& name,  StringTable& attributes);        
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
     /**
      * opens the sockets needed for communication and
      * starts the receive thread. It is called after initialisation is done.*/
     virtual void start();
     /**
      * closes the module and closes any communication sockets and stops thread.*/
-    virtual void close();    
+    virtual void close();
     /**
-     * pushes state information into the tree. It checks whether there is new
+     * pushes event information into the tree. It checks whether there is new
      * data for any NetworkSource node, copies it into the nodes and calls
-     * push on them.    
+     * push on them.
      */
-    virtual void pushState();             
-};
+    virtual void pushEvent();
+  };
 
 }  // namespace ot
 

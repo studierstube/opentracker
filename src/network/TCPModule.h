@@ -82,7 +82,7 @@ namespace ot {
  * @li unsigned char - protocol header
  * @li 3 floats - position in x, y, z 
  * @li 4 floats - orientation as x, y, z, w
- * @li short unsigned - button states
+ * @li short unsigned - button events
  * @li double - timestamp
  * All data is send in network byte order.
  *
@@ -112,7 +112,7 @@ public:
 
     Node * createNode( const std::string& name,  StringTable& attributes);
  
-	void pullState();
+	void pullEvent();
 	
 	void close();
 

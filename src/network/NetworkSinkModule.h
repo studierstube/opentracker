@@ -44,10 +44,9 @@
 /**
  * @page module_ref Module Reference
  * @section networksinkmodule NetworkSinkModule
- * The NetworkSinkModule graps states from the tracker tree and sends them
+ * The NetworkSinkModule graps events from the tracker tree and sends them
  * to other hosts either via multicast groups or by unicast datagrams. The
- * receiving groups addresses are set in the @ref networksink nodes. It
- * implements the Flexible Network protocol from the Studierstube.
+ * receiving groups addresses are set in the @ref networksink nodes.
  * It's configuration element has the following attributes :
  * @li @c name a string idenfifying the server
  *
@@ -75,13 +74,13 @@ typedef std::vector<UnicastSender *> UnicastSenderVector;
 
 /** a list of NetworkSink nodes */
 typedef std::vector<NetworkSink *> SinkVector;
-        
+
 /**
- * The module and factory to drive the transmission of tracker states via
- * the network. It grabs the states from various NetworkSink nodes and 
+ * The module and factory to drive the transmission of tracker events via
+ * the network. It grabs the events from various NetworkSink nodes and
  * distributes them to specified multicast groups or unicast datagrams.
  *
- * @author Gerhard Reitmayr, Mathis Csisinko
+ * @author Gerhard Reitmayr, Mathis Csisinko, Jochen von Spiczak
  * @ingroup network
  */
 class OPENTRACKER_API NetworkSinkModule : public Module, public NodeFactory
@@ -96,15 +95,21 @@ protected:
     UnicastSenderVector unicasts;
     /// server name
     std::string serverName;
-    
+
 //methods
-protected:    
+protected:
     /** converts floats to network byte order.
-     * @param floats pointer to floats to convert
+     * @param floats vector of floats to convert
      * @param result pointer where to store the result ( can be floats )
      * @param num number of floats to convert */
-    void convertFloatsHToNl(float* floats, float* result, int num);
-    
+    void convertFloatsHToNl(std::vector<float>& floats, float* result, int num);
+    /**
+     * Runs the unicast transceiver thread. The function reads from and writes
+     * to the network and parses network packages.
+     * @param data the unicast receiver
+     */
+    static void runUnicastTransceiver( void * data );
+
     static void runUnicastTransceiver( void * data );
 
 public:
@@ -115,7 +120,7 @@ public:
     virtual ~NetworkSinkModule();
 
     /**
-     * initializes the tracker module. 
+     * initializes the tracker module.
      * @param attributes StringMap of elements attribute values. Should be
      *        possibly , but is not for convenience.
      * @param localTree pointer to root of configuration nodes tree
@@ -129,21 +134,21 @@ public:
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
-    virtual Node * createNode( const std::string& name,  StringTable& attributes);    
+    virtual Node * createNode( const std::string& name,  StringTable& attributes);
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. It opens the sockets needed for communication. */
     virtual void start();
     /**
      * closes the module and closes any communication sockets. */
-    virtual void close();    
+    virtual void close();
      /**
-     * pulls state information out of the tracker tree. It checks the 
+     * pulls event information out of the tracker tree. It checks the
      * modified member on each NetworkSink node and if a new value is stored
      * it inserts it into the apropriate network data buffer. Then it sends
      * any non-empty data buffers to the network.
      */
-    virtual void pullState();      
+    virtual void pullEvent();
 };
 
 } // namespace ot

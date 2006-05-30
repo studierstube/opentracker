@@ -87,8 +87,8 @@ public:
     enum Type { TRACKER, BUTTON } type;
     /// station number of station to report
     int station;
-    /// state object for data flow
-    State state;
+    /// event object for data flow
+    Event event;
     
 protected:
 

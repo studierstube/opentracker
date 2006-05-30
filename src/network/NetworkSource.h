@@ -45,14 +45,13 @@
  * @page Nodes Node Reference
  * @section networksource NetworkSource
  * The NetworkSource node is a simple EventGenerator that inserts events from
- * the network into the tracker tree. The NetworkSource element has the 
+ * the network into the tracker tree. The NetworkSource element has the
  * following attributes :
  * @li @c mode (unicast|multicast) chooses between multicast and unicast mode
  * @li @c number the (nonnegative) station number
  * @li @c multicast-address the multicast group to receive from in multicast mode
  * @li @c address the address to receive from in unicast mode
  * @li @c port port to receive from 
- *  
  * An example element looks like this :
  * @verbatim
 <NetworkSource mode="unicast" number="0" address="localhost" port="54321"/>
@@ -76,8 +75,8 @@ class OPENTRACKER_API NetworkSource : public Node
 {
 // Members
 public:
-    /// the new state
-    State state;
+    /// the new event
+    Event event;
 
 // Methods
 protected:
@@ -85,15 +84,15 @@ protected:
     NetworkSource() : Node()
     {}
 
-public:                
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
     virtual int isEventGenerator()
     {
         return 1;
-    }  
-    
+    }
+
     friend class NetworkSourceModule;
 };
 

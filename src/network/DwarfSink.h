@@ -44,7 +44,7 @@
 /**
  * @page Nodes Node Reference
  * @section dwarfsink DwarfSink
- 
+
  * An example element looks like this :
  * @verbatim
 <DwarfSink frequency="10" offset="5" />@endverbatim
@@ -60,7 +60,7 @@
 namespace ot {
 
 /**
- * This class implements a simple source that is fired by its module in 
+ * This class implements a simple source that is fired by its module in
  * regular intervals and updates any EventObservers.
  * @ingroup network
  * @author Gerhard Reitmayr, Christian Sandor, Martin Bauer
@@ -69,9 +69,7 @@ class OPENTRACKER_API DwarfSink : public Node
 {
 // Members
 public:
-    /// the original state 
-    State state;
-    /// new state arrived ?
+    /// new event arrived ?
     bool changed;
     /// name of associated dwarf ability
     std::string name;
@@ -79,15 +77,15 @@ public:
 // Methods
 protected:
     /** simple constructor, sets members to initial values
-     * @param frequency_ initial value for member frequency 
+     * @param frequency_ initial value for member frequency
      * @param offset_ initial value for member offset */
-    DwarfSink( const std::string & name_) : 
+    DwarfSink( const std::string & name_) :
         Node(),
         changed( false ),
         name( name_ )
     {}
 
-public:            
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -98,17 +96,13 @@ public:
 
     /**
      * this method notifies the object that a new event was generated.
-     * It stores a copy of the received event and passes the event on
-     * to its observers.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
+     * @param event reference to the new event.
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event, Node& generator)
-    {        
-        state = event;
-        changed = true;        
+    virtual void onEventGenerated( Event& event, Node& generator)
+    {
+        changed = true;
         updateObservers( event );
     }
 

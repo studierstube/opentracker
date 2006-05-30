@@ -81,8 +81,8 @@ public:
     int station;
     /// flag whether it was modified since last turn
     int changed;
-    /// the state that is stored
-    State state;
+    /// the event that is stored
+    Event event;
     /// flags whether what to output
     int posFlag, orientFlag, buttonFlag,timeFlag;
 
@@ -119,11 +119,11 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State & event, Node & generator)
+    virtual void onEventGenerated( Event & e, Node & generator)
     {
-        state = event;
+        event = e;
         changed = 1;
-        updateObservers( state );
+        updateObservers( event );
     }
 
     friend class TCPModule;

@@ -69,8 +69,8 @@ class OPENTRACKER_API DwarfSource : public Node
 {
 // Members
 public:
-    /// the original state 
-    State state;
+    /// the original event 
+    Event event;
 
 // Methods
 protected:

@@ -46,13 +46,13 @@
 
 /**
  * @defgroup network Network Classes
- * This group contains classes related to network input / output. Sofar only
+ * This group contains classes related to network input / output. So far only
  * a single network protocol is implemented and the whole design is very
  * basic. It is expected to grow in the future to be more versatile.
  */
 
 /** the data structure for a record of the Flexible Network Protocol used by
- * the Studierstube. 
+ * the Studierstube.
  * @ingroup network
  */
 typedef struct
@@ -60,21 +60,9 @@ typedef struct
     short int headerId;         // Id (magic number)
     short int revNum;           // Revision Number
     short int maxStationNum;    // Number of stations dealt with by the server
-    short int headerLength;     // Length of the header (from the start of the
-                                // record; Offset to the first station data)
     short int numOfStations;    // Number of station packets to follow
-    short int commentLength;    // Length of the comment
-    char data[10000];           // Holds the following data:
-                                // n bytes of comment
+    short int bufferLength;
 
-                                // Data per Station:
-                                // short int number of the station
-                                // short int format (Quaternion, Euler, Matrix)
-                                // short int button states (binary coded)
-                                // short int bytes per station (incl. this header)
-                                // short int length of the name of the station
-                                // n bytes name of the station
-                                // position and orientation according to format
 } FlexibleTrackerDataRecord;
 
 #endif

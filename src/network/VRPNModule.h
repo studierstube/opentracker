@@ -122,9 +122,9 @@ public:
 
     virtual void start();
 
-    virtual void pullState();
+    virtual void pullEvent();
 
-    virtual void pushState();
+    virtual void pushEvent();
 
 };
 
