@@ -32,7 +32,7 @@ public class ConnectionListener {
 		0x00, 0x00,				// comment length
 		0x00, 0x00,				// station number
 		0x00, 0x01,				// format = quaternion
-		0x00, 0x00,				// button states
+		0x00, 0x00,				// button events
 		0x00, 0x26,				// bytes per station
 		0x00, 0x00,				// station name length
 		0x00, 0x00, 0x00, 0x00,		// position x				
@@ -198,7 +198,7 @@ public class ConnectionListener {
 		  if(downDown) myPackage[17]+=4;
 		  if(rightDown) myPackage[17]+=8;
 		  if(enterDown) myPackage[17]+=16;
-		  System.out.print("Sending packet with button states: ");
+		  System.out.print("Sending packet with button events: ");
 		  System.out.println(myPackage[17]);
 		  mySender.send(new DatagramPacket(myPackage,33));
 
