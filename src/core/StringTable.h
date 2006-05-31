@@ -45,8 +45,10 @@
 #define _STRINGTABLE_H
 
 #include "../dllinclude.h"
+#include "Event.h"
 
 #include<string>
+#include<vector>
 #include<map>
 
 typedef std::map<std::string,std::string> StringMap;
@@ -166,6 +168,16 @@ public:
      * @return number of actually parsed values
      */
     int get(const std::string & key, float * value, int len = 1 );
+    /**
+     * parses a stored entry into a vector of floats. It assumes that the
+     * floats are separated by spaces. It returns the number of actually
+     * converted floats.
+     * @param key the key of the entry to parse
+     * @param reference to the vector of floats to store the parsed values 
+     * @param len the length of the array, default 1 to use it for a single float only
+     * @return number of actually parsed values
+     */
+    int get(const std::string & key, std::vector<float> & vector, int len = 1 );
     /**
      * parses a stored entry into an array of doubles. It assumes that the
      * doubles are separated by spaces. It returns the number of actually

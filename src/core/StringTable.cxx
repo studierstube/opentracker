@@ -58,11 +58,11 @@ namespace ot {
 
 StringTable::StringTable() : map()
 {}
-  
+
 // copy constructor
 StringTable::StringTable(const StringTable& table ) : map(table.map)
 {}
-  
+
 // clears the map
 
 StringTable::~StringTable()
@@ -119,7 +119,7 @@ unsigned StringTable::size()
 void StringTable::put(const std::string & key, const int value)
 {
     char buffer[20];
-    
+
     sprintf( buffer, "%i", value );
     map[key] = buffer;
 }
@@ -127,7 +127,7 @@ void StringTable::put(const std::string & key, const int value)
 void StringTable::put(const std::string & key, const float value)
 {
     char buffer[20];
-    
+
     sprintf( buffer, "%f", value );
     map[key] = buffer;
 }
@@ -135,7 +135,7 @@ void StringTable::put(const std::string & key, const float value)
 void StringTable::put(const std::string & key, const double value)
 {
     char buffer[30];
-    
+
     sprintf( buffer, "%lf", value );
     map[key] = buffer;
 }
@@ -144,7 +144,7 @@ void StringTable::put(const std::string & key, const int * value, int len)
 {
     char buffer[20];
     std::string strvalue;
-    
+
     sprintf(buffer, "%i", value[0] );
     strvalue.append(buffer);
     for( int i = 1; i < len; i++ )
@@ -159,7 +159,7 @@ void StringTable::put(const std::string & key, const float * value, int len)
 {
     char buffer[20];
     std::string strvalue;
-    
+
     sprintf(buffer, "%f", value[0] );
     strvalue.append(buffer);
     for( int i = 1; i < len; i++ )
@@ -174,7 +174,7 @@ void StringTable::put(const std::string & key, const double * value, int len)
 {
     char buffer[20];
     std::string strvalue;
-    
+
     sprintf(buffer, "%lf", value[0] );
     strvalue.append(buffer);
     for( int i = 1; i < len; i++ )
@@ -189,13 +189,13 @@ int StringTable::get(const std::string & key, int * value, int len )
 {
     StringMap::iterator it = map.find( key );
     if( it == map.end())
-        return 0;    
-        
+        return 0;
+
     char * data = (char *)(*it).second.c_str();
     char * end = data;
     int count = 0;
-    value[count++] = strtol( data, &end, 0 );    
-    while( end != data && count < len){        
+    value[count++] = strtol( data, &end, 0 );
+    while( end != data && count < len){
         data = end;
         value[count++] = strtol( data, &end, 0 );
     }
@@ -207,16 +207,25 @@ int StringTable::get(const std::string & key, float * value, int len )
     StringMap::iterator it = map.find( key );
     if( it == map.end())
         return 0;
-        
+
     char * data = (char *)(*it).second.c_str();
     char * end = data;
     int count = 0;
-    value[count++] = (float)strtod( data, &end );    
-    while( end != data && count < len){        
+    value[count++] = (float)strtod( data, &end );
+    while( end != data && count < len){
         data = end;
         value[count++] = (float)strtod( data, &end );
     }
     return count;
+}
+
+int StringTable::get(const std::string & key, std::vector<float> & vector, int len )
+{
+  float *array = (float*)malloc(len * sizeof(float));
+  int count = get(key, array, len);
+  copyA2V(array, len, vector);
+  free(array);
+  return count;
 }
 
 int StringTable::get(const std::string & key, double * value, int len )
@@ -224,21 +233,21 @@ int StringTable::get(const std::string & key, double * value, int len )
     StringMap::iterator it = map.find( key );
     if( it == map.end())
         return 0;
-        
+
     char * data = (char *)(*it).second.c_str();
     char * end = data;
     int count = 0;
-    value[count++] = strtod( data, &end );    
-    while( end != data && count < len){        
+    value[count++] = strtod( data, &end );
+    while( end != data && count < len){
         data = end;
         value[count++] = strtod( data, &end );
     }
-    return count;        
+    return count;
 }
 
 int KeyIterator::hasMoreKeys() const
 {
-    return((int)(it != map.end())); 
+    return((int)(it != map.end()));
 }
 
 const std::string & KeyIterator::nextElement()

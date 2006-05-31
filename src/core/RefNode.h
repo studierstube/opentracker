@@ -122,7 +122,7 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event,
+    virtual void onEventGenerated( Event& event,
                                    Node& generator)
 	{
 		updateObservers( event );
@@ -160,7 +160,7 @@ public:
      * @param index index of the desired event, if no index is given the
      *        latest is returned.
      * @return reference to the value of the event. */
-    virtual State& getEvent(unsigned int index = 0)
+    virtual Event& getEvent(unsigned int index = 0)
 	{
 		return reference->getEvent( index );
 	}
@@ -168,7 +168,7 @@ public:
      * returns the event closest to a given point in time.
      * @param time the point in time in milliseconds since 1.1.1970
      * @return reference to the value of the event. */
-    virtual State& getEventNearTime(double time)
+    virtual Event& getEventNearTime(double time)
 	{
 		return reference->getEventNearTime( time );
 	}
@@ -196,13 +196,13 @@ public:
     }
 
 	/**
-     * returns the state of the time dependend function at a given
+     * returns the event of the time dependend function at a given
      * point in time.
      * @param time point in time in milliseconds since 1.1.1970
-     * @return reference to the state value */
-    virtual State& getStateAtTime(double time)
+     * @return reference to the event value */
+    virtual Event& getEventAtTime(double time)
 	{
-		return reference->getStateAtTime( time );
+		return reference->getEventAtTime( time );
 	}
 
 	// end TimeDependend interface

@@ -102,7 +102,7 @@ public:
      * pushes events into the tracker tree. Checks all TestSources and
      * pushes new events, if a TestSource fires.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot
