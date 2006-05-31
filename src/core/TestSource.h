@@ -45,20 +45,26 @@
  * @page Nodes Node Reference
  * @section testsource TestSource
  * The TestSource node is a simple EventGenerator that fires in fixed intervals
- * standard events. The events can be customized to have other then the default 
- * values. 
+ * standard events. The events can be customized to have other then the default
+ * values.
  *
- * It also supports simulation of noisy data. The parameter @c noise defines the 
+ * It also supports simulation of noisy data. The parameter @c noise defines the
  * size of a uniform distribution used to perturb the given default position and
  * orientation. In addition to that it also defines the probability that
  * the orientation representation is using the negative representation.
  *
+ * Moreover, the TestSource provides some multi-modal attributes of type int, char, double,
+ * and float. These attributes can either be renamed by an EventUtilityNode and used as test
+ * data for the implementation of new nodes, or you can add more or different attributes in the
+ * same way to get test data for your implementation.
+ *
  * The node has the following elements :
+ * @
  * @li @c frequency every freq. cycle it fires
  * @li @c offset starting after offset cycles
  * @li @c position position value of the event to fire as 3 floats
  * @li @c orientation orientation value of the event to fire as 4 floats representing a quaternion
- * @li @c button a 16 bit integer value representing the button states
+ * @li @c button a 16 bit integer value representing the button events
  * @li @c confidence a float value in [0,1] to represent the confidence value
  * @li @c noise a float value > 0, if present will output noisy data for simulations
  *
@@ -75,7 +81,7 @@
 #include "Node.h"
 
 /**
- * This class implements a simple source that is fired by its module in 
+ * This class implements a simple source that is fired by its module in
  * regular intervals and updates any EventObservers.
  * @ingroup core
  * @author Gerhard Reitmayr
@@ -92,23 +98,23 @@ public:
     /// offset of first update relative to main loop start
     int offset;
     /// use noise and noise level
-    double noise;    
-    /// the original state 
-    State state;
-    /// the perturbed state posted to the observers
-    State perturbed;
+    double noise;
+    /// the original event
+    Event event;
+    /// the perturbed event posted to the observers
+    Event perturbed;
 
 // Methods
 protected:
     /** simple constructor, sets members to initial values
-     * @param frequency_ initial value for member frequency 
+     * @param frequency_ initial value for member frequency
      * @param offset_ initial value for member offset */
-    TestSource( int frequency_, int offset_ ) : 
+    TestSource( int frequency_, int offset_ ) :
         Node(),
 	    frequency( frequency_ ),
 	    offset( offset_ )
     {}
-public:            
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -118,7 +124,7 @@ public:
     }
 
     /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator. Note that the 
+     * updateObservers method in EventGenerator. Note that the
      * implementation of this method is in the file TestModule.cxx !
      */
     void push(void);
