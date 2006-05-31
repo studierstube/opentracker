@@ -1,45 +1,45 @@
-  /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for Context class
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */     
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */     
+/* ======================================================================= */
 
 
 #include <stdlib.h>
@@ -75,114 +75,114 @@ const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
 
 namespace ot {
 
-Context::Context( int init ) :
+  Context::Context( int init ) :
     rootNode( NULL ),
     cleanUp( false ), 
     rootNamespace( "" )
-{
+  {
     if( init != 0 )
-    {
+      {
         initializeContext( *this );
         cleanUp = true;
-    }
+      }
     else {
-        cleanUp = false;
+      cleanUp = false;
     }
     directories.push_back(".");
-}
+  }
 
-// Destructor method.
-Context::~Context()
-{
+  // Destructor method.
+  Context::~Context()
+  {
     if( cleanUp )
-    {
+      {
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-        {
+	  {
             delete (*it).second;
-        }
-    }
+	  }
+      }
     modules.clear();
     if (rootNode != NULL) {
-        delete rootNode;
+      delete rootNode;
     }
-}
+  }
 
-// adds a new factory to the NodeFactoryContainer
+  // adds a new factory to the NodeFactoryContainer
 
-void Context::addFactory(NodeFactory& newfactory)
-{
+  void Context::addFactory(NodeFactory& newfactory)
+  {
     factory.addFactory( newfactory );
-}
+  }
 
-// removes a factory from the NodeFactoryContainer
+  // removes a factory from the NodeFactoryContainer
 
-void Context::removeFactory(NodeFactory & oldfactory)
-{
+  void Context::removeFactory(NodeFactory & oldfactory)
+  {
     factory.removeFactory( oldfactory );
-}
+  }
 
-// adds a module to the contexts collection
+  // adds a module to the contexts collection
 
-void Context::addModule(const std::string & name, Module & module)
-{
+  void Context::addModule(const std::string & name, Module & module)
+  {
     modules[name] = &module;
     module.context = this;
-}
+  }
 
-// returns a module indexed by its configuration elements name
+  // returns a module indexed by its configuration elements name
 
-Module * Context::getModule(const std::string & name)
-{
+  Module * Context::getModule(const std::string & name)
+  {
     ModuleMap::iterator it = modules.find( name );
     if( it != modules.end())    
-        return (*it).second;
+      return (*it).second;
     return NULL;
-}
+  }
 
-// removes a module
+  // removes a module
 
-void Context::removeModule(Module & module)
-{
+  void Context::removeModule(Module & module)
+  {
     ModuleMap::iterator it = modules.begin();
     while( it != modules.end())
-    {
+      {
         if((*it).second == &module )        
-            modules.erase( it-- );
+	  modules.erase( it-- );
         it++;
-    }  
-}
+      }  
+  }
 
-// calls start on all modules to do some initialization.
+  // calls start on all modules to do some initialization.
 
-void Context::start()
-{
+  void Context::start()
+  {
     for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
+      {
         (*it).second->start();
-    }
-}
+      }
+  }
 
-// calls close on all modules to close any resources.
+  // calls close on all modules to close any resources.
 
-void Context::close()
-{
+  void Context::close()
+  {
     for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
+      {
         (*it).second->close();
-    }
+      }
     // HACK: give some threads time to close down
     OSUtils::sleep(1000);
-}
+  }
 
-// parses the file and builds the tree.
+  // parses the file and builds the tree.
 
-void Context::parseConfiguration(const std::string& filename)
-{
+  void Context::parseConfiguration(const std::string& filename)
+  {
 #ifdef USE_XERCES
     file = filename;
     std::string::size_type limit = file.find_last_of( "/\\" );
     if( limit != std::string::npos )
-        addDirectoryFirst( file.substr(0, limit));
+      addDirectoryFirst( file.substr(0, limit));
     
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
@@ -191,12 +191,12 @@ void Context::parseConfiguration(const std::string& filename)
 
     const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
     if (xmlspace != NULL) {
-        char * tempName = XMLString::transcode( xmlspace );
-        rootNamespace = tempName;
-        XMLString::release( &tempName );
+      char * tempName = XMLString::transcode( xmlspace );
+      rootNamespace = tempName;
+      XMLString::release( &tempName );
     }
     else {
-        rootNamespace = "";
+      rootNamespace = "";
     }
 #endif //USE_XERCES
 
@@ -205,69 +205,69 @@ void Context::parseConfiguration(const std::string& filename)
     file = filename;
     std::string::size_type limit = file.find_last_of( "/\\" );
     if( limit != std::string::npos )
-        addDirectoryFirst( file.substr(0, limit));
+      addDirectoryFirst( file.substr(0, limit));
     
     ConfigurationParser parser( *this );
     rootNode = parser.parseConfigurationFile( filename );
     TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
     doc->SetUserData(this);
 #endif //USE_TINYXML
-}
+  }
 
-// calls pullState on all modules to get data out again.
+  // calls pullState on all modules to get data out again.
 
-void Context::pullStates()
-{
+  void Context::pullStates()
+  {
     for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
+      {
         (*it).second->pullState();
-    }
-}
+      }
+  }
 
-// This method calls pushState on all modules to get new data into the shared data tree.
+  // This method calls pushState on all modules to get new data into the shared data tree.
 
-void Context::pushStates()
-{
+  void Context::pushStates()
+  {
     for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
+      {
         (*it).second->pushState();
-    }
-}
+      }
+  }
 
-// This method implements the main loop and runs until it is stopped somehow.
+  // This method implements the main loop and runs until it is stopped somehow.
 
-void Context::run()
-{
+  void Context::run()
+  {
     start();
     while ( stop() == 0 )
-    {
+      {
         // push and pull parts of the main loop
         pushStates();
         pullStates();
-    }  
+      }  
     close();   
-}
+  }
 
-// tests all modules for stopping
+  // tests all modules for stopping
 
-int Context::stop()
-{
+  int Context::stop()
+  {
     int value = 0;
     for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
-    {
+      {
         value |= (*it).second->stop();
-    }
+      }
     return value;
-}
+  }
 
-// creates a new node from a given element name and an attribute table
+  // creates a new node from a given element name and an attribute table
 
-Node * Context::createNode( const std::string & name, StringTable & attributes)
-{
+  Node * Context::createNode( const std::string & name, StringTable & attributes)
+  {
 #ifdef USE_XERCES
     Node * value = factory.createNode( name , attributes );
     if( value != NULL )
-    {
+      {
         // add a correctly created DOM_Element to the node here and return
         DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
         std::auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
@@ -277,14 +277,14 @@ Node * Context::createNode( const std::string & name, StringTable & attributes)
         // set attributes on the element node
         KeyIterator keys(attributes);
         while( keys.hasMoreKeys())
-        {
+	  {
             const std::string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
-			std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
-			std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-			el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
-        }
-    }
+	    std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
+	    std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
+	    el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
+	  }
+      }
     return value;
 #endif //USE_XERCES
 
@@ -292,7 +292,7 @@ Node * Context::createNode( const std::string & name, StringTable & attributes)
 #ifdef USE_TINYXML
     Node * value = factory.createNode( name , attributes );
     if( value != NULL )
-    {
+      {
         // add a correctly created DOM_Element to the node here and return
         TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
         const char * tempName = name.c_str();
@@ -302,159 +302,158 @@ Node * Context::createNode( const std::string & name, StringTable & attributes)
         // set attributes on the element node
         KeyIterator keys(attributes);
         while( keys.hasMoreKeys())
-        {
+	  {
             const std::string & key = keys.nextElement();
             value->put( key, attributes.get( key ));
-			const char * attName = key.c_str();
-			const char * attVal = attributes.get( key ).c_str();
-			el->SetAttribute(attName, attVal);
-        }
-    }
+	    const char * attName = key.c_str();
+	    const char * attVal = attributes.get( key ).c_str();
+	    el->SetAttribute(attName, attVal);
+	  }
+      }
     return value;
 #endif //USE_TINYXML
-}
+  }
 
 #ifdef USE_TINYXML
-TiXmlElement *
-findElementRecursive(TiXmlElement* element, const std::string & id)
-{
-	// does this element have the attribute we search for?
-	if(element->Attribute(id.c_str()))
-		return element;
+  TiXmlElement *
+  findElementRecursive(TiXmlElement* element, const std::string & id)
+  {
+    // does this element have the attribute we search for?
+    if(element->Attribute(id.c_str()))
+      return element;
 
-	// walk through all children
-	TiXmlElement* child = element->FirstChildElement();
-	while(child)
-	{
-		if(TiXmlElement * found = findElementRecursive(child, id))
-			return found;
-		child = child->NextSiblingElement();
-	}
+    // walk through all children
+    TiXmlElement* child = element->FirstChildElement();
+    while(child)
+      {
+	if(TiXmlElement * found = findElementRecursive(child, id))
+	  return found;
+	child = child->NextSiblingElement();
+      }
 
-	// walk through all siblings
-	TiXmlElement* sibling = element->NextSiblingElement();
-	while(sibling)
-	{
-		if(TiXmlElement * found = findElementRecursive(sibling, id))
-			return found;
-		sibling = sibling->NextSiblingElement();
-	}
+    // walk through all siblings
+    TiXmlElement* sibling = element->NextSiblingElement();
+    while(sibling)
+      {
+	if(TiXmlElement * found = findElementRecursive(sibling, id))
+	  return found;
+	sibling = sibling->NextSiblingElement();
+      }
 
-	// finally give up
-	return NULL;
-}
+    // finally give up
+    return NULL;
+  }
 #endif //USE_TINYXML
 
-Node * Context::getRootNode()
-{
+  Node * Context::getRootNode()
+  {
     return rootNode;
-}
+  }
 
-Node * Context::findNode(const std::string & id)
-{
+  Node * Context::findNode(const std::string & id)
+  {
 #ifdef USE_XERCES
     // search for the right node via the DOM_Document API
     std::auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
     DOMElement * el = ((DOMNode *)(rootNode->parent))->getOwnerDocument()->getElementById( tempId.get());
     if( el != 0 )
-        return (Node *)el->getUserData(ud_node);
+      return (Node *)el->getUserData(ud_node);
     return NULL;
 #endif //USE_XERCES
 
 
 #ifdef USE_TINYXML
-	TiXmlElement* el = findElementRecursive(((TiXmlNode*)rootNode->parent)->GetDocument()->RootElement(), id);
+    TiXmlElement* el = findElementRecursive(((TiXmlNode*)rootNode->parent)->GetDocument()->RootElement(), id);
     if( el != 0 )
-        return (Node *)el->GetUserData();
+      return (Node *)el->GetUserData();
     return NULL;
 #endif //USE_TINYXML
-}
+  }
 
-// add a directory to the front of the directory stack 
+  // add a directory to the front of the directory stack 
 
-void Context::addDirectoryFirst( const std::string & dir )
-{
+  void Context::addDirectoryFirst( const std::string & dir )
+  {
     if( std::find( directories.begin(), directories.end(), dir) == directories.end())
-    {
+      {
         directories.insert(directories.begin(), dir);
-    }
-}
+      }
+  }
 
-// add a directory to the end of the directory stack 
+  // add a directory to the end of the directory stack 
 
-void Context::addDirectoryLast( const std::string & dir )
-{
+  void Context::addDirectoryLast( const std::string & dir )
+  {
     if( std::find( directories.begin(), directories.end(), dir) == directories.end())
-    {
+      {
         directories.push_back(dir);
-    }    
-}
+      }    
+  }
 
-// remove a directory from the directory stack 
+  // remove a directory from the directory stack 
 
-void Context::removeDirectory( const std::string & dir )
-{
+  void Context::removeDirectory( const std::string & dir )
+  {
     std::vector<std::string>::iterator it = std::find( directories.begin(), directories.end(), dir);
     if( it != directories.end())
-    {
+      {
         directories.erase(it);
-    }        
-}
+      }        
+  }
 
-// searches for a file by prepending a stack of directory names
+  // searches for a file by prepending a stack of directory names
 
-bool Context::findFile( const std::string & filename, std::string & fullname )
-{
+  bool Context::findFile( const std::string & filename, std::string & fullname )
+  {
     ACE_stat stat;
     if( filename.at(0) == '/' || filename.at(0) == '\\' ) // don't deal with paths from root ! 
-    {
+      {
         if( ACE_OS::stat( ACE_TEXT_CHAR_TO_TCHAR(filename.c_str()), &stat ) != 0 )
-        {
+	  {
             return false;
-        }
+	  }
         fullname = filename;
         return true;
-    }
+      }
     std::vector<std::string>::iterator it;
     for( it = directories.begin(); it != directories.end(); it++ )
-    {
+      {
         std::string name = (*it) + "/" + filename;
         if( ACE_OS::stat( ACE_TEXT_CHAR_TO_TCHAR(name.c_str()), &stat ) == 0 )
-        {
+	  {
             fullname = name;
             return true;
-        }
-    }
+	  }
+      }
     return false;
-}
+  }
 
 
-void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format)
-{
-	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
-		(*it)->newVideoFrame(image, width, height, format);
-}
+  void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format) {
+    for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+      (*it)->newVideoFrame(image, width, height, format);
+  }
 
 
-void Context::registerVideoUser(VideoUser* videoUser)
-{
-	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
-		if(*it == videoUser)
-			return;
+  void Context::registerVideoUser(VideoUser* videoUser)
+  {
+    for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+      if(*it == videoUser)
+	return;
 
-	videoUsers.push_back(videoUser);
-}
+    videoUsers.push_back(videoUser);
+  }
 
 
-void Context::unregisterVideoUser(VideoUser* videoUser)
-{
-	for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
-		if(*it == videoUser)
-		{
-			videoUsers.erase(it);
-			return;
-		}
-}
+  void Context::unregisterVideoUser(VideoUser* videoUser)
+  {
+    for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
+      if(*it == videoUser)
+	{
+	  videoUsers.erase(it);
+	  return;
+	}
+  }
 
 
 } // namespace ot
