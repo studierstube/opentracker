@@ -48,9 +48,9 @@
 
 /**
  * This class implements a simple node that stores a copy of the last
- * event it received and passed on for output to the console. The 
+ * event it received and passed on for output to the console. The
  * associated ConsoleModule polls the nodes regularly and prints
- * out the last state stored.
+ * out the last event stored.
  * @author Gerhard Reitmayr
  * @ingroup tool
  */
@@ -60,9 +60,9 @@ class ToolSink : public Node
 public:
     /// comment line
     std::string comment;
-    /// the state that is stored
-    State state;
-    /// flag whether state was changed since last display
+    /// the event that is stored
+    Event event;
+    /// flag whether event was changed since last display
     int changed;
 
 // Methods
@@ -70,14 +70,14 @@ protected:
     /** constructor method,sets commend member
      * @param comment_ the comment line to use */
     ToolSink( const std::string & comment_ ) :
-        Node(), 
+        Node(),
         comment( comment_ ),
         changed( 0 )
     {}
 
 public:
-    
-    
+
+
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -85,21 +85,17 @@ public:
     {
         return 1;
     }
-    
+
     /**
      * this method notifies the object that a new event was generated.
-     * It stores a copy of the received event and passes the event on
-     * to its observers.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
+     * @param event reference to the new event.
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event, Node& generator)
+    virtual void onEventGenerated( Event& event, Node& generator)
     {
-        state = event;
         changed = 1;
-        updateObservers( state );
+        updateObservers( event );
     }
 
     friend class ToolIOModule;

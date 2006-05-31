@@ -252,8 +252,8 @@ void ToolAppWin::pause()
 
 void ToolAppWin::loop()
 {
-    context->pushStates();
-    context->pullStates();
+    context->pushEvents();
+    context->pullEvents();
     if(context->stop() == 1)
         stop();
     frames ++;

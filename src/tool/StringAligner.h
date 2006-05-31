@@ -10,6 +10,7 @@ class StringAligner
 public:
    StringAligner(const char* nPtr) : ptr(nPtr), myptr(0)
    {
+#define USE_64_BIT
 #ifdef USE_64_BIT
        if((reinterpret_cast<unsigned long>(nPtr) & 0x03f) != 0)
 #else
@@ -35,7 +36,7 @@ protected:
 };
 
 #ifdef _WIN32_WCE
-  #define ALIGN_STRING(str)  StringAligner(str).get() 
+  #define ALIGN_STRING(str)  StringAligner(str).get()
 #else
   #define ALIGN_STRING(str) str
 #endif //_WIN32_WCE

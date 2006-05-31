@@ -2,7 +2,7 @@
 
 #pragma warning(disable:4786)
 // http://support.microsoft.com/support/kb/articles/Q167/3/55.ASP 
-// states that yes, it's a compiler bug that
+// events that yes, it's a compiler bug that
 // #pragma warning(disable: 4786) doesn't always work.
 
 // They don't, however, list a workaround.

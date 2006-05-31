@@ -99,9 +99,9 @@ Node * ToolIOModule::createNode( const std::string& name, StringTable& attribute
     return NULL;
 }
 
-// reads out node states and displays them
+// reads out node events and displays them
 
-void ToolIOModule::pullState()
+void ToolIOModule::pullEvent()
 {
     QString s;
     int row;
@@ -112,18 +112,18 @@ void ToolIOModule::pullState()
         if( sink->changed == 1 )
         {
             row = it - sinks.begin();
-            State & state = sink->state;
-            diff = OSUtils::currentTime() - state.time;
-            s.sprintf("%f %f %f", state.position[0],state.position[1],state.position[2]);
+            Event & event = sink->event;
+            diff = OSUtils::currentTime() - event.time;
+            s.sprintf("%f %f %f", event.getPosition()[0],event.getPosition()[1],event.getPosition()[2]);
             output->setText( row, 0, s );
-            s.sprintf("%f %f %f %f", state.orientation[0], state.orientation[1], 
-                                     state.orientation[2], state.orientation[3] );
+            s.sprintf("%f %f %f %f", event.getOrientation()[0], event.getOrientation()[1], 
+                                     event.getOrientation()[2], event.getOrientation()[3] );
             output->setText( row, 1, s );
-            s.sprintf("%hx", state.button );
+            s.sprintf("%hx", event.getButton() );
             output->setText( row, 2, s );
-            s.sprintf("%f", state.confidence );
+            s.sprintf("%f", event.getConfidence() );
             output->setText( row, 3, s );
-            s.sprintf("%lf", state.time );
+            s.sprintf("%lf", event.time );
             output->setText( row, 4, s );
             s.sprintf("%lf", diff );
             output->setText( row, 5, s );

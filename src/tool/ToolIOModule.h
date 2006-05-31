@@ -50,7 +50,7 @@
 
 /** This module substitutes the usuall ConsoleModule in an OpenTracker Context
  * and takes over its nodes and configuration. It does not implement ConsoleSources
- * with keyboard events, but will at some state provide a special user interface
+ * with keyboard events, but will at some event provide a special user interface
  * to do so. Until then it will only output stuff.
  * @author Gerhard Reitmayr
  * @ingroup tool
@@ -63,9 +63,9 @@ protected:
     NodeVector sinks;
     /// list of ConsoleSource nodes  in the tree
     NodeVector sources;
-    /// current cycle count, for computing when to print out the state again
+    /// current cycle count, for computing when to print out the event again
     int cycle;
-    /// cycle interval to use for printing out states
+    /// cycle interval to use for printing out events
     int interval;
     /// should the module quit ?
     int quit;
@@ -98,12 +98,12 @@ public:
      * ConsoleSource nodes accordingly. This happens every cycle 
      * and all key presses recorded since are used.
      */
-    // virtual void pushState();
+    // virtual void pushEvent();
     /**
-     * reads out the ConsoleSink nodes current state an prints it
+     * reads out the ConsoleSink nodes current event an prints it
      * to the console. This is done only each length cylce.
      */
-    virtual void pullState();
+    virtual void pullEvent();
     /**
      * On Unix platforms initializes curses. This method is called after 
      * initialisation is finished and before the main loop is started.*/
