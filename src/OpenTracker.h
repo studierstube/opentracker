@@ -62,9 +62,9 @@
  * Modules exchange data via a shared memory that is structured into a tree.
  * Different nodes of the tree are managed and observed by different modules.
  * The nodes exchange data via three interfaces :
- * @li EventGenerator is the interface of a node sending state updates ( events )
+ * @li EventGenerator is the interface of a node sending event updates ( events )
  * @li EventQueue is the interface of a node holding a queue of past events
- * @li TimeDependend is the interface of a node providing a state for any moment
+ * @li TimeDependend is the interface of a node providing a event for any moment
  *     in time. 
  *
  * A node may implement several interfaces. However parent child relationships
@@ -111,35 +111,33 @@
 #include "core/OSUtils.h"
 #include "core/NodePort.h"
 
-
-#define OPENTRACKER_VERSION_MAJOR 1
-#define OPENTRACKER_VERSION_MINOR 1
-
-enum OPENTRACKER_VERSION {
-	VERSION_MAJOR = OPENTRACKER_VERSION_MAJOR,
-	VERSION_MINOR = OPENTRACKER_VERSION_MINOR
-};
-
-
-/**
- * a Vector of Node pointers. Very useful to implement a simple
- * container of Nodes such as a parent node, or to keep pointers
- * to several nodes around.
- */
 namespace ot {
 
-typedef std::vector<Node *> NodeVector;
+#define OPENTRACKER_VERSION_MAJOR 1
+#define OPENTRACKER_VERSION_MINOR 3
+  
+  enum OPENTRACKER_VERSION {
+    VERSION_MAJOR = OPENTRACKER_VERSION_MAJOR,
+    VERSION_MINOR = OPENTRACKER_VERSION_MINOR
+  };
 
-/** initializes a context by instantiating the available modules and factories
- * and registering them with the given context. So for each passed context 
- * there is a new set of objects instantiated. This leaves the programmer with
- * the responsibility of deleting these objects again ! Any compile time definitions 
- * go in here, to define which modules are compiled in and can be instantiated.
- * Also the modules configuration element names are defined here.
- *
- * @param context reference of the context to be initialized.
- */
-OPENTRACKER_API void  initializeContext( Context & context );
+  /**
+   * a Vector of Node pointers. Very useful to implement a simple
+   * container of Nodes such as a parent node, or to keep pointers
+   * to several nodes around.
+   */
+  typedef std::vector<Node *> NodeVector;
+
+  /** initializes a context by instantiating the available modules and factories
+   * and registering them with the given context. So for each passed context 
+   * there is a new set of objects instantiated. This leaves the programmer with
+   * the responsibility of deleting these objects again ! Any compile time definitions 
+   * go in here, to define which modules are compiled in and can be instantiated.
+   * Also the modules configuration element names are defined here.
+   *
+   * @param context reference of the context to be initialized.
+   */
+  OPENTRACKER_API void  initializeContext( Context & context );
 
 } // namespace ot
 
