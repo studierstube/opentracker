@@ -176,18 +176,12 @@ namespace ot {
         /** calls start on all modules to do some initialization. */
         void start();
 
-        /** This method calls pushState on all modules to get new data into the
+        /** This method calls pushEvent on all moadules to get new data into the
          * shared data tree. */
-        void pushStates();
+        void pushEvents();
 
-        /** calls pullState on all modules to get data out again.*/
-        void pullStates();
-
-        /** OpenTracker-1.2 compatibility */
-        inline void pushEvents() { pushStates(); }
-
-        /** OpenTracker-1.2 compatibility */
-        inline void pullEvents() { pullStates(); }
+        /** calls pullSEvent on all modules to get data out again.*/
+        void pullEvents();
 
         /** This method implements the main loop and runs until it is stopped
          * somehow. Then it calls close() on all modules. */
