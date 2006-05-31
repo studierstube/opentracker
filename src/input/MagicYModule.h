@@ -45,7 +45,7 @@
  * @page module_ref Module Reference
  * @section MagicYModule MagicYModule
  * The MagicYModule listens for data from the MagicY sent via TCP/IP
- * to a specified port of the host and pushes the state updates into the 
+ * to a specified port of the host and pushes the event updates into the 
  * tracker tree via @ref MagicYSource nodes. 
  * It's configuration element has the following attributes :
  * @li @c IP IP of the MagicY server
@@ -71,7 +71,9 @@
 #include <ace/SOCK_Dgram.h>
 #include <ace/SOCK_Connector.h>
 #include <ace/INET_Addr.h>
-#include <ace/Handle_Set.h> 
+#include <ace/Handle_Set.h>
+
+#include <vector>
 
 namespace ot {
 
@@ -81,24 +83,24 @@ class MagicY
   public:
     int number;    
 	bool average;
-    State state;
+    Event event;
     int modified;
     MagicYSource * source;
 
     MagicY( const int number_, const bool average_, MagicYSource * source_ ) :
         number( number_ ), average( average_ ), modified( 0 ), source( source_ )
     {
-		state.position[0] = 0;
-		state.position[1] = 0;
-		state.position[2] = 0;
+		event.getPosition()[0] = 0;
+		event.getPosition()[1] = 0;
+		event.getPosition()[2] = 0;
 
-		state.orientation[0] = 0;
-		state.orientation[1] = 0;
-		state.orientation[2] = 0;
-		state.orientation[3] = 0;
+		event.getOrientation()[0] = 0;
+		event.getOrientation()[1] = 0;
+		event.getOrientation()[2] = 0;
+		event.getOrientation()[3] = 0;
 
-		state.button = 0;
-		state.confidence = 0.0f;
+		event.getButton() = 0;
+		event.getConfidence() = 0.0f;
 	};
 };
 
@@ -138,7 +140,7 @@ typedef std::vector<MagicPoint> PointVector;
 const int magicYMaxUnits = 1000;
 
 /**
- * The module and factory to drive the reception of MagicY state updates.
+ * The module and factory to drive the reception of MagicY event updates.
  * It builds MagicYSource nodes that insert data from the MagicY into
  * the tracker tree. It uses the MagicY protocol and runs in a thread.
  * 
@@ -178,7 +180,7 @@ protected:
 	int receive();
 	int stillConnected(); 
 	void disconnect();
-    void run();
+	void run();
 	int parseVector(const std::string & line, int * val);
 	int parseVector(const std::string & line, float * val);
 	int parseScreens(const std::string & line);
@@ -187,7 +189,7 @@ protected:
 	void initOrientation(float *orientation);
 	void calcInversion(int *inversion);
 	void calcMapping(int *mapping);
-	void correctData(float* d, int *mapping, int *inversion);
+	void correctData(std::vector<float> &d, int *mapping, int *inversion);
 
 public:    
     /** basic constructor */
@@ -218,11 +220,11 @@ public:
 	 */
     virtual void close();    
     /**
-     * pushes state information into the tree. It checks whether there is new
+     * pushes event information into the tree. It checks whether there is new
      * data for any MagicYSource node, copies it into the nodes and calls
      * push on them.    
      */
-    virtual void pushState();             
+    virtual void pushEvent();             
 };
 
 } // namespace ot

@@ -182,7 +182,7 @@ bool SpeechSetBase::IsActive()
 
 #ifdef USE_SAPISPEECH
 
-	
+
 CSpeechSet::CSpeechSet(const char *p_Name, DWORD p_Id, CSpeechCore *p_SpeechCore)
 : SpeechSetBase( p_Name, p_Id, p_SpeechCore)
 {
@@ -204,15 +204,15 @@ void CSpeechSet::Destroy()
   if(m_SpeechCore)
   {
     HRESULT hr = S_OK;
-    SPSTATEHANDLE hStateTravel;
-    wstring wName;
+    SPSTATEHANDLE hEventTravel;
+    std::wstring wName;
 
     CSpeechCore::StrToWide(GetName(), wName);
 
     // remove rule
-    hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hStateTravel);
+    hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hEventTravel);
     if(SUCCEEDED(hr))
-      m_SpeechCore->m_CmdGrammar->ClearRule(hStateTravel);
+      m_SpeechCore->m_CmdGrammar->ClearRule(hEventTravel);
   }
 
   m_SpeechCore = 0;
@@ -289,8 +289,8 @@ void CSpeechSet::AddCommand(const char *p_Command, DWORD p_CommandId, float p_We
   assert(m_SpeechCore);
 
   HRESULT hr = S_OK;
-  SPSTATEHANDLE hStateTravel;
-  wstring wName, wCommand, wSeperator;
+  SPSTATEHANDLE hEventTravel;
+  std::wstring wName, wCommand, wSeperator;
 
   // no need for 2 times the same command
   if(IsCommandRegistered(p_Command))
@@ -301,21 +301,21 @@ void CSpeechSet::AddCommand(const char *p_Command, DWORD p_CommandId, float p_We
   CSpeechCore::StrToWide(" ", wSeperator);
 
   // create (if rule does not already exist) top-level Rule, defaulting to Active
-  hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hStateTravel);
+  hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hEventTravel);
   if(FAILED(hr))
   {
     Destroy();
     throw CSpeechException("Unable to get Rule");
   }
-  
+
   // add a command to the rule
-  hr = m_SpeechCore->m_CmdGrammar->AddWordTransition(hStateTravel, NULL, &wCommand[0], &wSeperator[0], SPWT_LEXICAL, p_Weight, NULL);
+  hr = m_SpeechCore->m_CmdGrammar->AddWordTransition(hEventTravel, NULL, &wCommand[0], &wSeperator[0], SPWT_LEXICAL, p_Weight, NULL);
   if(FAILED(hr))
   {
     Destroy();
     throw CSpeechException("Unable to add Word");
   }
-    
+
   // Must Commit the grammar changes before using the grammar.
   hr = m_SpeechCore->m_CmdGrammar->Commit(0);
   if (FAILED(hr))
@@ -375,21 +375,21 @@ void CSpeechSet::RemoveCommand(DWORD p_CommandId)
 void CSpeechSet::RebuildRule()
 {
   HRESULT hr = S_OK;
-  SPSTATEHANDLE hStateTravel;
-  wstring wName, wCommand, wSeperator;
+  SPSTATEHANDLE hEventTravel;
+  std::wstring wName, wCommand, wSeperator;
 
   CSpeechCore::StrToWide(GetName(), wName);
-  
+
   // create (if rule does not already exist) top-level Rule, defaulting to Active
-  hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hStateTravel);
+  hr = m_SpeechCore->m_CmdGrammar->GetRule(&wName[0], m_Id, SPRAF_TopLevel | SPRAF_Active, TRUE, &hEventTravel);
   if(FAILED(hr))
   {
     Destroy();
     throw CSpeechException("Unable to get Rule");
   }
-  
+
   // remove rule
-  hr = m_SpeechCore->m_CmdGrammar->ClearRule(hStateTravel);
+  hr = m_SpeechCore->m_CmdGrammar->ClearRule(hEventTravel);
   if(FAILED(hr))
   {
     Destroy();
@@ -402,14 +402,14 @@ void CSpeechSet::RebuildRule()
     CSpeechCore::StrToWide(m_RegisteredCommands[i].m_Seperator.c_str(), wSeperator);
 
     // add a command to the rule
-    hr = m_SpeechCore->m_CmdGrammar->AddWordTransition(hStateTravel, NULL, &wCommand[0], &wSeperator[0], SPWT_LEXICAL, m_RegisteredCommands[i].m_Weight, NULL);
+    hr = m_SpeechCore->m_CmdGrammar->AddWordTransition(hEventTravel, NULL, &wCommand[0], &wSeperator[0], SPWT_LEXICAL, m_RegisteredCommands[i].m_Weight, NULL);
     if(FAILED(hr))
     {
       Destroy();
       throw CSpeechException("Unable to add Word");
     }
   }
-    
+
   // Must Commit the grammar changes before using the grammar.
   hr = m_SpeechCore->m_CmdGrammar->Commit(0);
   if (FAILED(hr))
@@ -438,7 +438,7 @@ bool CSpeechSet::IsReco()
 }
 
 
-bool CSpeechSet::GetReco(string &p_Result)
+bool CSpeechSet::GetReco(std::string &p_Result)
 {
   assert(m_SpeechCore);
 
@@ -459,7 +459,7 @@ void CSpeechSet::Activate()
     return;
 
   HRESULT hr = S_OK;
-  wstring wName;
+  std::wstring wName;
   CSpeechCore::StrToWide(GetName(), wName);
 
   // Activate the Rule
@@ -480,7 +480,7 @@ void CSpeechSet::Deactivate()
     return;
 
   HRESULT hr = S_OK;
-  wstring wName;
+  std::wstring wName;
   CSpeechCore::StrToWide(GetName(), wName);
 
   // Activate the Rule

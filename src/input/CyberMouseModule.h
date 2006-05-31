@@ -100,7 +100,7 @@ public:
      * pushes new events, if a CyberMouseSource fires. The events store
 	 * structure with position and status of the buttons.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot

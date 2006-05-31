@@ -76,10 +76,10 @@ class OPENTRACKER_API GPSInfoSource : public Node, public GPSListener
 {
 public:
 
-	 /// the state that is posted to the EventObservers
-    State state;
-    /// the buffer state for data from the GPS receiver
-    State buffer;
+	 /// the event that is posted to the EventObservers
+    Event event;
+    /// the buffer event for data from the GPS receiver
+    Event buffer;
     
 	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -106,9 +106,9 @@ inline void GPSInfoSource::newData( const GPResult * res, const char * line, voi
         GPSModule * module = (GPSModule *)userData;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = (float)point->fix;
-        buffer.position[1] = (float)point->numsats;
-        buffer.position[2] = (float)point->hdop;
+        buffer.getPosition()[0] = (float)point->fix;
+        buffer.getPosition()[1] = (float)point->numsats;
+        buffer.getPosition()[2] = (float)point->hdop;
         module->unlock();
     }
 }

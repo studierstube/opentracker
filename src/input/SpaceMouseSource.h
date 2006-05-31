@@ -45,7 +45,7 @@
  * @page Nodes Node Reference
  * @section spacemousesource SpaceMouseSource
  * The SpaceMouseSource node is a simple EventGenerator that outputs the
- * current position and button state of the SpaceMouse. It is driven by
+ * current position and button event of the SpaceMouse. It is driven by
  * the @ref spacemousemodule. 
  * [Hints to be filled in...]
  *
@@ -73,8 +73,8 @@ class OPENTRACKER_API SpaceMouseSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
 
 // Methods
 public:
@@ -93,14 +93,14 @@ public:
     /** pushes event down the line. */
     void push()
     {
-        state.timeStamp();
-        updateObservers( state );
+        event.timeStamp();
+        updateObservers( event );
     }
 
 protected:
-    /// the state that is updated by the @see JostickModule polling thread.
-    State tmpState;
-    /// a flag to indicate whether tmpState was changed during processing
+    /// the event that is updated by the @see JostickModule polling thread.
+    Event tmpEvent;
+    /// a flag to indicate whether tmpEvent was changed during processing
     int changed;
 
 	friend class SpaceMouseModule;

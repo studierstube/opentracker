@@ -144,7 +144,7 @@ public:
      * pushes new events, if a P5GloveSource fires. The events store
 	 * structure with position and status of the buttons.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
     void P5Motion_SetClipRegion(int xstart, int xend, int ystart, int yend, int zstart, int zend);
     void P5Motion_InvertMouse (int xaxis, int yaxis, int zaxis);

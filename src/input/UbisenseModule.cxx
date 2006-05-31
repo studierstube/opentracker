@@ -126,13 +126,13 @@ void UbisenseModule::close()
 	locationClient.unload_all_cells();
 }
 
-void UbisenseModule::pushState()
+void UbisenseModule::pushEvent()
 {
     for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
     {
         UbisenseSource* pSource = reinterpret_cast<UbisenseSource*>(*it);
-		if (pSource->calcState())
-			pSource->updateObservers(pSource->getState());
+		if (pSource->calcEvent())
+			pSource->updateObservers(pSource->getEvent());
     }
 }
 
@@ -184,7 +184,7 @@ void UbisenseModule::WrappedDataClient::on_button(const Object &tag,UbitagButton
         UbisenseSource* pSource = reinterpret_cast<UbisenseSource*>(*it);
 		const Object &object = pSource->getObject();
 		if (tag == object || owner == object)
-			pSource->setButtonState(button == Orange ? 0x0001: button == Blue ? 0x0002: 0x0000,time);
+			pSource->setButtonEvent(button == Orange ? 0x0001: button == Blue ? 0x0002: 0x0000,time);
 	}
 }
 

@@ -46,7 +46,7 @@
  * @section artoolkitmodule ARToolKitModule
  * The ARToolKitModule interfaces to the ARToolKit library to track the 
  * position and orientation of visual markers with a video camera. It uses
- * the information provided by @ref artoolkitsource nodes and inserts the state
+ * the information provided by @ref artoolkitsource nodes and inserts the event
  * events through @ref artoolkitsource nodes into the tree. The configuration 
  * element is @c ARToolKitConfig and has the following attributes :
  * @li @c camera-parameter file containing camera calibration data
@@ -169,7 +169,7 @@
  *					 Hexadecimal value expected, i.e. "ieee1394id=437d3b0201460008"
  *                   Use /bin/IEEE394_id.exe to determine your camera's ID.
  *
- * @li @c deinterlaceState=? supported parameters (see VFX_STATE_names[])<br>
+ * @li @c deinterlaceEvent=? supported parameters (see VFX_STATE_names[])<br>
  *                           "off"  : disable deinterlacing (DEFAULT)<br>
  *                           "on"   : force deinterlacing (even for progressive frames)<br>
  *                           "auto" : enable deinterlacing only if
@@ -189,8 +189,8 @@
    videomode="inputDevice=WDM_CAP,showDlg"
    videomode="flipH,flipV,showDlg"
    videomode="pixelFormat=PIXELFORMAT_RGB24,showDlg"
-   videomode="showDlg,deinterlaceState=on,deinterlaceMethod=duplicate1"
-   videomode="videoWidth=640,flipH,videoHeight=480,showDlg,deinterlaceState=auto"
+   videomode="showDlg,deinterlaceEvent=on,deinterlaceMethod=duplicate1"
+   videomode="videoWidth=640,flipH,videoHeight=480,showDlg,deinterlaceEvent=auto"
    videomode="inputDevice=WDM_CAP,friendlyName=Microsoft DV Camera,videoWidth=720,videoHeight=480"
    videomode="inputDevice=WDM_CAP,friendlyName=Logitech,videoWidth=320,videoHeight=240,flipV"
    videomode="inputDevice=WDM_CAP,frendlyName=Microsoft DV Camera,ieee1394id=437d3b0201460008"
@@ -311,9 +311,9 @@ public:
 
     /**
      * pushes events into the tracker tree. Checks all source nodes for
-     * new states and pushes them into the tracker tree.
+     * new events and pushes them into the tracker tree.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
     /**
      * initializes the ARToolKit module. 

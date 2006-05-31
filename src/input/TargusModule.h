@@ -80,7 +80,7 @@ namespace ot {
        * pushes new events, if a TargusSource fires. The events store
        * structure with position and status of the buttons.
        */
-      virtual void pushState();
+      virtual void pushEvent();
 
    protected:
       // holds the display pointer

@@ -100,7 +100,7 @@ public:
 	 * The events store position, pressure and status of the buttons of the 
 	 * Wacom pointing device.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot

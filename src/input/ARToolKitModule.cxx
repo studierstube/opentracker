@@ -289,7 +289,7 @@ void ARToolKitModule::close()
 
 // pushes events into the tracker tree
 
-void ARToolKitModule::pushState()
+void ARToolKitModule::pushEvent()
 {
     for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
     {
@@ -297,10 +297,10 @@ void ARToolKitModule::pushState()
         lock();
         if( source->modified == 1 )
         {
-            source->state = source->buffer;
+            source->event = source->buffer;
             source->modified = 0;
             unlock();
-            source->updateObservers( source->state );
+            source->updateObservers( source->event );
         } else
         {
             unlock();
@@ -459,8 +459,8 @@ void ARToolKitModule::grab()
             if( arGetTransMat( &markerInfo[k], source->center, source->size, matrix ) >= 0 )
             {
                 lock();
-                State & state = source->buffer;
-                state.confidence = (float)markerInfo[k].cf;
+                Event & event = source->buffer;
+                event.getConfidence() = (float)markerInfo[k].cf;
 
 #ifdef ARTOOLKIT_UNFLIP_V
 
@@ -482,11 +482,11 @@ void ARToolKitModule::grab()
                 MathUtils::Vector3 euler_angles;
                 MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
 
-                MathUtils::eulerToQuaternion((float)-euler_angles[Q_Z],(float)euler_angles[Q_Y],(float)-euler_angles[Q_X], state.orientation);
+                MathUtils::eulerToQuaternion((float)-euler_angles[Q_Z],(float)euler_angles[Q_Y],(float)-euler_angles[Q_X], event.orientation);
 
-                state.position[0] = (float)matrix_4x4_corrected[0][3];
-                state.position[1] = (float)matrix_4x4_corrected[1][3];
-                state.position[2] = (float)matrix_4x4_corrected[2][3];
+                event.getPosition()[0] = (float)matrix_4x4_corrected[0][3];
+                event.getPosition()[1] = (float)matrix_4x4_corrected[1][3];
+                event.getPosition()[2] = (float)matrix_4x4_corrected[2][3];
                 //  -----------------------------------------------------------
 #else
                 //  --- DO NOT correct ARToolkit's vertical image mirroring ---
@@ -499,27 +499,27 @@ void ARToolKitModule::grab()
                         m[r][s] = (float)matrix[r][s];
                     }
                 }
-                MathUtils::matrixToQuaternion( m, state.orientation );
-                state.position[0] = (float)matrix[0][3];
-                state.position[1] = (float)matrix[1][3];
-                state.position[2] = (float)matrix[2][3];
+                MathUtils::matrixToQuaternion( m, event.orientation );
+                event.getPosition()[0] = (float)matrix[0][3];
+                event.getPosition()[1] = (float)matrix[1][3];
+                event.getPosition()[2] = (float)matrix[2][3];
                 //  -----------------------------------------------------------
 #endif
-                state.timeStamp();
+                event.timeStamp();
                 source->modified = 1;
                 unlock();
             }
         } 
         else  // marker not found 
         {
-            // only if marker was found in the last grab (state.confidence > epsilon) set 
+            // only if marker was found in the last grab (event.getConfidence() > epsilon) set 
             // confidence to 0.0!
-            State & state = source->buffer;
-            if (state.confidence > 0.00000001f) 
+            Event & event = source->buffer;
+            if (event.getConfidence() > 0.00000001f) 
             {
                 lock();
-                state.confidence = 0.0f;
-                state.timeStamp();
+                event.getConfidence() = 0.0f;
+                event.timeStamp();
                 source->modified = 1;
                 unlock();
             }

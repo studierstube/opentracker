@@ -12,7 +12,7 @@
  * @page Nodes Node Reference
  * @section targussource Targussource
  * The Targussource node is a simple EventGenerator that outputs the
- * current position and button state of the TargusModule. It is driven by
+ * current position and button event of the TargusModule. It is driven by
  * the @ref targusmodule. 
  * If the mouse does not seem to work, press a button. This should initialize
  * it and it will work. The mouse buttons are mapped to button numbers in
@@ -43,8 +43,8 @@ namespace ot {
 
       // Members
    public: 
-      /// the state that is posted to the EventObservers
-      State state;
+      /// the event that is posted to the EventObservers
+      Event event;
 
       // Methods
       /** simple constructor, sets members to initial values */

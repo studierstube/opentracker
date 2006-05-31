@@ -262,7 +262,7 @@ void ParButtonModule::close()
   
 // pushes events into the tracker tree
 
-void ParButtonModule::pushState()
+void ParButtonModule::pushEvent()
 {
     unsigned short data;
     
@@ -292,29 +292,29 @@ void ParButtonModule::pushState()
 			(data>>0)&1
 			);
 #endif
-        if( data != source->state.button )
+        if( data != source->event.getButton() )
         {
-            source->state.button = data;
-            source->state.timeStamp();
-            source->updateObservers( source->state );
+            source->event.getButton() = data;
+            source->event.timeStamp();
+            source->updateObservers( source->event );
         }
 #else
 
 #ifdef _SGI_SOURCE
         if( read( source->handle, &data, 1 ) == 1 )
         {
-            source->state.button = data;
-            source->state.timeStamp();
-            source->updateObservers( source->state );
+            source->event.getButton() = data;
+            source->event.timeStamp();
+            source->updateObservers( source->event );
         }
 #else  // LINUX
     int cstatus = ioctl(source->handle, PPRDATA, &data);	
 	
-	if( (unsigned int)(~data) != source->state.button )
+	if( (unsigned int)(~data) != source->event.getButton() )
         {
-            source->state.button = 0x00ff&(~data);
-            source->state.timeStamp();
-            source->updateObservers( source->state );
+            source->event.getButton() = 0x00ff&(~data);
+            source->event.timeStamp();
+            source->updateObservers( source->event );
         }
 #endif
 

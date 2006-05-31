@@ -45,7 +45,7 @@
  * @page Nodes Node Reference
  * @section cybermousesource CyberMouseSource
  * The CyberMouseSource node is a simple EventGenerator that outputs the
- * current position and button state of the CyberMouse. It is driven by
+ * current position and button event of the CyberMouse. It is driven by
  * the @ref cybermousemodule. 
  * If the mouse does not seem to work, press a button. This should initialize
  * it and it will work. The mouse buttons are mapped to button numbers in
@@ -76,8 +76,8 @@ class OPENTRACKER_API CyberMouseSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
 
 // Methods
 protected:

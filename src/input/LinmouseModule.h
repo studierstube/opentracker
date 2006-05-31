@@ -97,7 +97,7 @@ namespace ot {
        * pushes new events, if a TargusSource fires. The events store
        * structure with position and status of the buttons.
        */
-      virtual void pushState();
+      virtual void pushEvent();
       /**
        * initializes the LinmouseModule. 
        * @param attributes StringMap of elements attribute values. Should be

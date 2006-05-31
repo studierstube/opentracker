@@ -152,9 +152,9 @@ namespace ot {
 	
       /**
        * pushes events into the tracker tree. Checks all source nodes for
-       * new states and pushes them into the tracker tree.
+       * new events and pushes them into the tracker tree.
        */
-      virtual void pushState();
+      virtual void pushEvent();
 	
       /**
        * initializes the ARTDataTrackerModule. 
@@ -177,9 +177,9 @@ namespace ot {
    Local Variables:
    mode:c++
    c-basic-offset: 4
-   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'subeventment-open 0)
    eval: (c-set-offset 'case-label '+)
-   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
    eval: (setq indent-tabs-mode nil)
    End:
    =========================================================================== */

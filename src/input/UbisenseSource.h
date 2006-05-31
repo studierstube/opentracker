@@ -100,17 +100,17 @@ protected:
 
 	const Object & getObject() const { return object; }
 
-	bool calcState();
+	bool calcEvent();
 
-	State & getState() { return state; }
+	Event & getEvent() { return event; }
 
-	void setButtonState(unsigned short,double);
+	void setButtonEvent(unsigned short,double);
 
 // members
 private:
 	unsigned short button;
 	double lastTime,buttonTime;
-	State state;
+	Event event;
 	const Object object;
 	const LocationClient &locationClient;
 	DataClient &dataClient;

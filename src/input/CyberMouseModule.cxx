@@ -104,7 +104,7 @@ Node * CyberMouseModule::createNode( const string& name, StringTable& attributes
     if( name.compare("CyberMouseSource") == 0 )
     {       
         CyberMouseSource * source = new CyberMouseSource;
-		source->state.confidence = 1.0f;
+		source->event.getConfidence() = 1.0f;
         nodes.push_back( source );
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build CyberMouseSource node\n")));
         initialized = 1;
@@ -188,7 +188,7 @@ void CyberMouseModule::close()
 }
 
 // pushes events into the tracker tree.
-void CyberMouseModule::pushState()
+void CyberMouseModule::pushEvent()
 {
     if( isInitialized() == 1 )
     {
@@ -199,13 +199,13 @@ void CyberMouseModule::pushState()
 	for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
         CyberMouseSource * source = (CyberMouseSource *)(*it);
-        source->state.position[0] = FREED_Info.AbsX;
-        source->state.position[1] = FREED_Info.AbsY;
-        source->state.position[2] = FREED_Info.AbsZ;
+        source->event.getPosition()[0] = FREED_Info.AbsX;
+        source->event.getPosition()[1] = FREED_Info.AbsY;
+        source->event.getPosition()[2] = FREED_Info.AbsZ;
         //middle button = 1, second button = 2, both = 3
-        source->state.button = (FREED_Info.Status & 0x3);
-        source->state.timeStamp();
-        source->updateObservers( source->state );
+        source->event.getButton() = (FREED_Info.Status & 0x3);
+        source->event.timeStamp();
+        source->updateObservers( source->event );
     }
 }
 

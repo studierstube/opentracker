@@ -72,8 +72,8 @@ class OPENTRACKER_API MagicYSource : public Node
 {
 // Members
 public:
-    /// the new state
-    State state;
+    /// the new event
+    Event event;
 
 // Methods
 protected:

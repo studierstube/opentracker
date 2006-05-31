@@ -62,7 +62,7 @@ namespace ot {
 // constructor initializing the thread manager
 MagicYModule::MagicYModule() : ThreadModule(), NodeFactory(), stop(0)
 {
-    
+
 }
 
 // destructor cleans up any allocated memory
@@ -76,10 +76,10 @@ MagicYModule::~MagicYModule()
 // open all sockets
 int MagicYModule::connect()
 {
-    int retval; 
+    int retval;
     char buffer[32];
     ACE_Time_Value timeOut(1,0);
-    
+
     for(unsigned int i=0; i<screens.size(); i++)
     {
         retval = connector.connect(screens[i]->socket, screens[i]->address, &timeOut);
@@ -88,7 +88,7 @@ int MagicYModule::connect()
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d connection failed for socket nr.: %d\n"), errno, i));
             return -1;
         }
-        else 
+        else
         {
 			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:connected to socket nr.: %d - sending GO command\n"), i));
             sprintf(buffer, "GO\n\r");
@@ -99,7 +99,7 @@ int MagicYModule::connect()
                 return -1;
             }
         }
-        screens[i]->connected = true;	
+        screens[i]->connected = true;
     }
     return 0;
 }
@@ -119,66 +119,66 @@ int MagicYModule::receive()
     ACE_Time_Value timeOut(0,5000);
     std::string message(""), accumulated("");
     char buffer[32], t='X';
-    int retval, x, y, pos; 
+    int retval, x, y, pos;
     size_t trans_bytes = 0;
     bool complete, trigger;
-    
-    points.clear();	
+
+    points.clear();
     for(unsigned int i=0; i<screens.size(); i++)
     {
         complete = false;
         message.erase(message.begin(), message.end());
-        
+
         if(readHandles.is_set(screens[i]->socket.get_handle()))
         {
             do
             {
-                retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, &trans_bytes);
+  	        retval = screens[i]->socket.recv_n(buffer, sizeof(buffer), &timeOut, (size_t*)&trans_bytes);
                 if(retval == -1 && errno != ETIME && errno != 0)
                 {
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving command for socket nr.: %d\n"), errno, i));
                     return -1;
-                }  
+                }
                 else
                 {
-                    accumulated.append(buffer, trans_bytes); 
+                    accumulated.append(buffer, trans_bytes);
                     pos = accumulated.find("\n\r", 0);
                     if (pos < 0)
                         pos = accumulated.find("\r\n", 0);
-                    
-                    if (pos >= 0)	
-                    { 
+
+                    if (pos >= 0)
+                    {
                         message.assign(accumulated, 0, pos);
                         accumulated.erase(0, pos+2);
                         complete = true;
                     }
                 }
             } while(!complete && stop == 0);
-            
+
             if(message.compare("READY") && message.compare("0"))
             {
                 pos = message.find(',', 0);
                 message.erase(0, pos+1);
-                // extract state and points
+                // extract event and points
                 while (1)
-                {		
+                {
                     if (sscanf(message.c_str(), "%c,%d,%d", &t, &x, &y) == 3)
-                    {		
+                    {
                         if(t == 'Y')
                             trigger = true;
                         else
                             trigger = false;
-                        
+
                         x += screens[i]->x_offset;
                         y += screens[i]->y_offset;
-                        
+
                         points.push_back(MagicPoint(x,y,trigger));
-                        
+
                         pos = message.find(',', 0);
                         pos = message.find(',', pos+1);
                         pos = message.find(',', pos+1);
                         message.erase(0, pos+1);
-                        
+
                         if (pos < 0)
                             break;
                     }
@@ -192,12 +192,12 @@ int MagicYModule::receive()
 }
 
 // checks if all sockets are still connected by sending a PING
-int MagicYModule::stillConnected() 
+int MagicYModule::stillConnected()
 {
     ACE_Time_Value timeOut(1,0);
     char buffer[16];
     int retval;
-    
+
     sprintf(buffer, "PING\n\r");
     for(unsigned int i=0; i<screens.size(); i++)
     {
@@ -226,11 +226,11 @@ void MagicYModule::disconnect()
 void MagicYModule::run()
 {
 	ACE_DEBUG((LM_INFO, ACE_TEXT("starting MagicY module thread\n")));
-    
+
     ACE_Time_Value timeOut(1,0);
-    int average_x=0, average_y=0, socks_active;	
+    int average_x=0, average_y=0, socks_active;
     bool connected = false;
-    
+
     while(stop == 0)
     {
         // connecting
@@ -240,13 +240,13 @@ void MagicYModule::run()
             connected = true;
             // do while no error occurs
             while(stop == 0)
-            {	
+            {
                 average_x=0;
                 average_y=0;
-                
+
                 if(! stillConnected())
                     break;
-                
+
                 // build FD_SET
                 setSelect();
                 // wait for sockets to be ready for reading
@@ -258,7 +258,7 @@ void MagicYModule::run()
                 }
                 if(receive())
                     break;
-                
+
                 lock();
                 // calculate average
                 for (unsigned int i=0; i < points.size(); i++)
@@ -271,55 +271,55 @@ void MagicYModule::run()
                     average_x /= points.size();
                     average_y /= points.size();
                 }
-                
-                // try to find source 1 to n for the n extracted points and fill their state
+
+                // try to find source 1 to n for the n extracted points and fill their event
                 MagicYVector::iterator mY_it;
                 for( mY_it = magicYs.begin(); mY_it != magicYs.end(); mY_it++ )
                 {
-                    // critical section start, fill state
-                    State & state = (*mY_it)->state;
+                    // critical section start, fill event
+                    Event & event = (*mY_it)->event;
                     if ((*mY_it)->average)
                     {
                         if(points.size())
                         {
-                            state.position[0] = float(average_x);
-                            state.position[1] = float(average_y);
-                            state.confidence = 1.0f;
+                            event.getPosition()[0] = float(average_x);
+                            event.getPosition()[1] = float(average_y);
+                            event.getConfidence() = 1.0f;
                         }
                         else
                         {
-                            state.confidence = 0.0f;
+                            event.getConfidence() = 0.0f;
                         }
                     }
                     else
                     {
-                        if((*mY_it)->number >= 0 && (unsigned int)(*mY_it)->number < points.size()) 
+                        if((*mY_it)->number >= 0 && (unsigned int)(*mY_it)->number < points.size())
                         {
-                            state.position[0] = float(points[(*mY_it)->number].x);
-                            state.position[1] = float(points[(*mY_it)->number].y);
-                            state.button = points[(*mY_it)->number].trigger;
-                            state.confidence = 1.0f;
-                        }                  
+                            event.getPosition()[0] = float(points[(*mY_it)->number].x);
+                            event.getPosition()[1] = float(points[(*mY_it)->number].y);
+                            event.getButton() = points[(*mY_it)->number].trigger;
+                            event.getConfidence() = 1.0f;
+                        }
                         else
                         {
-                            state.confidence = 0.0f;
+                            event.getConfidence() = 0.0f;
                         }
                     }
-                    state.position[2] = z_value;
-                    
-                    correctData(state.position, positionMapping, invertPosition);
-                    
-                    state.orientation[0] = orientation[0];
-                    state.orientation[1] = orientation[1];
-                    state.orientation[2] = orientation[2];
-                    state.orientation[3] = orientation[3];
-                    
+                    event.getPosition()[2] = z_value;
+
+                    correctData(event.getPosition(), positionMapping, invertPosition);
+
+                    event.getOrientation()[0] = orientation[0];
+                    event.getOrientation()[1] = orientation[1];
+                    event.getOrientation()[2] = orientation[2];
+                    event.getOrientation()[3] = orientation[3];
+
                     (*mY_it)->modified = 1;
-                    state.timeStamp();
+                    event.timeStamp();
                     // end of critical section
                 }// for all MagicY sources
                 unlock();
-            }// while no error 
+            }// while no error
         }// if connected
         disconnect();
     } // forever
@@ -331,14 +331,14 @@ void MagicYModule::run()
 Node * MagicYModule::createNode( const std::string& name,  StringTable& attributes)
 {
     if( name.compare("MagicYSource") == 0 )
-    { 
+    {
         int number = atoi(attributes.get("number").c_str());
-        
+
         bool average = false;
         std::string avrg = attributes.get("average");
         if(!avrg.empty() && !(avrg.compare("true") && avrg.compare("t") && avrg.compare("1")))
             average = true;
-        
+
         MagicYVector::iterator it;
         for( it = magicYs.begin(); it != magicYs.end(); it++ )
         {
@@ -353,16 +353,16 @@ Node * MagicYModule::createNode( const std::string& name,  StringTable& attribut
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("Source with number %d already exists\n"), number));
             return NULL;
         }
-        
-        MagicYSource *source = new MagicYSource; 
+
+        MagicYSource *source = new MagicYSource;
         MagicY *magicY = new MagicY(number, average, source);
         magicYs.push_back( magicY );
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Built MagicYSource node.\n")));
-        
+
         return source;
     }
     return NULL;
-}        
+}
 
 
 // opens the sockets needed for communication and starts the receive thread
@@ -372,37 +372,37 @@ void MagicYModule::start()
         ThreadModule::start();
 }
 
-// closes the module and closes any communication sockets and stops thread 
+// closes the module and closes any communication sockets and stops thread
 void MagicYModule::close()
 {
     // stop thread
     lock();
     stop = 1;
     unlock();
-}   
+}
 
-// pushes state information into the tree
-void MagicYModule::pushState()
+// pushes event information into the tree
+void MagicYModule::pushEvent()
 {
     if (magicYs.empty())
         return;
-    
+
     for (MagicYVector::iterator it = magicYs.begin(); it != magicYs.end(); it++ )
-    {       
+    {
         // critical section start
         lock();
         if((*it)->modified == 1 )
         {
-            (*it)->source->state = (*it)->state;
+            (*it)->source->event = (*it)->event;
             (*it)->modified = 0;
             unlock();
-            (*it)->source->updateObservers( (*it)->source->state );
+            (*it)->source->updateObservers( (*it)->source->event );
         }
         else
             unlock();
         // end of critical section
     }
-}          
+}
 
 
 int MagicYModule::parseVector(const std::string & line, int * val )
@@ -417,7 +417,7 @@ int MagicYModule::parseVector(const std::string & line, int * val )
     val[0] = help[0];
     val[1] = help[1];
     val[2] = help[2];
-    
+
     return 0;
 }
 
@@ -431,12 +431,12 @@ int MagicYModule::parseVector(const std::string & line, float * val )
     {
         return 1;
     }
-    
+
     val[0] = help[0];
     val[1] = help[1];
     val[2] = help[2];
     val[3] = help[3];
-    
+
     return 0;
 }
 
@@ -447,28 +447,28 @@ int MagicYModule::parseScreens(const std::string & line)
 {
     int port, x_off, y_off, pos=0;
     std::string temp = line;
-    
-    do { 
+
+    do {
         if(sscanf(temp.c_str(), "%d %d %d", &port, &x_off, &y_off) < 3)
             return -1;
-        
+
         Screen *scr = new Screen(port, hostname, x_off, y_off);
         screens.push_back(scr);
-        
+
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Extra screen %d : %d : %d\n"), port, x_off, y_off));
-        
+
         pos = temp.find(' ', 0);
         pos = temp.find(' ', pos+1);
         pos = temp.find(' ', pos+1);
         temp.erase(0, pos+1);
-    } while(pos >= 0); 
-    
+    } while(pos >= 0);
+
     return 0;
 }
 
-void MagicYModule::correctData(float* d, int *mapping, int *inversion)
+void MagicYModule::correctData(std::vector<float> &d, int *mapping, int *inversion)
 {
-    float h[3]; 
+    float h[3];
     int i;
     for(i=0; i<3; i++) h[i] = d[mapping[i]]*inversion[i];
     for(i=0; i<3; i++) d[i] = h[i];
@@ -514,10 +514,10 @@ void MagicYModule::calcInversion(int *inversion)
 void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
 {
     ThreadModule::init(attributes, localTree);
-    
+
     // Reading hostname and port number from XML-File
     hostname = std::string(attributes.get("hostname"));
-    
+
     if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
     {
 		ACE_DEBUG((LM_INFO, ACE_TEXT("Error parsing positionMapping !")));

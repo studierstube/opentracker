@@ -67,8 +67,8 @@ Node * LinmouseModule::createNode( const std::string& name, StringTable& attribu
       
       LinmouseSource * source = new LinmouseSource(attributes.get("dev"));
 
-      source->state.button = 0;
-      source->state.confidence = 1.0f;
+      source->event.getButton() = 0;
+      source->event.getConfidence() = 1.0f;
       sources.push_back( source );
 
       ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build LinmouseSource node\n")));
@@ -237,16 +237,16 @@ void LinmouseModule::run()
 	 LinmouseSource * source = (LinmouseSource*)(*it);
 
 	 // buttons
-	 source->state.button = buttons;
+	 source->event.getButton() = buttons;
 	 
 	 // orientation
-	 source->state.orientation[0] = orientation[0];
-	 source->state.orientation[1] = orientation[1];
-	 source->state.orientation[2] = orientation[2];
-	 source->state.orientation[3] = orientation[3];
+	 source->event.getOrientation()[0] = orientation[0];
+	 source->event.getOrientation()[1] = orientation[1];
+	 source->event.getOrientation()[2] = orientation[2];
+	 source->event.getOrientation()[3] = orientation[3];
 	 
-	 source->state.timeStamp();
-	 source->state.confidence = 1.0;
+	 source->event.timeStamp();
+	 source->event.getConfidence() = 1.0;
 	 source->changed = 1;
 	 
       }
@@ -255,7 +255,7 @@ void LinmouseModule::run()
 }
 
 // pushes events into the tracker tree.
-void LinmouseModule::pushState() {
+void LinmouseModule::pushEvent() {
    using namespace std;
     if( isInitialized() )
     {
@@ -265,7 +265,7 @@ void LinmouseModule::pushState() {
 		    lock();
 		    if( source->changed == 1 )
 		    {			
-			    source->updateObservers( source->state );
+			    source->updateObservers( source->event );
 			    source->changed = 0;
 		    }
 		    unlock();

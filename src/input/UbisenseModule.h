@@ -45,8 +45,8 @@
  * @page module_ref Module Reference
  * @section ubisensemodule UbisenseModule
  * The UbisenseModule interfaces to the Ubisense API to track the position and
- * button state of Ubisense tags. It uses the information provided by @ref
- * ubisensesource nodes and inserts the stateevents through @ref
+ * button event of Ubisense tags. It uses the information provided by @ref
+ * ubisensesource nodes and inserts the eventevents through @ref
  * ubisensesource nodes into the tree. The configuration element is @c
  * UbisenseConfig.
  * Without the @c UbisenseConfig configuration element data from any cell is
@@ -118,9 +118,9 @@ public:
 
     /**
      * pushes events into the tracker tree. Checks all source nodes for
-     * new states and pushes them into the tracker tree.
+     * new events and pushes them into the tracker tree.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
     /**
      * initializes the Ubisense module. 

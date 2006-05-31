@@ -77,8 +77,8 @@ class OPENTRACKER_API WacomGraphireSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
     /// the number of the device to use
 	int device;
 // Methods

@@ -187,7 +187,7 @@ public:
      * pushes new events, if a SpaceMouseSource fires. The events store
 	 * structure with position and status of the buttons.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 	static HWND		hWndSpaceMouse;
 
 private:

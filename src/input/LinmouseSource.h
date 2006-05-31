@@ -12,7 +12,7 @@
  * @page Nodes Node Reference
  * @section linmousesource Linmousesource
  * The Linmouse node is a simple EventGenerator that outputs the
- * current position and button state of the LinmouseModule. It is driven by
+ * current position and button event of the LinmouseModule. It is driven by
  * the @ref linmousemodule. 
  *
  * An example element looks like this :
@@ -41,8 +41,8 @@ namespace ot {
    public:   
       /// source device name
       std::string devname;
-      /// the state that is posted to the EventObservers
-      State state;
+      /// the event that is posted to the EventObservers
+      Event event;
       /// a flag to indicate whether it was changed during processing
       int changed;
 

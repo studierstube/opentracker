@@ -111,7 +111,7 @@ Node * P5GloveModule::createNode( const string& name, StringTable& attributes)
             return NULL;
         }
         P5GloveSource *source = new P5GloveSource(finger);
-		source->state.confidence = 1.0f;
+		source->event.getConfidence() = 1.0f;
         nodes.push_back( source );
         printf("Build P5GloveSource node for finger %d \n",finger);
         initialized = 1;
@@ -136,7 +136,7 @@ void P5GloveModule::start()
 	    else
 	    {
 		    printf("P5 Found...\n");
-    		P5device->P5_SetMouseState(P5Id, false);
+    		P5device->P5_SetMouseEvent(P5Id, false);
 	    }
     }
 	
@@ -146,16 +146,16 @@ void P5GloveModule::start()
 // closes P5Glove library
 void P5GloveModule::close()
 {
-	// if P5 glove is turned ON and actually used by stb, than mouseState must be set back, 
-	// otherwise calling SetMouseState would cause a crash on exit
+	// if P5 glove is turned ON and actually used by stb, than mouseEvent must be set back, 
+	// otherwise calling SetMouseEvent would cause a crash on exit
 	if( isInitialized() == 1 )
-		P5device->P5_SetMouseState(0, true);
+		P5device->P5_SetMouseEvent(0, true);
 	P5device->P5_Close();
 	printf("Closing P5Glove \n");
 }
 
 // pushes events into the tracker tree.
-void P5GloveModule::pushState()
+void P5GloveModule::pushEvent()
 {
     if( isInitialized() == 1 )
     {
@@ -177,31 +177,31 @@ void P5GloveModule::pushState()
                 MathUtils::eulerToQuaternion(fAbsRollPos*MathUtils::Pi/180, 
                                   fAbsPitchPos*MathUtils::Pi/180, 
                                   fAbsYawPos*MathUtils::Pi/180,
-                                  source->state.orientation);
+                                  source->event.orientation);
             }
 
-			source->state.position[0] = fFilterX;
-			source->state.position[1] = fFilterY;
-			source->state.position[2] = fFilterZ;
+			source->event.getPosition()[0] = fFilterX;
+			source->event.getPosition()[1] = fFilterY;
+			source->event.getPosition()[2] = fFilterZ;
 
             /// button not implemented yet
-            /// if the button is pushed (changes state) in any state --> button clicked
-			/// there is only one button, so state.button = 0 OR 1
+            /// if the button is pushed (changes event) in any event --> button clicked
+			/// there is only one button, so event.getButton() = 0 OR 1
 			
             
-//            if (it == nodes.begin() && buttonState!=glove->buttonState()){
+//            if (it == nodes.begin() && buttonEvent!=glove->buttonEvent()){
             if (it == nodes.begin() && 
                 P5device->m_P5Devices[P5Id].m_byBendSensor_Data[P5_INDEX]>BEND_THRESHOLD)
             {
-				source->state.button = 1;
+				source->event.getButton() = 1;
 			}
 			else 
-                source->state.button = 0;
+                source->event.getButton() = 0;
 
-//            source->state.button = 0;
+//            source->event.getButton() = 0;
 
-			source->state.timeStamp();
-			source->updateObservers( source->state );			
+			source->event.timeStamp();
+			source->updateObservers( source->event );			
 		}
 	}
 }

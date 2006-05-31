@@ -76,8 +76,8 @@ class OPENTRACKER_API JoystickSource : public Node
 public:
     /// stores joystick ID
     int id;
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
 
 // Methods
 protected:
@@ -88,9 +88,9 @@ protected:
 	    id( id_ )
     {}
 
-    /// the state that is updated by the @see JostickModule polling thread.
-    State tmpState;
-    /// a flag to indicate whether tmpState was changed during processing
+    /// the event that is updated by the @see JostickModule polling thread.
+    Event tmpEvent;
+    /// a flag to indicate whether tmpEvent was changed during processing
     int changed;
 
 public:            
@@ -104,8 +104,8 @@ public:
     /** pushes event down the line. */
     void push()
     {
-        state.timeStamp();
-        updateObservers( state );
+        event.timeStamp();
+        updateObservers( event );
     }
 
     friend class JoystickModule;

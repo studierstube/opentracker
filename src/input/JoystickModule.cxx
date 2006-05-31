@@ -92,7 +92,7 @@ Node * JoystickModule::createNode( const string& name, StringTable& attributes)
 
 // pushes events into the tracker tree.
 
-void JoystickModule::pushState()
+void JoystickModule::pushEvent()
 {
     JoystickSource *source;
 
@@ -104,7 +104,7 @@ void JoystickModule::pushState()
             lock();
             if (source->changed == 1)
             {
-                source->state = source->tmpState;
+                source->event = source->tmpEvent;
                 source->changed = 0;
                 unlock();
                 source->push();
@@ -196,7 +196,7 @@ void JoystickModule::pollJoysticks()
     // number of joysticks supported by winmm: 2
     // hence number of joystick directly coded
     JOYINFOEX joyInfoEx;
-    State identity, tmp;
+    Event identity, tmp;
     JoystickSource *source;
     int jp;
     int actualMovement;
@@ -224,7 +224,7 @@ void JoystickModule::pollJoysticks()
         else if (joyInfoEx.dwXpos > joyCaps[i].wXmax)
             actualMovement = joyCaps[i].wXmax;
         actualMovement = actualMovement - joyCaps[i].wXmin - xRange[i]/2;
-        tmp.position[0] = (float)actualMovement*2.0/(float)xRange[i];
+        tmp.getPosition()[0] = (float)actualMovement*2.0/(float)xRange[i];
 
         // get y
         actualMovement = joyInfoEx.dwYpos;
@@ -233,7 +233,7 @@ void JoystickModule::pollJoysticks()
         else if (joyInfoEx.dwYpos > joyCaps[i].wYmax)
             actualMovement = joyCaps[i].wYmax;
         actualMovement = actualMovement - joyCaps[i].wYmin - yRange[i]/2;
-        tmp.position[1] = (float)actualMovement*2.0/(float)yRange[i];
+        tmp.getPosition()[1] = (float)actualMovement*2.0/(float)yRange[i];
 
         // get z
         if (zRange > 0)
@@ -244,13 +244,13 @@ void JoystickModule::pollJoysticks()
             else if (joyInfoEx.dwZpos > joyCaps[i].wZmax)
                 actualMovement = joyCaps[i].wZmax;
             actualMovement = actualMovement - joyCaps[i].wZmin - zRange[i]/2;
-            tmp.position[2] = (float)actualMovement*2.0/(float)zRange[i];
+            tmp.getPosition()[2] = (float)actualMovement*2.0/(float)zRange[i];
         }
         else
-            tmp.position[2] = 0;
+            tmp.getPosition()[2] = 0;
 
         // only four buttons supported
-        tmp.button = joyInfoEx.dwButtons & 0x0000000F;
+        tmp.getButton() = joyInfoEx.dwButtons & 0x0000000F;
 
         int update = 0;
 
@@ -260,15 +260,15 @@ void JoystickModule::pollJoysticks()
             if (source->id == i+1)
             {
                 update = 0;
-                if (source->tmpState.button != tmp.button)
+                if (source->tmpEvent.getButton() != tmp.getButton())
                     update = 1;
                 for (int j=0; j<3; j++)
-                    if (source->tmpState.position[j] != tmp.position[j])
+                    if (source->tmpEvent.getPosition()[j] != tmp.getPosition()[j])
                         update = 1;
                 if (update)
                 {
                     lock();
-                    source->tmpState = tmp;
+                    source->tmpEvent = tmp;
                     source->changed = 1;
                     unlock();
                 }

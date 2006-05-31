@@ -45,7 +45,7 @@
  * @page module_ref Module Reference
  * @section UltraTrakModule UltraTrakModule
  * The UltraTrakModule listens for data from the UltraTrak sent via UDP
- * to a specified port of the host and pushes the state updates into the 
+ * to a specified port of the host and pushes the event updates into the 
  * tracker tree via @ref UltraTrakSource nodes. 
  * It's configuration element has the following attributes :
  * @li @c port port to listen to
@@ -74,13 +74,15 @@
 
 #include <ace/SOCK_Dgram.h>
 
+#include <vector>
+
 namespace ot {
 
 /// this structure stores the attributes of an UltratrakSource 
 struct Station
 {
     int number;    
-    State state;
+    Event event;
     int modified;
     UltraTrakSource * source;
 
@@ -120,7 +122,7 @@ struct UltraTrakFrameData
 
      
 /**
- * The module and factory to drive the reception of UltraTrak state updates.
+ * The module and factory to drive the reception of UltraTrak event updates.
  * It builds UltraTrakSource nodes that insert data from the UltraTrak into
  * the tracker tree. It uses the UltraTrak Protocol and runs in a thread.
  * 
@@ -160,7 +162,7 @@ protected:
 	void initMappping(int *mapping);
 	void initInversion(int *inversion);
 	void calcInversion(int *inversion);
-	void correctData(float* d, int *mapping, int *inversion);
+	void correctData(std::vector<float> &d, int *mapping, int *inversion);
 
 public:    
     /** basic constructor */
@@ -191,11 +193,11 @@ public:
 	 */
     virtual void close();    
     /**
-     * pushes state information into the tree. It checks whether there is new
+     * pushes event information into the tree. It checks whether there is new
      * data for any UltraTrakSource node, copies it into the nodes and calls
      * push on them.    
      */
-    virtual void pushState();             
+    virtual void pushEvent();             
 };
 
 } // namespace ot

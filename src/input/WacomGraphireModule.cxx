@@ -216,7 +216,7 @@ void WacomGraphireModule::close()
 }
 
 // pushes events into the tracker tree.
-void WacomGraphireModule::pushState()
+void WacomGraphireModule::pushEvent()
 {
     if( isInitialized() == 1 )
     {
@@ -236,12 +236,12 @@ void WacomGraphireModule::pushState()
             WacomGraphireSource * source = (WacomGraphireSource *)(*it);
             if (curNew==source->device)
             {
-                source->state.position[0] = (float)(ptNew.x/40.0/1000);
-                source->state.position[1] = (float)(ptNew.y/40.0/1000);
-                source->state.position[2] = (float)(prsNew); 
-                source->state.button = butNew;
-                source->state.timeStamp();
-                source->updateObservers( source->state );
+                source->event.getPosition()[0] = (float)(ptNew.x/40.0/1000);
+                source->event.getPosition()[1] = (float)(ptNew.y/40.0/1000);
+                source->event.getPosition()[2] = (float)(prsNew); 
+                source->event.getButton() = butNew;
+                source->event.timeStamp();
+                source->updateObservers( source->event );
             }
         }
     }

@@ -119,7 +119,7 @@ public:
     
     virtual Node * createNode( const std::string & name, StringTable & attributes );
     
-    virtual void pushState();
+    virtual void pushEvent();
     
     virtual void start();
     
@@ -136,11 +136,11 @@ protected:
         if( source != NULL )
         {
             lock();
-            if( source->state.time < source->buffer.time )
+            if( source->event.time < source->buffer.time )
             {
-                source->state = source->buffer;
+                source->event = source->buffer;
                 unlock();
-                source->updateObservers( source->state );
+                source->updateObservers( source->event );
             }
             else
                 unlock();

@@ -156,9 +156,9 @@ public:
 	
     /**
 	* pushes events into the tracker tree. Checks all source nodes for
-	* new states and pushes them into the tracker tree.
+	* new events and pushes them into the tracker tree.
 	*/
-    virtual void pushState();
+    virtual void pushEvent();
 	
     /**
 	* initializes the MulticastInputModule. 

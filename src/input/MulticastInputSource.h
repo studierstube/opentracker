@@ -76,8 +76,8 @@ class OPENTRACKER_API MulticastInputSource : public Node
 public:
      /// body number
     int number;
-    /// the state that is stored
-    State state;
+    /// the event that is stored
+    Event event;
     /// a flag to indicate whether it was changed during processing
     int changed;
 

@@ -185,7 +185,7 @@ void SpeechModule::close()
 
 
 // pushes events into the tracker tree.
-void SpeechModule::pushState()
+void SpeechModule::pushEvent()
 {
   if(m_SpeechCore)
   {
@@ -203,7 +203,7 @@ void SpeechModule::pushState()
     }
     else if(m_SpeechCore->ProcessRecognitionPoll())
     {
-      //printf("SR: SpeechModule::pushState\n");
+      //printf("SR: SpeechModule::pushEvent\n");
 
       for(NodeVector::iterator it = m_Nodes.begin(); it != m_Nodes.end(); it++)
       {

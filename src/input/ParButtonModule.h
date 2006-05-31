@@ -97,7 +97,7 @@ public:
      * pushes events into the tracker tree. Tries to read data from the
      * opened parallel ports and passes the events on.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot

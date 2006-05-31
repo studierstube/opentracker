@@ -171,7 +171,7 @@ public:
      * pushes events into the tracker tree. Checks all trackers for new data
      * and fires the FOBSources, if new data is present.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
 private :
    /** inits the whole flock according to the parameters stored

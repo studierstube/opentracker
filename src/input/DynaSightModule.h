@@ -46,7 +46,7 @@
  * @section dynasightmodule DynaSightModule
  *
  * The DynaSightModule listens for data from the Origin Instruments DynaSight 
- * Sensor sent via serial port to the host and pushes the state updates into the 
+ * Sensor sent via serial port to the host and pushes the event updates into the 
  * tracker tree via @ref DynaSightSource nodes.
  *
  * The DynaSight input module was tested with only one target.
@@ -92,7 +92,7 @@ struct Target
 {
     int number;
     int modified;
-    State state;
+    Event event;
     DynaSightSource * source;
 
     Target( const int number_, DynaSightSource * source_ ) :
@@ -105,7 +105,7 @@ typedef std::vector<Target *> TargetVector;
 
 
 /**
- * The module and factory to drive the reception of DynaSight state updates.
+ * The module and factory to drive the reception of DynaSight event updates.
  * It builds DynaSightSource nodes that insert data from the DynaSight into
  * the tracker tree. It uses the DynaSight Protocol and runs in a thread.
  * 
@@ -174,11 +174,11 @@ public:
     virtual void close();
     
     /**
-     * pushes state information into the tree. It checks whether there is new
+     * pushes event information into the tree. It checks whether there is new
      * data form the DynaSightSource node, copies it into the nodes and calls
      * push on them.    
      */
-    virtual void pushState();             
+    virtual void pushEvent();             
 };
 
 } // namespace ot

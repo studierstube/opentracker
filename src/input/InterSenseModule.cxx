@@ -128,7 +128,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                             error = 1;                
                         }
                         else {
-                            if( station.State == TRUE )
+                            if( station.Event == TRUE )
                             {
                                 station.AngleFormat = ISD_QUATERNION;
                                 station.GetInputs = TRUE;
@@ -139,7 +139,7 @@ void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
                         }               
                         if( error )
                         {
-							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s state for tracker %s station %d \n"), ((error == 1 ) ? "get " : "set "), id.c_str(), j));
+							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s event for tracker %s station %d \n"), ((error == 1 ) ? "get " : "set "), id.c_str(), j));
 							ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:- orientation measure may not be quaternion.\n")));
                         }                       
                     }
@@ -218,7 +218,7 @@ void InterSenseModule::close()
 }
 
 // pushes events into the tracker tree.
-void InterSenseModule::pushState()
+void InterSenseModule::pushEvent()
 {
     for(ISTrackerVector::iterator it = trackers.begin(); it != trackers.end(); it ++ )
     {
@@ -238,55 +238,55 @@ void InterSenseModule::pushState()
 									 - data->Orientation[2] * MathUtils::GradToRad,
                                      MathUtils::YXZ,
                                      quat);
-                    if( quat[0] != source->state.orientation[0] || 
-                        quat[1] != source->state.orientation[1] ||
-                        quat[2] != source->state.orientation[2] ||
-                        quat[3] != source->state.orientation[3] )
+                    if( quat[0] != source->event.getOrientation()[0] || 
+                        quat[1] != source->event.getOrientation()[1] ||
+                        quat[2] != source->event.getOrientation()[2] ||
+                        quat[3] != source->event.getOrientation()[3] )
                     {
-                        source->state.orientation[0] = quat[0];
-                        source->state.orientation[1] = quat[1];
-                        source->state.orientation[2] = quat[2];
-                        source->state.orientation[3] = quat[3];
-                        source->state.timeStamp();
-                        source->updateObservers( source->state );
+                        source->event.getOrientation()[0] = quat[0];
+                        source->event.getOrientation()[1] = quat[1];
+                        source->event.getOrientation()[2] = quat[2];
+                        source->event.getOrientation()[3] = quat[3];
+                        source->event.timeStamp();
+                        source->updateObservers( source->event );
                     }
                 }
                 else {
                     int changed = 0;
-                    if( data->Orientation[0] != source->state.orientation[0] || 
-                        data->Orientation[1] != source->state.orientation[1] ||
-                        data->Orientation[2] != source->state.orientation[2] ||
-                        data->Orientation[3] != -source->state.orientation[3] )
+                    if( data->Orientation[0] != source->event.getOrientation()[0] || 
+                        data->Orientation[1] != source->event.getOrientation()[1] ||
+                        data->Orientation[2] != source->event.getOrientation()[2] ||
+                        data->Orientation[3] != -source->event.getOrientation()[3] )
                     {
                         changed = 1;
-                        source->state.orientation[0] = data->Orientation[0];
-                        source->state.orientation[1] = data->Orientation[1];
-                        source->state.orientation[2] = data->Orientation[2];
-                        source->state.orientation[3] = -data->Orientation[3];
+                        source->event.getOrientation()[0] = data->Orientation[0];
+                        source->event.getOrientation()[1] = data->Orientation[1];
+                        source->event.getOrientation()[2] = data->Orientation[2];
+                        source->event.getOrientation()[3] = -data->Orientation[3];
                     }
-                    if( data->Position[0] != source->state.position[0] || 
-                        data->Position[1] != source->state.position[1] ||
-                        data->Position[2] != source->state.position[2] )
+                    if( data->Position[0] != source->event.getPosition()[0] || 
+                        data->Position[1] != source->event.getPosition()[1] ||
+                        data->Position[2] != source->event.getPosition()[2] )
                     {
                         changed = 1;
-                        source->state.position[0] = data->Position[0];
-                        source->state.position[1] = data->Position[1];
-                        source->state.position[2] = data->Position[2];
+                        source->event.getPosition()[0] = data->Position[0];
+                        source->event.getPosition()[1] = data->Position[1];
+                        source->event.getPosition()[2] = data->Position[2];
                     }
                     unsigned short button = 0;
                     for( int i = 0; i < ISD_MAX_BUTTONS; i++ )
                     {
-                        button |= data->ButtonState[i];
+                        button |= data->ButtonEvent[i];
                     }
-                    if( button != source->state.button )
+                    if( button != source->event.getButton() )
                     {
                         changed = 1;
-                        source->state.button = button;
+                        source->event.getButton() = button;
                     }
                     if( changed == 1 )
                     {
-                        source->state.timeStamp();
-                        source->updateObservers( source->state );
+                        source->event.timeStamp();
+                        source->updateObservers( source->event );
                     }
                 }       
             } // for all sinks

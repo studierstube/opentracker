@@ -75,8 +75,8 @@ namespace ot {
     public:
 	/// body number
 	int number;
-	/// the state that is stored
-	State state;
+	/// the event that is stored
+	Event event;
 	/// a flag to indicate whether it was changed during processing
 	int changed;
 
@@ -109,9 +109,9 @@ namespace ot {
    Local Variables:
    mode:c++
    c-basic-offset: 4
-   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'subeventment-open 0)
    eval: (c-set-offset 'case-label '+)
-   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
    eval: (setq indent-tabs-mode nil)
    End:
    =========================================================================== */

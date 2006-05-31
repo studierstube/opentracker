@@ -76,8 +76,8 @@ class OPENTRACKER_API ParButtonSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
     /// device handle or base address
     unsigned int handle;
 

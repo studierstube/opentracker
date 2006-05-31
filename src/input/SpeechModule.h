@@ -171,11 +171,11 @@ public:
     virtual void close();
 
     /**
-     * pushes state information into the tracker tree. It enables the module
+     * pushes event information into the tracker tree. It enables the module
      * to push new data into the tree by updating EventGenerator nodes and
      * thereby triggering an event.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
 
     /**

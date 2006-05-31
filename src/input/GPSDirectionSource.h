@@ -44,9 +44,9 @@
 /**
  * @page Nodes Node Reference
  * @section gpsdirectionsource GPSDirectionSource
- * The GPSDirectionSource node is a simple EventGenerator that outputs GPS 
- * direction and velocity data. The direction is encoded in the orientation 
- * field as a mathematically positive rotation around the Y axis starting from 
+ * The GPSDirectionSource node is a simple EventGenerator that outputs GPS
+ * direction and velocity data. The direction is encoded in the orientation
+ * field as a mathematically positive rotation around the Y axis starting from
  * the X axis. The velocity is encoded in the X component of the position field
  * in meters / second. It is managed by the @ref gpsmodule, see there for
  * more information on how to configure GPS support.
@@ -70,15 +70,15 @@
 
 namespace ot {
 
-class OPENTRACKER_API GPSDirectionSource : public Node, public GPSListener  
+class OPENTRACKER_API GPSDirectionSource : public Node, public GPSListener
 {
 public:
 
-	 /// the state that is posted to the EventObservers
-    State state;
-    /// the buffer state for data from the GPS receiver
-    State buffer;
-    
+	 /// the event that is posted to the EventObservers
+    Event event;
+    /// the buffer event for data from the GPS receiver
+    Event buffer;
+
 	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -107,14 +107,14 @@ inline void GPSDirectionSource::newData( const GPResult * res, const char * line
         module->lock();
         buffer.timeStamp();
         // klm/h = 3.6 * m/s, 1/3.6 = 0.27777777777777777777777777777778
-        buffer.position[0] = (float)(point->speedKlm * 0.27777777777777777777777777777778);
+        buffer.getPosition()[0] = (float)(point->speedKlm * 0.27777777777777777777777777777778);
         float temp[4];
         temp[0] = 0;
         temp[1] = 1;
         temp[2] = 0;
         temp[3] = (float)(point->trueCourse * MathUtils::GradToRad);
-        MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
-        buffer.confidence = (float)(1 / module->driver->getHdop());
+        MathUtils::axisAngleToQuaternion( copyA2V(temp, 4), buffer.getOrientation() );
+        buffer.getConfidence() = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }

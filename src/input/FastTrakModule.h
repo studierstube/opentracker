@@ -78,15 +78,15 @@ namespace ot {
 
 typedef std::vector<Node*> NodeVector;
 
-/// this struct just stores a state, and if the state was changed 
+/// this struct just stores a event, and if the event was changed 
 typedef struct
 {
-    /// the local state buffer
-    State state;
-    /// flag indicating a new value in state
+    /// the local event buffer
+    Event event;
+    /// flag indicating a new value in event
     int newVal;
     
-} tmpStationState;
+} tmpStationEvent;
 
 /**
  * developer level information and implementation specifics here
@@ -102,8 +102,8 @@ protected:
     /// flag to stop the thread
     int stop;
 
-    /// pointer to array of tmpStationState storing the state of each station
-    tmpStationState *stations;
+    /// pointer to array of tmpStationEvent storing the event of each station
+    tmpStationEvent *stations;
     /// vector of all created fasttrak source nodes 
     NodeVector nodes;
 
@@ -123,7 +123,7 @@ protected:
 // Methods
 protected:
     /** this method is the code executed in its own thread, it reads from the 
-     *  specified serial port, parses the incoming data and updates the state
+     *  specified serial port, parses the incoming data and updates the event
      *  of the utilized stations */
     virtual void run();
 
@@ -150,13 +150,13 @@ protected:
      *          0,1 number of station for which a whole data record was read
      */
     int parseRecordIT(char c, char *b);
-    /** updates button state for specified station (only used for IsoTrak II)
+    /** updates button event for specified station (only used for IsoTrak II)
      * @param stationNr number of station the button is associated with
-     * @param button state of button
+     * @param button event of button
      */
     void setButtonIT(int stationNr, int button);
-    /** converts data record to OpenTracker state values and updates 
-     * the state of the specified station.
+    /** converts data record to OpenTracker event values and updates 
+     * the event of the specified station.
      * @param stationNr number of station the data record is associated with
      * @param b pointer to array of characters, representing a whole data record
      */
@@ -191,7 +191,7 @@ public:
      * pushes events into the tracker tree. Checks all stations for new data
      * and fires the FastTrakSources, if new data is present.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot

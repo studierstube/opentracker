@@ -137,7 +137,7 @@ public:
      * pushes events into the tracker tree. Checks all trackers for new data
      * and fires the InterSenseSources, if new data is present.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot

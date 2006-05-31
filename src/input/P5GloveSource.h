@@ -77,8 +77,8 @@ class OPENTRACKER_API P5GloveSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
 	/// finger to be tracked
 	int finger;
 

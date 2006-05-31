@@ -40,8 +40,8 @@ Node * TargusModule::createNode( const std::string& name, StringTable& attribute
 
    if( name.compare("TargusSource") == 0 ) {       
       TargusSource * source = new TargusSource;
-      source->state.button = 0;
-      source->state.confidence = 1.0f;
+      source->event.getButton() = 0;
+      source->event.getConfidence() = 1.0f;
       nodes.push_back( source );
       ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build TargusSource node\n")));
       initialized = 1;
@@ -100,7 +100,7 @@ void TargusModule::close() {
 }
 
 // pushes events into the tracker tree.
-void TargusModule::pushState() {
+void TargusModule::pushEvent() {
    using namespace std;
 
    unsigned short buttons=0;
@@ -124,7 +124,7 @@ void TargusModule::pushState() {
 // 	       buttons = buttons | 0x02;
 // 	 }
 
-// 	 source->state.button = buttons;
+// 	 source->event.getButton() = buttons;
 
 	 switch (e.type) {
 	 case KeyPress:
@@ -134,20 +134,20 @@ void TargusModule::pushState() {
 	       printf ("e.xkey.state=%d\n", e.xkey.state);
 	    }
 
-// 	    state.button = states[B1] | (states[B2] << 1) | (states[B3] << 2) | (states[B4] << 3);
+// 	    event.getButton() = states[B1] | (states[B2] << 1) | (states[B3] << 2) | (states[B4] << 3);
 
 	    if (e.xkey.keycode == 130) {
-	       source->state.button = 1;  // 00000001
+	       source->event.getButton() = 1;  // 00000001
 	    } else if(e.xkey.keycode == 162) {
-	       source->state.button = 2;  // 00000010
+	       source->event.getButton() = 2;  // 00000010
 	    } else if(e.xkey.keycode == 174) {
-	       source->state.button = 4;  // 00000100
+	       source->event.getButton() = 4;  // 00000100
 	    } else  {
-	       source->state.button = 1;
+	       source->event.getButton() = 1;
 	    }
 
-	    source->state.timeStamp();
-	    source->updateObservers(source->state);
+	    source->event.timeStamp();
+	    source->updateObservers(source->event);
 
 	    e.xkey.state &= ~(xkeys->numlock_mask | xkeys->capslock_mask | xkeys->scrolllock_mask);
 
@@ -179,9 +179,9 @@ void TargusModule::pushState() {
 	       printf ("e.xkey.state=%d\n", e.xkey.state);
 	    }
 
-	    source->state.button = 0;
-	    source->state.timeStamp();
-	    source->updateObservers(source->state);
+	    source->event.getButton() = 0;
+	    source->event.timeStamp();
+	    source->updateObservers(source->event);
 
 	    e.xkey.state &= ~(xkeys->numlock_mask | xkeys->capslock_mask | xkeys->scrolllock_mask);
 
@@ -257,13 +257,13 @@ void TargusModule::pushState() {
 	    break;
 	    
 	default:
-// 	   cerr << "unknown event!" << endl;
+// 	   cerr << "unknown state!" << endl;
 	   break;
 	 };
 
-// 	 source->state.button = source->state.button++;
-// 	 source->state.timeStamp();
-// 	 source->updateObservers(source->state);
+// 	 source->event.getButton() = source->event.getButton()++;
+// 	 source->event.timeStamp();
+// 	 source->updateObservers(source->event);
 
 
       }
@@ -273,13 +273,13 @@ void TargusModule::pushState() {
 
 
 
-// 	 source->state.position[0] = FREED_Info.AbsX;
-// 	 source->state.position[1] = FREED_Info.AbsY;
-// 	 source->state.position[2] = FREED_Info.AbsZ;
+// 	 source->event.getPosition()[0] = FREED_Info.AbsX;
+// 	 source->event.getPosition()[1] = FREED_Info.AbsY;
+// 	 source->event.getPosition()[2] = FREED_Info.AbsZ;
 // 	 //middle button = 1, second button = 2, both = 3
-// 	 source->state.button = (FREED_Info.Status & 0x3);
-// 	 source->state.timeStamp();
-// 	 source->updateObservers( source->state );
+// 	 source->event.getButton() = (FREED_Info.Status & 0x3);
+// 	 source->event.timeStamp();
+// 	 source->updateObservers( source->event );
    }
 }
 

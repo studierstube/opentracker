@@ -75,8 +75,8 @@ class OPENTRACKER_API ARToolKitSource : public Node
 {
 
 public:
-    /// the state pushed into the tree
-    State state, 
+    /// the event pushed into the tree
+    Event event, 
     /// buffer variable for grabbing thread
         buffer;
     /// marker id from the artoolkit library

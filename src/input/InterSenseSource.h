@@ -81,8 +81,8 @@ class OPENTRACKER_API InterSenseSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
     /// the station of the tracker
     unsigned station;
 

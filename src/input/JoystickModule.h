@@ -45,7 +45,7 @@
  * @page module_ref Module Reference
  * @section JoystickModule JoystickModule
  * The JoystickModule provides and drives @ref JoystickSource nodes that 
- * generate events. The member position of the state gives the 
+ * generate events. The member position of the event gives the 
  * current normalized position of the joystick. The x,y and z components 
  * of position reflect the current position of the joystick's x,y and z-axes
  * (ranging from -1 to +1, e.g. -1,-1,z means that the joystick is in the upper
@@ -107,7 +107,7 @@ protected:
     NodeVector nodes;
 
     /** This method is the code executed in its own thread. It polls all
-      * present joysticks and updates the tmpState of the associated 
+      * present joysticks and updates the tmpEvent of the associated 
       * @ref JoystickSource-nodes. */
     virtual void run();
 
@@ -136,7 +136,7 @@ public:
      * Pushes events into the tracker tree. Checks all JoystickSource nodes and
      * pushes new events, if a JoystickSource node fires.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
     /**
      * Tests for available joysticks and starts the polling-thread.

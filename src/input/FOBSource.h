@@ -71,8 +71,8 @@ class OPENTRACKER_API FOBSource : public Node
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    State state;
+    /// the event that is posted to the EventObservers
+    Event event;
 
 // Methods
 protected:
