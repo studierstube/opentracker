@@ -59,7 +59,7 @@ libcore_la_SOURCES = \
         TestSource.h \
         ThreadModule.cxx \
         ThreadModule.h \
-        VideoUser.h
+        VideoUser.h \
 	State.cxx \
 	State.h \
 	Event.cxx \
