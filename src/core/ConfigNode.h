@@ -79,14 +79,14 @@ protected:
 	    , attributes( map_ )
     {}
 
-public:   
-    /**
-     * returns a reference to the attribute StringTable
-     * @return reference to the attribute StringTable */
-    StringTable & getAttributes()
-    {
-        return attributes;
-    }
+    public:   
+      /**
+       * returns a reference to the attribute StringTable
+       * @return reference to the attribute StringTable */
+      StringTable & getAttributes()
+	{
+	  return attributes;
+	}
 
     /**
      * returns the number of children nodes. This lets
