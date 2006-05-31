@@ -17,12 +17,17 @@ otcoreinc_HEADERS = \
         NodePort.h \
         OSUtils.h \
         RefNode.h \
-        State.h \
         StringTable.h \
         TestModule.h \
         TestSource.h \
         ThreadModule.h \
         VideoUser.h
+	State.h \
+	Event.h \
+	EventAttribute.h \
+	EventAttributeBase.h \
+	Translator.h \
+	iostream_ext.h
 
 noinst_LTLIBRARIES = libcore.la
 libcore_la_SOURCES = \
@@ -47,8 +52,6 @@ libcore_la_SOURCES = \
         OSUtils.cxx \
         OSUtils.h \
         RefNode.h \
-        State.cxx \
-        State.h \
         StringTable.cxx \
         StringTable.h \
         TestModule.cxx \
@@ -57,3 +60,13 @@ libcore_la_SOURCES = \
         ThreadModule.cxx \
         ThreadModule.h \
         VideoUser.h
+	State.cxx \
+	State.h \
+	Event.cxx \
+	Event.h \
+	EventAttribute.h \
+	EventAttributeBase.cxx \
+	EventAttributeBase.h \
+	Translator.cxx \
+	Translator.h
+
