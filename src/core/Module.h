@@ -79,19 +79,17 @@ protected:
 //methods
 public:
     /// constructor method
-    Module(): initialized(0), context(NULL)
-    {};
+    Module(): initialized(0), context(NULL) {};
 
 	/// virtual destructor (as it befits any true class hierarchy)
-	virtual ~Module()
-	{};
+    virtual ~Module() {};
 
     /**
      * closes the module. A place for cleanup code etc.
      * This class provides an empty implementation for subclasses not doing
      * anything here. */
-    virtual void close()
-    {};
+    virtual void close() {};
+
     /**
      * initializes the tracker module. This class provides an implementation
      * that sets the initialization flag to true. Subclasses should call this
@@ -106,46 +104,27 @@ public:
     {
         initialized = 1;
     };
+
     /**
      * pulls event information out of the tracker tree. It enables the module
      * to query any EventQueue or TimeDependend node in the shared memory. It
      * is called after pushEvent was executed on each module.
-     *
-     * \b OpenTracker-1.2 \b compatibility
-     *
-     * This method is called (amongst others) by Context::run(). OpenTracker 1.1 modules
-     * override this method (default). OpenTracker 1.2 nodes implement the pullEvent()
-     * method instead. This method forwards the given event to that method.
      */
-    virtual void pullEvent()
-    {
-      pullEvent();
-    }
-    /* OpenTracker-1.2  compatibility */
-    virtual void pullEvent() {}
+    virtual void pullEvent() {};
+
     /**
      * pushes event information into the tracker tree. It enables the module
      * to push new data into the tree by updating EventGenerator nodes and
      * thereby triggering an event.
-     *
-     * \b OpenTracker-1.2 \b compatibility
-     *
-     * This method is called (amongst others) by Context::run(). OpenTracker 1.1 modules
-     * override this method (default). OpenTracker 1.2 nodes implement the pushEvent()
-     * method instead. This method forwards the given event to that method.
      */
-    virtual void pushEvent()
-    {
-      pushEvent();
-    }
-    /* OpenTracker-1.2  compatibility */
-    virtual void pushEvent() {}
+    virtual void pushEvent() {};
+
     /**
      * This method is called after initialisation is finished and before the
      * main loop is started. It allows the module to finish any setups that
      * need to be done before entering the main loop. */
-    virtual void start()
-    {};
+    virtual void start() {};
+
     /**
      * tests whether the module wants the tracker main loop to stop.
      * @return 1 if main loop should stop, 0 otherwise. */
@@ -153,6 +132,7 @@ public:
     {
         return 0;
     };
+
     /**
      * tests whether the module was initialized or not.
      * @return 1 of the module was initialized, 0 otherwise. */
