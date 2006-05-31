@@ -1,49 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for class ConfigurationParser.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
-
-// WinCE: We have to include stdlib.h to make sure the
-//        right version of qsort is seen first...
-#include <stdlib.h>
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 #include "../tool/FixWinCE.h"
 #include <ace/Log_Msg.h>
@@ -92,44 +88,37 @@ namespace ot {
 
     InputSource * OpenTrackerResolver::resolveEntity( XMLResourceIdentifier * resourceIdentifier )
     {
-        switch(resourceIdentifier->getResourceIdentifierType())
+        if (resourceIdentifier->getResourceIdentifierType() == XMLResourceIdentifier::ExternalEntity)
         {
-            case XMLResourceIdentifier::ExternalEntity:
+            XMLCh * test = XMLString::transcode("opentracker.dtd");
+            if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
+            {
+                ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
+                std::string otrootvalue = (std::string)otroot;
+                std::string otdatadir;
+                if( otrootvalue.compare("") != 0 )
                 {
-                    XMLCh * test = XMLString::transcode("opentracker.dtd");
-                    if(XMLString::endsWith(resourceIdentifier->getSystemId(), test))
-                    {
-                        ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
-                        std::string otrootvalue = (std::string)otroot;
-                        std::string otdatadir;
-                        if( otrootvalue.compare("") != 0 )
-                        {
-                            otdatadir = otrootvalue + "/data";
-                            context->addDirectoryLast(otdatadir);
-                        }        
-                        char * file = XMLString::transcode(resourceIdentifier->getSystemId());
-                        std::string filename( file ), fullname;
-                        XMLString::release( &file );
-                        bool result = context->findFile( filename, fullname );
-                        if( otrootvalue.compare("") != 0 )
-                        {
-                            context->removeDirectory(otdatadir);
-                        }
-                        if( result == true )
-                        {
-                            XMLCh * file = XMLString::transcode( fullname.c_str());
-                            LocalFileInputSource * input = new LocalFileInputSource( file );
-                            XMLString::release( &file );
-                            XMLString::release( &test );
-                            return input;
-                        }
-                    }
-                    XMLString::release( &test );
+                    otdatadir = otrootvalue + "/data";
+                    context->addDirectoryLast(otdatadir);
                 }
-                break;
-            default:
-                break;
-        
+                char * file = XMLString::transcode(resourceIdentifier->getSystemId());
+                std::string filename( file ), fullname;
+                XMLString::release( &file );
+                bool result = context->findFile( filename, fullname );
+                if( otrootvalue.compare("") != 0 )
+                {
+                    context->removeDirectory(otdatadir);
+                }
+                if( result == true )
+                {
+                    XMLCh * file = XMLString::transcode( fullname.c_str());
+                    LocalFileInputSource * input = new LocalFileInputSource( file );
+                    XMLString::release( &file );
+                    XMLString::release( &test );
+                    return input;
+                }
+            }
+            XMLString::release( &test );
         }
         return NULL;
     }
@@ -162,15 +151,15 @@ namespace ot {
         references.clear();
     }
 
-    // builds a tree of configuration nodes. 
+    // builds a tree of configuration nodes.
 
     ConfigNode * ConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
     {
 #ifdef USE_XERCES
         std::auto_ptr<StringTable> map ( parseElement( element ));
-	char * tempName = XMLString::transcode( element->getLocalName());
+        char * tempName = XMLString::transcode( element->getLocalName());
         std::string tagName = tempName;
-	XMLString::release( &tempName );
+        XMLString::release( &tempName );
         ConfigNode * config = new ConfigNode( *map );
         config->setParent( element );
         //auto_ptr<DOMNodeList> list( element->getChildNodes());
@@ -192,12 +181,12 @@ namespace ot {
         ConfigNode * config = new ConfigNode( *map );
         config->setParent( element );
 
-	TiXmlElement * el = element->FirstChildElement();
-	while( el != NULL )
-	{
+        TiXmlElement * el = element->FirstChildElement();
+        while( el != NULL )
+        {
             ConfigNode * child = buildConfigTree( el);
             el = el->NextSiblingElement();
-	}
+        }
         return config;
 #endif //USE_TINYXML
     }
@@ -209,7 +198,7 @@ namespace ot {
 #ifdef USE_XERCES
         char * tempName = XMLString::transcode( element->getLocalName());
         std::string tagName = tempName;
-	XMLString::release( &tempName );
+        XMLString::release( &tempName );
         std::auto_ptr<StringTable> map ( parseElement( element ));
         // Test for a reference node
         if( tagName.compare("Ref") == 0 )
@@ -220,19 +209,19 @@ namespace ot {
                 ref->type = tagName;
                 ref->setParent( element );
                 LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
-	        return ref;
+                return ref;
             } else
             {
                 LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
-	        return NULL;
+                return NULL;
             }
         }
 
         Node * value = context.factory.createNode( tagName , *map );
         if( value != NULL )
         {
-            value->setParent( element );        
-            // Test for ID 
+            value->setParent( element );
+            // Test for ID
             if( map->containsKey("DEF"))
             {
                 references[map->get("DEF")] = value;
@@ -269,19 +258,19 @@ namespace ot {
                 ref->type = tagName;
                 ref->setParent( element );
                 LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
-	        return ref;
+                return ref;
             } else
             {
                 LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
-	        return NULL;
+                return NULL;
             }
         }
 
         Node * value = context.factory.createNode( tagName , *map );
         if( value != NULL )
         {
-            value->setParent( element );        
-            // Test for ID 
+            value->setParent( element );
+            // Test for ID
             if( map->containsKey("DEF"))
             {
                 references[map->get("DEF")] = value;
@@ -319,10 +308,10 @@ namespace ot {
 
         OpenTrackerResolver resolver( &context);
         parser->setXMLEntityResolver( &resolver );
-    
+
         DOMTreeErrorReporter errReporter;
         parser->setErrorHandler( &errReporter );
-	
+
         try
         {
             parser->parse( filename.c_str() );
@@ -351,10 +340,10 @@ namespace ot {
         DOMDocument * doc = parser->getDocument();
         DOMElement * root = doc->getDocumentElement();
         Node * node = new Node();
-	node->setParent( root );
-	char * tempName = XMLString::transcode( root->getLocalName());
-	LOG_ACE_INFO("ot:Root node is %s\n", tempName);
-	XMLString::release( & tempName );
+        node->setParent( root );
+        char * tempName = XMLString::transcode( root->getLocalName());
+        LOG_ACE_INFO("ot:Root node is %s\n", tempName);
+        XMLString::release( & tempName );
 
         const XMLCh* xmlspace = root->getNamespaceURI();
         if (xmlspace != NULL) {
@@ -367,10 +356,10 @@ namespace ot {
         }
 
         // get the configuration part
-	XMLCh * configurationCh = XMLString::transcode( "configuration" );
+        XMLCh * configurationCh = XMLString::transcode( "configuration" );
         //auto_ptr<DOMNodeList> list( root->getElementsByTagName( configurationCh.get() ));
         DOMNodeList * list = root->getElementsByTagNameNS(xmlspace, configurationCh);
-	XMLString::release( & configurationCh );
+        XMLString::release( & configurationCh );
         if( list->getLength() != 1 )
         {
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:not valid config file, not exactly one configuration tag\n")));
@@ -378,7 +367,7 @@ namespace ot {
             exit(1);
         }
 
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
+        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
 
         // parse configuration elements subelements
         DOMElement * config = (DOMElement *)list->item(0);
@@ -405,9 +394,9 @@ namespace ot {
                 for( j = 0; j < nodelist->getLength(); j++ )
                 {
                     if( nodelist->item(j)->getNodeType() == DOMNode::ELEMENT_NODE )
-                    {        
+                    {
                         DOMElement * element = (DOMElement *)nodelist->item(j);
-                        ConfigNode * child = buildConfigTree( element ); 
+                        ConfigNode * child = buildConfigTree( element );
                     }
                 }
                 Module * module = context.getModule( tagName );
@@ -418,7 +407,7 @@ namespace ot {
             }
         }
 
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
+        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
 
         // parse the rest of the elements
         //auto_ptr<DOMNodeList> rootlist( root->getChildNodes());
@@ -444,20 +433,20 @@ namespace ot {
 
 
 #ifdef USE_TINYXML
-	TiXmlDocument* document = new TiXmlDocument();
+        TiXmlDocument* document = new TiXmlDocument();
 
-	if(!document->LoadFile(filename.c_str()))
-	{
+        if(!document->LoadFile(filename.c_str()))
+        {
             LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
             exit(1);
-	}
+        }
 
-	TiXmlElement* root = document->RootElement();
+        TiXmlElement* root = document->RootElement();
         Node * node = new Node();
-	node->setParent( root );
+        node->setParent( root );
         const char* tempName = root->Value();
 
-	LOG_ACE_INFO("ot:Root node is %s\n", tempName);
+        LOG_ACE_INFO("ot:Root node is %s\n", tempName);
 
         const char* xmlspace = NULL; //root->getNamespaceURI();
         if (xmlspace != NULL) {
@@ -470,18 +459,18 @@ namespace ot {
         // get the configuration part
         const char* configurationCh = "configuration";
 
-	TiXmlElement * config = root->FirstChildElement(configurationCh);
-	if(config->NextSiblingElement(configurationCh))
-	{
+        TiXmlElement * config = root->FirstChildElement(configurationCh);
+        if(config->NextSiblingElement(configurationCh))
+        {
             ACE_DEBUG((LM_INFO, ACE_TEXT("ot:not valid config file, not exactly one configuration tag\n")));
             exit(1);
-	}
+        }
 
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
+        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
 
-	TiXmlElement * configElement = config->FirstChildElement();
-	while(configElement)
-	{
+        TiXmlElement * configElement = config->FirstChildElement();
+        while(configElement)
+        {
             std::auto_ptr<StringTable> attributes( parseElement( configElement ));
             std::string tagName = configElement->Value();
             ConfigNode * base = new ConfigNode( *attributes );
@@ -491,7 +480,7 @@ namespace ot {
             TiXmlElement * element = configElement->FirstChildElement();
             while(element)
             {
-                ConfigNode * child = buildConfigTree( element ); 
+                ConfigNode * child = buildConfigTree( element );
                 element = element->NextSiblingElement();
             }
 
@@ -504,18 +493,18 @@ namespace ot {
             configElement = configElement->NextSiblingElement();
         }
 
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
+        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
 
         // parse the rest of the elements
 
-	TiXmlElement * element = root->FirstChildElement();
-	while(element)
-	{
+        TiXmlElement * element = root->FirstChildElement();
+        while(element)
+        {
             if(strcmp(element->Value(), "configuration")!=0)
                 buildTree( element );
 
             element = element->NextSiblingElement();
-	}
+        }
 
         return node;
 #endif //USE_TINYXML
@@ -545,12 +534,12 @@ namespace ot {
 #ifdef USE_TINYXML
         StringTable * value = new StringTable;
 
-	TiXmlAttribute* attribute = element->FirstAttribute();
-	while(attribute)
-	{
+        TiXmlAttribute* attribute = element->FirstAttribute();
+        while(attribute)
+        {
             value->put(attribute->Name(), attribute->Value());
             attribute = attribute->Next();
-	}
+        }
         return value;
 #endif //USE_TINYXML
     }
