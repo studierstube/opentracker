@@ -1,51 +1,52 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for State class.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 #ifndef _STATE_H
 #define _STATE_H
 
 #include "../dllinclude.h"
 #include "OSUtils.h"
+#include "Event.h"
 
 /**
  * A single state passing through the tree. It encodes the full information
@@ -60,10 +61,10 @@
 
 namespace ot {
 
-class OPENTRACKER_API State
-{
+  class OPENTRACKER_API State : public Event
+  {
 
-public:
+  public:
     /// the position value of the state
     float position[3];
     /** orientation value stored as unit quaternion. The vector component are
@@ -75,12 +76,12 @@ public:
     /// confidence value, in [0,1]
     float confidence;
     /// timestamp of the state in milliseconds since 1.1.1970
-    double time;
+    //double time;
     /// typesafe null reference, to be used instead of a NULL pointer
     static State null;
 
-public:
-   /** constructor taking some values
+  public:
+    /** constructor taking some values
      * @param time_ timestamp
      * @param isValid_ valid or not ?
      * @param confidence_ good or bad measurement */
@@ -88,20 +89,19 @@ public:
     /** copy constructor, copies the values of another state in the new
      * @param other the state to copy from */
     State( const State & other );
-   /** copies the value of another state object into
+    /// virtual destructor
+    virtual ~State() {};
+    /** copies the value of another state object into
      * this object.
      * @param other reference to the other state */
     State & operator= (const State& other);
-    /** timestamps a state to the current time */
-    void timeStamp();
-};
+  };
 
-// constructor method.
+  // constructor method.
 
-inline State::State(double time_, float confidence_)
+  inline State::State(double time_, float confidence_)
     : confidence(confidence_)
-    , time( time_ )
-{
+  {
     position[0] = 0;
     position[1] = 0;
     position[2] = 0;
@@ -110,12 +110,13 @@ inline State::State(double time_, float confidence_)
     orientation[2] = 0;
     orientation[3] = 1;
     button = 0;
-}
+    time = time_;
+  }
 
-// copies another state into this one
+  // copies another state into this one
 
-inline State& State::operator=(const State& other)
-{
+  inline State& State::operator=(const State& other)
+  {
     if( this == &other ) return *this;
     button = other.button;
     confidence = other.confidence;
@@ -127,45 +128,17 @@ inline State& State::operator=(const State& other)
     position[1] = other.position[1];
     position[2] = other.position[2];
     time = other.time;
+    this->copyAllButStdAttr(other);
     return *this;
-}
+  }
 
-// copy constructor
+  // copy constructor
 
-inline State::State( const State & other )
-{
+  inline State::State( const State & other )
+    : Event()
+  {
     *this = other;
-}
-
-// timestamp a state to current time
-inline void State::timeStamp()
-{
-    time = OSUtils::currentTime();
-}
-
-/**
-   Wrapper class for OpenTracker-1.2 compatibility
-*/
-class OPENTRACKER_API Event: public State
-{
-public:
-  inline Event() : State() {}
-  inline Event(State const & state) : State(state) { }
-
-public:
-  inline unsigned short &getButton() { return button; }
-  inline const unsigned short &getButton() const { return button; }
-  inline float& getConfidence() { return confidence; }
-  inline const float& getConfidence() const { return confidence; }
-  inline float* getOrientation() { return orientation; }
-  inline const float* getOrientation() const { return orientation; }
-  inline float* getPosition() { return position; }
-  inline const float* getPosition() const { return position; }
-  inline void setPosition(const float *value) { for (int i=0; i<3; i++) position[i] = value[i]; }
-  inline void setOrientation(const float *value) { for (int i=0; i<4; i++) orientation[i] = value[i]; }
-  inline void setButton(const unsigned short &value) { button = value; }
-  inline void setConfidence(const float &value) { confidence = value; }
-};
+  }
 
 } // namespace ot
 
