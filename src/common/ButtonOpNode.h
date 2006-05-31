@@ -44,9 +44,9 @@
 /**
  * @page Nodes Node Reference
  * @section buttonopnode ButtonOp
- * The ButtonOp node implements a boolean operation on the button states of 
- * its two input ports. It saves the last button states from each input and
- * outputs either the logical AND or OR result of the two states, whenever
+ * The ButtonOp node implements a boolean operation on the button events of 
+ * its two input ports. It saves the last button events from each input and
+ * outputs either the logical AND or OR result of the two events, whenever
  * a new event from either input is received.
  *
  * The element has the following attributes :
@@ -70,7 +70,7 @@
 #include "../OpenTracker.h"
 
 /**
- * The ButtonOp node implements a boolean operation on two button states.
+ * The ButtonOp node implements a boolean operation on two button events.
  * It uses two NodePorts named 'Arg1' and 'Arg2'.
  * @author Gerhard Reitmayr
  * @ingroup common
@@ -83,9 +83,9 @@ class OPENTRACKER_API ButtonOpNode
 {
 // Members
 protected:
-    /// last saved state variable
-    State result;
-	/// last button states
+    /// last saved event variable
+    Event result;
+	/// last button events
 	unsigned short arg1, arg2;
 	/// the operation to perform
 	enum Op { OR, AND } operation;
@@ -107,7 +107,7 @@ public:
     /**
      * this method is called by the EventGenerator to update it's observers.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class CommonNodeFactory;
 };

@@ -101,7 +101,7 @@ public:
 	 * @param event the event value passed
 	 * @param generator the node generating the event
      */
-    virtual void onEventGenerated( State& event, Node & generator);                                
+    virtual void onEventGenerated( Event& event, Node & generator);                                
 
     friend class CommonNodeFactory;
 };

@@ -81,10 +81,10 @@
 #include <vector>
 
 /**
- * The Filter node generates a new state event by combining several past 
+ * The Filter node generates a new event event by combining several past 
  * events in a linear fashion. The weights of the summands can be adjusted.
  * It needs a child that both implements the Event and the EventQueue interface
- * to have access to the required number of states and to be triggered to
+ * to have access to the required number of events and to be triggered to
  * generate a new one.
  * @author Gerhard Reitmayr
  * @ingroup common
@@ -96,8 +96,8 @@ class OPENTRACKER_API FilterNode : public Node
 {
 // Members
 protected:
-    /// local state variable
-    State localState;
+    /// local event variable
+    Event localEvent;
 
     /// array of weights
     std::vector<float> weights;
@@ -120,10 +120,10 @@ public:
 
     /**
      * this method is called by the EventGenerator to update it's observers.
-     * This class computes a transformed state, stores it in its local variable
+     * This class computes a transformed event, stores it in its local variable
      * and notifies its observers in turn, propagating the change.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class CommonNodeFactory;
 };

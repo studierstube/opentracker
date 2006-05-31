@@ -60,14 +60,14 @@ ConfidenceFilterNode::ConfidenceFilterNode( float treshhold_, types type_ )
 } 
 
 // tests the confidence value and only forwards passing events
-void ConfidenceFilterNode::onEventGenerated( State& event, Node & generator )
+void ConfidenceFilterNode::onEventGenerated( Event& event, Node & generator )
 {
     switch( type )
     {
-    case HIGH : if( event.confidence >= treshhold )
+    case HIGH : if( event.getConfidence() >= treshhold )
                     updateObservers( event );
                 break;
-    case LOW : if( event.confidence <= treshhold )
+    case LOW : if( event.getConfidence() <= treshhold )
                     updateObservers( event );
                 break;
     }	

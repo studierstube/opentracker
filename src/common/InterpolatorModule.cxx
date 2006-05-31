@@ -95,7 +95,7 @@ Node * InterpolatorModule::createNode( const std::string& name, StringTable& att
 }
 
 // pushes events into the tracker tree.
-void InterpolatorModule::pushState()
+void InterpolatorModule::pushEvent()
 {
     for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {

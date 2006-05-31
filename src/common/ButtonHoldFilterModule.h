@@ -98,7 +98,7 @@ public:
      * pushes events into the tracker tree. Checks all sources and
      * pushes new events.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 };
 
 } // namespace ot {

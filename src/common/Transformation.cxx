@@ -52,38 +52,38 @@ namespace ot {
 
 Transformation::Transformation()
     : Node()
-    , localState()
+    , localEvent()
 {
 }
 
 // returns the event number n back in time starting with the newest for n = 0
 
-State& Transformation::getEvent(unsigned int number)
+Event& Transformation::getEvent(unsigned int number)
 {
 	Node * child = getChild( 0 );
 	if( child != NULL )
 	{
 		if( child->isEventQueue() == 1 )
 		{    
-			return *transformState( & child->getEvent( number ));
+			return *transformEvent( & child->getEvent( number ));
 		}
     }
-    return State::null;
+    return Event::null;
 }
 
 // returns the event closes to the given point in time
 
-State& Transformation::getEventNearTime(double time)
+Event& Transformation::getEventNearTime(double time)
 {
 	Node * child = getChild( 0 );
 	if( child != NULL )
 	{
 		if( child->isEventQueue() == 1 )
 		{    
-			return *transformState( & child->getEventNearTime( time ));
+			return *transformEvent( & child->getEventNearTime( time ));
 		}
     }   
-    return State::null;
+    return Event::null;
 }
 
 // returns the size of the queue
@@ -103,17 +103,17 @@ unsigned int Transformation::getSize()
 
 // the function evaluation method
 
-State& Transformation::getStateAtTime(double time)
+Event& Transformation::getEventAtTime(double time)
 {
 	Node * child = getChild( 0 );
 	if( child != NULL )
 	{
 		if( child->isTimeDependend() == 1 )
 		{    
-			return *transformState(& child->getStateAtTime( time ));
+			return *transformEvent(& child->getEventAtTime( time ));
 		}
     }
-    return State::null;
+    return Event::null;
 }
 
 // tests for EventGenerator interface being present.
@@ -154,9 +154,9 @@ int Transformation::isTimeDependend()
 
 // this method is called by the EventGenerator to update it's observers.
 
-void Transformation::onEventGenerated( State& event, Node& generator)
+void Transformation::onEventGenerated( Event& event, Node& generator)
 {
-    updateObservers( *transformState( &event ));
+    updateObservers( *transformEvent( &event ));
 }
 
 } // namespace ot

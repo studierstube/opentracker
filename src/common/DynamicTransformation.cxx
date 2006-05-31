@@ -62,18 +62,18 @@ DynamicTransformation::DynamicTransformation( int baseEvent_, bool usePos_, bool
 
 // this method is called by the EventGenerator to update it's observers.
 
-void DynamicTransformation::onEventGenerated( State& event, Node& generator)
+void DynamicTransformation::onEventGenerated( Event& event, Node& generator)
 {
     if( generator.isNodePort() == 1 )     // if the event is from the NodePort 
     {	                                  // node, its a change to the base.
         for( int i = 0; i < 3; i ++ )
         {
-            translation[i] = event.position[i];
-            rotation[i] = event.orientation[i];
+            translation[i] = event.getPosition()[i];
+            rotation[i] = event.getOrientation()[i];
         }
-        this->rotation[3] = event.orientation[3];
+        this->rotation[3] = event.getOrientation()[3];
 
-		confidence = event.confidence;
+		confidence = event.getConfidence();
 
 		if( baseEvent == 1 )
 		{

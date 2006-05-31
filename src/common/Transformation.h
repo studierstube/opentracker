@@ -63,19 +63,19 @@ class OPENTRACKER_API Transformation : public Node
 {
 // Members
 protected:
-    /// local state variable
-    State localState;
+    /// local event variable
+    Event localEvent;
 
 // Methods
 protected:
-    /** transforms a state. Simplifies implementing other Transformations
+    /** transforms a event. Simplifies implementing other Transformations
      * as it is only needed to override this method. It stores the
-     * transformed state in the localState member variable and returns
+     * transformed event in the localEvent member variable and returns
      * a pointer to it.
-     * @param state pointer to original state
-     * @return pointer to localState member
+     * @param event pointer to original event
+     * @return pointer to localEvent member
      */
-    virtual State* transformState( State* state) = 0;
+    virtual Event* transformEvent( Event* event) = 0;
 
     /** constructor method
      */
@@ -86,9 +86,9 @@ public:
      * returns the event number n back in time starting with the
      * newest for n = 0
      */
-    virtual State& getEvent(unsigned int number = 0);
+    virtual Event& getEvent(unsigned int number = 0);
 
-    virtual State& getEventNearTime(double time);   
+    virtual Event& getEventNearTime(double time);   
 
     /** returns the size of the queue. Uses the childs
      * implementation, if possible.
@@ -97,8 +97,8 @@ public:
 
     /** the function evaluation method.
      * @param time the point in time at which function is evaluated
-     * @return reference to state value */
-    virtual State& getStateAtTime(double time);
+     * @return reference to event value */
+    virtual Event& getEventAtTime(double time);
 
     /** tests for EventGenerator interface being present. Returns the
      * result of the childs implementation of this method.
@@ -117,10 +117,10 @@ public:
 
     /**
      * this method is called by the EventGenerator to update it's observers.
-     * This class computes a transformed state, stores it in its local variable
+     * This class computes a transformed event, stores it in its local variable
      * and notifies its observers in turn, propagating the change.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 };
 
 } // namespace ot

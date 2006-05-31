@@ -57,24 +57,24 @@ b( b_ ),
 mode( mode_ )
 {}
 
-State* EllipsoidTransformNode::transformState( State* state)
+Event* EllipsoidTransformNode::transformEvent( Event* event)
 {
 	if( toCartesian == mode )
 	{
-		double B = state->position[0];
-		double L = state->position[1];
-		double H = state->position[2];
+		double B = event->getPosition()[0];
+		double L = event->getPosition()[1];
+		double H = event->getPosition()[2];
 		double e2 = 1 - (b*b) / (a*a);
 		double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
-		localState.position[0] = (float)((N + H)*cos(B)*cos(L));
-		localState.position[1] = (float)((N + H)*cos(B)*sin(L));
-		localState.position[2] = (float)(((1 - e2)*N + H)*sin(B));				
+		localEvent.getPosition()[0] = (float)((N + H)*cos(B)*cos(L));
+		localEvent.getPosition()[1] = (float)((N + H)*cos(B)*sin(L));
+		localEvent.getPosition()[2] = (float)(((1 - e2)*N + H)*sin(B));				
 	}
 	else
 	{
-		double x = state->position[0];
-		double y = state->position[1];
-		double z = state->position[2];
+		double x = event->getPosition()[0];
+		double y = event->getPosition()[1];
+		double z = event->getPosition()[2];
 		double e2 = 1 - (b*b) / (a*a);
 		double L = 0;
 		double B = 0;
@@ -108,21 +108,19 @@ State* EllipsoidTransformNode::transformState( State* state)
 				H = - b -z;
 			}
 		}
-		localState.position[0] = (float)B;
-		localState.position[1] = (float)L;
-		localState.position[2] = (float)H;				
+		localEvent.getPosition()[0] = (float)B;
+		localEvent.getPosition()[1] = (float)L;
+		localEvent.getPosition()[2] = (float)H;				
 	}
 	// copy the rest over
 	// we don't deal with orientation so far...
-	localState.orientation[0] = state->orientation[0];
-	localState.orientation[1] = state->orientation[1];
-	localState.orientation[2] = state->orientation[2];
-	localState.orientation[3] = state->orientation[3];
-	
-	localState.confidence = state->confidence;
-	localState.button = state->button;
-	localState.time = state->time;
-	return & localState;
+	localEvent.copyAllButStdAttr(*event);
+
+	localEvent.getOrientation() = event->getOrientation();
+	localEvent.getConfidence() = event->getConfidence();
+	localEvent.getButton() = event->getButton();
+	localEvent.time = event->time;
+	return & localEvent;
 }
 
 } // namespace ot

@@ -45,16 +45,16 @@
  * @page transform_nodes Transform Node Reference
  * @section matrixtransform MatrixTransformation
  *
- * This section describes the MatrixTransformation configuration element. It 
- * transforms the data by applying an affine transformation to the 
+ * This section describes the MatrixTransformation configuration element. It
+ * transforms the data by applying an affine transformation to the
  * the child's position data as post transformations. The transformation itself is
- * fixed and described by a 3x4 matrix which is set with the elements attributes. 
+ * fixed and described by a 3x4 matrix which is set with the elements attributes.
  * Note that this node only acts on position information !!
  *
  * The configuration elements are obtained by using the base name
  * @c MatrixTransformation and prepending it with one of the prefixes described before.
  * They have the following attribute:
- * @li @c matrix   a 3x4 matrix specifying an affine transformation    
+ * @li @c matrix   a 3x4 matrix specifying an affine transformation
  *
  * An example element looks like this :
  * @verbatim
@@ -70,7 +70,7 @@
 
 /**
  * The MatrixTransformation class implements a static matrix post transformation on
- * the state of its child node. It implements the @ref matrixtransform nodes.
+ * the event of its child node. It implements the @ref matrixtransform nodes.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
@@ -85,12 +85,12 @@ protected:
     float matrix[3][4];
 
     /**
-     * transforms a state. Overrides the Transformation implementation
+     * transforms a event. Overrides the Transformation implementation
      * to implement a different one.
      */
-    virtual State* transformState( State* state) ;
+    virtual Event* transformEvent( Event* event) ;
 
-    /** default constructor method sets values to implement identity 
+    /** default constructor method sets values to implement identity
      * transformation */
     MatrixTransformation();
 
@@ -107,23 +107,23 @@ protected:
 public:
 
 
-    /** returns the affine part of the Transformation 
-     * @return float pointer to 3x4 floats 
+    /** returns the affine part of the Transformation
+     * @return float pointer to 3x4 floats
     */
     float ** getMatrix()
     {
-        return (float**)matrix;
+      return (float**)matrix;
     }
 
 
     /** sets the scale of the transformation. It is only
-     * executed, if the transformation is of type to 
+     * executed, if the transformation is of type to
      * change the position of any events. It copies the
      * passed float array into an internal structure.
      * @param data a 3x4 float array containing the scale
      */
     void setMatrix(float* data[4])
-    {        
+    {
         memcpy( matrix, data, sizeof(float)*12 );
     }
 

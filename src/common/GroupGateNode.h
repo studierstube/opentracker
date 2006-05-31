@@ -144,7 +144,7 @@ public:
     	return 1;
     }
 
-    virtual void onEventGenerated(State &event, Node &generator);                                
+    virtual void onEventGenerated(Event &event, Node &generator);                                
 
     friend class GroupGateModule;
     friend class GroupGateGroup;
@@ -165,7 +165,7 @@ public:
         return 1;
     }
 
-    virtual void onEventGenerated(State &event, Node &generator)
+    virtual void onEventGenerated(Event &event, Node &generator)
 	{
 		updateObservers(event);
 	}
@@ -181,7 +181,7 @@ public:
 class OPENTRACKER_API ActiveGateNode : public Node   
 {
 private:
-    State state;
+    Event event;
 
 protected:
    
@@ -196,11 +196,11 @@ public:
     	return 1;
     }
 
-    void pushState(unsigned short groupgatenum)
+    void pushEvent(unsigned short groupgatenum)
     {
-        state.button = groupgatenum;
-        state.timeStamp();
-		updateObservers(state);
+        event.getButton() = groupgatenum;
+        event.timeStamp();
+		updateObservers(event);
     }
 
     friend class GroupGateModule;

@@ -85,7 +85,7 @@
 
 /**
  * A VirtualTransformation acts differently from a common Transformation.
- * It is a local transformation of the states coordinate system.
+ * It is a local transformation of the events coordinate system.
  * Mathematically it is a pre-transformation as opposed to a
  * post-transformation like the VirtualTransformation.
  * @author Gerhard Reitmayr
@@ -99,10 +99,10 @@ class OPENTRACKER_API VirtualTransformation : public StaticTransformation
 // Methods
 protected:
     /**
-     * transforms a state. Overrides the Transformation implementation
+     * transforms a event. Overrides the Transformation implementation
      * to implement a different one.
      */
-    virtual State* transformState( State* state) ;
+    virtual Event* transformEvent( Event* event) ;
 
     /** default constructor method sets transformation to identity */
     VirtualTransformation() : StaticTransformation()

@@ -66,16 +66,16 @@
  * @section dynamictransform DynamicTransformation
  *
  * This section describes the DynamicTransformation node and configuration element. 
- * A DynamicTransformation transforms the data child's state value by the base
- * child's state value. The base childs position and orientation define
+ * A DynamicTransformation transforms the data child's event value by the base
+ * child's event value. The base childs position and orientation define
  * the affine base in which the data childs values are interpreted. Then the data childs values
  * are transformed to world coordinates. The basic name of the configuration element
  * is @c DynamicTransform , by prepending the prefixes above, one receives the
  * actual element names. The @c TransformBase child must always be an EventGenerator.
  *
  * The confidence value of the result event is the product of the confidence values
- * of the two input events. Button state is only passed from the child, never from the 
- * @c TransformBase child. If you want to merge the button state you must use an additional
+ * of the two input events. Button event is only passed from the child, never from the 
+ * @c TransformBase child. If you want to merge the button event you must use an additional
  * @ref buttonopnode to do that. The timestamp is always of the last event that triggers an
  * output (see @c baseevent).
  *
@@ -121,7 +121,7 @@ protected:
 
     /** stores the original event data to compute new values
      * on base changes.*/
-    State store;
+    Event store;
 	/** flag, whether a change in the base should generate an event or not */
 	int baseEvent;
 
@@ -133,12 +133,12 @@ public:
     
     /**
      * this method is called by the EventGenerator to update it's observers.
-     * This class computes a transformed state, stores it in its local variable
+     * This class computes a transformed event, stores it in its local variable
      * and notifies its observers in turn, propagating the change.
      * If the EventGenerator equals the baseChild, its data is stored in the
      * underlying StaticTransformation fields, to change the transformation itself.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class CommonNodeFactory;
 

@@ -64,12 +64,12 @@ int RangeFilterNode::isEventGenerator()
 
 // this method is called by the EventGenerator to update it's observers.
 
-void RangeFilterNode::onEventGenerated( State& event, Node& generator)
+void RangeFilterNode::onEventGenerated( Event& event, Node& generator)
 {
     float len = 
-        (event.position[0])*(event.position[0]) +
-        (event.position[1])*(event.position[1]) +
-        (event.position[2])*(event.position[2]);
+        (event.getPosition()[0])*(event.getPosition()[0]) +
+        (event.getPosition()[1])*(event.getPosition()[1]) +
+        (event.getPosition()[2])*(event.getPosition()[2]);
     if( min <= len && len <= max )
     {
         updateObservers( event );

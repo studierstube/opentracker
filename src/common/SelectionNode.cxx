@@ -56,7 +56,7 @@ SelectionNode::SelectionNode( double t )
 } 
 
 // generates a new data item upon receiving an event
-void SelectionNode::onEventGenerated( State& event, Node & generator )
+void SelectionNode::onEventGenerated( Event& event, Node & generator )
 {
 	if( generator.isNodePort() == 1 )
 	{

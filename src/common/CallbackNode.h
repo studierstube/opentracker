@@ -45,8 +45,8 @@
  * @page Nodes Node Reference
  * @section callbacknode Callback Node
  * The Callback node is a simple EventObserver / EventGenerator that passes
- * events on and calls a registered callback function everytime it 
- * receives a new event with the passed state. 
+ * events on and calls a registered callback function everytime it
+ * receives a new event with the passed event.
  * It has the following attributes :
  * @li @c name a unique name to identify it among all Callback nodes.
  *
@@ -66,7 +66,7 @@ namespace ot {
 
 class CallbackNode;
 
-typedef void CallbackFunction(CallbackNode &, State &, void *);
+typedef void CallbackFunction(CallbackNode &, Event &, void *);
 
 /**
  * This class implements a simple node that stores a function pointer
@@ -80,30 +80,30 @@ class OPENTRACKER_API CallbackNode : public Node
 {
 // Members
 public:
-    /** name of the CallbackNode for retrieving it from the module. 
+    /** name of the CallbackNode for retrieving it from the module.
      * Note that this is not the name returned by getName(), rather the value
-     * set by the attribute name. 
+     * set by the attribute name.
      */
     std::string name;
     /// callback function
     CallbackFunction * function;
     /// data pointer
     void * data;
-    /// the state passed to the function and the parent
-    State state;
+    /// the event passed to the function and the parent
+    Event event;
 
 // Methods
 protected:
 /** constructor method,sets commend member
      * @param name_ the name of the Callback node */
     CallbackNode( const std::string & name_ ) :
-        Node(), 
+        Node(),
         name( name_ ),
         function( NULL ),
         data( NULL )
     {}
 
-public:        
+public:
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -111,27 +111,23 @@ public:
     {
         return 1;
     }
-    
+
     /**
      * This method notifies the object that a new event was generated.
-     * It stores a copy of the received event and passes the event on
-     * to its observers.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
+     * @param event reference to the new event.
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event, Node& generator)
+    virtual void onEventGenerated( Event& event, Node& generator)
     {
-        state = event;
         if( function != NULL )
         {
-            (*function)(*this,  state, data );
+            (*function)(*this, event, data );
         }
-        updateObservers( state );
+        updateObservers( event );
     }
 
-    /** 
+    /**
      * This method returns the value set by the name attribute of the CallbackNode.
      * This is a different value then the one returned by getName() which is the
      * value set by the attribute DEF.

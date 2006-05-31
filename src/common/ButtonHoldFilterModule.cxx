@@ -88,7 +88,7 @@ Node * ButtonHoldFilterModule::createNode( const std::string& name, StringTable&
 }
 
 // pushes events into the tracker tree.
-void ButtonHoldFilterModule::pushState()
+void ButtonHoldFilterModule::pushEvent()
 {
     for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {

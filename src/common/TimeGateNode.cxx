@@ -58,7 +58,7 @@ TimeGateNode::TimeGateNode( double timeframe_, Mode mode_ )
 } 
 
 // generates a new data item upon receiving an event
-void TimeGateNode::onEventGenerated( State& event, Node & generator )
+void TimeGateNode::onEventGenerated( Event& event, Node & generator )
 {
     // if it came from the gate, save the timestamp
 	if( generator.isNodePort() == 1 )

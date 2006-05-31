@@ -51,8 +51,8 @@
 
 namespace ot {
 
-GKTransformNode::GKTransformNode( double a_ , double b_, double m_, 
-								  double alpha_, double beta_, double gamma_, double delta_, 
+GKTransformNode::GKTransformNode( double a_ , double b_, double m_,
+								  double alpha_, double beta_, double gamma_, double delta_,
 								  Mode mode_ ) :
 a( a_ ),
 b( b_ ),
@@ -64,7 +64,7 @@ delta( delta_ ),
 mode( mode_ )
 {}
 
-State* GKTransformNode::transformState( State* state)
+Event* GKTransformNode::transformEvent( Event* event)
 {
 	// the zero meridian of the GK map projection goes through Ferro,
 	// a Canarian island 17° 40' left of Greenwhich zero meridian.
@@ -75,10 +75,10 @@ State* GKTransformNode::transformState( State* state)
 
 	if( to == mode )
 	{
-		double B = state->position[0];
+		double B = event->getPosition()[0];
 		double sinB = sin(B);
 		double cosB = cos(B);
-		double L = state->position[1];
+		double L = event->getPosition()[1];
 		double dL = ( L + ferro - meridian );
 
 		double Sm = alpha * B / MathUtils::GradToRad - beta * sin(2.0 * B) + gamma * sin(4.0 * B) - delta * sin(6.0 * B);
@@ -95,13 +95,13 @@ State* GKTransformNode::transformState( State* state)
 		double y = N * dL * cosB * corr_y;
 
 
-		localState.position[0] = (float)x;
-		localState.position[1] = (float)y;
+		localEvent.getPosition()[0] = (float)x;
+		localEvent.getPosition()[1] = (float)y;
 	}
 	else
 	{
-		double x = state->position[0];
-		double y = state->position[1];
+		double x = event->getPosition()[0];
+		double y = event->getPosition()[1];
 		double xa = x * MathUtils::GradToRad / alpha;
 		double Bf = (xa + beta*sin(2*xa) + gamma*sin(4*xa) + delta*sin(6*xa)) * MathUtils::GradToRad;
 		double t = tan(Bf);
@@ -113,29 +113,27 @@ State* GKTransformNode::transformState( State* state)
 		double M = b*b / (a*W*W*W);
 		double corr_b = 1 - (y*y)*(5 + 3*t2 + eta2 - 9*t2*eta2)/(12*N*N) +
 							(y*y*y*y)*(61+90*t2+45*t2*t2)/(360*N*N*N*N);
-		double corr_l = 1 - (y*y)*(1 + 2*t2 + eta2)/(6*N*N) + 
+		double corr_l = 1 - (y*y)*(1 + 2*t2 + eta2)/(6*N*N) +
 							(y*y*y*y)*(5 + 28*t2 + 24*t2*t2)/(120*N*N*N*N);
 		double B = Bf - (y*y*t)*corr_b/(2*M*N);
 		double L = y*corr_l/(N*cos(Bf)) + meridian - ferro;
 
-		localState.position[0] = (float)B;
-		localState.position[1] = (float)L;
+		localEvent.getPosition()[0] = (float)B;
+		localEvent.getPosition()[1] = (float)L;
 	}
 
 	// height over the ellipsoid surface is identical to the height over the map
-	localState.position[2] = state->position[2];
+	localEvent.getPosition()[2] = event->getPosition()[2];
 
 	// copy the rest over
 	// we don't deal with orientation so far...
-	localState.orientation[0] = state->orientation[0];
-	localState.orientation[1] = state->orientation[1];
-	localState.orientation[2] = state->orientation[2];
-	localState.orientation[3] = state->orientation[3];
-	
-	localState.confidence = state->confidence;
-	localState.button = state->button;
-	localState.time = state->time;
-	return & localState;
+	localEvent.copyAllButStdAttr(*event);
+	localEvent.getOrientation() = event->getOrientation();
+
+	localEvent.getConfidence() = event->getConfidence();
+	localEvent.getButton() = event->getButton();
+	localEvent.time = event->time;
+	return & localEvent;
 }
 
 } // namespace ot

@@ -107,13 +107,13 @@ public:
     /** this method is called by the EventGenerator to update it's observers
      * @param event new event
      * @param generator the calling EventGenerator */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     /** returns the event number n back in time starting with the
      * newest event for n = 0.
      * @param number the number of the event to be retrieved
-     * @return reference to the State */
-    virtual State& getEvent(unsigned int number = 0)
+     * @return reference to the Event */
+    virtual Event& getEvent(unsigned int number = 0)
     {
         return EventQueueImplementation::getEvent( number );
     }
@@ -121,7 +121,7 @@ public:
     /** returns the event closes to the given point in time
      * @param time point in the the event should be closest to
      * @return reference to the found event */
-    virtual State& getEventNearTime(double time)
+    virtual Event& getEventNearTime(double time)
     {
         return EventQueueImplementation::getEventNearTime( time );
     }

@@ -45,8 +45,8 @@
  * @page Nodes Node Reference
  * @section buttonholdfilter ButtonHoldFilter
  * ButtonHoldFilter simulates an time delayed release of a buttonsource. It was necessary to introduce this filter to 
- * filter out short drops when using a radio transmission. The filter will hold the "on" state even if there is a drop of 
- * &quot;n&quot; off's. After &quot;n&quot; off's have pssed through the filter it will change the state to off. If there is a "on" in between, 
+ * filter out short drops when using a radio transmission. The filter will hold the "on" event even if there is a drop of 
+ * &quot;n&quot; off's. After &quot;n&quot; off's have pssed through the filter it will change the event to off. If there is a "on" in between, 
  * the count will start again. Please notice that there will be a delay in the button-release action due to this filter.
  *
 
@@ -87,12 +87,12 @@ class OPENTRACKER_API ButtonHoldFilterNode : public Node
 
 protected:
     bool init;
-    /// number of off's necessary to show off in outgoing state
+    /// number of off's necessary to show off in outgoing event
     int offDuration;
 
 	// internal variables
-    State currentState; ///
-    int targetButtonState; ///
+    Event currentEvent; ///
+    int targetButtonEvent; ///
 	int offCounter[16]; /// counter for each bit
 
     /** constructor method. It sets initial values for the treshhold and type */
@@ -112,7 +112,7 @@ public:
 	 * @param event the event value passed
 	 * @param generator the node generating the event
      */
-    virtual void onEventGenerated( State& event, Node & generator);                                
+    virtual void onEventGenerated( Event& event, Node & generator);                                
 
     /** pushes event down the line. Needed to access protected
      * updateObservers method in EventGenerator */

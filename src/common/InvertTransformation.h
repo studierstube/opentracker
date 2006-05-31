@@ -81,10 +81,10 @@ class OPENTRACKER_API InvertTransformation : public Transformation
 protected:
 
     /**
-     * transforms a state. Overrides the Transformation implementation
+     * transforms a event. Overrides the Transformation implementation
      * to implement the inversion
      */
-    virtual State* transformState( State* state) ;
+    virtual Event* transformEvent( Event* event) ;
 
     /** default constructor method sets values to implement identity 
      * transformation */

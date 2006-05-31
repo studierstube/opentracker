@@ -52,7 +52,7 @@
 
 namespace ot {
 
-void EventQueueNode::onEventGenerated( State& event, Node& generator)
+void EventQueueNode::onEventGenerated( Event& event, Node& generator)
 {
     if( queue.size() == (unsigned int)length )
     {

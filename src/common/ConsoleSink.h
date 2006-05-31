@@ -46,7 +46,7 @@
  * @section consolesink ConsoleSink
  * The ConsoleSink node is a simple EventObserver / EventGenerator that passes
  * events on and stores a copy of the last one. It is polled in regular
- * intervalls by the @ref consolemodule and its state is printed out to the console.
+ * intervalls by the @ref consolemodule and its event is printed out to the console.
  * It has the following attributes :
  * @li @c comment a line of text describing the output
  * @li @c active on (on|off) flag defining whether this sink should store and output
@@ -68,7 +68,7 @@
  * This class implements a simple node that stores a copy of the last
  * event it received and passed on for output to the console. The 
  * associated ConsoleModule polls the nodes regularly and prints
- * out the last state stored.
+ * out the last event stored.
  * @author Gerhard Reitmayr
  * @ingroup common
  */
@@ -81,9 +81,9 @@ class OPENTRACKER_API ConsoleSink : public Node
 public:
     /// comment line
     std::string comment;
-    /// the state that is stored
-    State state;
-    /// flag whether state was changed since last display
+    /// the event that is stored
+    Event event;
+    /// flag whether event was changed since last display
     int changed;
     /// flag whether it is displayed or not
     int active;
@@ -119,11 +119,11 @@ public:
      * @param generator reference to the EventGenerator object that
      *        notified the EventObserver.
      */
-    virtual void onEventGenerated( State& event, Node& generator)
+    virtual void onEventGenerated( Event& e, Node& generator)
     {
         if( active )
         {
-            state = event;
+            event = e;
             changed = 1;
         }
         updateObservers( event );

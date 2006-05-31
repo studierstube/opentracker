@@ -64,22 +64,22 @@ int ButtonOpNode::isEventGenerator()
 
 // this method is called by the EventGenerator to update it's observers.
 
-void ButtonOpNode::onEventGenerated( State& event, Node& generator)
+void ButtonOpNode::onEventGenerated( Event& event, Node& generator)
 {
     if( generator.isNodePort() == 1 )
     {
         if( generator.getType().compare("Arg1") == 0 )
-            arg1 = event.button;
+            arg1 = event.getButton();
         else
-            arg2 = event.button;
+            arg2 = event.getButton();
         result = event;
         switch( operation )
         {
         case OR :
-            result.button = arg1 | arg2;
+            result.getButton() = arg1 | arg2;
             break;
         case AND :
-            result.button = arg1 & arg2;
+            result.getButton() = arg1 & arg2;
             break;
         }
         updateObservers( result );

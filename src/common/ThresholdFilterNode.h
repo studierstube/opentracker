@@ -87,8 +87,8 @@ class OPENTRACKER_API ThresholdFilterNode : public Node
 {
 // Members
 protected:
-    /// last saved state variable
-    State lastState;
+    /// last saved event variable
+    Event lastEvent;
     /// min and max position values, must be in [0,inf)
     float positionMin, positionMax;
     /// min and max rotation values, must be in [0,pi]
@@ -111,7 +111,7 @@ public:
     /**
      * this method is called by the EventGenerator to update it's observers.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class CommonNodeFactory;
 };

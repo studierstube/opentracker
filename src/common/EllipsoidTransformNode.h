@@ -103,12 +103,12 @@ public:
 protected:
 	EllipsoidTransformNode( double a_ , double b_, Mode mode_ );
 
-	/** transforms a state either to or from an ellipsoid 
+	/** transforms a event either to or from an ellipsoid 
 	 * coordinate system to a cartesian one.
-     * @param state pointer to original state
-     * @return pointer to localState member
+     * @param event pointer to original event
+     * @return pointer to localEvent member
      */
-    virtual State* transformState( State* state);
+    virtual Event* transformEvent( Event* event);
 
 	friend class CommonNodeFactory;
 };

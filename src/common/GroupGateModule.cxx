@@ -119,7 +119,7 @@ GroupGateGroup::notifyActiveGate()
     if ((ActiveGate != 0) && (ActiveGroupGate != 0))
     {
         GroupGateNode *node = (GroupGateNode *)ActiveGroupGate;
-        ((ActiveGateNode *)ActiveGate)->pushState(node->getNumber());
+        ((ActiveGateNode *)ActiveGate)->pushEvent(node->getNumber());
     }
 }
 

@@ -57,27 +57,27 @@ ConfidenceSelectNode::ConfidenceSelectNode( double timeout_, types type_ )
 } 
 
 // tests the confidence value and only forwards passing events
-void ConfidenceSelectNode::onEventGenerated( State& event, Node & generator )
+void ConfidenceSelectNode::onEventGenerated( Event& event, Node & generator )
 {
 	if( timeout < event.time - lastTimeStamp )
 	{
-		lastConfidence = event.confidence;
+		lastConfidence = event.getConfidence();
 		lastTimeStamp = event.time;
 		updateObservers( event );		
 	} else 
 	{
 		switch( type )
 		{
-		case HIGH : if( event.confidence >= lastConfidence )
+		case HIGH : if( event.getConfidence() >= lastConfidence )
 					{
-						lastConfidence = event.confidence;
+						lastConfidence = event.getConfidence();
 						lastTimeStamp = event.time;
 						updateObservers( event );
 					}
 					break;
-		case LOW : if( event.confidence <= lastConfidence )
+		case LOW : if( event.getConfidence() <= lastConfidence )
 					{
-						lastConfidence = event.confidence;
+						lastConfidence = event.getConfidence();
 						lastTimeStamp = event.time;
 						updateObservers( event );
 					}

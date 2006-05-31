@@ -114,7 +114,7 @@ GroupGateNode::getGroupGateName()
 }
 
 void 
-GroupGateNode::onEventGenerated(State &event, Node &generator)
+GroupGateNode::onEventGenerated(Event &event, Node &generator)
 {
 	if (generator.isNodePort() == 1)
 	{

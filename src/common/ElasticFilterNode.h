@@ -79,14 +79,14 @@ protected:
     int frequency;
     /// offset of first update relative to main loop start
     int offset;
-    /// the state that is posted to the EventObservers
+    /// the event that is posted to the EventObservers
     float damp;     ///< damping factor
     float force;    ///< the strength of the spring in our model
 
 	// internal variables
-    State currentState; ///
-    State targetState;  ///
-    State vState;       ///
+    Event currentEvent; ///
+    Event targetEvent;  ///
+    Event vEvent;       ///
 
     /** constructor method. It sets initial values for the treshhold and type */
     ElasticFilterNode( float force_ = 0.02, float damp_ = 0.5, int frequency_ = 1, int offset_ = 0);
@@ -105,7 +105,7 @@ public:
 	 * @param event the event value passed
 	 * @param generator the node generating the event
      */
-    virtual void onEventGenerated( State& event, Node & generator);                                
+    virtual void onEventGenerated( Event& event, Node & generator);                                
 
     /** pushes event down the line. Needed to access protected
      * updateObservers method in EventGenerator */

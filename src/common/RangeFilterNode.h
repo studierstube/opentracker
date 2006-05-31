@@ -102,7 +102,7 @@ public:
     /**
      * this method is called by the EventGenerator to update it's observers.
      */
-    virtual void onEventGenerated( State& event, Node& generator);
+    virtual void onEventGenerated( Event& event, Node& generator);
 
     friend class CommonNodeFactory;
 };

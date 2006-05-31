@@ -81,27 +81,26 @@ MatrixTransformation::MatrixTransformation( float * matrix_)
             matrix[i][j] = matrix_[4*i+j];
     }
 }
-// transforms a state.
+// transforms a event.
 
-State* MatrixTransformation::transformState( State* state )
+Event* MatrixTransformation::transformEvent( Event* event )
 {
 
-    // transform the position of the state
-    float * pos = state->position;
-    localState.position[0] = matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3];
-    localState.position[1] = matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3];
-    localState.position[2] = matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3];
+    // transform the position of the event
+    std::vector<float> &pos = event->getPosition();
+    localEvent.getPosition()[0] = matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3];
+    localEvent.getPosition()[1] = matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3];
+    localEvent.getPosition()[2] = matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3];
 
-    localState.orientation[0] = state->orientation[0];
-    localState.orientation[1] = state->orientation[1];
-    localState.orientation[2] = state->orientation[2];
-    localState.orientation[3] = state->orientation[3];
- 
-    // copy other state fields
-    localState.button = state->button;
-    localState.confidence = state->confidence;
-    localState.time = state->time;
-    return &localState;
+    localEvent.getOrientation() = event->getOrientation();
+
+    // copy other event fields
+    localEvent.copyAllButStdAttr(*event);
+
+    localEvent.getButton() = event->getButton();
+    localEvent.getConfidence() = event->getConfidence();
+    localEvent.time = event->time;
+    return &localEvent;
 }
 
 } // namespace ot
