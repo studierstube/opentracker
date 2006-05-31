@@ -53,7 +53,7 @@
  * Module is an abstract super class for all OpenTracker modules. A module
  * is associated with a configuration element. If the configuration element
  * is present, it is initialized with init. Then it is started. During the
- * main loop in Context, pushState and pullState, and stop are periodically
+ * main loop in Context, pushEvent and pullEvent, and stop are periodically
  * called. When the Context exits its main loop it calls close on all methods.
  *
  * This class provides empty implementations for all its methods instead of
@@ -107,9 +107,9 @@ public:
         initialized = 1;
     };
     /**
-     * pulls state information out of the tracker tree. It enables the module
+     * pulls event information out of the tracker tree. It enables the module
      * to query any EventQueue or TimeDependend node in the shared memory. It
-     * is called after pushState was executed on each module.
+     * is called after pushEvent was executed on each module.
      *
      * \b OpenTracker-1.2 \b compatibility
      *
@@ -117,14 +117,14 @@ public:
      * override this method (default). OpenTracker 1.2 nodes implement the pullEvent()
      * method instead. This method forwards the given event to that method.
      */
-    virtual void pullState()
+    virtual void pullEvent()
     {
       pullEvent();
     }
     /* OpenTracker-1.2  compatibility */
     virtual void pullEvent() {}
     /**
-     * pushes state information into the tracker tree. It enables the module
+     * pushes event information into the tracker tree. It enables the module
      * to push new data into the tree by updating EventGenerator nodes and
      * thereby triggering an event.
      *
@@ -134,7 +134,7 @@ public:
      * override this method (default). OpenTracker 1.2 nodes implement the pushEvent()
      * method instead. This method forwards the given event to that method.
      */
-    virtual void pushState()
+    virtual void pushEvent()
     {
       pushEvent();
     }
