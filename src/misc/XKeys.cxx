@@ -61,8 +61,8 @@ namespace ot {
 
       /* Read RC file */
       while (fgets (line, sizeof (line), stream)) {
-	 /* search for keystate options */
-	 if (strstr (line, "keystate_numlock") != NULL) {
+	 /* search for keyevent options */
+	 if (strstr (line, "keyevent_numlock") != NULL) {
 	    /* search for comment or command line */
 	    pos1 = strchr (line, '"');
 	    pos2 = strchr (line, '#');
@@ -71,14 +71,14 @@ namespace ot {
 		  numlock_mask = 0;
 	       }
 	       if (verbose)
-		  printf ("keystate_numlock: %s\n",
+		  printf ("keyevent_numlock: %s\n",
 			  numlock_mask == 0 ? "Enabled" : "Disabled");
 	    
 	       continue;
 	    }
 	 }
       
-	 if (strstr (line, "keystate_capslock") != NULL) {
+	 if (strstr (line, "keyevent_capslock") != NULL) {
 	    /* search for comment or command line */
 	    pos1 = strchr (line, '"');
 	    pos2 = strchr (line, '#');
@@ -87,14 +87,14 @@ namespace ot {
 		  capslock_mask = 0;
 	       }
 	       if (verbose)
-		  printf ("keystate_capslock: %s\n",
+		  printf ("keyevent_capslock: %s\n",
 			  capslock_mask == 0 ? "Enabled" : "Disabled");
 	    
 	       continue;
 	    }
 	 }
       
-	 if (strstr (line, "keystate_scrolllock") != NULL) {
+	 if (strstr (line, "keyevent_scrolllock") != NULL) {
 	    /* search for comment or command line */
 	    pos1 = strchr (line, '"');
 	    pos2 = strchr (line, '#');
@@ -103,7 +103,7 @@ namespace ot {
 		  scrolllock_mask = 0;
 	       }
 	       if (verbose)
-		  printf ("keystate_scrolllock: %s\n",
+		  printf ("keyevent_scrolllock: %s\n",
 			  scrolllock_mask == 0 ? "Enabled" : "Disabled");
 	    
 	       continue;

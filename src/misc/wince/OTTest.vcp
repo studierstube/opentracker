@@ -202,7 +202,7 @@ NODEP_CPP_OTTES=\
 	".\ore\NodeFactoryContainer.h"\
 	".\ore\NodePort.h"\
 	".\ore\OSUtils.h"\
-	".\ore\State.h"\
+	".\ore\Event.h"\
 	".\ore\StringTable.h"\
 	".\ore\ThreadModule.h"\
 	".\penTracker.h"\

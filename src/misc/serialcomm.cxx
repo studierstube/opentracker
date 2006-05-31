@@ -48,7 +48,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef WIN32  
+#ifdef WIN32
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -59,8 +59,8 @@
 
 #if DEBUGING>0
 #define DEBUG(msg) printf("%s\n", (msg));
-#else 
-#define DEBUG(msg) 
+#else
+#define DEBUG(msg)
 #endif
 
 void initSerialParams(SerialParams *params)
@@ -93,8 +93,8 @@ int openSerialPort(SerialPort *port, SerialParams *params)
 
     SetupComm(port->handle, 4096, 1024);
     /* nonblocking not implemented yet
-    if (!params->blocking) 
-    {    
+    if (!params->blocking)
+    {
     }
                                       */
 
@@ -151,7 +151,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     if ((params->bits >= 5) && (params->bits <= 8))
     {
         dcb.ByteSize = params->bits;
-    } else 
+    } else
     {
         DEBUG("Error: only 5-8 databits")
         return -1;
@@ -189,7 +189,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
             return -1;
     }
 
-    /* not really sure how to set */ 
+    /* not really sure how to set */
     if (params->hwflow)
     {
         dcb.fOutxCtsFlow = TRUE;
@@ -226,13 +226,13 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     {
         DEBUG("Error: PurgeComm failed")
         return -1;
-    }      
+    }
 
     if (!SetCommState(port->handle, &dcb))
     {
         DEBUG("Error: SetCommState failed")
         return -1;
-    }      
+    }
 
     return 0;
 }
@@ -251,7 +251,7 @@ int closeSerialPort(SerialPort *port)
 int setRTSSerialPort(SerialPort *port, int level)
 {
     DCB dcb;
-	
+
     if (!GetCommState(port->handle, &dcb))
     {
         DEBUG("ERROR: GetCommState failed")
@@ -259,7 +259,7 @@ int setRTSSerialPort(SerialPort *port, int level)
     }
 
 	if (level)
-	{	
+	{
         dcb.fRtsControl = RTS_CONTROL_ENABLE;
     } else {
         dcb.fRtsControl = RTS_CONTROL_DISABLE;
@@ -269,8 +269,8 @@ int setRTSSerialPort(SerialPort *port, int level)
     {
         DEBUG("Error: SetCommState failed")
         return -1;
-    }      
-	
+    }
+
     return 0;
 }
 
@@ -293,7 +293,7 @@ int waitforoneSerialPort(SerialPort *port, long time)
 		return -1;
 	}
 
-	if (WaitCommEvent(port->handle, &eventmask, NULL))
+	if (WaitCommState(port->handle, &statemask, NULL))
 	{
         return 0;
 	}
@@ -314,7 +314,7 @@ int waitforoneSerialPort(SerialPort *port, long time)
     return(-1);
 }
 /*
-int waitforallSerialPorts(SerialPort **ports, int count, 
+int waitforallSerialPorts(SerialPort **ports, int count,
     int *setofports, long time)
 {
     fd_set rfds;
@@ -388,8 +388,8 @@ int writetoSerialPort(SerialPort *port, char *buf, int count)
 
 #if DEBUGING>0
 #define DEBUG(msg) printf("%s\n", (msg));
-#else 
-#define DEBUG(msg) 
+#else
+#define DEBUG(msg)
 #endif
 
 void initSerialParams(SerialParams *params)
@@ -410,9 +410,9 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     int n;
     speed_t baud;
 
-    port->fd = open(params->pathname, 
-        O_RDWR | O_NOCTTY | O_NONBLOCK);  
-  
+    port->fd = open(params->pathname,
+        O_RDWR | O_NOCTTY | O_NONBLOCK);
+
        /* need nonblocking open cause sometimes the device may be in
         * canonical mode.
         * O_NDELAY (System V) vs O_NONBLOCK (POSIX.1)
@@ -426,7 +426,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     }
 
     if (params->blocking)
-    {    
+    {
         n = fcntl(port->fd, F_GETFL, 0);
         fcntl(port->fd, F_SETFL, n & ~O_NONBLOCK);   /* disabling nonblocking */
     }
@@ -469,7 +469,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     {
         case 0: break;
         case 1:
-            portinfo.c_cflag |= PARENB | PARODD; 
+            portinfo.c_cflag |= PARENB | PARODD;
             portinfo.c_iflag |= IGNPAR | INPCK;
             break;
         case 2:
@@ -512,26 +512,26 @@ int openSerialPort(SerialPort *port, SerialParams *params)
 
     portinfo.c_oflag = 0;
     portinfo.c_lflag = 0;
-    portinfo.c_cc[VTIME] = 0;   
-    portinfo.c_cc[VMIN] = 1; 
+    portinfo.c_cc[VTIME] = 0;
+    portinfo.c_cc[VMIN] = 1;
 
     if (tcflush(port->fd, TCIFLUSH) == -1)
     {
         DEBUG("Error: tcflush TCIFLUSH failed")
         return -1;
-    }      
+    }
 
     if (tcflush(port->fd, TCOFLUSH) == -1)
     {
         DEBUG("Error: tcflush TCOFLUSH failed")
         return -1;
-    }      
+    }
 
     if (tcsetattr(port->fd, TCSANOW, &portinfo) == -1)
     {
         DEBUG("Error: tcsetattr failed")
         return -1;
-    }      
+    }
 
     return 0;
 }
@@ -586,7 +586,7 @@ int waitforoneSerialPort(SerialPort *port, long time)
     return(-1);
 }
 
-int waitforallSerialPorts(SerialPort **ports, int count, 
+int waitforallSerialPorts(SerialPort **ports, int count,
     int *setofports, long time)
 {
     fd_set rfds;

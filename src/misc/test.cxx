@@ -95,7 +95,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void testCB( Node & node,  State & event, void * data ){
+void testCB( Node & node,  Event & event, void * data ){
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
     cout << node.getName() << " time diff " << diff << endl;
 }
