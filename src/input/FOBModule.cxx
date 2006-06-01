@@ -87,10 +87,10 @@ public:
     /// associated source node
     FOBSource * source;
 
-    /// the local state buffer state
-    State state;
+    /// the local event buffer event
+    Event event;
 
-    /// flag indicating a new value in state
+    /// flag indicating a new value in event
     bool newVal;
 
     /// total range of positions
@@ -118,17 +118,17 @@ public:
             angleAlign[0] = 0;
             angleAlign[1] = 0;
             angleAlign[2] = 0;
-        }            
-        state.confidence = 1;
+        }
+        event.getConfidence() = 1;
         strncpy( port.pathname, device_.c_str(), 255 );
     }
     
     /** converts the buffer data and writes it to
-      * the local state member */
+      * the local event member */
     inline void convert();
 
     /** converts data from another buffer and writes it
-     * to the local state member. It assumes that data is
+     * to the local event member. It assumes that data is
      * in the POSITION/QUATERNION format.
      * @param buffer pointer to the char buffer storing
      * the input data. */
@@ -589,7 +589,7 @@ void FOBModule::run()
 }
     
 // pushes events into the tracker tree
-void FOBModule::pushState()
+void FOBModule::pushEvent()
 {
     if( isInitialized() == 1 )
     {
@@ -599,10 +599,10 @@ void FOBModule::pushState()
             lock();
             if(it->second->newVal == 1 && it->second->source != NULL)
             {
-                it->second->source->state = it->second->state;
+                it->second->source->event = it->second->event;
                 it->second->newVal = 0;
                 unlock();
-                it->second->source->updateObservers(it->second->source->state);
+                it->second->source->updateObservers(it->second->source->event);
             } else
                 unlock();
         }
@@ -792,7 +792,7 @@ void FOBModule::setHemisphere()
 
 const float Bird::inchesToMeters = 0.0254f;
 
-// convert Bird data in buffer to OpenTracker State format
+// convert Bird data in buffer to OpenTracker Event format
 inline void Bird::convert()
 {
     convert( buffer );
@@ -801,25 +801,25 @@ inline void Bird::convert()
 inline void Bird::convert( const char * data )
 {
     int d,i;
-    state.timeStamp();
-    
+    event.timeStamp();
+
     for (i=0; i<3; i++)                         // x,y,z
     {
         d=(((int)(data[i*2]&0x7f))<<2)+(((int)data[i*2+1])<<9);
         if (d&0x8000)
             d|=0xffff0000;        // Extend signbit
-        state.position[i] = ((float)d)*scale;
-    }    
+        event.getPosition()[i] = ((float)d)*scale;
+    }
     for (i=0; i<4; i++)                         // qa,qx,qy,qz
     {
         d=(((int)(data[6+2*i]&0x7f))<<2)+(((int)data[7+2*i])<<9);
         if (d&0x8000)
             d|=0xffff0000;        // Extend signbit
-        state.orientation[(i+3)%4] = ((float)d)/0x8000; // we need qx, qy, qz, qa
+        event.getOrientation()[(i+3)%4] = ((float)d)/0x8000; // we need qx, qy, qz, qa
                                                         // so (i+3)%4 should do the
                                                         // trick. scale ?????
     }
-	state.orientation[3] *= -1;	// for some reason we get the
+	event.getOrientation()[3] *= -1;	// for some reason we get the
 			                    // coordinates inverted, therefore we invert the scalar !
 }
 
