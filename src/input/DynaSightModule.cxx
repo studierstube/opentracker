@@ -1,45 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for DynaSightModule module. Version 1.02
-  *
-  * @author Alexander Schaelss
-  *
-  * $Id$
-  * @file                                                                    */
- /* ======================================================================== */
+ *
+ * @author Alexander Schaelss
+ *
+ * $Id$
+ * @file                                                                    */
+/* ======================================================================== */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -70,35 +70,35 @@
 
 namespace ot {
 
-// constructor initializing the thread manager
-DynaSightModule::DynaSightModule() : 
-ThreadModule(),
-NodeFactory()
-{
+  // constructor initializing the thread manager
+  DynaSightModule::DynaSightModule() :
+    ThreadModule(),
+    NodeFactory()
+  {
     // cout << "DynaSightModule::Constructor" << endl;
-    
+
     lookAtVector[0] = 0.0;
     lookAtVector[1] = 0.0;
     lookAtVector[2] = 0.0;
-    
+
     stop = FALSE;
     serialportIsOpen = FALSE;
     hasLookAt = FALSE;
-} // DynaSightModule
+  } // DynaSightModule
 
-// destructor cleans up any allocated memory
-DynaSightModule::~DynaSightModule()
-{
+  // destructor cleans up any allocated memory
+  DynaSightModule::~DynaSightModule()
+  {
     // cout << "DynaSightModule::Destructor" << endl;
-    
+
     TargetVector::iterator it;
     for (it = targets.begin(); it != targets.end(); it++)
-    {
+      {
         assert((*it) != NULL);
         delete (*it)->source;
-    }
+      }
     targets.clear();
-} // ~DynaSightModule
+  } // ~DynaSightModule
 
 void DynaSightModule::init(StringTable& attributes, ConfigNode * localTree)
 {
@@ -236,15 +236,15 @@ void DynaSightModule::close()
     {
         // close the serial port
         if (serialportIsOpen)
-            myResult = closeSerialPort (&port);
-    }
-} // stop
+	  myResult = closeSerialPort (&port);
+      }
+  } // stop
 
-// pushes state information into the tree
-void DynaSightModule::pushState()
-{
-    // cout << "DynaSightModule::pushState" << endl;
-    
+  // pushes event information into the tree
+  void DynaSightModule::pushEvent()
+  {
+    // cout << "DynaSightModule::pushEvent" << endl;
+
     if (isInitialized() == 1)
     {
         if (targets.empty())
@@ -263,40 +263,40 @@ void DynaSightModule::pushState()
             // DEBUG
             
             if ((*it)->modified == 1)
-            {
-                // update the state information
+	      {
+                // update the event information
                 assert((*it)->source != NULL);
                 
                 // DEBUG
                 /*
-                cout << "DynaSightModule::pushState" << endl;
-                (*it)->state.position[0] = 1.0;
-                (*it)->state.position[1] = 2.0;
-                (*it)->state.position[2] = 3.0;
-                (*it)->state.orientation[0] = 0.0;
-                (*it)->state.orientation[1] = 0.0;
-                (*it)->state.orientation[2] = 0.0;
-                (*it)->state.orientation[3] = 1.0;
-                (*it)->state.confidence = 1.0;
-                (*it)->state.timeStamp();
+		  cout << "DynaSightModule::pushEvent" << endl;
+		  (*it)->event.getPosition()[0] = 1.0;
+		  (*it)->event.getPosition()[1] = 2.0;
+		  (*it)->event.getPosition()[2] = 3.0;
+		  (*it)->event.getOrientation()[0] = 0.0;
+		  (*it)->event.getOrientation()[1] = 0.0;
+		  (*it)->event.getOrientation()[2] = 0.0;
+		  (*it)->event.getOrientation()[3] = 1.0;
+		  (*it)->event.getConfidence() = 1.0;
+		  (*it)->event.timeStamp();
                 */
                 // DEBUG
-                
-                (*it)->source->state = (*it)->state;
+
+                (*it)->source->event = (*it)->event;
                 (*it)->modified = 0;
                 unlock();
-                (*it)->source->updateObservers ((*it)->source->state);
-            }
+                (*it)->source->updateObservers ((*it)->source->event);
+	      }
             else
                 unlock();
             // end of critical section
-        } // for
-    }  // if
-} // pushState
+	  } // for
+      }  // if
+  } // pushEvent
 
-// reads from the DynaSight Sensor and parses the data
-void DynaSightModule::run()
-{
+  // reads from the DynaSight Sensor and parses the data
+  void DynaSightModule::run()
+  {
     // the number of bytes we read over the serial port
     int count = 0;
     // read buffer for the serial port
@@ -309,8 +309,8 @@ void DynaSightModule::run()
     char newCharacter = ' ';
     bool isMarker = FALSE;
     bool packetSyncError = FALSE;
-    // status of the state machine
-    int packetState = 0;
+    // status of the event machine
+    int packetEvent = 0;
     // number of target
     int targetNumber = 0;
     // base-2 exponent
@@ -359,29 +359,29 @@ void DynaSightModule::run()
             
             // check for the sync pattern "1000xxxx"
             isMarker = ((newCharacter & 0xF0) == 0x80);
-            
-            switch (packetState) // Dyna Sight Sensor state machine
-            {
-            case 0:
+
+            switch (packetEvent) // Dyna Sight Sensor event machine
+	      {
+	      case 0:
                 if (isMarker)
-                {
-                    packetBuffer[packetState++] = newCharacter;
-                }
-                else 
-                    // could not synchronize, stay in state 0
-                    packetSyncError = TRUE;
+		  {
+                    packetBuffer[packetEvent++] = newCharacter;
+		  }
+                else
+		  // could not synchronize, stay in event 0
+		  packetSyncError = TRUE;
                 break;
                 
             case 1:
                 if (isMarker)
                 {
                     // we expected marker character -> save it
-                    packetBuffer[packetState++] = newCharacter;
-                }
+                    packetBuffer[packetEvent++] = newCharacter;
+		  }
                 else
                 {
                     // got loss of synchronization -> reset
-                    packetState = 0;
+                    packetEvent = 0;
                     packetSyncError = TRUE;
                 }
                 break;
@@ -393,60 +393,60 @@ void DynaSightModule::run()
                     packetBuffer[0] = packetBuffer[1];
                     packetBuffer[1] = newCharacter;
                     packetSyncError = TRUE;
-                    // leave packetState at 2;
-                }
+                    // leave packetEvent at 2;
+		  }
                 else
                 {
                     // save the character
-                    packetBuffer[packetState++] = newCharacter;
-                }
+                    packetBuffer[packetEvent++] = newCharacter;
+		  }
                 break;
                 
             case 3:
                 // save the character
-                packetBuffer[packetState++] = newCharacter;
+                packetBuffer[packetEvent++] = newCharacter;
                 break;
                 
             case 4:
                 if (isMarker)
-                {
-                    // got an unexpected marker -> reset state machine
+		  {
+                    // got an unexpected marker -> reset event machine
                     packetBuffer[0] = newCharacter;
-                    packetState = 1;
+                    packetEvent = 1;
                     packetSyncError = TRUE;
                 }
                 else
                 {
                     // save the character
-                    packetBuffer[packetState++] = newCharacter;
-                }
+                    packetBuffer[packetEvent++] = newCharacter;
+		  }
                 break;
-                
-            case 5:
-				 // save the character
-				 packetBuffer[packetState++] = newCharacter;
-                 break;
-                            
-            case 6:
+
+	      case 5:
+		// save the character
+		packetBuffer[packetEvent++] = newCharacter;
+		break;
+
+	      case 6:
                 if (isMarker)
-                {
-                    // got an unexpected marker -> reset state machine
+		  {
+                    // got an unexpected marker -> reset event machine
                     packetBuffer[0] = newCharacter;
-                    packetState = 1;
+                    packetEvent = 1;
                     packetSyncError = TRUE;
                 }
                 else
                 {
                     // save the character
-                    packetBuffer[packetState++] = newCharacter;
-                }
+                    packetBuffer[packetEvent++] = newCharacter;
+		  }
                 break;
                 
             case 7:
                 // the 8-byte packet is complete
                 // save the character
-                packetBuffer[packetState] = newCharacter;
-                
+                packetBuffer[packetEvent] = newCharacter;
+
                 // decode the completed packet
                 exponent = packetBuffer[0]&0x3; // exponent is in bits 1 and 0 of first byte
                 targetNumber = packetBuffer[1]&0x4 | ((packetBuffer[0]>>2)&0x3); // up to 8 targets
@@ -458,9 +458,9 @@ void DynaSightModule::run()
                 y = temp<<exponent;
                 temp = ((long)(char)packetBuffer[6]<<8) | (long)packetBuffer[7]&0xFFL;
                 z = temp<<exponent;
-                // reset the state machine
-                packetState = 0;
-                
+                // reset the event machine
+                packetEvent = 0;
+
                 // check if we got new reliable data
                 if ((status == TRACK) || (status == CAUTION))
                 {
@@ -482,19 +482,19 @@ void DynaSightModule::run()
                     {
                         // start of critical section
                         lock();
-                        State & myState = (*target)->state;
-                        
-                        // mark the state as modified
+                        Event & myEvent = (*target)->event;
+
+                        // mark the event as modified
                         (*target)->modified = 1;
                         
                         // set the position and scale to meter
                         x_meter = x / SCALE_TO_METER;
                         y_meter = y / SCALE_TO_METER;
                         z_meter = z / SCALE_TO_METER;
-                        myState.position[0] = (float)x_meter;
-                        myState.position[1] = (float)y_meter;
-                        myState.position[2] = (float)z_meter;
-                        
+                        myEvent.getPosition()[0] = (float)x_meter;
+                        myEvent.getPosition()[1] = (float)y_meter;
+                        myEvent.getPosition()[2] = (float)z_meter;
+
                         // set the orientation
                         if (hasLookAt)
                         {
@@ -517,23 +517,23 @@ void DynaSightModule::run()
                             cout << endl;
                             */
                             // DEBUG
-                            
-                            MathUtils::eulerToQuaternion(beta, alpha, 0.0, myState.orientation);
-                            MathUtils::normalizeQuaternion(myState.orientation);
-                        }
+
+                            MathUtils::eulerToQuaternion(beta, alpha, 0.0, myEvent.getOrientation());
+                            MathUtils::normalizeQuaternion(myEvent.getOrientation());
+			  }
                         else
                         {
                             // we can use the default orientation
-                            myState.orientation[0] = 0.0;
-                            myState.orientation[1] = 0.0;
-                            myState.orientation[2] = 0.0;
-                            myState.orientation[3] = 1.0;
-                        }
-                        
+                            myEvent.getOrientation()[0] = 0.0;
+                            myEvent.getOrientation()[1] = 0.0;
+                            myEvent.getOrientation()[2] = 0.0;
+                            myEvent.getOrientation()[3] = 1.0;
+			  }
+
                         // set the confidence value
-                        myState.confidence = (status == TRACK) ? 1.0f : 0.5f;
-                        
-                        myState.timeStamp();
+                        myEvent.getConfidence() = (status == TRACK) ? 1.0f : 0.5f;
+
+                        myEvent.timeStamp();
                         unlock();
                         // end of critical section
                     }
