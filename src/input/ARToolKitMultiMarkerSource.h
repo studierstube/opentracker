@@ -73,8 +73,8 @@ class OPENTRACKER_API ARToolKitMultiMarkerSource : public Node
 {
 
 public:
-    /// the state pushed into the tree
-    State state, 
+    /// the event pushed into the tree
+    Event event, 
     /// buffer variable for grabbing thread
         buffer;
 	/// filename of the multimarker config file
@@ -91,7 +91,7 @@ protected:
      */
     ARToolKitMultiMarkerSource(std::string& cfgfile_, void* mmConfig_) : 
         Node(),
-        cfgfile( cfgfile_ ),
+        cfgfile( cfgfile ),
 		mmConfig(mmConfig_),
         modified(0)
     {
