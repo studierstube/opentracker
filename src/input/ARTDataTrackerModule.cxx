@@ -69,7 +69,7 @@ namespace ot {
     // constructor initializing the thread manager
     ARTDataTrackerModule::ARTDataTrackerModule() : ThreadModule(), NodeFactory(), stop(0), DataTracker(NULL)
     {
-	
+
     }
     // -------------------------------------------------------------------------------------------------------
 
@@ -88,11 +88,11 @@ namespace ot {
     Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& attributes)
     {
 	if( name.compare("ARTDataTrackerSource") == 0 )
-	    { 
+	    {
 		stop = 0;
 		int number;
 		int num = sscanf(attributes.get("number").c_str(), " %i", &number );
-		
+
 		if (attributes.get("type") == "3d" )
 		    {
 			number += 20;
@@ -104,7 +104,7 @@ namespace ot {
 		else if (attributes.get("type") == "pen" )
 		    {
 			number += 60;
-		    }		    
+		    }
 
 		if( num == 0 )
 		    {
@@ -125,7 +125,7 @@ namespace ot {
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d already exists\n"), number));
 			return NULL;
 		    }
-		ARTDataTrackerSource * source = new ARTDataTrackerSource( number); 
+		ARTDataTrackerSource * source = new ARTDataTrackerSource( number);
 		sources.push_back( source );
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built ARTDataTrackerSource node. Number: %d\n"), number));
 		return source;
@@ -138,8 +138,8 @@ namespace ot {
     void ARTDataTrackerModule::start()
     {
 	if( isInitialized() && !sources.empty())
-	    ThreadModule::start();    
-    }	
+	    ThreadModule::start();
+    }
 
 
     // -------------------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ namespace ot {
 	lock();
 	stop = 1;
 	unlock();
-    }   
+    }
 
     // -------------------------------------------------------------------------------------------------------
 
@@ -162,21 +162,21 @@ namespace ot {
 	ACE_INET_Addr addr( port );
 	ACE_Addr local( -1 , -1);
 	socket = new ACE_SOCK_Dgram( addr );
-	
-	receiveBufferSize =  3 * sizeof(long) + 20 * sizeof(ARTDataTrackerChomp::BodyRecord) +  
+
+	receiveBufferSize =  3 * sizeof(long) + 20 * sizeof(ARTDataTrackerChomp::BodyRecord) +
 	    20 * sizeof(ARTDataTrackerChomp::MarkerRecord);
 	    20 * sizeof(ARTDataTrackerChomp::FlystickRecord);
 	    20 * sizeof(ARTDataTrackerChomp::MeasuretargetRecord);
 
 	receiveBuffer = new char[receiveBufferSize];
-    
+
 	std::string receiveString;
 	// mainloop for reading data from the port
-    
+
 	while (1)
 	    {
 		do
-		    {	
+		    {
 			if( (retval = socket->recv( receiveBuffer, receiveBufferSize , addr, 0, &timeOut )) == -1 )
 			    {
 				if(errno != ETIME && errno != 0)
@@ -186,12 +186,12 @@ namespace ot {
 				    }
 			    }
 		    } while( retval < 0 && stop == 0);
-		
+
 		if( stop != 0 )
 		    {
 			break;
 		    }
-		
+
 		// from here the String is in the Buffer!
 		// converts c-String into String
 		receiveString = std::string(receiveBuffer, retval);
@@ -208,11 +208,11 @@ namespace ot {
 		std::map<int, ARTDataTrackerChomp::MeasuretargetRecord> & MeasuretargetRecordTemp = DataTracker->getMeasuretargetRecord();
 
 
-		
+
 		NodeVector::iterator it;
-		
+
 		lock();
-		for( it = sources.begin(); it != sources.end(); it++) 
+		for( it = sources.begin(); it != sources.end(); it++)
 		    {
 			ARTDataTrackerSource * source = (ARTDataTrackerSource*)(*it);
 			bodyID = source->number;
@@ -222,31 +222,31 @@ namespace ot {
 				    {
 					// convert Data such as quaternion and euler-Angles
 					convert( BodyRecordTemp[bodyID] );
-					// Brings the locationdata from BodyRecordTemp to  source->state.position !
-					source->state.position[0] = BodyRecordTemp[bodyID].location[0];
-					source->state.position[1] = BodyRecordTemp[bodyID].location[1];
-					source->state.position[2] = BodyRecordTemp[bodyID].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->state.orientation !
-					source->state.orientation[0] = BodyRecordTemp[bodyID].orientation[0];
-					source->state.orientation[1] = BodyRecordTemp[bodyID].orientation[1];
-					source->state.orientation[2] = BodyRecordTemp[bodyID].orientation[2];
-					source->state.orientation[3] = BodyRecordTemp[bodyID].orientation[3];
-					// Bring a timeStamp to source->state
-					source->state.timeStamp();
+					// Brings the locationdata from BodyRecordTemp to  source->event.position !
+					source->event.getPosition()[0] = BodyRecordTemp[bodyID].location[0];
+					source->event.getPosition()[1] = BodyRecordTemp[bodyID].location[1];
+					source->event.getPosition()[2] = BodyRecordTemp[bodyID].location[2];
+					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+					source->event.getOrientation()[0] = BodyRecordTemp[bodyID].orientation[0];
+					source->event.getOrientation()[1] = BodyRecordTemp[bodyID].orientation[1];
+					source->event.getOrientation()[2] = BodyRecordTemp[bodyID].orientation[2];
+					source->event.getOrientation()[3] = BodyRecordTemp[bodyID].orientation[3];
+					// Bring a timeStamp to source->event
+					source->event.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 					// fixed to 0.5 ??
-					source->state.confidence = 0.5;	
+					source->event.getConfidence() = 0.5;
 					// Source was definitly changed !
 					source->changed = 1;
 				    }
 				else
 				    {
-					// only if marker was found in the last grab (state.confidence > epsilon) set 
+					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
 					// confidence to 0.0!
-					if (source->state.confidence > 0.000001f)
+					if (source->event.getConfidence() > 0.000001f)
 					    {
 						source->changed = 1;
-						source->state.confidence = 0.0f;
+						source->event.getConfidence() = 0.0f;
 					    }
 				    }
 			    }
@@ -256,26 +256,26 @@ namespace ot {
 				    {
 					// convert Data such as quaternion and euler-Angles
 					convert( BodyRecordTemp[bodyID-20] );
-					// Brings the locationdata from BodyRecordTemp to  source->state.position !
-					source->state.position[0] = MarkerRecordTemp[bodyID-20].location[0];
-					source->state.position[1] = MarkerRecordTemp[bodyID-20].location[1];
-					source->state.position[2] = MarkerRecordTemp[bodyID-20].location[2];
-					// Bring a timeStamp to source->state
-					source->state.timeStamp();
+					// Brings the locationdata from BodyRecordTemp to  source->event.position !
+					source->event.getPosition()[0] = MarkerRecordTemp[bodyID-20].location[0];
+					source->event.getPosition()[1] = MarkerRecordTemp[bodyID-20].location[1];
+					source->event.getPosition()[2] = MarkerRecordTemp[bodyID-20].location[2];
+					// Bring a timeStamp to source->event
+					source->event.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 					// fixed to 0.5 ??
-					source->state.confidence = 0.5;	
+					source->event.getConfidence() = 0.5;
 					// Source was definitly changed !
 					source->changed = 1;
 				    }
 				else
 				    {
-					// only if marker was found in the last grab (state.confidence > epsilon) set 
+					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
 					// confidence to 0.0!
-					if (source->state.confidence > 0.000001f)
+					if (source->event.getConfidence() > 0.000001f)
 					    {
 						source->changed = 1;
-						source->state.confidence = 0.0f;
+						source->event.getConfidence() = 0.0f;
 					    }
 				    }
 			    }
@@ -285,33 +285,33 @@ namespace ot {
 				    {
 					// convert Data such as quaternion and euler-Angles
 					convert( FlystickRecordTemp[bodyID-40] );
-					// Brings the locationdata from BodyRecordTemp to  source->state.position !
-					source->state.position[0] = FlystickRecordTemp[bodyID-40].location[0];
-					source->state.position[1] = FlystickRecordTemp[bodyID-40].location[1];
-					source->state.position[2] = FlystickRecordTemp[bodyID-40].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->state.orientation !
-					source->state.orientation[0] = FlystickRecordTemp[bodyID-40].orientation[0];
-					source->state.orientation[1] = FlystickRecordTemp[bodyID-40].orientation[1];
-					source->state.orientation[2] = FlystickRecordTemp[bodyID-40].orientation[2];
-					source->state.orientation[3] = FlystickRecordTemp[bodyID-40].orientation[3];
+					// Brings the locationdata from BodyRecordTemp to  source->event.position !
+					source->event.getPosition()[0] = FlystickRecordTemp[bodyID-40].location[0];
+					source->event.getPosition()[1] = FlystickRecordTemp[bodyID-40].location[1];
+					source->event.getPosition()[2] = FlystickRecordTemp[bodyID-40].location[2];
+					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+					source->event.getOrientation()[0] = FlystickRecordTemp[bodyID-40].orientation[0];
+					source->event.getOrientation()[1] = FlystickRecordTemp[bodyID-40].orientation[1];
+					source->event.getOrientation()[2] = FlystickRecordTemp[bodyID-40].orientation[2];
+					source->event.getOrientation()[3] = FlystickRecordTemp[bodyID-40].orientation[3];
 					// buttons ...
-					source->state.button = (unsigned short)FlystickRecordTemp[bodyID-40].buttons;
-					// Bring a timeStamp to source->state
-					source->state.timeStamp();
+					source->event.getButton() = (unsigned short)FlystickRecordTemp[bodyID-40].buttons;
+					// Bring a timeStamp to source->event
+					source->event.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 					// fixed to 0.5 ??
-					source->state.confidence = 0.5;	
+					source->event.getConfidence() = 0.5;
 					// Source was definitly changed !
 					source->changed = 1;
 				    }
 				else
 				    {
-					// only if marker was found in the last grab (state.confidence > epsilon) set 
+					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
 					// confidence to 0.0!
-					if (source->state.confidence > 0.000001f)
+					if (source->event.getConfidence() > 0.000001f)
 					    {
 						source->changed = 1;
-						source->state.confidence = 0.0f;
+						source->event.getConfidence() = 0.0f;
 					    }
 				    }
 			    }
@@ -322,37 +322,37 @@ namespace ot {
 					ACE_DEBUG((LM_ERROR, ACE_TEXT("---------\n"), errno));
 					// convert Data such as quaternion and euler-Angles
 					convert( MeasuretargetRecordTemp[bodyID-60] );
-					// Brings the locationdata from BodyRecordTemp to  source->state.position !
-					source->state.position[0] = MeasuretargetRecordTemp[bodyID-60].location[0];
-					source->state.position[1] = MeasuretargetRecordTemp[bodyID-60].location[1];
-					source->state.position[2] = MeasuretargetRecordTemp[bodyID-60].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->state.orientation !
-					source->state.orientation[0] = MeasuretargetRecordTemp[bodyID-60].orientation[0];
-					source->state.orientation[1] = MeasuretargetRecordTemp[bodyID-60].orientation[1];
-					source->state.orientation[2] = MeasuretargetRecordTemp[bodyID-60].orientation[2];
-					source->state.orientation[3] = MeasuretargetRecordTemp[bodyID-60].orientation[3];
+					// Brings the locationdata from BodyRecordTemp to  source->event.position !
+					source->event.getPosition()[0] = MeasuretargetRecordTemp[bodyID-60].location[0];
+					source->event.getPosition()[1] = MeasuretargetRecordTemp[bodyID-60].location[1];
+					source->event.getPosition()[2] = MeasuretargetRecordTemp[bodyID-60].location[2];
+					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+					source->event.getOrientation()[0] = MeasuretargetRecordTemp[bodyID-60].orientation[0];
+					source->event.getOrientation()[1] = MeasuretargetRecordTemp[bodyID-60].orientation[1];
+					source->event.getOrientation()[2] = MeasuretargetRecordTemp[bodyID-60].orientation[2];
+					source->event.getOrientation()[3] = MeasuretargetRecordTemp[bodyID-60].orientation[3];
 					// buttons ...
-					source->state.button = (unsigned short)MeasuretargetRecordTemp[bodyID-60].buttons;
-					// Bring a timeStamp to source->state
-					source->state.timeStamp();
+					source->event.getButton() = (unsigned short)MeasuretargetRecordTemp[bodyID-60].buttons;
+					// Bring a timeStamp to source->event
+					source->event.timeStamp();
 					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
 					// fixed to 0.5 ??
-					source->state.confidence = 0.5;	
+					source->event.getConfidence() = 0.5;
 					// Source was definitly changed !
 					source->changed = 1;
 				    }
 				else
 				    {
-					// only if marker was found in the last grab (state.confidence > epsilon) set 
+					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
 					// confidence to 0.0!
-					if (source->state.confidence > 0.000001f)
+					if (source->event.getConfidence() > 0.000001f)
 					    {
 						source->changed = 1;
-						source->state.confidence = 0.0f;
+						source->event.getConfidence() = 0.0f;
 					    }
 				    }
 			    }
-			else 
+			else
 			    {
 			    }
 
@@ -388,10 +388,10 @@ namespace ot {
 	m[2][0] = BodyRecordTemp.rotationMatrix[2];
 	m[2][1] = BodyRecordTemp.rotationMatrix[5];
 	m[2][2] = BodyRecordTemp.rotationMatrix[8];
-	
+
 	// convert to Quaternion Format result is given back in .orientation Array
 	MathUtils::matrixToQuaternion( m, BodyRecordTemp.orientation);
-	
+
     }
 
     void ARTDataTrackerModule::convert( ARTDataTrackerChomp::FlystickRecord & FlystickRecordTemp )
@@ -414,10 +414,10 @@ namespace ot {
 	m[2][0] = FlystickRecordTemp.rotationMatrix[2];
 	m[2][1] = FlystickRecordTemp.rotationMatrix[5];
 	m[2][2] = FlystickRecordTemp.rotationMatrix[8];
-	
+
 	// convert to Quaternion Format result is given back in .orientation Array
 	MathUtils::matrixToQuaternion( m, FlystickRecordTemp.orientation);
-	
+
     }
     void ARTDataTrackerModule::convert( ARTDataTrackerChomp::MeasuretargetRecord & MeasuretargetRecordTemp )
     {
@@ -439,10 +439,10 @@ namespace ot {
 	m[2][0] = MeasuretargetRecordTemp.rotationMatrix[2];
 	m[2][1] = MeasuretargetRecordTemp.rotationMatrix[5];
 	m[2][2] = MeasuretargetRecordTemp.rotationMatrix[8];
-	
+
 	// convert to Quaternion Format result is given back in .orientation Array
 	MathUtils::matrixToQuaternion( m, MeasuretargetRecordTemp.orientation);
-	
+
     }
 
 
@@ -450,7 +450,7 @@ namespace ot {
     // -------------------------------------------------------------------------------------------------------
 
     // pushes events into the tracker tree
-    void ARTDataTrackerModule::pushState()
+    void ARTDataTrackerModule::pushEvent()
     {
 	if( isInitialized() )
 	    {
@@ -459,8 +459,8 @@ namespace ot {
 			ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
 			lock();
 			if( source->changed == 1 )
-			    {			
-				source->updateObservers( source->state );
+			    {
+				source->updateObservers( source->event );
 				source->changed = 0;
 			    }
 			unlock();
@@ -476,7 +476,7 @@ namespace ot {
     {
 	ThreadModule::init( attributes, localTree );
 	int num;
-    	
+
 	// Scannig port number from XML-File
 	num = sscanf(attributes.get("port").c_str(), " %i", &port );
 	if( num == 0 )
@@ -496,7 +496,7 @@ namespace ot {
    Local Variables:
    mode:c++
    c-basic-offset: 4
-   eval: (c-set-offset 'substatement-open 0)
+   eval: (c-set-offset 'subeventment-open 0)
    eval: (c-set-offset 'case-label '+)
    eval: (c-set-offset 'statement 'c-lineup-runin-statements)
    eval: (setq indent-tabs-mode nil)
