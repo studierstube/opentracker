@@ -1,46 +1,46 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for FastTrakModule module.
-  *
-  * @author Rainer Splechtna 
-  *
-  * $Id$
-  *
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Rainer Splechtna
+ *
+ * $Id$
+ *
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -95,7 +95,7 @@ void FastTrakModule::init(StringTable& attributes,  ConfigNode * localTree)
         exit(-1);
     }
 
-    stations = new tmpStationState[numberOfStations];
+    stations = new tmpStationEvent[numberOfStations];
 
     if (attributes.get("type").compare("fasttrak") == 0)
         trackerType = FASTTRAK;
@@ -345,12 +345,12 @@ void FastTrakModule::run()
 			ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:FastTrakModule: no data received.\n")));
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:FastTrakModule: trying to reinitialize tracker ...\n")));
 
-    } // reinitialization loop
-}
-    
-// pushes events into the tracker tree
-void FastTrakModule::pushState()
-{
+      } // reinitialization loop
+  }
+
+  // pushes events into the tracker tree
+  void FastTrakModule::pushEvent()
+  {
     FastTrakSource *source;
 
     if( isInitialized() == 1 )
@@ -360,31 +360,31 @@ void FastTrakModule::pushState()
             source = (FastTrakSource *) *it;
             lock();
             if (stations[source->station].newVal == 1)
-            {
-                source->state = stations[source->station].state;
+	      {
+                source->event = stations[source->station].event;
                 stations[source->station].newVal = 0;
                 unlock();
-                source->state.timeStamp();
-                source->updateObservers(source->state);
-            } 
+                source->event.timeStamp();
+                source->updateObservers(source->event);
+	      }
             else
-                unlock();
-        }
-    }
-}
+	      unlock();
+	  }
+      }
+  }
 
 
-// states of parser
-const int tsStart=0;    
-const int tsStationNumber=1;
-const int tsSpace=2;
-const int tsSyncBit=3;
-const int tsGetRec=4;
+  // events of parser
+  const int tsStart=0;
+  const int tsStationNumber=1;
+  const int tsSpace=2;
+  const int tsSyncBit=3;
+  const int tsGetRec=4;
 
-int FastTrakModule::parseRecordFT(char c, char *inputBuffer)
-{
-    static int state=tsStart;  // state variable of parser
-    static int stNr = -1;  // state variable of parser
+  int FastTrakModule::parseRecordFT(char c, char *inputBuffer)
+  {
+    static int event=tsStart;  // event variable of parser
+    static int stNr = -1;  // event variable of parser
     static int pos = 0; // number of the current position in the buffer
     static int junk = 0;
 
@@ -396,64 +396,64 @@ int FastTrakModule::parseRecordFT(char c, char *inputBuffer)
     junk++;
     // reset variables
     if (junk > 128)
-    {
-        state=tsStart;  // state variable of parser
-        stNr = -1;  
+      {
+        event=tsStart;  // event variable of parser
+        stNr = -1;
         pos = 0; // number of the current position in the buffer
         junk = 0;
         return -2;
     }
 
-    switch (state)
-    {
-        case tsStart:
-            if (c=='0')
-            {              // Record Type "0", possible start of output record
-                (state)=tsStationNumber;
-            }
-            break;
+    switch (event)
+      {
+      case tsStart:
+	if (c=='0')
+	  {              // Record Type "0", possible start of output record
+	    (event)=tsStationNumber;
+	  }
+	break;
 
-        case tsStationNumber:
-            stNr=c-'1';
-            if ((stNr>=0) && (stNr<n))
-            {                                                // station number
-                (state)=tsSpace;
-            } else (state)=tsStart;
-            break;
+      case tsStationNumber:
+	stNr=c-'1';
+	if ((stNr>=0) && (stNr<n))
+	  {                                                // station number
+	    (event)=tsSpace;
+	  } else (event)=tsStart;
+	break;
 
-        case tsSpace:
-            if ( c==' ') (state)=tsSyncBit; else (state)=tsStart;
-            break;
+      case tsSpace:
+	if ( c==' ') (event)=tsSyncBit; else (event)=tsStart;
+	break;
 
-        case tsSyncBit:
-            pos=0;
-            if ((c&0x80)!=0)        // expecting to find a byte with hibit set
-            {
-                (state)=tsGetRec;
-                inputBuffer[pos++]=(c&0x7f);
-            } else { (state)=tsStart; }
-            break;
+      case tsSyncBit:
+	pos=0;
+	if ((c&0x80)!=0)        // expecting to find a byte with hibit set
+	  {
+	    (event)=tsGetRec;
+	    inputBuffer[pos++]=(c&0x7f);
+	  } else { (event)=tsStart; }
+	break;
 
-        case tsGetRec:
-            if ((c&0x80)!=0) { (state)=tsStart; } else
-            {
-                inputBuffer[pos++]=c;
-                if (pos == numOfBytes)
-                {                       // got one whole data record in input buffer
-                    (state)=tsStart;
-                    junk = 0;
-                    rc = stNr;
-                }
-            }
-    }
+      case tsGetRec:
+	if ((c&0x80)!=0) { (event)=tsStart; } else
+	  {
+	    inputBuffer[pos++]=c;
+	    if (pos == numOfBytes)
+	      {                       // got one whole data record in input buffer
+		(event)=tsStart;
+		junk = 0;
+		rc = stNr;
+	      }
+	  }
+      }
 
     return rc;
 }
 
-int FastTrakModule::parseRecordIT(char c, char *inputBuffer)
-{
-    static int state=tsStart;  // state variable of parser
-    static int stNr = -1;  // state variable of parser
+  int FastTrakModule::parseRecordIT(char c, char *inputBuffer)
+  {
+    static int event=tsStart;  // event variable of parser
+    static int stNr = -1;  // event variable of parser
     static int pos = 0; // number of the current position in the buffer
     static int junk = 0;
 
@@ -465,60 +465,60 @@ int FastTrakModule::parseRecordIT(char c, char *inputBuffer)
     junk++;
     // reset variables
     if (junk > 512)
-    {
-        state=tsStart;  // state variable of parser
-        stNr = -1;  
+      {
+        event=tsStart;  // event variable of parser
+        stNr = -1;
         pos = 0; // number of the current position in the buffer
         junk = 0;
         return -2;
     }
 
-    switch (state)
-    {
-        case tsStart:
-            // Record Type "0", possible start of output record
-            if (c=='0')
-               (state)=tsStationNumber;
-            break;
+    switch (event)
+      {
+      case tsStart:
+	// Record Type "0", possible start of output record
+	if (c=='0')
+	  (event)=tsStationNumber;
+	break;
 
-        case tsStationNumber:
-            // station number
-            stNr=c-'1';
-            if ((stNr>=0) && (stNr<n))
-                (state)=tsSpace;
-            else (state)=tsStart;
-            break;
+      case tsStationNumber:
+	// station number
+	stNr=c-'1';
+	if ((stNr>=0) && (stNr<n))
+	  (event)=tsSpace;
+	else (event)=tsStart;
+	break;
 
-        case tsSpace:
-		if (( c==' ') || (( c=='*' )  || ( c=='@' )))
-		{
-			if ( c=='*' ) setButtonIT(stNr, 0);
+      case tsSpace:
+	if (( c==' ') || (( c=='*' )  || ( c=='@' )))
+	  {
+	    if ( c=='*' ) setButtonIT(stNr, 0);
             if ( c=='@' ) setButtonIT(stNr, 1);
-			(state)=tsGetRec;
-		} else (state)=tsStart;
-            break;
+	    (event)=tsGetRec;
+	  } else (event)=tsStart;
+	break;
 
-        case tsGetRec:
-            // got one whole data record in buffer
-            if (pos == numOfBytes)
-            {       
-                if (c=='\r')
-                {
-                    (state)=tsStart;
-                    pos = 0;
-                    junk = 0;
-                    rc = stNr;
-                }
-                else
-                {
-                    (state)=tsStart;
-                    pos = 0;
-                }
-            }
-            else
-                inputBuffer[pos++]=c;
-            break;
-    }
+      case tsGetRec:
+	// got one whole data record in buffer
+	if (pos == numOfBytes)
+	  {
+	    if (c=='\r')
+	      {
+		(event)=tsStart;
+		pos = 0;
+		junk = 0;
+		rc = stNr;
+	      }
+	    else
+	      {
+		(event)=tsStart;
+		pos = 0;
+	      }
+	  }
+	else
+	  inputBuffer[pos++]=c;
+	break;
+      }
 
     return(rc);
 }
@@ -554,18 +554,18 @@ double getASC(const char *buffer)
 }
 
 
-/*** function buildPosition
- *
- * Purpose: Convert position bytes from Fastrak into actual position int
- *  	    values
- * In:	    buffer: 	Buffer containing bytes received from Fastrak
- * In/Out:  position:	Pointer to an array of floats for the position to
- *  	    	    	be put in
- * Roman Rath, Zsolt Szalavari
- */
+  /*** function buildPosition
+   *
+   * Purpose: Convert position bytes from Fastrak into actual position int
+   *  	    values
+   * In:	    buffer: 	Buffer containing bytes received from Fastrak
+   * In/Out:  position:	Reference to a vector of floats for the position to
+   *  	    	    	be put in
+   * Roman Rath, Zsolt Szalavari
+   */
 
-void buildPositionFT(char* buffer, float* position)
-{
+  void buildPositionFT(char* buffer, std::vector<float>& position)
+  {
     for (int i=0; i<3; i++)
     {
     	position[i]=(float)(getBinary(buffer+i*2));
@@ -573,8 +573,8 @@ void buildPositionFT(char* buffer, float* position)
     }
 }
 
-void buildPositionIT(char* buffer, float* position)
-{
+  void buildPositionIT(char* buffer, std::vector<float>& position)
+  {
     for (int i=0; i<3; i++)
     {
     	position[i]=(float)(getASC(buffer+i*7));
@@ -593,8 +593,8 @@ void buildPositionIT(char* buffer, float* position)
  * Roman Rath, Zsolt Szalavari
  */
 
-void buildQuaternionFT(char* buffer, float* quaternion)
-{
+  void buildQuaternionFT(char* buffer, std::vector<float> &quaternion)
+  {
     for (int i=0; i<4; i++)
     {
         quaternion[(i+3)%4]=((float)(getBinary(buffer+i*2+6)))/8192;
@@ -602,8 +602,8 @@ void buildQuaternionFT(char* buffer, float* quaternion)
     
 }
 
-void buildQuaternionIT(char* buffer, float* quaternion)
-{
+  void buildQuaternionIT(char* buffer, std::vector<float> &quaternion)
+  {
     for (int i=0; i<4; i++)
     {
     	quaternion[(i+3)%4]=(float)(getASC(buffer+i*7+21));
@@ -611,12 +611,12 @@ void buildQuaternionIT(char* buffer, float* quaternion)
 }
 
 
-void FastTrakModule::setButtonIT(int stationNr, int button)
-{
-    if (stations[stationNr].state.button != button)
-    {
+  void FastTrakModule::setButtonIT(int stationNr, int button)
+  {
+    if (stations[stationNr].event.getButton() != button)
+      {
         lock();
-        stations[stationNr].state.button = button;
+        stations[stationNr].event.getButton() = button;
         stations[stationNr].newVal = 1;
         unlock();
     }
@@ -627,15 +627,15 @@ void FastTrakModule::setButtonIT(int stationNr, int button)
 void FastTrakModule::convert(int stationNr, char *inputBuffer)
 {
     if (trackerType == FASTTRAK)
-    {
-        buildPositionFT(inputBuffer, stations[stationNr].state.position);
-        buildQuaternionFT(inputBuffer,stations[stationNr].state.orientation);
-    }
+      {
+        buildPositionFT(inputBuffer, stations[stationNr].event.getPosition());
+        buildQuaternionFT(inputBuffer,stations[stationNr].event.getOrientation());
+      }
     else if (trackerType == ISOTRAK)
-    {
-        buildPositionIT(inputBuffer, stations[stationNr].state.position);
-        buildQuaternionIT(inputBuffer,stations[stationNr].state.orientation);
-    }
+      {
+        buildPositionIT(inputBuffer, stations[stationNr].event.getPosition());
+        buildQuaternionIT(inputBuffer,stations[stationNr].event.getOrientation());
+      }
 
     stations[stationNr].newVal = 1;
 }
