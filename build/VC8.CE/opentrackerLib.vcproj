@@ -95,8 +95,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="../../lib/WM2005"
+			IntermediateDirectory="debugLib"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
@@ -119,8 +119,8 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src;$(LIBCEROOT)/include.vc8"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -244,8 +244,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="../../lib/WM2005"
+			IntermediateDirectory="releaseLib"
 			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -269,8 +269,8 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;ACE_AS_STATIC_LIBS;TINYXML_MOD_DLL"
+				AdditionalIncludeDirectories="$(LIBCEROOT)/include.vc8;$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=500;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;OPENTRACKER_STATIC;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

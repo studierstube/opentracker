@@ -103,8 +103,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="../../lib/WM2005"
+			IntermediateDirectory="debugDLL"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -127,7 +127,8 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
+				AdditionalIncludeDirectories="$(LIBCEROOT)/include.vc8;$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -149,13 +150,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.01"
-				OutputFile="$(OutDir)/opentracker.dll"
-				LinkIncremental="2"
+				AdditionalDependencies="aced.lib"
+				OutputFile="$(OutDir)/opentrackerd.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ARTOOLKITPLUSROOT)/lib/WM2005;$(TINYXMLMODROOT)/lib/WM2005;$(ACEROOT)/lib/WM2005"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/opentracker.pdb"
+				ProgramDatabaseFile="$(OutDir)/opentrackerd.pdb"
 				SubSystem="0"
-				ImportLibrary="$(OutDir)/opentracker.lib"
+				ImportLibrary="$(OutDir)/opentrackerd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -174,7 +177,7 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory=""
+				RemoteDirectory="/"
 				RegisterOutput="0"
 				AdditionalFiles=""
 			/>
@@ -267,8 +270,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="../../lib/WM2005"
+			IntermediateDirectory="releaseDLL"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -291,7 +294,8 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
-				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
+				AdditionalIncludeDirectories="$(LIBCEROOT)/include.vc8;$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src"
+				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -312,8 +316,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.01"
+				AdditionalDependencies="ace.lib"
 				OutputFile="$(OutDir)/opentracker.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ARTOOLKITPLUSROOT)/lib/WM2005;$(TINYXMLMODROOT)/lib/WM2005;$(ACEROOT)/lib/WM2005"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/opentracker.pdb"
@@ -339,7 +345,7 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory=""
+				RemoteDirectory="/"
 				RegisterOutput="0"
 				AdditionalFiles=""
 			/>
