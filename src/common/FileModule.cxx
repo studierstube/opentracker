@@ -87,6 +87,10 @@ namespace ot {
       }
     else
       interval = -1;
+    if ( attributes.get("ot11Format").compare("true") == 0 )
+      ot11Format = true;
+    else
+      ot11Format = false;
   }
 
   // This method is called to construct a new Node
@@ -108,7 +112,7 @@ namespace ot {
 
 	  } else // create a new one
 	  {
-            file = new ot::File( id, ot::File::FILE_OUT, append );
+            file = new File( id, ot::File::FILE_OUT, append, false, ot11Format );
             files[id] = file;
 	  }
         if( file->mode == File::FILE_OUT ) // test for right direction and add to store
@@ -121,10 +125,10 @@ namespace ot {
             return sink;
 	  }
 	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id.c_str()));
-
-      } else if( name.compare("FileSource") == 0 )
+      }
+    else if( name.compare("FileSource") == 0 )
       {
-        std::string id = attributes.get("file");
+	std::string id = attributes.get("file");
         // file source needs an existing file, therefore we can use the directory stack !
         std::string fullname;
         if( context->findFile( id, fullname ))
@@ -136,14 +140,11 @@ namespace ot {
 	    LOG_ACE_ERROR("ot:FileModule could not find file %s for FileSource!\n", id.c_str());
             return NULL;
 	  }
-
         int station;
         if( attributes.get("station", &station ) == 0 )
 	  station = 0;
-
         bool localTime = ( attributes.get("localtime").compare("true") == 0 );
-
-        // search for File
+	// search for File
         std::map<std::string,File *>::iterator it = files.find( id );
         File * file;
         if( it != files.end()) // found one
@@ -152,7 +153,7 @@ namespace ot {
 
 	  } else // create a new one
 	  {
-            file = new File( id, File::FILE_IN, false, loop );
+            file = new File( id, File::FILE_IN, false, loop, ot11Format );
             files[id] = file;
 	  }
         if( file->mode == File::FILE_IN ) // test for right direction and add to store
@@ -169,7 +170,7 @@ namespace ot {
 	      }
             FileSource * source = new FileSource( station, localTime );
             vector.push_back( source );
-	    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %d with station %d and localtime %s\n"), id.c_str(), station, localTime ? "'true'" : "'false'"));
+	    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %s with station %d and localtime %s\n"), id.c_str(), station, localTime ? "'true'" : "'false'"));
             return source;
 	  }
 	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSource referencing output file %d\n"), id.c_str()));
@@ -179,9 +180,8 @@ namespace ot {
 
   // reads from the input files and fires new events, if necessary
 
-  void FileModule::pushState()
+  void FileModule::pushEvent()
   {
-    State state;
     int station;
 
     // store a time stamp to use for all localTime file sources
@@ -192,28 +192,29 @@ namespace ot {
 
     lastTime = time;
 
+    // iterate over all files
     for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
       {
-        if((*it).second->mode == File::FILE_IN && (*it).second->read( state, &station ))
+        if((*it).second->mode == File::FILE_IN && (*it).second->read( event, &station ))
 	  {
             NodeVector & vector = nodes[(*it).first];
-            NodeVector::iterator jt;
+            NodeVector::iterator it2;
 
 	    // reset all file sources
-            for( jt = vector.begin(); jt != vector.end(); jt++ )
+            for( it2 = vector.begin(); it2 != vector.end(); it2++ )
 	      {
-                ((FileSource*)(*jt))->changed = false;
+                ((FileSource*)(*it2))->changed = false;
 	      }
 	    // update observers of according file source:
-	    for (jt = vector.begin(); jt != vector.end(); jt++)
+	    for (it2 = vector.begin(); it2 != vector.end(); it2++)
 	      {
-		FileSource *fileSrc = (FileSource*)(*jt);
+		FileSource *fileSrc = (FileSource*)(*it2);
 		if(fileSrc->station == station && fileSrc->changed == false)
 		  {
 		    fileSrc->changed = true;
 		    if(fileSrc->localTime )
-		      state.time = time;
-		    fileSrc->updateObservers( state );
+		      event.time = time;
+		    fileSrc->updateObservers( event );
 		  }
 	      }
 	  }
@@ -226,6 +227,7 @@ namespace ot {
   {
     for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
       {
+
 	File * file = (File*)(*it).second;
 	delete file;
       }

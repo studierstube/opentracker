@@ -1,38 +1,38 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for CommonNodeFactory class.
   *
   * @author Gerhard Reitmayr
@@ -63,6 +63,7 @@
 #include "GKTransformNode.h"
 #include "RangeFilterNode.h"
 #include "PositionFilterNode.h"
+#include "EventUtilityNode.h"
 
 #include <math.h>
 #include <float.h>
@@ -80,13 +81,11 @@
 
 namespace ot {
 
-CommonNodeFactory::CommonNodeFactory()
-{
-    nodePorts.push_back("MergePosition");
-    nodePorts.push_back("MergeOrientation");
-    nodePorts.push_back("MergeButton");
-    nodePorts.push_back("MergeConfidence");
+  CommonNodeFactory::CommonNodeFactory()
+  {
+    nodePorts.push_back("MergeAttribute");
     nodePorts.push_back("MergeTime");
+    nodePorts.push_back("MergeTrigger");
     nodePorts.push_back("MergeDefault");
     nodePorts.push_back("TransformBase");
     nodePorts.push_back("Select");
@@ -289,9 +288,18 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 		result = new EventQueueNode( length );
     }
     else if( name.compare("Merge") == 0 )
-    {
-        result = new MergeNode();
-    }
+      {
+	float agingFactor;
+	MergeNode::CONF_CALCULATION confCalculation;
+	attributes.get("agingFactor", &agingFactor);
+	if (attributes.get("confidenceCalculation").compare("max") == 0)
+	  confCalculation = MergeNode::MAX;
+	else if (attributes.get("confidenceCalculation").compare("multiply") == 0)
+	  confCalculation = MergeNode::MULTIPLY;
+	else
+	  confCalculation = MergeNode::MIN;
+        result = new MergeNode(agingFactor, confCalculation);
+      }
     else if( name.compare("Selection") == 0 )
     {
         double timeOut = 100;
@@ -486,7 +494,49 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         if( attributes.get("max", max, 3) != 3 )
 		{ max[0] = 1; max[1] = 1; max[2] = 1;}
         result = new PositionFilterNode( min, max );
-    }
+      }
+    else if ( name.compare("EventUtilityNode") == 0 )
+      {
+	std::string rename = attributes.get("rename");
+	std::string create = attributes.get("create");
+	std::string discard = attributes.get("discard");
+
+	EventUtilityNode *resultNode = new EventUtilityNode();
+
+	if (rename.length() > 0)
+	  {
+	    std::string::size_type firstBlank = rename.find(' ');
+	    if (firstBlank == std::string::npos)
+	      ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing names for renaming in EventUtilityNode!\n")));
+	    else
+	      {
+		std::string oldName = rename.substr(0, firstBlank);
+		std::string newName = rename.substr(firstBlank + 1, std::string::npos);
+		resultNode->setRename(oldName, newName);
+	      }
+	  }
+	if (create.length() > 0)
+	  {
+	    std::string::size_type firstBlank = create.find(' ');
+	    std::string::size_type secondBlank = create.find(' ', firstBlank + 1);
+	    if (firstBlank == std::string::npos ||
+		secondBlank == std::string::npos)
+	      {
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing serialized event for creation in EventUtilityNode!\n")));
+	      }
+	    else
+	      {
+		std::string type = create.substr(0, firstBlank);
+		std::string name = create.substr(firstBlank + 1, secondBlank - (firstBlank + 1));
+		std::string value = create.substr(secondBlank + 1, std::string::npos);
+		resultNode->setCreate(type, name, value);
+	      }
+	  }
+	if (discard.length() > 0)
+	    resultNode->setDiscard(discard);
+
+	result = resultNode;
+      }
 
 
     // the node ports are just looked up in a simple list

@@ -1,45 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for FileModule module.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
@@ -52,14 +52,17 @@
  * to existing output files or they should be overwritten.
  * @li @c loop (true|false) default is @c false. denotes whether input files should
  * start from the begining (loop is true) or stop after they end.
- * @li @c interval a minimal time interval specified in seconds that should pass between 
+ * @li @c interval a minimal time interval specified in seconds that should pass between
  * event updates for individual stations. If not specified, events are played as fast
  * as possible.
+ * @li @c ot11Format (true|false) default is @c false. Defines whether obsolete OpenTracker
+ * 1.1 file format should be used (for testing purposes only!). For a more detailed explanation
+ * of this subject, please confer to the documentation of the File class.
  *
  * An example configuration element looks like this :
  * @verbatim
 <FileConfig append="true" loop="true" />@endverbatim
- */
+*/
 
 #ifndef _FILEMODULE_H
 #define _FILEMODULE_H
@@ -68,20 +71,20 @@
 
 namespace ot {
 
-class File;
+  class File;
 
-/**
- * This class manages the files and FileSink and FileSource objects. FileSources are
- * driven by the main loop, whereas FileSinks write directly to the associated file,
- * whenever they receive an event.
- * @ingroup common
- * @author Gerhard Reitmayr
- */
-class OPENTRACKER_API FileModule: public Module, public NodeFactory
-{
-// Members
-protected:
-    /// map of name to list of either FileSink or FileSource nodes    
+  /**
+   * This class manages the files and FileSink and FileSource objects. FileSources are
+   * driven by the main loop, whereas FileSinks write directly to the associated file,
+   * whenever they receive an event.
+   * @ingroup common
+   * @author Gerhard Reitmayr
+   */
+  class OPENTRACKER_API FileModule: public Module, public NodeFactory
+  {
+    // Members
+  protected:
+    /// map of name to list of either FileSink or FileSource nodes
     std::map<std::string, NodeVector> nodes;
     /// map of name to File objects
     std::map<std::string, File *> files;
@@ -91,14 +94,18 @@ protected:
     bool loop;
     /// interval time between new events
     double interval;
+    /// flag whether to use OT v1.1 compatible file format (for testing purposes only)
+    bool ot11Format;
     /// last timestamp
     double lastTime;
+    /// local event
+    Event event;
 
-public:
+  public:
     /** constructor method. initializes internal and static data
      * such as the functionMap and keyMap tables. */
     FileModule()
-    {} 
+      {}
     /** Destructor method, clears nodes member. */
     virtual ~FileModule();
 
@@ -113,23 +120,25 @@ public:
      * @param localTree pointer to root of configuration nodes tree
      */
     virtual void init(StringTable& attributes,  ConfigNode * localTree);
- 
+
     /** This method is called to construct a new Node. It compares
      * name to the FileSink or FileSource element name, and if it matches
      * creates the necessary File and Node objects.
      * @param name reference to string containing element name
-     * @attributes refenrence to StringTable containing attribute values
+     * @attributes reference to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
-     *         allocated with new ! */
+     *         allocated with new !
+     */
     virtual Node * createNode( const std::string& name, StringTable& attributes);
     /**
      * reads from the input files and fires new events, if necessary.
      */
-    virtual void pushState();
+    virtual void pushEvent();
     /**
-     * Closes the files and cleans up datastructures.*/
+     * Closes the files and cleans up data structures.
+     */
     virtual void close();
-};
+  };
 
 }  //namespace ot
 

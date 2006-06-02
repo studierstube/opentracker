@@ -84,42 +84,30 @@ StaticTransformation::StaticTransformation(float translation_[3], float scale_[3
 	confidence = 1;
 }
 
-// transforms a state.
+  // transforms a event.
 
-State* StaticTransformation::transformState( State* state )
-{
-    // transform the position of the state
+  Event* StaticTransformation::transformEvent( Event* event )
+  {
+    // transform the position of the event
     if( usePos )
-    {
-        MathUtils::rotateVector( rotation,  state->position, localState.position );
-        localState.position[0] = localState.position[0]*scale[0] + translation[0];
-        localState.position[1] = localState.position[1]*scale[1] + translation[1];
-        localState.position[2] = localState.position[2]*scale[2] + translation[2];
-    }
-    else {
-        localState.position[0] = state->position[0];
-        localState.position[1] = state->position[1];
-        localState.position[2] = state->position[2];
-    }
-    // transform the orientation of the state
+      {
+        MathUtils::rotateVector( copyA2V(rotation, 4),  event->getPosition(), localEvent.getPosition() );
+	localEvent.getPosition()[0] = localEvent.getPosition()[0]*scale[0] + translation[0];
+        localEvent.getPosition()[1] = localEvent.getPosition()[1]*scale[1] + translation[1];
+        localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
+      }
+    // transform the orientation of the event
     if( useOrient )
-    {
-        MathUtils::multiplyQuaternion( rotation, state->orientation,
-                                       localState.orientation );
-    } 
-    else {
-        localState.orientation[0] = state->orientation[0];
-        localState.orientation[1] = state->orientation[1];
-        localState.orientation[2] = state->orientation[2];
-        localState.orientation[3] = state->orientation[3];
-    }
+      {
+        MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
+      }
 
-    localState.confidence = state->confidence * confidence;
+    localEvent.getConfidence() = event->getConfidence() * confidence;
+    localEvent.getButton() = event->getButton();
+    localEvent.copyAllButStdAttr(*event);
+    localEvent.timeStamp();
 
-	// copy other state fields
-    localState.button = state->button;
-    localState.time = state->time;
-    return &localState;
-}
+    return &localEvent;
+  }
 
 } //namespace ot
