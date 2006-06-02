@@ -222,7 +222,7 @@ Node * GPSModule::createNode( const std::string & name, StringTable & attributes
 	return NULL;	
 }
 
-void GPSModule::pushState()
+void GPSModule::pushEvent()
 {
     // here for some template magic:
     // updateSource is a template member function but the compiler appearantly

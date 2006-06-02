@@ -142,13 +142,13 @@ void XSensSource::push()
                 // orientationData now contains orientation data
                 
                 // skalar component
-                state.timeStamp();
-                state.orientation[Q_W] = orientationData[0];
-                state.orientation[Q_X] = orientationData[1];
-                state.orientation[Q_Y] = orientationData[2];
-                state.orientation[Q_Z] = orientationData[3];
+                event.timeStamp();
+                event.getOrientation()[Q_W] = orientationData[0];
+                event.getOrientation()[Q_X] = orientationData[1];
+                event.getOrientation()[Q_Y] = orientationData[2];
+                event.getOrientation()[Q_Z] = orientationData[3];
 
-                updateObservers( state );
+                updateObservers( event );
 
 			}
         }

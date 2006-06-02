@@ -74,10 +74,10 @@ class OPENTRACKER_API GPSGarminAltitude : public Node, public GPSListener
 {
 public:
 
-	 /// the state that is posted to the EventObservers
-    State state;
-    /// the buffer state for data from the GPS receiver
-    State buffer;
+	 /// the event that is posted to the EventObservers
+    Event event;
+    /// the buffer event for data from the GPS receiver
+    Event buffer;
     
 	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -106,11 +106,11 @@ inline void GPSGarminAltitude::newData( const GPResult * res, const char * line,
             return;
         module->lock();
         buffer.timeStamp();
-        buffer.position[0] = 0;
+        buffer.getPosition()[0] = 0;
         // 1 feet = 0.3048 meter, by google
-        buffer.position[1] = (float)(point->altitude * 0.3048);
-        buffer.position[0] = 0;
-        buffer.confidence = (float)(1 / module->driver->getHdop());
+        buffer.getPosition()[1] = (float)(point->altitude * 0.3048);
+        buffer.getPosition()[0] = 0;
+        buffer.getConfidence() = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }

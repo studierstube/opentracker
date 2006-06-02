@@ -81,7 +81,7 @@ public:
 
 	virtual Node * createNode( const std::string & name, StringTable & attributes );
 	
-	virtual void pushState();
+	virtual void pushEvent();
 
 	virtual void start();
 

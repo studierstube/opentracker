@@ -88,8 +88,8 @@ class OPENTRACKER_API XSensSource : public Node
 {
 public:
 
-	 /// the state that is posted to the EventObservers
-    State state;
+	 /// the event that is posted to the EventObservers
+    Event event;
     
 	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.

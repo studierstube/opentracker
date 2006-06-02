@@ -111,7 +111,7 @@ Node * XSensModule::createNode( const std::string & name, StringTable & attribut
 	return NULL;	
 }
 
-void XSensModule::pushState()
+void XSensModule::pushEvent()
 {
 	if( source != NULL )
 	{

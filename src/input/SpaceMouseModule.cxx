@@ -1,45 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for SpaceMouseModule module.
-  *
-  * @author Michael Woegerbauer
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Michael Woegerbauer
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -70,295 +70,295 @@
 
 namespace ot {
 
-HWND		SpaceMouseModule::hWndSpaceMouse = NULL;
-SiHdl		devHdl;			/* Handle to Spaceball Device */
-SiOpenData	oData;			/* OS Independent data to open ball  */ 
+  HWND		SpaceMouseModule::hWndSpaceMouse = NULL;
+  SiHdl		devHdl;			/* Handle to Spaceball Device */
+  SiOpenData	oData;			/* OS Independent data to open ball  */
 
 
-LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
+  LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+  {
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
-};
+  };
 
-// Destructor method
-SpaceMouseModule::~SpaceMouseModule()
-{
+  // Destructor method
+  SpaceMouseModule::~SpaceMouseModule()
+  {
     nodes.clear();
-}
+  }
 
-// This method is called to construct a new Node.
-Node * SpaceMouseModule::createNode( const std::string& name, StringTable& attributes)
-{
+  // This method is called to construct a new Node.
+  Node * SpaceMouseModule::createNode( const std::string& name, StringTable& attributes)
+  {
     if( name.compare("SpaceMouseSource") == 0 )
-    {       
+      {
         SpaceMouseSource * source = new SpaceMouseSource;
-		source->state.confidence = 1.0f;
+	source->event.getConfidence() = 1.0f;
         nodes.push_back( source );
         ACE_LOG_INFO("ot:Built SpaceMouseSource node\n");
         initialized = 1;
         return source;
-    }
+      }
     return NULL;
-}
+  }
 
-// opens SpaceMouse library
-void SpaceMouseModule::start()
-{
+  // opens SpaceMouse library
+  void SpaceMouseModule::start()
+  {
     if( isInitialized() == 1 && !nodes.empty())
-	{
-		ThreadModule::start();
-    }
-}
+      {
+	ThreadModule::start();
+      }
+  }
 
-// closes SpaceMouse library
-void SpaceMouseModule::close()
-{
+  // closes SpaceMouse library
+  void SpaceMouseModule::close()
+  {
     // stop thread
     lock();
     stop = 1;
     unlock();
 
-    if( (isInitialized() == 1) && (devHdl != NULL)) 
-	{
-		/* should maybe be called even if devHdl == NULL */
-		SiTerminate();  /* called to shut down the SpaceWare input library */
-    }
-}
+    if( (isInitialized() == 1) && (devHdl != NULL))
+      {
+	/* should maybe be called even if devHdl == NULL */
+	SiTerminate();  /* called to shut down the SpaceWare input library */
+      }
+  }
 
 
-// This is the method executed in its own thread. It polls the joysticks.
+  // This is the method executed in its own thread. It polls the joysticks.
 
-void SpaceMouseModule::run()
-{
-	WNDCLASS  wndclass ;
-	static int init = 0;
+  void SpaceMouseModule::run()
+  {
+    WNDCLASS  wndclass ;
+    static int init = 0;
 
     if( init == 0 )
-	{
+      {
 
-		/*init the SpaceWare input library */
-		if (SiInitialize() == SPW_DLL_LOAD_ERROR)
-		{
+	/*init the SpaceWare input library */
+	if (SiInitialize() == SPW_DLL_LOAD_ERROR)
+	  {
             LOG_ACE_ERROR("ot:SpaceMouseModule Error Loading SIAPPDLL.DLL.\n");
-                exit(1);
-        }
+	    exit(1);
+	  }
 
-	    // Fill in window class structure with parameters that describe the message-only window.
+	// Fill in window class structure with parameters that describe the message-only window.
         wndclass.style =         0;
         wndclass.lpfnWndProc =   WndSpaceMouseProc ;
         wndclass.cbClsExtra =    0;
-        wndclass.cbWndExtra =    0; 
+        wndclass.cbWndExtra =    0;
         wndclass.hInstance =     NULL;
         wndclass.hIcon =         NULL;
         wndclass.hCursor =       NULL;
         wndclass.hbrBackground = 0;
         wndclass.lpszMenuName =  NULL ;
         wndclass.lpszClassName = "dummyClassSpaceMouseModule";
- 
-		/* Register display window class */
-        if ( RegisterClass(&wndclass) == 0) 
-		{
+
+	/* Register display window class */
+        if ( RegisterClass(&wndclass) == 0)
+	  {
             LOG_ACE_ERROR("ot:SpaceMouseModule Could not register windowclass.\n");
             exit(1);
-		}
+	  }
 
         hWndSpaceMouse = CreateWindow(
-		    "dummyClassSpaceMouseModule",
-			NULL,
-            NULL,
-            0,
-            0,
-            CW_USEDEFAULT,
-            CW_USEDEFAULT,
-            NULL,
-            NULL,
-            NULL,
-            NULL
-        );
-		
+				      "dummyClassSpaceMouseModule",
+				      NULL,
+				      NULL,
+				      0,
+				      0,
+				      CW_USEDEFAULT,
+				      CW_USEDEFAULT,
+				      NULL,
+				      NULL,
+				      NULL,
+				      NULL
+				      );
+
         if (hWndSpaceMouse == NULL)
-        {
+	  {
             LOG_ACE_ERROR("ot:SpaceMouseModule Could not create message-only window.\n");
             exit(1);
-        }
+	  }
 
-		SiOpenWinInit (&oData, hWndSpaceMouse);  /* init Win. platform specific data  */
-		SiSetUiMode(devHdl, SI_UI_ALL_CONTROLS); /* Config SoftButton Win Display */
+	SiOpenWinInit (&oData, hWndSpaceMouse);  /* init Win. platform specific data  */
+	SiSetUiMode(devHdl, SI_UI_ALL_CONTROLS); /* Config SoftButton Win Display */
 
-		/* open data, which will check for device type and return the device handle
-		   to be used by this function */ 
-		if ( (devHdl = SiOpen ("ot_spacemouse", SI_ANY_DEVICE, SI_NO_MASK,  
-                         SI_EVENT, &oData)) == NULL)	
-		{
-			// could not open spacemouse device handle
-			SiTerminate();  /* called to shut down the SpaceWare input library */
+	/* open data, which will check for device type and return the device handle
+	   to be used by this function */
+	if ( (devHdl = SiOpen ("ot_spacemouse", SI_ANY_DEVICE, SI_NO_MASK,
+			       SI_EVENT, &oData)) == NULL)
+	  {
+	    // could not open spacemouse device handle
+	    SiTerminate();  /* called to shut down the SpaceWare input library */
             ACE_LOG_INFO("ot:Could not fetch device handle for SpaceMouse.\n");
-			/* ? do not exit? close dummy window? */
-			initialized = 0; 
-			exit(1);
-		}
+	    /* ? do not exit? close dummy window? */
+	    initialized = 0;
+	    exit(1);
+	  }
 
-		initialized = 1;
-		init = 1;
+	initialized = 1;
+	init = 1;
 
-/*		if (SiBeep(devHdl, "ffffffff") == SI_BAD_HANDLE) 
-		{
+	/*		if (SiBeep(devHdl, "ffffffff") == SI_BAD_HANDLE)
+			{
 			ACE_LOG_INFO("could not beep...\n");
-		}
+			}
 
- */
-    }
+	*/
+      }
 
 
-	while(stop == 0)
-    {
+    while(stop == 0)
+      {
         processMessages();
-    }
-}
+      }
+  }
 
 
-void SpaceMouseModule::pushState()
-{
+  void SpaceMouseModule::pushEvent()
+  {
     SpaceMouseSource *source;
 
     if( isInitialized() == 1 )
-    {   
+      {
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
+	  {
             source = (SpaceMouseSource *) *it;
 
-			lock();            
+	    lock();
             if (source->changed == 1)
-            {
-                source->state = source->tmpState;
+	      {
+                source->event = source->tmpEvent;
                 source->changed = 0;
-				unlock();        
+		unlock();
                 source->push();
-            }
-			else
-				unlock();
-        }
-    }
-}
+	      }
+	    else
+	      unlock();
+	  }
+      }
+  }
 
 
-// pushes events into the tracker tree.
-void SpaceMouseModule::processMessages()
-{
-	MSG            msg;      /* incoming message to be evaluated */
-	BOOL           handled;  /* is message handled yet */ 
-	SiSpwEvent     Event;    /* SpaceWare Event */ 
-	SiGetEventData EData;    /* SpaceWare Event Data */
+  // pushes events into the tracker tree.
+  void SpaceMouseModule::processMessages()
+  {
+    MSG            msg;      /* incoming message to be evaluated */
+    BOOL           handled;  /* is message handled yet */
+    SiSpwEvent     Event;    /* SpaceWare Event */
+    SiGetEventData EData;    /* SpaceWare Event Data */
 
-	int				num;
-	unsigned short	newBut;
-	float			newPosX;
-	float			newPosY;
-	float			newPosZ;
-	float			newRotX;
-	float			newRotY;
-	float			newRotZ;
+    int				num;
+    unsigned short	newBut;
+    float			newPosX;
+    float			newPosY;
+    float			newPosZ;
+    float			newRotX;
+    float			newRotY;
+    float			newRotZ;
 
     if( isInitialized() == 1 )
-    {
-		/* as long as there are messages waiting */
-		WaitMessage();
-		while ( PeekMessage( &msg, hWndSpaceMouse, 0, 0, PM_REMOVE ) ) 
-		{
-			//ACE_LOG_INFO("successful!\n");
-			handled = SPW_FALSE;
+      {
+	/* as long as there are messages waiting */
+	WaitMessage();
+	while ( PeekMessage( &msg, hWndSpaceMouse, 0, 0, PM_REMOVE ) )
+	  {
+	    //ACE_LOG_INFO("successful!\n");
+	    handled = SPW_FALSE;
 
-			/* init Window platform specific data for a call to SiGetEvent */
-			SiGetEventWinInit(&EData, msg.message, msg.wParam, msg.lParam);
-      
-			/* check whether msg was a Spaceball event and process it */
-			if (SiGetEvent (devHdl, 0, &EData, &Event) == SI_IS_EVENT)
-			{
-				if (Event.type == SI_MOTION_EVENT)
-				{
-					
-					/* process Spaceball motion event */     
-					newPosX = Event.u.spwData.mData[SI_TX] / 330.0;
-					newPosY = Event.u.spwData.mData[SI_TY] / 330.0;
-					newPosZ = -Event.u.spwData.mData[SI_TZ] / 330.0;
-					newRotX = (Event.u.spwData.mData[SI_RX] / 330.0)*SPW_PI/2.0;
-					newRotY = (Event.u.spwData.mData[SI_RY] / 330.0)*SPW_PI/2.0;
-					newRotZ = -(Event.u.spwData.mData[SI_RZ] / 330.0)*SPW_PI/2.0;
-					
-					for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-					{
-	                    lock();
-    					SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-						source->tmpState.position[0] = newPosX;
-						source->tmpState.position[1] = newPosY;
-						source->tmpState.position[2] = newPosZ;
-						MathUtils::eulerToQuaternion(newRotX, newRotY, newRotZ, source->tmpState.orientation);
-						MathUtils::normalizeQuaternion(source->tmpState.orientation);
-						source->changed = 1;
-						unlock();
-					}
-				}
-				if (Event.type == SI_ZERO_EVENT)
-				{
-					// process Spaceball zero event 
-					for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-					{
-						lock();
-						SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-						source->tmpState.position[0] = 0.0;
-						source->tmpState.position[1] = 0.0;
-						source->tmpState.position[2] = 0.0;
-						source->tmpState.orientation[0]  = 0.0;
-						source->tmpState.orientation[1]  = 0.0;
-						source->tmpState.orientation[2]  = 0.0;
-						source->tmpState.orientation[3]  = 1.0;
-						source->changed = 1;
-						unlock();
-					}
-				}
-			
-				if (Event.type == SI_BUTTON_EVENT)
-				{
-					if ((num = SiButtonPressed (&Event)) != SI_NO_BUTTON)	
-					{
-						/* process Spaceball button event */
-						newBut = pow(2, num - 1);
-						for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-						{
-							lock();
-							SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-							source->tmpState.button |= newBut;
-							source->changed = 1;
-							unlock();
-						}
-					}
-					if ((num = SiButtonReleased (&Event)) != SI_NO_BUTTON)	
-					{
-						/* process Spaceball button release event */
-						newBut = pow(2, num - 1);
-						for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-						{
-							lock();
-							SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-							source->tmpState.button ^= newBut;
-							source->changed = 1;
-							unlock();
-						}
-					}
-				}
-		        
-				handled = SPW_TRUE;              /* spaceball event handled */ 
-			}
+	    /* init Window platform specific data for a call to SiGetEvent */
+	    SiGetEventWinInit(&EData, msg.message, msg.wParam, msg.lParam);
 
-			/* not a Spaceball event, let windows handle it */
-			if (handled == SPW_FALSE)
-			{
-				TranslateMessage( &msg );
-				DispatchMessage( &msg );
-			}
-		}
-    }
-}
+	    /* check whether msg was a Spaceball event and process it */
+	    if (SiGetEvent (devHdl, 0, &EData, &Event) == SI_IS_EVENT)
+	      {
+		if (Event.type == SI_MOTION_EVENT)
+		  {
+
+		    /* process Spaceball motion event */
+		    newPosX = Event.u.spwData.mData[SI_TX] / 330.0;
+		    newPosY = Event.u.spwData.mData[SI_TY] / 330.0;
+		    newPosZ = -Event.u.spwData.mData[SI_TZ] / 330.0;
+		    newRotX = (Event.u.spwData.mData[SI_RX] / 330.0)*SPW_PI/2.0;
+		    newRotY = (Event.u.spwData.mData[SI_RY] / 330.0)*SPW_PI/2.0;
+		    newRotZ = -(Event.u.spwData.mData[SI_RZ] / 330.0)*SPW_PI/2.0;
+
+		    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+		      {
+			lock();
+			SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+			source->tmpEvent.getPosition()[0] = newPosX;
+			source->tmpEvent.getPosition()[1] = newPosY;
+			source->tmpEvent.getPosition()[2] = newPosZ;
+			MathUtils::eulerToQuaternion(newRotX, newRotY, newRotZ, source->tmpEvent.orientation);
+			MathUtils::normalizeQuaternion(source->tmpEvent.orientation);
+			source->changed = 1;
+			unlock();
+		      }
+		  }
+		if (Event.type == SI_ZERO_EVENT)
+		  {
+		    // process Spaceball zero event
+		    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+		      {
+			lock();
+			SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+			source->tmpEvent.getPosition()[0] = 0.0;
+			source->tmpEvent.getPosition()[1] = 0.0;
+			source->tmpEvent.getPosition()[2] = 0.0;
+			source->tmpEvent.getOrientation()[0]  = 0.0;
+			source->tmpEvent.getOrientation()[1]  = 0.0;
+			source->tmpEvent.getOrientation()[2]  = 0.0;
+			source->tmpEvent.getOrientation()[3]  = 1.0;
+			source->changed = 1;
+			unlock();
+		      }
+		  }
+
+		if (Event.type == SI_BUTTON_EVENT)
+		  {
+		    if ((num = SiButtonPressed (&Event)) != SI_NO_BUTTON)
+		      {
+			/* process Spaceball button event */
+			newBut = pow(2, num - 1);
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			  {
+			    lock();
+			    SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+			    source->tmpEvent.getButton() |= newBut;
+			    source->changed = 1;
+			    unlock();
+			  }
+		      }
+		    if ((num = SiButtonReleased (&Event)) != SI_NO_BUTTON)
+		      {
+			/* process Spaceball button release event */
+			newBut = pow(2, num - 1);
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			  {
+			    lock();
+			    SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+			    source->tmpEvent.getButton() ^= newBut;
+			    source->changed = 1;
+			    unlock();
+			  }
+		      }
+		  }
+
+		handled = SPW_TRUE;              /* spaceball event handled */
+	      }
+
+	    /* not a Spaceball event, let windows handle it */
+	    if (handled == SPW_FALSE)
+	      {
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+	      }
+	  }
+      }
+  }
 
 } // namespace ot
 
