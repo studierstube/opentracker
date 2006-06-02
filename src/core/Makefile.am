@@ -68,5 +68,5 @@ libcore_la_SOURCES = \
 	EventAttributeBase.cxx \
 	EventAttributeBase.h \
 	Translator.cxx \
-	Translator.h
-
+	Translator.h \
+	iostream_ext.h

@@ -20,7 +20,6 @@ otcommoninc_HEADERS = \
         ElasticFilterNode.h \
         EllipsoidTransformNode.h \
         EventQueueNode.h \
-	EventUtilityNode.h \
         File.h \
         FileModule.h \
         FileSink.h \
@@ -75,8 +74,6 @@ libcommon_la_SOURCES = \
         EllipsoidTransformNode.h \
         EventQueueNode.cxx \
         EventQueueNode.h \
-	EventUtilityNode.cxx \
-	EventUtilityNode.h \
         File.h \
         FileModule.cxx \
         FileModule.h \

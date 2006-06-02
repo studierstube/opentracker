@@ -1,7 +1,7 @@
 Summary:	Open Tracker
 Name:		opentracker
-Version:	1.1.1
-Release:	4
+Version:	1.3
+Release:	1
 Copyright:	LGPL
 Group:		Development/Tools
 Source:		%{name}-%{version}.tar.gz
