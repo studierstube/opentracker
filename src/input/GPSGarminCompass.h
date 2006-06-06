@@ -71,15 +71,15 @@ namespace ot {
  * @author Gerhard Reitmayr
  * @ingroup input
  */
-class OPENTRACKER_API GPSGarminCompass : public Node, public GPSListener  
+class OPENTRACKER_API GPSGarminCompass : public Node, public GPSListener
 {
 public:
 
-	 /// the state that is posted to the EventObservers
-    State state;
-    /// the buffer state for data from the GPS receiver
-    State buffer;
-    
+	 /// the event that is posted to the EventObservers
+    Event event;
+    /// the buffer event for data from the GPS receiver
+    Event buffer;
+
 	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -112,8 +112,8 @@ inline void GPSGarminCompass::newData( const GPResult * res, const char * line, 
         temp[1] = 1;
         temp[2] = 0;
         temp[3] = (float)(point->heading * MathUtils::GradToRad);
-        MathUtils::axisAngleToQuaternion( temp, buffer.orientation );
-        buffer.confidence = (float)(1 / module->driver->getHdop());
+        MathUtils::axisAngleToQuaternion( copyA2V(temp, 4), buffer.getOrientation() );
+        buffer.getConfidence() = (float)(1 / module->driver->getHdop());
         module->unlock();
     }
 }
