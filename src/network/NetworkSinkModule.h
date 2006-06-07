@@ -108,8 +108,7 @@ protected:
      * to the network and parses network packages.
      * @param data the unicast receiver
      */
-    static void runUnicastTransceiver( void * data );
-
+    
     static void runUnicastTransceiver( void * data );
 
 public:
