@@ -4,6 +4,11 @@ include $(top_srcdir)/src/Makefile.common
 
 otcoreincdir = $(otincdir)/core
 otcoreinc_HEADERS = \
+	Event.h \
+	EventAttribute.h \
+	EventAttributeBase.h \
+	State.h \
+	Translator.h \
         ConfigNode.h \
         ConfigurationParser.h \
         Context.h \
@@ -21,16 +26,20 @@ otcoreinc_HEADERS = \
         TestModule.h \
         TestSource.h \
         ThreadModule.h \
-        VideoUser.h
-	State.h \
-	Event.h \
-	EventAttribute.h \
-	EventAttributeBase.h \
-	Translator.h \
+        VideoUser.h \
 	iostream_ext.h
 
 noinst_LTLIBRARIES = libcore.la
 libcore_la_SOURCES = \
+	Event.cxx \
+	Event.h \
+	EventAttribute.h \
+	EventAttributeBase.cxx \
+	EventAttributeBase.h \
+	State.cxx \
+	State.h \
+	Translator.cxx \
+	Translator.h \
         ConfigNode.h \
         ConfigurationParser.cxx \
         ConfigurationParser.h \
@@ -60,13 +69,4 @@ libcore_la_SOURCES = \
         ThreadModule.cxx \
         ThreadModule.h \
         VideoUser.h \
-	State.cxx \
-	State.h \
-	Event.cxx \
-	Event.h \
-	EventAttribute.h \
-	EventAttributeBase.cxx \
-	EventAttributeBase.h \
-	Translator.cxx \
-	Translator.h \
 	iostream_ext.h
