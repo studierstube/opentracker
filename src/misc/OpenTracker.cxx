@@ -1,46 +1,46 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** Source file for OpenTracker. It contains global static definitions and
-  * global functions etc. 
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ * global functions etc. 
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // a trick to avoid warnings when ace includes the STL headers
 #ifdef WIN32
@@ -53,7 +53,7 @@
 
 #include "../dllinclude.h"
 
-#include "../core/State.h"
+#include "../core/Event.h"
 #include "../core/Context.h"
 #include "../common/CommonNodeFactory.h"
 #include "../core/TestModule.h"
@@ -108,24 +108,24 @@
 
 #ifndef OPENTRACKER_STATIC
 BOOL APIENTRY DllMain( HANDLE hModule, 
-					  DWORD  ul_reason_for_call, 
-					  LPVOID lpReserved
-					  )
+		       DWORD  ul_reason_for_call, 
+		       LPVOID lpReserved
+		       )
 {
-    switch( ul_reason_for_call )
+  switch( ul_reason_for_call )
     {
-	case DLL_PROCESS_ATTACH:		
-		ACE::init();
-		break;
-	case DLL_THREAD_ATTACH:
-		break;
-	case DLL_THREAD_DETACH:		
-		break;
-	case DLL_PROCESS_DETACH:		
-		ACE::fini();
-		break;	
+    case DLL_PROCESS_ATTACH:		
+      ACE::init();
+      break;
+    case DLL_THREAD_ATTACH:
+      break;
+    case DLL_THREAD_DETACH:		
+      break;
+    case DLL_PROCESS_DETACH:		
+      ACE::fini();
+      break;	
     }
-    return TRUE;
+  return TRUE;
 }
 #endif //OPENTRACKER_STATIC
 
@@ -135,8 +135,11 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 namespace ot {
 
-void OPENTRACKER_API initializeContext( Context & context )
-{
+  void OPENTRACKER_API initializeContext( Context & context )
+  {
+    // register the creator functions and generic names of all known types
+    Event::registerAllKnownTypes();
+
     // Instance the default modules and add to factory and parser
     CommonNodeFactory * common = new CommonNodeFactory;
     context.addFactory( *common );
@@ -170,16 +173,16 @@ void OPENTRACKER_API initializeContext( Context & context )
 #endif
 
 #ifdef USE_ARTOOLKITPLUS
-	// Create an ARToolKitPlusModule instance
-	ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
-	context.addFactory( * artoolplus );
-	context.addModule( "ARToolKitPlusConfig", *artoolplus );
-	context.registerVideoUser(artoolplus);
+    // Create an ARToolKitPlusModule instance
+    ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
+    context.addFactory( * artoolplus );
+    context.addModule( "ARToolKitPlusConfig", *artoolplus );
+    context.registerVideoUser(artoolplus);
 #endif
 
 #ifdef USE_OPENVIDEO
-	OpenVideoModule * ovModule = new OpenVideoModule(&context);
-	context.addModule( "OpenVideoConfig", *ovModule );
+    OpenVideoModule * ovModule = new OpenVideoModule(&context);
+    context.addModule( "OpenVideoConfig", *ovModule );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
@@ -218,7 +221,7 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addModule( "SpaceMouseConfig", * smouse );
 #endif	
 
-	MulticastInputModule *mcinput = new MulticastInputModule;
+    MulticastInputModule *mcinput = new MulticastInputModule;
     context.addFactory( * mcinput );
     context.addModule( "MulticastInputConfig", * mcinput );
 
@@ -332,6 +335,6 @@ void OPENTRACKER_API initializeContext( Context & context )
     context.addFactory( * ubisense );
     context.addModule( "UbisenseConfig", *ubisense );
 #endif
-}
+  }
 
 } // namespace ot

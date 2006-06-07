@@ -146,7 +146,7 @@ protected:
 
 	void updateSingleMarkerSource(Node *source, float cf, float matrix[3][4]);
 	void updateMultiMarkerSource(Node *source, float cf, float matrix[3][4]);
-	void updateState(State &state, float matrix[3][4]);
+	void updateEvent(Event &event, float matrix[3][4]);
 
 	float trackerNear,trackerFar;
 	ARToolKitPlus::TrackerSingleMarker* tracker;
@@ -176,7 +176,7 @@ public:
      * pushes events into the tracker tree. Checks all TestSources and
      * pushes new events, if a TestSource fires.
      */
-    virtual void pushState();
+    virtual void pushEvent();
 
 	/**
 	 * queries the camera and pushes data into the tree

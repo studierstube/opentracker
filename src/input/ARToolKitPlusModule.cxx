@@ -589,11 +589,11 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	{
 	    ARToolKitSource *source = (ARToolKitSource *)*it;
 
-		State & state = source->buffer;
-		if (state.confidence > 0.00000001f) 
+		Event & event = source->buffer;
+		if (event.getConfidence() > 0.00000001f) 
 		{
-			state.confidence = 0.0f;
-			state.timeStamp();
+			event.getConfidence() = 0.0f;
+			event.timeStamp();
 			source->modified = 1;
 		}
 	}
@@ -729,21 +729,21 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 
 // pushes events into the tracker tree.
 
-void ARToolKitPlusModule::pushState()
+void ARToolKitPlusModule::pushEvent()
 {
 	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
 	{
 		ARToolKitSource * source = (ARToolKitSource *)*it;
 		if( source->modified == 1 )
 		{
-			source->state = source->buffer;
+			source->event = source->buffer;
 			source->modified = 0;
-			source->updateObservers( source->state );
+			source->updateObservers( source->event );
 		}
 	}
 }
 
-void ARToolKitPlusModule::updateState(State &state, float matrix[3][4])
+void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
 {
 #ifdef ARTOOLKIT_UNFLIP_V
 #undef ARTOOLKIT_UNFLIP_V
@@ -769,11 +769,11 @@ void ARToolKitPlusModule::updateState(State &state, float matrix[3][4])
 	MathUtils::Vector3 euler_angles;
 	MathUtils::MatrixToEuler(euler_angles,matrix_4x4);
 
-	MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], state.orientation);
+	MathUtils::eulerToQuaternion(-euler_angles[Q_Z],euler_angles[Q_Y],-euler_angles[Q_X], event.getOrientation);
 
-	state.position[0] = (float)matrix_4x4_corrected[0][3];
-	state.position[1] = (float)matrix_4x4_corrected[1][3];
-	state.position[2] = (float)matrix_4x4_corrected[2][3];
+	event.getPosition()[0] = (float)matrix_4x4_corrected[0][3];
+	event.getPosition()[1] = (float)matrix_4x4_corrected[1][3];
+	event.getPosition()[2] = (float)matrix_4x4_corrected[2][3];
 	//  -----------------------------------------------------------
 #else
 	//  --- DO NOT correct ARToolkit's vertical image mirroring ---
@@ -786,22 +786,22 @@ void ARToolKitPlusModule::updateState(State &state, float matrix[3][4])
 			m[r][s] = (float)matrix[r][s];
 		}
 	}
-	MathUtils::matrixToQuaternion( m, state.orientation );
-	state.position[0] = (float)matrix[0][3];
-	state.position[1] = (float)matrix[1][3];
-	state.position[2] = (float)matrix[2][3];
+	MathUtils::matrixToQuaternion( m, event.getOrientation() );
+	event.getPosition()[0] = (float)matrix[0][3];
+	event.getPosition()[1] = (float)matrix[1][3];
+	event.getPosition()[2] = (float)matrix[2][3];
 	//  -----------------------------------------------------------
 #endif
-	state.timeStamp();
+	event.timeStamp();
 }
 
 void ARToolKitPlusModule::updateSingleMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
 {
 	ARToolKitSource* source = (ARToolKitSource*)node;
 
-	State & state = source->buffer;
-	state.confidence = cf;
-	updateState(state,matrix);
+	Event & event = source->buffer;
+	event.setConfidence(cf);
+	updateEvent(event,matrix);
 	source->modified = 1;
 }
 
@@ -809,9 +809,9 @@ void ARToolKitPlusModule::updateMultiMarkerSource(Node *node, float cf, ARFloat 
 {
 	ARToolKitMultiMarkerSource* source = (ARToolKitMultiMarkerSource*)node;
 
-	State & state = source->buffer;
-	state.confidence = cf;
-	updateState(state,matrix);
+	Event & event = source->buffer;
+	event.setConfidence(cf);
+	updateEvent(event,matrix);
 	source->modified = 1;
 }
 
