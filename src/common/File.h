@@ -55,190 +55,165 @@
 
 /**
  * File class is a simple class that provides formatted input or output to a file.
- * It defines in which format the station data is written to the file and read
- * again. Right now the data has a csv format where spaces are used as separators :
+ *
+ * If the File#ot11Format flag is not set, events are simply streamed into the file. Otherwise,
+ * the obsolete file format of OpenTracker 1.1 is used, which just writes out the timestamp and
+ * the former standard attributes (position, orientation, button, and confidence). This format
+ * is provided for testing purposes only and should not be used in new modules or applications.
+ * If changed code needs to be tested and compared to the 'Gold Standard' provided by OpenTracer
+ * 1.1 however, use the #ot11Format flag for using the same input and straightforward comparison
+ * of both versions' results.
+ *
+ * The OpenTracker 1.1 file format separates the former standard attributes by spaces:
  * @verbatim
  station timestamp position[0] position[1] position[2] orientation[0] ... orientation[3] button confidence
  ...@endverbatim
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Jochen von Spiczak
  * @ingroup common
  */
 
-namespace ot
-{
-    class OPENTRACKER_API File
+namespace ot {
+
+  class OPENTRACKER_API File
+  {
+    // Members
+  protected :
+    /// Output stream for output mode
+    std::ofstream * output;
+    /// Input stream for input mode
+    std::ifstream * input;
+    /// flag for looping
+    bool loop;
+    /// flag whether to use OT v1.1 compatible file format (for testing purposes only)
+    bool ot11Format;
+
+  public :
+    /// the full filename
+    const std::string filename;
+    /// the mode i.e. input or output
+    const enum modeFlags { FILE_OUT = 0, FILE_IN } mode;
+
+    // Methods
+  public:
+    /** constructor method, sets some default values and opens the
+     * file in the correct mode.
+     * @param filename_ the filename of the file to open
+     * @param mode the mode to open (either IN or OUT )
+     * @param append if OUT mode clear file or append to it
+     * @param loop_ if IN mode loop input file or not
+     * @param ot11Format_ if OT v1.1 compatible output format should be used (for testing purposes only)
+     */
+    File(const std::string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false, bool ot11Format_ = false ) :
+      loop( loop_ ), ot11Format( ot11Format_ ), filename( filename_), mode( mode_ )
     {
-        // Members
-    protected :
-	/// Output stream for output mode
-        //ofstream * output;
-	/// Input stream for input mode
-        //ifstream * input;
+      if( mode == FILE_OUT ) // output mode
+	{
+	  if( append )
+	    output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::app );
+	  else
+	    output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::trunc );
+	  input = NULL;
+	}
+      else {          // otherwise input mode
+	input = new std::ifstream( filename.c_str());
+	input->setf( std::ios::skipws );
+	output = NULL;
+      }
+    }
 
-	// General io file
-	FILE* fp;
+    /** destructor, closes the streams and deletes them again
+     */
+    ~File()
+      {
+	if( input != NULL )
+	  {
+	    input->close();
+	    delete input;
+	  }
+	if( output != NULL )
+	  {
+	    output->close();
+	    delete output;
+	  }
+      }
 
-        /// flag for looping
-        bool loop;
+    /** writes a event to the output stream, only useable
+     * if File object was opened in output mode. Here you
+     * can do any special formatting etc.
+     * @param event reference to the output event
+     * @param station number of the statione
+     */
+    void write( Event & event, int station )
+    {
+      if( output != NULL)
+	{
+	  if (!ot11Format)
+	    *output << station << " " << event << std::endl;
+	  else
+	    {
+	      char str[220];
+	      sprintf(str, "%d %.15f %.15f %.15f %.15f %.15f %.15f %.15f %.15f %d %.15f\n",
+			   station,
+			   event.time,
+			   event.getPosition()[0],
+			   event.getPosition()[1],
+			   event.getPosition()[2],
+			   event.getOrientation()[0],
+			   event.getOrientation()[1],
+			   event.getOrientation()[2],
+			   event.getOrientation()[3],
+			   event.getButton(),
+			   event.getConfidence());
+	      *output << str << std::flush;
+	    }
+	}
+    }
 
-    public :
-	/// the full filename
-        const std::string filename;
-        /// the mode i.e. input or output
-        const enum modeFlags { FILE_OUT = 0, FILE_IN } mode;
+    /** tries to read in the next station data, stored in
+     * the input file, only useable if File object was opened
+     * in input mode. Here you should be able to read in
+     * the right format :) ( obviously ).
+     * @param event reference where to put the new event
+     * @param station pointer to an int containing the station
+     * @returns true if a new station could be read, otherwise false.
+     */
+    bool read( Event & event, int * station )
+    {
+      if( !input->is_open())
+	return false;
 
-        // Methods
-    public:
-        /** constructor method, sets some default values and opens the
-         * file in the correct mode.
-         * @param filename_ the filename of the file to open
-         * @param mode the mode to open (either IN or OUT )
-         * @param append if OUT mode clear file or append to it
-         * @param loop_ if IN mode loop input file or not
-         */
-        File(const std::string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false ) :
-            loop( loop_ ), filename( filename_), mode( mode_ )
-        {
-            if( mode == FILE_OUT ) // output mode
-		{
-		    if( append )
-			//output = new ofstream( filename.c_str(), ios_base::out | ios_base::app );
-			fp = fopen(filename.c_str(), "a");
-		    else
-			//output = new ofstream( filename.c_str(), ios_base::out | ios_base::trunc );
-			fp = fopen(filename.c_str(), "w");
-		    //input = NULL;
-		}
-            else {          // otherwise input mode
-                //input = new ifstream( filename.c_str());
-                //input->setf( ios::skipws );
-                //output = NULL;
-                fp = fopen(filename.c_str(), "r");
-            }
-        }
+      if (!ot11Format)
+	{
+	  input->clear();
+	  *input >> *station;
+	  *input >> event;
+	}
+      else
+	{
+	  input->clear();
+	  *input >> *station;
+	  *input >> event.time;
+	  *input >> event.getPosition()[0] >> event.getPosition()[1] >> event.getPosition()[2];
+	  *input >> event.getOrientation()[0] >> event.getOrientation()[1] >> event.getOrientation()[2] >> event.getOrientation()[3];
+	  *input >> event.getButton();
+	  *input >> event.getConfidence();
+	}
 
-        /** destructor, closes the streams and deletes them again
-         */
-        ~File()
-        {
-            /*if( input != NULL )
-              {
-              input->close();
-              delete input;
-              }
-              if( output != NULL )
-              {
-              output->close();
-              delete output;
-              }*/
-            if(fp)
-                fclose(fp);
-        }
-
-        /** writes a state to the output stream, only useable
-         * if File object was opened in output mode. Here you
-         * can do any special formatting etc.
-         * @param state reference to the output state
-         * @param station number of the station
-         */
-        void write( State & state, int station )
-        {
-            /*if( output != NULL )
-             *output << station << " " << setw(15) << setfill(' ') << setprecision( 15 );
-             *output << state.time << " ";
-             *output << state.position[0] << " "
-             << state.position[1] << " "
-             << state.position[2] << " "
-             << state.orientation[0] << " "
-             << state.orientation[1] << " "
-             << state.orientation[2] << " "
-             << state.orientation[3] << " "
-             << state.button << " "
-             << state.confidence << endl;
-             }*/
-
-            if(fp)
-		{
-		    fprintf(fp, "%d %.15f %.15f %.15f %.15f %.15f %.15f %.15f %.15f %d %.15f\n",
-			    station,
-			    state.time,
-			    state.position[0],
-			    state.position[1],
-			    state.position[2],
-			    state.orientation[0],
-			    state.orientation[1],
-			    state.orientation[2],
-			    state.orientation[3],
-			    state.button,
-			    state.confidence);
-		    fflush(fp);
-		}
-        }
-
-        /** tries to read in the next station data, stored in
-         * the input file, only useable if File object was opened
-         * in input mode. Here you should be able to read in
-         * the right format :) ( obviously ).
-         * @param state reference where to put the new state
-         * @param station pointer to an int containing the station
-         * @returns true if a new station could be read, otherwise false.
-         */
-        bool read( State & state, int * station )
-        {
-            /*if( !input->is_open())
-              return false;
-
-              input->clear();
-              *input >> *station;
-              *input >> state.time;
-              *input >> state.position[0] >> state.position[1] >> state.position[2];
-              *input >> state.orientation[0] >> state.orientation[1]
-              >> state.orientation[2] >> state.orientation[3];
-              *input >> state.button;
-              *input >> state.confidence;
-
-              bool result = input->fail();
-              if( result )
-              {
-              if ( loop )
-              {
-              input->clear();
-              input->seekg(0, ios::beg);
-              result = false;
-              }
-              else
-              input->close();
-              }
-              return !result;*/
-
-            if(!fp)
-                return false;
-
-	    if( feof(fp) && loop)
-		fseek(fp, 0, SEEK_SET);
-
-	    if ( feof(fp) )
-		{
-		    fclose(fp);
-		    return false;
-		}
-
-            fscanf(fp, "%d %lf %f %f %f %f %f %f %f %hu %f\n",
-                   station,
-                   &state.time,
-                   &state.position[0],
-                   &state.position[1],
-                   &state.position[2],
-                   &state.orientation[0],
-                   &state.orientation[1],
-                   &state.orientation[2],
-                   &state.orientation[3],
-                   &state.button,
-                   &state.confidence);
-
-	    return (!ferror(fp));
-        }
-    };
+      bool failed = input->fail();
+      if( failed )
+	{
+	  if ( loop )
+	    {
+	      input->clear();
+	      input->seekg(0, std::ios::beg);
+	      failed = false;
+	    }
+	  else
+	    input->close();
+	}
+      return !failed;
+    }
+  };
 
 } // namespace ot
 
