@@ -143,7 +143,7 @@
 				AdditionalDependencies="ace.lib openvideo.lib"
 				OutputFile="../../bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
 				SubSystem="2"
@@ -686,6 +686,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\tool\disable4786.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\dllinclude.h"
 				>
 			</File>
 			<File

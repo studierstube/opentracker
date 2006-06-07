@@ -153,7 +153,8 @@ void TCPModule::pullEvent(){
                     *(short int*)(&buffer[index]) = htons(event.getButton());
                     index += sizeof(short int);
                 }
-                if( sink->timeFlag == 1 ){
+                if( sink->timeFlag == 1 )
+				{
                     *(int*)(&buffer[index]) = htonl((*(long*)(&event.time))&&0xffffffff);
                     
 		    // FIXXXME : What are the following lines good for?
@@ -161,9 +162,12 @@ void TCPModule::pullEvent(){
 		    // *(int*)(&buffer[index]) = htonl((*(long*)(&state.time))>>32);
 		    // index += sizeof(int);
 		     
-                    index += sizeof(int);
-                    *(int*)(&buffer[index]) = htonl((*(long*)(&event.time))>>32);
-                    index += sizeof(int);
+					// FIXXXME: Once again - I don't see why this code is needed
+					// at least on a 32 bit machine it adds only a value of 0 to the buffer
+					// strange ...
+                    //index += sizeof(int);
+                    //*(int*)(&buffer[index]) = htonl((*(long*)(&event.time))>>32);
+                    //index += sizeof(int);
                 }
                 // send to all connections
                 lock();
