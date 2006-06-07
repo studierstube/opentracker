@@ -3,7 +3,6 @@
 <OpenTracker>
   <configuration>
     <ConsoleConfig headerline="Sample Output" interval="1"/>
-    <NetworkConfig />
   </configuration>
   <ConsoleSink comment="Test Source 1">
     <EventTransform translation="1 1 1" scale="1 1 1"

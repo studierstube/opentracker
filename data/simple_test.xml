@@ -3,15 +3,11 @@
 <OpenTracker>
   <configuration>
     <ConsoleConfig headerline="Sample Output" interval="1"/>
-    <NetworkConfig />
   </configuration>
   <ConsoleSink comment="Test Source 1">
     <EventTransform translation="1 1 1" scale="1 1 1"
-    rotationtype="euler" rotation="0 0 0" DEF="trdata1">
+    rotationtype="euler" rotation="0 0 0"> 
       <TestSource frequency="100000" />
     </EventTransform>
   </ConsoleSink>
-  <NetworkSink  mode="multicast" name="station name" number="1" multicast-address="224.0.0.10" port="12345" interface="192.168.2.100" >
-    <Ref USE="trdata1" />
-  </NetworkSink>
 </OpenTracker>
