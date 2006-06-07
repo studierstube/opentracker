@@ -94,6 +94,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
   class OPENTRACKER_API ButtonFilterNode
@@ -135,5 +139,9 @@ namespace ot {
   };
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT
+
 
 #endif

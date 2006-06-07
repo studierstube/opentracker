@@ -80,6 +80,10 @@ Example_ for one bit(n=1) - over time)
  * @ingroup common
  */
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API ButtonHoldFilterNode : public Node   
@@ -122,5 +126,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT
+
 
 #endif

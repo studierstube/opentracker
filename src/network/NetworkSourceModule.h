@@ -60,7 +60,9 @@
 #include "Network.h"
 #include "NetworkSource.h"
 
-//class ACE_Thread_Manager;
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
 
 namespace ot {
 
@@ -151,5 +153,9 @@ namespace ot {
   };
 
 }  // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT
+
 
 #endif

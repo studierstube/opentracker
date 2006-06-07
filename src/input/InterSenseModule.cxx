@@ -55,7 +55,9 @@
 #include <iostream>
 #include <isense.h>
 
-//using namespace std;
+
+#ifndef OT_NO_INTERSENSE_SUPPORT
+
 
 namespace ot {
 
@@ -296,3 +298,6 @@ void InterSenseModule::pushEvent()
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_INTERSENSE_SUPPORT

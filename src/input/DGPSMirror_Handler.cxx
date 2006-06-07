@@ -50,6 +50,10 @@
 #include "GPSDriver.h"
 #include "DGPSMirror_Handler.h"
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 DGPSMirror_Handler::DGPSMirror_Handler()
@@ -87,3 +91,6 @@ int DGPSMirror_Handler::handle_input(ACE_HANDLE fd)
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT

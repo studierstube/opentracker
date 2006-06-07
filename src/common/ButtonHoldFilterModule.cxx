@@ -58,6 +58,10 @@
 
 // Destructor method
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 ButtonHoldFilterModule::~ButtonHoldFilterModule()
@@ -99,3 +103,6 @@ void ButtonHoldFilterModule::pushEvent()
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT

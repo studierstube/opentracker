@@ -74,6 +74,10 @@
 
 #include <vector>
 
+
+#ifndef OT_NO_FASTTRACK_SUPPORT
+
+
 namespace ot {
 
 typedef std::vector<Node*> NodeVector;
@@ -195,5 +199,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_FASTTRACK_SUPPORT
+
 
 #endif

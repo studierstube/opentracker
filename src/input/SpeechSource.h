@@ -85,6 +85,10 @@
  * @author Reinhard Steiner
  */
 
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
+
 namespace ot {
 
   class OPENTRACKER_API SpeechSource : public Node
@@ -186,5 +190,9 @@ namespace ot {
   };
 
 } // namespace ot
+
+
+#endif //OT_NO_SPEECH_SUPPORT
+
 
 #endif

@@ -48,7 +48,9 @@
 #include "SpeechVoiceModule.h"
 #include "SpeechVoice.h"
 
-//using namespace std;
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
 
 namespace ot {
 
@@ -113,3 +115,6 @@ void SpeechVoiceModule::Speak(const char *p_Sentence, bool p_Async)
 
 
 // #endif //ifdef USE_SAPISPEECH
+
+
+#endif // OT_NO_SPEECH_SUPPORT

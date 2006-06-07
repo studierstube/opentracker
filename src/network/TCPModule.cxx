@@ -60,10 +60,13 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-//using namespace std;
 
 #define SERVER_DATA_PRECISION 100
 #define SERVER_DATA_SHIFT     1000
+
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
 
 namespace ot {
 
@@ -247,3 +250,6 @@ void TCPModule::run(){
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT

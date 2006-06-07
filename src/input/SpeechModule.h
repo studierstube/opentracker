@@ -90,6 +90,10 @@
 #include "SpeechDef.h"
 #include "SpeechVoiceModule.h"
 
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
+
 namespace ot {
 
 typedef std::vector<Node*> NodeVector;
@@ -191,5 +195,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_SPEECH_SUPPORT
 
 #endif

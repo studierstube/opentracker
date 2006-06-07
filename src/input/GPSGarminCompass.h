@@ -63,6 +63,9 @@
 #include "GPSDriver.h"
 
 
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 
@@ -120,6 +123,9 @@ inline void GPSGarminCompass::newData( const GPResult * res, const char * line, 
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
 
 
 #endif // !defined(_GPSGARMINCOMPASS_H)

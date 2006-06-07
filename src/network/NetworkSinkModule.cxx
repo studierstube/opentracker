@@ -65,7 +65,9 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-//using namespace std;
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
 
 namespace ot {
 
@@ -522,3 +524,6 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT

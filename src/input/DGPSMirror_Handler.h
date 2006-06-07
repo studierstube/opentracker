@@ -50,6 +50,11 @@
 #include <ace/SOCK_Acceptor.h>
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Connector.h>
+#include "../OpenTracker.h"
+
+
+#ifndef OT_NO_GPS_SUPPORT
+
 
 namespace ot {
 
@@ -90,5 +95,9 @@ protected:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+
 
 #endif // !defined(_DGPSMIRROR_HANDLER_H)

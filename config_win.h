@@ -111,15 +111,10 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-#define USE_ARTOOLKITPLUS 1
+//#define USE_ARTOOLKITPLUS 1
 
 /** uncomment the following line to compile and link against the DLL version of ARToolKitPlus */
 //#define ARTOOLKITPLUS_DLL 1
-
-
-/** uncomment the following line to compile ARToolKitPlusModule be a video source
- */
-//#define ARTOOLKITPLUS_FOR_STB3  --- depricated !!!
 
 
 /** uncomment the following line to build with an integrated OpenVideo server
@@ -131,15 +126,6 @@
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 #define USE_TINYXML 1
 
-/** umcomment the following line to compile against a DLL version of TinyXML (rather than static linkage
-    note: this is only required for Daniel Wagner's modified version of TinyXML
-          the standard release always links statically and does not support link selection */
-#define TINYXML_DLL
-
-/** umcomment the following line to compile against a LIB version of TinyXML (rather than DLL
-    note: this is only required for Daniel Wagner's modified version of TinyXML
-          the standard release always links statically and does not support link selection */
-//#define TINYXML_STATIC
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1
@@ -202,3 +188,22 @@
 // #define USE_OTQT 1
 
 
+#ifdef _WIN32_WCE
+#  define OT_NO_BUTTON_SUPPORT
+#  define OT_NO_GK_SUPPORT
+#  define OT_NO_GROUPGATE_SUPPORT
+#  define OT_NO_ARTDATATRACKER_SUPPORT
+#  define OT_NO_GPS_SUPPORT
+#  define OT_NO_MAGICY_SUPPORT
+#  define OT_NO_SPEECH_SUPPORT
+#  define OT_NO_ULTRATRACK_SUPPORT
+#  define OT_NO_NETWORK_SUPPORT
+#  define OT_NO_CONFIDENCE_SUPPORT
+#  define OT_NO_CONSOLE_SUPPORT
+#  define OT_NO_DYNASIGHT_SUPPORT
+#  define OT_NO_FASTTRACK_SUPPORT
+#  define OT_NO_FOB_SUPPORT
+#  define OT_NO_INTERSENSE_SUPPORT
+#  define OT_NO_PARBUTTON_SUPPORT
+#  define OT_NO_XSENS_SUPPORT
+#endif

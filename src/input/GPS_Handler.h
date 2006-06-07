@@ -50,6 +50,10 @@
 #include <ace/TTY_IO.h>
 #include <ace/DEV_Connector.h>
 #include <ace/Svc_Handler.h>
+#include "../OpenTracker.h"
+
+
+#ifndef OT_NO_GPS_SUPPORT
 
 
 namespace ot {
@@ -103,6 +107,9 @@ typedef ACE_Connector<GPS_Handler, ACE_DEV_CONNECTOR> GPS_Connector;
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
 
 
 #endif // !defined(_GPS_HANDLER_H)

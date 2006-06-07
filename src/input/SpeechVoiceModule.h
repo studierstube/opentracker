@@ -57,6 +57,10 @@
  * Text could be spoken synchron or asynchron.
  */
 
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
+
 namespace ot {
 
 class SpeechVoiceModule
@@ -105,5 +109,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_SPEECH_SUPPORT
+
 
 #endif //#if !defined(__SPEECHVOICEMODULE_H)

@@ -54,6 +54,10 @@
 class ACE_Reactor;
 class ACE_TTY_IO;
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 class GPS_Handler;
@@ -160,5 +164,9 @@ protected:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+
 
 #endif // !defined(_GPSDRIVER_H)

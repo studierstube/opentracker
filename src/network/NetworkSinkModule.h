@@ -62,6 +62,10 @@
 #include "Network.h"
 #include "NetworkSink.h"
 
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 namespace ot {
 
 struct MulticastSender;
@@ -151,5 +155,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT
+
 
 #endif

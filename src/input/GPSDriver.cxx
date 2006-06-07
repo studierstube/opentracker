@@ -67,6 +67,10 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 GPSDriver::GPSDriver(ACE_Reactor * reactor_) :
@@ -285,3 +289,7 @@ void GPSDriver::setDebug( bool debug )
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+

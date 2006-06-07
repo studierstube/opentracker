@@ -57,6 +57,9 @@
 #include "DGPSIP_Handler.h"
 
 
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 DGPSIP_Handler::DGPSIP_Handler( GPSDriver * parent_ ) :
@@ -165,4 +168,8 @@ int DGPSIP_Handler::handle_close( ACE_HANDLE fd, ACE_Reactor_Mask mask )
     return 0;
 }
 
+
 }  // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT

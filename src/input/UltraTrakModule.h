@@ -76,6 +76,10 @@
 
 #include <vector>
 
+
+#ifndef OT_NO_ULTRATRACK_SUPPORT
+
+
 namespace ot {
 
 /// this structure stores the attributes of an UltratrakSource 
@@ -201,5 +205,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_ULTRATRACK_SUPPORT
+
 
 #endif

@@ -58,7 +58,8 @@
 #include <iostream>
 
 
-//using namespace std;
+#ifndef OT_NO_FOB_SUPPORT
+
 
 namespace ot {
 
@@ -1079,3 +1080,6 @@ inline int Bird::sendReset()
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_FOB_SUPPORT

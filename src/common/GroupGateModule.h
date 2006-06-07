@@ -63,6 +63,10 @@
 #include <string>
 #include <vector>
 
+
+#ifndef OT_NO_GROUPGATE_SUPPORT
+
+
 namespace ot {
 
 class GroupGateModule;
@@ -116,5 +120,9 @@ public:
 };
 
 } // namespace ot {
+
+
+#endif //OT_NO_GROUPGATE_SUPPORT
+
 
 #endif

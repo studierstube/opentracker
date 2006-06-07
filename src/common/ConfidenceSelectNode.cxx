@@ -46,6 +46,10 @@
 
 #include "ConfidenceSelectNode.h"
 
+
+#ifndef OT_NO_CONFIDENCE_SUPPORT
+
+
 namespace ot {
 
 // constructor method
@@ -87,3 +91,6 @@ void ConfidenceSelectNode::onEventGenerated( Event& event, Node & generator )
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_CONFIDENCE_SUPPORT

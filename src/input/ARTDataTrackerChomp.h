@@ -46,6 +46,7 @@
 
 #include <string>
 #include <map>
+#include "../OpenTracker.h"
 
 /**
 * Class chomp the received ASCII String (frame) 
@@ -113,6 +114,10 @@ Zusatzzeile am Ende des Pakets gibt Anzahl der einkalibrierten 6D Bosies an
 6dcal			3
 @endverbatim
 */
+
+
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
+
 
 namespace ot {
 
@@ -200,6 +205,10 @@ namespace ot {
     };
 
 } // namespace ot
+
+
+#endif // OT_NO_ARTDATATRACKER_SUPPORT
+
 
 #endif
 

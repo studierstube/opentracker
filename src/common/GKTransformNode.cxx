@@ -47,7 +47,9 @@
 #include "GKTransformNode.h"
 #include <math.h>
 
-//using namespace std;
+
+#ifndef OT_NO_GK_SUPPORT
+
 
 namespace ot {
 
@@ -137,3 +139,6 @@ Event* GKTransformNode::transformEvent( Event* event)
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_GK_SUPPORT

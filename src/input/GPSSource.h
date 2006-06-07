@@ -70,6 +70,10 @@
  * @ingroup input
  */
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API GPSSource : public Node, public GPSListener  
@@ -119,3 +123,6 @@ inline void GPSSource::newData( const GPResult * res, const char * line, void * 
 } // namespace ot
 
 #endif // !defined(_GPSSOURCE_H)
+
+
+#endif //OT_NO_GPS_SUPPORT

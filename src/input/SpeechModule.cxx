@@ -53,7 +53,9 @@
 #include "SpeechSet.h"
 #include "SpeechCore.h"
 
-//using namespace std;
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
 
 namespace ot {
 
@@ -240,3 +242,6 @@ void SpeechModule::Speak(const char *p_Sentence, bool p_Async)
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_SPEECH_SUPPORT

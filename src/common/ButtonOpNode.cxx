@@ -50,6 +50,10 @@
 
 // constructor method.
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 ButtonOpNode::ButtonOpNode( const Op & op )
@@ -87,3 +91,6 @@ void ButtonOpNode::onEventGenerated( Event& event, Node& generator)
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT

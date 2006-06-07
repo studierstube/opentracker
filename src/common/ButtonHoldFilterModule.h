@@ -59,6 +59,10 @@
 #include "../core/Module.h"
 #include "../core/NodeFactory.h"
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 typedef std::vector<Node*> NodeVector;
@@ -102,5 +106,9 @@ public:
 };
 
 } // namespace ot {
+
+
+#endif //OT_NO_BUTTON_SUPPORT
+
 
 #endif //_BUTTONHOLDFILTERMODULE_H

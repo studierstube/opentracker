@@ -79,6 +79,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_CONFIDENCE_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API ConfidenceSelectNode : public Node   
@@ -117,5 +121,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_CONFIDENCE_SUPPORT
+
 
 #endif

@@ -53,7 +53,9 @@
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
+
+#ifndef OT_NO_GROUPGATE_SUPPORT
+
 
 namespace ot {
 
@@ -180,3 +182,6 @@ GroupGateNode::onEventGenerated(Event &event, Node &generator)
 }
 
 } // namespace ot {
+
+
+#endif //OT_NO_GROUPGATE_SUPPORT

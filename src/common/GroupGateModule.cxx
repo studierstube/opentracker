@@ -57,7 +57,9 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-//using namespace std;
+
+#ifndef OT_NO_GROUPGATE_SUPPORT
+
 
 namespace ot {
 
@@ -213,3 +215,6 @@ GroupGateModule::activateGroupGate(const char *groupname, const char *groupgaten
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_GROUPGATE_SUPPORT

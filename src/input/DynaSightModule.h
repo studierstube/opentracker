@@ -71,6 +71,10 @@
 #include "../misc/serialcomm.h"
 #include <vector>
 
+
+#ifndef OT_NO_DYNASIGHT_SUPPORT
+
+
 namespace ot {
 
 /// maximum number of targets that can be processed
@@ -182,5 +186,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_DYNASIGHT_SUPPORT
+
 
 #endif

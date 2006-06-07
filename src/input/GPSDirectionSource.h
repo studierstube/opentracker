@@ -62,6 +62,10 @@
 #include "../OpenTracker.h"
 #include "GPSDriver.h"
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 /**
  * A very simple EventGenerator node for outputing GPS direction and velocity data.
  * @author Gerhard Reitmayr
@@ -120,5 +124,9 @@ inline void GPSDirectionSource::newData( const GPResult * res, const char * line
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+
 
 #endif // !defined(_GPSDIRECTIONSOURCE_H)

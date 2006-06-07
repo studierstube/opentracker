@@ -92,6 +92,10 @@
 
 #include <map>
 
+
+#ifndef OT_NO_FOB_SUPPORT
+
+
 namespace ot {
 
 class Bird;
@@ -213,5 +217,9 @@ private :
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_FOB_SUPPORT
+
 
 #endif

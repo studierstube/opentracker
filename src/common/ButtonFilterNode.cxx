@@ -62,6 +62,10 @@
 
 // constructor method.
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
   ButtonFilterNode::ButtonFilterNode(const char* buttonmaskstr, const char* buttonmapstr, const char * invertstr,
@@ -266,3 +270,6 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT

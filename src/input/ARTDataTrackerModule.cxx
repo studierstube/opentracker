@@ -59,7 +59,9 @@
 #include <stdio.h>
 #include <iostream>
 
-//using namespace std;
+
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
+
 
 namespace ot {
 
@@ -488,6 +490,10 @@ namespace ot {
     }
 
 } // namespace ot
+
+
+#endif // OT_NO_ARTDATATRACKER_SUPPORT
+
 
 /* ===========================================================================
    End of ARTDataTrackerModule.cxx

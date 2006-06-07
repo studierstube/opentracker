@@ -46,6 +46,10 @@
 
 #include "ConfidenceFilterNode.h"
 
+
+#ifndef OT_NO_CONFIDENCE_SUPPORT
+
+
 namespace ot {
 
 // constructor method
@@ -74,3 +78,6 @@ void ConfidenceFilterNode::onEventGenerated( Event& event, Node & generator )
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_CONFIDENCE_SUPPORT

@@ -172,6 +172,10 @@
  * @author Gerhard Reitmayr
  */
 
+
+#ifndef OT_NO_CONSOLE_SUPPORT
+
+
 namespace ot {
 
   class OPENTRACKER_API ConsoleModule: public Module, public NodeFactory
@@ -364,5 +368,9 @@ namespace ot {
   };
 
 } // namespace ot
+
+
+#endif // OT_NO_CONSOLE_SUPPORT
+
 
 #endif

@@ -70,7 +70,6 @@
 // right libraries etc.
 //#define _DLPORTIO
 
-//using namespace std;
 
 #ifdef WIN32
 #include <windows.h>
@@ -98,6 +97,10 @@
 #include <linux/ppdev.h>
 #endif
 #endif
+
+
+#ifndef OT_NO_PARBUTTON_SUPPORT
+
 
 namespace ot {
 
@@ -323,3 +326,6 @@ void ParButtonModule::pushEvent()
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_PARBUTTON_SUPPORT

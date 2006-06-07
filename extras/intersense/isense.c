@@ -13,6 +13,10 @@
 #include <string.h>
 #include <stdlib.h> 
 
+
+#ifndef OT_NO_INTERSENSE_SUPPORT
+
+
 #include "isense.h"
 
 //==========================================================================================
@@ -474,3 +478,5 @@ static void dll_unload( DLL *dll )
 #endif
 }
 
+
+#endif // OT_NO_INTERSENSE_SUPPORT

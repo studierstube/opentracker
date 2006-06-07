@@ -45,6 +45,9 @@
 #ifndef _GPSPARSER_H_
 #define _GPSPARSER_H_
 
+
+#include "../OpenTracker.h"
+
 /**
  * The abstract base class for representing results of the GPSParser class.
  * The type field tells the user about the actual data represented by the
@@ -54,6 +57,10 @@
  * @ingroup input
  * @author Gerhard Reitmayr
  */
+
+
+#ifndef OT_NO_GPS_SUPPORT
+
 
 namespace ot {
 
@@ -153,5 +160,9 @@ private:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+
 
 #endif // !defined(_GPSPARSER_H_)

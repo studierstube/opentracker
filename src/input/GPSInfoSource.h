@@ -64,6 +64,9 @@
 #include "GPSDriver.h"
 
 
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 
@@ -115,6 +118,9 @@ inline void GPSInfoSource::newData( const GPResult * res, const char * line, voi
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
 
 
 #endif // !defined(_GPSINFOSOURCE_H)

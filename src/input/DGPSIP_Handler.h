@@ -59,6 +59,10 @@
  * @author Gerhard Reitmayr
  */
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 class DGPSIP_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>, GPSListener
@@ -87,5 +91,9 @@ protected:
 typedef ACE_Connector<DGPSIP_Handler, ACE_SOCK_CONNECTOR> DGPSIP_Connector;
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
+
 
 #endif // !defined(_DGPSIP_HANDLER_H)

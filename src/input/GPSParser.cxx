@@ -48,6 +48,10 @@ const int NMEABUFSZ = 1024;
 
 #include "GPSParser.h"
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 const GPResult * (* GPSParser::parsers[])(const char *) = {
@@ -448,3 +452,6 @@ const GPResult * PGRMZ::parse( const char * line )
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT

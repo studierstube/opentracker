@@ -61,6 +61,10 @@
  * @ingroup input 
  */
 
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
+
 namespace ot {
 
 class SpeechSetBase
@@ -273,5 +277,9 @@ public:
 } // namespace ot
 
 #endif //ifdef USE_SAPISPEECH
+
+
+#endif // OT_NO_SPEECH_SUPPORT
+
 
 #endif //#if !defined(__SPEECHSET_H)

@@ -60,6 +60,10 @@
 #include <iostream>
 #include <iomanip>
 
+
+#ifndef OT_NO_CONSOLE_SUPPORT
+
+
 #ifdef WIN32
 #  include <conio.h>
 #else
@@ -1048,3 +1052,6 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+#endif // OT_NO_CONSOLE_SUPPORT

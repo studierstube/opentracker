@@ -70,7 +70,7 @@
 #  include <ARToolKitPlus/TrackerSingleMarker.h>
 #  pragma message("compiling against ARToolKitPlus DLL")
 #  ifndef OT_DO_NOT_LINK_ARTOOLKITPLUS
-#    if defined(DEBUG) || defined(_DEBUG)
+#    if (defined(DEBUG) || defined(_DEBUG)) && !defined(ARTOOLKITPLUS_ALWAYS_RELEASE)
 #      pragma comment(lib, "ARToolKitPlusDllD.lib")
 #      pragma message("ARToolKitPlusModule: linking against ARToolKitPlusDllD.lib")
 #    else
@@ -82,7 +82,7 @@
 #  pragma message("compiling against ARToolKitPlus Lib")
 #  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
 #  ifndef OT_DO_NOT_LINK_ARTOOLKITPLUS
-#    if (defined(DEBUG) || defined(_DEBUG))
+#    if (defined(DEBUG) || defined(_DEBUG)) &&  !defined(ARTOOLKITPLUS_ALWAYS_RELEASE)
 #      pragma comment(lib, "ARToolKitPlusD.lib")
 #      pragma message("ARToolKitPlusModule: linking against ARToolKitPlusD.lib")
 #    else
@@ -690,7 +690,8 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 			source_center[1] = (ARFloat)sourceA->center[1];
 			source_size = (ARFloat)sourceA->size;
 
-            if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
+			//if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
+			if(tracker->executeSingleMarkerPoseEstimator(&markerInfo[j], source_center, source_size, matrix)>=0)
 				updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
 		}
 		else
@@ -710,7 +711,8 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 				ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
 				ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
 
-				if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+				//if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+				if((tracker->executeMultiMarkerPoseEstimator(markerInfo, markerNum, mmConfig))>=0)
 					updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
 
 				processedSources.push_back(source);

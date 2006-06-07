@@ -76,6 +76,10 @@
 
 class ACE_SOCK_Dgram;
 
+
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
+
+
 namespace ot {
 
   typedef std::vector<Node*> NodeVector;
@@ -167,6 +171,10 @@ namespace ot {
     };
 
 } // namespace ot
+
+
+#endif // OT_NO_ARTDATATRACKER_SUPPORT
+
 
 #endif
 

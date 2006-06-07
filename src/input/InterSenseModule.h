@@ -72,6 +72,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_INTERSENSE_SUPPORT
+
+
 namespace ot {
 
 struct ISTracker;
@@ -141,5 +145,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_INTERSENSE_SUPPORT
+
 
 #endif

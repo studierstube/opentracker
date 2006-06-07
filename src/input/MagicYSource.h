@@ -66,6 +66,10 @@
  * @ingroup input
  */
 
+
+#ifndef OT_NO_MAGICY_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API MagicYSource : public Node
@@ -94,5 +98,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_MAGICY_SUPPORT
+
 
 #endif

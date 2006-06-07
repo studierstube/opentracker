@@ -76,6 +76,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API ButtonOpNode
@@ -113,5 +117,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT
+
 
 #endif

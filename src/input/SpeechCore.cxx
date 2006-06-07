@@ -47,7 +47,9 @@
 #include "SpeechCore.h"
 #include "SpeechSet.h"
 
-//using namespace std;
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
 
 namespace ot {
 
@@ -441,3 +443,6 @@ namespace ot {
 #endif //ifdef USE_SAPISPEECH
 
 } // namespace ot
+
+
+#endif // OT_NO_SPEECH_SUPPORT

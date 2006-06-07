@@ -86,6 +86,10 @@
 
 class ACE_FILE_IO;
 
+
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 
@@ -173,6 +177,9 @@ protected:
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT
 
 
 #endif // !defined(_GPSMODULE_H)

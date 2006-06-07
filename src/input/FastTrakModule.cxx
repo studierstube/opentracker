@@ -58,7 +58,9 @@
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
+
+#ifndef OT_NO_FASTTRACK_SUPPORT
+
 
 namespace ot {
 
@@ -642,4 +644,5 @@ void FastTrakModule::convert(int stationNr, char *inputBuffer)
 
 } // namespace ot
 
-// EOF
+
+#endif // OT_NO_FASTTRACK_SUPPORT

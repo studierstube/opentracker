@@ -62,7 +62,8 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-//using namespace std;
+
+#ifndef OT_NO_GPS_SUPPORT
 
 
 namespace ot {
@@ -295,3 +296,6 @@ void GPSModule::newData( const GPResult * res, const char * line, void * userDat
 
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT

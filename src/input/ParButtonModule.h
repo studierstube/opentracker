@@ -63,6 +63,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_PARBUTTON_SUPPORT
+
+
 namespace ot {
 /**
  * Implements a set of buttons triggered via the parallel port.
@@ -101,5 +105,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_PARBUTTON_SUPPORT
+
 
 #endif

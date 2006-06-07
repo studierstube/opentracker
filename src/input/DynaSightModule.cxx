@@ -66,7 +66,9 @@
 #define FALSE 0
 #endif
 
-//using namespace std;
+
+#ifndef OT_NO_DYNASIGHT_SUPPORT
+
 
 namespace ot {
 
@@ -548,3 +550,6 @@ void DynaSightModule::close()
 } // run
 
 } // namespace ot
+
+
+#endif // OT_NO_DYNASIGHT_SUPPORT

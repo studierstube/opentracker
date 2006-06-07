@@ -102,6 +102,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_GK_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API GKTransformNode : public Transformation 
@@ -129,5 +133,9 @@ protected:
 };
 
 } // namespace ot {
+
+
+#endif //OT_NO_GK_SUPPORT
+
 
 #endif // !defined(_GKTRANSFORMNODE_H)

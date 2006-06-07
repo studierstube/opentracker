@@ -76,6 +76,9 @@
 class ACE_SOCK_Dgram;
 
 
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 namespace ot {
 
 typedef std::vector<Node*> NodeVector;
@@ -174,6 +177,9 @@ public:
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT
 
 
 #endif

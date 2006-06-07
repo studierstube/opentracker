@@ -48,6 +48,10 @@
 
 #include "ButtonHoldFilterNode.h"
 
+
+#ifndef OT_NO_BUTTON_SUPPORT
+
+
 namespace ot {
 
 // constructor method
@@ -107,3 +111,6 @@ void ButtonHoldFilterNode::push() {
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_BUTTON_SUPPORT

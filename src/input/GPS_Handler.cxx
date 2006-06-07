@@ -48,6 +48,9 @@
 #include "GPSDriver.h"
 
 
+#ifndef OT_NO_GPS_SUPPORT
+
+
 namespace ot {
 
 
@@ -131,3 +134,6 @@ char * GPS_Handler::nmeaRead( char * nmeabuf, int incnt, int & outnt )
 
 
 } // namespace ot
+
+
+#endif // OT_NO_GPS_SUPPORT

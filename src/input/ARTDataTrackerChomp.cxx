@@ -56,6 +56,10 @@
 
 #include <ace/Log_Msg.h>
 
+
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
+
+
 namespace ot {
 
     // Destructor method
@@ -488,6 +492,10 @@ namespace ot {
     }
 
 } // namespace ot
+
+
+#endif // OT_NO_ARTDATATRACKER_SUPPORT
+
 
 /* ===========================================================================
    End of ARTDataTrackerChomp.cxx

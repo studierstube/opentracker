@@ -76,6 +76,9 @@
 struct IMotionTracker;
 
 
+#ifndef OT_NO_XSENS_SUPPORT
+
+
 namespace ot {
 
 
@@ -120,6 +123,9 @@ protected:
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_XSENS_SUPPORT
 
 
 #endif // !defined(_XSensSource_H)

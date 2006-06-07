@@ -57,7 +57,9 @@
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
+
+#ifndef OT_NO_ULTRATRACK_SUPPORT
+
 
 namespace ot {
 
@@ -346,3 +348,6 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+#endif // OT_NO_ULTRATRACK_SUPPORT

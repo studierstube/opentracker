@@ -55,7 +55,9 @@
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
+
+#ifndef OT_NO_MAGICY_SUPPORT
+
 
 namespace ot {
 
@@ -544,3 +546,6 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
 }
 
 } // namespace ot
+
+
+#endif // OT_NO_MAGICY_SUPPORT

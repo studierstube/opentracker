@@ -353,6 +353,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         attributes.get( "matrix", data, 12 );
         result = new MatrixTransformation( data );
     }
+#ifndef OT_NO_CONFIDENCE_SUPPORT
     else if( name.compare("ConfidenceFilter") == 0 )
     {       
         float treshold= 0.5;
@@ -364,6 +365,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
             type = ConfidenceFilterNode::LOW;
         result = new ConfidenceFilterNode( treshold, type );
     }
+#endif
     else if( name.compare("Filter") == 0 )
     {
         std::vector<float> weights;
@@ -383,6 +385,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:FilterNode with %d weights\n"), weights.size()));
         result = new FilterNode( weights, type );
     }
+#ifndef OT_NO_CONFIDENCE_SUPPORT
     else if( name.compare("ConfidenceSelect") == 0 )
     {
         double timeout = 100;
@@ -394,6 +397,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
             type = ConfidenceSelectNode::LOW;
         result = new ConfidenceSelectNode( timeout, type );
     }
+#endif
     else if( name.compare("ThresholdFilter") == 0 )
     {
         float posmin = 0, posmax = FLT_MAX, rotmin = 0, rotmax = 3.141592654f;
@@ -416,15 +420,19 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
             rotmax = 3.141592654f;
         result = new ThresholdFilterNode( posmin, posmax, rotmin, rotmax );
     }
+#ifndef OT_NO_BUTTON_SUPPORT
 	else if( name.compare("ButtonFilter") == 0 )
 	{
 		result = new ButtonFilterNode( attributes.get("buttonmask").data(), attributes.get("buttonmap").data(), attributes.get("invert").data(), 
 			attributes.get("validtrans").data() , attributes.get("radiobuttons").data(), attributes.get("setbuttononvalidtrans").data());
 	}
+#endif
+#ifndef OT_NO_CONFIDENCE_SUPPORT
     else if( name.compare("ButtonOp") == 0 )
     {
         result = new ButtonOpNode( (attributes.get("op").compare("OR") == 0)?(ButtonOpNode::OR):(ButtonOpNode::AND));
     }
+#endif
     else if( name.compare("TimeGate") == 0 )
     {
         double timeframe;
@@ -453,6 +461,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 			mode = EllipsoidTransformNode::toCartesian;
         result = new EllipsoidTransformNode( a, b, mode );
     }
+#ifndef OT_NO_CONFIDENCE_SUPPORT
 	else if( name.compare("EventGKTransform") == 0 || 
 			 name.compare("QueueGKTransform") == 0 ||
 			 name.compare("TimeGKTransform") == 0 )
@@ -477,6 +486,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 			mode = GKTransformNode::from;
         result = new GKTransformNode( a, b, meridian, alpha, beta, gamma, delta, mode );
     }
+#endif
     else if( name.compare("RangeFilter") == 0 )
     {
         float min, max;

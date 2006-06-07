@@ -48,7 +48,9 @@
 #include "SpeechSet.h"
 #include "SpeechCore.h"
 
-//using namespace std;
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
 
 namespace ot {
 
@@ -503,4 +505,8 @@ bool CSpeechSet::IsActive()
 
 #endif //ifdef USE_SAPISPEECH
 
+
 } // namespace ot
+
+
+#endif // OT_NO_SPEECH_SUPPORT

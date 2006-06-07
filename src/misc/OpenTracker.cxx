@@ -152,18 +152,25 @@ namespace ot {
     // actually it doesn't have a configuration element
     context.addModule( "TestConfig", *test );
 
+#ifndef OT_NO_NETWORK_SUPPORT
     NetworkSinkModule * networksink = new NetworkSinkModule;
     context.addFactory( *networksink );
     context.addModule( "NetworkSinkConfig", *networksink );
-	
+#endif
+
+
 #ifndef _WIN32_WCE
+#ifndef OT_NO_CONSOLE_SUPPORT
     ConsoleModule * console = new ConsoleModule ;
     context.addFactory( *console );
     context.addModule( "ConsoleConfig", *console );
+#endif
 
+#ifndef OT_NO_NETWORK_SUPPORT
     NetworkSourceModule * network = new NetworkSourceModule;
     context.addFactory( * network );
     context.addModule( "NetworkSourceConfig", *network );    
+#endif
 #endif //_WIN32_WCE
 
 #ifdef USE_ARTOOLKIT
@@ -221,14 +228,18 @@ namespace ot {
     context.addModule( "SpaceMouseConfig", * smouse );
 #endif	
 
+#ifndef OT_NO_NETWORK_SUPPORT
     MulticastInputModule *mcinput = new MulticastInputModule;
     context.addFactory( * mcinput );
     context.addModule( "MulticastInputConfig", * mcinput );
+#endif
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_INTERSENSE_SUPPORT
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
     context.addModule( "InterSenseConfig", * intersense );
+#endif
 #endif //_WIN32_WCE
 
     TimeModule * time = new TimeModule();
@@ -239,74 +250,98 @@ namespace ot {
     context.addModule( "FileConfig", * file );
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_PARBUTTON_SUPPORT
     ParButtonModule * parbutton = new ParButtonModule();
     context.addFactory( *parbutton );
     context.addModule( "ParButtonConfig", *parbutton );
+#endif
 #endif //_WIN32_WCE
 
+#ifndef OT_NO_NETWORK_SUPPORT
     TCPModule * tcp = new TCPModule();
     context.addFactory( *tcp );
     context.addModule( "TCPConfig", *tcp );
+#endif
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_FOB_SUPPORT
     FOBModule * fob = new FOBModule();
     context.addFactory( *fob );
     context.addModule( "FOBConfig", *fob );
+#endif
 #endif //_WIN32_WCE
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_FASTTRACK_SUPPORT
     FastTrakModule * ftrak = new FastTrakModule();
     context.addFactory( *ftrak );
     context.addModule( "FastTrakConfig", *ftrak );
+#endif
 #endif //_WIN32_WCE
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
     ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
     context.addFactory( *dtrak );
     context.addModule( "ARTDataTrackerConfig", *dtrak );
+#endif
 #endif //_WIN32_WCE
 
+#ifndef OT_NO_ULTRATRACK_SUPPORT
     UltraTrakModule * ultra = new UltraTrakModule;
     context.addFactory( * ultra );
     context.addModule( "UltraTrakConfig", *ultra );
-    
+#endif
+
+#ifndef OT_NO_GROUPGATE_SUPPORT
     GroupGateModule * groupgate = new GroupGateModule();
     context.addFactory( * groupgate );
     context.addModule( "GroupGateConfig", *groupgate ); 
+#endif
     
+#ifndef OT_NO_SPEECH_SUPPORT
     SpeechModule *speechmodule = new SpeechModule;
     context.addFactory( *speechmodule );
     context.addModule( "SpeechRecoConfig", *speechmodule );
-    
+#endif
+
     InterpolatorModule * ipol = new InterpolatorModule;
     context.addFactory( *ipol );
     // actually it doesn't have a configuration element
     context.addModule( "InterpolatorConfig", *ipol );
-    
+
+#ifndef OT_NO_BUTTON_SUPPORT
     ButtonHoldFilterModule * buttonHoldFiler = new ButtonHoldFilterModule;
     context.addFactory( *buttonHoldFiler );
     // actually it doesn't have a configuration element
     context.addModule( "ButtonHoldFilterConfig", *buttonHoldFiler );
+#endif
 
 #ifdef USE_P5GLOVE
     P5GloveModule *p5glovemodule = new P5GloveModule;
     context.addFactory( *p5glovemodule );
     context.addModule( "P5GloveConfig", *p5glovemodule );
 #endif
-    
+
+#ifndef OT_NO_GPS_SUPPORT
     GPSModule * gps = new GPSModule;
     context.addFactory( * gps );
     context.addModule( "GPSConfig", * gps );
+#endif
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_DYNASIGHT_SUPPORT
     DynaSightModule * dynasight = new DynaSightModule;
     context.addFactory( * dynasight );
     context.addModule( "DynaSightConfig", *dynasight );
+#endif
 #endif //_WIN32_WCE
 
+#ifndef OT_NO_MAGICY_SUPPORT
     MagicYModule * magicY = new MagicYModule;
     context.addFactory( * magicY );
     context.addModule( "MagicYConfig", *magicY );
+#endif
     
     CallbackModule  * cbModule = new CallbackModule;
     context.addFactory( *cbModule );
@@ -325,9 +360,11 @@ namespace ot {
 #endif
 
 #ifndef _WIN32_WCE
+#ifndef OT_NO_XSENS_SUPPORT
     XSensModule * xsens = new XSensModule;
     context.addFactory( *xsens );
     context.addModule( "XSensConfig", *xsens );
+#endif
 #endif //_WIN32_WCE
 
 #ifdef USE_UBISENSE

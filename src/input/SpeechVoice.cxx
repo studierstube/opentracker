@@ -48,6 +48,10 @@
 #include "SpeechVoice.h"
 #include "SpeechCore.h"
 
+
+#ifndef OT_NO_SPEECH_SUPPORT
+
+
 #ifdef USE_SAPISPEECH
 //using namespace std;
 
@@ -187,3 +191,6 @@ namespace ot {
 } // namespace ot
 
 #endif //ifdef USE_SAPISPEECH
+
+
+#endif // OT_NO_SPEECH_SUPPORT

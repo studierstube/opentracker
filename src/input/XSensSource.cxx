@@ -70,7 +70,8 @@
 
 #include "XSensSource.h"
 
-//using namespace std;
+
+#ifndef OT_NO_XSENS_SUPPORT
 
 
 namespace ot {
@@ -164,3 +165,6 @@ void XSensSource::push()
 
 
 }  // namespace ot
+
+
+#endif // OT_NO_XSENS_SUPPORT

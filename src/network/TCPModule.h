@@ -69,6 +69,10 @@
 // forward declaration of the ACE stream socket class
 class ACE_SOCK_Stream;
 
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 namespace ot {
 
 /** TCPModule implements a multithreaded module to serve a list of clients
@@ -122,5 +126,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_NETWORK_SUPPORT
+
 
 #endif
