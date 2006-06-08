@@ -4,25 +4,25 @@
 <OpenTracker>
   <configuration>
     <ConsoleConfig headerline="ART Trackerserver" interval="1"/>
-    <ARTDataTrackerConfig maxbodies="10" port="5000"/>
+    <ARTDataTrackerConfig port="5000"/>
   </configuration>
  
   <ConsoleSink comment="0">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform0">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform0">
 		<ARTDataTrackerSource number="0"/>    
 	</EventTransform>
   </ConsoleSink>
 	
   <!-- Pen -->
  <ConsoleSink comment="1">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform1">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform1">
 		<ARTDataTrackerSource number="1"/>    
 	</EventTransform>
   </ConsoleSink> 
 <!--  OLDER BUTTON !!!!!!! <ConsoleSink comment="1">
 	<Merge DEF="transform1">
 		<MergeDefault>
-			<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001">
+			<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001">
 				<ARTDataTrackerSource number="1"/>    
 			</EventTransform>
 		</MergeDefault>
@@ -43,57 +43,122 @@
 
   <!-- Pip -->
   <ConsoleSink comment="2">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform2">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform2">
 		<ARTDataTrackerSource number="2"/>    
 	</EventTransform>
   </ConsoleSink>
 
-  <!-- Camera -->
+   <!-- Camera -->
    <ConsoleSink comment="3">
-	<EventTransform translation="0 -1.83 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform3">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform3">
 		<ARTDataTrackerSource number="3"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Shutterglas -->
   <ConsoleSink comment="4">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform4">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform4">
 		<ARTDataTrackerSource number="4"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Messbecher -->
   <ConsoleSink comment="5">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform5">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform5">
 		<ARTDataTrackerSource number="5"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Lineal -->
   <ConsoleSink comment="6">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform6">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform6">
 		<ARTDataTrackerSource number="6"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Turntable -->
   <ConsoleSink comment="7">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform7">
+	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform7">
 		<ARTDataTrackerSource number="7"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Spacige Maus -->
   <ConsoleSink comment="8">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform8">
+      <EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform8" >
+	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource number="8"/>    
-	</EventTransform>
+	   </EventTransform>
+	</EventVirtualOrientationTransform>	
   </ConsoleSink>
 
 <!-- Tablet PC Pen -->
   <ConsoleSink comment="9">
-	<EventTransform translation="0 -1.83 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform9">
-		<ARTDataTrackerSource number="9"/>    
+	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform9" >
+	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
+		<ARTDataTrackerSource type="pen" number="0"/>    
+	   </EventTransform>
+	</EventVirtualOrientationTransform>	
+  </ConsoleSink>
+
+ <!-- Eye of Ra (right handed) -->
+  <ConsoleSink comment="10">
+	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform10" >
+	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
+		<ARTDataTrackerSource type="pen" number="1"/>    
+	   </EventTransform>
+	</EventVirtualOrientationTransform>	
+  </ConsoleSink>
+
+<!-- Eye of Ra (right handed) -->
+  <ConsoleSink comment="11">
+	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform11" >
+	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
+		<ARTDataTrackerSource type="pen" number="2"/>    
+	   </EventTransform>
+	</EventVirtualOrientationTransform>	
+  </ConsoleSink>
+
+  <!-- Tablet PC -->
+   <ConsoleSink comment="12">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform12">
+		<ARTDataTrackerSource number="10"/>    
+	</EventTransform>
+  </ConsoleSink>
+
+<!-- Leber -->
+   <ConsoleSink comment="13">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform13">
+		<ARTDataTrackerSource number="12"/>    
+	</EventTransform>
+  </ConsoleSink>
+
+<!-- Endocam -->
+   <ConsoleSink comment="14">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform14">
+		<ARTDataTrackerSource number="13"/>    
+	</EventTransform>
+  </ConsoleSink>
+
+<!-- Box -->
+   <ConsoleSink comment="15">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform15">
+		<ARTDataTrackerSource number="14"/>    
+	</EventTransform>
+  </ConsoleSink>
+
+<!-- Endoskop -->
+   <ConsoleSink comment="16">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform16">
+		<ARTDataTrackerSource type="pen" number="3"/>    
+	</EventTransform>
+  </ConsoleSink>
+
+
+<!-- InkJet -->
+   <ConsoleSink comment="17">
+	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform17">
+		<ARTDataTrackerSource number="15"/>    
 	</EventTransform>
   </ConsoleSink>
 
@@ -137,6 +202,40 @@
   <NetworkSink name="ART" number="9" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
 	<Ref USE="transform9"/>
   </NetworkSink>
+
+  <NetworkSink name="ART" number="10" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform10"/>
+  </NetworkSink>
+
+  <NetworkSink name="ART" number="11" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform11"/>
+  </NetworkSink>
+
+<NetworkSink name="ART" number="12" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform12"/>
+  </NetworkSink>
+
+<NetworkSink name="ART" number="13" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform13"/>
+  </NetworkSink>
+
+<NetworkSink name="ART" number="14" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform14"/>
+  </NetworkSink>
+
+<NetworkSink name="ART" number="15" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform15"/>
+  </NetworkSink>
+
+<NetworkSink name="ART" number="16" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform16"/>
+  </NetworkSink>
+
+
+<NetworkSink name="ART" number="17" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
+	<Ref USE="transform17"/>
+  </NetworkSink>
+
 
 
 
