@@ -523,4 +523,6 @@ void P5GloveModule::P5Motion_Process()
 
 } // namespace ot
 
+#else
+#pragma message(">>> no P5 glove support")
 #endif

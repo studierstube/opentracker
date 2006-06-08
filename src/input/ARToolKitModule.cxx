@@ -627,4 +627,7 @@ int ARToolKitModule::getImageFormat(int stereo_buffer)
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no ARToolKit support")
 #endif  // USE_ARTOOLKIT

@@ -41,6 +41,11 @@
  * @file                                                                    */
 /* ======================================================================== */
 
+
+#include "../OpenTracker.h"
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
 // a trick to avoid warnings when ace includes the STL headers
 #ifdef WIN32
 #pragma warning(disable:4786)
@@ -63,9 +68,6 @@
 
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
-
-
-#ifndef OT_NO_NETWORK_SUPPORT
 
 
 namespace ot {
@@ -500,4 +502,6 @@ namespace ot {
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_NETWORK_SUPPORT")
 #endif // OT_NO_NETWORK_SUPPORT

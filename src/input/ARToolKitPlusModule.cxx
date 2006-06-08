@@ -831,4 +831,7 @@ bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORM
 
 } //namespace ot
 
+
+#else
+#pragma message(">>> no ARToolKitPlus support")
 #endif //USE_ARTOOLKITPLUS

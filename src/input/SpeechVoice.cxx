@@ -193,4 +193,6 @@ namespace ot {
 #endif //ifdef USE_SAPISPEECH
 
 
+#else
+#pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif // OT_NO_SPEECH_SUPPORT

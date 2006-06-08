@@ -66,6 +66,10 @@
  * @ingroup Network
  */
 
+
+#ifndef OT_NO_ULTRATRACK_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API UltraTrakSource : public Node
@@ -94,5 +98,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_ULTRATRACK_SUPPORT
+
 
 #endif

@@ -132,4 +132,7 @@ namespace ot {
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no Ubisense support")
 #endif  // USE_UBISENSE

@@ -445,4 +445,6 @@ namespace ot {
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif // OT_NO_SPEECH_SUPPORT

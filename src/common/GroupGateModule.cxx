@@ -217,4 +217,6 @@ GroupGateModule::activateGroupGate(const char *groupname, const char *groupgaten
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_GROUPGATE_SUPPORT")
 #endif // OT_NO_GROUPGATE_SUPPORT

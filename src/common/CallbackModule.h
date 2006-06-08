@@ -58,6 +58,10 @@
 #include "../OpenTracker.h"
 #include "CallbackNode.h"
 
+
+#ifndef OT_NO_CALLBACKMODULE_SUPPORT
+
+
 namespace ot {
 
 typedef std::map<std::string, Node*> NodeMap;
@@ -103,5 +107,9 @@ public:
 };
 
 } // namespace ot {
+
+
+#endif //OT_NO_CALLBACKMODULE_SUPPORT
+
 
 #endif

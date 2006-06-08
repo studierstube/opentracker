@@ -63,6 +63,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 namespace ot {
 
 /**
@@ -97,5 +101,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif OT_NO_NETWORK_SUPPORT
+
 
 #endif

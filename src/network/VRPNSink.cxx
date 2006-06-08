@@ -132,4 +132,7 @@ void VRPNSink::onEventGenerated( Event& event, Node& generator)
     updateObservers( event );
 }
 
+
+#else
+#pragma message(">>> no VRPN support")
 #endif

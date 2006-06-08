@@ -43,6 +43,9 @@
 
 #include "../../OpenTracker.h"
 
+#ifndef OT_NO_XMLWRITER_SUPPORT
+
+
 // selects between usage of XERCES and TinyXML
 #include "../../tool/XMLSelection.h"
 
@@ -152,3 +155,9 @@ void XMLWriter::write( const char * file )
 
 
 }  // namespace ot
+
+
+
+#else
+#pragma message(">>> OT_NO_XMLWRITER_SUPPORT")
+#endif //OT_NO_XMLWRITER_SUPPORT

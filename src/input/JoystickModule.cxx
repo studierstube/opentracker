@@ -279,4 +279,7 @@ void JoystickModule::pollJoysticks()
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no joystick support")
 #endif

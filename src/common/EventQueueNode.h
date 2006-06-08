@@ -61,6 +61,11 @@
 #define _EVENTQUEUENODE_H
 
 #include "../OpenTracker.h"
+
+
+#ifndef OT_NO_EVENTQUEUE_SUPPORT
+
+
 #include "../core/EventQueueImplementation.h"
 
 /**
@@ -136,5 +141,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_EVENTQUEUE_SUPPORT
+
 
 #endif

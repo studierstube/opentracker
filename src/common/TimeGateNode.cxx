@@ -47,6 +47,10 @@
 #include "TimeGateNode.h"
 #include "math.h"
 
+
+#ifndef OT_NO_TIMEGATE_SUPPORT
+
+
 namespace ot {
 
 // constructor method
@@ -77,3 +81,8 @@ void TimeGateNode::onEventGenerated( Event& event, Node & generator )
 }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_TIMEGATE_SUPPORT")
+#endif // OT_NO_TIMEGATE_SUPPORT

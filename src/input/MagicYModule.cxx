@@ -548,4 +548,6 @@ void MagicYModule::init(StringTable& attributes, ConfigNode * localTree)
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_MAGICY_SUPPORT")
 #endif // OT_NO_MAGICY_SUPPORT

@@ -66,6 +66,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_EVENTUTITLY_SUPPORT
+
+
 namespace ot {
   /**
    * The EventUtilityNode provides the possibility to rename, discard, or add attributes
@@ -126,5 +130,9 @@ namespace ot {
   };
 
 } // namespace ot
+
+
+#endif //OT_NO_EVENTUTITLY_SUPPORT
+
 
 #endif

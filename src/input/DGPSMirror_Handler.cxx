@@ -93,4 +93,6 @@ int DGPSMirror_Handler::handle_input(ACE_HANDLE fd)
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
 #endif // OT_NO_GPS_SUPPORT

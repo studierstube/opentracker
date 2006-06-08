@@ -52,6 +52,10 @@
 
 #include <ace/Log_Msg.h>
 
+
+#ifndef OT_NO_TIMEMODULE_SUPPORT
+
+
 namespace ot {
 
 void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
@@ -119,3 +123,8 @@ void TimeModule::close()
 }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_TIMEMODULE_SUPPORT")
+#endif // OT_NO_TIMEMODULE_SUPPORT

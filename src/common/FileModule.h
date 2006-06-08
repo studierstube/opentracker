@@ -69,6 +69,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_FILEMODULE_SUPPORT
+
+
 namespace ot {
 
   class File;
@@ -141,5 +145,8 @@ namespace ot {
   };
 
 }  //namespace ot
+
+
+#endif //OT_NO_FILEMODULE_SUPPORT
 
 #endif

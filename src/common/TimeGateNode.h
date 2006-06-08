@@ -82,6 +82,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_TIMEGATE_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API TimeGateNode : public Node   
@@ -118,5 +122,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_TIMEGATE_SUPPORT
+
 
 #endif

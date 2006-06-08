@@ -45,6 +45,11 @@
 #include "../tool/disable4786.h"
 
 #include "EllipsoidTransformNode.h"
+
+
+#ifndef OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
+
+
 #include <math.h>
 
 //using namespace std;
@@ -124,3 +129,8 @@ Event* EllipsoidTransformNode::transformEvent( Event* event)
 }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_ELLIPSOIDTRANSFORM_SUPPORT")
+#endif 

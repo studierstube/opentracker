@@ -494,6 +494,8 @@ namespace ot {
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_ARTDATATRACKER_SUPPORT")
 #endif // OT_NO_ARTDATATRACKER_SUPPORT
 
 

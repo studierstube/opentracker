@@ -169,4 +169,6 @@ void VRPNModule::pullEvent()
     connection->mainloop();
 }
 
+#else
+#pragma message(">>> no VRPN support")
 #endif

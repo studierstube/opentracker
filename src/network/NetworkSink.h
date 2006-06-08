@@ -70,6 +70,11 @@
 #define _NETWORKSINK_H
 
 #include "../OpenTracker.h"
+
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 #include "Network.h"
 
 namespace ot {
@@ -143,5 +148,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_NETWORK_SUPPORT
 
 #endif

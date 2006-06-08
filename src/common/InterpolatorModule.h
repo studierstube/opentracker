@@ -53,12 +53,20 @@
 #ifndef _INTERPOLATORMODULE_H
 #define _INTERPOLATORMODULE_H
 
+
+#include "../OpenTracker.h"
+
+
+#ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
+
+
 #include "../dllinclude.h"
 
 #include <vector>
 
 #include "../core/Module.h"
 #include "../core/NodeFactory.h"
+
 
 namespace ot {
 
@@ -102,5 +110,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_INTERPORLATORMODULE_SUPPORT
 
 #endif //_INTERPOLATORMODULE_H

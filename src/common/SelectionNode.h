@@ -83,6 +83,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_SELECTION_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API SelectionNode : public Node   
@@ -120,5 +124,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_SELECTION_SUPPORT
+
 
 #endif

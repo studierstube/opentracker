@@ -46,6 +46,10 @@
 
 #include "EventQueueNode.h"
 
+
+#ifndef OT_NO_EVENTQUEUE_SUPPORT
+
+
 #include <iostream>
 
 // this method is called by the EventGenerator to update it's observers
@@ -63,3 +67,8 @@ void EventQueueNode::onEventGenerated( Event& event, Node& generator)
 }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_EVENTQUEUE_SUPPORT")
+#endif //OT_NO_EVENTQUEUE_SUPPORT

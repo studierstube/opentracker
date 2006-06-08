@@ -43,8 +43,14 @@
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
+#include <stdlib.h>
 
 #include "TestModule.h"
+
+
+#ifndef OT_NO_TESTMODULE_SUPPORT
+
+
 #include "TestSource.h"
 
 #include "MathUtils.h"
@@ -159,3 +165,6 @@ namespace ot {
   }
 
 } //namespace ot
+
+
+#endif //OT_NO_TESTMODULE_SUPPORT

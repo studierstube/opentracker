@@ -105,4 +105,6 @@ void ButtonHoldFilterModule::pushEvent()
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_BUTTON_SUPPORT")
 #endif //OT_NO_BUTTON_SUPPORT

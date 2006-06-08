@@ -43,6 +43,10 @@
 
 #include "EventUtilityNode.h"
 
+
+#ifndef OT_NO_EVENTUTITLY_SUPPORT
+
+
 namespace ot
 {
   // set old and new name for attribute renaming
@@ -81,3 +85,8 @@ namespace ot
   }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_EVENTUTITLY_SUPPORT")
+#endif //OT_NO_EVENTUTITLY_SUPPORT

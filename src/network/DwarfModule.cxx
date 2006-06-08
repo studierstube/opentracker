@@ -229,5 +229,8 @@ void DwarfModule::pullEvent()
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no DWARF support")
 #endif // USE_DWARF
 

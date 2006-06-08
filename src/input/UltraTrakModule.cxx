@@ -350,4 +350,6 @@ namespace ot {
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_ULTRATRACK_SUPPORT")
 #endif // OT_NO_ULTRATRACK_SUPPORT

@@ -65,6 +65,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_NETWORK_SUPPORT
+
+
 namespace ot {
 
 /** This class is a simple sink that stores a copy of all data passing through it
@@ -130,5 +134,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_NETWORK_SUPPORT
+
 
 #endif

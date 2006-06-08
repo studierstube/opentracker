@@ -454,4 +454,6 @@ const GPResult * PGRMZ::parse( const char * line )
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
 #endif // OT_NO_GPS_SUPPORT

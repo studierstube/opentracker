@@ -80,6 +80,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_TIMEMODULE_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API TimeModule : public Module
@@ -124,5 +128,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif OT_NO_TIMEMODULE_SUPPORT
 
 #endif

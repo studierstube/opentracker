@@ -93,4 +93,6 @@ void ConfidenceSelectNode::onEventGenerated( Event& event, Node & generator )
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_CONFIDENCE_SUPPORT")
 #endif // OT_NO_CONFIDENCE_SUPPORT

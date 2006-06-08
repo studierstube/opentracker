@@ -211,4 +211,7 @@ void CyberMouseModule::pushEvent()
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no CyberMouse support")
 #endif

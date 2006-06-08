@@ -68,6 +68,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_ELASTICFILTER_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API ElasticFilterNode : public Node   
@@ -115,5 +119,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_ELASTICFILTER_SUPPORT
+
 
 #endif

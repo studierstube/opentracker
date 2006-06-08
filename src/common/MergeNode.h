@@ -107,6 +107,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_MERGENODE_SUPPORT
+
+
 namespace ot {
 
   class OPENTRACKER_API MergeNode : public Node
@@ -160,5 +164,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_MERGENODE_SUPPORT
+
 
 #endif

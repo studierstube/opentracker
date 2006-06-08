@@ -56,6 +56,10 @@
 
 // called to construct a new Node.
 
+
+#ifndef OT_NO_CALLBACKMODULE_SUPPORT
+
+
 namespace ot {
 
 Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
@@ -88,3 +92,8 @@ void CallbackModule::setCallback( const std::string& name, CallbackFunction * fu
 }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_CALLBACKMODULE_SUPPORT")
+#endif //OT_NO_CALLBACKMODULE_SUPPORT

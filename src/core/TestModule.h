@@ -55,6 +55,10 @@
 
 #include "../dllinclude.h"
 
+
+#ifndef OT_NO_TESTMODULE_SUPPORT
+
+
 #include <vector>
 
 #include "Module.h"
@@ -106,5 +110,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_TESTMODULE_SUPPORT
+
 
 #endif

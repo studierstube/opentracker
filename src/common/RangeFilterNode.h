@@ -72,6 +72,10 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_RANGEFILTER_SUPPORT
+
+
 namespace ot {
 
 class OPENTRACKER_API RangeFilterNode
@@ -108,5 +112,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_RANGEFILTER_SUPPORT
+
 
 #endif

@@ -143,4 +143,6 @@ void VRPNSource::mainloop()
     trackerObj->mainloop();
 }
 
+#else
+#pragma message(">>> no VRPN support")
 #endif

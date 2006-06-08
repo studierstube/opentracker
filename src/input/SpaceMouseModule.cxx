@@ -362,4 +362,6 @@ namespace ot {
 
 } // namespace ot
 
+#else
+#pragma message(">>> no space mouse support")
 #endif

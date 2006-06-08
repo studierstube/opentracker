@@ -46,6 +46,10 @@
 
 #include "MergeNode.h"
 
+
+#ifndef OT_NO_MERGENODE_SUPPORT
+
+
 namespace ot {
 
   // generates a new data item upon receiving an event
@@ -148,3 +152,8 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_MERGENODE_SUPPORT")
+#endif // OT_NO_MERGENODE_SUPPORT

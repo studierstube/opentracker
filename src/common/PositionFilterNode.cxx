@@ -44,7 +44,8 @@
 
 #include "PositionFilterNode.h"
 
-//using namespace std;
+
+#ifndef OT_NO_POSITIONFILTER_SUPPORT
 
 
 namespace ot {
@@ -89,3 +90,6 @@ PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3]
 
 
 }  // namespace ot
+
+
+#endif //OT_NO_POSITIONFILTER_SUPPORT

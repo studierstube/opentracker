@@ -249,4 +249,7 @@ void WacomGraphireModule::pushEvent()
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no wacom support")
 #endif

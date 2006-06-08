@@ -147,10 +147,12 @@ namespace ot {
     LogModule * log = new LogModule;
     context.addModule( "LogConfig", *log );
 
+#ifndef OT_NO_TESTMODULE_SUPPORT
     TestModule * test = new TestModule;
     context.addFactory( *test );
     // actually it doesn't have a configuration element
     context.addModule( "TestConfig", *test );
+#endif
 
 #ifndef OT_NO_NETWORK_SUPPORT
     NetworkSinkModule * networksink = new NetworkSinkModule;
@@ -242,12 +244,16 @@ namespace ot {
 #endif
 #endif //_WIN32_WCE
 
+#ifndef OT_NO_TIMEMODULE_SUPPORT
     TimeModule * time = new TimeModule();
     context.addModule( "TimeConfig", * time );
-	
+#endif
+
+#ifndef OT_NO_FILEMODULE_SUPPORT
     FileModule * file = new FileModule();
     context.addFactory( * file );
     context.addModule( "FileConfig", * file );
+#endif
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_PARBUTTON_SUPPORT
@@ -305,10 +311,12 @@ namespace ot {
     context.addModule( "SpeechRecoConfig", *speechmodule );
 #endif
 
+#ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
     InterpolatorModule * ipol = new InterpolatorModule;
     context.addFactory( *ipol );
     // actually it doesn't have a configuration element
     context.addModule( "InterpolatorConfig", *ipol );
+#endif
 
 #ifndef OT_NO_BUTTON_SUPPORT
     ButtonHoldFilterModule * buttonHoldFiler = new ButtonHoldFilterModule;
@@ -343,9 +351,11 @@ namespace ot {
     context.addModule( "MagicYConfig", *magicY );
 #endif
     
-    CallbackModule  * cbModule = new CallbackModule;
+#ifndef OT_NO_CALLBACKMODULE_SUPPORT
+	CallbackModule  * cbModule = new CallbackModule;
     context.addFactory( *cbModule );
     context.addModule( "CallbackConfig", *cbModule );
+#endif
 
 #ifdef USE_DWARF
     DwarfModule * dwarf = new DwarfModule;

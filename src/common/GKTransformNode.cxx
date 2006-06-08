@@ -141,4 +141,6 @@ Event* GKTransformNode::transformEvent( Event* event)
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_GK_SUPPORT")
 #endif //OT_NO_GK_SUPPORT

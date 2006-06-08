@@ -41,6 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#include <stdlib.h>
 #include "../tool/FixWinCE.h"
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>

@@ -111,10 +111,10 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-//#define USE_ARTOOLKITPLUS 1
+#define USE_ARTOOLKITPLUS 1
 
 /** uncomment the following line to compile and link against the DLL version of ARToolKitPlus */
-//#define ARTOOLKITPLUS_DLL 1
+#define ARTOOLKITPLUS_DLL 1
 
 
 /** uncomment the following line to build with an integrated OpenVideo server
@@ -206,4 +206,19 @@
 #  define OT_NO_INTERSENSE_SUPPORT
 #  define OT_NO_PARBUTTON_SUPPORT
 #  define OT_NO_XSENS_SUPPORT
+#  define OT_NO_TIMEGATE_SUPPORT
+#  define OT_NO_TIMEMODULE_SUPPORT
+#  define OT_NO_CALLBACKMODULE_SUPPORT
+#  define OT_NO_FILEMODULE_SUPPORT
+#  define OT_NO_INTERPORLATORMODULE_SUPPORT
+#  define OT_NO_MERGENODE_SUPPORT
+#  define OT_NO_EVENTQUEUE_SUPPORT
+#  define OT_NO_EVENTUTITLY_SUPPORT
+#  define OT_NO_ELASTICFILTER_SUPPORT
+#  define OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
+#  define OT_NO_SELECTION_SUPPORT
+#  define OT_NO_THRESHOLDFILTER_SUPPORT
+#  define OT_NO_POSITIONFILTER_SUPPORT
+#  define OT_NO_RANGEFILTER_SUPPORT
+#  define OT_NO_TESTMODULE_SUPPORT
 #endif

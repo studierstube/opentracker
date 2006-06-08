@@ -190,4 +190,7 @@ void UbisenseModule::WrappedDataClient::on_button(const Object &tag,UbitagButton
 
 } // namespace ot
 
+
+#else
+#pragma message(">>> no Ubisense support")
 #endif  // USE_UBISENSE

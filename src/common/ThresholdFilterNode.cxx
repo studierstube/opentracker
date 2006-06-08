@@ -47,7 +47,9 @@
 #include "ThresholdFilterNode.h"
 #include <math.h>
 
-//using namespace std;
+
+#ifndef OT_NO_THRESHOLDFILTER_SUPPORT
+
 
 namespace ot {
 
@@ -83,3 +85,6 @@ int ThresholdFilterNode::isEventGenerator()
   }
 
 } // namespace ot
+
+
+#endif //OT_NO_THRESHOLDFILTER_SUPPORT

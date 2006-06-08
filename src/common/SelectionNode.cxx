@@ -46,6 +46,10 @@
 
 #include "SelectionNode.h"
 
+
+#ifndef OT_NO_SELECTION_SUPPORT
+
+
 namespace ot {
 
 // constructor method
@@ -70,3 +74,6 @@ void SelectionNode::onEventGenerated( Event& event, Node & generator )
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_SELECTION_SUPPORT

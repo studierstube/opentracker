@@ -41,6 +41,13 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+
+#include "../OpenTracker.h"
+
+
+#ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
+
+
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 #include <stdlib.h>
@@ -55,7 +62,6 @@
 
 #include <ace/Log_Msg.h>
 
-//using namespace std;
 
 namespace ot {
 
@@ -109,3 +115,8 @@ void InterpolatorModule::pushEvent()
 }
 
 } // namespace ot {
+
+
+#else
+#pragma message(">>> OT_NO_INTERPORLATORMODULE_SUPPORT")
+#endif // OT_NO_INTERPORLATORMODULE_SUPPORT

@@ -46,6 +46,10 @@
 
 #include "RangeFilterNode.h"
 
+
+#ifndef OT_NO_RANGEFILTER_SUPPORT
+
+
 //using namespace std;
 
 namespace ot {
@@ -77,3 +81,6 @@ void RangeFilterNode::onEventGenerated( Event& event, Node& generator)
 }
 
 } // namespace ot
+
+
+#endif //OT_NO_RANGEFILTER_SUPPORT

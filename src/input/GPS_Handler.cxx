@@ -136,4 +136,6 @@ char * GPS_Handler::nmeaRead( char * nmeabuf, int incnt, int & outnt )
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
 #endif // OT_NO_GPS_SUPPORT

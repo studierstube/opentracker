@@ -62,6 +62,10 @@
 
 #include "../OpenTracker.h"
 
+
+#ifndef OT_NO_CALLBACKMODULE_SUPPORT
+
+
 namespace ot {
 
 class CallbackNode;
@@ -142,5 +146,9 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_CALLBACKMODULE_SUPPORT
+
 
 #endif

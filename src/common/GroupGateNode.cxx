@@ -184,4 +184,6 @@ GroupGateNode::onEventGenerated(Event &event, Node &generator)
 } // namespace ot {
 
 
+#else
+#pragma message(">>> OT_NO_GROUPGATE_SUPPORT")
 #endif //OT_NO_GROUPGATE_SUPPORT

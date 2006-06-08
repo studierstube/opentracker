@@ -53,7 +53,9 @@
 #include <ace/Log_Msg.h>
 #include "../tool/OT_ACE_Log.h"
 
-//using namespace std;
+
+#ifndef OT_NO_FILEMODULE_SUPPORT
+
 
 namespace ot {
 
@@ -235,3 +237,8 @@ namespace ot {
   }
 
 } //namespace ot
+
+
+#else
+#pragma message(">>> OT_NO_FILEMODULE_SUPPORT")
+#endif //OT_NO_FILEMODULE_SUPPORT

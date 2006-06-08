@@ -77,6 +77,11 @@
 #ifndef _ELLIPSOIDTRANSFORMNODE_H
 #define _ELLIPSOIDTRANSFORMNODE_H
 
+#include "../OpenTracker.h"
+
+#ifndef OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
+
+
 #include "Transformation.h"
 
 /** 
@@ -114,5 +119,9 @@ protected:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
+
 
 #endif // !defined(_ELLIPSOIDTRANSFORMNODE_H)

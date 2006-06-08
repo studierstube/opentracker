@@ -81,6 +81,9 @@
  * @ingroup common
  */
 
+
+#ifndef OT_NO_THRESHOLDFILTER_SUPPORT
+
 namespace ot {
 
 class OPENTRACKER_API ThresholdFilterNode : public Node
@@ -117,5 +120,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif //OT_NO_THRESHOLDFILTER_SUPPORT
 
 #endif

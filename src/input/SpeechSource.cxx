@@ -48,4 +48,6 @@
 
 
 
+#else
+#pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif //ifdef USE_SAPISPEECH

@@ -47,6 +47,7 @@
 
 #include "Event.h"
 #include "Translator.h"
+#include "../tool/OT_ACE_Log.h"
 
 namespace ot
 {
@@ -356,7 +357,9 @@ namespace ot
   // print out all attributes
   void Event::printout() const
   {
-    std::cout << getPrintOut() << std::endl;
+	LOG_ACE_INFO(getPrintOut().c_str());
+	LOG_ACE_INFO("\n");
+    //std::cout << getPrintOut() << std::endl;
   }
 
   // get string for print out

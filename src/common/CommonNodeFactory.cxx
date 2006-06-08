@@ -278,6 +278,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         }
         result = new VirtualTransformation( translation, scale, rot, 0, 1 );
     }
+#ifndef OT_NO_EVENTUTITLY_SUPPORT
     else if( name.compare("EventQueue") == 0 )
     {
 		int length;
@@ -287,6 +288,8 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 		}
 		result = new EventQueueNode( length );
     }
+#endif
+#ifndef OT_NO_MERGENODE_SUPPORT
     else if( name.compare("Merge") == 0 )
       {
 	float agingFactor;
@@ -300,12 +303,15 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 	  confCalculation = MergeNode::MIN;
         result = new MergeNode(agingFactor, confCalculation);
       }
+#endif
+#ifndef OT_NO_SELECTION_SUPPORT
     else if( name.compare("Selection") == 0 )
     {
         double timeOut = 100;
         attributes.get("timeout", &timeOut, 1 );        
         result = new SelectionNode(timeOut);
     }
+#endif
     else if( name.compare("EventDynamicTransform") == 0 ||
                name.compare("QueueDynamicTransform") == 0 ||
                name.compare("TimeDynamicTransform") == 0 )
@@ -398,6 +404,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         result = new ConfidenceSelectNode( timeout, type );
     }
 #endif
+#ifndef OT_NO_THRESHOLDFILTER_SUPPORT
     else if( name.compare("ThresholdFilter") == 0 )
     {
         float posmin = 0, posmax = FLT_MAX, rotmin = 0, rotmax = 3.141592654f;
@@ -420,6 +427,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
             rotmax = 3.141592654f;
         result = new ThresholdFilterNode( posmin, posmax, rotmin, rotmax );
     }
+#endif
 #ifndef OT_NO_BUTTON_SUPPORT
 	else if( name.compare("ButtonFilter") == 0 )
 	{
@@ -433,6 +441,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         result = new ButtonOpNode( (attributes.get("op").compare("OR") == 0)?(ButtonOpNode::OR):(ButtonOpNode::AND));
     }
 #endif
+#ifndef OT_NO_TIMEGATE_SUPPORT
     else if( name.compare("TimeGate") == 0 )
     {
         double timeframe;
@@ -441,6 +450,8 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
                                     (TimeGateNode::PASS):(TimeGateNode::BLOCK);
         result = new TimeGateNode( timeframe, mode );
     }
+#endif
+#ifndef OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
     else if( name.compare("EventEllipsoidTransform") == 0 || 
 			 name.compare("QueueEllipsoidTransform") == 0 ||
 			 name.compare("TimeEllipsoidTransform") == 0 )
@@ -461,6 +472,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 			mode = EllipsoidTransformNode::toCartesian;
         result = new EllipsoidTransformNode( a, b, mode );
     }
+#endif
 #ifndef OT_NO_CONFIDENCE_SUPPORT
 	else if( name.compare("EventGKTransform") == 0 || 
 			 name.compare("QueueGKTransform") == 0 ||
@@ -487,6 +499,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
         result = new GKTransformNode( a, b, meridian, alpha, beta, gamma, delta, mode );
     }
 #endif
+#ifndef OT_NO_RANGEFILTER_SUPPORT
     else if( name.compare("RangeFilter") == 0 )
     {
         float min, max;
@@ -496,6 +509,8 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
             max = (float)sqrt(FLT_MAX)-0.1f;
         result = new RangeFilterNode( min, max );
     }
+#endif
+#ifndef OT_NO_POSITIONFILTER_SUPPORT
     else if( name.compare("PositionFilterNode") == 0 )
     {
         float min[3], max[3];
@@ -505,6 +520,8 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 		{ max[0] = 1; max[1] = 1; max[2] = 1;}
         result = new PositionFilterNode( min, max );
       }
+#endif
+#ifndef OT_NO_EVENTUTITLY_SUPPORT
     else if ( name.compare("EventUtilityNode") == 0 )
       {
 	std::string rename = attributes.get("rename");
@@ -547,7 +564,7 @@ Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attr
 
 	result = resultNode;
       }
-
+#endif //OT_NO_EVENTUTITLY_SUPPORT
 
     // the node ports are just looked up in a simple list
     else if( std::find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())

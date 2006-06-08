@@ -244,4 +244,6 @@ void SpeechModule::Speak(const char *p_Sentence, bool p_Async)
 } // namespace ot
 
 
+#else
+#pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif // OT_NO_SPEECH_SUPPORT

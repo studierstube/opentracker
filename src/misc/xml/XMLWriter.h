@@ -46,10 +46,12 @@
 
 #include "../../OpenTracker.h"
 
+#ifndef OT_NO_XMLWRITER_SUPPORT
+
 #include <iostream>
 
 // need that to make it work with standard conformind stdc++ libs and older ones
-//using namespace std;
+
 
 namespace ot {
 
@@ -105,5 +107,8 @@ public:
 };
 
 } // namespace ot
+
+
+#endif // OT_NO_XMLWRITER_SUPPORT
 
 #endif
