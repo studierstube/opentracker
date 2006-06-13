@@ -55,123 +55,139 @@
 namespace ot
 {
 
-  class EventAttributeBase;
+    class EventAttributeBase;
 
-  /**
-   * A function pointer matching the declaration of creator functions.
-   */
-  typedef EventAttributeBase * (*CreateFunction)(void);
-  /**
-   * A map matching generic type names to according creator functions.
-   */
-  typedef std::map<std::string, CreateFunction> CreatorMap;
+    /**
+     * A function pointer matching the declaration of creator functions.
+     */
+    typedef EventAttributeBase * (*CreateFunction)(void);
+    /**
+     * A map matching generic type names to according creator functions.
+     */
+    typedef std::map<std::string, CreateFunction> CreatorMap;
 
-  /**
-   * The base class of the EventAttribute class. This class must be provided as a common base
-   * class of all template instantiations of the EventAttribute class, so that an Event can
-   * store pointers of this class in its attributes map (::AttributeMap).
-   * This class is purely abstract and provides an interface for serialization, de-serialization,
-   * streaming, and accessing type information. The interface is implemented by the templated
-   * EventAttribute class.
-   *
-   * Moreover, static create functions, a static function for registering types, and some static
-   * members realize the concept of creating new EventAttribute objects without knowing anything
-   * else but the attribute's generic type name. This functionality is crucial for the
-   * de-serialization of events encoded in strings.
-   *
-   * @author Jochen von Spiczak
-   * @ingroup core
-   */
-  class EventAttributeBase
-  {
-    friend class Event;
-    friend std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
-    friend std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
+    /**
+     * The base class of the EventAttribute class. This class must be provided as a common base
+     * class of all template instantiations of the EventAttribute class, so that an Event can
+     * store pointers of this class in its attributes map (::AttributeMap).
+     * This class is purely abstract and provides an interface for serialization, de-serialization,
+     * streaming, and accessing type information. The interface is implemented by the templated
+     * EventAttribute class.
+     *
+     * Moreover, static create functions, a static function for registering types, and some static
+     * members realize the concept of creating new EventAttribute objects without knowing anything
+     * else but the attribute's generic type name. This functionality is crucial for the
+     * de-serialization of events encoded in strings.
+     *
+     * @author Jochen von Spiczak
+     * @ingroup core
+     */
+    class EventAttributeBase
+    {
+        friend class Event;
+        friend std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
+        friend std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
 
-  protected:
+    protected:
+        /**
+         * Virtual destructor. Must provide empty implementation for creation of RTTI type
+         * information.
+         */
+        virtual OPENTRACKER_API ~EventAttributeBase();
+        /**
+         * Abstract assignment operator.
+         * @param rv the right-value, which is the attribute to copy from
+         * @return the left value
+         */
+        virtual EventAttributeBase& operator=(const EventAttributeBase &rv) = 0;
+        /**
+         * Abstract function to serialize the attribute.
+         * @param out the output stream
+         */
+        virtual void serialize(std::ostream &out) = 0;
+        /**
+         * Abstract function to de-serialize the attribute.
+         * @param in the input stream
+         */
+        virtual void deserialize(std::istream &in) = 0;
+        /**
+         * Abstract function to get RTTI type information of the attribute's value.
+         * @return RTTI type information
+         */
+        virtual const std::type_info& getType() const = 0;
+        /**
+         * Abstract function to get generic type name of the attribute's value.
+         * @return generic type name
+         */
+        virtual const std::string& getGenericTypeName() const = 0;
+        /**
+         * Creates an EventAttribute according to @p genericTypeName. Throws an exception if this
+         * type name is not known by the system.
+         * @param genericTypeName generic type name
+         * @return pointer to the newly created attribute
+         */
+        static OPENTRACKER_API EventAttributeBase* create(const std::string &genericTypeName); //throw (std::runtime_error);
+        /**
+         * Creates an EventAttribute according to @p typeInfo. Throws an exception if this type
+         * is not known by the system.
+         * @param typeInfo RTTI type info
+         * @return pointer to the newly created attribute
+         */
+        static OPENTRACKER_API EventAttributeBase* create(const std::type_info &typeInfo); //throw (std::runtime_error);
+        /**
+         * Registers a new generic type name. Type names are arbitrary but must be unique. In this
+         * function, the generic type name is matched to the according creator function and the
+         * type name is registered in the translator.
+         * @param genericTypeName the generic type name to be registered (must be unique!)
+         * @param typeInfo RTTI type information of the new type
+         * @param create creator function for attributes of the new type
+         * @return
+         */
+        static OPENTRACKER_API void registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create);
+        /**
+         * Static map matching generic type names to according creator functions.
+         * @param
+         * @return
+         */
+        static OPENTRACKER_API CreatorMap creators;
+        /**
+         * Static Translator to translate compiler dependent RTTI names to generic type names. Such
+         * translations are used to create attributes by RTTI type information.
+         */
+        static OPENTRACKER_API Translator translator;
+    };
+
     /**
-     * Virtual destructor. Must provide empty implementation for creation of RTTI type
-     * information.
-     */
-    virtual OPENTRACKER_API ~EventAttributeBase();
-    /**
-     * Abstract assignment operator.
-     * @param rv the right-value, which is the attribute to copy from
-     * @return the left value
-     */
-    virtual EventAttributeBase& operator=(const EventAttributeBase &rv) = 0;
-    /**
-     * Abstract function to serialize the attribute.
-     * @param out the output stream
-     */
-    virtual void serialize(std::ostream &out) = 0;
-    /**
-     * Abstract function to de-serialize the attribute.
+     * Input streaming operator. Streams the data provided by the input stream into the attribute.
      * @param in the input stream
+     * @param att the attribute
+     * @return the input stream
      */
-    virtual void deserialize(std::istream &in) = 0;
+    std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
     /**
-     * Abstract function to get RTTI type information of the attribute's value.
-     * @return RTTI type information
+     * Output streaming operator. Streams the attribute into the output stream.
+     * @param out the output stream
+     * @param att the attribute
+     * @return the output stream
      */
-    virtual const std::type_info& getType() const = 0;
-    /**
-     * Abstract function to get generic type name of the attribute's value.
-     * @return generic type name
-     */
-    virtual const std::string& getGenericTypeName() const = 0;
-    /**
-     * Creates an EventAttribute according to @p genericTypeName. Throws an exception if this
-     * type name is not known by the system.
-     * @param genericTypeName generic type name
-     * @return pointer to the newly created attribute
-     */
-    static OPENTRACKER_API EventAttributeBase* create(const std::string &genericTypeName); //throw (std::runtime_error);
-    /**
-     * Creates an EventAttribute according to @p typeInfo. Throws an exception if this type
-     * is not known by the system.
-     * @param typeInfo RTTI type info
-     * @return pointer to the newly created attribute
-     */
-    static OPENTRACKER_API EventAttributeBase* create(const std::type_info &typeInfo); //throw (std::runtime_error);
-    /**
-     * Registers a new generic type name. Type names are arbitrary but must be unique. In this
-     * function, the generic type name is matched to the according creator function and the
-     * type name is registered in the translator.
-     * @param genericTypeName the generic type name to be registered (must be unique!)
-     * @param typeInfo RTTI type information of the new type
-     * @param create creator function for attributes of the new type
-     * @return
-     */
-    static OPENTRACKER_API void registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create);
-    /**
-     * Static map matching generic type names to according creator functions.
-     * @param
-     * @return
-     */
-    static OPENTRACKER_API CreatorMap creators;
-    /**
-     * Static Translator to translate compiler dependent RTTI names to generic type names. Such
-     * translations are used to create attributes by RTTI type information.
-     */
-    static OPENTRACKER_API Translator translator;
-  };
-
-  /**
-   * Input streaming operator. Streams the data provided by the input stream into the attribute.
-   * @param in the input stream
-   * @param att the attribute
-   * @return the input stream
-   */
-  std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
-  /**
-   * Output streaming operator. Streams the attribute into the output stream.
-   * @param out the output stream
-   * @param att the attribute
-   * @return the output stream
-   */
-  std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
+    std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of EventAttributeBase.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
