@@ -84,27 +84,27 @@
 void DOMTreeErrorReporter::warning(const SAXParseException& toCatch)
 {
     std::cerr << "Warning at file \"" << XMLString::transcode(toCatch.getSystemId())
-         << "\", line " << toCatch.getLineNumber()
-         << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
+              << "\", line " << toCatch.getLineNumber()
+              << ", column " << toCatch.getColumnNumber()
+              << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::error(const SAXParseException& toCatch)
 {
     std::cerr << "Error at file \"" << XMLString::transcode(toCatch.getSystemId())
-         << "\", line " << toCatch.getLineNumber()
-         << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
+              << "\", line " << toCatch.getLineNumber()
+              << ", column " << toCatch.getColumnNumber()
+              << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 
 void DOMTreeErrorReporter::fatalError(const SAXParseException& toCatch)
 {
     std::cerr << "Fatal Error at file \"" << XMLString::transcode(toCatch.getSystemId())
-         << "\", line " << toCatch.getLineNumber()
-         << ", column " << toCatch.getColumnNumber()
-         << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
+              << "\", line " << toCatch.getLineNumber()
+              << ", column " << toCatch.getColumnNumber()
+              << "\n   Message: " << XMLString::transcode( toCatch.getMessage()) << std::endl;
     errorNum++;
 }
 
@@ -120,3 +120,19 @@ int DOMTreeErrorReporter::errorsEncountered()
 
 
 #endif //USE_XERCES
+
+/* 
+ * ------------------------------------------------------------
+ *   End of DOMTreeErrorReporter.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

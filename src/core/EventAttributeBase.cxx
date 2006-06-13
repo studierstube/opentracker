@@ -49,51 +49,67 @@
 namespace ot
 {
 
-  // instantiation of static member variables
-  CreatorMap EventAttributeBase::creators;
-  Translator EventAttributeBase::translator;
+    // instantiation of static member variables
+    CreatorMap EventAttributeBase::creators;
+    Translator EventAttributeBase::translator;
 
-  // virtual destructor
-  EventAttributeBase::~EventAttributeBase()
-  {
-  }
+    // virtual destructor
+    EventAttributeBase::~EventAttributeBase()
+    {
+    }
 
-  // create method
-  EventAttributeBase* EventAttributeBase::create(const std::string &genericTypeName) //throw (std::runtime_error)
-  {
-    CreatorMap::iterator it = creators.find(genericTypeName);
-    if (it != creators.end())
-      return creators[genericTypeName]();
-    else
-      throw std::runtime_error("Unregistered type '" + genericTypeName + "' - please register new types using Event::registerGenericTypeName<>() or Event::registerAllKnownTypes() to fix this problem.");
-  }
+    // create method
+    EventAttributeBase* EventAttributeBase::create(const std::string &genericTypeName) //throw (std::runtime_error)
+    {
+        CreatorMap::iterator it = creators.find(genericTypeName);
+        if (it != creators.end())
+            return creators[genericTypeName]();
+        else
+            throw std::runtime_error("Unregistered type '" + genericTypeName + "' - please register new types using Event::registerGenericTypeName<>() or Event::registerAllKnownTypes() to fix this problem.");
+    }
 
-  // create method
-  EventAttributeBase* EventAttributeBase::create(const std::type_info &typeInfo) //throw (std::runtime_error)
-  {
-    const std::string genericTypeName = translator.getGenericName(typeInfo.name());
-    return create(genericTypeName);
-  }
+    // create method
+    EventAttributeBase* EventAttributeBase::create(const std::type_info &typeInfo) //throw (std::runtime_error)
+    {
+        const std::string genericTypeName = translator.getGenericName(typeInfo.name());
+        return create(genericTypeName);
+    }
 
-  // register create function and generic name of new type
-  void EventAttributeBase::registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create)
-  {
-    creators[genericTypeName] = create;
-    translator.registerTypeName(genericTypeName, typeInfo);
-  };
+    // register create function and generic name of new type
+    void EventAttributeBase::registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create)
+    {
+        creators[genericTypeName] = create;
+        translator.registerTypeName(genericTypeName, typeInfo);
+    };
 
-  // stream the attribute (not a member function)
-  std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att)
-  {
-    att.deserialize(in);
-    return in;
-  }
+    // stream the attribute (not a member function)
+    std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att)
+    {
+        att.deserialize(in);
+        return in;
+    }
 
-  // stream the attribute (not a member function)
-  std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att)
-  {
-    att.serialize(out);
-    return out;
-  }
+    // stream the attribute (not a member function)
+    std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att)
+    {
+        att.serialize(out);
+        return out;
+    }
 
 } // namespace ot
+
+/* 
+ * ------------------------------------------------------------
+ *   End of EventAttributeBase.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
