@@ -47,18 +47,34 @@
 
 namespace ot {
 
-  // returns the current time in milliseconds since ...
-  double OSUtils::currentTime()
-  {
-    const ACE_Time_Value & time = ACE_OS::gettimeofday();
-    return  ((double)time.sec() * 1000.0 + (double)time.usec() / 1000.0);
-  }
+    // returns the current time in milliseconds since ...
+    double OSUtils::currentTime()
+    {
+        const ACE_Time_Value & time = ACE_OS::gettimeofday();
+        return  ((double)time.sec() * 1000.0 + (double)time.usec() / 1000.0);
+    }
 
-  //sleeps the specified amount of time ...
-  void OSUtils::sleep( double time )
-  {
-    ACE_Time_Value timeVal(0, (int)(1000*time) );
-    ACE_OS::sleep( timeVal );
-  }
+    //sleeps the specified amount of time ...
+    void OSUtils::sleep( double time )
+    {
+        ACE_Time_Value timeVal(0, (int)(1000*time) );
+        ACE_OS::sleep( timeVal );
+    }
 
 } // namespace ot
+
+/* 
+ * ------------------------------------------------------------
+ *   End of OSUtils.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

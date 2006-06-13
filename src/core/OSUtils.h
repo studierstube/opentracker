@@ -56,28 +56,44 @@
 
 namespace ot {
 
-  class OPENTRACKER_API OSUtils
-  {
+    class OPENTRACKER_API OSUtils
+    {
 
-  public:
+    public:
 
-    /** returns the current time in milliseconds since 1.1.1970. Someone said
-     * this should probably be a long, I used a double because VRML does too.
-     * @note check whether double or long is better
-     * @return double containing milliseconds since ...*/
-    static double currentTime();
+        /** returns the current time in milliseconds since 1.1.1970. Someone said
+         * this should probably be a long, I used a double because VRML does too.
+         * @note check whether double or long is better
+         * @return double containing milliseconds since ...*/
+        static double currentTime();
 
-    /** sleeps for the specified amount of milliseconds
-     * and yields the execution to another thread. If 0 is specified, only
-     * a yield is performed (implementation based on Sleep (Win32), sginap (SGI)).
-     * The implementation is actually not accurate enough, because both systems
-     * provide only timeslices of 1/100 of a second. So all sleep times will
-     * actually be multiples of 1/100 of a second.
-     * @arg time time to sleep in milliseconds
-     */
-    static void sleep( double time );
-  };
+        /** sleeps for the specified amount of milliseconds
+         * and yields the execution to another thread. If 0 is specified, only
+         * a yield is performed (implementation based on Sleep (Win32), sginap (SGI)).
+         * The implementation is actually not accurate enough, because both systems
+         * provide only timeslices of 1/100 of a second. So all sleep times will
+         * actually be multiples of 1/100 of a second.
+         * @arg time time to sleep in milliseconds
+         */
+        static void sleep( double time );
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of OSUtils.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
