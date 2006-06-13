@@ -51,53 +51,69 @@
 
 namespace ot
 {
-  /**
-   * A map matching compiler dependent type names provided by the RunTime Type Information
-   * (RTTI) system to generic type names.
-   */
-  typedef std::map<std::string, std::string> TranslationMap;
-
-  /**
-   * The Translator class translates compiler dependent type names provided by the RunTime Type
-   * Information (RTTI) system to generic type names. This class provides an interface to register
-   * combinations of generic type names and RTTI type information and for later translation.
-   * Generic type names are arbitrary but must be unique.
-   * @author Jochen von Spiczak
-   * @ingroup core
-   */
-  class OPENTRACKER_API Translator
-  {
-  public:
-    /**
-     * Registers a combination of a generic type name and the type name provided by the compiler
-     * for the RunTime Type Information (RTTI) system. The RTTI name is automatically generated
-     * according to the @p typeInfo parameter.
-     * @param genericName the generic type name to be registered (must be unique!)
-     * @param typeInfo RTTI type information of the type to be registered
-     */
-    void registerTypeName(const std::string &genericName, const std::type_info &typeInfo);
-    /**
-     * Translates @p rttiName to the according generic type name. Throws an exception if the
-     * type is not known by the system.
-     * @param rttiName the RTTI name to be translated
-     * @return the according generic type name
-     */
-    const std::string getGenericName(const std::string &rttiName) const throw (std::runtime_error);
-    /**
-     * Checks whether the generic type name @p genericName is known by the system.
-     * @param genericName the generic type name to be checked
-     * @return whether the generic type name is known
-     */
-    bool knowsType(const std::string genericName) const;
-
-  protected:
     /**
      * A map matching compiler dependent type names provided by the RunTime Type Information
      * (RTTI) system to generic type names.
      */
-    TranslationMap translationTable;
-  };
+    typedef std::map<std::string, std::string> TranslationMap;
+
+    /**
+     * The Translator class translates compiler dependent type names provided by the RunTime Type
+     * Information (RTTI) system to generic type names. This class provides an interface to register
+     * combinations of generic type names and RTTI type information and for later translation.
+     * Generic type names are arbitrary but must be unique.
+     * @author Jochen von Spiczak
+     * @ingroup core
+     */
+    class OPENTRACKER_API Translator
+    {
+    public:
+        /**
+         * Registers a combination of a generic type name and the type name provided by the compiler
+         * for the RunTime Type Information (RTTI) system. The RTTI name is automatically generated
+         * according to the @p typeInfo parameter.
+         * @param genericName the generic type name to be registered (must be unique!)
+         * @param typeInfo RTTI type information of the type to be registered
+         */
+        void registerTypeName(const std::string &genericName, const std::type_info &typeInfo);
+        /**
+         * Translates @p rttiName to the according generic type name. Throws an exception if the
+         * type is not known by the system.
+         * @param rttiName the RTTI name to be translated
+         * @return the according generic type name
+         */
+        const std::string getGenericName(const std::string &rttiName) const throw (std::runtime_error);
+        /**
+         * Checks whether the generic type name @p genericName is known by the system.
+         * @param genericName the generic type name to be checked
+         * @return whether the generic type name is known
+         */
+        bool knowsType(const std::string genericName) const;
+
+    protected:
+        /**
+         * A map matching compiler dependent type names provided by the RunTime Type Information
+         * (RTTI) system to generic type names.
+         */
+        TranslationMap translationTable;
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of Translator.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

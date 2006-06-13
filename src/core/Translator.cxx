@@ -48,30 +48,46 @@
 namespace ot
 {
 
-  // get according generic name
-  const std::string Translator::getGenericName(const std::string &rttiName) const throw (std::runtime_error)
-  {
-    TranslationMap::const_iterator it = translationTable.find(rttiName);
-    if (it == translationTable.end())
-      throw std::runtime_error("unregistered type '" + rttiName + "' - please register new types using Event::registerGenericTypeName<>() to fix this problem");
-    else
-      return (*it).second;
-  }
+    // get according generic name
+    const std::string Translator::getGenericName(const std::string &rttiName) const throw (std::runtime_error)
+    {
+        TranslationMap::const_iterator it = translationTable.find(rttiName);
+        if (it == translationTable.end())
+            throw std::runtime_error("unregistered type '" + rttiName + "' - please register new types using Event::registerGenericTypeName<>() to fix this problem");
+        else
+            return (*it).second;
+    }
 
-  // register new typename to translation table
-  void Translator::registerTypeName(const std::string &genericName, const std::type_info &typeInfo)
-  {
-    translationTable[std::string(typeInfo.name())] = genericName;
-  }
+    // register new typename to translation table
+    void Translator::registerTypeName(const std::string &genericName, const std::type_info &typeInfo)
+    {
+        translationTable[std::string(typeInfo.name())] = genericName;
+    }
 
-  // check whether generic type name was registered
-  bool Translator::knowsType(const std::string genericName) const
-  {
-    TranslationMap::const_iterator it;
-    for (it = translationTable.begin(); it != translationTable.end(); it++)
-      if ((*it).second == genericName)
-	return true;
-    return false;
-  }
+    // check whether generic type name was registered
+    bool Translator::knowsType(const std::string genericName) const
+    {
+        TranslationMap::const_iterator it;
+        for (it = translationTable.begin(); it != translationTable.end(); it++)
+            if ((*it).second == genericName)
+                return true;
+        return false;
+    }
 
 } // namespace ot
+
+/* 
+ * ------------------------------------------------------------
+ *   End of Translator.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

@@ -67,104 +67,120 @@
 
 namespace ot {
 
-  TestModule::~TestModule()
-  {
-    nodes.clear();
-  }
+    TestModule::~TestModule()
+    {
+        nodes.clear();
+    }
 
-  // This method is called to construct a new Node.
+    // This method is called to construct a new Node.
 
-  Node * TestModule::createNode( const std::string& name, StringTable& attributes)
-  {
-    if( name.compare("TestSource") == 0 )
-      {
-        int frequency;
-        int offset;
-        int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-        if( num == 0 ){
-	  frequency = 1;
+    Node * TestModule::createNode( const std::string& name, StringTable& attributes)
+    {
+        if( name.compare("TestSource") == 0 )
+        {
+            int frequency;
+            int offset;
+            int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
+            if( num == 0 ){
+                frequency = 1;
+            }
+            num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
+            if( num == 0 ){
+                offset = 0;
+            }
+            TestSource * source = new TestSource( frequency, offset );
+            attributes.get("position", source->event.getPosition(), 3);
+            attributes.get("orientation", source->event.getOrientation(), 4);
+            sscanf( attributes.get("button").c_str(), " %hu", &(source->event.getButton()) );
+            sscanf( attributes.get("confidence").c_str(), " %f", &(source->event.getConfidence()) );
+            if( attributes.containsKey("noise") )
+            {
+                attributes.get("noise",&source->noise);
+            }
+            else
+            {
+                source->noise = -1;
+            }
+            nodes.push_back( source );
+
+            ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));
+            initialized = 1;
+            return source;
         }
-        num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
-        if( num == 0 ){
-	  offset = 0;
+        return NULL;
+    }
+
+    // pushes events into the tracker tree.
+
+    void TestModule::pushEvent()
+    {
+        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        {
+            TestSource *source = (TestSource *) *it;
+            if((cycle + source->offset) % source->frequency == 0 )
+            {
+                source->push();
+            }
         }
-        TestSource * source = new TestSource( frequency, offset );
-        attributes.get("position", source->event.getPosition(), 3);
-        attributes.get("orientation", source->event.getOrientation(), 4);
-        sscanf( attributes.get("button").c_str(), " %hu", &(source->event.getButton()) );
-        sscanf( attributes.get("confidence").c_str(), " %f", &(source->event.getConfidence()) );
-        if( attributes.containsKey("noise") )
-	  {
-            attributes.get("noise",&source->noise);
-	  }
+        cycle++;
+    }
+
+
+    void TestSource::push(void)
+    {
+        static int count;
+        if( noise > 0 )
+        {
+            perturbed.setAttribute("intAttr", count++);
+            perturbed.setAttribute("chrAttr", (char)(33 + count % 92));
+            perturbed.setAttribute("dblAttr", (double)(count / 7.3));
+            perturbed.setAttribute("fltAttr", (float)(count / 7.3));
+
+            int i;
+            for( i = 0; i < 3; i++ )
+            {
+                perturbed.getPosition()[i] = (float)(event.getPosition()[i] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
+                perturbed.getOrientation()[i] = (float)(event.getOrientation()[i] + (float)(rand()/RAND_MAX)*noise - noise / 2.0);
+            }
+            perturbed.getOrientation()[3] = (float)(event.getOrientation()[3] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
+            MathUtils::normalizeQuaternion( perturbed.getOrientation() );
+            if( ((float)rand()/RAND_MAX) < noise  )
+            {
+                perturbed.getOrientation()[0] = -perturbed.getOrientation()[0];
+                perturbed.getOrientation()[1] = -perturbed.getOrientation()[1];
+                perturbed.getOrientation()[2] = -perturbed.getOrientation()[2];
+                perturbed.getOrientation()[3] = -perturbed.getOrientation()[3];
+            }
+            perturbed.setConfidence(static_cast<float>((rand()/RAND_MAX)*noise - noise / 2.0));
+            perturbed.setButton(count % 16);
+
+            perturbed.timeStamp();
+            updateObservers( perturbed );
+        }
         else
-	  {
-            source->noise = -1;
-	  }
-        nodes.push_back( source );
-
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));
-        initialized = 1;
-        return source;
-      }
-    return NULL;
-  }
-
-  // pushes events into the tracker tree.
-
-  void TestModule::pushEvent()
-  {
-    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-      {
-        TestSource *source = (TestSource *) *it;
-        if((cycle + source->offset) % source->frequency == 0 )
-	  {
-            source->push();
-	  }
-      }
-    cycle++;
-  }
-
-
-  void TestSource::push(void)
-  {
-    static int count;
-    if( noise > 0 )
-      {
-	perturbed.setAttribute("intAttr", count++);
-	perturbed.setAttribute("chrAttr", (char)(33 + count % 92));
-	perturbed.setAttribute("dblAttr", (double)(count / 7.3));
-	perturbed.setAttribute("fltAttr", (float)(count / 7.3));
-
-        int i;
-        for( i = 0; i < 3; i++ )
-	  {
-            perturbed.getPosition()[i] = (float)(event.getPosition()[i] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
-            perturbed.getOrientation()[i] = (float)(event.getOrientation()[i] + (float)(rand()/RAND_MAX)*noise - noise / 2.0);
-	  }
-        perturbed.getOrientation()[3] = (float)(event.getOrientation()[3] + ((float)rand()/RAND_MAX)*noise - noise / 2.0);
-        MathUtils::normalizeQuaternion( perturbed.getOrientation() );
-        if( ((float)rand()/RAND_MAX) < noise  )
-	  {
-            perturbed.getOrientation()[0] = -perturbed.getOrientation()[0];
-            perturbed.getOrientation()[1] = -perturbed.getOrientation()[1];
-            perturbed.getOrientation()[2] = -perturbed.getOrientation()[2];
-            perturbed.getOrientation()[3] = -perturbed.getOrientation()[3];
-	  }
-	perturbed.setConfidence(static_cast<float>((rand()/RAND_MAX)*noise - noise / 2.0));
-	perturbed.setButton(count % 16);
-
-        perturbed.timeStamp();
-        updateObservers( perturbed );
-      }
-    else
-      {
-        event.timeStamp();
-        updateObservers( event );
-      }
-  }
+        {
+            event.timeStamp();
+            updateObservers( event );
+        }
+    }
 
 } //namespace ot
 
 
 #endif //OT_NO_TESTMODULE_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of TestModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
