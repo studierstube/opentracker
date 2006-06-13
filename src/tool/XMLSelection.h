@@ -70,22 +70,38 @@
 
 #else
 #if defined (WIN32)
-  #pragma message("compiling against XERCESC")
+#pragma message("compiling against XERCESC")
 #endif
-  #include <xercesc/dom/DOM.hpp>
-  #define OT_DOMDOCUMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument
-  #define OT_DOMELEMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMElement
-  #ifndef USE_XERCES
-    #define USE_XERCES 1
-  #endif
-  #ifdef WIN32
-    #ifdef _DEBUG
-        #pragma comment( lib, "xerces-c_2d.lib" )
-    #else
-        #pragma comment( lib, "xerces-c_2.lib" )
-    #endif 
-  #endif
+#include <xercesc/dom/DOM.hpp>
+#define OT_DOMDOCUMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument
+#define OT_DOMELEMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMElement
+#ifndef USE_XERCES
+#define USE_XERCES 1
+#endif
+#ifdef WIN32
+#ifdef _DEBUG
+#pragma comment( lib, "xerces-c_2d.lib" )
+#else
+#pragma comment( lib, "xerces-c_2.lib" )
+#endif 
+#endif
 #endif //USE_TINYXML
 
 
 #endif //__XML_SELECTION__
+
+/* 
+ * ------------------------------------------------------------
+ *   End of XMLSelection.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

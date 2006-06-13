@@ -22,7 +22,7 @@
 
 class msVC6_4786WorkAround {
 public:
-msVC6_4786WorkAround() {}
+    msVC6_4786WorkAround() {}
 };
 
 static msVC6_4786WorkAround
@@ -31,3 +31,19 @@ WowIWonderWhatCrapCodeMustBeInTheCompilerToMakeThisWorkaroundWork;
 #endif // WIN32
 
 // End of File
+
+/* 
+ * ------------------------------------------------------------
+ *   End of disable4786.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
