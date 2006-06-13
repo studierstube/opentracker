@@ -51,151 +51,167 @@
 
 namespace ot
 {
-  /**
-   * Output streaming operator. Streams the vector into the output stream.
-   * @param os the output stream
-   * @param object the vector
-   * @return the output stream
-   */
-  template <typename T>
-  std::ostream& operator<<(std::ostream& os, const std::vector<T>& object)
-  {
-    typename std::vector<T>::const_iterator it;
+    /**
+     * Output streaming operator. Streams the vector into the output stream.
+     * @param os the output stream
+     * @param object the vector
+     * @return the output stream
+     */
+    template <typename T>
+    std::ostream& operator<<(std::ostream& os, const std::vector<T>& object)
+    {
+        typename std::vector<T>::const_iterator it;
 
-    os << "[" << object.size() << ":";
-    for (it = object.begin(); it != object.end(); it++)
-      {
-	if (it != object.begin())
-	  os << ";";
-	os << *it;
-      }
-    os << "]";
-    return os;
-  };
-  /**
-   * Output streaming operator. Streams the list into the output stream.
-   * @param os the output stream
-   * @param object the list
-   * @return the output stream
-   */
-  template <typename T>
-  std::ostream& operator<<(std::ostream& os, const std::list<T>& object)
-  {
-    typename std::list<T>::const_iterator it;
+        os << "[" << object.size() << ":";
+        for (it = object.begin(); it != object.end(); it++)
+        {
+            if (it != object.begin())
+                os << ";";
+            os << *it;
+        }
+        os << "]";
+        return os;
+    };
+    /**
+     * Output streaming operator. Streams the list into the output stream.
+     * @param os the output stream
+     * @param object the list
+     * @return the output stream
+     */
+    template <typename T>
+    std::ostream& operator<<(std::ostream& os, const std::list<T>& object)
+    {
+        typename std::list<T>::const_iterator it;
 
-    os << object.size() << ":";
-    for (it = object.begin(); it != object.end(); it++)
-      {
-	if (it != object.begin())
-	  os << ";";
-	os << *it;
-      }
-    os << ".";
-    return os;
-  };
-  /**
-   * Input streaming operator. Streams the data provided by the input stream into the vector.
-   * @param is the input stream
-   * @param object the vector
-   * @return the input stream
-   */
-  template <typename T>
-  std::istream& operator>>(std::istream& is, std::vector<T>& object)
-  {
-    typename std::vector<T>::size_type n;
-    typename std::vector<T>::size_type i;
-    char c;
+        os << object.size() << ":";
+        for (it = object.begin(); it != object.end(); it++)
+        {
+            if (it != object.begin())
+                os << ";";
+            os << *it;
+        }
+        os << ".";
+        return os;
+    };
+    /**
+     * Input streaming operator. Streams the data provided by the input stream into the vector.
+     * @param is the input stream
+     * @param object the vector
+     * @return the input stream
+     */
+    template <typename T>
+    std::istream& operator>>(std::istream& is, std::vector<T>& object)
+    {
+        typename std::vector<T>::size_type n;
+        typename std::vector<T>::size_type i;
+        char c;
 
-    object.clear();
+        object.clear();
 
-    // read "["
-    if (!(is >> c))
-      return is;
-    if (c != '[')
-      {
-	is.setstate(std::ios_base::failbit);
-	return is;
-      }
+        // read "["
+        if (!(is >> c))
+            return is;
+        if (c != '[')
+        {
+            is.setstate(std::ios_base::failbit);
+            return is;
+        }
 
-    // read size
-    if (!(is >> n))
-      return is;
-    object.reserve(n);
+        // read size
+        if (!(is >> n))
+            return is;
+        object.reserve(n);
 
-    // read ":"
-    if (!(is >> c))
-      return is;
-    if (c != ':')
-      {
-	is.setstate(std::ios_base::failbit);
-	return is;
-      }
+        // read ":"
+        if (!(is >> c))
+            return is;
+        if (c != ':')
+        {
+            is.setstate(std::ios_base::failbit);
+            return is;
+        }
 
-    // read data
-    for (i = 0; i < n; i++)
-      {
-	T t;
-	is >> t;
-	object.push_back(t);
-	// read ";" or "]"
-	if (!(is >> c))
-	  return is;
-	if (c != ';' && c != ']')
-	  {
-	    is.setstate(std::ios_base::failbit);
-	    return is;
-	  }
-      }
+        // read data
+        for (i = 0; i < n; i++)
+        {
+            T t;
+            is >> t;
+            object.push_back(t);
+            // read ";" or "]"
+            if (!(is >> c))
+                return is;
+            if (c != ';' && c != ']')
+            {
+                is.setstate(std::ios_base::failbit);
+                return is;
+            }
+        }
 
-    return is;
-  };
-  /**
-   * Input streaming operator. Streams the data provided by the input stream into the list.
-   * @param is the input stream
-   * @param object the list
-   * @return the input stream
-   */
-  template <typename T>
-  std::istream& operator>>(std::istream& is, std::list<T>& object)
-  {
-    typename std::list<T>::size_type n;
-    typename std::list<T>::size_type i;
-    char c;
+        return is;
+    };
+    /**
+     * Input streaming operator. Streams the data provided by the input stream into the list.
+     * @param is the input stream
+     * @param object the list
+     * @return the input stream
+     */
+    template <typename T>
+    std::istream& operator>>(std::istream& is, std::list<T>& object)
+    {
+        typename std::list<T>::size_type n;
+        typename std::list<T>::size_type i;
+        char c;
 
-    object.clear();
+        object.clear();
 
-    // read size
-    if (!(is >> n))
-      return is;
+        // read size
+        if (!(is >> n))
+            return is;
 
-    // read ":"
-    if (!(is >> c))
-      return is;
-    if (c != ':')
-      {
-	is.setstate(std::ios_base::failbit);
-	return is;
-      }
+        // read ":"
+        if (!(is >> c))
+            return is;
+        if (c != ':')
+        {
+            is.setstate(std::ios_base::failbit);
+            return is;
+        }
 
-    // read data
-    for (i = 0; i < n; i++)
-      {
-	T t;
-	is >> t;
-	object.push_back(t);
-	// read ";"
-	if (!(is >> c))
-	  return is;
-	if (c != ';' && c!= '.')
-	  {
-	    is.setstate(std::ios_base::failbit);
-	    return is;
-	  }
-      }
+        // read data
+        for (i = 0; i < n; i++)
+        {
+            T t;
+            is >> t;
+            object.push_back(t);
+            // read ";"
+            if (!(is >> c))
+                return is;
+            if (c != ';' && c!= '.')
+            {
+                is.setstate(std::ios_base::failbit);
+                return is;
+            }
+        }
 
-    return is;
-  };
+        return is;
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of iostream_ext.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
