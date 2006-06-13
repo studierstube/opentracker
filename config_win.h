@@ -1,52 +1,52 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** Configuration include file for OpenTracker
-  *
-  * This file sets defines that control the compilation of device drivers in
-  * OpenTracker. Some device drivers require additional libraries and might
-  * not be available on all platforms. These source files are bracketed by
-  * conditional compile clauses to only be compiled in, if desired. Edit this
-  * file to set your configuration. This should only be changed, if you
-  * recompile the library, as the include files that you use for other
-  * projects will also require this file.
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * This file sets defines that control the compilation of device drivers in
+ * OpenTracker. Some device drivers require additional libraries and might
+ * not be available on all platforms. These source files are bracketed by
+ * conditional compile clauses to only be compiled in, if desired. Edit this
+ * file to set your configuration. This should only be changed, if you
+ * recompile the library, as the include files that you use for other
+ * projects will also require this file.
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page config Configuration Options
@@ -144,47 +144,47 @@
 #endif
 
 /** uncomment the following line to compile support for CyberMouse device.
-  * Support for this is only available on windows. */
+ * Support for this is only available on windows. */
 // #define USE_CYBERMOUSE 1
 
 /** uncomment the following line to compile support for Wacom Graphire tablet.
-  * Support for this is only available on windows. */
+ * Support for this is only available on windows. */
 // #define USE_WACOMGRAPHIRE 1
 
 /** uncomment the following line to compile support for Joysticks.
-  * Support for this is only available on windows. */
+ * Support for this is only available on windows. */
 // #define USE_JOYSTICK 1
 
 /** uncomment the following line to compile support for 3Dconnexion SpacMouse.
-  * Support for this is only available on windows. */
+ * Support for this is only available on windows. */
 // #define USE_SPACEMOUSE 1
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
-  * Support for this is only available on windows. Otherwise an empty implementation
-  * will be used */
+ * Support for this is only available on windows. Otherwise an empty implementation
+ * will be used */
 // #define USE_SAPISPEECH 1
 
 /** uncomment the following line to compile support for Essentialreality's P5 glove.
-  * Support for this is only available on windows yet. Linux support is in development.*/
+ * Support for this is only available on windows yet. Linux support is in development.*/
 // #define USE_P5GLOVE 1
 
 /** uncomment the following line to compile support for the DWARF.
-  */
+ */
 // #define USE_DWARF 1
 
 /** uncomment the following line to compile support for VRPN. Don't forget to set the
-  * @c VRPNROOT environment variable !
-  */
+ * @c VRPNROOT environment variable !
+ */
 // #define USE_VRPN 1
 
 #ifdef WIN32
 /** uncomment the following line to compile support for the Ubisense system.
-  * Support for this is only available on windows. */
+ * Support for this is only available on windows. */
 // #define USE_UBISENSE 1
 #endif
 
 /** uncomment the following line to compile support for the OTQt.
-  */
+ */
 // #define USE_OTQT 1
 
 
@@ -222,3 +222,19 @@
 #  define OT_NO_RANGEFILTER_SUPPORT
 #  define OT_NO_TESTMODULE_SUPPORT
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of config_win.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
