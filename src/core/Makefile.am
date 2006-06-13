@@ -7,7 +7,6 @@ otcoreinc_HEADERS = \
 	Event.h \
 	EventAttribute.h \
 	EventAttributeBase.h \
-	State.h \
 	Translator.h \
         ConfigNode.h \
         ConfigurationParser.h \
@@ -36,8 +35,6 @@ libcore_la_SOURCES = \
 	EventAttribute.h \
 	EventAttributeBase.cxx \
 	EventAttributeBase.h \
-	State.cxx \
-	State.h \
 	Translator.cxx \
 	Translator.h \
         ConfigNode.h \
