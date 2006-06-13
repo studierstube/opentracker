@@ -102,41 +102,41 @@ namespace ot {
 
   class OPENTRACKER_API ButtonFilterNode
     : public Node
-  {
-    // Members
-  protected:
-    /// last saved event variable
-    Event lastEvent;
+    {
+      // Members
+    protected:
+      /// last saved event variable
+      Event lastEvent;
 
-    // supply 8 buttons
-    signed char validtrans[8];
-    signed char radiobuttons[8];
-    signed char validTransSetButton[8];
-    unsigned char buttonmap[8];
-    unsigned char buttonmask;
-    unsigned char invert;
+      // supply 8 buttons
+      signed char validtrans[8];
+      signed char radiobuttons[8];
+      signed char validTransSetButton[8];
+      unsigned char buttonmap[8];
+      unsigned char buttonmask;
+      unsigned char invert;
 
-    // Methods
-  protected:
+      // Methods
+    protected:
 
-    /** constructor method
-     */
-    ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr, const char * validtrans , const char * radiobuttons, const char *setValidTrans);
+      /** constructor method
+       */
+      ButtonFilterNode( const char* buttonmask, const char* buttonmap, const char * invertstr, const char * validtrans , const char * radiobuttons, const char *setValidTrans);
 
-  public:
+    public:
 
-    /** tests for EventGenerator interface being present. Returns the
-     * result of the childs implementation of this method.
-     * @return 1 if child implements EventGenerator, 0 otherwise */
-    virtual int isEventGenerator() ;
+      /** tests for EventGenerator interface being present. Returns the
+       * result of the childs implementation of this method.
+       * @return 1 if child implements EventGenerator, 0 otherwise */
+      virtual int isEventGenerator() ;
 
-    /**
-     * this method is called by the EventGenerator to update it's observers.
-     */
-    virtual void onEventGenerated( Event& event, Node& generator);
+      /**
+       * this method is called by the EventGenerator to update it's observers.
+       */
+      virtual void onEventGenerated( Event& event, Node& generator);
 
-    friend class CommonNodeFactory;
-  };
+      friend class CommonNodeFactory;
+    };
 
 } // namespace ot
 
@@ -145,3 +145,19 @@ namespace ot {
 
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of ButtonFilterNode.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
