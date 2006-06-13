@@ -52,47 +52,63 @@
 
 namespace ot {
 
-  /** A front and back insert Vector like container, for simple and
-   * fast queueing of timestamped events. */
-  typedef std::deque<Event> EventQueue;
+    /** A front and back insert Vector like container, for simple and
+     * fast queueing of timestamped events. */
+    typedef std::deque<Event> EventQueue;
 
-  /**
-   * Helper class that implements the EventQueue interface using a STL deque
-   * container. Some classes do not need the implementation of the EventQeue
-   * interfaces while others depend on it. The later should derive from this
-   * class.
-   * @author Gerhard Reitmayr
-   * @ingroup core
-   */
+    /**
+     * Helper class that implements the EventQueue interface using a STL deque
+     * container. Some classes do not need the implementation of the EventQeue
+     * interfaces while others depend on it. The later should derive from this
+     * class.
+     * @author Gerhard Reitmayr
+     * @ingroup core
+     */
 
-  class OPENTRACKER_API EventQueueImplementation
-  {
-    // Members
-  protected:
-    /// queue of events
-    EventQueue queue;
-    // Methods
-  protected:
-    /** inserts an event so that it is in order in time with the other events.
-     * @param event timestamped event that is inserted */
-    void insertAtTime(Event& event);
+    class OPENTRACKER_API EventQueueImplementation
+    {
+        // Members
+    protected:
+        /// queue of events
+        EventQueue queue;
+        // Methods
+    protected:
+        /** inserts an event so that it is in order in time with the other events.
+         * @param event timestamped event that is inserted */
+        void insertAtTime(Event& event);
 
-  public:
-    /// Destructor method clears queue
-    virtual ~EventQueueImplementation();
-    /** returns the event number n back in time starting with the
-     * newest event for n = 0.
-     * @param number the number of the event to be retrieved
-     * @return reference to the Event */
-    virtual Event& getEvent(unsigned int number = 0) ;
-    /** returns the event closes to the given point in time
-     * @param time point in the the event should be closest to
-     * @return reference to the found event */
-    virtual Event& getEventNearTime(double time) ;
-    /** returns the size of the queue */
-    virtual unsigned int getSize() ;
-  };
+    public:
+        /// Destructor method clears queue
+        virtual ~EventQueueImplementation();
+        /** returns the event number n back in time starting with the
+         * newest event for n = 0.
+         * @param number the number of the event to be retrieved
+         * @return reference to the Event */
+        virtual Event& getEvent(unsigned int number = 0) ;
+        /** returns the event closes to the given point in time
+         * @param time point in the the event should be closest to
+         * @return reference to the found event */
+        virtual Event& getEventNearTime(double time) ;
+        /** returns the size of the queue */
+        virtual unsigned int getSize() ;
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of EventQueueImplementation.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

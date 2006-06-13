@@ -47,88 +47,104 @@
 
 namespace ot {
 
-  /** simple functor to compare events with a fixed time */
-  struct SameOrAfter {
-    double time;
+    /** simple functor to compare events with a fixed time */
+    struct SameOrAfter {
+        double time;
 
-    SameOrAfter( double time_ ) :
-      time( time_ )
-    {}
+        SameOrAfter( double time_ ) :
+            time( time_ )
+        {}
 
-    bool operator()( const Event & event )
+        bool operator()( const Event & event )
+        {
+            return (event.time >= time);
+        }
+    };
+
+    // Destructor method.
+
+    EventQueueImplementation::~EventQueueImplementation()
     {
-      return (event.time >= time);
+        queue.clear();
     }
-  };
 
-  // Destructor method.
+    // returns the event number n back in time starting with the newest for n = 0
 
-  EventQueueImplementation::~EventQueueImplementation()
-  {
-    queue.clear();
-  }
+    Event& EventQueueImplementation::getEvent(unsigned int number)
+    {
+        if( number < queue.size())
+        {
+            return queue[number];
+        }
+        return Event::null;
+    }
 
-  // returns the event number n back in time starting with the newest for n = 0
+    // returns the event closes to the given point in time
 
-  Event& EventQueueImplementation::getEvent(unsigned int number)
-  {
-    if( number < queue.size())
-      {
-        return queue[number];
-      }
-    return Event::null;
-  }
+    Event& EventQueueImplementation::getEventNearTime(double time)
+    {
+        EventQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( time ));
+        if( index != queue.end())
+        {
+            if( index == queue.begin() )
+            {
+                return (*index);
+            }
+            EventQueue::iterator pre = index - 1;
+            if( (*pre).time - time < time - (*index).time )
+            {
+                return (*pre);
+            } else
+            {
+                return (*index);
+            }
+        }
+        return queue[queue.size()-1];
+    }
 
-  // returns the event closes to the given point in time
+    // returns the size of the queue
 
-  Event& EventQueueImplementation::getEventNearTime(double time)
-  {
-    EventQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( time ));
-    if( index != queue.end())
-      {
-        if( index == queue.begin() )
-	  {
-            return (*index);
-	  }
-        EventQueue::iterator pre = index - 1;
-        if( (*pre).time - time < time - (*index).time )
-	  {
-            return (*pre);
-	  } else
-	  {
-            return (*index);
-	  }
-      }
-    return queue[queue.size()-1];
-  }
+    unsigned int EventQueueImplementation::getSize()
+    {
+        return queue.size();
+    }
 
-  // returns the size of the queue
+    // inserts an event so that it is in order in time with the other events
 
-  unsigned int EventQueueImplementation::getSize()
-  {
-    return queue.size();
-  }
-
-  // inserts an event so that it is in order in time with the other events
-
-  void EventQueueImplementation::insertAtTime(Event& event)
-  {
-    EventQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( event.time ));
-    if( index != queue.end())
-      {
-        if( (*index).time == event.time )
-	  {
-            (*index) = event;
-	  }
+    void EventQueueImplementation::insertAtTime(Event& event)
+    {
+        EventQueue::iterator index = std::find_if(queue.begin(), queue.end(), SameOrAfter( event.time ));
+        if( index != queue.end())
+        {
+            if( (*index).time == event.time )
+            {
+                (*index) = event;
+            }
+            else
+            {
+                queue.insert( index, event );
+            }
+        }
         else
-	  {
-            queue.insert( index, event );
-	  }
-      }
-    else
-      {
-        queue.push_back( event );
-      }
-  }
+        {
+            queue.push_back( event );
+        }
+    }
 
 } // namespace ot
+
+/* 
+ * ------------------------------------------------------------
+ *   End of EventQueueImplementation.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
