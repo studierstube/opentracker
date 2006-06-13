@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** source file for PositionFilterNode.
-  *
-  * @author Thomas Psik tomp@ims.tuwien.ac.at
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Thomas Psik tomp@ims.tuwien.ac.at
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 
 #include "PositionFilterNode.h"
@@ -51,9 +51,9 @@
 namespace ot {
 
 
-// constructor method.
+  // constructor method.
 
-PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3] )
+  PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3] )
     : Node()
   {
     min[0] = min_[0];
@@ -82,14 +82,31 @@ PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3]
        min[1] < event.getPosition()[1] && event.getPosition()[1] < max[1]
        &&
        min[2] < event.getPosition()[2] && event.getPosition()[2] < max[2]
-	 )
+       )
       {
         updateObservers( event );
-    }
-}
+      }
+  }
 
 
 }  // namespace ot
 
 
 #endif //OT_NO_POSITIONFILTER_SUPPORT
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of PositionFilterNode.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

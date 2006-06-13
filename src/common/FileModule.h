@@ -61,7 +61,7 @@
  *
  * An example configuration element looks like this :
  * @verbatim
-<FileConfig append="true" loop="true" />@endverbatim
+ <FileConfig append="true" loop="true" />@endverbatim
 */
 
 #ifndef _FILEMODULE_H
@@ -85,64 +85,64 @@ namespace ot {
    * @author Gerhard Reitmayr
    */
   class OPENTRACKER_API FileModule: public Module, public NodeFactory
-  {
-    // Members
-  protected:
-    /// map of name to list of either FileSink or FileSource nodes
-    std::map<std::string, NodeVector> nodes;
-    /// map of name to File objects
-    std::map<std::string, File *> files;
-    /// flag whether output files should be appended to or not
-    bool append;
-    /// flag whether to loop input files or not
-    bool loop;
-    /// interval time between new events
-    double interval;
-    /// flag whether to use OT v1.1 compatible file format (for testing purposes only)
-    bool ot11Format;
-    /// last timestamp
-    double lastTime;
-    /// local event
-    Event event;
+    {
+      // Members
+    protected:
+      /// map of name to list of either FileSink or FileSource nodes
+      std::map<std::string, NodeVector> nodes;
+      /// map of name to File objects
+      std::map<std::string, File *> files;
+      /// flag whether output files should be appended to or not
+      bool append;
+      /// flag whether to loop input files or not
+      bool loop;
+      /// interval time between new events
+      double interval;
+      /// flag whether to use OT v1.1 compatible file format (for testing purposes only)
+      bool ot11Format;
+      /// last timestamp
+      double lastTime;
+      /// local event
+      Event event;
 
-  public:
-    /** constructor method. initializes internal and static data
-     * such as the functionMap and keyMap tables. */
-    FileModule()
-      {}
-    /** Destructor method, clears nodes member. */
-    virtual ~FileModule();
+    public:
+      /** constructor method. initializes internal and static data
+       * such as the functionMap and keyMap tables. */
+      FileModule()
+	{}
+      /** Destructor method, clears nodes member. */
+      virtual ~FileModule();
 
-    /**
-     * initializes the tracker module. This class provides an implementation
-     * that sets the initialization flag to true. Subclasses should call this
-     * method if they override this method. It takes the attributes of the
-     * element configuring this module and a local tree consisting of the
-     * children of the element. This tree must be build of Nodes.
-     * @param attributes StringTable of elements attribute values. Should be
-     *        possibly , but is not for convenience.
-     * @param localTree pointer to root of configuration nodes tree
-     */
-    virtual void init(StringTable& attributes,  ConfigNode * localTree);
+      /**
+       * initializes the tracker module. This class provides an implementation
+       * that sets the initialization flag to true. Subclasses should call this
+       * method if they override this method. It takes the attributes of the
+       * element configuring this module and a local tree consisting of the
+       * children of the element. This tree must be build of Nodes.
+       * @param attributes StringTable of elements attribute values. Should be
+       *        possibly , but is not for convenience.
+       * @param localTree pointer to root of configuration nodes tree
+       */
+      virtual void init(StringTable& attributes,  ConfigNode * localTree);
 
-    /** This method is called to construct a new Node. It compares
-     * name to the FileSink or FileSource element name, and if it matches
-     * creates the necessary File and Node objects.
-     * @param name reference to string containing element name
-     * @attributes reference to StringTable containing attribute values
-     * @return pointer to new Node or NULL. The new Node must be
-     *         allocated with new !
-     */
-    virtual Node * createNode( const std::string& name, StringTable& attributes);
-    /**
-     * reads from the input files and fires new events, if necessary.
-     */
-    virtual void pushEvent();
-    /**
-     * Closes the files and cleans up data structures.
-     */
-    virtual void close();
-  };
+      /** This method is called to construct a new Node. It compares
+       * name to the FileSink or FileSource element name, and if it matches
+       * creates the necessary File and Node objects.
+       * @param name reference to string containing element name
+       * @attributes reference to StringTable containing attribute values
+       * @return pointer to new Node or NULL. The new Node must be
+       *         allocated with new !
+       */
+      virtual Node * createNode( const std::string& name, StringTable& attributes);
+      /**
+       * reads from the input files and fires new events, if necessary.
+       */
+      virtual void pushEvent();
+      /**
+       * Closes the files and cleans up data structures.
+       */
+      virtual void close();
+    };
 
 }  //namespace ot
 
@@ -150,3 +150,20 @@ namespace ot {
 #endif //OT_NO_FILEMODULE_SUPPORT
 
 #endif
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of FileModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

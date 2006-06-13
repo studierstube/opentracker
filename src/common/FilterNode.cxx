@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** source file for Filter Node.
-  *
-  * @author Gerhard Reitmayr
-  * @todo check implementation of quaternion interpolation and document
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ * @todo check implementation of quaternion interpolation and document
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -53,26 +53,26 @@
 
 namespace ot {
 
-FilterNode::FilterNode( const std::vector<float> & weights_, const Type & type_ )
+  FilterNode::FilterNode( const std::vector<float> & weights_, const Type & type_ )
     : Node(), weights( weights_ ), type( type_ )
-{
-}
+  {
+  }
 
-int FilterNode::isEventGenerator()
-{
-	return 1;
-}
+  int FilterNode::isEventGenerator()
+  {
+    return 1;
+  }
 
-// this method is called by the EventGenerator to update it's observers.
+  // this method is called by the EventGenerator to update it's observers.
 
   void FilterNode::onEventGenerated( Event& event, Node& generator)
   {
     Node * queue = getChild( 0 );
     if( queue != NULL && queue->getSize() == weights.size() )
-    {
+      {
         double w,sum = 0;
         double pos[3] = {0, 0, 0 }, orient[3] = { 0, 0, 0 };
-		double conf = 0;
+	double conf = 0;
 
         // referencerot for quaternion interpolation
 	//float * referencerot= queue->getEvent( 0 ).orientation;
@@ -169,9 +169,26 @@ int FilterNode::isEventGenerator()
         updateObservers( localEvent );
       }
     else
-    {
+      {
         updateObservers( event );
-    }
-}
+      }
+  }
 
 } // namespace ot
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of FilterNode.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

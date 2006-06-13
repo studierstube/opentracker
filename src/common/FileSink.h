@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** header file for FileSink Node.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
@@ -55,10 +55,10 @@
  *
  * An example element looks like this :
  * @verbatim
-<FileSink file="test.out" station="0">
-    <Any EventGenerator element type>
-</FileSink>@endverbatim
- */
+ <FileSink file="test.out" station="0">
+ <Any EventGenerator element type>
+ </FileSink>@endverbatim
+*/
 
 #ifndef _FILESINK_H
 #define _FILESINK_H
@@ -75,53 +75,70 @@
 
 namespace ot {
 
-class OPENTRACKER_API FileSink : public Node
-{
-// Members
-public:
-   	/// Output File object associated with this node.
-    File & file;
-    /// station number
-    int station;	
+  class OPENTRACKER_API FileSink : public Node
+    {
+      // Members
+    public:
+      /// Output File object associated with this node.
+      File & file;
+      /// station number
+      int station;	
 
-// Methods
-protected:
-    /** constructor method,sets commend member
-     * @param file_ the File object to write to
-     * @param station_ the station number to use */
-    FileSink( File & file_, int station_ = 0 ) :
+      // Methods
+    protected:
+      /** constructor method,sets commend member
+       * @param file_ the File object to write to
+       * @param station_ the station number to use */
+      FileSink( File & file_, int station_ = 0 ) :
         Node(), 
         file( file_ ),
-		station( station_ )
-    {}
+	station( station_ )
+	{}
 
-public:
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    virtual int isEventGenerator()
-    {
-        return 1;
-    }
+    public:
+      /** tests for EventGenerator interface being present. Is overriden to
+       * return 1 always.
+       * @return always 1 */
+      virtual int isEventGenerator()
+	{
+	  return 1;
+	}
     
-    /**
-     * this method notifies the object that a new event was generated.
-     * It writes the event value out to the file and passes it
-     * on to its parent.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
-     * @param generator reference to the EventGenerator object that
-     *        notified the EventObserver.
-     */
-    virtual void onEventGenerated( Event& event, Node& generator)
-    {
-        file.write( event, station );
-        updateObservers( event );
-    }
+      /**
+       * this method notifies the object that a new event was generated.
+       * It writes the event value out to the file and passes it
+       * on to its parent.
+       * @param event reference to the new event. Do not change the
+       *        event values, make a copy and change that !
+       * @param generator reference to the EventGenerator object that
+       *        notified the EventObserver.
+       */
+      virtual void onEventGenerated( Event& event, Node& generator)
+	{
+	  file.write( event, station );
+	  updateObservers( event );
+	}
 
-    friend class FileModule;
-};
+      friend class FileModule;
+    };
 
 }
 
 #endif
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of FileSink.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

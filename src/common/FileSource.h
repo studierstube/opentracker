@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** header file for FileSource Node.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
@@ -64,8 +64,8 @@
  *
  * An example element looks like this :
  * @verbatim
-<FileSource file="name" station="0" localtime="false"/>@endverbatim
- */
+ <FileSource file="name" station="0" localtime="false"/>@endverbatim
+*/
 
 #ifndef _FILESOURCE_H
 #define _FILESOURCE_H
@@ -82,41 +82,58 @@
  */
 namespace ot {
 
-class OPENTRACKER_API FileSource : public Node
-{
-// Members
-public:
-    /// station number
-    int station;
-    /// flag whether timestamp should be taken from the file or generated locally
-    bool localTime;
-    /// flag whether event was changed this round
-    bool changed;
+  class OPENTRACKER_API FileSource : public Node
+    {
+      // Members
+    public:
+      /// station number
+      int station;
+      /// flag whether timestamp should be taken from the file or generated locally
+      bool localTime;
+      /// flag whether event was changed this round
+      bool changed;
 
-// Methods
-protected:
-    /** constructor method,sets the station number and other default values.    
-     * @param station the station number to use.
-     */
-    FileSource( int station_ = 0, bool localTime_ = false ) :
+      // Methods
+    protected:
+      /** constructor method,sets the station number and other default values.    
+       * @param station the station number to use.
+       */
+      FileSource( int station_ = 0, bool localTime_ = false ) :
         Node(), 
-		station( station_ ),
+	station( station_ ),
         localTime( localTime_ ),
         changed( 0 )
-    {}
+	{}
 
-public:
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    virtual int isEventGenerator()
-    {
-        return 1;
-    }   
+    public:
+      /** tests for EventGenerator interface being present. Is overriden to
+       * return 1 always.
+       * @return always 1 */
+      virtual int isEventGenerator()
+	{
+	  return 1;
+	}   
 
-    friend class FileModule;
-};
+      friend class FileModule;
+    };
 
 } // namespace ot
 
 #endif
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of FileSource.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

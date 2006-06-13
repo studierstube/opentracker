@@ -1,45 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for Time Module.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
@@ -64,8 +64,8 @@
  *
  * An example configuration element looks like this :
  * @verbatim
-<TimeConfig rate="187"/>@endverbatim
- */
+ <TimeConfig rate="187"/>@endverbatim
+*/
 
 #ifndef _TIMEMODULE_H
 #define _TIMEMODULE_H
@@ -86,46 +86,46 @@
 
 namespace ot {
 
-class OPENTRACKER_API TimeModule : public Module
-{
-// Members
-protected:
-    // number of milliseconds to sleep in @e Sleep mode
-   int sleep, 
-    // flag for displaying of frame rate
-       display;
-   // start time to calculate the frame rate in @e Framerate mode
-   double startTime, 
-   // the desired frame rate in frames / millisecond for computational purposes
-       rate, 
-   // counting frames
-       count;
+  class OPENTRACKER_API TimeModule : public Module
+    {
+      // Members
+    protected:
+      // number of milliseconds to sleep in @e Sleep mode
+      int sleep, 
+	// flag for displaying of frame rate
+	display;
+      // start time to calculate the frame rate in @e Framerate mode
+      double startTime, 
+	// the desired frame rate in frames / millisecond for computational purposes
+	rate, 
+	// counting frames
+	count;
 
-// Methods
-public:
-    /** constructor method. */
-    TimeModule() : Module(), sleep(0), display(0), rate(0)
-    {};
+      // Methods
+    public:
+      /** constructor method. */
+      TimeModule() : Module(), sleep(0), display(0), rate(0)
+	{};
   
-    /**
-     * initializes the tracker module. Parses any @c sleep or @c rate attributes
-     * @param attributes StringTable of elements attribute values. Should be
-     *        possibly , but is not for convenience.
-     * @param localTree pointer to root of configuration nodes tree
-     */
-    void init( StringTable & attributes,  ConfigNode * localTree);
+      /**
+       * initializes the tracker module. Parses any @c sleep or @c rate attributes
+       * @param attributes StringTable of elements attribute values. Should be
+       *        possibly , but is not for convenience.
+       * @param localTree pointer to root of configuration nodes tree
+       */
+      void init( StringTable & attributes,  ConfigNode * localTree);
   
-    /** starts the module, stores startTime if in @i Framerate mode. */
-    void start();
+      /** starts the module, stores startTime if in @i Framerate mode. */
+      void start();
     
-    /** test for stopping the main loop. Here the actual sleeping is done
-     * if necessary.
-     * @return always 0*/
-    int stop();
+      /** test for stopping the main loop. Here the actual sleeping is done
+       * if necessary.
+       * @return always 0*/
+      int stop();
     
-    /** closes the module, prints out the framerate, if display is 1. */
-    void close();
-};
+      /** closes the module, prints out the framerate, if display is 1. */
+      void close();
+    };
 
 } // namespace ot
 
@@ -133,3 +133,20 @@ public:
 #endif OT_NO_TIMEMODULE_SUPPORT
 
 #endif
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of TimeModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

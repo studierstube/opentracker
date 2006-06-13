@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** source file for InverTransform Nodes.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -69,3 +69,20 @@ namespace ot {
   }
 
 } // namespace ot
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of InvertTransformation.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

@@ -77,20 +77,20 @@
  * An example element using all wrapper elements looks like this :
  * @verbatim
  <Merge agingFactor="0.8" confidenceCalculation="multiply">
-    <MergeDefault>
-       <Exactly one EventGenerator element type>
-    </MergeDefault>
-    <MergeTime>
-        <One or more of any EventGenerator element type>
-    </MergeTime>
-    <MergeTrigger>
-       <One or more of any EventGenerator element type>
-    </MergeTrigger>
-    <MergeAttribute attributeName="someAttribute">
-       <One or more of any EventGenerator element type>
-    </MergeAttribute>
+ <MergeDefault>
+ <Exactly one EventGenerator element type>
+ </MergeDefault>
+ <MergeTime>
+ <One or more of any EventGenerator element type>
+ </MergeTime>
+ <MergeTrigger>
+ <One or more of any EventGenerator element type>
+ </MergeTrigger>
+ <MergeAttribute attributeName="someAttribute">
+ <One or more of any EventGenerator element type>
+ </MergeAttribute>
  </Merge>@endverbatim
- */
+*/
 
 #ifndef _MERGENODE_H
 #define _MERGENODE_H
@@ -114,54 +114,54 @@
 namespace ot {
 
   class OPENTRACKER_API MergeNode : public Node
-  {
-  public:
-    /// flags to define how to calculate the overall confidence of the resulting event
-    enum CONF_CALCULATION { MIN = 0, MAX, MULTIPLY };
-
-  protected:
-    /// Event variable to put transformed event into
-    Event localEvent;
-    /// factor by that not updated inputs are aging whenever a new event is received from another input
-    float agingFactor;
-    /// flag to define how to calculate the overall confidence of the resulting event
-    CONF_CALCULATION confCalculation;
-    /// confidence map stores aging confidence of each port
-    std::map<NodePort*, float> confidenceMap;
-
-    /** constructor method
-     */
-    MergeNode(float agingFactor_, CONF_CALCULATION confCalculation_)
-      : confCalculation(confCalculation_)
-      {
-	agingFactor = agingFactor_;
-	if (agingFactor > 1)
-	  agingFactor = 1;
-	else if (agingFactor < 0)
-	  agingFactor = 0;
-      }
-
-public: 
-
-    /** tests for EventGenerator interface being present and returns
-     * 1, if present.
-     * @return always 1 */
-    virtual int isEventGenerator()
     {
-    	return 1;
-    }
+    public:
+      /// flags to define how to calculate the overall confidence of the resulting event
+      enum CONF_CALCULATION { MIN = 0, MAX, MULTIPLY };
 
-    /**
-     * This method is called by any child node. It updates the local
-     * event with the right part of the passed event and notifies
-     * it's parent and references in turn.
-     * @param event the event value passed
-     * @param generator the node generating the event
-     */
-    virtual void onEventGenerated( Event& event, Node & generator);
+    protected:
+      /// Event variable to put transformed event into
+      Event localEvent;
+      /// factor by that not updated inputs are aging whenever a new event is received from another input
+      float agingFactor;
+      /// flag to define how to calculate the overall confidence of the resulting event
+      CONF_CALCULATION confCalculation;
+      /// confidence map stores aging confidence of each port
+      std::map<NodePort*, float> confidenceMap;
 
-    friend class CommonNodeFactory;
-};
+      /** constructor method
+       */
+      MergeNode(float agingFactor_, CONF_CALCULATION confCalculation_)
+	: confCalculation(confCalculation_)
+	{
+	  agingFactor = agingFactor_;
+	  if (agingFactor > 1)
+	    agingFactor = 1;
+	  else if (agingFactor < 0)
+	    agingFactor = 0;
+	}
+
+    public: 
+
+      /** tests for EventGenerator interface being present and returns
+       * 1, if present.
+       * @return always 1 */
+      virtual int isEventGenerator()
+	{
+	  return 1;
+	}
+
+      /**
+       * This method is called by any child node. It updates the local
+       * event with the right part of the passed event and notifies
+       * it's parent and references in turn.
+       * @param event the event value passed
+       * @param generator the node generating the event
+       */
+      virtual void onEventGenerated( Event& event, Node & generator);
+
+      friend class CommonNodeFactory;
+    };
 
 } // namespace ot
 
@@ -170,3 +170,19 @@ public:
 
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of MergeNode.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

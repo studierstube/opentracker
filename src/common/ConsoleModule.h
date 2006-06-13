@@ -153,7 +153,7 @@
  * An example configuration element looks like this :
  * @verbatim
  <ConsoleConfig interval="10" headerline="Tracker Test 1">
-    <KeyDefinition function="Move_X_plus" key="o"/>
+ <KeyDefinition function="Move_X_plus" key="o"/>
  </ConsoleConfig>@endverbatim
 */
 
@@ -179,193 +179,193 @@
 namespace ot {
 
   class OPENTRACKER_API ConsoleModule: public Module, public NodeFactory
-  {
-    enum DIRECTION { POS = 0, NEG };
-    // Members
-  protected:
-    /// list of ConsoleSink nodes in the tree
-    NodeVector sinks;
-    /// list of ConsoleSource nodes  in the tree
-    NodeVector sources;
-    /// current cycle count, for computing when to print out the event again
-    int cycle;
-    /// cycle interval to use for printing out events
-    int interval;
-    /// headerline in display
-    std::string headerline;
-    /// angular velocity and positional velocity
-    float angularSpeed, posSpeed;
-    /// currently active station, must be in [0-9]
-    int station;
-    /// should the module quit ?
-    int quit;
-    /// is the console module displaying values ?
-    int display;
-    /// should curses be initialized ?
-    int curses;
-    /// maps key chars to indices
-    std::vector<int> keyMap;
-    /// whether the user chose to delete an attribute
-    bool delAttribute;
-    /// whether the user chose to add a new attribute
-    bool addAttribute;
-    /// whether the user chose to change an attribute by typing in the new value
-    bool changeAttrByVal;
-    /// the name of the attribute that is shown to be subject to change currently
-    std::string nameOfAttributeToBeChanged;
-    /// whether the user switched attribute that is currently subject to change
-    bool currentChanged;
-    /// whether station number or station information changed
-    bool stationChanged;
+    {
+      enum DIRECTION { POS = 0, NEG };
+      // Members
+    protected:
+      /// list of ConsoleSink nodes in the tree
+      NodeVector sinks;
+      /// list of ConsoleSource nodes  in the tree
+      NodeVector sources;
+      /// current cycle count, for computing when to print out the event again
+      int cycle;
+      /// cycle interval to use for printing out events
+      int interval;
+      /// headerline in display
+      std::string headerline;
+      /// angular velocity and positional velocity
+      float angularSpeed, posSpeed;
+      /// currently active station, must be in [0-9]
+      int station;
+      /// should the module quit ?
+      int quit;
+      /// is the console module displaying values ?
+      int display;
+      /// should curses be initialized ?
+      int curses;
+      /// maps key chars to indices
+      std::vector<int> keyMap;
+      /// whether the user chose to delete an attribute
+      bool delAttribute;
+      /// whether the user chose to add a new attribute
+      bool addAttribute;
+      /// whether the user chose to change an attribute by typing in the new value
+      bool changeAttrByVal;
+      /// the name of the attribute that is shown to be subject to change currently
+      std::string nameOfAttributeToBeChanged;
+      /// whether the user switched attribute that is currently subject to change
+      bool currentChanged;
+      /// whether station number or station information changed
+      bool stationChanged;
 
-    // Methods
-  protected:
-    /** adds the attribute to the events of all sources belonging to @p station
-     * @param station the number of the station to add attribute to
-     * @param type the generic type name of the new attribute
-     * @param name the name of the new attribute
-     * @param value the value of the new attribute
-     */
-    void addAttr(const int station, const std::string type, const std::string name, const std::string value) const;
-    /** deletes the attribute from all events of all sources belonging to @p station
-     * @param station the number of the station to add attribute to
-     * @param name the name of the attribute to be deleted
-     */
-    void delAttr(const int station, const std::string name);
-    /** chooses the next attribute to be subject to change
-     * @param station the number of the station
-     */
-    void nextAttr(const int station);
-    /** changes the attribute that is currently subject to change to @p value
-     * @param station the number of the station
-     * @param value the new value
-     */
-    void changeAttrToValue(const int station, const std::string value) const;
-    /** increases or decreases the attribute currently subject to change according to @p dir
-     * @param station the number of the station
-     * @param dir whether too increase or decrease the value
-     */
-    void changeAttr(const int station, const DIRECTION dir) const;
-    /** clear the @p lines last lines of the terminal. If @lines is negative, the entire
-     * screen is cleared.
-     * @param lines the number of lines to be cleared above the current one
-     */
-    void clearLastLines(int lines = -1);
-    /** sets the button bit of given button on all sources that
-     * are associated with station. Changes the changed flag on
-     * the sources.
-     * @param station the number of the station to change
-     * @param button the number of the button to set ( 1 - 4, where 1 corresponds to LSB )
-     */
-    void setButton( int station , int button );
-    /** moves the position by the given data on all sources that
-     * are associated with station. Changes the changed flag on
-     * the sources.
-     * @param station the number of the station to change
-     * @param data array of 3 floats giving the movement vector
-     */
-    void movePos( int station, float * data );
-    /** rotates the event by the given data on all sources that
-     * are associated with station. Changes the changed flag on
-     * the sources.
-     * @param station the number of the station to change
-     * @param data array of 4 floats giving rotational quaternion
-     */
-    void rotate( int station, float * data );
-    /** resets the data on all sources that are associated with
-     * the given station. Changes the changed flag on
-     * the sources.
-     * @param station the number of the station to change
-     */
-    void reset( int station );
-  public:
-    /** constructor method. initializes internal and static data
-     * such as the functionMap and keyMap tables. */
-    ConsoleModule();
-    /** Destructor method, clears nodes member. */
-    virtual ~ConsoleModule();
-    /**
-     * initializes the tracker module.
-     * @param attributes StringTable of elements attribute values. Should be
-     *        possibly , but is not for convenience.
-     * @param localTree pointer to root of configuration nodes tree
-     */
-    virtual void init(StringTable& attributes, ConfigNode * localTree);
-    /** This method is called to ruct a new Node. It compares
-     * name to the ConsoleSink element name, and if it matches
-     * creates a new ConsoleSink node.
-     * @param name reference to string containing element name
-     * @attributes refenrence to StringTable containing attribute values
-     * @return pointer to new Node or NULL. The new Node must be
-     *         allocated with new ! */
-    virtual Node * createNode( const std::string& name, StringTable& attributes);
-    /**
-     * checks the console for keyboard input and updates any
-     * ConsoleSource nodes accordingly. This happens every cycle
-     * and all key presses recorded since are used.
-     */
-    virtual void pushEvent();
-    /**
-     * reads out the ConsoleSink nodes current event an prints it
-     * to the console. This is done only each length cylce.
-     */
-    virtual void pullEvent();
-    /**
-     * On Unix platforms initializes curses. This method is called after
-     * initialisation is finished and before the main loop is started.*/
-    virtual void start();
-    /**
-     * On Unix platforms closes curses.*/
-    virtual void close();
-    /**
-     * tests whether a key was pressed, if so it stops.
-     * @return 1 if main loop should stop, 0 otherwise. */
-    virtual int stop();
+      // Methods
+    protected:
+      /** adds the attribute to the events of all sources belonging to @p station
+       * @param station the number of the station to add attribute to
+       * @param type the generic type name of the new attribute
+       * @param name the name of the new attribute
+       * @param value the value of the new attribute
+       */
+      void addAttr(const int station, const std::string type, const std::string name, const std::string value) const;
+      /** deletes the attribute from all events of all sources belonging to @p station
+       * @param station the number of the station to add attribute to
+       * @param name the name of the attribute to be deleted
+       */
+      void delAttr(const int station, const std::string name);
+      /** chooses the next attribute to be subject to change
+       * @param station the number of the station
+       */
+      void nextAttr(const int station);
+      /** changes the attribute that is currently subject to change to @p value
+       * @param station the number of the station
+       * @param value the new value
+       */
+      void changeAttrToValue(const int station, const std::string value) const;
+      /** increases or decreases the attribute currently subject to change according to @p dir
+       * @param station the number of the station
+       * @param dir whether too increase or decrease the value
+       */
+      void changeAttr(const int station, const DIRECTION dir) const;
+      /** clear the @p lines last lines of the terminal. If @lines is negative, the entire
+       * screen is cleared.
+       * @param lines the number of lines to be cleared above the current one
+       */
+      void clearLastLines(int lines = -1);
+      /** sets the button bit of given button on all sources that
+       * are associated with station. Changes the changed flag on
+       * the sources.
+       * @param station the number of the station to change
+       * @param button the number of the button to set ( 1 - 4, where 1 corresponds to LSB )
+       */
+      void setButton( int station , int button );
+      /** moves the position by the given data on all sources that
+       * are associated with station. Changes the changed flag on
+       * the sources.
+       * @param station the number of the station to change
+       * @param data array of 3 floats giving the movement vector
+       */
+      void movePos( int station, float * data );
+      /** rotates the event by the given data on all sources that
+       * are associated with station. Changes the changed flag on
+       * the sources.
+       * @param station the number of the station to change
+       * @param data array of 4 floats giving rotational quaternion
+       */
+      void rotate( int station, float * data );
+      /** resets the data on all sources that are associated with
+       * the given station. Changes the changed flag on
+       * the sources.
+       * @param station the number of the station to change
+       */
+      void reset( int station );
+    public:
+      /** constructor method. initializes internal and static data
+       * such as the functionMap and keyMap tables. */
+      ConsoleModule();
+      /** Destructor method, clears nodes member. */
+      virtual ~ConsoleModule();
+      /**
+       * initializes the tracker module.
+       * @param attributes StringTable of elements attribute values. Should be
+       *        possibly , but is not for convenience.
+       * @param localTree pointer to root of configuration nodes tree
+       */
+      virtual void init(StringTable& attributes, ConfigNode * localTree);
+      /** This method is called to ruct a new Node. It compares
+       * name to the ConsoleSink element name, and if it matches
+       * creates a new ConsoleSink node.
+       * @param name reference to string containing element name
+       * @attributes refenrence to StringTable containing attribute values
+       * @return pointer to new Node or NULL. The new Node must be
+       *         allocated with new ! */
+      virtual Node * createNode( const std::string& name, StringTable& attributes);
+      /**
+       * checks the console for keyboard input and updates any
+       * ConsoleSource nodes accordingly. This happens every cycle
+       * and all key presses recorded since are used.
+       */
+      virtual void pushEvent();
+      /**
+       * reads out the ConsoleSink nodes current event an prints it
+       * to the console. This is done only each length cylce.
+       */
+      virtual void pullEvent();
+      /**
+       * On Unix platforms initializes curses. This method is called after
+       * initialisation is finished and before the main loop is started.*/
+      virtual void start();
+      /**
+       * On Unix platforms closes curses.*/
+      virtual void close();
+      /**
+       * tests whether a key was pressed, if so it stops.
+       * @return 1 if main loop should stop, 0 otherwise. */
+      virtual int stop();
 
-    // maps the function names in the config file to indices
-    std::vector<std::string> functionMap;
-    // maps the function key names in the config file to key codes
-    std::map<std::string,int> keyCodeMap;
+      // maps the function names in the config file to indices
+      std::vector<std::string> functionMap;
+      // maps the function key names in the config file to key codes
+      std::map<std::string,int> keyCodeMap;
 
-    static const short MOVE_X_PLUS;
-    static const short MOVE_X_MINUS;
-    static const short MOVE_Y_PLUS;
-    static const short MOVE_Y_MINUS;
-    static const short MOVE_Z_PLUS;
-    static const short MOVE_Z_MINUS;
-    static const short ROT_X_PLUS;
-    static const short ROT_X_MINUS;
-    static const short ROT_Y_PLUS;
-    static const short ROT_Y_MINUS;
-    static const short ROT_Z_PLUS;
-    static const short ROT_Z_MINUS;
-    static const short ACCELL;
-    static const short BRAKE;
-    static const short BUTTON_1;
-    static const short BUTTON_2;
-    static const short BUTTON_3;
-    static const short BUTTON_4;
-    static const short STATION_0;
-    static const short STATION_1;
-    static const short STATION_2;
-    static const short STATION_3;
-    static const short STATION_4;
-    static const short STATION_5;
-    static const short STATION_6;
-    static const short STATION_7;
-    static const short STATION_8;
-    static const short STATION_9;
-    static const short RESET;
-    static const short QUIT;
-    static const short NEXT_ATTR;
-    static const short ADD_ATTR;
-    static const short DEL_ATTR;
-    static const short CHANGE_ATTR_POS;
-    static const short CHANGE_ATTR_NEG;
-    static const short CHANGE_ATTR_VAL;
-    static const short ACCEL_ANG;
-    static const short BRAKE_ANG;
-  };
+      static const short MOVE_X_PLUS;
+      static const short MOVE_X_MINUS;
+      static const short MOVE_Y_PLUS;
+      static const short MOVE_Y_MINUS;
+      static const short MOVE_Z_PLUS;
+      static const short MOVE_Z_MINUS;
+      static const short ROT_X_PLUS;
+      static const short ROT_X_MINUS;
+      static const short ROT_Y_PLUS;
+      static const short ROT_Y_MINUS;
+      static const short ROT_Z_PLUS;
+      static const short ROT_Z_MINUS;
+      static const short ACCELL;
+      static const short BRAKE;
+      static const short BUTTON_1;
+      static const short BUTTON_2;
+      static const short BUTTON_3;
+      static const short BUTTON_4;
+      static const short STATION_0;
+      static const short STATION_1;
+      static const short STATION_2;
+      static const short STATION_3;
+      static const short STATION_4;
+      static const short STATION_5;
+      static const short STATION_6;
+      static const short STATION_7;
+      static const short STATION_8;
+      static const short STATION_9;
+      static const short RESET;
+      static const short QUIT;
+      static const short NEXT_ATTR;
+      static const short ADD_ATTR;
+      static const short DEL_ATTR;
+      static const short CHANGE_ATTR_POS;
+      static const short CHANGE_ATTR_NEG;
+      static const short CHANGE_ATTR_VAL;
+      static const short ACCEL_ANG;
+      static const short BRAKE_ANG;
+    };
 
 } // namespace ot
 
@@ -374,3 +374,19 @@ namespace ot {
 
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of ConsoleModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

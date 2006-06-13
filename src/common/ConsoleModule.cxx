@@ -311,23 +311,23 @@ namespace ot {
         LOG_ACE_INFO("ot:Built ConsoleSink node.\n");
         return sink;
       } else if( name.compare("ConsoleSource") == 0 )
-      {
-        int number;
-        if( attributes.get("number", &number ) == 1 )
-	  {
-            if( number >= 0 && number < 10 )
-	      {
-                ConsoleSource * source = new ConsoleSource( number );
-                sources.push_back( source );
-                LOG_ACE_INFO("ot:Built ConsoleSource node.\n");
-                return source;
-	      } else
-	      {
-                LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );
-	      }
-	  } else
-	  LOG_ACE_INFO("ot:ConsoleSource station number not a number.\n");
-      }
+	{
+	  int number;
+	  if( attributes.get("number", &number ) == 1 )
+	    {
+	      if( number >= 0 && number < 10 )
+		{
+		  ConsoleSource * source = new ConsoleSource( number );
+		  sources.push_back( source );
+		  LOG_ACE_INFO("ot:Built ConsoleSource node.\n");
+		  return source;
+		} else
+		  {
+		    LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );
+		  }
+	    } else
+	      LOG_ACE_INFO("ot:ConsoleSource station number not a number.\n");
+	}
     return NULL;
   }
 
@@ -356,702 +356,718 @@ namespace ot {
             key |= _getch();
 	  }
 #else
-    while( (key = getch()) != ERR )
-      {
+	while( (key = getch()) != ERR )
+	  {
 #endif
-	int index = std::find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
-	switch( index )
-	  {
-	  case QUIT :
-	    quit = 1;
-	    break;
-	  case ACCELL :
-	    posSpeed *= 2.0f;
-	    stationChanged = true;
-	    break;
-	  case BRAKE :
-	    posSpeed /= 2.0f;
-	    stationChanged = true;
-	    break;
-	  case ACCEL_ANG :
-	    angularSpeed *= 2.0f;
-	    stationChanged = true;
-	    break;
-	  case BRAKE_ANG :
-	    angularSpeed /= 2.0f;
-	    stationChanged = true;
-	    break;
-	  case STATION_0 :
-	    station = 0;
-	    stationChanged = true;
-	    break;
-	  case STATION_1 :
-	    station = 1;
-	    stationChanged = true;
-	    break;
-	  case STATION_2 :
-	    station = 2;
-	    stationChanged = true;
-	    break;
-	  case STATION_3 :
-	    station = 3;
-	    stationChanged = true;
-	    break;
-	  case STATION_4 :
-	    station = 4;
-	    stationChanged = true;
-	    break;
-	  case STATION_5 :
-	    station = 5;
-	    stationChanged = true;
-	    break;
-	  case STATION_6 :
-	    station = 6;
-	    stationChanged = true;
-	    break;
-	  case STATION_7 :
-	    station = 7;
-	    stationChanged = true;
-	    break;
-	  case STATION_8 :
-	    station = 8;
-	    stationChanged = true;
-	    break;
-	  case STATION_9 :
-	    station = 9;
-	    stationChanged = true;
-	    break;
-	  case BUTTON_1 :
-	    setButton( station , 1 );
-	    break;
-	  case BUTTON_2 :
-	    setButton( station , 2 );
-	    break;
-	  case BUTTON_3 :
-	    setButton( station , 3 );
-	    break;
-	  case BUTTON_4 :
-	    setButton( station , 4 );
-	    break;
-	  case MOVE_X_MINUS :
-	    data[0] = - posSpeed;
-	    data[1] = 0;
-	    data[2] = 0;
-	    movePos( station, data );
-	    break;
-	  case MOVE_X_PLUS :
-	    data[0] = posSpeed;
-	    data[1] = 0;
-	    data[2] = 0;
-	    movePos( station, data );
-	    break;
-	  case MOVE_Y_MINUS :
-	    data[0] = 0;
-	    data[1] = - posSpeed;
-	    data[2] = 0;
-	    movePos( station, data );
-	    break;
-	  case MOVE_Y_PLUS :
-	    data[0] = 0;
-	    data[1] = posSpeed;
-	    data[2] = 0;
-	    movePos( station, data );
-	    break;
-	  case MOVE_Z_MINUS :
-	    data[0] = 0;
-	    data[1] = 0;
-	    data[2] = - posSpeed;
-	    movePos( station, data );
-	    break;
-	  case MOVE_Z_PLUS :
-	    data[0] = 0;
-	    data[1] = 0;
-	    data[2] = posSpeed;
-	    movePos( station, data );
-	    break;
-	  case ROT_X_PLUS :
-	    data[0] = 1;
-	    data[1] = 0;
-	    data[2] = 0;
-	    data[3] = angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case ROT_X_MINUS :
-	    data[0] = 1;
-	    data[1] = 0;
-	    data[2] = 0;
-	    data[3] = -angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case ROT_Y_PLUS :
-	    data[0] = 0;
-	    data[1] = 1;
-	    data[2] = 0;
-	    data[3] = angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case ROT_Y_MINUS :
-	    data[0] = 0;
-	    data[1] = 1;
-	    data[2] = 0;
-	    data[3] = -angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case ROT_Z_PLUS :
-	    data[0] = 0;
-	    data[1] = 0;
-	    data[2] = 1;
-	    data[3] = angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case ROT_Z_MINUS :
-	    data[0] = 0;
-	    data[1] = 0;
-	    data[2] = 1;
-	    data[3] = -angularSpeed;
-	    MathUtils::axisAngleToQuaternion( data, data );
-	    rotate( station, data );
-	    break;
-	  case RESET :
-	    reset( station );
-	    break;
-	  case NEXT_ATTR :
-	    nextAttr( station );
-	    break;
-	  case ADD_ATTR :
-	    addAttribute = true;
-	    break;
-	  case DEL_ATTR :
-	    delAttribute = true;
-	    nameOfAttributeToBeChanged = ""; // because this attribute might be deleted
-	    break;
-	  case CHANGE_ATTR_POS :
-	    changeAttr( station, POS );
-	    break;
-	  case CHANGE_ATTR_NEG :
-	    changeAttr( station, NEG );
-	    break;
-	  case CHANGE_ATTR_VAL :
-	    if (nameOfAttributeToBeChanged != "")
-	      changeAttrByVal = true;
-	    break;
-	  }
-	if (stationChanged)
-	  nameOfAttributeToBeChanged = "";
-      }
-
-    // check for changed sources and let them generate events
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->changed == 1 )
-	  {
-	    source->event.timeStamp();
-	    source->updateObservers( source->event );
-	    source->changed = 0;
-	  }
-      }
-  }
-
-  // add attribute
-  void ConsoleModule::addAttr(const int station, const std::string type, const std::string name, const std::string value) const
-  {
-    ConsoleSource *source;
-    for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station && Event::knowsType(type))
-	  {
-	    if (source->event.addAttribute(type, name, value))
-	      source->changed = 1;
-	  }
-      }
-  }
-
-  // delete attribute
-  void ConsoleModule::delAttr(const int station, const std::string name)
-  {
-    ConsoleSource *source;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station)
-	  {
-	    if (source->event.delAttribute(name))
+	    int index = std::find(keyMap.begin(), keyMap.end(), key ) - keyMap.begin();
+	    switch( index )
 	      {
-		source->changed = 1;
-		if (name == nameOfAttributeToBeChanged)
-		  nameOfAttributeToBeChanged = "";
+	      case QUIT :
+		quit = 1;
+		break;
+	      case ACCELL :
+		posSpeed *= 2.0f;
+		stationChanged = true;
+		break;
+	      case BRAKE :
+		posSpeed /= 2.0f;
+		stationChanged = true;
+		break;
+	      case ACCEL_ANG :
+		angularSpeed *= 2.0f;
+		stationChanged = true;
+		break;
+	      case BRAKE_ANG :
+		angularSpeed /= 2.0f;
+		stationChanged = true;
+		break;
+	      case STATION_0 :
+		station = 0;
+		stationChanged = true;
+		break;
+	      case STATION_1 :
+		station = 1;
+		stationChanged = true;
+		break;
+	      case STATION_2 :
+		station = 2;
+		stationChanged = true;
+		break;
+	      case STATION_3 :
+		station = 3;
+		stationChanged = true;
+		break;
+	      case STATION_4 :
+		station = 4;
+		stationChanged = true;
+		break;
+	      case STATION_5 :
+		station = 5;
+		stationChanged = true;
+		break;
+	      case STATION_6 :
+		station = 6;
+		stationChanged = true;
+		break;
+	      case STATION_7 :
+		station = 7;
+		stationChanged = true;
+		break;
+	      case STATION_8 :
+		station = 8;
+		stationChanged = true;
+		break;
+	      case STATION_9 :
+		station = 9;
+		stationChanged = true;
+		break;
+	      case BUTTON_1 :
+		setButton( station , 1 );
+		break;
+	      case BUTTON_2 :
+		setButton( station , 2 );
+		break;
+	      case BUTTON_3 :
+		setButton( station , 3 );
+		break;
+	      case BUTTON_4 :
+		setButton( station , 4 );
+		break;
+	      case MOVE_X_MINUS :
+		data[0] = - posSpeed;
+		data[1] = 0;
+		data[2] = 0;
+		movePos( station, data );
+		break;
+	      case MOVE_X_PLUS :
+		data[0] = posSpeed;
+		data[1] = 0;
+		data[2] = 0;
+		movePos( station, data );
+		break;
+	      case MOVE_Y_MINUS :
+		data[0] = 0;
+		data[1] = - posSpeed;
+		data[2] = 0;
+		movePos( station, data );
+		break;
+	      case MOVE_Y_PLUS :
+		data[0] = 0;
+		data[1] = posSpeed;
+		data[2] = 0;
+		movePos( station, data );
+		break;
+	      case MOVE_Z_MINUS :
+		data[0] = 0;
+		data[1] = 0;
+		data[2] = - posSpeed;
+		movePos( station, data );
+		break;
+	      case MOVE_Z_PLUS :
+		data[0] = 0;
+		data[1] = 0;
+		data[2] = posSpeed;
+		movePos( station, data );
+		break;
+	      case ROT_X_PLUS :
+		data[0] = 1;
+		data[1] = 0;
+		data[2] = 0;
+		data[3] = angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case ROT_X_MINUS :
+		data[0] = 1;
+		data[1] = 0;
+		data[2] = 0;
+		data[3] = -angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case ROT_Y_PLUS :
+		data[0] = 0;
+		data[1] = 1;
+		data[2] = 0;
+		data[3] = angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case ROT_Y_MINUS :
+		data[0] = 0;
+		data[1] = 1;
+		data[2] = 0;
+		data[3] = -angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case ROT_Z_PLUS :
+		data[0] = 0;
+		data[1] = 0;
+		data[2] = 1;
+		data[3] = angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case ROT_Z_MINUS :
+		data[0] = 0;
+		data[1] = 0;
+		data[2] = 1;
+		data[3] = -angularSpeed;
+		MathUtils::axisAngleToQuaternion( data, data );
+		rotate( station, data );
+		break;
+	      case RESET :
+		reset( station );
+		break;
+	      case NEXT_ATTR :
+		nextAttr( station );
+		break;
+	      case ADD_ATTR :
+		addAttribute = true;
+		break;
+	      case DEL_ATTR :
+		delAttribute = true;
+		nameOfAttributeToBeChanged = ""; // because this attribute might be deleted
+		break;
+	      case CHANGE_ATTR_POS :
+		changeAttr( station, POS );
+		break;
+	      case CHANGE_ATTR_NEG :
+		changeAttr( station, NEG );
+		break;
+	      case CHANGE_ATTR_VAL :
+		if (nameOfAttributeToBeChanged != "")
+		  changeAttrByVal = true;
+		break;
 	      }
-	  }
-      }
-  }
-
-  // switch to next attribute
-  void ConsoleModule::nextAttr(const int station)
-  {
-    ConsoleSource *source;
-    bool gotNextAttr = false;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station && source->event.getSize() > 0)
-	  {
-	    currentChanged = true;
-
-	    // continue if next attribute was found already
- 	    if (gotNextAttr)
- 	      continue;
-
-	    // get index
-	    int index = 0;
-	    if (nameOfAttributeToBeChanged != "")
-	      {
-		index = source->event.getAttributeIndex(nameOfAttributeToBeChanged);
-		index += 1;
-	      }
-
-	    // get attribute name
-	    if (index == source->event.getSize())
+	    if (stationChanged)
 	      nameOfAttributeToBeChanged = "";
-	    else
-	      nameOfAttributeToBeChanged = source->event.getAttributeName(index);
-	    gotNextAttr = true;
 	  }
-      }
-  }
 
-  // change current attribute to typed in value
-  void ConsoleModule::changeAttrToValue(const int station, const std::string value) const
-  {
-    if (nameOfAttributeToBeChanged == "")
-      return;
-
-    ConsoleSource *source;
-    for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station)
+	// check for changed sources and let them generate events
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
 	  {
-	    if (source->event.setAttribute(nameOfAttributeToBeChanged, value))
-		source->changed = 1;
-	  }
-      }
-  }
-
-  // increase or decrease numerical attribute
-  void ConsoleModule::changeAttr(const int station, const DIRECTION dir) const
-  {
-    if (nameOfAttributeToBeChanged == "")
-      return;
-
-    ConsoleSource * source;
-    for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station )
-	  {
-	    source->changed = 1;
-	    double delta = (dir == POS) ? posSpeed : -posSpeed;
-
-	    const std::type_info &type = source->event.getAttributeType(nameOfAttributeToBeChanged);
-	    if (type == typeid(bool))
+	    source = (ConsoleSource *)(*it);
+	    if( source->changed == 1 )
 	      {
-		bool &value = source->event.getAttribute((bool*)NULL, nameOfAttributeToBeChanged);
-		value = !value;
+		source->event.timeStamp();
+		source->updateObservers( source->event );
+		source->changed = 0;
 	      }
-#if !defined (_MSC_VER) || (_MSC_VER != 1200) // these lines will not work with MS VC6
-	    else if (type == typeid(char))
+	  }
+      }
+
+    // add attribute
+    void ConsoleModule::addAttr(const int station, const std::string type, const std::string name, const std::string value) const
+      {
+	ConsoleSource *source;
+	for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station && Event::knowsType(type))
 	      {
-		char &c = source->event.getAttribute<char>((char*)NULL, nameOfAttributeToBeChanged);
-		c = c + 1 % 256;
+		if (source->event.addAttribute(type, name, value))
+		  source->changed = 1;
 	      }
-#endif
-	    else if (type == typeid(int))
-	      source->event.getAttribute((int*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(short))
-	      source->event.getAttribute((short*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(long))
-	      source->event.getAttribute((long*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(unsigned char))
-	      source->event.getAttribute((unsigned char*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(unsigned int))
-	      source->event.getAttribute((unsigned int*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(unsigned short))
-	      source->event.getAttribute((unsigned short*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(unsigned long))
-	      source->event.getAttribute((unsigned long*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
-	    else if (type == typeid(double))
-	      source->event.getAttribute((double*)NULL, nameOfAttributeToBeChanged) += delta;
-	    else if (type == typeid(long double))
-	      source->event.getAttribute((long double*)NULL, nameOfAttributeToBeChanged) += delta;
-	    else if (type == typeid(float))
-	      source->event.getAttribute((float*)NULL, nameOfAttributeToBeChanged) += (float)delta;
-	    else
-	      source->changed = 0;
 	  }
       }
-  }
 
-  // toggles button values on stations sources
-
-  void ConsoleModule::setButton( int station , int button )
-  {
-    ConsoleSource * source;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+    // delete attribute
+    void ConsoleModule::delAttr(const int station, const std::string name)
       {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station )
+	ConsoleSource *source;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
 	  {
-	    source->event.getButton() ^= ( 1 << ( button - 1 ));
-	    source->changed = 1;
-
-	  }
-      }
-  }
-
-  // moves stations sources by given amount
-
-  void ConsoleModule::movePos( int station , float * data )
-  {
-    ConsoleSource * source;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station )
-	  {
-	    source->event.getPosition()[0] += data[0];
-	    source->event.getPosition()[1] += data[1];
-	    source->event.getPosition()[2] += data[2];
-	    source->changed = 1;
-	  }
-      }
-  }
-
-  // rotates stations sources by given amount
-
-  void ConsoleModule::rotate( int station, float * data )
-  {
-    ConsoleSource * source;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station )
-	  {
-	    std::vector<float> help(source->event.getOrientation());
-	    MathUtils::multiplyQuaternion( copyA2V(data, 4), help, source->event.getOrientation() );
-	    source->changed = 1;
-	  }
-      }
-  }
-
-  // resets a given stations sources to null position
-
-  void ConsoleModule::reset( int station )
-  {
-    ConsoleSource * source;
-    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-      {
-	source = (ConsoleSource *)(*it);
-	if( source->number == station )
-	  {
-	    source->event.clearAttributes();
-	    source->changed = 1;
-	  }
-      }
-  }
-
-  // pulls events out of the tracker tree
-
-  void ConsoleModule::pullEvent()
-  {
-    if(isInitialized() == 0 || display == 0 || curses == 0 )
-      {
-	return;
-      }
-    cycle = (cycle+1) % interval;
-    if( cycle == 0 ){
-      int display = 0, count = 0;
-      NodeVector::iterator it;
-      for( it = sinks.begin(); it != sinks.end(); it++ )
-	{
-	  display |= ((ConsoleSink *)(*it))->changed;
-	  ((ConsoleSink *)(*it))->changed = 0;
-	  count += ((ConsoleSink *)(*it))->active;
-	}
-
-      if (display || stationChanged ||  currentChanged || delAttribute || addAttribute || changeAttrByVal)
-	{
-#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
-#ifdef WIN32
-	  clearLastLines();
-	  printf("%s\n\n", headerline.c_str());
-	  if (sources.size() > 0)
-	    printf( "Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed );
-#else
-	  move(0, 0);
-	  printw("%s\n\n", headerline.c_str());
-	  if (sources.size() > 0)
-	    printw("Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed );
-#endif
-#endif //! _WIN32_WCE && !USE_MSDEV_DEBUGOUTPUT
-
-	  for( it = sinks.begin(); it != sinks.end(); it++ )
-	    {
-	      ConsoleSink * sink = (ConsoleSink *) *it;
-	      if( sink->active == 0 )
-		continue;
-	      Event & event = sink->event;
-
-#ifdef USE_MSDEV_DEBUGOUTPUT
-	      char str[512];
-	      sprintf(str, "\n%s :\n%s", sink->comment.c_str(), event.getPrintOut().c_str());
-	      OutputDebugString(str);
-#endif //USE_MSDEV_DEBUGOUTPUT
-
-#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
-#ifdef WIN32
-	      printf("\n%s :\n", sink->comment.c_str());
-	      printf(event.getPrintOut().c_str());
-#else
-	      printw("\n%s :\n",sink->comment.c_str());
-	      printw(event.getPrintOut().c_str());
-#endif
-#endif //USE_MSDEV_DEBUGOUTPUT
-	    }
-	  stationChanged = false;
-	}
-
-
-      // print out attribute that is subject to change
-      if (display || currentChanged || addAttribute || changeAttrByVal)
-	{
-	  if (nameOfAttributeToBeChanged != "")
-	    {
-#ifndef WIN32
-	  printw("\nchange attribute: '%s' of station [%i]\n", nameOfAttributeToBeChanged.c_str(), station);
-#else
-	  printf("\nchange attribute: '%s' of station [%i]\n", nameOfAttributeToBeChanged.c_str(), station);
-#endif
-	    }
-	  currentChanged = false;
-	}
-
-      //  add new attribute
-      if (addAttribute)
-	{
-	  char type[256];
-	  char name[256];
-	  char value[256];
-
-#ifndef WIN32
-	  echo();
-	  nodelay(stdscr, false);
-
-	  printw("\nadd new attribute to station [%i]\n", station);
-	  printw("enter type  >");
-	  getnstr(type, 256);
-	  printw("enter name  >");
-	  getnstr(name, 256);
-	  printw("enter value >");
-	  getnstr(value, 256);
-
-	  noecho();
-	  nodelay(stdscr, true);
-#else
-	  printf("\nadd new attribute to station [%i]\n", station);
-	  printf("enter type  >");
-	  scanf("%s", type);
-	  printf("enter name  >");
-	  scanf("%s", name);
-	  printf("enter value >");
-	  scanf("%s", value);
-#endif
-	  clearLastLines(4);
-	  addAttr(station, std::string(type), std::string(name), std::string(value));
-	  addAttribute = false;
-	}
-
-      // delete attribute
-      else if (delAttribute)
-	{
-	  char name[256];
-
-#ifndef WIN32
-	  echo();
-	  nodelay(stdscr, false);
-
-	  printw("\ndelete attribute in sources of station [%i]\n", station);
-	  printw("enter name >");
-	  getnstr(name, 256);
-
-	  noecho();
-	  nodelay(stdscr, true);
-#else
-	  printf("\ndelete attribute in sources of station [%i]\n", station);
-	  printf("enter name >");
-	  scanf("%s", name);
-#endif
-	  clearLastLines(2);
-	  delAttr(station, std::string(name));
-	  delAttribute = false;
-	}
-
-      // change atribute by typing in new value
-      else if (changeAttrByVal)
-	{
-	  char value[256];
-
-#ifndef WIN32
-	  echo();
-	  nodelay(stdscr, false);
-
-	  printw("enter value >");
-	  getnstr(value, 256);
-
-	  noecho();
-	  nodelay(stdscr, true);
-#else
-	  printf("enter value >");
-	  scanf("%s", value);
-#endif
-	  clearLastLines(1);
-	  changeAttrToValue(station, std::string(value));
-	  changeAttrByVal = false;
-	}
-
-      // clean up
-      else
-	{
-#ifndef WIN32
-	  printw("\n\n");
-#endif
-	}
-    }
-  }
-
-  // initializes ConsoleModule
-
-  void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
-  {
-    Module::init( attributes, localTree );
-
-    if( attributes.get("interval", &interval ) == 0 ){
-      interval = 10;
-    }
-    headerline = attributes.get("headerline");
-    if( attributes.get("display").compare( "off" ) == 0 )
-      display = 0;
-    if( attributes.get("curses").compare( "off" ) == 0 )
-      curses = 0;
-    if( localTree != NULL )
-      {
-	ConfigNode * base = localTree;
-	for( unsigned int i = 0; i < base->countChildren(); i++ )
-	  {
-	    ConfigNode * config = (ConfigNode *)base->getChild( i );
-	    if( config->getType().compare("KeyDefinition") == 0 )
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station)
 	      {
-		std::string function = config->getAttributes().get("function");
-		std::string key = config->getAttributes().get("key");
-		std::vector<std::string>::iterator funcIt = std::find( functionMap.begin(), functionMap.end(), function );
-		if( funcIt != functionMap.end() )
+		if (source->event.delAttribute(name))
 		  {
-		    int index = funcIt - functionMap.begin();
-		    std::map<std::string,int>::iterator codeIt = keyCodeMap.find( key );
-		    int code;
-		    if( codeIt == keyCodeMap.end())
-		      {
-			int num = sscanf( key.c_str(), " %x", &code );
-			if( num == 0 )
-			  {
-			    code = key[0];
-			  }
-		      }
-		    else {
-		      code = (*codeIt).second;
-		    }
-		    keyMap[index] = code;
+		    source->changed = 1;
+		    if (name == nameOfAttributeToBeChanged)
+		      nameOfAttributeToBeChanged = "";
 		  }
 	      }
 	  }
       }
 
-#ifndef WIN32
-    if( curses ) {
-      initscr();
-      cbreak();
-      noecho();
-      nonl();
-      intrflush(stdscr,FALSE);
-      keypad(stdscr,TRUE);
-      nodelay(stdscr, TRUE);
-      leaveok(stdscr, TRUE);
-    }
-#endif
-  }
-
-  // start the module and init curses
-
-  void ConsoleModule::start()
-  {}
-
-  // close ConsoleModule
-
-  void ConsoleModule::close()
-  {
-#ifndef WIN32
-    if( curses ) {
-      endwin();
-    }
-#endif
-  }
-
-  // tests whether a key was pressed, if so it stops.
-
-  int ConsoleModule::stop()
-  {
-    return quit;
-  }
-
-  // clear last lines
-  void ConsoleModule::clearLastLines(int lines)
-  {
-#ifdef WIN32
-    // clear screen as described in the Microsoft Knowledge Base:
-    HANDLE hndl = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(hndl, &csbi);
-    DWORD written;
-    DWORD N = csbi.dwSize.X * csbi.dwCursorPosition.Y + csbi.dwCursorPosition.X + 1;
-    COORD curhome = {0, 0};
-    if (lines >= 0)
-      curhome.Y = csbi.dwCursorPosition.Y - lines;
-    FillConsoleOutputCharacter(hndl, ' ', N, curhome, &written);
-    csbi.srWindow.Bottom -= csbi.srWindow.Top;
-    csbi.srWindow.Top = 0;
-    SetConsoleWindowInfo(hndl, TRUE, &csbi.srWindow);
-    SetConsoleCursorPosition(hndl, curhome);
-#else
-    if (lines < 0)
-      clear();
-    else
+    // switch to next attribute
+    void ConsoleModule::nextAttr(const int station)
       {
-	int x, y;
-	getyx(stdscr, y, x);
-	move(y - lines, 0);
-	for (int i = 0; i < lines; i++)
-	  printw("\n");
-      }
-#endif
-  }
+	ConsoleSource *source;
+	bool gotNextAttr = false;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station && source->event.getSize() > 0)
+	      {
+		currentChanged = true;
 
-} // namespace ot
+		// continue if next attribute was found already
+		if (gotNextAttr)
+		  continue;
+
+		// get index
+		int index = 0;
+		if (nameOfAttributeToBeChanged != "")
+		  {
+		    index = source->event.getAttributeIndex(nameOfAttributeToBeChanged);
+		    index += 1;
+		  }
+
+		// get attribute name
+		if (index == source->event.getSize())
+		  nameOfAttributeToBeChanged = "";
+		else
+		  nameOfAttributeToBeChanged = source->event.getAttributeName(index);
+		gotNextAttr = true;
+	      }
+	  }
+      }
+
+    // change current attribute to typed in value
+    void ConsoleModule::changeAttrToValue(const int station, const std::string value) const
+      {
+	if (nameOfAttributeToBeChanged == "")
+	  return;
+
+	ConsoleSource *source;
+	for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station)
+	      {
+		if (source->event.setAttribute(nameOfAttributeToBeChanged, value))
+		  source->changed = 1;
+	      }
+	  }
+      }
+
+    // increase or decrease numerical attribute
+    void ConsoleModule::changeAttr(const int station, const DIRECTION dir) const
+      {
+	if (nameOfAttributeToBeChanged == "")
+	  return;
+
+	ConsoleSource * source;
+	for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station )
+	      {
+		source->changed = 1;
+		double delta = (dir == POS) ? posSpeed : -posSpeed;
+
+		const std::type_info &type = source->event.getAttributeType(nameOfAttributeToBeChanged);
+		if (type == typeid(bool))
+		  {
+		    bool &value = source->event.getAttribute((bool*)NULL, nameOfAttributeToBeChanged);
+		    value = !value;
+		  }
+#if !defined (_MSC_VER) || (_MSC_VER != 1200) // these lines will not work with MS VC6
+		else if (type == typeid(char))
+		  {
+		    char &c = source->event.getAttribute<char>((char*)NULL, nameOfAttributeToBeChanged);
+		    c = c + 1 % 256;
+		  }
+#endif
+		else if (type == typeid(int))
+		  source->event.getAttribute((int*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(short))
+		  source->event.getAttribute((short*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(long))
+		  source->event.getAttribute((long*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(unsigned char))
+		  source->event.getAttribute((unsigned char*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(unsigned int))
+		  source->event.getAttribute((unsigned int*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(unsigned short))
+		  source->event.getAttribute((unsigned short*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(unsigned long))
+		  source->event.getAttribute((unsigned long*)NULL, nameOfAttributeToBeChanged) += ((int)(delta * 10));
+		else if (type == typeid(double))
+		  source->event.getAttribute((double*)NULL, nameOfAttributeToBeChanged) += delta;
+		else if (type == typeid(long double))
+		  source->event.getAttribute((long double*)NULL, nameOfAttributeToBeChanged) += delta;
+		else if (type == typeid(float))
+		  source->event.getAttribute((float*)NULL, nameOfAttributeToBeChanged) += (float)delta;
+		else
+		  source->changed = 0;
+	      }
+	  }
+      }
+
+    // toggles button values on stations sources
+
+    void ConsoleModule::setButton( int station , int button )
+      {
+	ConsoleSource * source;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station )
+	      {
+		source->event.getButton() ^= ( 1 << ( button - 1 ));
+		source->changed = 1;
+
+	      }
+	  }
+      }
+
+    // moves stations sources by given amount
+
+    void ConsoleModule::movePos( int station , float * data )
+      {
+	ConsoleSource * source;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station )
+	      {
+		source->event.getPosition()[0] += data[0];
+		source->event.getPosition()[1] += data[1];
+		source->event.getPosition()[2] += data[2];
+		source->changed = 1;
+	      }
+	  }
+      }
+
+    // rotates stations sources by given amount
+
+    void ConsoleModule::rotate( int station, float * data )
+      {
+	ConsoleSource * source;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station )
+	      {
+		std::vector<float> help(source->event.getOrientation());
+		MathUtils::multiplyQuaternion( copyA2V(data, 4), help, source->event.getOrientation() );
+		source->changed = 1;
+	      }
+	  }
+      }
+
+    // resets a given stations sources to null position
+
+    void ConsoleModule::reset( int station )
+      {
+	ConsoleSource * source;
+	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	  {
+	    source = (ConsoleSource *)(*it);
+	    if( source->number == station )
+	      {
+		source->event.clearAttributes();
+		source->changed = 1;
+	      }
+	  }
+      }
+
+    // pulls events out of the tracker tree
+
+    void ConsoleModule::pullEvent()
+      {
+	if(isInitialized() == 0 || display == 0 || curses == 0 )
+	  {
+	    return;
+	  }
+	cycle = (cycle+1) % interval;
+	if( cycle == 0 ){
+	  int display = 0, count = 0;
+	  NodeVector::iterator it;
+	  for( it = sinks.begin(); it != sinks.end(); it++ )
+	    {
+	      display |= ((ConsoleSink *)(*it))->changed;
+	      ((ConsoleSink *)(*it))->changed = 0;
+	      count += ((ConsoleSink *)(*it))->active;
+	    }
+
+	  if (display || stationChanged ||  currentChanged || delAttribute || addAttribute || changeAttrByVal)
+	    {
+#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
+#ifdef WIN32
+	      clearLastLines();
+	      printf("%s\n\n", headerline.c_str());
+	      if (sources.size() > 0)
+		printf( "Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed );
+#else
+	      move(0, 0);
+	      printw("%s\n\n", headerline.c_str());
+	      if (sources.size() > 0)
+		printw("Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed );
+#endif
+#endif //! _WIN32_WCE && !USE_MSDEV_DEBUGOUTPUT
+
+	      for( it = sinks.begin(); it != sinks.end(); it++ )
+		{
+		  ConsoleSink * sink = (ConsoleSink *) *it;
+		  if( sink->active == 0 )
+		    continue;
+		  Event & event = sink->event;
+
+#ifdef USE_MSDEV_DEBUGOUTPUT
+		  char str[512];
+		  sprintf(str, "\n%s :\n%s", sink->comment.c_str(), event.getPrintOut().c_str());
+		  OutputDebugString(str);
+#endif //USE_MSDEV_DEBUGOUTPUT
+
+#if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
+#ifdef WIN32
+		  printf("\n%s :\n", sink->comment.c_str());
+		  printf(event.getPrintOut().c_str());
+#else
+		  printw("\n%s :\n",sink->comment.c_str());
+		  printw(event.getPrintOut().c_str());
+#endif
+#endif //USE_MSDEV_DEBUGOUTPUT
+		}
+	      stationChanged = false;
+	    }
+
+
+	  // print out attribute that is subject to change
+	  if (display || currentChanged || addAttribute || changeAttrByVal)
+	    {
+	      if (nameOfAttributeToBeChanged != "")
+		{
+#ifndef WIN32
+		  printw("\nchange attribute: '%s' of station [%i]\n", nameOfAttributeToBeChanged.c_str(), station);
+#else
+		  printf("\nchange attribute: '%s' of station [%i]\n", nameOfAttributeToBeChanged.c_str(), station);
+#endif
+		}
+	      currentChanged = false;
+	    }
+
+	  //  add new attribute
+	  if (addAttribute)
+	    {
+	      char type[256];
+	      char name[256];
+	      char value[256];
+
+#ifndef WIN32
+	      echo();
+	      nodelay(stdscr, false);
+
+	      printw("\nadd new attribute to station [%i]\n", station);
+	      printw("enter type  >");
+	      getnstr(type, 256);
+	      printw("enter name  >");
+	      getnstr(name, 256);
+	      printw("enter value >");
+	      getnstr(value, 256);
+
+	      noecho();
+	      nodelay(stdscr, true);
+#else
+	      printf("\nadd new attribute to station [%i]\n", station);
+	      printf("enter type  >");
+	      scanf("%s", type);
+	      printf("enter name  >");
+	      scanf("%s", name);
+	      printf("enter value >");
+	      scanf("%s", value);
+#endif
+	      clearLastLines(4);
+	      addAttr(station, std::string(type), std::string(name), std::string(value));
+	      addAttribute = false;
+	    }
+
+	  // delete attribute
+	  else if (delAttribute)
+	    {
+	      char name[256];
+
+#ifndef WIN32
+	      echo();
+	      nodelay(stdscr, false);
+
+	      printw("\ndelete attribute in sources of station [%i]\n", station);
+	      printw("enter name >");
+	      getnstr(name, 256);
+
+	      noecho();
+	      nodelay(stdscr, true);
+#else
+	      printf("\ndelete attribute in sources of station [%i]\n", station);
+	      printf("enter name >");
+	      scanf("%s", name);
+#endif
+	      clearLastLines(2);
+	      delAttr(station, std::string(name));
+	      delAttribute = false;
+	    }
+
+	  // change atribute by typing in new value
+	  else if (changeAttrByVal)
+	    {
+	      char value[256];
+
+#ifndef WIN32
+	      echo();
+	      nodelay(stdscr, false);
+
+	      printw("enter value >");
+	      getnstr(value, 256);
+
+	      noecho();
+	      nodelay(stdscr, true);
+#else
+	      printf("enter value >");
+	      scanf("%s", value);
+#endif
+	      clearLastLines(1);
+	      changeAttrToValue(station, std::string(value));
+	      changeAttrByVal = false;
+	    }
+
+	  // clean up
+	  else
+	    {
+#ifndef WIN32
+	      printw("\n\n");
+#endif
+	    }
+	}
+      }
+
+    // initializes ConsoleModule
+
+    void ConsoleModule::init(StringTable& attributes,  ConfigNode * localTree)
+      {
+	Module::init( attributes, localTree );
+
+	if( attributes.get("interval", &interval ) == 0 ){
+	  interval = 10;
+	}
+	headerline = attributes.get("headerline");
+	if( attributes.get("display").compare( "off" ) == 0 )
+	  display = 0;
+	if( attributes.get("curses").compare( "off" ) == 0 )
+	  curses = 0;
+	if( localTree != NULL )
+	  {
+	    ConfigNode * base = localTree;
+	    for( unsigned int i = 0; i < base->countChildren(); i++ )
+	      {
+		ConfigNode * config = (ConfigNode *)base->getChild( i );
+		if( config->getType().compare("KeyDefinition") == 0 )
+		  {
+		    std::string function = config->getAttributes().get("function");
+		    std::string key = config->getAttributes().get("key");
+		    std::vector<std::string>::iterator funcIt = std::find( functionMap.begin(), functionMap.end(), function );
+		    if( funcIt != functionMap.end() )
+		      {
+			int index = funcIt - functionMap.begin();
+			std::map<std::string,int>::iterator codeIt = keyCodeMap.find( key );
+			int code;
+			if( codeIt == keyCodeMap.end())
+			  {
+			    int num = sscanf( key.c_str(), " %x", &code );
+			    if( num == 0 )
+			      {
+				code = key[0];
+			      }
+			  }
+			else {
+			  code = (*codeIt).second;
+			}
+			keyMap[index] = code;
+		      }
+		  }
+	      }
+	  }
+
+#ifndef WIN32
+	if( curses ) {
+	  initscr();
+	  cbreak();
+	  noecho();
+	  nonl();
+	  intrflush(stdscr,FALSE);
+	  keypad(stdscr,TRUE);
+	  nodelay(stdscr, TRUE);
+	  leaveok(stdscr, TRUE);
+	}
+#endif
+      }
+
+    // start the module and init curses
+
+    void ConsoleModule::start()
+      {}
+
+    // close ConsoleModule
+
+    void ConsoleModule::close()
+      {
+#ifndef WIN32
+	if( curses ) {
+	  endwin();
+	}
+#endif
+      }
+
+    // tests whether a key was pressed, if so it stops.
+
+    int ConsoleModule::stop()
+      {
+	return quit;
+      }
+
+    // clear last lines
+    void ConsoleModule::clearLastLines(int lines)
+      {
+#ifdef WIN32
+	// clear screen as described in the Microsoft Knowledge Base:
+	HANDLE hndl = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hndl, &csbi);
+	DWORD written;
+	DWORD N = csbi.dwSize.X * csbi.dwCursorPosition.Y + csbi.dwCursorPosition.X + 1;
+	COORD curhome = {0, 0};
+	if (lines >= 0)
+	  curhome.Y = csbi.dwCursorPosition.Y - lines;
+	FillConsoleOutputCharacter(hndl, ' ', N, curhome, &written);
+	csbi.srWindow.Bottom -= csbi.srWindow.Top;
+	csbi.srWindow.Top = 0;
+	SetConsoleWindowInfo(hndl, TRUE, &csbi.srWindow);
+	SetConsoleCursorPosition(hndl, curhome);
+#else
+	if (lines < 0)
+	  clear();
+	else
+	  {
+	    int x, y;
+	    getyx(stdscr, y, x);
+	    move(y - lines, 0);
+	    for (int i = 0; i < lines; i++)
+	      printw("\n");
+	  }
+#endif
+      }
+
+  } // namespace ot
 
 
 #endif // OT_NO_CONSOLE_SUPPORT
+
+  /* 
+   * ------------------------------------------------------------
+   *   End of ConsoleModule.cxx
+   * ------------------------------------------------------------
+   *   Automatic Emacs configuration follows.
+   *   Local Variables:
+   *   mode:c++
+   *   c-basic-offset: 4
+   *   eval: (c-set-offset 'substatement-open 0)
+   *   eval: (c-set-offset 'case-label '+)
+   *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+   *   eval: (setq indent-tabs-mode nil)
+   *   End:
+   * ------------------------------------------------------------ 
+   */

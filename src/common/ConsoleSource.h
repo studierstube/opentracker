@@ -73,39 +73,56 @@
 namespace ot {
 
   class OPENTRACKER_API ConsoleSource : public Node
-  {
-    // Members
-  public:
-    /// station number
-    int number;
-    /// the event that is stored
-    Event event;
-    /// a flag to indicate whether it was changed during processing
-    int changed;
+    {
+      // Members
+    public:
+      /// station number
+      int number;
+      /// the event that is stored
+      Event event;
+      /// a flag to indicate whether it was changed during processing
+      int changed;
 
-    // Methods
-  protected:
-    /** constructor method,sets commend member
-     * @param comment_ the comment line to use */
-    ConsoleSource( int number_ ) :
-      Node(),
-      number( number_ ),
-      changed( 0 )
+      // Methods
+    protected:
+      /** constructor method,sets commend member
+       * @param comment_ the comment line to use */
+      ConsoleSource( int number_ ) :
+	Node(),
+	number( number_ ),
+	changed( 0 )
 	{
 	}
 
-  public:
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    virtual int isEventGenerator()
-    {
-      return 1;
-    }
+    public:
+      /** tests for EventGenerator interface being present. Is overriden to
+       * return 1 always.
+       * @return always 1 */
+      virtual int isEventGenerator()
+	{
+	  return 1;
+	}
 
-    friend class ConsoleModule;
-  };
+      friend class ConsoleModule;
+    };
 
 } // namespace ot
 
 #endif
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of ConsoleSource.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

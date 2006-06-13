@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** source file for ThresholdFilter Node.
-  *
-  * @author Gerhard Reitmayr
-  * 
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ * 
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -53,28 +53,28 @@
 
 namespace ot {
 
-// constructor method.
+  // constructor method.
 
-ThresholdFilterNode::ThresholdFilterNode( const float posmin, const float posmax, 
-                                          const float rotmin, const float rotmax )
+  ThresholdFilterNode::ThresholdFilterNode( const float posmin, const float posmax, 
+					    const float rotmin, const float rotmax )
     : Node(), positionMin( posmin ), positionMax( posmax ), 
       rotationMin( rotmin ), rotationMax( rotmax )
-{
-}
+  {
+  }
 
-int ThresholdFilterNode::isEventGenerator()
-{
-	return 1;
-}
+  int ThresholdFilterNode::isEventGenerator()
+  {
+    return 1;
+  }
 
-// this method is called by the EventGenerator to update it's observers.
+  // this method is called by the EventGenerator to update it's observers.
 
   void ThresholdFilterNode::onEventGenerated( Event& event, Node& generator)
   {
     float deltaPos = (float)sqrt(
-			 (event.getPosition()[0]-lastEvent.getPosition()[0])*(event.getPosition()[0]-lastEvent.getPosition()[0]) +
-			 (event.getPosition()[1]-lastEvent.getPosition()[1])*(event.getPosition()[1]-lastEvent.getPosition()[1]) +
-			 (event.getPosition()[2]-lastEvent.getPosition()[2])*(event.getPosition()[2]-lastEvent.getPosition()[2]));
+				 (event.getPosition()[0]-lastEvent.getPosition()[0])*(event.getPosition()[0]-lastEvent.getPosition()[0]) +
+				 (event.getPosition()[1]-lastEvent.getPosition()[1])*(event.getPosition()[1]-lastEvent.getPosition()[1]) +
+				 (event.getPosition()[2]-lastEvent.getPosition()[2])*(event.getPosition()[2]-lastEvent.getPosition()[2]));
     float deltaRot = (float)MathUtils::angle( event.getOrientation(), lastEvent.getOrientation(), 4);
     if((( positionMin <= deltaPos ) && ( deltaPos <= positionMax )) ||
        (( rotationMin <= deltaRot ) && ( deltaRot <= rotationMax )))
@@ -88,3 +88,20 @@ int ThresholdFilterNode::isEventGenerator()
 
 
 #endif //OT_NO_THRESHOLDFILTER_SUPPORT
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of ThresholdFilterNode.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

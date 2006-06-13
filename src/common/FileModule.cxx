@@ -113,10 +113,10 @@ namespace ot {
             file = (*it).second;
 
 	  } else // create a new one
-	  {
-            file = new File( id, ot::File::FILE_OUT, append, false, ot11Format );
-            files[id] = file;
-	  }
+	    {
+	      file = new File( id, ot::File::FILE_OUT, append, false, ot11Format );
+	      files[id] = file;
+	    }
         if( file->mode == File::FILE_OUT ) // test for right direction and add to store
 	  {
             NodeVector & vector = nodes[id];
@@ -154,10 +154,10 @@ namespace ot {
             file = (*it).second;
 
 	  } else // create a new one
-	  {
-            file = new File( id, File::FILE_IN, false, loop, ot11Format );
-            files[id] = file;
-	  }
+	    {
+	      file = new File( id, File::FILE_IN, false, loop, ot11Format );
+	      files[id] = file;
+	    }
         if( file->mode == File::FILE_IN ) // test for right direction and add to store
 	  {
             NodeVector & vector = nodes[id];
@@ -242,3 +242,20 @@ namespace ot {
 #else
 #pragma message(">>> OT_NO_FILEMODULE_SUPPORT")
 #endif //OT_NO_FILEMODULE_SUPPORT
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of FileModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

@@ -34,12 +34,12 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** header file for StaticTransform Node.
-  *
-  * @author Gerhard Reitmayr
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page transform_nodes Transform Node Reference
@@ -69,9 +69,9 @@
  * An example element looks like this :
  * @verbatim
  <EventTransform rotationtype="euler" rotation="1 2 3" translation="0 0 0">
-    <Any EventGenerator element type>
+ <Any EventGenerator element type>
  </EventTransform>@endverbatim
- */
+*/
 
 #ifndef _STATICTRANSFORMATION_H
 #define _STATICTRANSFORMATION_H
@@ -88,110 +88,126 @@
 
 namespace ot {
 
-class OPENTRACKER_API StaticTransformation : public Transformation
-{
-protected:
+  class OPENTRACKER_API StaticTransformation : public Transformation
+    {
+    protected:
 
-    /// stores the translation of the transformation
-    float translation[3];
-    /// stores scale part of the transformation
-    float scale[3];
-    /// stores rotational part of the transformation
-    float rotation[4];
-	/// stores additional confidence value that is multiplied (used for DynamicTransforms)
-	float confidence;
-    /// flag whether to compute position updates
-    bool usePos;
-    /// flag whether to compute orientation updates
-    bool useOrient;
+      /// stores the translation of the transformation
+      float translation[3];
+      /// stores scale part of the transformation
+      float scale[3];
+      /// stores rotational part of the transformation
+      float rotation[4];
+      /// stores additional confidence value that is multiplied (used for DynamicTransforms)
+      float confidence;
+      /// flag whether to compute position updates
+      bool usePos;
+      /// flag whether to compute orientation updates
+      bool useOrient;
     
-    /**
-     * transforms a event. Overrides the Transformation implementation
-     * to implement a different one.
-     */
-    virtual Event* transformEvent( Event* event) ;
+      /**
+       * transforms a event. Overrides the Transformation implementation
+       * to implement a different one.
+       */
+      virtual Event* transformEvent( Event* event) ;
 
-    /** default constructor method sets values to implement identity 
-     * transformation */
-    StaticTransformation();
+      /** default constructor method sets values to implement identity 
+       * transformation */
+      StaticTransformation();
 
-public:
+    public:
 
-    /** constructor method
-     * @param translation_ sets translation
-     * @param scale_ sets scale
-     * @param rotation_ sets rotation
-     */
-    StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], bool usePos_, bool useOrient_);
+      /** constructor method
+       * @param translation_ sets translation
+       * @param scale_ sets scale
+       * @param rotation_ sets rotation
+       */
+      StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], bool usePos_, bool useOrient_);
 
-    /** returns the rotational part of the Transformation as a Quaternion.
-     * @return float pointer to 4 floats containing quaternion
-     */
-    float* getRotation()
-    {
-        return (float*)rotation;
-    }
+      /** returns the rotational part of the Transformation as a Quaternion.
+       * @return float pointer to 4 floats containing quaternion
+       */
+      float* getRotation()
+	{
+	  return (float*)rotation;
+	}
 
-    /** returns the scaling part of the Transformation 
-     * @return float pointer to 3 floats 
-    */
-    float* getScale()
-    {
-        return (float *)scale;
-    }
+      /** returns the scaling part of the Transformation 
+       * @return float pointer to 3 floats 
+       */
+      float* getScale()
+	{
+	  return (float *)scale;
+	}
 
-    /** returns the translational part of this Transformation 
-     * @return float pointer to 3 float 
-     */
-    float* getTranslation()
-    {
-        return (float *)translation;
-    }
+      /** returns the translational part of this Transformation 
+       * @return float pointer to 3 float 
+       */
+      float* getTranslation()
+	{
+	  return (float *)translation;
+	}
 
-    /** sets the rotation of the transformation. It copies the
-     * passed float array into an internal structure.
-     * @param data a 4 float array containing the rotation in
-     *             quaternion format.
-     */
-    void setRotation(float * data)
-    {
-        memcpy( rotation, data, sizeof(float)*4 );
-        put( "rotation", data, 4 );
-        put( "rotationtype", "quaternion" );
-    }
+      /** sets the rotation of the transformation. It copies the
+       * passed float array into an internal structure.
+       * @param data a 4 float array containing the rotation in
+       *             quaternion format.
+       */
+      void setRotation(float * data)
+	{
+	  memcpy( rotation, data, sizeof(float)*4 );
+	  put( "rotation", data, 4 );
+	  put( "rotationtype", "quaternion" );
+	}
 
-    /** sets the scale of the transformation. It is only
-     * executed, if the transformation is of type to 
-     * change the position of any events. It copies the
-     * passed float array into an internal structure.
-     * @param data a 3 float array containing the scale
-     */
-    void setScale(float * data)
-    {
-        if( usePos ) 
-        {
-            memcpy( scale, data, sizeof(float)*3 );
-            put( "scale", data, 3 );
-        }
-    }
+      /** sets the scale of the transformation. It is only
+       * executed, if the transformation is of type to 
+       * change the position of any events. It copies the
+       * passed float array into an internal structure.
+       * @param data a 3 float array containing the scale
+       */
+      void setScale(float * data)
+	{
+	  if( usePos ) 
+	    {
+	      memcpy( scale, data, sizeof(float)*3 );
+	      put( "scale", data, 3 );
+	    }
+	}
 
-    /** sets the translation of the transformation. It is only
-     * executed, if the transformation is of type to 
-     * change the position of any events. It copies the
-     * passed float array into an internal structure.
-     * @param data a 3 float array containing the translation
-     */
-    void setTranslation(float * data)
-    {
-        if( usePos ) {
+      /** sets the translation of the transformation. It is only
+       * executed, if the transformation is of type to 
+       * change the position of any events. It copies the
+       * passed float array into an internal structure.
+       * @param data a 3 float array containing the translation
+       */
+      void setTranslation(float * data)
+	{
+	  if( usePos ) {
             memcpy( translation, data, sizeof(float)*3 );
             put( "translation", data, 3 );
-        }
-    }
+	  }
+	}
 
-    friend class CommonNodeFactory;
-};
+      friend class CommonNodeFactory;
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of StaticTransformation.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
