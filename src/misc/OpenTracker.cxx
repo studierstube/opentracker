@@ -61,8 +61,10 @@
 // the following modules are not supported under Windows CE
 #ifndef _WIN32_WCE
 #include "../common/ConsoleModule.h"
+#ifndef DARWIN
 #include "../input/InterSenseModule.h"
 #include "../input/ParButtonModule.h"
+#endif //DARWIN
 #include "../input/XSensModule.h"
 #include "../input/DynaSightModule.h"
 #include "../input/FastTrakModule.h"
@@ -237,11 +239,13 @@ namespace ot {
 #endif
 
 #ifndef _WIN32_WCE
+#ifndef DARWIN
 #ifndef OT_NO_INTERSENSE_SUPPORT
     InterSenseModule * intersense = new InterSenseModule;
     context.addFactory( * intersense );
     context.addModule( "InterSenseConfig", * intersense );
 #endif
+#endif DARWIN
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_TIMEMODULE_SUPPORT
@@ -256,11 +260,13 @@ namespace ot {
 #endif
 
 #ifndef _WIN32_WCE
+#ifndef DARWIN
 #ifndef OT_NO_PARBUTTON_SUPPORT
     ParButtonModule * parbutton = new ParButtonModule();
     context.addFactory( *parbutton );
     context.addModule( "ParButtonConfig", *parbutton );
 #endif
+#endif //DARWIN
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_NETWORK_SUPPORT

@@ -20,6 +20,7 @@
 
 // this is a linux implementation !!!
 #ifndef WIN32
+#ifndef DARWIN
 
 #include "../OpenTracker.h"
 #include "../core/StringTable.h"
@@ -113,6 +114,8 @@ namespace ot {
 
 #endif
 
+// DARWIN
+#endif
 // WIN32
 #endif
 
