@@ -53,82 +53,82 @@
 
 namespace ot {
 
-  UbisenseSource::UbisenseSource(const Object &object,const LocationClient &locationClient,DataClient &dataClient): Node(),button(0x0000),lastTime(0.),buttonTime(0.),event(),object(object),locationClient(locationClient),dataClient(dataClient)
-  {
+    UbisenseSource::UbisenseSource(const Object &object,const LocationClient &locationClient,DataClient &dataClient): Node(),button(0x0000),lastTime(0.),buttonTime(0.),event(),object(object),locationClient(locationClient),dataClient(dataClient)
+    {
 #ifdef _DEBUG
-    dataClient.notify(object,NotifyBeep);
-    dataClient.notify(object,NotifyFlashGreen);
+        dataClient.notify(object,NotifyBeep);
+        dataClient.notify(object,NotifyFlashGreen);
 #endif
-  }
+    }
 
-  UbisenseSource::~UbisenseSource()
-  {
+    UbisenseSource::~UbisenseSource()
+    {
 #ifdef _DEBUG
-    dataClient.notify(object,NotifyBeep);
-    dataClient.notify(object,NotifyFlashRed);
+        dataClient.notify(object,NotifyBeep);
+        dataClient.notify(object,NotifyFlashRed);
 #endif
-  }
+    }
 
-  bool UbisenseSource::calcEvent()
-  {
-    Location location;
-    MyNameClient client;
+    bool UbisenseSource::calcEvent()
+    {
+        Location location;
+        MyNameClient client;
 
-    printf("\n");
-    //std::cout << "Getting all named people:";
-    UClientAPI::Map<Object,String> all_people = client.get_all_named(Type("Person"));
-    //for (UClientAPI::Map<Object,String>::const_iterator i = all_people.begin(); i != all_people.end(); ++i)
-    //{   printf("\n");
-    //std::cout << " " << (*i).first.to_string() << " has name " << (*i).second << std::endl;
-    //}
+        printf("\n");
+        //std::cout << "Getting all named people:";
+        UClientAPI::Map<Object,String> all_people = client.get_all_named(Type("Person"));
+        //for (UClientAPI::Map<Object,String>::const_iterator i = all_people.begin(); i != all_people.end(); ++i)
+        //{   printf("\n");
+        //std::cout << " " << (*i).first.to_string() << " has name " << (*i).second << std::endl;
+        //}
 
-    String found_name;
-    if (!client.get_object_name(object,found_name))
-      { std::cout << "Cannot get name of " << object.to_string();
-	return false;
-      }
-    std::cout << "Ubitag name: " << found_name;
+        String found_name;
+        if (!client.get_object_name(object,found_name))
+        { std::cout << "Cannot get name of " << object.to_string();
+          return false;
+        }
+        std::cout << "Ubitag name: " << found_name;
 
-    if (locationClient.get_object_location(object,location) && location.time_ > lastTime)
-      {
-	event.clearAttributes();
-	event.getPosition()[0] = static_cast<float>(location.pos_.x_);
-	event.getPosition()[1] = static_cast<float>(location.pos_.y_);
-	event.getPosition()[2] = static_cast<float>(location.pos_.z_);
+        if (locationClient.get_object_location(object,location) && location.time_ > lastTime)
+        {
+            event.clearAttributes();
+            event.getPosition()[0] = static_cast<float>(location.pos_.x_);
+            event.getPosition()[1] = static_cast<float>(location.pos_.y_);
+            event.getPosition()[2] = static_cast<float>(location.pos_.z_);
 
 
-	printf("\n  location x: %f", event.getPosition()[0]);
-	printf("\n  location y: %f", event.getPosition()[1]);
-	printf("\n  location z: %f\n\n", event.getPosition()[2]);
+            printf("\n  location x: %f", event.getPosition()[0]);
+            printf("\n  location y: %f", event.getPosition()[1]);
+            printf("\n  location z: %f\n\n", event.getPosition()[2]);
 
-	if (buttonTime > lastTime)
-	  {
-	    event.getButton() = button;
-	    button = 0x0000;
-	  }
-	event.time = (location.time_ > buttonTime ? location.time_: buttonTime) * 1000.;
-	event.getConfidence() = 1.f;
-	lastTime = location.time_ > buttonTime ? location.time_: buttonTime;
-	return true;
-      }
-    else
-      if (buttonTime > lastTime)
-	{
-	  event.getButton() = button;
-	  event.time = buttonTime * 1000.;
-	  event.getConfidence() = 1.f;
-	  button = 0x0000;
-	  lastTime = buttonTime;
-	  return true;
-	}
-    return false;
-  }
+            if (buttonTime > lastTime)
+            {
+                event.getButton() = button;
+                button = 0x0000;
+            }
+            event.time = (location.time_ > buttonTime ? location.time_: buttonTime) * 1000.;
+            event.getConfidence() = 1.f;
+            lastTime = location.time_ > buttonTime ? location.time_: buttonTime;
+            return true;
+        }
+        else
+            if (buttonTime > lastTime)
+            {
+                event.getButton() = button;
+                event.time = buttonTime * 1000.;
+                event.getConfidence() = 1.f;
+                button = 0x0000;
+                lastTime = buttonTime;
+                return true;
+            }
+        return false;
+    }
 
-  void UbisenseSource::setButtonEvent(unsigned short button,double time)
-  {
-    UbisenseSource::button |= button;
-    buttonTime = time;
-  }
+    void UbisenseSource::setButtonEvent(unsigned short button,double time)
+    {
+        UbisenseSource::button |= button;
+        buttonTime = time;
+    }
 
 } // namespace ot
 
@@ -136,3 +136,19 @@ namespace ot {
 #else
 #pragma message(">>> no Ubisense support")
 #endif  // USE_UBISENSE
+
+/* 
+ * ------------------------------------------------------------
+ *   End of UbisenseSource.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
