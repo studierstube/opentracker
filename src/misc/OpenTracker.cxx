@@ -114,20 +114,20 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 		       LPVOID lpReserved
 		       )
 {
-  switch( ul_reason_for_call )
+    switch( ul_reason_for_call )
     {
-    case DLL_PROCESS_ATTACH:		
-      ACE::init();
-      break;
-    case DLL_THREAD_ATTACH:
-      break;
-    case DLL_THREAD_DETACH:		
-      break;
-    case DLL_PROCESS_DETACH:		
-      ACE::fini();
-      break;	
+        case DLL_PROCESS_ATTACH:		
+            ACE::init();
+            break;
+        case DLL_THREAD_ATTACH:
+            break;
+        case DLL_THREAD_DETACH:		
+            break;
+        case DLL_PROCESS_DETACH:		
+            ACE::fini();
+            break;	
     }
-  return TRUE;
+    return TRUE;
 }
 #endif //OPENTRACKER_STATIC
 
@@ -137,257 +137,273 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 namespace ot {
 
-  void OPENTRACKER_API initializeContext( Context & context )
-  {
-    // register the creator functions and generic names of all known types
-    Event::registerAllKnownTypes();
+    void OPENTRACKER_API initializeContext( Context & context )
+    {
+        // register the creator functions and generic names of all known types
+        Event::registerAllKnownTypes();
 
-    // Instance the default modules and add to factory and parser
-    CommonNodeFactory * common = new CommonNodeFactory;
-    context.addFactory( *common );
+        // Instance the default modules and add to factory and parser
+        CommonNodeFactory * common = new CommonNodeFactory;
+        context.addFactory( *common );
 
-    LogModule * log = new LogModule;
-    context.addModule( "LogConfig", *log );
+        LogModule * log = new LogModule;
+        context.addModule( "LogConfig", *log );
 
 #ifndef OT_NO_TESTMODULE_SUPPORT
-    TestModule * test = new TestModule;
-    context.addFactory( *test );
-    // actually it doesn't have a configuration element
-    context.addModule( "TestConfig", *test );
+        TestModule * test = new TestModule;
+        context.addFactory( *test );
+        // actually it doesn't have a configuration element
+        context.addModule( "TestConfig", *test );
 #endif
 
 #ifndef OT_NO_NETWORK_SUPPORT
-    NetworkSinkModule * networksink = new NetworkSinkModule;
-    context.addFactory( *networksink );
-    context.addModule( "NetworkSinkConfig", *networksink );
+        NetworkSinkModule * networksink = new NetworkSinkModule;
+        context.addFactory( *networksink );
+        context.addModule( "NetworkSinkConfig", *networksink );
 #endif
 
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_CONSOLE_SUPPORT
-    ConsoleModule * console = new ConsoleModule ;
-    context.addFactory( *console );
-    context.addModule( "ConsoleConfig", *console );
+        ConsoleModule * console = new ConsoleModule ;
+        context.addFactory( *console );
+        context.addModule( "ConsoleConfig", *console );
 #endif
 
 #ifndef OT_NO_NETWORK_SUPPORT
-    NetworkSourceModule * network = new NetworkSourceModule;
-    context.addFactory( * network );
-    context.addModule( "NetworkSourceConfig", *network );    
+        NetworkSourceModule * network = new NetworkSourceModule;
+        context.addFactory( * network );
+        context.addModule( "NetworkSourceConfig", *network );    
 #endif
 #endif //_WIN32_WCE
 
 #ifdef USE_ARTOOLKIT
-    ARToolKitModule * artool = new ARToolKitModule;
-    context.addFactory( * artool );
-    context.addModule( "ARToolKitConfig", *artool );
+        ARToolKitModule * artool = new ARToolKitModule;
+        context.addFactory( * artool );
+        context.addModule( "ARToolKitConfig", *artool );
 #endif
 
 #ifdef USE_ARTOOLKITPLUS
-    // Create an ARToolKitPlusModule instance
-    ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
-    context.addFactory( * artoolplus );
-    context.addModule( "ARToolKitPlusConfig", *artoolplus );
-    context.registerVideoUser(artoolplus);
+        // Create an ARToolKitPlusModule instance
+        ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
+        context.addFactory( * artoolplus );
+        context.addModule( "ARToolKitPlusConfig", *artoolplus );
+        context.registerVideoUser(artoolplus);
 #endif
 
 #ifdef USE_OPENVIDEO
-    OpenVideoModule * ovModule = new OpenVideoModule(&context);
-    context.addModule( "OpenVideoConfig", *ovModule );
+        OpenVideoModule * ovModule = new OpenVideoModule(&context);
+        context.addModule( "OpenVideoConfig", *ovModule );
 #endif
 
 #ifdef USE_WACOMGRAPHIRE
-    WacomGraphireModule * wacom = new WacomGraphireModule;
-    context.addFactory( * wacom );
-    context.addModule( "WacomGraphireConfig", * wacom );
+        WacomGraphireModule * wacom = new WacomGraphireModule;
+        context.addFactory( * wacom );
+        context.addModule( "WacomGraphireConfig", * wacom );
 #endif
 
 #ifdef USE_CYBERMOUSE
-    CyberMouseModule * cmouse = new CyberMouseModule;
-    context.addFactory( * cmouse );
-    context.addModule( "CyberMouseConfig", * cmouse );
+        CyberMouseModule * cmouse = new CyberMouseModule;
+        context.addFactory( * cmouse );
+        context.addModule( "CyberMouseConfig", * cmouse );
 #endif	
 
 #ifdef USE_LINMOUSEMODULE
-    LinmouseModule * linmousemodule = new LinmouseModule;
-    context.addFactory( * linmousemodule );
-    context.addModule( "LinmouseConfig", * linmousemodule );
+        LinmouseModule * linmousemodule = new LinmouseModule;
+        context.addFactory( * linmousemodule );
+        context.addModule( "LinmouseConfig", * linmousemodule );
 #endif	
 
 #ifdef USE_TARGUSMODULE
-    TargusModule * targusmodule = new TargusModule;
-    context.addFactory( * targusmodule );
-    context.addModule( "TargusConfig", * targusmodule );
+        TargusModule * targusmodule = new TargusModule;
+        context.addFactory( * targusmodule );
+        context.addModule( "TargusConfig", * targusmodule );
 #endif	
 
 #ifdef USE_JOYSTICK
-    JoystickModule * joy = new JoystickModule();
-    context.addFactory( *joy );
-    context.addModule( "JoystickConfig", *joy );
+        JoystickModule * joy = new JoystickModule();
+        context.addFactory( *joy );
+        context.addModule( "JoystickConfig", *joy );
 #endif
 
 #ifdef USE_SPACEMOUSE
-    SpaceMouseModule * smouse = new SpaceMouseModule;
-    context.addFactory( * smouse );
-    context.addModule( "SpaceMouseConfig", * smouse );
+        SpaceMouseModule * smouse = new SpaceMouseModule;
+        context.addFactory( * smouse );
+        context.addModule( "SpaceMouseConfig", * smouse );
 #endif	
 
 #ifndef OT_NO_NETWORK_SUPPORT
-    MulticastInputModule *mcinput = new MulticastInputModule;
-    context.addFactory( * mcinput );
-    context.addModule( "MulticastInputConfig", * mcinput );
+        MulticastInputModule *mcinput = new MulticastInputModule;
+        context.addFactory( * mcinput );
+        context.addModule( "MulticastInputConfig", * mcinput );
 #endif
 
 #ifndef _WIN32_WCE
 #ifndef DARWIN
 #ifndef OT_NO_INTERSENSE_SUPPORT
-    InterSenseModule * intersense = new InterSenseModule;
-    context.addFactory( * intersense );
-    context.addModule( "InterSenseConfig", * intersense );
+        InterSenseModule * intersense = new InterSenseModule;
+        context.addFactory( * intersense );
+        context.addModule( "InterSenseConfig", * intersense );
 #endif
 #endif DARWIN
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_TIMEMODULE_SUPPORT
-    TimeModule * time = new TimeModule();
-    context.addModule( "TimeConfig", * time );
+        TimeModule * time = new TimeModule();
+        context.addModule( "TimeConfig", * time );
 #endif
 
 #ifndef OT_NO_FILEMODULE_SUPPORT
-    FileModule * file = new FileModule();
-    context.addFactory( * file );
-    context.addModule( "FileConfig", * file );
+        FileModule * file = new FileModule();
+        context.addFactory( * file );
+        context.addModule( "FileConfig", * file );
 #endif
 
 #ifndef _WIN32_WCE
 #ifndef DARWIN
 #ifndef OT_NO_PARBUTTON_SUPPORT
-    ParButtonModule * parbutton = new ParButtonModule();
-    context.addFactory( *parbutton );
-    context.addModule( "ParButtonConfig", *parbutton );
+        ParButtonModule * parbutton = new ParButtonModule();
+        context.addFactory( *parbutton );
+        context.addModule( "ParButtonConfig", *parbutton );
 #endif
 #endif //DARWIN
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_NETWORK_SUPPORT
-    TCPModule * tcp = new TCPModule();
-    context.addFactory( *tcp );
-    context.addModule( "TCPConfig", *tcp );
+        TCPModule * tcp = new TCPModule();
+        context.addFactory( *tcp );
+        context.addModule( "TCPConfig", *tcp );
 #endif
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_FOB_SUPPORT
-    FOBModule * fob = new FOBModule();
-    context.addFactory( *fob );
-    context.addModule( "FOBConfig", *fob );
+        FOBModule * fob = new FOBModule();
+        context.addFactory( *fob );
+        context.addModule( "FOBConfig", *fob );
 #endif
 #endif //_WIN32_WCE
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_FASTTRACK_SUPPORT
-    FastTrakModule * ftrak = new FastTrakModule();
-    context.addFactory( *ftrak );
-    context.addModule( "FastTrakConfig", *ftrak );
+        FastTrakModule * ftrak = new FastTrakModule();
+        context.addFactory( *ftrak );
+        context.addModule( "FastTrakConfig", *ftrak );
 #endif
 #endif //_WIN32_WCE
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_ARTDATATRACKER_SUPPORT
-    ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
-    context.addFactory( *dtrak );
-    context.addModule( "ARTDataTrackerConfig", *dtrak );
+        ARTDataTrackerModule * dtrak = new ARTDataTrackerModule();
+        context.addFactory( *dtrak );
+        context.addModule( "ARTDataTrackerConfig", *dtrak );
 #endif
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_ULTRATRACK_SUPPORT
-    UltraTrakModule * ultra = new UltraTrakModule;
-    context.addFactory( * ultra );
-    context.addModule( "UltraTrakConfig", *ultra );
+        UltraTrakModule * ultra = new UltraTrakModule;
+        context.addFactory( * ultra );
+        context.addModule( "UltraTrakConfig", *ultra );
 #endif
 
 #ifndef OT_NO_GROUPGATE_SUPPORT
-    GroupGateModule * groupgate = new GroupGateModule();
-    context.addFactory( * groupgate );
-    context.addModule( "GroupGateConfig", *groupgate ); 
+        GroupGateModule * groupgate = new GroupGateModule();
+        context.addFactory( * groupgate );
+        context.addModule( "GroupGateConfig", *groupgate ); 
 #endif
     
 #ifndef OT_NO_SPEECH_SUPPORT
-    SpeechModule *speechmodule = new SpeechModule;
-    context.addFactory( *speechmodule );
-    context.addModule( "SpeechRecoConfig", *speechmodule );
+        SpeechModule *speechmodule = new SpeechModule;
+        context.addFactory( *speechmodule );
+        context.addModule( "SpeechRecoConfig", *speechmodule );
 #endif
 
 #ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
-    InterpolatorModule * ipol = new InterpolatorModule;
-    context.addFactory( *ipol );
-    // actually it doesn't have a configuration element
-    context.addModule( "InterpolatorConfig", *ipol );
+        InterpolatorModule * ipol = new InterpolatorModule;
+        context.addFactory( *ipol );
+        // actually it doesn't have a configuration element
+        context.addModule( "InterpolatorConfig", *ipol );
 #endif
 
 #ifndef OT_NO_BUTTON_SUPPORT
-    ButtonHoldFilterModule * buttonHoldFiler = new ButtonHoldFilterModule;
-    context.addFactory( *buttonHoldFiler );
-    // actually it doesn't have a configuration element
-    context.addModule( "ButtonHoldFilterConfig", *buttonHoldFiler );
+        ButtonHoldFilterModule * buttonHoldFiler = new ButtonHoldFilterModule;
+        context.addFactory( *buttonHoldFiler );
+        // actually it doesn't have a configuration element
+        context.addModule( "ButtonHoldFilterConfig", *buttonHoldFiler );
 #endif
 
 #ifdef USE_P5GLOVE
-    P5GloveModule *p5glovemodule = new P5GloveModule;
-    context.addFactory( *p5glovemodule );
-    context.addModule( "P5GloveConfig", *p5glovemodule );
+        P5GloveModule *p5glovemodule = new P5GloveModule;
+        context.addFactory( *p5glovemodule );
+        context.addModule( "P5GloveConfig", *p5glovemodule );
 #endif
 
 #ifndef OT_NO_GPS_SUPPORT
-    GPSModule * gps = new GPSModule;
-    context.addFactory( * gps );
-    context.addModule( "GPSConfig", * gps );
+        GPSModule * gps = new GPSModule;
+        context.addFactory( * gps );
+        context.addModule( "GPSConfig", * gps );
 #endif
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_DYNASIGHT_SUPPORT
-    DynaSightModule * dynasight = new DynaSightModule;
-    context.addFactory( * dynasight );
-    context.addModule( "DynaSightConfig", *dynasight );
+        DynaSightModule * dynasight = new DynaSightModule;
+        context.addFactory( * dynasight );
+        context.addModule( "DynaSightConfig", *dynasight );
 #endif
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_MAGICY_SUPPORT
-    MagicYModule * magicY = new MagicYModule;
-    context.addFactory( * magicY );
-    context.addModule( "MagicYConfig", *magicY );
+        MagicYModule * magicY = new MagicYModule;
+        context.addFactory( * magicY );
+        context.addModule( "MagicYConfig", *magicY );
 #endif
     
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 	CallbackModule  * cbModule = new CallbackModule;
-    context.addFactory( *cbModule );
-    context.addModule( "CallbackConfig", *cbModule );
+        context.addFactory( *cbModule );
+        context.addModule( "CallbackConfig", *cbModule );
 #endif
 
 #ifdef USE_DWARF
-    DwarfModule * dwarf = new DwarfModule;
-    context.addFactory( *dwarf);
-    context.addModule( "DwarfConfig", *dwarf );
+        DwarfModule * dwarf = new DwarfModule;
+        context.addFactory( *dwarf);
+        context.addModule( "DwarfConfig", *dwarf );
 #endif
 
 #ifdef USE_VRPN
-    VRPNModule * vrpn = new VRPNModule;
-    context.addFactory( *vrpn );
-    context.addModule( "VRPNConfig", *vrpn );
+        VRPNModule * vrpn = new VRPNModule;
+        context.addFactory( *vrpn );
+        context.addModule( "VRPNConfig", *vrpn );
 #endif
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_XSENS_SUPPORT
-    XSensModule * xsens = new XSensModule;
-    context.addFactory( *xsens );
-    context.addModule( "XSensConfig", *xsens );
+        XSensModule * xsens = new XSensModule;
+        context.addFactory( *xsens );
+        context.addModule( "XSensConfig", *xsens );
 #endif
 #endif //_WIN32_WCE
 
 #ifdef USE_UBISENSE
-    UbisenseModule * ubisense = new UbisenseModule;
-    context.addFactory( * ubisense );
-    context.addModule( "UbisenseConfig", *ubisense );
+        UbisenseModule * ubisense = new UbisenseModule;
+        context.addFactory( * ubisense );
+        context.addModule( "UbisenseConfig", *ubisense );
 #endif
-  }
+    }
 
 } // namespace ot
+
+/* 
+ * ------------------------------------------------------------
+ *   End of OpenTracker.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
