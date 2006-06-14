@@ -1,46 +1,46 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for GPSModule
-  *
-  * @author Gerhard Reitmayr
-  * 
-  * $Id$
-  *
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ * 
+ * $Id$
+ *
+ * @file                                                                   */
+/* ======================================================================= */
 
 #include <stdlib.h>
 #include "../tool/FixWinCE.h"
@@ -69,230 +69,230 @@
 namespace ot {
 
 
-ACE_Reactor gps_reactor;
+    ACE_Reactor gps_reactor;
 
-GPSModule::GPSModule() :
-source( NULL ),
-dirSource( NULL ),
-compassSource( NULL ),
-altitudeSource( NULL ),
-infoSource( NULL ),
-driver( NULL ),
-logFile( NULL )
-{
-}
+    GPSModule::GPSModule() :
+        source( NULL ),
+        dirSource( NULL ),
+        compassSource( NULL ),
+        altitudeSource( NULL ),
+        infoSource( NULL ),
+        driver( NULL ),
+        logFile( NULL )
+    {
+    }
 
-GPSModule::~GPSModule()
-{
-    if( source != NULL )
-        delete source;
-    if( dirSource != NULL )
-        delete dirSource;
-    if( compassSource != NULL )
-        delete compassSource;
-    if( altitudeSource != NULL )
-        delete altitudeSource;
-    if( infoSource != NULL )
-        delete infoSource;
-    if( logFile != NULL )
-        delete logFile;
-}
+    GPSModule::~GPSModule()
+    {
+        if( source != NULL )
+            delete source;
+        if( dirSource != NULL )
+            delete dirSource;
+        if( compassSource != NULL )
+            delete compassSource;
+        if( altitudeSource != NULL )
+            delete altitudeSource;
+        if( infoSource != NULL )
+            delete infoSource;
+        if( logFile != NULL )
+            delete logFile;
+    }
 
-void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
-{
+    void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
+    {
 	device = attributes.get("dev");
 	dgpsServer = attributes.get("DGPSserver");
-    rtcmdev = attributes.get("rtcmdev");
+        rtcmdev = attributes.get("rtcmdev");
 	if( attributes.get( "baudrate", &baudRate ) != 1 )
 	{
-		baudRate = 9600;		// default GPS receiver baud rate
+            baudRate = 9600;		// default GPS receiver baud rate
 	}
 	if( attributes.get( "DGPSport", &dgpsPort ) != 1 )
 	{
-		dgpsPort = 2101;		// default DGPSIP port
+            dgpsPort = 2101;		// default DGPSIP port
 	}
 	if( attributes.get("debug").compare("on") == 0 )
 	{
-		debug = true;
+            debug = true;
 	}
 	else
 	{
-		debug = false;
+            debug = false;
 	}
-    if( attributes.get("DGPSmirror", &dgpsmirror) != 1 )
-    {
-        dgpsmirror = -1;
-    }
-    if( attributes.containsKey("logfile") )
-    {
-        logFile = new ACE_FILE_IO;
-        ACE_FILE_Connector connector; 
-        if( connector.connect( *logFile, ACE_FILE_Addr(ACE_TEXT_CHAR_TO_TCHAR(attributes.get("logfile").c_str())), 0, ACE_Addr::sap_any, 0, O_WRONLY|O_CREAT|O_APPEND))
+        if( attributes.get("DGPSmirror", &dgpsmirror) != 1 )
         {
-            delete logFile;
-            logFile = NULL;
-			LOG_ACE_ERROR("ot:DGPSModule error opening log file %s\n", attributes.get("logfile").c_str());
+            dgpsmirror = -1;
         }
-    }
-    Module::init( attributes, localTree );
+        if( attributes.containsKey("logfile") )
+        {
+            logFile = new ACE_FILE_IO;
+            ACE_FILE_Connector connector; 
+            if( connector.connect( *logFile, ACE_FILE_Addr(ACE_TEXT_CHAR_TO_TCHAR(attributes.get("logfile").c_str())), 0, ACE_Addr::sap_any, 0, O_WRONLY|O_CREAT|O_APPEND))
+            {
+                delete logFile;
+                logFile = NULL;
+                LOG_ACE_ERROR("ot:DGPSModule error opening log file %s\n", attributes.get("logfile").c_str());
+            }
+        }
+        Module::init( attributes, localTree );
 	LOG_ACE_INFO("ot:GPSModule initialized for port %s and server %s\n", device.c_str(), dgpsServer.c_str());
-}
+    }
 
-Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
-{
+    Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
+    {
 	if( name.compare("GPSSource") == 0 )
 	{
-		if( source != NULL )
-		{
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSSource can be build !\n")));
-			return NULL;
-		}
-		if( !isInitialized() )
-		{
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSSource !\n")));
-			return NULL;
-		}
-		source = new GPSSource;
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSSource node.\n")));
-		return source;
+            if( source != NULL )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSSource can be build !\n")));
+                return NULL;
+            }
+            if( !isInitialized() )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSSource !\n")));
+                return NULL;
+            }
+            source = new GPSSource;
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSSource node.\n")));
+            return source;
 	}
-    if( name.compare("GPSDirectionSource") == 0 )
-    {
-        if( dirSource != NULL )
+        if( name.compare("GPSDirectionSource") == 0 )
         {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSDirectionSource can be build !\n")));
-            return NULL;
+            if( dirSource != NULL )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSDirectionSource can be build !\n")));
+                return NULL;
+            }
+            if( !isInitialized() )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSDirectionSource !\n")));
+                return NULL;
+            }
+            dirSource = new GPSDirectionSource;
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSDirectionSource node.\n")));
+            return dirSource;
         }
-        if( !isInitialized() )
+        if( name.compare("GPSGarminCompass") == 0 )
         {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSDirectionSource !\n")));
-            return NULL;
+            if( compassSource != NULL )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminCompass can be build !\n")));
+                return NULL;
+            }
+            if( !isInitialized() )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminCompass !\n")));
+                return NULL;
+            }
+            compassSource = new GPSGarminCompass;
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminCompass node.\n")));
+            return compassSource;
         }
-        dirSource = new GPSDirectionSource;
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSDirectionSource node.\n")));
-        return dirSource;
-    }
-    if( name.compare("GPSGarminCompass") == 0 )
-    {
-        if( compassSource != NULL )
+        if( name.compare("GPSGarminAltitude") == 0 )
         {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminCompass can be build !\n")));
-            return NULL;
+            if( altitudeSource != NULL )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminAltitude can be build !\n")));
+                return NULL;
+            }
+            if( !isInitialized() )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminAltitude !\n")));
+                return NULL;
+            }
+            altitudeSource = new GPSGarminAltitude;
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminAltitude node.\n")));
+            return altitudeSource;
         }
-        if( !isInitialized() )
+        if( name.compare("GPSInfoSource") == 0 )
         {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminCompass !\n")));
-            return NULL;
+            if( infoSource != NULL )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSInfoSource can be build !\n")));
+                return NULL;
+            }
+            if( !isInitialized() )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSInfoSource !\n")));
+                return NULL;
+            }
+            infoSource = new GPSInfoSource;
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSInfoSource node.\n")));
+            return infoSource;
         }
-        compassSource = new GPSGarminCompass;
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminCompass node.\n")));
-        return compassSource;
-    }
-    if( name.compare("GPSGarminAltitude") == 0 )
-    {
-        if( altitudeSource != NULL )
-        {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSGarminAltitude can be build !\n")));
-            return NULL;
-        }
-        if( !isInitialized() )
-        {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSGarminAltitude !\n")));
-            return NULL;
-        }
-        altitudeSource = new GPSGarminAltitude;
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminAltitude node.\n")));
-        return altitudeSource;
-    }
-    if( name.compare("GPSInfoSource") == 0 )
-    {
-        if( infoSource != NULL )
-        {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Only one GPSInfoSource can be build !\n")));
-            return NULL;
-        }
-        if( !isInitialized() )
-        {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule is not initialized, cannot build GPSInfoSource !\n")));
-            return NULL;
-        }
-        infoSource = new GPSInfoSource;
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSInfoSource node.\n")));
-        return infoSource;
-    }
 	return NULL;	
-}
+    }
 
-void GPSModule::pushEvent()
-{
-    // here for some template magic:
-    // updateSource is a template member function but the compiler appearantly
-    // creates different variants for each type passed in :)
-    updateSource(source);
-    updateSource(dirSource);
-    updateSource(compassSource);
-    updateSource(altitudeSource);
-    updateSource(infoSource);
-}
+    void GPSModule::pushEvent()
+    {
+        // here for some template magic:
+        // updateSource is a template member function but the compiler appearantly
+        // creates different variants for each type passed in :)
+        updateSource(source);
+        updateSource(dirSource);
+        updateSource(compassSource);
+        updateSource(altitudeSource);
+        updateSource(infoSource);
+    }
 
-void GPSModule::start()
-{
+    void GPSModule::start()
+    {
 	if( isInitialized() && (source != NULL || dirSource != NULL || compassSource != NULL || altitudeSource != NULL || infoSource != NULL ))
 	{
-		ThreadModule::start();
+            ThreadModule::start();
 	}
-}
+    }
 
-void GPSModule::close()
-{
+    void GPSModule::close()
+    {
 	if( driver != NULL )
 	{
-		if( driver->getReactor() != NULL )
-		{
-			driver->getReactor()->end_reactor_event_loop();
-		}
-		ThreadModule::close();
+            if( driver->getReactor() != NULL )
+            {
+                driver->getReactor()->end_reactor_event_loop();
+            }
+            ThreadModule::close();
 	}
-    if( logFile != NULL )
-        logFile->close();
-}
+        if( logFile != NULL )
+            logFile->close();
+    }
 
-void GPSModule::run()
-{
+    void GPSModule::run()
+    {
 	driver = new GPSDriver( &gps_reactor );
 	driver->setDebug( debug ); // only for debug purposes ...
-    if( source != NULL )
-        driver->addListener( source, this );
-    if( dirSource != NULL )
-        driver->addListener( dirSource, this );
-    if( compassSource != NULL )
-        driver->addListener( compassSource, this );
-    if( altitudeSource != NULL )
-        driver->addListener( altitudeSource, this );
-    if( infoSource != NULL )
-        driver->addListener( infoSource, this );
+        if( source != NULL )
+            driver->addListener( source, this );
+        if( dirSource != NULL )
+            driver->addListener( dirSource, this );
+        if( compassSource != NULL )
+            driver->addListener( compassSource, this );
+        if( altitudeSource != NULL )
+            driver->addListener( altitudeSource, this );
+        if( infoSource != NULL )
+            driver->addListener( infoSource, this );
     
-    if( logFile != NULL )
-        driver->addListener( this );
+        if( logFile != NULL )
+            driver->addListener( this );
 	driver->getReactor()->owner(ACE_Thread::self());
 	if( driver->open( device, baudRate, dgpsServer, dgpsPort, dgpsmirror, rtcmdev ) != 0 )
 	{
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule could not start GPSDriver !\n")));
-		return;
+            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSModule could not start GPSDriver !\n")));
+            return;
 	}
-    if( debug )
+        if( debug )
 	{
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSModule started GPSDriver !\n")));
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSModule started GPSDriver !\n")));
 	}
 	driver->getReactor()->run_reactor_event_loop();
 	driver->close();
 	delete driver;
-}
+    }
 
-void GPSModule::newData( const GPResult * res, const char * line, void * userData )
-{
-    logFile->send( line, ACE_OS::strlen(line));
-}
+    void GPSModule::newData( const GPResult * res, const char * line, void * userData )
+    {
+        logFile->send( line, ACE_OS::strlen(line));
+    }
 
 
 } // namespace ot
@@ -301,3 +301,19 @@ void GPSModule::newData( const GPResult * res, const char * line, void * userDat
 #else
 #pragma message(">>> OT_NO_GPS_SUPPORT")
 #endif // OT_NO_GPS_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of GPSModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

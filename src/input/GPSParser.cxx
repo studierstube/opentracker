@@ -1,46 +1,46 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for GPSParser class and helper data types
-  *
-  * @author Gerhard Reitmayr
-  * 
-  * $Id$
-  *
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Gerhard Reitmayr
+ * 
+ * $Id$
+ *
+ * @file                                                                   */
+/* ======================================================================= */
 
 #include <ace/SString.h>
 
@@ -54,402 +54,402 @@ const int NMEABUFSZ = 1024;
 
 namespace ot {
 
-const GPResult * (* GPSParser::parsers[])(const char *) = {
-    GPGGA::parse,
-    GPVTG::parse,
-    HCHDG::parse,
-    PGRMZ::parse
-};
+    const GPResult * (* GPSParser::parsers[])(const char *) = {
+        GPGGA::parse,
+        GPVTG::parse,
+        HCHDG::parse,
+        PGRMZ::parse
+    };
 
-const GPResult * GPSParser::parse( const char * line )
-{
-    if( checkSum( line ) )
+    const GPResult * GPSParser::parse( const char * line )
     {
-        const GPResult * result = NULL;
-        for( int i = 0; i < 4; i++ )
+        if( checkSum( line ) )
         {
-            result = parsers[i](line);
-            if( result != NULL )
-                return result;
+            const GPResult * result = NULL;
+            for( int i = 0; i < 4; i++ )
+            {
+                result = parsers[i](line);
+                if( result != NULL )
+                    return result;
+            }
         }
+        return new GPResult;
     }
-    return new GPResult;
-}
 
-bool GPSParser::checkSum( const char * line )
-{
-    const char * cp;
-    unsigned int csum, checksum;
+    bool GPSParser::checkSum( const char * line )
+    {
+        const char * cp;
+        unsigned int csum, checksum;
 
-    cp = strchr(line, '*');
-    if (cp) {
-        cp++;
-        csum = ACE_OS::strtol(cp, NULL, 16);
+        cp = strchr(line, '*');
+        if (cp) {
+            cp++;
+            csum = ACE_OS::strtol(cp, NULL, 16);
         
-        checksum = 0;
-        for (cp = line + 1; *cp; cp++) {
-            if (*cp == '*')	/* delimiter */
-                break;
-            checksum ^= *cp;
-        }
-        return (checksum == csum);
-    } 
-    return false;
-}
+            checksum = 0;
+            for (cp = line + 1; *cp; cp++) {
+                if (*cp == '*')	/* delimiter */
+                    break;
+                checksum ^= *cp;
+            }
+            return (checksum == csum);
+        } 
+        return false;
+    }
 
-const GPResult * GPGGA::parse( const char * line )
-{
-    char         buffer[NMEABUFSZ];
-    int          fix = 0,
-                 statid = 0,
-                 numsats = 0;
-    double       time = 0, 
-                 lat = 0,
-                 lon = 0,
-                 hdop = 0,
-                 alt = 0,
-                 height = 0,
-                 diffdelay = 0;
+    const GPResult * GPGGA::parse( const char * line )
+    {
+        char         buffer[NMEABUFSZ];
+        int          fix = 0,
+            statid = 0,
+            numsats = 0;
+        double       time = 0, 
+            lat = 0,
+            lon = 0,
+            hdop = 0,
+            alt = 0,
+            height = 0,
+            diffdelay = 0;
     
-    // copy string into work buffer
-    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+        // copy string into work buffer
+        ACE_OS::strncpy( buffer, line, NMEABUFSZ);
     
-    /*
-    * $GPGGA,011243,3743.000,N,12214.000,W,2,07,0.4,2.8,M,-27.9,M,0,0269*4
-    * 5
-    *
-    * NOTE time is in hours minutes fractional_minutes
-    *
-    * time, lat, ns, lon, ew, fix, numsats, hdop, alt, M, height, M,
-    * diff-delay, statid, csum
-    */   
-    if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
+        /*
+         * $GPGGA,011243,3743.000,N,12214.000,W,2,07,0.4,2.8,M,-27.9,M,0,0269*4
+         * 5
+         *
+         * NOTE time is in hours minutes fractional_minutes
+         *
+         * time, lat, ns, lon, ew, fix, numsats, hdop, alt, M, height, M,
+         * diff-delay, statid, csum
+         */   
+        if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
 
-        ACE_Tokenizer tok(ACE_TEXT_CHAR_TO_TCHAR(buffer));
-        tok.delimiter_replace(',', 0);
-        ACE_TCHAR * token, * oldtoken;
+            ACE_Tokenizer tok(ACE_TEXT_CHAR_TO_TCHAR(buffer));
+            tok.delimiter_replace(',', 0);
+            ACE_TCHAR * token, * oldtoken;
 
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-
-        /* time */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-
-        // not all receivers output a time, if there is no fix !
-        if( token == ACE_TEXT_CHAR_TO_TCHAR(buffer + 7) )
-        {            
-            oldtoken = token + ACE_OS::strlen( token ) + 1;
-            
-            /* 012345.0 --> 01:23:45.0 */
-            time = atof(ACE_TEXT_ALWAYS_CHAR(token) + 4);
-            token[4] = 0;
-            time += 60 * atoi(ACE_TEXT_ALWAYS_CHAR(token) + 2);
-            token[2] = 0;
-            time += 3600 * atoi(ACE_TEXT_ALWAYS_CHAR(token));
-            
             token = tok.next();
-            if( !token )
+            if (!token)
                 return new GPResult;
-            
-            // test for fix, 
-            if( token == oldtoken  )
+
+            /* time */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+
+            // not all receivers output a time, if there is no fix !
+            if( token == ACE_TEXT_CHAR_TO_TCHAR(buffer + 7) )
             {            
-                // we have a fix and parse the position
-                /* latitude */
-                lat = atof(ACE_TEXT_ALWAYS_CHAR(token) + 2) / 60.0;
+                oldtoken = token + ACE_OS::strlen( token ) + 1;
+            
+                /* 012345.0 --> 01:23:45.0 */
+                time = atof(ACE_TEXT_ALWAYS_CHAR(token) + 4);
+                token[4] = 0;
+                time += 60 * atoi(ACE_TEXT_ALWAYS_CHAR(token) + 2);
                 token[2] = 0;
-                lat += atof(ACE_TEXT_ALWAYS_CHAR(token));
-                
-                /* ns */
+                time += 3600 * atoi(ACE_TEXT_ALWAYS_CHAR(token));
+            
                 token = tok.next();
-                if (!token)
+                if( !token )
                     return new GPResult;
-                if (*token == 'S') {
-                    lat = -lat;
+            
+                // test for fix, 
+                if( token == oldtoken  )
+                {            
+                    // we have a fix and parse the position
+                    /* latitude */
+                    lat = atof(ACE_TEXT_ALWAYS_CHAR(token) + 2) / 60.0;
+                    token[2] = 0;
+                    lat += atof(ACE_TEXT_ALWAYS_CHAR(token));
+                
+                    /* ns */
+                    token = tok.next();
+                    if (!token)
+                        return new GPResult;
+                    if (*token == 'S') {
+                        lat = -lat;
+                    }
+                
+                    /* longitude */
+                    token = tok.next();
+                    if (!token)
+                        return new GPResult;
+                    lon = atof(ACE_TEXT_ALWAYS_CHAR(token) + 3) / 60.0;
+                    token[3] = 0;
+                    lon += atof(ACE_TEXT_ALWAYS_CHAR(token));
+                
+                    /* ew */
+                    token = tok.next();
+                    if (!token)
+                        return new GPResult;
+                    if (*token == 'W') {
+                        lon = -lon;
+                    }
+                    // go to the next token
+                    token = tok.next();
+                    if (!token)
+                        return new GPResult;
                 }
-                
-                /* longitude */
-                token = tok.next();
-                if (!token)
-                    return new GPResult;
-                lon = atof(ACE_TEXT_ALWAYS_CHAR(token) + 3) / 60.0;
-                token[3] = 0;
-                lon += atof(ACE_TEXT_ALWAYS_CHAR(token));
-                
-                /* ew */
-                token = tok.next();
-                if (!token)
-                    return new GPResult;
-                if (*token == 'W') {
-                    lon = -lon;
-                }
-                // go to the next token
-                token = tok.next();
-                if (!token)
-                    return new GPResult;
             }
-        }
 
-        /* fix 0,1,2 */
-        fix = ACE_OS::atoi(token);
+            /* fix 0,1,2 */
+            fix = ACE_OS::atoi(token);
         
-        /* number of sats */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-        numsats = ACE_OS::atoi(token);
+            /* number of sats */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            numsats = ACE_OS::atoi(token);
 
-        // the following will be only valid, if we have a fix
-        if( fix > 0 )
-        {
-            /* HDOP */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            hdop = atof(ACE_TEXT_ALWAYS_CHAR(token));
-            
-            /* altitude */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            alt = atof(ACE_TEXT_ALWAYS_CHAR(token));
-            
-            /* M - discard  */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            
-            /* height above geode */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            height = atof(ACE_TEXT_ALWAYS_CHAR(token));
-            
-            /* M - discard */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            
-            /* differential delay -- optional value */
-            token = tok.next();
-            if (!token)
-                return new GPResult;
-            if( *token != '*' )
+            // the following will be only valid, if we have a fix
+            if( fix > 0 )
             {
-                diffdelay = atof(ACE_TEXT_ALWAYS_CHAR(token));
+                /* HDOP */
                 token = tok.next();
-            }
+                if (!token)
+                    return new GPResult;
+                hdop = atof(ACE_TEXT_ALWAYS_CHAR(token));
             
-            /* diff station ID - optional */
-            if (!token)
-                return new GPResult;
-            if( *token != '*' )
-            {
-                statid = ACE_OS::atoi(token);
+                /* altitude */
                 token = tok.next();
+                if (!token)
+                    return new GPResult;
+                alt = atof(ACE_TEXT_ALWAYS_CHAR(token));
+            
+                /* M - discard  */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+            
+                /* height above geode */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+                height = atof(ACE_TEXT_ALWAYS_CHAR(token));
+            
+                /* M - discard */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+            
+                /* differential delay -- optional value */
+                token = tok.next();
+                if (!token)
+                    return new GPResult;
+                if( *token != '*' )
+                {
+                    diffdelay = atof(ACE_TEXT_ALWAYS_CHAR(token));
+                    token = tok.next();
+                }
+            
+                /* diff station ID - optional */
+                if (!token)
+                    return new GPResult;
+                if( *token != '*' )
+                {
+                    statid = ACE_OS::atoi(token);
+                    token = tok.next();
+                }
             }
+            /* ----------- */
+
+            GPGGA * result = new GPGGA;
+
+            result->lat = lat;
+            result->lon = lon;
+            result->altitude = alt; 
+            result->height = height;
+            result->time = time;
+            result->hdop = hdop;
+            result->statid = statid;
+            result->numsats = numsats;
+            result->diffdelay = diffdelay;
+            result->fix = fix;
+
+            return result;
         }
-        /* ----------- */
-
-        GPGGA * result = new GPGGA;
-
-        result->lat = lat;
-        result->lon = lon;
-        result->altitude = alt; 
-        result->height = height;
-        result->time = time;
-        result->hdop = hdop;
-        result->statid = statid;
-        result->numsats = numsats;
-        result->diffdelay = diffdelay;
-        result->fix = fix;
-
-        return result;
+        // only return null, if we this is not for us.
+        return NULL;
     }
-    // only return null, if we this is not for us.
-    return NULL;
-}
 
-const GPResult * GPVTG::parse( const char * line )
-{
-    char    *cp,
+    const GPResult * GPVTG::parse( const char * line )
+    {
+        char    *cp,
             *ep;
-    char    buffer[NMEABUFSZ];
-    double  trueCourse,
+        char    buffer[NMEABUFSZ];
+        double  trueCourse,
             magneticCourse,
             speedKnots,
             speedKlm;
     
-    // copy string into work buffer
-    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+        // copy string into work buffer
+        ACE_OS::strncpy( buffer, line, NMEABUFSZ);
     
-    /*
-    * $GPVTG,360.0,T,348.7,M,000.0,N,000.0,K*43
-    */    
-    if (ACE_OS::strncmp("$GPVTG,", buffer, 7) == 0)
-    {        
-        /* header */
-        cp = ep = (char *)buffer;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
+        /*
+         * $GPVTG,360.0,T,348.7,M,000.0,N,000.0,K*43
+         */    
+        if (ACE_OS::strncmp("$GPVTG,", buffer, 7) == 0)
+        {        
+            /* header */
+            cp = ep = (char *)buffer;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
         
-        /* true course */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        trueCourse = atof( cp );
+            /* true course */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
+            trueCourse = atof( cp );
         
-        /* T - discard  */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
+            /* T - discard  */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
         
-        /* magnetic course */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        magneticCourse = atof( cp );
+            /* magnetic course */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
+            magneticCourse = atof( cp );
 
-        /* M - discard  */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
+            /* M - discard  */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
 
-        /* speed in knots */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        speedKnots = atof( cp );
+            /* speed in knots */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
+            speedKnots = atof( cp );
         
-        /* N - discard  */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
+            /* N - discard  */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
 
-        /* speed in klms */
-        cp = ep;
-        ep = strchr(cp, ',');
-        if (!ep)
-            return new GPResult;
-        *ep++ = '\0';
-        speedKlm = atof( cp );
+            /* speed in klms */
+            cp = ep;
+            ep = strchr(cp, ',');
+            if (!ep)
+                return new GPResult;
+            *ep++ = '\0';
+            speedKlm = atof( cp );
     
-        GPVTG * result = new GPVTG;
-        result->trueCourse = trueCourse;
-        result->magneticCourse = magneticCourse;
-        result->speedKnots = speedKnots;
-        result->speedKlm = speedKlm;
-        return result;
-    }
-    return NULL;
-}
-
-const GPResult * HCHDG::parse( const char * line )
-{
-    char    buffer[NMEABUFSZ];
-    
-    // copy string into work buffer
-    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
-    
-   /*
-    * $HCHDG,101.1,,,7.1,W*3C
-    */    
-    if (ACE_OS::strncmp("$HCHDG,", buffer, 7) == 0)
-    {        
-        ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
-        tok.delimiter_replace(',', 0);
-        ACE_TCHAR * token;
-        double  heading,
-            variation;
-        
-        /* skip header */
-        token = tok.next();
-        if( !token )
-            return new GPResult;
-
-        /* heading */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-        heading = atof( ACE_TEXT_ALWAYS_CHAR(token) );
-
-        /* next two ',' are skipped by tokenizing */
-
-        /* variation */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-        variation = atof( ACE_TEXT_ALWAYS_CHAR(token) );
-
-        /* direction */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-        
-        if( ACE_OS::strcmp(token,  ACE_TEXT_CHAR_TO_TCHAR("E") ))
-        {
-            variation = - variation;
+            GPVTG * result = new GPVTG;
+            result->trueCourse = trueCourse;
+            result->magneticCourse = magneticCourse;
+            result->speedKnots = speedKnots;
+            result->speedKlm = speedKlm;
+            return result;
         }
-
-        HCHDG * result = new HCHDG;
-        result->heading = heading;
-        result->variation = variation;
-        return result;
+        return NULL;
     }
-    return NULL;
-}
 
-const GPResult * PGRMZ::parse( const char * line )
-{
-    char buffer[NMEABUFSZ];
+    const GPResult * HCHDG::parse( const char * line )
+    {
+        char    buffer[NMEABUFSZ];
     
-    // copy string into work buffer
-    ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+        // copy string into work buffer
+        ACE_OS::strncpy( buffer, line, NMEABUFSZ);
     
-   /*
-    * $PGRMZ,246,f,3*1B
-    */    
-    if (ACE_OS::strncmp("$PGRMZ,", buffer, 7) == 0)
-    {        
-        ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
-        tok.delimiter_replace(',', 0);
-        ACE_TCHAR * token;
-        double altitude;
+        /*
+         * $HCHDG,101.1,,,7.1,W*3C
+         */    
+        if (ACE_OS::strncmp("$HCHDG,", buffer, 7) == 0)
+        {        
+            ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
+            tok.delimiter_replace(',', 0);
+            ACE_TCHAR * token;
+            double  heading,
+                variation;
         
-        /* skip header */
-        token = tok.next();
-        if( !token )
-            return new GPResult;
+            /* skip header */
+            token = tok.next();
+            if( !token )
+                return new GPResult;
 
-        /* altitude in feet */
-        token = tok.next();
-        if (!token)
-            return new GPResult;
-        altitude = atof( ACE_TEXT_ALWAYS_CHAR(token) );        
+            /* heading */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            heading = atof( ACE_TEXT_ALWAYS_CHAR(token) );
+
+            /* next two ',' are skipped by tokenizing */
+
+            /* variation */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            variation = atof( ACE_TEXT_ALWAYS_CHAR(token) );
+
+            /* direction */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
         
-        PGRMZ * result = new PGRMZ;
-        result->altitude = altitude; 
-        return result;
+            if( ACE_OS::strcmp(token,  ACE_TEXT_CHAR_TO_TCHAR("E") ))
+            {
+                variation = - variation;
+            }
+
+            HCHDG * result = new HCHDG;
+            result->heading = heading;
+            result->variation = variation;
+            return result;
+        }
+        return NULL;
     }
-    return NULL;
-}
+
+    const GPResult * PGRMZ::parse( const char * line )
+    {
+        char buffer[NMEABUFSZ];
+    
+        // copy string into work buffer
+        ACE_OS::strncpy( buffer, line, NMEABUFSZ);
+    
+        /*
+         * $PGRMZ,246,f,3*1B
+         */    
+        if (ACE_OS::strncmp("$PGRMZ,", buffer, 7) == 0)
+        {        
+            ACE_Tokenizer tok( ACE_TEXT_CHAR_TO_TCHAR(buffer) );
+            tok.delimiter_replace(',', 0);
+            ACE_TCHAR * token;
+            double altitude;
+        
+            /* skip header */
+            token = tok.next();
+            if( !token )
+                return new GPResult;
+
+            /* altitude in feet */
+            token = tok.next();
+            if (!token)
+                return new GPResult;
+            altitude = atof( ACE_TEXT_ALWAYS_CHAR(token) );        
+        
+            PGRMZ * result = new PGRMZ;
+            result->altitude = altitude; 
+            return result;
+        }
+        return NULL;
+    }
 
 } // namespace ot
 
@@ -457,3 +457,19 @@ const GPResult * PGRMZ::parse( const char * line )
 #else
 #pragma message(">>> OT_NO_GPS_SUPPORT")
 #endif // OT_NO_GPS_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of GPSParser.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
