@@ -53,32 +53,32 @@
 
 namespace ot {
 
-  // constructor method
-  TimeGateNode::TimeGateNode( double timeframe_, Mode mode_ )
-  {
-    timeframe = timeframe_;
-    mode = mode_;
-    lastTimeStamp = 0;
-  } 
+    // constructor method
+    TimeGateNode::TimeGateNode( double timeframe_, Mode mode_ )
+    {
+        timeframe = timeframe_;
+        mode = mode_;
+        lastTimeStamp = 0;
+    } 
 
-  // generates a new data item upon receiving an event
-  void TimeGateNode::onEventGenerated( Event& event, Node & generator )
-  {
-    // if it came from the gate, save the timestamp
-    if( generator.isNodePort() == 1 )
-      {
-	lastTimeStamp = event.time;		
-      }
-    else
-      {
-        bool inTimeframe = (timeframe > fabs( lastTimeStamp - event.time ));
-        if(( PASS == mode && inTimeframe ) ||
-           ( BLOCK == mode && !inTimeframe ))
-	  {
-	    updateObservers( event );
-	  }
-      }		    
-  }
+    // generates a new data item upon receiving an event
+    void TimeGateNode::onEventGenerated( Event& event, Node & generator )
+    {
+        // if it came from the gate, save the timestamp
+        if( generator.isNodePort() == 1 )
+        {
+            lastTimeStamp = event.time;		
+        }
+        else
+        {
+            bool inTimeframe = (timeframe > fabs( lastTimeStamp - event.time ));
+            if(( PASS == mode && inTimeframe ) ||
+               ( BLOCK == mode && !inTimeframe ))
+            {
+                updateObservers( event );
+            }
+        }		    
+    }
 
 } // namespace ot
 

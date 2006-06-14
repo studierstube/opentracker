@@ -86,45 +86,45 @@
 
 namespace ot {
 
-  class OPENTRACKER_API TimeModule : public Module
+    class OPENTRACKER_API TimeModule : public Module
     {
-      // Members
+        // Members
     protected:
-      // number of milliseconds to sleep in @e Sleep mode
-      int sleep, 
-	// flag for displaying of frame rate
-	display;
-      // start time to calculate the frame rate in @e Framerate mode
-      double startTime, 
-	// the desired frame rate in frames / millisecond for computational purposes
-	rate, 
-	// counting frames
-	count;
+        // number of milliseconds to sleep in @e Sleep mode
+        int sleep, 
+            // flag for displaying of frame rate
+            display;
+        // start time to calculate the frame rate in @e Framerate mode
+        double startTime, 
+            // the desired frame rate in frames / millisecond for computational purposes
+            rate, 
+            // counting frames
+            count;
 
-      // Methods
+        // Methods
     public:
-      /** constructor method. */
-      TimeModule() : Module(), sleep(0), display(0), rate(0)
+        /** constructor method. */
+        TimeModule() : Module(), sleep(0), display(0), rate(0)
 	{};
   
-      /**
-       * initializes the tracker module. Parses any @c sleep or @c rate attributes
-       * @param attributes StringTable of elements attribute values. Should be
-       *        possibly , but is not for convenience.
-       * @param localTree pointer to root of configuration nodes tree
-       */
-      void init( StringTable & attributes,  ConfigNode * localTree);
+        /**
+         * initializes the tracker module. Parses any @c sleep or @c rate attributes
+         * @param attributes StringTable of elements attribute values. Should be
+         *        possibly , but is not for convenience.
+         * @param localTree pointer to root of configuration nodes tree
+         */
+        void init( StringTable & attributes,  ConfigNode * localTree);
   
-      /** starts the module, stores startTime if in @i Framerate mode. */
-      void start();
+        /** starts the module, stores startTime if in @i Framerate mode. */
+        void start();
     
-      /** test for stopping the main loop. Here the actual sleeping is done
-       * if necessary.
-       * @return always 0*/
-      int stop();
+        /** test for stopping the main loop. Here the actual sleeping is done
+         * if necessary.
+         * @return always 0*/
+        int stop();
     
-      /** closes the module, prints out the framerate, if display is 1. */
-      void close();
+        /** closes the module, prints out the framerate, if display is 1. */
+        void close();
     };
 
 } // namespace ot

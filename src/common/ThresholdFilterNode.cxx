@@ -53,36 +53,36 @@
 
 namespace ot {
 
-  // constructor method.
+    // constructor method.
 
-  ThresholdFilterNode::ThresholdFilterNode( const float posmin, const float posmax, 
-					    const float rotmin, const float rotmax )
-    : Node(), positionMin( posmin ), positionMax( posmax ), 
-      rotationMin( rotmin ), rotationMax( rotmax )
-  {
-  }
+    ThresholdFilterNode::ThresholdFilterNode( const float posmin, const float posmax, 
+                                              const float rotmin, const float rotmax )
+        : Node(), positionMin( posmin ), positionMax( posmax ), 
+          rotationMin( rotmin ), rotationMax( rotmax )
+    {
+    }
 
-  int ThresholdFilterNode::isEventGenerator()
-  {
-    return 1;
-  }
+    int ThresholdFilterNode::isEventGenerator()
+    {
+        return 1;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void ThresholdFilterNode::onEventGenerated( Event& event, Node& generator)
-  {
-    float deltaPos = (float)sqrt(
-				 (event.getPosition()[0]-lastEvent.getPosition()[0])*(event.getPosition()[0]-lastEvent.getPosition()[0]) +
-				 (event.getPosition()[1]-lastEvent.getPosition()[1])*(event.getPosition()[1]-lastEvent.getPosition()[1]) +
-				 (event.getPosition()[2]-lastEvent.getPosition()[2])*(event.getPosition()[2]-lastEvent.getPosition()[2]));
-    float deltaRot = (float)MathUtils::angle( event.getOrientation(), lastEvent.getOrientation(), 4);
-    if((( positionMin <= deltaPos ) && ( deltaPos <= positionMax )) ||
-       (( rotationMin <= deltaRot ) && ( deltaRot <= rotationMax )))
-      {
-        lastEvent = event;
-        updateObservers( lastEvent );
-      }
-  }
+    void ThresholdFilterNode::onEventGenerated( Event& event, Node& generator)
+    {
+        float deltaPos = (float)sqrt(
+                                     (event.getPosition()[0]-lastEvent.getPosition()[0])*(event.getPosition()[0]-lastEvent.getPosition()[0]) +
+                                     (event.getPosition()[1]-lastEvent.getPosition()[1])*(event.getPosition()[1]-lastEvent.getPosition()[1]) +
+                                     (event.getPosition()[2]-lastEvent.getPosition()[2])*(event.getPosition()[2]-lastEvent.getPosition()[2]));
+        float deltaRot = (float)MathUtils::angle( event.getOrientation(), lastEvent.getOrientation(), 4);
+        if((( positionMin <= deltaPos ) && ( deltaPos <= positionMax )) ||
+           (( rotationMin <= deltaRot ) && ( deltaRot <= rotationMax )))
+        {
+            lastEvent = event;
+            updateObservers( lastEvent );
+        }
+    }
 
 } // namespace ot
 

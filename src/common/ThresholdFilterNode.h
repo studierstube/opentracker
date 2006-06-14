@@ -86,37 +86,37 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ThresholdFilterNode : public Node
+    class OPENTRACKER_API ThresholdFilterNode : public Node
     {
-      // Members
+        // Members
     protected:
-      /// last saved event variable
-      Event lastEvent;
-      /// min and max position values, must be in [0,inf)
-      float positionMin, positionMax;
-      /// min and max rotation values, must be in [0,pi]
-      float rotationMin, rotationMax;
+        /// last saved event variable
+        Event lastEvent;
+        /// min and max position values, must be in [0,inf)
+        float positionMin, positionMax;
+        /// min and max rotation values, must be in [0,pi]
+        float rotationMin, rotationMax;
 
-      // Methods
+        // Methods
     protected:
 
-      /** constructor method
-       */
-      ThresholdFilterNode( float posmin, float posmax, float rotmin, float rotmax );
+        /** constructor method
+         */
+        ThresholdFilterNode( float posmin, float posmax, float rotmin, float rotmax );
 
     public:
 
-      /** tests for EventGenerator interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventGenerator, 0 otherwise */
-      virtual int isEventGenerator() ;
+        /** tests for EventGenerator interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventGenerator, 0 otherwise */
+        virtual int isEventGenerator() ;
 
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

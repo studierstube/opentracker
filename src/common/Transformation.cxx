@@ -48,116 +48,116 @@
 
 namespace ot {
 
-  // constructor method.
+    // constructor method.
 
-  Transformation::Transformation()
-    : Node()
-    , localEvent()
-  {
-  }
+    Transformation::Transformation()
+        : Node()
+        , localEvent()
+    {
+    }
 
-  // returns the event number n back in time starting with the newest for n = 0
+    // returns the event number n back in time starting with the newest for n = 0
 
-  Event& Transformation::getEvent(unsigned int number)
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	if( child->isEventQueue() == 1 )
-	  {    
-	    return *transformEvent( & child->getEvent( number ));
-	  }
-      }
-    return Event::null;
-  }
+    Event& Transformation::getEvent(unsigned int number)
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            if( child->isEventQueue() == 1 )
+            {    
+                return *transformEvent( & child->getEvent( number ));
+            }
+        }
+        return Event::null;
+    }
 
-  // returns the event closes to the given point in time
+    // returns the event closes to the given point in time
 
-  Event& Transformation::getEventNearTime(double time)
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	if( child->isEventQueue() == 1 )
-	  {    
-	    return *transformEvent( & child->getEventNearTime( time ));
-	  }
-      }   
-    return Event::null;
-  }
+    Event& Transformation::getEventNearTime(double time)
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            if( child->isEventQueue() == 1 )
+            {    
+                return *transformEvent( & child->getEventNearTime( time ));
+            }
+        }   
+        return Event::null;
+    }
 
-  // returns the size of the queue
+    // returns the size of the queue
 
-  unsigned int Transformation::getSize()
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	if( child->isEventQueue() == 1 )
-	  {    
-	    return child->getSize();
-	  }
-      }
-    return 0;
-  }
+    unsigned int Transformation::getSize()
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            if( child->isEventQueue() == 1 )
+            {    
+                return child->getSize();
+            }
+        }
+        return 0;
+    }
 
-  // the function evaluation method
+    // the function evaluation method
 
-  Event& Transformation::getEventAtTime(double time)
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	if( child->isTimeDependend() == 1 )
-	  {    
-	    return *transformEvent(& child->getEventAtTime( time ));
-	  }
-      }
-    return Event::null;
-  }
+    Event& Transformation::getEventAtTime(double time)
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            if( child->isTimeDependend() == 1 )
+            {    
+                return *transformEvent(& child->getEventAtTime( time ));
+            }
+        }
+        return Event::null;
+    }
 
-  // tests for EventGenerator interface being present.
+    // tests for EventGenerator interface being present.
 
-  int Transformation::isEventGenerator()
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	return child->isEventGenerator();
-      }
-    return 0;
-  }
+    int Transformation::isEventGenerator()
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            return child->isEventGenerator();
+        }
+        return 0;
+    }
 
-  // tests for EventQueue interface being present.
+    // tests for EventQueue interface being present.
 
-  int Transformation::isEventQueue()
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	return child->isEventQueue();
-      }
-    return 0;
-  }
+    int Transformation::isEventQueue()
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            return child->isEventQueue();
+        }
+        return 0;
+    }
 
-  // tests for TimeDependend interface being present.
+    // tests for TimeDependend interface being present.
 
-  int Transformation::isTimeDependend()
-  {
-    Node * child = getChild( 0 );
-    if( child != NULL )
-      {
-	return child->isTimeDependend();
-      }
-    return 0;
-  }
+    int Transformation::isTimeDependend()
+    {
+        Node * child = getChild( 0 );
+        if( child != NULL )
+        {
+            return child->isTimeDependend();
+        }
+        return 0;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void Transformation::onEventGenerated( Event& event, Node& generator)
-  {
-    updateObservers( *transformEvent( &event ));
-  }
+    void Transformation::onEventGenerated( Event& event, Node& generator)
+    {
+        updateObservers( *transformEvent( &event ));
+    }
 
 } // namespace ot
 

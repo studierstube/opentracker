@@ -88,37 +88,37 @@
 
 namespace ot {
 
-  class OPENTRACKER_API TimeGateNode : public Node   
+    class OPENTRACKER_API TimeGateNode : public Node   
     {
 
     protected:
-      /// Variable for timeout value (in miliseconds)
-      double timeframe;
-      /// Variable for the last event timestamp from the prefered input node
-      double lastTimeStamp;
-      /// mode selection
-      enum Mode { PASS , BLOCK } mode;
+        /// Variable for timeout value (in miliseconds)
+        double timeframe;
+        /// Variable for the last event timestamp from the prefered input node
+        double lastTimeStamp;
+        /// mode selection
+        enum Mode { PASS , BLOCK } mode;
     
-      /** constructor method. It sets initial values for the timeframe and mode. */
-      TimeGateNode( double timeframe_, Mode mode_ );
+        /** constructor method. It sets initial values for the timeframe and mode. */
+        TimeGateNode( double timeframe_, Mode mode_ );
 
     public:
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. 
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);                                
+        /**
+         * This method is called by any child node. 
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);                                
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

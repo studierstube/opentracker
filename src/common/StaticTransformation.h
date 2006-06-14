@@ -88,108 +88,108 @@
 
 namespace ot {
 
-  class OPENTRACKER_API StaticTransformation : public Transformation
+    class OPENTRACKER_API StaticTransformation : public Transformation
     {
     protected:
 
-      /// stores the translation of the transformation
-      float translation[3];
-      /// stores scale part of the transformation
-      float scale[3];
-      /// stores rotational part of the transformation
-      float rotation[4];
-      /// stores additional confidence value that is multiplied (used for DynamicTransforms)
-      float confidence;
-      /// flag whether to compute position updates
-      bool usePos;
-      /// flag whether to compute orientation updates
-      bool useOrient;
+        /// stores the translation of the transformation
+        float translation[3];
+        /// stores scale part of the transformation
+        float scale[3];
+        /// stores rotational part of the transformation
+        float rotation[4];
+        /// stores additional confidence value that is multiplied (used for DynamicTransforms)
+        float confidence;
+        /// flag whether to compute position updates
+        bool usePos;
+        /// flag whether to compute orientation updates
+        bool useOrient;
     
-      /**
-       * transforms a event. Overrides the Transformation implementation
-       * to implement a different one.
-       */
-      virtual Event* transformEvent( Event* event) ;
+        /**
+         * transforms a event. Overrides the Transformation implementation
+         * to implement a different one.
+         */
+        virtual Event* transformEvent( Event* event) ;
 
-      /** default constructor method sets values to implement identity 
-       * transformation */
-      StaticTransformation();
+        /** default constructor method sets values to implement identity 
+         * transformation */
+        StaticTransformation();
 
     public:
 
-      /** constructor method
-       * @param translation_ sets translation
-       * @param scale_ sets scale
-       * @param rotation_ sets rotation
-       */
-      StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], bool usePos_, bool useOrient_);
+        /** constructor method
+         * @param translation_ sets translation
+         * @param scale_ sets scale
+         * @param rotation_ sets rotation
+         */
+        StaticTransformation(float translation_[3], float scale_[3], float rotation_[4], bool usePos_, bool useOrient_);
 
-      /** returns the rotational part of the Transformation as a Quaternion.
-       * @return float pointer to 4 floats containing quaternion
-       */
-      float* getRotation()
+        /** returns the rotational part of the Transformation as a Quaternion.
+         * @return float pointer to 4 floats containing quaternion
+         */
+        float* getRotation()
 	{
-	  return (float*)rotation;
+            return (float*)rotation;
 	}
 
-      /** returns the scaling part of the Transformation 
-       * @return float pointer to 3 floats 
-       */
-      float* getScale()
+        /** returns the scaling part of the Transformation 
+         * @return float pointer to 3 floats 
+         */
+        float* getScale()
 	{
-	  return (float *)scale;
+            return (float *)scale;
 	}
 
-      /** returns the translational part of this Transformation 
-       * @return float pointer to 3 float 
-       */
-      float* getTranslation()
+        /** returns the translational part of this Transformation 
+         * @return float pointer to 3 float 
+         */
+        float* getTranslation()
 	{
-	  return (float *)translation;
+            return (float *)translation;
 	}
 
-      /** sets the rotation of the transformation. It copies the
-       * passed float array into an internal structure.
-       * @param data a 4 float array containing the rotation in
-       *             quaternion format.
-       */
-      void setRotation(float * data)
+        /** sets the rotation of the transformation. It copies the
+         * passed float array into an internal structure.
+         * @param data a 4 float array containing the rotation in
+         *             quaternion format.
+         */
+        void setRotation(float * data)
 	{
-	  memcpy( rotation, data, sizeof(float)*4 );
-	  put( "rotation", data, 4 );
-	  put( "rotationtype", "quaternion" );
+            memcpy( rotation, data, sizeof(float)*4 );
+            put( "rotation", data, 4 );
+            put( "rotationtype", "quaternion" );
 	}
 
-      /** sets the scale of the transformation. It is only
-       * executed, if the transformation is of type to 
-       * change the position of any events. It copies the
-       * passed float array into an internal structure.
-       * @param data a 3 float array containing the scale
-       */
-      void setScale(float * data)
+        /** sets the scale of the transformation. It is only
+         * executed, if the transformation is of type to 
+         * change the position of any events. It copies the
+         * passed float array into an internal structure.
+         * @param data a 3 float array containing the scale
+         */
+        void setScale(float * data)
 	{
-	  if( usePos ) 
+            if( usePos ) 
 	    {
-	      memcpy( scale, data, sizeof(float)*3 );
-	      put( "scale", data, 3 );
+                memcpy( scale, data, sizeof(float)*3 );
+                put( "scale", data, 3 );
 	    }
 	}
 
-      /** sets the translation of the transformation. It is only
-       * executed, if the transformation is of type to 
-       * change the position of any events. It copies the
-       * passed float array into an internal structure.
-       * @param data a 3 float array containing the translation
-       */
-      void setTranslation(float * data)
+        /** sets the translation of the transformation. It is only
+         * executed, if the transformation is of type to 
+         * change the position of any events. It copies the
+         * passed float array into an internal structure.
+         * @param data a 3 float array containing the translation
+         */
+        void setTranslation(float * data)
 	{
-	  if( usePos ) {
-            memcpy( translation, data, sizeof(float)*3 );
-            put( "translation", data, 3 );
-	  }
+            if( usePos ) {
+                memcpy( translation, data, sizeof(float)*3 );
+                put( "translation", data, 3 );
+            }
 	}
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

@@ -54,31 +54,31 @@
 
 namespace ot {
 
-  // constructor method.
+    // constructor method.
 
-  RangeFilterNode::RangeFilterNode( const float min_, const float max_ )
-    : Node(), min( min_*min_ ), max( max_*max_ )
-  {
-  }
+    RangeFilterNode::RangeFilterNode( const float min_, const float max_ )
+        : Node(), min( min_*min_ ), max( max_*max_ )
+    {
+    }
 
-  int RangeFilterNode::isEventGenerator()
-  {
-    return 1;
-  }
+    int RangeFilterNode::isEventGenerator()
+    {
+        return 1;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void RangeFilterNode::onEventGenerated( Event& event, Node& generator)
-  {
-    float len = 
-      (event.getPosition()[0])*(event.getPosition()[0]) +
-      (event.getPosition()[1])*(event.getPosition()[1]) +
-      (event.getPosition()[2])*(event.getPosition()[2]);
-    if( min <= len && len <= max )
-      {
-        updateObservers( event );
-      }
-  }
+    void RangeFilterNode::onEventGenerated( Event& event, Node& generator)
+    {
+        float len = 
+            (event.getPosition()[0])*(event.getPosition()[0]) +
+            (event.getPosition()[1])*(event.getPosition()[1]) +
+            (event.getPosition()[2])*(event.getPosition()[2]);
+        if( min <= len && len <= max )
+        {
+            updateObservers( event );
+        }
+    }
 
 } // namespace ot
 

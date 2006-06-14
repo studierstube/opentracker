@@ -58,69 +58,69 @@
 
 namespace ot {
 
-  void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
-  {
-    Module::init( attributes, localTree );
+    void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
+    {
+        Module::init( attributes, localTree );
     
-    int num;   
-    if( attributes.get("sleep").compare("") != 0 )
-      {
-        num = sscanf(attributes.get("sleep").c_str(), " %i", &sleep );
-        if( num == 0 )
-	  {
-            sleep = 1;
-	  }
-      } else if( attributes.get("rate").compare("") != 0 )
+        int num;   
+        if( attributes.get("sleep").compare("") != 0 )
+        {
+            num = sscanf(attributes.get("sleep").c_str(), " %i", &sleep );
+            if( num == 0 )
+            {
+                sleep = 1;
+            }
+        } else if( attributes.get("rate").compare("") != 0 )
 	{
-	  num = sscanf( attributes.get("rate").c_str(), " %lf", &rate );
-	  if( num == 0 )
+            num = sscanf( attributes.get("rate").c_str(), " %lf", &rate );
+            if( num == 0 )
 	    {
-	      rate = 0.1;
+                rate = 0.1;
 	    } else 
-	      {
+            {
 		rate = rate / 1000;
-	      }
+            }
 	}
-    if( attributes.get("display").compare("true") == 0 )
-      {
-        display = 1;
-      }
-  }
+        if( attributes.get("display").compare("true") == 0 )
+        {
+            display = 1;
+        }
+    }
   
-  void TimeModule::start()
-  {
-    if( isInitialized() == 1 )
-      {
-        count = 0;
-        startTime = OSUtils::currentTime();
-      }    
-  } 
+    void TimeModule::start()
+    {
+        if( isInitialized() == 1 )
+        {
+            count = 0;
+            startTime = OSUtils::currentTime();
+        }    
+    } 
     
-  int TimeModule::stop()
-  {    
-    count++;
-    if( rate != 0 )
-      {        
-        double s = count/rate - ( OSUtils::currentTime() - startTime );
-        if( s >= 10 )
-	  {
-            OSUtils::sleep( s );
-	  }
-      }
-    else if( sleep != 0 )
-      {
-        OSUtils::sleep( sleep );
-      }
-    return 0;
-  }
+    int TimeModule::stop()
+    {    
+        count++;
+        if( rate != 0 )
+        {        
+            double s = count/rate - ( OSUtils::currentTime() - startTime );
+            if( s >= 10 )
+            {
+                OSUtils::sleep( s );
+            }
+        }
+        else if( sleep != 0 )
+        {
+            OSUtils::sleep( sleep );
+        }
+        return 0;
+    }
 
-  void TimeModule::close()
-  {
-    if( display == 1 )
-      {        
-	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Framerate %f\n"), count * 1000 / ( OSUtils::currentTime() - startTime )));
-      }
-  }
+    void TimeModule::close()
+    {
+        if( display == 1 )
+        {        
+            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Framerate %f\n"), count * 1000 / ( OSUtils::currentTime() - startTime )));
+        }
+    }
 
 } // namespace ot
 

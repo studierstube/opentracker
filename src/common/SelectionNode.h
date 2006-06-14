@@ -89,38 +89,38 @@
 
 namespace ot {
 
-  class OPENTRACKER_API SelectionNode : public Node   
+    class OPENTRACKER_API SelectionNode : public Node   
     {
 
     protected:
-      /// Variable for timeout value (in miliseconds)
-      double timeOut;
-      /// Variable for the last event timestamp from the prefered input node
-      double lastTimeStamp;
+        /// Variable for timeout value (in miliseconds)
+        double timeOut;
+        /// Variable for the last event timestamp from the prefered input node
+        double lastTimeStamp;
     
-      /** constructor method. It sets initial values for the timeout. */
-      SelectionNode( double t );
+        /** constructor method. It sets initial values for the timeout. */
+        SelectionNode( double t );
 
     public:
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. Checks whether the incoming
-       * event is from the wrapper node, otherwise it compares it against the
-       * last event from the wrapper node and if it was created later then
-       * the specified time out, it is passed on.
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);                                
+        /**
+         * This method is called by any child node. Checks whether the incoming
+         * event is from the wrapper node, otherwise it compares it against the
+         * last event from the wrapper node and if it was created later then
+         * the specified time out, it is passed on.
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);                                
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

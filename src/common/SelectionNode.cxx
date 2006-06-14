@@ -52,26 +52,26 @@
 
 namespace ot {
 
-  // constructor method
-  SelectionNode::SelectionNode( double t )
-  {
-    timeOut = t;
-    lastTimeStamp = 0;
-  } 
+    // constructor method
+    SelectionNode::SelectionNode( double t )
+    {
+        timeOut = t;
+        lastTimeStamp = 0;
+    } 
 
-  // generates a new data item upon receiving an event
-  void SelectionNode::onEventGenerated( Event& event, Node & generator )
-  {
-    if( generator.isNodePort() == 1 )
-      {
-	lastTimeStamp = event.time;
-	updateObservers( event );
-      }
-    else if( timeOut < event.time - lastTimeStamp )
-      {
-	updateObservers( event );
-      }		
-  }
+    // generates a new data item upon receiving an event
+    void SelectionNode::onEventGenerated( Event& event, Node & generator )
+    {
+        if( generator.isNodePort() == 1 )
+        {
+            lastTimeStamp = event.time;
+            updateObservers( event );
+        }
+        else if( timeOut < event.time - lastTimeStamp )
+        {
+            updateObservers( event );
+        }		
+    }
 
 } // namespace ot
 

@@ -94,28 +94,28 @@
 
 namespace ot {
 
-  class OPENTRACKER_API VirtualTransformation : public StaticTransformation
+    class OPENTRACKER_API VirtualTransformation : public StaticTransformation
     {
-      // Methods
+        // Methods
     protected:
-      /**
-       * transforms a event. Overrides the Transformation implementation
-       * to implement a different one.
-       */
-      virtual Event* transformEvent( Event* event) ;
+        /**
+         * transforms a event. Overrides the Transformation implementation
+         * to implement a different one.
+         */
+        virtual Event* transformEvent( Event* event) ;
 
-      /** default constructor method sets transformation to identity */
-      VirtualTransformation() : StaticTransformation()
+        /** default constructor method sets transformation to identity */
+        VirtualTransformation() : StaticTransformation()
 	{}
 
     public:
-      /** constructor method. */
-      VirtualTransformation(float translation_[3], float scale_[3],
-			    float rotation_[4], bool usePos_, bool useOrient_ )
-        : StaticTransformation(translation_, scale_, rotation_, usePos_, useOrient_ )
+        /** constructor method. */
+        VirtualTransformation(float translation_[3], float scale_[3],
+                              float rotation_[4], bool usePos_, bool useOrient_ )
+            : StaticTransformation(translation_, scale_, rotation_, usePos_, useOrient_ )
 	{}
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

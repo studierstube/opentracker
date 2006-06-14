@@ -48,67 +48,67 @@
 
 namespace ot {
 
-  // default constructor method.
+    // default constructor method.
 
-  StaticTransformation::StaticTransformation()
-  {
-    translation[0] = 0;
-    translation[1] = 0;
-    translation[2] = 0;
-    rotation[0] = 0;
-    rotation[1] = 0;
-    rotation[2] = 0;
-    rotation[3] = 1;
-    scale[0] = 1;
-    scale[1] = 1;
-    scale[2] = 1;
-    confidence = 1;
-    usePos = false;
-    useOrient = false;
-  }
+    StaticTransformation::StaticTransformation()
+    {
+        translation[0] = 0;
+        translation[1] = 0;
+        translation[2] = 0;
+        rotation[0] = 0;
+        rotation[1] = 0;
+        rotation[2] = 0;
+        rotation[3] = 1;
+        scale[0] = 1;
+        scale[1] = 1;
+        scale[2] = 1;
+        confidence = 1;
+        usePos = false;
+        useOrient = false;
+    }
 
-  // constructor method.
+    // constructor method.
 
-  StaticTransformation::StaticTransformation(float translation_[3], float scale_[3],
-					     float rotation_[4], bool usePos_, bool useOrient_ )
-    : Transformation(), usePos( usePos_ ), useOrient( useOrient_ )
-  {
-    for( int i = 0; i < 3; i ++ )
-      {
-        this->translation[i] = translation_[i];
-        this->scale[i] = scale_[i];
-        this->rotation[i] = rotation_[i];
-      }
-    this->rotation[3] = rotation_[3];
+    StaticTransformation::StaticTransformation(float translation_[3], float scale_[3],
+                                               float rotation_[4], bool usePos_, bool useOrient_ )
+        : Transformation(), usePos( usePos_ ), useOrient( useOrient_ )
+    {
+        for( int i = 0; i < 3; i ++ )
+        {
+            this->translation[i] = translation_[i];
+            this->scale[i] = scale_[i];
+            this->rotation[i] = rotation_[i];
+        }
+        this->rotation[3] = rotation_[3];
 
-    confidence = 1;
-  }
+        confidence = 1;
+    }
 
-  // transforms a event.
+    // transforms a event.
 
-  Event* StaticTransformation::transformEvent( Event* event )
-  {
-    // transform the position of the event
-    if( usePos )
-      {
-        MathUtils::rotateVector( copyA2V(rotation, 4),  event->getPosition(), localEvent.getPosition() );
-	localEvent.getPosition()[0] = localEvent.getPosition()[0]*scale[0] + translation[0];
-        localEvent.getPosition()[1] = localEvent.getPosition()[1]*scale[1] + translation[1];
-        localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
-      }
-    // transform the orientation of the event
-    if( useOrient )
-      {
-        MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
-      }
+    Event* StaticTransformation::transformEvent( Event* event )
+    {
+        // transform the position of the event
+        if( usePos )
+        {
+            MathUtils::rotateVector( copyA2V(rotation, 4),  event->getPosition(), localEvent.getPosition() );
+            localEvent.getPosition()[0] = localEvent.getPosition()[0]*scale[0] + translation[0];
+            localEvent.getPosition()[1] = localEvent.getPosition()[1]*scale[1] + translation[1];
+            localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
+        }
+        // transform the orientation of the event
+        if( useOrient )
+        {
+            MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
+        }
 
-    localEvent.getConfidence() = event->getConfidence() * confidence;
-    localEvent.getButton() = event->getButton();
-    localEvent.copyAllButStdAttr(*event);
-    localEvent.timeStamp();
+        localEvent.getConfidence() = event->getConfidence() * confidence;
+        localEvent.getButton() = event->getButton();
+        localEvent.copyAllButStdAttr(*event);
+        localEvent.timeStamp();
 
-    return &localEvent;
-  }
+        return &localEvent;
+    }
 
 } //namespace ot
 

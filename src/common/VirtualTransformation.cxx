@@ -48,40 +48,40 @@
 
 namespace ot {
 
-  // transforms a event.
+    // transforms a event.
 
-  Event* VirtualTransformation::transformEvent( Event* event)
-  {
-    // transform the position of the event
-    if( usePos )
-      {
-        MathUtils::rotateVector( event->getOrientation(), copyA2V(translation, 4),
-                                 localEvent.getPosition() );
-        localEvent.getPosition()[0] += event->getPosition()[0];
-        localEvent.getPosition()[1] += event->getPosition()[1];
-        localEvent.getPosition()[2] += event->getPosition()[2];
-      }
-    else {
-      localEvent.getPosition()[0] = event->getPosition()[0];
-      localEvent.getPosition()[1] = event->getPosition()[1];
-      localEvent.getPosition()[2] = event->getPosition()[2];
-    }
-    // transform the orientation of the event
-    if( useOrient )
-      {
-        MathUtils::multiplyQuaternion( event->getOrientation(), copyA2V(rotation, 4), localEvent.getOrientation() );
-      }
-    else {
-      localEvent.getOrientation() = event->getOrientation();
-    }
-    // copy other event fields
-    localEvent.copyAllButStdAttr(*event);
+    Event* VirtualTransformation::transformEvent( Event* event)
+    {
+        // transform the position of the event
+        if( usePos )
+        {
+            MathUtils::rotateVector( event->getOrientation(), copyA2V(translation, 4),
+                                     localEvent.getPosition() );
+            localEvent.getPosition()[0] += event->getPosition()[0];
+            localEvent.getPosition()[1] += event->getPosition()[1];
+            localEvent.getPosition()[2] += event->getPosition()[2];
+        }
+        else {
+            localEvent.getPosition()[0] = event->getPosition()[0];
+            localEvent.getPosition()[1] = event->getPosition()[1];
+            localEvent.getPosition()[2] = event->getPosition()[2];
+        }
+        // transform the orientation of the event
+        if( useOrient )
+        {
+            MathUtils::multiplyQuaternion( event->getOrientation(), copyA2V(rotation, 4), localEvent.getOrientation() );
+        }
+        else {
+            localEvent.getOrientation() = event->getOrientation();
+        }
+        // copy other event fields
+        localEvent.copyAllButStdAttr(*event);
 
-    localEvent.getButton() = event->getButton();
-    localEvent.getConfidence() = event->getConfidence();
-    localEvent.time = event->time;
-    return &localEvent;
-  }
+        localEvent.getButton() = event->getButton();
+        localEvent.getConfidence() = event->getConfidence();
+        localEvent.time = event->time;
+        return &localEvent;
+    }
 
 } // namespace ot
 

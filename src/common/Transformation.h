@@ -59,68 +59,68 @@
 
 namespace ot {
 
-  class OPENTRACKER_API Transformation : public Node
+    class OPENTRACKER_API Transformation : public Node
     {
-      // Members
+        // Members
     protected:
-      /// local event variable
-      Event localEvent;
+        /// local event variable
+        Event localEvent;
 
-      // Methods
+        // Methods
     protected:
-      /** transforms a event. Simplifies implementing other Transformations
-       * as it is only needed to override this method. It stores the
-       * transformed event in the localEvent member variable and returns
-       * a pointer to it.
-       * @param event pointer to original event
-       * @return pointer to localEvent member
-       */
-      virtual Event* transformEvent( Event* event) = 0;
+        /** transforms a event. Simplifies implementing other Transformations
+         * as it is only needed to override this method. It stores the
+         * transformed event in the localEvent member variable and returns
+         * a pointer to it.
+         * @param event pointer to original event
+         * @return pointer to localEvent member
+         */
+        virtual Event* transformEvent( Event* event) = 0;
 
-      /** constructor method
-       */
-      Transformation();
+        /** constructor method
+         */
+        Transformation();
 
     public:
-      /**
-       * returns the event number n back in time starting with the
-       * newest for n = 0
-       */
-      virtual Event& getEvent(unsigned int number = 0);
+        /**
+         * returns the event number n back in time starting with the
+         * newest for n = 0
+         */
+        virtual Event& getEvent(unsigned int number = 0);
 
-      virtual Event& getEventNearTime(double time);   
+        virtual Event& getEventNearTime(double time);   
 
-      /** returns the size of the queue. Uses the childs
-       * implementation, if possible.
-       * @return size of queue */
-      virtual unsigned int getSize();
+        /** returns the size of the queue. Uses the childs
+         * implementation, if possible.
+         * @return size of queue */
+        virtual unsigned int getSize();
 
-      /** the function evaluation method.
-       * @param time the point in time at which function is evaluated
-       * @return reference to event value */
-      virtual Event& getEventAtTime(double time);
+        /** the function evaluation method.
+         * @param time the point in time at which function is evaluated
+         * @return reference to event value */
+        virtual Event& getEventAtTime(double time);
 
-      /** tests for EventGenerator interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventGenerator, 0 otherwise */
-      virtual int isEventGenerator() ;
+        /** tests for EventGenerator interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventGenerator, 0 otherwise */
+        virtual int isEventGenerator() ;
 
-      /** tests for EventQueue interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventQueue, 0 otherwise */
-      virtual int isEventQueue() ;
+        /** tests for EventQueue interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventQueue, 0 otherwise */
+        virtual int isEventQueue() ;
 
-      /** tests for TimeDependend interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements TimeDependend, 0 otherwise */
-      virtual int isTimeDependend() ;
+        /** tests for TimeDependend interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements TimeDependend, 0 otherwise */
+        virtual int isTimeDependend() ;
 
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       * This class computes a transformed event, stores it in its local variable
-       * and notifies its observers in turn, propagating the change.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         * This class computes a transformed event, stores it in its local variable
+         * and notifies its observers in turn, propagating the change.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
     };
 
 } // namespace ot
