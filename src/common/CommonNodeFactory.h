@@ -71,43 +71,43 @@
 
 namespace ot {
 
-  class CommonNodeFactory : public NodeFactory
+    class CommonNodeFactory : public NodeFactory
     {
 
-      // members 
+        // members 
     protected:
-      /// stores names of known NodePorts, to make instantiation more generic
-      std::vector<std::string> nodePorts;
+        /// stores names of known NodePorts, to make instantiation more generic
+        std::vector<std::string> nodePorts;
 
     protected:
     
-      /** parses a string for a three component vector, returns int value
-       * indicating an error. If an error occurs, the val values are not changed.
-       * @param line string to parse
-       * @param val pointer to three floats
-       * @return 0 if ok, other value if error occured
-       */
-      static int parseVector( const std::string & line, float * val );
-      /** parses a string for a rotation, where the type is defined by
-       * a second string, returns int value indicating an error. If an error occurs, 
-       * the val values are not changed.
-       * @param line string to parse
-       * @param type string defining type of rotation (quaternion|matrix|axisangle|euler)
-       * @param val pointer to four floats, rotation will be stored in quaternion format
-       * @return 0 if ok, other value if error occured
-       */
-      static int parseRotation( const std::string & line, const std::string & type, float * val );
+        /** parses a string for a three component vector, returns int value
+         * indicating an error. If an error occurs, the val values are not changed.
+         * @param line string to parse
+         * @param val pointer to three floats
+         * @return 0 if ok, other value if error occured
+         */
+        static int parseVector( const std::string & line, float * val );
+        /** parses a string for a rotation, where the type is defined by
+         * a second string, returns int value indicating an error. If an error occurs, 
+         * the val values are not changed.
+         * @param line string to parse
+         * @param type string defining type of rotation (quaternion|matrix|axisangle|euler)
+         * @param val pointer to four floats, rotation will be stored in quaternion format
+         * @return 0 if ok, other value if error occured
+         */
+        static int parseRotation( const std::string & line, const std::string & type, float * val );
 
     public:
-      /** constructor method. Initalizes the wrapperNodes array.*/
-      CommonNodeFactory();
-      /** destructor */
-      virtual ~CommonNodeFactory();
-      /** creates the described node types.
-       * @param name reference to string containing element name
-       * @param attributes reference to StringMap of elements attribute values
-       * @return new Node or NULL, if element name was not recognized */
-      virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        /** constructor method. Initalizes the wrapperNodes array.*/
+        CommonNodeFactory();
+        /** destructor */
+        virtual ~CommonNodeFactory();
+        /** creates the described node types.
+         * @param name reference to string containing element name
+         * @param attributes reference to StringMap of elements attribute values
+         * @return new Node or NULL, if element name was not recognized */
+        virtual Node * createNode( const std::string& name,  StringTable& attributes);
     };
 
 } // namespace ot
