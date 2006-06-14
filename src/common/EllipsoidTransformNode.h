@@ -95,27 +95,27 @@
 
 namespace ot {
 
-  class OPENTRACKER_API EllipsoidTransformNode : public Transformation  
+    class OPENTRACKER_API EllipsoidTransformNode : public Transformation  
     {
     public:
-      /// the first semi diameter in meters
-      double a;
-      /// the second semi diameter in meters
-      double b;
-      /// mode flag to denote which direction the conversion will be
-      enum Mode { toEllipsoid = 0, toCartesian } mode;
+        /// the first semi diameter in meters
+        double a;
+        /// the second semi diameter in meters
+        double b;
+        /// mode flag to denote which direction the conversion will be
+        enum Mode { toEllipsoid = 0, toCartesian } mode;
 
     protected:
-      EllipsoidTransformNode( double a_ , double b_, Mode mode_ );
+        EllipsoidTransformNode( double a_ , double b_, Mode mode_ );
 
-      /** transforms a event either to or from an ellipsoid 
-       * coordinate system to a cartesian one.
-       * @param event pointer to original event
-       * @return pointer to localEvent member
-       */
-      virtual Event* transformEvent( Event* event);
+        /** transforms a event either to or from an ellipsoid 
+         * coordinate system to a cartesian one.
+         * @param event pointer to original event
+         * @return pointer to localEvent member
+         */
+        virtual Event* transformEvent( Event* event);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

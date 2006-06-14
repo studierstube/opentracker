@@ -56,15 +56,15 @@
 
 namespace ot {
 
-  void EventQueueNode::onEventGenerated( Event& event, Node& generator)
-  {
-    if( queue.size() == (unsigned int)length )
-      {
-        queue.pop_front();
-      }
-    insertAtTime( event );
-    updateObservers( event );
-  }
+    void EventQueueNode::onEventGenerated( Event& event, Node& generator)
+    {
+        if( queue.size() == (unsigned int)length )
+        {
+            queue.pop_front();
+        }
+        insertAtTime( event );
+        updateObservers( event );
+    }
 
 } // namespace ot
 

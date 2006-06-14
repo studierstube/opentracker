@@ -115,32 +115,32 @@
 
 namespace ot {
 
-  class OPENTRACKER_API DynamicTransformation : public StaticTransformation
+    class OPENTRACKER_API DynamicTransformation : public StaticTransformation
     {
     protected:
 
-      /** stores the original event data to compute new values
-       * on base changes.*/
-      Event store;
-      /** flag, whether a change in the base should generate an event or not */
-      int baseEvent;
+        /** stores the original event data to compute new values
+         * on base changes.*/
+        Event store;
+        /** flag, whether a change in the base should generate an event or not */
+        int baseEvent;
 
-      /** constructor method. It sets default values on the
-       * underlying StaticTransformation. */
-      DynamicTransformation( int baseEvent_ = 1, bool usePos_ = true, bool useOrient_ = true);
+        /** constructor method. It sets default values on the
+         * underlying StaticTransformation. */
+        DynamicTransformation( int baseEvent_ = 1, bool usePos_ = true, bool useOrient_ = true);
 
     public:
     
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       * This class computes a transformed event, stores it in its local variable
-       * and notifies its observers in turn, propagating the change.
-       * If the EventGenerator equals the baseChild, its data is stored in the
-       * underlying StaticTransformation fields, to change the transformation itself.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         * This class computes a transformed event, stores it in its local variable
+         * and notifies its observers in turn, propagating the change.
+         * If the EventGenerator equals the baseChild, its data is stored in the
+         * underlying StaticTransformation fields, to change the transformation itself.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
 
     };
 

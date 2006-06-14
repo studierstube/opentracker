@@ -52,40 +52,40 @@
 
 namespace ot {
 
-  DynamicTransformation::DynamicTransformation( int baseEvent_, bool usePos_, bool useOrient_ ) :
-    StaticTransformation(),
-    baseEvent( baseEvent_ )
-  {
-    usePos = usePos_;
-    useOrient = useOrient_;            
-  }
+    DynamicTransformation::DynamicTransformation( int baseEvent_, bool usePos_, bool useOrient_ ) :
+        StaticTransformation(),
+        baseEvent( baseEvent_ )
+    {
+        usePos = usePos_;
+        useOrient = useOrient_;            
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void DynamicTransformation::onEventGenerated( Event& event, Node& generator)
-  {
-    if( generator.isNodePort() == 1 )     // if the event is from the NodePort 
-      {	                                  // node, its a change to the base.
-        for( int i = 0; i < 3; i ++ )
-	  {
-            translation[i] = event.getPosition()[i];
-            rotation[i] = event.getOrientation()[i];
-	  }
-        this->rotation[3] = event.getOrientation()[3];
+    void DynamicTransformation::onEventGenerated( Event& event, Node& generator)
+    {
+        if( generator.isNodePort() == 1 )     // if the event is from the NodePort 
+        {	                                  // node, its a change to the base.
+            for( int i = 0; i < 3; i ++ )
+            {
+                translation[i] = event.getPosition()[i];
+                rotation[i] = event.getOrientation()[i];
+            }
+            this->rotation[3] = event.getOrientation()[3];
 
-	confidence = event.getConfidence();
+            confidence = event.getConfidence();
 
-	if( baseEvent == 1 )
-	  {
-            store.time = event.time;
-	    StaticTransformation::onEventGenerated( store, generator );
-	  }
-      } else 
+            if( baseEvent == 1 )
+            {
+                store.time = event.time;
+                StaticTransformation::onEventGenerated( store, generator );
+            }
+        } else 
 	{
-	  store = event;
-	  StaticTransformation::onEventGenerated( event, generator );
+            store = event;
+            StaticTransformation::onEventGenerated( event, generator );
 	}
-  }
+    }
 
 } // namespace ot
 

@@ -65,54 +65,54 @@
 
 namespace ot {
 
-  // Destructor method
+    // Destructor method
 
-  InterpolatorModule::~InterpolatorModule()
-  {
-    nodes.clear();
-  }
+    InterpolatorModule::~InterpolatorModule()
+    {
+        nodes.clear();
+    }
 
-  // This method is called to construct a new Node.
+    // This method is called to construct a new Node.
 
-  Node * InterpolatorModule::createNode( const std::string& name, StringTable& attributes)
-  {
-    if( name.compare("ElasticFilter") == 0 )
-      {
-        int frequency;
-        int offset;
-        float force = 0.1f, damp = 0.1f;
-        int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-        if( num == 0 ){
-	  frequency = 1;
+    Node * InterpolatorModule::createNode( const std::string& name, StringTable& attributes)
+    {
+        if( name.compare("ElasticFilter") == 0 )
+        {
+            int frequency;
+            int offset;
+            float force = 0.1f, damp = 0.1f;
+            int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
+            if( num == 0 ){
+                frequency = 1;
+            }
+            num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
+            if( num == 0 ){
+                offset = 0;
+            }
+            num = sscanf(attributes.get("force").c_str(), " %f", &force );
+            num = sscanf(attributes.get("damp").c_str(), " %f", &damp );
+            ElasticFilterNode * source = new ElasticFilterNode( force, damp, frequency, offset );
+            nodes.push_back( source );        
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:InterpolatorModule: Built ElasticFilter node\n")));
+            initialized = 1;
+            return source;
         }
-        num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
-        if( num == 0 ){
-	  offset = 0;
-        }
-        num = sscanf(attributes.get("force").c_str(), " %f", &force );
-        num = sscanf(attributes.get("damp").c_str(), " %f", &damp );
-        ElasticFilterNode * source = new ElasticFilterNode( force, damp, frequency, offset );
-        nodes.push_back( source );        
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:InterpolatorModule: Built ElasticFilter node\n")));
-        initialized = 1;
-        return source;
-      }
-    return NULL;
-  }
+        return NULL;
+    }
 
-  // pushes events into the tracker tree.
-  void InterpolatorModule::pushEvent()
-  {
-    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-      {
-        ElasticFilterNode *source = (ElasticFilterNode *) *it;
-        //if((cycle + source->offset) % source->frequency == 0 )
-        //{
-	source->push();
-        //} 
-      }
-    cycle++;
-  }
+    // pushes events into the tracker tree.
+    void InterpolatorModule::pushEvent()
+    {
+        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        {
+            ElasticFilterNode *source = (ElasticFilterNode *) *it;
+            //if((cycle + source->offset) % source->frequency == 0 )
+            //{
+            source->push();
+            //} 
+        }
+        cycle++;
+    }
 
 } // namespace ot {
 

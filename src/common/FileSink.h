@@ -75,51 +75,51 @@
 
 namespace ot {
 
-  class OPENTRACKER_API FileSink : public Node
+    class OPENTRACKER_API FileSink : public Node
     {
-      // Members
+        // Members
     public:
-      /// Output File object associated with this node.
-      File & file;
-      /// station number
-      int station;	
+        /// Output File object associated with this node.
+        File & file;
+        /// station number
+        int station;	
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method,sets commend member
-       * @param file_ the File object to write to
-       * @param station_ the station number to use */
-      FileSink( File & file_, int station_ = 0 ) :
-        Node(), 
-        file( file_ ),
-	station( station_ )
+        /** constructor method,sets commend member
+         * @param file_ the File object to write to
+         * @param station_ the station number to use */
+        FileSink( File & file_, int station_ = 0 ) :
+            Node(), 
+            file( file_ ),
+            station( station_ )
 	{}
 
     public:
-      /** tests for EventGenerator interface being present. Is overriden to
-       * return 1 always.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
     
-      /**
-       * this method notifies the object that a new event was generated.
-       * It writes the event value out to the file and passes it
-       * on to its parent.
-       * @param event reference to the new event. Do not change the
-       *        event values, make a copy and change that !
-       * @param generator reference to the EventGenerator object that
-       *        notified the EventObserver.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator)
+        /**
+         * this method notifies the object that a new event was generated.
+         * It writes the event value out to the file and passes it
+         * on to its parent.
+         * @param event reference to the new event. Do not change the
+         *        event values, make a copy and change that !
+         * @param generator reference to the EventGenerator object that
+         *        notified the EventObserver.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator)
 	{
-	  file.write( event, station );
-	  updateObservers( event );
+            file.write( event, station );
+            updateObservers( event );
 	}
 
-      friend class FileModule;
+        friend class FileModule;
     };
 
 }

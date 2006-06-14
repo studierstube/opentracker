@@ -70,43 +70,43 @@
 
 namespace ot {
 
-  typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node*> NodeVector;
 
-  /**
-   * Module for filters that interpolate tracking data between updates and therefore need
-   * a module to drive the updates. Currently, only the @ref ElasticFilterNode is in this module.
-   * @author Flo Ledermann
-   * @ingroup common
-   */
-  class OPENTRACKER_API InterpolatorModule : public Module, public NodeFactory
+    /**
+     * Module for filters that interpolate tracking data between updates and therefore need
+     * a module to drive the updates. Currently, only the @ref ElasticFilterNode is in this module.
+     * @author Flo Ledermann
+     * @ingroup common
+     */
+    class OPENTRACKER_API InterpolatorModule : public Module, public NodeFactory
     {
-      // Members
+        // Members
     protected:
-      /// list of interpolator nodes in the tree
-      NodeVector nodes;
-      /// current cycle count.
-      int cycle;
+        /// list of interpolator nodes in the tree
+        NodeVector nodes;
+        /// current cycle count.
+        int cycle;
 
-      // Methods
+        // Methods
     public:
-      /** constructor method. */
-      InterpolatorModule() : Module(), NodeFactory()
+        /** constructor method. */
+        InterpolatorModule() : Module(), NodeFactory()
 	{
-	  cycle = 0;
+            cycle = 0;
 	};
-      /** Destructor method, clears nodes member. */
-      virtual ~InterpolatorModule();
-      /** This method is called to build a new Node. 
-       * @param name reference to string containing element name
-       * @attributes refenrence to StringMap containing attribute values
-       * @return pointer to new Node or NULL. The new Node must be
-       *         allocated with new ! */
-      virtual Node * createNode( const std::string& name,  StringTable& attributes);
-      /**
-       * pushes events into the tracker tree. Checks all sources and
-       * pushes new events.
-       */
-      virtual void pushEvent();
+        /** Destructor method, clears nodes member. */
+        virtual ~InterpolatorModule();
+        /** This method is called to build a new Node. 
+         * @param name reference to string containing element name
+         * @attributes refenrence to StringMap containing attribute values
+         * @return pointer to new Node or NULL. The new Node must be
+         *         allocated with new ! */
+        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        /**
+         * pushes events into the tracker tree. Checks all sources and
+         * pushes new events.
+         */
+        virtual void pushEvent();
     };
 
 } // namespace ot

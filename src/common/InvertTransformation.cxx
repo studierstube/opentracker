@@ -50,23 +50,23 @@
 
 namespace ot {
 
-  Event* InvertTransformation::transformEvent( Event* event )
-  {
-    // invert the data
-    MathUtils::invertQuaternion( event->getOrientation(), localEvent.getOrientation() );
-    MathUtils::rotateVector( localEvent.getOrientation(), event->getPosition(), localEvent.getPosition() );
-    localEvent.getPosition()[0] *= -1.0;
-    localEvent.getPosition()[1] *= -1.0;
-    localEvent.getPosition()[2] *= -1.0;
+    Event* InvertTransformation::transformEvent( Event* event )
+    {
+        // invert the data
+        MathUtils::invertQuaternion( event->getOrientation(), localEvent.getOrientation() );
+        MathUtils::rotateVector( localEvent.getOrientation(), event->getPosition(), localEvent.getPosition() );
+        localEvent.getPosition()[0] *= -1.0;
+        localEvent.getPosition()[1] *= -1.0;
+        localEvent.getPosition()[2] *= -1.0;
 
-    // copy other event fields
-    localEvent.copyAllButStdAttr(*event);
+        // copy other event fields
+        localEvent.copyAllButStdAttr(*event);
 
-    localEvent.getButton() = event->getButton();
-    localEvent.getConfidence() = event->getConfidence();
-    localEvent.time = event->time;
-    return &localEvent;
-  }
+        localEvent.getButton() = event->getButton();
+        localEvent.getConfidence() = event->getConfidence();
+        localEvent.time = event->time;
+        return &localEvent;
+    }
 
 } // namespace ot
 

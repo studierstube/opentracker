@@ -53,126 +53,126 @@
 
 namespace ot {
 
-  FilterNode::FilterNode( const std::vector<float> & weights_, const Type & type_ )
-    : Node(), weights( weights_ ), type( type_ )
-  {
-  }
+    FilterNode::FilterNode( const std::vector<float> & weights_, const Type & type_ )
+        : Node(), weights( weights_ ), type( type_ )
+    {
+    }
 
-  int FilterNode::isEventGenerator()
-  {
-    return 1;
-  }
+    int FilterNode::isEventGenerator()
+    {
+        return 1;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void FilterNode::onEventGenerated( Event& event, Node& generator)
-  {
-    Node * queue = getChild( 0 );
-    if( queue != NULL && queue->getSize() == weights.size() )
-      {
-        double w,sum = 0;
-        double pos[3] = {0, 0, 0 }, orient[3] = { 0, 0, 0 };
-	double conf = 0;
+    void FilterNode::onEventGenerated( Event& event, Node& generator)
+    {
+        Node * queue = getChild( 0 );
+        if( queue != NULL && queue->getSize() == weights.size() )
+        {
+            double w,sum = 0;
+            double pos[3] = {0, 0, 0 }, orient[3] = { 0, 0, 0 };
+            double conf = 0;
 
-        // referencerot for quaternion interpolation
-	//float * referencerot= queue->getEvent( 0 ).orientation;
-	std::vector<float> &referencerot = queue->getEvent(0).getOrientation();
+            // referencerot for quaternion interpolation
+            //float * referencerot= queue->getEvent( 0 ).orientation;
+            std::vector<float> &referencerot = queue->getEvent(0).getOrientation();
 
-        std::vector<float>::iterator it;
-        for( it = weights.begin(); it != weights.end(); it++ )
-	  {
-            Event & event = queue->getEvent( it - weights.begin());
-            w = (*it);
+            std::vector<float>::iterator it;
+            for( it = weights.begin(); it != weights.end(); it++ )
+            {
+                Event & event = queue->getEvent( it - weights.begin());
+                w = (*it);
 
-	    if( type != ORIENTATION )
-	      {
-		/*  The position is computed as the weighted average of the
-		    positions in the queue. The average is not normalized, to
-		    yield a more general filter.*/
-		pos[0] += event.getPosition()[0] * w;
-		pos[1] += event.getPosition()[1] * w;
-		pos[2] += event.getPosition()[2] * w;
-	      }
+                if( type != ORIENTATION )
+                {
+                    /*  The position is computed as the weighted average of the
+                        positions in the queue. The average is not normalized, to
+                        yield a more general filter.*/
+                    pos[0] += event.getPosition()[0] * w;
+                    pos[1] += event.getPosition()[1] * w;
+                    pos[2] += event.getPosition()[2] * w;
+                }
 
-	    if( type != POSITION )
-	      {
-		/* The orientation is computed as the normalized weighted average of the
-		   orientations in the queue in log space. That is, they are transformed
-		   to 3D vectors inside the unit hemisphere and averaged in this linear space.
-		   The resulting vector is transformed back to a unit quaternion. */
+                if( type != POSITION )
+                {
+                    /* The orientation is computed as the normalized weighted average of the
+                       orientations in the queue in log space. That is, they are transformed
+                       to 3D vectors inside the unit hemisphere and averaged in this linear space.
+                       The resulting vector is transformed back to a unit quaternion. */
 
-                if( MathUtils::dot(referencerot, event.getOrientation(), 4) < 0 )
-		  {
-                    event.getOrientation()[0] = -event.getOrientation()[0];
-                    event.getOrientation()[1] = -event.getOrientation()[1];
-                    event.getOrientation()[2] = -event.getOrientation()[2];
-                    event.getOrientation()[3] = -event.getOrientation()[3];
-		  }
+                    if( MathUtils::dot(referencerot, event.getOrientation(), 4) < 0 )
+                    {
+                        event.getOrientation()[0] = -event.getOrientation()[0];
+                        event.getOrientation()[1] = -event.getOrientation()[1];
+                        event.getOrientation()[2] = -event.getOrientation()[2];
+                        event.getOrientation()[3] = -event.getOrientation()[3];
+                    }
 
-		double angle = acos( event.getOrientation()[3] );
-		double as = sin( angle );
-		if( as != 0 )
-		  as = angle * w / as;
-		else
-		  as = 0;					// lim x/(sin(x/2)) = 2 for x -> 0 ???
-		orient[0] += event.getOrientation()[0] * as;
-		orient[1] += event.getOrientation()[1] * as;
-		orient[2] += event.getOrientation()[2] * as;
-	      }
+                    double angle = acos( event.getOrientation()[3] );
+                    double as = sin( angle );
+                    if( as != 0 )
+                        as = angle * w / as;
+                    else
+                        as = 0;					// lim x/(sin(x/2)) = 2 for x -> 0 ???
+                    orient[0] += event.getOrientation()[0] * as;
+                    orient[1] += event.getOrientation()[1] * as;
+                    orient[2] += event.getOrientation()[2] * as;
+                }
 
-	    /* confidence is also averaged */
-	    conf += event.getConfidence() * w;
+                /* confidence is also averaged */
+                conf += event.getConfidence() * w;
 
-            sum += w;
+                sum += w;
 
-	  }
-	if( type != POSITION )
-	  {
-	    // calculate the length of the summed vector in log space
-	    // this is the angle of the result quaternion
-	    w = sqrt((orient[0]*orient[0] + orient[1]*orient[1] + orient[2]*orient[2])/(sum*sum));
-	    double as = 0;
-	    if( w != 0)
-	      as = sin( w ) / w;
-	    localEvent.getOrientation()[0] = (float)(orient[0] * as);
-	    localEvent.getOrientation()[1] = (float)(orient[1] * as);
-	    localEvent.getOrientation()[2] = (float)(orient[2] * as);
-	    localEvent.getOrientation()[3] = (float)cos( w );
-	    MathUtils::normalizeQuaternion( localEvent.getOrientation() );
-	  }
-	else 
-	  {
-	    localEvent.getOrientation()[0] = event.getOrientation()[0];
-	    localEvent.getOrientation()[1] = event.getOrientation()[1];
-	    localEvent.getOrientation()[2] = event.getOrientation()[2];
-	    localEvent.getOrientation()[3] = event.getOrientation()[3];
-	  }
+            }
+            if( type != POSITION )
+            {
+                // calculate the length of the summed vector in log space
+                // this is the angle of the result quaternion
+                w = sqrt((orient[0]*orient[0] + orient[1]*orient[1] + orient[2]*orient[2])/(sum*sum));
+                double as = 0;
+                if( w != 0)
+                    as = sin( w ) / w;
+                localEvent.getOrientation()[0] = (float)(orient[0] * as);
+                localEvent.getOrientation()[1] = (float)(orient[1] * as);
+                localEvent.getOrientation()[2] = (float)(orient[2] * as);
+                localEvent.getOrientation()[3] = (float)cos( w );
+                MathUtils::normalizeQuaternion( localEvent.getOrientation() );
+            }
+            else 
+            {
+                localEvent.getOrientation()[0] = event.getOrientation()[0];
+                localEvent.getOrientation()[1] = event.getOrientation()[1];
+                localEvent.getOrientation()[2] = event.getOrientation()[2];
+                localEvent.getOrientation()[3] = event.getOrientation()[3];
+            }
         
-	if( type != ORIENTATION )
-	  {
-	    // copy pos to event.position
-	    localEvent.getPosition()[0] = (float)pos[0];
-	    localEvent.getPosition()[1] = (float)pos[1];
-	    localEvent.getPosition()[2] = (float)pos[2];
-	  }
-	else
-	  {
-	    localEvent.getPosition()[0] = event.getPosition()[0];
-	    localEvent.getPosition()[1] = event.getPosition()[1];
-	    localEvent.getPosition()[2] = event.getPosition()[2];			
-	  }
+            if( type != ORIENTATION )
+            {
+                // copy pos to event.position
+                localEvent.getPosition()[0] = (float)pos[0];
+                localEvent.getPosition()[1] = (float)pos[1];
+                localEvent.getPosition()[2] = (float)pos[2];
+            }
+            else
+            {
+                localEvent.getPosition()[0] = event.getPosition()[0];
+                localEvent.getPosition()[1] = event.getPosition()[1];
+                localEvent.getPosition()[2] = event.getPosition()[2];			
+            }
         
-	localEvent.getConfidence() = (float)conf;
+            localEvent.getConfidence() = (float)conf;
 
-        localEvent.time = event.time;
-	localEvent.getButton() = event.getButton();
-        updateObservers( localEvent );
-      }
-    else
-      {
-        updateObservers( event );
-      }
-  }
+            localEvent.time = event.time;
+            localEvent.getButton() = event.getButton();
+            updateObservers( localEvent );
+        }
+        else
+        {
+            updateObservers( event );
+        }
+    }
 
 } // namespace ot
 

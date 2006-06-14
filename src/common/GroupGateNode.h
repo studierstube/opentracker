@@ -110,105 +110,105 @@
 
 namespace ot {
 
-  typedef std::vector<std::string> NeighborsVector;
-  typedef std::vector<Node *> NeighborPtrsVector;
+    typedef std::vector<std::string> NeighborsVector;
+    typedef std::vector<Node *> NeighborPtrsVector;
 
-  /**
-   * A GroupGateNode is an EventGenerator node that ... TO DO
-   * @author Michael Knapp
-   * @ingroup common
-   */
-  class OPENTRACKER_API GroupGateNode : public Node   
+    /**
+     * A GroupGateNode is an EventGenerator node that ... TO DO
+     * @author Michael Knapp
+     * @ingroup common
+     */
+    class OPENTRACKER_API GroupGateNode : public Node   
     {
     private:
-      int Number;
-      GroupGateGroup *Owner;
-      std::string Name;
-      NeighborsVector Neighbors;
-      NeighborPtrsVector NeighborPtrs;
-      bool IsActive;
+        int Number;
+        GroupGateGroup *Owner;
+        std::string Name;
+        NeighborsVector Neighbors;
+        NeighborPtrsVector NeighborPtrs;
+        bool IsActive;
 
     protected:
    
-      /** constructor method. It sets initial values for the timeout. */
-      GroupGateNode(const char *name, GroupGateGroup *owner);
-      ~GroupGateNode();
+        /** constructor method. It sets initial values for the timeout. */
+        GroupGateNode(const char *name, GroupGateGroup *owner);
+        ~GroupGateNode();
 
-      void setNumber(int num);
-      int getNumber();
-      void addNeighbor(const char *neighbor);
-      bool isActive();
-      void activate();
-      void deactivate();
-      const char *getGroupGateName();
+        void setNumber(int num);
+        int getNumber();
+        void addNeighbor(const char *neighbor);
+        bool isActive();
+        void activate();
+        void deactivate();
+        const char *getGroupGateName();
 
     public:
-      virtual int isEventGenerator()
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      virtual void onEventGenerated(Event &event, Node &generator);                                
+        virtual void onEventGenerated(Event &event, Node &generator);                                
 
-      friend class GroupGateModule;
-      friend class GroupGateGroup;
+        friend class GroupGateModule;
+        friend class GroupGateGroup;
     };
 
 
-  class OPENTRACKER_API Override : public Node
+    class OPENTRACKER_API Override : public Node
     {
     protected:
-      Override() : Node() 
+        Override() : Node() 
 	{ 
 	}
 
     public:
 
-      virtual int isNodePort()
+        virtual int isNodePort()
 	{
-	  return 1;
+            return 1;
 	}
 
-      virtual void onEventGenerated(Event &event, Node &generator)
+        virtual void onEventGenerated(Event &event, Node &generator)
 	{
-	  updateObservers(event);
+            updateObservers(event);
 	}
 
-      friend class GroupGateModule;
+        friend class GroupGateModule;
     };
 
-  /**
-   * An ActiveGateNode is an EventGenerator node that ... TO DO
-   * @author Michael Knapp
-   * @ingroup common
-   */
-  class OPENTRACKER_API ActiveGateNode : public Node   
+    /**
+     * An ActiveGateNode is an EventGenerator node that ... TO DO
+     * @author Michael Knapp
+     * @ingroup common
+     */
+    class OPENTRACKER_API ActiveGateNode : public Node   
     {
     private:
-      Event event;
+        Event event;
 
     protected:
    
-      ActiveGateNode() : Node()
+        ActiveGateNode() : Node()
 	{
 	}
   
     public:
 
-      virtual int isEventGenerator()
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      void pushEvent(unsigned short groupgatenum)
+        void pushEvent(unsigned short groupgatenum)
 	{
-	  event.getButton() = groupgatenum;
-	  event.timeStamp();
-	  updateObservers(event);
+            event.getButton() = groupgatenum;
+            event.timeStamp();
+            updateObservers(event);
 	}
 
-      friend class GroupGateModule;
-      friend class GroupGateGroup;
+        friend class GroupGateModule;
+        friend class GroupGateGroup;
     };
 
 } // namespace ot

@@ -82,39 +82,39 @@
  */
 namespace ot {
 
-  class OPENTRACKER_API FileSource : public Node
+    class OPENTRACKER_API FileSource : public Node
     {
-      // Members
+        // Members
     public:
-      /// station number
-      int station;
-      /// flag whether timestamp should be taken from the file or generated locally
-      bool localTime;
-      /// flag whether event was changed this round
-      bool changed;
+        /// station number
+        int station;
+        /// flag whether timestamp should be taken from the file or generated locally
+        bool localTime;
+        /// flag whether event was changed this round
+        bool changed;
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method,sets the station number and other default values.    
-       * @param station the station number to use.
-       */
-      FileSource( int station_ = 0, bool localTime_ = false ) :
-        Node(), 
-	station( station_ ),
-        localTime( localTime_ ),
-        changed( 0 )
+        /** constructor method,sets the station number and other default values.    
+         * @param station the station number to use.
+         */
+        FileSource( int station_ = 0, bool localTime_ = false ) :
+            Node(), 
+            station( station_ ),
+            localTime( localTime_ ),
+            changed( 0 )
 	{}
 
     public:
-      /** tests for EventGenerator interface being present. Is overriden to
-       * return 1 always.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}   
 
-      friend class FileModule;
+        friend class FileModule;
     };
 
 } // namespace ot

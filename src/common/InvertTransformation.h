@@ -76,22 +76,22 @@
 
 namespace ot {
 
-  class OPENTRACKER_API InvertTransformation : public Transformation
+    class OPENTRACKER_API InvertTransformation : public Transformation
     {
     protected:
 
-      /**
-       * transforms a event. Overrides the Transformation implementation
-       * to implement the inversion
-       */
-      virtual Event* transformEvent( Event* event) ;
+        /**
+         * transforms a event. Overrides the Transformation implementation
+         * to implement the inversion
+         */
+        virtual Event* transformEvent( Event* event) ;
 
-      /** default constructor method sets values to implement identity 
-       * transformation */
-      InvertTransformation()
+        /** default constructor method sets values to implement identity 
+         * transformation */
+        InvertTransformation()
 	{}
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

@@ -54,9 +54,9 @@
  *
  * An example element looks like this:
  * @verbatim
-<EventUtilityNode rename="position pos" discard="confidence" create="double doubleAttribute 7.4">
-   <Any EventGenerator element type>
-</EventUtilityNode>@endverbatim
+ <EventUtilityNode rename="position pos" discard="confidence" create="double doubleAttribute 7.4">
+ <Any EventGenerator element type>
+ </EventUtilityNode>@endverbatim
 */
 
 #ifndef _EVENTUTILITYNODE_H
@@ -78,56 +78,56 @@ namespace ot {
    * @ingroup common
    */
   class OPENTRACKER_API EventUtilityNode : public Node
-  {
-  protected:
-    /// the old name of the attribute to be renamed
-    std::string oldName;
-    /// the new name of the attribute to be renamed
-    std::string newName;
-    /// the name of the attribute to be discarded
-    std::string discard;
-    /// the type of the attribute to be created
-    std::string type;
-    /// the name of the attribute to be created
-    std::string name;
-    /// the value of the attribute to be created
-    std::string value;
+    {
+    protected:
+      /// the old name of the attribute to be renamed
+      std::string oldName;
+      /// the new name of the attribute to be renamed
+      std::string newName;
+      /// the name of the attribute to be discarded
+      std::string discard;
+      /// the type of the attribute to be created
+      std::string type;
+      /// the name of the attribute to be created
+      std::string name;
+      /// the value of the attribute to be created
+      std::string value;
 
-  public:
-    /**
-     * Returns 1 to show that this node is an event generator.
-     * @return 1 because node implements EventGenerator
-     */
-    virtual int isEventGenerator() { return 1; };
-    /**
-     * This method changes the incoming event and updates the node's observers.
-     * @param event the incoming event
-     * @param generator the node that generated the incoming event
-     */
-    virtual void onEventGenerated(Event &event, Node &generator);
-    /**
-     * Sets the old and new name of the attribute, which is to be renamed.
-     * @param oldName the old name
-     * @param newName the new name
-     */
-    void setRename(const std::string &oldName, const std::string &newName);
-    /**
-     * Sets the name of the attribute, which is to be discarded.
-     * @param discard name of the attribute to be discarded
-     */
-    void setDiscard(const std::string &discard);
-    /**
-     * Sets the type, name, and value (encoded in strings) of the attribute, which is to be
-     * created.
-     * @param type generic type name of the new attribute
-     * @param name the name of the new attribute
-     * @param value the initial value of the new attribute
-     * @return
-     */
-    void setCreate(const std::string &type, const std::string &name, const std::string &value);
+    public:
+      /**
+       * Returns 1 to show that this node is an event generator.
+       * @return 1 because node implements EventGenerator
+       */
+      virtual int isEventGenerator() { return 1; };
+      /**
+       * This method changes the incoming event and updates the node's observers.
+       * @param event the incoming event
+       * @param generator the node that generated the incoming event
+       */
+      virtual void onEventGenerated(Event &event, Node &generator);
+      /**
+       * Sets the old and new name of the attribute, which is to be renamed.
+       * @param oldName the old name
+       * @param newName the new name
+       */
+      void setRename(const std::string &oldName, const std::string &newName);
+      /**
+       * Sets the name of the attribute, which is to be discarded.
+       * @param discard name of the attribute to be discarded
+       */
+      void setDiscard(const std::string &discard);
+      /**
+       * Sets the type, name, and value (encoded in strings) of the attribute, which is to be
+       * created.
+       * @param type generic type name of the new attribute
+       * @param name the name of the new attribute
+       * @param value the initial value of the new attribute
+       * @return
+       */
+      void setCreate(const std::string &type, const std::string &name, const std::string &value);
 
-    friend class CommonNodeFactory;
-  };
+      friend class CommonNodeFactory;
+    };
 
 } // namespace ot
 

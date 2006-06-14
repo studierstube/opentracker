@@ -52,72 +52,72 @@
 
 namespace ot {
 
-  // constructor method
-  ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_, int offset_ )
-    : currentEvent(), vEvent()
-  {
-    frequency = frequency_;
-    offset = offset_;
+    // constructor method
+    ElasticFilterNode::ElasticFilterNode( float force_, float damp_, int frequency_, int offset_ )
+        : currentEvent(), vEvent()
+    {
+        frequency = frequency_;
+        offset = offset_;
 
-    force = force_;
-    damp = damp_;
+        force = force_;
+        damp = damp_;
 
-    init = false;
-  } 
+        init = false;
+    } 
 
-  // tests the confidence value and only forwards passing events
-  void ElasticFilterNode::onEventGenerated( Event& event, Node & generator )
-  {
-    //printf("ElasticFilterNode::onEventGenerated() \n");
-    if (!init){
-      currentEvent = event;
-      init = true;
+    // tests the confidence value and only forwards passing events
+    void ElasticFilterNode::onEventGenerated( Event& event, Node & generator )
+    {
+        //printf("ElasticFilterNode::onEventGenerated() \n");
+        if (!init){
+            currentEvent = event;
+            init = true;
 
+        }
+        targetEvent = event;
+        // we have to pass on the other information as well
+        currentEvent.getButton() = event.getButton();
+        currentEvent.getConfidence() = event.getConfidence();
     }
-    targetEvent = event;
-    // we have to pass on the other information as well
-    currentEvent.getButton() = event.getButton();
-    currentEvent.getConfidence() = event.getConfidence();
-  }
 
-  void ElasticFilterNode::push() {
-    // maybe we should us absolute timing, but for now we try without
-    // double curTime = OSUtils::currentTime();
-    // double dt = lastTime - curTime;
-    if (init) {
-      //printf("ElasticFilterNode::push() \n");
+    void ElasticFilterNode::push() {
+        // maybe we should us absolute timing, but for now we try without
+        // double curTime = OSUtils::currentTime();
+        // double dt = lastTime - curTime;
+        if (init) {
+            //printf("ElasticFilterNode::push() \n");
 
-      Event dEvent;
+            Event dEvent;
 
-      // calculate current offset from target
-      dEvent.getPosition()[0] = targetEvent.getPosition()[0] - currentEvent.getPosition()[0];
-      dEvent.getPosition()[1] = targetEvent.getPosition()[1] - currentEvent.getPosition()[1];
-      dEvent.getPosition()[2] = targetEvent.getPosition()[2] - currentEvent.getPosition()[2];
+            // calculate current offset from target
+            dEvent.getPosition()[0] = targetEvent.getPosition()[0] - currentEvent.getPosition()[0];
+            dEvent.getPosition()[1] = targetEvent.getPosition()[1] - currentEvent.getPosition()[1];
+            dEvent.getPosition()[2] = targetEvent.getPosition()[2] - currentEvent.getPosition()[2];
 
-      // calculate velocity
-      vEvent.getPosition()[0] += (float)(dEvent.getPosition()[0] * force * 0.1);
-      vEvent.getPosition()[1] += (float)(dEvent.getPosition()[1] * force * 0.1);
-      vEvent.getPosition()[2] += (float)(dEvent.getPosition()[2] * force * 0.1);
+            // calculate velocity
+            vEvent.getPosition()[0] += (float)(dEvent.getPosition()[0] * force * 0.1);
+            vEvent.getPosition()[1] += (float)(dEvent.getPosition()[1] * force * 0.1);
+            vEvent.getPosition()[2] += (float)(dEvent.getPosition()[2] * force * 0.1);
 		
-      // damp velocity
-      vEvent.getPosition()[0] *= 1.0f - damp;
-      vEvent.getPosition()[1] *= 1.0f - damp;
-      vEvent.getPosition()[2] *= 1.0f - damp;
+            // damp velocity
+            vEvent.getPosition()[0] *= 1.0f - damp;
+            vEvent.getPosition()[1] *= 1.0f - damp;
+            vEvent.getPosition()[2] *= 1.0f - damp;
      
-      // add velocity to current event
-      currentEvent.getPosition()[0] += vEvent.getPosition()[0];
-      currentEvent.getPosition()[1] += vEvent.getPosition()[1];
-      currentEvent.getPosition()[2] += vEvent.getPosition()[2];
+            // add velocity to current event
+            currentEvent.getPosition()[0] += vEvent.getPosition()[0];
+            currentEvent.getPosition()[1] += vEvent.getPosition()[1];
+            currentEvent.getPosition()[2] += vEvent.getPosition()[2];
 				
-      MathUtils::slerp(currentEvent.getOrientation(), targetEvent.getOrientation(), force*(1-damp)*0.1f, dEvent.getOrientation());
+            MathUtils::slerp(currentEvent.getOrientation(), targetEvent.getOrientation(), force*(1-damp)*0.1f, dEvent.getOrientation());
 		
-      for (int i=0; i< 4; i++)
-	currentEvent.getOrientation()[i] = dEvent.getOrientation()[i]; // copy ??
+            for (int i=0; i< 4; i++)
+                currentEvent.getOrientation()[i] = dEvent.getOrientation()[i]; // copy ??
 
-      currentEvent.timeStamp();
-      updateObservers(currentEvent);
+            currentEvent.timeStamp();
+            updateObservers(currentEvent);
+        }
     }
-  }
 
 } // namespace ot
 

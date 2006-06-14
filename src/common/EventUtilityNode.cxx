@@ -49,40 +49,40 @@
 
 namespace ot
 {
-  // set old and new name for attribute renaming
-  void EventUtilityNode::setRename(const std::string &oldName, const std::string &newName)
-  {
-    this->oldName = oldName;
-    this->newName = newName;
-  }
+    // set old and new name for attribute renaming
+    void EventUtilityNode::setRename(const std::string &oldName, const std::string &newName)
+    {
+        this->oldName = oldName;
+        this->newName = newName;
+    }
 
-  // set name of attribute to be discarded
-  void EventUtilityNode::setDiscard(const std::string &discard)
-  {
-    this->discard = discard;
-  }
+    // set name of attribute to be discarded
+    void EventUtilityNode::setDiscard(const std::string &discard)
+    {
+        this->discard = discard;
+    }
 
-  // set type, name, and value of new attribute to be created
-  void EventUtilityNode::setCreate(const std::string &type, const std::string &name, const std::string &value)
-  {
-    this->type = type;
-    this->name = name;
-    this->value = value;
-  }
+    // set type, name, and value of new attribute to be created
+    void EventUtilityNode::setCreate(const std::string &type, const std::string &name, const std::string &value)
+    {
+        this->type = type;
+        this->name = name;
+        this->value = value;
+    }
 
-  // rename, discard, or create attributes and update observers
-  void EventUtilityNode::onEventGenerated(Event &event, Node &generator)
-  {
-    bool success = false;
-    if (oldName.length() > 0)
-      success |= event.renAttribute(oldName, newName);
-    if (discard.length() > 0)
-      success |= event.delAttribute(discard);
-    if (type.length() > 0)
-      success |= event.addAttribute(type, name, value);
-    if (success)
-      updateObservers(event);
-  }
+    // rename, discard, or create attributes and update observers
+    void EventUtilityNode::onEventGenerated(Event &event, Node &generator)
+    {
+        bool success = false;
+        if (oldName.length() > 0)
+            success |= event.renAttribute(oldName, newName);
+        if (discard.length() > 0)
+            success |= event.delAttribute(discard);
+        if (type.length() > 0)
+            success |= event.addAttribute(type, name, value);
+        if (success)
+            updateObservers(event);
+    }
 
 } // namespace ot
 

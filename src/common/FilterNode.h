@@ -92,40 +92,40 @@
 
 namespace ot {
 
-  class OPENTRACKER_API FilterNode : public Node
+    class OPENTRACKER_API FilterNode : public Node
     {
-      // Members
+        // Members
     protected:
-      /// local event variable
-      Event localEvent;
+        /// local event variable
+        Event localEvent;
 
-      /// array of weights
-      std::vector<float> weights;
+        /// array of weights
+        std::vector<float> weights;
 
-      enum Type { ALL = 0, POSITION, ORIENTATION } type;
+        enum Type { ALL = 0, POSITION, ORIENTATION } type;
 
-      // Methods
+        // Methods
     protected:
 
-      /** constructor method
-       */
-      FilterNode( const std::vector<float> & weights_, const Type & type_ );
+        /** constructor method
+         */
+        FilterNode( const std::vector<float> & weights_, const Type & type_ );
 
     public:
 
-      /** tests for EventGenerator interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventGenerator, 0 otherwise */
-      virtual int isEventGenerator() ;
+        /** tests for EventGenerator interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventGenerator, 0 otherwise */
+        virtual int isEventGenerator() ;
 
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       * This class computes a transformed event, stores it in its local variable
-       * and notifies its observers in turn, propagating the change.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         * This class computes a transformed event, stores it in its local variable
+         * and notifies its observers in turn, propagating the change.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

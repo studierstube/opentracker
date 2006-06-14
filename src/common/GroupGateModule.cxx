@@ -63,156 +63,156 @@
 
 namespace ot {
 
-  GroupGateGroup::GroupGateGroup(const char *name)
-  {
-    Name = name;
-    ActiveGate = 0;
-    ActiveGroupGate = 0;
-  }
+    GroupGateGroup::GroupGateGroup(const char *name)
+    {
+        Name = name;
+        ActiveGate = 0;
+        ActiveGroupGate = 0;
+    }
 
-  GroupGateGroup::~GroupGateGroup()
-  {
-    Gates.clear();
-  }
+    GroupGateGroup::~GroupGateGroup()
+    {
+        Gates.clear();
+    }
 
-  Node *
-  GroupGateGroup::addNode(const char *name)
-  {
-    GroupGateNode *node = new GroupGateNode(name, this);
-    Gates.insert(NodeMap::value_type(name, node));
-    return node;
-  }
+    Node *
+    GroupGateGroup::addNode(const char *name)
+    {
+        GroupGateNode *node = new GroupGateNode(name, this);
+        Gates.insert(NodeMap::value_type(name, node));
+        return node;
+    }
 
-  Node *
-  GroupGateGroup::getNode(const char *name)
-  {
-    NodeMap::iterator find = Gates.find(name);
-    if (find != Gates.end()) return (GroupGateNode *)((* find).second);
-    return 0;
-  }
+    Node *
+    GroupGateGroup::getNode(const char *name)
+    {
+        NodeMap::iterator find = Gates.find(name);
+        if (find != Gates.end()) return (GroupGateNode *)((* find).second);
+        return 0;
+    }
 
-  Node * 
-  GroupGateGroup::setActiveGate(bool enable)
-  {
-    if (ActiveGate != 0) delete ActiveGate;
-    ActiveGate = 0;
-    if (enable) ActiveGate = new ActiveGateNode();
-    return ActiveGate;
-  }
+    Node * 
+    GroupGateGroup::setActiveGate(bool enable)
+    {
+        if (ActiveGate != 0) delete ActiveGate;
+        ActiveGate = 0;
+        if (enable) ActiveGate = new ActiveGateNode();
+        return ActiveGate;
+    }
 
-  void 
-  GroupGateGroup::deactivateAll()
-  {
-    for (NodeMap::iterator it = Gates.begin(); it != Gates.end(); it++)
-      {
-        ((GroupGateNode *)((* it).second))->deactivate();
-      }
-  }
+    void 
+    GroupGateGroup::deactivateAll()
+    {
+        for (NodeMap::iterator it = Gates.begin(); it != Gates.end(); it++)
+        {
+            ((GroupGateNode *)((* it).second))->deactivate();
+        }
+    }
 
-  void 
-  GroupGateGroup::setActiveGroupGate(Node *activegroupgate)
-  {
-    ActiveGroupGate = activegroupgate;
-  }
+    void 
+    GroupGateGroup::setActiveGroupGate(Node *activegroupgate)
+    {
+        ActiveGroupGate = activegroupgate;
+    }
 
-  void 
-  GroupGateGroup::notifyActiveGate()
-  {
-    if ((ActiveGate != 0) && (ActiveGroupGate != 0))
-      {
-        GroupGateNode *node = (GroupGateNode *)ActiveGroupGate;
-        ((ActiveGateNode *)ActiveGate)->pushEvent(node->getNumber());
-      }
-  }
+    void 
+    GroupGateGroup::notifyActiveGate()
+    {
+        if ((ActiveGate != 0) && (ActiveGroupGate != 0))
+        {
+            GroupGateNode *node = (GroupGateNode *)ActiveGroupGate;
+            ((ActiveGateNode *)ActiveGate)->pushEvent(node->getNumber());
+        }
+    }
 
-  //-----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
 
-  // Destructor method
-  GroupGateModule::~GroupGateModule()
-  {
-    Groups.clear();
-    NameList.clear();
-  }
+    // Destructor method
+    GroupGateModule::~GroupGateModule()
+    {
+        Groups.clear();
+        NameList.clear();
+    }
 
-  // This method is called to construct a new Node.
-  Node *
-  GroupGateModule::createNode(const std::string &name, StringTable &attributes)
-  {
-    if(name.compare("GroupGate") == 0)
-      {
-        const char *cname = attributes.get("DEF").c_str();
-        const char *cgroup = attributes.get("group").c_str();
-        const char *cneighbors = attributes.get("neighbors").c_str();
+    // This method is called to construct a new Node.
+    Node *
+    GroupGateModule::createNode(const std::string &name, StringTable &attributes)
+    {
+        if(name.compare("GroupGate") == 0)
+        {
+            const char *cname = attributes.get("DEF").c_str();
+            const char *cgroup = attributes.get("group").c_str();
+            const char *cneighbors = attributes.get("neighbors").c_str();
 
-        GroupGateGroup *group = 0;
-        GroupMap::iterator find = Groups.find(cgroup);
-        if (find == Groups.end()) 
-	  {
-            group = new GroupGateGroup(cgroup);
-            Groups.insert(GroupMap::value_type(cgroup, group));
-	  }
-        else
-	  {
-            group = (* find).second;
-	  }
-        GroupGateNode *node = (GroupGateNode *)(group->addNode(cname));    
-        node->setNumber(NameList.size());
-        NameList.push_back(cname);
+            GroupGateGroup *group = 0;
+            GroupMap::iterator find = Groups.find(cgroup);
+            if (find == Groups.end()) 
+            {
+                group = new GroupGateGroup(cgroup);
+                Groups.insert(GroupMap::value_type(cgroup, group));
+            }
+            else
+            {
+                group = (* find).second;
+            }
+            GroupGateNode *node = (GroupGateNode *)(group->addNode(cname));    
+            node->setNumber(NameList.size());
+            NameList.push_back(cname);
 
 #ifdef _WIN32_WCE
-	// groupgate node not yet supported under wince
-	assert(false);
+            // groupgate node not yet supported under wince
+            assert(false);
 #else
-        std::stringstream neighborstream;
-        neighborstream << cneighbors;
-        while (true)
-	  {
-            std::string neighbor;
-            neighborstream >> neighbor;
-            if (neighbor == "") break;
-            node->addNeighbor(neighbor.c_str());
-	  }
-        return node;
+            std::stringstream neighborstream;
+            neighborstream << cneighbors;
+            while (true)
+            {
+                std::string neighbor;
+                neighborstream >> neighbor;
+                if (neighbor == "") break;
+                node->addNeighbor(neighbor.c_str());
+            }
+            return node;
 #endif //_WIN32_WCE
-      }
-    else if (name.compare("ActiveGate") == 0)
-      {
-        Node *node = 0;
-        const char *cgroup = attributes.get("group").c_str();
-        GroupMap::iterator find = Groups.find(cgroup);
-        if (find != Groups.end()) 
-	  {
-	    LOG_ACE_ERROR("ot:*** ActiveGroup: %s\n", cgroup);
-            node =  (* find).second->setActiveGate(true);
-	  }
-        return node;
-      }
-    else if (name.compare("Override") == 0)
-      {
-        Override *node = new Override();
-        return node;
-      }
-    return 0;
-  }
+        }
+        else if (name.compare("ActiveGate") == 0)
+        {
+            Node *node = 0;
+            const char *cgroup = attributes.get("group").c_str();
+            GroupMap::iterator find = Groups.find(cgroup);
+            if (find != Groups.end()) 
+            {
+                LOG_ACE_ERROR("ot:*** ActiveGroup: %s\n", cgroup);
+                node =  (* find).second->setActiveGate(true);
+            }
+            return node;
+        }
+        else if (name.compare("Override") == 0)
+        {
+            Override *node = new Override();
+            return node;
+        }
+        return 0;
+    }
 
-  const char *
-  GroupGateModule::getGroupGateName(int groupgatenum)
-  {
-    return (NameList[groupgatenum].c_str());
-  }
+    const char *
+    GroupGateModule::getGroupGateName(int groupgatenum)
+    {
+        return (NameList[groupgatenum].c_str());
+    }
 
-  void 
-  GroupGateModule::activateGroupGate(const char *groupname, const char *groupgatename)
-  {
-    GroupMap::iterator find = Groups.find(groupname);
-    if (find == Groups.end()) return;
-    GroupGateGroup *group = (*find).second;
-    if (group == 0) return;
-    GroupGateNode *node = (GroupGateNode *)(group->getNode(groupgatename));
-    if (node == 0) return;
-    group->deactivateAll();
-    node->activate();
-  }
+    void 
+    GroupGateModule::activateGroupGate(const char *groupname, const char *groupgatename)
+    {
+        GroupMap::iterator find = Groups.find(groupname);
+        if (find == Groups.end()) return;
+        GroupGateGroup *group = (*find).second;
+        if (group == 0) return;
+        GroupGateNode *node = (GroupGateNode *)(group->getNode(groupgatename));
+        if (node == 0) return;
+        group->deactivateAll();
+        node->activate();
+    }
 
 } // namespace ot
 

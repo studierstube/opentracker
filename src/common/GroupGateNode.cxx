@@ -59,127 +59,127 @@
 
 namespace ot {
 
-  // constructor method
-  GroupGateNode::GroupGateNode(const char *name, GroupGateGroup *owner)
-  {
-    Number = -1;
-    Name = name;
-    Owner = owner;
-    IsActive = false;
-  } 
+    // constructor method
+    GroupGateNode::GroupGateNode(const char *name, GroupGateGroup *owner)
+    {
+        Number = -1;
+        Name = name;
+        Owner = owner;
+        IsActive = false;
+    } 
 
-  GroupGateNode::~GroupGateNode()
-  {
-    Neighbors.clear();
-  } 
+    GroupGateNode::~GroupGateNode()
+    {
+        Neighbors.clear();
+    } 
 
-  void
-  GroupGateNode::setNumber(int num)
-  {
-    Number = num;
-  }
+    void
+    GroupGateNode::setNumber(int num)
+    {
+        Number = num;
+    }
 
-  int
-  GroupGateNode::getNumber()
-  {
-    return Number;
-  }
+    int
+    GroupGateNode::getNumber()
+    {
+        return Number;
+    }
 
-  void 
-  GroupGateNode::addNeighbor(const char *neighbor)
-  {
-    Neighbors.push_back(neighbor);
-  }
+    void 
+    GroupGateNode::addNeighbor(const char *neighbor)
+    {
+        Neighbors.push_back(neighbor);
+    }
 
-  bool
-  GroupGateNode::isActive()
-  {
-    return IsActive;
-  }
+    bool
+    GroupGateNode::isActive()
+    {
+        return IsActive;
+    }
 
-  void
-  GroupGateNode::activate()
-  {
-    IsActive = true;
-  }
+    void
+    GroupGateNode::activate()
+    {
+        IsActive = true;
+    }
 
-  void
-  GroupGateNode::deactivate()
-  {
-    IsActive = false;
-  }
+    void
+    GroupGateNode::deactivate()
+    {
+        IsActive = false;
+    }
 
-  const char *
-  GroupGateNode::getGroupGateName()
-  {
-    return (Name.c_str());
-  }
+    const char *
+    GroupGateNode::getGroupGateName()
+    {
+        return (Name.c_str());
+    }
 
-  void 
-  GroupGateNode::onEventGenerated(Event &event, Node &generator)
-  {
-    if (generator.isNodePort() == 1)
-      {
-	NodePort &wrap = (NodePort &)generator;
-	if (wrap.getType().compare("Override") == 0)
-	  {
-            Owner->deactivateAll();
-            activate();
-            Owner->setActiveGroupGate(this);
-            Owner->notifyActiveGate();
-	    updateObservers(event);
-            return;
-	  }
-      }
-    if (isActive())
-      {
-        activate();
-        Owner->notifyActiveGate();
-      	updateObservers(event);
-        return;
-      }
-    else
-      {
-        if (Neighbors.size() != NeighborPtrs.size())
-	  {
-            for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
-	      {
-                GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
-                NeighborPtrs.push_back(node);
-	      }
-            if (Neighbors.size() != NeighborPtrs.size())				
-	      ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR: Problem with GroupGateNode\n")));
-	  }
-        for (NeighborPtrsVector::iterator it = NeighborPtrs.begin(); it != NeighborPtrs.end(); it++)
-	  {
-            GroupGateNode *node = (GroupGateNode *)(* it);
-            if (node->isActive())
-	      {
-                node->deactivate();
+    void 
+    GroupGateNode::onEventGenerated(Event &event, Node &generator)
+    {
+        if (generator.isNodePort() == 1)
+        {
+            NodePort &wrap = (NodePort &)generator;
+            if (wrap.getType().compare("Override") == 0)
+            {
+                Owner->deactivateAll();
                 activate();
                 Owner->setActiveGroupGate(this);
                 Owner->notifyActiveGate();
-		updateObservers(event);
+                updateObservers(event);
                 return;
-	      }
-	  }
-	/*
-	  for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
-	  {
-	  GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
-	  if (node->isActive())
-	  {
-	  node->deactivate();
-	  activate();
-	  Owner->setActiveGroupGate(this);
-	  Owner->notifyActiveGate();
-	  updateObservers(event);
-	  return;
-	  }
-	  }
-	*/
-      }
-  }
+            }
+        }
+        if (isActive())
+        {
+            activate();
+            Owner->notifyActiveGate();
+            updateObservers(event);
+            return;
+        }
+        else
+        {
+            if (Neighbors.size() != NeighborPtrs.size())
+            {
+                for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
+                {
+                    GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
+                    NeighborPtrs.push_back(node);
+                }
+                if (Neighbors.size() != NeighborPtrs.size())				
+                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR: Problem with GroupGateNode\n")));
+            }
+            for (NeighborPtrsVector::iterator it = NeighborPtrs.begin(); it != NeighborPtrs.end(); it++)
+            {
+                GroupGateNode *node = (GroupGateNode *)(* it);
+                if (node->isActive())
+                {
+                    node->deactivate();
+                    activate();
+                    Owner->setActiveGroupGate(this);
+                    Owner->notifyActiveGate();
+                    updateObservers(event);
+                    return;
+                }
+            }
+            /*
+              for (NeighborsVector::iterator it = Neighbors.begin(); it != Neighbors.end(); it++)
+              {
+              GroupGateNode *node = (GroupGateNode *)(Owner->getNode((* it).c_str()));
+              if (node->isActive())
+              {
+              node->deactivate();
+              activate();
+              Owner->setActiveGroupGate(this);
+              Owner->notifyActiveGate();
+              updateObservers(event);
+              return;
+              }
+              }
+            */
+        }
+    }
 
 } // namespace ot {
 

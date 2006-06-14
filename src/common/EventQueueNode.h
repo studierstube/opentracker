@@ -78,66 +78,66 @@
 
 namespace ot {
 
-  class OPENTRACKER_API EventQueueNode : public Node, protected EventQueueImplementation
+    class OPENTRACKER_API EventQueueNode : public Node, protected EventQueueImplementation
     {
-      // Members
+        // Members
     protected:
-      /// maximal length of the queue
-      int length;
+        /// maximal length of the queue
+        int length;
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method.
-       * @param maximum length of the queue */
-      EventQueueNode(int length_) : Node(), EventQueueImplementation()
+        /** constructor method.
+         * @param maximum length of the queue */
+        EventQueueNode(int length_) : Node(), EventQueueImplementation()
 	{
-	  length = length_;
+            length = length_;
 	}
     public:    
-      /** tests for EventGenerator interface being present. Overriden in this
-       * node to return this.
-       * @return always this */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Overriden in this
+         * node to return this.
+         * @return always this */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	};
-      /** tests for EventQueue interface being present. Overriden in this
-       * node to return this.
-       * @return always this */
-      virtual int isEventQueue()
+        /** tests for EventQueue interface being present. Overriden in this
+         * node to return this.
+         * @return always this */
+        virtual int isEventQueue()
 	{
-	  return 1;
+            return 1;
 	};
 
-      /** this method is called by the EventGenerator to update it's observers
-       * @param event new event
-       * @param generator the calling EventGenerator */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /** this method is called by the EventGenerator to update it's observers
+         * @param event new event
+         * @param generator the calling EventGenerator */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      /** returns the event number n back in time starting with the
-       * newest event for n = 0.
-       * @param number the number of the event to be retrieved
-       * @return reference to the Event */
-      virtual Event& getEvent(unsigned int number = 0)
+        /** returns the event number n back in time starting with the
+         * newest event for n = 0.
+         * @param number the number of the event to be retrieved
+         * @return reference to the Event */
+        virtual Event& getEvent(unsigned int number = 0)
 	{
-	  return EventQueueImplementation::getEvent( number );
+            return EventQueueImplementation::getEvent( number );
 	}
  
-      /** returns the event closes to the given point in time
-       * @param time point in the the event should be closest to
-       * @return reference to the found event */
-      virtual Event& getEventNearTime(double time)
+        /** returns the event closes to the given point in time
+         * @param time point in the the event should be closest to
+         * @return reference to the found event */
+        virtual Event& getEventNearTime(double time)
 	{
-	  return EventQueueImplementation::getEventNearTime( time );
+            return EventQueueImplementation::getEventNearTime( time );
 	}
 
-      /** returns the size of the queue */
-      virtual unsigned int getSize()
+        /** returns the size of the queue */
+        virtual unsigned int getSize()
 	{
-	  return EventQueueImplementation::getSize();
+            return EventQueueImplementation::getSize();
 	}
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

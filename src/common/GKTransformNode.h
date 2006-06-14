@@ -108,28 +108,28 @@
 
 namespace ot {
 
-  class OPENTRACKER_API GKTransformNode : public Transformation 
+    class OPENTRACKER_API GKTransformNode : public Transformation 
     {
     public:
-      double a;
-      double b;
-      double meridian;
-      double alpha, beta, gamma, delta;
-      enum Mode { to = 0, from } mode;
+        double a;
+        double b;
+        double meridian;
+        double alpha, beta, gamma, delta;
+        enum Mode { to = 0, from } mode;
 
     protected:
-      GKTransformNode( double a_ , double b_, double m_, 
-		       double alpha_, double beta_, double gamma_, double delta_, 
-		       Mode mode_ );
+        GKTransformNode( double a_ , double b_, double m_, 
+                         double alpha_, double beta_, double gamma_, double delta_, 
+                         Mode mode_ );
 
-      /** transforms a event either to or from an ellipsoid 
-       * coordinate system to a cartesian one.
-       * @param event pointer to original event
-       * @return pointer to localEvent member
-       */
-      virtual Event* transformEvent( Event* event);
+        /** transforms a event either to or from an ellipsoid 
+         * coordinate system to a cartesian one.
+         * @param event pointer to original event
+         * @return pointer to localEvent member
+         */
+        virtual Event* transformEvent( Event* event);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot {

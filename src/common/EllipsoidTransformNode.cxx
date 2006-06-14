@@ -56,77 +56,77 @@
 
 namespace ot {
 
-  EllipsoidTransformNode::EllipsoidTransformNode( double a_ , double b_, Mode mode_ ) :
-    a( a_ ),
-    b( b_ ),
-    mode( mode_ )
-  {}
+    EllipsoidTransformNode::EllipsoidTransformNode( double a_ , double b_, Mode mode_ ) :
+        a( a_ ),
+        b( b_ ),
+        mode( mode_ )
+    {}
 
-  Event* EllipsoidTransformNode::transformEvent( Event* event)
-  {
-    if( toCartesian == mode )
-      {
-	double B = event->getPosition()[0];
-	double L = event->getPosition()[1];
-	double H = event->getPosition()[2];
-	double e2 = 1 - (b*b) / (a*a);
-	double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
-	localEvent.getPosition()[0] = (float)((N + H)*cos(B)*cos(L));
-	localEvent.getPosition()[1] = (float)((N + H)*cos(B)*sin(L));
-	localEvent.getPosition()[2] = (float)(((1 - e2)*N + H)*sin(B));				
-      }
-    else
-      {
-	double x = event->getPosition()[0];
-	double y = event->getPosition()[1];
-	double z = event->getPosition()[2];
-	double e2 = 1 - (b*b) / (a*a);
-	double L = 0;
-	double B = 0;
-	double H = 0;
-	if( x != 0 ) 
-	  {
-	    L = atan( y / x );
-	    B = atan( z * cos( L ) / (x * (1 - e2)));  // interestingly, this is only an approximation, 
-	    // but it seems to work ?!
-	    double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
-	    H = sqrt( x*x + y*y ) / cos(B) - N; // this avoids problems with L
-	  } 
-	else if( y != 0 )
-	  {
-	    L = 1 / atan ( x / y );
-	    B = atan( z * sin( L ) / (y * (1 - e2)));  // interestingly, this is only an approximation,
-	    // but it seems to work ?!poles 
-	    double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
-	    H = sqrt( x*x + y*y ) / cos(B) - N; // this avoids problems with L
-	  }
-	else  // otherwise we are somewhere at the poles
-	  {
-	    if( z > 0 )
-	      {
-		B = MathUtils::Pi / 2;
-		H = z - b;
-	      }
-	    else if( z < 0 )
-	      {
-		B = - MathUtils::Pi / 2;
-		H = - b -z;
-	      }
-	  }
-	localEvent.getPosition()[0] = (float)B;
-	localEvent.getPosition()[1] = (float)L;
-	localEvent.getPosition()[2] = (float)H;				
-      }
-    // copy the rest over
-    // we don't deal with orientation so far...
-    localEvent.copyAllButStdAttr(*event);
+    Event* EllipsoidTransformNode::transformEvent( Event* event)
+    {
+        if( toCartesian == mode )
+        {
+            double B = event->getPosition()[0];
+            double L = event->getPosition()[1];
+            double H = event->getPosition()[2];
+            double e2 = 1 - (b*b) / (a*a);
+            double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
+            localEvent.getPosition()[0] = (float)((N + H)*cos(B)*cos(L));
+            localEvent.getPosition()[1] = (float)((N + H)*cos(B)*sin(L));
+            localEvent.getPosition()[2] = (float)(((1 - e2)*N + H)*sin(B));				
+        }
+        else
+        {
+            double x = event->getPosition()[0];
+            double y = event->getPosition()[1];
+            double z = event->getPosition()[2];
+            double e2 = 1 - (b*b) / (a*a);
+            double L = 0;
+            double B = 0;
+            double H = 0;
+            if( x != 0 ) 
+            {
+                L = atan( y / x );
+                B = atan( z * cos( L ) / (x * (1 - e2)));  // interestingly, this is only an approximation, 
+                // but it seems to work ?!
+                double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
+                H = sqrt( x*x + y*y ) / cos(B) - N; // this avoids problems with L
+            } 
+            else if( y != 0 )
+            {
+                L = 1 / atan ( x / y );
+                B = atan( z * sin( L ) / (y * (1 - e2)));  // interestingly, this is only an approximation,
+                // but it seems to work ?!poles 
+                double N = a / (sqrt( 1 - e2 * sin( B )*sin( B )));
+                H = sqrt( x*x + y*y ) / cos(B) - N; // this avoids problems with L
+            }
+            else  // otherwise we are somewhere at the poles
+            {
+                if( z > 0 )
+                {
+                    B = MathUtils::Pi / 2;
+                    H = z - b;
+                }
+                else if( z < 0 )
+                {
+                    B = - MathUtils::Pi / 2;
+                    H = - b -z;
+                }
+            }
+            localEvent.getPosition()[0] = (float)B;
+            localEvent.getPosition()[1] = (float)L;
+            localEvent.getPosition()[2] = (float)H;				
+        }
+        // copy the rest over
+        // we don't deal with orientation so far...
+        localEvent.copyAllButStdAttr(*event);
 
-    localEvent.getOrientation() = event->getOrientation();
-    localEvent.getConfidence() = event->getConfidence();
-    localEvent.getButton() = event->getButton();
-    localEvent.time = event->time;
-    return & localEvent;
-  }
+        localEvent.getOrientation() = event->getOrientation();
+        localEvent.getConfidence() = event->getConfidence();
+        localEvent.getButton() = event->getButton();
+        localEvent.time = event->time;
+        return & localEvent;
+    }
 
 } // namespace ot
 
