@@ -65,44 +65,44 @@
 
 namespace ot {
 
-  typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node*> NodeVector;
 
-  /**
-   * Module for filters that filters out drops in a ButtonSource between updates. Therefore need
-   * a module to drive the updates. Currently, only the @ref ButtonHoldFilterNode is in this module.
-   * @author Thomas Psik
-   * @ingroup common
-   */
+    /**
+     * Module for filters that filters out drops in a ButtonSource between updates. Therefore need
+     * a module to drive the updates. Currently, only the @ref ButtonHoldFilterNode is in this module.
+     * @author Thomas Psik
+     * @ingroup common
+     */
 
-  class OPENTRACKER_API ButtonHoldFilterModule : public Module, public NodeFactory
+    class OPENTRACKER_API ButtonHoldFilterModule : public Module, public NodeFactory
     {
-      // Members
+        // Members
     protected:
-      /// list of interpolator nodes in the tree
-      NodeVector nodes;
-      /// current cycle count.
-      int cycle;
+        /// list of interpolator nodes in the tree
+        NodeVector nodes;
+        /// current cycle count.
+        int cycle;
 
-      // Methods
+        // Methods
     public:
-      /** constructor method. */
-      ButtonHoldFilterModule() : Module(), NodeFactory()
+        /** constructor method. */
+        ButtonHoldFilterModule() : Module(), NodeFactory()
 	{
-	  cycle = 0;
+            cycle = 0;
 	};
-      /** Destructor method, clears nodes member. */
-      virtual ~ButtonHoldFilterModule();
-      /** This method is called to build a new Node. 
-       * @param name reference to string containing element name
-       * @attributes refenrence to StringMap containing attribute values
-       * @return pointer to new Node or NULL. The new Node must be
-       *         allocated with new ! */
-      virtual Node * createNode( const std::string& name,  StringTable& attributes);
-      /**
-       * pushes events into the tracker tree. Checks all sources and
-       * pushes new events.
-       */
-      virtual void pushEvent();
+        /** Destructor method, clears nodes member. */
+        virtual ~ButtonHoldFilterModule();
+        /** This method is called to build a new Node. 
+         * @param name reference to string containing element name
+         * @attributes refenrence to StringMap containing attribute values
+         * @return pointer to new Node or NULL. The new Node must be
+         *         allocated with new ! */
+        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        /**
+         * pushes events into the tracker tree. Checks all sources and
+         * pushes new events.
+         */
+        virtual void pushEvent();
     };
 
 } // namespace ot {

@@ -82,38 +82,38 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ButtonOpNode
-    : public Node
+    class OPENTRACKER_API ButtonOpNode
+        : public Node
     {
-      // Members
+        // Members
     protected:
-      /// last saved event variable
-      Event result;
-      /// last button events
-      unsigned short arg1, arg2;
-      /// the operation to perform
-      enum Op { OR, AND } operation;
+        /// last saved event variable
+        Event result;
+        /// last button events
+        unsigned short arg1, arg2;
+        /// the operation to perform
+        enum Op { OR, AND } operation;
 
-      // Methods
+        // Methods
     protected:
 
-      /** constructor method
-       */
-      ButtonOpNode( const Op & op_  );
+        /** constructor method
+         */
+        ButtonOpNode( const Op & op_  );
 
     public:
 
-      /** tests for EventGenerator interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventGenerator, 0 otherwise */
-      virtual int isEventGenerator() ;
+        /** tests for EventGenerator interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventGenerator, 0 otherwise */
+        virtual int isEventGenerator() ;
 
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

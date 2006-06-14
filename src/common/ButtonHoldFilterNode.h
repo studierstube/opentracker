@@ -86,43 +86,43 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ButtonHoldFilterNode : public Node   
+    class OPENTRACKER_API ButtonHoldFilterNode : public Node   
     {
 
     protected:
-      bool init;
-      /// number of off's necessary to show off in outgoing event
-      int offDuration;
+        bool init;
+        /// number of off's necessary to show off in outgoing event
+        int offDuration;
 
-      // internal variables
-      Event currentEvent; ///
-      int targetButtonEvent; ///
-      int offCounter[16]; /// counter for each bit
+        // internal variables
+        Event currentEvent; ///
+        int targetButtonEvent; ///
+        int offCounter[16]; /// counter for each bit
 
-      /** constructor method. It sets initial values for the treshhold and type */
-      ButtonHoldFilterNode( int offDuration = 2);
+        /** constructor method. It sets initial values for the treshhold and type */
+        ButtonHoldFilterNode( int offDuration = 2);
 
     public:
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. 
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);                                
+        /**
+         * This method is called by any child node. 
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);                                
 
-      /** pushes event down the line. Needed to access protected
-       * updateObservers method in EventGenerator */
-      void push();
+        /** pushes event down the line. Needed to access protected
+         * updateObservers method in EventGenerator */
+        void push();
 
-      friend class ButtonHoldFilterModule;
+        friend class ButtonHoldFilterModule;
     };
 
 } // namespace ot

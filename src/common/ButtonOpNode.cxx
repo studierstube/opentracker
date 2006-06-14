@@ -56,39 +56,39 @@
 
 namespace ot {
 
-  ButtonOpNode::ButtonOpNode( const Op & op )
-    : Node(), arg1(0), arg2(0), operation( op )
-  {
-  }
+    ButtonOpNode::ButtonOpNode( const Op & op )
+        : Node(), arg1(0), arg2(0), operation( op )
+    {
+    }
 
-  int ButtonOpNode::isEventGenerator()
-  {
-    return 1;
-  }
+    int ButtonOpNode::isEventGenerator()
+    {
+        return 1;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void ButtonOpNode::onEventGenerated( Event& event, Node& generator)
-  {
-    if( generator.isNodePort() == 1 )
-      {
-        if( generator.getType().compare("Arg1") == 0 )
-	  arg1 = event.getButton();
-        else
-	  arg2 = event.getButton();
-        result = event;
-        switch( operation )
-	  {
-	  case OR :
-            result.getButton() = arg1 | arg2;
-            break;
-	  case AND :
-            result.getButton() = arg1 & arg2;
-            break;
-	  }
-        updateObservers( result );
-      }
-  }
+    void ButtonOpNode::onEventGenerated( Event& event, Node& generator)
+    {
+        if( generator.isNodePort() == 1 )
+        {
+            if( generator.getType().compare("Arg1") == 0 )
+                arg1 = event.getButton();
+            else
+                arg2 = event.getButton();
+            result = event;
+            switch( operation )
+            {
+                case OR :
+                    result.getButton() = arg1 | arg2;
+                    break;
+                case AND :
+                    result.getButton() = arg1 & arg2;
+                    break;
+            }
+            updateObservers( result );
+        }
+    }
 
 } // namespace ot
 

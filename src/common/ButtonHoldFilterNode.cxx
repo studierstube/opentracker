@@ -54,61 +54,61 @@
 
 namespace ot {
 
-  // constructor method
-  ButtonHoldFilterNode::ButtonHoldFilterNode( int offDuration_)
-    : currentEvent()
-  {
-    offDuration = offDuration_;
-    init = false;
-    for (int i=0; i< 16; i++) 
-      offCounter[i] = 0;
-  } 
+    // constructor method
+    ButtonHoldFilterNode::ButtonHoldFilterNode( int offDuration_)
+        : currentEvent()
+    {
+        offDuration = offDuration_;
+        init = false;
+        for (int i=0; i< 16; i++) 
+            offCounter[i] = 0;
+    } 
 
-  // tests the confidence value and only forwards passing events
-  void ButtonHoldFilterNode::onEventGenerated( Event& event, Node & generator )
-  {
-    //printf("ButtonHoldFilterNode::onEventGenerated() \n");
-    if (!init){
-      init = true;
+    // tests the confidence value and only forwards passing events
+    void ButtonHoldFilterNode::onEventGenerated( Event& event, Node & generator )
+    {
+        //printf("ButtonHoldFilterNode::onEventGenerated() \n");
+        if (!init){
+            init = true;
+        }
+
+        // we have to pass on the information 
+        targetButtonEvent = event.getButton();
+        currentEvent = event;
     }
 
-    // we have to pass on the information 
-    targetButtonEvent = event.getButton();
-    currentEvent = event;
-  }
+    void ButtonHoldFilterNode::push() {
+        if (init) {
+            //printf("ButtonHoldFilterNode::push() \n");
+            int updatedButtonEvent = 0;
 
-  void ButtonHoldFilterNode::push() {
-    if (init) {
-      //printf("ButtonHoldFilterNode::push() \n");
-      int updatedButtonEvent = 0;
-
-      for (int i=0; i< 8; i++)
-	{
-	  unsigned char bit = (targetButtonEvent >>i) & 1;
+            for (int i=0; i< 8; i++)
+            {
+                unsigned char bit = (targetButtonEvent >>i) & 1;
 			
-	  // if bit is off incr counter
-	  if (!bit) 
-	    {
-	      if (offCounter[i] < offDuration)
-		updatedButtonEvent |= 1<<i;
-	      // else - button has been off at least offDuration times -> dont set bit -> button is off
+                // if bit is off incr counter
+                if (!bit) 
+                {
+                    if (offCounter[i] < offDuration)
+                        updatedButtonEvent |= 1<<i;
+                    // else - button has been off at least offDuration times -> dont set bit -> button is off
 
-	      offCounter[i]++;
+                    offCounter[i]++;
 
-	    } 
-	  else
-	    {
-	      offCounter[i] = 0; // reset counter on "on"
-	      // set bit in button event
-	      updatedButtonEvent |= 1<<i;
-	    }
-	}
+                } 
+                else
+                {
+                    offCounter[i] = 0; // reset counter on "on"
+                    // set bit in button event
+                    updatedButtonEvent |= 1<<i;
+                }
+            }
     
-      currentEvent.getButton() = updatedButtonEvent;
-      currentEvent.timeStamp();
-      updateObservers(currentEvent);
+            currentEvent.getButton() = updatedButtonEvent;
+            currentEvent.timeStamp();
+            updateObservers(currentEvent);
+        }
     }
-  }
 
 } // namespace ot
 

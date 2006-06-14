@@ -64,43 +64,43 @@
 
 namespace ot {
 
-  ButtonHoldFilterModule::~ButtonHoldFilterModule()
-  {
-    nodes.clear();
-  }
+    ButtonHoldFilterModule::~ButtonHoldFilterModule()
+    {
+        nodes.clear();
+    }
 
-  // This method is called to construct a new Node.
+    // This method is called to construct a new Node.
 
-  Node * ButtonHoldFilterModule::createNode( const std::string& name, StringTable& attributes)
-  {
-    if( name.compare("ButtonHoldFilter") == 0 )
-      {
-	int offDuration;
-        int num = sscanf(attributes.get("offDuration").c_str(), " %i", &offDuration );
-        if( num == 0 ){
-	  offDuration = 2;
+    Node * ButtonHoldFilterModule::createNode( const std::string& name, StringTable& attributes)
+    {
+        if( name.compare("ButtonHoldFilter") == 0 )
+        {
+            int offDuration;
+            int num = sscanf(attributes.get("offDuration").c_str(), " %i", &offDuration );
+            if( num == 0 ){
+                offDuration = 2;
+            }
+
+            ButtonHoldFilterNode * source = new ButtonHoldFilterNode(offDuration  );
+            nodes.push_back( source );
+            ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Built ButtonHoldFilter node \n")));
+
+            initialized = 1;
+            return source;
         }
+        return NULL;
+    }
 
-        ButtonHoldFilterNode * source = new ButtonHoldFilterNode(offDuration  );
-        nodes.push_back( source );
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Built ButtonHoldFilter node \n")));
-
-        initialized = 1;
-        return source;
-      }
-    return NULL;
-  }
-
-  // pushes events into the tracker tree.
-  void ButtonHoldFilterModule::pushEvent()
-  {
-    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-      {
-        ButtonHoldFilterNode *source = (ButtonHoldFilterNode *) *it;
-        source->push();
-      }
-    cycle++;
-  }
+    // pushes events into the tracker tree.
+    void ButtonHoldFilterModule::pushEvent()
+    {
+        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+        {
+            ButtonHoldFilterNode *source = (ButtonHoldFilterNode *) *it;
+            source->push();
+        }
+        cycle++;
+    }
 
 } // namespace ot
 
