@@ -51,16 +51,16 @@
           <TestSource frequency="100"/>
         </EventTransform>
       </MergeDefault>
-      <MergeOrientation>
+      <MergeAttribute attributeName="orientation" >
         <EventOrientationTransform rotation="1 0 0 0">
           <TestSource frequency="10"/>
         </EventOrientationTransform>
-      </MergeOrientation>
-      <MergeButton>
+      </MergeAttribute>
+      <MergeAttribute attributeName="button">
         <EventPositionTransform translation="1 0 0">
           <TestSource frequency="10"/>
         </EventPositionTransform>
-      </MergeButton>
+      </MergeAttribute>
     </Merge>
   </ConsoleSink>
   <ConsoleSink comment="InvertTransformation" active="off">
