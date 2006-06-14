@@ -18,7 +18,7 @@ void outportb(UINT portid, BYTE value)
 
 /* 
  * ------------------------------------------------------------
- *   End of VRPNSource.h
+ *   End of portio.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
