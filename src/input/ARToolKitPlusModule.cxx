@@ -1,51 +1,51 @@
 /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for ARToolKitPlusModule module.
-  *
-  * @author Daniel Wagner
-  * @author Erick Mendez
-  *
-  * $Header$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Daniel Wagner
+ * @author Erick Mendez
+ *
+ * $Header$
+ * @file                                                                   */
+/* ======================================================================= */
 
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cctype>
 
@@ -96,95 +96,95 @@
 
 class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
 {
-	// implement ARToolKitPlus::Logger
-	void artLog(const char* nStr)
-	{
-		LOG_ACE_INFO("ot:%s\n", nStr);
-	}
+    // implement ARToolKitPlus::Logger
+    void artLog(const char* nStr)
+    {
+        LOG_ACE_INFO("ot:%s\n", nStr);
+    }
 
-	void artLogEx(const char* nStr, ...)
-	{
-		char tmpString[512];
-		va_list marker;
+    void artLogEx(const char* nStr, ...)
+    {
+        char tmpString[512];
+        va_list marker;
 
-		va_start(marker, nStr);
-		vsprintf(tmpString, nStr, marker);
+        va_start(marker, nStr);
+        vsprintf(tmpString, nStr, marker);
 
-		artLog(tmpString);
-	}
+        artLog(tmpString);
+    }
 };
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
 
 namespace ot {
 
 
-bool convertPixelFormat_OpenTracker_to_ARToolKitPlus(ot::PIXEL_FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
-{
+    bool convertPixelFormat_OpenTracker_to_ARToolKitPlus(ot::PIXEL_FORMAT nSrcFormat, ARToolKitPlus::PIXEL_FORMAT &nDstFormat)
+    {
 	switch(nSrcFormat)
 	{
-	case ot::FORMAT_X8B8G8R8:
+            case ot::FORMAT_X8B8G8R8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_ABGR;
 		return true;
-	case ot::FORMAT_B8G8R8X8:
+            case ot::FORMAT_B8G8R8X8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGRA;
 		return true;
-	case ot::FORMAT_B8G8R8:
+            case ot::FORMAT_B8G8R8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_BGR;
 		return true;
-	case ot::FORMAT_R8G8B8X8:
+            case ot::FORMAT_R8G8B8X8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGBA;
 		return true;
-	case ot::FORMAT_R8G8B8:
+            case ot::FORMAT_R8G8B8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB;
 		return true;
-	case ot::FORMAT_R5G6B5:
+            case ot::FORMAT_R5G6B5:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_RGB565;
 		return true;
-	case ot::FORMAT_L8:
+            case ot::FORMAT_L8:
 		nDstFormat = ARToolKitPlus::PIXEL_FORMAT_LUM;
 		return true;
-	default:
+            default:
 		return false;
 	}
-}
+    }
 
-bool convertPixelFormat_ARToolKitPlus_to_OpenTracker(ARToolKitPlus::PIXEL_FORMAT nSrcFormat, ot::PIXEL_FORMAT &nDstFormat)
-{
+    bool convertPixelFormat_ARToolKitPlus_to_OpenTracker(ARToolKitPlus::PIXEL_FORMAT nSrcFormat, ot::PIXEL_FORMAT &nDstFormat)
+    {
 	switch(nSrcFormat)
 	{
-	case ARToolKitPlus::PIXEL_FORMAT_ABGR:
+            case ARToolKitPlus::PIXEL_FORMAT_ABGR:
 		nDstFormat = ot::FORMAT_X8B8G8R8;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_BGRA:
+            case ARToolKitPlus::PIXEL_FORMAT_BGRA:
 		nDstFormat = ot::FORMAT_B8G8R8X8;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_BGR:
+            case ARToolKitPlus::PIXEL_FORMAT_BGR:
 		nDstFormat = ot::FORMAT_B8G8R8;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_RGBA:
+            case ARToolKitPlus::PIXEL_FORMAT_RGBA:
 		nDstFormat = ot::FORMAT_R8G8B8X8;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_RGB:
+            case ARToolKitPlus::PIXEL_FORMAT_RGB:
 		nDstFormat = ot::FORMAT_R8G8B8;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_RGB565:
+            case ARToolKitPlus::PIXEL_FORMAT_RGB565:
 		nDstFormat = ot::FORMAT_R5G6B5;
 		return true;
-	case ARToolKitPlus::PIXEL_FORMAT_LUM:
+            case ARToolKitPlus::PIXEL_FORMAT_LUM:
 		nDstFormat = ot::FORMAT_L8;
 		return true;
-	default:
+            default:
 		return false;
 	}
-}
+    }
 
 
-ARToolKitPlusModule::ARToolKitPlusModule() : ThreadModule(), NodeFactory()
-{
+    ARToolKitPlusModule::ARToolKitPlusModule() : ThreadModule(), NodeFactory()
+    {
 	doBench = false;
 	sizeX = sizeY = -1;
 
@@ -215,163 +215,163 @@ ARToolKitPlusModule::ARToolKitPlusModule() : ThreadModule(), NodeFactory()
 	useMarkerDetectLite = false;
 
 	stop = 0;
-}
+    }
 
-ARToolKitPlusModule::~ARToolKitPlusModule()
-{
-    sources.clear();
+    ARToolKitPlusModule::~ARToolKitPlusModule()
+    {
+        sources.clear();
 	sourcesMap.clear();
 
 	delete tracker;
 	delete logger;
-}
+    }
 
-// This method is called to construct a new Node.
+    // This method is called to construct a new Node.
 
-Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
-{
-    if( name.compare("ARToolKitPlusSource") == 0 )
+    Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
     {
-        double center[2], size;
-        int num;
-
-        if( (num = attributes.get("center", center, 2)) != 2 )
+        if( name.compare("ARToolKitPlusSource") == 0 )
         {
-            //cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Wrong number of center coordinates : %d\n"), num));
-            return NULL;
-        }
-        if( attributes.get("size", &size) != 1 )
-        {
-            //cout << "ARToolKit Not a size" << endl;
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Not a size\n")));
-            return NULL;
-        }
+            double center[2], size;
+            int num;
 
-        int id;
-        std::string filename = attributes.get("tag-file");
-		std::string markerid = attributes.get("tag-id");
-        std::string fullname;
+            if( (num = attributes.get("center", center, 2)) != 2 )
+            {
+                //cout << "ARToolKit Wrong number of center coordinates : " << num << endl;
+                ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Wrong number of center coordinates : %d\n"), num));
+                return NULL;
+            }
+            if( attributes.get("size", &size) != 1 )
+            {
+                //cout << "ARToolKit Not a size" << endl;
+                ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:ARToolKit Not a size\n")));
+                return NULL;
+            }
 
-		// see if we have a marker-id field
-		if(markerid.length())
-		{
-			id = atoi(markerid.c_str());
-		}
-		else
+            int id;
+            std::string filename = attributes.get("tag-file");
+            std::string markerid = attributes.get("tag-id");
+            std::string fullname;
+
+            // see if we have a marker-id field
+            if(markerid.length())
+            {
+                id = atoi(markerid.c_str());
+            }
+            else
 		// otherwise look for a marker-filename
 		if(filename.length())
 		{
-			if( patternDirectory.compare("") != 0)
-				context->addDirectoryFirst( patternDirectory );
+                    if( patternDirectory.compare("") != 0)
+                        context->addDirectoryFirst( patternDirectory );
 
-			if( context->findFile(filename, fullname))
-			{
-				filename = fullname;
-			}
-			else
-			{
-				LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
-				return NULL;
-			}
+                    if( context->findFile(filename, fullname))
+                    {
+                        filename = fullname;
+                    }
+                    else
+                    {
+                        LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
+                        return NULL;
+                    }
 
-			if( patternDirectory.compare("") != 0)
-				context->removeDirectory( patternDirectory );
+                    if( patternDirectory.compare("") != 0)
+                        context->removeDirectory( patternDirectory );
         
-			if((id = tracker->addPattern((char *)filename.c_str() )) < 0 )
-			{
-				LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
-				return NULL;
-			}
+                    if((id = tracker->addPattern((char *)filename.c_str() )) < 0 )
+                    {
+                        LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
+                        return NULL;
+                    }
 		}
 		else
 		{
-		// not good, this means we have a problem...
+                    // not good, this means we have a problem...
 		}
 
-		// we need to store the maximum marker id for later...
-		if(id>maxMarkerId)
-		{
-			maxMarkerId = id;
-			if(bestCFs)
-			{
-				delete bestCFs;
-				bestCFs = NULL;
-			}
-		}
+            // we need to store the maximum marker id for later...
+            if(id>maxMarkerId)
+            {
+                maxMarkerId = id;
+                if(bestCFs)
+                {
+                    delete bestCFs;
+                    bestCFs = NULL;
+                }
+            }
 
-        ARToolKitSource * source = new ARToolKitSource( id, center, size );
-		source->type = "ARToolKitSource";
-        sources.push_back( source );
-		sourcesMap.insert(std::make_pair(id, source));
+            ARToolKitSource * source = new ARToolKitSource( id, center, size );
+            source->type = "ARToolKitSource";
+            sources.push_back( source );
+            sourcesMap.insert(std::make_pair(id, source));
 
-        //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
-		LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
-        return source;
-    }
+            //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
+            LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
+            return source;
+        }
 
-    if( name.compare("ARToolKitPlusMultiMarkerSource") == 0 )
-    {
-		std::string filename = attributes.get("cfg-file");
-        std::string fullname;
+        if( name.compare("ARToolKitPlusMultiMarkerSource") == 0 )
+        {
+            std::string filename = attributes.get("cfg-file");
+            std::string fullname;
 
-		if(patternDirectory.compare("") != 0)
-			context->addDirectoryFirst(patternDirectory);
+            if(patternDirectory.compare("") != 0)
+                context->addDirectoryFirst(patternDirectory);
 
-		if(context->findFile(filename, fullname))
-			filename = fullname;
-		else
-		{
-			LOG_ACE_ERROR("ot:ARToolkit could not find multi-cfg file %s\n", filename.c_str());
-			return NULL;
-		}
+            if(context->findFile(filename, fullname))
+                filename = fullname;
+            else
+            {
+                LOG_ACE_ERROR("ot:ARToolkit could not find multi-cfg file %s\n", filename.c_str());
+                return NULL;
+            }
 
-		ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker->arMultiReadConfigFile(filename.c_str());
+            ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker->arMultiReadConfigFile(filename.c_str());
 
-		if(mmConfig)
-		{
-			ARToolKitMultiMarkerSource * source = new ARToolKitMultiMarkerSource( filename, mmConfig );
-			source->type = "ARToolKitMultiMarkerSource";
-			sources.push_back( source );
+            if(mmConfig)
+            {
+                ARToolKitMultiMarkerSource * source = new ARToolKitMultiMarkerSource( filename, mmConfig );
+                source->type = "ARToolKitMultiMarkerSource";
+                sources.push_back( source );
 
-			// we store the ids of all markers in this config...
-			for(int i=0; i<mmConfig->marker_num; i++)
-			{
-				int mId = mmConfig->marker[i].patt_id;
+                // we store the ids of all markers in this config...
+                for(int i=0; i<mmConfig->marker_num; i++)
+                {
+                    int mId = mmConfig->marker[i].patt_id;
 
-				sourcesMap.insert(std::make_pair(mId, source));
+                    sourcesMap.insert(std::make_pair(mId, source));
 
-				if(mId>maxMarkerId)
-					maxMarkerId = mId;
-			}
+                    if(mId>maxMarkerId)
+                        maxMarkerId = mId;
+                }
 
-			if(bestCFs)
-			{
-				delete bestCFs;
-				bestCFs = NULL;
-			}
+                if(bestCFs)
+                {
+                    delete bestCFs;
+                    bestCFs = NULL;
+                }
 
-			return source;
-		}
-		else
-		{
-			LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
-			return NULL;
-		}
+                return source;
+            }
+            else
+            {
+                LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
+                return NULL;
+            }
 	}
 
-    return NULL;
-}
+        return NULL;
+    }
 
 
-// initializes the ARToolKit module
+    // initializes the ARToolKit module
 
 #define MAKE_STRING_LOWER(STR)  std::transform(STR.begin(), STR.end(), STR.begin(), std::tolower);
 
-void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
-{
+    void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
+    {
 	cameradata = attributes.get("camera-parameter");
-    patternDirectory = attributes.get("pattern-dir");
+        patternDirectory = attributes.get("pattern-dir");
 
 	std::string undistmode = attributes.get("undist-mode");
 	std::string detectmode = attributes.get("detect-mode");
@@ -390,27 +390,27 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	//
 	if(useMarkerDetectLite = (detectmode=="lite"))
 	{
-		LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'lite'\n");
+            LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'lite'\n");
 	}
 	else
 	{
-		LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'normal'\n");
+            LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'normal'\n");
 	}
 
 
 	if(undistmode=="none")
 	{
-		tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
-		LOG_ACE_INFO("ot:ARToolkitModule lens undistortion disabled\n");
+            tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
+            LOG_ACE_INFO("ot:ARToolkitModule lens undistortion disabled\n");
 	}
 	else if(undistmode=="lut")
 	{
-		tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
-		LOG_ACE_INFO("ot:ARToolkitModule lens undistortion set to lookup-table\n");
+            tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
+            LOG_ACE_INFO("ot:ARToolkitModule lens undistortion set to lookup-table\n");
 	}
 	else
 	{
-		LOG_ACE_INFO("ot:ARToolkitModule using default lens undistortion (this will be slow!)\n");
+            LOG_ACE_INFO("ot:ARToolkitModule using default lens undistortion (this will be slow!)\n");
 	}
 
 
@@ -418,17 +418,17 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	//
 	if(posemode=="cont")
 	{
-		tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_ORIGINAL_CONT);
-		LOG_ACE_INFO("ot:ARToolkitModule using CONT pose estimator\n");
+            tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_ORIGINAL_CONT);
+            LOG_ACE_INFO("ot:ARToolkitModule using CONT pose estimator\n");
 	}
 	else if(posemode=="rpp")
 	{
-		tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_RPP);
-		LOG_ACE_INFO("ot:ARToolkitModule using robust pose estimator\n");
+            tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_RPP);
+            LOG_ACE_INFO("ot:ARToolkitModule using robust pose estimator\n");
 	}
 	else
 	{
-		LOG_ACE_INFO("ot:ARToolkitModule using default pose estimator\n");
+            LOG_ACE_INFO("ot:ARToolkitModule using default pose estimator\n");
 	}
 
 
@@ -436,20 +436,20 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	//
 	if(threshold == "auto")
 	{
-		tracker->activateAutoThreshold(true);
-		LOG_ACE_INFO("ot:ARToolkitModule auto-thresholding activated\n");
+            tracker->activateAutoThreshold(true);
+            LOG_ACE_INFO("ot:ARToolkitModule auto-thresholding activated\n");
 	}
 	else
 	{
-		int tmpThreshold = atoi(threshold.c_str());
+            int tmpThreshold = atoi(threshold.c_str());
 
-		if( tmpThreshold < 0 )
-			tmpThreshold = 0;
-		else if( tmpThreshold > 255 )
-			tmpThreshold = 255;
+            if( tmpThreshold < 0 )
+                tmpThreshold = 0;
+            else if( tmpThreshold > 255 )
+                tmpThreshold = 255;
 
-		tracker->setThreshold(tmpThreshold);
-		LOG_ACE_INFO("ot:ARToolkitModule manual thresholding with '%s'\n", tmpThreshold);
+            tracker->setThreshold(tmpThreshold);
+            LOG_ACE_INFO("ot:ARToolkitModule manual thresholding with '%s'\n", tmpThreshold);
 	}
 
 
@@ -458,118 +458,118 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
 	//
 	if(markermode == "idbased")
 	{
-		tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_SIMPLE);
-		LOG_ACE_INFO("ot:ARToolkitModule using id-based markers\n");
+            tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_SIMPLE);
+            LOG_ACE_INFO("ot:ARToolkitModule using id-based markers\n");
 	}
 	else
-	if(markermode == "bch")
-	{
+            if(markermode == "bch")
+            {
 		tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_BCH);
 		LOG_ACE_INFO("ot:ARToolkitModule using BCH markers\n");
-	}
-	else
-	{
+            }
+            else
+            {
 		LOG_ACE_INFO("ot:ARToolkitModule using template markers\n");
-	}
+            }
 
 
 	// setting for the border width - default value is 0.250
 	//
 	if(attributes.get("border-width").length()>0)
 	{
-		float w = (float)atof(attributes.get("border-width").c_str());
-		LOG_ACE_INFO("ot:ARToolkitModule using border-width of %.3f\n", w);
-		tracker->setBorderWidth(w);
+            float w = (float)atof(attributes.get("border-width").c_str());
+            LOG_ACE_INFO("ot:ARToolkitModule using border-width of %.3f\n", w);
+            tracker->setBorderWidth(w);
 	}
 	else
 	{
-		LOG_ACE_INFO("ot:ARToolkitModule using default border-width of 0.250\n");
+            LOG_ACE_INFO("ot:ARToolkitModule using default border-width of 0.250\n");
 	}
 
 
-    // parsing camera config hints
+        // parsing camera config hints
 	//
 	if(cameraDeviceHint.length()>0)
-		for(unsigned int i = 0; i <localTree->countChildren(); i++)
-		{
-			ConfigNode * child = (ConfigNode *)localTree->getChild(i);
-			StringTable & childAttr = child->getAttributes();
+            for(unsigned int i = 0; i <localTree->countChildren(); i++)
+            {
+                ConfigNode * child = (ConfigNode *)localTree->getChild(i);
+                StringTable & childAttr = child->getAttributes();
 
-			std::string devName = childAttr.get("device-name"),
-						devFile = childAttr.get("camera-parameter");
+                std::string devName = childAttr.get("device-name"),
+                    devFile = childAttr.get("camera-parameter");
 
-			if(devName.length()>0 && devFile.length()>0 && devName==cameraDeviceHint)
-			{
-				LOG_ACE_INFO("ot:ARToolkitModule uses camera-hint for '%s'\n", devName.c_str());
-				cameradata = devFile;
-				break;
-			}
-		}
+                if(devName.length()>0 && devFile.length()>0 && devName==cameraDeviceHint)
+                {
+                    LOG_ACE_INFO("ot:ARToolkitModule uses camera-hint for '%s'\n", devName.c_str());
+                    cameradata = devFile;
+                    break;
+                }
+            }
 
 	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s\n", cameradata.c_str());
 
 
 	// setting for template pattern folder
 	//
-    if( patternDirectory.compare("") != 0)
-        context->addDirectoryFirst( patternDirectory );
+        if( patternDirectory.compare("") != 0)
+            context->addDirectoryFirst( patternDirectory );
 
-    std::string fullname;
-    if( context->findFile(cameradata, fullname))
-    {
-        cameradata = fullname;
-    }
-    else
-    {
-        //cout << "ARToolkitModule could not find camera parameter file " << cameradata << endl;
-		LOG_ACE_ERROR("ot:ARToolkitModule could not find camera parameter file %s\n", cameradata.c_str());
-        initialized = 0;
-        return;
-    }
+        std::string fullname;
+        if( context->findFile(cameradata, fullname))
+        {
+            cameradata = fullname;
+        }
+        else
+        {
+            //cout << "ARToolkitModule could not find camera parameter file " << cameradata << endl;
+            LOG_ACE_ERROR("ot:ARToolkitModule could not find camera parameter file %s\n", cameradata.c_str());
+            initialized = 0;
+            return;
+        }
 
-    if( patternDirectory.compare("") != 0)
-        context->removeDirectory( patternDirectory );
+        if( patternDirectory.compare("") != 0)
+            context->removeDirectory( patternDirectory );
 
 
 	// finally load the camera file
 	//
 	if(!tracker->loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
 	{
-		LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
-        initialized = 0;
-        return;
+            LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
+            initialized = 0;
+            return;
 	}
 
 
 	initialized = 1;
 	LOG_ACE_INFO("ot:ARToolkitModule initialization finished\n");
-}
+    }
 
 
-void
-ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
-{
+    void
+    ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
+    {
 	if(!initialized || maxMarkerId<0)
-		return;
+            return;
 
-    ARToolKitPlus::ARMarkerInfo * markerInfo;
-    int markerNum;
-    int j;
-    ARFloat matrix[3][4];
+        ARToolKitPlus::ARMarkerInfo * markerInfo;
+        int markerNum;
+        int j;
+        ARFloat matrix[3][4];
 	PIXEL_FORMAT artkpImgFormat;
 
 	if(!convertPixelFormat_ARToolKitPlus_to_OpenTracker(tracker->getPixelFormat(), artkpImgFormat))
-		return;
+            return;
 
 	// did we get another pixel format than ARToolKitPlus currently expects?
 	if(imgFormat!=artkpImgFormat)
 	{
-		// ARToolKitPlus 2.1 and later can change pixel format at runtime!
-		//
-		ARToolKitPlus::PIXEL_FORMAT artkpFormat;
-		if(!convertPixelFormat_OpenTracker_to_ARToolKitPlus(imgFormat, artkpFormat))
-			return;
-		tracker->setPixelFormat(artkpFormat);
+            // ARToolKitPlus 2.1 and later can change pixel format at runtime!
+            //
+            ARToolKitPlus::PIXEL_FORMAT artkpFormat;
+            if(!convertPixelFormat_OpenTracker_to_ARToolKitPlus(imgFormat, artkpFormat))
+                return;
+            tracker->setPixelFormat(artkpFormat);
 	}
 
 
@@ -577,25 +577,25 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	// 
 	if(newSizeX!=sizeX || newSizeY!=sizeY)
 	{
-		sizeX = newSizeX;
-		sizeY = newSizeY;
-		tracker->changeCameraSize(newSizeX, newSizeY);
+            sizeX = newSizeX;
+            sizeY = newSizeY;
+            tracker->changeCameraSize(newSizeX, newSizeY);
 	}
 
 
 	// reset all markers from last grab, then clear list
 	//
-    for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
+        for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
 	{
 	    ARToolKitSource *source = (ARToolKitSource *)*it;
 
-		Event & event = source->buffer;
-		if (event.getConfidence() > 0.00000001f) 
-		{
-			event.getConfidence() = 0.0f;
-			event.timeStamp();
-			source->modified = 1;
-		}
+            Event & event = source->buffer;
+            if (event.getConfidence() > 0.00000001f) 
+            {
+                event.getConfidence() = 0.0f;
+                event.timeStamp();
+                source->modified = 1;
+            }
 	}
 	visibleMarkers.clear();
 
@@ -603,22 +603,22 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	//
 	if(useMarkerDetectLite)
 	{
-		if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
-		{
-			return;
-		}
+            if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+            {
+                return;
+            }
 	}
 	else
 	{
-		if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
-		{
-			return;
-		}
+            if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
+            {
+                return;
+            }
 	}
 
-    if( markerNum < 1 )
+        if( markerNum < 1 )
 	{
-        return;
+            return;
 	}
 
 	// we use an array of best confidences to quickly find
@@ -628,9 +628,9 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	//
 	if(!bestCFs)
 	{
-		bestCFs = new float[maxMarkerId+1];
-		for(j=0; j<maxMarkerId; j++)
-			bestCFs[j] = 0.0f;
+            bestCFs = new float[maxMarkerId+1];
+            for(j=0; j<maxMarkerId; j++)
+                bestCFs[j] = 0.0f;
 	}
 
 
@@ -638,9 +638,9 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	//
 	for(j=0; j<markerNum; j++)
 	{
-		int id = markerInfo[j].id;
-		if(id!=-1 && bestCFs[id]<markerInfo[j].cf)
-			bestCFs[id] = markerInfo[j].cf;
+            int id = markerInfo[j].id;
+            if(id!=-1 && bestCFs[id]<markerInfo[j].cf)
+                bestCFs[id] = markerInfo[j].cf;
 	}
 
 
@@ -654,69 +654,69 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 
 	for(j=0; j<markerNum; j++)
 	{
-		int id = markerInfo[j].id;
-		Node* source = NULL;
+            int id = markerInfo[j].id;
+            Node* source = NULL;
 
-		if(id==-1)
-			continue;
+            if(id==-1)
+                continue;
 
-		// only use a marker if it has the best confidence for its id
-		//
-		if(markerInfo[j].cf<bestCFs[id])
-			continue;
+            // only use a marker if it has the best confidence for its id
+            //
+            if(markerInfo[j].cf<bestCFs[id])
+                continue;
 
-		MarkerIdMap::iterator it = sourcesMap.find(id);
+            MarkerIdMap::iterator it = sourcesMap.find(id);
 
-		if(it==sourcesMap.end())
-			continue;
+            if(it==sourcesMap.end())
+                continue;
 
-		source = it->second;
-		if(!source)
-			continue;
+            source = it->second;
+            if(!source)
+                continue;
 
-		// we found a "best" marker and its source.
-		// everything is fine to process it...
+            // we found a "best" marker and its source.
+            // everything is fine to process it...
 
-		// store that source for later usage
-		//
-		visibleMarkers.push_back(source);
+            // store that source for later usage
+            //
+            visibleMarkers.push_back(source);
 
-		if(source->getType()=="ARToolKitPlusSource")
-		{
+            if(source->getType()=="ARToolKitPlusSource")
+            {
 	        ARToolKitSource *sourceA = (ARToolKitSource*)source;
-			ARFloat source_center[2], source_size;
+                ARFloat source_center[2], source_size;
 			
-			source_center[0] = (ARFloat)sourceA->center[0];
-			source_center[1] = (ARFloat)sourceA->center[1];
-			source_size = (ARFloat)sourceA->size;
+                source_center[0] = (ARFloat)sourceA->center[0];
+                source_center[1] = (ARFloat)sourceA->center[1];
+                source_size = (ARFloat)sourceA->size;
 
-			//if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
-			if(tracker->executeSingleMarkerPoseEstimator(&markerInfo[j], source_center, source_size, matrix)>=0)
-				updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
-		}
-		else
+                //if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
+                if(tracker->executeSingleMarkerPoseEstimator(&markerInfo[j], source_center, source_size, matrix)>=0)
+                                                                                                                        updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
+            }
+            else
 		if(source->getType()=="ARToolKitPlusMultiMarkerSource")
 		{
-			bool alreadyProcessed = false;
+                    bool alreadyProcessed = false;
 
-			for(NodeVector::iterator it=processedSources.begin(); it!=processedSources.end(); it++)
-				if(*it==source)
-				{
-					alreadyProcessed = true;
-					break;
-				}
+                    for(NodeVector::iterator it=processedSources.begin(); it!=processedSources.end(); it++)
+                        if(*it==source)
+                        {
+                            alreadyProcessed = true;
+                            break;
+                        }
 
-			if(!alreadyProcessed)
-			{
-				ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
-				ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
+                    if(!alreadyProcessed)
+                    {
+                        ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
+                        ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
 
-				//if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
-				if((tracker->executeMultiMarkerPoseEstimator(markerInfo, markerNum, mmConfig))>=0)
-					updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
+                        //if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+                        if((tracker->executeMultiMarkerPoseEstimator(markerInfo, markerNum, mmConfig))>=0)
+                                                                                                              updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
 
-				processedSources.push_back(source);
-			}
+                        processedSources.push_back(source);
+                    }
 		}
 	}
 
@@ -724,29 +724,29 @@ ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX,
 	// reset array of best confidences
 	//
 	for(j=0; j<markerNum; j++)
-		bestCFs[markerInfo[j].id] = 0.0f;
+            bestCFs[markerInfo[j].id] = 0.0f;
 
 	return;
-}
+    }
 
-// pushes events into the tracker tree.
+    // pushes events into the tracker tree.
 
-void ARToolKitPlusModule::pushEvent()
-{
+    void ARToolKitPlusModule::pushEvent()
+    {
 	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
 	{
-		ARToolKitSource * source = (ARToolKitSource *)*it;
-		if( source->modified == 1 )
-		{
-			source->event = source->buffer;
-			source->modified = 0;
-			source->updateObservers( source->event );
-		}
+            ARToolKitSource * source = (ARToolKitSource *)*it;
+            if( source->modified == 1 )
+            {
+                source->event = source->buffer;
+                source->modified = 0;
+                source->updateObservers( source->event );
+            }
 	}
-}
+    }
 
-void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
-{
+    void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
+    {
 #ifdef ARTOOLKIT_UNFLIP_V
 #undef ARTOOLKIT_UNFLIP_V
 #endif
@@ -757,8 +757,8 @@ void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
 
 	MathUtils::Matrix4x4 matrix_4x4;
 	for(int r = 0; r < 3; r ++ )
-		for(int c = 0; c < 4; c ++ )
-			matrix_4x4[r][c] = (float)matrix[r][c];
+            for(int c = 0; c < 4; c ++ )
+                matrix_4x4[r][c] = (float)matrix[r][c];
     
 	matrix_4x4[3][0] = 0; matrix_4x4[3][1] = 0;
 	matrix_4x4[3][2] = 0; matrix_4x4[3][3] = 1;
@@ -783,10 +783,10 @@ void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
 	float m[3][3];
 	for( int r = 0; r < 3; r ++ )
 	{
-		for( int s = 0; s < 3; s ++ )
-		{
-			m[r][s] = (float)matrix[r][s];
-		}
+            for( int s = 0; s < 3; s ++ )
+            {
+                m[r][s] = (float)matrix[r][s];
+            }
 	}
 	MathUtils::matrixToQuaternion( m, event.getOrientation() );
 	event.getPosition()[0] = (float)matrix[0][3];
@@ -795,38 +795,38 @@ void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
 	//  -----------------------------------------------------------
 #endif
 	event.timeStamp();
-}
+    }
 
-void ARToolKitPlusModule::updateSingleMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
-{
+    void ARToolKitPlusModule::updateSingleMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
+    {
 	ARToolKitSource* source = (ARToolKitSource*)node;
 
 	Event & event = source->buffer;
 	event.setConfidence(cf);
 	updateEvent(event,matrix);
 	source->modified = 1;
-}
+    }
 
-void ARToolKitPlusModule::updateMultiMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
-{
+    void ARToolKitPlusModule::updateMultiMarkerSource(Node *node, float cf, ARFloat matrix[3][4])
+    {
 	ARToolKitMultiMarkerSource* source = (ARToolKitMultiMarkerSource*)node;
 
 	Event & event = source->buffer;
 	event.setConfidence(cf);
 	updateEvent(event,matrix);
 	source->modified = 1;
-}
+    }
 
 
-const char*
-ARToolKitPlusModule::getARToolKitPlusDescription() const
-{
+    const char*
+    ARToolKitPlusModule::getARToolKitPlusDescription() const
+    {
 	const char* descr = tracker->getDescription();
 	return descr;
-}
+    }
 
 
-bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+    bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
 
 
 } //namespace ot
@@ -835,3 +835,19 @@ bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORM
 #else
 #pragma message(">>> no ARToolKitPlus support")
 #endif //USE_ARTOOLKITPLUS
+
+/* 
+ * ------------------------------------------------------------
+ *   End of ARToolKitPlusModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

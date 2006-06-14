@@ -1,46 +1,46 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for ARToolKitPlusModule module.
-  *
-  * @author Daniel Wagner
-  * @author Erick Mendez
-  *
-  * $Header$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Daniel Wagner
+ * @author Erick Mendez
+ *
+ * $Header$
+ * @file                                                                   */
+/* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
@@ -64,7 +64,7 @@
  * An example configuration element looks like this :
  * @verbatim
  <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" />
- */
+*/
 
 
 #ifndef _ARTOOLKITMODULEPLUS_H
@@ -84,8 +84,8 @@
 
 namespace ARToolKitPlus
 {
-	class TrackerSingleMarker;
-	class Logger;
+  class TrackerSingleMarker;
+  class Logger;
 }
 
 class ARToolKitPlusModuleLogger;
@@ -95,121 +95,121 @@ class ARToolKitPlusModuleLogger;
 namespace ot 
 {
 
-class ARToolKitPlusModule;
-typedef std::vector<Node*> NodeVector;
-typedef std::map<int,Node*> MarkerIdMap;
+  class ARToolKitPlusModule;
+  typedef std::vector<Node*> NodeVector;
+  typedef std::map<int,Node*> MarkerIdMap;
 
 
-/**
- * The module and factory to drive the test source nodes. It constructs
- * TestSource nodes via the NodeFactory interface and pushes events into
- * the tracker tree according to the nodes configuration.
- * @author Gerhard Reitmayr
- * @ingroup core
- */
-class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory, public VideoUser
-{
-// Members
-protected:
-	/// map to find nodes that contain markers
-	MarkerIdMap sourcesMap;
+  /**
+   * The module and factory to drive the test source nodes. It constructs
+   * TestSource nodes via the NodeFactory interface and pushes events into
+   * the tracker tree according to the nodes configuration.
+   * @author Gerhard Reitmayr
+   * @ingroup core
+   */
+  class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory, public VideoUser
+    {
+      // Members
+    protected:
+      /// map to find nodes that contain markers
+      MarkerIdMap sourcesMap;
 
-    /// list of TestSource nodes in the tree
-    NodeVector sources;
+      /// list of TestSource nodes in the tree
+      NodeVector sources;
 
-	/// stores the list of all markers that were visible during the last update
-	NodeVector visibleMarkers;
+      /// stores the list of all markers that were visible during the last update
+      NodeVector visibleMarkers;
 
-	/// stores a list of the best marker confidences found in an image
-	float	*bestCFs;
-	int		maxMarkerId;
+      /// stores a list of the best marker confidences found in an image
+      float	*bestCFs;
+      int		maxMarkerId;
 
-    /// file name of cameradata file
-    std::string cameradata;
+      /// file name of cameradata file
+      std::string cameradata;
 
-    /// size of the image in pixels
-    int sizeX, sizeY;
+      /// size of the image in pixels
+      int sizeX, sizeY;
 
-	/// an optional prefix for pattern filenames
-	std::string patternDirectory;
+      /// an optional prefix for pattern filenames
+      std::string patternDirectory;
 
-	/// an optional camera device name
-	std::string cameraDeviceHint;
+      /// an optional camera device name
+      std::string cameraDeviceHint;
 
-	/// if true ot will use arDetectMarkerLite instead of arDetectMarker
-	bool useMarkerDetectLite;
+      /// if true ot will use arDetectMarkerLite instead of arDetectMarker
+      bool useMarkerDetectLite;
 
-	/// flag to stop image processing thread
-	int stop;
+      /// flag to stop image processing thread
+      int stop;
 
-	void init(StringTable& attributes, ConfigNode * localTree);
+      void init(StringTable& attributes, ConfigNode * localTree);
 
-	void updateSingleMarkerSource(Node *source, float cf, float matrix[3][4]);
-	void updateMultiMarkerSource(Node *source, float cf, float matrix[3][4]);
-	void updateEvent(Event &event, float matrix[3][4]);
+      void updateSingleMarkerSource(Node *source, float cf, float matrix[3][4]);
+      void updateMultiMarkerSource(Node *source, float cf, float matrix[3][4]);
+      void updateEvent(Event &event, float matrix[3][4]);
 
-	float trackerNear,trackerFar;
-	ARToolKitPlus::TrackerSingleMarker* tracker;
-	ARToolKitPlus::Logger* logger;
+      float trackerNear,trackerFar;
+      ARToolKitPlus::TrackerSingleMarker* tracker;
+      ARToolKitPlus::Logger* logger;
 
-// Methods
-public:
-	enum {
-		MAX_MARKERID = 511
-	};
+      // Methods
+    public:
+      enum {
+	MAX_MARKERID = 511
+      };
 
-    /** constructor method. */
-    ARToolKitPlusModule();
+      /** constructor method. */
+      ARToolKitPlusModule();
 
-    /** Destructor method, clears nodes member. */
-    virtual ~ARToolKitPlusModule();
+      /** Destructor method, clears nodes member. */
+      virtual ~ARToolKitPlusModule();
 
-    /** This method is called to ruct a new Node. It compares
-     * name to the TestSource element name, and if it matches
-     * creates a new TestSource node.
-     * @param name reference to string containing element name
-     * @attributes refenrence to StringMap containing attribute values
-     * @return pointer to new Node or NULL. The new Node must be
-     *         allocated with new ! */
-    virtual Node * createNode( const std::string& name,  StringTable& attributes);
-    /**
-     * pushes events into the tracker tree. Checks all TestSources and
-     * pushes new events, if a TestSource fires.
-     */
-    virtual void pushEvent();
+      /** This method is called to ruct a new Node. It compares
+       * name to the TestSource element name, and if it matches
+       * creates a new TestSource node.
+       * @param name reference to string containing element name
+       * @attributes refenrence to StringMap containing attribute values
+       * @return pointer to new Node or NULL. The new Node must be
+       *         allocated with new ! */
+      virtual Node * createNode( const std::string& name,  StringTable& attributes);
+      /**
+       * pushes events into the tracker tree. Checks all TestSources and
+       * pushes new events, if a TestSource fires.
+       */
+      virtual void pushEvent();
 
-	/**
-	 * queries the camera and pushes data into the tree
-	 */
-	void update();
+      /**
+       * queries the camera and pushes data into the tree
+       */
+      void update();
 
-    /** returns the width of the grabbed image in pixels */
-    int getSizeX() const  {  return sizeX;  }
+      /** returns the width of the grabbed image in pixels */
+      int getSizeX() const  {  return sizeX;  }
 
-    /** returns the height of the grabbed image in pixels */
-    int getSizeY() const  {  return sizeY;  }
+      /** returns the height of the grabbed image in pixels */
+      int getSizeY() const  {  return sizeY;  }
 
-	ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return tracker;  }
+      ARToolKitPlus::TrackerSingleMarker* getARToolKitPlus()  {  return tracker;  }
 
-	const char* getARToolKitPlusDescription() const;
+      const char* getARToolKitPlusDescription() const;
 
-	/// Sets a camera device name
-	/**
-	 *  This device name can be used to select between several
-	 *  available camera files. This must be done before the 
-	 *  ARToolKitPlus::init() is called.
-	 *  If no camera hint is set or the config file does not contain
-	 *  any <CameraHint> sections, the standard 'camera-parameter' value
-	 *  is used.
-	 */
-	void setCameraDeviceHint(const char* nDeviceName)  {  cameraDeviceHint = nDeviceName;  }
+      /// Sets a camera device name
+      /**
+       *  This device name can be used to select between several
+       *  available camera files. This must be done before the 
+       *  ARToolKitPlus::init() is called.
+       *  If no camera hint is set or the config file does not contain
+       *  any <CameraHint> sections, the standard 'camera-parameter' value
+       *  is used.
+       */
+      void setCameraDeviceHint(const char* nDeviceName)  {  cameraDeviceHint = nDeviceName;  }
 
-	NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
+      NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
 
-	void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
 
-	bool doBench;
-};
+      bool doBench;
+    };
 
 } // namespace ot
 
@@ -218,3 +218,18 @@ public:
 
 #endif // _ARTOOLKITMODULEPLUS_H
 
+/* 
+ * ------------------------------------------------------------
+ *   End of ARToolkitPlusModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
