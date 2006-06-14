@@ -52,43 +52,43 @@
 
 namespace ot {
 
-  // constructor method
-  ConfidenceSelectNode::ConfidenceSelectNode( double timeout_, types type_ )
-    : timeout( timeout_ ), type( type_ )
-  {
-    lastConfidence = 0;
-    lastTimeStamp = 0;
-  } 
+    // constructor method
+    ConfidenceSelectNode::ConfidenceSelectNode( double timeout_, types type_ )
+        : timeout( timeout_ ), type( type_ )
+    {
+        lastConfidence = 0;
+        lastTimeStamp = 0;
+    } 
 
-  // tests the confidence value and only forwards passing events
-  void ConfidenceSelectNode::onEventGenerated( Event& event, Node & generator )
-  {
-    if( timeout < event.time - lastTimeStamp )
-      {
-	lastConfidence = event.getConfidence();
-	lastTimeStamp = event.time;
-	updateObservers( event );		
-      } else 
+    // tests the confidence value and only forwards passing events
+    void ConfidenceSelectNode::onEventGenerated( Event& event, Node & generator )
+    {
+        if( timeout < event.time - lastTimeStamp )
+        {
+            lastConfidence = event.getConfidence();
+            lastTimeStamp = event.time;
+            updateObservers( event );		
+        } else 
 	{
-	  switch( type )
+            switch( type )
 	    {
-	    case HIGH : if( event.getConfidence() >= lastConfidence )
-	      {
-		lastConfidence = event.getConfidence();
-		lastTimeStamp = event.time;
-		updateObservers( event );
-	      }
-	      break;
-	    case LOW : if( event.getConfidence() <= lastConfidence )
-	      {
-		lastConfidence = event.getConfidence();
-		lastTimeStamp = event.time;
-		updateObservers( event );
-	      }
-	      break;
+                case HIGH : if( event.getConfidence() >= lastConfidence )
+                {
+                    lastConfidence = event.getConfidence();
+                    lastTimeStamp = event.time;
+                    updateObservers( event );
+                }
+                    break;
+                case LOW : if( event.getConfidence() <= lastConfidence )
+                {
+                    lastConfidence = event.getConfidence();
+                    lastTimeStamp = event.time;
+                    updateObservers( event );
+                }
+                    break;
 	    }	
 	}	
-  }
+    }
 
 } // namespace ot
 

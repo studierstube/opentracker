@@ -62,34 +62,34 @@
 
 namespace ot {
 
-  Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
-  {
-    if( name.compare("Callback") == 0 )
-      {
-        const std::string & nameVal = attributes.get("name");
-        NodeMap::iterator it = nodes.find( nameVal );
-        if( it == nodes.end())
-	  {
-            CallbackNode * node = new CallbackNode( nameVal );
-            nodes[nameVal] = node;
-	    LOG_ACE_INFO("ot:Build Callback node %s.\n", nameVal.c_str());
-            return node;
-	  }
-      } 
-    return NULL;
-  }
+    Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
+    {
+        if( name.compare("Callback") == 0 )
+        {
+            const std::string & nameVal = attributes.get("name");
+            NodeMap::iterator it = nodes.find( nameVal );
+            if( it == nodes.end())
+            {
+                CallbackNode * node = new CallbackNode( nameVal );
+                nodes[nameVal] = node;
+                LOG_ACE_INFO("ot:Build Callback node %s.\n", nameVal.c_str());
+                return node;
+            }
+        } 
+        return NULL;
+    }
 
-  //  sets a callback on a certain node.
+    //  sets a callback on a certain node.
 
-  void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
-  {
-    NodeMap::iterator it = nodes.find( name );
-    if( it != nodes.end())
-      {
-        ((CallbackNode *)(*it).second)->function = function;
-        ((CallbackNode *)(*it).second)->data = data;
-      }
-  }
+    void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
+    {
+        NodeMap::iterator it = nodes.find( name );
+        if( it != nodes.end())
+        {
+            ((CallbackNode *)(*it).second)->function = function;
+            ((CallbackNode *)(*it).second)->data = data;
+        }
+    }
 
 } // namespace ot
 

@@ -85,39 +85,39 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ConfidenceSelectNode : public Node   
+    class OPENTRACKER_API ConfidenceSelectNode : public Node   
     {
 
     protected:
-      /// timeout value
-      double timeout;
-      /// last time stamp seen
-      double lastTimeStamp;
-      /// last confidence value seen
-      float lastConfidence;
-      /// the type of filter
-      enum types { HIGH = 0, LOW } type;
+        /// timeout value
+        double timeout;
+        /// last time stamp seen
+        double lastTimeStamp;
+        /// last confidence value seen
+        float lastConfidence;
+        /// the type of filter
+        enum types { HIGH = 0, LOW } type;
     
-      /** constructor method. It sets initial values for the treshhold and type */
-      ConfidenceSelectNode( double timeout_ = 100, types type_ = HIGH );
+        /** constructor method. It sets initial values for the treshhold and type */
+        ConfidenceSelectNode( double timeout_ = 100, types type_ = HIGH );
 
     public:
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. 
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);                                
+        /**
+         * This method is called by any child node. 
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);                                
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

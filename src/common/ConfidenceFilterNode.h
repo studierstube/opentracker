@@ -79,35 +79,35 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ConfidenceFilterNode : public Node   
+    class OPENTRACKER_API ConfidenceFilterNode : public Node   
     {
 
     protected:
-      /// treshhold value, in [0,1]
-      float treshhold;
-      /// the type of filter
-      enum types { HIGH = 0, LOW } type;
+        /// treshhold value, in [0,1]
+        float treshhold;
+        /// the type of filter
+        enum types { HIGH = 0, LOW } type;
     
-      /** constructor method. It sets initial values for the treshhold and type */
-      ConfidenceFilterNode( float treshhold_ = 0.5, types type_ = HIGH );
+        /** constructor method. It sets initial values for the treshhold and type */
+        ConfidenceFilterNode( float treshhold_ = 0.5, types type_ = HIGH );
 
     public:
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. 
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);                                
+        /**
+         * This method is called by any child node. 
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);                                
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

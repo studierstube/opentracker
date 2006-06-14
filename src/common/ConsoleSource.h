@@ -72,38 +72,38 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ConsoleSource : public Node
+    class OPENTRACKER_API ConsoleSource : public Node
     {
-      // Members
+        // Members
     public:
-      /// station number
-      int number;
-      /// the event that is stored
-      Event event;
-      /// a flag to indicate whether it was changed during processing
-      int changed;
+        /// station number
+        int number;
+        /// the event that is stored
+        Event event;
+        /// a flag to indicate whether it was changed during processing
+        int changed;
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method,sets commend member
-       * @param comment_ the comment line to use */
-      ConsoleSource( int number_ ) :
-	Node(),
-	number( number_ ),
-	changed( 0 )
+        /** constructor method,sets commend member
+         * @param comment_ the comment line to use */
+        ConsoleSource( int number_ ) :
+            Node(),
+            number( number_ ),
+            changed( 0 )
 	{
 	}
 
     public:
-      /** tests for EventGenerator interface being present. Is overriden to
-       * return 1 always.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      friend class ConsoleModule;
+        friend class ConsoleModule;
     };
 
 } // namespace ot

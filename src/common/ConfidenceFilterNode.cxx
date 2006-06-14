@@ -52,30 +52,30 @@
 
 namespace ot {
 
-  // constructor method
-  ConfidenceFilterNode::ConfidenceFilterNode( float treshhold_, types type_ )
-    : type( type_ )
-  {
-    if( treshhold_ < 0 )
-      treshhold_ = 0;
-    else if( treshhold_ > 1 )
-      treshhold_ = 1;
-    treshhold = treshhold_;
-  } 
+    // constructor method
+    ConfidenceFilterNode::ConfidenceFilterNode( float treshhold_, types type_ )
+        : type( type_ )
+    {
+        if( treshhold_ < 0 )
+            treshhold_ = 0;
+        else if( treshhold_ > 1 )
+            treshhold_ = 1;
+        treshhold = treshhold_;
+    } 
 
-  // tests the confidence value and only forwards passing events
-  void ConfidenceFilterNode::onEventGenerated( Event& event, Node & generator )
-  {
-    switch( type )
-      {
-      case HIGH : if( event.getConfidence() >= treshhold )
-	updateObservers( event );
-	break;
-      case LOW : if( event.getConfidence() <= treshhold )
-	updateObservers( event );
-	break;
-      }	
-  }
+    // tests the confidence value and only forwards passing events
+    void ConfidenceFilterNode::onEventGenerated( Event& event, Node & generator )
+    {
+        switch( type )
+        {
+            case HIGH : if( event.getConfidence() >= treshhold )
+                updateObservers( event );
+                break;
+            case LOW : if( event.getConfidence() <= treshhold )
+                updateObservers( event );
+                break;
+        }	
+    }
 
 } // namespace ot
 

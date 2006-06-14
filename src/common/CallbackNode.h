@@ -68,81 +68,81 @@
 
 namespace ot {
 
-  class CallbackNode;
+    class CallbackNode;
 
-  typedef void CallbackFunction(CallbackNode &, Event &, void *);
+    typedef void CallbackFunction(CallbackNode &, Event &, void *);
 
-  /**
-   * This class implements a simple node that stores a function pointer
-   * and calls it every time an event it received. The event passed to the
-   * can be changed by the function and the changes will propagate to the parent node.
-   * Furthermore it passes the event on to its single child.
-   * @author Gerhard Reitmayr
-   * @ingroup common
-   */
-  class OPENTRACKER_API CallbackNode : public Node
+    /**
+     * This class implements a simple node that stores a function pointer
+     * and calls it every time an event it received. The event passed to the
+     * can be changed by the function and the changes will propagate to the parent node.
+     * Furthermore it passes the event on to its single child.
+     * @author Gerhard Reitmayr
+     * @ingroup common
+     */
+    class OPENTRACKER_API CallbackNode : public Node
     {
-      // Members
+        // Members
     public:
-      /** name of the CallbackNode for retrieving it from the module.
-       * Note that this is not the name returned by getName(), rather the value
-       * set by the attribute name.
-       */
-      std::string name;
-      /// callback function
-      CallbackFunction * function;
-      /// data pointer
-      void * data;
-      /// the event passed to the function and the parent
-      Event event;
+        /** name of the CallbackNode for retrieving it from the module.
+         * Note that this is not the name returned by getName(), rather the value
+         * set by the attribute name.
+         */
+        std::string name;
+        /// callback function
+        CallbackFunction * function;
+        /// data pointer
+        void * data;
+        /// the event passed to the function and the parent
+        Event event;
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method,sets commend member
-       * @param name_ the name of the Callback node */
-      CallbackNode( const std::string & name_ ) :
-        Node(),
-        name( name_ ),
-        function( NULL ),
-        data( NULL )
+        /** constructor method,sets commend member
+         * @param name_ the name of the Callback node */
+        CallbackNode( const std::string & name_ ) :
+            Node(),
+            name( name_ ),
+            function( NULL ),
+            data( NULL )
 	{}
 
     public:
-      /** tests for EventGenerator interface being present. Is overriden to
-       * return 1 always.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method notifies the object that a new event was generated.
-       * @param event reference to the new event.
-       * @param generator reference to the EventGenerator object that
-       *        notified the EventObserver.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator)
+        /**
+         * This method notifies the object that a new event was generated.
+         * @param event reference to the new event.
+         * @param generator reference to the EventGenerator object that
+         *        notified the EventObserver.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator)
 	{
-	  if( function != NULL )
+            if( function != NULL )
 	    {
-	      (*function)(*this, event, data );
+                (*function)(*this, event, data );
 	    }
-	  updateObservers( event );
+            updateObservers( event );
 	}
 
-      /**
-       * This method returns the value set by the name attribute of the CallbackNode.
-       * This is a different value then the one returned by getName() which is the
-       * value set by the attribute DEF.
-       * @return reference to the name string.
-       */
-      const std::string & getCallbackName(void) const
+        /**
+         * This method returns the value set by the name attribute of the CallbackNode.
+         * This is a different value then the one returned by getName() which is the
+         * value set by the attribute DEF.
+         * @return reference to the name string.
+         */
+        const std::string & getCallbackName(void) const
 	{
-	  return CallbackNode::name;
+            return CallbackNode::name;
 	};
 
-      friend class CallbackModule;
+        friend class CallbackModule;
     };
 
 } // namespace ot

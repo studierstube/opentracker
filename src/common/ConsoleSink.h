@@ -75,61 +75,61 @@
 
 namespace ot {
 
-  class OPENTRACKER_API ConsoleSink : public Node
+    class OPENTRACKER_API ConsoleSink : public Node
     {
-      // Members
+        // Members
     public:
-      /// comment line
-      std::string comment;
-      /// the event that is stored
-      Event event;
-      /// flag whether event was changed since last display
-      int changed;
-      /// flag whether it is displayed or not
-      int active;
+        /// comment line
+        std::string comment;
+        /// the event that is stored
+        Event event;
+        /// flag whether event was changed since last display
+        int changed;
+        /// flag whether it is displayed or not
+        int active;
 
-      // Methods
+        // Methods
     protected:
-      /** constructor method,sets commend member
-       * @param comment_ the comment line to use */
-      ConsoleSink( const std::string & comment_, int active_ = 0 ) :
-        Node(), 
-        comment( comment_ ),
-        changed( 0 ),
-        active( active_ )
+        /** constructor method,sets commend member
+         * @param comment_ the comment line to use */
+        ConsoleSink( const std::string & comment_, int active_ = 0 ) :
+            Node(), 
+            comment( comment_ ),
+            changed( 0 ),
+            active( active_ )
 	{}
 
     public:
     
     
-      /** tests for EventGenerator interface being present. Is overriden to
-       * return 1 always.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
     
-      /**
-       * this method notifies the object that a new event was generated.
-       * It stores a copy of the received event and passes the event on
-       * to its observers.
-       * @param event reference to the new event. Do not change the
-       *        event values, make a copy and change that !
-       * @param generator reference to the EventGenerator object that
-       *        notified the EventObserver.
-       */
-      virtual void onEventGenerated( Event& e, Node& generator)
+        /**
+         * this method notifies the object that a new event was generated.
+         * It stores a copy of the received event and passes the event on
+         * to its observers.
+         * @param event reference to the new event. Do not change the
+         *        event values, make a copy and change that !
+         * @param generator reference to the EventGenerator object that
+         *        notified the EventObserver.
+         */
+        virtual void onEventGenerated( Event& e, Node& generator)
 	{
-	  if( active )
+            if( active )
 	    {
-	      event = e;
-	      changed = 1;
+                event = e;
+                changed = 1;
 	    }
-	  updateObservers( event );
+            updateObservers( event );
 	}
 
-      friend class ConsoleModule;
+        friend class ConsoleModule;
     };
 
 } // namespace ot

@@ -64,46 +64,46 @@
 
 namespace ot {
 
-  typedef std::map<std::string, Node*> NodeMap;
+    typedef std::map<std::string, Node*> NodeMap;
 
-  /**
-   * The module and factory to drive the callback nodes. It constructs
-   * CallbackNode nodes via the NodeFactory interface and registers
-   * callbacks with them after parsing
-   * @author Gerhard Reitmayr
-   * @ingroup common
-   */
-  class OPENTRACKER_API CallbackModule : public Module, public NodeFactory
+    /**
+     * The module and factory to drive the callback nodes. It constructs
+     * CallbackNode nodes via the NodeFactory interface and registers
+     * callbacks with them after parsing
+     * @author Gerhard Reitmayr
+     * @ingroup common
+     */
+    class OPENTRACKER_API CallbackModule : public Module, public NodeFactory
     {
-      // Members
+        // Members
     protected:
-      /// map of strings onto nodes
-      NodeMap nodes;
+        /// map of strings onto nodes
+        NodeMap nodes;
 
-      // Methods
+        // Methods
     public:
-      /** constructor method. */
-      CallbackModule() : Module(), NodeFactory()
+        /** constructor method. */
+        CallbackModule() : Module(), NodeFactory()
 	{};
-      /** Destructor method, clears nodes member. */
-      virtual ~CallbackModule(){};    
-      /** This method is called to construct a new Node. It compares
-       * name to the TestSource element name, and if it matches
-       * creates a new TestSource node.
-       * @param name reference to string containing element name
-       * @attributes refenrence to StringMap containing attribute values
-       * @return pointer to new Node or NULL. The new Node must be
-       *         allocated with new ! */
-      virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        /** Destructor method, clears nodes member. */
+        virtual ~CallbackModule(){};    
+        /** This method is called to construct a new Node. It compares
+         * name to the TestSource element name, and if it matches
+         * creates a new TestSource node.
+         * @param name reference to string containing element name
+         * @attributes refenrence to StringMap containing attribute values
+         * @return pointer to new Node or NULL. The new Node must be
+         *         allocated with new ! */
+        virtual Node * createNode( const std::string& name,  StringTable& attributes);
  
-      /** sets a callback on a certain node. The node is identified by its
-       * unique name. Any present callback function in the node is overwritten
-       * by the new one.
-       * @param name the unique name of the callback node 
-       * @param function the new callback function to set on the node
-       * @param data pointer to data that is passed to the callback function
-       */
-      void setCallback( const std::string& name, CallbackFunction * function, void * data = NULL );
+        /** sets a callback on a certain node. The node is identified by its
+         * unique name. Any present callback function in the node is overwritten
+         * by the new one.
+         * @param name the unique name of the callback node 
+         * @param function the new callback function to set on the node
+         * @param data pointer to data that is passed to the callback function
+         */
+        void setCallback( const std::string& name, CallbackFunction * function, void * data = NULL );
     };
 
 } // namespace ot {
