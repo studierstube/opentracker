@@ -1,44 +1,44 @@
 /* ========================================================================
-* Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-* ======================================================================== */
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** header file for ARTDataTrackerChomp class.
-*
-* @author Christopher Schmidt
-*
-* $Id$
-* @file                                                                   */
+ *
+ * @author Christopher Schmidt
+ *
+ * $Id$
+ * @file                                                                   */
 /* ======================================================================= */
 
 #ifndef _ARTDATATRACKERCHOMP_H
@@ -51,70 +51,70 @@
 
 
 /**
-* Class chomp the received ASCII String (frame) 
-* and brings the Data in two structured Arrays
-* One for the bodies and one for the markers
-* @author Christopher Schmidt
-* @ingroup input
-*
-* @note Documentation of the ART Data tracker format:
-@verbatim
-ASCII Format des A.R.T. Trackers
+ * Class chomp the received ASCII String (frame) 
+ * and brings the Data in two structured Arrays
+ * One for the bodies and one for the markers
+ * @author Christopher Schmidt
+ * @ingroup input
+ *
+ * @note Documentation of the ART Data tracker format:
+ @verbatim
+ ASCII Format des A.R.T. Trackers
 
-Normal 3 Zeilen  mit aktivierter Zustatzfunktion 4 Zeilen
+ Normal 3 Zeilen  mit aktivierter Zustatzfunktion 4 Zeilen
 
-1. Zeile:		Framenummer
+ 1. Zeile:		Framenummer
 
-fr			21753
+ fr			21753
 
-2. Zeile:		6D-Werte, ANzahl der Bodies, Bodies
+ 2. Zeile:		6D-Werte, ANzahl der Bodies, Bodies
 
-6d			1 [0 1.000] [326.848 -187.216 109.503 -160.4704 -3.6963 -7.0913]
-			[-0.940508 -0.332545 0.333588 -0.932566 0.137735 -0.064467 0.123194 0.990286]
+ 6d			1 [0 1.000] [326.848 -187.216 109.503 -160.4704 -3.6963 -7.0913]
+ [-0.940508 -0.332545 0.333588 -0.932566 0.137735 -0.064467 0.123194 0.990286]
 			
-			1
-			gibt die Anzahl der Bodies die folgen
+ 1
+ gibt die Anzahl der Bodies die folgen
 
-			[0 1.000]
-			1. Zahl --> Index beginennd bei 0
-			2. Zahl --> Qualitaet
+ [0 1.000]
+ 1. Zahl --> Index beginennd bei 0
+ 2. Zahl --> Qualitaet
 
-			[326.848 -187.216 109.503 -160.4704 -3.6963 -7.0913]
-			1. Zahl --> Ort sx
-			2. Zahl --> Ort sy
-			3. Zahl --> Ort sz
-			4. Zahl --> Winkel n
-			5. Zahl --> Winkel o
-			6. Zahl --> Winkel p
+ [326.848 -187.216 109.503 -160.4704 -3.6963 -7.0913]
+ 1. Zahl --> Ort sx
+ 2. Zahl --> Ort sy
+ 3. Zahl --> Ort sz
+ 4. Zahl --> Winkel n
+ 5. Zahl --> Winkel o
+ 6. Zahl --> Winkel p
 			
-			[-0.940508 -0.332545 0.333588 -0.932566 0.137735 -0.064467 0.123194 0.990286]
-			1. Zahl --> Rotationsmatrix Element b0
-			2. Zahl --> Rotationsmatrix Element b1
-			3. Zahl --> Rotationsmatrix Element b2
-			4. Zahl --> Rotationsmatrix Element b3
-			5. Zahl --> Rotationsmatrix Element b4
-			6. Zahl --> Rotationsmatrix Element b5
-			7. Zahl --> Rotationsmatrix Element b6
-			8. Zahl --> Rotationsmatrix Element b7
-			9. Zahl --> Rotationsmatrix Element b8
+ [-0.940508 -0.332545 0.333588 -0.932566 0.137735 -0.064467 0.123194 0.990286]
+ 1. Zahl --> Rotationsmatrix Element b0
+ 2. Zahl --> Rotationsmatrix Element b1
+ 3. Zahl --> Rotationsmatrix Element b2
+ 4. Zahl --> Rotationsmatrix Element b3
+ 5. Zahl --> Rotationsmatrix Element b4
+ 6. Zahl --> Rotationsmatrix Element b5
+ 7. Zahl --> Rotationsmatrix Element b6
+ 8. Zahl --> Rotationsmatrix Element b7
+ 9. Zahl --> Rotationsmatrix Element b8
 
-3. Zeile		3D-Werte, Anzahl der Marker, Marker
+ 3. Zeile		3D-Werte, Anzahl der Marker, Marker
 
-3d			2 [79 1.000] [210.123 -90.123 -108.123] [80 1.000] [-90.123 -50.123 108.123]
+ 3d			2 [79 1.000] [210.123 -90.123 -108.123] [80 1.000] [-90.123 -50.123 108.123]
 
-			[0 1.000]
-			1. Zahl --> Index beginennd bei 0
-			2. Zahl --> Qualitaet
+ [0 1.000]
+ 1. Zahl --> Index beginennd bei 0
+ 2. Zahl --> Qualitaet
 
-			[210.123 -90.123 -108.123]
-			1. Zahl --> Ort sx
-			2. Zahl --> Ort sy
-			3. Zahl --> Ort sz
+ [210.123 -90.123 -108.123]
+ 1. Zahl --> Ort sx
+ 2. Zahl --> Ort sy
+ 3. Zahl --> Ort sz
 
-Zusatzzeile am Ende des Pakets gibt Anzahl der einkalibrierten 6D Bosies an
+ Zusatzzeile am Ende des Pakets gibt Anzahl der einkalibrierten 6D Bosies an
 
-6dcal			3
-@endverbatim
+ 6dcal			3
+ @endverbatim
 */
 
 
