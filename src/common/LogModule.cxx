@@ -52,49 +52,49 @@
 
 namespace ot {
 
-  LogModule::LogModule(void)
-  {
-  }
+    LogModule::LogModule(void)
+    {
+    }
 
-  void LogModule::init( StringTable & attributes,  ConfigNode * localTree)
-  {
-    Module::init( attributes, localTree );
+    void LogModule::init( StringTable & attributes,  ConfigNode * localTree)
+    {
+        Module::init( attributes, localTree );
     
-    if( attributes.get("active").compare("off") == 0 )
-      ACE_LOG_MSG->set_flags(ACE_Log_Msg::SILENT);
-    else
-      ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SILENT);
+        if( attributes.get("active").compare("off") == 0 )
+            ACE_LOG_MSG->set_flags(ACE_Log_Msg::SILENT);
+        else
+            ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SILENT);
 
-    if( attributes.get("stderr").compare("on") == 0 )
-      ACE_LOG_MSG->set_flags(ACE_Log_Msg::STDERR);
-    else
-      ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
+        if( attributes.get("stderr").compare("on") == 0 )
+            ACE_LOG_MSG->set_flags(ACE_Log_Msg::STDERR);
+        else
+            ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
 
-    if( attributes.get("verbose").compare("full") == 0 )
-      ACE_LOG_MSG->set_flags(ACE_Log_Msg::VERBOSE);
-    else if( attributes.get("verbose").compare("lite") == 0 )
-      ACE_LOG_MSG->set_flags(ACE_Log_Msg::VERBOSE_LITE);
+        if( attributes.get("verbose").compare("full") == 0 )
+            ACE_LOG_MSG->set_flags(ACE_Log_Msg::VERBOSE);
+        else if( attributes.get("verbose").compare("lite") == 0 )
+            ACE_LOG_MSG->set_flags(ACE_Log_Msg::VERBOSE_LITE);
 
-    if( attributes.get("level").compare("info") == 0 )
-      {
-        ACE_LOG_MSG->priority_mask( LM_INFO | LM_NOTICE | LM_WARNING | LM_ERROR | LM_CRITICAL | LM_ALERT | LM_EMERGENCY, 
-                                    ACE_Log_Msg::PROCESS );
-      }
-    else if( attributes.get("level").compare("error") == 0 )
-      {
-        ACE_LOG_MSG->priority_mask( LM_WARNING | LM_ERROR | LM_CRITICAL | LM_ALERT | LM_EMERGENCY,
-                                    ACE_Log_Msg::PROCESS );
-      }
+        if( attributes.get("level").compare("info") == 0 )
+        {
+            ACE_LOG_MSG->priority_mask( LM_INFO | LM_NOTICE | LM_WARNING | LM_ERROR | LM_CRITICAL | LM_ALERT | LM_EMERGENCY, 
+                                        ACE_Log_Msg::PROCESS );
+        }
+        else if( attributes.get("level").compare("error") == 0 )
+        {
+            ACE_LOG_MSG->priority_mask( LM_WARNING | LM_ERROR | LM_CRITICAL | LM_ALERT | LM_EMERGENCY,
+                                        ACE_Log_Msg::PROCESS );
+        }
 
 #ifndef _WIN32_WCE
-    if( attributes.get("file").compare("on") == 0 && attributes.containsKey("filename"))
-      {
-        ACE_OSTREAM_TYPE * file = new std::ofstream( attributes.get("filename").c_str());
-        ACE_LOG_MSG->msg_ostream( file, 1 );
-        ACE_LOG_MSG->set_flags( ACE_Log_Msg::OSTREAM );
-      }
+        if( attributes.get("file").compare("on") == 0 && attributes.containsKey("filename"))
+        {
+            ACE_OSTREAM_TYPE * file = new std::ofstream( attributes.get("filename").c_str());
+            ACE_LOG_MSG->msg_ostream( file, 1 );
+            ACE_LOG_MSG->set_flags( ACE_Log_Msg::OSTREAM );
+        }
 #endif
-  }
+    }
 
 } // namespace ot
 

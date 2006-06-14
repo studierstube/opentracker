@@ -51,42 +51,42 @@
 namespace ot {
 
 
-  // constructor method.
+    // constructor method.
 
-  PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3] )
-    : Node()
-  {
-    min[0] = min_[0];
-    min[1] = min_[1];
-    min[2] = min_[2];
+    PositionFilterNode::PositionFilterNode( const float min_[3], const float max_[3] )
+        : Node()
+    {
+        min[0] = min_[0];
+        min[1] = min_[1];
+        min[2] = min_[2];
 
-    max[0] = max_[0];
-    max[1] = max_[1];
-    max[2] = max_[2];
+        max[0] = max_[0];
+        max[1] = max_[1];
+        max[2] = max_[2];
 
 
-  }
+    }
 
-  int PositionFilterNode::isEventGenerator()
-  {
-    return 1;
-  }
+    int PositionFilterNode::isEventGenerator()
+    {
+        return 1;
+    }
 
-  // this method is called by the EventGenerator to update it's observers.
+    // this method is called by the EventGenerator to update it's observers.
 
-  void PositionFilterNode::onEventGenerated( Event& event, Node& generator)
-  {
-    if(
-       min[0] < event.getPosition()[0] && event.getPosition()[0] < max[0]
-       &&
-       min[1] < event.getPosition()[1] && event.getPosition()[1] < max[1]
-       &&
-       min[2] < event.getPosition()[2] && event.getPosition()[2] < max[2]
-       )
-      {
-        updateObservers( event );
-      }
-  }
+    void PositionFilterNode::onEventGenerated( Event& event, Node& generator)
+    {
+        if(
+           min[0] < event.getPosition()[0] && event.getPosition()[0] < max[0]
+           &&
+           min[1] < event.getPosition()[1] && event.getPosition()[1] < max[1]
+           &&
+           min[2] < event.getPosition()[2] && event.getPosition()[2] < max[2]
+           )
+        {
+            updateObservers( event );
+        }
+    }
 
 
 }  // namespace ot

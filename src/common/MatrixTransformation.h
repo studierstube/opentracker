@@ -77,57 +77,57 @@
 
 namespace ot {
 
-  class OPENTRACKER_API MatrixTransformation : public Transformation
+    class OPENTRACKER_API MatrixTransformation : public Transformation
     {
     protected:
 
-      /// stores the affine part of the transformation
-      float matrix[3][4];
+        /// stores the affine part of the transformation
+        float matrix[3][4];
 
-      /**
-       * transforms a event. Overrides the Transformation implementation
-       * to implement a different one.
-       */
-      virtual Event* transformEvent( Event* event) ;
+        /**
+         * transforms a event. Overrides the Transformation implementation
+         * to implement a different one.
+         */
+        virtual Event* transformEvent( Event* event) ;
 
-      /** default constructor method sets values to implement identity
-       * transformation */
-      MatrixTransformation();
+        /** default constructor method sets values to implement identity
+         * transformation */
+        MatrixTransformation();
 
-      /** constructor method
-       * @param matrix_ contains 3x4 matrix for affine transformation
-       */
-      MatrixTransformation( float * matrix_[4] );
+        /** constructor method
+         * @param matrix_ contains 3x4 matrix for affine transformation
+         */
+        MatrixTransformation( float * matrix_[4] );
 
-      /** constructor method
-       * @param matrix_ contains 3x4 matrix for affine transformation
-       */
-      MatrixTransformation( float * matrix_ );
+        /** constructor method
+         * @param matrix_ contains 3x4 matrix for affine transformation
+         */
+        MatrixTransformation( float * matrix_ );
 
     public:
 
 
-      /** returns the affine part of the Transformation
-       * @return float pointer to 3x4 floats
-       */
-      float ** getMatrix()
+        /** returns the affine part of the Transformation
+         * @return float pointer to 3x4 floats
+         */
+        float ** getMatrix()
 	{
-	  return (float**)matrix;
+            return (float**)matrix;
 	}
 
 
-      /** sets the scale of the transformation. It is only
-       * executed, if the transformation is of type to
-       * change the position of any events. It copies the
-       * passed float array into an internal structure.
-       * @param data a 3x4 float array containing the scale
-       */
-      void setMatrix(float* data[4])
+        /** sets the scale of the transformation. It is only
+         * executed, if the transformation is of type to
+         * change the position of any events. It copies the
+         * passed float array into an internal structure.
+         * @param data a 3x4 float array containing the scale
+         */
+        void setMatrix(float* data[4])
 	{
-	  memcpy( matrix, data, sizeof(float)*12 );
+            memcpy( matrix, data, sizeof(float)*12 );
 	}
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

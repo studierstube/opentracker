@@ -52,104 +52,104 @@
 
 namespace ot {
 
-  // generates a new data item upon receiving an event
+    // generates a new data item upon receiving an event
 
-  void MergeNode::onEventGenerated( Event& event, Node & generatorNode)
-  {
-    if (generatorNode.isNodePort() != 1) // this should never happen
-      return;
+    void MergeNode::onEventGenerated( Event& event, Node & generatorNode)
+    {
+        if (generatorNode.isNodePort() != 1) // this should never happen
+            return;
 
-    NodePort &generator = (NodePort&)generatorNode;
+        NodePort &generator = (NodePort&)generatorNode;
 
-    // merge attribute
-    if (generator.getType().compare("MergeAttribute") == 0)
-      {
-	try
-	  {
-	    std::string attrName = generator.get("attributeName");
-	    std::string typeName = event.getAttributeTypeName(attrName);
-	    std::string value = event.getAttributeValueString(attrName);
-	    localEvent.setAttribute(typeName, attrName, value);
-	  }
-	catch (std::invalid_argument)
-	  {
-	    // two attributes of the same name but of different types are present!
-	    return;
-	  }
-      }
+        // merge attribute
+        if (generator.getType().compare("MergeAttribute") == 0)
+        {
+            try
+            {
+                std::string attrName = generator.get("attributeName");
+                std::string typeName = event.getAttributeTypeName(attrName);
+                std::string value = event.getAttributeValueString(attrName);
+                localEvent.setAttribute(typeName, attrName, value);
+            }
+            catch (std::invalid_argument)
+            {
+                // two attributes of the same name but of different types are present!
+                return;
+            }
+        }
 
-    // merge default
-    else if (generator.getType().compare("MergeDefault") == 0)
-      {
-	// copy all attributes but those handled by other MergeAttribute nodes
-	Event temp = localEvent;
-	localEvent = event;
-	localEvent.time = temp.time;
+        // merge default
+        else if (generator.getType().compare("MergeDefault") == 0)
+        {
+            // copy all attributes but those handled by other MergeAttribute nodes
+            Event temp = localEvent;
+            localEvent = event;
+            localEvent.time = temp.time;
 
- 	int i = 0;
- 	NodePort *port = getPort("MergeAttribute", i++);
- 	while (port != NULL)
- 	  {
-	    std::string attrName = port->get("attributeName");
- 	    try
- 	      {
-		// copy back value of separately handeled attribute
- 		std::string typeName = temp.getAttributeTypeName(attrName);
- 		std::string value = temp.getAttributeValueString(attrName);
- 		localEvent.setAttribute(typeName, attrName, value);
- 	      }
- 	    catch (std::invalid_argument)
- 	      {
-		// attrName was not in localEvent before, thus delete it
-		localEvent.delAttribute(attrName);
- 	      }
- 	    port = getPort("MergeAttribute", i++);
- 	  }
-      }
+            int i = 0;
+            NodePort *port = getPort("MergeAttribute", i++);
+            while (port != NULL)
+            {
+                std::string attrName = port->get("attributeName");
+                try
+                {
+                    // copy back value of separately handeled attribute
+                    std::string typeName = temp.getAttributeTypeName(attrName);
+                    std::string value = temp.getAttributeValueString(attrName);
+                    localEvent.setAttribute(typeName, attrName, value);
+                }
+                catch (std::invalid_argument)
+                {
+                    // attrName was not in localEvent before, thus delete it
+                    localEvent.delAttribute(attrName);
+                }
+                port = getPort("MergeAttribute", i++);
+            }
+        }
 
-    // merge time
-    if (generator.getType().compare("MergeTime") == 0)
-      localEvent.time = event.time;
-    // if there is no special time node, always propagate time
-    else if ((getPort("MergeTime") == NULL) || (getPort("MergeTime")->countChildren() == 0))
-      localEvent.time = event.time;
-
-
-    // age confidence of each input
-    std::map<NodePort*, float>::iterator it;
-    for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
-      (*it).second *= agingFactor;
-    // set confidence of generator
-    confidenceMap[&generator] = event.getConfidence();
-    // calculate average confidence depending on confCalculation flag
-    float &localConf = localEvent.getConfidence();
-    switch (confCalculation)
-      {
-      case MIN:
-	localConf = 1;
-	for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
-	  localConf = (localConf < (*it).second) ? localConf : (*it).second;
-	break;
-      case MAX:
-	localConf = 0;
-	for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
-	  localConf = (localConf > (*it).second) ? localConf : (*it).second;
-	break;
-      case MULTIPLY:
-	localConf = 1;
-	for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
-	  localConf *= (*it).second;
-	break;
-      }
+        // merge time
+        if (generator.getType().compare("MergeTime") == 0)
+            localEvent.time = event.time;
+        // if there is no special time node, always propagate time
+        else if ((getPort("MergeTime") == NULL) || (getPort("MergeTime")->countChildren() == 0))
+            localEvent.time = event.time;
 
 
-    // merge trigger
-    if (generator.getType().compare("MergeTrigger") == 0)
-      updateObservers(localEvent);
-    // if there is no special trigger node, always propagate events
-    else if ((getPort("MergeTrigger") == NULL) || (getPort("MergeTrigger")->countChildren() == 0))
-      updateObservers(localEvent);
-  }
+        // age confidence of each input
+        std::map<NodePort*, float>::iterator it;
+        for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
+            (*it).second *= agingFactor;
+        // set confidence of generator
+        confidenceMap[&generator] = event.getConfidence();
+        // calculate average confidence depending on confCalculation flag
+        float &localConf = localEvent.getConfidence();
+        switch (confCalculation)
+        {
+            case MIN:
+                localConf = 1;
+                for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
+                    localConf = (localConf < (*it).second) ? localConf : (*it).second;
+                break;
+            case MAX:
+                localConf = 0;
+                for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
+                    localConf = (localConf > (*it).second) ? localConf : (*it).second;
+                break;
+            case MULTIPLY:
+                localConf = 1;
+                for (it = confidenceMap.begin(); it != confidenceMap.end(); it++)
+                    localConf *= (*it).second;
+                break;
+        }
+
+
+        // merge trigger
+        if (generator.getType().compare("MergeTrigger") == 0)
+            updateObservers(localEvent);
+        // if there is no special trigger node, always propagate events
+        else if ((getPort("MergeTrigger") == NULL) || (getPort("MergeTrigger")->countChildren() == 0))
+            updateObservers(localEvent);
+    }
 
 } // namespace ot
 

@@ -70,44 +70,44 @@
 namespace ot {
 
 
-  /**
-   * The PositionFilterNode implements a filter that allows only events the position
-   * value of which is within a given range. It is a simple EventGenerator
-   * node.
-   * @author Thomas Psik
-   * @ingroup common
-   */
-  class OPENTRACKER_API PositionFilterNode
-    : public Node
+    /**
+     * The PositionFilterNode implements a filter that allows only events the position
+     * value of which is within a given range. It is a simple EventGenerator
+     * node.
+     * @author Thomas Psik
+     * @ingroup common
+     */
+    class OPENTRACKER_API PositionFilterNode
+        : public Node
     {
-      // Members
+        // Members
     protected:
 
-      /// minimum position x,y,z
-      float min[3];
-      /// maximum position x,y,z
-      float max[3];
+        /// minimum position x,y,z
+        float min[3];
+        /// maximum position x,y,z
+        float max[3];
 
-      // Methods
+        // Methods
     protected:
 
-      /** constructor method
-       */
-      PositionFilterNode( const float min[3], const float max[3]);
+        /** constructor method
+         */
+        PositionFilterNode( const float min[3], const float max[3]);
 
     public:
 
-      /** tests for EventGenerator interface being present. Returns the
-       * result of the childs implementation of this method.
-       * @return 1 if child implements EventGenerator, 0 otherwise */
-      virtual int isEventGenerator() ;
+        /** tests for EventGenerator interface being present. Returns the
+         * result of the childs implementation of this method.
+         * @return 1 if child implements EventGenerator, 0 otherwise */
+        virtual int isEventGenerator() ;
 
-      /**
-       * this method is called by the EventGenerator to update it's observers.
-       */
-      virtual void onEventGenerated( Event& event, Node& generator);
+        /**
+         * this method is called by the EventGenerator to update it's observers.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 

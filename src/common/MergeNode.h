@@ -113,54 +113,54 @@
 
 namespace ot {
 
-  class OPENTRACKER_API MergeNode : public Node
+    class OPENTRACKER_API MergeNode : public Node
     {
     public:
-      /// flags to define how to calculate the overall confidence of the resulting event
-      enum CONF_CALCULATION { MIN = 0, MAX, MULTIPLY };
+        /// flags to define how to calculate the overall confidence of the resulting event
+        enum CONF_CALCULATION { MIN = 0, MAX, MULTIPLY };
 
     protected:
-      /// Event variable to put transformed event into
-      Event localEvent;
-      /// factor by that not updated inputs are aging whenever a new event is received from another input
-      float agingFactor;
-      /// flag to define how to calculate the overall confidence of the resulting event
-      CONF_CALCULATION confCalculation;
-      /// confidence map stores aging confidence of each port
-      std::map<NodePort*, float> confidenceMap;
+        /// Event variable to put transformed event into
+        Event localEvent;
+        /// factor by that not updated inputs are aging whenever a new event is received from another input
+        float agingFactor;
+        /// flag to define how to calculate the overall confidence of the resulting event
+        CONF_CALCULATION confCalculation;
+        /// confidence map stores aging confidence of each port
+        std::map<NodePort*, float> confidenceMap;
 
-      /** constructor method
-       */
-      MergeNode(float agingFactor_, CONF_CALCULATION confCalculation_)
-	: confCalculation(confCalculation_)
+        /** constructor method
+         */
+        MergeNode(float agingFactor_, CONF_CALCULATION confCalculation_)
+            : confCalculation(confCalculation_)
 	{
-	  agingFactor = agingFactor_;
-	  if (agingFactor > 1)
-	    agingFactor = 1;
-	  else if (agingFactor < 0)
-	    agingFactor = 0;
+            agingFactor = agingFactor_;
+            if (agingFactor > 1)
+                agingFactor = 1;
+            else if (agingFactor < 0)
+                agingFactor = 0;
 	}
 
     public: 
 
-      /** tests for EventGenerator interface being present and returns
-       * 1, if present.
-       * @return always 1 */
-      virtual int isEventGenerator()
+        /** tests for EventGenerator interface being present and returns
+         * 1, if present.
+         * @return always 1 */
+        virtual int isEventGenerator()
 	{
-	  return 1;
+            return 1;
 	}
 
-      /**
-       * This method is called by any child node. It updates the local
-       * event with the right part of the passed event and notifies
-       * it's parent and references in turn.
-       * @param event the event value passed
-       * @param generator the node generating the event
-       */
-      virtual void onEventGenerated( Event& event, Node & generator);
+        /**
+         * This method is called by any child node. It updates the local
+         * event with the right part of the passed event and notifies
+         * it's parent and references in turn.
+         * @param event the event value passed
+         * @param generator the node generating the event
+         */
+        virtual void onEventGenerated( Event& event, Node & generator);
 
-      friend class CommonNodeFactory;
+        friend class CommonNodeFactory;
     };
 
 } // namespace ot

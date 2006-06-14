@@ -48,60 +48,60 @@
 
 namespace ot {
 
-  // default constructor method.
+    // default constructor method.
 
-  MatrixTransformation::MatrixTransformation()
-  {
-    for( int i = 0; i < 3; i++ )
-      for( int j = 0; j < 4; j++ )
-	if( i == j )
-	  matrix[i][j] = 1;
-	else
-	  matrix[i][j] = 0;
-  }
+    MatrixTransformation::MatrixTransformation()
+    {
+        for( int i = 0; i < 3; i++ )
+            for( int j = 0; j < 4; j++ )
+                if( i == j )
+                    matrix[i][j] = 1;
+                else
+                    matrix[i][j] = 0;
+    }
 
-  // constructor methods.
+    // constructor methods.
 
-  MatrixTransformation::MatrixTransformation( float * matrix_[4] )
-    : Transformation()
-  {
-    for( int i = 0; i < 3; i ++ )
-      {
-        for( int j = 0; j < 4; j ++ )
-	  matrix[i][j] = matrix_[i][j];
-      }
-  }
+    MatrixTransformation::MatrixTransformation( float * matrix_[4] )
+        : Transformation()
+    {
+        for( int i = 0; i < 3; i ++ )
+        {
+            for( int j = 0; j < 4; j ++ )
+                matrix[i][j] = matrix_[i][j];
+        }
+    }
 
-  MatrixTransformation::MatrixTransformation( float * matrix_)
-    : Transformation()
-  {
-    for( int i = 0; i < 3; i ++ )
-      {
-        for( int j = 0; j < 4; j ++ )
-	  matrix[i][j] = matrix_[4*i+j];
-      }
-  }
-  // transforms a event.
+    MatrixTransformation::MatrixTransformation( float * matrix_)
+        : Transformation()
+    {
+        for( int i = 0; i < 3; i ++ )
+        {
+            for( int j = 0; j < 4; j ++ )
+                matrix[i][j] = matrix_[4*i+j];
+        }
+    }
+    // transforms a event.
 
-  Event* MatrixTransformation::transformEvent( Event* event )
-  {
+    Event* MatrixTransformation::transformEvent( Event* event )
+    {
 
-    // transform the position of the event
-    std::vector<float> &pos = event->getPosition();
-    localEvent.getPosition()[0] = matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3];
-    localEvent.getPosition()[1] = matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3];
-    localEvent.getPosition()[2] = matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3];
+        // transform the position of the event
+        std::vector<float> &pos = event->getPosition();
+        localEvent.getPosition()[0] = matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3];
+        localEvent.getPosition()[1] = matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3];
+        localEvent.getPosition()[2] = matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3];
 
-    localEvent.getOrientation() = event->getOrientation();
+        localEvent.getOrientation() = event->getOrientation();
 
-    // copy other event fields
-    localEvent.copyAllButStdAttr(*event);
+        // copy other event fields
+        localEvent.copyAllButStdAttr(*event);
 
-    localEvent.getButton() = event->getButton();
-    localEvent.getConfidence() = event->getConfidence();
-    localEvent.time = event->time;
-    return &localEvent;
-  }
+        localEvent.getButton() = event->getButton();
+        localEvent.getConfidence() = event->getConfidence();
+        localEvent.time = event->time;
+        return &localEvent;
+    }
 
 } // namespace ot
 
