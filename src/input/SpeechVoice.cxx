@@ -57,136 +57,136 @@
 
 namespace ot {
 
-  void CSpeechVoice::Initialize()
-  {
-    HRESULT hr = S_OK;
-    hr = m_Voice.CoCreateInstance(CLSID_SpVoice);
-    if(FAILED(hr))
-      throw CSpeechException("Unable create Voice");
+    void CSpeechVoice::Initialize()
+    {
+        HRESULT hr = S_OK;
+        hr = m_Voice.CoCreateInstance(CLSID_SpVoice);
+        if(FAILED(hr))
+            throw CSpeechException("Unable create Voice");
 
-    m_Voice->SetPriority(SPVPRI_OVER);
+        m_Voice->SetPriority(SPVPRI_OVER);
 
-    GetVoices();
-  }
-
-
-  void CSpeechVoice::Destroy()
-  {
-    // Release all voice tokens
-    for(unsigned int i = 0; i < m_VoiceToken.size(); ++i)
-      m_VoiceToken[i].Release();
-
-    // Release voice, if created
-    if(m_Voice)
-      {
-	m_Voice.Release();
-      }
-  }
+        GetVoices();
+    }
 
 
+    void CSpeechVoice::Destroy()
+    {
+        // Release all voice tokens
+        for(unsigned int i = 0; i < m_VoiceToken.size(); ++i)
+            m_VoiceToken[i].Release();
 
-  DWORD CSpeechVoice::GetNumVoices()
-  {
-    return(m_VoiceName.size());
-  }
-
-
-  const char* CSpeechVoice::GetVoiceName(DWORD p_Id, string &p_Name)
-  {
-    if(!m_Voice)
-      return(NULL);
-
-    if(p_Id >= m_VoiceName.size())
-      throw CSpeechException("Voice id out of bounds");
-    p_Name = m_VoiceName[p_Id];
-    return(p_Name.c_str());
-  }
+        // Release voice, if created
+        if(m_Voice)
+        {
+            m_Voice.Release();
+        }
+    }
 
 
-  void CSpeechVoice::SetVoice(DWORD p_Id)
-  {
-    if(!m_Voice)
-      return;
 
-    if(p_Id >= m_VoiceName.size())
-      throw CSpeechException("Voice id out of bounds");
-    m_Voice->SetVoice(m_VoiceToken[p_Id]);
-  }
+    DWORD CSpeechVoice::GetNumVoices()
+    {
+        return(m_VoiceName.size());
+    }
 
 
-  void CSpeechVoice::SetVoice(const char *p_Name)
-  {
-    if(!m_Voice)
-      return;
+    const char* CSpeechVoice::GetVoiceName(DWORD p_Id, string &p_Name)
+    {
+        if(!m_Voice)
+            return(NULL);
 
-    for(unsigned int i = 0; i < m_VoiceName.size(); ++i)
-      if(!strcmp(m_VoiceName[i].c_str(), p_Name))
-	{
-	  SetVoice(i);
-	  break;
-	}
-  }
+        if(p_Id >= m_VoiceName.size())
+            throw CSpeechException("Voice id out of bounds");
+        p_Name = m_VoiceName[p_Id];
+        return(p_Name.c_str());
+    }
 
 
-  void CSpeechVoice::Speak(const char *p_Sentence, bool p_Async)
-  {
-    if(!m_Voice)
-      return;
+    void CSpeechVoice::SetVoice(DWORD p_Id)
+    {
+        if(!m_Voice)
+            return;
 
-    wstring wSentence;
-    CSpeechCore::StrToWide(p_Sentence, wSentence);
+        if(p_Id >= m_VoiceName.size())
+            throw CSpeechException("Voice id out of bounds");
+        m_Voice->SetVoice(m_VoiceToken[p_Id]);
+    }
+
+
+    void CSpeechVoice::SetVoice(const char *p_Name)
+    {
+        if(!m_Voice)
+            return;
+
+        for(unsigned int i = 0; i < m_VoiceName.size(); ++i)
+            if(!strcmp(m_VoiceName[i].c_str(), p_Name))
+            {
+                SetVoice(i);
+                break;
+            }
+    }
+
+
+    void CSpeechVoice::Speak(const char *p_Sentence, bool p_Async)
+    {
+        if(!m_Voice)
+            return;
+
+        wstring wSentence;
+        CSpeechCore::StrToWide(p_Sentence, wSentence);
   
-    if(p_Async)
-      m_Voice->Speak(&wSentence[0], SPF_ASYNC, NULL);
-    else
-      m_Voice->Speak(&wSentence[0], 0, NULL);
-  }
+        if(p_Async)
+            m_Voice->Speak(&wSentence[0], SPF_ASYNC, NULL);
+        else
+            m_Voice->Speak(&wSentence[0], 0, NULL);
+    }
 
 
-  void CSpeechVoice::GetVoices()
-  {
-    if(!m_Voice)
-      return;
+    void CSpeechVoice::GetVoices()
+    {
+        if(!m_Voice)
+            return;
 
-    HRESULT                      hr = S_OK;
-    CComPtr<ISpObjectToken>      VoiceToken;
-    CComPtr<IEnumSpObjectTokens> Enum;
-    ULONG                        Count = 0;
+        HRESULT                      hr = S_OK;
+        CComPtr<ISpObjectToken>      VoiceToken;
+        CComPtr<IEnumSpObjectTokens> Enum;
+        ULONG                        Count = 0;
     
   
-    // Enumerate the available voices 
-    hr = SpEnumTokens(SPCAT_VOICES, NULL, NULL, &Enum);
-    if(FAILED(hr))
-      throw CSpeechException("Unable to enum Speakers");
+        // Enumerate the available voices 
+        hr = SpEnumTokens(SPCAT_VOICES, NULL, NULL, &Enum);
+        if(FAILED(hr))
+            throw CSpeechException("Unable to enum Speakers");
   
-    // Get the number of voices
-    hr = Enum->GetCount(&Count);
-    if(FAILED(hr))
-      throw CSpeechException("Unable to count Speakers");
+        // Get the number of voices
+        hr = Enum->GetCount(&Count);
+        if(FAILED(hr))
+            throw CSpeechException("Unable to count Speakers");
   
-    // Obtain a list of available voice tokens, set the voice to the token, and call Speak
-    for(unsigned int i = 0; i < Count; ++i)
-      {
-	VoiceToken.Release();
-	hr = Enum->Item(i, &VoiceToken);
-	//hr = Enum->Next(1, &VoiceToken, NULL);
+        // Obtain a list of available voice tokens, set the voice to the token, and call Speak
+        for(unsigned int i = 0; i < Count; ++i)
+        {
+            VoiceToken.Release();
+            hr = Enum->Item(i, &VoiceToken);
+            //hr = Enum->Next(1, &VoiceToken, NULL);
 
-	if(SUCCEEDED(hr))
-	  {
-	    WCHAR *ppszCoMemText;      
-	    hr = VoiceToken->GetStringValue(NULL, &ppszCoMemText);
+            if(SUCCEEDED(hr))
+            {
+                WCHAR *ppszCoMemText;      
+                hr = VoiceToken->GetStringValue(NULL, &ppszCoMemText);
       
-	    if(SUCCEEDED(hr))
-	      {
-		string Speaker;  // convert to ANSI string
-		CSpeechCore::WideToStr(ppszCoMemText, Speaker);
-		::CoTaskMemFree(ppszCoMemText);
-		m_VoiceName.push_back(Speaker);
-		m_VoiceToken.push_back(VoiceToken);
-	      }
-	  }
-      }
-  }
+                if(SUCCEEDED(hr))
+                {
+                    string Speaker;  // convert to ANSI string
+                    CSpeechCore::WideToStr(ppszCoMemText, Speaker);
+                    ::CoTaskMemFree(ppszCoMemText);
+                    m_VoiceName.push_back(Speaker);
+                    m_VoiceToken.push_back(VoiceToken);
+                }
+            }
+        }
+    }
 
 } // namespace ot
 
@@ -196,3 +196,19 @@ namespace ot {
 #else
 #pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif // OT_NO_SPEECH_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of SpeechVoice.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
