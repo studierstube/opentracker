@@ -70,298 +70,314 @@
 
 namespace ot {
 
-  HWND		SpaceMouseModule::hWndSpaceMouse = NULL;
-  SiHdl		devHdl;			/* Handle to Spaceball Device */
-  SiOpenData	oData;			/* OS Independent data to open ball  */
+    HWND		SpaceMouseModule::hWndSpaceMouse = NULL;
+    SiHdl		devHdl;			/* Handle to Spaceball Device */
+    SiOpenData	oData;			/* OS Independent data to open ball  */
 
 
-  LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-  {
-    return DefWindowProc(hWnd, uMsg, wParam, lParam);
-  };
+    LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    {
+        return DefWindowProc(hWnd, uMsg, wParam, lParam);
+    };
 
-  // Destructor method
-  SpaceMouseModule::~SpaceMouseModule()
-  {
-    nodes.clear();
-  }
+    // Destructor method
+    SpaceMouseModule::~SpaceMouseModule()
+    {
+        nodes.clear();
+    }
 
-  // This method is called to construct a new Node.
-  Node * SpaceMouseModule::createNode( const std::string& name, StringTable& attributes)
-  {
-    if( name.compare("SpaceMouseSource") == 0 )
-      {
-        SpaceMouseSource * source = new SpaceMouseSource;
-	source->event.getConfidence() = 1.0f;
-        nodes.push_back( source );
-        ACE_LOG_INFO("ot:Built SpaceMouseSource node\n");
-        initialized = 1;
-        return source;
-      }
-    return NULL;
-  }
+    // This method is called to construct a new Node.
+    Node * SpaceMouseModule::createNode( const std::string& name, StringTable& attributes)
+    {
+        if( name.compare("SpaceMouseSource") == 0 )
+        {
+            SpaceMouseSource * source = new SpaceMouseSource;
+            source->event.getConfidence() = 1.0f;
+            nodes.push_back( source );
+            ACE_LOG_INFO("ot:Built SpaceMouseSource node\n");
+            initialized = 1;
+            return source;
+        }
+        return NULL;
+    }
 
-  // opens SpaceMouse library
-  void SpaceMouseModule::start()
-  {
-    if( isInitialized() == 1 && !nodes.empty())
-      {
-	ThreadModule::start();
-      }
-  }
+    // opens SpaceMouse library
+    void SpaceMouseModule::start()
+    {
+        if( isInitialized() == 1 && !nodes.empty())
+        {
+            ThreadModule::start();
+        }
+    }
 
-  // closes SpaceMouse library
-  void SpaceMouseModule::close()
-  {
-    // stop thread
-    lock();
-    stop = 1;
-    unlock();
+    // closes SpaceMouse library
+    void SpaceMouseModule::close()
+    {
+        // stop thread
+        lock();
+        stop = 1;
+        unlock();
 
-    if( (isInitialized() == 1) && (devHdl != NULL))
-      {
-	/* should maybe be called even if devHdl == NULL */
-	SiTerminate();  /* called to shut down the SpaceWare input library */
-      }
-  }
+        if( (isInitialized() == 1) && (devHdl != NULL))
+        {
+            /* should maybe be called even if devHdl == NULL */
+            SiTerminate();  /* called to shut down the SpaceWare input library */
+        }
+    }
 
 
-  // This is the method executed in its own thread. It polls the joysticks.
+    // This is the method executed in its own thread. It polls the joysticks.
 
-  void SpaceMouseModule::run()
-  {
-    WNDCLASS  wndclass ;
-    static int init = 0;
+    void SpaceMouseModule::run()
+    {
+        WNDCLASS  wndclass ;
+        static int init = 0;
 
-    if( init == 0 )
-      {
+        if( init == 0 )
+        {
 
-	/*init the SpaceWare input library */
-	if (SiInitialize() == SPW_DLL_LOAD_ERROR)
-	  {
-            LOG_ACE_ERROR("ot:SpaceMouseModule Error Loading SIAPPDLL.DLL.\n");
-	    exit(1);
-	  }
+            /*init the SpaceWare input library */
+            if (SiInitialize() == SPW_DLL_LOAD_ERROR)
+            {
+                LOG_ACE_ERROR("ot:SpaceMouseModule Error Loading SIAPPDLL.DLL.\n");
+                exit(1);
+            }
 
-	// Fill in window class structure with parameters that describe the message-only window.
-        wndclass.style =         0;
-        wndclass.lpfnWndProc =   WndSpaceMouseProc ;
-        wndclass.cbClsExtra =    0;
-        wndclass.cbWndExtra =    0;
-        wndclass.hInstance =     NULL;
-        wndclass.hIcon =         NULL;
-        wndclass.hCursor =       NULL;
-        wndclass.hbrBackground = 0;
-        wndclass.lpszMenuName =  NULL ;
-        wndclass.lpszClassName = "dummyClassSpaceMouseModule";
+            // Fill in window class structure with parameters that describe the message-only window.
+            wndclass.style =         0;
+            wndclass.lpfnWndProc =   WndSpaceMouseProc ;
+            wndclass.cbClsExtra =    0;
+            wndclass.cbWndExtra =    0;
+            wndclass.hInstance =     NULL;
+            wndclass.hIcon =         NULL;
+            wndclass.hCursor =       NULL;
+            wndclass.hbrBackground = 0;
+            wndclass.lpszMenuName =  NULL ;
+            wndclass.lpszClassName = "dummyClassSpaceMouseModule";
 
-	/* Register display window class */
-        if ( RegisterClass(&wndclass) == 0)
-	  {
-            LOG_ACE_ERROR("ot:SpaceMouseModule Could not register windowclass.\n");
-            exit(1);
-	  }
+            /* Register display window class */
+            if ( RegisterClass(&wndclass) == 0)
+            {
+                LOG_ACE_ERROR("ot:SpaceMouseModule Could not register windowclass.\n");
+                exit(1);
+            }
 
-        hWndSpaceMouse = CreateWindow(
-				      "dummyClassSpaceMouseModule",
-				      NULL,
-				      NULL,
-				      0,
-				      0,
-				      CW_USEDEFAULT,
-				      CW_USEDEFAULT,
-				      NULL,
-				      NULL,
-				      NULL,
-				      NULL
-				      );
+            hWndSpaceMouse = CreateWindow(
+                                          "dummyClassSpaceMouseModule",
+                                          NULL,
+                                          NULL,
+                                          0,
+                                          0,
+                                          CW_USEDEFAULT,
+                                          CW_USEDEFAULT,
+                                          NULL,
+                                          NULL,
+                                          NULL,
+                                          NULL
+                                          );
 
-        if (hWndSpaceMouse == NULL)
-	  {
-            LOG_ACE_ERROR("ot:SpaceMouseModule Could not create message-only window.\n");
-            exit(1);
-	  }
+            if (hWndSpaceMouse == NULL)
+            {
+                LOG_ACE_ERROR("ot:SpaceMouseModule Could not create message-only window.\n");
+                exit(1);
+            }
 
-	SiOpenWinInit (&oData, hWndSpaceMouse);  /* init Win. platform specific data  */
-	SiSetUiMode(devHdl, SI_UI_ALL_CONTROLS); /* Config SoftButton Win Display */
+            SiOpenWinInit (&oData, hWndSpaceMouse);  /* init Win. platform specific data  */
+            SiSetUiMode(devHdl, SI_UI_ALL_CONTROLS); /* Config SoftButton Win Display */
 
-	/* open data, which will check for device type and return the device handle
-	   to be used by this function */
-	if ( (devHdl = SiOpen ("ot_spacemouse", SI_ANY_DEVICE, SI_NO_MASK,
-			       SI_EVENT, &oData)) == NULL)
-	  {
-	    // could not open spacemouse device handle
-	    SiTerminate();  /* called to shut down the SpaceWare input library */
-            ACE_LOG_INFO("ot:Could not fetch device handle for SpaceMouse.\n");
-	    /* ? do not exit? close dummy window? */
-	    initialized = 0;
-	    exit(1);
-	  }
+            /* open data, which will check for device type and return the device handle
+               to be used by this function */
+            if ( (devHdl = SiOpen ("ot_spacemouse", SI_ANY_DEVICE, SI_NO_MASK,
+                                   SI_EVENT, &oData)) == NULL)
+            {
+                // could not open spacemouse device handle
+                SiTerminate();  /* called to shut down the SpaceWare input library */
+                ACE_LOG_INFO("ot:Could not fetch device handle for SpaceMouse.\n");
+                /* ? do not exit? close dummy window? */
+                initialized = 0;
+                exit(1);
+            }
 
-	initialized = 1;
-	init = 1;
+            initialized = 1;
+            init = 1;
 
-	/*		if (SiBeep(devHdl, "ffffffff") == SI_BAD_HANDLE)
+            /*		if (SiBeep(devHdl, "ffffffff") == SI_BAD_HANDLE)
 			{
 			ACE_LOG_INFO("could not beep...\n");
 			}
 
-	*/
-      }
+            */
+        }
 
 
-    while(stop == 0)
-      {
-        processMessages();
-      }
-  }
+        while(stop == 0)
+        {
+            processMessages();
+        }
+    }
 
 
-  void SpaceMouseModule::pushEvent()
-  {
-    SpaceMouseSource *source;
+    void SpaceMouseModule::pushEvent()
+    {
+        SpaceMouseSource *source;
 
-    if( isInitialized() == 1 )
-      {
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-	  {
-            source = (SpaceMouseSource *) *it;
+        if( isInitialized() == 1 )
+        {
+            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+            {
+                source = (SpaceMouseSource *) *it;
 
-	    lock();
-            if (source->changed == 1)
-	      {
-                source->event = source->tmpEvent;
-                source->changed = 0;
-		unlock();
-                source->push();
-	      }
-	    else
-	      unlock();
-	  }
-      }
-  }
+                lock();
+                if (source->changed == 1)
+                {
+                    source->event = source->tmpEvent;
+                    source->changed = 0;
+                    unlock();
+                    source->push();
+                }
+                else
+                    unlock();
+            }
+        }
+    }
 
 
-  // pushes events into the tracker tree.
-  void SpaceMouseModule::processMessages()
-  {
-    MSG            msg;      /* incoming message to be evaluated */
-    BOOL           handled;  /* is message handled yet */
-    SiSpwEvent     Event;    /* SpaceWare Event */
-    SiGetEventData EData;    /* SpaceWare Event Data */
+    // pushes events into the tracker tree.
+    void SpaceMouseModule::processMessages()
+    {
+        MSG            msg;      /* incoming message to be evaluated */
+        BOOL           handled;  /* is message handled yet */
+        SiSpwEvent     Event;    /* SpaceWare Event */
+        SiGetEventData EData;    /* SpaceWare Event Data */
 
-    int				num;
-    unsigned short	newBut;
-    float			newPosX;
-    float			newPosY;
-    float			newPosZ;
-    float			newRotX;
-    float			newRotY;
-    float			newRotZ;
+        int				num;
+        unsigned short	newBut;
+        float			newPosX;
+        float			newPosY;
+        float			newPosZ;
+        float			newRotX;
+        float			newRotY;
+        float			newRotZ;
 
-    if( isInitialized() == 1 )
-      {
-	/* as long as there are messages waiting */
-	WaitMessage();
-	while ( PeekMessage( &msg, hWndSpaceMouse, 0, 0, PM_REMOVE ) )
-	  {
-	    //ACE_LOG_INFO("successful!\n");
-	    handled = SPW_FALSE;
+        if( isInitialized() == 1 )
+        {
+            /* as long as there are messages waiting */
+            WaitMessage();
+            while ( PeekMessage( &msg, hWndSpaceMouse, 0, 0, PM_REMOVE ) )
+            {
+                //ACE_LOG_INFO("successful!\n");
+                handled = SPW_FALSE;
 
-	    /* init Window platform specific data for a call to SiGetEvent */
-	    SiGetEventWinInit(&EData, msg.message, msg.wParam, msg.lParam);
+                /* init Window platform specific data for a call to SiGetEvent */
+                SiGetEventWinInit(&EData, msg.message, msg.wParam, msg.lParam);
 
-	    /* check whether msg was a Spaceball event and process it */
-	    if (SiGetEvent (devHdl, 0, &EData, &Event) == SI_IS_EVENT)
-	      {
-		if (Event.type == SI_MOTION_EVENT)
-		  {
+                /* check whether msg was a Spaceball event and process it */
+                if (SiGetEvent (devHdl, 0, &EData, &Event) == SI_IS_EVENT)
+                {
+                    if (Event.type == SI_MOTION_EVENT)
+                    {
 
-		    /* process Spaceball motion event */
-		    newPosX = Event.u.spwData.mData[SI_TX] / 330.0;
-		    newPosY = Event.u.spwData.mData[SI_TY] / 330.0;
-		    newPosZ = -Event.u.spwData.mData[SI_TZ] / 330.0;
-		    newRotX = (Event.u.spwData.mData[SI_RX] / 330.0)*SPW_PI/2.0;
-		    newRotY = (Event.u.spwData.mData[SI_RY] / 330.0)*SPW_PI/2.0;
-		    newRotZ = -(Event.u.spwData.mData[SI_RZ] / 330.0)*SPW_PI/2.0;
+                        /* process Spaceball motion event */
+                        newPosX = Event.u.spwData.mData[SI_TX] / 330.0;
+                        newPosY = Event.u.spwData.mData[SI_TY] / 330.0;
+                        newPosZ = -Event.u.spwData.mData[SI_TZ] / 330.0;
+                        newRotX = (Event.u.spwData.mData[SI_RX] / 330.0)*SPW_PI/2.0;
+                        newRotY = (Event.u.spwData.mData[SI_RY] / 330.0)*SPW_PI/2.0;
+                        newRotZ = -(Event.u.spwData.mData[SI_RZ] / 330.0)*SPW_PI/2.0;
 
-		    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-		      {
-			lock();
-			SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-			source->tmpEvent.getPosition()[0] = newPosX;
-			source->tmpEvent.getPosition()[1] = newPosY;
-			source->tmpEvent.getPosition()[2] = newPosZ;
-			MathUtils::eulerToQuaternion(newRotX, newRotY, newRotZ, source->tmpEvent.orientation);
-			MathUtils::normalizeQuaternion(source->tmpEvent.orientation);
-			source->changed = 1;
-			unlock();
-		      }
-		  }
-		if (Event.type == SI_ZERO_EVENT)
-		  {
-		    // process Spaceball zero event
-		    for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-		      {
-			lock();
-			SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-			source->tmpEvent.getPosition()[0] = 0.0;
-			source->tmpEvent.getPosition()[1] = 0.0;
-			source->tmpEvent.getPosition()[2] = 0.0;
-			source->tmpEvent.getOrientation()[0]  = 0.0;
-			source->tmpEvent.getOrientation()[1]  = 0.0;
-			source->tmpEvent.getOrientation()[2]  = 0.0;
-			source->tmpEvent.getOrientation()[3]  = 1.0;
-			source->changed = 1;
-			unlock();
-		      }
-		  }
+                        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+                        {
+                            lock();
+                            SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+                            source->tmpEvent.getPosition()[0] = newPosX;
+                            source->tmpEvent.getPosition()[1] = newPosY;
+                            source->tmpEvent.getPosition()[2] = newPosZ;
+                            MathUtils::eulerToQuaternion(newRotX, newRotY, newRotZ, source->tmpEvent.orientation);
+                            MathUtils::normalizeQuaternion(source->tmpEvent.orientation);
+                            source->changed = 1;
+                            unlock();
+                        }
+                    }
+                    if (Event.type == SI_ZERO_EVENT)
+                    {
+                        // process Spaceball zero event
+                        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+                        {
+                            lock();
+                            SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+                            source->tmpEvent.getPosition()[0] = 0.0;
+                            source->tmpEvent.getPosition()[1] = 0.0;
+                            source->tmpEvent.getPosition()[2] = 0.0;
+                            source->tmpEvent.getOrientation()[0]  = 0.0;
+                            source->tmpEvent.getOrientation()[1]  = 0.0;
+                            source->tmpEvent.getOrientation()[2]  = 0.0;
+                            source->tmpEvent.getOrientation()[3]  = 1.0;
+                            source->changed = 1;
+                            unlock();
+                        }
+                    }
 
-		if (Event.type == SI_BUTTON_EVENT)
-		  {
-		    if ((num = SiButtonPressed (&Event)) != SI_NO_BUTTON)
-		      {
-			/* process Spaceball button event */
-			newBut = pow(2, num - 1);
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			  {
-			    lock();
-			    SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-			    source->tmpEvent.getButton() |= newBut;
-			    source->changed = 1;
-			    unlock();
-			  }
-		      }
-		    if ((num = SiButtonReleased (&Event)) != SI_NO_BUTTON)
-		      {
-			/* process Spaceball button release event */
-			newBut = pow(2, num - 1);
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			  {
-			    lock();
-			    SpaceMouseSource * source = (SpaceMouseSource *)(*it);
-			    source->tmpEvent.getButton() ^= newBut;
-			    source->changed = 1;
-			    unlock();
-			  }
-		      }
-		  }
+                    if (Event.type == SI_BUTTON_EVENT)
+                    {
+                        if ((num = SiButtonPressed (&Event)) != SI_NO_BUTTON)
+                        {
+                            /* process Spaceball button event */
+                            newBut = pow(2, num - 1);
+                            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+                            {
+                                lock();
+                                SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+                                source->tmpEvent.getButton() |= newBut;
+                                source->changed = 1;
+                                unlock();
+                            }
+                        }
+                        if ((num = SiButtonReleased (&Event)) != SI_NO_BUTTON)
+                        {
+                            /* process Spaceball button release event */
+                            newBut = pow(2, num - 1);
+                            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+                            {
+                                lock();
+                                SpaceMouseSource * source = (SpaceMouseSource *)(*it);
+                                source->tmpEvent.getButton() ^= newBut;
+                                source->changed = 1;
+                                unlock();
+                            }
+                        }
+                    }
 
-		handled = SPW_TRUE;              /* spaceball event handled */
-	      }
+                    handled = SPW_TRUE;              /* spaceball event handled */
+                }
 
-	    /* not a Spaceball event, let windows handle it */
-	    if (handled == SPW_FALSE)
-	      {
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
-	      }
-	  }
-      }
-  }
+                /* not a Spaceball event, let windows handle it */
+                if (handled == SPW_FALSE)
+                {
+                    TranslateMessage( &msg );
+                    DispatchMessage( &msg );
+                }
+            }
+        }
+    }
 
 } // namespace ot
 
 #else
 #pragma message(">>> no space mouse support")
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of SpaceMouseModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
