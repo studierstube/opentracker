@@ -1,45 +1,45 @@
- /* ========================================================================
-  * Copyright (c) 2006,
-  * Institute for Computer Graphics and Vision
-  * Graz University of Technology
-  * All rights reserved.
-  *
-  * Redistribution and use in source and binary forms, with or without
-  * modification, are permitted provided that the following conditions are
-  * met:
-  *
-  * Redistributions of source code must retain the above copyright notice,
-  * this list of conditions and the following disclaimer.
-  *
-  * Redistributions in binary form must reproduce the above copyright
-  * notice, this list of conditions and the following disclaimer in the
-  * documentation and/or other materials provided with the distribution.
-  *
-  * Neither the name of the Graz University of Technology nor the names of
-  * its contributors may be used to endorse or promote products derived from
-  * this software without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
-  * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
 /** source file for serial communication.
-  *
-  * @author Thomas Peterseil
-  *
-  * $Id$
-  * @file                                                                   */
- /* ======================================================================= */
+ *
+ * @author Thomas Peterseil
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 #include "serialcomm.h"
 
@@ -82,28 +82,28 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     DWORD baud;
 
     port->handle = CreateFileA(params->pathname,
-        GENERIC_READ | GENERIC_WRITE,
-        0, 0, OPEN_EXISTING, 0, 0);
+                               GENERIC_READ | GENERIC_WRITE,
+                               0, 0, OPEN_EXISTING, 0, 0);
 
     if (port->handle == INVALID_HANDLE_VALUE)
     {
         DEBUG("Error: CreateFile failed")
-        return -1;
+            return -1;
     }
 
     SetupComm(port->handle, 4096, 1024);
     /* nonblocking not implemented yet
-    if (!params->blocking)
-    {
-    }
-                                      */
+       if (!params->blocking)
+       {
+       }
+    */
 
     strcpy(port->pathname, params->pathname);
 
     if (!GetCommTimeouts(port->handle, &timeout))
     {
         DEBUG("Error: GetCommTimeouts failed")
-        return -1;
+            return -1;
     }
 
     /* all timeouts in millisec */
@@ -116,7 +116,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     if (!SetCommTimeouts(port->handle, &timeout))
     {
         DEBUG("Error: SetCommTimeouts failed")
-        return -1;
+            return -1;
     }
 
     FillMemory(&dcb, sizeof(dcb), 0);
@@ -124,7 +124,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     if (!GetCommState(port->handle, &dcb))
     {
         DEBUG("ERROR: GetCommState failed")
-        return -1;
+            return -1;
     }
 
     dcb.DCBlength = sizeof(dcb);
@@ -143,7 +143,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         case 115200: baud = CBR_115200; break;
         default:
             DEBUG("Error: no such bitrate")
-            return -1;
+                return -1;
     }
 
     dcb.BaudRate = baud;
@@ -154,7 +154,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     } else
     {
         DEBUG("Error: only 5-8 databits")
-        return -1;
+            return -1;
     }
 
     switch (params->parity)
@@ -173,7 +173,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
             break;
         default:
             DEBUG("Error: parity 0 for none 1 for odd or 2 for even")
-            return -1;
+                return -1;
     }
 
     switch (params->sbit)
@@ -186,7 +186,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
             break;
         default:
             DEBUG("Error: 1 or 2 stop bits")
-            return -1;
+                return -1;
     }
 
     /* not really sure how to set */
@@ -222,16 +222,16 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     dcb.fAbortOnError = FALSE;
 
     if (!PurgeComm(port->handle, PURGE_TXABORT | PURGE_RXABORT |
-        PURGE_TXCLEAR | PURGE_RXCLEAR))
+                   PURGE_TXCLEAR | PURGE_RXCLEAR))
     {
         DEBUG("Error: PurgeComm failed")
-        return -1;
+            return -1;
     }
 
     if (!SetCommState(port->handle, &dcb))
     {
         DEBUG("Error: SetCommState failed")
-        return -1;
+            return -1;
     }
 
     return 0;
@@ -242,7 +242,7 @@ int closeSerialPort(SerialPort *port)
     if (!CloseHandle(port->handle))
     {
         DEBUG("Error: CloseHandle failed")
-        return -1;
+            return -1;
     }
     return 0;
 }
@@ -255,11 +255,11 @@ int setRTSSerialPort(SerialPort *port, int level)
     if (!GetCommState(port->handle, &dcb))
     {
         DEBUG("ERROR: GetCommState failed")
-        return -1;
+            return -1;
     }
 
-	if (level)
-	{
+    if (level)
+    {
         dcb.fRtsControl = RTS_CONTROL_ENABLE;
     } else {
         dcb.fRtsControl = RTS_CONTROL_DISABLE;
@@ -268,7 +268,7 @@ int setRTSSerialPort(SerialPort *port, int level)
     if (!SetCommState(port->handle, &dcb))
     {
         DEBUG("Error: SetCommState failed")
-        return -1;
+            return -1;
     }
 
     return 0;
@@ -276,76 +276,76 @@ int setRTSSerialPort(SerialPort *port, int level)
 
 int waitforoneSerialPort(SerialPort *port, long time)
 {
-	DWORD available = 0;
+    DWORD available = 0;
     int i;
 
     if (PeekNamedPipe(port->handle, NULL,
-		0, NULL, &available, NULL) && available)
-	{
-		return (0);
-	}
+                      0, NULL, &available, NULL) && available)
+    {
+        return (0);
+    }
 
-/* following dosn't allow a timeout
+    /* following dosn't allow a timeout
 
     if (!SetCommMask(port->handle, EV_RXCHAR))
-	{
-        DEBUG("Error: SetCommMask failed")
-		return -1;
-	}
+    {
+    DEBUG("Error: SetCommMask failed")
+    return -1;
+    }
 
-	if (WaitCommState(port->handle, &statemask, NULL))
-	{
-        return 0;
-	}
-*/
-/* this is also a very bad solution
-   maybe it should be done with overlapped */
+    if (WaitCommState(port->handle, &statemask, NULL))
+    {
+    return 0;
+    }
+    */
+    /* this is also a very bad solution
+       maybe it should be done with overlapped */
 
     for (i = 0; i < (time / 10); i++)
-	{
+    {
         Sleep(10);
         if (PeekNamedPipe(port->handle, NULL,
-	    	0, NULL, &available, NULL) && available)
-		{
-	    	return (0);
-		}
-	}
+                          0, NULL, &available, NULL) && available)
+        {
+            return (0);
+        }
+    }
 
     return(-1);
 }
 /*
-int waitforallSerialPorts(SerialPort **ports, int count,
-    int *setofports, long time)
-{
-    fd_set rfds;
-    struct timeval timeout;
-    int i;
-    int maxfd = 0;
+  int waitforallSerialPorts(SerialPort **ports, int count,
+  int *setofports, long time)
+  {
+  fd_set rfds;
+  struct timeval timeout;
+  int i;
+  int maxfd = 0;
 
-    *setofports = 0;
-    FD_ZERO(&rfds);
-    for (i = 0; i < count; i++)
-    {
-        FD_SET(ports[i]->fd, &rfds);
-        if (maxfd < ports[i]->fd) { maxfd = ports[i]->fd; }
-    }
+  *setofports = 0;
+  FD_ZERO(&rfds);
+  for (i = 0; i < count; i++)
+  {
+  FD_SET(ports[i]->fd, &rfds);
+  if (maxfd < ports[i]->fd) { maxfd = ports[i]->fd; }
+  }
 
-    timeout.tv_sec = time / 1000;
-    timeout.tv_usec = (time % 1000)*1000;
+  timeout.tv_sec = time / 1000;
+  timeout.tv_usec = (time % 1000)*1000;
 
-    if (select(maxfd + 1, &rfds, NULL, NULL, &timeout) > 0)
-    {
-        for (i = 0; i < count; i++)
-        {
-            if (FD_ISSET(ports[i]->fd, &rfds))
-            {
-               *setofports |= 1 << i;
-            }
-        }
-        return(0);
-    }
-    return(-1);
-}
+  if (select(maxfd + 1, &rfds, NULL, NULL, &timeout) > 0)
+  {
+  for (i = 0; i < count; i++)
+  {
+  if (FD_ISSET(ports[i]->fd, &rfds))
+  {
+  *setofports |= 1 << i;
+  }
+  }
+  return(0);
+  }
+  return(-1);
+  }
 */
 
 
@@ -365,11 +365,11 @@ int writetoSerialPort(SerialPort *port, char *buf, int count)
     DWORD numwritten;
 
     if (!WriteFile(port->handle, buf, count, &numwritten, 0))
-	{
-		return -1;
-	} else {
-		return numwritten;
-	}
+    {
+        return -1;
+    } else {
+        return numwritten;
+    }
     FlushFileBuffers(port->handle);
 }
 
@@ -411,18 +411,18 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     speed_t baud;
 
     port->fd = open(params->pathname,
-        O_RDWR | O_NOCTTY | O_NONBLOCK);
+                    O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-       /* need nonblocking open cause sometimes the device may be in
-        * canonical mode.
-        * O_NDELAY (System V) vs O_NONBLOCK (POSIX.1)
-        * on linux the same, irix there is a different value of the
-        * macros but i think the same behavior. */
+    /* need nonblocking open cause sometimes the device may be in
+     * canonical mode.
+     * O_NDELAY (System V) vs O_NONBLOCK (POSIX.1)
+     * on linux the same, irix there is a different value of the
+     * macros but i think the same behavior. */
 
     if (port->fd == -1)
     {
         DEBUG("Error: sorry open failed")
-        return -1;
+            return -1;
     }
 
     if (params->blocking)
@@ -449,7 +449,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         case 115200: baud = B115200; break;
         default:
             DEBUG("Error: no such bitrate")
-            return -1;
+                return -1;
     }
     cfsetispeed(&portinfo, baud);
     cfsetospeed(&portinfo, baud);
@@ -462,7 +462,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         case 8: portinfo.c_cflag |= CS8; break;
         default:
             DEBUG("Error: only 5-8 databits")
-            return -1;
+                return -1;
     }
 
     switch (params->parity)
@@ -478,7 +478,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
             break;
         default:
             DEBUG("Error: parity 0 for none 1 for odd or 2 for even")
-    }
+                }
 
     switch (params->sbit)
     {
@@ -486,7 +486,7 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         case 2: portinfo.c_cflag |= CSTOPB; break;
         default:
             DEBUG("Error: 1 or 2 stop bits")
-            return -1;
+                return -1;
     }
 
     if (params->hwflow)
@@ -518,19 +518,19 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     if (tcflush(port->fd, TCIFLUSH) == -1)
     {
         DEBUG("Error: tcflush TCIFLUSH failed")
-        return -1;
+            return -1;
     }
 
     if (tcflush(port->fd, TCOFLUSH) == -1)
     {
         DEBUG("Error: tcflush TCOFLUSH failed")
-        return -1;
+            return -1;
     }
 
     if (tcsetattr(port->fd, TCSANOW, &portinfo) == -1)
     {
         DEBUG("Error: tcsetattr failed")
-        return -1;
+            return -1;
     }
 
     return 0;
@@ -587,7 +587,7 @@ int waitforoneSerialPort(SerialPort *port, long time)
 }
 
 int waitforallSerialPorts(SerialPort **ports, int count,
-    int *setofports, long time)
+                          int *setofports, long time)
 {
     fd_set rfds;
     struct timeval timeout;
@@ -611,7 +611,7 @@ int waitforallSerialPorts(SerialPort **ports, int count,
         {
             if (FD_ISSET(ports[i]->fd, &rfds))
             {
-               *setofports |= 1 << i;
+                *setofports |= 1 << i;
             }
         }
         return(0);
@@ -630,3 +630,19 @@ int writetoSerialPort(SerialPort *port, char *buf, int count)
 }
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of serialcomm.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
