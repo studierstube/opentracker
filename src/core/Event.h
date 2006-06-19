@@ -319,7 +319,7 @@ namespace ot
          * Sets the value of the attribute 'orientation'.
          * @param value the new orientation value (size 4 expected)
          */
-        inline void setOrientation(const float *value) { setAttribute("orientation", copyA2V(value, 3)); };
+        inline void setOrientation(const float *value) { setAttribute("orientation", copyA2V(value, 4)); };
         /**
          * Sets the value of the attribute 'confidence'.
          * @param value the new confidence value
@@ -527,7 +527,7 @@ namespace ot
 
 #endif
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of Event.h
  * ------------------------------------------------------------
@@ -540,5 +540,5 @@ namespace ot
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
