@@ -99,7 +99,7 @@ public:
 
   ///// class Node interface
 
-  virtual void onEventGenerated(State & event, Node & generator);
+  virtual void onEventGenerated(Event & event, Node & generator);
 
 };
 
@@ -109,7 +109,7 @@ public:
 
 #endif // OTQT_QTMOUSEPOSITIONSINK_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMousePosSink.h
  * ------------------------------------------------------------
@@ -122,5 +122,5 @@ public:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

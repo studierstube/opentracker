@@ -235,7 +235,7 @@ void QtMouseEventModule::pullState()
       if (mb_sink_ != NULL) {
         // reset all mouse buttons to released state no matter if event is currently
         // pending or not
-        mb_sink_->acquireEvent(State::null);
+        mb_sink_->acquireEvent(Event::null);
         // lock MBS event acquisition
         mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
       }
@@ -531,7 +531,7 @@ void QtMouseEventModule::pullState()
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventModule.cxx
  * ------------------------------------------------------------
@@ -544,5 +544,5 @@ void QtMouseEventModule::pullState()
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

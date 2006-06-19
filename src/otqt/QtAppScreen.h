@@ -83,7 +83,7 @@
 
 #include "OTQtMath.h"
 #include <core/ConfigNode.h>
-#include <core/State.h>
+#include <core/Event.h>
 #include <qpoint.h>
 #include <string>
 
@@ -147,9 +147,9 @@ public:
    */
   typedef struct {
     /// local coordinate system position and orientation (ASPD)
-    State local_cs_root;
+    Event local_cs_root;
     /// screen corner position (MPD)
-    State corner;
+    Event corner;
   } ASCorner;
   /**
    * @class CalibInputData
@@ -157,7 +157,7 @@ public:
    */
   typedef struct {
     /// application screen coordinate system (ASPD pos/orient)
-    State as_cs_root;
+    Event as_cs_root;
     /// top left screen corner
     ASCorner top_left;
     /// top right screen corner
@@ -173,13 +173,13 @@ public:
    */
   typedef struct {
     /// difference angle between application screen and world (tracking) coordinate system
-    OTQtMath::Quaternion as_cs_orient;
+    std::vector<float> as_cs_orient;
     /// difference vector from AS coordinate system origin to screen plane root (top left screen corner per definition)
-    OTQtMath::Vector3 as_cs_root_to_screen_root;
+    std::vector<float> as_cs_root_to_screen_root;
     /// width vector spanning the screen plane
-    OTQtMath::Vector3 as_width_vec;
+    std::vector<float> as_width_vec;
     /// height vector spanning the screen plane
-    OTQtMath::Vector3 as_height_vec;
+    std::vector<float> as_height_vec;
   } CalibOutputData;
 
   /**
@@ -202,13 +202,13 @@ private:
    */
   typedef struct {
     /// application screen coordinate system position and orientation (ASPD)
-    State as_cs_root;
+    Event as_cs_root;
     /// screen plane root position
-    State as_screen_root;
+    Event as_screen_root;
     /// positional width vector spanning the screen plane (relative to screen plane root)
-    OTQtMath::Vector3 as_width_vec;
+    std::vector<float> as_width_vec;
     /// positional height vector spanning the screen plane (relative to screen plane root)
-    OTQtMath::Vector3 as_height_vec;
+    std::vector<float> as_height_vec;
     /// positive scalar multiplier of screen plane depth unit vector (front of screen)
     float as_depth_scalar_front;
     /// negative scalar multiplier of screen plane depth unit vector (back of screen)
@@ -220,7 +220,7 @@ private:
    */
   typedef struct {
     /// latest perceived (current) 3D position of MPD
-    State position;
+    Event position;
     /// true if MPD currently resides inside SC
     bool mpd_loc_inside_screen_cuboid;
     /// latest valid 2D desktop coordinates (computed from MPD position)
@@ -281,7 +281,7 @@ public: // methods
    * @param as_cs_root ASPD position/orientation (new local application screen coordinate
    * system)
    */
-  void updateASPD(State const & as_cs_root);
+  void updateASPD(Event const & as_cs_root);
   /**
    * Recomputes the 2D desktop mouse cursor position on based on specified MPD 3D
    * position. Stores derived MPD state internally.
@@ -292,7 +292,7 @@ public: // methods
    *
    * @param mpd_pos MPD position
    */
-  void updateMPD(State const & mpd_pos);
+  void updateMPD(Event const & mpd_pos);
   /**
    * Returns the current location of the MPD relative to the screen cuboid.
    * @return MPD location relative SC
@@ -314,7 +314,7 @@ public: // methods
    * Returns the latest perceived spatial 3D MPD position.
    * @return MPD 3D position
    */
-  inline State getMPD3DPosition() const { return mp_data_.position; };
+  inline Event getMPD3DPosition() const { return mp_data_.position; };
 
 private: // members
   /// calibration geometrical data from the XML configuration file
@@ -335,7 +335,7 @@ private: // members
 #endif // OTQT_QTAPPSCREEN_H
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtAppScreen.h
  * ------------------------------------------------------------
@@ -348,5 +348,5 @@ private: // members
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

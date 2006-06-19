@@ -48,7 +48,7 @@
 #if USE_OTQT
 
 #include "OTQtMath.h"
-#include <core/State.h>
+#include <core/Event.h>
 #include <core/Node.h>
 #include <core/StringTable.h>
 
@@ -190,7 +190,7 @@ public:
    * @param event tracking event
    * @param generator event generating child node
    */
-  virtual void onEventGenerated(State & event, Node & generator) = 0;
+  virtual void onEventGenerated(Event & event, Node & generator) = 0;
   /**
    * Returns true if node implements the OpenTracker @c event edge type interface: the
    * node pushes incoming events to its parent nodes.
@@ -213,13 +213,13 @@ public:
    * Returns the latest acquired tracking event (tracking node current event).
    * @return current tracking event of node
    */
-  inline State const & getCurrentEvent() const { return curr_event_; };
+  inline Event const & getCurrentEvent() const { return curr_event_; };
   /**
    * Returns the predecessor of the latest acquired tracking event (tracking node previous
    * event).
    * @return previous tracking event of node
    */
-  inline State const & getPreviousEvent() const { return prev_event_; };
+  inline Event const & getPreviousEvent() const { return prev_event_; };
   /**
    * Enables or disables the given state flag depending on the binary argument. Enables
    * flag if true (default), otherwise disables flag. Returns the state flag value after
@@ -241,7 +241,7 @@ protected:
    * @param event tracking event
    * @return true if positional distance less or equal than threshold value
    */
-  bool isInsidePosThreshSphere(State const & event) const;
+  bool isInsidePosThreshSphere(Event const & event) const;
   /**
    * Performs a trivial orientation comparison test. Computes the difference quaternion
    * angle between the given tracking event and the current event. Verifies the resulting
@@ -253,7 +253,7 @@ protected:
    * @param event tracking event
    * @return true if orientation distance less or equal than threshold value
    */
-  bool isInsideOrientThreshCone(State const & event) const;
+  bool isInsideOrientThreshCone(Event const & event) const;
   /**
    * Acquires the given tracking event as new current event. Resets the old current event
    * as new previous event. Discards the the old previous element. Enables the @c
@@ -261,15 +261,15 @@ protected:
    *
    * @param event pending tracking event
    */
-  void acquireEvent(State const & event);
+  void acquireEvent(Event const & event);
 
 protected:
   /// state bit string
   state_t state_;
   /// current tracking event of node
-  State curr_event_;
+  Event curr_event_;
   /// predecessor of current (previous) tracking event of node
-  State prev_event_;
+  Event prev_event_;
   /// attributes of the node (and module) XML elements
   StringTable xml_attrib_table_;
   /// vector distance threshold value (derived from XML attribute values - pseudo
@@ -289,7 +289,7 @@ public:
 
 #endif // OTQT_QTMOUSEEVENTSINKBASE_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventSinkBase.h
  * ------------------------------------------------------------
@@ -302,5 +302,5 @@ public:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

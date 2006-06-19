@@ -50,7 +50,7 @@
 namespace ot {
 
 //--------------------------------------------------------------------------------
-void QtAppScreenPosSink::onEventGenerated(State & event, Node & generator) {
+void QtAppScreenPosSink::onEventGenerated(Event & event, Node & generator) {
 
   // switch 'acquire pending event' (default: yes)
   bool acquire = true;
@@ -58,8 +58,8 @@ void QtAppScreenPosSink::onEventGenerated(State & event, Node & generator) {
   // basic check: position or orientation unchanged
   acquire = false;
   for (int i = 0; i < 3; i++) {
-    if (event.position[i] != curr_event_.position[i] ||
-        event.orientation[i] != curr_event_.orientation[i]) {
+    if (event.getPosition()[i] != curr_event_.getPosition()[i] ||
+        event.getOrientation()[i] != curr_event_.getOrientation()[i]) {
       acquire = true;
       break;
     }
@@ -100,7 +100,7 @@ void QtAppScreenPosSink::onEventGenerated(State & event, Node & generator) {
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtAppScreenPosSink.cxx
  * ------------------------------------------------------------
@@ -113,5 +113,5 @@ void QtAppScreenPosSink::onEventGenerated(State & event, Node & generator) {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

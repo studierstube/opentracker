@@ -51,51 +51,57 @@
 namespace ot {
 
 //--------------------------------------------------------------------------------
-float *
-OTQtMath::rotateVectorFromCSToCS(State const & cs_from, State const & cs_to,
-                                 float const vec_local_from[3], float vec_local_to[3])
+std::vector<float> &
+OTQtMath::rotateVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
+                                 std::vector<float> const & vec_local_from,
+                                 std::vector<float> & vec_local_to)
 {
   // Compute orig / target CS orientation difference
-  float cs_from_orient_conj[4];
-  MathUtils::invertQuaternion(cs_from.orientation, cs_from_orient_conj);
-  float cs_from_to_orient_diff[4];
-  MathUtils::multiplyQuaternion(cs_to.orientation, cs_from_orient_conj, cs_from_to_orient_diff);
+  std::vector<float> cs_from_orient_conj;
+  MathUtils::invertQuaternion(cs_from.getOrientation(), cs_from_orient_conj);
+  std::vector<float> cs_from_to_orient_diff;
+  MathUtils::multiplyQuaternion(cs_to.getOrientation(), cs_from_orient_conj, cs_from_to_orient_diff);
   // Rotate vector
   MathUtils::rotateVector(cs_from_to_orient_diff, vec_local_from, vec_local_to);
   return vec_local_to;
 }
 
 //--------------------------------------------------------------------------------
-State &
-OTQtMath::transformVectorFromCSToCS(State const & cs_from, State const & cs_to,
-                                    State const & vec_global, State & vec_global_to)
+Event &
+OTQtMath::transformVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
+                                    Event const & vec_global, Event & vec_global_to)
 {
   // Convert global vector to local vector relative to original CS
-  float vec_local_from[3];
+  std::vector<float> vec_local_from;
   for (int i = 0; i < 3; i++) {
-    vec_local_from[i] = vec_global.position[i] - cs_from.position[i];
+    vec_local_from[i] = vec_global.getPosition()[i] - cs_from.getPosition()[i];
   }
-  float vec_local_to[3];
+  std::vector<float> vec_local_to;
   // Rotate local vector about the orientation (from - to) difference of given CS
   rotateVectorFromCSToCS(cs_from, cs_to, vec_local_from, vec_local_to);
   // Convert local vector to global vector relative to target CS
   for (int i = 0; i < 3; i++) {
-    vec_global_to.position[i] = cs_to.position[i] + vec_local_to[i];
+    vec_global_to.getPosition()[i] = cs_to.getPosition()[i] + vec_local_to[i];
   }
   for (int i = 0; i < 4; i++) {
-    vec_global_to.orientation[i] = cs_to.orientation[i];
+    vec_global_to.getOrientation()[i] = cs_to.getOrientation()[i];
   }
   return vec_global_to;
 }
 
 //--------------------------------------------------------------------------------
 float
-OTQtMath::distance(float const * v1, float const * v2, int const dim)
+OTQtMath::distance(std::vector<float> const & v1, std::vector<float> const & v2)
 {
-  RowVector vec1(dim);
-  vec1 << v1;
-  RowVector vec2(dim);
-  vec2 << v2;
+  if (v1.size() != v2.size()) {
+    throw Exception("OTQtMath::distance(): Argument vectors have different dimension.");
+  }
+  float tmp[v1.size()];
+
+  RowVector vec1(v1.size());
+  vec1 << ot::copyV2A<float>(v1, tmp);
+  RowVector vec2(v2.size());
+  vec2 << ot::copyV2A(v2, tmp);
   RowVector diff = vec1 - vec2;
   return (float)(diff.NormFrobenius());
 }
@@ -149,7 +155,7 @@ OTQtMath::isWithinPlaneBorders(RowVector const & mpos,
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQtMath.cxx
  * ------------------------------------------------------------
@@ -162,5 +168,5 @@ OTQtMath::isWithinPlaneBorders(RowVector const & mpos,
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

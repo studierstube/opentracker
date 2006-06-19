@@ -52,8 +52,8 @@ namespace ot {
 //--------------------------------------------------------------------------------
 QtMouseEventSinkBase::QtMouseEventSinkBase(StringTable & xml_attrib_table)
   : state_(0),
-    curr_event_(State::null),
-    prev_event_(State::null),
+    curr_event_(Event::null),
+    prev_event_(Event::null),
     xml_attrib_table_(xml_attrib_table)
 {
 
@@ -90,19 +90,19 @@ bool QtMouseEventSinkBase::enableState(StateFlag flag, bool enable)
 
 //--------------------------------------------------------------------------------
 bool
-QtMouseEventSinkBase::isInsidePosThreshSphere(State const & event) const
+QtMouseEventSinkBase::isInsidePosThreshSphere(Event const & event) const
 {
-  return (OTQtMath::distance(event.position, curr_event_.position) <= POS_THRESH_RADIUS);
+  return (OTQtMath::distance(event.getPosition(), curr_event_.getPosition()) <= POS_THRESH_RADIUS);
 }
 
 //--------------------------------------------------------------------------------
 bool
-QtMouseEventSinkBase::isInsideOrientThreshCone(State const & event) const
+QtMouseEventSinkBase::isInsideOrientThreshCone(Event const & event) const
 {
-  float orient_conj[4];
-  MathUtils::invertQuaternion(curr_event_.orientation, orient_conj);
-  float orient_diff[4];
-  MathUtils::multiplyQuaternion(event.orientation, orient_conj, orient_diff);
+  std::vector<float> orient_conj;
+  MathUtils::invertQuaternion(curr_event_.getOrientation(), orient_conj);
+  std::vector<float> orient_diff;
+  MathUtils::multiplyQuaternion(event.getOrientation(), orient_conj, orient_diff);
 
   for (int i = 0; i < 4; i++) {
     if (fabsf(orient_diff[i]) > fabsf(ORIENT_THRESH_QUAT[i]))
@@ -113,7 +113,7 @@ QtMouseEventSinkBase::isInsideOrientThreshCone(State const & event) const
 
 //--------------------------------------------------------------------------------
 void
-QtMouseEventSinkBase::acquireEvent(State const & event)
+QtMouseEventSinkBase::acquireEvent(Event const & event)
 {
   // acquire tracking event
   prev_event_ = curr_event_;
@@ -127,7 +127,7 @@ QtMouseEventSinkBase::acquireEvent(State const & event)
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventSinkBase.cxx
  * ------------------------------------------------------------
@@ -140,5 +140,5 @@ QtMouseEventSinkBase::acquireEvent(State const & event)
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

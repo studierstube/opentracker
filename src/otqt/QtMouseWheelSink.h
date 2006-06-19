@@ -108,7 +108,7 @@ public:
 
   ///// class Node interface
 
-  virtual void onEventGenerated( State& event, Node& generator);
+  virtual void onEventGenerated(Event & event, Node & generator);
 
   /**
    * Returns true if a forward move state bit transition disabled -> enabled is discovered
@@ -133,7 +133,7 @@ public:
 
 #endif // OTQT_QTMOUSEWHEELSINK_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseWheelSink.h
  * ------------------------------------------------------------
@@ -146,5 +146,5 @@ public:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

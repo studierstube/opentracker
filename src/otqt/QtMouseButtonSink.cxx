@@ -51,11 +51,11 @@
 namespace ot {
 
 //--------------------------------------------------------------------------------
-void QtMouseButtonSink::onEventGenerated(State & event, Node & generator) {
-  OTQT_DEBUG("QtMouseButtonSink::onEventGenerated(): --- START: event.button = %hx\n", event.button );
+void QtMouseButtonSink::onEventGenerated(Event & event, Node & generator) {
+  OTQT_DEBUG("QtMouseButtonSink::onEventGenerated(): --- START: event.getButton() = %hx\n", event.getButton() );
 
   if (!(state_ & EVENT_LOCK)) {
-    if (event.button != curr_event_.button) {
+    if (event.getButton() != curr_event_.getButton()) {
       // acquire tracking event
       acquireEvent(event);
     }
@@ -70,8 +70,8 @@ bool QtMouseButtonSink::buttonPressed(ButtonId button_id) const {
   if (button_id < 0 || button_id >= BUTTON_COUNT)
     return false;
 
-  if (((prev_event_.button >> button_id) & 0x0001) == 0 &&
-      ((curr_event_.button >> button_id) & 0x0001) == 1) {
+  if (((prev_event_.getButton() >> button_id) & 0x0001) == 0 &&
+      ((curr_event_.getButton() >> button_id) & 0x0001) == 1) {
     return true;
   }
   return false;
@@ -82,8 +82,8 @@ bool QtMouseButtonSink::buttonReleased(ButtonId button_id) const {
   if (button_id < 0 || button_id >= BUTTON_COUNT)
     return false;
 
-  if (((prev_event_.button >> button_id) & 0x0001) == 1 &&
-      ((curr_event_.button >> button_id) & 0x0001) == 0) {
+  if (((prev_event_.getButton() >> button_id) & 0x0001) == 1 &&
+      ((curr_event_.getButton() >> button_id) & 0x0001) == 0) {
     return true;
   }
   return false;
@@ -94,7 +94,7 @@ bool QtMouseButtonSink::buttonOn(ButtonId button_id) const
 {
   if (button_id < 0 || button_id >= BUTTON_COUNT)
     return false;
-  return (((curr_event_.button >> button_id) & 0x0001) == 1);
+  return (((curr_event_.getButton() >> button_id) & 0x0001) == 1);
 }
 
 //--------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ Qt::ButtonState QtMouseButtonSink::getQButtonId(ButtonId button_id)
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseButtonSink.cxx
  * ------------------------------------------------------------
@@ -136,5 +136,5 @@ Qt::ButtonState QtMouseButtonSink::getQButtonId(ButtonId button_id)
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

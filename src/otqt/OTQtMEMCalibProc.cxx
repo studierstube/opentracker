@@ -108,29 +108,29 @@ void OTQtMEMCalibProc::exec() {
 
   ///// Track ASP
   printf("** Tracking ASP (Qt Application Screen Position)\n");
-  State app_screen;
+  Event app_screen;
   if (!trackASPos(app_screen)) {
     throw std::runtime_error("Could not track Application Screen Position.");
   }
   printf("Tracked at: %f %f %f\n",
-         app_screen.position[0], app_screen.position[1], app_screen.position[2]);
+         app_screen.getPosition()[0], app_screen.getPosition()[1], app_screen.getPosition()[2]);
   printf(".. OK\n");
   calib_input_data.as_cs_root = app_screen;
 
   ///// Track MPD
   printf("** Tracking MPD (Mouse Position Device)\n");
-  State mouse_pos_obj;
+  Event mouse_pos_obj;
   if (!trackMPD(mouse_pos_obj)) {
     throw std::runtime_error("Could not track MPD (Mouse Position Device).");
   }
   printf("Tracked at: %f %f %f\n",
-         mouse_pos_obj.position[0], mouse_pos_obj.position[1], mouse_pos_obj.position[2]);
+         mouse_pos_obj.getPosition()[0], mouse_pos_obj.getPosition()[1], mouse_pos_obj.getPosition()[2]);
   printf(".. OK\n");
 
   ///// Track MBD
   printf("** Tracking MBD (Mouse Button Device) Button One (aka \"Left Mouse Button\")\n");
   printf("(TASK): Press and release MBD Button One once ..\n");
-  State mbo_button_one;
+  Event mbo_button_one;
   if (!trackMBDButtonOne(mbo_button_one)) {
     throw std::runtime_error("Could not track MBD (Mouse Button Device) Button One.");
   }
@@ -262,7 +262,7 @@ OTQtMEMCalibProc::isInputConfigFileValid() const {
 
 //--------------------------------------------------------------------------------
 bool
-OTQtMEMCalibProc::trackMPD(State & event) {
+OTQtMEMCalibProc::trackMPD(Event & event) {
   QTime const MAX_TIME = QTime::currentTime().addMSecs(DEV_TRACKING_MAX_TIMEOUT_MSEC);
   while (QTime::currentTime() <= MAX_TIME) {
 //    getMECM().resetPendingEventBitAllSinks();
@@ -277,7 +277,7 @@ OTQtMEMCalibProc::trackMPD(State & event) {
 
 //--------------------------------------------------------------------------------
 bool
-OTQtMEMCalibProc::trackASPos(State & event) {
+OTQtMEMCalibProc::trackASPos(Event & event) {
   QTime const MAX_TIME = QTime::currentTime().addMSecs(DEV_TRACKING_MAX_TIMEOUT_MSEC);
   while (QTime::currentTime() <= MAX_TIME) {
 //    getMECM().resetPendingEventBitAllSinks();
@@ -292,7 +292,7 @@ OTQtMEMCalibProc::trackASPos(State & event) {
 
 //--------------------------------------------------------------------------------
 bool
-OTQtMEMCalibProc::trackMBDButtonOne(State & event) {
+OTQtMEMCalibProc::trackMBDButtonOne(Event & event) {
   unsigned char test_mask = 0x00;
   while (true) {
 //    getMECM().resetPendingEventBitAllSinks();
@@ -328,8 +328,8 @@ void OTQtMEMCalibProc::trackASCornerMain(char const * desc, QtAppScreen::ASCorne
     throw std::runtime_error(err_msg.c_str());
   }
   printf("Tracked at: %f %f %f (ASP: %f %f %f)\n",
-         as_corner.corner.position[0], as_corner.corner.position[1], as_corner.corner.position[2],
-         as_corner.local_cs_root.position[0], as_corner.local_cs_root.position[1], as_corner.local_cs_root.position[2]);
+         as_corner.corner.getPosition()[0], as_corner.corner.getPosition()[1], as_corner.corner.getPosition()[2],
+         as_corner.local_cs_root.getPosition()[0], as_corner.local_cs_root.getPosition()[1], as_corner.local_cs_root.getPosition()[2]);
   printf(".. OK\n");
   printf("\n");
   if (getMECM().getMBS().buttonOn(QtMouseButtonSink::LEFT_BUTTON)) {
@@ -414,7 +414,7 @@ bool OTQtMEMCalibProc::trackASCorner(QtAppScreen::ASCorner & as_corner) {
 
     // NOTE: as_corner = [ prev_local_cs_root, prev_corner ]
 
-    State curr_corner;
+    Event curr_corner;
     if (getMECM().getMPS().isEventPending()) {
       OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): MPS is pending\n");
       curr_corner = getMECM().getMPS().getCurrentEvent();
@@ -423,15 +423,15 @@ bool OTQtMEMCalibProc::trackASCorner(QtAppScreen::ASCorner & as_corner) {
       curr_corner = as_corner.corner;
     }
     OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): curr_corner = %f %f %f\n",
-               curr_corner.position[0], curr_corner.position[1], curr_corner.position[2]);
+               curr_corner.getPosition()[0], curr_corner.getPosition()[1], curr_corner.getPosition()[2]);
 
     ///// check ASPD
 
     // convert previous corner so that it is compareable with current corner
-    State prev_cmpable_curr_corner;
+    Event prev_cmpable_curr_corner;
     if (getMECM().getASPS().isEventPending()) {
       OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): ASP is pending\n");
-      State curr_local_cs_root = getMECM().getASPS().getCurrentEvent();
+      Event curr_local_cs_root = getMECM().getASPS().getCurrentEvent();
       OTQtMath::transformVectorFromCSToCS(as_corner.local_cs_root, curr_local_cs_root,
                                           as_corner.corner, prev_cmpable_curr_corner);
       do_distance_check = true;
@@ -439,13 +439,13 @@ bool OTQtMEMCalibProc::trackASCorner(QtAppScreen::ASCorner & as_corner) {
       prev_cmpable_curr_corner = curr_corner;
     }
     OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): prev_cmpable_curr_corner = %f %f %f\n",
-               prev_cmpable_curr_corner.position[0], prev_cmpable_curr_corner.position[1], prev_cmpable_curr_corner.position[2]);
+               prev_cmpable_curr_corner.getPosition()[0], prev_cmpable_curr_corner.getPosition()[1], prev_cmpable_curr_corner.getPosition()[2]);
 
     // check if current event is within threshold sphere around previous event
     if (do_distance_check) {
       // compare distance between current and previous corner with threshold radius
-      float const curr_prev_distance = OTQtMath::distance(prev_cmpable_curr_corner.position,
-                                                          curr_corner.position, 3);
+      float const curr_prev_distance = OTQtMath::distance(prev_cmpable_curr_corner.getPosition(),
+                                                          curr_corner.getPosition());
       OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): distance check, curr_prev_distance = %f\n", curr_prev_distance);
       if (curr_prev_distance >= THRESH_SPHERE_RADIUS) {
         OTQT_DEBUG("OTQtMEMCalibProc::trackASCorner(): curr outside of THRESH_SPHERE_RADIUS\n");
@@ -493,7 +493,7 @@ void OTQtMEMCalibProc::waitForEnterKey() const {
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQtMEMCalibProc.cxx
  * ------------------------------------------------------------
@@ -506,5 +506,5 @@ void OTQtMEMCalibProc::waitForEnterKey() const {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

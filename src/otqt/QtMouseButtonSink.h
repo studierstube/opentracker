@@ -137,7 +137,7 @@ public:
 
   ///// class Node interface
 
-  virtual void onEventGenerated( State& event, Node& generator);
+  virtual void onEventGenerated(Event & event, Node & generator);
 
   /**
    * Returns true if for the specified button a state transition disabled -> enabled is
@@ -172,7 +172,7 @@ public:
 #endif // OTQT_QTMOUSEBUTTONSINK_H
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseButtonSink.h
  * ------------------------------------------------------------
@@ -185,5 +185,5 @@ public:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

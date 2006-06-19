@@ -53,7 +53,7 @@
 #include <extras/newmat10/newmatio.h>
 #include <math.h>
 #include <core/MathUtils.h>
-#include <core/State.h>
+#include <core/Event.h>
 
 namespace ot {
 
@@ -93,8 +93,9 @@ public: // static
    *
    * @return transformed positional vector (oriented at target coordinate system)
    */
-  static float * rotateVectorFromCSToCS(State const & cs_from, State const & cs_to,
-                                        float const vec_local[3], float vec_local_to[3]);
+   static std::vector<float> & rotateVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
+                                                      std::vector<float> const & vec_local_from,
+                                                      std::vector<float> & vec_local_to);
 
   /**
    * Transforms given R3 vector from one (source) local coordinate system to another
@@ -107,8 +108,8 @@ public: // static
    *
    * @return transformed vector in world coordinates
    */
-  static State & transformVectorFromCSToCS(State const & cs_from, State const & cs_to,
-                                           State const & vec_global, State & vec_global_to);
+  static Event & transformVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
+                                           Event const & vec_global, Event & vec_global_to);
 
   /**
    * Returns the distance (frobenius norm of the difference) between given vectors (equal
@@ -120,7 +121,7 @@ public: // static
    *
    * @return distance (frobenius norm)
    */
-  static float distance(float const * v1, float const * v2, int const dim = 3);
+   static float distance(std::vector<float> const & v1, std::vector<float> const & v2);
 
   /**
    * Returns cross product in of given R3 vectors according to the "right-hand rule".
@@ -173,7 +174,7 @@ public: // static
 #endif // OTQT_OTQTMATH_H
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQtMath.h
  * ------------------------------------------------------------
@@ -186,5 +187,5 @@ public: // static
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

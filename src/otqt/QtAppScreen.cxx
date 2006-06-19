@@ -67,13 +67,13 @@ QtAppScreen::QtAppScreen(StringTable & table)
 
   // CS root / screen root position
   for (int i = 0; i < 4; i++) {
-    as_data_init_.as_cs_root.orientation[i] = calib_out_.as_cs_orient[i];
-    as_data_init_.as_screen_root.orientation[i] = calib_out_.as_cs_orient[i];
+    as_data_init_.as_cs_root.getOrientation()[i] = calib_out_.as_cs_orient[i];
+    as_data_init_.as_screen_root.getOrientation()[i] = calib_out_.as_cs_orient[i];
   }
   // CS root / screen root position, screen plane span vectors
   for (int i = 0; i < 3; i++) {
-    as_data_init_.as_cs_root.position[i] = 0;
-    as_data_init_.as_screen_root.position[i] = calib_out_.as_cs_root_to_screen_root[i];
+    as_data_init_.as_cs_root.getPosition()[i] = 0;
+    as_data_init_.as_screen_root.getPosition()[i] = calib_out_.as_cs_root_to_screen_root[i];
     as_data_init_.as_width_vec[i] = calib_out_.as_width_vec[i];
     as_data_init_.as_height_vec[i] = calib_out_.as_height_vec[i];
   }
@@ -100,17 +100,18 @@ QtAppScreen::QtAppScreen(StringTable & table)
 
   ///// init mouse position object data
 
-  updateMPD(State::null);
+  updateMPD(Event::null);
 }
 
 //--------------------------------------------------------------------------------
 void QtAppScreen::convert(CalibOutputData const & out, StringTable & table)
 {
   // generate attributes from calibration output data
-  table.put("CSOrientationQuat", out.as_cs_orient, 4);
-  table.put("CSRoot2ScreenRootVec", out.as_cs_root_to_screen_root, 3);
-  table.put("ASWidthVec", out.as_width_vec, 3);
-  table.put("ASHeightVec", out.as_height_vec, 3);
+  float tmp3[3], tmp4[4];
+  table.put("CSOrientationQuat", ot::copyV2A(out.as_cs_orient, tmp4), 4);
+  table.put("CSRoot2ScreenRootVec", ot::copyV2A(out.as_cs_root_to_screen_root, tmp3), 3);
+  table.put("ASWidthVec", ot::copyV2A(out.as_width_vec, tmp3), 3);
+  table.put("ASHeightVec", ot::copyV2A(out.as_height_vec, tmp3), 3);
 }
 
 
@@ -143,14 +144,14 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
   ///// save screen coordinate system orientation
 
   for (int i = 0; i < 4; i++) {
-    out.as_cs_orient[i] = in_final.as_cs_root.orientation[i];
+    out.as_cs_orient[i] = in_final.as_cs_root.getOrientation()[i];
   }
 
   ///// difference vector between screen coordinate system root and screen root
 
   for (int i = 0; i < 3; i++) {
     out.as_cs_root_to_screen_root[i] =
-      in_final.top_left.corner.position[i] - in_final.as_cs_root.position[i];
+      in_final.top_left.corner.getPosition()[i] - in_final.as_cs_root.getPosition()[i];
   }
 
   ///// compute screen base vectors
@@ -178,13 +179,14 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
 
   // corners of screen
   RowVector tl(3); // P1
-  tl << in_final.top_left.corner.position;
+  float tmp[3];
+  tl << ot::copyV2A(in_final.top_left.corner.getPosition(), tmp);
   RowVector tr(3); // P2
-  tr << in_final.top_right.corner.position;
+  tr << ot::copyV2A(in_final.top_right.corner.getPosition(), tmp);
   RowVector br(3); // P3
-  br << in_final.bottom_right.corner.position;
+  br << ot::copyV2A(in_final.bottom_right.corner.getPosition(), tmp);
   RowVector bl(3); // P4
-  bl << in_final.bottom_left.corner.position;
+  bl << ot::copyV2A(in_final.bottom_left.corner.getPosition(), tmp);
 
   // vectors which span screen plane (cuboid)
   RowVector vec_tl_tr(3); // x - direction, v1
@@ -208,20 +210,20 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::updateASPD(State const & as_cs_root_curr)
+void QtAppScreen::updateASPD(Event const & as_cs_root_curr)
 {
   ///// transform screen position
 
-  State as_screen_root_curr;
+  Event as_screen_root_curr;
   OTQtMath::transformVectorFromCSToCS(as_data_init_.as_cs_root, as_cs_root_curr,
                                       as_data_init_.as_screen_root, as_screen_root_curr);
   as_data_.as_screen_root = as_screen_root_curr;
 
   ///// transform screen plane base vectors
-  OTQtMath::Vector3 as_width_vec_curr;
+  std::vector<float> as_width_vec_curr;
   OTQtMath::rotateVectorFromCSToCS(as_data_init_.as_cs_root, as_cs_root_curr,
                                    as_data_init_.as_width_vec, as_width_vec_curr);
-  OTQtMath::Vector3 as_height_vec_curr;
+  std::vector<float> as_height_vec_curr;
   OTQtMath::rotateVectorFromCSToCS(as_data_init_.as_cs_root, as_cs_root_curr,
                                    as_data_init_.as_height_vec, as_height_vec_curr);
   for (int i = 0; i < 3; i++) {
@@ -234,7 +236,7 @@ void QtAppScreen::updateASPD(State const & as_cs_root_curr)
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::updateMPD(State const & mpd_pos)
+void QtAppScreen::updateMPD(Event const & mpd_pos)
 {
 
   // save current MPD pos
@@ -244,10 +246,11 @@ void QtAppScreen::updateMPD(State const & mpd_pos)
 
   // base vector "x-axis"
   RowVector width(3);
-  width << as_data_.as_width_vec;
+  float tmp3[3];
+  width << ot::copyV2A(as_data_.as_width_vec, tmp3);
   // base vector "y-axis"
   RowVector height(3);
-  height << as_data_.as_height_vec;
+  height << ot::copyV2A(as_data_.as_height_vec, tmp3);
 
   // base vector "z-axis" as cross product width x height
   RowVector depth = - OTQtMath::crossProductR3(width, height);
@@ -259,12 +262,12 @@ void QtAppScreen::updateMPD(State const & mpd_pos)
 
   // screen root
   RowVector screen_root(3);
-  screen_root << as_data_.as_screen_root.position;
+  screen_root << ot::copyV2A(as_data_.as_screen_root.getPosition(), tmp3);
   RowVector depth_screen_root = screen_root - (depth1 * as_data_.as_depth_scalar_back);
 
   // given MPD position
   RowVector mpos(3);
-  mpos << mpd_pos.position;
+  mpos << ot::copyV2A(mpd_pos.getPosition(), tmp3);
 
   ///// check position within screen cuboid
 
@@ -356,7 +359,7 @@ QtAppScreen::getMPDLocation() const
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtAppScreen.cxx
  * ------------------------------------------------------------
@@ -369,5 +372,5 @@ QtAppScreen::getMPDLocation() const
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

@@ -51,11 +51,11 @@
 namespace ot {
 
 //--------------------------------------------------------------------------------
-void QtMouseWheelSink::onEventGenerated( State& event, Node& generator)
+void QtMouseWheelSink::onEventGenerated(Event & event, Node & generator)
 {
-  OTQT_DEBUG("QtMouseWheelSink::onEventGenerated(): event.button = %hx\n", event.button);
+  OTQT_DEBUG("QtMouseWheelSink::onEventGenerated(): event.getButton() = %hx\n", event.getButton());
 
-  if (event.button != curr_event_.button) {
+  if (event.getButton() != curr_event_.getButton()) {
     // acquire tracking event
     acquireEvent(event);
   }
@@ -66,16 +66,16 @@ void QtMouseWheelSink::onEventGenerated( State& event, Node& generator)
 //--------------------------------------------------------------------------------
 bool QtMouseWheelSink::wheelForwardMove() const
 {
-  return (((prev_event_.button >> 0) & 0x0001) == 0 &&
-          ((curr_event_.button >> 0) & 0x0001) == 1);
+  return (((prev_event_.getButton() >> 0) & 0x0001) == 0 &&
+          ((curr_event_.getButton() >> 0) & 0x0001) == 1);
 
 }
 
 //--------------------------------------------------------------------------------
 bool QtMouseWheelSink::wheelBackwardMove() const
 {
-  return (((prev_event_.button >> 1) & 0x0001) == 0 &&
-          ((curr_event_.button >> 1) & 0x0001) == 1);
+  return (((prev_event_.getButton() >> 1) & 0x0001) == 0 &&
+          ((curr_event_.getButton() >> 1) & 0x0001) == 1);
 }
 
 
@@ -83,7 +83,7 @@ bool QtMouseWheelSink::wheelBackwardMove() const
 
 #endif // USE_OTQT
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseWheelSink.cxx
  * ------------------------------------------------------------
@@ -96,5 +96,5 @@ bool QtMouseWheelSink::wheelBackwardMove() const
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

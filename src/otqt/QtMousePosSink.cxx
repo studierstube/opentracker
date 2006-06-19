@@ -51,7 +51,7 @@
 namespace ot {
 
 //--------------------------------------------------------------------------------
-void QtMousePosSink::onEventGenerated(State & event, Node & generator) {
+void QtMousePosSink::onEventGenerated(Event & event, Node & generator) {
 
   // switch 'acquire pending event' (default: yes)
   bool acquire = true;
@@ -59,7 +59,7 @@ void QtMousePosSink::onEventGenerated(State & event, Node & generator) {
   // basic check: position unchanged ?!
   acquire = false;
   for (int i = 0; i < 3; i++) {
-    if (event.position[i] != curr_event_.position[i]) {
+    if (event.getPosition()[i] != curr_event_.getPosition()[i]) {
       acquire = true;
       break;
     }
@@ -79,7 +79,7 @@ void QtMousePosSink::onEventGenerated(State & event, Node & generator) {
 
 #endif // USE_OTQT
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMousePosSink.h
  * ------------------------------------------------------------
@@ -92,5 +92,5 @@ void QtMousePosSink::onEventGenerated(State & event, Node & generator) {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

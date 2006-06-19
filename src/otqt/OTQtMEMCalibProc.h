@@ -146,23 +146,23 @@ private:
   /**
    * Listens for tracking events originating from the ASPD. Returns false if no such event
    * is received after a timeout of five seconds. Otherwise the received event is passed
-   * to the given State argument and true is returned.
+   * to the given Event argument and true is returned.
    *
    * @param event placeholder for first incoming ASPD tracking event
    *
    * @return true if ASPD is perceived within some time offset, else false
    */
-  bool trackASPos(State & event);
+  bool trackASPos(Event & event);
   /**
    * Listens for tracking events originating from the MPD. Returns false if no such event
    * is received after a timeout of five seconds. Otherwise the received event is passed
-   * to the given State argument and true is returned.
+   * to the given Event argument and true is returned.
    *
    * @param event placeholder for first incoming MPD tracking event
    *
    * @return true if MPD is perceived within some time offset, else false
    */
-  bool trackMPD(State & event);
+  bool trackMPD(Event & event);
 
   /**
    * Listens for tracking events from the MPD. Does not return until both events, one @e
@@ -175,7 +175,7 @@ private:
    * @return true if MPD button no one was perceived with exactly one @e pressed and one
    * @e released event
    */
-  bool trackMBDButtonOne(State & event);
+  bool trackMBDButtonOne(Event & event);
 
   /**
    * Tracks one AS corner. Starts timer as soon as MBD button one was pressed. If MPD
@@ -222,7 +222,7 @@ private:
 
 #endif // OTQT_OTQTMEMCALIBPROC_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQtMEMCalibProc.h
  * ------------------------------------------------------------
@@ -235,5 +235,5 @@ private:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

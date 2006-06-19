@@ -159,9 +159,9 @@ namespace ot {
             mec_mod_->resetPendingEventBitAllSinks();
 
             // receive states from sources
-            context_.pushStates();
+            context_.pushEvents();
             // process new states in modules
-            context_.pullStates();
+            context_.pullEvents();
 
         }
 #ifndef WIN32
@@ -205,7 +205,7 @@ namespace ot {
 #endif // USE_OTQT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQt.cxx
  * ------------------------------------------------------------
@@ -218,5 +218,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
