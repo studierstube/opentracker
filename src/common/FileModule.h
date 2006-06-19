@@ -58,10 +58,13 @@
  * @li @c ot11Format (true|false) default is @c false. Defines whether obsolete OpenTracker
  * 1.1 file format should be used (for testing purposes only!). For a more detailed explanation
  * of this subject, please confer to the documentation of the File class.
+ * @li @c realtime (true|false) default is @c false. Defines whether data is played back in real
+ * time. This means that succeeding events are played back in the same speed as recorded. Otherwise,
+ * events are played back as fast as possible.
  *
  * An example configuration element looks like this :
  * @verbatim
- <FileConfig append="true" loop="true" />@endverbatim
+ <FileConfig append="true" loop="true" realtime="true"/>@endverbatim
 */
 
 #ifndef _FILEMODULE_H
@@ -76,6 +79,7 @@
 namespace ot {
 
     class File;
+    class FileSource;
 
     /**
      * This class manages the files and FileSink and FileSource objects. FileSources are
@@ -92,6 +96,8 @@ namespace ot {
         std::map<std::string, NodeVector> nodes;
         /// map of name to File objects
         std::map<std::string, File *> files;
+        /// list of file sources
+        std::list<FileSource*> sources;
         /// flag whether output files should be appended to or not
         bool append;
         /// flag whether to loop input files or not
@@ -100,10 +106,16 @@ namespace ot {
         double interval;
         /// flag whether to use OT v1.1 compatible file format (for testing purposes only)
         bool ot11Format;
+        /// flag whether to play back events in realtime
+        bool realtime;
         /// last timestamp
         double lastTime;
         /// local event
         Event event;
+        /// the time at which the first event was played back
+        double firstPlaybackTime;
+        /// the time at which the first event was recorded
+        double firstSavedEventTime;
 
     public:
         /** constructor method. initializes internal and static data
@@ -152,7 +164,7 @@ namespace ot {
 #endif
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of FileModule.h
  * ------------------------------------------------------------
@@ -165,5 +177,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

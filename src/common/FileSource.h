@@ -43,18 +43,18 @@
 
 /**
  * @page Nodes Node Reference
- * @section filesource FileSource 
+ * @section filesource FileSource
  * The FileSource node reads event data from an input file and passes new
- * events into the graph. It is created and controlled by the @ref filemodule. 
- * It associates its input stream with 
+ * events into the graph. It is created and controlled by the @ref filemodule.
+ * It associates its input stream with
  * a station number, that is contained in the input file to demultiplex different input
- * streams from one file. There may be more then one FileSource using the same input file, 
- * however they need to use different station numbers. Moreover the file may 
+ * streams from one file. There may be more then one FileSource using the same input file,
+ * however they need to use different station numbers. Moreover the file may
  * only be used for input.
  *
- * The event data is processed in the order appearing in the file. During each cycle, 
+ * The event data is processed in the order appearing in the file. During each cycle,
  * each source fires at most once. Data that has a station number which is not used
- * by any FileSource is dropped. 
+ * by any FileSource is dropped.
  *
  * A FileSource has the following attributes :
  * @li @c file the file name to use
@@ -82,6 +82,8 @@
  */
 namespace ot {
 
+    typedef std::map<double, Event*> EventMap;
+
     class OPENTRACKER_API FileSource : public Node
     {
         // Members
@@ -93,13 +95,19 @@ namespace ot {
         /// flag whether event was changed this round
         bool changed;
 
+    protected:
+        /// map matching events to timestamps for realtime playback
+        std::map<double, Event*> eventMap;
+        /// iterator pointing to current event in eventMap
+        std::map<double, Event*>::iterator currentEvent;
+
         // Methods
     protected:
-        /** constructor method,sets the station number and other default values.    
+        /** constructor method,sets the station number and other default values.
          * @param station the station number to use.
          */
         FileSource( int station_ = 0, bool localTime_ = false ) :
-            Node(), 
+            Node(),
             station( station_ ),
             localTime( localTime_ ),
             changed( 0 )
@@ -112,7 +120,7 @@ namespace ot {
         virtual int isEventGenerator()
 	{
             return 1;
-	}   
+	}
 
         friend class FileModule;
     };
@@ -122,7 +130,7 @@ namespace ot {
 #endif
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of FileSource.h
  * ------------------------------------------------------------
@@ -135,5 +143,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

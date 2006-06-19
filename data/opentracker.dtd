@@ -661,6 +661,7 @@ $Id$
 	loop (true | false) "true"
 	interval CDATA #IMPLIED
 	ot11Format (true | false) "false"
+	realtime (true | false) "false"
 >
 <!ELEMENT FileSink (%EventNodes;)>
 <!ATTLIST FileSink

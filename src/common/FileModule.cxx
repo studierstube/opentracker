@@ -72,6 +72,8 @@ namespace ot {
 
     void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
+        firstSavedEventTime = OSUtils::currentTime();
+
         Module::init(  attributes, localTree );
         if( attributes.get("append").compare("true") == 0 )
             append = true;
@@ -93,6 +95,10 @@ namespace ot {
             ot11Format = true;
         else
             ot11Format = false;
+        if ( attributes.get("realtime").compare("true") == 0 )
+            realtime = true;
+        else
+            realtime = false;
     }
 
     // This method is called to construct a new Node
@@ -155,7 +161,7 @@ namespace ot {
 
             } else // create a new one
 	    {
-                file = new File( id, File::FILE_IN, false, loop, ot11Format );
+                file = new File( id, File::FILE_IN, false, loop, ot11Format);
                 files[id] = file;
 	    }
             if( file->mode == File::FILE_IN ) // test for right direction and add to store
@@ -173,6 +179,33 @@ namespace ot {
                 FileSource * source = new FileSource( station, localTime );
                 vector.push_back( source );
                 ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %s with station %d and localtime %s\n"), id.c_str(), station, localTime ? "'true'" : "'false'"));
+
+                // fill event map of new source for realtime playback
+                if (realtime)
+                {
+                    bool read = true;
+                    file->loop = false;
+                    file->reset();
+                    while (read)
+                    {
+                        Event *readEvent = new Event();
+                        int readStation = 0;
+                        if (file->read(*readEvent, &readStation))
+                        {
+                            if (readEvent->time < firstSavedEventTime)
+                                firstSavedEventTime = readEvent->time;
+                            if (readStation == station)
+                                source->eventMap[readEvent->time] = readEvent;
+                            else
+                                delete readEvent;
+                        }
+                        else
+                            read = false;
+                    }
+                    source->currentEvent = source->eventMap.begin();
+                    file->loop = loop;
+                }
+                sources.push_back(source);
                 return source;
             }
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSource referencing output file %d\n"), id.c_str()));
@@ -194,29 +227,63 @@ namespace ot {
 
         lastTime = time;
 
-        // iterate over all files
-        for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
+        // realtime playback
+        if (realtime)
         {
-            if((*it).second->mode == File::FILE_IN && (*it).second->read( event, &station ))
+            // iterate over all file sources
+            std::list<FileSource*>::iterator sourceIt;
+            unsigned int reachedLastEvent = 0;
+            for (sourceIt = sources.begin(); sourceIt != sources.end(); sourceIt++)
             {
-                NodeVector & vector = nodes[(*it).first];
-                NodeVector::iterator it2;
-
-                // reset all file sources
-                for( it2 = vector.begin(); it2 != vector.end(); it2++ )
+                FileSource *fileSrc = (*sourceIt);
+                if (fileSrc->currentEvent != fileSrc->eventMap.end() &&
+                    OSUtils::currentTime() - firstPlaybackTime >= (*fileSrc->currentEvent).first - firstSavedEventTime)
                 {
-                    ((FileSource*)(*it2))->changed = false;
+                    if (firstPlaybackTime == 0)
+                        firstPlaybackTime = OSUtils::currentTime();
+                    fileSrc->updateObservers(*(*fileSrc->currentEvent).second);
+                    fileSrc->currentEvent++;
                 }
-                // update observers of according file source:
-                for (it2 = vector.begin(); it2 != vector.end(); it2++)
+                else if (fileSrc->currentEvent == fileSrc->eventMap.end())
+                    reachedLastEvent += 1;
+            }
+            if (reachedLastEvent == sources.size() && loop)
+            {
+                for (sourceIt = sources.begin(); sourceIt != sources.end(); sourceIt++)
                 {
-                    FileSource *fileSrc = (FileSource*)(*it2);
-                    if(fileSrc->station == station && fileSrc->changed == false)
+                    (*sourceIt)->currentEvent = (*sourceIt)->eventMap.begin();
+                    (*sourceIt)->updateObservers(Event::null);
+                }
+                firstPlaybackTime = 0;
+            }
+        }
+        // non-realtime playback
+        else
+        {
+            // iterate over all files
+            for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
+            {
+                if((*it).second->mode == File::FILE_IN && (*it).second->read( event, &station ))
+                {
+                    NodeVector & vector = nodes[(*it).first];
+                    NodeVector::iterator it2;
+
+                    // reset all file sources
+                    for( it2 = vector.begin(); it2 != vector.end(); it2++ )
                     {
-                        fileSrc->changed = true;
-                        if(fileSrc->localTime )
-                            event.time = time;
-                        fileSrc->updateObservers( event );
+                        ((FileSource*)(*it2))->changed = false;
+                    }
+                    // update observers of according file source:
+                    for (it2 = vector.begin(); it2 != vector.end(); it2++)
+                    {
+                        FileSource *fileSrc = (FileSource*)(*it2);
+                        if(fileSrc->station == station && fileSrc->changed == false)
+                        {
+                            fileSrc->changed = true;
+                            if(fileSrc->localTime )
+                                event.time = time;
+                            fileSrc->updateObservers( event );
+                        }
                     }
                 }
             }
@@ -244,7 +311,7 @@ namespace ot {
 #endif //OT_NO_FILEMODULE_SUPPORT
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of FileModule.cxx
  * ------------------------------------------------------------
@@ -257,5 +324,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

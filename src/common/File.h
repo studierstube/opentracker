@@ -76,6 +76,8 @@ namespace ot {
 
     class OPENTRACKER_API File
     {
+        friend class FileModule;
+
         // Members
     protected :
 	/// Output stream for output mode
@@ -200,19 +202,26 @@ namespace ot {
 	    }
 
             bool failed = input->fail();
-            if( failed )
+            if(failed && loop)
 	    {
-                if ( loop )
-		{
-                    input->clear();
-                    input->seekg(0, std::ios::beg);
-                    failed = false;
-		}
-                else
-                    input->close();
+                input->clear();
+                input->seekg(0, std::ios::beg);
+                failed = false;
 	    }
             return !failed;
 	}
+
+        /** resets the input file
+         * @returns true if input file was successfully reset
+         */
+        bool reset()
+        {
+            if (!input->is_open())
+                return false;
+            input->clear();
+            input->seekg(0, std::ios::beg);
+            return true;
+        }
     };
 
 } // namespace ot
@@ -220,7 +229,7 @@ namespace ot {
 #endif
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of File.h
  * ------------------------------------------------------------
@@ -233,5 +242,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
