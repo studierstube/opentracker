@@ -1,6 +1,6 @@
-// CORBAmodule.idl
-module CORBAModule {
-  const string CORBAModule__doc__ = "This is the CORBA Module for OpenTracker";
+// OT_CORBA.idl
+module OT_CORBA {
+  const string OT_CORBA__doc__ = "This is the CORBA Module for OpenTracker";
 
   typedef float Position[3];
   typedef float Orientation[4];
@@ -8,43 +8,31 @@ module CORBAModule {
   typedef short Button;
   typedef float Confidence;
   
-  interface Event {
-    boolean hasAttribute(in string name);
-    boolean delAttribute(in string name);
-    boolean renAttribute(in string oldName, in string newName);
-    void clearAttributes();
-    void printout();
-    string getPrintOut();
-    void timeStamp();
-    long getSize();
-    Position getPosition();
-    Orientation getOrientation();
-    float getConfidence();
-    Button getButton();
-    void setPosition(in Position pos);
-    void setOrientation(in Orientation ori);
-    void setConfidence(in float value);
-    void setButton(in Button value);
-    boolean addAttribute(in string type, in string name, in string value);
-    string getAttributeValueString(in string name);
+  struct Event {
+    Position pos;
+    Orientation ori;
+    Timestamp time;
+    Button but;
+    Confidence conf;
   };
-  const string Event__doc__ = "The Event interface is a CORBA equivalent of the Event class used in OpenTracker";
+  const string Event__doc__ = "The Event struct is a CORBA equivalent of the State class used in OpenTracker1.1";
 
-  interface OTNode {
-    void push(in Event ev);
+  interface Node {
+    void setEvent(in Event ev);
+  };
+  const string Node__doc__ = "The Node is the superclass of all the CORBA objects that are either OpenTracker nodes or are invoked by OpenTracker ndoes.";
+
+  interface OTNode : Node {
   };
   const string OTNode__doc__ = "The OTNode is the superclass of all the OpenTracker nodes that are also CORBA objects.";
 
-  interface OTSource : OTNode { };
-
-  interface OTSink : OTNode { };
-
-  interface Node {
-    void register(in OTNode node);
-    void deregister(in OTNode node);
+  interface OTSource : OTNode { 
+    void push();
   };
 
-  interface Source : Node { };
+  interface OTSink : OTNode { }; // currently unused
+
+  interface Source : Node { }; // currently unused
 
   interface Sink : Node { };
 };
