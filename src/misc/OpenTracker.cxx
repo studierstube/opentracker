@@ -103,6 +103,7 @@
 #include "../input/OpenVideoModule.h"
 #include "../network/DwarfModule.h"
 #include "../network/VRPNModule.h"
+#include "../network/CORBAModule.h"
 
 // DLL main function
 
@@ -367,6 +368,12 @@ namespace ot {
         DwarfModule * dwarf = new DwarfModule;
         context.addFactory( *dwarf);
         context.addModule( "DwarfConfig", *dwarf );
+#endif
+
+#ifdef USE_CORBA
+        CORBAModule * corba = new CORBAModule;
+        context.addFactory( *corba);
+        context.addModule( "CORBAConfig", *corba );
 #endif
 
 #ifdef USE_VRPN

@@ -187,6 +187,8 @@ namespace ot {
          * somehow. Then it calls close() on all modules. */
         void run();
 
+        void runAtRate(double rate);
+
         /** tests whether the mainloop should stop, by asking all modules whether
          * they need to stop.*/
         int stop();

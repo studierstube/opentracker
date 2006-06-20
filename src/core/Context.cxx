@@ -247,6 +247,30 @@ namespace ot {
         close();
     }
 
+    // This method implements the main loop and runs until it is stopped somehow.
+    // This differs from the run() method in that a (crude) attempt is made 
+    // to run at a particular rate. Affected by OS-specific implementation 
+    // of wakeup and preemption events; however, can act as a throttle.
+
+    void Context::runAtRate(double rate)
+    {
+        double t1 = OSUtils::currentTime(); // in milliseconds
+        start();
+        while ( stop() == 0 )
+        {
+            // push and pull parts of the main loop
+            pushEvents();
+            pullEvents();
+            double t2 = OSUtils::currentTime(); // in milliseconds
+            double sleep_time = 1/rate*1000.0 - (t2 - t1);
+            if (sleep_time > 0.f) {
+                OSUtils::sleep(sleep_time);
+            }
+            t1 = t2;
+        }
+        close();
+    }
+
     // tests all modules for stopping
 
     int Context::stop()
