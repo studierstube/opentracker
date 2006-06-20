@@ -14,9 +14,10 @@ misc_source_files = ['./src/misc/XKeys.cxx',
 		     './src/misc/serialcomm.cxx', 
 		     './src/misc/OpenTracker.cxx']
 main_file = './src/misc/main.cxx'
+middleware_file = './src/misc/middleware.cxx'
 
 if sys.platform == 'darwin':
-	defs='-g -DDARWIN'
+	defs='-g -DDARWIN '
 	_cpppath = ['/opt/local/include', './src']
 	# Remove the following files from the darwin build
 	input_source_files.remove('./src/input/InterSenseModule.cxx')
@@ -28,11 +29,12 @@ _libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 
 opts = Options('custom.py') 
 opts.Add(BoolOption('corba', 'Set to 1 to build in CORBAModule', 0)) 
-env=Environment(ENV = os.environ, CCFLAGS=defs, options=opts)
+env=Environment(ENV = os.environ, options=opts)
 Help(opts.GenerateHelpText(env))
 
 # Test to see whether the CORBAModule should be built
 if env['corba']:
+	defs  += ' -DUSE_CORBA '
 	_libs += ['omniORB4', 'omnithread', 'omniDynamic4']
 	omniidl.generate(env)
 	idl_path = './idl'
@@ -51,7 +53,7 @@ if env['corba']:
 			pydirs.append(os.path.dirname(str(py)))
 		skeletons.append(stubSK)
 	# append skeleton directory
-	_cpppath.append(os.path.join(idl_path, 'skeletons')) 
+	_cpppath.append(os.path.join(idl_path, 'skeletons'))
 	# check to see whether there should be a cleanup of these directories
 	if env.GetOption('clean'):
 		print "Cleanup of the python stub directories"
@@ -63,19 +65,27 @@ else:
 	for file in corba_files:
 		network_source_files.remove(file)
 
-ot2lib = env.SharedLibrary('OpenTracker', common_source_files + \
+otlib = env.SharedLibrary('OpenTracker', common_source_files + \
 			   core_source_files + network_source_files + \
 			   tool_source_files + misc_source_files + \
-			   input_source_files, LIBS=_libs, \
-			   CPPPATH=_cpppath, \
+			   input_source_files + skeletons, \
+			   CCFLAGS = defs, \
+			   LIBS=_libs, CPPPATH=_cpppath, \
 			   LIBPATH=['/opt/local/lib','/usr/X11R6/lib'])
 
-ot2 = env.Program('opentracker', main_file,
-		  LIBS= _libs + ot2lib,
-		  CCPATH=defs, 
-		  CPPPATH=_cpppath, 
+ot = env.Program('opentracker', main_file, \
+		  LIBS= _libs + otlib,\
+		  CPPPATH=_cpppath, \
+		  CCFLAGS = defs, \
 		  LIBPATH=['/opt/local/lib','/usr/X11R6/lib','./lib'])
-env.Depends(ot2, ot2lib)
 
-env.Install('#bin', ot2)
-env.Install('#lib', ot2lib)
+middleware = env.Program('middleware', middleware_file, \
+		  LIBS= _libs + otlib,\
+		  CPPPATH=_cpppath, \
+		  CCFLAGS = defs, \
+		  LIBPATH=['/opt/local/lib','/usr/X11R6/lib','./lib'])
+
+#env.Depends(ot2, ot2lib)
+
+env.Install('#bin', [ot, middleware])
+env.Install('#lib', otlib)
