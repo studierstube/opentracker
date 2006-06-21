@@ -1,7 +1,6 @@
 import glob
 import sys
 import os
-import omniidl
 
 # All the other files 
 common_source_files = glob.glob('./src/common/*.cxx')
@@ -35,6 +34,7 @@ Help(opts.GenerateHelpText(env))
 
 # Test to see whether the CORBAModule should be built
 if env['corba']:
+	from OTSConsBuilders import omniidl
 	defs  += ' -DUSE_CORBA '
 	_libs += ['omniORB4', 'omnithread', 'omniDynamic4']
 	omniidl.generate(env)
@@ -68,7 +68,7 @@ else:
 
 if env['pyqt']:
 	# PyQt: build the .ui files
-	import pyuic
+	from OTSConsBuilders import pyuic
 	pyuic.generate(env)
 	ui_files = ['src_python/ManualTrackerPython/ManualTrackerGUI.ui']
 	for ui_file in ui_files:
