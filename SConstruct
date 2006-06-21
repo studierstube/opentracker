@@ -29,6 +29,7 @@ _libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 
 opts = Options('custom.py') 
 opts.Add(BoolOption('corba', 'Set to 1 to build in CORBAModule', 0)) 
+opts.Add(BoolOption('pyqt', 'Set to 1 to build in pyqt applications', 0)) 
 env=Environment(ENV = os.environ, options=opts)
 Help(opts.GenerateHelpText(env))
 
@@ -64,6 +65,14 @@ else:
 	# remove CORBA files from list of network source files
 	for file in corba_files:
 		network_source_files.remove(file)
+
+if env['pyqt']:
+	# PyQt: build the .ui files
+	import pyuic
+	pyuic.generate(env)
+	ui_files = ['src_python/ManualTrackerPython/ManualTrackerGUI.ui']
+	for ui_file in ui_files:
+		env.PYUIC(ui_file)
 
 otlib = env.SharedLibrary('OpenTracker', common_source_files + \
 			   core_source_files + network_source_files + \
