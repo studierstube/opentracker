@@ -221,6 +221,9 @@
 				RelativePath="..\..\src\common\FileModule.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\common\File.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\common\FilterNode.cxx">
 			</File>
 			<File

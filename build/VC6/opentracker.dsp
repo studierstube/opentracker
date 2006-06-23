@@ -628,6 +628,10 @@ SOURCE=..\..\src\common\File.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\common\File.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\common\FileModule.h
 # End Source File
 # Begin Source File

@@ -1891,6 +1891,10 @@ SOURCE=..\..\src\common\File.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\common\File.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\common\FileModule.cxx
 DEP_CPP_FILEM=\
 	"..\..\..\Ace\ace\ACE_export.h"\
