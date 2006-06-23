@@ -78,6 +78,7 @@ libcommon_la_SOURCES = \
 	EventUtilityNode.cxx \
 	EventUtilityNode.h \
         File.h \
+	File.cxx \
         FileModule.cxx \
         FileModule.h \
         FileSink.h \

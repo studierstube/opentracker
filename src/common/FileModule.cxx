@@ -263,7 +263,9 @@ namespace ot {
             // iterate over all files
             for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
             {
-                if((*it).second->mode == File::FILE_IN && (*it).second->read( event, &station ))
+
+
+                    if((*it).second->mode == File::FILE_IN && (*it).second->read(event,&station))
                 {
                     NodeVector & vector = nodes[(*it).first];
                     NodeVector::iterator it2;

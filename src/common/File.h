@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for File support class for the FileModule.
  *
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Jochen von Spiczak
  *
  * $Id$
  * @file                                                                   */
@@ -48,10 +48,7 @@
 
 #include <string>
 
-#include <iomanip>
-#include <fstream>
 
-//using namespace std;
 
 /**
  * File class is a simple class that provides formatted input or output to a file.
@@ -105,39 +102,12 @@ namespace ot {
          * @param loop_ if IN mode loop input file or not
          * @param ot11Format_ if OT v1.1 compatible output format should be used (for testing purposes only)
          */
-        File(const std::string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false, bool ot11Format_ = false ) :
-            loop( loop_ ), ot11Format( ot11Format_ ), filename( filename_), mode( mode_ )
-	{
-            if( mode == FILE_OUT ) // output mode
-	    {
-                if( append )
-                    output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::app );
-                else
-                    output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::trunc );
-                input = NULL;
-	    }
-            else {          // otherwise input mode
-                input = new std::ifstream( filename.c_str());
-                input->setf( std::ios::skipws );
-                output = NULL;
-            }
-	}
+        File(const std::string filename_ , modeFlags mode_ = FILE_OUT, bool append = false, bool loop_ = false, bool ot11Format_ = false );
+
 
         /** destructor, closes the streams and deletes them again
          */
-        ~File()
-	{
-            if( input != NULL )
-	    {
-                input->close();
-                delete input;
-	    }
-            if( output != NULL )
-	    {
-                output->close();
-                delete output;
-	    }
-	}
+        ~File();
 
         /** writes a event to the output stream, only useable
          * if File object was opened in output mode. Here you
@@ -145,31 +115,7 @@ namespace ot {
          * @param event reference to the output event
          * @param station number of the statione
          */
-        void write( Event & event, int station )
-	{
-            if( output != NULL)
-	    {
-                if (!ot11Format)
-                    *output << station << " " << event << std::endl;
-                else
-		{
-                    char str[220];
-                    sprintf(str, "%d %.15f %.15f %.15f %.15f %.15f %.15f %.15f %.15f %d %.15f\n",
-                            station,
-                            event.time,
-                            event.getPosition()[0],
-                            event.getPosition()[1],
-                            event.getPosition()[2],
-                            event.getOrientation()[0],
-                            event.getOrientation()[1],
-                            event.getOrientation()[2],
-                            event.getOrientation()[3],
-                            event.getButton(),
-                            event.getConfidence());
-                    *output << str << std::flush;
-		}
-	    }
-	}
+        void write( Event & event, int station );
 
         /** tries to read in the next station data, stored in
          * the input file, only useable if File object was opened
@@ -179,49 +125,12 @@ namespace ot {
          * @param station pointer to an int containing the station
          * @returns true if a new station could be read, otherwise false.
          */
-        bool read( Event & event, int * station )
-	{
-            if( !input->is_open())
-                return false;
-
-            if (!ot11Format)
-	    {
-                input->clear();
-                *input >> *station;
-                *input >> event;
-	    }
-            else
-	    {
-                input->clear();
-                *input >> *station;
-                *input >> event.time;
-                *input >> event.getPosition()[0] >> event.getPosition()[1] >> event.getPosition()[2];
-                *input >> event.getOrientation()[0] >> event.getOrientation()[1] >> event.getOrientation()[2] >> event.getOrientation()[3];
-                *input >> event.getButton();
-                *input >> event.getConfidence();
-	    }
-
-            bool failed = input->fail();
-            if(failed && loop)
-	    {
-                input->clear();
-                input->seekg(0, std::ios::beg);
-                failed = false;
-	    }
-            return !failed;
-	}
+        bool read( Event & event, int * station );
 
         /** resets the input file
          * @returns true if input file was successfully reset
          */
-        bool reset()
-        {
-            if (!input->is_open())
-                return false;
-            input->clear();
-            input->seekg(0, std::ios::beg);
-            return true;
-        }
+        bool reset();
     };
 
 } // namespace ot
