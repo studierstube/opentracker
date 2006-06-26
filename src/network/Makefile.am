@@ -4,6 +4,13 @@ include $(top_srcdir)/src/Makefile.common
 
 otnetworkincdir = $(otincdir)/network
 otnetworkinc_HEADERS = \
+        CORBAModule.h \
+        CORBASink.h \
+        CORBASource.h \
+        CORBAUtils.h \
+        DwarfModule.h \
+        DwarfSink.h \
+        DwarfSource.h \
         Network.h \
         NetworkSink.h \
         NetworkSinkModule.h \
@@ -11,15 +18,22 @@ otnetworkinc_HEADERS = \
         NetworkSourceModule.h \
         TCPModule.h \
         TCPSink.h \
-        DwarfModule.h \
-        DwarfSink.h \
-        DwarfSource.h \
         VRPNModule.h \
         VRPNSink.h \
         VRPNSource.h
 
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
+        CORBAModule.cxx \
+        CORBAModule.h \
+        CORBASink.h \
+        CORBASource.h \
+        CORBAUtils.cxx \
+        CORBAUtils.h \
+        DwarfModule.cxx \
+        DwarfModule.h \
+        DwarfSink.h \
+        DwarfSource.h \
         Network.h \
         NetworkSink.h \
         NetworkSinkModule.cxx \
@@ -30,14 +44,9 @@ libnetwork_la_SOURCES = \
         TCPModule.cxx \
         TCPModule.h \
         TCPSink.h \
-        DwarfModule.cxx \
-        DwarfModule.h \
-        DwarfSink.h \
-        DwarfSource.h \
         VRPNModule.cxx \
         VRPNModule.h \
         VRPNSink.cxx \
         VRPNSink.h \
         VRPNSource.cxx \
         VRPNSource.h
-
