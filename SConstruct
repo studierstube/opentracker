@@ -14,6 +14,8 @@ misc_source_files = ['./src/misc/XKeys.cxx',
 		     './src/misc/OpenTracker.cxx']
 main_file = './src/misc/main.cxx'
 middleware_file = './src/misc/middleware.cxx'
+corba_files = glob.glob('./src/network/CORBA*.cxx')
+
 
 # name for the dll and program that will be produced by the SConstruct
 dlname = 'opentracker'
@@ -24,8 +26,9 @@ binInstallDir = '#bin'
 dlInstallDir  = '#lib'
 buildPrefix = ''
 
+defs = ''
 _lpath = ['/opt/local/lib','/usr/X11R6/lib']
-
+_cpppath=[]
 if sys.platform == 'darwin':
 	defs='-g -DDARWIN '
 	_cpppath = ['/opt/local/include', './src']
@@ -93,16 +96,22 @@ Help(opts.GenerateHelpText(env))
 
 # Test to see whether the CORBAModule should be built
 if env['corba']:
+	idl_path = './idl'
 	if sys.platform == 'win32':
 		_dlLibDir += [corbaLibPath]
-		_dlIncFlags += [corbaIncPath]
+		_dlIncFlags += [corbaIncPath, os.path.join(idl_path, 'skeletons')]
 		_dlLibs += ['omniORB4', 'omnithread', 'omniDynamic4']
 
+	else:
+		defs  += ' -DUSE_CORBA '
+		_libs += ['omniORB4', 'omnithread', 'omniDynamic4']
+		# append skeleton directory
+		_cpppath.append(os.path.join(idl_path, 'skeletons'))
+
 	from OTSConsBuilders import omniidl
-	defs  += ' -DUSE_CORBA '
-	_libs += ['omniORB4', 'omnithread', 'omniDynamic4']
+
 	omniidl.generate(env)
-	idl_path = './idl'
+
 	idl_files = glob.glob(idl_path + '/*.idl')
 	idl_dict  = {}
 	for idl_file in idl_files:
@@ -111,21 +120,21 @@ if env['corba']:
 	pydirs = []
 	for _idl in idl_dict.values():
 		# Call the OMNIIDL builder with the idl file
+
 		idl_targets = env.OMNIIDL(_idl)
+
 		stubSK = idl_targets[1]
 		pystubs = idl_targets[3:]
 		for py in pystubs:
 			pydirs.append(os.path.dirname(str(py)))
 		skeletons.append(stubSK)
-	# append skeleton directory
-	_cpppath.append(os.path.join(idl_path, 'skeletons'))
+
 	# check to see whether there should be a cleanup of these directories
 	if env.GetOption('clean'):
 		print "Cleanup of the python stub directories"
 		for pydir in pydirs:
 			Execute(Delete(pydir))
 else:
-	corba_files = glob.glob('./src/network/CORBA*.cxx')
 	# remove CORBA files from list of network source files
 	for file in corba_files:
 		network_source_files.remove(file)
@@ -137,8 +146,6 @@ if env['pyqt']:
 	ui_files = ['src_python/ManualTrackerPython/ManualTrackerGUI.ui']
 	for ui_file in ui_files:
 		env.PYUIC(ui_file)
-
-
 
 
 
@@ -189,8 +196,10 @@ else:
 
 
 
+
 if sys.platform == 'win32':
-	print otlib
+	for lib in otlib:
+		print lib
 
 
 env.Install(binInstallDir, [ot, middleware])
