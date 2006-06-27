@@ -72,7 +72,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(VIDCAPROOT)/Source/VidCapture&quot;;&quot;$(OPENVIDEOROOT)/include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;TINYXML_MOD_DLL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -196,19 +196,28 @@
 				RelativePath="..\..\src\common\EllipsoidTransformNode.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\common\EventQueueNode.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\common\EventUtilityNode.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\input\FastTrakModule.cxx">
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.cxx">
+				RelativePath="..\..\src\common\File.cxx">
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.cxx">
+				RelativePath="..\..\src\common\FileModule.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\common\FilterNode.cxx">
@@ -340,9 +349,6 @@
 				RelativePath="..\..\src\input\SpeechVoiceModule.cxx">
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.cxx">
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.cxx">
 			</File>
 			<File
@@ -371,6 +377,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\input\UbisenseModule.cxx">
@@ -519,10 +528,19 @@
 				RelativePath="..\..\src\common\EllipsoidTransformNode.h">
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.h">
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttribute.h">
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\EventQueueNode.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\FastTrakModule.h">
@@ -598,6 +616,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\InvertTransformation.h">
+			</File>
+			<File
+				RelativePath="..\..\src\core\iostream_ext.h">
 			</File>
 			<File
 				RelativePath="..\..\extras\intersense\isense.h">
@@ -735,9 +756,6 @@
 				RelativePath="..\..\src\input\SpeechVoiceModule.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.h">
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.h">
 			</File>
 			<File
@@ -775,6 +793,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.h">
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\UbisenseModule.h">
