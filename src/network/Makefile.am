@@ -1,13 +1,20 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
+#       CORBAModule.h \
+#       CORBASink.h \
+#       CORBASource.h \
+#       CORBAUtils.h \
+#        CORBAModule.cxx \
+#        CORBAModule.h \
+#        CORBASink.h \
+#        CORBASource.h \
+#        CORBAUtils.cxx \
+#        CORBAUtils.h 
+
 include $(top_srcdir)/src/Makefile.common
 
 otnetworkincdir = $(otincdir)/network
 otnetworkinc_HEADERS = \
-        CORBAModule.h \
-        CORBASink.h \
-        CORBASource.h \
-        CORBAUtils.h \
         DwarfModule.h \
         DwarfSink.h \
         DwarfSource.h \
@@ -24,12 +31,6 @@ otnetworkinc_HEADERS = \
 
 noinst_LTLIBRARIES = libnetwork.la
 libnetwork_la_SOURCES = \
-        CORBAModule.cxx \
-        CORBAModule.h \
-        CORBASink.h \
-        CORBASource.h \
-        CORBAUtils.cxx \
-        CORBAUtils.h \
         DwarfModule.cxx \
         DwarfModule.h \
         DwarfSink.h \
