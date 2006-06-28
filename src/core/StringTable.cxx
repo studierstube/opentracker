@@ -221,6 +221,10 @@ namespace ot {
 
     int StringTable::get(const std::string & key, std::vector<float> & vector, int len )
     {
+        StringMap::iterator it = map.find( key );
+        if( it == map.end())
+            return 0;
+
         float *array = (float*)malloc(len * sizeof(float));
         int count = get(key, array, len);
         copyA2V(array, len, vector);

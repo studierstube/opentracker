@@ -55,7 +55,8 @@ namespace ot {
         // transform the position of the event
         if( usePos )
         {
-            MathUtils::rotateVector( event->getOrientation(), copyA2V(translation, 4),
+            MathUtils::rotateVector( event->getOrientation(), 
+                                     copyA2V(translation, 3),
                                      localEvent.getPosition() );
             localEvent.getPosition()[0] += event->getPosition()[0];
             localEvent.getPosition()[1] += event->getPosition()[1];
@@ -69,7 +70,9 @@ namespace ot {
         // transform the orientation of the event
         if( useOrient )
         {
-            MathUtils::multiplyQuaternion( event->getOrientation(), copyA2V(rotation, 4), localEvent.getOrientation() );
+            MathUtils::multiplyQuaternion( event->getOrientation(), 
+                                           copyA2V(rotation, 4), 
+                                           localEvent.getOrientation() );
         }
         else {
             localEvent.getOrientation() = event->getOrientation();
