@@ -73,15 +73,26 @@ namespace ot
     // rename, discard, or create attributes and update observers
     void EventUtilityNode::onEventGenerated(Event &event, Node &generator)
     {
+		
+		
         bool success = false;
+		
         if (oldName.length() > 0)
             success |= event.renAttribute(oldName, newName);
         if (discard.length() > 0)
             success |= event.delAttribute(discard);
-        if (type.length() > 0)
-            success |= event.addAttribute(type, name, value);
+		if (type.length() > 0){
+			// this is necessary in order to updateObservers even when reusing an event
+			// to which the attribute has already been added
+			success |=event.hasAttribute(name);
+			if (!success)
+				success |= event.addAttribute(type, name, value);
+		
+		}
         if (success)
             updateObservers(event);
+
+
     }
 
 } // namespace ot
