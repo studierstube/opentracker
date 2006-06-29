@@ -57,9 +57,9 @@ OTQtMath::rotateVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
                                  std::vector<float> & vec_local_to)
 {
   // Compute orig / target CS orientation difference
-  std::vector<float> cs_from_orient_conj;
+    std::vector<float> cs_from_orient_conj(4);
   MathUtils::invertQuaternion(cs_from.getOrientation(), cs_from_orient_conj);
-  std::vector<float> cs_from_to_orient_diff;
+  std::vector<float> cs_from_to_orient_diff(4);
   MathUtils::multiplyQuaternion(cs_to.getOrientation(), cs_from_orient_conj, cs_from_to_orient_diff);
   // Rotate vector
   MathUtils::rotateVector(cs_from_to_orient_diff, vec_local_from, vec_local_to);
@@ -72,11 +72,11 @@ OTQtMath::transformVectorFromCSToCS(Event const & cs_from, Event const & cs_to,
                                     Event const & vec_global, Event & vec_global_to)
 {
   // Convert global vector to local vector relative to original CS
-  std::vector<float> vec_local_from;
+  std::vector<float> vec_local_from(3);
   for (int i = 0; i < 3; i++) {
     vec_local_from[i] = vec_global.getPosition()[i] - cs_from.getPosition()[i];
   }
-  std::vector<float> vec_local_to;
+  std::vector<float> vec_local_to(3);
   // Rotate local vector about the orientation (from - to) difference of given CS
   rotateVectorFromCSToCS(cs_from, cs_to, vec_local_from, vec_local_to);
   // Convert local vector to global vector relative to target CS

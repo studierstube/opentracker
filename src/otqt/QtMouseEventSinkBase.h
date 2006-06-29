@@ -135,7 +135,7 @@ public:  // typedefs, constants
     POS_THRESH_FILTER = 0x04,
     /// enable/disable the orientation threshold filter applied in the acquisition of
     /// tracking event (disabled by default)
-    ORIENT_THRESH_FILTER = 0x08
+    ORIENT_THRESH_FILTER = 0x08,
   };
 
 protected:

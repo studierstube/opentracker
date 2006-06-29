@@ -95,17 +95,17 @@ class OPENTRACKER_API QtMouseEventModuleBase : public Module, public NodeFactory
 
 protected:
   /// object state flag collection: each flags is either enabled (equals true) or disabled
-  enum StateFlag {
+  enum {
     /// enabled if module was configured (see init() method)
     CONFIGURED = 0x01,
     /// enabled if module was initialized (see start() method)
     INITIALIZED = 0x02,
     /// enabled if module requests OpenTracker main loop to stop
-    STOP = 0x04,
+    MEM_STOP = 0x04,
     /// mouse event dispatch to the target Qt application in operation mode either enabled
     /// or disabled
     DISPATCH_QT_EVENTS = 0x08
-  };
+  } StateFlag;
   /// type of the registered sink list
   typedef std::list<QtMouseEventSinkBase *> SinkContainer;
   /// type of the state bit string
@@ -178,11 +178,11 @@ public:
   /**
    * Does nothing.
    */
-  virtual void pullState() { };
+  virtual void pullEvent() { };
   /**
    * Does nothing.
    */
-  virtual void pushState() { };
+  virtual void pushEvent() { };
   /**
    * Enables or disables the dispatch of mouse events (see state flag @c
    * DISPATCH_QT_EVENTS) to the Qt target application depending on given boolean

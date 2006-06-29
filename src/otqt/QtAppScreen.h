@@ -82,6 +82,7 @@
 #if USE_OTQT
 
 #include "OTQtMath.h"
+#include "OTQtLog.h"
 #include <core/ConfigNode.h>
 #include <core/Event.h>
 #include <qpoint.h>
@@ -171,7 +172,20 @@ public:
    * @class CalibOutputData
    * @brief Output data of calibration routine
    */
-  typedef struct {
+  class CalibOutputData
+  {
+  public:
+      CalibOutputData()
+          : as_cs_orient(4),
+            as_cs_root_to_screen_root(3),
+            as_width_vec(3),
+            as_height_vec(3)
+      {
+          OTQT_DEBUG("CalibOutputData(): as_cs_orient.size () = %i\n", as_cs_orient.size());
+      };
+      ~CalibOutputData()
+      {};
+  public:
     /// difference angle between application screen and world (tracking) coordinate system
     std::vector<float> as_cs_orient;
     /// difference vector from AS coordinate system origin to screen plane root (top left screen corner per definition)
@@ -180,7 +194,7 @@ public:
     std::vector<float> as_width_vec;
     /// height vector spanning the screen plane
     std::vector<float> as_height_vec;
-  } CalibOutputData;
+  };
 
   /**
    * Location states of the MPD relative to the SC.
@@ -200,7 +214,20 @@ private:
    * @brief Geometric 3D data specifying spatial location and extent of application
    * desktop screen
    */
-  typedef struct {
+  class ASData
+  {
+  public:
+      ASData()
+          : as_cs_root(),
+            as_screen_root(),
+            as_width_vec(3),
+            as_height_vec(3),
+            as_depth_scalar_front(0),
+            as_depth_scalar_back(0)
+      {};
+      ~ASData()
+      {};
+  public:
     /// application screen coordinate system position and orientation (ASPD)
     Event as_cs_root;
     /// screen plane root position
@@ -213,7 +240,7 @@ private:
     float as_depth_scalar_front;
     /// negative scalar multiplier of screen plane depth unit vector (back of screen)
     float as_depth_scalar_back;
-  } ASData;
+  };
   /**
    * @class MPData
    * @brief Data collection reflecting latest perceived (current) MPD tracking state

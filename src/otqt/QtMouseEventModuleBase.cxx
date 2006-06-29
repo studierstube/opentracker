@@ -117,7 +117,7 @@ void QtMouseEventModuleBase::start()
   }
 
   if (!ok) {
-    state_ |= STOP;
+    state_ |= MEM_STOP;
     state_ &= ~INITIALIZED;
   }
   OTQT_DEBUG("QtMouseEventModuleBase()::start(): *** FINISHED with state = %d\n", state_);
@@ -127,7 +127,7 @@ void QtMouseEventModuleBase::start()
 //--------------------------------------------------------------------------------
 int QtMouseEventModuleBase::stop()
 {
-  return (state_ & STOP);
+  return (state_ & MEM_STOP);
 }
 
 //--------------------------------------------------------------------------------

@@ -139,7 +139,7 @@ void QtMouseEventModule::start()
   }
 
   if (!ok) {
-    state_ |= STOP;
+    state_ |= MEM_STOP;
     state_ &= ~INITIALIZED;
   }
 
@@ -162,7 +162,7 @@ void QtMouseEventModule::close()
 
 
 //--------------------------------------------------------------------------------
-void QtMouseEventModule::pullState()
+void QtMouseEventModule::pullEvent()
 {
   OTQT_DEBUG("QtMouseEventModule()::pullState(): *** START with state = %d\n", state_);
 
@@ -237,6 +237,13 @@ void QtMouseEventModule::pullState()
         // pending or not
         mb_sink_->acquireEvent(Event::null);
         // lock MBS event acquisition
+        mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
+      }
+
+      if (mw_sink_ != NULL) {
+        // reset all mouse wheel action
+        mb_sink_->acquireEvent(Event::null);
+        // lock event acquisition
         mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
       }
 

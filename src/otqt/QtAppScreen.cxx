@@ -46,7 +46,6 @@
 #if USE_OTQT
 
 #include "QtAppScreen.h"
-#include "OTQtLog.h"
 #include <qapplication.h>
 #include <math.h>
 
@@ -143,12 +142,15 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
 
   ///// save screen coordinate system orientation
 
+  //  out.as_cs_orient.resize(4);
+  OTQT_DEBUG("QtAppScreen::convert(): out.as_cs_orient.size() = %i\n", out.as_cs_orient.size());
   for (int i = 0; i < 4; i++) {
     out.as_cs_orient[i] = in_final.as_cs_root.getOrientation()[i];
   }
 
   ///// difference vector between screen coordinate system root and screen root
 
+  //  out.as_cs_root_to_screen_root.resize(3);
   for (int i = 0; i < 3; i++) {
     out.as_cs_root_to_screen_root[i] =
       in_final.top_left.corner.getPosition()[i] - in_final.as_cs_root.getPosition()[i];
@@ -203,6 +205,8 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
   // base vector v2: top/right -> (transformed) bottom/right
   vec_tl_bl = k * diag_tl_br - vec_tl_tr;
 
+  //  out.as_width_vec.resize(3);
+  // out.as_height_vec.resize(3);
   for (int i = 0; i < 3; i++) {
     out.as_width_vec[i] = vec_tl_tr(i+1);
     out.as_height_vec[i] = vec_tl_bl(i+1);
@@ -220,10 +224,10 @@ void QtAppScreen::updateASPD(Event const & as_cs_root_curr)
   as_data_.as_screen_root = as_screen_root_curr;
 
   ///// transform screen plane base vectors
-  std::vector<float> as_width_vec_curr;
+  std::vector<float> as_width_vec_curr(3);
   OTQtMath::rotateVectorFromCSToCS(as_data_init_.as_cs_root, as_cs_root_curr,
                                    as_data_init_.as_width_vec, as_width_vec_curr);
-  std::vector<float> as_height_vec_curr;
+  std::vector<float> as_height_vec_curr(3);
   OTQtMath::rotateVectorFromCSToCS(as_data_init_.as_cs_root, as_cs_root_curr,
                                    as_data_init_.as_height_vec, as_height_vec_curr);
   for (int i = 0; i < 3; i++) {

@@ -266,7 +266,7 @@ public:
    * done by Qt.// At any point the pullState() method exits, the pending event flags of all
    * sinks are reseted.//
    */
-  virtual void pullState();
+  virtual void pullEvent();
 
 private:
   /// collection of target application desktop screen information

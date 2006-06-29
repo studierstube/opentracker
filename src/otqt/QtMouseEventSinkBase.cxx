@@ -99,9 +99,9 @@ QtMouseEventSinkBase::isInsidePosThreshSphere(Event const & event) const
 bool
 QtMouseEventSinkBase::isInsideOrientThreshCone(Event const & event) const
 {
-  std::vector<float> orient_conj;
+  std::vector<float> orient_conj(4);
   MathUtils::invertQuaternion(curr_event_.getOrientation(), orient_conj);
-  std::vector<float> orient_diff;
+  std::vector<float> orient_diff(4);
   MathUtils::multiplyQuaternion(event.getOrientation(), orient_conj, orient_diff);
 
   for (int i = 0; i < 4; i++) {
