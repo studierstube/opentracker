@@ -59,7 +59,7 @@
 /// enable/disable logging to file
 #define OTQT_LOG_TO_FILE_ON   0
 
-#define OTQT_DEBUG_ON         1
+#define OTQT_DEBUG_ON         0
 #define OTQT_INFO_ON          1
 #define OTQT_WARNING_ON       1
 #define OTQT_ERROR_ON         1

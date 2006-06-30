@@ -225,6 +225,12 @@ public:
    * @li orientation threshold check fails (optional, depending on actual sink, @c
    * ORIENT_THRESH_FILTER flag enabled).
    *
+   * Forwards the tracking event if ..
+   *
+   * @li either @c CONSUME_EVENTS or @c EVENT_CONSUME_SIGNAL are
+   * disabled. If both are true the event is said to be locally @e
+   * consumed and thus NOT forwarded.
+   *
    * @param event tracking event
    * @param generator event generating child node
    */
@@ -269,6 +275,14 @@ public:
    * @return enable/disable (true/false) value of the state flag after update
    */
   bool enableState(StateFlag flag, bool enable = true);
+  /**
+   * Forwards the given tracking event to its parents if either @c CONSUME_EVENTS or @c
+   * EVENT_CONSUME_SIGNAL are disabled. If both are true the event is said to be locally
+   * @e consumed and thus NOT forwarded.
+   *
+   * @param event tracking event to forward
+   */
+  void forwardEvent(Event & event);
 
 protected:
 
@@ -300,15 +314,6 @@ protected:
    * @param event pending tracking event
    */
   void acquireEvent(Event const & event);
-
-    /**
-     * Forwards the given tracking event to its parents if either @c CONSUME_EVENTS or @c
-     * EVENT_CONSUME_SIGNAL are disabled. If both are true the event is said to be locally
-     * @e consumed and thus NOT forwarded.
-     *
-     * @param event tracking event to forward
-     */
-  void forwardEvent(Event & event);
 
 protected:
   /// state bit string

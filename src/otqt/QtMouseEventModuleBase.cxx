@@ -222,6 +222,28 @@ void QtMouseEventModuleBase::enableEventConsumeSignalAllSinks(bool enable)
 {
   OTQT_DEBUG("QtMouseEventModuleBase::enableEventConsumeSignalAllSinks():"
              "-- START. enable = %i\n", enable);
+
+  // SPECIAL: reset active button and wheel presses (within
+  // applications that take its input tracking events from parents
+  // nodes ot the OTQt sinks!!) at the time the event consumption is
+  // activated.
+
+  if (enable == true) {
+      // reset all active button press events
+      if (mb_sink_ != NULL) {
+          Event event;
+          event.setButton(0);
+          mb_sink_->forwardEvent(event);
+      }
+      // reset all active wheel events 
+      if (mw_sink_ != NULL) {
+          Event event;
+          event.setButton(0);
+          mw_sink_->forwardEvent(event);
+      }
+  }
+      
+  // enable/disable event consume signal within all registered sinks
   SinkContainer::const_iterator iter = all_sinks_.begin();
   for ( ; iter != all_sinks_.end(); iter++) {
       (*iter)->enableState(QtMouseEventSinkBase::EVENT_CONSUME_SIGNAL, enable);
