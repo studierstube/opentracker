@@ -229,7 +229,6 @@ public:
    * Does nothing.
    */
   virtual void close();
-  // virtual void pushState();
   /**
    * The processing of pending events starts with the ASPS. The MEM employs a separate
    * class QtAppScreen which provides methods to update the geometric information about
@@ -281,7 +280,7 @@ private:
 
 #endif // OTQT_QTMOUSEEVENTMODULE_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventModule.h
  * ------------------------------------------------------------
@@ -294,5 +293,5 @@ private:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

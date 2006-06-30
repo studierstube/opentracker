@@ -54,11 +54,15 @@
  * @li @c PosThreshRadiusInMeter radius of threshold sphere, applied in position filter
  * (optional; default value: "0.0" -> position filter disabled) .. @ref
  * anc_position_filter "more"
+ * @li @c consume-events Either "true" (enabled) or "false" (disabled, default). If
+ * enabled, tracking events are not forwarded to their parent nodes within the OT node
+ * graph iff they are @e consumed within the %OTQt MEM, that is, if a specific tracking
+ * event was used to generate Qt mouse events .. @ref anc_xmlattrib_consume_events "more"
  *
  * An example element looks like this:
  *
 @verbatim
-<QtMousePosSink PosThreshRadiusInMeter="0.001">
+<QtMousePosSink PosThreshRadiusInMeter="0.001" consume-events="true">
   <Any EventGenerator element type>
 </QtMousePosSink>@endverbatim
  *

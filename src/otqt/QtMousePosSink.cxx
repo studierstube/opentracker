@@ -76,7 +76,7 @@ void QtMousePosSink::onEventGenerated(Event & event, Node & generator) {
     acquireEvent(event);
 
   // pass original event to parent nodes
-  updateObservers(event);
+  forwardEvent(event);
 }
 
 } // namespace ot

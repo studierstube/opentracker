@@ -54,14 +54,14 @@ namespace ot {
 void QtMouseButtonSink::onEventGenerated(Event & event, Node & generator) {
   OTQT_DEBUG("QtMouseButtonSink::onEventGenerated(): --- START: event.getButton() = %hx\n", event.getButton() );
 
-  if (!(state_ & EVENT_LOCK)) {
+  if (!(state_ & EVENT_ACQUIRE_LOCK)) {
     if (event.getButton() != curr_event_.getButton()) {
       // acquire tracking event
       acquireEvent(event);
     }
   }
   // pass original event to parent nodes
-  updateObservers(event);
+  forwardEvent(event);
 }
 
 

@@ -229,6 +229,15 @@ public:
    */
   void resetPendingEventBitAllSinks();
   /**
+   * Enables/Disables the @e event @e consume @e signal of all registered sinks depending
+   * of the given boolean value. The signal typically stays enabled while the MPD resides
+   * inside the screen cuboid, thus the MEM consumes the tracking events by generating Qt
+   * mouse events.
+   *
+   * @param enable true to enable, false to disable the signal
+   */
+  void QtMouseEventModuleBase::enableEventConsumeSignalAllSinks(bool enable);
+  /**
    * Returns the XML attribute key/value map.
    * @return XML attribute key/value map
    */
@@ -262,7 +271,7 @@ protected:
 #endif // OTQT_QTMOUSEEVENTMODULEBASE_H
 
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventModuleBase.h
  * ------------------------------------------------------------
@@ -275,5 +284,5 @@ protected:
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

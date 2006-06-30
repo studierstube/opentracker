@@ -59,8 +59,9 @@ void QtMouseWheelSink::onEventGenerated(Event & event, Node & generator)
     // acquire tracking event
     acquireEvent(event);
   }
+
   // pass original event to parent nodes
-  updateObservers(event);
+  forwardEvent(event);
 }
 
 //--------------------------------------------------------------------------------

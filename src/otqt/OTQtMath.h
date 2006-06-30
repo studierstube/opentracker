@@ -88,7 +88,7 @@ public: // static
    *
    * @param cs_from source CS position/orientation
    * @param cs_to target CS position/orientation
-   * @param vec_local positional vector (oriented at source CS)
+   * @param vec_local_from positional vector (oriented at source CS)
    * @param vec_local_to transformed positional vector (oriented at target CS)
    *
    * @return transformed positional vector (oriented at target coordinate system)
@@ -117,7 +117,6 @@ public: // static
    *
    * @param v1 vector
    * @param v2 vector
-   * @param dim dimension of vectors
    *
    * @return distance (frobenius norm)
    */

@@ -546,13 +546,21 @@ $Id$
 <!ATTLIST QtAppScreenPosSink
 	PosThreshRadiusInMeter CDATA "0.0"
 	OrientThreshAngle CDATA "0.0"
+	consume-events (true | false) "false"
 >
 <!ELEMENT QtMousePosSink (%EventNodes;)>
 <!ATTLIST QtMousePosSink
 	PosThreshRadiusInMeter CDATA "0.0"
+	consume-events (true | false) "false"
 >
 <!ELEMENT QtMouseButtonSink (%EventNodes;)>
+<!ATTLIST QtMouseButtonSink
+	consume-events (true | false) "false"
+>
 <!ELEMENT QtMouseWheelSink (%EventNodes;)>
+<!ATTLIST QtMouseWheelSink
+	consume-events (true | false) "false"
+>
 <!-- console based input / output elements -->
 <!ELEMENT KeyDefinition EMPTY>
 <!ATTLIST KeyDefinition

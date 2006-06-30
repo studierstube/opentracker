@@ -46,6 +46,7 @@
 #if USE_OTQT
 
 #include "QtMouseEventSinkBase.h"
+#include "OTQtLog.h"
 
 namespace ot {
 
@@ -69,6 +70,8 @@ QtMouseEventSinkBase::QtMouseEventSinkBase(StringTable & xml_attrib_table)
     POS_THRESH_RADIUS = one_meter * radius;
     enableState(POS_THRESH_FILTER, true);
   }
+  OTQT_DEBUG("QtMouseEventSinkBase::QtMouseEventSinkBase(): POS_THRESH_RADIUS = %f\n",
+             POS_THRESH_RADIUS);
 
   // orientation threshold filter angle
   float angle = 0.0;
@@ -77,7 +80,14 @@ QtMouseEventSinkBase::QtMouseEventSinkBase(StringTable & xml_attrib_table)
     MathUtils::eulerToQuaternion(angle, angle, angle, MathUtils::XYZ, ORIENT_THRESH_QUAT);
     enableState(ORIENT_THRESH_FILTER, true);
   }
+  OTQT_DEBUG("QtMouseEventSinkBase::QtMouseEventSinkBase(): ORIENT_THRESH_QUAT = %f %f %f %f\n",
+             ORIENT_THRESH_QUAT[0], ORIENT_THRESH_QUAT[1], ORIENT_THRESH_QUAT[2], ORIENT_THRESH_QUAT[3]);
 
+  // consume event aka global forward lock switch
+  std::string consume_events_response = xml_attrib_table.get("consume-events");
+  enableState(CONSUME_EVENTS, ((consume_events_response == "true") ? true : false));
+  OTQT_DEBUG("QtMouseEventSinkBase::QtMouseEventSinkBase(): StateFlag::CONSUME_EVENTS = %if\n",
+             (state_ & CONSUME_EVENTS));
 }
 
 //--------------------------------------------------------------------------------
@@ -119,7 +129,17 @@ QtMouseEventSinkBase::acquireEvent(Event const & event)
   prev_event_ = curr_event_;
   curr_event_ = event;
   // set pending flag
-  state_ |= EVENT_PENDING;
+  state_ |= EVENT_PENDING_SIGNAL;
+}
+
+//--------------------------------------------------------------------------------
+void QtMouseEventSinkBase::forwardEvent(Event & event)
+{
+    // consume the event
+    if ((state_ & CONSUME_EVENTS) && (state_ & EVENT_CONSUME_SIGNAL))
+        return;
+    // forward the event: pass it to parent nodes
+    updateObservers(event);
 }
 
 } // namespace ot

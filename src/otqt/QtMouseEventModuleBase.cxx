@@ -218,6 +218,18 @@ void QtMouseEventModuleBase::resetPendingEventBitAllSinks()
 }
 
 //--------------------------------------------------------------------------------
+void QtMouseEventModuleBase::enableEventConsumeSignalAllSinks(bool enable)
+{
+  OTQT_DEBUG("QtMouseEventModuleBase::enableEventConsumeSignalAllSinks():"
+             "-- START. enable = %i\n", enable);
+  SinkContainer::const_iterator iter = all_sinks_.begin();
+  for ( ; iter != all_sinks_.end(); iter++) {
+      (*iter)->enableState(QtMouseEventSinkBase::EVENT_CONSUME_SIGNAL, enable);
+  }
+}
+
+
+//--------------------------------------------------------------------------------
 QtAppScreenPosSink &
 QtMouseEventModuleBase::getASPS()
 {
@@ -266,7 +278,7 @@ QtMouseEventModuleBase::getMWS()
 
 #endif // USE_OTQT
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of QtMouseEventModuleBase.cxx
  * ------------------------------------------------------------
@@ -279,5 +291,5 @@ QtMouseEventModuleBase::getMWS()
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

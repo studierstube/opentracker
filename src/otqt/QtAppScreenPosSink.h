@@ -58,11 +58,15 @@
  * @li @c OrientThreshAngle radian angle used equally for all XYZ axes to describe an
  * euler rotation, applied in orientation filter (optional; default value: "0.0" ->
  * orientation filter disabled) .. @ref anc_orientation_filter "more"
+ * @li @c consume-events Either "true" (enabled) or "false" (disabled, default). If
+ * enabled, tracking events are not forwarded to their parent nodes within the OT node
+ * graph iff they are @e consumed within the %OTQt MEM, that is, if a specific tracking
+ * event was used to generate Qt mouse events .. @ref anc_xmlattrib_consume_events "more"
  *
  * An example element looks like this:
  *
 @verbatim
-<QtAppScreenPosSink PosThreshRadiusInMeter="0.001" OrientThreshAngle="0.1">
+<QtAppScreenPosSink PosThreshRadiusInMeter="0.001" OrientThreshAngle="0.1" consume-events="false" >
   <Any EventGenerator element type>
 </QtAppScreenPosSink>@endverbatim
  *

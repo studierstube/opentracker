@@ -91,8 +91,9 @@ void QtAppScreenPosSink::onEventGenerated(Event & event, Node & generator) {
   // acquire tracking event
   if (acquire)
     acquireEvent(event);
+
   // pass original event to parent nodes
-  updateObservers(event);
+  forwardEvent(event);
 }
 
 } // namespace ot

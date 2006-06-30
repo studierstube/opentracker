@@ -51,12 +51,17 @@
  *
  * @copydoc ot::QtMouseButtonSink
  *
- * No attributes.
+ * Has the following XML attributes:
+ *
+ * @li @c consume-events Either "true" (enabled) or "false" (disabled, default). If
+ * enabled, tracking events are not forwarded to their parent nodes within the OT node
+ * graph iff they are @e consumed within the %OTQt MEM, that is, if a specific tracking
+ * event was used to generate Qt mouse events .. @ref anc_xmlattrib_consume_events "more"
  *
  * An example element looks like this:
  *
 @verbatim
-<QtMouseButtonSink>
+<QtMouseButtonSink consume-events="true">
   <Any EventGenerator element type>
 </QtMouseButtonSink>@endverbatim
  *

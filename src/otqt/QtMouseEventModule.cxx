@@ -215,9 +215,12 @@ void QtMouseEventModule::pullEvent()
 
       OTQT_DEBUG("QtMouseEventModule()::pullState(): --> MPD inside first cycle\n");
 
+      // enable the consume event signal
+      enableEventConsumeSignalAllSinks(true);
+
       // unlock MBS event generation
       if (mb_sink_ != NULL) {
-        mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, false);
+        mb_sink_->enableState(QtMouseButtonSink::EVENT_ACQUIRE_LOCK, false);
       }
     }
     // get desktop mouse coordinates
@@ -232,19 +235,15 @@ void QtMouseEventModule::pullEvent()
     if  (mpd_loc_changed_this_cycle) {
       OTQT_DEBUG("QtMouseEventModule()::pullState(): -> MPD outside first cycle\n");
 
+      // disable the consume event signal
+      enableEventConsumeSignalAllSinks(false);
+
       if (mb_sink_ != NULL) {
         // reset all mouse buttons to released state no matter if event is currently
         // pending or not
         mb_sink_->acquireEvent(Event::null);
         // lock MBS event acquisition
-        mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
-      }
-
-      if (mw_sink_ != NULL) {
-        // reset all mouse wheel action
-        mb_sink_->acquireEvent(Event::null);
-        // lock event acquisition
-        mb_sink_->enableState(QtMouseButtonSink::EVENT_LOCK, true);
+        mb_sink_->enableState(QtMouseButtonSink::EVENT_ACQUIRE_LOCK, true);
       }
 
       // get latest valid desktop mouse coordinates
