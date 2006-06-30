@@ -45,10 +45,10 @@
 /**
  * @page module_ref Module Reference
  * @section artoolkitplusmodule ARToolKitPlusModule
- * The ARToolKitModule interfaces to the ARToolKit library to track the 
+ * The ARToolKitModule interfaces to the ARToolKit library to track the
  * position and orientation of visual markers with a video camera. It uses
  * the information provided by @ref artoolkitplussource nodes and inserts the state
- * events through @ref artoolkitplussource nodes into the tree. The configuration 
+ * events through @ref artoolkitplussource nodes into the tree. The configuration
  * element is @c ARToolKitConfig and has the following attributes :
  * @li @c camera-parameter: file containing camera calibration data
  * @li @c treshold: either a numerical value (0-255) or 'auto' for automatic thresholding. Default is '100'
@@ -63,7 +63,7 @@
  *
  * An example configuration element looks like this :
  * @verbatim
- <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" />
+ <ARToolKitPlusConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" /> @endverbatim
 */
 
 
@@ -92,7 +92,7 @@ class ARToolKitPlusModuleLogger;
 
 
 
-namespace ot 
+namespace ot
 {
 
   class ARToolKitPlusModule;
@@ -196,7 +196,7 @@ namespace ot
       /// Sets a camera device name
       /**
        *  This device name can be used to select between several
-       *  available camera files. This must be done before the 
+       *  available camera files. This must be done before the
        *  ARToolKitPlus::init() is called.
        *  If no camera hint is set or the config file does not contain
        *  any <CameraHint> sections, the standard 'camera-parameter' value
@@ -218,7 +218,7 @@ namespace ot
 
 #endif // _ARTOOLKITMODULEPLUS_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of ARToolkitPlusModule.h
  * ------------------------------------------------------------
@@ -231,5 +231,5 @@ namespace ot
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

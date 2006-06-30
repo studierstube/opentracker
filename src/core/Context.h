@@ -73,7 +73,7 @@ namespace ot {
      pushEvents();
      pullEvents();
      }
-     close();@endverbatim
+     close(); @endverbatim
      * The whole loop is implemented in the member function run, which can be used
      * instead of implementing it yourself.
      *
@@ -113,9 +113,9 @@ namespace ot {
         // Methods
     public:
 
-        /** a constructor method. 
-         * @param init If init is not equal to 0, it instantiates all known modules and 
-         *        factories, adds them to its local containers and also takes care of 
+        /** a constructor method.
+         * @param init If init is not equal to 0, it instantiates all known modules and
+         *        factories, adds them to its local containers and also takes care of
          *        removing them again in the destructor.*/
         Context( int init = 0 );
         /** destructor method clears containers and removes any modules instantiated in
@@ -143,13 +143,13 @@ namespace ot {
          * @param reference to the module */
         void removeModule(Module & module);
 
-        /** This method creates a new node based on a given element name and 
+        /** This method creates a new node based on a given element name and
          * a table of attributes. It will delegate the construction to the
          * stored NodeFactory list and return a new Node, if one of the
          * factories can create the desired type. Otherwise it returns NULL.
          * It makes sure that the node is associated with this context, therefore
          * this is the only way to create new nodes for the user.
-         * @param name the name of the element 
+         * @param name the name of the element
          * @param attributes a StringTable containing the attributes of the element
          * @return pointer to the new node or NULL
          */
@@ -157,7 +157,7 @@ namespace ot {
 
         /** returns the root node, that contains the tracker tree. This node
          * is an instance of the generic node class and only deal with the
-         * children API. It does also contain the configuration element in the first node. 
+         * children API. It does also contain the configuration element in the first node.
          * @returns pointer to the root node */
         Node * getRootNode();
 
@@ -196,23 +196,23 @@ namespace ot {
         /** calls close on all modules to close any resources.*/
         void close();
 
-        /** add a directory to the front of the directory stack 
-         * @param dir directory to add 
+        /** add a directory to the front of the directory stack
+         * @param dir directory to add
          */
         void addDirectoryFirst( const std::string & dir );
 
-        /** add a directory to the end of the directory stack 
-         * @param dir directory to add 
+        /** add a directory to the end of the directory stack
+         * @param dir directory to add
          */
         void addDirectoryLast( const std::string & dir );
 
-        /** remove a directory from the directory stack 
-         * @param dir directory to add 
+        /** remove a directory from the directory stack
+         * @param dir directory to add
          */
         void removeDirectory( const std::string & dir );
 
         /** tries to locate a file by prepending the directory names in the
-         * stack. If a file at that location is found, the full name is 
+         * stack. If a file at that location is found, the full name is
          * returned in fullname and true will be returned. Otherwise fullname
          * is not changed and false is returned.
          * @param filename the partial filename of the file to look for
@@ -222,7 +222,7 @@ namespace ot {
         bool findFile( const std::string & filename, std::string & fullname );
 
         /**
-         * returns the XML namespace of the root element 
+         * returns the XML namespace of the root element
          * @return string reference containing the XML namespace
          */
         const std::string & getRootNamespace();
@@ -253,7 +253,7 @@ namespace ot {
 
 #endif
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of Context.cxx
  * ------------------------------------------------------------
@@ -266,5 +266,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
