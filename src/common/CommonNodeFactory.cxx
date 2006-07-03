@@ -47,7 +47,7 @@
 #include <stdlib.h>
 #include "CommonNodeFactory.h"
 #include "MergeNode.h"
-#include "MergeTrackerNode.h"
+#include "TriangulateOrientationNode.h"
 #include "VirtualTransformation.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"
@@ -304,9 +304,9 @@ namespace ot {
                 confCalculation = MergeNode::MIN;
             result = new MergeNode(agingFactor, confCalculation);
         }
-      	else if( name.compare("MergeTracker") == 0)
+      	else if( name.compare("TriangulateOrientation") == 0)
 	{
-		result = new MergeTrackerNode();
+		result = new TriangulateOrientationNode();
 	}
 
 #endif

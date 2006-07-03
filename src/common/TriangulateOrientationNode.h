@@ -13,7 +13,7 @@
 
 /**
 * @page Nodes Node Reference
-* @section mergetracker MergeTracker
+* @section TriangulateOrientation TriangulateOrientation
 * TODO description
 *
 * inputs :
@@ -23,10 +23,36 @@
 * An example element using all wrapper elements looks like this :
 * @verbatim
 TODO example
+
+
+Order of elements on the triangle:
+First element ist top element of wooden triangle
+Second element ist left element of wooden triangle
+Third element ist right element of wooden triangle
+
+
+<TriangulateOrientation>
+  <EventTransform DEF="top" scale="-1 1 -1" >
+      <UbisenseSource DEF="testar1" object="Tag 016-000-002-104"/>
+  </EventTransform>
+  <EventTransform DEF="bLeft" scale="-1 1 -1" >
+      <UbisenseSource DEF="testar6" object="Tag 016-000-002-111"/>
+  </EventTransform>
+  <EventTransform DEF="bRight" scale="-1 1 -1" >
+      <UbisenseSource DEF="testar9" object="Tag 016-000-002-112"/>
+  </EventTransform>
+</TriangulateOrientation>
+
+
+
+
+
+
+
 */
 
-#ifndef _MERGETRACKERNODE_H
-#define _MERGETRACKERNODE_H
+#ifndef _TRIANGULATEORIENTATIONNODE_H
+#define _TRIANGULATEORIENTATIONNODE_H
 
 #include "../OpenTracker.h"
 
@@ -37,12 +63,12 @@ TODO example
 namespace ot
 {
 
-	class OPENTRACKER_API MergeTrackerNode : public Node   
+	class OPENTRACKER_API TriangulateOrientationNode : public Node   
 	{
 
 	protected:
 		//! constructor method
-		MergeTrackerNode();
+		TriangulateOrientationNode();
 
 		//! states of top tracking device
 	    Event topState;

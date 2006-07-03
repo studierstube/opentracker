@@ -13,7 +13,7 @@
 
 /**
 * @page Nodes Node Reference
-* @section mergetracker MergeTracker
+* @section TriangulateOrientation TriangulateOrientation
 * TODO description
 *
 * inputs :
@@ -25,20 +25,20 @@
 TODO example
 */
 
-#include "MergeTrackerNode.h"
+#include "TriangulateOrientationNode.h"
 #include <ace/Log_Msg.h>
 #include <iostream>
 
 namespace ot
 {
-	MergeTrackerNode::MergeTrackerNode() : Node()
+	TriangulateOrientationNode::TriangulateOrientationNode() : Node()
 	{
 	}
 
-	void MergeTrackerNode::onEventGenerated(Event &event, Node &generator)
+	void TriangulateOrientationNode::onEventGenerated(Event &event, Node &generator)
 	{	
 
-		std::cout << "MergeTrackerNode:onEventGenerated" << std::endl;
+		std::cout << "TriangulateOrientationNode:onEventGenerated" << std::endl;
 		std::cout << " getType: " << generator.getType() << std::endl;
 		std::cout << " getName: " << generator.getName() << std::endl;
 
