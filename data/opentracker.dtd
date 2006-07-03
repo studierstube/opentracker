@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2005 beta 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
@@ -42,7 +42,7 @@ $Id$
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "LogConfig?,FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,ARToolKitPlusConfig?,NetworkSourceConfig?,QtMouseEventCalibConfig?,QtMouseEventConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,LinmouseConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?,UbisenseConfig?,CORBAConfig?">
 <!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | ARToolKitPlusSource | ARToolKitPlusMultiMarkerSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | LinmouseSource | TargusSource | WacomGraphireSource | InterSenseSource | FileSource | CORBASource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource | UbisenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | EventUtilityNode | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | CORBASink | ConsoleSink | Merge | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
+<!ENTITY % EventNodes "%SourceEventNodes; | EventUtilityNode | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | CORBASink | ConsoleSink | Merge | MergeTracker | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergeAttribute | MergeTime | MergeTrigger | TransformBase | Select | Gate | Override">
@@ -290,6 +290,11 @@ $Id$
 	DEF ID #IMPLIED
 	agingFactor CDATA "1"
 	confidenceCalculation (min | max | multiply) "min"
+>
+<!--Merge Tracker Node-->
+<!ELEMENT MergeTracker ((%EventNodes;)+)>
+<!ATTLIST MergeTracker
+  DEF ID #IMPLIED
 >
 <!-- Confidence Filter Node -->
 <!ELEMENT ConfidenceFilter (%EventNodes;)>
