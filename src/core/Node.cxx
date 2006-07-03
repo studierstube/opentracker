@@ -383,7 +383,13 @@ namespace ot {
             Node * port = (Node *)currentNode->GetUserData();
             if( port != NULL )
                 if( port->isNodePort() == 1 )
-                    return (NodePort *)port;
+					// since there might be more than one Child with the same name
+					// we use the index to select the one we need.
+					if( index == 0 )
+                        return (NodePort *) port;
+                    else
+                        index--;
+            
         }
 
         return NULL;
