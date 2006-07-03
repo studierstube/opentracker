@@ -45,16 +45,16 @@ namespace ot
 		MergeTrackerNode();
 
 		//! states of top tracking device
-		State topState;
+	    Event topState;
 
 		//! states of top tracking device
-		State bLeftState;
+		Event bLeftState;
 
 		//! states of top tracking device
-		State bRightState;
+		Event bRightState;
 
 		//! merged state
-		State mergedState;
+		Event mergedState;
 
 	public: 
 
@@ -73,7 +73,7 @@ namespace ot
 		* @param event the event value passed
 		* @param generator the node generating the event
 		*/
-		virtual void onEventGenerated( State& event, Node & generator);                                
+		virtual void onEventGenerated( Event& event, Node & generator);                                
 
 		friend class CommonNodeFactory;
 	};
