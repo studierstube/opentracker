@@ -47,6 +47,7 @@
 #include <stdlib.h>
 #include "CommonNodeFactory.h"
 #include "MergeNode.h"
+#include "MergeTrackerNode.h"
 #include "VirtualTransformation.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"
@@ -303,6 +304,11 @@ namespace ot {
                 confCalculation = MergeNode::MIN;
             result = new MergeNode(agingFactor, confCalculation);
         }
+      	else if( name.compare("MergeTracker") == 0)
+	{
+		result = new MergeTrackerNode();
+	}
+
 #endif
 #ifndef OT_NO_SELECTION_SUPPORT
         else if( name.compare("Selection") == 0 )

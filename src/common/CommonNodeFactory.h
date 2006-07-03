@@ -64,6 +64,7 @@
  * \li MatrixTransformation, all types
  * \li EventQueueNode
  * \li MergeNode
+ * \li MergeTrackerNode
  * \li SelectionNode
  * @author Gerhard Reitmayr
  * @ingroup common
