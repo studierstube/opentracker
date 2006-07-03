@@ -4,6 +4,7 @@ import os
 
 # All the other files 
 common_source_files = glob.glob('./src/common/*.cxx')
+common_source_files.remove('./src/common/MergeTrackerNode.cxx')
 core_source_files = glob.glob('./src/core/*.cxx')
 network_source_files = glob.glob('./src/network/*.cxx')
 skeletons = [] # This will be filled later on
@@ -27,7 +28,7 @@ dlInstallDir  = '#lib'
 buildPrefix = ''
 
 defs = ''
-_lpath = ['/opt/local/lib','/usr/X11R6/lib']
+_lpath = ['.']
 _cpppath=[]
 if sys.platform == 'darwin':
 	defs='-g -DDARWIN '
@@ -37,11 +38,13 @@ if sys.platform == 'darwin':
 	input_source_files.remove('./src/input/ParButtonModule.cxx')
 	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 	_linkflags = []
+	_lpath += ['/opt/local/lib','/usr/X11R6/lib']
 elif sys.platform == 'linux':
 	defs='-g -DLINUX'
 	_cpppath = ['/opt/local/include', './src']
 	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 	_linkflags = []
+	_lpath += ['/usr/X11R6/lib']
 
 # windows compile configuration
 elif sys.platform == 'win32':
