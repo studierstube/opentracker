@@ -4,7 +4,6 @@ import os
 
 # All the other files 
 common_source_files = glob.glob('./src/common/*.cxx')
-common_source_files.remove('./src/common/MergeTrackerNode.cxx')
 core_source_files = glob.glob('./src/core/*.cxx')
 network_source_files = glob.glob('./src/network/*.cxx')
 skeletons = [] # This will be filled later on
