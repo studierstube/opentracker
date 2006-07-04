@@ -32,13 +32,14 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#ifdef USE_CORBA
+
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
 #include "CORBAModule.h"
 #include "CORBASource.h"
 #include "CORBASink.h"
 
-#ifdef USE_CORBA
 #include "../tool/OT_ACE_Log.h"
 #include <OT_CORBA.hh>
 

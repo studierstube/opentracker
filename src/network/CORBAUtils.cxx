@@ -169,7 +169,8 @@ namespace ot {
             context_already_bound = CosNaming::NamingContextExt::_narrow(getContextFromName(root_context, name));
             if (CORBA::is_nil(context_already_bound)) {
                 cerr << "uncontextualised_names.length(" << (max+1)-length << ")" << endl;
-                uncontextualised_names.length(max-length+1); // extend the NameComponent sequence
+                // extend the NameComponent sequence
+                uncontextualised_names.length(max-length+1); 
                 uncontextualised_names[max-length] = name[length-1];
                 length--;
                 name->length(length); // knock-off the last CosNaming::NameComponent
@@ -184,14 +185,15 @@ namespace ot {
                 
         }
         CosNaming::NamingContext_var previous_context = CosNaming::NamingContextExt::_duplicate(context_already_bound);
-        cerr << "uncontextualised_names.length() = " << uncontextualised_names.length() << endl;
+        cerr << "uncontextualised_names->length() = " << uncontextualised_names.length() << endl;
         for (CORBA::ULong i = uncontextualised_names.length(); i > 0; --i) { 
-            cerr << "i = " << i << endl;
+            cerr << "i-1 = " << i-1 << " from " << uncontextualised_names.length()  << endl;
             // Go through sequence of uncontextualised names in reverse order
             CosNaming::Name new_name;
             new_name.length(1);
-            new_name[0].id = uncontextualised_names[i].id;
-            new_name[0].kind = uncontextualised_names[i].kind;
+            cerr << uncontextualised_names[i-1].id << "." << uncontextualised_names[i-1].kind << endl;
+            new_name[0].id = CORBA::string_dup(uncontextualised_names[i-1].id);
+            new_name[0].kind = CORBA::string_dup(uncontextualised_names[i-1].kind);
             
             CosNaming::NamingContext_var next_context = previous_context->bind_new_context(new_name);
         }
