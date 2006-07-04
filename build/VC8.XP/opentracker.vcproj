@@ -307,11 +307,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.cxx"
+				RelativePath="..\..\src\common\File.cxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.cxx"
+				RelativePath="..\..\src\common\FileModule.cxx"
 				>
 			</File>
 			<File
@@ -528,6 +528,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\Translator.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TriangulateOrientationNode.cxx"
 				>
 			</File>
 			<File
@@ -1114,6 +1118,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\Translator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TriangulateOrientationNode.h"
 				>
 			</File>
 			<File
