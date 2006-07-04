@@ -277,7 +277,7 @@ $Id$
 	length CDATA "1"
 >
 <!--Merge Node and associated Wrapper nodes definitions-->
-<!ELEMENT MergeDefault ((%EventNodes;))>
+<!ELEMENT MergeDefault ((%EventNodes;)+)>
 <!ELEMENT MergeAttribute ((%EventNodes;)+)>
 <!ATTLIST MergeAttribute
 	  DEF ID #IMPLIED
