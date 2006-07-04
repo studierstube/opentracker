@@ -1,9 +1,5 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
-#       CORBAModule.h \
-#       CORBASink.h \
-#       CORBASource.h \
-#       CORBAUtils.h \
 #        CORBAModule.cxx \
 #        CORBAModule.h \
 #        CORBASink.h \
@@ -15,6 +11,10 @@ include $(top_srcdir)/src/Makefile.common
 
 otnetworkincdir = $(otincdir)/network
 otnetworkinc_HEADERS = \
+        CORBAModule.h \
+        CORBASink.h \
+        CORBASource.h \
+        CORBAUtils.h \
         DwarfModule.h \
         DwarfSink.h \
         DwarfSource.h \

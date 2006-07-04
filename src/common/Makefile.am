@@ -20,18 +20,21 @@ otcommoninc_HEADERS = \
         ElasticFilterNode.h \
         EllipsoidTransformNode.h \
         EventQueueNode.h \
-	EventUtilityNode.h \
+        EventUtilityNode.h \
         File.h \
         FileModule.h \
         FileSink.h \
         FileSource.h \
         FilterNode.h \
         GKTransformNode.h \
+        GroupGateModule.h \
+        GroupGateNode.h \
         InterpolatorModule.h \
         InvertTransformation.h \
+        LogModule.h \
         MatrixTransformation.h \
         MergeNode.h \
-	PositionFilterNode.h \
+        PositionFilterNode.h \
         RangeFilterNode.h \
         SelectionNode.h \
         StaticTransformation.h \
@@ -39,10 +42,8 @@ otcommoninc_HEADERS = \
         TimeGateNode.h \
         TimeModule.h \
         Transformation.h \
-        VirtualTransformation.h \
-        GroupGateModule.h \
-        GroupGateNode.h \
-        LogModule.h
+        TriangulateOrientationNode.h \
+        VirtualTransformation.h
 
 noinst_LTLIBRARIES = libcommon.la
 libcommon_la_SOURCES = \
@@ -75,10 +76,10 @@ libcommon_la_SOURCES = \
         EllipsoidTransformNode.h \
         EventQueueNode.cxx \
         EventQueueNode.h \
-	EventUtilityNode.cxx \
-	EventUtilityNode.h \
+        EventUtilityNode.cxx \
+        EventUtilityNode.h \
+        File.cxx \
         File.h \
-	File.cxx \
         FileModule.cxx \
         FileModule.h \
         FileSink.h \
@@ -87,16 +88,21 @@ libcommon_la_SOURCES = \
         FilterNode.h \
         GKTransformNode.cxx \
         GKTransformNode.h \
+        GroupGateModule.cxx \
+        GroupGateModule.h \
+        GroupGateNode.cxx \
+        GroupGateNode.h \
         InterpolatorModule.cxx \
         InterpolatorModule.h \
         InvertTransformation.cxx \
         InvertTransformation.h \
+        LogModule.cxx \
         MatrixTransformation.cxx \
         MatrixTransformation.h \
         MergeNode.cxx \
         MergeNode.h \
-	PositionFilterNode.cxx \
-	PositionFilterNode.h \
+        PositionFilterNode.cxx \
+        PositionFilterNode.h \
         RangeFilterNode.cxx \
         RangeFilterNode.h \
         SelectionNode.cxx \
@@ -111,10 +117,7 @@ libcommon_la_SOURCES = \
         TimeModule.h \
         Transformation.cxx \
         Transformation.h \
+        TriangulateOrientationNode.cxx \
+        TriangulateOrientationNode.h \
         VirtualTransformation.cxx \
-        VirtualTransformation.h \
-        GroupGateModule.cxx \
-        GroupGateModule.h \
-        GroupGateNode.cxx \
-        GroupGateNode.h \
-        LogModule.cxx
+        VirtualTransformation.h
