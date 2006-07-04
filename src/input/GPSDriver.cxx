@@ -127,11 +127,11 @@ namespace ot {
             {
                 receiver = NULL;
                 //std::cerr << "GPSDriver could not open serial port " << device << " !\n";
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open serial port %d\n"), device.c_str()));
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:GPSDriver could not open serial port %s\n"), device.c_str()));
             }
 	}
         if( getDebug())
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened serial port %d\n"), device.c_str()));
+            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:GPSDriver opened serial port %s\n"), device.c_str()));
 	
 	// open the tcp connection to the server, if required
 	if( result == 0 && serveraddr.compare("") != 0 )
