@@ -104,6 +104,8 @@ namespace ot {
 
     inline void GPSSource::newData( const GPResult * res, const char * line, void * userData )
     {
+		float pos_vector[4];
+
         ACE_ASSERT( userData != NULL );
         if( res->type == GPResult::GPGGA){
             GPGGA * point = (GPGGA *) res;
@@ -112,11 +114,23 @@ namespace ot {
             GPSModule * module = (GPSModule *)userData;
             module->lock();
             buffer.timeStamp();
-            buffer.getPosition()[0] = (float)(point->lat * MathUtils::GradToRad);
-            buffer.getPosition()[1] = (float)(point->lon * MathUtils::GradToRad);
-            buffer.getPosition()[2] = (float)(point->altitude);
-            buffer.getConfidence() = (float)(1 / point->hdop);
-            module->unlock();
+            //buffer.getPosition()[0] = (float)(point->lat * MathUtils::GradToRad);
+            //buffer.getPosition()[1] = (float)(point->lon * MathUtils::GradToRad);
+            //buffer.getPosition()[2] = (float)(point->altitude);
+            //buffer.getConfidence() = (float)(1 / point->hdop);
+			
+			
+			pos_vector[0] = (float)(point->lat * MathUtils::GradToRad);
+			pos_vector[1] = (float)(point->lon * MathUtils::GradToRad);
+			pos_vector[2] = (float)(point->altitude);
+			pos_vector[3] = (float)(1 / point->hdop);
+
+			buffer.setPosition(pos_vector);
+			module->unlock();
+
+			std::cout << "Position = " << buffer.getPosition()[0] << buffer.getPosition()[1] << buffer.getPosition()[2] << std::endl;
+
+     
         }
     }
 
