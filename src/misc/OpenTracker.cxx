@@ -246,7 +246,7 @@ namespace ot {
         context.addFactory( * intersense );
         context.addModule( "InterSenseConfig", * intersense );
 #endif
-#endif DARWIN
+#endif //DARWIN
 #endif //_WIN32_WCE
 
 #ifndef OT_NO_TIMEMODULE_SUPPORT

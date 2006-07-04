@@ -130,7 +130,7 @@ namespace ot {
 } // namespace ot
 
 
-#endif OT_NO_TIMEMODULE_SUPPORT
+#endif //OT_NO_TIMEMODULE_SUPPORT
 
 #endif
 

@@ -103,7 +103,7 @@ public:
 } // namespace ot
 
 
-#endif OT_NO_NETWORK_SUPPORT
+#endif //OT_NO_NETWORK_SUPPORT
 
 
 #endif
