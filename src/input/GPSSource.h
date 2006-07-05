@@ -119,21 +119,24 @@ namespace ot {
             //buffer.getPosition()[2] = (float)(point->altitude);
             //buffer.getConfidence() = (float)(1 / point->hdop);
 			
-			
-			pos_vector[0] = (float)(point->lat * MathUtils::GradToRad);
-			pos_vector[1] = (float)(point->lon * MathUtils::GradToRad);
-			pos_vector[2] = (float)(point->altitude);
-			pos_vector[3] = (float)(1 / point->hdop);
+            pos_vector[0] = (float)(point->lat * MathUtils::GradToRad);
+            pos_vector[1] = (float)(point->lon * MathUtils::GradToRad);
+            pos_vector[2] = (float)(point->altitude);
+            pos_vector[3] = (float)(1 / point->hdop);
+            
+            buffer.setPosition(pos_vector);
 
-			buffer.setPosition(pos_vector);
-			module->unlock();
+            buffer.setAttribute<double>("lat", point->lat); 
+            buffer.addAttribute<double>("lon", point->lon); 
+            buffer.addAttribute<short>("numsats", point->numsats); 
 
-			std::cout << "Position = " << buffer.getPosition()[0] << buffer.getPosition()[1] << buffer.getPosition()[2] << std::endl;
-
-     
+            module->unlock();
+            
+//             std::cout << "Position = " << buffer.getPosition()[0] << buffer.getPosition()[1] << buffer.getPosition()[2] << std::endl;
+            
         }
     }
-
+    
 } // namespace ot
 
 #endif // !defined(_GPSSOURCE_H)

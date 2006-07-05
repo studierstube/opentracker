@@ -209,6 +209,8 @@ namespace ot
     // serialize the event
     void Event::serialize(std::ostream &out) const
     {
+
+        out.precision(24);
         out << "{" << std::fixed << time << "-" << attributes.size() << ":";
         for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
         {
