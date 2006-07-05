@@ -822,14 +822,14 @@ $Id$
 <!ELEMENT Override (%EventNodes;)>
 <!ELEMENT GroupGate ((Override?, (%EventNodes;)?) | ((%EventNodes;)?, Override?))>
 <!ATTLIST GroupGate
-	DEF ID #IMPLIED
-	group NMTOKEN #REQUIRED
-	neighbors IDREFS #REQUIRED
+	  DEF ID #IMPLIED
+	  group NMTOKEN #REQUIRED
+	  neighbors IDREFS #REQUIRED
 >
 <!ELEMENT ActiveGate EMPTY>
 <!ATTLIST ActiveGate
-	DEF ID #IMPLIED
-	group NMTOKEN #REQUIRED
+	  DEF ID #IMPLIED
+	  group NMTOKEN #REQUIRED
 >
 <!-- SpeechRecoConfig definitions, similar to console input -->
 <!ELEMENT SpeechRecoConfig (CommandSet+)>

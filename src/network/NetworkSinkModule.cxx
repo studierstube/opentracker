@@ -354,8 +354,8 @@ namespace ot {
                 char *index;
 
                 // sink buffer length
-                sinkBufferLengths[i] = 4 * sizeof(short)
-                    + sink->stationName.length() + eventStr.length();
+                sinkBufferLengths[i] = 3 * sizeof(short)
+                    + sink->stationName.length() + eventStr.length() + 2*sizeof(char);
 
                 // header
                 si[0] = htons(sink->stationNumber);
@@ -368,9 +368,10 @@ namespace ot {
 
                 memcpy(index, &si, 3 * sizeof(short));
                 index += 3 * sizeof(short);
-                memcpy(index, sink->stationName.c_str(), sink->stationName.length());
-                index += sink->stationName.length();
-                memcpy(index, eventStr.c_str(), eventStr.length());
+                memcpy(index, sink->stationName.c_str(), sink->stationName.length()+1);
+                index += sink->stationName.length()+1;
+                memcpy(index, eventStr.c_str(), eventStr.length()+1);
+                //std::cerr << "sbl: " << sinkBufferLengths[i] << " - " << (int)((char*)(sinkBuffers[i]) - (char*)(index+eventStr.length()+1)) << std::endl;
 
                 // add to bufferLength and numOfStations
                 sink->networkSender->data.bufferLength += sinkBufferLengths[i];

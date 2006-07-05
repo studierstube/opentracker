@@ -101,7 +101,7 @@
   </ConsoleSink>
   <ConsoleSink comment="ConfidenceFilter" active="off">
     <ConfidenceFilter treshhold="0.8" type="high">
-      <TestSource/>
+      <TestSource offset="0" frequency="10"/>
     </ConfidenceFilter>
   </ConsoleSink>
   <ConsoleSink comment="Filter - use 0 to enter events" active="off">
@@ -124,9 +124,9 @@
       <TestSource frequency="1"/>
     </TimeGate>
   </ConsoleSink>
-  <ConsoleSink comment="GroupGate - 0  into first, 1 into second gate, 2 to override to first" active="off">
+  <ConsoleSink comment="GroupGate - 0  into first, 1 into second gate, 2 to override to first" active="on">
     <Merge>
-      <MergeDefault>
+     <MergeDefault>
         <GroupGate group="test" neighbors="Console1Gate" DEF="Console0Gate">
           <Ref USE="C0"/>
           <Override>
@@ -134,9 +134,9 @@
           </Override>
         </GroupGate>
         <GroupGate group="test" neighbors="Console0Gate" DEF="Console1Gate">
-          <Ref USE="C1"/>
+		    <Ref USE="C1"/>
         </GroupGate>
-      </MergeDefault>
+     </MergeDefault>
     </Merge>
   </ConsoleSink>
   <ConsoleSink comment="ActiveGate" active="off">

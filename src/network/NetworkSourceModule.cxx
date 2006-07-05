@@ -321,7 +321,7 @@ namespace ot {
 
                     {
                         ACE_Guard<ACE_Thread_Mutex> guard( rec->mutex );
-                        char *eventStr = stationData + (3 * sizeof(short)) + stationNameLength;
+                        char *eventStr = stationData + (3 * sizeof(short)) + stationNameLength+1;
                         std::string str(eventStr);
                         event.deserialize(str);
                         (*station)->modified = 1;

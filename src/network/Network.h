@@ -55,15 +55,16 @@
  * the Studierstube.
  * @ingroup network
  */
-typedef struct
+typedef struct FlexibleTrackerDataRecord
 {
+    FlexibleTrackerDataRecord() : headerId(0), revNum(0), maxStationNum(0), numOfStations(0), bufferLength(0) {};
     short int headerId;         // Id (magic number)
     short int revNum;           // Revision Number
     short int maxStationNum;    // Number of stations dealt with by the server
     short int numOfStations;    // Number of station packets to follow
     short int bufferLength;
 
-} FlexibleTrackerDataRecord;
+};
 
 #endif
 
