@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 <title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="stylesheet" href="ot3.css" type="text/css">
 <style type="text/css">
 <!--
 .style12 {color: #CC0000}

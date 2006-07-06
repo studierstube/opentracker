@@ -11,6 +11,6 @@
 
 <hr size="1" />
 <p align="center"><span class="custom_spc">We support a<br /><a href="http://swpat.ffii.org/" class="small">Software Patent Free Europe.</a></span></p><br />
-<p align="center"><a href="http://petition.eurolinux.org/"><img src="/images/patent_square.png" width="125" height="127" border="0" /></a></p>
+<p align="center"><a href="http://petition.eurolinux.org/"><img src="/images/patent_square.png" alt="PATENT" width="125" height="127" border="0" /></a></p>
 <p align="left"></p>
 <p>&nbsp;</p>
