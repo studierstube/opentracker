@@ -62,7 +62,6 @@ a.nav3:hover {color: #039;}
 a.nav3:active {color: #ffcc00;}
 
 #centralx {
-width: 80%;
 background-color: #FFFFFF;
 }
 
@@ -203,3 +202,34 @@ strong {
 font-size: 13px;
 }
 
+.niceTable th
+    {background-color: #F6F6F6;
+     font-weight: bold;
+     text-align: left;
+     border: solid 1px #F6F6F6;
+    }
+
+.niceTable td
+    {border: solid 1px #F6F6F6;
+    }
+
+
+H1 { text-align: center; }
+A.qindex {}
+A.qindexRef {}
+A.el { line-height: 19px;  }
+A.code { text-decoration: none; font-weight: normal; color: #4444ee }
+A.codeRef { font-weight: normal; color: #4444ee }
+DL.el { margin-left: -1cm; padding-top: 3px; padding-bottom: 3px; }
+DIV.fragment { width: 100%; border: none; background-color: #eeeeee; font-family:"Courier New", Courier, mono; }
+DIV.ah { background-color: #cccccc; border: 1px solid black; font-size: 12pt; font-weight: bold; width: 100px;}
+TD.md { background-color: #f2f2ff }
+DIV.groupHeader { margin-left: 16; margin-top: 12; margin-bottom: 6; font-weight: bold }
+DIV.groupText { margin-left: 16; font-style: italic; font-size: smaller }
+FONT.keyword       { color: #008000 }
+FONT.keywordtype   { color: #604020 }
+FONT.keywordflow   { color: #e08000 }
+FONT.comment       { color: #800000 }
+FONT.preprocessor  { color: #806020 }
+FONT.stringliteral { color: #002080 }
+FONT.charliteral   { color: #008080 }
