@@ -1,28 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="../style.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
+<?php require "header.php"; ?>
 
-<body bgcolor="#FFFFFF" text="#000000">
-
-<?php require "../title.php"; ?>
-
-<div id="links">
-<?php require "../left.php"; ?>
-</div>
-
-<div id="inhalt">
-  <table border="0" cellspacing="0" cellpadding="15">
-    <tr> 
-      <td width="865"><h1>Integration Guide</h1>
+  <h1>Integration Guide</h1>
 	<p>This document is a short guide to how to use and integrate <!-- #BeginLibraryItem "/Library/OpenTracker.lbi" --><font color="#FF0000">Open</font><font color="#000000">Tracker</font><!-- #EndLibraryItem --> 
           in your project.</p>        
         <h2>Before Integration</h2>      <p>We assume that you already downloaded and compiled <!-- #BeginLibraryItem "/Library/OpenTracker.lbi" --><font color="#FF0000">Open</font><font color="#000000">Tracker</font><!-- #EndLibraryItem -->. 
@@ -118,8 +96,7 @@
           get data out of the tracker tree. Please refer to the <a href="progguide.php">Programmer's 
 	    Guide</a> for detailed informatio
 	  t how to do that.</p>
-  </td></tr></table>
-</div>
+  
 
 <?php require "../footer.php"; ?>
 

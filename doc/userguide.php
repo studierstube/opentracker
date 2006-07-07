@@ -1,29 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="../style.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-
-<?php require "../title.php"; ?>
-
-<div id="links">
-<?php require "../left.php"; ?>
-</div>
-
-<div id="inhalt">
-<table border="0" cellspacing="0" cellpadding="15">
-
-    <tr> 
-        <td width="865"><h1>User Guide to OpenTracker</h1>
+<?php require "header.php"; ?>
+<h1>User Guide to OpenTracker</h1>
 <p>This is a user's guide to essential features and of OpenTracker. It describes how configuration files work and how to use the standalone program.</p> 
 <h2>Introduction ( or What is XML ? )</h2> 
 <p>OpenTracker uses a data flow graph to process tracking data. This graph is specified by a textual configuration file. The format of this file is defined in the <a href="http://www.w3c.org/">eXtensible Markup Language</a> ( XML ). XML is a language to specify the syntax of other languages. It allows us to specify hierarchical structures that are mapped onto our data flow graphs. The language itself is defined in Document Type Description stored in opentracker.dtd. It uses element tags ( like HTML ) and attributes of these tags ( again like HTML ) but no interim textual parts ( unlike HTML ). So it typically looks like a very dry HTML file using strange tags.</p> 
@@ -124,10 +100,6 @@
 <p>Besides the default use as a library, OpenTracker also provides a simple standalone program. called <span class="filename">opentracker</span>. It accepts a configuration file as input and then executes the data flow specified in the configuration file until stopped. The program has only one parameter, the filename of the configuration file. It outputs errors during parsing and building the data structure. An example execution looks like :</p> 
 <pre>opentracker test.xml</pre> 
 <p>Thats it, Have Fun !
-
-
-</td></tr></table>
-</div>
 
 <?php require "../footer.php"; ?>
 

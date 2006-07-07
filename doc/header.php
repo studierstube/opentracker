@@ -40,14 +40,14 @@
 
      <div id="wrapper">
         <ul id="menubar">
-	  <li><a href="../index.php" class="nav3">Main Page </a></li>
-	  <li><a href="modules.php" class="nav3">Modules</a></li>
-	  <li><a href="hierarchy.php" class="nav3">Class Hierarchy</a></li>
-	  <li><a href="classes.php" class="nav3">Alphabetical List</a></li>
-	  <li><a href="annotated.php" class="nav3">Compound List</a></li>
-	  <li><a href="files.php" class="nav3">File List</a></li>
-	  <li><a href="functions.php" class="nav3">Compound Members</a></li>
-	  <li><a href="pages.php" class="nav3">Related Pages</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/index.php" class="nav3">Main Page </a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/modules.php" class="nav3">Modules</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/hierarchy.php" class="nav3">Class Hierarchy</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/classes.php" class="nav3">Alphabetical List</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/annotated.php" class="nav3">Compound List</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/files.php" class="nav3">File List</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/functions.php" class="nav3">Compound Members</a></li>
+	  <li><a href="http://studierstube.icg.tu-graz.ac.at/opentracker/html/pages.php" class="nav3">Related Pages</a></li>
 	</ul>
      </div>
 

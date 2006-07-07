@@ -1,29 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="../style.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-
-<?php require "../title.php"; ?>
-
-<div id="links">
-<?php require "../left.php"; ?>
-</div>
-
-<div id="inhalt">
-<table border="0" cellspacing="0" cellpadding="15">
-
-    <tr> 
-        <td width="956"><h1>Programmers Guide</h1>
+<?php require "header.php"; ?>
+    <h1>Programmers Guide</h1>
           <p>This guide gives pointers about extending OpenTracker. It describes the core 
     interfaces that hold the library together and how to use them to implement new 
     functionality in the form of additional nodes and modules.</p>
@@ -243,8 +219,7 @@
     <li><span class="filename">TimeModule.{h|cxx}</span> in <span class="filename">src/common</span>. 
       A simple module that is not dealing with nodes. </li>
 </ul>
-</td></tr></table>
-</div>
+
 
 <?php require "../footer.php"; ?>
 
