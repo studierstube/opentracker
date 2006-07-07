@@ -104,30 +104,25 @@ namespace ot {
 
     inline void GPSSource::newData( const GPResult * res, const char * line, void * userData )
     {
-		float pos_vector[4];
-
+        
         ACE_ASSERT( userData != NULL );
         if( res->type == GPResult::GPGGA){
             GPGGA * point = (GPGGA *) res;
             if( point->fix == 0)
                 return;
+
             GPSModule * module = (GPSModule *)userData;
             module->lock();
             buffer.timeStamp();
-            //buffer.getPosition()[0] = (float)(point->lat * MathUtils::GradToRad);
-            //buffer.getPosition()[1] = (float)(point->lon * MathUtils::GradToRad);
-            //buffer.getPosition()[2] = (float)(point->altitude);
-            //buffer.getConfidence() = (float)(1 / point->hdop);
-			
-            pos_vector[0] = (float)(point->lat * MathUtils::GradToRad);
-            pos_vector[1] = (float)(point->lon * MathUtils::GradToRad);
-            pos_vector[2] = (float)(point->altitude);
-            pos_vector[3] = (float)(1 / point->hdop);
-            
-            buffer.setPosition(pos_vector);
+
+            buffer.getPosition()[0] = (float)(point->xECEF);
+            buffer.getPosition()[1] = (float)(point->yECEF);
+            buffer.getPosition()[2] = (float)(point->zECEF);
+            buffer.getConfidence() = (float)(1 / point->hdop);
 
             buffer.setAttribute<double>("lat", point->lat); 
             buffer.addAttribute<double>("lon", point->lon); 
+            buffer.addAttribute<double>("alt", point->altitude); 
             buffer.addAttribute<short>("numsats", point->numsats); 
 
             module->unlock();

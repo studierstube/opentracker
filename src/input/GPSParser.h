@@ -45,6 +45,7 @@
 #ifndef _GPSPARSER_H_
 #define _GPSPARSER_H_
 
+#include <cmath>
 
 #include "../OpenTracker.h"
 
@@ -61,6 +62,9 @@
 
 #ifndef OT_NO_GPS_SUPPORT
 
+// defines the model used for ECEF transformation
+
+#include "../misc/GeoidModel.h"
 
 namespace ot {
 
@@ -92,12 +96,44 @@ namespace ot {
         double  diffdelay;
         int     statid;
 
+        // add additional XYZ coordinate (ECEF format)
+        // see
+        // http://www.colorado.edu/geography/gcraft/notes/datum/gif/llhxyz.gif
+        double xECEF;
+        double yECEF;
+        double zECEF;
+
         static const GPResult * parse( const char * );
+
+        /** Convert to Earth-centered, Earth-fixed XYZ coordinates. */
+        // see
+        // http://www.colorado.edu/geography/gcraft/notes/datum/gif/llhxyz.gif
+
+        void convert2ECEF(GeoidModel *geoid)
+        {
+            double rad_cur, gdlat, gdlon;
+            double gdalt = altitude;
+            
+            // convert angles to radians
+            gdlat = MathUtils::GradToRad * lat;
+            gdlon = MathUtils::GradToRad * lon;
+            
+            // radius of curvature in the prime vertical
+            rad_cur  = geoid->a() /
+                sqrt(1.0-geoid->eccSquared()*pow((sin(gdlat)),2.0));
+            
+            xECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::cos(gdlon);
+            yECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::sin(gdlon);
+            zECEF = ((1.0 - geoid->eccSquared()) * rad_cur + gdalt) * ::sin(gdlat);
+            
+        }
 
     protected:
         GPGGA(){
             type = GPResult::GPGGA;
         }
+
+
     };
 
     class GPVTG : public GPResult {
