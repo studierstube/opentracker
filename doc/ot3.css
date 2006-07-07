@@ -87,6 +87,16 @@ padding: 12px;
 background-color: #ffffff;
 }
 
+#maincontent h1 a{
+
+font-size: 11px;
+text-transform:uppercase;
+text-decoration: none;
+text-align: right;
+color: #FFFFFF;
+
+
+}
 
 #footerx {
 clear: both;
