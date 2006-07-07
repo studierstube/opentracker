@@ -1,27 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="../style.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
-<body bgcolor="#FFFFFF" text="#000000">
-
-<?php require "../title.php"; ?>
-
-<div id="links">
-<?php require "../left.php"; ?>
-</div>
-
-<div id="inhalt">
-  <table border="0" cellspacing="0" cellpadding="15">
-    <tr>
-      <td width=865><h1>Multi-Modal Events</h1>
+<?php require "header.php"; ?>
+<h1>Multi-Modal Events</h1>
       <p>This document gives you a short overview over the new concept of multi-modal events in OpenTracker and shows you how to use your own data types for event attributes.</p>
       
 
@@ -124,8 +102,7 @@
 	  <p>This method must be called before the type is used by your code for the first time. Usually, it is a good idea to register type names in some kind of initialization method of your code. The generic type name can be chosen arbitrarily but must be unique.</p>
 	</li>
       </ol>
-</td></tr></table>
-</div>
+
 <?php require "../footer.php"; ?>
 </body>
 </html>
