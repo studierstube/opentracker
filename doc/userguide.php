@@ -1,4 +1,5 @@
 <?php require "header.php"; ?>
+
 <h1>User Guide to OpenTracker</h1>
 <p>This is a user's guide to essential features and of OpenTracker. It describes how configuration files work and how to use the standalone program.</p> 
 <h2>Introduction ( or What is XML ? )</h2> 
@@ -99,7 +100,7 @@
 <h2>Standalone Server</h2> 
 <p>Besides the default use as a library, OpenTracker also provides a simple standalone program. called <span class="filename">opentracker</span>. It accepts a configuration file as input and then executes the data flow specified in the configuration file until stopped. The program has only one parameter, the filename of the configuration file. It outputs errors during parsing and building the data structure. An example execution looks like :</p> 
 <pre>opentracker test.xml</pre> 
-<p>Thats it, Have Fun !
+<p>Thats it, Have Fun !</p>
 
 <?php require "../footer.php"; ?>
 

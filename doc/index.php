@@ -1,42 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="ot3.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-
-
-<?php require "title.php"; ?>
-<div id="wrapper">
-  <ul id="menubar">
-    <li><a href="index.php" class="nav3">Main Page </a></li>
-    <li><a href="html/modules.php" class="nav3">Modules</a></li>
-    <li><a href="html/hierarchy.php" class="nav3">Class Hierarchy</a></li>
-    <li><a href="html/classes.php" class="nav3">Alphabetical List</a></li>
-    <li><a href="html/annotated.php" class="nav3">Compound List</a></li>
-    <li><a href="html/files.php" class="nav3">File List</a></li>
-    <li><a href="html/functions.php" class="nav3">Compound Members</a></li>
-    <li><a href="html/pages.php" class="nav3">Related Pages</a></li>
-  </ul>
-</div>
-
-<div id="links">
-<?php require "left.php"; ?>
-</div>
-
-<div id="maincontent">
-<table border="0" cellspacing="0" cellpadding="15">
-
-    <tr> 
-        <td width="956"><h1>OpenTracker</h1>
+<?php require "header.php"; ?>
+<h1>OpenTracker</h1>
           <p>Tracking is an indispensable requirement for all kinds of virtual 
             reality (VR) and augmented reality (AR) systems. While the quality of tracking, 
             in particular the need for high performance and fidelity have led to a large 
@@ -104,80 +67,6 @@
           Adaptive Communication Environment, a wrapper library that provides 
           platform independent access to system resources, such as network sockets, 
           threads, shared memory.</p></li></ul>
-          <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p>&nbsp;</p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
-</td></tr></table>
-</div>
 
 <?php require "footer.php"; ?>
 
