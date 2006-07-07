@@ -1,31 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>Studierstube Augmented Reality Project</title>
-<link rel="stylesheet" href="ot.css" type="text/css">
-<style type="text/css">
-<!--
-.style12 {color: #CC0000}
--->
-</style>
-</head>
+<?php require "header.php"; ?>
 
-<body bgcolor="#FFFFFF" text="#000000">
-
-<?php require "../title.php"; ?>
-
-<div id="links">
-<?php require "../left.php"; ?>
-</div>
-
-<div id="inhalt">
-<table border="0" cellspacing="0" cellpadding="15">
-
-    <tr> 
-    <p>&nbsp;</p>
-    <tr>
-      <td width=856><h1>Installation Guide</h1>
+<h1>Installation Guide</h1>
   <p>This is a step-by-step guide to configuring and compiling
     OpenTracker. After the General section, the guide splits into two parts
     - for a Windows and for a Unix environment. </p>
@@ -151,12 +126,7 @@
     build system do that for you.</p>
   <p>On Unix execute "make doc" to build the source documentation. It
 will reside in <span class="filename">doc\html</span>.</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-</body>
-</html>
-</td></tr></table>
+
 </div>
 
 <?php require "../footer.php"; ?>

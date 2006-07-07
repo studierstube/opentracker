@@ -13,7 +13,20 @@
 
 <body bgcolor="#FFFFFF" text="#000000">
 
+
 <?php require "title.php"; ?>
+<div id="wrapper">
+  <ul id="menubar">
+    <li><a href="index.php" class="nav3">Main Page </a></li>
+    <li><a href="html/modules.php" class="nav3">Modules</a></li>
+    <li><a href="html/hierarchy.php" class="nav3">Class Hierarchy</a></li>
+    <li><a href="html/classes.php" class="nav3">Alphabetical List</a></li>
+    <li><a href="html/annotated.php" class="nav3">Compound List</a></li>
+    <li><a href="html/files.php" class="nav3">File List</a></li>
+    <li><a href="html/functions.php" class="nav3">Compound Members</a></li>
+    <li><a href="html/pages.php" class="nav3">Related Pages</a></li>
+  </ul>
+</div>
 
 <div id="links">
 <?php require "left.php"; ?>
@@ -68,12 +81,12 @@
 
         <li><a href="userguide.php">User's Guide</a> - how to work with 
           configuration files and the standalone tracker program. </li>
-        <li><a href="html/Nodes.html">Node Reference</a> - description of how 
+        <li><a href="html/Nodes.php">Node Reference</a> - description of how 
           the different nodes work and their configuration file elements.</li>
-        <li><a href="html/transform_nodes.html">Transform 
+        <li><a href="html/transform_nodes.php">Transform 
           Node Reference</a> - description of all geometric transformation nodes 
           and their elements.</li>
-        <li><a href="html/module_ref.html">Module Reference</a> - description 
+        <li><a href="html/module_ref.php">Module Reference</a> - description 
           of the different modules and their configuration file elements.</li>
           </ul>
           <h1>Other Resources</h1>          <ul>

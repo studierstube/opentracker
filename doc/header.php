@@ -40,7 +40,7 @@
 
      <div id="wrapper">
         <ul id="menubar">
-	  <li><a href="index.php" class="nav3">Main Page </a></li>
+	  <li><a href="../index.php" class="nav3">Main Page </a></li>
 	  <li><a href="modules.php" class="nav3">Modules</a></li>
 	  <li><a href="hierarchy.php" class="nav3">Class Hierarchy</a></li>
 	  <li><a href="classes.php" class="nav3">Alphabetical List</a></li>
