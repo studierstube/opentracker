@@ -85,6 +85,7 @@ border-left: 6px solid #454658;
 border-right: 6px solid #454658;
 padding: 12px;
 background-color: #ffffff;
+min-height: 600px;
 }
 
 #maincontent h1 a{
