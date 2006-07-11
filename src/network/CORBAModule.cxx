@@ -64,19 +64,19 @@ void CORBAModule::destroyORB()
     orb->destroy();
   }
   catch(CORBA::SystemException&) {
-    cerr << "Caught CORBA::SystemException." << endl;
+    LOG_ACE_ERROR("Caught CORBA::SystemException.\n");
   }
   catch(CORBA::Exception&) {
-    cerr << "Caught CORBA::Exception." << endl;
+    LOG_ACE_ERROR("Caught CORBA::Exception.\n");
   }
   catch(omniORB::fatalException& fe) {
-    cerr << "Caught omniORB::fatalException:" << endl;
-    cerr << "  file: " << fe.file() << endl;
-    cerr << "  line: " << fe.line() << endl;
-    cerr << "  mesg: " << fe.errmsg() << endl;
+    LOG_ACE_ERROR("Caught omniORB::fatalException:\n");
+    LOG_ACE_ERROR("  file: %s", fe.file());
+    LOG_ACE_ERROR("  line: %s", fe.line());
+    LOG_ACE_ERROR("  mesg: %s", fe.errmsg());
   }
   catch(...) {
-    cerr << "Caught unknown exception." << endl;
+    LOG_ACE_ERROR("Caught unknown exception.\n");
   }
 }
 
@@ -108,19 +108,19 @@ void CORBAModule::initializeORB(int argc, char **argv)
   }
   catch(CORBA::SystemException&) {
 
-    cerr << "Caught CORBA::SystemException." << endl;
+    LOG_ACE_ERROR("Caught CORBA::SystemException.");
   }
   catch(CORBA::Exception&) {
-    cerr << "Caught CORBA::Exception." << endl;
-  }
+    LOG_ACE_ERROR("Caught CORBA::Exception.");
+  } 
   catch(omniORB::fatalException& fe) {
-    cerr << "Caught omniORB::fatalException:" << endl;
-    cerr << "  file: " << fe.file() << endl;
-    cerr << "  line: " << fe.line() << endl;
-    cerr << "  mesg: " << fe.errmsg() << endl;
+    LOG_ACE_ERROR("Caught omniORB::fatalException:");
+    LOG_ACE_ERROR("  file: %s", fe.file());
+    LOG_ACE_ERROR("  line: %s", fe.line());
+    LOG_ACE_ERROR("  mesg: ", fe.errmsg());
   }
   catch(...) {
-    cerr << "Caught unknown exception." << endl;
+    LOG_ACE_ERROR("Caught unknown exception.");
   }
 }
 
@@ -238,7 +238,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	try {
 	  source_it->second->push();
 	} catch (CORBA::TRANSIENT) {
-	  cerr << "Caught CORBA::TRANSIENT" << endl;
+	  LOG_ACE_ERROR("Caught CORBA::TRANSIENT");
 	}
       }
   }

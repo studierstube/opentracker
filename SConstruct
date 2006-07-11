@@ -38,12 +38,14 @@ if sys.platform == 'darwin':
 	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 	_linkflags = []
 	_lpath += ['/opt/local/lib','/usr/X11R6/lib']
-elif sys.platform == 'linux':
+elif sys.platform == 'linux' or sys.platform == 'linux2':
 	defs='-g -DLINUX'
-	_cpppath = ['/opt/local/include', './src']
-	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
+	input_source_files.append('./extras/intersense/isense.c')
+	misc_source_files.append('./src/misc/xml/XMLWriter.cxx')
+	_cpppath = ['/opt/local/include', './src', './extras/intersense']
+	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11','isense']
 	_linkflags = []
-	_lpath += ['/usr/X11R6/lib']
+	_lpath += ['/usr/X11R6/lib','extras/intersense/Linux']
 
 # windows compile configuration
 elif sys.platform == 'win32':
@@ -95,6 +97,12 @@ if File("custom.py").exists():
 	opts = Options('custom.py') 
 else:
 	opts = Options('default.py')
+if File("custom_paths.py").exists():
+	from custom_paths import extra_lib_paths, extra_include_paths
+	_lpath += extra_lib_paths
+	_cpppath += extra_include_paths
+	
+
 opts.Add(BoolOption('corba', 'Set to 1 to build in CORBAModule', 0)) 
 opts.Add(BoolOption('pyqt', 'Set to 1 to build in pyqt applications', 0)) 
 env=Environment(ENV = os.environ, options=opts)
@@ -195,12 +203,10 @@ if sys.platform=='win32':
 	middleware = []
 else:
 	middleware = env.Program('middleware', middleware_file, \
-			  LIBS= _libs + [dlname],\
-			  CPPPATH=_cpppath, \
-			  CCFLAGS = defs, \
-		  LIBPATH=['/opt/local/lib','/usr/X11R6/lib','./lib'])
-
-
+				 LIBS= _libs + [dlname],\
+				 CPPPATH=_cpppath, \
+				 CCFLAGS = defs, \
+				 LIBPATH=_lpath)
 
 
 if sys.platform == 'win32':
