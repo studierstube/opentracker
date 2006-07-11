@@ -7,7 +7,10 @@ SUBDIRS = xml
 otmiscincdir = $(otincdir)/misc
 otmiscinc_HEADERS = \
         serialcomm.h \
-	XKeys.h
+	XKeys.h \
+	GeoidModel.h \
+	GPSGeoid.h \
+	WGS84Geoid.h
 
 noinst_LTLIBRARIES = libmisc.la
 libmisc_la_SOURCES = \
