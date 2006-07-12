@@ -70,46 +70,50 @@
  * @ingroup input
  * @author Rainer Splechtna
  */
-class OPENTRACKER_API JoystickSource : public Node
-{
-    // Members
-public:
-    /// stores joystick ID
-    int id;
-    /// the event that is posted to the EventObservers
-    Event event;
 
-    // Methods
-protected:
-    /** simple constructor, sets members to initial values
-     * @param id_ joystick ID */
-    JoystickSource( int id_ ) : 
-        Node(),
-        id( id_ )
-    {}
+namespace ot {
 
-    /// the event that is updated by the @see JostickModule polling thread.
-    Event tmpEvent;
-    /// a flag to indicate whether tmpEvent was changed during processing
-    int changed;
+	class OPENTRACKER_API JoystickSource : public Node
+	{
+		// Members
+	public:
+		/// stores joystick ID
+		int id;
+		/// the event that is posted to the EventObservers
+		Event event;
 
-public:            
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    int isEventGenerator()
-    {
-        return 1;
-    }
-    /** pushes event down the line. */
-    void push()
-    {
-        event.timeStamp();
-        updateObservers( event );
-    }
+		// Methods
+	protected:
+		/** simple constructor, sets members to initial values
+		 * @param id_ joystick ID */
+		JoystickSource( int id_ ) : 
+			Node(),
+			id( id_ )
+		{}
 
-    friend class JoystickModule;
-};
+		/// the event that is updated by the @see JostickModule polling thread.
+		Event tmpEvent;
+		/// a flag to indicate whether tmpEvent was changed during processing
+		int changed;
+
+	public:            
+		/** tests for EventGenerator interface being present. Is overriden to
+		 * return 1 always.
+		 * @return always 1 */
+		int isEventGenerator()
+		{
+			return 1;
+		}
+		/** pushes event down the line. */
+		void push()
+		{
+			event.timeStamp();
+			updateObservers( event );
+		}
+
+		friend class JoystickModule;
+	};
+}
 
 #endif
 #endif

@@ -37,7 +37,7 @@
   *
   * @author Michael Woegerbauer
   *
-  * $Id$
+  * $Id: SpaceMouseModule.cxx 900 2006-01-19 16:47:43Z spiczak $
   * @file                                                                   */
  /* ======================================================================= */
 

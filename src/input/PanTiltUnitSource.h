@@ -37,50 +37,20 @@
   *
   * @author Michael Wögerbauer
   *
-  * $Id$
+  * $Id: SpaceMouseSource.h 900 2006-01-19 16:47:43Z spiczak $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
  * @section spacemousesource SpaceMouseSource
- * The SpaceMouseSource node is a EventGenerator that communicates with the 
- * SoSpaceMouseKit and does the calculationes. They provide convenience 
- * functionalities in kontext of the space device.
- * 
- * see also the @ref spacemousemodule. 
+ * The SpaceMouseSource node is a simple EventGenerator that outputs the
+ * current position and button state of the SpaceMouse. It is driven by
+ * the @ref spacemousemodule. 
  *
  * An example element looks like this :
  * @verbatim
- <ConsoleSink comment="space device cursor">
- <EventSink tracking="spaceCursor">
- <SpaceMouseSource rotationWeight="0.1" translationWeight="1.0">
-	 
-	 <!-- viewer location sink for space device-->
-	 <ConsoleSink comment="ViewerLocation">
-	 <EventSink tracking="ViewerLocation">
-		<ConsoleSource number="1"/>
-	 </EventSink>
-	 </ConsoleSink>
-
-	 <!-- ExtSpaceMouseConfig is for changing the weights (WILL MOVE TO KIT)-->
-	 <ExtSpaceMouseConfig>
-	 <ConsoleSink comment="ExtSpaceMouseConfig">
-		<ConsoleSource number="0"/>
-	 </ConsoleSink>
-	 </ExtSpaceMouseConfig>
-
-	 <!-- This Node receives data from the SpaceMouseKit Node -->
-	 <SpaceMouseKitData>
-	 <ConsoleSink comment="SpaceMouseKitData">
-	 <EventSource node="SPACEMOUSEKIT" button="otcButton" />
-	 </ConsoleSink>
-	 </SpaceMouseKitData>
-
- </SpaceMouseSource>
- </EventTransform>
-
-@endverbatim
+<SpaceMouseSource/>@endverbatim
  */
 
 #ifndef _SPACEMOUSESOURCE_H

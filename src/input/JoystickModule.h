@@ -117,9 +117,7 @@ namespace ot {
         // Methods
     public:
         /** constructor method. */
-        JoystickModule() : ThreadModule(), NodeFactory(), stop(0)
-        {
-        };
+        JoystickModule();
 
         /** Destructor method, clears nodes member. */
         virtual ~JoystickModule();

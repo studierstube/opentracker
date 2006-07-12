@@ -43,9 +43,11 @@
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
+#include "../tool/OT_ACE_Log.h"
 
 #include "JoystickModule.h"
 #include "JoystickSource.h"
+//#include "../core/Node.h"
 
 #ifdef USE_JOYSTICK
 
@@ -60,17 +62,19 @@
 
 namespace ot {
 
-    // Destructor method
-
+	// constructor method.
+	JoystickModule::JoystickModule() : ThreadModule(), NodeFactory(), stop(0)
+	{
+	}
+	
+	// Destructor method
     JoystickModule::~JoystickModule()
     {
         nodes.clear();
     }
 
-
     // This method is called to construct a new Node.
-
-    Node * JoystickModule::createNode( const string& name, StringTable& attributes)
+    Node * JoystickModule::createNode(const std::string& name, StringTable& attributes)
     {
         if( name.compare("JoystickSource") == 0 )
         {
@@ -83,7 +87,7 @@ namespace ot {
             JoystickSource * source = new JoystickSource(joy_id);
             nodes.push_back( source );
 
-            ACE_LOG_INFO("ot:Build JoystickSource node for ID %d\n", joy_id );
+            LOG_ACE_INFO("ot:Build JoystickSource node for ID %d\n", joy_id );
             initialized = 1;
             return source;
         }
@@ -135,10 +139,10 @@ namespace ot {
                 if (joyPresent[i])
                 {
                     getCaps(i);
-                    ACE_LOG_INFO("ot:JoystickModule: joystick with ID %d(%s) connected.\n", i+1, joyCaps[i].szPname);
+                    LOG_ACE_INFO("ot:JoystickModule: joystick with ID %d(%s) connected.\n", i+1, joyCaps[i].szPname);
                 }
                 else
-                    ACE_LOG_INFO("ot:ot:JoystickModule: joystick with ID %d not connected.\n", i+1 );
+                    LOG_ACE_INFO("ot:ot:JoystickModule: joystick with ID %d not connected.\n", i+1 );
             }
             ThreadModule::start();
         }
@@ -224,7 +228,7 @@ namespace ot {
             else if (joyInfoEx.dwXpos > joyCaps[i].wXmax)
                 actualMovement = joyCaps[i].wXmax;
             actualMovement = actualMovement - joyCaps[i].wXmin - xRange[i]/2;
-            tmp.getPosition()[0] = (float)actualMovement*2.0/(float)xRange[i];
+            tmp.getPosition()[0] = (float)actualMovement*2.0f/(float)xRange[i];
 
             // get y
             actualMovement = joyInfoEx.dwYpos;
@@ -233,7 +237,7 @@ namespace ot {
             else if (joyInfoEx.dwYpos > joyCaps[i].wYmax)
                 actualMovement = joyCaps[i].wYmax;
             actualMovement = actualMovement - joyCaps[i].wYmin - yRange[i]/2;
-            tmp.getPosition()[1] = (float)actualMovement*2.0/(float)yRange[i];
+            tmp.getPosition()[1] = (float)actualMovement*2.0f/(float)yRange[i];
 
             // get z
             if (zRange > 0)
@@ -244,13 +248,13 @@ namespace ot {
                 else if (joyInfoEx.dwZpos > joyCaps[i].wZmax)
                     actualMovement = joyCaps[i].wZmax;
                 actualMovement = actualMovement - joyCaps[i].wZmin - zRange[i]/2;
-                tmp.getPosition()[2] = (float)actualMovement*2.0/(float)zRange[i];
+                tmp.getPosition()[2] = (float)actualMovement*2.0f/(float)zRange[i];
             }
             else
                 tmp.getPosition()[2] = 0;
 
             // only four buttons supported
-            tmp.getButton() = joyInfoEx.dwButtons & 0x0000000F;
+            tmp.getButton() = (unsigned short)joyInfoEx.dwButtons & 0x0000000F;
 
             int update = 0;
 

@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -104,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -247,6 +247,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.cxx"
 				>
 			</File>
@@ -255,15 +263,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\EventUtilityNode.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\FastTrakModule.cxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.cxx"
+				RelativePath="..\..\src\common\File.cxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.cxx"
+				RelativePath="..\..\src\common\FileModule.cxx"
 				>
 			</File>
 			<File
@@ -443,22 +455,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\core\EventAttributeBase.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\core\Translator.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\common\EventUtilityNode.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.cxx"
 				>
 			</File>
@@ -496,6 +492,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.cxx"
 				>
 			</File>
 			<File
@@ -697,11 +697,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\Event.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\EventAttributeBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\EventQueueImplementation.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\common\EventQueueNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EventUtilityNode.h"
 				>
 			</File>
 			<File
@@ -985,26 +1001,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\core\EventAttributeBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\core\EventAttribute.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\core\Translator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\common\EventUtilityNode.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\StaticTransformation.h"
 				>
 			</File>
@@ -1078,6 +1074,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\core\Translator.h"
 				>
 			</File>
 			<File
