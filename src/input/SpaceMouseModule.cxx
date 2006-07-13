@@ -59,10 +59,13 @@
 #include <Windows.h>
 #include <math.h>
 
-/* SpaceWare Specific Includes */
+/* SpaceWare specific includes and library */
 #include "spwmacro.h"  /* Common macros used by SpaceWare functions. */
 #include "si.h"        /* Required for any SpaceWare support within an app.*/
 #include "siapp.h"     /* Required for siapp.lib symbols */
+
+#pragma comment(lib,"siapp")
+
 
 #include "..\tool\OT_ACE_Log.h"
 #include "..\core\MathUtils.h"

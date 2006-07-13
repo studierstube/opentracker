@@ -33,75 +33,64 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for SpaceMouseSource Node.
+/** header file for PanTiltUnitSource Node.
   *
-  * @author Michael Wögerbauer
+  * @author Markus Sareika
   *
-  * $Id: SpaceMouseSource.h 900 2006-01-19 16:47:43Z spiczak $
+  * $Id: PanTiltUnitSource.h
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section spacemousesource SpaceMouseSource
- * The SpaceMouseSource node is a simple EventGenerator that outputs the
+ * @section PanTiltUnitSource PanTiltUnitSource
+ * The PanTiltUnitSource node is a simple EventGenerator that outputs the
  * current position and button state of the SpaceMouse. It is driven by
- * the @ref spacemousemodule. 
+ * the @ref PanTiltUnitModule. 
  *
  * An example element looks like this :
  * @verbatim
-<SpaceMouseSource/>@endverbatim
+<PanTiltUnitSource/>@endverbatim
  */
 
-#ifndef _SPACEMOUSESOURCE_H
-#define _SPACEMOUSESOURCE_H
+#ifndef _PANTILTUNITSOURCE_H
+#define _PANTILTUNITSOURCE_H
 
 #include "../OpenTracker.h"
-
 #include "../common/ConsoleSource.h"
 
+#ifdef USE_PANTILTUNIT
 
-#define OTCOM_NONE				0
-#define OTCOM_RESETPOSITION		1
-#define OTCOM_RESETROTATION		2
-#define OTCOM_TOGGLE_ROTATECAMERAAXIS  3
+#include <PTU.H>
+#include <W32SERIA.H>
+
+#pragma comment(lib,"ptu")
+
+//#pragma comment(lib,"lanc32")
 
 
-#ifdef USE_SPACEMOUSE
 
 namespace ot {
 
 /**
- * This class implements a simple source that sets its valid flag in
+ * This class implements a source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
- * @author Michael Woegerbauer
+ * @author Markus Sareika
  * @ingroup input
  */
-class OPENTRACKER_API SpaceMouseSource : public Node
+class OPENTRACKER_API PanTiltUnitSource : public Node
 {
 // Members
 public: 
     /// the state that is posted to the EventObservers
     Event event;
 
-// Methods
-public:
     /** simple constructor, sets members to initial values */
-    SpaceMouseSource() : Node()
-    {
+	PanTiltUnitSource() : Node(),
+		publishEvent(false)
+	{
 		// default values
-		tWeightDefault = 0.5f;
-		rWeightDefault = 0.1f;
-
-		tWeight = tWeightDefault;
-		rWeight = rWeightDefault;
-
-		nlDistance = 10;
-		gogok = 1.0f;  //1.0f/6.0f;
-		//scale = 1.0f;
-
-		useAbsRotation = true;
-	};
+	}
         
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -117,42 +106,37 @@ public:
         event.timeStamp();
         updateObservers( event );
     }
+	
 
 virtual void onEventGenerated( Event& event, Node& generator);
 
 protected:
-	// SpaceMouse Cursor-specific variables
-	bool useAbsRotation;
 
-	// User Position
-	Event usrpos;
-	// This Event holds the current cursor position and is sent to the observers
-    Event tmpEvent;
+	// This Event holds the desired ptu Location
+	Event ptuGoto;
+	// This Event holds the relativeInput
+    Event relativeInput;
+	// This Event holds the newEvent
+	Event newEvent;
 
-	// Weights
-	float tWeight;
-	float rWeight;	// weights for translation and rotation
-	float tWeightDefault;
-	float rWeightDefault;
+    // A flag to indicate whether relativeInput or ptuGoto was changed during processing
+    bool publishEvent;
+	
+	// The COM port where the PTU is connected
+	bool initComPort(int comPort);
 
-	bool extNode;
+	void closeComPort();
 
-	// scaling factor (extNode)
-	//float scale;
-	//float cursorDistance;
+	friend class PanTiltUnitModule;
 
-	// parameters for GoGo Interaction
-	float nlDistance;			// distance where non-linear movement starts
-    float gogok;				// scaling factor for nonlinear movement acceleration
-    
-    // A flag to indicate whether tmpState was changed during processing
-    int changed;
+private:
 
-	friend class SpaceMouseModule;
+	portstream_fd COMstream;
+
 };
 
 }  // namespace ot
 
-#endif //USE_SPACEMOUSE
+#endif //USE_PANTILTUNIT
 
-#endif //_SPACEMOUSESOURCE_H
+#endif //_PANTILTUNITSOURCE_H

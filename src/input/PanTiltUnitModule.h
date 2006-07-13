@@ -33,70 +33,68 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for Spacemouse module.
+ /** header file for PanTiltUnitSource Node.
   *
-  * @author 
+  * @author Markus Sareika
   *
-  * $Id: SpaceMouseModule.h 900 2006-01-19 16:47:43Z spiczak $
+  * $Id: PanTiltUnitModule.h
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section spacemousemodule SpaceMouseModule
- * The SpaceMouseModule provides and drives @ref spacemousesource nodes that 
- * generate standard events in certain intervals. It does not use a
- * configuration element, but reserves the name 'SpaceMouseConfig'.
+ * @section PanTiltUnitModule PanTiltUnitModule
+ * The PanTiltUnitModule provides and drives @ref PanTiltUnitSource nodes that 
+ * generate events in certain intervals.
  */
 
 /**
- * @page spacemouse Space Mouse Integration
+ * @page pantiltunit Pan Tilt Unit Integration
  *
- * Instructions on including Modules for 3Dconnexion SpaceMouse (Plus USB) in OpenTracker:
+ * Instructions on including Modules for PTU in OpenTracker:
  *
- * @par 1.Step: Install the 3Dxware sdk and set env var: 3DCONNEXIONROOT
+ * @par 1.Step: Install the ptu sdk and set env var: PTUROOT
  *
- *
- * @par 2.Step: Recompile
+ * @par 2.Step: Recompile and have fun
  
  */
 
-#ifndef _SPACEMOUSEMODULE_H
-#define _SPACEMOUSEMODULE_H
+#ifndef _PANTILTUNITMODULE_H
+#define _PANTILTUNITMODULE_H
 
 #include "../OpenTracker.h"
 
-#ifdef USE_SPACEMOUSE
+#ifdef USE_PANTILTUNIT
 
 #include <Windows.h>
 
 /**
- * The module and factory to drive the SpaceMouseSource nodes. It constructs
- * SpaceMouseSource nodes via the NodeFactory interface and pushes events into
+ * The module and factory to drive the PanTiltUnitSource nodes. It constructs
+ * PanTiltUnitSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  */
 
 namespace ot {
 
-class OPENTRACKER_API SpaceMouseModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API PanTiltUnitModule : public ThreadModule, public NodeFactory
 {
 
 protected:
-    // list of SpaceMouseSource nodes in the tree
+    // list of PanTiltUnitSource nodes in the tree
     NodeVector nodes;
 
 public:
     /** constructor method. */
-    SpaceMouseModule() : ThreadModule(), NodeFactory(), stop(0)
+    PanTiltUnitModule() : ThreadModule(), NodeFactory(), stop(false)
     {};
 
     /** Destructor method, clears nodes member.
 	 */
-    virtual ~SpaceMouseModule();
+    virtual ~PanTiltUnitModule();
 
     /** This method is called to construct a new Node. It compares
-     * name to the SpaceMouseSource element name, and if it matches
-     * creates a new SpaceMouseSource node.
+     * name to the PanTiltUnitSource element name, and if it matches
+     * creates a new PanTiltUnitSource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -105,36 +103,44 @@ public:
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
 
 	/**
-     * closes SpaceMouse dynamic library 
+     * stop the ptu thread
 	 */
     virtual void close();
 
     /**
-	 * opens SpaceMouse dynamic library (SIAPPDLL.DLL)
+	 *  starts the ptu thread
      */
     virtual void start();
 
+	/**
+	 *  the ptu thread
+	 */
 	virtual void run();
 
-    // flag to stop the thread
-    int stop;
+	/**
+	 *  flag to stop the ptu thread
+	 */
+    bool stop;
 
     /**
-     * pushes events into the tracker tree. Checks all SpaceMouseSources and
-     * pushes new events, if a SpaceMouseSource fires. The events store
+     * pushes events into the tracker tree. Checks all PanTiltUnitSources and
+     * pushes new events, if a PanTiltUnitSource fires. The events store
 	 * structure with position and status of the buttons.
      */
     virtual void pushEvent();
 
-	static HWND		hWndSpaceMouse;
 
 private:
-	void processMessages();
+
+	// 
+	void processMovements();
 
 };
 
 } // namespace ot
 
-#endif	//USE_SPACEMOUSE
+#else
+#pragma message(">>> OT_NO_PTU_SUPPORT")
+#endif	//USE_PANTILTUNIT
 
-#endif	//_SPACEMOUSEMODULE_H
+#endif	//_PANTILTUNITMODULE_H

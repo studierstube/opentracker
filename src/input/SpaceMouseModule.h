@@ -135,6 +135,8 @@ private:
 
 } // namespace ot
 
+#else
+#pragma message(">>> OT_NO_SPACEMOUSE_SUPPORT")
 #endif	//USE_SPACEMOUSE
 
 #endif	//_SPACEMOUSEMODULE_H

@@ -36,6 +36,8 @@
 
 #include "SpaceMouseSource.h"
 
+#ifdef USE_SPACEMOUSE
+
 #include <math.h>
 
 #define DIST(x, y) sqrt(((x[2]-y[2])*(x[2]-y[2])+(x[1]-y[1])*(x[1]-y[1])+(x[0]-y[0])*(x[0]-y[0])))
@@ -114,3 +116,5 @@ namespace ot {
 		memcpy(&usrpos, &event, sizeof(Event));
 	}
 }
+
+#endif //USE_SPACEMOUSE

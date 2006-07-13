@@ -87,9 +87,9 @@
 #define _SPACEMOUSESOURCE_H
 
 #include "../OpenTracker.h"
-
 #include "../common/ConsoleSource.h"
 
+#ifdef USE_SPACEMOUSE
 
 #define OTCOM_NONE				0
 #define OTCOM_RESETPOSITION		1
@@ -97,7 +97,7 @@
 #define OTCOM_TOGGLE_ROTATECAMERAAXIS  3
 
 
-#ifdef USE_SPACEMOUSE
+
 
 namespace ot {
 
