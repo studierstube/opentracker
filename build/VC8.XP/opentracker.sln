@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standalone", "standalone.vc
 		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configurable", "configurable.vcproj", "{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Debug|Win32.Build.0 = Debug|Win32
 		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release|Win32.ActiveCfg = Release|Win32
 		{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}.Release|Win32.Build.0 = Release|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Debug|Win32.Build.0 = Debug|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Release|Win32.ActiveCfg = Release|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
