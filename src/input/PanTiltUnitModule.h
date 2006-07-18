@@ -33,7 +33,7 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
- /** header file for PanTiltUnitSource Node.
+ /** header file for PanTiltUnitSinkSource Node.
   *
   * @author Markus Sareika
   *
@@ -44,7 +44,7 @@
 /**
  * @page module_ref Module Reference
  * @section PanTiltUnitModule PanTiltUnitModule
- * The PanTiltUnitModule provides and drives @ref PanTiltUnitSource nodes that 
+ * The PanTiltUnitModule provides and drives @ref PanTiltUnitSinkSource nodes that 
  * generate events in certain intervals.
  */
 
@@ -69,8 +69,8 @@
 #include <Windows.h>
 
 /**
- * The module and factory to drive the PanTiltUnitSource nodes. It constructs
- * PanTiltUnitSource nodes via the NodeFactory interface and pushes events into
+ * The module and factory to drive the PanTiltUnitSinkSource nodes. It constructs
+ * PanTiltUnitSinkSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  */
 
@@ -80,12 +80,12 @@ class OPENTRACKER_API PanTiltUnitModule : public ThreadModule, public NodeFactor
 {
 
 protected:
-    // list of PanTiltUnitSource nodes in the tree
+    // list of PanTiltUnitSinkSource nodes in the tree
     NodeVector nodes;
 
 public:
     /** constructor method. */
-    PanTiltUnitModule() : ThreadModule(), NodeFactory(), stop(false)
+    PanTiltUnitModule() : ThreadModule(), NodeFactory(), stop(false),updateRate(25)
     {};
 
     /** Destructor method, clears nodes member.
@@ -93,8 +93,8 @@ public:
     virtual ~PanTiltUnitModule();
 
     /** This method is called to construct a new Node. It compares
-     * name to the PanTiltUnitSource element name, and if it matches
-     * creates a new PanTiltUnitSource node.
+     * name to the PanTiltUnitSinkSource element name, and if it matches
+     * creates a new PanTiltUnitSinkSource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -123,8 +123,8 @@ public:
     bool stop;
 
     /**
-     * pushes events into the tracker tree. Checks all PanTiltUnitSources and
-     * pushes new events, if a PanTiltUnitSource fires. The events store
+     * pushes events into the tracker tree. Checks all PanTiltUnitSinkSources and
+     * pushes new events, if a PanTiltUnitSinkSource fires. The events store
 	 * structure with position and status of the buttons.
      */
     virtual void pushEvent();
@@ -132,9 +132,10 @@ public:
 
 private:
 
-	// 
-	void processMovements();
 
+	void processMovements();
+	
+	int updateRate;
 };
 
 } // namespace ot

@@ -524,6 +524,86 @@ namespace ot {
 
         return qResult;
     }
+    
+   void MathUtils::quaternionToMatrix( Quaternion& q, Matrix4x4& m)
+    {
+    	// also see p. 363 of the book "Advanced Animation and Rendering Techniques 
+    	// from A. and M. Watt from Addison-Wesley
+
+        MathUtils::normalizeQuaternion( q );
+    
+    	const double x(q[0]);
+    	const double y(q[1]);
+    	const double z(q[2]);
+    	const double w(q[3]);
+    
+    	const double s( 2.0 / (x * x + y * y + z * z + w * w) );
+    
+    	const double xx(x * x * s);
+    	const double xy(x * y * s);
+    	const double xz(x * z * s);
+    	const double xw(x * w * s);
+    
+    	const double yy(y * y * s);
+    	const double yz(y * z * s);
+    	const double yw(y * w * s);
+    
+    	const double zz(z * z * s);
+    	const double zw(z * w * s);
+    	
+    	m[0][0] = 1.0 - (yy + zz);
+    	m[1][0]  = xy + zw;
+    	m[2][0] = xz - yw;
+    
+    	m[0][1] = xy - zw;
+    	m[1][1] = 1.0 - (xx + zz);
+    	m[2][1] = yz + xw;
+    
+    	m[0][2] = xz + yw;
+    	m[1][2] = yz - xw;
+    	m[2][2] = 1.0 - (xx + yy);
+
+		m[3][3] = 1;
+    }
+
+   void MathUtils::matrixToQuaternion(Matrix4x4& matrix, Quaternion& qResult)
+   {
+	   double tr, s;
+	   int i, j, k;
+	   int nxt[3] = {1, 2, 0};
+
+	   tr = matrix[0][0] + matrix[1][1] + matrix[2][2];
+
+	   // check the diagonal
+	   if (tr > 0.0)
+	   {
+		   s = sqrt (tr + 1.0);
+		   qResult[3] = ( s / 2.0 );
+		   s = 0.5 / s;
+		   qResult[0] = ((matrix[2][1] - matrix[1][2]) * s);
+		   qResult[1] = ((matrix[0][2] - matrix[2][0]) * s);
+		   qResult[2] = ((matrix[1][0] - matrix[0][1]) * s);
+	   }
+	   else
+	   {
+		   // diagonal is negative
+		   i = 0;
+		   if (matrix[1][1] > matrix[0][0]) i = 1;
+		   if (matrix[2][2] > matrix[i][i]) i = 2;
+		   j = nxt[i];
+		   k = nxt[j];
+
+		   s = sqrt((matrix[i][i] - (matrix[j][j] + matrix[k][k])) + 1.0);
+
+		   qResult[i] = ( s * 0.5 );
+
+		   if (s != 0.0) s = 0.5 / s;
+
+		   qResult[3] = ((matrix[k][j] - matrix[j][k]) * s );
+		   qResult[j] = ( (matrix[j][i] + matrix[i][j]) * s );
+		   qResult[k] = ( (matrix[k][i] + matrix[i][k]) * s );
+	   }
+   }
 
     // ----------------------------------------------------------------------------------------
     void MathUtils::matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m)

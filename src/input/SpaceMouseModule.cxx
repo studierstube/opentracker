@@ -60,9 +60,9 @@
 #include <math.h>
 
 /* SpaceWare specific includes and library */
-#include "spwmacro.h"  /* Common macros used by SpaceWare functions. */
-#include "si.h"        /* Required for any SpaceWare support within an app.*/
-#include "siapp.h"     /* Required for siapp.lib symbols */
+#include <spwmacro.h>  /* Common macros used by SpaceWare functions. */
+#include <si.h>        /* Required for any SpaceWare support within an app.*/
+#include <siapp.h>     /* Required for siapp.lib symbols */
 
 #pragma comment(lib,"siapp")
 

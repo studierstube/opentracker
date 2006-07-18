@@ -33,110 +33,64 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for PanTiltUnitSource Node.
+/** header file for Lanc Node.
   *
   * @author Markus Sareika
   *
-  * $Id: PanTiltUnitSource.h
+  * $Id: Lanc.h
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section PanTiltUnitSource PanTiltUnitSource
- * The PanTiltUnitSource node is a simple EventGenerator that outputs the
- * current position and button state of the SpaceMouse. It is driven by
- * the @ref PanTiltUnitModule. 
+ * @section PanTiltUnitSinkSource
+ * The Lanc node encapsulates the lanc control interface
  *
- * An example element looks like this :
- * @verbatim
-<PanTiltUnitSource/>@endverbatim
  */
 
-#ifndef _PANTILTUNITSOURCE_H
-#define _PANTILTUNITSOURCE_H
+#ifndef _LANC_H
+#define _LANC_H
 
-#include "../OpenTracker.h"
-#include "../common/ConsoleSource.h"
-
-#ifdef USE_PANTILTUNIT
-
-#include <PTU.H>
-#include <W32SERIA.H>
-
-#pragma comment(lib,"ptu")
-
-//#pragma comment(lib,"lanc32")
-
-
+#ifdef WIN32
+#include  <Lanc32.h>
+#pragma comment(lib,"lanc32")
+#endif
 
 namespace ot {
 
 /**
- * This class implements a source that sets its valid flag in
- * regular intervals and updates any EventObservers. 
+ * This class encapsulates the lanc control interface
  * @author Markus Sareika
  * @ingroup input
  */
-class OPENTRACKER_API PanTiltUnitSource : public Node
+class Lanc
 {
 // Members
 public: 
-    /// the state that is posted to the EventObservers
-    Event event;
 
-    /** simple constructor, sets members to initial values */
-	PanTiltUnitSource() : Node(),
-		publishEvent(false)
-	{
-		// default values
-	}
-        
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    virtual int isEventGenerator()
-    {
-        return 1;
-    }
+    /** constructor*/
+	Lanc();
 
-    /** pushes event down the line. */
-    void push()
-    {
-        event.timeStamp();
-        updateObservers( event );
-    }
+     /** destructor*/
+	~Lanc();
 	
+	void Zoom( float speed );
 
-virtual void onEventGenerated( Event& event, Node& generator);
-
+	float focalDistance;
+	
 protected:
 
-	// This Event holds the desired ptu Location
-	Event ptuGoto;
-	// This Event holds the relativeInput
-    Event relativeInput;
-	// This Event holds the newEvent
-	Event newEvent;
-
-    // A flag to indicate whether relativeInput or ptuGoto was changed during processing
-    bool publishEvent;
-	
-	// The COM port where the PTU is connected
-	bool initComPort(int comPort);
-
-	void closeComPort();
-
-	friend class PanTiltUnitModule;
-
 private:
-
-	portstream_fd COMstream;
+    #ifdef WIN32
+	HANDLE lancDevice;
+	LANCUSBID usb_id;
+	#endif
+	bool initLanc; 
+	
 
 };
 
 }  // namespace ot
 
-#endif //USE_PANTILTUNIT
 
-#endif //_PANTILTUNITSOURCE_H
+#endif //_LANC_H

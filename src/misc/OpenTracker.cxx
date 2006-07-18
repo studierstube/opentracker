@@ -97,6 +97,7 @@
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
 #include "../input/SpaceMouseModule.h"
+#include "../input/PanTiltUnitModule.h"
 #include "../input/SpeechModule.h"
 #include "../input/P5GloveModule.h"
 #include "../input/MulticastInputModule.h"
@@ -238,6 +239,12 @@ namespace ot {
         SpaceMouseModule * smouse = new SpaceMouseModule;
         context.addFactory( * smouse );
         context.addModule( "SpaceMouseConfig", * smouse );
+#endif	
+
+#ifdef USE_PANTILTUNIT
+		PanTiltUnitModule * ptu = new PanTiltUnitModule;
+		context.addFactory( * ptu );
+		context.addModule( "PanTiltUnitConfig", * ptu );
 #endif	
 
 #ifndef OT_NO_NETWORK_SUPPORT

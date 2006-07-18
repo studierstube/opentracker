@@ -33,7 +33,7 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
- /** header file for PanTiltUnitSource Node.
+ /** header file for PanTiltUnitSinkSource Node.
   *
   * @author Markus Sareika
   * 
@@ -44,7 +44,7 @@
 
 #include "../tool/disable4786.h"
 
-#include "PanTiltUnitSource.h"
+#include "PanTiltUnitSinkSource.h"
 #include "PanTiltUnitModule.h"
 
 #ifdef USE_PANTILTUNIT
@@ -60,7 +60,7 @@
 //#include <math.h>
 
 #include "..\tool\OT_ACE_Log.h"
-#include "..\core\MathUtils.h"
+
 
 namespace ot {
 
@@ -73,34 +73,34 @@ namespace ot {
 	// This method is called to construct a new Node.
 	Node * PanTiltUnitModule::createNode( const std::string& name, StringTable& attributes)
 	{
-		if( name.compare("PanTiltUnitSource") == 0 )
+		if( name.compare("PanTiltUnitSinkSource") == 0 )
 		{       
-			PanTiltUnitSource * source = new PanTiltUnitSource;
-			// add extra attributes
-			//source->event.addAttribute("bool", "moving", "1");
-			//source->event.addAttribute("float", "cursorDistance", "1");
-
-			//source->ptuGoto.addAttribute("float", "scalingFactor", "1");
-			//source->ptuGoto.addAttribute("float", "cursorDistance", "1");
-
+			PanTiltUnitSinkSource * source = new PanTiltUnitSinkSource;
+			source->event.addAttribute("float", "focalDistance", "0");
 			// read values from xml config file and initialize PTU
 			if ( !attributes.get("comPort").empty() ) {
 				int comPort = (int)atof(attributes.get("comPort").c_str());
-				if (!source->initComPort(comPort)) std::cerr << "PTU Serial Port: "<<comPort<<" setup error.\n" << std::endl;
-				std::cerr << "PTU Serial Port: "<<comPort<<" initialized" << std::endl;;
+				if (!source->initComPort(comPort)) 
+					std::cerr << "PTU Serial Port: "<<comPort<<" setup error.\n" << std::endl;
+				else std::cerr << "PTU Serial Port: "<<comPort<<" initialized" << std::endl;
 			}
+			if ( !attributes.get("frequency").empty() ) 
+				source->frequency = (int)atof(attributes.get("frequency").c_str());
+			
 			source->event.setConfidence( 1.0f );
 			nodes.push_back( source );
-			LOG_ACE_INFO("ot:Built PanTiltUnitSource node\n");
+			LOG_ACE_INFO("ot:Built PanTiltUnitSinkSource node\n");
 			initialized = 1;
 			return source;
 		}
-		//if( (name.compare("ExtPTUConfig") == 0) ) {
-		//		// create just a pass-through node
-		//		NodePort *np = new NodePort();
-		//		np->name = name;
-		//		return np;
-		//}
+		if( (name.compare("PtuLocation") == 0) ||(name.compare("PtuMoveTo") == 0) || 
+			(name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
+		{
+			// create just a pass-through node
+			NodePort *np = new NodePort();
+			np->name = name;
+			return np;
+		}
 
 		// no node configured 
 		return NULL;
@@ -125,10 +125,10 @@ namespace ot {
 
 		if( isInitialized() == 1 && !nodes.empty()) 
 		{
-			PanTiltUnitSource * source;
+			PanTiltUnitSinkSource * source;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSource *) *it;
+				source = (PanTiltUnitSinkSource *) *it;
 				source->closeComPort();
 			}
 		}
@@ -141,7 +141,7 @@ namespace ot {
 		//static bool init = false;
 		//if( !init ) // initialize ptu thread
 		//{
-			initialized = 1;
+		//	initialized = 1;
 		//	init = true;
 		//}
 		while( !stop )
@@ -150,23 +150,27 @@ namespace ot {
 		}
 	}
 
-
+	// 
 	void PanTiltUnitModule::pushEvent()
 	{
-		PanTiltUnitSource *source;
+		PanTiltUnitSinkSource *source;
 
 		if( isInitialized() == 1 )
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSource *) *it;     
+				source = (PanTiltUnitSinkSource *) *it;     
 				if (source->publishEvent)
 				{
-					lock();  
-					source->event = source->newEvent;
+					//if((cycle + source->offset) % source->frequency == 0 )
+					//{
+					//	source->push();
+					//}
+					//lock();  
+					//source->event = source->newEvent;
 
 					source->publishEvent = false;
-					unlock();        
+					//unlock();        
 					source->push();
 				}
 			}
@@ -179,7 +183,7 @@ namespace ot {
 		// do something with best effort in each ptu 
 		for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 		{
-			PanTiltUnitSource * source = (PanTiltUnitSource *) *it;     
+			PanTiltUnitSinkSource * source = (PanTiltUnitSinkSource *) *it;     
 			//... do some time dependent stuff ...
 			
 		}
