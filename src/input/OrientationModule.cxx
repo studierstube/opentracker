@@ -1,35 +1,45 @@
- /* ========================================================================
-  * Copyright (C) 2001  Vienna University of Technology
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-  * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  * Lesser General Public License for more details.
-  *
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, write to the Free Software
-  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-  *
-  * For further information please contact Gerhard Schall under
-  * <Schall@ims.tuwien.ac.at> or write to Gerhard Schall,
-  * Vienna University of Technology, Favoritenstr. 9-11/188, A1040 Vienna,
-  * Austria.
-  * ========================================================================
-  * PROJECT: OpenTracker
-  * ======================================================================== */
-/** source file for OrientationModule
-  *
-  * @author Gerhard Schall
-  * 
-  * $Id: OrientationModule.cxx 717 2006-07-27 11:54:49Z Schall $
-  *
-  * @file                                                                   */
- /* ======================================================================= */
+/* ========================================================================
+ * Copyright (c) 2006,
+ * Institute for Computer Graphics and Vision
+ * Graz University of Technology
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Graz University of Technology nor the names of
+ * its contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ========================================================================
+ * PROJECT: OpenTracker
+ * ======================================================================== */
+/** source file for OrientationModule.
+ *
+ * @author Gerhard Schall
+ *
+ * $Id$
+ * @file                                                                   */
+/* ======================================================================= */
 
 // this will remove the warning 4786
 #include "../tool/disable4786.h"
@@ -67,8 +77,6 @@
 
 namespace ot {
 
-
-
 OrientationModule::OrientationModule() :
 ThreadModule(),
 NodeFactory()
@@ -85,7 +93,7 @@ NodeFactory()
 OrientationModule::~OrientationModule()
 {
 	
-    // cout << "OrientationModule::Destructor" << endl;
+        // cout << "OrientationModule::Destructor" << endl;
 
 	TargetOriVector::iterator it;
         for (it = targets.begin(); it != targets.end(); it++)
@@ -111,25 +119,20 @@ void OrientationModule::init(StringTable& attributes, ConfigNode * localTree)
         // scanning port name from XML-File
         strncpy (port.pathname, attributes.get("device").c_str(), 255);
 	    LOG_ACE_INFO("ot:use orientation device on port: %s\n", port.pathname);
-    
-        
+     
     } // init
-
-
-
 
 
 
 Node * OrientationModule::createNode( const std::string & name, StringTable & attributes )
 {
-	
-	
+
 	printf("\n orientation module create node\n");
 
 	if( name.compare("OrientationSource") == 0 )
 	{
 
-		TargetOriVector::iterator it;
+	    TargetOriVector::iterator it;
             for (it = targets.begin(); it != targets.end(); it++)
             {
                 TargetOri * target = (TargetOri*)(*it);
@@ -147,10 +150,9 @@ Node * OrientationModule::createNode( const std::string & name, StringTable & at
 			
             OrientationSource * source = new OrientationSource;
 
-		    printf("\n create node source:%s\n", source);
+	    printf("\n create node source:%s\n", source);
 
             assert(source);
-          // add the source object to the target list
             // add the source object to the target list
             TargetOri *target = new TargetOri(source);
             assert(target);
@@ -172,7 +174,7 @@ Node * OrientationModule::createNode( const std::string & name, StringTable & at
 				printf("error? %s\n", e.what());
 				}
 
-			printf("event size %d , target ptr %p\n", result, target);    
+	    printf("event size %d , target ptr %p\n", result, target);    
             ACE_DEBUG((LM_INFO, "OrientationModule: Built OrientationSource for  %s\n", port.pathname ));
 
             // return pointer to the source node
@@ -193,9 +195,9 @@ void OrientationModule::start()
         int myResult = 0;
     
         // cout << "OrientationModule::start" << endl;
-		printf("\n orientation module start, initalized: %d\n", isInitialized());
+	printf("\n orientation module start, initalized: %d\n", isInitialized());
 
-         if ((isInitialized() == 1) && !targets.empty())
+        if ((isInitialized() == 1) && !targets.empty())
         {
             // init serial port
             initSerialParams (&params);
@@ -264,10 +266,10 @@ void OrientationModule::pushEvent()
         if (isInitialized() == 1 )
         {
             if (targets.empty())
-			{	printf("targets empty");
-				return;
+		{	printf("targets empty");
+			return;
 
-			}
+		}
         
             TargetOriVector::iterator it;
             for (it = targets.begin(); it != targets.end(); it ++)
@@ -346,15 +348,15 @@ void OrientationModule::pushEvent()
         double diff_x = 0.0, diff_y = 0.0, diff_z = 0.0;
         float alpha = 0.0, beta = 0.0;
 
-		int k=0;
+	int k=0;
 
-		char h[255];
+	char h[255];
 
-		//printf("\n run \n");
+	//printf("\n run \n");
 		
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Starting Orientation module thread\n")));
+	ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Starting Orientation module thread\n")));
     
-		//printf("\nserialportIsOpen: %d\n",serialportIsOpen);
+	//printf("\nserialportIsOpen: %d\n",serialportIsOpen);
         assert(serialportIsOpen == TRUE);
 
         while (1)
@@ -378,97 +380,92 @@ void OrientationModule::pushEvent()
             // read data from the serial port
             count = readfromSerialPort (&port, serialPortBuffer, 4096);
 
-			serialPortBuffer[count]='\0';
+	    serialPortBuffer[count]='\0';
 
-			// parser
-			// process and decode serialPortBuffer[], which now contains count new bytes
- 
-		//	printf ("count: %d\n",count);
+	    // parser
+	    // process and decode serialPortBuffer[], which now contains count new bytes
+	    // format of the datan at the serial port is: nnn.nn,nn.n,nn.n 
+	    // first part nnn.n is compass orientation
+	    // second part nn.n is x-Kippwinkel
+	    // third part nn.n is y-Kippwinkel
+	    
+	    //	printf ("count: %d\n",count);
 
-			if (count > 0)
+		// If sth is at the serial port
+		if (count > 0)
+		{	// sometimes only 1 or 2 bytes are read from the serial port
+			// that leads to errors, because then scanf only takes the
+			// digits before the comma.
+			// Therefore these single bytes are stored in string h and
+			// the next values from the serial port are then concatenated
+			// which leads to the correct input format of nnn.nn,nn.n,nn.n again
+			if (count <= 3)
 			{
-				if (count <= 3)
+				h[0]='\0';
+				strncat(h, serialPortBuffer, count);
+				}
+			else
+			{
+				if (strlen(h) > 0)
 				{
+					//printf ("strlen h: %d   h: %s spb: %s\n", strlen(h),h ,serialPortBuffer);
+					strcat(h, serialPortBuffer);
+					strcpy(serialPortBuffer, h);
+					//printf ("new spb: %s\n", serialPortBuffer);
 					h[0]='\0';
-					strncat(h, serialPortBuffer, count);
-
 				}
-				else
-				{
-					if (strlen(h) > 0)
-					{
-						//printf ("strlen h: %d   h: %s spb: %s\n", strlen(h),h ,serialPortBuffer);
-						strcat(h, serialPortBuffer);
-						strcpy(serialPortBuffer, h);
-						//printf ("new spb: %s\n", serialPortBuffer);
-						h[0]='\0';
-					}
-
 					sscanf (serialPortBuffer, "%f,%f,%f\n",&compass, &x_kippwinkel, &y_kippwinkel);        			
-		//			printf ("count: %d Kompass:%f  x-KW:%f  y-KW:%f\n",count, compass, x_kippwinkel, y_kippwinkel);
-				
-				}
+ 	                               // printf ("count: %d Kompass:%f  x-KW:%f  y-KW:%f\n",count, compass, x_kippwinkel, y_kippwinkel);
+			}
 			
-	
-            
-
-				TargetOriVector::iterator target;
+	            
+			TargetOriVector::iterator target;
                             
-				for (target = targets.begin(); target != targets.end(); target++)                
-				{
-					if ((*target) == NULL)               
-					{                    
-						ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:OrientationModule::run ERROR iterator == NULL!\n")));                    
-					}								
-					else                                                   
-						break;                           
-				}
-
+			for (target = targets.begin(); target != targets.end(); target++)                
+			{
+				if ((*target) == NULL)               
+				{                    
+					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:OrientationModule::run ERROR iterator == NULL!\n")));                    
+				}								
+				else                                                   
+					break;                           
+			}
 				
-				lock();
-				Event & myEvent = (*target)->event;
-
-				// mark the event as modified
-				(*target)->modified = 1;
-
+			lock();
+			Event & myEvent = (*target)->event;
+			// mark the event as modified
+			(*target)->modified = 1;
 				
-					
-				myEvent.getOrientation()[0] = (float) compass;
-				
-				myEvent.getOrientation()[1] = (float)x_kippwinkel;
-				
-				myEvent.getOrientation()[2] = (float)y_kippwinkel;
-				
-	            myEvent.getOrientation()[3] = 1.0;
-                
+			myEvent.getOrientation()[0] = (float) compass;
+			
+			myEvent.getOrientation()[1] = (float)x_kippwinkel;
+			
+			myEvent.getOrientation()[2] = (float)y_kippwinkel;
+			
+		        myEvent.getOrientation()[3] = 1.0;
+               
 				
                                 
-				// we can use the default position
-				myEvent.getPosition()[0] = 0.0;
-				myEvent.getPosition()[1] = 0.0;                 
-				myEvent.getPosition()[2] = 0.0;              
-
-				// set the confidence value     
-				myEvent.getConfidence() = 1.0f;
+			// we can use the default position
+			myEvent.getPosition()[0] = 0.0;
+			myEvent.getPosition()[1] = 0.0;                 
+			myEvent.getPosition()[2] = 0.0;              
+		
+			// set the confidence value     
+			myEvent.getConfidence() = 1.0f;
                
-				myEvent.timeStamp();            
+			myEvent.timeStamp();            			
 
-			
+			unlock();   							
 
-				unlock();   
-				
-			
+			// end of critical section
 
-				// end of critical section
-
-			} // end if
+		} // end if
         } // while forever
     
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping Orientation module thread\n")));
     } // run
 
-
 }  // namespace ot
-
 
 #endif
