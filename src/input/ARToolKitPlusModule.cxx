@@ -99,7 +99,7 @@ class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
     // implement ARToolKitPlus::Logger
     void artLog(const char* nStr)
     {
-        LOG_ACE_INFO("ot:%s\n", nStr);
+        LOG_ACE_INFO("ot:%s", nStr);
     }
 
     void artLogEx(const char* nStr, ...)
@@ -506,7 +506,7 @@ namespace ot {
                 }
             }
 
-	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s\n", cameradata.c_str());
+	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s", cameradata.c_str());
 
 
 	// setting for template pattern folder

@@ -67,31 +67,53 @@ namespace ot {
 
 
 
-    class VideoSinkSubscriber : public openvideo::VideoSinkSubscriber
+    class OpenTrackerVideoSinkSubscriber : public openvideo::VideoSinkSubscriber
     {
-    public:
-	VideoSinkSubscriber(Context* ctx) : context(ctx)
-	{
-	}
+        public:
+	    OpenTrackerVideoSinkSubscriber(Context* ctx) : context(ctx)
+	    {
+            firstFrame=true;
+        }
 
-	void update(openvideo::State* curState)
-	{
- assert(context);
-     context->newVideoFrame(curState->frame, curState->width, curState->height, (PIXEL_FORMAT)curState->format);
-         }
+	    void update(openvideo::State* curState)
+	    {
+            bufferSynchronizer.assign(curState->getCurrentBuffer());
+
+            if(firstFrame)
+            {
+                if(openvideo::Buffer* buffer = bufferSynchronizer.getLocked())
+                {
+                    assert(context);
+                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()));
+                    buffer->unlock();
+                    firstFrame = false;
+                }
+            }
+            else
+            {
+                if(openvideo::Buffer* buffer = bufferSynchronizer.getLocked())
+                {
+                    assert(context);
+                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()));
+                    buffer->unlock();
+                }
+            }
+        }
         
         
-	void initPixelFormats()
-	{
+    	void initPixelFormats()
+	    {
             pixelFormats.push_back(openvideo::FORMAT_R8G8B8);
             pixelFormats.push_back(openvideo::FORMAT_B8G8R8);
             pixelFormats.push_back(openvideo::FORMAT_R8G8B8X8);
             pixelFormats.push_back(openvideo::FORMAT_B8G8R8X8);
             pixelFormats.push_back(openvideo::FORMAT_L8);
-	}
+	    }
 
-    private:
-	Context* context;
+        private:
+	    Context* context;
+        bool firstFrame;
+        openvideo::BufferSynchronizer bufferSynchronizer;
     };
 
 
@@ -99,9 +121,9 @@ namespace ot {
 
     OpenVideoModule::OpenVideoModule(Context* ctx) : ThreadModule()
     {
-	context = ctx;
-	ovManager = NULL;
-	videoSinkSubscriber = NULL;
+    	context = ctx;
+	    ovManager = NULL;
+	    videoSinkSubscriber = NULL;
     }
 
     // destructor clears any nodes
@@ -109,53 +131,41 @@ namespace ot {
     {
     }
 
-
-
-    // opens the artoolkit library and video system
-
+    // opens the openvideo library and video system
     void OpenVideoModule::start()
     {
-	ovManager=openvideo::Manager::getInstance();
-
-	if(!ovManager->parseConfiguration(configFile.c_str()))
+	    ovManager=openvideo::Manager::getInstance();
+    	if(!ovManager->parseConfiguration(configFile.c_str()))
             return;
 
-	ovManager->initTraversal();
+	    ovManager->initTraversal();
 
-	videoSinkSubscriber = new VideoSinkSubscriber(context);
-	if(openvideo::VideoSink* sink = reinterpret_cast<openvideo::VideoSink*>(ovManager->getNode(ovSinkName.c_str())))
+	    videoSinkSubscriber = new OpenTrackerVideoSinkSubscriber(context);
+	    if(openvideo::VideoSink* sink = reinterpret_cast<openvideo::VideoSink*>(ovManager->getNode(ovSinkName.c_str())))
             sink->subscribe(videoSinkSubscriber);
 
         ThreadModule::start();
     }
 
-    // closes the artoolkit library
+    // closes the openvideo library
 
     void OpenVideoModule::close()
     {
+        ovManager->stop();
     }
 
-
-    // pushes events into the tracker tree
-
-
-    // initializes the ARToolKit module
-
+    // initializes the OpenVideo module
     void OpenVideoModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         ThreadModule::init( attributes, localTree );
-
-	configFile = attributes.get("ov-config");
-
-	ovSinkName = attributes.get("ov-sink");
+    	configFile = attributes.get("ov-config");
+    	ovSinkName = attributes.get("ov-sink");
     }
 
-
     // the work method for the module thread
-
     void OpenVideoModule::run()
     {
-	ovManager->run();
+    	ovManager->run();
     }
 
 

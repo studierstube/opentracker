@@ -52,13 +52,14 @@
 
 namespace openvideo{
     class Manager;
+    class Buffer;
 }
 
 
 namespace ot {
 
 
-    class VideoSinkSubscriber;
+    class OpenTrackerVideoSinkSubscriber;
 
 
     class OPENTRACKER_API OpenVideoModule : public ThreadModule
@@ -72,7 +73,7 @@ namespace ot {
 	std::string configFile, ovSinkName;
 
 	openvideo::Manager*		ovManager;
-	VideoSinkSubscriber*	videoSinkSubscriber;
+	OpenTrackerVideoSinkSubscriber*	videoSinkSubscriber;
 
 	Context*				context;
 
