@@ -72,6 +72,7 @@
 #include "../input/ARTDataTrackerModule.h"
 #endif //_WIN32_WCE
 
+#include "../input/OrientationModule.h"
 #include "../network/NetworkSinkModule.h"
 #include "../network/NetworkSourceModule.h"
 #include "../common/TimeModule.h"
@@ -161,6 +162,12 @@ namespace ot {
         NetworkSinkModule * networksink = new NetworkSinkModule;
         context.addFactory( *networksink );
         context.addModule( "NetworkSinkConfig", *networksink );
+#endif
+
+#ifndef OT_NO_ORIENTATION_SUPPORT
+        OrientationModule * orientation = new OrientationModule;
+        context.addFactory( * orientation );
+        context.addModule( "OrientationConfig", *orientation );
 #endif
 
 
