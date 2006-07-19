@@ -157,24 +157,7 @@ Node * OrientationModule::createNode( const std::string & name, StringTable & at
             TargetOri *target = new TargetOri(source);
             assert(target);
             targets.push_back(target);
-			Event ourevent;
-			printf("setting our event\n");	
-			ourevent.getPosition()[1] = 2.0;
-            ourevent.getPosition()[2] = 3.0;
-            ourevent.getOrientation()[0] = 0.0;
-            ourevent.getOrientation()[1] = 0.0;
-            ourevent.getOrientation()[2] = 0.0;
-            ourevent.getOrientation()[3] = 1.0;
-            ourevent.getConfidence() = 1.0;
-			printf ("all set\n");
-			float result;
-			try{
-				result = ourevent.getPosition()[1];
-			} catch(std::invalid_argument & e) {
-				printf("error? %s\n", e.what());
-				}
 
-	    printf("event size %d , target ptr %p\n", result, target);    
             ACE_DEBUG((LM_INFO, "OrientationModule: Built OrientationSource for  %s\n", port.pathname ));
 
             // return pointer to the source node
@@ -442,7 +425,7 @@ void OrientationModule::pushEvent()
 			
 			myEvent.getOrientation()[2] = (float)y_kippwinkel;
 			
-		        myEvent.getOrientation()[3] = 1.0;
+		    myEvent.getOrientation()[3] = 1.0;
                
 				
                                 
