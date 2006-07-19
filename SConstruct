@@ -35,7 +35,7 @@ if sys.platform == 'darwin':
 	# Remove the following files from the darwin build
 	input_source_files.remove('./src/input/InterSenseModule.cxx')
 	input_source_files.remove('./src/input/ParButtonModule.cxx')
-	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
+#	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
 	input_source_files.remove('./src/input/SpaceMouseSource.cxx')
 	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
 	_linkflags = []
@@ -43,7 +43,7 @@ if sys.platform == 'darwin':
 elif sys.platform == 'linux' or sys.platform == 'linux2':
 	defs='-g -DLINUX'
 	input_source_files.append('./extras/intersense/isense.c')
-	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
+#	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
 	input_source_files.remove('./src/input/SpaceMouseSource.cxx')
 	misc_source_files.append('./src/misc/xml/XMLWriter.cxx')
 	_cpppath = ['/opt/local/include', './src', './extras/intersense']

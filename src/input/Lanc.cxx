@@ -41,8 +41,11 @@
 * @file                                                                   */
 /* ======================================================================= */
 
+#ifdef WIN32
 #include <windows.h>
+#endif //WIN32
 #include <iostream>
+
 
 #include "Lanc.h"
 #include "../core/OSUtils.h"
