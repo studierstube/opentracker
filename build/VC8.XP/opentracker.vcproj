@@ -240,10 +240,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Configurator.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\ConsoleModule.cxx"
 				>
 			</File>
@@ -373,10 +369,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\JoystickModule.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\Lanc.cxx"
 				>
 			</File>
 			<File
@@ -686,10 +678,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Configurator.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\ConsoleModule.h"
 				>
 			</File>
@@ -895,10 +883,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\JoystickSource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\Lanc.h"
 				>
 			</File>
 			<File

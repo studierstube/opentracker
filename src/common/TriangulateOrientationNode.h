@@ -1,4 +1,5 @@
-Copyright (c) 2006,
+/* ========================================================================
+ * Copyright (c) 2006,
  * Institute for Computer Graphics and Vision
  * Graz University of Technology
  * All rights reserved.
