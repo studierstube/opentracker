@@ -47,6 +47,11 @@
  * The OrientationSource node is a simple EventGenerator that outputs orientation data
  * from a single Orientation tracker provided by FTW Vienna. See the @ref OrientationModule for more information.
  * 
+ * In general the sensor module behaves like a Bluetooth GPS device. After the device discovery phase and 
+ * connection phase the module opens a serial port profile service and starts sending data continually to 
+ * the serial port. The data format is in the form: nnn.n,nn.n,nn.n
+ * The first group shows the direction of the magnetic compass, then follows the tilt angle in x and y direction. 
+ * All data are in decimal degrees. Tilt angles can also be negative.
  *
  * An example element looks like this :
  * @verbatim
