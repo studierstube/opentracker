@@ -53,6 +53,10 @@
  * The first group shows the direction of the magnetic compass, then follows the tilt angle in x and y direction. 
  * All data are in decimal degrees. Tilt angles can also be negative.
  *
+ * The device has 2 switches. The BT switch is for the Bluetooth module to start and stop. The HW module is for
+ * the sensor module to start and stop. In the first step only the BT module must be 1, the HW switch has to be turned off.
+ * Else the BT module doesnt go to data mode. After having established a connection, the HW switch can be turne on.
+ 
  * An example element looks like this :
  * @verbatim
    <OrientationSource/>@endverbatim
