@@ -41,6 +41,7 @@ otinputinc_HEADERS = \
         MulticastInputModule.h \
         MulticastInputSource.h \
         OpenVideoModule.h \
+	OrientationModule.h \
         P5GloveModule.h \
         P5GloveSource.h \
         ParButtonModule.h \
@@ -122,6 +123,8 @@ libinput_la_SOURCES = \
         MulticastInputModule.h \
         MulticastInputSource.h \
         OpenVideoModule.h \
+	OrientationModule.cxx \
+	OrientationModule.h \
         P5GloveModule.cxx \
         P5GloveModule.h \
         P5GloveSource.h \
