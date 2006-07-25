@@ -41,9 +41,12 @@ otinputinc_HEADERS = \
         MulticastInputModule.h \
         MulticastInputSource.h \
         OpenVideoModule.h \
-	OrientationModule.h \
+        OrientationModule.h \
+        OrientationSource.h \
         P5GloveModule.h \
         P5GloveSource.h \
+        PanTiltUnitSinkSource.h \
+        PanTiltUnitModule.h \
         ParButtonModule.h \
         ParButtonSource.h \
         SpaceMouseModule.h \
@@ -123,11 +126,16 @@ libinput_la_SOURCES = \
         MulticastInputModule.h \
         MulticastInputSource.h \
         OpenVideoModule.h \
-	OrientationModule.cxx \
-	OrientationModule.h \
+        OrientationModule.cxx \
+        OrientationModule.h \
+        OrientationSource.h \
         P5GloveModule.cxx \
         P5GloveModule.h \
         P5GloveSource.h \
+        PanTiltUnitSinkSource.cxx \
+        PanTiltUnitSinkSource.h \
+        PanTiltUnitModule.cxx \
+        PanTiltUnitModule.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
