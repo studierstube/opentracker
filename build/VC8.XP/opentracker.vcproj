@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="aced.lib openvideod.lib siapp.lib spwmath.lib"
+				AdditionalDependencies="aced.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/debug&quot;"
@@ -141,10 +141,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ace.lib openvideo.lib "
+				AdditionalDependencies="ace.lib"
 				OutputFile="../../bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
 				SubSystem="2"
