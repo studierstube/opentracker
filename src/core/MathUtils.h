@@ -306,8 +306,8 @@ namespace ot {
          */
         static std::vector<float>& slerp( const std::vector<float> &q1, const std::vector<float> &q2, const float t, std::vector<float> &qResult );
 
-        static void MathUtils::quaternionToMatrix( Quaternion &q, Matrix4x4 &m);
-		static void MathUtils::matrixToQuaternion( Matrix4x4& matrix, Quaternion& qResult);
+        static void quaternionToMatrix( Quaternion &q, Matrix4x4 &m);
+        static void matrixToQuaternion( Matrix4x4& matrix, Quaternion& qResult);
         
         static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
         static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);
