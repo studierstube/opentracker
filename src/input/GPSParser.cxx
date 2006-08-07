@@ -193,6 +193,7 @@ namespace ot {
                     if (*token == 'W') {
                         lon = -lon;
                     }
+
                     // go to the next token
                     token = tok.next();
                     if (!token)

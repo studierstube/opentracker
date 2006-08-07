@@ -120,15 +120,13 @@ namespace ot {
             buffer.getPosition()[2] = (float)(point->zECEF);
             buffer.getConfidence() = (float)(1 / point->hdop);
 
-            buffer.setAttribute<double>("lat", point->lat); 
-            buffer.addAttribute<double>("lon", point->lon); 
-            buffer.addAttribute<double>("alt", point->altitude); 
-            buffer.addAttribute<short>("numsats", point->numsats); 
+            // Dispose lat/lon as radiants
+            buffer.setAttribute<double>("lat", point->lat * MathUtils::GradToRad); 
+            buffer.setAttribute<double>("lon", point->lon * MathUtils::GradToRad); 
+            buffer.setAttribute<double>("alt", point->altitude); 
+            buffer.setAttribute<short>("numsats", point->numsats); 
 
             module->unlock();
-            
-//             std::cout << "Position = " << buffer.getPosition()[0] << buffer.getPosition()[1] << buffer.getPosition()[2] << std::endl;
-            
         }
     }
     
