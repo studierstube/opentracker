@@ -67,10 +67,10 @@ namespace ot
 
 	void TriangulateOrientationNode::onEventGenerated(Event &event, Node &generator)
 	{	
-
-		std::cout << "TriangulateOrientationNode:onEventGenerated" << std::endl;
-		std::cout << " getType: " << generator.getType() << std::endl;
-		std::cout << " getName: " << generator.getName() << std::endl;
+#pragma message(">>> daniel2everybody: please do not use cout!")
+		//std::cout << "TriangulateOrientationNode:onEventGenerated" << std::endl;
+		//std::cout << " getType: " << generator.getType() << std::endl;
+		//std::cout << " getName: " << generator.getName() << std::endl;
 
 		// final location updates:
 		// FIXMEE: for a first test the positions are hard-coded
@@ -95,7 +95,8 @@ namespace ot
 		if ((generator.getName().compare("top") == 0)| (generator.getName().compare("bLeft") == 0) |
 			(generator.getName().compare("bRight") == 0))
 		{
-			std::cout << " merging positions and rotations" << std::endl;
+#pragma message(">>> daniel2everybody: please do not use cout!")
+			//std::cout << " merging positions and rotations" << std::endl;
 			// merge Position
 			/*mergedState.position[0] = (topState.getPosition()[0] + bLeftState.getPosition()[0] + 
 				bRightState.position[0]) / 3;
@@ -123,8 +124,8 @@ namespace ot
 
 			mergedState.setPosition(pos_vector);
 
-
-			std::cout << "Position = " << mergedState.getPosition()[0] << mergedState.getPosition()[1] << mergedState.getPosition()[2] << std::endl;
+#pragma message(">>> daniel2everybody: please do not use cout!")
+			//std::cout << "Position = " << mergedState.getPosition()[0] << mergedState.getPosition()[1] << mergedState.getPosition()[2] << std::endl;
 
 
 			//calculate the orientation as vector (vector from the middle of the two base tags to the top)

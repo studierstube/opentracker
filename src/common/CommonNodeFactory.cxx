@@ -47,7 +47,9 @@
 #include <stdlib.h>
 #include "CommonNodeFactory.h"
 #include "MergeNode.h"
-#include "TriangulateOrientationNode.h"
+#ifndef OT_NO_MERGENODE_SUPPORT
+#  include "TriangulateOrientationNode.h"
+#endif
 #include "VirtualTransformation.h"
 #include "DynamicTransformation.h"
 #include "InvertTransformation.h"

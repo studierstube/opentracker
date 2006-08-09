@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML;$(LIBCEROOT)/include.vc8"
+				AdditionalIncludeDirectories="$(LIBCEROOT)/include.vc8;$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
@@ -153,7 +153,7 @@
 				AdditionalDependencies="aced.lib"
 				OutputFile="$(OutDir)/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ARTOOLKITPLUSROOT)/lib/WM2005;$(TINYXMLMODROOT)/lib/WM2005;$(ACEROOT)/lib/WM2005"
+				AdditionalLibraryDirectories="&quot;$(ARTOOLKITPLUSROOT)/lib/WM2005&quot;;&quot;$(TINYXMLMODROOT)/lib/PPC2005&quot;;&quot;$(ACEROOT)/lib/WM2005&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/opentrackerd.pdb"
@@ -210,7 +210,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="1"
-				AdditionalIncludeDirectories="$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src/TinyXML,$(LIBCEROOT)/include.vc8"
+				AdditionalIncludeDirectories="$(LIBCEROOT)/include.vc8;$(ACEROOT);$(ARTOOLKITPLUSROOT)/include;$(TINYXMLMODROOT)/src"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE=$(CEVER);$(PLATFORMDEFINES);WINCE;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;TINYXML_MOD_DLL;POCKETPC2003_UI_MODEL;ACE_HAS_ACE_TOKEN;ACE_HAS_ACE_SVCCONF"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -321,7 +321,7 @@
 				AdditionalDependencies="ace.lib"
 				OutputFile="$(OutDir)/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ARTOOLKITPLUSROOT)/lib/WM2005;$(TINYXMLMODROOT)/lib/WM2005;$(ACEROOT)/lib/WM2005"
+				AdditionalLibraryDirectories="$(ARTOOLKITPLUSROOT)/lib/WM2005;$(TINYXMLMODROOT)/lib/PPC2005;$(ACEROOT)/lib/WM2005"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/opentracker.pdb"
@@ -645,6 +645,26 @@
 				</File>
 				<File
 					RelativePath="..\..\src\input\MulticastInputModule.cxx"
+					>
+					<FileConfiguration
+						Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\src\input\OrientationModule.cxx"
 					>
 					<FileConfiguration
 						Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
@@ -1116,7 +1136,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\src\common\FileModule.cxx"
+					RelativePath="..\..\src\common\File.cxx"
 					>
 					<FileConfiguration
 						Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
@@ -1136,7 +1156,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\src\common\File.cxx"
+					RelativePath="..\..\src\common\FileModule.cxx"
 					>
 					<FileConfiguration
 						Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
@@ -1398,6 +1418,26 @@
 				<File
 					RelativePath="..\..\src\common\Transformation.cxx"
 					>
+				</File>
+				<File
+					RelativePath="..\..\src\common\TriangulateOrientationNode.cxx"
+					>
+					<FileConfiguration
+						Name="Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\src\common\VirtualTransformation.cxx"

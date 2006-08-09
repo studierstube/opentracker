@@ -153,7 +153,7 @@
 
 /** uncomment the following line to compile support for Joysticks.
  * Support for this is only available on windows. */
-#define USE_JOYSTICK 1
+//#define USE_JOYSTICK 1
 
 /** uncomment the following line to compile support for 3Dconnexion SpacMouse.
  * Support for this is only available on windows. */
@@ -225,6 +225,7 @@
 #  define OT_NO_POSITIONFILTER_SUPPORT
 #  define OT_NO_RANGEFILTER_SUPPORT
 #  define OT_NO_TESTMODULE_SUPPORT
+#  define OT_NO_ORIENTATION_SUPPORT
 #endif
 
 /* 
