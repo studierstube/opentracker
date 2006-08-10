@@ -33,28 +33,36 @@
 			</EventTransform>			
 		</NetworkSink>
 	</ConsoleSink>
+	
 	<ConsoleSink comment="station1:panel0">
 		<NetworkSink port="12346" name="panel0" mode="unicast" interface="128.131.167.189" number="2">
-		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
-			<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
-<!-- ElasticFilter force="0.08" damp="0.05" -->
-			<ARTDataTrackerSource number="1"/>
-<!-- /ElasticFilter -->
-			</EventVirtualTransform>
-			</EventTransform>		
+      <EventVirtualTransform translation="-0.005 0.0 0.0" rotation="0.70710678118654752440084436210485 0 0 -0.70710678118654752440084436210485">
+        <EventVirtualTransform translation="0.0 -0.008 0.0" >
+          <EventVirtualTransform translation="0.165601 -0.010010 0.076995" >
+            <EventVirtualTransform rotation="0 0.70710678118654752440084436210485 0 0.70710678118654752440084436210485">
+		          <EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+			          <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+                  <!-- ElasticFilter force="0.08" damp="0.05" -->
+			            <ARTDataTrackerSource number="1"/>
+                  <!-- /ElasticFilter -->
+			          </EventVirtualTransform>
+			        </EventTransform>		
+            </EventVirtualTransform>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </EventVirtualTransform>
 		</NetworkSink>
 	</ConsoleSink>
 
 	<ConsoleSink comment="station2:hmd0">
 		<NetworkSink port="12346" name="hmd0" mode="unicast" interface="128.131.167.189" number="3">
-		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+		  <EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
 				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
-
-<ElasticFilter force="0.08" damp="0.05">
-	<ARTDataTrackerSource number="15"/>
-</ElasticFilter>
+          <ElasticFilter force="0.08" damp="0.05">
+	          <ARTDataTrackerSource number="15"/>
+          </ElasticFilter>
 				</EventVirtualTransform>
-		</EventTransform>
+		  </EventTransform>
 		</NetworkSink>
 	</ConsoleSink>
 
@@ -82,15 +90,24 @@
 			</EventTransform>
 		</NetworkSink>
 	</ConsoleSink>
+	
 	<ConsoleSink comment="station4:panel1">
 		<NetworkSink port="12346" name="panel1" mode="unicast" interface="128.131.167.189" number="5">
-		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
-				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
-<!-- ElasticFilter force="0.08" damp="0.05" -->
-			<ARTDataTrackerSource number="4"/>
-<!-- /ElasticFilter -->
-					</EventVirtualTransform>
-			</EventTransform>		
+      <EventVirtualTransform translation="0.11 0.0 0.1" rotation="0.70710678118654752440084436210485 0 0 -0.70710678118654752440084436210485">
+        <EventVirtualTransform translation=" -0.111 -0.008 -0.097">
+          <EventVirtualTransform translation=" 0.128880 -0.040718 0.114731">
+            <EventVirtualTransform  rotation="0 1 0 0">
+		          <EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				        <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+                  <!-- ElasticFilter force="0.08" damp="0.05" -->
+			            <ARTDataTrackerSource number="4"/>
+                  <!-- /ElasticFilter -->
+					      </EventVirtualTransform>
+			        </EventTransform>		
+            </EventVirtualTransform>
+          </EventVirtualTransform>
+        </EventVirtualTransform>
+      </EventVirtualTransform>
 		</NetworkSink>
 	</ConsoleSink>
 
@@ -98,7 +115,6 @@
 		<NetworkSink port="12346" name="hmd1" mode="unicast" interface="128.131.167.189" number="6">
 		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
 			<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
-
 				<ElasticFilter force="0.08" damp="0.05">
 					<ARTDataTrackerSource number="19"/>
 				</ElasticFilter>
@@ -116,53 +132,68 @@
 			</EventTransform>
 		</NetworkSink>
 	</ConsoleSink>	
-<ConsoleSink comment="station7:nicePenWithTopNr1">
+  
+  <ConsoleSink comment="station7:nicePenWithTopNr1">
 		<NetworkSink port="12346" name="nicePenWithTopNr1" mode="unicast" interface="128.131.167.189" number="8">
-			<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
-				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
-			<Merge>
-				<MergeDefault>
-					<ARTDataTrackerSource number="7"/>
-				</MergeDefault>
-				<MergeAttribute attributeName="button">
-					<ButtonHoldFilter offDuration="60">
-					<ButtonFilter buttonmask               ="00010000" 
-							  buttonmap            ="77707777" 
-							  validtrans           ="1_2__3__" 
-							  radiobuttons         ="_1_22_3_" 
-							  setbuttononvalidtrans="_1______">
-						<Ref USE="button0"/>
-					</ButtonFilter>
-					</ButtonHoldFilter> 
-				</MergeAttribute>
-			</Merge>
-				</EventVirtualTransform>
-			</EventTransform>
+      <EventVirtualTransform rotation="0 1 0 0">
+        <EventVirtualTransform translation="0.001120 0.036604 -0.163265">
+          <EventVirtualTransform translation="0.008765 0.191312 0.178310">
+            <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+			        <EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				        <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+			            <Merge>
+				            <MergeDefault>
+					            <ARTDataTrackerSource number="7"/>
+				            </MergeDefault>
+				            <MergeAttribute attributeName="button">
+					             <ButtonHoldFilter offDuration="60">
+					               <ButtonFilter buttonmask           ="00010000" 
+							                         buttonmap            ="77707777" 
+							                         validtrans           ="1_2__3__" 
+							                         radiobuttons         ="_1_22_3_" 
+							                         setbuttononvalidtrans="_1______">
+						               <Ref USE="button0"/>
+					               </ButtonFilter>
+					             </ButtonHoldFilter> 
+				             </MergeAttribute>
+			             </Merge>
+				         </EventVirtualTransform>
+			         </EventTransform>
+				     </EventVirtualTransform>
+				   </EventVirtualTransform>
+				 </EventVirtualTransform>
+			 </EventVirtualTransform>
 		</NetworkSink>
 	</ConsoleSink>
 	
-<ConsoleSink comment="station8:nicePenWithTopNr2">
+  <ConsoleSink comment="station8:nicePenWithTopNr2">
 		<NetworkSink port="12346" name="nicePenWithTopNr2" mode="unicast" interface="128.131.167.189" number="9">
-		<EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
-				<EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
-			<Merge>
-				<MergeDefault>
-					<ARTDataTrackerSource number="13"/>
-				</MergeDefault>
-				<MergeAttribute attributeName="button">
-					<ButtonHoldFilter offDuration="60">
-					<ButtonFilter buttonmask               ="00000010" 
-							  buttonmap            ="77777707" 
-							  validtrans           ="1_2__3__" 
-							  radiobuttons         ="_1_22_3_" 
-							  setbuttononvalidtrans="_1______">
-						<Ref USE="button0"/>
-					</ButtonFilter>
-					</ButtonHoldFilter>
-				</MergeAttribute>
-			</Merge>
+      <EventVirtualTransform rotation="0 1 0 0">
+        <EventVirtualTransform translation="0.062380 0.161154 0.000396">
+          <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485">
+		        <EventTransform rotation="-0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" scale="0.001 0.001 0.001">
+				      <EventVirtualTransform rotation="0.70710678118654752440084436210485 0 0 0.70710678118654752440084436210485" >
+			          <Merge>
+				          <MergeDefault>
+					          <ARTDataTrackerSource number="13"/>
+				          </MergeDefault>
+				          <MergeAttribute attributeName="button">
+					          <ButtonHoldFilter offDuration="60">
+					            <ButtonFilter buttonmask           ="00000010" 
+							                      buttonmap            ="77777707" 
+							                      validtrans           ="1_2__3__" 
+							                      radiobuttons         ="_1_22_3_" 
+							                      setbuttononvalidtrans="_1______">
+						            <Ref USE="button0"/>
+					            </ButtonFilter>
+					          </ButtonHoldFilter>
+				          </MergeAttribute>
+			          </Merge>
+				      </EventVirtualTransform>
+			      </EventTransform>			
+				  </EventVirtualTransform>
 				</EventVirtualTransform>
-			</EventTransform>			
+			</EventVirtualTransform>
 		</NetworkSink>
 	</ConsoleSink>
 
