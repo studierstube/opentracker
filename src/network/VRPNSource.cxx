@@ -83,13 +83,13 @@ void __stdcall  buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info 
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;
 
-    if( info.getButton() > 7 ) // we only use the first 8 buttons
+    if( info.button > 7 ) // we only use the first 8 buttons
         return;
 
-    if( info.event == VRPN_BUTTON_ON )
-        self->event.getButton() |= 1 << info.getButton();
+    if( info.state == VRPN_BUTTON_ON )
+        self->event.getButton() |= 1 << info.button;
     else
-        self->event.getButton() &= ~(1 << info.getButton());
+        self->event.getButton() &= ~(1 << info.button);
 
     // appearantly VRPN doesn't send any timestamp with the buttons !
     // self->event.time = info.msg_time.tv_sec * 1000.0 + info.msg_time.tv_usec / 1000.0;
