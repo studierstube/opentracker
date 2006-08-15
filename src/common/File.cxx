@@ -130,7 +130,6 @@ namespace ot {
         }
         else
         {
-            return true;
             input->clear();
             *input >> *station;
             *input >> event.time;

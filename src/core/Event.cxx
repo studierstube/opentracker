@@ -210,15 +210,25 @@ namespace ot
     void Event::serialize(std::ostream &out) const
     {
 
-        out.precision(24);
-        out << "{" << std::fixed << time << "-" << attributes.size() << ":";
+
+        std::stringstream tmp;
+
+
+
+        //        out.precision(24);
+        //        out << "{" << std::fixed << time << "-" << attributes.size() << ":";
+
         for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
         {
+
             if (it != attributes.begin())
-                out << ",";
-            out << (*it).second->getGenericTypeName() << "." << (*it).first << "=" << *((*it).second);
+                tmp << ",";
+            std::stringstream tmp_sstream;
+            tmp_sstream << *((*it).second);
+            tmp << (*it).second->getGenericTypeName() << "." << (*it).first << "#" << tmp_sstream.str().length() << "=" << tmp_sstream.str();
         }
-        out << "}";
+
+        out << "{" << std::fixed << time << "-" << attributes.size() << "<" << tmp.str().length() << ":" << tmp.str() << "}";
     }
 
     const std::string Event::serialize() const
@@ -237,10 +247,11 @@ namespace ot
     // deserialize the event
     std::istream& Event::deserialize(std::istream &in)
     {
+        char* dataCArray,*attrCArray, *dataTmpArray;
+        std::string dataStr, typeStr, nameStr, attrStr, sizeStr;
+        std::string::size_type typeDelimiter, nameDelimiter,  sizeDelimiter; //attrDelimiter,
+        AttributeMap::size_type i, mapSize, eventSize;
         char c;
-        std::string dataStr, typeStr, nameStr, attrStr;
-        std::string::size_type typeDelimiter, nameDelimiter, attrDelimiter;
-        AttributeMap::size_type i, mapSize;
 
         clearAttributes();
 
@@ -249,55 +260,77 @@ namespace ot
             || !(in >> time)
             || !(in >> c) || c != '-'
             || !(in >> mapSize)
-            || !(in >> c) || c != ':'
-            || !(in >> dataStr))
+            || !(in >> c) || c != '<'
+            || !(in >> eventSize)
+            || !(in >> c) || c != ':')
         {
             in.setstate(std::ios_base::failbit);
             return in;
         }
 
+        dataCArray=(char*)malloc(eventSize+1);
+
+        in.read(dataCArray,eventSize);
+
+
+        dataStr = dataCArray;
+        dataTmpArray = dataCArray;
+
         // read data
         for (i = 0; i < mapSize; i++)
         {
+
             // segmentation of data string
             typeDelimiter = dataStr.find(".");
-            nameDelimiter = dataStr.find("=");
-            attrDelimiter = dataStr.find_first_of(",}");
+            nameDelimiter = dataStr.find("#");
+            sizeDelimiter = dataStr.find("=");
 
             typeStr = dataStr.substr(0, typeDelimiter);
             nameStr = dataStr.substr(typeDelimiter + 1, nameDelimiter - (typeDelimiter + 1));
-            attrStr = dataStr.substr(nameDelimiter + 1, attrDelimiter - (nameDelimiter + 1));
-            dataStr = dataStr.substr(attrDelimiter + 1, std::string::npos);
+            sizeStr = dataStr.substr(nameDelimiter + 1, sizeDelimiter - (nameDelimiter + 1));
 
+            int size;
+            size=atoi(sizeStr.c_str());
+
+            attrStr = dataStr.substr(sizeDelimiter + 1, size);
+            attrCArray=&dataTmpArray[sizeDelimiter+1];
+
+            dataTmpArray = dataTmpArray + sizeDelimiter + 2 + size;
+            dataStr = dataTmpArray;
             // check if segmentation is correct
             if (typeDelimiter == std::string::npos
                 || nameDelimiter == std::string::npos
-                || attrDelimiter == std::string::npos
+                || sizeDelimiter == std::string::npos
                 || typeDelimiter >= nameDelimiter
-                || typeDelimiter >= attrDelimiter
+                || typeDelimiter >= sizeDelimiter
                 || hasAttribute(nameStr))
             {
                 in.setstate(std::ios_base::failbit);
+                delete dataCArray;
                 return in;
             }
             try
             {
                 EventAttributeBase *att = EventAttributeBase::create(typeStr);
-                std::stringstream ss(attrStr);
+                std::stringstream ss;
+                ss.write(attrCArray,size);
                 if (ss >> *att)
                     attributes[nameStr] = att;
                 else
                 {
                     in.setstate(std::ios_base::failbit);
+                    delete dataCArray;
                     return in;
                 }
             }
             catch (std::runtime_error)
             {
                 in.setstate(std::ios_base::failbit);
+                delete dataCArray;
                 return in;
             }
         }
+        delete dataCArray;
         return in;
     }
 
@@ -447,7 +480,7 @@ namespace ot
 
 } // namespace ot
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of Event.cxx
  * ------------------------------------------------------------
@@ -460,5 +493,5 @@ namespace ot
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
