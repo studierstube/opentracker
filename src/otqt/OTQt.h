@@ -59,17 +59,21 @@
 
 #ifndef OTQT_OTQT_H
 #define OTQT_OTQT_H
+#if 1
 #include <dllinclude.h>
+#endif
+#define USE_OTQT 1
 #if USE_OTQT
 
 #include "QtMouseEventModule.h"
 #include "QtMouseEventCalibModule.h"
 #include "OTQtLog.h"
 #include <OpenTracker.h>
+
+#include <string>
 #include <qobject.h>
 #include <qtimer.h>
 #include <qmutex.h>
-#include <string>
 
 namespace ot {
 
@@ -268,7 +272,7 @@ void driveOT();
 
 #endif // OTQT_OTQT_H
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of OTQt.h
  * ------------------------------------------------------------
@@ -281,5 +285,5 @@ void driveOT();
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

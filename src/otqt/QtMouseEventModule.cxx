@@ -49,6 +49,7 @@
 #include "OTQtLog.h"
 #include <qapplication.h>
 #include <qcursor.h>
+#include <qwidget.h>
 
 namespace ot {
 
@@ -280,7 +281,7 @@ void QtMouseEventModule::pullEvent()
   }
 
   // get current widget under global mouse position
-  QWidget * widget = QApplication::widgetAt(MPOS_DESKTOP_GLOBAL, true);
+  QWidget * widget = QApplication::widgetAt(MPOS_DESKTOP_GLOBAL);
   OTQT_DEBUG("QtMouseEventModule()::pullState(): widget pointer = %x (NULL?)\n",
              (unsigned int)widget);
 
@@ -297,7 +298,7 @@ void QtMouseEventModule::pullEvent()
   // generate MouseMove event
   if (update_desktop_mouse_pos) {
 
-    Qt::ButtonState q_state = Qt::NoButton;
+    QMouseButton_t q_state = Qt::NoButton;
 
     // take first currently pressed button as value of 'state' variable
     if (mb_sink_ != NULL) {
@@ -313,7 +314,12 @@ void QtMouseEventModule::pullEvent()
                                          widget->mapFromGlobal(MPOS_DESKTOP_GLOBAL),
                                          MPOS_DESKTOP_GLOBAL,
                                          Qt::NoButton,
-                                         q_state);
+                                         q_state
+#if QT_VERSION >= 0x040000
+                                         , Qt::NoModifier
+#endif
+        );
+
     OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) MouseMove: state Qt::Button = %d\n", q_state);
     qt_mouse_events.push_back(move);
   }
@@ -396,14 +402,14 @@ void QtMouseEventModule::pullEvent()
           event.type = QEvent::MouseButtonDblClick;
           // save in history
           button_event_history->last_dblclick = event;
-          OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) MouseButtonDblClick: button_id = %d\n",
+          OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) QMouseButtonDblClick: button_id = %d\n",
                      button_id);
         }
         else {
           event.type = QEvent::MouseButtonPress;
           // save in history
           button_event_history->last_init_press = event;
-          OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) MouseButtonPress: button_id = %d\n",
+          OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) QMouseButtonPress: button_id = %d\n",
                      button_id);
         }
 
@@ -420,7 +426,7 @@ void QtMouseEventModule::pullEvent()
         // fill event data
         event.type = QEvent::MouseButtonRelease;
 
-        OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) MouseButtonRelease: button_id = %d\n",
+        OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) QMouseButtonRelease: button_id = %d\n",
                    button_id);
         // save in history
         button_event_history->last_release = event;
@@ -438,7 +444,7 @@ void QtMouseEventModule::pullEvent()
         event.type = QEvent::MouseButtonPress;
         event.type_changed = false;
 
-        OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) MouseButtonPressON: button_id = %d\n",
+        OTQT_DEBUG("QtMouseEventModule::pullState(): (EVENT) QMouseButtonPressON: button_id = %d\n",
                    button_id);
         // add to list
         button_event_list.push_back(event);
@@ -461,10 +467,10 @@ void QtMouseEventModule::pullEvent()
 
         ButtonEvent event = (*it);
 
-        Qt::ButtonState q_button = QtMouseButtonSink::getQButtonId((QtMouseButtonSink::ButtonId)event.button_id);
-        Qt::ButtonState q_state = Qt::NoButton;
+        QMouseButton_t q_button = QtMouseButtonSink::getQButtonId((QtMouseButtonSink::ButtonId)event.button_id);
+        QMouseButton_t q_state = Qt::NoButton;
         if (event.type == QEvent::MouseButtonRelease
-            /*|| (event.type == QEvent::MouseButtonPress && !event.type_changed)*/) {
+            /*|| (event.type == QEvent::QMouseButtonPress && !event.type_changed)*/) {
           q_state = q_button;
         }
 
@@ -472,7 +478,11 @@ void QtMouseEventModule::pullEvent()
                                               widget->mapFromGlobal(MPOS_DESKTOP_GLOBAL),
                                               MPOS_DESKTOP_GLOBAL,
                                               q_button,
-                                              q_state);
+                                              q_state
+#if QT_VERSION >= 0x040000
+                                              , Qt::NoModifier
+#endif
+            );
 
         // add to event list
         qt_mouse_events.push_back(mouse);
@@ -504,6 +514,9 @@ void QtMouseEventModule::pullEvent()
                                           widget->mapFromGlobal(MPOS_DESKTOP_GLOBAL),
                                           delta,
                                           Qt::NoButton,
+#if QT_VERSION >= 0x040000
+                                          Qt::NoModifier,
+#endif
                                           Qt::Vertical);
     // add to event list
     qt_wheel_events.push_back(wheel);

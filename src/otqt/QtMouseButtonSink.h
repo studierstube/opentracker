@@ -77,6 +77,12 @@
 
 namespace ot {
 
+#if QT_VERSION >= 0x040000
+typedef Qt::MouseButton QMouseButton_t;
+#else
+typedef Qt::ButtonState QMouseButton_t;
+#endif
+
 //--------------------------------------------------------------------------------
 /**
  * @class QtMouseButtonSink
@@ -126,7 +132,7 @@ public: // static
    * @param button_id mouse button identifier
    * @return appropriate Qt mouse button identifier
    */
-  static Qt::ButtonState getQButtonId(ButtonId button_id);
+  static QMouseButton_t getQButtonId(ButtonId button_id);
 
 public:
   /**

@@ -47,6 +47,8 @@
 
 #include "QtAppScreen.h"
 #include <qapplication.h>
+#include <qrect.h>
+#include <qdesktopwidget.h>
 #include <math.h>
 
 namespace ot {

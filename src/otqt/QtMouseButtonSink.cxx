@@ -98,9 +98,9 @@ bool QtMouseButtonSink::buttonOn(ButtonId button_id) const
 }
 
 //--------------------------------------------------------------------------------
-Qt::ButtonState QtMouseButtonSink::getQButtonId(ButtonId button_id)
+QMouseButton_t QtMouseButtonSink::getQButtonId(ButtonId button_id)
 {
-  Qt::ButtonState ret = Qt::NoButton;
+  QMouseButton_t ret = Qt::NoButton;
 
   switch (button_id) {
 

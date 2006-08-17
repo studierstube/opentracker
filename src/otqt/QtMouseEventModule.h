@@ -94,6 +94,7 @@
 #include <qevent.h>
 #include <qpoint.h>
 #include <qdatetime.h>
+#include <qwidget.h>
 #include <list>
 
 namespace ot {
@@ -156,7 +157,7 @@ private:
     QEvent::Type type;
     /// true if current button event type differs from previous button event type
     bool type_changed;
-    /// button id (using values declared in class MouseButtonSink)
+    /// button id (using values declared in class QMouseButton_tSink)
     int button_id;
     /// event creation time
     QTime timestamp;
@@ -248,7 +249,7 @@ public:
    *
    * Next, regarding the MBS, the current and previous event of each mouse button
    * (typically left, right and middle button) are compared, searching for bit transitions
-   * which indicate either MouseButtonPress or MouseButtonRelease events. To detect the
+   * which indicate either QMouseButtonPress or QMouseButtonRelease events. To detect the
    * special case of a MouseDoubleClick event, which is generated if the event triple
    * press, release, press occurs within a certain time frame, the MEM records the latest
    * mouse press and release event together with their timestamps in a dedicated data

@@ -119,7 +119,7 @@ namespace ot {
         if (timer_->isActive())
             timer_->stop();
         // start non-singleshot timer with given timeout
-        timer_->start(timeout, false);
+        timer_->start(timeout);
     }
     //-------------------------------------------------------------------------
     void OTQt::stopTimer() {
