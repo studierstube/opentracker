@@ -71,7 +71,7 @@ TargusModule::~TargusModule() {
 // This method is called to construct a new Node.
 Node * TargusModule::createNode( const std::string& name, StringTable& attributes) {
 
-    if( name.compare("TargusSource") == 0 ) {       
+    if( name.compare("TargusSource") == 0 ) {
         TargusSource * source = new TargusSource;
         source->event.getButton() = 0;
         source->event.getConfidence() = 1.0f;
@@ -86,7 +86,7 @@ Node * TargusModule::createNode( const std::string& name, StringTable& attribute
 // opens X keyboard library (xbindkeys)
 void TargusModule::start() {
     if( isInitialized() == 1 ) {
-      
+
         char *display_name = XDisplayName(NULL);
         int screen;
 
@@ -96,20 +96,20 @@ void TargusModule::start() {
                      "Could not open display, check shell DISPLAY variable, and export or setenv it!\n");
             exit (1);
         }
-      
+
         XAllowEvents (display, AsyncBoth, CurrentTime);
-      
+
         for (screen = 0; screen < ScreenCount(display); screen++) {
             XSelectInput (display, RootWindow (display, screen),
                           KeyPressMask | KeyReleaseMask | PointerMotionMask);
         }
-      
+
         // get the XKeys object for handling registring keyevents
         //       xkeys = new XKeys("/mount/homes/breiting/.xbindkeysrc");
         xkeys = new XKeys("/root/.xbindkeysrc");
         assert(xkeys);
         xkeys->showKeys(display);
-      
+
         xkeys->grab_keys(display);
 
         //       get_offending_modifiers (d);
@@ -141,12 +141,13 @@ void TargusModule::pushEvent() {
     XEvent e;
     int i;
     bool verbose = true;
-    XSetErrorHandler ((XErrorHandler) null_X_error);
-   
+
+
     if ( isInitialized() == 1 ) {
+    XSetErrorHandler ((XErrorHandler) null_X_error);
         for ( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ ) {
             TargusSource * source = (TargusSource *)(*it);
-	 
+
             XNextEvent (display, &e);
 
             // 	 cerr << "event = " << e.type << endl;
@@ -249,7 +250,7 @@ void TargusModule::pushEvent() {
                     e.xbutton.state &= ~(xkeys->numlock_mask | xkeys->capslock_mask | xkeys->scrolllock_mask
                                          | Button1Mask | Button2Mask | Button3Mask
                                          | Button4Mask | Button5Mask);
-	    
+
                     for (i = 0; i < xkeys->nb_keys; i++) {
                         if (xkeys->keys[i].type == XKeys::BUTTON && xkeys->keys[i].event_type == XKeys::PRESS) {
                             if (e.xbutton.button == xkeys->keys[i].key.button
@@ -263,18 +264,18 @@ void TargusModule::pushEvent() {
                         }
                     }
                     break;
-	    
+
                 case ButtonRelease:
                     if (verbose) {
                         printf ("Button release !\n");
                         printf ("e.xbutton.button=%d\n", e.xbutton.button);
                         printf ("e.xbutton.state=%d\n", e.xbutton.state);
                     }
-	    
+
                     e.xbutton.state &= ~(xkeys->numlock_mask | xkeys->capslock_mask | xkeys->scrolllock_mask
                                          | Button1Mask | Button2Mask | Button3Mask
                                          | Button4Mask | Button5Mask);
-	    
+
                     for (i = 0; i < xkeys->nb_keys; i++) {
                         if (xkeys->keys[i].type == XKeys::BUTTON && xkeys->keys[i].event_type == XKeys::RELEASE) {
                             if (e.xbutton.button == xkeys->keys[i].key.button
@@ -288,7 +289,7 @@ void TargusModule::pushEvent() {
                         }
                     }
                     break;
-	    
+
                 default:
                     // 	   cerr << "unknown state!" << endl;
                     break;
@@ -300,7 +301,7 @@ void TargusModule::pushEvent() {
 
 
         }
-      
+
 
 
 
@@ -409,7 +410,7 @@ OT_NAMESPACE_END
 // WIN32
 #endif
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of TargusModule.cxx
  * ------------------------------------------------------------
@@ -422,5 +423,5 @@ OT_NAMESPACE_END
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
