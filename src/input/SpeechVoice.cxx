@@ -91,7 +91,7 @@ namespace ot {
     }
 
 
-    const char* CSpeechVoice::GetVoiceName(DWORD p_Id, string &p_Name)
+    const char* CSpeechVoice::GetVoiceName(DWORD p_Id, std::string &p_Name)
     {
         if(!m_Voice)
             return(NULL);
@@ -133,7 +133,7 @@ namespace ot {
         if(!m_Voice)
             return;
 
-        wstring wSentence;
+        std::wstring wSentence;
         CSpeechCore::StrToWide(p_Sentence, wSentence);
   
         if(p_Async)
@@ -178,7 +178,7 @@ namespace ot {
       
                 if(SUCCEEDED(hr))
                 {
-                    string Speaker;  // convert to ANSI string
+                    std::string Speaker;  // convert to ANSI string
                     CSpeechCore::WideToStr(ppszCoMemText, Speaker);
                     ::CoTaskMemFree(ppszCoMemText);
                     m_VoiceName.push_back(Speaker);

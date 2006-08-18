@@ -385,7 +385,7 @@ namespace ot {
 
                         hr = RecoResult->GetText(SP_GETWHOLEPHRASE, SP_GETWHOLEPHRASE, TRUE, &ppszCoMemText, NULL);
 
-                        string RecoText;  // convert to ANSI string
+                        std::string RecoText;  // convert to ANSI string
                         CSpeechCore::WideToStr(ppszCoMemText, RecoText);
                         ::CoTaskMemFree(ppszCoMemText);
 
@@ -403,7 +403,7 @@ namespace ot {
     }
 
 
-    bool CSpeechCore::GetReco(string &p_Result, string &p_SpeechSet)
+    bool CSpeechCore::GetReco(std::string &p_Result, std::string &p_SpeechSet)
     {
         if(!m_Initialized)
             return(false);
@@ -420,7 +420,7 @@ namespace ot {
     }
 
 
-    void CSpeechCore::StrToWide(const char *p_String, wstring &p_WideString)
+    void CSpeechCore::StrToWide(const char *p_String, std::wstring &p_WideString)
     {
         int len = strlen(p_String) + 1;
         p_WideString.resize(len);
@@ -430,7 +430,7 @@ namespace ot {
     }
 
 
-    void CSpeechCore::WideToStr(const WCHAR *p_WideString, string &p_String)
+    void CSpeechCore::WideToStr(const WCHAR *p_WideString, std::string &p_String)
     {
         int len = wcslen(p_WideString)+1;
         p_String.resize(len);
