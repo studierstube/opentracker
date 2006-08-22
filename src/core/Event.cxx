@@ -272,8 +272,7 @@ namespace ot
 
         in.read(dataCArray,eventSize);
 
-
-        dataStr = dataCArray;
+        dataStr = std::string(dataCArray,eventSize);
         dataTmpArray = dataCArray;
 
         // read data
@@ -295,8 +294,8 @@ namespace ot
             attrStr = dataStr.substr(sizeDelimiter + 1, size);
             attrCArray=&dataTmpArray[sizeDelimiter+1];
 
-            dataTmpArray = dataTmpArray + sizeDelimiter + 2 + size;
-            dataStr = dataTmpArray;
+            dataTmpArray += sizeDelimiter + 2 + size;
+            dataStr = eventSize >= static_cast<AttributeMap::size_type>(dataTmpArray - dataCArray) ? std::string(dataTmpArray,eventSize - (dataTmpArray - dataCArray)): std::string();
             // check if segmentation is correct
             if (typeDelimiter == std::string::npos
                 || nameDelimiter == std::string::npos
