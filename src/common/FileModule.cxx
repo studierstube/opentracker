@@ -241,6 +241,9 @@ namespace ot {
                 {
                     if (firstPlaybackTime == 0)
                         firstPlaybackTime = OSUtils::currentTime();
+                    if(fileSrc->localTime )
+                        (*fileSrc->currentEvent).second->time = time;
+
                     fileSrc->updateObservers(*(*fileSrc->currentEvent).second);
                     fileSrc->currentEvent++;
                 }

@@ -268,9 +268,9 @@ namespace ot
             return in;
         }
 
-        dataCArray=(char*)malloc(eventSize+1);
+        dataCArray=(char*)malloc(eventSize+2);
 
-        in.read(dataCArray,eventSize);
+        in.read(dataCArray,eventSize+2);
 
         dataStr = std::string(dataCArray,eventSize);
         dataTmpArray = dataCArray;
