@@ -33,68 +33,68 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
- /** header file for PanTiltUnitSinkSource Node.
+/** header file for Spacemouse module.
   *
-  * @author Markus Sareika
+  * @author 
   *
-  * $Id: PanTiltUnitModule.h
+  * $Id: SpaceDeviceModule.h 1260 2006-07-13 09:46:25Z sareika $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section PanTiltUnitModule PanTiltUnitModule
- * The PanTiltUnitModule provides and drives @ref PanTiltUnitSinkSource nodes that 
- * generate events in certain intervals.
+ * @section SpaceDeviceModule SpaceDeviceModule
+ * The SpaceDeviceModule provides and drives @ref SpaceDeviceSource nodes that 
+ * generate standard events in certain intervals. It does not use a
+ * configuration element, but reserves the name 'SpaceMouseConfig'.
  */
 
 /**
- * @page pantiltunit Pan Tilt Unit Integration
+ * @page spacemouse Space Mouse Integration
  *
- * Instructions on including Modules for PTU in OpenTracker:
+ * Instructions on including Modules for 3Dconnexion in OpenTracker:
  *
- * @par 1.Step: Install the ptu sdk and set env var: PTUROOT
+ * @par 1.Step: Install the 3Dxware sdk and set env var: 3DCONNEXIONROOT
  *
- * @par 2.Step: Recompile and have fun
- 
+ *
+ * @par 2.Step: Recompile
  */
 
-#ifndef _PANTILTUNITMODULE_H
-#define _PANTILTUNITMODULE_H
+#ifndef _SPACEDEVICEMODULE_H
+#define _SPACEDEVICEMODULE_H
 
 #include "../OpenTracker.h"
 
-#ifdef USE_PANTILTUNIT
-
+#ifdef USE_SPACEDEVICE
 #include <Windows.h>
 
 /**
- * The module and factory to drive the PanTiltUnitSinkSource nodes. It constructs
- * PanTiltUnitSinkSource nodes via the NodeFactory interface and pushes events into
+ * The module and factory to drive the SpaceDeviceSource nodes. It constructs
+ * SpaceDeviceSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  */
 
 namespace ot {
 
-class OPENTRACKER_API PanTiltUnitModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API SpaceDeviceModule : public ThreadModule, public NodeFactory
 {
 
 protected:
-    // list of PanTiltUnitSinkSource nodes in the tree
+    // list of SpaceDeviceSource nodes in the tree
     NodeVector nodes;
 
 public:
     /** constructor method. */
-    PanTiltUnitModule() : ThreadModule(), NodeFactory(), stop(false)
+    SpaceDeviceModule() : ThreadModule(), NodeFactory(), stop(0)
     {};
 
     /** Destructor method, clears nodes member.
 	 */
-    virtual ~PanTiltUnitModule();
+    virtual ~SpaceDeviceModule();
 
     /** This method is called to construct a new Node. It compares
-     * name to the PanTiltUnitSinkSource element name, and if it matches
-     * creates a new PanTiltUnitSinkSource node.
+     * name to the SpaceDeviceSource element name, and if it matches
+     * creates a new SpaceDeviceSource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -103,41 +103,38 @@ public:
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
 
 	/**
-     * stop the ptu thread
+     * closes SpaceMouse dynamic library 
 	 */
     virtual void close();
 
     /**
-	 *  starts the ptu thread
+	 * opens SpaceMouse dynamic library (SIAPPDLL.DLL)
      */
     virtual void start();
 
-	/**
-	 *  the ptu thread
-	 */
 	virtual void run();
 
-	/**
-	 *  flag to stop the ptu thread
-	 */
-    bool stop;
+    // flag to stop the thread
+    int stop;
 
     /**
-     * pushes events into the tracker tree. Checks all PanTiltUnitSinkSources and
-     * pushes new events, if a PanTiltUnitSinkSource fires. The events store
+     * pushes events into the tracker tree. Checks all SpaceDeviceSources and
+     * pushes new events, if a SpaceDeviceSource fires. The events store
 	 * structure with position and status of the buttons.
      */
     virtual void pushEvent();
 
+	static HWND	hWndSpaceDevice;
 
 private:
+	void processMessages();
 
 };
 
 } // namespace ot
 
 #else
-#pragma message(">>> OT_NO_PTU_SUPPORT")
-#endif	//USE_PANTILTUNIT
+#pragma message(">>> OT_NO_SPACEDEVICE_SUPPORT")
+#endif	//USE_SPACEDEVICE
 
-#endif	//_PANTILTUNITMODULE_H
+#endif	//_SPACEDEVICEMODULE_H

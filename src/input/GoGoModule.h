@@ -37,66 +37,54 @@
   *
   * @author 
   *
-  * $Id$
+  * $Id: GoGoModule.h  sareika $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section spacemousemodule SpaceMouseModule
- * The SpaceMouseModule provides and drives @ref spacemousesource nodes that 
+ * @section GoGoModule GoGoModule
+ * The GoGoModule provides and drives @ref GoGoSinkSource nodes that 
  * generate standard events in certain intervals. It does not use a
  * configuration element, but reserves the name 'SpaceMouseConfig'.
  */
 
-/**
- * @page spacemouse Space Mouse Integration
- *
- * Instructions on including Modules for 3Dconnexion SpaceMouse (Plus USB) in OpenTracker:
- *
- * @par 1.Step: Install the 3Dxware sdk and set env var: 3DCONNEXIONROOT
- *
- *
- * @par 2.Step: Recompile
- 
- */
-
-#ifndef _SPACEMOUSEMODULE_H
-#define _SPACEMOUSEMODULE_H
+#ifndef _GOGOMODULE_H
+#define _GOGOMODULE_H
 
 #include "../OpenTracker.h"
 
-#ifdef USE_SPACEMOUSE
+#ifdef USE_GOGO
 
 #include <Windows.h>
 
 /**
- * The module and factory to drive the SpaceMouseSource nodes. It constructs
- * SpaceMouseSource nodes via the NodeFactory interface and pushes events into
+ * The module and factory to drive the GoGoSinkSource nodes. It constructs
+ * GoGoSinkSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
  */
 
 namespace ot {
 
-class OPENTRACKER_API SpaceMouseModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API GoGoModule : public ThreadModule, public NodeFactory
 {
 
 protected:
-    // list of SpaceMouseSource nodes in the tree
+    // list of GoGoSinkSource nodes in the tree
     NodeVector nodes;
 
 public:
     /** constructor method. */
-    SpaceMouseModule() : ThreadModule(), NodeFactory(), stop(0)
+    GoGoModule() : ThreadModule(), NodeFactory(), stop(0)
     {};
 
     /** Destructor method, clears nodes member.
 	 */
-    virtual ~SpaceMouseModule();
+    virtual ~GoGoModule();
 
     /** This method is called to construct a new Node. It compares
-     * name to the SpaceMouseSource element name, and if it matches
-     * creates a new SpaceMouseSource node.
+     * name to the GoGoSinkSource element name, and if it matches
+     * creates a new GoGoSinkSource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -109,9 +97,6 @@ public:
 	 */
     virtual void close();
 
-    /**
-	 * opens SpaceMouse dynamic library (SIAPPDLL.DLL)
-     */
     virtual void start();
 
 	virtual void run();
@@ -120,13 +105,12 @@ public:
     int stop;
 
     /**
-     * pushes events into the tracker tree. Checks all SpaceMouseSources and
-     * pushes new events, if a SpaceMouseSource fires. The events store
+     * pushes events into the tracker tree. Checks all GoGoSinkSources and
+     * pushes new events, if a GoGoSinkSource fires. The events store
 	 * structure with position and status of the buttons.
      */
     virtual void pushEvent();
 
-	static HWND		hWndSpaceMouse;
 
 private:
 	void processMessages();
@@ -136,7 +120,7 @@ private:
 } // namespace ot
 
 #else
-#pragma message(">>> OT_NO_SPACEMOUSE_SUPPORT")
-#endif	//USE_SPACEMOUSE
+#pragma message(">>> OT_NO_GOGO_SUPPORT")
+#endif	//USE_GOGO
 
-#endif	//_SPACEMOUSEMODULE_H
+#endif	//_GOGOMODULE_H

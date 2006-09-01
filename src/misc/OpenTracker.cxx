@@ -96,7 +96,8 @@
 #include "../input/LinmouseModule.h"
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
-#include "../input/SpaceMouseModule.h"
+#include "../input/SpaceDeviceModule.h"
+#include "../input/GoGoModule.h"
 #include "../input/PanTiltUnitModule.h"
 #include "../input/SpeechModule.h"
 #include "../input/P5GloveModule.h"
@@ -232,13 +233,19 @@ namespace ot {
 #ifdef USE_JOYSTICK
         JoystickModule * joy = new JoystickModule();
         context.addFactory( *joy );
-        context.addModule( "JoystickConfig", *joy );
+        context.addModule( "JoystickConfig", * joy );
 #endif
 
-#ifdef USE_SPACEMOUSE
-        SpaceMouseModule * smouse = new SpaceMouseModule;
-        context.addFactory( * smouse );
-        context.addModule( "SpaceMouseConfig", * smouse );
+#ifdef USE_SPACEDEVICE
+		SpaceDeviceModule * sdevice = new SpaceDeviceModule;
+		context.addFactory( * sdevice );
+		context.addModule( "SpaceDeviceConfig", * sdevice );
+#endif	
+
+#ifdef USE_GOGO
+		GoGoModule * gogo = new GoGoModule;
+		context.addFactory( * gogo );
+		context.addModule( "GoGoConfig", * gogo );
 #endif	
 
 #ifdef USE_PANTILTUNIT

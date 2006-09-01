@@ -62,8 +62,11 @@ namespace ot {
 		portstream_fd COMstream;
 		COMstream = open_host_port(COMportName);
 		if ( COMstream == PORT_NOT_OPENED ) return false;
-		// actually move both axis to give haptic feedback
-		signed short int val=100;
+		// actually move with max. speed both axis to give haptic feedback
+		signed short int val=1000;
+		set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+		set_desired(TILT,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+		val=100;
 		set_desired(PAN,  POSITION, (PTU_PARM_PTR *) &val, ABSOLUTE);
 		set_desired(TILT, POSITION, (PTU_PARM_PTR *) &val, ABSOLUTE);
 		await_completion();
@@ -78,11 +81,23 @@ namespace ot {
 			return(PTU_OK); 
 		}
 		printf("\nSPEED_CONTROL_MODE set to PTU_PURE_VELOCITY_SPEED_CONTROL_MODE\n");
+		
 		// get resolution of the axis
 		panResolution =  (double)get_current(PAN,RESOLUTION)*MathUtils::Pi/(216000*180);	//rad/PTUeinheit
 		tiltResolution = (double)get_current(TILT,RESOLUTION)*MathUtils::Pi/(216000*180);	//rad/PTUeinheit
+		
+		//// test getting pos while moving
+		//val=1000;
+		//set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+		//long res = get_current(PAN,POSITION);
+		//float tip = tiltResolution*res;
+		//printf("tiltPos: %f", tip);
+		//val=0;
+		//set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+
 		return true;
 	}
+
 
 	void PanTiltUnitSinkSource::closeComPort()
 	{
@@ -95,42 +110,49 @@ namespace ot {
 		static int i=0;
 		// does nothing yet
 		if (generator.getName().compare("PtuMoveTo") == 0) {
-			printf ("PtuMoveTo: x: %.2f y: %.2f z: %.2f\n", event.getPosition()[0], event.getPosition()[1], event.getPosition()[2]);
-			publishEvent=true;
+			printf ("not implemented PtuMoveTo: x: %.2f y: %.2f z: %.2f\n", event.getPosition()[0], event.getPosition()[1], event.getPosition()[2]);
 			return;
 		}
 		// the top offset
 		if (generator.getName().compare("TopOffset") == 0) {
-			// store input event from sink
-			memcpy(&topOffset, &event, sizeof(Event));
-			publishEvent=true;			
+			// store input event from sink		
+			topOffset=event;
+			process=true;			
 			return;
 		}
 		// the pysical location of the ptu
 		if (generator.getName().compare("PtuLocation") == 0) {
 			// store input event from sink
-			memcpy(&ptuLocation, &event, sizeof(Event));
-			publishEvent=true;			
+			ptuLocation=event;
+			process=true;			
 			return;
 		}
-		// relative input which defines the moving speed of the ptu axis
+		// relative input which defines the moving speed of the ptu axis and the zoom
 		if (generator.getName().compare("RelativeInput") == 0) {
 			// store input event from sink
-			memcpy(&relativeInput, &event, sizeof(Event));
+			relativeInput=event;
 
 			// rotate ptu according to relative input
 			long val;
 			// pan speed rotate
-			if ( (relativeInput.getPosition()[0] < 0.2)&&(relativeInput.getPosition()[0] > -0.2) ) halt(PAN);
-			else{
-				val=(long)(relativeInput.getPosition()[0]*-400);	// max. 1000
-				set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);	
+			if ( (relativeInput.getPosition()[0] < 0.2)&&(relativeInput.getPosition()[0] > -0.2) ) 
+			{
+				halt(PAN);
+				movingPan = false;
+			}else{
+				val=(long)(relativeInput.getPosition()[0]*-285);	// min 285 - max 1000
+				set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+				movingPan = true;
 			}
 			// tilt speed rotate
-			if ( (relativeInput.getPosition()[1] < 0.2)&&(relativeInput.getPosition()[1] > -0.2) ) halt(TILT);
-			else{
-				val=(long)(relativeInput.getPosition()[1]*-400);	// max. 1000
+			if ( (relativeInput.getPosition()[1] < 0.2)&&(relativeInput.getPosition()[1] > -0.2) )
+			{
+				halt(TILT);
+				movingTilt = false;
+			}else{
+				val=(long)(relativeInput.getPosition()[1]*-285);	// min 285 - max 1000
 				set_desired(TILT, SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+				movingTilt = true;
 			}
 			// handle button events
 			// button 1-4 pressed simultainiously
@@ -139,9 +161,21 @@ namespace ot {
 
 			// handle lanc control
 			lanc->Zoom(relativeInput.getPosition()[2]);
-
-			publishEvent=true;
+			process=true;		
 		}
+	}
+
+	double PanTiltUnitSinkSource::getTiltAngle()
+	{
+		long pos = get_current(TILT,POSITION);
+		return (tiltResolution*pos);
+	}
+
+	double PanTiltUnitSinkSource::getPanAngle()
+	{
+		long pos = get_current(PAN,POSITION);
+		printf("panPos: %f \n", pos);
+		return (panResolution*pos);
 	}
 
 	void PanTiltUnitSinkSource::push()
@@ -165,10 +199,10 @@ namespace ot {
 		MathUtils::Matrix4x4 mOriOffset = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
 		MathUtils::Quaternion qOriOffset={topOffset.getOrientation()[0], topOffset.getOrientation()[1], topOffset.getOrientation()[2], topOffset.getOrientation()[3]};
 		MathUtils::quaternionToMatrix(qOriOffset, mOriOffset);
-		MathUtils::Matrix4x4 mPosTop, mOriTop, mPtu, mTemp, mPosRes, mOriRes;
+		MathUtils::Matrix4x4 mOriTop, mPtu, mTemp, mPosRes, mOriRes;
 		
 		// calc position top(not really needed :)
-		MathUtils::matrixMultiply(mPos, mOri, mPosTop);
+		//MathUtils::matrixMultiply(mPos, mOri, mPosTop);
 		// calc ptu angles
 		MathUtils::Matrix4x4 mTilt = {{1, 0, 0, 0},{0, cos(tiltAngle), -sin(tiltAngle), 0},
 		{0, sin(tiltAngle), cos(tiltAngle), 0},{0, 0, 0, 1}};               
@@ -179,7 +213,8 @@ namespace ot {
 		MathUtils::matrixMultiply(mOri, mPtu, mOriTop);
 		
 		// calculate top offset
-		MathUtils::matrixMultiply(mPosTop, mOriTop, mTemp);
+		//MathUtils::matrixMultiply(mPosTop, mOriTop, mTemp);
+		MathUtils::matrixMultiply(mPos, mOriTop, mTemp);
 		MathUtils::matrixMultiply(mTemp, mPosOffset, mPosRes);
 		MathUtils::matrixMultiply(mOriTop, mOriOffset, mOriRes);
 
@@ -193,10 +228,32 @@ namespace ot {
 		//event.getPosition()[0]= (float)panAngle;
 		//event.getPosition()[1]= (float)tiltAngle;
 
-		event.setAttribute<float>("focalDistance", lanc->focalDistance);	
-
+		float fov = lanc->getFieldOfView();
+		event.setAttribute<float>("fieldOfView", fov);
+		float tp = (float)lanc->timePos;
+		event.setAttribute<float>("timePos", tp );
+		float zf = (float)lanc->zoomFactor;
+		event.setAttribute<float>("zoomFactor", zf );
 		event.timeStamp();
+
 		updateObservers( event );
+
+		// this queue is meant as delay mechanism
+		
+		// push result event into queue
+		//delayQueue.push(event);
+
+		//// delayEvent = length of queue
+
+		//// pop event from queue
+
+		//if (delayQueue.size()>delayEvent)
+		//{
+		//	event = delayQueue.front();
+		//	delayQueue.pop();
+		//	event.timeStamp();
+		//	updateObservers( event );
+		//}
 	}
 
 	

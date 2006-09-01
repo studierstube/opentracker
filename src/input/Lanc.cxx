@@ -48,13 +48,22 @@
 
 
 #include "Lanc.h"
+
+#ifdef USE_PANTILTUNIT
+
 #include "../core/OSUtils.h"
 
 namespace ot {
     
 	//constructor
-	Lanc::Lanc():focalDistance(0)
+	Lanc::Lanc():zoomout(false),
+		zoomin(false),
+		offsetFactor(1.f),
+		wideAngle(37.1f),
+		startTime(0),
+		maxTimePos(8000)
 	{
+		timePos=maxTimePos;
 		#ifdef WIN32
 		//initialize lanc
 		int id = FindLancUSBDevice();
@@ -65,7 +74,7 @@ namespace ot {
 			int messageId = GetRegisteredLancMessage(lancDevice);
 			// zoom out to maximum
 			SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_8, NULL);
-			OSUtils::sleep(3000);;
+			OSUtils::sleep(3000);
 			SendLancCommand(lancDevice,  0, 0);
 			initLanc=true;
 		}
@@ -82,99 +91,157 @@ namespace ot {
 		#endif
 	}
 
+	void Lanc::setTeleAngle(float tele)
+	{
+		teleAngle=tele;
+	}
+
+	void Lanc::setWideAngle(float wide)
+	{
+		wideAngle=wide;
+	}
+
+	float Lanc::getFieldOfView()
+	{
+		//float fieldOfView = teleAngle*(float)timePos*offsetFactor;
+		//return fieldOfView;
+		zoomFactor = (timePos/maxTimePos);
+		float fieldOfView = wideAngle*(float)zoomFactor;
+		return fieldOfView;
+	}
+
 	// mapping: 1 > zoominspeed8-1 > 0.2 stop -0.2 > zoomoutspeed1-8 > -1
     void Lanc::Zoom( float speed )         
     {
 		// todo: some focalDistance calculation based on timestamps etc.
 		
-		speed *= 0.8f; // do some speed scaling
+		//speed *= 0.8f; // do some speed scaling
         #ifdef WIN32
-		if (speed>=0.9)				         // zoom in speed 8
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_8, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		if ( (speed<0.9) && (speed>=0.8) )   // zoom in speed 7
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_7, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		if ( (speed<0.8) && (speed>=0.7) )   // zoom in speed 6
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_6, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		if ( (speed<0.7) && (speed>=0.6) )   // zoom in speed 5
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_5, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}		
-		if ( (speed<0.6) && (speed>=0.5) )   // zoom in speed 4
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_4, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		if ( (speed<0.5) && (speed>=0.4) )   // zoom in speed 3
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_3, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		if ( (speed<0.4) && (speed>=0.3) )   // zoom in speed 2
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_2, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
-		
-		if ( (speed<0.3) && (speed>=0.2) )   // zoom in speed 1
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_1, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;   
-		}
+
 		if ( (speed<0.2) && (speed>-0.2) )   // zoom stop
 		{
 			if (!SendLancCommand(lancDevice,  0, 0)) 
 				std::cerr << "LANC Device Not Responding" << std::endl;
+			double time = OSUtils::currentTime();
+			if (zoomin)
+			{
+				timePos -= (time-startTime);
+				if (timePos < 200) timePos = 200;
+				zoomin=false;
+			}
+			if (zoomout)
+			{
+				timePos += (time-startTime);
+				if (timePos > maxTimePos) timePos = maxTimePos;
+				zoomout=false;
+			}
 		}
-		if ( (speed<=-0.2) && (speed>-0.3) ) // zoom out speed 1
+		if (speed>=0.2)
 		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_1, NULL)) 
+			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SLOW, NULL)) 
 				std::cerr << "LANC Device Not Responding" << std::endl;
+			startTime = OSUtils::currentTime();
+			zoomin=true;
 		}
-		if ( (speed<=-0.3) && (speed>-0.4) ) // zoom out speed 2
+		if (speed<=-0.2)
 		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_2, NULL)) 
+			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SLOW, NULL)) 
 				std::cerr << "LANC Device Not Responding" << std::endl;
+			startTime = OSUtils::currentTime();
+			zoomout=true;
 		}
-		if ( (speed<=-0.4) && (speed>-0.5) ) // zoom out speed 3
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_3, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
-		if ( (speed<=-0.5) && (speed>-0.6) ) // zoom out speed 4
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_4, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
-		if ( (speed<=-0.6) && (speed>-0.7) ) // zoom out speed 5
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_5, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
-		if ( (speed<=-0.7) && (speed>-0.8) ) // zoom out speed 6
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_6, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
-		if ( (speed<=-0.8) && (speed>-0.9) ) // zoom out speed 7
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_7, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
-		if (speed<=-0.9)                     // zoom out speed 8
-		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_8, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
-		}
+
+
+
+		/////////////////////////// multiple speeds mapping +8/-8
+		//if (speed>=0.9)				       // zoom in speed 8
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_8, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.9) && (speed>=0.8) )   // zoom in speed 7
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_7, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.8) && (speed>=0.7) )   // zoom in speed 6
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_6, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.7) && (speed>=0.6) )   // zoom in speed 5
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_5, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}		
+		//if ( (speed<0.6) && (speed>=0.5) )   // zoom in speed 4
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_4, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.5) && (speed>=0.4) )   // zoom in speed 3
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_3, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.4) && (speed>=0.3) )   // zoom in speed 2
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_2, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//
+		//if ( (speed<0.3) && (speed>=0.2) )   // zoom in speed 1
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SPEED_1, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;   
+		//}
+		//if ( (speed<0.2) && (speed>-0.2) )   // zoom stop
+		//{
+		//	if (!SendLancCommand(lancDevice,  0, 0)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.2) && (speed>-0.3) ) // zoom out speed 1
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_1, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.3) && (speed>-0.4) ) // zoom out speed 2
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_2, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.4) && (speed>-0.5) ) // zoom out speed 3
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_3, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.5) && (speed>-0.6) ) // zoom out speed 4
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_4, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.6) && (speed>-0.7) ) // zoom out speed 5
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_5, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.7) && (speed>-0.8) ) // zoom out speed 6
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_6, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if ( (speed<=-0.8) && (speed>-0.9) ) // zoom out speed 7
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_7, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
+		//if (speed<=-0.9)                     // zoom out speed 8
+		//{
+		//	if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SPEED_8, NULL)) 
+		//		std::cerr << "LANC Device Not Responding" << std::endl;
+		//}
 		#endif
     }
 }
+
+#endif //USE_PANTILTUNIT

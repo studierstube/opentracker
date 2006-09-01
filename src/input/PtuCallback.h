@@ -33,76 +33,41 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for Lanc Node.
+/** header file for PtuCallback.
   *
   * @author Markus Sareika
   *
-  * $Id: Lanc.h
+  * $Id: PtuCallback.h
   * @file                                                                   */
  /* ======================================================================= */
 
-/**
- * @page Nodes Node Reference
- * @section PanTiltUnitSinkSource
- * The Lanc node encapsulates the lanc control interface
- *
- */
 
-#ifndef _LANC_H
-#define _LANC_H
+
+#ifndef _PTUCALLBACK_H
+#define _PTUCALLBACK_H
 
 #include "../OpenTracker.h"
 
 #ifdef USE_PANTILTUNIT
 
-#include <windows.h>
-#include <iostream> 
-
-#ifdef WIN32
-#include  <Lanc32.h>
-#pragma comment(lib,"lanc32")
-#endif
 
 namespace ot {
 
-/**
- * This class encapsulates the lanc control interface
- * @author Markus Sareika
- * @ingroup input
- */
-class Lanc
+class PtuCallback
 {
 // Members
 public: 
 
     /** constructor*/
-	Lanc();
+	PtuCallback(unsigned char);
 
      /** destructor*/
-	~Lanc();
-	
-	void Zoom( float speed );
-
-	float getFieldOfView();
-
-	void setTeleAngle(float);
-	
-	void setWideAngle(float);
-
-	double timePos, zoomFactor;
-	
+	~PtuCallback();
+	unsigned char ptuEvent;
 protected:
 
 private:
 
-    #ifdef WIN32
-	HANDLE lancDevice;
-	LANCUSBID usb_id;
-	#endif
-
-	bool initLanc, zoomout, zoomin;
-	float wideAngle, teleAngle, offsetFactor;
-	double startTime, maxTimePos;
 	
 };
 
@@ -110,4 +75,4 @@ private:
 
 #endif //USE_PANTILTUNIT
 
-#endif //_LANC_H
+#endif //_PTUCALLBACK_H

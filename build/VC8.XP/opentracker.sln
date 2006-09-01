@@ -5,9 +5,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentrackerlib", "opentrackerlib.vcproj", "{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standalone", "standalone.vcproj", "{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

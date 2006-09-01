@@ -427,10 +427,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpaceMouseModule.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\input\SpeechCore.cxx"
 				>
 			</File>
@@ -958,14 +954,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\misc\serialcomm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\SpaceMouseModule.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\SpaceMouseSource.h"
 				>
 			</File>
 			<File

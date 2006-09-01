@@ -33,21 +33,21 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
- /** header file for PanTiltUnitSinkSource Node.
+/** source file for GoGoModule module.
   *
   * @author Markus Sareika
-  * 
-  * $Id: PanTiltUnitModule.h
+  *
+  * $Id: GoGoModule.cxx sareika $
   * @file                                                                   */
  /* ======================================================================= */
 
-
+// this will remove the warning 4786
 #include "../tool/disable4786.h"
 
-#include "PanTiltUnitSinkSource.h"
-#include "PanTiltUnitModule.h"
+#include "GoGoSinkSource.h"
+#include "GoGoModule.h"
 
-#ifdef USE_PANTILTUNIT
+#ifdef USE_GOGO
 
 #include <stdio.h>
 #if defined (WIN32) || defined (GCC3)
@@ -56,49 +56,62 @@
 #include <iostream.h>
 #endif
 
-#include <Windows.h>
-#include <math.h>
 
 #include "..\tool\OT_ACE_Log.h"
-
+#include "..\core\MathUtils.h"
 
 namespace ot {
 
 	// Destructor method
-	PanTiltUnitModule::~PanTiltUnitModule()
+	GoGoModule::~GoGoModule()
 	{
 		nodes.clear();
 	}
 
 	// This method is called to construct a new Node.
-	Node * PanTiltUnitModule::createNode( const std::string& name, StringTable& attributes)
+	Node * GoGoModule::createNode( const std::string& name, StringTable& attributes)
 	{
-		if( name.compare("PanTiltUnitSinkSource") == 0 )
+		if( name.compare("GoGoSinkSource") == 0 )
 		{       
-			PanTiltUnitSinkSource * source = new PanTiltUnitSinkSource;
-			source->event.addAttribute("float", "fieldOfView", "0");
-			source->event.addAttribute("float", "timePos", "0");
-			source->event.addAttribute("float", "zoomFactor", "0");
-			// read values from xml config file and initialize PTU
-			if ( !attributes.get("comPort").empty() ) {
-				int comPort = (int)atof(attributes.get("comPort").c_str());
-				if (!source->initComPort(comPort)) 
-					std::cerr << "PTU Serial Port: "<<comPort<<" setup error.\n" << std::endl;
-				else std::cerr << "PTU Serial Port: "<<comPort<<" initialized" << std::endl;
+			GoGoSinkSource * source = new GoGoSinkSource;
+			// add extra attributes
+			source->event.addAttribute("float", "scalingFactor", "1");
+			source->event.addAttribute("float", "cursorDistance", "1");
+
+			// read default values from ot config 
+			if (!attributes.get("translationWeight").empty()) {
+				float tw = (float)atof(attributes.get("translationWeight").c_str());
+				source->tWeightDefault = tw;
+				source->tWeight = tw;
+				printf ("default translation weight: %.2f\n", tw);
 			}
-			//if ( !attributes.get("frequency").empty() ) 
-			//	source->frequency = (int)atof(attributes.get("frequency").c_str());
-			if ( !attributes.get("delayEvent").empty() ) 
-				source->delayEvent = (int)atof(attributes.get("delayEvent").c_str());
-			
+			if (!attributes.get("rotationWeight").empty()) {
+				float rw = (float)atof(attributes.get("rotationWeight").c_str());
+				source->rWeightDefault = rw;
+				source->rWeight = rw;
+				printf ("default rotation weight: %.2f\n", rw);
+			}
 			source->event.setConfidence( 1.0f );
 			nodes.push_back( source );
-			LOG_ACE_INFO("ot:Built PanTiltUnitSinkSource node\n");
+			LOG_ACE_INFO("ot:Built GoGoSinkSource node\n");
 			initialized = 1;
 			return source;
 		}
-		if( (name.compare("PtuLocation") == 0) ||(name.compare("PtuMoveTo") == 0) || 
-			(name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
+		if( name.compare("RelativeInput") == 0 ) 
+		{
+			// create just a pass-through node
+			NodePort *np = new NodePort();
+			np->name = name;
+			return np;
+		}
+		if( name.compare("ViewerLocation") == 0 ) 
+		{
+			// create just a pass-through node
+			NodePort *np = new NodePort();
+			np->name = name;
+			return np;
+		}
+		if( name.compare("GoGoDeviceKit") == 0 ) 
 		{
 			// create just a pass-through node
 			NodePort *np = new NodePort();
@@ -106,12 +119,11 @@ namespace ot {
 			return np;
 		}
 
-		// no node configured 
 		return NULL;
 	}
 
-	// starts the ptu thread
-	void PanTiltUnitModule::start()
+	// opens SpaceMouse library
+	void GoGoModule::start()
 	{
 		if( isInitialized() == 1 && !nodes.empty())
 		{
@@ -119,62 +131,89 @@ namespace ot {
 		}
 	}
 
-	// stops the ptu thread and closes all COM port streams
-	void PanTiltUnitModule::close()
+	// closes SpaceMouse library
+	void GoGoModule::close()
 	{
 		// stop thread
 		lock();
-		stop = true;
+		stop = 1;
 		unlock();
+	}
 
-		if( isInitialized() == 1 && !nodes.empty()) 
+
+	// This is the method executed in its own thread and might not be needed.
+	void GoGoModule::run()
+	{
+		static int init = 0;
+
+		if( init == 0 )
 		{
-			PanTiltUnitSinkSource * source;
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			{
-				source = (PanTiltUnitSinkSource *) *it;
-				source->closeComPort();
-			}
+			initialized = 1;
+			init = 1;
+		}
+		while(stop == 0)
+		{
+			processMessages();
 		}
 	}
 
 
-	void PanTiltUnitModule::run()
+	void GoGoModule::pushEvent()
 	{
-		// not needed yet
-	}
-
-
-	void PanTiltUnitModule::pushEvent()
-	{
-		PanTiltUnitSinkSource *source;
+		GoGoSinkSource *source;
 
 		if( isInitialized() == 1 )
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSinkSource *) *it;     
-				//source->delay--;
-				//if ((source->process||source->movingPan||source->movingTilt) && source->delay<1)
-				if (source->process||source->movingPan||source->movingTilt)
+				source = (GoGoSinkSource *) *it;
+
+				lock();            
+				if (source->changed == 1)
 				{
-					//source->delay = source->delayEvent;
-
-					//if((cycle + source->offset) % source->frequency == 0 )
-					//{
-					//	source->push();
-					//}
-				
-					//source->publishEvent = false;
-
-					source->process = false;
-					//OSUtils::sleep(source->delayEvent);
+					source->event.setPosition(source->tmpEventPos);
+					source->event.setOrientation(source->tmpEventOri);
+					source->event.setButton(source->tmpEventBut);
+					source->event.setAttribute<float>("scalingFactor", source->tmpEventScalingFactor);
+					source->event.setAttribute<float>("cursorDistance", source->tmpEventCursorDistance);
 					
+					source->changed = 0;
+					unlock();        
 					source->push();
 				}
+				else
+					unlock();
 			}
 		}
 	}
+
+
+	void GoGoModule::processMessages()
+	{
+		if( isInitialized() == 1 )
+		{
+			GoGoSinkSource *source;
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				source = (GoGoSinkSource *) *it;
+				if(source->newEvent)
+				{
+					source->newEvent=false;
+					source->computeNewLocation();
+					source->changed = 1;
+				}
+				if(source->newKitEvent)
+				{
+					source->newKitEvent=false;
+					source->computeGoGoNodeKitEvent();
+					source->changed = 1;
+				}
+			}	
+		}
+	}
+
+
+
 } // namespace ot
 
-#endif //USE_PANTILTUNIT
+#endif //USE_GOGO

@@ -33,63 +33,39 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for SpaceMouseSource Node.
+/** header file for SpaceDeviceSource Node.
   *
   * @author Michael Wögerbauer
   *
-  * $Id$
+  * $Id: SpaceDeviceSource.h 1260 2006-07-13 09:46:25Z sareika $
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section spacemousesource SpaceMouseSource
- * The SpaceMouseSource node is a EventGenerator that communicates with the 
- * SoSpaceMouseKit and does the calculationes. They provide convenience 
- * functionalities in kontext of the space device.
+ * @section SpaceDeviceSource SpaceDeviceSource
+ * The SpaceDeviceSource node is a EventGenerator 
  * 
- * see also the @ref spacemousemodule. 
+ * see also the @ref SpaceDeviceModule. 
  *
  * An example element looks like this :
  * @verbatim
- <ConsoleSink comment="space device cursor">
- <EventSink tracking="spaceCursor">
- <SpaceMouseSource rotationWeight="0.1" translationWeight="1.0">
-	 
-	 <!-- viewer location sink for space device-->
-	 <ConsoleSink comment="ViewerLocation">
-	 <EventSink tracking="ViewerLocation">
-		<ConsoleSource number="1"/>
-	 </EventSink>
-	 </ConsoleSink>
-
-	 <!-- ExtSpaceMouseConfig is for changing the weights (WILL MOVE TO KIT)-->
-	 <ExtSpaceMouseConfig>
-	 <ConsoleSink comment="ExtSpaceMouseConfig">
-		<ConsoleSource number="0"/>
-	 </ConsoleSink>
-	 </ExtSpaceMouseConfig>
-
-	 <!-- This Node receives data from the SpaceMouseKit Node -->
-	 <SpaceMouseKitData>
-	 <ConsoleSink comment="SpaceMouseKitData">
-	 <EventSource node="SPACEMOUSEKIT" button="otcButton" />
-	 </ConsoleSink>
-	 </SpaceMouseKitData>
-
- </SpaceMouseSource>
- </EventTransform>
-
+ <ConsoleSink comment="spaceDevice">
+ <EventSink tracking="spaceDevice">
+		<SpaceDeviceSource/>
+ </EventSink> 
+ </ConsoleSink>
+	
 @endverbatim
  */
 
-#ifndef _SPACEMOUSESOURCE_H
-#define _SPACEMOUSESOURCE_H
+#ifndef _SPACEDEVICESOURCE_H
+#define _SPACEDEVICESOURCE_H
 
 #include "../OpenTracker.h"
 #include "../common/ConsoleSource.h"
 
-#ifdef USE_SPACEMOUSE
+#ifdef USE_SPACEDEVICE
 
 #define OTCOM_NONE				0
 #define OTCOM_RESETPOSITION		1
@@ -104,12 +80,11 @@ namespace ot {
 /**
  * This class implements a simple source that sets its valid flag in
  * regular intervals and updates any EventObservers. 
- * @author Michael Woegerbauer
  * @ingroup input
  */
-class OPENTRACKER_API SpaceMouseSource : public Node
+class OPENTRACKER_API SpaceDeviceSource : public Node
 {
-// Members
+
 public: 
     /// the state that is posted to the EventObservers
     Event event;
@@ -117,21 +92,8 @@ public:
 // Methods
 public:
     /** simple constructor, sets members to initial values */
-    SpaceMouseSource() : Node()
-    {
-		// default values
-		tWeightDefault = 0.5f;
-		rWeightDefault = 0.1f;
-
-		tWeight = tWeightDefault;
-		rWeight = rWeightDefault;
-
-		nlDistance = 10;
-		gogok = 1.0f;  //1.0f/6.0f;
-		//scale = 1.0f;
-
-		useAbsRotation = true;
-	};
+    SpaceDeviceSource() : Node()
+    {};
         
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -148,41 +110,18 @@ public:
         updateObservers( event );
     }
 
-virtual void onEventGenerated( Event& event, Node& generator);
-
 protected:
-	// SpaceMouse Cursor-specific variables
-	bool useAbsRotation;
-
-	// User Position
-	Event usrpos;
-	// This Event holds the current cursor position and is sent to the observers
+	// This Event holds the temporary data
     Event tmpEvent;
 
-	// Weights
-	float tWeight;
-	float rWeight;	// weights for translation and rotation
-	float tWeightDefault;
-	float rWeightDefault;
-
-	bool extNode;
-
-	// scaling factor (extNode)
-	//float scale;
-	//float cursorDistance;
-
-	// parameters for GoGo Interaction
-	float nlDistance;			// distance where non-linear movement starts
-    float gogok;				// scaling factor for nonlinear movement acceleration
-    
     // A flag to indicate whether tmpState was changed during processing
     int changed;
 
-	friend class SpaceMouseModule;
+	friend class SpaceDeviceModule;
 };
 
 }  // namespace ot
 
-#endif //USE_SPACEMOUSE
+#endif //USE_SPACEDEVICE
 
-#endif //_SPACEMOUSESOURCE_H
+#endif //_SPACEDEVICESOURCE_H

@@ -56,6 +56,10 @@
 #ifndef _PANTILTUNITSINKSOURCE_H
 #define _PANTILTUNITSINKSOURCE_H
 
+#include <stdio.h>
+#include <queue>
+
+
 #include "../OpenTracker.h"
 #include "../common/ConsoleSource.h"
 
@@ -65,6 +69,7 @@
 #pragma comment(lib,"ptudlld")
 
 #include "Lanc.h"
+#include "PtuCallback.h"
 
 
 namespace ot {
@@ -81,21 +86,6 @@ class OPENTRACKER_API PanTiltUnitSinkSource : public Node
 public: 
     /// the state that is posted to the EventObservers
     Event event;
-
-    /** simple constructor, sets members to initial values */
-	PanTiltUnitSinkSource() : Node(), 
-		publishEvent(false)
-	{
-		lanc = new Lanc;
-		float initOri[4]={0.0f, 0.0f, 0.0f, 1.0f};
-		float initPos[3]={0.0f, 0.0f, 0.0f};
-		topOffset.setPosition(initPos);
-		topOffset.setOrientation(initOri);
-		ptuLocation.setPosition(initPos);
-		ptuLocation.setOrientation(initOri);
-	}
-
-	~PanTiltUnitSinkSource();
         
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -113,15 +103,41 @@ public:
 
 	void closeComPort();
 	
+	PtuCallback* ptuCallback;
+
+	/** simple constructor, sets members to initial values */
+	PanTiltUnitSinkSource() : Node(), 
+		publishEvent(false),
+		movingPan(false),
+		movingTilt(false),
+		process(false)
+	{
+
+		lanc = new Lanc;
+		float initOri[4]={0.0f, 0.0f, 0.0f, 1.0f};
+		float initPos[3]={0.0f, 0.0f, 0.0f};
+		topOffset.setPosition(initPos);
+		topOffset.setOrientation(initOri);
+		ptuLocation.setPosition(initPos);
+		ptuLocation.setOrientation(initOri);
+		
+	}
+
+	~PanTiltUnitSinkSource();
+	
 
 virtual void onEventGenerated( Event& event, Node& generator);
 
 protected:
 
-	int frequency;
+	int frequency, delayEvent, delay;
 
-    // A flag to indicate whether relativeInput or ptuGoto was changed during processing
-    bool publishEvent;
+    // flags to indicate whether relativeInput or ptuGoto was changed during processing
+    bool publishEvent, movingPan, movingTilt, process;
+
+	double getTiltAngle();
+
+	double getPanAngle();
 	
 
 	friend class PanTiltUnitModule;
@@ -142,6 +158,8 @@ private:
 	double panResolution, tiltResolution;
 
 	Lanc* lanc;
+
+	std::queue<Event> delayQueue;
 };
 
 }  // namespace ot
