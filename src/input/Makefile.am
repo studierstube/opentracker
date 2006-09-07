@@ -49,8 +49,8 @@ otinputinc_HEADERS = \
         PanTiltUnitModule.h \
         ParButtonModule.h \
         ParButtonSource.h \
-        SpaceMouseModule.h \
-        SpaceMouseSource.h \
+        SpaceDeviceModule.h \
+        SpaceDeviceSource.h \
         SpeechCore.h \
         SpeechDef.h \
         SpeechInc.h \
@@ -139,9 +139,9 @@ libinput_la_SOURCES = \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
-        SpaceMouseModule.cxx \
-        SpaceMouseModule.h \
-        SpaceMouseSource.h \
+        SpaceDeviceModule.cxx \
+        SpaceDeviceModule.h \
+        SpaceDeviceSource.h \
         SpeechCore.cxx \
         SpeechCore.h \
         SpeechDef.h \
