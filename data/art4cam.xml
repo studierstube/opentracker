@@ -83,13 +83,11 @@
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Spacige Maus -->
+<!-- Haptic workstation -->
   <ConsoleSink comment="8">
-      <EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform8" >
-	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
+	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform8" >
 		<ARTDataTrackerSource number="8"/>    
 	   </EventTransform>
-	</EventVirtualOrientationTransform>	
   </ConsoleSink>
 
 <!-- Tablet PC Pen -->
