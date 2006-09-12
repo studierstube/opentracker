@@ -236,7 +236,7 @@ public:
    *
    * @param enable true to enable, false to disable the signal
    */
-  void QtMouseEventModuleBase::enableEventConsumeSignalAllSinks(bool enable);
+  void enableEventConsumeSignalAllSinks(bool enable);
   /**
    * Returns the XML attribute key/value map.
    * @return XML attribute key/value map

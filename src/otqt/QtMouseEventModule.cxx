@@ -281,7 +281,11 @@ void QtMouseEventModule::pullEvent()
   }
 
   // get current widget under global mouse position
+#if QT_VERSION >= 0x040000
   QWidget * widget = QApplication::widgetAt(MPOS_DESKTOP_GLOBAL);
+#else
+  QWidget * widget = QApplication::widgetAt(MPOS_DESKTOP_GLOBAL, true);
+#endif
   OTQT_DEBUG("QtMouseEventModule()::pullState(): widget pointer = %x (NULL?)\n",
              (unsigned int)widget);
 

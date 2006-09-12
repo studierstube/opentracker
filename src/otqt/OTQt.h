@@ -59,10 +59,7 @@
 
 #ifndef OTQT_OTQT_H
 #define OTQT_OTQT_H
-#if 1
 #include <dllinclude.h>
-#endif
-#define USE_OTQT 1
 #if USE_OTQT
 
 #include "QtMouseEventModule.h"
