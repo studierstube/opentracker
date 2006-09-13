@@ -387,7 +387,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OpenVideoModule.h"
+				RelativePath="..\..\src\input\OrientationModule.cxx"
 				>
 			</File>
 			<File
@@ -492,6 +492,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\Translator.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TriangulateOrientationNode.cxx"
 				>
 			</File>
 			<File
@@ -909,6 +913,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\OpenVideoModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\OrientationModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\OrientationSource.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\OSUtils.h"
 				>
 			</File>
@@ -1066,6 +1082,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\Translator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TriangulateOrientationNode.h"
 				>
 			</File>
 			<File

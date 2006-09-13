@@ -111,10 +111,10 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-#define USE_ARTOOLKITPLUS 1
+//#define USE_ARTOOLKITPLUS 1
 
 /** uncomment the following line to compile and link against the DLL version of ARToolKitPlus */
-#define ARTOOLKITPLUS_DLL 1
+//#define ARTOOLKITPLUS_DLL 1
 
 
 /** uncomment the following line to build with an integrated OpenVideo server
@@ -157,14 +157,14 @@
 
 /** uncomment the following line to compile support for 3Dconnexion.
  * Support for this is only available on windows. */
-#define USE_SPACEDEVICE 1
+//#define USE_SPACEDEVICE 1
 
 /** uncomment the following line to compile support for GoGo interaction support. */
-#define USE_GOGO 1
+//#define USE_GOGO 1
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
-#define USE_PANTILTUNIT 1
+//#define USE_PANTILTUNIT 1
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
  * Support for this is only available on windows. Otherwise an empty implementation
