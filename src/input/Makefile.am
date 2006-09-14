@@ -30,6 +30,8 @@ otinputinc_HEADERS = \
         GPSParser.h \
         GPSSource.h \
         GPS_Handler.h \
+        GoGoModule.h \
+        GoGoSinkSource.h \
         InterSenseModule.h \
         InterSenseSource.h \
         JoystickModule.h \
@@ -45,8 +47,8 @@ otinputinc_HEADERS = \
         OrientationSource.h \
         P5GloveModule.h \
         P5GloveSource.h \
-        PanTiltUnitSinkSource.h \
         PanTiltUnitModule.h \
+        PanTiltUnitSinkSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
         SpaceDeviceModule.h \
@@ -110,6 +112,10 @@ libinput_la_SOURCES = \
         GPSSource.h \
         GPS_Handler.cxx \
         GPS_Handler.h \
+        GoGoModule.cxx \
+        GoGoModule.h \
+        GoGoSinkSource.cxx \
+        GoGoSinkSource.h \
         InterSenseModule.cxx \
         InterSenseModule.h \
         InterSenseSource.h \
@@ -132,10 +138,10 @@ libinput_la_SOURCES = \
         P5GloveModule.cxx \
         P5GloveModule.h \
         P5GloveSource.h \
-        PanTiltUnitSinkSource.cxx \
-        PanTiltUnitSinkSource.h \
         PanTiltUnitModule.cxx \
         PanTiltUnitModule.h \
+        PanTiltUnitSinkSource.cxx \
+        PanTiltUnitSinkSource.h \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
