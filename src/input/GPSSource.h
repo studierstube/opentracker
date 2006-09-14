@@ -115,9 +115,12 @@ namespace ot {
             module->lock();
             buffer.timeStamp();
 
-            buffer.getPosition()[0] = (float)(point->xECEF);
-            buffer.getPosition()[1] = (float)(point->yECEF);
-            buffer.getPosition()[2] = (float)(point->zECEF);
+            std::vector<float> pos;
+            pos.push_back(point->xECEF);
+            pos.push_back(point->yECEF);
+            pos.push_back(point->zECEF);
+
+            buffer.setPosition(pos);
             buffer.getConfidence() = (float)(1 / point->hdop);
 
             // Dispose lat/lon as radiants

@@ -88,10 +88,13 @@ namespace ot {
 
         // transform the position of the event
         std::vector<float> &pos = event->getPosition();
-        localEvent.getPosition()[0] = matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3];
-        localEvent.getPosition()[1] = matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3];
-        localEvent.getPosition()[2] = matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3];
 
+        std::vector<float> posnew;
+        posnew.push_back(matrix[0][0]*pos[0] + matrix[0][1]*pos[1] + matrix[0][2]*pos[2] + matrix[0][3]);
+        posnew.push_back(matrix[1][0]*pos[0] + matrix[1][1]*pos[1] + matrix[1][2]*pos[2] + matrix[1][3]);
+        posnew.push_back(matrix[2][0]*pos[0] + matrix[2][1]*pos[1] + matrix[2][2]*pos[2] + matrix[2][3]);
+
+        localEvent.setPosition(posnew);
         localEvent.getOrientation() = event->getOrientation();
 
         // copy other event fields

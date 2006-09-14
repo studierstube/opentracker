@@ -163,9 +163,6 @@ namespace ot {
                 {            
                     // we have a fix and parse the position
                     /* latitude */
-                    // REMARK breiting: we just skip the major long/lat result,
-                    // because the GPS movement will not be beyond a
-                    // further latitute/longitude
                     lat = atof(ACE_TEXT_ALWAYS_CHAR(token) + 2) / 60.0;
                     token[2] = 0;
                     lat += atof(ACE_TEXT_ALWAYS_CHAR(token));

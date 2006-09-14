@@ -99,9 +99,9 @@ namespace ot {
         // add additional XYZ coordinate (ECEF format)
         // see
         // http://www.colorado.edu/geography/gcraft/notes/datum/gif/llhxyz.gif
-        double xECEF;
-        double yECEF;
-        double zECEF;
+        float xECEF;
+        float yECEF;
+        float zECEF;
 
         static const GPResult * parse( const char * );
 
@@ -121,10 +121,16 @@ namespace ot {
             // radius of curvature in the prime vertical
             rad_cur  = geoid->a() /
                 sqrt(1.0-geoid->eccSquared()*pow((sin(gdlat)),2.0));
+
+//             printf("lat = %2.24f\n", lat);
+//             printf("lon = %2.24f\n", lon);
             
             xECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::cos(gdlon);
             yECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::sin(gdlon);
             zECEF = ((1.0 - geoid->eccSquared()) * rad_cur + gdalt) * ::sin(gdlat);
+//              printf("xECEF = %08.2f\n", xECEF);
+//              printf("yECEF = %f08.2\n", yECEF);
+//              printf("zECEF = %f08.2\n", zECEF);
             
         }
 
