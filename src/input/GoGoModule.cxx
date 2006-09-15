@@ -210,6 +210,7 @@ namespace ot {
 				}
 			}	
 		}
+		OSUtils::sleep(2);
 	}
 
 
