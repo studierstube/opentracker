@@ -311,24 +311,26 @@ namespace ot {
             LOG_ACE_INFO("ot:Built ConsoleSink node.\n");
             return sink;
         } else if( name.compare("ConsoleSource") == 0 )
-	{
-            int number;
-            if( attributes.get("number", &number ) == 1 )
-	    {
-                if( number >= 0 && number < 10 )
 		{
-                    ConsoleSource * source = new ConsoleSource( number );
+            int number;
+			int pen(0);
+            if( attributes.get("number", &number ) == 1 )
+			{
+                if( number >= 0 && number < 10 )
+				{
+                    if ( !attributes.get("pen").empty() ) pen=1;
+					ConsoleSource * source = new ConsoleSource( number, pen );
                     sources.push_back( source );
                     LOG_ACE_INFO("ot:Built ConsoleSource node.\n");
                     return source;
-		} else
+				} else
                 {
-		    LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );
+					LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );
                 }
-	    } else
+			} else
                 LOG_ACE_INFO("ot:ConsoleSource station number not a number.\n");
-	}
-        return NULL;
+		}
+		return NULL;
     }
 
     // pushes new events into the tracker tree
@@ -725,10 +727,22 @@ namespace ot {
                 source = (ConsoleSource *)(*it);
                 if( source->number == station )
                 {
-                    source->event.getPosition()[0] += data[0];
-                    source->event.getPosition()[1] += data[1];
-                    source->event.getPosition()[2] += data[2];
-                    source->changed = 1;
+					if( source->penConsole )
+					{
+						if( data[2] > 0 )
+						{ 
+							setButton( station , 1 );
+						}else
+						{
+							setButton( station , 2 );
+						}
+					}else
+					{
+						source->event.getPosition()[0] += data[0];
+						source->event.getPosition()[1] += data[1];
+						source->event.getPosition()[2] += data[2];
+						source->changed = 1;
+					}
                 }
             }
         }

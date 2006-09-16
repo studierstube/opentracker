@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--simple test configuration for the new tracker serve system-->
@@ -183,5 +183,8 @@
       <Ref USE="C0"/>
     </ButtonHoldFilter>
   </ConsoleSink>
-
+  
+  <ConsoleSink comment="pentest" active="off">
+      <ConsoleSource number="9" pen="x"/>
+  </ConsoleSink>
 </OpenTracker>

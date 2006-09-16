@@ -82,15 +82,18 @@ namespace ot {
         Event event;
         /// a flag to indicate whether it was changed during processing
         int changed;
+		/// a flag indicating a special pen console
+		int penConsole;
 
         // Methods
     protected:
         /** constructor method,sets commend member
          * @param comment_ the comment line to use */
-        ConsoleSource( int number_ ) :
+		ConsoleSource( int number_, int penConsole_ ) :
             Node(),
             number( number_ ),
-            changed( 0 )
+            changed( 0 ),
+			penConsole( penConsole_ )
 	{
 	}
 
