@@ -61,8 +61,6 @@ otinputinc_HEADERS = \
         SpeechSource.h \
         SpeechVoice.h \
         SpeechVoiceModule.h \
-        TargusModule.h \
-        TargusSource.h \
         UbisenseModule.h \
         UbisenseSource.h \
         UltraTrakModule.h \
@@ -162,7 +160,6 @@ libinput_la_SOURCES = \
         SpeechVoice.h \
         SpeechVoiceModule.cxx \
         SpeechVoiceModule.h \
-        TargusModule.cxx \
         UbisenseModule.cxx \
         UbisenseModule.h \
         UbisenseSource.cxx \
