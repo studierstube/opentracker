@@ -4,7 +4,7 @@
   <configuration>
 	    <NetworkSinkConfig name="bla"/>
 	    <ARTDataTrackerConfig port="5000"/>
-	    <ConsoleConfig headerline="Sample Output" interval="1" display="on"/>
+	    <ConsoleConfig headerline="IPCity devices" interval="1" display="on"/>
   </configuration>
 		
   <ConsoleSink comment="ART SRC 0">
@@ -67,9 +67,9 @@
   </ConsoleSink>
   
   <!--PTU node -->
-	<ConsoleSink comment="PTU Effective Location of Camera View" active="off">
+	<ConsoleSink comment="PTU Effective Location of Camera View (offset with keyb. 0)" active="on">
 	<NetworkSink name="ViewerLocation" number="20" mode="unicast"  port="1234520">
-    	<EventTransform  scale="1 1 1" translation="0 0 0" rotation="0 0 0 1">
+    	<EventTransform  scale="1 1 1" translation="0 0 0" rotation="0 0 0 1" DEF="ViewerLocationRef">
             <PanTiltUnitSinkSource comPort="2" delayEvent="0">
                 <RelativeInput>               
                    <JoystickSource id="1"/>                
@@ -81,28 +81,37 @@
                 </TopOffset>
                 <PtuLocation>                
                     <EventTransform scale="1 1 1" translation="-1.8 5.1 16.5" rotationtype="euler" rotation="0.0 0.0 0.0">
-                        <EventKeyboardSource number="0"/>
+                        <ConsoleSource number="0"/>
                     </EventTransform>                
                 </PtuLocation> 
             </PanTiltUnitSinkSource>
         </EventTransform>
-  </NetworkSink>
+    </NetworkSink>
 	</ConsoleSink>
 	
-	<!-- GoGo node 
-  <EventSink tracking="GoGo">
-      <GoGoSinkSource rotationWeight="0.1" translationWeight="1.0">
-          <RelativeInput>
-              <SpaceDeviceSource/>           
-          </RelativeInput>
-          <ViewerLocation>
-              <Ref USE="ViewerLocationRef"/>
-          </ViewerLocation>
-          <GoGoDeviceKit>       	
-      		<EventSource node="GOGODEVICEKIT" button="gogoButton"/>        	
-      	</GoGoDeviceKit>
-	</GoGoSinkSource>
-  </EventSink> -->
-
+	<!-- GoGo node --> 
+	<ConsoleSink comment="GoGo SpaceBall" active="on">
+    <NetworkSink name="GoGo SpaceBall" number="21" mode="unicast"  port="1234521">
+        <GoGoSinkSource rotationWeight="0.1" translationWeight="1.0">
+            <RelativeInput>
+                <SpaceDeviceSource/>           
+            </RelativeInput>
+            <ViewerLocation>
+                <Ref USE="ViewerLocationRef"/>
+            </ViewerLocation>
+            <GoGoDeviceKit> 
+            	 <NetworkSource number="100" mode="unicast" address="10.0.0.2" port="12345100"/> 
+            	 <!-- <ConsoleSource number="2"/> -->    	
+            </GoGoDeviceKit>
+	   </GoGoSinkSource>
+    </NetworkSink>
+	</ConsoleSink> 
+	
+	<ConsoleSink comment="PointerButton" active="on">
+    <NetworkSink name="PointerButton" number="22" mode="unicast"  port="1234522">
+	   <ConsoleSource number="1" pen="bla"/>
+	</NetworkSink>
+	</ConsoleSink> 
+	
   
 </OpenTracker>
