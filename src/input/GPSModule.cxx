@@ -78,7 +78,8 @@ namespace ot {
         altitudeSource( NULL ),
         infoSource( NULL ),
         driver( NULL ),
-        logFile( NULL )
+        logFile( NULL ),
+        position_mode( "default" )
     {
     }
 
@@ -103,6 +104,7 @@ namespace ot {
 	device = attributes.get("dev");
 	dgpsServer = attributes.get("DGPSserver");
         rtcmdev = attributes.get("rtcmdev");
+        position_mode = attributes.get("position_mode");
 	if( attributes.get( "baudrate", &baudRate ) != 1 )
 	{
             baudRate = 9600;		// default GPS receiver baud rate

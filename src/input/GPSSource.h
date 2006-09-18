@@ -116,9 +116,18 @@ namespace ot {
             buffer.timeStamp();
 
             std::vector<float> pos;
-            pos.push_back(point->xECEF);
-            pos.push_back(point->yECEF);
-            pos.push_back(point->zECEF);
+            
+            if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("ecef")))
+            {
+                pos.push_back(point->xECEF);
+                pos.push_back(point->yECEF);
+                pos.push_back(point->zECEF);
+            } else
+            {
+                pos.push_back(point->lon * MathUtils::GradToRad);
+                pos.push_back(point->lat * MathUtils::GradToRad);
+                pos.push_back(1.0); // homogeneous coordinate
+            }
 
             buffer.setPosition(pos);
             buffer.getConfidence() = (float)(1 / point->hdop);
