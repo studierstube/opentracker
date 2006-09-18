@@ -120,7 +120,9 @@ private:
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> OT_NO_GOGO_SUPPORT")
+#endif
 #endif	//USE_GOGO
 
 #endif	//_GOGOMODULE_H

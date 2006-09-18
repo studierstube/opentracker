@@ -54,6 +54,7 @@
 // this is a linux implementation !!!
 #ifndef WIN32
 #ifndef DARWIN
+#ifndef __APPPLE__
 
 #include "../OpenTracker.h"
 #include "../core/StringTable.h"
@@ -151,7 +152,7 @@ namespace ot {
 #endif
 // WIN32
 #endif
-
+#endif
 #endif
 
 /* 

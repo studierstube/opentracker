@@ -84,6 +84,7 @@
 #include "Dlportio.h"
 #endif
 #else
+#ifndef __APPLE__
 #include <sys/ioctl.h>
 #include <sys/types.h> 
 #include <sys/stat.h> 
@@ -97,10 +98,12 @@
 #include <linux/ppdev.h>
 #endif
 #endif
+#endif
 
 
 #ifndef OT_NO_PARBUTTON_SUPPORT
 
+#ifndef __APPLE__
 
 namespace ot {
 
@@ -327,6 +330,7 @@ namespace ot {
 
 } // namespace ot
 
+#endif
 
 #endif // OT_NO_PARBUTTON_SUPPORT
 

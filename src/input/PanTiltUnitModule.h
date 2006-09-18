@@ -137,7 +137,9 @@ private:
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> OT_NO_PTU_SUPPORT")
+#endif
 #endif	//USE_PANTILTUNIT
 
 #endif	//_PANTILTUNITMODULE_H

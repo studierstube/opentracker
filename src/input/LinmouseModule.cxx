@@ -43,6 +43,7 @@
 
 // this is a linux implementation
 #ifndef WIN32
+#ifndef __APPLE__
 #include "LinmouseModule.h"
 
 #include "LinmouseSource.h"
@@ -323,6 +324,7 @@ OT_NAMESPACE_END
 #endif
 
 // WIN32
+#endif
 #endif
 
 /* 

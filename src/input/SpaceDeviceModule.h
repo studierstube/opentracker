@@ -134,7 +134,9 @@ private:
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> OT_NO_SPACEDEVICE_SUPPORT")
+#endif
 #endif	//USE_SPACEDEVICE
 
 #endif	//_SPACEDEVICEMODULE_H
