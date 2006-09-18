@@ -124,9 +124,9 @@ namespace ot {
                 pos.push_back(point->zECEF);
             } else
             {
-                pos.push_back(point->lon * MathUtils::GradToRad);
-                pos.push_back(point->lat * MathUtils::GradToRad);
-                pos.push_back(1.0); // homogeneous coordinate
+                pos.push_back(static_cast<float>(point->lon * MathUtils::GradToRad));
+                pos.push_back(static_cast<float>(point->lat * MathUtils::GradToRad));
+                pos.push_back(1.0f); // homogeneous coordinate
             }
 
             buffer.setPosition(pos);

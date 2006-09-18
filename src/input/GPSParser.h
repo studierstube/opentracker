@@ -125,9 +125,9 @@ namespace ot {
 //             printf("lat = %2.24f\n", lat);
 //             printf("lon = %2.24f\n", lon);
             
-            xECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::cos(gdlon);
-            yECEF = (rad_cur + gdalt) * ::cos(gdlat) * ::sin(gdlon);
-            zECEF = ((1.0 - geoid->eccSquared()) * rad_cur + gdalt) * ::sin(gdlat);
+            xECEF = static_cast<float>((rad_cur + gdalt) * ::cos(gdlat) * ::cos(gdlon));
+            yECEF = static_cast<float>((rad_cur + gdalt) * ::cos(gdlat) * ::sin(gdlon));
+            zECEF = static_cast<float>(((1.0 - geoid->eccSquared()) * rad_cur + gdalt) * ::sin(gdlat));
 //              printf("xECEF = %08.2f\n", xECEF);
 //              printf("yECEF = %f08.2\n", yECEF);
 //              printf("zECEF = %f08.2\n", zECEF);
