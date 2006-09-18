@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -459,10 +459,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\TargusModule.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\network\TCPModule.cxx"
 				>
 			</File>
@@ -528,10 +524,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\WacomGraphireModule.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\misc\XKeys.cxx"
 				>
 			</File>
 			<File
@@ -1021,14 +1013,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\TargusModule.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\input\TargusSource.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\network\TCPModule.h"
 				>
 			</File>
@@ -1126,10 +1110,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\WacomGraphireSource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\misc\XKeys.h"
 				>
 			</File>
 			<File
