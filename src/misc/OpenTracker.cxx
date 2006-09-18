@@ -92,8 +92,9 @@
 #include "../input/ARToolKitModule.h"
 #include "../input/ARToolKitPlusModule.h"
 #include "../input/CyberMouseModule.h"
-#include "../input/TargusModule.h"
+#ifndef __APPLE__
 #include "../input/LinmouseModule.h"
+#endif
 #include "../input/WacomGraphireModule.h"
 #include "../input/JoystickModule.h"
 #include "../input/SpaceDeviceModule.h"
@@ -224,12 +225,6 @@ namespace ot {
         context.addModule( "LinmouseConfig", * linmousemodule );
 #endif	
 
-#ifdef USE_TARGUSMODULE
-        TargusModule * targusmodule = new TargusModule;
-        context.addFactory( * targusmodule );
-        context.addModule( "TargusConfig", * targusmodule );
-#endif	
-
 #ifdef USE_JOYSTICK
         JoystickModule * joy = new JoystickModule();
         context.addFactory( *joy );
@@ -282,7 +277,7 @@ namespace ot {
 #endif
 
 #ifndef _WIN32_WCE
-#ifndef DARWIN
+#ifndef __APPLE__
 #ifndef OT_NO_PARBUTTON_SUPPORT
         ParButtonModule * parbutton = new ParButtonModule();
         context.addFactory( *parbutton );
