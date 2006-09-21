@@ -110,6 +110,30 @@ namespace ot {
 		return fieldOfView;
 	}
 
+	void Lanc::updateTimePos()
+	{
+		if( zoomin )
+		{
+			double time = OSUtils::currentTime();
+			timePos -= (time-startTime);
+			if (timePos < 200) timePos = 200;
+			startTime = time;
+		}
+		if( zoomout )
+		{
+			double time = OSUtils::currentTime();
+			timePos += (time-startTime);
+			if (timePos > maxTimePos) timePos = maxTimePos;
+			startTime = time;
+		}
+	}
+
+	bool Lanc::isZooming()
+	{
+		if( zoomin || zoomout ) return true;
+		return false;
+	}
+
 	// mapping: 1 > zoominspeed8-1 > 0.2 stop -0.2 > zoomoutspeed1-8 > -1
     void Lanc::Zoom( float speed )         
     {
@@ -150,7 +174,7 @@ namespace ot {
 			startTime = OSUtils::currentTime();
 			zoomout=true;
 		}
-
+		OSUtils::sleep(1);
 
 
 		/////////////////////////// multiple speeds mapping +8/-8

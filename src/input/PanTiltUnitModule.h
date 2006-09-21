@@ -131,6 +131,12 @@ public:
 
 
 private:
+	
+	/**
+	 *  the ptu processLoop
+	 */
+	void processLoop();
+
 
 };
 

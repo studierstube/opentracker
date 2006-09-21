@@ -141,7 +141,17 @@ namespace ot {
 
 	void PanTiltUnitModule::run()
 	{
-		// not needed yet
+		static int init = 0;
+
+		if( init == 0 )
+		{
+			initialized = 1;
+			init = 1;
+		}
+		while(stop == 0)
+		{
+			processLoop();
+		}
 	}
 
 
@@ -175,6 +185,25 @@ namespace ot {
 			}
 		}
 	}
+
+	void PanTiltUnitModule::processLoop()
+	{
+		if( isInitialized() == 1 )
+		{
+			PanTiltUnitSinkSource *source;
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				source = (PanTiltUnitSinkSource *) *it;
+				if( source->lanc->isZooming() )
+				{
+					source->lanc->updateTimePos();
+					source->process = true;
+				}
+			}	
+		}
+		OSUtils::sleep(10);
+	}
+
 } // namespace ot
 
 #endif //USE_PANTILTUNIT

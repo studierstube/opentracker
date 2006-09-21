@@ -90,6 +90,10 @@ public:
 	void setWideAngle(float);
 
 	double timePos, zoomFactor;
+
+	void updateTimePos();
+
+	bool isZooming();
 	
 protected:
 

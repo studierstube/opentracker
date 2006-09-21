@@ -122,11 +122,15 @@ namespace ot {
 			tmpEventScalingFactor = 1.f;
 		}
 
-		MathUtils::rotateVector(viewerLocationOri, tmp, corr);
+		// fix me i was deactivated because i dont work correct in some situationes
+		///MathUtils::rotateVector(viewerLocationOri, tmp, corr);
+		///tmpEventPos[0] += corr[0]*gogofact;
+		///tmpEventPos[1] += corr[1]*gogofact;
+		///tmpEventPos[2] += corr[2]*gogofact;
+		tmpEventPos[0] += tmp[0]*gogofact;
+		tmpEventPos[1] += tmp[1]*gogofact;
+		tmpEventPos[2] += tmp[2]*gogofact;
 
-		tmpEventPos[0] += corr[0]*gogofact;
-		tmpEventPos[1] += corr[1]*gogofact;
-		tmpEventPos[2] += corr[2]*gogofact;
 
 		MathUtils::Matrix4x4 mTmp = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
 		MathUtils::Quaternion qTmp={(double)relativeInputOri[0], (double)relativeInputOri[1], 
