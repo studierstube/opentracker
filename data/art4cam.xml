@@ -7,14 +7,14 @@
     <ARTDataTrackerConfig port="5000"/>
   </configuration>
  
-  <ConsoleSink comment="0">
+  <ConsoleSink comment="0" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform0">
 		<ARTDataTrackerSource number="0"/>    
 	</EventTransform>
   </ConsoleSink>
 	
   <!-- Pen -->
- <ConsoleSink comment="1">
+ <ConsoleSink comment="1" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform1">
 		<ARTDataTrackerSource number="1"/>    
 	</EventTransform>
@@ -42,56 +42,56 @@
   </ConsoleSink> -->
 
   <!-- Pip -->
-  <ConsoleSink comment="2">
+  <ConsoleSink comment="2" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform2">
 		<ARTDataTrackerSource number="2"/>    
 	</EventTransform>
   </ConsoleSink>
 
    <!-- Camera -->
-   <ConsoleSink comment="3">
+   <ConsoleSink comment="3" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform3">
 		<ARTDataTrackerSource number="3"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Shutterglas -->
-  <ConsoleSink comment="4">
+  <ConsoleSink comment="4" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform4">
 		<ARTDataTrackerSource number="4"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Messbecher -->
-  <ConsoleSink comment="5">
+  <ConsoleSink comment="5" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform5">
 		<ARTDataTrackerSource number="5"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Lineal -->
-  <ConsoleSink comment="6">
+  <ConsoleSink comment="6" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform6">
 		<ARTDataTrackerSource number="6"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Turntable -->
-  <ConsoleSink comment="7">
+  <ConsoleSink comment="7" active="off">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform7">
 		<ARTDataTrackerSource number="7"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Haptic workstation -->
-  <ConsoleSink comment="8">
+  <ConsoleSink comment="8" active="off">
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform8" >
 		<ARTDataTrackerSource number="8"/>    
 	   </EventTransform>
   </ConsoleSink>
 
 <!-- Tablet PC Pen -->
-  <ConsoleSink comment="9">
+  <ConsoleSink comment="9" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform9" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource type="pen" number="0"/>    
@@ -100,7 +100,7 @@
   </ConsoleSink>
 
  <!-- Eye of Ra (right handed) -->
-  <ConsoleSink comment="10">
+  <ConsoleSink comment="10" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform10" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource type="pen" number="1"/>    
@@ -109,7 +109,7 @@
   </ConsoleSink>
 
 <!-- Eye of Ra (right handed) -->
-  <ConsoleSink comment="11">
+  <ConsoleSink comment="11" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform11" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource type="pen" number="2"/>    
@@ -118,35 +118,35 @@
   </ConsoleSink>
 
   <!-- Tablet PC -->
-   <ConsoleSink comment="12">
+   <ConsoleSink comment="12" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform12">
 		<ARTDataTrackerSource number="10"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Leber -->
-   <ConsoleSink comment="13">
+   <ConsoleSink comment="13" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform13">
 		<ARTDataTrackerSource number="12"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Endocam -->
-   <ConsoleSink comment="14">
+   <ConsoleSink comment="14" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform14">
 		<ARTDataTrackerSource number="13"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Box -->
-   <ConsoleSink comment="15">
+   <ConsoleSink comment="15" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform15">
 		<ARTDataTrackerSource number="14"/>    
 	</EventTransform>
   </ConsoleSink>
 
 <!-- Endoskop -->
-   <ConsoleSink comment="16">
+   <ConsoleSink comment="16" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform16">
 		<ARTDataTrackerSource type="pen" number="3"/>    
 	</EventTransform>
@@ -154,7 +154,7 @@
 
 
 <!-- InkJet -->
-   <ConsoleSink comment="17">
+   <ConsoleSink comment="17" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform17">
 		<ARTDataTrackerSource number="15"/>    
 	</EventTransform>
