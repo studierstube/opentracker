@@ -185,6 +185,12 @@ namespace ot
          * @return string holding the event's data
          */
         const std::string getPrintOut() const;
+		/**
+         * Returns a string that can be used to print out all data held by the event. For a more
+         * compact layout of the same data use the serialize functions or streaming operators.
+         * @return string holding the event's data
+         */
+		void getPrintOut(std::string &outstr) const;
         /**
          * Updates the event's timestamp to the current time.
          */

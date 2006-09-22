@@ -123,7 +123,7 @@ namespace ot
                 return (*it).first;
             i++;
         }
-        std::stringstream ss;
+        std::ostringstream ss;
         ss << "event has no attribute with index '" << index << "', check size using Event::size() before access by index!";
         throw std::invalid_argument(ss.str());
     }
@@ -171,7 +171,7 @@ namespace ot
     {
         if (hasAttribute(name))
         {
-            std::stringstream ss;
+            std::ostringstream ss;
             EventAttributeBase *att = (*attributes.find(name)).second;
             ss << *att;
             return ss.str();
@@ -211,7 +211,7 @@ namespace ot
     {
 
 
-        std::stringstream tmp;
+        std::ostringstream tmp;
 
 
 
@@ -223,7 +223,7 @@ namespace ot
 
             if (it != attributes.begin())
                 tmp << ",";
-            std::stringstream tmp_sstream;
+            std::ostringstream tmp_sstream;
             tmp_sstream << *((*it).second);
             tmp << (*it).second->getGenericTypeName() << "." << (*it).first << "#" << tmp_sstream.str().length() << "=" << tmp_sstream.str();
         }
@@ -233,14 +233,14 @@ namespace ot
 
     const std::string Event::serialize() const
     {
-        std::stringstream ss;
+        std::ostringstream ss;
         ss << *this;
         return ss.str();
     }
 
     void Event::deserialize(std::string &str)
     {
-        std::stringstream ss(str);
+        std::istringstream ss(str);
         ss >> *this;
     }
 
@@ -268,7 +268,7 @@ namespace ot
             return in;
         }
 
-        dataCArray=(char*)malloc(eventSize+2);
+        dataCArray=new char[eventSize+2];
 
         in.read(dataCArray,eventSize+2);
 
@@ -340,7 +340,7 @@ namespace ot
             return false;
 
         EventAttributeBase *att = EventAttributeBase::create(type); // may throw std::runtime_error
-        std::stringstream ss(value);
+        std::istringstream ss(value);
         if (ss >> *att)
         {
             attributes[name] = att;
@@ -359,7 +359,7 @@ namespace ot
         if (!hasAttribute(name))
             attributes[name] = EventAttributeBase::create(type); // may throw std::runtime_error
         EventAttributeBase *att = attributes[name];
-        std::stringstream ss(value);
+        std::istringstream ss(value);
         if (ss >> *att)
             return true;
         return false;
@@ -398,15 +398,27 @@ namespace ot
 
     // get string for print out
     const std::string Event::getPrintOut() const
-    {
-        std::string printOut;
-        std::stringstream ss;
+    {        
+        std::ostringstream ss;
 
         ss << "  timestamp: " << std::fixed << time << std::endl;
 
         for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
             ss << "  " << (*it).first << " (" << (*it).second->getGenericTypeName() << "): " << *((*it).second) << std::endl;
-        return ss.str();
+		return ss.str();
+    }
+
+    // get string for print out
+	void Event::getPrintOut(std::string &printOut) const
+    {       
+        std::ostringstream ss;
+
+        ss << "  timestamp: " << std::fixed << time << std::endl;
+
+        for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+            ss << "  " << (*it).first << " (" << (*it).second->getGenericTypeName() << "): " << *((*it).second) << std::endl;
+
+		printOut = ss.str();     
     }
 
     // rename attribute
