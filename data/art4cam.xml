@@ -19,7 +19,7 @@
 		<ARTDataTrackerSource number="1"/>    
 	</EventTransform>
   </ConsoleSink> 
-<!--  OLDER BUTTON !!!!!!! <ConsoleSink comment="1">
+  <!-- OLDER BUTTON !!!!!!! <ConsoleSink comment="1">
 	<Merge DEF="transform1">
 		<MergeDefault>
 			<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001">
@@ -83,14 +83,14 @@
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Haptic workstation -->
+  <!-- Haptic workstation -->
   <ConsoleSink comment="8" active="off">
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform8" >
 		<ARTDataTrackerSource number="8"/>    
 	   </EventTransform>
   </ConsoleSink>
 
-<!-- Tablet PC Pen -->
+  <!-- Tablet PC Pen -->
   <ConsoleSink comment="9" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform9" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
@@ -99,7 +99,7 @@
 	</EventVirtualOrientationTransform>	
   </ConsoleSink>
 
- <!-- Eye of Ra (right handed) -->
+  <!-- Eye of Ra (right handed) -->
   <ConsoleSink comment="10" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform10" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
@@ -108,7 +108,7 @@
 	</EventVirtualOrientationTransform>	
   </ConsoleSink>
 
-<!-- Eye of Ra (right handed) -->
+  <!-- Eye of Ra (right handed) -->
   <ConsoleSink comment="11" active="off">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform11" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
@@ -124,48 +124,48 @@
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Leber -->
-   <ConsoleSink comment="13" active="off">
+  <!-- Leber -->
+  <ConsoleSink comment="13" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform13">
 		<ARTDataTrackerSource number="12"/>    
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Endocam -->
-   <ConsoleSink comment="14" active="off">
+  <!-- Endocam -->
+  <ConsoleSink comment="14" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform14">
 		<ARTDataTrackerSource number="13"/>    
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Box -->
-   <ConsoleSink comment="15" active="off">
+  <!-- Box -->
+  <ConsoleSink comment="15" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform15">
 		<ARTDataTrackerSource number="14"/>    
 	</EventTransform>
   </ConsoleSink>
 
-<!-- Endoskop -->
-   <ConsoleSink comment="16" active="off">
+  <!-- Endoskop -->
+  <ConsoleSink comment="16" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform16">
 		<ARTDataTrackerSource type="pen" number="3"/>    
 	</EventTransform>
   </ConsoleSink>
 
 
-<!-- InkJet -->
-   <ConsoleSink comment="17" active="off">
+  <!-- InkJet -->
+  <ConsoleSink comment="17" active="off">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform17">
 		<ARTDataTrackerSource number="15"/>    
 	</EventTransform>
   </ConsoleSink>
 
 
-<!-- ----------------------------------------------------------------------------------------->
-<!--                                                                                          >
-<!-- UDP Network                                                                              >
-<!--                                                                                          >
-<!-- ----------------------------------------------------------------------------------------->
+<!-- **************************************************************************************** -->
+<!--                                                                                          -->
+<!-- UDP Network                                                                              -->
+<!--                                                                                          -->
+<!-- **************************************************************************************** -->
 
   <NetworkSink name="ARTUDP00" number="0" mode="multicast" multicast-address="224.100.200.101" port="12346" interface="129.27.201.31">
 	<Ref USE="transform0"/>
@@ -241,11 +241,11 @@
   </NetworkSink>
 
 
-<!-- ----------------------------------------------------------------------------------------->
-<!--                                                                                          >
-<!-- TCP Network                                                                              >
-<!--                                                                                          >
-<!-- ----------------------------------------------------------------------------------------->
+<!-- **************************************************************************************** -->
+<!--                                                                                          -->
+<!-- TCP Network                                                                              -->
+<!--                                                                                          -->
+<!-- **************************************************************************************** -->
 
   <NetworkSink name="ARTTCP00" number="20" mode="unicast"  port="12001" interface="129.27.201.31">
 	<Ref USE="transform0"/>
