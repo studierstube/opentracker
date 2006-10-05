@@ -104,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -212,6 +212,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\CyberMouseModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESP.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESPFilterNode.cxx"
 				>
 			</File>
 			<File
@@ -638,6 +646,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\CyberMouseSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESP.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESPFilterNode.h"
 				>
 			</File>
 			<File

@@ -67,6 +67,7 @@
 #include "RangeFilterNode.h"
 #include "PositionFilterNode.h"
 #include "EventUtilityNode.h"
+#include "DESPFilterNode.h"
 
 #include <math.h>
 #include <float.h>
@@ -527,6 +528,17 @@ namespace ot {
             if( attributes.get("max", max, 3) != 3 )
             { max[0] = 1; max[1] = 1; max[2] = 1;}
             result = new PositionFilterNode( min, max );
+        }
+#endif
+#ifndef OT_NO_DESPFILTER_SUPPORT
+        else if( name.compare("DESPFilter") == 0 )
+        {
+            float filterPos, filterOri;
+            if( attributes.get("filter-position", &filterPos) != 1 )
+                filterPos = 0.0;
+            if( attributes.get("filter-orientation", &filterOri ) != 1 )
+                filterOri = 0.0;
+            result = new DESPFilterNode( filterPos, filterOri );
         }
 #endif
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
