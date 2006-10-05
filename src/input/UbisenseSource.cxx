@@ -46,10 +46,11 @@
 
 #include "UbisenseSource.h"
 #ifdef USE_UBISENSE
-
 #ifdef WIN32
+
+#include <ace/Log_Msg.h>
+
 #pragma comment(lib,"UClientAPI.lib")
-#endif
 
 namespace ot {
 
@@ -72,22 +73,20 @@ namespace ot {
     bool UbisenseSource::calcEvent()
     {
         Location location;
-        MyNameClient client;
+        /*My*/NameClient client;
 
-        printf("\n");
-        //std::cout << "Getting all named people:";
+		//ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Getting all named people:\n")));
         UClientAPI::Map<Object,String> all_people = client.get_all_named(Type("Person"));
-        //for (UClientAPI::Map<Object,String>::const_iterator i = all_people.begin(); i != all_people.end(); ++i)
-        //{   printf("\n");
-        //std::cout << " " << (*i).first.to_string() << " has name " << (*i).second << std::endl;
-        //}
+        /*for (UClientAPI::Map<Object,String>::const_iterator i = all_people.begin();i != all_people.end();++ i)
+			ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot: %s has name %s\n"),(*i).first.to_string().c_str(),(*i).second->c_str()));*/
 
         String found_name;
-        if (!client.get_object_name(object,found_name))
-        { std::cout << "Cannot get name of " << object.to_string();
-          return false;
+        if (! client.get_object_name(object,found_name))
+        {
+			ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Cannot get name of %s\n"),object.to_string().c_str()));
+            return false;
         }
-        std::cout << "Ubitag name: " << found_name;
+		ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Ubitag name: %s\n"),found_name.c_str()));
 
         if (locationClient.get_object_location(object,location) && location.time_ > lastTime)
         {
@@ -96,10 +95,7 @@ namespace ot {
             event.getPosition()[1] = static_cast<float>(location.pos_.y_);
             event.getPosition()[2] = static_cast<float>(location.pos_.z_);
 
-
-            printf("\n  location x: %f", event.getPosition()[0]);
-            printf("\n  location y: %f", event.getPosition()[1]);
-            printf("\n  location z: %f\n\n", event.getPosition()[2]);
+			ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot: location x: %f location y: %f location z: %f\n"),event.getPosition()[0],event.getPosition()[1],event.getPosition()[2]));
 
             if (buttonTime > lastTime)
             {
@@ -133,6 +129,7 @@ namespace ot {
 } // namespace ot
 
 
+#endif
 #else
 #pragma message(">>> no Ubisense support")
 #endif  // USE_UBISENSE

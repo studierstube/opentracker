@@ -68,6 +68,7 @@
 #include "PositionFilterNode.h"
 #include "EventUtilityNode.h"
 #include "DESPFilterNode.h"
+#include "DifferenceNode.h"
 
 #include <math.h>
 #include <float.h>
@@ -520,7 +521,7 @@ namespace ot {
         }
 #endif
 #ifndef OT_NO_POSITIONFILTER_SUPPORT
-        else if( name.compare("PositionFilterNode") == 0 )
+        else if( name.compare("PositionFilter") == 0 )
         {
             float min[3], max[3];
             if( attributes.get("min", min, 3) != 3)
@@ -542,7 +543,7 @@ namespace ot {
         }
 #endif
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
-        else if ( name.compare("EventUtilityNode") == 0 )
+        else if ( name.compare("EventUtility") == 0 )
         {
             std::string rename = attributes.get("rename");
             std::string create = attributes.get("create");
@@ -585,6 +586,14 @@ namespace ot {
             result = resultNode;
         }
 #endif //OT_NO_EVENTUTITLY_SUPPORT
+#ifndef OT_NO_DIFFERENCE_SUPPORT
+        else if( name.compare("Difference") == 0 )
+        {
+            double timeFrame = 1000;
+            attributes.get("timeframe", &timeFrame);
+            result = new DifferenceNode( attributes.get("attributeName"), timeFrame );
+        }
+#endif //OT_NO_DIFFERENCE_SUPPORT
 
         // the node ports are just looked up in a simple list
         else if( std::find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())

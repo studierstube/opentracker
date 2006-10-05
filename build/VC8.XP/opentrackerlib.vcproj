@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -104,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/inc&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -228,6 +228,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\DGPSMirror_Handler.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DifferenceNode.cxx"
 				>
 			</File>
 			<File
@@ -427,6 +431,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\RawInputModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\RawInputSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\SelectionNode.cxx"
 				>
 			</File>
@@ -488,6 +500,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimeModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorNode.cxx"
 				>
 			</File>
 			<File
@@ -617,6 +637,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\config_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\ConfigNode.h"
 				>
 			</File>
@@ -662,6 +686,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\DGPSMirror_Handler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\DifferenceNode.h"
 				>
 			</File>
 			<File
@@ -969,6 +997,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\RawInputModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\RawInputSource.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\RefNode.h"
 				>
 			</File>
@@ -1058,6 +1094,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimeModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorNode.h"
 				>
 			</File>
 			<File

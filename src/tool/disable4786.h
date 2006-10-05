@@ -20,6 +20,8 @@
 // Why does this work? Beats me, ask those smart guys at MS who
 // wrote the compiler.
 
+#if defined(_MSC_VER) && (_MSC_VER < 1300)
+
 class msVC6_4786WorkAround {
 public:
     msVC6_4786WorkAround() {}
@@ -27,6 +29,8 @@ public:
 
 static msVC6_4786WorkAround
 WowIWonderWhatCrapCodeMustBeInTheCompilerToMakeThisWorkaroundWork;
+
+#endif
 
 #endif // WIN32
 

@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opentracker.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile="../../bin/win32/opentracker.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opentrackerd.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile="../../bin/win32/opentrackerd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

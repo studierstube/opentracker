@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for the Ubisense interface module.
+/** header file for the raw input module.
  *
  * @author Mathis Csisinko
  *
@@ -43,75 +43,64 @@
 
 /**
  * @page module_ref Module Reference
- * @section ubisensemodule UbisenseModule
- * The UbisenseModule interfaces to the Ubisense API to track the position and
- * button event of Ubisense tags. It uses the information provided by @ref
- * ubisensesource nodes and inserts the events through @ref ubisensesource
- * nodes into the tree. The configuration element is @c UbisenseConfig.
- * Without the @c UbisenseConfig configuration element data from any cell is
- * tracked. But as soon as a @c UbisenseConfig configuration element is present,
- * data retrieval is restricted: A single @c UbisenseCell configuration element
- * identifies a Ubisense location cell to retrieve data from. Use more than one
- * @c UbisenseCell configuration element to retrieve data from any number of
- * cells. The @c UbisenseCell configuration element has the following attribute:
- * @li @c name a string identifying the Ubisense location cell.
+ * @section rawinputmodule RawInputModule
+ * The RawInputModule interfaces to the raw input Windows API (available since
+ * Windows XP). Raw input supports keyboards, mice and other human interface
+ * devices. This is the only way to distinguish between input coming from
+ * multiple devices on Windows XP, since DirectInput cannot distinguish them
+ * on that platform.
+ * The input device is specified by creating a @ref rawinputsource node in
+ * order to insert event data into tree. Currently, only mice are supported by
+ * RawInputModule.
+ * When obtaining mouse input, button events are blocked from reaching the
+ * system. [F12] can be used to toggle between using mouse button input
+ * exclusively in tracking and Windows.
+ * The configuration element is @c RawInputConfig and has to be present to
+ * initialize the device list. On success, a list of device names is outputted.
  *
  * An example configuration element looks like this :
  * @verbatim
- <UbisenseConfig>
- <UbisenseCell name="Location Cell 00001" />
- </UbisenseConfig>@endverbatim
- */
+ <RawInputConfig/>@endverbatim
+*/
 
-#ifndef _UBISENSEMODULE_H
-#define _UBISENSEMODULE_H
+#ifndef _RAWINPUTMODULE_H
+#define _RAWINPUTMODULE_H
 
 #include "../OpenTracker.h"
 
-#ifdef USE_UBISENSE
+#ifdef USE_RAWINPUT
 #ifdef WIN32
 
-#include "UClientAPI/location_client.h"
-#include "UClientAPI/data_client.h"
-
-using namespace UClientAPI;
+#include <windows.h>
 
 namespace ot {
 
     /**
-     * A Ubisense tracking source module using the Ubisense API to track Ubisense
-     * tags. It acts as a NodeFactory for UbisenseSource nodes. It also keeps a
-     * vector of created nodes.
+     * A raw input tracking source module using the raw input Windows API. It
+	 * acts as a NodeFactory for RawInputSource nodes. In order to obtain input,
+	 * it runs a thread. Additionally, it keeps a vector of created nodes.
      *
      * @ingroup input
      */
 
-    class OPENTRACKER_API UbisenseModule: public Module,public NodeFactory
+	class OPENTRACKER_API RawInputModule: public ThreadModule,public NodeFactory
     {
-		friend class UbisenseSource;
-
-		// methods
+        // methods
     public:
         /// constructor method
-        UbisenseModule();
+        RawInputModule();
 
         /// destructor method
-        virtual ~UbisenseModule();
+        virtual ~RawInputModule();
 
         /** This method is called to construct a new Node. It compares
-         * name to the UbisenseSource element name, and if it matches
-         * creates a new UbisenseSource node.
+         * name to the RawInputSource element name, and if it matches
+         * creates a new RawInputSource node.
          * @param name reference to string containing element name
          * @attributes refenrence to StringMap containing attribute values
          * @return pointer to new Node or NULL.
 		 */
         virtual Node* createNode(const std::string &name,StringTable &attributes);
-
-        /**
-         * This method is called after initialisation is finished and before the
-         * main loop is started.
-		 */
-        virtual void start();
 
         /**
          * closes the module.
@@ -125,7 +114,7 @@ namespace ot {
         virtual void pushEvent();
 
         /**
-         * initializes the Ubisense module. 
+         * initializes the RawInputModule. 
          * @param attributes StringMap of elements attribute values.
          * @param pLocalTree pointer to root of configuration nodes tree
          */
@@ -133,45 +122,27 @@ namespace ot {
 
         // members
     protected:
+		virtual void run();
+
         /// stores the sources
         NodeVector pSources;
 
-		class WrappedDataClient: public DataClient
-			{
-			public:
-				WrappedDataClient(NodeVector &);
+	private:
+		static LRESULT CALLBACK LowLevelMouseHook(int,WPARAM,LPARAM);
+		static LRESULT CALLBACK LowLevelKeyboardHook(int,WPARAM,LPARAM);
+		static LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
+		void processRawInput(HWND,WPARAM,HRAWINPUT);
 
-				virtual void on_button(const Object &,UbitagButton,double);
-
-			private:
-				NodeVector &pSources;
-			};
-    private:
-        LocationClient locationClient;
-        WrappedDataClient dataClient;
-        UClientAPI::Set<String> cells; 
-        //std::set<std::string> cells;
+		UINT numDevices;
+		char** deviceNames;
+		RAWINPUTDEVICELIST* rawInputDeviceList;
+		static bool filterButtons;
+		static RawInputModule* pRawInputModule;
     };
 
 } // namespace ot
 
 #endif
-#endif  // USE_UBISENSE
+#endif  // USE_RAWINPUT
 
 #endif
-
-/* 
- * ------------------------------------------------------------
- *   End of UbisenseModule.h
- * ------------------------------------------------------------
- *   Automatic Emacs configuration follows.
- *   Local Variables:
- *   mode:c++
- *   c-basic-offset: 4
- *   eval: (c-set-offset 'substatement-open 0)
- *   eval: (c-set-offset 'case-label '+)
- *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
- *   eval: (setq indent-tabs-mode nil)
- *   End:
- * ------------------------------------------------------------ 
- */

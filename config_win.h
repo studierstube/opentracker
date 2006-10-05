@@ -97,14 +97,17 @@
  *       server and @ref vrpnsink to act as a device in the server. On Windows, set the
  *       environment variable @c VRPNROOT to the vrpn directory to configure the build system.
  * @li @b USE_UBISENSE
- *      \n enables Ubisense support and the @ref ubisensesource node and @ref ubisensemodule. This works only
- *      on Windows.
+ *      \n enables Ubisense support and the @ref ubisensesource node and @ref ubisensemodule.
+ *      This works only on Windows.
  * @li @b USE_OTQT
  *      \n enables the %OTQt modules and sink nodes (see @ref page_otqt_manual). The @ref
  *      qtmouseeventmodule simulates the behaviour of the desktop mouse in 2D Qt GUI
  *      applications by deriving mouse events from tracking data. Requires Trolltech Qt
  *      library from series 3. See dedicated VS .NET 7.1 solution and project files to
  *      build OTQt. Untested on Windows!
+ * @li @b USE_RAWINPUT
+ *      \n enables raw input support and the @ref rawinputsource node and @ref
+ *      rawinputmodule. This works only on Windows XP.
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
@@ -184,16 +187,17 @@
  */
 // #define USE_VRPN 1
 
-#ifdef WIN32
 /** uncomment the following line to compile support for the Ubisense system.
  * Support for this is only available on windows. */
 // #define USE_UBISENSE 1
-#endif
 
 /** uncomment the following line to compile support for the OTQt.
  */
 // #define USE_OTQT 1
 
+/** uncomment the following line to compile support for raw input.
+ * Support for this is only available on windows. */
+#define USE_RAWINPUT 1
 
 #ifdef _WIN32_WCE
 #  define OT_NO_BUTTON_SUPPORT

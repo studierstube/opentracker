@@ -46,6 +46,9 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+
+#include "../OpenTracker.h"
+
 #include <stdlib.h>
 #include <string>
 
@@ -87,6 +90,7 @@
 #include "../input/MagicYModule.h"
 #include "../common/CallbackModule.h"
 #include "../common/LogModule.h"
+#include "../common/TimestampGeneratorModule.h"
 
 // these modules depend on compile options
 #include "../input/ARToolKitModule.h"
@@ -105,6 +109,7 @@
 #include "../input/MulticastInputModule.h"
 #include "../input/UbisenseModule.h"
 #include "../input/OpenVideoModule.h"
+#include "../input/RawInputModule.h"
 #include "../network/DwarfModule.h"
 #include "../network/VRPNModule.h"
 #include "../network/CORBAModule.h"
@@ -375,7 +380,7 @@ namespace ot {
 #endif
     
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
-	CallbackModule  * cbModule = new CallbackModule;
+		CallbackModule  * cbModule = new CallbackModule;
         context.addFactory( *cbModule );
         context.addModule( "CallbackConfig", *cbModule );
 #endif
@@ -407,11 +412,28 @@ namespace ot {
 #endif //_WIN32_WCE
 
 #ifdef USE_UBISENSE
-        UbisenseModule * ubisense = new UbisenseModule;
-        context.addFactory( * ubisense );
+#ifdef WIN32
+		UbisenseModule * ubisense = new UbisenseModule;
+        context.addFactory( *ubisense );
         context.addModule( "UbisenseConfig", *ubisense );
 #endif
-    }
+#endif
+
+#ifdef USE_RAWINPUT
+#ifdef WIN32
+        RawInputModule * rawInput = new RawInputModule;
+        context.addFactory( *rawInput );
+        context.addModule( "RawInputConfig", *rawInput );
+#endif
+#endif
+
+#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+        TimestampGeneratorModule * timestampGenerator = new TimestampGeneratorModule();
+        context.addFactory( *timestampGenerator );
+        context.addModule( "TimestampGeneratorConfig", *timestampGenerator );
+#endif
+
+	}
 
 } // namespace ot
 

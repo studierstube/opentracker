@@ -174,10 +174,19 @@
 				RelativePath="..\..\src\input\CyberMouseModule.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\common\DESP.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESPFilterNode.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\input\DGPSIP_Handler.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\input\DGPSMirror_Handler.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\common\DifferenceNode.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\core\DOMTreeErrorReporter.cxx">
@@ -327,6 +336,12 @@
 				RelativePath="..\..\src\common\RangeFilterNode.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\input\RawInputModule.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\input\RawInputSource.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\common\SelectionNode.cxx">
 			</File>
 			<File
@@ -379,6 +394,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimeModule.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorModule.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorNode.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.cxx">
@@ -479,6 +500,9 @@
 				RelativePath="..\..\src\common\ConfidenceSelectNode.h">
 			</File>
 			<File
+				RelativePath="..\..\config_win.h">
+			</File>
+			<File
 				RelativePath="..\..\src\core\ConfigNode.h">
 			</File>
 			<File
@@ -503,10 +527,19 @@
 				RelativePath="..\..\src\input\CyberMouseSource.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\DESP.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\DESPFilterNode.h">
+			</File>
+			<File
 				RelativePath="..\..\src\input\DGPSIP_Handler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\DGPSMirror_Handler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\DifferenceNode.h">
 			</File>
 			<File
 				RelativePath="..\..\src\core\DOMTreeErrorReporter.h">
@@ -807,6 +840,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimeModule.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorModule.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\TimestampGeneratorNode.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\Transformation.h">

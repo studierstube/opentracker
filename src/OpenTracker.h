@@ -103,6 +103,15 @@
 
 #include "dllinclude.h"
 
+#ifdef WIN32
+#define NOMINMAX
+#ifdef USE_RAWINPUT
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
+#endif
+#endif
+
 #include "core/ThreadModule.h"
 #include "core/NodeFactory.h"
 #include "core/Context.h"

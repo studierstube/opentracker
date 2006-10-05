@@ -45,45 +45,23 @@
 #include "../tool/disable4786.h"
 
 #include "UbisenseModule.h"
-#include "UbisenseSource.h"
-#include <iostream>
 
 #ifdef USE_UBISENSE
+#ifdef WIN32
 
+#include "UbisenseSource.h"
+#include <ace/Log_Msg.h>
+#include <iostream>
 
 #include "UClientAPI/name_client.h"
 #include "UClientAPI/location_client.h"
 
-#ifdef WIN32
 #pragma comment(lib,"UClientAPI.lib")
-#endif
 
 namespace ot {
 
-    UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources),cells(locationClient.get_all_cells())
-        //UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources)
+    UbisenseModule::UbisenseModule(): Module(),NodeFactory(),pSources(),locationClient(),dataClient(pSources),cells(locationClient.get_all_cells())
     {
-	// all lines from Gerhard for testing
-	//String cell_name; 
-	//UClientAPI::Set<String> tmpCells = locationClient.get_all_cells();
-
-	//std::set<std::string> myCells;
-
-	//cells.insert(tmpCells.begin(), tmpCells.end());
-
-    
-        /*
-          std::cout << "detected location cell: ";
-          for (UClientAPI::Set<String>::const_iterator i = cells.begin(); i != cells.end(); ++i) 
-          {   std::cout << " " << *i; 
-          }
-          if (cells.empty()) 
-          {   std::cout << "No available cells"; 
-          }
-        */
-	//cell_name = *(cells.begin()); 
-	//std::cout << "Loading cell " << cell_name;
-	//std::cout << "  ";
     }
 
     UbisenseModule::~UbisenseModule()
@@ -99,13 +77,16 @@ namespace ot {
         {
             NameClient nameClient;
             Object object;
-            const char* objectString =    attributes.get("object").c_str();
+            const char* objectString = attributes.get("object").c_str();
             UClientAPI::String str(objectString);
             if (nameClient.get_named_object(objectString,object))
             {
                 UbisenseSource* pSource = new UbisenseSource(object,locationClient,dataClient);
                 pSources.push_back(pSource);
-	        return pSource;
+
+				ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Build UbisenseSource node\n")));
+				initialized = 1;
+				return pSource;
             }
         }
         return NULL;
@@ -113,17 +94,13 @@ namespace ot {
 
     void UbisenseModule::start()
     {
-	for (UClientAPI::Set<String>::const_iterator i = cells.begin();i != cells.end();++ i)
+		for (UClientAPI::Set<String>::const_iterator i = cells.begin();i != cells.end();++ i)
             locationClient.load_cell(*i);
-
-        //	for (std::set<std::string>::const_iterator i = cells.begin();i != cells.end();++ i)
-        //		locationClient.load_cell(i->c_str());
-
     }
 
     void UbisenseModule::close()
     {
-	locationClient.unload_all_cells();
+		locationClient.unload_all_cells();
     }
 
     void UbisenseModule::pushEvent()
@@ -138,36 +115,29 @@ namespace ot {
 
     void UbisenseModule::init(StringTable &attributes,ConfigNode* pLocalTree)
     {
-	NameClient nameClient;
-	Object object;
+		NameClient nameClient;
+		Object object;
 
-	cells.clear();
-	for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
-	{
+		cells.clear();
+		for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
+		{
             ConfigNode* pNode = reinterpret_cast<ConfigNode*>(pLocalTree->getChild(i));
             if (! pNode->getType().compare("UbisenseCell"))
             {
-                ot::StringTable& attributes = pNode->getAttributes(); //Gerhard
-                std::string str = attributes.get("name");             //Gerhard   
-                //cells.insert(pNode->getAttributes().get("name").c_str());
-                cells.insert(str.c_str()); //Gerhard
+                ot::StringTable& attributes = pNode->getAttributes();
+                std::string str = attributes.get("name");
+                cells.insert(str.c_str());
 
-
-                std::cout << "ot location cell: ";
-                for (UClientAPI::Set<String>::const_iterator i = cells.begin(); i != cells.end(); ++i) 
-                    //			for (std::set<std::string>::const_iterator i = cells.begin();i != cells.end();++ i)
-                {   std::cout << " " << *i << std::endl; 
-                }
+				ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Ubisense location cell:\n")));
+                for (UClientAPI::Set<String>::const_iterator i = cells.begin();i != cells.end();++ i) 
+					ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot: %s\n"),i->c_str()));
                 if (cells.empty()) 
-                {   std::cout << "No available cells" << std::endl; 
-                }
+					ACE_DEBUG((LM_DEBUG,ACE_TEXT(" No available cells\n")));
 
                 //cell_name = *(cells.begin()); 
-                //std::cout << "Loading cell " << cell_name;
-                std::cout << "  ";
-
+				//ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Loading cell %s\n"),cell_name.c_str()));
             }
-	}
+		}
     }
 
 
@@ -177,20 +147,21 @@ namespace ot {
 
     void UbisenseModule::WrappedDataClient::on_button(const Object &tag,UbitagButton button,double time)
     {
-	Object owner;
-	get_tag_owner(tag,owner);
+		Object owner;
+		get_tag_owner(tag,owner);
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
         {
             UbisenseSource* pSource = reinterpret_cast<UbisenseSource*>(*it);
             const Object &object = pSource->getObject();
             if (tag == object || owner == object)
                 pSource->setButtonEvent(button == Orange ? 0x0001: button == Blue ? 0x0002: 0x0000,time);
-	}
+		}
     }
 
 } // namespace ot
 
 
+#endif
 #else
 #pragma message(">>> no Ubisense support")
 #endif  // USE_UBISENSE

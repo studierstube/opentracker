@@ -61,12 +61,13 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_UBISENSE
+#ifdef WIN32
 
 #include "UbisenseModule.h"
 #include "UClientAPI/location_client.h"
 #include "UClientAPI/data_client.h"
 #include "UClientAPI/name_client.h"
-#include <iostream>
+#include <ace/Log_Msg.h>
 
 using namespace UClientAPI;
 
@@ -78,8 +79,8 @@ namespace ot {
      */
     class OPENTRACKER_API UbisenseSource: public Node
     {
-        friend UbisenseModule;
-        friend UbisenseModule::WrappedDataClient;
+        friend class UbisenseModule;
+        friend class UbisenseModule::WrappedDataClient;
 
         // methods
     protected:
@@ -108,27 +109,28 @@ namespace ot {
 
         // members
     private:
-	unsigned short button;
-	double lastTime,buttonTime;
-	Event event;
-	const Object object;
-	const LocationClient &locationClient;
-	DataClient &dataClient;
+		unsigned short button;
+		double lastTime,buttonTime;
+		Event event;
+		const Object object;
+		const LocationClient &locationClient;
+		DataClient &dataClient;
     };
 
 
-    class MyNameClient : public NameClient 
+    /*class MyNameClient : public NameClient 
     { 
     public: MyNameClient() { }
-        virtual void on_insert(const Object& object, const String& name) { std::cout << "Insert " << object.to_string() << " name " << name; }
-        virtual void on_update(const Object& object, const String& name) { std::cout << "Update " << object.to_string() << " name " << name; }
-        virtual void on_remove(const Object& object, const String& name) { std::cout << "Remove " << object.to_string() << " name " << name; }
-        virtual void on_commit() { std::cout << "Commit"; }
-        virtual void on_establish() { std::cout << "Establish"; } 
-    };
+		virtual void on_insert(const Object& object, const String& name) { ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Insert %s name %s\n"),object.to_string().c_str(),name.c_str())); }
+        virtual void on_update(const Object& object, const String& name) { ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Update %s name %s\n"),object.to_string().c_str(),name.c_str())); }
+        virtual void on_remove(const Object& object, const String& name) { ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Remove %s name %s\n"),object.to_string().c_str(),name.c_str())); }
+        virtual void on_commit() { ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Commit\n"))); }
+        virtual void on_establish() { ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Establish\n"))); } 
+    };*/
 
 } // namespace ot
 
+#endif
 #endif  // USE_UBISENSE
 
 #endif
