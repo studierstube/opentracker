@@ -16,6 +16,9 @@ otcommoninc_HEADERS = \
         ConsoleModule.h \
         ConsoleSink.h \
         ConsoleSource.h \
+        DESP.h \
+        DESPFilterNode.h \
+        DifferenceNode.h \
         DynamicTransformation.h \
         ElasticFilterNode.h \
         EllipsoidTransformNode.h \
@@ -39,6 +42,8 @@ otcommoninc_HEADERS = \
         SelectionNode.h \
         StaticTransformation.h \
         ThresholdFilterNode.h \
+        TimestampGeneratorModule.h \
+        TimestampGeneratorNode.h \
         TimeGateNode.h \
         TimeModule.h \
         Transformation.h \
@@ -68,6 +73,12 @@ libcommon_la_SOURCES = \
         ConsoleModule.h \
         ConsoleSink.h \
         ConsoleSource.h \
+        DESP.cxx \
+        DESP.h \
+        DESPFilterNode.cxx \
+        DESPFilterNode.h \
+        DifferenceNode.cxx \
+        DifferenceNode.h \
         DynamicTransformation.cxx \
         DynamicTransformation.h \
         ElasticFilterNode.cxx \
@@ -115,6 +126,10 @@ libcommon_la_SOURCES = \
         TimeGateNode.h \
         TimeModule.cxx \
         TimeModule.h \
+        TimestampGeneratorModule.cxx \
+        TimestampGeneratorModule.h \
+        TimestampGeneratorNode.cxx \
+        TimestampGeneratorNode.h \
         Transformation.cxx \
         Transformation.h \
         TriangulateOrientationNode.cxx \
