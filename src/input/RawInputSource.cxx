@@ -49,59 +49,73 @@
 namespace ot {
 
     RawInputSource::RawInputSource(HANDLE hDevice): Node(),modified(false),event(),hDevice(hDevice)
-	{
-	}
+    {
+    }
 
-	void RawInputSource::setButtonEvent(unsigned short button,unsigned short buttonMask)
-	{
-		if (buttonMask)
-		{
-			event.getButton() = (event.getButton() & ~ buttonMask) | button;
-			event.timeStamp();
-			modified = true;
-		}
-	}
+    void RawInputSource::setButtonEvent(unsigned short button,unsigned short buttonMask)
+    {
+        if (buttonMask)
+            {
+                event.getButton() = (event.getButton() & ~ buttonMask) | button;
+                event.timeStamp();
+                modified = true;
+            }
+    }
 
-	void RawInputSource::setMoveEvent(MoveMode moveMode,float x,float y,float z)
-	{
-		switch (moveMode)
-		{
+    void RawInputSource::setMoveEvent(MoveMode moveMode,float x,float y,float z)
+    {
+        switch (moveMode)
+            {
 		case XYZAbsolute:
-			event.getPosition()[2] = z;
+                    event.getPosition()[2] = z;
 		case XYAbsolute:
-			event.getPosition()[0] = x;
-			event.getPosition()[1] = y;
-			event.timeStamp();
-			modified = true;
-			break;
+                    event.getPosition()[0] = x;
+                    event.getPosition()[1] = y;
+                    event.timeStamp();
+                    modified = true;
+                    break;
 		case XYRelative:
-			if (x != 0.f && y != 0.f)
+                    if (x != 0.f && y != 0.f)
 			{
-				event.getPosition()[0] += x;
-				event.getPosition()[1] += y;
-				event.timeStamp();
-				modified = true;
+                            event.getPosition()[0] += x;
+                            event.getPosition()[1] += y;
+                            event.timeStamp();
+                            modified = true;
 			}
-			break;
+                    break;
 		case ZRelative:
-			if (z != 0.f)
+                    if (z != 0.f)
 			{
-				event.getPosition()[2] += z;
-				event.timeStamp();
-				modified = true;
+                            event.getPosition()[2] += z;
+                            event.timeStamp();
+                            modified = true;
 			}
-		}
-	}
+            }
+    }
 
-	bool RawInputSource::calcEvent()
-	{
-		bool result = modified;
-		modified = false;
-		return result;
-	}
+    bool RawInputSource::calcEvent()
+    {
+        bool result = modified;
+        modified = false;
+        return result;
+    }
 
 } // namespace ot
 
 
 #endif
 #endif
+
+/* ===========================================================================
+   End of RawInputSource.cxx
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'subeventment-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */

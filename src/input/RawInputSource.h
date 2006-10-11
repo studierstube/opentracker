@@ -68,22 +68,22 @@
 namespace ot {
 
     /** A RawInputSource represents a single input device that is tracked by
-	 * the Windows raw input API.
+     * the Windows raw input API.
      * @ingroup input
      */
     class OPENTRACKER_API RawInputSource: public Node
-	{
+    {
         friend class RawInputModule;
 
         // methods
-	protected:
-		enum MoveMode
-		{
-			XYZAbsolute,
-			XYAbsolute,
-			XYRelative,
-			ZRelative
-		};
+    protected:
+        enum MoveMode
+        {
+            XYZAbsolute,
+            XYAbsolute,
+            XYRelative,
+            ZRelative
+        };
 
         /** constructor method
          * @param hDevice handle to the input device
@@ -97,20 +97,20 @@ namespace ot {
 	
         const HANDLE getDevice() const { return hDevice; }
 
-		void setButtonEvent(unsigned short,unsigned short);
+        void setButtonEvent(unsigned short,unsigned short);
 
-		void setMoveEvent(MoveMode,float,float,float);
+        void setMoveEvent(MoveMode,float,float,float);
 
-		bool calcEvent();
+        bool calcEvent();
 
-		Event & getEvent() { return event; }
+        Event & getEvent() { return event; }
 
         // members
-	private:
-		bool modified;
-		Event event;
-		HANDLE hDevice;
-	};
+    private:
+        bool modified;
+        Event event;
+        HANDLE hDevice;
+    };
 
 } // namespace ot
 
@@ -118,3 +118,17 @@ namespace ot {
 #endif  // USE_RAWINPUT
 
 #endif
+
+/* ===========================================================================
+   End of RawInputSource.h
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'subeventment-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */

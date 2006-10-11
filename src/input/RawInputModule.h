@@ -77,13 +77,13 @@ namespace ot {
 
     /**
      * A raw input tracking source module using the raw input Windows API. It
-	 * acts as a NodeFactory for RawInputSource nodes. In order to obtain input,
-	 * it runs a thread. Additionally, it keeps a vector of created nodes.
+     * acts as a NodeFactory for RawInputSource nodes. In order to obtain input,
+     * it runs a thread. Additionally, it keeps a vector of created nodes.
      *
      * @ingroup input
      */
 
-	class OPENTRACKER_API RawInputModule: public ThreadModule,public NodeFactory
+    class OPENTRACKER_API RawInputModule: public ThreadModule,public NodeFactory
     {
         // methods
     public:
@@ -99,12 +99,12 @@ namespace ot {
          * @param name reference to string containing element name
          * @attributes refenrence to StringMap containing attribute values
          * @return pointer to new Node or NULL.
-		 */
+         */
         virtual Node* createNode(const std::string &name,StringTable &attributes);
 
         /**
          * closes the module.
-		 */
+         */
         virtual void close();
 
         /**
@@ -122,22 +122,22 @@ namespace ot {
 
         // members
     protected:
-		virtual void run();
+        virtual void run();
 
         /// stores the sources
         NodeVector pSources;
 
-	private:
-		static LRESULT CALLBACK LowLevelMouseHook(int,WPARAM,LPARAM);
-		static LRESULT CALLBACK LowLevelKeyboardHook(int,WPARAM,LPARAM);
-		static LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
-		void processRawInput(HWND,WPARAM,HRAWINPUT);
+    private:
+        static LRESULT CALLBACK LowLevelMouseHook(int,WPARAM,LPARAM);
+        static LRESULT CALLBACK LowLevelKeyboardHook(int,WPARAM,LPARAM);
+        static LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
+        void processRawInput(HWND,WPARAM,HRAWINPUT);
 
-		UINT numDevices;
-		char** deviceNames;
-		RAWINPUTDEVICELIST* rawInputDeviceList;
-		static bool filterButtons;
-		static RawInputModule* pRawInputModule;
+        UINT numDevices;
+        char** deviceNames;
+        RAWINPUTDEVICELIST* rawInputDeviceList;
+        static bool filterButtons;
+        static RawInputModule* pRawInputModule;
     };
 
 } // namespace ot
@@ -146,3 +146,17 @@ namespace ot {
 #endif  // USE_RAWINPUT
 
 #endif
+
+/* ===========================================================================
+   End of RawInputModule.h
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'subeventment-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */
