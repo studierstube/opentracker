@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** source file for NetworkSourceModule module.
  *
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Mathis Csisinko
  *
  * $Id$
  * @file                                                                    */

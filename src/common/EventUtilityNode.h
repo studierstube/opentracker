@@ -33,18 +33,18 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** The header file for the EventUtilityNode.
+/** The header file for the EventUtility node.
  *
  * @author Jochen von Spiczak
  *
- * $Id: Node.h 1011 2006-04-20 21:47:53Z spiczak $
+ * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section EventUtilityNode EventUtility
- * The EventUtilityNode provides the possibility to rename, discard, or add attributes
+ * @section EventUtility EventUtility
+ * The EventUtility node provides the possibility to rename, discard, or add attributes
  * to every event passed to this node.
  *
  * The element has the following attributes:
@@ -54,9 +54,9 @@
  *
  * An example element looks like this:
  * @verbatim
- <EventUtilityNode rename="position pos" discard="confidence" create="double doubleAttribute 7.4">
+ <EventUtility rename="position pos" discard="confidence" create="double doubleAttribute 7.4">
  <Any EventGenerator element type>
- </EventUtilityNode>@endverbatim
+ </EventUtility>@endverbatim
 */
 
 #ifndef _EVENTUTILITYNODE_H

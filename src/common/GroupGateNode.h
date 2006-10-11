@@ -86,10 +86,10 @@
  *
  * The @c ActiveGate node is used to determine the currently active @ref groupgate
  * of a group.
- * It returns a numeric value in the button field of the event structure
- * The value is used to call the getGroupGateName() method of @ref groupgatemodule
- * to return the name of the @ref groupgate. See the @ref groupgate element for an
- * example of the ActiveGate element.
+ * It returns a numeric value in a groupIndex attribute as well as in the button
+ * field of the event structure. The value is used to call the getGroupGateName()
+ * method of @ref groupgatemodule to return the name of the @ref groupgate. See
+ * the @ref groupgate element for an example of the ActiveGate element.
  * It has the following attributes :
  *
  * @li @c group defines the group of which the active node should be traced.
@@ -130,7 +130,7 @@ namespace ot {
 
     protected:
    
-        /** constructor method. It sets initial values for the timeout. */
+        /** constructor method. */
         GroupGateNode(const char *name, GroupGateGroup *owner);
         ~GroupGateNode();
 
@@ -200,8 +200,9 @@ namespace ot {
             return 1;
 	}
 
-        void pushEvent(unsigned short groupgatenum)
+        void pushEvent(int groupgatenum)
 	{
+			event.getAttribute(std::string("groupIndex"),static_cast<int>(0)) = groupgatenum;
             event.getButton() = groupgatenum;
             event.timeStamp();
             updateObservers(event);

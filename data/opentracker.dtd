@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 $Id$
 -->
-<!-- Entitiy definitions for the different classes of elements
+<!-- Entity definitions for the different classes of elements
       element names have to be seperated by |  -->
 <!ENTITY % ConfigElements "LogConfig?,FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,ARToolKitPlusConfig?,NetworkSourceConfig?,QtMouseEventCalibConfig?,QtMouseEventConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,LinmouseConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?,UbisenseConfig?,CORBAConfig?,RawInputConfig?,TimestampGeneratorConfig?">
 <!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | ARToolKitPlusSource | ARToolKitPlusMultiMarkerSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | LinmouseSource | TargusSource | WacomGraphireSource | InterSenseSource | FileSource | CORBASource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource | UbisenseSource | RawInputSource">
@@ -443,7 +443,8 @@ $Id$
 <!ELEMENT NetworkSinkConfig EMPTY>
 <!ATTLIST NetworkSinkConfig
 	DEF ID #IMPLIED
-	name CDATA #REQUIRED
+	name CDATA #IMPLIED
+	blockMode (none | multicast) "none"
 >
 <!ELEMENT NetworkSink (%EventNodes;)>
 <!ATTLIST NetworkSink

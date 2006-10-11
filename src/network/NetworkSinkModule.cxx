@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** source file for NetworkSinkModule module.
  *
- * @author Gerhard Reitmayr
+ * @author Gerhard Reitmayr, Mathis Csisinko
  *
  * $Id$
  * @file                                                                    */
@@ -158,7 +158,7 @@ namespace ot {
         }
     };
 
-    NetworkSinkModule::NetworkSinkModule() : Module(), NodeFactory()
+    NetworkSinkModule::NetworkSinkModule() : Module(), NodeFactory(), blockMulticast(false)
     {
     }
 
@@ -175,7 +175,7 @@ namespace ot {
         }
     }
 
-    // initializes ConsoleModule
+    // initializes NetworkSinkModule
     void NetworkSinkModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
         Module::init( attributes, localTree );
@@ -187,6 +187,7 @@ namespace ot {
         {
             serverName = "OpenTracker";
         }
+		blockMulticast = attributes.containsKey("blockMode") && attributes.get("blockMode").compare("multicast") == 0;
     }
 
     // This method is called to construct a new Node.
@@ -271,15 +272,18 @@ namespace ot {
             // sets maxStationNum to network byte order
             for( MulticastSenderVector::iterator mc_it = multicasts.begin() ; mc_it != multicasts.end(); ++mc_it )
             {
-                if( (*mc_it)->socket.open(ACE_Addr::sap_any) == -1 )
-                {
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
-                    exit(1);
-                }
-                if((*mc_it)->nic.compare("") != 0 )
-                {
-                    (*mc_it)->socket.set_nic(ACE_TEXT_CHAR_TO_TCHAR((*mc_it)->nic.c_str()));
-                }
+				if(! blockMulticast)
+				{
+					if( (*mc_it)->socket.open(ACE_Addr::sap_any) == -1 )
+					{
+						ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
+						exit(1);
+					}
+					if((*mc_it)->nic.compare("") != 0 )
+					{
+						(*mc_it)->socket.set_nic(ACE_TEXT_CHAR_TO_TCHAR((*mc_it)->nic.c_str()));
+					}
+				}
                 (*mc_it)->data.maxStationNum = htons((*mc_it)->data.maxStationNum);
             }
             for( UnicastSenderVector::iterator uc_it = unicasts.begin() ; uc_it != unicasts.end(); ++uc_it )
@@ -305,7 +309,7 @@ namespace ot {
     {
         for( MulticastSenderVector::iterator mc_it = multicasts.begin() ; mc_it != multicasts.end(); ++mc_it )
         {
-            if( (*mc_it)->socket.close() == -1 )
+            if( ! blockMulticast && (*mc_it)->socket.close() == -1 )
             {
                 ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSinkModule !\n")));
             }
@@ -423,7 +427,7 @@ namespace ot {
                 memcpy(sendBuffer + headerLength, (*mc_it)->dataBuffer, bufferLength);
 
                 // send without blocking to avoid stalls in the mainloop, packet is thrown away !
-                if ((*mc_it)->socket.send(sendBuffer, sendBufferSize, (*mc_it)->address, 0, &ACE_Time_Value::zero) < 0)
+                if (! blockMulticast && (*mc_it)->socket.send(sendBuffer, sendBufferSize, (*mc_it)->address, 0, &ACE_Time_Value::zero) < 0)
                 {
                     LOG_ACE_ERROR("ot:NetworkSinkModule : Error sending packet for %s:%hu\n", (*mc_it)->address.get_host_name(), (*mc_it)->address.get_port_number());
                 }

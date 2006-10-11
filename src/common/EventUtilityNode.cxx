@@ -33,11 +33,11 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** The source file for the EventUtilityNode.
+/** The source file for the EventUtility node.
  *
  * @author Jochen von Spiczak
  *
- * $Id: Node.h 1011 2006-04-20 21:47:53Z spiczak $
+ * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
