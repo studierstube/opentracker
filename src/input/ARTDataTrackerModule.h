@@ -179,7 +179,7 @@ namespace ot {
 #endif
 
 /* ===========================================================================
-   End of ARTDataTrackerModule
+   End of ARTDataTrackerModule.h
    ===========================================================================
    Automatic Emacs configuration follows.
    Local Variables:

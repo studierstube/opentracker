@@ -41,7 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 /**
- * @page module_ref Module Reference
+ * @Page module_ref Module Reference
  * @section OrientationModule OrientationModule 
  *
  * This module implements the device driver for Orientation inertial trackers from FTW.
@@ -49,8 +49,8 @@
  * 
  * An example configuration element looks like this:
  * @verbatim
-    <OrinentationConfig device="com1"/>
-   @endverbatim
+ <OrinentationConfig device="com1"/>
+ @endverbatim
 */
 
 #ifndef _ORIENTMODULE_H
@@ -65,109 +65,124 @@
 
 namespace ot {
 
-/// maximum number of targets that can be processed
-  const int ORIENTATION_MAX_TARGETS = 8;
-  /// maximum length of conversion packet buffer
-  const int ORIENTATION_PACKET_MAX_LENGTH = 8;
-  /// maximum size of serial i/o buffer
-  const int ORIENTATION_COMM_BUFFER_SIZE = 4096;
+    /// maximum number of targets that can be processed
+    const int ORIENTATION_MAX_TARGETS = 8;
+    /// maximum length of conversion packet buffer
+    const int ORIENTATION_PACKET_MAX_LENGTH = 8;
+    /// maximum size of serial i/o buffer
+    const int ORIENTATION_COMM_BUFFER_SIZE = 4096;
 
 
-//class OrientationSource;
+    //class OrientationSource;
 
 
-/**
- * This module simply supports the OrientationSource. 
- *
- * @ingroup input
- * @author Gerhard Schall
- */
+    /**
+     * This module simply supports the OrientationSource. 
+     *
+     * @ingroup input
+     * @author Gerhard Schall
+     */
 
- /// this structure stores the attributes of a OrientationSource 
-  struct TargetOri
-  {
-    int modified;
-    Event event;
-    OrientationSource *source;
-
-    TargetOri( OrientationSource * source_ ) :
-      source( source_ ), event()
-    {};
-  };
+    /// this structure stores the attributes of a OrientationSource 
+    struct TargetOri
+    {
+        OrientationSource *source;
+        int modified;
+        Event event;
 
 
-  typedef std::vector<TargetOri *> TargetOriVector;
+        TargetOri( OrientationSource * source_ ) :
+            source( source_ ), event()
+        {};
+    };
+
+
+    typedef std::vector<TargetOri *> TargetOriVector;
 
 
 
 
-class OPENTRACKER_API OrientationModule : public ThreadModule, public NodeFactory
-{
-protected:
-      
-	 /// vector containing all targets, which have an associated sourceNode
-      TargetOriVector targets;
-      
-      
-      /// flag to stop the thread
-      bool stop;
-    
-      /// is TRUE if the serial port was opened
-      bool serialportIsOpen;
-
-      /// port structure for the serial port data
-      SerialPort port;
-
-      // methods
+    class OPENTRACKER_API OrientationModule : public ThreadModule, public NodeFactory
+    {
     protected:
-      /// this method is executed in its own thread and reads data from the Orientation tracker.
-      virtual void run();
+      
+        /// vector containing all targets, which have an associated sourceNode
+        TargetOriVector targets;
+      
+      
+        /// flag to stop the thread
+        bool stop;
+    
+        /// is TRUE if the serial port was opened
+        bool serialportIsOpen;
+
+        /// port structure for the serial port data
+        SerialPort port;
+
+        // methods
+    protected:
+        /// this method is executed in its own thread and reads data from the Orientation tracker.
+        virtual void run();
 
     public:    
-      /** basic constructor */
-      OrientationModule();
+        /** basic constructor */
+        OrientationModule();
 
-      /** destructor */
-      virtual ~OrientationModule();
+        /** destructor */
+        virtual ~OrientationModule();
 
-      /**
-       * initializes the OrientationModule module. 
-       * @param attributes refenrence to StringTable containing attribute values
-       * @param localTree pointer to root of configuration nodes tree
-       */
-      virtual void init(StringTable& attributes, ConfigNode * localTree);
+        /**
+         * initializes the OrientationModule module. 
+         * @param attributes refenrence to StringTable containing attribute values
+         * @param localTree pointer to root of configuration nodes tree
+         */
+        virtual void init(StringTable& attributes, ConfigNode * localTree);
 
-      /** This method is called to construct a new Node. It compares
-       * name to the OrientationSource element name, and if it matches
-       * creates a new OrientationSource node.
-       * @param name reference to string containing element name
-       * @param attributes reference to StringTable containing attribute values
-       * @return pointer to new Node or NULL. The new Node must be
-       *         allocated with new!
-       */
-      virtual Node * createNode( const std::string& name,  StringTable& attributes);  
+        /** This method is called to construct a new Node. It compares
+         * name to the OrientationSource element name, and if it matches
+         * creates a new OrientationSource node.
+         * @param name reference to string containing element name
+         * @param attributes reference to StringTable containing attribute values
+         * @return pointer to new Node or NULL. The new Node must be
+         *         allocated with new!
+         */
+        virtual Node * createNode( const std::string& name,  StringTable& attributes);  
      
-      /**
-       * starts the processing thread. It is called after initialisation is done.
-       */
-      virtual void start();
+        /**
+         * starts the processing thread. It is called after initialisation is done.
+         */
+        virtual void start();
 
-      /**
-       * closes the module and closes any communication and stops thread.
-       */
-      virtual void close();
+        /**
+         * closes the module and closes any communication and stops thread.
+         */
+        virtual void close();
     
-      /**
-       * pushes event information into the tree. It checks whether there is new
-       * data form the OrientationSource node, copies it into the nodes and calls
-       * push on them.    
-       */
-      virtual void pushEvent();   
+        /**
+         * pushes event information into the tree. It checks whether there is new
+         * data form the OrientationSource node, copies it into the nodes and calls
+         * push on them.    
+         */
+        virtual void pushEvent();   
       
-};
+    };
 
 }  // namespace ot
 
 
 #endif // !defined(_ORIENTMODULE_H)
 #endif
+
+/* ===========================================================================
+   End of OrientationModule.h
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'subeventment-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */

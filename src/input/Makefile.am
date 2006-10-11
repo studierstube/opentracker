@@ -51,6 +51,8 @@ otinputinc_HEADERS = \
         PanTiltUnitSinkSource.h \
         ParButtonModule.h \
         ParButtonSource.h \
+        RawInputModule.h \
+        RawInputSource.h \
         SpaceDeviceModule.h \
         SpaceDeviceSource.h \
         SpeechCore.h \
@@ -143,6 +145,10 @@ libinput_la_SOURCES = \
         ParButtonModule.cxx \
         ParButtonModule.h \
         ParButtonSource.h \
+        RawInputModule.cxx \
+        RawInputModule.h \
+        RawInputSource.cxx \
+        RawInputSource.h \
         SpaceDeviceModule.cxx \
         SpaceDeviceModule.h \
         SpaceDeviceSource.h \

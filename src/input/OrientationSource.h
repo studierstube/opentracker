@@ -59,7 +59,7 @@
  
  * An example element looks like this :
  * @verbatim
-   <OrientationSource/>@endverbatim
+ <OrientationSource/>@endverbatim
  *
  */
 
@@ -72,39 +72,53 @@
 namespace ot {
 
 
-/**
- * The OrientationSource reads and propagates data from an Orientation sensor delivered by FTW Vienna.
- * @author Gerhard Schall
- * @ingroup input
- */
-class OPENTRACKER_API OrientationSource : public Node 
-{
-public:
+    /**
+     * The OrientationSource reads and propagates data from an Orientation sensor delivered by FTW Vienna.
+     * @author Gerhard Schall
+     * @ingroup input
+     */
+    class OPENTRACKER_API OrientationSource : public Node 
+    {
+    public:
 
 	/// the new event
-    Event event;
+        Event event;
 
     
-     /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    virtual int isEventGenerator()
-    {
-        return 1;
-    }
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        virtual int isEventGenerator()
+        {
+            return 1;
+        }
     
 
-protected:
+    protected:
 	/// protected constructor so it is only accessible by the module
 	OrientationSource() : Node()
-	{}
+            {}
 
 
-    friend class OrientationModule;
-};
+        friend class OrientationModule;
+    };
 
 
 }  // namespace ot
 
 
 #endif // !defined(_OrientSource_H)
+
+/* ===========================================================================
+   End of OrientationSource.h
+   ===========================================================================
+   Automatic Emacs configuration follows.
+   Local Variables:
+   mode:c++
+   c-basic-offset: 4
+   eval: (c-set-offset 'subeventment-open 0)
+   eval: (c-set-offset 'case-label '+)
+   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
+   eval: (setq indent-tabs-mode nil)
+   End:
+   =========================================================================== */
