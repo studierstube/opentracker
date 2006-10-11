@@ -51,7 +51,6 @@
 
 #include "UbisenseSource.h"
 #include <ace/Log_Msg.h>
-#include <iostream>
 
 #include "UClientAPI/name_client.h"
 #include "UClientAPI/location_client.h"

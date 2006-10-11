@@ -53,6 +53,8 @@ namespace ot {
 	{
 		insertAtTime(event);
 		Event &previousEvent = EventQueueImplementation::getEventNearTime(event.time - timeFrame);
+		while (queue.front().time < previousEvent.time)
+			queue.pop_front();
 		try
 		{
 			Event localEvent;
