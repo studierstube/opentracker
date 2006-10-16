@@ -543,7 +543,7 @@ namespace ot {
         }
 #endif
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
-        else if ( name.compare("EventUtility") == 0 )
+        else if ( name.compare("EventUtilityNode") == 0 )
         {
             std::string rename = attributes.get("rename");
             std::string create = attributes.get("create");
