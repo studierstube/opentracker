@@ -521,7 +521,7 @@ namespace ot {
         }
 #endif
 #ifndef OT_NO_POSITIONFILTER_SUPPORT
-        else if( name.compare("PositionFilter") == 0 )
+        else if( name.compare("PositionFilter") == 0 || name.compare("PositionFilterNode") == 0 )
         {
             float min[3], max[3];
             if( attributes.get("min", min, 3) != 3)
@@ -543,7 +543,7 @@ namespace ot {
         }
 #endif
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
-        else if ( name.compare("EventUtilityNode") == 0 )
+        else if ( name.compare("EventUtility") == 0 || name.compare("EventUtilityNode") == 0 )
         {
             std::string rename = attributes.get("rename");
             std::string create = attributes.get("create");
