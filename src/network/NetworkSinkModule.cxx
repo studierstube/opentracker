@@ -498,7 +498,7 @@ namespace ot {
                 {
                     if( errno != ETIME && errno != 0 )
                     {
-                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
+                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSinkModule !\n"), errno));
                         exit( -1 );
                     }
                 }

@@ -234,7 +234,7 @@ namespace ot {
                 rec->dataRec = (FlexibleTrackerDataRecord*)io_vec.iov_base;
                 if (bytesRead == -1 && errno != ETIME && errno != 0 )
                 {
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data !\n"), errno));
+                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule!\n"), errno));
                     exit( -1 );
                 }
             } while( bytesRead < 0 && rec->stop == 0);

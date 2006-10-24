@@ -24,8 +24,8 @@ ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 CFLAGS += -O0
 CXXFLAGS += -O0
 else
-CFLAGS += -O3 -march=pentium4 -mtune=pentium4 -msse -msse2 -mfpmath=sse
-CXXFLAGS += -O3 -march=pentium4 -mtune=pentium4 -msse -msse2 -mfpmath=sse
+CFLAGS += -O2 -march=pentium-m -msse -msse2 -mfpmath=sse -finline-functions
+CXXFLAGS += -O2 -march=pentium-m -msse -msse2 -mfpmath=sse -finline-functions
 endif
 
 build: build-stamp
