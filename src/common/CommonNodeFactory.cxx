@@ -44,7 +44,7 @@
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
 
-#include <cstdlib.h>
+#include <cstdlib>
 #include <OpenTracker/common/CommonNodeFactory.h>
 #include <OpenTracker/common/MergeNode.h>
 #ifndef OT_NO_MERGENODE_SUPPORT
@@ -70,9 +70,9 @@
 #include <OpenTracker/common/DESPFilterNode.h>
 #include <OpenTracker/common/DifferenceNode.h>
 
-#include <cmath.h>
-#include <cfloat.h>
-#include <cstdio.h>
+#include <cmath>
+#include <cfloat>
+#include <cstdio>
 #include <iostream>
 
 #include <algorithm>
