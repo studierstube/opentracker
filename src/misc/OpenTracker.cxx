@@ -46,13 +46,17 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
+
+#include <OpenTracker/OpenTracker.h>
+
 #include <stdlib.h>
 #include <string>
 
 #include <ace/ACE.h>
 
-#include <OpenTracker/dllinclude.h>
 
+#include <OpenTracker/dllinclude.h>
+#include <OpenTracker/input/RawInputModule.h>
 #include <OpenTracker/core/Event.h>
 #include <OpenTracker/core/Context.h>
 #include <OpenTracker/common/CommonNodeFactory.h>
@@ -107,11 +111,10 @@
 #include <OpenTracker/input/MulticastInputModule.h>
 #include <OpenTracker/input/UbisenseModule.h>
 #include <OpenTracker/input/OpenVideoModule.h>
-#include <OpenTracker/input/RawInputModule.h>
 #include <OpenTracker/network/DwarfModule.h>
 #include <OpenTracker/network/VRPNModule.h>
 #include <OpenTracker/network/CORBAModule.h>
-
+#include <OpenTracker/common/TimestampGeneratorModule.h>
 // DLL main function
 
 #ifdef WIN32

@@ -71,6 +71,10 @@
 #ifdef USE_RAWINPUT
 #ifdef WIN32
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
+
 #include <windows.h>
 
 namespace ot {
@@ -140,6 +144,7 @@ namespace ot {
         static RawInputModule* pRawInputModule;
     };
 
+	OT_MODULE(RawInputModule);
 } // namespace ot
 
 #endif

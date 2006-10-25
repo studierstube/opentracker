@@ -167,6 +167,8 @@ namespace ot {
       
     };
 
+	OT_MODULE(OrientationModule);
+
 }  // namespace ot
 
 

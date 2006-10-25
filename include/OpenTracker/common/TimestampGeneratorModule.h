@@ -54,7 +54,7 @@
 #ifndef _TIMESTAMPGENERATORMODULE_H
 #define _TIMESTAMPGENERATORMODULE_H
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 
 #ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
@@ -95,6 +95,8 @@ namespace ot {
          */
         virtual void pushEvent();
     };
+              
+	OT_MODULE(TimestampGeneratorModule);
 
 } // namespace ot
 

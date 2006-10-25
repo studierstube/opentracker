@@ -178,6 +178,7 @@ namespace ot {
         friend class GPSInfoSource;
     };
 
+	OT_MODULE(GPSModule);
 
 }  // namespace ot
 
