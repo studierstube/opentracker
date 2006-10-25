@@ -41,10 +41,9 @@
 * @file                                                                   */
 /* ======================================================================= */
 
+#ifdef USE_PANTILTUNIT
 
 #include "PtuCallback.h"
-
-#ifdef USE_PANTILTUNIT
 
 namespace ot {
     
