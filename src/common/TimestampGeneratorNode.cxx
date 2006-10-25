@@ -41,7 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "TimestampGeneratorNode.h"
+#include <OpenTracker/common/TimestampGeneratorNode.h">
 
 
 #ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
