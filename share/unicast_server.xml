@@ -6,9 +6,9 @@
   </configuration>
   <ConsoleSink comment="NetworkSink 0">
     <NetworkSink  mode="unicast" name="UCNS0" number="0" port="12001"> 
-      <EventUtilityNode create="string debugstr this_is_a_debug_string">
+      <EventUtility create="string debugstr this_is_a_debug_string">
 	<TestSource position="0 0 0" noise="0.5" frequency="10"/>
-      </EventUtilityNode>
+      </EventUtility>
     </NetworkSink>
   </ConsoleSink>
   <ConsoleSink comment="NetworkSink 1">
