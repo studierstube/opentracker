@@ -66,7 +66,7 @@
 #ifndef _RAWINPUTMODULE_H
 #define _RAWINPUTMODULE_H
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 #ifdef USE_RAWINPUT
 #ifdef WIN32

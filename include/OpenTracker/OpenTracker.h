@@ -101,20 +101,29 @@
  */
 
 
-#include "dllinclude.h"
+#include <OpenTracker/dllinclude.h>
 
-#include "core/ThreadModule.h"
-#include "core/NodeFactory.h"
-#include "core/Context.h"
-#include "core/MathUtils.h"
-#include "core/StringTable.h"
-#include "core/OSUtils.h"
-#include "core/NodePort.h"
+#ifdef WIN32
+#define NOMINMAX
+#ifdef USE_RAWINPUT
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
+#endif
+#endif
+
+#include <OpenTracker/core/ThreadModule.h>
+#include <OpenTracker/core/NodeFactory.h>
+#include <OpenTracker/core/Context.h>
+#include <OpenTrakcer/core/MathUtils.h>
+#include <OpenTracker/core/StringTable.h>
+#include <OpenTracker/core/OSUtils.h>
+#include <OpenTracker/core/NodePort.h>
 
 namespace ot {
 
-#define OPENTRACKER_VERSION_MAJOR 1
-#define OPENTRACKER_VERSION_MINOR 3
+#define OPENTRACKER_VERSION_MAJOR 2
+#define OPENTRACKER_VERSION_MINOR 0
   
     enum OPENTRACKER_VERSION {
         VERSION_MAJOR = OPENTRACKER_VERSION_MAJOR,

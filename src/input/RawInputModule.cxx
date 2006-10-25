@@ -41,12 +41,12 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "RawInputModule.h"
+#include <OpenTracker/input/RawInputModule.h>
 
 #ifdef USE_RAWINPUT
 #ifdef WIN32
 
-#include "RawInputSource.h"
+#include <OpenTracker/input/RawInputSource.h>
 #define ACE_HAS_WINSOCK2 0
 #include <ace/Log_Msg.h>
 
