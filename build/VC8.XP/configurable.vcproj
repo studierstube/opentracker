@@ -73,7 +73,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ace.lib opentracker.lib odbc32.lib odbccp32.lib"
-				OutputFile="../../bin/win32/configurable.exe"
+				OutputFile="../../bin/win32/opentracker2c.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"

@@ -64,7 +64,7 @@ typedef struct FlexibleTrackerDataRecord
     short int numOfStations;    // Number of station packets to follow
     short int bufferLength;
 
-};
+}FlexibleTrackerDataRecord;
 
 #endif
 
