@@ -42,14 +42,14 @@
  /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "SpaceDeviceSource.h"
-#include "SpaceDeviceModule.h"
+#include <OpenTracker/input/SpaceDeviceSource.h>
+#include <OpenTracker/input/SpaceDeviceModule.h>
 
 #ifdef USE_SPACEDEVICE
 
-#include <stdio.h>
+#include <cstdio>
 #if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
@@ -57,7 +57,7 @@
 #endif
 
 #include <Windows.h>
-#include <math.h>
+#include <cmath>
 
 /* SpaceWare specific includes and library */
 #include <spwmacro.h>  /* Common macros used by SpaceWare functions. */

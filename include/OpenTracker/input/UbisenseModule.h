@@ -150,7 +150,6 @@ namespace ot {
         WrappedDataClient dataClient;
         UClientAPI::Set<String> cells; 
         //std::set<std::string> cells;
-    };
 	OT_MODULE(UbisenseModule);
 
 } // namespace ot

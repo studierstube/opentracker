@@ -46,7 +46,7 @@
 
 #ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
 
-#include <OpenTracker/common/TimestampGeneratorNode.h">
+#include <OpenTracker/common/TimestampGeneratorNode.h>
 
 
 #include <ace/Log_Msg.h>
