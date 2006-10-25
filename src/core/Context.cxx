@@ -624,21 +624,26 @@ namespace ot {
 		
 		std::string modname;
 		printf("CONTEXT::GETMODULEFROMNODE: node->getType() %s \n", nodename.c_str());
-		std::string::size_type loc= std::string::npos;
-		
-		for (int i = 0; i < 3; i++){
-			loc = nodename.find(nodeTypes[i]);
-			if (loc != std::string::npos)
-				break;
-		}
-
-		if (loc != std::string::npos){
-			modname = nodename.substr(0, loc);
-			modname += "Config";
-	
+		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
+			modname = nodename ;
 			result = getModule(modname);
-			printf("CONTEXT::GETMODULEFROMNODE: %s  result %p\n", modname.c_str(), result);
-		} 
+		} else {
+			std::string::size_type loc= std::string::npos;
+			
+			for (int i = 0; i < 3; i++){
+				loc = nodename.find(nodeTypes[i]);
+				if (loc != std::string::npos)
+					break;
+			}	
+
+			if (loc != std::string::npos){
+				modname = nodename.substr(0, loc);
+				modname += "Config";
+	
+				result = getModule(modname);
+				printf("CONTEXT::GETMODULEFROMNODE: %s  result %p\n", modname.c_str(), result);
+			}
+		}
 		return result;
 
 

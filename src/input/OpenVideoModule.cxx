@@ -66,7 +66,7 @@
 namespace ot {
 
 	OT_MODULE_REGISTER_FUNC(OpenVideoModule){
-		OpenVideoModule * ovModule = new OpenVideoModule(&context);
+		OpenVideoModule * ovModule = new OpenVideoModule(context);
 		context->addModule( "OpenVideoConfig", *ovModule );
 	}
 

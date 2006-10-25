@@ -59,6 +59,10 @@
 
 namespace ot {
 
+    OT_MODULE_REGISTER_FUNC(RawInputModule){
+        OT_MODULE_REGISTRATION_DEFAULT(RawInputModule, "RawInputModule");
+    }	
+
     RawInputModule::RawInputModule(): ThreadModule(),NodeFactory(),pSources(),numDevices(0),deviceNames(0),rawInputDeviceList(0)
     {
     }
