@@ -47,11 +47,11 @@
 #include <iostream>
 
 
-#include "Lanc.h"
+#include <OpenTracker/input/Lanc.h>
 
 #ifdef USE_PANTILTUNIT
 
-#include "../core/OSUtils.h"
+#include <OpenTracker/core/OSUtils.h>
 
 namespace ot {
     

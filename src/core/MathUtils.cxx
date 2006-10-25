@@ -705,11 +705,8 @@ namespace ot {
             axisa[3] = 0.0;
         }
         return axisa;
-    }
+    }   
 
-    ////////////////////////////////////////////////////////////////////////
-    //
-    //   Heavily based on code by Ken Shoemake and code by Gavin Bell
     void MathUtils::quaternionToAxisAngle(std::vector<float>& q, std::vector<float>& axisa)
     {
         double	len;

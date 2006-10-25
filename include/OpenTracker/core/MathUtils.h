@@ -244,15 +244,25 @@ namespace ot {
          * @param axisa float[4] storing the vector and angle of the given quaternion
          * @return pointer to result array (axisa) */
         static float* quaternionToAxisAngle(const float *q, float *axisa);
-        static void quaternionToAxisAngle(std::vector<float>& q, std::vector<float>& axisa);
-        /**
-         * computes the 4x4 matrix of the transformation given by
-         * a quaternion and a 3-vector.
-         * @param pos float[3] position vector
-         * @param quat float[4] quaternion
-         * @param mat float[4][4] matrix
+
+        /** computes the vector and angle representation of a quaternion. This method
+         * operates directly on the arguments. Therefore using the same pointers
+         * for several arguments will produce wrong results !
+         * @param q std::vector<float> storing the quaternion
+         * @param axisa std::vector<float> storing the vector and angle of the given quaternion
          */
-        static void translationQuaternionTo4x4Matrix(std::vector<float>& pos, std::vector<float>& quat, MathUtils::Matrix4x4& mat);
+        void  quaternionToAxisAngle(std::vector<float> &q, std::vector<float> &axisa);
+
+
+        void translationQuaternionTo4x4Matrix(std::vector<float>& pos, std::vector<float>& quat, MathUtils::Matrix4x4& mat);
+
+        /**
+         * computes the angle between two n-dimensional vectors.
+         * @param v1 float[n] first vector
+         * @param v2 float[n] second vector
+         * @param dim dimension n of the two vectors
+         * @return angle between the two vectors
+         */
         static double angle( const float * v1, const float * v2, const int dim );
         /**
          * computes the angle between two n-dimensional vectors.
@@ -307,6 +317,9 @@ namespace ot {
          */
         static std::vector<float>& slerp( const std::vector<float> &q1, const std::vector<float> &q2, const float t, std::vector<float> &qResult );
 
+        static void quaternionToMatrix( Quaternion &q, Matrix4x4 &m);
+        static void matrixToQuaternion( Matrix4x4& matrix, Quaternion& qResult);
+        
         static void matrixMultiply(const Matrix4x4 m1, const Matrix4x4 m2, Matrix4x4 &m);
         static void matrixMultiply(const Matrix3x3 m1, const Matrix3x3 m2, Matrix3x3 &m);
 

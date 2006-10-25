@@ -100,6 +100,8 @@ namespace ot {
         /// server name
         std::string serverName;
 
+		bool blockMulticast;
+
         //methods
     protected:
         /** converts floats to network byte order.
@@ -153,8 +155,7 @@ namespace ot {
          */
         virtual void pullEvent();
     };
-
-	OT_MODULE(NetworkSinkModule);
+   OT_MODULE(NetworkSinkModule);
 
 } // namespace ot
 
