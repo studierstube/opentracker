@@ -44,13 +44,9 @@
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
 
-<<<<<<< .working
-#include "UbisenseModule.h"
-=======
 #include <OpenTracker/input/UbisenseModule.h>
 #include <OpenTracker/input/UbisenseSource.h>
 #include <iostream>
->>>>>>> .merge-right.r1545
 
 #ifdef USE_UBISENSE
 #ifdef WIN32
@@ -65,9 +61,6 @@
 
 namespace ot {
 
-<<<<<<< .working
-    UbisenseModule::UbisenseModule(): Module(),NodeFactory(),pSources(),locationClient(),dataClient(pSources),cells(locationClient.get_all_cells())
-=======
 
 	OT_MODULE_REGISTER_FUNC(UbisenseModule){
 		OT_MODULE_REGISTRATION_DEFAULT(UbisenseModule , "UbisenseConfig" );
@@ -76,7 +69,6 @@ namespace ot {
 
     UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources),cells(locationClient.get_all_cells())
         //UbisenseModule::UbisenseModule(): Module(),NodeFactory(),locationClient(),dataClient(pSources)
->>>>>>> .merge-right.r1545
     {
     }
 
