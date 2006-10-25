@@ -75,14 +75,14 @@ namespace ot {
     ACE_Reactor gps_reactor;
 
     GPSModule::GPSModule() :
+        position_mode( "default" ),
         source( NULL ),
         dirSource( NULL ),
         compassSource( NULL ),
         altitudeSource( NULL ),
         infoSource( NULL ),
         driver( NULL ),
-        logFile( NULL ),
-        position_mode( "default" )
+        logFile( NULL )
     {
     }
 

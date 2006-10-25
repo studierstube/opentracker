@@ -158,6 +158,9 @@ namespace ot {
         int dgpsPort;
         int dgpsmirror;
         std::string rtcmdev;
+        // specifies the position mode
+        // if "ecef" is specified = earth centered positioning are used, otherwise, lon/lat/1.0 is used
+        std::string position_mode;
     
         GPSSource * source;
         GPSDirectionSource * dirSource;
@@ -174,7 +177,6 @@ namespace ot {
         friend class GPSGarminAltitude;
         friend class GPSInfoSource;
     };
-	OT_MODULE(GPSModule);
 
 
 }  // namespace ot
