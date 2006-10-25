@@ -43,9 +43,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "DESPFilterNode.h"
+#include <OpenTracker/common/DESPFilterNode.h>
 
 #ifndef OT_NO_DESPFILTER_SUPPORT
 

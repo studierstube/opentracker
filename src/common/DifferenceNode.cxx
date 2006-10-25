@@ -41,7 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "DifferenceNode.h"
+#include <OpenTracker/common/DifferenceNode.h>
 
 
 #ifndef OT_NO_DIFFERENCE_SUPPORT
