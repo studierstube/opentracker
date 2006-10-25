@@ -185,6 +185,12 @@ namespace ot
          * @return string holding the event's data
          */
         const std::string getPrintOut() const;
+		/**
+         * Returns a string that can be used to print out all data held by the event. For a more
+         * compact layout of the same data use the serialize functions or streaming operators.
+         * @return string holding the event's data
+         */
+		void getPrintOut(std::string &outstr) const;
         /**
          * Updates the event's timestamp to the current time.
          */
@@ -452,16 +458,13 @@ namespace ot
         template <typename T>
             T& getAttribute(const std::string &name, const T &defValue) //throw (std::invalid_argument, std::runtime_error)
         {
-			
-			
             try
             {
                 return getAttribute((T*)NULL, name);
             }
             catch (std::invalid_argument)
             {
-				
-				addAttribute(name, defValue); // may throw std::runtime_error
+                addAttribute(name, defValue); // may throw std::runtime_error
                 return getAttribute((T*)NULL, name); // may throw std::invalid_argument
             }
         };
@@ -478,7 +481,6 @@ namespace ot
                 return false;
             else
             {
-				
                 EventAttributeBase *att = EventAttributeBase::create(typeid(T)); // may throw std::runtime_error
                 attributes[name] = att;
                 return setAttribute(name, value);

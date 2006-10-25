@@ -55,7 +55,9 @@ namespace ot {
     File::File(const std::string filename_ , modeFlags mode_, bool append , bool loop_ , bool ot11Format_ ) :
         loop( loop_ ), ot11Format( ot11Format_ ), filename( filename_), mode( mode_ )
     {
+#ifdef WIN32
 #pragma message(">>> daniel2everybody: please do not use cout!")
+#endif
         //std::cout << "FILE constructed" << std::endl;
         if( mode == FILE_OUT ) // output mode
         {
