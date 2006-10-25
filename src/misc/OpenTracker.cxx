@@ -114,6 +114,7 @@
 #include <OpenTracker/network/DwarfModule.h>
 #include <OpenTracker/network/VRPNModule.h>
 #include <OpenTracker/network/CORBAModule.h>
+#include <OpenTracker/network/PhantomMiddlewareModule.h>
 #include <OpenTracker/common/TimestampGeneratorModule.h>
 // DLL main function
 

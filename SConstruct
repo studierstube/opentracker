@@ -5,6 +5,7 @@ import os
 sys.path.append('ICGBuilder')
 import icgbuilder
 import buildutils
+from time import sleep
 
 env = Environment (ENV = os.environ)
 #***************************************************************************************
@@ -179,7 +180,11 @@ else:
         targetList.append(ot)
         targetList.append(otcon)
         targetList.append(otcon2)
-
+    if ARGUMENTS.has_key("ENABLE_OMNIORBPY") or ARGUMENTS.has_key("ENABLE_CORBA"):
+        print "Currently it is not possible to run 'scons install' in one single step"
+        print "It is necessary to first run 'scons' in order to generate stubs, "
+        print "including python stubs if appropriate, and have it recognised in a "
+        print "scan of the filesystem.\n"
     if ARGUMENTS.has_key('ENABLE_MUDDLEWARE'):
         print "Support for Muddleware....... enabled."
         print 'Please modify the targets to build support for Muddleware. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for Muddleware.\n'
@@ -197,7 +202,11 @@ else:
             OmniIdlPy.generate(env)
             pythonstubsandskeletons = env.OMNIIDLPY(os.path.join('idl', 'OT_CORBA.idl'),
                                            OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
-        
+            corbapystubs ={'name': 'corbastubs',
+                 'type': 'PY',
+                 'src_use' : [os.path.abspath(str(stub)) for stub in pythonstubsandskeletons]
+                 }
+            targetList.append(corbapystubs)
         try:
             ot['defines'] += ['USE_CORBA']
         except KeyError:
@@ -237,7 +246,11 @@ else:
             pythonstubsandskeletons = env.OMNIIDLPY(os.path.join('idl', 'OT_EventChannel.idl'),
                                                     CPPPATH=['/usr/local/share/idl/omniORB', '/usr/share/idl/omniORB'],
                                                     OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
-
+            eventpystubs ={'name': 'eventstubs',
+                           'type': 'PY',
+                           'src_use' : [os.path.abspath(str(stub)) for stub in pythonstubsandskeletons]
+                           }
+            targetList.append(eventpystubs)
         for stub in [str(f) for f in stubsandskeletons if str(f).endswith('.hh')]:
             env.Command(os.path.join('include','OpenTracker', 'skeletons', os.path.basename(stub)), stub, Copy("$TARGET", "$SOURCE"))
         ot['src_use'] += [os.path.abspath(str(f)) for f in stubsandskeletons if str(f).endswith('.cc')]
