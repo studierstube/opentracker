@@ -91,26 +91,26 @@
 #include <OpenTracker/common/LogModule.h>
 
 // these modules depend on compile options
-#include "../input/ARToolKitModule.h"
-#include "../input/ARToolKitPlusModule.h"
-#include "../input/CyberMouseModule.h"
+#include <OpenTracker/input/ARToolKitModule.h>
+#include <OpenTracker/input/ARToolKitPlusModule.h>
+#include <OpenTracker/input/CyberMouseModule.h>
 #ifndef __APPLE__
-#include "../input/LinmouseModule.h"
+#include <OpenTracker/input/LinmouseModule.h>
 #endif
-#include "../input/WacomGraphireModule.h"
-#include "../input/JoystickModule.h"
-#include "../input/SpaceDeviceModule.h"
-#include "../input/GoGoModule.h"
-#include "../input/PanTiltUnitModule.h"
-#include "../input/SpeechModule.h"
-#include "../input/P5GloveModule.h"
-#include "../input/MulticastInputModule.h"
-#include "../input/UbisenseModule.h"
-#include "../input/OpenVideoModule.h"
-#include "../input/RawInputModule.h"
-#include "../network/DwarfModule.h"
-#include "../network/VRPNModule.h"
-#include "../network/CORBAModule.h"
+#include <OpenTracker/input/WacomGraphireModule.h>
+#include <OpenTracker/input/JoystickModule.h>
+#include <OpenTracker/input/SpaceDeviceModule.h>
+#include <OpenTracker/input/GoGoModule.h>
+#include <OpenTracker/input/PanTiltUnitModule.h>
+#include <OpenTracker/input/SpeechModule.h>
+#include <OpenTracker/input/P5GloveModule.h>
+#include <OpenTracker/input/MulticastInputModule.h>
+#include <OpenTracker/input/UbisenseModule.h>
+#include <OpenTracker/input/OpenVideoModule.h>
+#include <OpenTracker/input/RawInputModule.h>
+#include <OpenTracker/network/DwarfModule.h>
+#include <OpenTracker/network/VRPNModule.h>
+#include <OpenTracker/network/CORBAModule.h>
 
 // DLL main function
 

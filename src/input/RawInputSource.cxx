@@ -41,7 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "RawInputSource.h"
+#include <OpenTracker/input/RawInputSource.h>
 
 #ifdef USE_RAWINPUT
 #ifdef WIN32

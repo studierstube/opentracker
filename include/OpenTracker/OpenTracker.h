@@ -115,7 +115,7 @@
 #include <OpenTracker/core/ThreadModule.h>
 #include <OpenTracker/core/NodeFactory.h>
 #include <OpenTracker/core/Context.h>
-#include <OpenTrakcer/core/MathUtils.h>
+#include <OpenTracker/core/MathUtils.h>
 #include <OpenTracker/core/StringTable.h>
 #include <OpenTracker/core/OSUtils.h>
 #include <OpenTracker/core/NodePort.h>

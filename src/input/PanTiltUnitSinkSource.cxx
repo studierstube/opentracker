@@ -41,10 +41,10 @@
 * @file                                                                   */
 /* ======================================================================= */
 
-#include "PanTiltUnitSinkSource.h"
+#include <OpenTracker/input/PanTiltUnitSinkSource.h>
 #ifdef USE_PANTILTUNIT
 
-#include <math.h>
+#include <cmath>
 
 namespace ot {
 
