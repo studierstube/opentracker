@@ -52,6 +52,10 @@
 #include <ace/Log_Msg.h>
 
 namespace ot {
+	
+    OT_MODULE_REGISTER_FUNC(TimestampGeneratorModule){
+        OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorModule");
+    }	
 
     Node* TimestampGeneratorModule::createNode(const std::string &name,StringTable &attributes)
     {
