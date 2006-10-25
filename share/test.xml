@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by merlin (blue sky) -->
 <!--simple test configuration for the new tracker serve system-->
@@ -19,17 +19,17 @@
       </CommandSet>
     </SpeechRecoConfig>
   </configuration>
-  <ConsoleSink comment="Transformation" active="on">
+  <ConsoleSink comment="Transformation" active="off">
     <EventTransform translation="1 1 1">
       <TestSource offset="0" frequency="10"/>
     </EventTransform>
   </ConsoleSink>
-  <ConsoleSink comment="VirtualTransformation" active="on">
+  <ConsoleSink comment="VirtualTransformation" active="off">
     <EventVirtualTransform translation="2 2 2">
       <TestSource frequency="10" offset="1"/>
     </EventVirtualTransform>
   </ConsoleSink>
-  <ConsoleSink comment="Network Sink" DEF="test1" active="on">
+  <ConsoleSink comment="Network Sink" DEF="test1" active="off">
     <NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
       <EventTransform translation="-1 -1 -1">
         <TestSource frequency="10" offset="2"/>
@@ -183,5 +183,8 @@
       <Ref USE="C0"/>
     </ButtonHoldFilter>
   </ConsoleSink>
-
+  
+  <ConsoleSink comment="pentest" active="off">
+      <ConsoleSource number="9" pen="x"/>
+  </ConsoleSink>
 </OpenTracker>

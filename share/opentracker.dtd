@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2005 beta 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
@@ -38,11 +38,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 $Id$
 -->
-<!-- Entitiy definitions for the different classes of elements
+<!-- Entity definitions for the different classes of elements
       element names have to be seperated by |  -->
-<!ENTITY % ConfigElements "LogConfig?,FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,ARToolKitPlusConfig?,NetworkSourceConfig?,QtMouseEventCalibConfig?,QtMouseEventConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,LinmouseConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?,UbisenseConfig?,CORBAConfig?">
-<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | ARToolKitPlusSource | ARToolKitPlusMultiMarkerSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | LinmouseSource | TargusSource | WacomGraphireSource | InterSenseSource | FileSource | CORBASource | PushCons | PhantomMiddlewareSource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource | UbisenseSource">
-<!ENTITY % EventNodes "%SourceEventNodes; | EventUtilityNode | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | CORBASink | CORBATransform | PhantomMiddlewareSink | PushSupp | SharedEngineNode | ConsoleSink | Merge | TriangulateOrientation | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink">
+<!ENTITY % ConfigElements "LogConfig?,FastTrakConfig?,NetworkSinkConfig?,ARToolKitConfig?,ARToolKitPlusConfig?,NetworkSourceConfig?,QtMouseEventCalibConfig?,QtMouseEventConfig?,ConsoleConfig?,InterSenseConfig?,TimeConfig?,FOBConfig?,StbInputConfig?,TCPConfig?,JoystickConfig?,ARTDataTrackerConfig?,UltraTrakConfig?,SpeechRecoConfig?,P5GloveConfig?,LinmouseConfig?,GPSConfig?,FileConfig?,DynaSightConfig?,MagicYConfig?,DwarfConfig?,VRPNConfig?,XSensConfig?,UbisenseConfig?,CORBAConfig?,RawInputConfig?,TimestampGeneratorConfig?">
+<!ENTITY % SourceEventNodes "FastTrakSource | ARToolKitSource | ARToolKitPlusSource | ARToolKitPlusMultiMarkerSource | TestSource | NetworkSource | ConsoleSource | CyberMouseSource | LinmouseSource | TargusSource | WacomGraphireSource | InterSenseSource | FileSource | CORBASource | FOBSource | ParButtonSource | StbKeyboardSource | JoystickSource | ARTDataTrackerSource | StbMouseSource | SpaceMouseSource | UltraTrakSource | ActiveGate | SpeechRecoSource | StbSource | P5GloveSource | GPSSource | GPSDirectionSource | GPSGarminCompass | GPSGarminAltitude | GPSInfoSource | DynaSightSource | MagicYSource | DwarfSource | VRPNSource | XSensSource | UbisenseSource | RawInputSource">
+<!ENTITY % EventNodes "%SourceEventNodes; | EventUtility | NetworkSink | EventPositionTransform | EventOrientationTransform | EventTransform | EventVirtualPositionTransform | EventVirtualOrientationTransform | EventVirtualTransform | EventQueue | QtAppScreenPosSink | QtMousePosSink | QtMouseButtonSink | QtMouseWheelSink | CORBASink | ConsoleSink | Merge | TriangulateOrientation | Ref | EventDynamicTransform | EventDynamicPositionTransform | EventDynamicOrientationTransform | StbSink | Callback | EventInvertTransform | Selection | FileSink | EventMatrixTransform | ConfidenceFilter | Filter | ConfidenceSelect | TCPSink | ButtonFilter | ThresholdFilter | ButtonOp | TimeGate | GroupGate | ElasticFilter | ButtonHoldFilter | EventEllipsoidTransform | EventGKTransform | RangeFilter | PositionFilter | DwarfSink | VRPNSink | Difference | TimestampGenerator">
 <!ENTITY % QueueNodes "QueuePositionTransform | QueueOrientationTransform | QueueTransform | QueueVirtualPositionTransform | QueueVirtualOrientationTransform | QueueVirtualTransform | EventQueue | Ref | QueueDynamicTransform | QueueDynamicPositionTransform | QueueDynamicOrientationTransform | QueueInvertTransform | QueueMatrixTransform | QueueEllipsoidTransform | QueueGKTransform">
 <!ENTITY % TimeNodes "TimePositionTransform | TimeOrientationTransform | TimeTransform | TimeVirtualPositionTransform | TimeVirtualOrientationTransform | TimeVirtualTransform | Ref | TimeDynamicTransform | TimeDynamicPositionTransform | TimeDynamicOrientationTransform | TimeInvertTransform | TimeMatrixTransform | TimeEllipsoidTransform | TimeGKTransform">
 <!ENTITY % WrapperNodes "MergeDefault | MergeAttribute | MergeTime | MergeTrigger | TransformBase | Select | Gate | Override">
@@ -104,8 +104,8 @@ $Id$
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
-<!ELEMENT EventUtilityNode (%EventNodes;)>
-<!ATTLIST EventUtilityNode
+<!ELEMENT EventUtility (%EventNodes;)>
+<!ATTLIST EventUtility
 	DEF ID #IMPLIED
 	rename CDATA ""
 	create CDATA ""
@@ -443,7 +443,8 @@ $Id$
 <!ELEMENT NetworkSinkConfig EMPTY>
 <!ATTLIST NetworkSinkConfig
 	DEF ID #IMPLIED
-	name CDATA #REQUIRED
+	name CDATA #IMPLIED
+	blockMode (none | multicast) "none"
 >
 <!ELEMENT NetworkSink (%EventNodes;)>
 <!ATTLIST NetworkSink
@@ -673,52 +674,15 @@ $Id$
 <!ATTLIST CORBAConfig
 	endPoint CDATA #IMPLIED
 >
-<!ELEMENT SharedEngineNode (%EventNodes;)>
-<!ATTLIST SharedEngineNode
-	name CDATA #REQUIRED
-	DEF ID #IMPLIED
->
-<!ELEMENT PushSupp (%EventNodes;)>
-<!ATTLIST PushSupp
-	name CDATA #REQUIRED
-	DEF ID #IMPLIED
->
-<!ELEMENT PushCons EMPTY>
-<!ATTLIST PushCons
-	name CDATA #REQUIRED
-	DEF ID #IMPLIED
->
 <!ELEMENT CORBASink (%EventNodes;)>
 <!ATTLIST CORBASink
 	name CDATA #REQUIRED
 	frequency CDATA "0"
 	DEF ID #IMPLIED
 >
-<!ELEMENT CORBATransform (%EventNodes;)>
-<!ATTLIST CORBATransform
-	name CDATA #REQUIRED
-	DEF ID #IMPLIED
->
 <!ELEMENT CORBASource EMPTY>
 <!ATTLIST CORBASource
 	name CDATA #REQUIRED
-	DEF ID #IMPLIED
->
-<!ELEMENT PhantomMiddlewareSource EMPTY>
-<!ATTLIST PhantomMiddlewareSource
-	group  CDATA #REQUIRED
-	pid    CDATA #REQUIRED
-        eid    CDATA "6"
-        source CDATA #IMPLIED
-	DEF    ID #IMPLIED
->
-<!ELEMENT PhantomMiddlewareSink (%EventNodes;)>
-<!ATTLIST PhantomMiddlewareSink
-	group CDATA #REQUIRED
-	pid   CDATA #REQUIRED
-        eid    CDATA "6"
-        source CDATA #IMPLIED
-	frequency CDATA "0"
 	DEF ID #IMPLIED
 >
 <!-- File Input / Output Module and node. -->
@@ -1062,4 +1026,25 @@ $Id$
 <!ATTLIST UbisenseSource
 	DEF ID #IMPLIED
 	object CDATA #REQUIRED
+>
+<!-- RawInput Module -->
+<!ELEMENT RawInputConfig EMPTY>
+<!ELEMENT RawInputSource EMPTY>
+<!ATTLIST RawInputSource
+	DEF ID #IMPLIED
+	deviceName CDATA #REQUIRED
+>
+<!-- Difference calculates the difference of two event attributes occured in a timeout interval. -->
+<!ELEMENT Difference (%EventNodes;)>
+<!ATTLIST Difference
+	DEF ID #IMPLIED
+	timeframe CDATA #REQUIRED
+	attributeName CDATA #REQUIRED
+>
+<!-- TimestampGenerator Module -->
+<!ELEMENT TimestampGeneratorConfig EMPTY>
+<!ELEMENT TimestampGenerator (%EventNodes;)>
+<!ATTLIST TimestampGenerator
+	DEF ID #IMPLIED
+	timeout CDATA #REQUIRED
 >
