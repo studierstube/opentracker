@@ -62,7 +62,7 @@
 #ifndef _PANTILTUNITMODULE_H
 #define _PANTILTUNITMODULE_H
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 #ifdef USE_PANTILTUNIT
 
@@ -140,7 +140,9 @@ private:
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> OT_NO_PTU_SUPPORT")
+#endif
 #endif	//USE_PANTILTUNIT
 
 #endif	//_PANTILTUNITMODULE_H
