@@ -68,17 +68,6 @@
 namespace ot {
 
 class CORBAModule;
-#ifdef fish
-class Supplier_i;
-
- : virtual public POA_CosEventComm::PushSupplier {
-public:
-  Supplier_i () {};
-  void disconnect_push_supplier () {
-    LOG_ACE_INFO("Push Supplier: disconnected.\n");
-  };
-};
-#endif
 
 class OPENTRACKER_API SharedEngineNode : public Node
 {

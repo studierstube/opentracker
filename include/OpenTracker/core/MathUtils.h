@@ -251,7 +251,7 @@ namespace ot {
          * @param q std::vector<float> storing the quaternion
          * @param axisa std::vector<float> storing the vector and angle of the given quaternion
          */
-        void  quaternionToAxisAngle(std::vector<float> &q, std::vector<float> &axisa);
+        static void  quaternionToAxisAngle(std::vector<float> &q, std::vector<float> &axisa);
 
 
         void translationQuaternionTo4x4Matrix(std::vector<float>& pos, std::vector<float>& quat, MathUtils::Matrix4x4& mat);
