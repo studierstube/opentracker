@@ -44,9 +44,9 @@
 // this is a linux implementation
 #ifndef WIN32
 #ifndef __APPLE__
-#include "LinmouseModule.h"
+#include <OpenTracker/input/LinmouseModule.h>
 
-#include "LinmouseSource.h"
+#include <OpenTracker/input/LinmouseSource.h>
 
 #ifdef USE_LINMOUSEMODULE
 
@@ -60,6 +60,11 @@
 #define OT_NAMESPACE_END }
 
 OT_NAMESPACE_BEGIN
+
+	OT_MODULE_REGISTER_FUNC(LinmouseModule){
+			OT_MODULE_REGISTRATION_DEFAULT(LinmouseModule, "LinmouseConfig");
+	}
+
 // -------------------------------------------------------------------------------------------------------
 // constructor initializing the thread manager
 LinmouseModule::LinmouseModule() : ThreadModule(), NodeFactory(), fd(-1), stop(0)

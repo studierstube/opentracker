@@ -45,13 +45,13 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include <ace/INET_Addr.h>
 #include <ace/Time_Value.h>
 
-#include "UltraTrakModule.h"
+#include <OpenTracker/input/UltraTrakModule.h>
 
 #include <iostream>
 
@@ -62,6 +62,11 @@
 
 
 namespace ot {
+
+	
+	OT_MODULE_REGISTER_FUNC(UltraTrakModule){
+		OT_MODULE_REGISTRATION_DEFAULT(UltraTrakModule , "UltraTrakConfig" );
+	}
 
     // constructor initializing the thread manager
     UltraTrakModule::UltraTrakModule() : ThreadModule(), NodeFactory(), stop(0)

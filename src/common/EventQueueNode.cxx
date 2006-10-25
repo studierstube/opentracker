@@ -42,9 +42,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "EventQueueNode.h"
+#include <OpenTracker/common/EventQueueNode.h>
 
 
 #ifndef OT_NO_EVENTQUEUE_SUPPORT

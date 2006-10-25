@@ -42,11 +42,11 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "DwarfModule.h"
-#include "DwarfSource.h"
-#include "DwarfSink.h"
+#include <OpenTracker/network/DwarfModule.h>
+#include <OpenTracker/network/DwarfSource.h>
+#include <OpenTracker/network/DwarfSink.h>
 
 #ifdef USE_DWARF
 
@@ -62,6 +62,12 @@
 using namespace DWARF;
 
 namespace ot {
+
+	
+
+	OT_MODULE_REGISTER_FUNC(DwarfModule){
+        OT_MODULE_REGISTRATION_DEFAULT(DwarfModule , "DwarfConfig" );
+	}
 
     // Destructor method
 
@@ -231,7 +237,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no DWARF support")
+#endif
 #endif // USE_DWARF
 
 /* 

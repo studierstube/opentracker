@@ -43,12 +43,12 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "GroupGateNode.h"
+#include <cstdlib>
+#include <OpenTracker/common/GroupGateNode.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 
 #include <ace/Log_Msg.h>

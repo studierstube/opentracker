@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig headerline="Sample Output" interval="1"/>
+  </configuration>
+
+  <ConsoleSink comment="Test Source 1">
+<!--    <EventUtilityNode  create="string TrackerNameAttrib
+      testtracker" > -->
+      <EventTransform translation="1 1 1" scale="1 1 1"
+		      rotationtype="euler" rotation="0 0 0" DEF="trdata1">
+	<TestSource frequency="100000" noise="10"/>
+      </EventTransform>
+<!--    </EventUtilityNode> -->
+  </ConsoleSink>
+  <NetworkSink  mode="multicast" name="station name" number="1" multicast-address="224.0.0.10" port="12345" interface="192.168.2.100" >
+    <Ref USE="trdata1" />
+  </NetworkSink>
+</OpenTracker>

@@ -48,10 +48,10 @@
 #include <memory>
 #include <algorithm>
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 // selects between usage of XERCES and TinyXML
-#include "../tool/XMLSelection.h"
+#include <OpenTracker/tool/XMLSelection.h>
 
 #ifdef USE_XERCES
 #include <xercesc/dom/DOM.hpp>
@@ -59,9 +59,9 @@
 #include <xercesc/util/XMLUniDefs.hpp>
 #endif //USE_XERCES
 
-#include "Node.h"
-#include "StringTable.h"
-#include "Context.h"
+#include <OpenTracker/core/Node.h>
+#include <OpenTracker/core/StringTable.h>
+#include <OpenTracker/core/Context.h>
 
 //using namespace std;
 
@@ -97,7 +97,7 @@ namespace ot {
     Node::~Node()
     {
         references.clear();
-        if( parent != NULL )
+		if( parent != NULL )
         {
 #ifdef USE_XERCES
             try {
@@ -221,12 +221,14 @@ namespace ot {
 
 #ifdef USE_TINYXML
         TiXmlNode * node = ELEMENT(parent)->FirstChild();
+		
         unsigned int count = 0;
         while( node != NULL )
         {
             Node * myNode = (Node *)node->GetUserData();
             if( myNode != NULL )
             {
+				
                 if( myNode->isNodePort() == 0 )
                     count ++;
             }
@@ -252,7 +254,8 @@ namespace ot {
 #endif //USE_XERCES
 
 #ifdef USE_TINYXML
-        ELEMENT(parent)->InsertEndChild( *ELEMENT(child.parent));
+        TiXmlNode * result = ELEMENT(parent)->InsertEndChild( *ELEMENT(child.parent));
+		//child.parent = NULL;
         return OK;
 #endif //USE_TINYXML
     }
@@ -274,6 +277,7 @@ namespace ot {
 
 #ifdef USE_TINYXML
         ELEMENT(parent)->RemoveChild( ELEMENT(child.parent));
+//		child.parent = NULL;
         return OK;
 #endif //USE_TINYXML
     }

@@ -42,14 +42,14 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "ARTDataTrackerChomp.h"
+#include <cstdlib>
+#include <OpenTracker/input/ARTDataTrackerChomp.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
+#include <cstdio>
 
 #include <iostream>
 #include <sstream>
@@ -81,7 +81,6 @@ namespace ot {
               
 	int linenumber = 0;
 
-	unsigned long elcount = 0;
 	int station = -1;
 	double timestamp = 0.0;
 

@@ -43,17 +43,17 @@
 
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "OpenVideoModule.h"
+#include <OpenTracker/input/OpenVideoModule.h>
 
 
 #ifdef USE_OPENVIDEO
 
 
-#include <assert.h>
+#include <cassert>
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #define ENABLE_VIDEOSINK
@@ -65,7 +65,10 @@
 
 namespace ot {
 
-
+	OT_MODULE_REGISTER_FUNC(OpenVideoModule){
+		OpenVideoModule * ovModule = new OpenVideoModule(&context);
+		context->addModule( "OpenVideoConfig", *ovModule );
+	}
 
     class OpenTrackerVideoSinkSubscriber : public openvideo::VideoSinkSubscriber
     {

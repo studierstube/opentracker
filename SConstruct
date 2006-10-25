@@ -1,222 +1,449 @@
-import glob
+#!/usr/bin/env python
+
 import sys
 import os
+sys.path.append('ICGBuilder')
+import icgbuilder
+import buildutils
 
-# All the other files 
-common_source_files = glob.glob('./src/common/*.cxx')
-core_source_files = glob.glob('./src/core/*.cxx')
-network_source_files = glob.glob('./src/network/*.cxx')
-skeletons = [] # This will be filled later on
-tool_source_files = ['./src/tool/OT_ACE_Log.cxx']
-input_source_files = glob.glob('./src/input/*.cxx')
-misc_source_files = ['./src/misc/XKeys.cxx',
-		     './src/misc/serialcomm.cxx', 
-		     './src/misc/OpenTracker.cxx']
-main_file = './src/misc/main.cxx'
-middleware_file = './src/misc/middleware.cxx'
-corba_files = glob.glob('./src/network/CORBA*.cxx')
+env = Environment (ENV = os.environ)
+#***************************************************************************************
+#
+#                  BUILD TARGETS DEFINITION
+# This section defines the build targets as dictionaries containing the relevant
+# information. The targets could also be loaded from an external file, this is to be
+# implemented in the next version of the build system.
+# The available fields to provide information about a target are as follows:
+#
+#   name :      string representing the name of the compiled target without extension.
+#   type :      string, depends on the kind of compile, available values are
+#                      DL  for dynamic libraries
+#                      LIB for static libraries
+#                      PRG for consonle applications
+#   libs :      list of libraries that will be linked with the target, the builder
+#               will attempt to find the appropriate include path, and libpath for
+#               these libraries, failure to get this information will result in
+#               a script error.
+#   use  :      dictionary of other libraries on which the target depends. Each of these
+#               will result in the inclusion of one defines flag and the addition of
+#               an include path to the compilation. Failure to find include paths
+#               for USE variables will result in a script warning
+#   src_root:   [Optional] the root directory of the source tree, if missing it
+#               will be set by the ConfigurationBuilder
+#   src_ignore: [Optional] list of directories or files inside the src_root tree
+#               that must be ignored for this target
+#   src_use:    [Optional] list of directories or files inside the src_root tree
+#               that must be used to build the target. If not defined, all folders
+#               and files inside the src_root will be used to build the target
+#
+#***************************************************************************************
 
+# if you want the builder to use a custom setup for targets, you can create a
+# custom.py file specifying the whole setup. 
+if os.path.exists('custom.py'):
+    from custom import *
 
-# name for the dll and program that will be produced by the SConstruct
-dlname = 'opentracker'
-programname = 'opentracker'
-
-libInstallDir = '#lib'
-binInstallDir = '#bin'
-dlInstallDir  = '#lib'
-buildPrefix = ''
-
-defs = ''
-_lpath = ['.']
-_cpppath=[]
-if sys.platform == 'darwin':
-	defs='-g -DDARWIN '
-	_cpppath = ['/opt/local/include', './src']
-	# Remove the following files from the darwin build
-	input_source_files.remove('./src/input/InterSenseModule.cxx')
-	input_source_files.remove('./src/input/ParButtonModule.cxx')
-#	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
-	input_source_files.remove('./src/input/SpaceMouseSource.cxx')
-	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11']
-	_linkflags = []
-	_lpath += ['/opt/local/lib','/usr/X11R6/lib']
-elif sys.platform == 'linux' or sys.platform == 'linux2':
-	defs='-g -DLINUX'
-	input_source_files.append('./extras/intersense/isense.c')
-#	input_source_files.remove('./src/input/PanTiltUnitSource.cxx')
-	input_source_files.remove('./src/input/SpaceMouseSource.cxx')
-	misc_source_files.append('./src/misc/xml/XMLWriter.cxx')
-	_cpppath = ['/opt/local/include', './src', './extras/intersense']
-	_libs = LIBS=['m', 'ACE','xerces-c', 'stdc++', 'ncurses', 'X11','isense']
-	_linkflags = []
-	_lpath += ['/usr/X11R6/lib','extras/intersense/Linux']
-
-# windows compile configuration
-elif sys.platform == 'win32':
-	# to be able to link in windows we need intersense
-	input_source_files.append('./extras/intersense\isense.c')
-	misc_source_files.append('./src/misc/portio.cxx')
-	misc_source_files.append('./src/misc/xml/XMLWriter.cxx')
-
-	# to get the include path for all libraries we need to retrieve 
-	# the environment vars pointing to the root of each lib
-	envvars = os.environ
-
-	corbaLibPath = envvars['OMNIORB'] + '/lib/x86_win32'
-	corbaIncPath = envvars['OMNIORB'] + '/include'
-
-	# build prefix, all object files and targets will be first placed under
-	# the directory designated by this variable
-	buildPrefix=envvars['OTROOT']+'/build/SCons/'
-
-	# Install directories for windows
-	libInstallDir = envvars['OTROOT']+'/lib/win32'
-	binInstallDir = envvars['OTROOT']+'/bin/win32'
-	dlInstallDir  = envvars['OTROOT']+'/bin/win32'
-
-	# flags for console program creation in VS8.0 for windows XP
-	_programCppFlags = '/O2 /Ob1 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_VC80_UPGRADE=0x0710" /D "_MBCS" /GF /FD /EHsc /MD /Gy /Fp".'+buildPrefix+'/standalone.pch" /Fo"'+buildPrefix+'" /Fd"'+buildPrefix+'" /W3 /nologo /c /errorReport:prompt'
-
-	_programIncFlags =[envvars['OTROOT']+ '/src',envvars['OTROOT']+ '/misc',envvars['OTROOT']]
-
-	_programLibs= ['odbc32.lib', 'odbccp32.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'winspool.lib', 'comdlg32.lib', 'advapi32.lib', 'shell32.lib', 'ole32.lib' , 'oleaut32.lib', 'uuid.lib', 'odbc32.lib', 'odbccp32.lib']
-
-	_programLibDirs = [libInstallDir]
-
-	_programLinkFlags = ' /INCREMENTAL:NO /NOLOGO /SUBSYSTEM:CONSOLE /MACHINE:X86 /ERRORREPORT:PROMPT'
-
-	# flags for dll creation in VS8.0 for windows XP
-	_dlCppFlags= '/O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "OPENTRACKER_EXPORTS" /D "__WIN32__" /D "__x86__" /D "_CRT_SECURE_NO_DEPRECATE" /D "TINYXML_MOD_DLL" /D "_WINDLL" /D "_MBCS" /FD /EHsc /MD /Fd"'+ buildPrefix +'/vc80.pdb" /W3 /nologo /Zi /TP /errorReport:prompt'
-
-	_dlIncFlags = [envvars['ACEROOT'], envvars['TINYXMLROOT'], envvars['TINYXMLMODROOT'] + '/src', envvars['OTROOT']+ '/extras', envvars['OTROOT']+ '/extras/intersense', envvars['ARTOOLKITPLUSROOT'] + '/include', envvars['OPENVIDEOROOT'] + '/include', envvars['XERCESCROOT'] + '/include']
-
-	_dlLibs = LIBS = ['ace', 'openvideo',  'kernel32', 'user32', 'gdi32', 'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32', 'oleaut32', 'uuid', 'odbc32', 'odbccp32'] 
-
-	_dlLibDir = [envvars['ACEROOT']+ '/lib/Win32',envvars['ACEROOT']+ "\\lib", envvars['ACEROOT'], envvars['TINYXMLROOT']+'/lib',envvars['TINYXMLMODROOT'] + '/lib/Win32', envvars['XERCESCROOT']+"\\lib", envvars['ARTOOLKITPLUSROOT']+ '/lib/Win32', envvars['OPENVIDEOROOT']+"\\lib\\Win32"]
-
-	_dlLinkFlags= '/MANIFEST /MANIFESTFILE:"'+ buildPrefix+'/opentracker.dll.intermediate.manifest" /DEBUG  /INCREMENTAL:NO /OPT:REF /OPT:ICF /SUBSYSTEM:WINDOWS /MACHINE:X86 /ERRORREPORT:PROMPT /PDB:'+ buildPrefix +'/' + dlname + '.pdb'
-
-
-if File("custom.py").exists():
-	opts = Options('custom.py') 
 else:
-	opts = Options('default.py')
-if File("custom_paths.py").exists():
-	from custom_paths import extra_lib_paths, extra_include_paths
-	_lpath += extra_lib_paths
-	_cpppath += extra_include_paths
+    #****************** default configuration ********************************
+    #   if you want to use a custom.py, start by copying the following block
+    #   then change the definitions to whatever you like.
+    #*************************************************************************
+    
+    version      = '2.0.0'
+    project      = 'opentracker'
+    description  = project + ' is a modified "small" library for handling tracking'
+    mainlib      = 'opentracker'
+    installRoot  = os.getcwd()
+    includeDir   = os.path.join(os.getcwd(),'include')
+    prefix       = ''
+
+    enableFlags = ['muddleware','corba','pyqt','otqt']
+    gllibs = []
+    targetList = []
+
+    # use flags that will be shared both by static and dynamic libs.
+    use= {'tinyxmlmod'   : 'true',
+          'artoolkitplus': 'false',
+          'joystick'     : 'false',
+          'otqt'        : 'false',
+          'muddleware'   : 'false',
+          'corba'        : 'false'
+          }
+
+    if sys.platform == 'win32':
+        # list of libraries that will be searched by the scanner.
+        # The scanner will try to locate the libraries and the flags
+        # needed to build with those libraries. The obtained result
+        # will be used by the build, for each target that lists a
+        # library in its 'libs' or in its 'use' sections.
+        libraryList =['boost', 'ace', 'xercesc', 'omniorb', 'muddleware','ot',
+		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus']
+
+
+        ot ={'name': 'opentracker',
+             'type': 'DL',
+             'libs': ['ace'],
+             'use' : use,
+             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+             'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
+             'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS']
+             }
+
+        otlib ={'name':'opentrackerlib',
+                'type':'LIB',
+                'libs': ['ace'],
+                'use' :use,
+                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+                'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
+                'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_STATIC']	
+                }
+        
+        otcon ={'name':'opentracker',
+                'type':'PRG',
+                'libs':['opentracker'],
+                'src_use': ['standalones/main.cxx']
+                }
+        
+        otcon2 ={'name':'opentracker2c',
+                 'type':'PRG',
+                 'libs':['opentracker', 'ace'],
+                 'src_use': ['standalones/configurable.cxx']
+                 }
+
+        targetList.append(ot)
+        targetList.append(otlib)
+        targetList.append(otcon)
+        targetList.append(otcon2)
+    elif sys.platform == 'linux' or sys.platform == 'linux2':
+        # list of libraries that will be searched by the scanner.
+        # The scanner will try to locate the libraries and the flags
+        # needed to build with those libraries. The obtained result will
+        # be used by the build, for each target that lists a library
+        # in its 'libs' or in its 'use' sections.
+        libraryList =['boost', 'ACE', 'xerces', 'omniorb', 'muddleware','ot',
+		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus']
+
+        ot ={'name': 'opentracker',
+             'type': 'DL',
+             'libs': ['ACE','xerces-c','curses'],
+             'use' : use,
+             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/test.cxx', 'misc/wince', 'misc/portio.cxx'],
+             'src_use' : ['ALL', os.path.join(os.getcwd(), 'extras/intersense/isense.c') ]
+             }
+
+        otcon ={'name':'opentracker',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main.cxx']
+                }
+    
+        otcon2 ={'name':'opentracker2c',
+                 'type':'PRG',
+                 'libs':['opentracker','ACE'],
+                 'src_use': ['standalones/configurable.cxx']
+                 }
+
+        targetList.append(ot)
+        targetList.append(otcon)
+        targetList.append(otcon2)
+    elif sys.platform =='darwin':
+        # list of libraries that will be searched by the scanner.
+        # The scanner will try to locate the libraries and the flags
+        # needed to build with those libraries. The obtained result will
+        # be used by the build, for each target that lists a library
+        # in its 'libs' or in its 'use' sections.
+        libraryList =['boost', 'ACE', 'xerces', 'omniorb', 'muddleware','ot',
+		      'openvideo', 'artoolkitplus']                      
+	#	      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus']
+
+        ot ={'name': 'opentracker',
+             'type': 'DL',
+             'libs': ['ACE','xerces-c','curses'],
+             'use' : use,
+             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/test.cxx', 'misc/wince', 'misc/portio.cxx', 'input/ParButtonModule.cxx','input/InterSenseModule.cxx','input/LinmouseModule.cxx'],
+             'src_use' : ['ALL']
+             }
+        
+        otcon ={'name':'opentracker',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main.cxx']
+                }
+    
+        otcon2 ={'name':'opentracker2c',
+                 'type':'PRG',
+                 'libs':['opentracker','ACE'],
+                 'src_use': ['standalones/configurable.cxx']
+                 }
+
+        targetList.append(ot)
+        targetList.append(otcon)
+        targetList.append(otcon2)
+
+    if ARGUMENTS.has_key('ENABLE_MUDDLEWARE'):
+        print "Support for Muddleware....... enabled."
+        print 'Please modify the targets to build support for Muddleware. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for Muddleware.\n'
+	os.abort()        	
+    if ARGUMENTS.has_key('ENABLE_CORBA'):
+        import OmniIdlCxx
+        OmniIdlCxx.generate(env)
+        print 'Support for Corba....... enabled.'
+        corba_libs = ['omniORB4', 'COS4', 'omniDynamic4', 'omnithread']
+        ot['libs']  += corba_libs
+        stubsandskeletons = env.OMNIIDLCXX(os.path.join('idl', 'OT_CORBA.idl'),
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons'))
+        if ARGUMENTS.has_key('ENABLE_OMNIORBPY'):
+            import OmniIdlPy
+            OmniIdlPy.generate(env)
+            pythonstubsandskeletons = env.OMNIIDLPY(os.path.join('idl', 'OT_CORBA.idl'),
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
+        
+        try:
+            ot['defines'] += ['USE_CORBA']
+        except KeyError:
+            ot['defines'] = ['USE_CORBA']
+        corba_files = [os.path.join('src', 'network', f) for f in ['CORBAModule.cxx', 'CORBAUtils.cxx']]
+        cxxstubsandskeletons = []
+        for stub in stubsandskeletons:
+            if str(stub).endswith('.cc'):
+                #stub_in_tree = os.path.join('src', 'skeletons', os.path.basename(str(stub)))
+                #print stub_in_tree, str(stub)
+                #env.Copy(stub_in_tree, stub)
+                cxxstubsandskeletons.append(stub) 
+            if str(stub).endswith('.hh'):
+                stub_header = os.path.join('include', 'OpenTracker', 'skeletons', os.path.basename(str(stub)))
+                #print stub_header, stub
+                env.Command(stub_header, stub, Copy("$TARGET", "$SOURCE"))
+        #headers = [os.path.join for f in stubsandskeletons if str(f).endswith('.hh')
+        #ot['src_use']    += corba_files + cxxstubsandskeletons
+        ot['src_use']    += [os.path.abspath(str(f)) for f in cxxstubsandskeletons]
+        for f in corba_files:
+            #print f, os.path.basename(f), ot['src_ignore']
+            ot['src_ignore'].remove(os.path.join('network', os.path.basename(f)))
+        otcon['libs']  += corba_libs
+        otcon2['libs'] += corba_libs
+        #print 'Please modify the targets to build support for Corba. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for Corba.\n'
+	#os.abort()
+    if ARGUMENTS.has_key('ENABLE_OMNIEVENTS'):
+        if not ARGUMENTS.has_key('ENABLE_CORBA'):
+            print "Can't have support for OmniEvents without having support for CORBA!"
+            print "set ENABLE_CORBA=1"
+            os.abort()
+        ot['defines'] += ['USE_OMNIEVENTS']
+        stubsandskeletons = env.OMNIIDLCXX(os.path.join('idl', 'OT_EventChannel.idl'),
+                                           CPPPATH=['/usr/local/share/idl/omniORB', '/usr/share/idl/omniORB'],
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons'))
+        if ARGUMENTS.has_key('ENABLE_OMNIORBPY'):
+            pythonstubsandskeletons = env.OMNIIDLPY(os.path.join('idl', 'OT_EventChannel.idl'),
+                                                    CPPPATH=['/usr/local/share/idl/omniORB', '/usr/share/idl/omniORB'],
+                                                    OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
+
+        for stub in [str(f) for f in stubsandskeletons if str(f).endswith('.hh')]:
+            env.Command(os.path.join('include','OpenTracker', 'skeletons', os.path.basename(stub)), stub, Copy("$TARGET", "$SOURCE"))
+        ot['src_use'] += [os.path.abspath(str(f)) for f in stubsandskeletons if str(f).endswith('.cc')]
+        print 'Support for OmniEvents....... enabled.'
+    if ARGUMENTS.has_key('ENABLE_SHARED'):
+        if not ARGUMENTS.has_key('ENABLE_CORBA'):
+            print "Can't have support for Shared without having support for CORBA!"
+            print "set ENABLE_CORBA=1"
+            os.abort()
+        if not ARGUMENTS.has_key('ENABLE_CORBA'):
+            print "Can't have support for Shared without having support for OmniEvents!"
+            print "set ENABLE_OMNIEVENTS=1"
+            os.abort()
+        print 'Support for Shared ....... enabled.'
+        ot['defines'] += ['USE_SHARED']
+        ot['libs'] += ['shared']
+    if ARGUMENTS.has_key('ENABLE_PHANTOM_MIDDLEWARE'):
+        print 'Support for Phantom Middleware....... enabled.'
+        ot['defines'] += ['USE_PHANTOMMIDDLEWARE']
+        ot['libs'] += ['phantom']
+    if ARGUMENTS.has_key('ENABLE_PYQT'):
+        print 'Support for PyQt....... enabled.'
+        print 'Please modify the targets to build support for PyQt. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for PyQt.\n'
+	os.abort()        	
+    if ARGUMENTS.has_key('ENABLE_OTQT'):
+        # make the library scanner search the configuration of qt
+        libraryList.append('qt-mt')
+        # add the qt flags to the dll
+        ot['libs'].append('qt-mt')
+        try:
+            ot['defines'] += ['QT_NO_DEBUG', 'USE_OTQT']
+        except KeyError:
+            ot['defines'] = ['QT_NO_DEBUG', 'USE_OTQT']
+        ot['src_use'].append('../extras/newmat10')
+        #ot['src_use'].append('../include/OpenTracker/otqt')
+	# adding a source that does not exist to the target
+        ot['src_ignore'].remove('otqt')
+        ot['src_ignore'].append('otqt/otqt_mem_calib_main.cxx')
+        #use['otqt'] = 'true'
+        otcon['libs'].append('qt-mt')
+        otcon2['libs'].append('qt-mt')
+        
+        otqtcalib = {'name':'otqt_calib',
+                'type':'PRG',
+                'libs':['opentracker','ACE','qt-mt'],
+                'src_use': ['otqt/otqt_mem_calib_main.cxx','../extras/newmat10']
+                }
+        mocaction='moc $SOURCE -o $TARGET'
+        bld = Builder(action=mocaction)
+        env = Environment(ENV=os.environ, tools=['default','qt'])
+        env['QT_LIB'] = 'qt-mt'
+        #env['QT_DEBUG'] = 1
+        #env['QT_AUTOSCAN'] = 0
+        env['BUILDERS']['moc']= bld
+        mocdep = env.moc('src/otqt/moc_OTQT.cxx', 'include/OpenTracker/otqt/OTQt.h')
+
+	# a NodeList is added to the src_use. In this case they will be added as 
+	# source files for the compiler, and also as dependencies in the environment
+	# so that the appropriate builder is called before compiling the target
+        ot['src_use'].append(mocdep)
+
+        targetList.append(otqtcalib)
+
+        print 'Support for OTQt....... enabled.'
+
+#**********************  End of the default configuration*******************************
+#     if you want to use a custom.py, you should first copy up to here, and then
+#     change the values to suit your own needs.
+#***************************************************************************************
+
+
+#======================== CONFIGURATION SECTION =============================
+# Following is the configuration section. In it most of the options for
+# building the specified targets will be set, and then written to a file
+# called config.user. This file can be later personalized to allow some
+# other user defined configuration.
+#===========================================================================#
+
+# Following are default flags for creating the supported target types. 
+# Default flags will be applied to all targets of the same sort. In this
+# section flags for different types of builds in different platforms can be
+# set so that they apply to all targets of the same sort. Supported targets
+# are dynamic libraries (dllflags), static libraries (libflags), and 
+# executables (prgflags).
+
+
+if sys.platform == 'win32':
+	from win32Flags import defaultBuildFlags
 	
+	# list of libraries that might be used by this project
+	scannerType = 'env'
 
-opts.Add(BoolOption('corba', 'Set to 1 to build in CORBAModule', 0)) 
-opts.Add(BoolOption('pyqt', 'Set to 1 to build in pyqt applications', 0)) 
-env=Environment(ENV = os.environ, options=opts)
-Help(opts.GenerateHelpText(env))
+	# directories needed for the build and install process
 
-# Test to see whether the CORBAModule should be built
-if env['corba']:
-	idl_path = './idl'
-	if sys.platform == 'win32':
-		_dlLibDir += [corbaLibPath]
-		_dlIncFlags += [corbaIncPath, os.path.join(idl_path, 'skeletons')]
-		_dlLibs += ['omniORB4', 'omnithread', 'omniDynamic4']
-
-	else:
-		defs  += ' -DUSE_CORBA '
-		_libs += ['omniORB4', 'omnithread', 'omniDynamic4']
-		# append skeleton directory
-		_cpppath.append(os.path.join(idl_path, 'skeletons'))
-
-	from OTSConsBuilders import omniidl
-
-	omniidl.generate(env)
-
-	idl_files = glob.glob(idl_path + '/*.idl')
-	idl_dict  = {}
-	for idl_file in idl_files:
-		stem = str(idl_file).split('/')[-1][0:-4]
-		idl_dict[stem] = File(idl_file)
-	pydirs = []
-	for _idl in idl_dict.values():
-		# Call the OMNIIDL builder with the idl file
-
-		idl_targets = env.OMNIIDL(_idl)
-
-		stubSK = idl_targets[1]
-		pystubs = idl_targets[3:]
-		for py in pystubs:
-			pydirs.append(os.path.dirname(str(py)))
-		skeletons.append(stubSK)
-
-	# check to see whether there should be a cleanup of these directories
-	if env.GetOption('clean'):
-		print "Cleanup of the python stub directories"
-		for pydir in pydirs:
-			Execute(Delete(pydir))
-else:
-	# remove CORBA files from list of network source files
-	for file in corba_files:
-		network_source_files.remove(file)
-
-if env['pyqt']:
-	# PyQt: build the .ui files
-	from OTSConsBuilders import pyuic
-	pyuic.generate(env)
-	ui_files = ['src_python/ManualTrackerPython/ManualTrackerGUI.ui']
-	for ui_file in ui_files:
-		env.PYUIC(ui_file)
+	buildDir     = os.path.join(os.getcwd(), 'build', 'win32')
 
 
 
-allsources = common_source_files + core_source_files + network_source_files + tool_source_files + misc_source_files + input_source_files + skeletons
-env['OBJPREFIX']= buildPrefix
+	# attempt to add the define DLLNAME_EXPORTS to all targets of type DL
+	# in most of the cases it might solve the problem of exporting symbols
+	for t in targetList:
+		if t['type'] == 'DL':
+			if t.has_key('defines'):
+				t['defines'].append(t['name'].upper() + '_EXPORTS')
+			else:
+				t['defines'] = [t['name'].upper() + '_EXPORTS']
+	
+elif sys.platform == 'linux' or sys.platform == 'linux2':
+	from linuxFlags import *
+	
+	scannerType = 'mix'
 
-buildTarget = buildPrefix + dlname
-
-if sys.platform =='win32':
-	defs = _dlCppFlags
-	_libs = _dlLibs
-	_cpppath = _dlIncFlags
-	_lpath = _dlLibDir
-	_linkflags = _dlLinkFlags
-#	env['PDB']=buildPrefix + dlname +'.pdb'
-
-otlib = env.SharedLibrary(buildTarget, allsources, 
-			   CCFLAGS = defs, \
-			   LIBS=_libs, CPPPATH=_cpppath, \
-			   LIBPATH=_lpath, LINKFLAGS=_linkflags)
-
-
-if sys.platform == 'win32':
-	buildTarget = buildPrefix + programname
-	_linkflags = _programLinkFlags
-	_libs = _programLibs
-	_lpath = _programLibDirs
-	_cpppath = _programIncFlags
-	defs = _programCppFlags
-	env['PDB']= buildPrefix+ 'standalone.pdb'
-
-ot = env.Program(buildTarget, [main_file] , \
-		  LIBS= _libs + [dlname],\
-		  CPPPATH=_cpppath, \
-		  CCFLAGS = defs, \
-		  LIBPATH= _lpath, LINKFLAGS=_linkflags)
+	# directories needed for the build and install process
+	buildDir     = os.path.join(os.getcwd(), 'build', 'linux')
 
 
-# I still don't know how to compile middleware in windows
-if sys.platform=='win32':
-	middleware = []
-else:
-	middleware = env.Program('middleware', middleware_file, \
-				 LIBS= _libs + [dlname],\
-				 CPPPATH=_cpppath, \
-				 CCFLAGS = defs, \
-				 LIBPATH=_lpath)
+
+elif sys.platform == 'darwin':
+	from darwinFlags import *
+	
+	# list of libraries that might be used by this project
+	scannerType = 'mix'
+
+	buildDir     = os.path.join(prefix, 'build', 'darwin')
 
 
-if sys.platform == 'win32':
-	for lib in otlib:
-		print lib
+srcDir       = os.path.join(os.getcwd(), 'src')	
 
 
-env.Install(binInstallDir, [ot, middleware])
-env.Install(libInstallDir, otlib)
+	
+print 'CONFIGURE: Searching for installed libraries'
+# to get the include path for all libraries we need to retrieve 
+# the environment vars pointing to the root of each lib
+envvars = os.environ
+
+targets = []
+# create the builder with an empty target list
+buildConfig = icgbuilder.ConfigBuilder(project, scannerType, envvars,
+				       ARGUMENTS , libraryList)
+
+# add extra configuration flags
+buildConfig.desc     = description
+buildConfig.mainlib  = mainlib
+buildConfig.version  = version
+buildConfig.prefix   = prefix
+buildConfig.buildDir = buildDir
+buildConfig.srcDir   = srcDir
+buildConfig.enableFlags = enableFlags
+
+# setup the default build flags in the configurator
+buildConfig.setDefaultBuildFlags(defaultBuildFlags)
+
+# add main include directory to all configurations
+buildConfig.setIncDir(includeDir)
+buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras', 'intersense'))
+buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras'))
+buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras', 'newmat10'))
+
+# create the build targets
+buildConfig.setTargetList(targetList)
+
+# this call makes all the targets try to guess their include and library flags
+# and prepares the configuration for the build
+buildConfig.createBuildEnvironments()
+
+
+# generate options for the first time to 
+
+# write a config file to be read by scons and used to build each target
+buildConfig.writeConfigFile(ARGUMENTS)
+buildConfig.generateOptions()
+#-----------------------------------------------------------------------------
+# Read the options from the config file and update the various necessary flags
+# 
+#
+#-----------------------------------------------------------------------------
+
+Help(buildConfig.getHelpText())
+
+# write all dependencies generated by external modules, before exporting the dict
+buildConfig.writeDependencies()
+# get the dict for the compile-install phase
+user_options_dict = buildConfig.getOptionsDict()
+
+ibuilder = icgbuilder.IcgBuilder(user_options_dict, env)
+
+
+print "\n"
+print "============================================================"
+print "=      Configuration options for "+ project +" compile       ="
+print "============================================================"
+
+
+
+#==================    BUILD SECTION    ====================================
+#
+# In this section, the targets are compiled using the options from 
+# config.opts, which are derived themselves from those in config.user
+#
+#===========================================================================
+
+
+ibuilder.buildAll()
+ibuilder.installAll()
+
+###########################################################################
+# Done:)
+###########################################################################
+

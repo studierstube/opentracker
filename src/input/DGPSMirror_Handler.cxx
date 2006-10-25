@@ -46,9 +46,9 @@
 #pragma warning(disable:4786)
 #endif
 
-#include <stdlib.h>
-#include "GPSDriver.h"
-#include "DGPSMirror_Handler.h"
+#include <cstdlib>
+#include <OpenTracker/input/GPSDriver.h>
+#include <OpenTracker/input/DGPSMirror_Handler.h>
 
 
 #ifndef OT_NO_GPS_SUPPORT

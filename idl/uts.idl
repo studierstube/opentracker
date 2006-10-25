@@ -1,0 +1,42 @@
+// uts.idl
+module UTS {
+  interface UbitrackProcess {
+    // 	string getProcessId();
+    //  	boolean isAlive();
+  };
+
+  interface UbitrackClient : UbitrackProcess {
+    void updateConfiguration(in string xmlstring);
+    string getConfiguration();
+  };
+
+  typedef sequence<UbitrackClient> UbitrackClientSeq;
+  
+  interface UbitrackMonitor : UbitrackProcess {
+	void removeUbitrackClient(in UbitrackClient uc);
+	void addUbitrackClient(in UbitrackClient uc);
+	void setClients(in UbitrackClientSeq ucs);
+	void updateClient(in UbitrackClient uc, in string xmlstring);
+  };
+  
+  interface OTXMLServer {
+  	boolean validate(in string xmlstring);
+  	string otxmltodot(in string xmlstring);
+  };
+  
+  interface UbitrackServer : UbitrackProcess, OTXMLServer {
+    void subscribeClient(in UbitrackClient uc);
+    void unsubscribeClient(in UbitrackClient uc);
+    void subscribeMonitor(in UbitrackMonitor um);
+    void unsubscribeMonitor(in UbitrackMonitor um);
+    UbitrackClientSeq getClients();
+    string getConfiguration(in UbitrackClient uc);
+    //void changeConfiguration(in UbitrackClient uc, in string xmlstring);
+    boolean testObjRefIntegrity();
+    void updateClientConfiguration(in UbitrackClient uc, in string xmlstring);
+  };
+  
+  interface DotViewer {
+  	void setDot(in string dot);
+  };
+};

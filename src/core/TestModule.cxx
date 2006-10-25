@@ -42,30 +42,35 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include <stdlib.h>
+#include <OpenTracker/tool/disable4786.h>
+#include <cstdlib>
 
-#include "TestModule.h"
+#include <OpenTracker/core/TestModule.h>
 
 
 #ifndef OT_NO_TESTMODULE_SUPPORT
 
 
-#include "TestSource.h"
+#include <OpenTracker/core/TestSource.h>
 
-#include "MathUtils.h"
+#include <OpenTracker/core/MathUtils.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 // #include <iostream> FIXME Why was this included ?
 
 #include <ace/Log_Msg.h>
 
+#include <OpenTracker/core/Context.h>
 //using namespace std;
 
 // Destructor method
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(TestModule){
+		OT_MODULE_REGISTRATION_DEFAULT(TestModule, "TestConfig");
+	}
 
     TestModule::~TestModule()
     {
@@ -101,6 +106,7 @@ namespace ot {
             {
                 source->noise = -1;
             }
+
             nodes.push_back( source );
 
             ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));

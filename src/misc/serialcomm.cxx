@@ -41,19 +41,19 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "serialcomm.h"
+#include <OpenTracker/misc/serialcomm.h>
 
 // Windows Implementation
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #ifdef WIN32
-#include <stdio.h>
+#include <cstdio>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <string.h>
+#include <cstring>
 
 #define DEBUGING 1
 

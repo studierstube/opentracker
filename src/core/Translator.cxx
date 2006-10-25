@@ -43,7 +43,7 @@
 
 #include <iostream>
 
-#include "Translator.h"
+#include <OpenTracker/core/Translator.h>
 
 namespace ot
 {
@@ -52,9 +52,10 @@ namespace ot
     const std::string Translator::getGenericName(const std::string &rttiName) const throw (std::runtime_error)
     {
         TranslationMap::const_iterator it = translationTable.find(rttiName);
-        if (it == translationTable.end())
-            throw std::runtime_error("unregistered type '" + rttiName + "' - please register new types using Event::registerGenericTypeName<>() to fix this problem");
-        else
+		
+		if (it == translationTable.end()){	      
+			throw std::runtime_error("unregistered type '" + rttiName + "' - please register new types using Event::registerGenericTypeName<>() to fix this problem");
+		}else
             return (*it).second;
     }
 

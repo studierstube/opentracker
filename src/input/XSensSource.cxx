@@ -43,7 +43,7 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
 #include <ace/Log_Msg.h>
 
@@ -68,7 +68,7 @@
 #define MT_LOGEULER		    1
 #define MT_LOGROTMATRIX	    2
 
-#include "XSensSource.h"
+#include <OpenTracker/input/XSensSource.h>
 
 
 #ifndef OT_NO_XSENS_SUPPORT

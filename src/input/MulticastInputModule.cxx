@@ -44,18 +44,18 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 #include <ace/Time_Value.h>
 #include <ace/Log_Msg.h>
 
-#include "MulticastInputModule.h"
-#include "MulticastInputSource.h"
+#include <OpenTracker/input/MulticastInputModule.h>
+#include <OpenTracker/input/MulticastInputSource.h>
 
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include <iostream>
 
 
@@ -64,6 +64,10 @@
 
 namespace ot {
 
+
+	OT_MODULE_REGISTER_FUNC(MulticastInputModule){
+			OT_MODULE_REGISTRATION_DEFAULT(MulticastInputModule, "MulticastInputConfig" );
+	}
 
     static const float DEG_TO_RAD = (float)(3.14159/180.0);
 

@@ -42,15 +42,15 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "EllipsoidTransformNode.h"
+#include <OpenTracker/common/EllipsoidTransformNode.h>
 
 
 #ifndef OT_NO_ELLIPSOIDTRANSFORM_SUPPORT
 
 
-#include <math.h>
+#include <cmath>
 
 //using namespace std;
 

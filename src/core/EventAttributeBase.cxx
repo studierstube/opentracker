@@ -44,7 +44,7 @@
 #include <iostream>
 #include <string>
 
-#include "EventAttributeBase.h"
+#include <OpenTracker/core/EventAttributeBase.h>
 
 namespace ot
 {

@@ -41,10 +41,10 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "../tool/disable4786.h"
-#include "StringTable.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/core/StringTable.h>
+#include <cstdlib>
+#include <cstdio>
 
 //using namespace std;
 

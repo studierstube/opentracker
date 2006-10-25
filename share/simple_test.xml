@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig headerline="Sample Output" interval="1"/>
+  </configuration>
+  <ConsoleSink comment="Test Source 1">
+    <EventTransform translation="1 1 1" scale="1 1 1"
+    rotationtype="euler" rotation="0 0 0"> 
+      <TestSource frequency="100000" />
+    </EventTransform>
+  </ConsoleSink>
+</OpenTracker>

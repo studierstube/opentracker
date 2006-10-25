@@ -41,13 +41,13 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "../../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 #ifndef OT_NO_XMLWRITER_SUPPORT
 
 
 // selects between usage of XERCES and TinyXML
-#include "../../tool/XMLSelection.h"
+#include <OpenTracker/tool/XMLSelection.h>
 
 #ifdef USE_XERCES
 #include <xercesc/dom/DOM.hpp>
@@ -57,8 +57,8 @@
 
 #include <memory>
 
-#include "XMLWriter.h"
-#include "../../tool/OT_ACE_Log.h"
+#include <OpenTracker/misc/xml/XMLWriter.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 //using namespace std;
 

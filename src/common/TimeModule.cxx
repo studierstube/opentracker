@@ -42,11 +42,11 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "TimeModule.h"
-#include <stdio.h>
+#include <cstdlib>
+#include <OpenTracker/common/TimeModule.h>
+#include <cstdio>
 
 //using namespace std;
 
@@ -57,6 +57,11 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(TimeModule){
+		TimeModule * time = new TimeModule();
+		context->addModule( "TimeConfig", * time );
+	}
 
     void TimeModule::init( StringTable & attributes,  ConfigNode * localTree)
     {

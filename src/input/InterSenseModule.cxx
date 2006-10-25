@@ -43,15 +43,15 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/StringAligner.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/StringAligner.h>
 
 #include <ace/Log_Msg.h>
 
-#include "InterSenseSource.h"
-#include "InterSenseModule.h"
+#include <OpenTracker/input/InterSenseSource.h>
+#include <OpenTracker/input/InterSenseModule.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <isense.h>
 
@@ -60,6 +60,10 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(InterSenseModule){
+		OT_MODULE_REGISTRATION_DEFAULT(InterSenseModule, "InterSenseConfig");
+	}
 
     struct ISTracker {
         ISD_TRACKER_HANDLE handle;

@@ -42,12 +42,10 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "FilterNode.h"
-#include <math.h>
-
-//using namespace std;
+#include <OpenTracker/common/FilterNode.h>
+#include <cmath>
 
 // constructor method.
 

@@ -42,9 +42,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "UbisenseSource.h"
+#include <OpenTracker/input/UbisenseSource.h>
 #ifdef USE_UBISENSE
 #ifdef WIN32
 
@@ -131,7 +131,9 @@ namespace ot {
 
 #endif
 #else
+#ifdef WIN32
 #pragma message(">>> no Ubisense support")
+#endif
 #endif  // USE_UBISENSE
 
 /* 

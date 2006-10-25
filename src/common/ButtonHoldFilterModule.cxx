@@ -42,15 +42,15 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "ButtonHoldFilterModule.h"
-#include "ButtonHoldFilterModule.h"
+#include <cstdlib>
+#include <OpenTracker/common/ButtonHoldFilterModule.h>
+#include <OpenTracker/common/ButtonHoldFilterModule.h>
 
-#include "ButtonHoldFilterNode.h"
+#include <OpenTracker/common/ButtonHoldFilterNode.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 
 //using namespace std;
@@ -63,6 +63,12 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(ButtonHoldFilterModule){
+		OT_MODULE_REGISTRATION_DEFAULT(ButtonHoldFilterModule , "ButtonHoldFilterConfig" );
+	}
+
+
 
     ButtonHoldFilterModule::~ButtonHoldFilterModule()
     {

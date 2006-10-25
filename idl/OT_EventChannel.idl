@@ -1,0 +1,8 @@
+// OT_EventChannel.idl
+#include <COS/CosEventComm.idl>
+
+module OT_EventChannel {
+
+  interface PushConsNode : CosEventComm::PushConsumer {};
+
+};

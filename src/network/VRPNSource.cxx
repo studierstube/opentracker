@@ -41,11 +41,11 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "VRPNSource.h"
+#include <OpenTracker/network/VRPNSource.h>
 
 #ifdef USE_VRPN
 
-#include <assert.h>
+#include <cassert>
 
 // #define ACE_NTRACE 0
 
@@ -144,7 +144,9 @@ void VRPNSource::mainloop()
 }
 
 #else
+#ifdef WIN32
 #pragma message(">>> no VRPN support")
+#endif
 #endif
 
 /* 

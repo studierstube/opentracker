@@ -42,28 +42,35 @@
 /* ======================================================================= */
 
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 
 #ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
 
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include <stdlib.h>
+#include <OpenTracker/tool/disable4786.h>
+#include <cstdlib>
 
-#include "InterpolatorModule.h"
-#include "InterpolatorModule.h"
+#include <OpenTracker/common/InterpolatorModule.h>
+#include <OpenTracker/common/InterpolatorModule.h>
 
-#include "ElasticFilterNode.h"
+#include <OpenTracker/common/ElasticFilterNode.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 
 #include <ace/Log_Msg.h>
 
 
 namespace ot {
+
+
+	OT_MODULE_REGISTER_FUNC(InterpolatorModule){
+		OT_MODULE_REGISTRATION_DEFAULT(InterpolatorModule, "InterpolatorConfig" );
+	}
+
+
 
     // Destructor method
 

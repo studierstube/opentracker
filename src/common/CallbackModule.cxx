@@ -42,17 +42,17 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "CallbackModule.h"
+#include <cstdlib>
+#include <OpenTracker/common/CallbackModule.h>
 
 #include <iostream>
 
 //using namespace std;
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 // called to construct a new Node.
 
@@ -61,6 +61,12 @@
 
 
 namespace ot {
+
+
+	OT_MODULE_REGISTER_FUNC(CallbackModule){
+		OT_MODULE_REGISTRATION_DEFAULT(CallbackModule,"CallbackConfig" );
+	}
+
 
     Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
     {

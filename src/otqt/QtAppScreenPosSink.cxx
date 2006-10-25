@@ -42,10 +42,10 @@
  * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
  */
 
-#include <dllinclude.h>
+#include <OpenTracker/dllinclude.h>
 #if USE_OTQT
 
-#include "QtAppScreenPosSink.h"
+#include <OpenTracker/otqt/QtAppScreenPosSink.h>
 
 namespace ot {
 

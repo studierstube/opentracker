@@ -42,9 +42,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "ElasticFilterNode.h"
+#include <OpenTracker/common/ElasticFilterNode.h>
 
 
 #ifndef OT_NO_ELASTICFILTER_SUPPORT

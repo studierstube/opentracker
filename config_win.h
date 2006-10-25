@@ -162,12 +162,14 @@
  * Support for this is only available on windows. */
 //#define USE_SPACEDEVICE 1
 
+
 /** uncomment the following line to compile support for GoGo interaction support. */
 //#define USE_GOGO 1
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
 //#define USE_PANTILTUNIT 1
+
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
  * Support for this is only available on windows. Otherwise an empty implementation

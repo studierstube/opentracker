@@ -42,18 +42,18 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "CyberMouseSource.h"
-#include "CyberMouseModule.h"
+#include <OpenTracker/input/CyberMouseSource.h>
+#include <OpenTracker/input/CyberMouseModule.h>
 
 #ifdef USE_CYBERMOUSE
 
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
-#include <iostream.h>
+#include <iostream>
 #endif
 
 #include "freeddll.h"
@@ -67,6 +67,10 @@
 #define SZ_CloseFREED       "CloseFREED"
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(CyberMouseModule){		
+			OT_MODULE_REGISTRATION_DEFAULT(CyberMouseModule, "CyberMouseModule" );
+	}
 
     typedef ULONG (FAR PASCAL *PFNGet_FREED_Info)(FREED_info *Info);
     extern PFNGet_FREED_Info lpfnGet_FREED_Info;
@@ -213,7 +217,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no CyberMouse support")
+#endif
 #endif
 
 /* 

@@ -42,8 +42,8 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <ace/Log_Msg.h>
 #include <string>  
@@ -52,11 +52,11 @@
 #include <objbase.h>
 #endif
 
-#include "OrientationModule.h"
-#include "OrientationSource.h"
+#include <OpenTracker/input/OrientationModule.h>
+#include <OpenTracker/input/OrientationSource.h>
 
-#include "../core/MathUtils.h"
-#include "../misc/serialcomm.h"
+#include <OpenTracker/core/MathUtils.h>
+#include <OpenTracker/misc/serialcomm.h>
 
 #include <assert.h>
 #include <math.h>
@@ -76,6 +76,14 @@
 
 
 namespace ot {
+
+
+    OT_MODULE_REGISTER_FUNC(OrientationModule){
+        OT_MODULE_REGISTRATION_DEFAULT(OrientationModule, "OrientationConfig");
+    }
+
+
+
 
     OrientationModule::OrientationModule() :
         ThreadModule(),
@@ -109,9 +117,7 @@ namespace ot {
 
 
     void OrientationModule::init(StringTable& attributes, ConfigNode * localTree)
-    {
-        int myResult = 0;
-
+    {    
         // cout << "OrientationModule::init" << endl;
 
         ThreadModule::init(attributes, localTree);

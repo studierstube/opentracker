@@ -41,7 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "EventQueueImplementation.h"
+#include <OpenTracker/core/EventQueueImplementation.h>
 
 #include <algorithm>
 

@@ -41,9 +41,9 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "VRPNModule.h"
-#include "VRPNSource.h"
-#include "VRPNSink.h"
+#include <OpenTracker/network/VRPNModule.h>
+#include <OpenTracker/network/VRPNSource.h>
+#include <OpenTracker/network/VRPNSink.h>
 
 #ifdef USE_VRPN
 
@@ -59,6 +59,11 @@
 
 using namespace std;
 using namespace ot;
+
+
+	OT_MODULE_REGISTER_FUNC(VRPNModule){
+		OT_MODULE_REGISTRATION_DEFAULT(VRPNModule , "VRPNConfig" );
+	}
 
 VRPNModule::VRPNModule() : 
     Module(), 
@@ -170,7 +175,9 @@ void VRPNModule::pullEvent()
 }
 
 #else
+#ifdef WIN32
 #pragma message(">>> no VRPN support")
+#endif
 #endif
 
 /* 

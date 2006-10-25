@@ -42,19 +42,19 @@
 /* ======================================================================== */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <ace/Log_Msg.h>
 
-#include "DynaSightSource.h"
-#include "DynaSightModule.h"
+#include <OpenTracker/input/DynaSightSource.h>
+#include <OpenTracker/input/DynaSightModule.h>
 
-#include "../core/MathUtils.h"
-#include "../misc/serialcomm.h"
+#include <OpenTracker/core/MathUtils.h>
+#include <OpenTracker/misc/serialcomm.h>
 
-#include <assert.h>
-#include <math.h>
+#include <cassert>
+#include <cmath>
 
 #include <iostream>
 
@@ -71,6 +71,11 @@
 
 
 namespace ot {
+
+
+	OT_MODULE_REGISTER_FUNC(DynaSightModule){
+		OT_MODULE_REGISTRATION_DEFAULT(DynaSightModule, "DynaSightConfig");
+	}
 
     // constructor initializing the thread manager
     DynaSightModule::DynaSightModule() :

@@ -42,20 +42,20 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "WacomGraphireSource.h"
-#include "WacomGraphireModule.h"
+#include <OpenTracker/input/WacomGraphireSource.h>
+#include <OpenTracker/input/WacomGraphireModule.h>
 
 #ifdef USE_WACOMGRAPHIRE
 
 #include <ace/Log_Msg.h>
 
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
-#include <iostream.h>
+#include <iostream>
 #endif
 
 #pragma comment(lib,"wntab32x")
@@ -73,6 +73,10 @@
 //using namespace std;
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(WacomGraphireModule){
+			OT_MODULE_REGISTRATION_DEFAULT(WacomGraphireModule, "WacomGraphireModule" );
+	}
 
     HANDLE    hInst;   // Handle for instance
     PACKET    pkt;    // Packet
@@ -251,7 +255,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no wacom support")
+#endif
 #endif
 
 /* 

@@ -42,26 +42,30 @@
  * @file                                                                    */
 /* ======================================================================= */
 
-#include <stdlib.h>
-#include "GroupGateModule.h"
-#include "GroupGateNode.h"
+#include <cstdlib>
+#include <OpenTracker/common/GroupGateModule.h>
+#include <OpenTracker/common/GroupGateNode.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 
 #ifndef _WIN32_WCE
 #include <sstream>
 #endif //_WIN32_WCE
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #ifndef OT_NO_GROUPGATE_SUPPORT
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(GroupGateModule){		
+		OT_MODULE_REGISTRATION_DEFAULT(GroupGateModule, "GroupGateConfig" ); 
+	}
 
     GroupGateGroup::GroupGateGroup(const char *name)
     {

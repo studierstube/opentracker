@@ -41,12 +41,11 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <stdlib.h>
+#include <cstdlib>
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-
-#include "ButtonHoldFilterNode.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/common/ButtonHoldFilterNode.h>
 
 
 #ifndef OT_NO_BUTTON_SUPPORT

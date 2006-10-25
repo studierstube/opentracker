@@ -42,7 +42,7 @@
 /* ======================================================================= */
 
 
-#include "PositionFilterNode.h"
+#include <OpenTracker/common/PositionFilterNode.h>
 
 
 #ifndef OT_NO_POSITIONFILTER_SUPPORT

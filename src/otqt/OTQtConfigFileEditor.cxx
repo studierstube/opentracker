@@ -42,11 +42,11 @@
  * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
  */
 
-#include <dllinclude.h>
+#include <OpenTracker/dllinclude.h>
 #if USE_OTQT
 
-#include "OTQtConfigFileEditor.h"
-#include "QtMouseEventCalibModule.h"
+#include <OpenTracker/otqt/OTQtConfigFileEditor.h>
+#include <OpenTracker/otqt/QtMouseEventCalibModule.h>
 #include <stdexcept>
 
 namespace ot {

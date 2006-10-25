@@ -50,14 +50,18 @@
 #include <xsens/IMTObj_i.c>
 #endif
 
-#include "XSensModule.h"
-#include "XSensSource.h"
+#include <OpenTracker/input/XSensModule.h>
+#include <OpenTracker/input/XSensSource.h>
 
 
 #ifndef OT_NO_XSENS_SUPPORT
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(XSensModule){
+		OT_MODULE_REGISTRATION_DEFAULT(XSensModule , "XSensConfig" );
+	}
 
 
     XSensModule::XSensModule() :

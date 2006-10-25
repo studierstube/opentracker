@@ -42,13 +42,13 @@
 /* ======================================================================== */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "../tool/FixWinCE.h"
+#include <cstdlib>
+#include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Time_Value.h>
 
-#include "MagicYModule.h"
+#include <OpenTracker/input/MagicYModule.h>
 
 #include <iostream>
 #include <string>
@@ -60,6 +60,10 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(MagicYModule){
+		OT_MODULE_REGISTRATION_DEFAULT(MagicYModule, "MagicYConfig" );
+	}
 
     // constructor initializing the thread manager
     MagicYModule::MagicYModule() : ThreadModule(), NodeFactory(), stop(0)

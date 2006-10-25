@@ -42,9 +42,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "MergeNode.h"
+#include <OpenTracker/common/MergeNode.h>
 
 
 #ifndef OT_NO_MERGENODE_SUPPORT

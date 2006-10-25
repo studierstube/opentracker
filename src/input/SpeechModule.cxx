@@ -43,21 +43,27 @@
 
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 
-#include "SpeechModule.h"
-#include "SpeechSource.h"
-#include "SpeechSet.h"
-#include "SpeechCore.h"
+#include <OpenTracker/input/SpeechModule.h>
+#include <OpenTracker/input/SpeechSource.h>
+#include <OpenTracker/input/SpeechSet.h>
+#include <OpenTracker/input/SpeechCore.h>
 
 
 #ifndef OT_NO_SPEECH_SUPPORT
 
 
 namespace ot {
+
+	
+
+	OT_MODULE_REGISTER_FUNC(SpeechModule){		
+		OT_MODULE_REGISTRATION_DEFAULT(SpeechModule , "SpeechRecoConfig" );
+	}
 
     // Destructor methode
     SpeechModule::~SpeechModule()

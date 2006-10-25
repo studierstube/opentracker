@@ -42,25 +42,25 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <stdlib.h>
-#include "../tool/FixWinCE.h"
+#include <cstdlib>
+#include <OpenTracker/tool/FixWinCE.h>
 #include <ace/OS.h>
 #include <ace/Reactor.h>
 #include <ace/Thread.h>
 #include <ace/FILE_Connector.h>
 #include <ace/FILE_IO.h>
 
-#include "GPSModule.h"
-#include "GPSSource.h"
-#include "GPSDirectionSource.h"
-#include "GPSGarminCompass.h"
-#include "GPSGarminAltitude.h"
-#include "GPSInfoSource.h"
+#include <OpenTracker/input/GPSModule.h>
+#include <OpenTracker/input/GPSSource.h>
+#include <OpenTracker/input/GPSDirectionSource.h>
+#include <OpenTracker/input/GPSGarminCompass.h>
+#include <OpenTracker/input/GPSGarminAltitude.h>
+#include <OpenTracker/input/GPSInfoSource.h>
 
 #include <iostream>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #ifndef OT_NO_GPS_SUPPORT
@@ -68,6 +68,9 @@
 
 namespace ot {
 
+	OT_MODULE_REGISTER_FUNC(GPSModule){
+        OT_MODULE_REGISTRATION_DEFAULT(GPSModule, "GPSConfig");
+	}
 
     ACE_Reactor gps_reactor;
 

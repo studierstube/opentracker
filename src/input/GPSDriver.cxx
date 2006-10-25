@@ -46,26 +46,26 @@
 // required for WinCE to make sure time_t is 32-bits !!!
 // crappy WinCE SDK defines 32-bit version AND 64-bit version,
 // while ACE expects the 32-bits version...
-#include <stdlib.h>
-
-// this will remove the warning 4786
-#include "../tool/disable4786.h"
 #include <cstdlib>
 
-#include "../OpenTracker.h"
-#include "../tool/FixWinCE.h"
+// this will remove the warning 4786
+#include <OpenTracker/tool/disable4786.h>
+#include <cstdlib>
+
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Reactor.h>
 #include <iostream>
 #include <algorithm>
 #include <memory>
 
-#include "GPSDriver.h"
-#include "GPS_Handler.h"
-#include "DGPSIP_Handler.h"
-#include "DGPSMirror_Handler.h"
+#include <OpenTracker/input/GPSDriver.h>
+#include <OpenTracker/input/GPS_Handler.h>
+#include <OpenTracker/input/DGPSIP_Handler.h>
+#include <OpenTracker/input/DGPSMirror_Handler.h>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #ifndef OT_NO_GPS_SUPPORT

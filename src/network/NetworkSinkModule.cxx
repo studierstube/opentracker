@@ -45,7 +45,7 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <algorithm>
 
@@ -58,18 +58,24 @@
 #include <ace/Thread_Mutex.h>
 #include <ace/Guard_T.h>
 
-#include "NetworkSinkModule.h"
+#include <OpenTracker/network/NetworkSinkModule.h>
 
 #include <iostream>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
-
+#include <OpenTracker/core/Context.h>
 #ifndef OT_NO_NETWORK_SUPPORT
 
 
 namespace ot {
+
+	// function to register the module with the context
+	OT_MODULE_REGISTER_FUNC(NetworkSinkModule){
+		OT_MODULE_REGISTRATION_DEFAULT(NetworkSinkModule, "NetworkSinkConfig");
+	}
+
 
     // definitions for the Network Data protocol
     const int positionQuaternion=1;

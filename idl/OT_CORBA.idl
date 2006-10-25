@@ -20,7 +20,12 @@ module OT_CORBA {
   interface Node {
     void setEvent(in Event ev);
   };
+
   const string Node__doc__ = "The Node is the superclass of all the CORBA objects that are either OpenTracker nodes or are invoked by OpenTracker ndoes.";
+
+  interface TransformNode : Node {
+    Event transformEvent(in Event ev);
+  };
 
   interface OTNode : Node {
   };

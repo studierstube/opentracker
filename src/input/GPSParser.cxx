@@ -46,9 +46,9 @@
 
 const int NMEABUFSZ = 1024;
 
-#include "GPSParser.h"
+#include <OpenTracker/input/GPSParser.h>
 
-#include "../misc/WGS84Geoid.h"
+#include <OpenTracker/misc/WGS84Geoid.h>
 
 #ifndef OT_NO_GPS_SUPPORT
 
@@ -110,10 +110,8 @@ namespace ot {
             hdop = 0,
             alt = 0,
             height = 0,
-            diffdelay = 0,
-            x = 0,
-            y = 0,
-            z = 0;
+            diffdelay = 0;
+
     
         // copy string into work buffer
         ACE_OS::strncpy( buffer, line, NMEABUFSZ);

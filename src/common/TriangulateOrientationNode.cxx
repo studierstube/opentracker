@@ -55,7 +55,7 @@
 TODO example
 */
 
-#include "TriangulateOrientationNode.h"
+#include <OpenTracker/common/TriangulateOrientationNode.h>
 #include <ace/Log_Msg.h>
 #include <iostream>
 
@@ -110,13 +110,6 @@ namespace ot
 			
 			float orientation_vector[4];
 			float pos_vector[3];
-			float tmp[3];
-			float tmp2[3];
-			double angletmp;
-			float x_axis[3] = {1.0, 0.0, 0.0};
-			float y_axis[3] = {0.0, 1.0, 0.0};
-			float z_axis[3] = {0.0, 0.0, 1.0};
-			double angleX, angleY, angleZ;
 
 			pos_vector[0] = (topState.getPosition()[0] + bRightState.getPosition()[0] + bLeftState.getPosition()[0])/3;
 			pos_vector[1] = (topState.getPosition()[1] + bRightState.getPosition()[1] + bLeftState.getPosition()[1])/3;

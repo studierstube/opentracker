@@ -45,9 +45,9 @@
 #include <sstream>
 #include <vector>
 
-#include "Event.h"
-#include "Translator.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/core/Event.h>
+#include <OpenTracker/core/Translator.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 namespace ot
 {

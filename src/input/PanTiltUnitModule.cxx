@@ -42,18 +42,18 @@
  /* ======================================================================= */
 
 
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "PanTiltUnitSinkSource.h"
-#include "PanTiltUnitModule.h"
+#include <OpenTracker/input/PanTiltUnitSource.h>
+#include <OpenTracker/input/PanTiltUnitModule.h>
 
 #ifdef USE_PANTILTUNIT
 
-#include <stdio.h>
+#include <cstdio>
 #if defined (WIN32) || defined (GCC3)
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
-#include <iostream.h>
+#include <iostream>
 #endif
 
 #include <Windows.h>

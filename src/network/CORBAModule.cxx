@@ -35,13 +35,25 @@
 #ifdef USE_CORBA
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "CORBAModule.h"
-#include "CORBASource.h"
-#include "CORBASink.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/network/CORBAModule.h>
+#include <OpenTracker/network/CORBASource.h>
+#include <OpenTracker/network/CORBASink.h>
+#include <OpenTracker/network/CORBATransform.h>
 
-#include "../tool/OT_ACE_Log.h"
-#include <OT_CORBA.hh>
+#include <OpenTracker/tool/OT_ACE_Log.h>
+#include <OpenTracker/skeletons/OT_CORBA.hh>
+
+#ifdef USE_OMNIEVENTS
+#include <omniEvents/CosEventComm.hh>
+#include <omniEvents/CosEventChannelAdmin.hh>
+#include <OpenTracker/skeletons/OT_EventChannel.hh>
+#include <OpenTracker/network/PushCons.h>
+#include <OpenTracker/network/PushSupp.h>
+#ifdef USE_SHARED
+#include <OpenTracker/network/SharedEngineNode.h>
+#endif //USE_SHARED
+#endif //ENABLE_OMNIEVENTS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,6 +68,10 @@
 
 namespace ot {
 
+	OT_MODULE_REGISTER_FUNC(CORBAModule){
+		OT_MODULE_REGISTRATION_DEFAULT(CORBAModule, "CORBAConfig" );
+	}	
+
 
 void CORBAModule::destroyORB()
 {
@@ -64,19 +80,19 @@ void CORBAModule::destroyORB()
     orb->destroy();
   }
   catch(CORBA::SystemException&) {
-    LOG_ACE_ERROR("Caught CORBA::SystemException.\n");
+    LOG_ACE_ERROR("Caught CORBA::SystemException when trying to destroy ORB.\n");
   }
   catch(CORBA::Exception&) {
-    LOG_ACE_ERROR("Caught CORBA::Exception.\n");
+    LOG_ACE_ERROR("Caught CORBA::Exception when trying to destroy ORB");
   }
   catch(omniORB::fatalException& fe) {
-    LOG_ACE_ERROR("Caught omniORB::fatalException:\n");
+    LOG_ACE_ERROR("Caught omniORB::fatalException when trying to destroy ORB:");
     LOG_ACE_ERROR("  file: %s", fe.file());
     LOG_ACE_ERROR("  line: %s", fe.line());
     LOG_ACE_ERROR("  mesg: %s", fe.errmsg());
   }
   catch(...) {
-    LOG_ACE_ERROR("Caught unknown exception.\n");
+    LOG_ACE_ERROR("Caught unknown exception while trying to destroy ORB.");
   }
 }
 
@@ -87,6 +103,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
   try {
     // initialize the ORB
     orb = CORBA::ORB_init(argc, argv);
+    initialised = true;
     
     // Initialise the POA.
     objref = orb->resolve_initial_references("RootPOA");
@@ -128,14 +145,20 @@ void CORBAModule::initializeORB(int argc, char **argv)
 
   CORBAModule::~CORBAModule()
   {
-    sinks.clear();
-    destroyORB();
+    
+    //sinks.clear();
+    clear();
+    //if (initialised) {
+    //  destroyORB();
+    //}
   }
   
   void CORBAModule::init(StringTable& attributes,  ConfigNode * localTree)
   {
     Module::init(  attributes, localTree );
+    //cerr << "CORBAModule::init" << endl;
     if( attributes.containsKey("endPoint")) {
+      //cerr << "persistent" << endl;
       persistent = true;
       // Spoof the command-line arguments
       std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
@@ -154,6 +177,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       initializeORB(ac, av);
       delete arg3;
     } else {
+      //cerr << "non-persistent" << endl;
       persistent = false;
       // Spoof the command-line arguments
       char *av[3]; int ac = 2;
@@ -177,10 +201,34 @@ void CORBAModule::clear()
       delete *it;
     }
   sinks.clear();
+  for (SourceNodeMap::const_iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
+    {
+      delete source_it->first;
+      //have to sort out reference counting - it may be sufficient to delete the servant
+      //delete source_it->second; //have to sort out reference counting
+    }
+  sources.clear();
+#ifdef USE_OMNIEVENTS
+  for( PushSuppVector::iterator it = pushsupps.begin(); it != pushsupps.end(); it++ )
+    {
+      delete *it;
+    }
+  pushsupps.clear();
+  for( PushConsVector::iterator it = pushconsumers.begin(); it != pushconsumers.end(); it++ )
+    {
+      // disconnect the PushCons node
+      CORBAUtils::disconnectPushConsumer(proxy_pushsupplier_map[*it]);
+      // have to sort out the reference counting wrt to the proxy_pushsupplier_map
+      delete *it;
+    }
+  pushconsumers.clear();
+  proxy_pushsupplier_map.clear();
+  
+#endif //USE_OMNIEVENTS
 }
 
 // This method is called to construct a new Node.
-
+#define fish
 Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
 {
   if( name.compare("CORBASink") == 0 ) 
@@ -196,13 +244,30 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	LOG_ACE_INFO("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
-      //OT_CORBA::Sink_var sink_ref = OT_CORBA::Sink::_narrow(obj);
       OT_CORBA::Node_var sink_ref = OT_CORBA::Node::_narrow(obj);
       
       CORBASink * sink = new CORBASink( sink_ref , frequency );
       sinks.push_back( sink );
+      ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASink node\n")));
       return sink;
     } 
+#ifdef fish
+  else if( name.compare("CORBATransform") == 0 ) 
+    {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+      if (CORBA::is_nil(obj)) {
+	LOG_ACE_INFO("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	exit(-1);
+      }
+      OT_CORBA::TransformNode_var sink_ref = OT_CORBA::TransformNode::_narrow(obj);
+      
+      CORBATransform * transform = new CORBATransform( sink_ref );
+      sinks.push_back( transform );
+      ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBATransform node\n")));
+      return transform;
+    } 
+#endif
   else if (name.compare("CORBASource") == 0 ) 
     {
       CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) attributes.get("name").c_str());
@@ -227,6 +292,84 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASource node\n")));
       return source_impl;
     }
+#ifdef USE_OMNIEVENTS
+  else if (name.compare("PushCons") == 0 ) 
+    {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+      if (CORBA::is_nil(obj)) {
+	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	exit(-1);
+      }
+      CosEventChannelAdmin::EventChannel_var channel;
+      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);
+
+      PushCons * pushcons_impl = new PushCons( );
+      if (pushcons_impl == NULL) {
+	LOG_ACE_ERROR("pushcons_impl is NULL exiting...\n");
+	exit(-1);
+      } else {
+	LOG_ACE_ERROR("pushcons_impl is not NULL. Carrying on...\n");
+      }
+      
+      POA_OT_EventChannel::PushConsNode_tie<PushCons>* pushcons_source = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (pushcons_impl);
+      
+      // get Consumer Admin
+      CosEventChannelAdmin::ConsumerAdmin_var consumer_admin = CORBAUtils::getConsumerAdmin(channel);
+
+      // get Proxy Supplier
+      CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier = CORBAUtils::getProxyPushSupplier(consumer_admin);
+
+      PortableServer::ObjectId_var corba_source_id = 
+	poa->activate_object(pushcons_source);
+      OT_EventChannel::PushConsNode_var pushcons_ref = 
+	pushcons_source->_this();
+      CosEventComm::PushConsumer_var consumer_ref = 
+	CosEventComm::PushConsumer::_narrow(pushcons_ref);
+      if (CORBA::is_nil(consumer_ref)) {
+	LOG_ACE_ERROR("Could not narrow down to CosEventComm::PushConsumer\n");
+	exit(-1);
+      }
+      CORBAUtils::connectPushConsumer(proxy_supplier, consumer_ref);
+      pushconsumers.push_back( pushcons_impl );
+      //CORBAUtils::connectPushConsumer(proxy_supplier, pushcons_ref);
+      proxy_pushsupplier_map[pushcons_impl] = proxy_supplier;
+			     
+      return pushcons_impl;
+    }
+  else if (name.compare("PushSupp") == 0 ) 
+    {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+      if (CORBA::is_nil(obj)) {
+	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	exit(-1);
+      }
+      CosEventChannelAdmin::EventChannel_var channel;
+      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);      
+      PushSupp * pushsupp = new PushSupp( channel );
+      pushsupps.push_back( pushsupp );
+      ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build PushSupp node\n")));
+      return pushsupp;
+    }   
+#ifdef USE_SHARED
+  else if (name.compare("SharedEngineNode") == 0 ) 
+    {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+      if (CORBA::is_nil(obj)) {
+	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	exit(-1);
+      }
+      CosEventChannelAdmin::EventChannel_var channel;
+      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);      
+      SharedEngineNode * shared_engine = new SharedEngineNode( channel );
+      sharedengines.push_back( shared_engine );
+      ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build SharedEngineNode node\n")));
+      return shared_engine;
+    }
+#endif //USE_SHARED
+#endif
   return NULL;
 }
 // pushes events into the tracker tree.
@@ -241,6 +384,12 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	  LOG_ACE_ERROR("Caught CORBA::TRANSIENT");
 	}
       }
+#ifdef USE_OMNIEVENTS
+  for( PushConsVector::iterator it = pushconsumers.begin(); it != pushconsumers.end(); it++ )
+    {
+      (*it)->push();
+    }
+#endif //USE_OMNIEVENTS
   }
   
   void CORBASource::push()
@@ -260,6 +409,37 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
     CORBAUtils::convertFromCORBAEvent(event, new_event); 
     unlock();
   }
+
+#ifdef USE_OMNIEVENTS
+  void PushCons::disconnect_push_consumer () 
+  {
+    LOG_ACE_INFO("Push Consumer: disconnected.\n");
+  }
+
+  void PushCons::push(const CORBA::Any& data) 
+  {
+    //LOG_ACE_INFO("data received\n");
+    const OT_CORBA::Event* new_event;
+    if (data >>= new_event) {
+      lock();
+      modified = true;
+      OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);
+      CORBAUtils::convertFromCORBAEvent(event, copy_of_new_event); 
+      unlock();
+    }
+  }
+
+  void PushCons::push()
+  {
+    lock();
+    if (modified) {
+      updateObservers( event );
+      modified = false;
+    }
+    unlock();
+  }
   
+#endif //USE_OMNIEVENTS
+
 } //namespace ot
 #endif //USE_CORBA

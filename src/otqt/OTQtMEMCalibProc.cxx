@@ -42,16 +42,16 @@
  * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
  */
 
-#include <dllinclude.h>
+#include <OpenTracker/dllinclude.h>
 #if USE_OTQT
 
-#include "OTQtMEMCalibProc.h"
-#include "OTQtMath.h"
-#include "OTQtLog.h"
+#include <OpenTracker/otqt/OTQtMEMCalibProc.h>
+#include <OpenTracker/otqt/OTQtMath.h>
+#include <OpenTracker/otqt/OTQtLog.h>
 #include <stdexcept>
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
-#include <math.h>
+#include <cmath>
 #include <qdatetime.h>
 
 namespace ot {

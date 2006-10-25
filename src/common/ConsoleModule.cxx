@@ -41,14 +41,14 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "ConsoleModule.h"
-#include "ConsoleSink.h"
-#include "ConsoleSource.h"
+#include <OpenTracker/common/ConsoleModule.h>
+#include <OpenTracker/common/ConsoleSink.h>
+#include <OpenTracker/common/ConsoleSource.h>
 
 #include <algorithm>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #ifdef WIN32
 #include <Windows.h>
@@ -56,7 +56,7 @@
 
 
 #include <algorithm>
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <iomanip>
 
@@ -77,7 +77,14 @@
 
 #endif
 
+#include <OpenTracker/core/Context.h>
+
 namespace ot {
+	
+	//register the module with the context
+	OT_MODULE_REGISTER_FUNC(ConsoleModule){
+			OT_MODULE_REGISTRATION_DEFAULT(ConsoleModule, "ConsoleConfig");
+	}
 
     // list of key symbols as ints to provide faster lookup
 

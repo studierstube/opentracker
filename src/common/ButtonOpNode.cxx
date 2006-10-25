@@ -42,9 +42,8 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-
-#include "ButtonOpNode.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/common/ButtonOpNode.h>
 
 //using namespace std;
 

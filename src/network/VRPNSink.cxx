@@ -41,13 +41,12 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "VRPNSink.h"
+#include <OpenTracker/network/VRPNSink.h>
 
 #ifdef USE_VRPN
 
-#include <assert.h>
+#include <cassert>
 
-//using namespace std;
 using namespace ot;
 
 #include <vrpn_Tracker.h>
@@ -134,7 +133,9 @@ void VRPNSink::onEventGenerated( Event& event, Node& generator)
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no VRPN support")
+#endif
 #endif
 
 /* 

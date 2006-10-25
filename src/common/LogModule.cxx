@@ -41,8 +41,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <stdlib.h>
-#include "LogModule.h"
+#include <cstdlib>
+#include <OpenTracker/common/LogModule.h>
 
 #ifndef _WIN32_WCE
 #include <fstream>

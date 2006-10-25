@@ -41,13 +41,13 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <stdlib.h>
-#include "../tool/FixWinCE.h"
+#include <cstdlib>
+#include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
-#include "ConfigurationParser.h"
+#include <OpenTracker/core/ConfigurationParser.h>
 
 #ifdef USE_XERCES
 #include <xercesc/dom/DOM.hpp>
@@ -57,10 +57,12 @@
 #include <xercesc/util/PlatformUtils.hpp>
 #include <xercesc/util/XMLEntityResolver.hpp>
 #include <xercesc/framework/LocalFileInputSource.hpp>
+#include <xercesc/framework/MemBufInputSource.hpp>
+
 #endif //USE_XERCES
 
-#include "DOMTreeErrorReporter.h"
-#include "RefNode.h"
+#include <OpenTracker/core/DOMTreeErrorReporter.h>
+#include <OpenTracker/core/RefNode.h>
 
 #include <iostream>
 
@@ -75,6 +77,7 @@ namespace ot {
 
 #ifdef USE_XERCES
     const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
+    static const char*  otMemBufId = "otgraph";
 
     class OpenTrackerResolver : public XMLEntityResolver {
     protected:
@@ -99,7 +102,8 @@ namespace ot {
                 std::string otdatadir;
                 if( otrootvalue.compare("") != 0 )
                 {
-                    otdatadir = otrootvalue + "/data";
+                    //otdatadir = otrootvalue + "/data";
+                    otdatadir = otrootvalue;// + "/share";
                     context->addDirectoryLast(otdatadir);
                 }
                 char * file = XMLString::transcode(resourceIdentifier->getSystemId());
@@ -150,6 +154,18 @@ namespace ot {
     ConfigurationParser::~ConfigurationParser()
     {
         references.clear();
+#ifdef fish
+        // Deinitialize the XercesC system
+        try {
+            XMLPlatformUtils::Terminate();
+        }
+        catch (const XMLException& toCatch) {
+            char * message = XMLString::transcode( toCatch.getMessage());
+            LOG_ACE_ERROR( "ot: ConfigurationParser Error during deinitialization: %s\n", message );
+            XMLString::release( &message );
+            exit(1);
+        }
+#endif //USE_XERCES
     }
 
     // builds a tree of configuration nodes.
@@ -219,6 +235,15 @@ namespace ot {
         }
 
         Node * value = context.factory.createNode( tagName , *map );
+		// if the value is NULL, it might be the case that the Module has not yet being loaded,
+		// a trick to force the context to load this module, is to ask for it.
+		if (value == NULL) {
+			//try loading the module, and then creating the node
+			if (context.getModuleFromNodeType(tagName) != NULL){
+				// try creating the node again
+				value = context.factory.createNode(tagName, *map);
+			}
+		}
         if( value != NULL )
         {
             value->setParent( element );
@@ -268,6 +293,14 @@ namespace ot {
         }
 
         Node * value = context.factory.createNode( tagName , *map );
+		if (value == NULL) {
+			//try loading the module, and then creating the node
+			if (context.getModuleFromNodeType(tagName) != NULL){
+				// try creating the node again
+				printf("CONFIGURATIONPARSER:: trying to create node %s again \n", tagName.c_str());
+				value = context.factory.createNode(tagName, *map);
+			}
+		}
         if( value != NULL )
         {
             value->setParent( element );
@@ -294,12 +327,11 @@ namespace ot {
 #endif //USE_TINYXML
     }
 
-
-    // This method parses an XML configuration file.
-
-    Node * ConfigurationParser::parseConfigurationFile(const std::string& filename)
-    {
 #ifdef USE_XERCES
+    // This method takes an InputSource and configures the OT graph accordingly
+    Node * ConfigurationParser::parseConfiguration(InputSource* input_source) 
+    {
+      
         // read and parse configuration file
         XercesDOMParser * parser = new XercesDOMParser();
         parser->setValidationScheme( XercesDOMParser::Val_Auto );
@@ -315,7 +347,7 @@ namespace ot {
 
         try
         {
-            parser->parse( filename.c_str() );
+            parser->parse( *input_source );
         }
         catch (const XMLException& e)
         {
@@ -434,13 +466,8 @@ namespace ot {
 
 
 #ifdef USE_TINYXML
-        TiXmlDocument* document = new TiXmlDocument();
-
-        if(!document->LoadFile(filename.c_str()))
-        {
-            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
-            exit(1);
-        }
+    Node * ConfigurationParser::parseConfiguration(TiXmlDocument* document) 
+    {
 
         TiXmlElement* root = document->RootElement();
         Node * node = new Node();
@@ -542,6 +569,62 @@ namespace ot {
             attribute = attribute->Next();
         }
         return value;
+#endif //USE_TINYXML
+
+    }
+
+    // This method parses an XML configuration file.
+    Node * ConfigurationParser::parseConfigurationFile(const std::string& filename)
+    {
+#ifdef USE_XERCES
+        ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
+        std::string otrootvalue = (std::string)otroot;
+        std::string otdatadir;
+        if( otrootvalue.compare("") != 0 )
+        {
+            //otdatadir = otrootvalue + "/data";
+            otdatadir = otrootvalue;// + "/share";
+            //context->addDirectoryLast(otdatadir);
+        }
+        LocalFileInputSource input_source((const XMLCh*) XMLString::transcode(filename.c_str()));
+        return parseConfiguration(&input_source);
+#endif //USE_XERCES
+#ifdef USE_TINYXML
+        TiXmlDocument* document = new TiXmlDocument();
+
+        if(!document->LoadFile(filename.c_str()))
+        {
+            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            exit(1);
+        }
+		return parseConfiguration(document);
+#endif //USE_TINYXML
+    }
+
+    // This method parses an XML configuration string.
+
+    Node * ConfigurationParser::parseConfigurationString(const char* xmlstring)
+    {
+#ifdef USE_XERCES
+		MemBufInputSource* input_source = new MemBufInputSource(
+                                                                (const XMLByte*) xmlstring
+                                                                , strlen(xmlstring)
+                                                                , otMemBufId
+                                                                , false
+                                                                );
+        Node* node = parseConfiguration(input_source);
+        delete input_source;
+        return node;
+#endif //USE_XERCES
+#ifdef USE_TINYXML
+        TiXmlDocument* document = new TiXmlDocument();
+
+        if(!document->Parse(xmlstring))
+        {
+            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            exit(1);
+        }
+		return parseConfiguration(document);
 #endif //USE_TINYXML
     }
 

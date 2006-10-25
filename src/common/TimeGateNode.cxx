@@ -42,10 +42,10 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "TimeGateNode.h"
-#include "math.h"
+#include <OpenTracker/common/TimeGateNode.h>
+#include <cmath>
 
 
 #ifndef OT_NO_TIMEGATE_SUPPORT

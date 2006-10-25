@@ -42,11 +42,203 @@
 /* ======================================================================= */
 
 #include <ace/OS.h>
-#include "CORBAUtils.h"
+#include <OpenTracker/network/CORBAUtils.h>
 #include <iostream>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
+#ifdef USE_OMNIEVENTS
+#include <omniEvents/CosEventComm.hh>
+#include <omniEvents/CosEventChannelAdmin.hh>
+#include <OpenTracker/skeletons/OT_EventChannel.hh>
+#endif //ENABLE_OMNIEVENTS
 
 namespace ot {
+#ifdef USE_OMNIEVENTS
+    // Disconnect PushConsumer - retrying on Comms Failure.
+    void CORBAUtils::disconnectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier) {
+	while (1)
+	{
+	    try {
+		proxy_supplier->disconnect_push_supplier();
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE Exception disconnecting Push Consumer! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Disconnected Push Consumer.\n");
+    }
+
+    //
+    // Connect Push Consumer - retrying on Comms Failure.
+    void CORBAUtils::connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var  proxy_supplier, CosEventComm::PushConsumer_var consumer_ref) {
+	//void CORBAUtils::connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var  proxy_supplier, OT_EventChannel::PushConsNode_var consumer_ref) {
+	while (1)
+	{
+	    try {
+		//proxy_supplier->connect_push_consumer(consumer->_this());
+		proxy_supplier->connect_push_consumer(consumer_ref);
+		break;
+	    }
+	    catch (CORBA::BAD_PARAM& ex) {
+		LOG_ACE_ERROR("Caught BAD_PARAM Exception connecting Push Consumer!\n");
+	    }
+	    catch (CosEventChannelAdmin::AlreadyConnected& ex) {
+		LOG_ACE_ERROR("Proxy Push Supplier already connected!\n");
+           break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE exception connecting Push Consumer! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Connected Push Consumer.\n");
+    }
+
+    //
+    // Get Consumer admin interface - retrying on Comms Failure.
+    CosEventChannelAdmin::ConsumerAdmin_var CORBAUtils::getConsumerAdmin(CosEventChannelAdmin::EventChannel_var channel) {
+	CosEventChannelAdmin::ConsumerAdmin_var consumer_admin;
+	while (1)
+	{
+	    try {
+		consumer_admin = channel->for_consumers ();
+		if (CORBA::is_nil (consumer_admin))
+		{
+		    LOG_ACE_ERROR("Event Channel returned nil Consumer Admin!\n");
+		    exit(1);
+		}
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE exception obtaining Consumer Admin! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Obtained ConsumerAdmin.\n");
+	return consumer_admin;
+    }
+    
+    CosEventChannelAdmin::ProxyPushSupplier_var CORBAUtils::getProxyPushSupplier(CosEventChannelAdmin::ConsumerAdmin_var consumer_admin)
+    {
+	CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier;
+	//
+	// Get proxy supplier - retrying on Comms Failure.
+	while (1)
+	{
+	    try {
+		proxy_supplier = consumer_admin->obtain_push_supplier ();
+		if (CORBA::is_nil (proxy_supplier))
+		{
+		    LOG_ACE_ERROR("Consumer Admin returned nil proxy_supplier!\n");
+		    exit (1);
+		}
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Push Supplier! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Obtained ProxyPushSupplier.\n");
+	return proxy_supplier;
+    }
+
+    CosEventChannelAdmin::ProxyPushConsumer_var CORBAUtils::getProxyPushConsumer(CosEventChannelAdmin::SupplierAdmin_var supplier_admin) {
+	while (1)
+	{
+	    //
+	    // Get proxy consumer - retrying on Comms Failure.
+	    CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer;
+	    while (1)
+	    {
+		try {
+		    proxy_consumer = supplier_admin->obtain_push_consumer ();
+		    if (CORBA::is_nil(proxy_consumer))
+		    {
+			LOG_ACE_ERROR("Supplier Admin returned nil proxy_consumer!\n");
+			exit(1);
+		    }
+		    break;
+		}
+		catch (CORBA::COMM_FAILURE& ex) {
+		    LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Proxy Push Consumer! Retrying...\n");
+		    continue;
+		}
+	    }
+	    LOG_ACE_INFO("Obtained ProxyPushConsumer.\n");
+	    return proxy_consumer;
+	}
+    }
+
+    //
+    // Get Supplier Admin interface - retrying on Comms Failure.
+    CosEventChannelAdmin::SupplierAdmin_var CORBAUtils::getSupplierAdmin(CosEventChannelAdmin::EventChannel_var channel) 
+    {
+	CosEventChannelAdmin::SupplierAdmin_var supplier_admin;
+	while (1)
+	{
+	    try {
+		supplier_admin = channel->for_suppliers ();
+		if (CORBA::is_nil(supplier_admin))
+		{
+		    LOG_ACE_ERROR("Event Channel returned nil Supplier Admin!\n");
+		    exit(1);
+		}
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Supplier Admin! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Obtained SupplierAdmin.\n");
+	return supplier_admin;
+    }
+
+    void CORBAUtils::connectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer, CosEventComm::PushSupplier_var sptr) 
+    {
+	while (1)
+	{
+	    try {
+		proxy_consumer->connect_push_supplier(sptr.in());
+		break;
+	    }
+	    catch (CORBA::BAD_PARAM& ex) {
+		LOG_ACE_ERROR("Caught BAD_PARAM Exception connecting Push Supplier!\n");
+		exit (1);
+	    }
+	    catch (CosEventChannelAdmin::AlreadyConnected& ex) {
+		LOG_ACE_ERROR("Proxy Push Consumer already connected!\n");
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE Exception connecting Push Supplier! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("Connected Push Supplier.\n");
+
+    }
+
+    void CORBAUtils::disconnectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer)
+    {
+	// Disconnect - retrying on Comms Failure.
+	while (1)
+	{
+	    try {
+		proxy_consumer->disconnect_push_consumer();
+		break;
+	    }
+	    catch (CORBA::COMM_FAILURE& ex) {
+		LOG_ACE_ERROR("Caught COMM_FAILURE Exception disconnecting Push Supplier! Retrying...\n");
+		continue;
+	    }
+	}
+	LOG_ACE_INFO("ProxyPushConsumer disconnected.\n");
+	
+    }
+#endif //ENABLE_OMNIEVENTS    
 
 // This method converts an ot::Event to an OT_CORBA::Event
     void CORBAUtils::convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event) 
@@ -59,9 +251,9 @@ namespace ot {
       corba_event.pos[i] = position[i];
       corba_event.ori[i] = orientation[i];
     }
-  corba_event.ori[3] = (float) orientation[3];
-  corba_event.but = ot_event.getButton();
-  corba_event.time = ot_event.time;
+    corba_event.ori[3] = (float) orientation[3];
+    corba_event.but = ot_event.getButton();
+    corba_event.time = ot_event.time;
 } 
 
 // This method converts from an OT_CORBA::Event to an ot::Event
@@ -102,49 +294,54 @@ namespace ot {
 
     void CORBAUtils::bindObjectReferenceToName(CORBA::ORB_ptr orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name)
     {
-        CosNaming::NamingContextExt_var extContext = getRootContext(orb);
+      CosNaming::NamingContextExt_var extContext = CosNaming::NamingContextExt::_duplicate(getRootContext(orb));
         if (CORBA::is_nil(extContext)) {
             LOG_ACE_INFO("Could not obtain a reference to the root Context\nExiting....\n");
             exit(-1);
         }
-        CosNaming::Name_var name;
-        try {
+        {
+	  CosNaming::Name_var name;
+	  try {
             // Create a name object from the string_name
             name = extContext->to_name(string_name);
-        } catch(CosNaming::NamingContext::InvalidName) {
+	  } catch(CosNaming::NamingContext::InvalidName) {
             // This exception is thrown if the name is not valid
             LOG_ACE_ERROR("Name is not valid\n Exiting....");
             exit(-1);
-        }
-        CosNaming::Name object_name;
-        object_name.length(1);
-        CORBA::ULong length = name->length();
-        object_name[0].id = name[length-1].id;
-        object_name[0].kind = name[length-1].kind;
-        name->length(length-1); // shorten name so it only refers to the contexts
-        CosNaming::NamingContext_var desired_context = CosNaming::NamingContext::_narrow(getContext(CosNaming::NamingContext::_narrow(extContext), name));
-        if (CORBA::is_nil(desired_context)) {
-            LOG_ACE_ERROR("Was unable to obtain the appropriate context\nExiting...");
-            exit(-1);
-        }
-        try {
-            desired_context->bind(object_name, obj);
-        } catch(CosNaming::NamingContext::AlreadyBound) {
-            LOG_ACE_ERROR("The context %s.%s is already bound. Rebinding...", object_name[0].id, object_name[0].kind);
-            desired_context->rebind(object_name, obj);
-        }
-    }
-   
-    CosNaming::NamingContext_var CORBAUtils::getContextFromName(CosNaming::NamingContext_var root_context, CosNaming::Name_var name)
-    {
-        CORBA::Object_var obj;
-        try {
-            obj = root_context->resolve(name);
-        } catch (CosNaming::NamingContext::NotFound) {
-            LOG_ACE_ERROR("Name not found");
-            return CosNaming::NamingContextExt::_nil();
+	  }
+	  CosNaming::Name object_name;
+	  object_name.length(1);
+	  CORBA::ULong length = name->length();
+	  object_name[0].id = name[length-1].id;
+	  object_name[0].kind = name[length-1].kind;
+	  name->length(length-1); // shorten name so it only refers to the contexts
+	  {
+	      CosNaming::NamingContext_var desired_context = CosNaming::NamingContext::_narrow(getContext(CosNaming::NamingContext::_narrow(extContext), name));
+	    if (CORBA::is_nil(desired_context)) {
+	      LOG_ACE_ERROR("Was unable to obtain the appropriate context\nExiting...");
+	      exit(-1);
+	    }
+	    try {
+	      desired_context->bind(object_name, obj);
+	    } catch(CosNaming::NamingContext::AlreadyBound) {
+	      LOG_ACE_ERROR("The context %s.%s is already bound. Rebinding...", (const char*) object_name[0].id, (const char*) object_name[0].kind);
+	      desired_context->rebind(object_name, obj);
+	    }
+	  } // close scope that includes desired_context
+	} // close scope that includes name
+    } // close scope that includes extContext
+  
+  CosNaming::NamingContext_var CORBAUtils::getContextFromName(CosNaming::NamingContext_var root_context, CosNaming::Name_var name)
+  {
+    CORBA::Object_var obj;
+    try {
+      obj = root_context->resolve(name);
+    } catch (CosNaming::NamingContext::NotFound) {
+            LOG_ACE_ERROR("Name not found\n");
+            return CosNaming::NamingContext::_nil();
         } 
-        CosNaming::NamingContext_var sink_context = CosNaming::NamingContextExt::_narrow(obj);
+        //CosNaming::NamingContext_var sink_context = CosNaming::NamingContextExt::_narrow(obj);
+	CosNaming::NamingContext_var sink_context = CosNaming::NamingContext::_narrow(obj);
         if  (CORBA::is_nil(sink_context)) {
             LOG_ACE_ERROR("Object reference isn't a Context");
         }
@@ -153,71 +350,71 @@ namespace ot {
 
     CosNaming::NamingContext_var CORBAUtils::getContext(CosNaming::NamingContext_var root_context, CosNaming::Name_var name)
     {
-        // This method obtains a context, creating it if necessary, having bound
-        // it to all the other contexts specified in the 
-        // name variable
-        CosNaming::NamingContextExt_var context_already_bound;// = CosNaming::NamingContextExt::_nil();
-        CORBA::ULong length = name->length();
-        CORBA::ULong max = length;
-        CosNaming::Name uncontextualised_names;
-        while (CORBA::is_nil(context_already_bound) && (name->length() > 0)) {
-            context_already_bound = CosNaming::NamingContextExt::_narrow(getContextFromName(root_context, name));
-            if (CORBA::is_nil(context_already_bound)) {
-                // extend the NameComponent sequence
-                uncontextualised_names.length(max-length+1); 
-                uncontextualised_names[max-length] = name[length-1];
-                length--;
-                name->length(length); // knock-off the last CosNaming::NameComponent
-            } 
-        }
-        if (CORBA::is_nil(context_already_bound)) {
-            LOG_ACE_ERROR("binding directly to root context");
-            context_already_bound = CosNaming::NamingContextExt::_narrow(root_context);
-                
-        }
-        CosNaming::NamingContext_var previous_context = CosNaming::NamingContextExt::_duplicate(context_already_bound);
-        for (CORBA::ULong i = uncontextualised_names.length(); i > 0; --i) { 
-            // Go through sequence of uncontextualised names in reverse order
-            CosNaming::Name new_name;
-            new_name.length(1);
-            new_name[0].id = CORBA::string_dup(uncontextualised_names[i-1].id);
-            new_name[0].kind = CORBA::string_dup(uncontextualised_names[i-1].kind);
-            
-            CosNaming::NamingContext_var next_context = previous_context->bind_new_context(new_name);
-        }
-        return previous_context;
+      // This method obtains a context, creating it if necessary, having bound
+      // it to all the other contexts specified in the 
+      // name variable
+      CosNaming::NamingContextExt_var context_already_bound;// = CosNaming::NamingContextExt::_nil();
+      CORBA::ULong length = name->length();
+      CORBA::ULong max = length;
+      CosNaming::Name uncontextualised_names;
+      while (CORBA::is_nil(context_already_bound) && (name->length() > 0)) {
+	context_already_bound = CosNaming::NamingContextExt::_narrow(getContextFromName(root_context, name));
+	if (CORBA::is_nil(context_already_bound)) {
+	  LOG_ACE_ERROR("Context not already bound\n");
+	  // extend the NameComponent sequence
+	  uncontextualised_names.length(max-length+1); 
+	  uncontextualised_names[max-length] = name[length-1];
+	  length--;
+	  name->length(length); // knock-off the last CosNaming::NameComponent
+	} 
+      }
+      if (CORBA::is_nil(context_already_bound)) {
+	LOG_ACE_ERROR("binding directly to root context\n");
+	context_already_bound = CosNaming::NamingContextExt::_narrow(root_context);
+      }
+      CosNaming::NamingContext_var previous_context = CosNaming::NamingContextExt::_duplicate(context_already_bound);
+      for (CORBA::ULong i = uncontextualised_names.length(); i > 0; --i) { 
+	// Go through sequence of uncontextualised names in reverse order
+	CosNaming::Name new_name;
+	new_name.length(1);
+	new_name[0].id = CORBA::string_dup(uncontextualised_names[i-1].id);
+	new_name[0].kind = CORBA::string_dup(uncontextualised_names[i-1].kind);
+	LOG_ACE_ERROR("Binding context with name %s.%s to previous context\n", (const char*) new_name[0].id, (const char*) new_name[0].kind);
+	previous_context = previous_context->bind_new_context(new_name);
+      }
+      return previous_context;
     } 
 
-    CosNaming::NamingContextExt_var CORBAUtils::getRootContext(CORBA::ORB_ptr orb) 
-    {
-        CosNaming::NamingContextExt_var extContext;
-        try {
-            // Obtain a reference to the root context of the Name service:
-            CORBA::Object_var obj = orb->resolve_initial_references("NameService");
-            
-            // Narrow the reference returned.
-            extContext = CosNaming::NamingContextExt::_narrow(obj);
-            if( CORBA::is_nil(extContext) ) {
-                LOG_ACE_ERROR("Failed to narrow the root naming context.");
-                //return CORBA::Object::_nil();
-                return CosNaming::NamingContextExt::_nil();
-            }
-        } catch(CORBA::ORB::InvalidName& ex) {
-            // This should not happen!
-            LOG_ACE_ERROR("Service required is invalid [does not exist].");
-            return CosNaming::NamingContextExt::_nil();
-        } catch(CORBA::TRANSIENT) {
-            LOG_ACE_ERROR("Naming Service isn't running");
-            return CosNaming::NamingContextExt::_nil();
-        }
-        return extContext;
+  CosNaming::NamingContextExt_var CORBAUtils::getRootContext(CORBA::ORB_ptr orb) 
+  {
+    CosNaming::NamingContextExt_var extContext;
+    try {
+      // Obtain a reference to the root context of the Name service:
+      CORBA::Object_var obj = orb->resolve_initial_references("NameService");
+      
+      // Narrow the reference returned.
+      extContext = CosNaming::NamingContextExt::_narrow(obj);
+      if( CORBA::is_nil(extContext) ) {
+	LOG_ACE_ERROR("Failed to narrow the root naming context.");
+	//return CORBA::Object::_nil();
+	return CosNaming::NamingContextExt::_nil();
+      }
+    } catch(CORBA::ORB::InvalidName& ex) {
+      // This should not happen!
+      LOG_ACE_ERROR("Service required is invalid [does not exist].");
+      return CosNaming::NamingContextExt::_nil();
+    } catch(CORBA::TRANSIENT) {
+      LOG_ACE_ERROR("Naming Service isn't running\n");
+      return CosNaming::NamingContextExt::_nil();
     }
+    return extContext;
+  }
 
     CORBA::Object_ptr CORBAUtils::getObjectReference(CORBA::ORB_ptr orb, CosNaming::NamingContextExt::StringName_var string_name)
     {
         
-        CosNaming::NamingContextExt_var extContext = getRootContext(orb);
-        if (CORBA::is_nil(extContext)) {
+      CosNaming::NamingContextExt_var extContext = getRootContext(orb);
+      if (CORBA::is_nil(extContext)) {
             LOG_ACE_INFO("Could not obtain a reference to the root Context\nExiting....\n");
             exit(-1);
       }

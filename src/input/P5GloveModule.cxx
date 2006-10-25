@@ -42,26 +42,31 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "P5GloveModule.h"
+#include <OpenTracker/input/P5GloveModule.h>
 
 #ifdef USE_P5GLOVE
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #ifdef WIN32
 #include <iostream>    // VisualC++ uses STL based IOStream lib
 #else
-#include <iostream.h>
+#include <iostream>
 #endif
 
 //using namespace std;
 
-#include <math.h>
-#include "P5GloveSource.h"
+#include <cmath>
+#include <OpenTracker/input/P5GloveSource.h>
 
 namespace ot {
+
+	
+	OT_MODULE_REGISTER_FUNC(P5GloveModule){
+	      OT_MODULE_REGISTRATION_DEFAULT(P5GloveModule , "P5GloveConfig");
+	}
 
     //These variables contain the actual x, Y, Z position of the cursor
     int nXPos = 0, nYPos = 0, nZPos = 0;
@@ -524,7 +529,9 @@ Parameter: None
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> no P5 glove support")
+#endif
 #endif
 
 /* 

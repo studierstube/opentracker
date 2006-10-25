@@ -41,11 +41,11 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "MathUtils.h"
-#include "Event.h"
-#include <math.h>
-#include <stdio.h>
-#include <assert.h>
+#include <OpenTracker/core/MathUtils.h>
+#include <OpenTracker/core/Event.h>
+#include <cmath>
+#include <cstdio>
+#include <cassert>
 
 /* tolerance for quaternion operations */
 const double Q_EPSILON = (1e-10);
@@ -706,6 +706,105 @@ namespace ot {
         }
         return axisa;
     }
+
+    ////////////////////////////////////////////////////////////////////////
+    //
+    //   Heavily based on code by Ken Shoemake and code by Gavin Bell
+    void MathUtils::quaternionToAxisAngle(std::vector<float>& q, std::vector<float>& axisa)
+    {
+        double	len;
+
+        len = sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2]);
+        // check quaternion
+        if (len  > Q_EPSILON) {
+            // if valid compute vec and angle
+            // normalize vec
+            float invLen = (float)(1.0/ len);
+            axisa[0]	= q[0] * invLen;
+            axisa[1]	= q[1] * invLen;
+            axisa[2]	= q[2] * invLen;
+
+            axisa[3]	=(float)( 2.0f * (float)acos(q[3]));
+        }
+
+        else {
+            // return identity quaternion
+            axisa[0] = 0.0;
+            axisa[1] = 0.0;
+            axisa[2] = 1.0;
+            axisa[3] = 0.0;
+        }
+        //return axisa;
+    }
+
+
+    void MathUtils::translationQuaternionTo4x4Matrix(std::vector<float>& pos, std::vector<float>& quat, MathUtils::Matrix4x4& mat)
+{
+    float    aa = quat[0]*quat[0];
+    float    ab = quat[0]*quat[1];
+    float    ac = quat[0]*quat[2];
+    float    ad = quat[0]*quat[3];
+    float    bb = quat[1]*quat[1];
+    float    bc = quat[1]*quat[2];
+    float    bd = quat[1]*quat[3];
+    float    cc = quat[2]*quat[2];
+    float    cd = quat[2]*quat[3];
+    float    dd = quat[3]*quat[3];
+    
+    float    norme_carre = aa+bb+cc+dd;
+    
+    if    (norme_carre <= Q_EPSILON)
+    {
+        // Quaternion values too small
+        // Set rotational part to identity matrix
+        // first row
+        mat[0][0] = 1.0;
+        mat[0][1] = 0.0;
+        mat[0][2] = 0.0;
+        mat[0][3] = pos[0];
+
+        // second row
+        mat[1][0] = 0.0;
+        mat[1][1] = 1.0;
+        mat[1][2] = 0.0;
+        mat[1][3] = 0.0;
+
+        // third row
+        mat[2][0] = 0.0;
+        mat[2][1] = 0.0;
+        mat[2][2] = 1.0;
+        mat[2][3] = 0.0;
+        
+        // fourth row
+        mat[3][0] = 0.0;
+        mat[3][1] = 0.0;
+        mat[3][2] = 0.0;
+        mat[3][3] = 1.0;
+
+        return;
+    }
+    
+    mat[0][0] = (aa+bb-cc-dd)/norme_carre;
+    mat[0][1] = 2*(-ad+bc)/norme_carre;
+    mat[0][2] = 2*(ac+bd)/norme_carre;
+    mat[0][3] = pos[0];
+
+    mat[1][0] = 2*(ad+bc)/norme_carre;
+    mat[1][1] = (aa-bb+cc-dd)/norme_carre;
+    mat[1][2] = 2*(-ab+cd)/norme_carre;
+    mat[1][3] = pos[1];
+
+    mat[2][0] = 2*(-ac+bd)/norme_carre;
+    mat[2][1] = 2*(ab+cd)/norme_carre;
+    mat[2][2] = (aa-bb-cc+dd)/norme_carre;
+    mat[2][3] = pos[2];
+
+    mat[3][0] = 0.0;
+    mat[3][1] = 0.0;
+    mat[3][2] = 0.0;
+    mat[3][3] = 1.0;
+}
+
 
     double MathUtils::dot( const float * v1, const float * v2, const int dim )
     {

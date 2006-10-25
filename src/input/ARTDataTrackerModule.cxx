@@ -42,21 +42,21 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram.h>
 #include <ace/Time_Value.h>
 #include <ace/Log_Msg.h>
 
-#include "ARTDataTrackerModule.h"
-#include "ARTDataTrackerSource.h"
-#include "ARTDataTrackerChomp.h"
+#include <OpenTracker/input/ARTDataTrackerModule.h>
+#include <OpenTracker/input/ARTDataTrackerSource.h>
+#include <OpenTracker/input/ARTDataTrackerChomp.h>
 
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include <iostream>
 
 
@@ -64,6 +64,11 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(ARTDataTrackerModule){
+		OT_MODULE_REGISTRATION_DEFAULT(ARTDataTrackerModule, "ARTDataTrackerConfig" );
+	}
+
 
     static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
@@ -166,9 +171,9 @@ namespace ot {
 	socket = new ACE_SOCK_Dgram( addr );
 
 	receiveBufferSize =  3 * sizeof(long) + 20 * sizeof(ARTDataTrackerChomp::BodyRecord) +
-	    20 * sizeof(ARTDataTrackerChomp::MarkerRecord);
-	20 * sizeof(ARTDataTrackerChomp::FlystickRecord);
-	20 * sizeof(ARTDataTrackerChomp::MeasuretargetRecord);
+	    20 * sizeof(ARTDataTrackerChomp::MarkerRecord) +
+            20 * sizeof(ARTDataTrackerChomp::FlystickRecord) +
+            20 * sizeof(ARTDataTrackerChomp::MeasuretargetRecord);
 
 	receiveBuffer = new char[receiveBufferSize];
 

@@ -42,10 +42,10 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/common/ButtonFilterNode.h>
 
-#include <stdlib.h>
-#include "ButtonFilterNode.h"
+#include <cstdlib>
 #include <iostream>
 
 #include <ace/Log_Msg.h>
@@ -176,7 +176,7 @@ namespace ot {
     void ButtonFilterNode::onEventGenerated( Event& event, Node& generator)
     {
         int i;
-        unsigned char buttonbit = 1, buttonout = 0;
+        unsigned char buttonout = 0;
 
         lastEvent = event;
         DEBUG_CODE(std::cout << std::endl;);

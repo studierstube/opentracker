@@ -49,7 +49,9 @@
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> OT_NO_SPEECH_SUPPORT")
+#endif
 #endif //ifdef USE_SAPISPEECH
 
 /* 

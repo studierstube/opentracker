@@ -43,10 +43,10 @@
 
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "SpeechVoice.h"
-#include "SpeechCore.h"
+#include <OpenTracker/input/SpeechVoice.h>
+#include <OpenTracker/input/SpeechCore.h>
 
 
 #ifndef OT_NO_SPEECH_SUPPORT

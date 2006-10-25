@@ -42,22 +42,27 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "FileModule.h"
-#include "FileSink.h"
-#include "FileSource.h"
-#include <stdio.h>
+#include <cstdlib>
+#include <OpenTracker/common/FileModule.h>
+#include <OpenTracker/common/FileSink.h>
+#include <OpenTracker/common/FileSource.h>
+#include <cstdio>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #ifndef OT_NO_FILEMODULE_SUPPORT
 
 
 namespace ot {
+
+
+	OT_MODULE_REGISTER_FUNC(FileModule){
+		OT_MODULE_REGISTRATION_DEFAULT(FileModule, "FileConfig" );
+	}
 
     // Destructor method, clears nodes member
 

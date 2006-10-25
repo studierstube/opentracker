@@ -42,11 +42,10 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <stdlib.h>
-#include "../tool/FixWinCE.h"
-#include "GPS_Handler.h"
-#include "GPSDriver.h"
-
+#include <cstdlib>
+#include <OpenTracker/tool/FixWinCE.h>
+#include <OpenTracker/input/GPS_Handler.h>
+#include <OpenTracker/input/GPSDriver.h>
 
 #ifndef OT_NO_GPS_SUPPORT
 

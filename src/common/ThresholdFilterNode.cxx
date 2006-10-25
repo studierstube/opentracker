@@ -42,10 +42,10 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "ThresholdFilterNode.h"
-#include <math.h>
+#include <OpenTracker/common/ThresholdFilterNode.h>
+#include <cmath>
 
 
 #ifndef OT_NO_THRESHOLDFILTER_SUPPORT

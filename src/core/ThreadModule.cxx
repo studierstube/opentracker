@@ -47,13 +47,13 @@
 #pragma warning(disable:4786)
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include <ace/Thread.h>
 #include <ace/Synch.h>
 
-#include "ThreadModule.h"
+#include <OpenTracker/core/ThreadModule.h>
 
 namespace ot {
 

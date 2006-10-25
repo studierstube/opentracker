@@ -43,16 +43,16 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <ace/Log_Msg.h>
 
-#include "FastTrakSource.h"
-#include "FastTrakModule.h"
-#include "../misc/serialcomm.h"
+#include <OpenTracker/input/FastTrakSource.h>
+#include <OpenTracker/input/FastTrakModule.h>
+#include <OpenTracker/misc/serialcomm.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <string.h>
 #include <iostream>
 
@@ -63,6 +63,10 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(FastTrakModule){        
+		OT_MODULE_REGISTRATION_DEFAULT(FastTrakModule, "FastTrakConfig" );
+	}
 
     const int FASTTRAK = 1;
     const int ISOTRAK = 2;

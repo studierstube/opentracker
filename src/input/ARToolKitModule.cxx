@@ -42,15 +42,15 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "ARToolKitModule.h"
-#include "ARToolKitSource.h"
+#include <OpenTracker/input/ARToolKitModule.h>
+#include <OpenTracker/input/ARToolKitSource.h>
 
 #ifdef USE_ARTOOLKIT
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -66,7 +66,7 @@
 #include <iostream>
 
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #ifdef __sgi
 #include <unistd.h>
 #endif
@@ -101,10 +101,14 @@
 #endif
 
 //using namespace std;
-
+#include <OpenTracker/core/Context.h>
 namespace ot {
 
-    // constructor
+	OT_MODULE_REGISTER_FUNC(ARToolKitModule){
+		OT_MODULE_REGISTRATION_DEFAULT(ARToolKitModule, "ARToolKitConfig");
+	}
+		
+	// constructor
 
     ARToolKitModule::ARToolKitModule() : 
         ThreadModule(), 
@@ -629,7 +633,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no ARToolKit support")
+#endif
 #endif  // USE_ARTOOLKIT
 
 /* 

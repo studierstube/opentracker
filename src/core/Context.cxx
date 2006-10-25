@@ -42,17 +42,17 @@
 /* ======================================================================= */
 
 
-#include <stdlib.h>
-#include "../tool/FixWinCE.h"
+#include <cstdlib>
+#include <OpenTracker/tool/FixWinCE.h>
 #include <ace/OS.h>
 #include <ace/FILE.h>
-
+#include <ace/Thread_Mutex.h>
 #include <algorithm>
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 // selects between usage of XERCES and TinyXML
-#include "../tool/XMLSelection.h"
+#include <OpenTracker/tool/XMLSelection.h>
 
 #ifdef USE_XERCES
 #include <xercesc/dom/DOM.hpp>
@@ -60,8 +60,10 @@
 #include <xercesc/util/XMLUniDefs.hpp>
 #endif //USE_XERCES
 
-#include "ConfigurationParser.h"
+#include <OpenTracker/core/ConfigurationParser.h>
+#include <OpenTracker/common/CommonNodeFactory.h>
 
+#include <OpenTracker/core/Configurator.h>
 
 #ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE;
@@ -79,15 +81,20 @@ namespace ot {
         cleanUp( false ),
         rootNamespace( "" )
     {
+		
+		
         if( init != 0 )
         {
-            initializeContext( *this );
+			printf("CONTEXT::CONSTRUCTOR initializing self with %p\n", this);
+            initializeContext( this , NULL);
             cleanUp = true;
         }
         else {
             cleanUp = false;
         }
         directories.push_back(".");
+
+        _mutex = new ACE_Thread_Mutex("context_mutex");
     }
 
     // Destructor method.
@@ -104,7 +111,14 @@ namespace ot {
         if (rootNode != NULL) {
             delete rootNode;
         }
+
+        delete _mutex;
     }
+
+    
+    inline void Context::lock() { _mutex->acquire(); };
+    inline void Context::unlock() { _mutex->release(); };
+
 
     // adds a new factory to the NodeFactoryContainer
 
@@ -131,11 +145,22 @@ namespace ot {
     // returns a module indexed by its configuration elements name
 
     Module * Context::getModule(const std::string & name)
-    {
+    {	Module * result = NULL;
         ModuleMap::iterator it = modules.find( name );
-        if( it != modules.end())
-            return (*it).second;
-        return NULL;
+		if( it != modules.end()){
+            result = (*it).second;
+		} else {
+			std::string modname;
+			std::string::size_type loc = name.find("Config");
+			modname = name.substr(0, loc) + "Module";
+			
+			Configurator::loadModule(*this, modname.c_str());
+			it = modules.find(name);
+			if (it != modules.end())
+				result = (*it).second;
+		}
+
+        return result;
     }
 
     // removes a module
@@ -205,13 +230,41 @@ namespace ot {
         std::string::size_type limit = file.find_last_of( "/\\" );
         if( limit != std::string::npos )
             addDirectoryFirst( file.substr(0, limit));
-
-        ConfigurationParser parser( *this );
+		
+		ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
         TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
         doc->SetUserData(this);
 #endif //USE_TINYXML
     }
+
+    void Context::parseConfigurationString(const char* xmlstring)
+    {
+#ifdef USE_XERCES
+        ConfigurationParser parser( *this );
+        rootNode = parser.parseConfigurationString( xmlstring );
+        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
+        doc->setUserData( ud_node, this, NULL );
+
+        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        if (xmlspace != NULL) {
+            char * tempName = XMLString::transcode( xmlspace );
+            rootNamespace = tempName;
+            XMLString::release( &tempName );
+        }
+        else {
+            rootNamespace = "";
+        }
+#endif //USE_XERCES
+
+#ifdef USE_TINYXML
+		ConfigurationParser parser( *this );
+        rootNode = parser.parseConfigurationString( xmlstring );
+        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+        doc->SetUserData(this);
+#endif //USE_TINYXML
+    }
+
 
     // calls pullEvent on all modules to get data out again.
 
@@ -233,16 +286,27 @@ namespace ot {
         }
     }
 
+
+	inline int Context::loopOnce(){
+		int stopflag=1;
+        // lock the Graph first
+        lock();
+        // push and pull parts of the main loop
+        pushEvents();
+        pullEvents();
+        stopflag = stop(); 
+        unlock();
+		return stopflag;
+	}
     // This method implements the main loop and runs until it is stopped somehow.
 
     void Context::run()
     {
         start();
-        while ( stop() == 0 )
+        int stopflag = stop();
+        while ( stopflag == 0 )
         {
-            // push and pull parts of the main loop
-            pushEvents();
-            pullEvents();
+			stopflag=loopOnce();
         }
         close();
     }
@@ -256,11 +320,13 @@ namespace ot {
     {
         double t1 = OSUtils::currentTime(); // in milliseconds
         start();
-        while ( stop() == 0 )
+        int stopflag = stop();
+        while ( stopflag == 0 )
         {
             // push and pull parts of the main loop
-            pushEvents();
-            pullEvents();
+  
+            stopflag = loopOnce();
+  
             double t2 = OSUtils::currentTime(); // in milliseconds
             double sleep_time = 1/rate*1000.0 - (t2 - t1);
             if (sleep_time > 0.f) {
@@ -478,6 +544,234 @@ namespace ot {
             }
     }
 
+
+	const std::string& Context::getConfigFile(){
+		return file;
+	}
+
+    void Context::copyFrom(Context & other){
+        // lock the loop, so that we can destroy all datastructures
+        lock();
+        // safely stop all the modules
+        close();
+        // destroy all the modules
+        //if (cleanUp)
+            for (ModuleMap::iterator it = modules.begin(); it != modules.end(); it++){
+                delete (*it).second;
+            }
+        modules.clear();
+        /* destroy the rootNode
+        if (rootNode != NULL)
+            delete rootNode;
+			*/
+   
+        // remove all the factories, as they point to the already removed modules
+        factory.removeAll();
+		videoUsers.clear();
+
+        // copy the modules from other
+        modules = other.modules;
+        // copy the rootNode from other
+		Node * tmp = rootNode;
+        rootNode = other.rootNode;
+		// let the other context clean up the old rootNode
+		other.rootNode = tmp;
+        // copy the factories from other
+        factory.copyFrom(other.factory);
+
+		// copy the videouser vector
+		videoUsers = other.videoUsers;
+
+        // change the cleanUp flag so the other won't destroy the modules when its gone
+        this->cleanUp = other.cleanUp;
+        other.cleanUp = false;
+        
+        this->start();
+        unlock();
+    }
+
+	void Context::addNode(std::string parentid, Node * newnode){
+		Node * parent = findNode(parentid);
+		Module * mod = getModuleFromNode(newnode);
+		if (parent != NULL){
+			lock();
+			parent->addChild(*newnode);
+			mod->addNode(newnode);
+			unlock();
+		}
+	};
+
+	
+
+	Module * Context::getModuleFromNode(const Node * node){
+		
+		std::string nodename = node->getType();
+		
+		return getModuleFromNodeType(nodename);
+	}
+
+	Module * Context::getModuleFromNodeType(std::string nodename){
+		// gcc does not allow doing this
+		// char * nodeTypes[3] = {{"Source"},{"Node"},{"Sink"}};
+		Module * result= NULL;
+		char * source = "Source";
+		char * node = "Node";
+		char * sink = "Sink";
+		char * nodeTypes[3];
+                nodeTypes[0] = source;
+                nodeTypes[1] = node;
+                nodeTypes[2] = sink;
+		
+		std::string modname;
+		printf("CONTEXT::GETMODULEFROMNODE: node->getType() %s \n", nodename.c_str());
+		std::string::size_type loc= std::string::npos;
+		
+		for (int i = 0; i < 3; i++){
+			loc = nodename.find(nodeTypes[i]);
+			if (loc != std::string::npos)
+				break;
+		}
+
+		if (loc != std::string::npos){
+			modname = nodename.substr(0, loc);
+			modname += "Config";
+	
+			result = getModule(modname);
+			printf("CONTEXT::GETMODULEFROMNODE: %s  result %p\n", modname.c_str(), result);
+		} 
+		return result;
+
+
+	}
+
+	/* 
+	in order to properly remove a node, it is necessary to remove it from the module that created it.
+	Most modules keep some datastructures for the nodes they create. These are actualized, for example 
+	in the create node method. It seems that either a node is a common node, thus created by the 
+	CommonNodeFactory, or it is some kind of specialized node, created by a module. We need to cope with
+	this two situations.
+	*/
+	void Context::removeSubtree(std::string nodeid){
+
+		Node * target = findNode(nodeid);
+		
+		
+		if (target != NULL){
+			
+			if (CommonNodeFactory::isKnownNode(target->getType())){
+				// The node is a common node, and does not belong to a module
+				lock();
+				// remove the node from the graph
+				Node * parent = target->getParent();
+				parent->removeChild(*target);
+				unlock();
+			}else{
+				//the node belongs to a module, which must be notified of the node's removal
+				// from the graph.
+				Module * mod = getModuleFromNode(target);
+				if (mod != NULL){
+					lock();
+					Node * parent = target->getParent();
+					parent->removeChild(*target);
+					mod->removeNode(target);
+					unlock();
+				} else{
+					// the node cannot be removed, because its module is unknown, we must throw
+					printf("CONTEXT::REMOVE_SUBTREE: could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
+
+				}
+			}
+				
+		}
+		
+	};
+
+	void Context::removeNode(std::string nodeid){
+
+		Node * target = findNode(nodeid);
+		printf("CONTEXT::REMOVE_NODE target is %p\n", target);
+		if (target != NULL){
+			unsigned int count = target->countChildren();
+			printf("CONTEXT::REMOVE_NODE: %u children before removing\n", count);
+
+
+			printf("CONTEXT::REMOVE_NODE: removing node %p, of type %s\n", target, (target->getType().c_str()));
+			if (CommonNodeFactory::isKnownNode(target->getType())){
+				// The node is a common node, and does not belong to a module
+				Node * parent = target->getParent();
+				lock();
+				unsigned int childrencount = target->countChildren();
+				printf("CONTEXT::REMOVE_NODE: must add %u node's children to its parent's\n", childrencount);
+				for(unsigned int i = 0; i < childrencount; i++){
+					Node * child = target->getChild(i);
+					parent->addChild(*child);
+					
+					printf("CONTEXT::REMOVE_NODE: adding child of type %s, to parent of type%s\n", ((child->getType()).c_str()), ((parent->getType()).c_str()));
+					target->removeChild(*child);					
+				}
+
+				// remove the node from the graph
+
+				parent->removeChild(*target);
+				target->parent = NULL;
+				// delete target;
+				unlock();
+			}else{
+				//the node belongs to a module, which must be notified of the node's removal
+				// from the graph.
+				Module * mod = getModuleFromNode(target);
+				if (mod != NULL){
+					lock();
+					Node * parent = target->getParent();
+					parent->removeChild(*target);
+					mod->removeNode(target);
+					// the node has been removed, now all its children should be passed on to
+					// its father.
+					unsigned int childrencount = target->countChildren();
+					for(unsigned int i = 0; i < childrencount; i++){
+						Node * child = target->getChild(i);
+						target->removeChild(*child);
+						parent->addChild(*child);
+					}
+					unlock();
+				} else{
+					// the node cannot be removed, because its module is unknown, we must throw
+					printf("CONTEXT::REMOVE_SUBTREE: could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
+
+				}
+			}
+				
+		}
+
+
+                //		((TiXmlNode*)rootNode->parent)->GetDocument()->Print()	;
+	}
+
+	void Context::replaceNode(std::string nodeid, Node * newnode){
+		if (newnode != NULL){
+			Module * newmodule = getModuleFromNode(newnode);
+			Node * target = findNode(nodeid);
+			if (target != NULL){
+				Module * targetmodule = getModuleFromNode(target);
+				lock();
+				Node * parent = target->getParent();
+				parent->removeChild(*target);
+				targetmodule->removeNode(target);
+
+				parent->addChild(*newnode);
+				newmodule->addNode(newnode);
+				unlock();
+			} else{
+				// something bad here, should throw
+			}
+		} else{
+			// there is something wrong here, should at least throw
+		}
+	}
+
+	bool Context::isConfigured(){
+		return (rootNode != NULL);
+	}
 
 } // namespace ot
 

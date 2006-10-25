@@ -42,12 +42,12 @@
  * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
  */
 
-#include <dllinclude.h>
+#include <OpenTracker/dllinclude.h>
 #if USE_OTQT
 
-#include "OTQt.h"
-#include <extras/newmat10/include.h> // activates the RBD_COMMON namespace in myexcept.h
-#include <extras/newmat10/myexcept.h>
+#include <OpenTracker/otqt/OTQt.h>
+#include "../../extras/newmat10/include.h" // activates the RBD_COMMON namespace in myexcept.h
+#include "../../extras/newmat10/myexcept.h"
 #include <qdatetime.h>
 #include <stdexcept>
 
@@ -94,7 +94,7 @@ namespace ot {
         cfg_filename_ = cfg_filename;
 
         // INIT OpenTracker
-        initializeContext(context_);
+        initializeContext(&context_, NULL);
 
         ///// add modules to context
 

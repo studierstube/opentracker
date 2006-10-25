@@ -42,10 +42,10 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "GKTransformNode.h"
-#include <math.h>
+#include <OpenTracker/common/GKTransformNode.h>
+#include <cmath>
 
 
 #ifndef OT_NO_GK_SUPPORT

@@ -41,8 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "EventUtilityNode.h"
-
+#include <OpenTracker/common/EventUtilityNode.h>
 
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
 

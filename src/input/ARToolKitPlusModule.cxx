@@ -44,22 +44,32 @@
 
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 #include <cstdlib>
 #include <algorithm>
 #include <cctype>
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
-#include "ARToolKitPlusModule.h"
-#include "ARToolKitSource.h"
-#include "ARToolKitMultiMarkerSource.h"
+#include <OpenTracker/input/ARToolKitPlusModule.h>
+#include <OpenTracker/input/ARToolKitSource.h>
+#include <OpenTracker/input/ARToolKitMultiMarkerSource.h>
 
 #ifdef USE_ARTOOLKITPLUS
 
+#include <OpenTracker/core/Context.h>
+namespace ot{
+OT_MODULE_REGISTER_FUNC(ARToolKitPlusModule){
+	        // Create an ARToolKitPlusModule instance
+			ARToolKitPlusModule *artoolplus = new ARToolKitPlusModule;
+			context->addFactory( * artoolplus );
+			context->addModule( "ARToolKitPlusConfig", *artoolplus );
+			context->registerVideoUser(artoolplus);
+	}
+}
 
 // in SAM we use another mechanism to link against ARToolKitPlus
 // in order to use the release DLL even in debug mode.
@@ -92,7 +102,11 @@
 #  endif
 #endif
 
+
 #include <ARToolKitPlus/Logger.h>
+
+
+
 
 class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
 {
@@ -833,7 +847,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no ARToolKitPlus support")
+#endif
 #endif //USE_ARTOOLKITPLUS
 
 /* 

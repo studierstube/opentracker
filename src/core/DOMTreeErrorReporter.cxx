@@ -62,20 +62,20 @@
 //  Includes
 // ---------------------------------------------------------------------------
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 // selects between usage of XERCES and TinyXML
-#include "../tool/XMLSelection.h"
+#include <OpenTracker/tool/XMLSelection.h>
 
 
 #ifdef USE_XERCES
 
 
 #include <xercesc/sax/SAXParseException.hpp>
-#include "DOMTreeErrorReporter.h"
+#include <OpenTracker/core/DOMTreeErrorReporter.h>
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 #include <iostream>
 

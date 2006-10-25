@@ -42,16 +42,15 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
-#include "JoystickModule.h"
-#include "JoystickSource.h"
-//#include "../core/Node.h"
+#include <OpenTracker/input/JoystickModule.h>
+#include <OpenTracker/input/JoystickSource.h>
 
 #ifdef USE_JOYSTICK
 
-#include <stdio.h>
+#include <cstdio>
 
 #ifndef _WIN32_WCE
 #pragma comment(lib, "winmm")
@@ -61,6 +60,10 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(JoystickModule){
+		OT_MODULE_REGISTRATION_DEFAULT(JoystickModule , "JoystickConfig");
+	}
 
 	// constructor method.
 	JoystickModule::JoystickModule() : ThreadModule(), NodeFactory(), stop(0)
@@ -285,7 +288,9 @@ namespace ot {
 
 
 #else
+#ifdef WIN32
 #pragma message(">>> no joystick support")
+#endif
 #endif
 
 /* 

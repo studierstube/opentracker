@@ -42,37 +42,37 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include <stdlib.h>
-#include "CommonNodeFactory.h"
-#include "MergeNode.h"
+#include <cstdlib.h>
+#include <OpenTracker/common/CommonNodeFactory.h>
+#include <OpenTracker/common/MergeNode.h>
 #ifndef OT_NO_MERGENODE_SUPPORT
-#  include "TriangulateOrientationNode.h"
+#  include <OpenTracker/common/TriangulateOrientationNode.h>
 #endif
-#include "VirtualTransformation.h"
-#include "DynamicTransformation.h"
-#include "InvertTransformation.h"
-#include "MatrixTransformation.h"
-#include "SelectionNode.h"
-#include "ConfidenceFilterNode.h"
-#include "ConfidenceSelectNode.h"
-#include "FilterNode.h"
-#include "ThresholdFilterNode.h"
-#include "ButtonFilterNode.h"
-#include "ButtonOpNode.h"
-#include "TimeGateNode.h"
-#include "EllipsoidTransformNode.h"
-#include "GKTransformNode.h"
-#include "RangeFilterNode.h"
-#include "PositionFilterNode.h"
-#include "EventUtilityNode.h"
-#include "DESPFilterNode.h"
-#include "DifferenceNode.h"
+#include <OpenTracker/common/VirtualTransformation.h>
+#include <OpenTracker/common/DynamicTransformation.h>
+#include <OpenTracker/common/InvertTransformation.h>
+#include <OpenTracker/common/MatrixTransformation.h>
+#include <OpenTracker/common/SelectionNode.h>
+#include <OpenTracker/common/ConfidenceFilterNode.h>
+#include <OpenTracker/common/ConfidenceSelectNode.h>
+#include <OpenTracker/common/FilterNode.h>
+#include <OpenTracker/common/ThresholdFilterNode.h>
+#include <OpenTracker/common/ButtonFilterNode.h>
+#include <OpenTracker/common/ButtonOpNode.h>
+#include <OpenTracker/common/TimeGateNode.h>
+#include <OpenTracker/common/EllipsoidTransformNode.h>
+#include <OpenTracker/common/GKTransformNode.h>
+#include <OpenTracker/common/RangeFilterNode.h>
+#include <OpenTracker/common/PositionFilterNode.h>
+#include <OpenTracker/common/EventUtilityNode.h>
+#include <OpenTracker/common/DESPFilterNode.h>
+#include <OpenTracker/common/DifferenceNode.h>
 
-#include <math.h>
-#include <float.h>
-#include <stdio.h>
+#include <cmath.h>
+#include <cfloat.h>
+#include <cstdio.h>
 #include <iostream>
 
 #include <algorithm>
@@ -80,11 +80,14 @@
 //using namespace std;
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 // Constructor
 
 namespace ot {
+
+	//initialize static member
+	std::vector<std::string> CommonNodeFactory::knownNodes;
 
     CommonNodeFactory::CommonNodeFactory()
     {
@@ -97,6 +100,30 @@ namespace ot {
         nodePorts.push_back("Arg1");
         nodePorts.push_back("Arg2");
         nodePorts.push_back("Gate");
+
+        knownNodes.push_back("MergeNode");
+        knownNodes.push_back("TriangulateOrientationNode");
+        knownNodes.push_back("VirtualTransformation");
+        knownNodes.push_back("DynamicTransformation");
+        knownNodes.push_back("InvertTransformation");
+        knownNodes.push_back("MatrixTransformation");
+        knownNodes.push_back("SelectionNode");
+        knownNodes.push_back("ConfidenceSelectNode");
+        knownNodes.push_back("FilterNode");
+        knownNodes.push_back("ThresholdFilterNode");
+        knownNodes.push_back("ButtonFilterNode");
+        knownNodes.push_back("ButtonOpNode");
+        knownNodes.push_back("TimeGateNode");
+        knownNodes.push_back("EllipsoidTransformNode");
+        knownNodes.push_back("GKTransformNode");
+        knownNodes.push_back("RangeFilterNode");
+        knownNodes.push_back("PositionFilterNode");
+        knownNodes.push_back("PositionFilter");
+        knownNodes.push_back("EventUtilityNode");
+        knownNodes.push_back("EventUtility");
+        knownNodes.push_back("ConfidenceFilterNode");
+        knownNodes.push_back("Difference");		
+        knownNodes.push_back("DESPFilter");
     }
 
     CommonNodeFactory::~CommonNodeFactory()
@@ -608,6 +635,14 @@ namespace ot {
         return result;
     }
 
+
+	bool CommonNodeFactory::isKnownNode(std::string nodeName){
+		bool result = false;
+		std::vector<std::string>::iterator i = find(knownNodes.begin(), knownNodes.end(), nodeName);
+		if (i != knownNodes.end())
+			result= true;
+		return result;
+	}
 } // namespace ot
 
 /* 

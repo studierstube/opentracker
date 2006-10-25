@@ -45,7 +45,7 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include <ace/ACE.h>
@@ -53,12 +53,12 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Time_Value.h>
-#include "TCPModule.h"
+#include <OpenTracker/network/TCPModule.h>
 
 #include <iostream>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 
 #define SERVER_DATA_PRECISION 100
@@ -69,6 +69,11 @@
 
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(TCPModule){
+		OT_MODULE_REGISTRATION_DEFAULT(TCPModule , "TCPConfig" );
+	}
+
 
     // destuctor, clears up any sinks
 

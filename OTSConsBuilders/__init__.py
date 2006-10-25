@@ -1,2 +1,0 @@
-import pyuic
-import omniidl

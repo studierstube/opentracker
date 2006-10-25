@@ -59,11 +59,11 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "ParButtonSource.h"
-#include "ParButtonModule.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/input/ParButtonSource.h>
+#include <OpenTracker/input/ParButtonModule.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 // enable this define, if you want to use an alternative implementation of
 // the parallel port access. You will also have to make sure to include the
@@ -79,7 +79,7 @@
 
 #ifdef WIN32
 #ifndef _DLPORTIO
-#include "../misc/portio.h"
+#include <OpenTracker/misc/portio.h>
 #else
 #include "Dlportio.h"
 #endif
@@ -106,6 +106,11 @@
 #ifndef __APPLE__
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(ParButtonModule){
+		OT_MODULE_REGISTRATION_DEFAULT(ParButtonModule ,"ParButtonConfig" );
+	}
+
 
 #ifdef WIN32
 #ifndef _DLPORTIO
@@ -221,7 +226,6 @@ namespace ot {
                 return NULL;
             }
 	
-            int mode;
             if(ioctl(handle, PPCLAIM) < 0) 
             {
                 LOG_ACE_INFO("ot:ParButtonModule Error claiming port %s\n" , dev.c_str() );
@@ -314,7 +318,8 @@ namespace ot {
                 source->updateObservers( source->event );
             }
 #else  // LINUX
-            int cstatus = ioctl(source->handle, PPRDATA, &data);	
+            int cstatus;
+	    cstatus = ioctl(source->handle, PPRDATA, &data);	
 	
             if( (unsigned int)(~data) != source->event.getButton() )
             {

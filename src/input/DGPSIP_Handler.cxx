@@ -51,10 +51,10 @@
 // required for WinCE to make sure time_t is 32-bits !!!
 // crappy WinCE SDK defines 32-bit version AND 64-bit version,
 // while ACE expects the 32-bits version...
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "../tool/FixWinCE.h"
-#include "DGPSIP_Handler.h"
+#include <OpenTracker/tool/FixWinCE.h>
+#include <OpenTracker/input/DGPSIP_Handler.h>
 
 
 #ifndef OT_NO_GPS_SUPPORT

@@ -41,8 +41,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "../tool/disable4786.h"
-#include "NodeFactoryContainer.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/core/NodeFactoryContainer.h>
 
 #include <algorithm>
 
@@ -92,6 +92,15 @@ namespace ot {
             factories.erase( result );
         }
     }
+
+	// remove all factories
+	void NodeFactoryContainer::removeAll(){
+		factories.clear();
+	}
+
+	void NodeFactoryContainer::copyFrom(const NodeFactoryContainer & other){
+		factories = other.factories;
+	};
 
 } // namespace ot
 

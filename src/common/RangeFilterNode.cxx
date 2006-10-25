@@ -42,9 +42,9 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
+#include <OpenTracker/tool/disable4786.h>
 
-#include "RangeFilterNode.h"
+#include <OpenTracker/common/RangeFilterNode.h>
 
 
 #ifndef OT_NO_RANGEFILTER_SUPPORT

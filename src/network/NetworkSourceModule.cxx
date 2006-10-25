@@ -42,7 +42,7 @@
 /* ======================================================================== */
 
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
 #ifndef OT_NO_NETWORK_SUPPORT
 
@@ -50,7 +50,7 @@
 #ifdef WIN32
 #pragma warning(disable:4786)
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <algorithm>
 
@@ -62,15 +62,20 @@
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram_Mcast.h>
 
-#include "NetworkSourceModule.h"
+#include <OpenTracker/network/NetworkSourceModule.h>
 
 #include <iostream>
 
 #include <ace/Log_Msg.h>
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
+#include <OpenTracker/core/Context.h>
 
 namespace ot {
+
+	OT_MODULE_REGISTER_FUNC(NetworkSourceModule){
+			OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
+	}
 
     struct Station
     {
@@ -295,7 +300,7 @@ namespace ot {
 
         short maxStationNum = ntohs(buffer.maxStationNum);
         short numOfStations = ntohs(buffer.numOfStations);
-        short bufferLength = ntohs(buffer.bufferLength);
+        //short bufferLength = ntohs(buffer.bufferLength);
         char *stationData = (char*)(&buffer) + 5 * sizeof(short);
 
         short int si[3];

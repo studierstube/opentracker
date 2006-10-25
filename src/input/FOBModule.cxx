@@ -43,18 +43,18 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
-#include "../tool/disable4786.h"
-#include "../tool/OT_ACE_Log.h"
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <ace/Log_Msg.h>
 
-#include "FOBSource.h"
-#include "FOBModule.h"
-#include "../core/MathUtils.h"
-#include "../misc/serialcomm.h"
+#include <OpenTracker/input/FOBSource.h>
+#include <OpenTracker/input/FOBModule.h>
+#include <OpenTracker/core/MathUtils.h>
+#include <OpenTracker/misc/serialcomm.h>
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 
 
@@ -62,6 +62,11 @@
 
 
 namespace ot {
+
+
+	OT_MODULE_REGISTER_FUNC(FOBModule){
+		OT_MODULE_REGISTRATION_DEFAULT(FOBModule, "FOBConfig" );
+	}
 
     /** This class is a datatype helper class for the FOBModule class. It stores 
      * the relevant data for a single bird station and provides buffer storage and
