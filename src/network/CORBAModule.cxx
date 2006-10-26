@@ -228,16 +228,20 @@ void CORBAModule::clear()
 }
 
 // This method is called to construct a new Node.
-#define fish
 Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
 {
+  std::cerr << "CORBAModule::createNode" << std::endl;
   if( name.compare("CORBASink") == 0 ) 
     {
       int frequency;
       int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-      if( num == 0 ){
+      std::cerr << "num = " << num << std::endl;
+      if( num <= 0 ) {
 	frequency = 1;
+      } else {
+	frequency = num;
       }
+      std::cerr << "frequency = " << frequency << std::endl;
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
@@ -251,7 +255,6 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASink node\n")));
       return sink;
     } 
-#ifdef fish
   else if( name.compare("CORBATransform") == 0 ) 
     {
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
@@ -266,10 +269,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       sinks.push_back( transform );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBATransform node\n")));
       return transform;
-    } 
-#endif
-  else if (name.compare("CORBASource") == 0 ) 
-    {
+    } else if (name.compare("CORBASource") == 0 ) {
       CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBASource * source_impl = new CORBASource( );
       

@@ -79,7 +79,7 @@ public:
 // Methods
 protected:
     CORBASink() :
-      frequency( 0 ),
+      frequency( 1 ),
       cycle( 0 ) 
 	{
 	  // empty default constructor
@@ -119,8 +119,7 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
-      cycle++;
-      if ((cycle % frequency) == 0) {
+      if ((cycle++ % frequency) == 0) {
 	OT_CORBA::Event corba_event;
 	CORBAUtils::convertToCORBAEvent(event, corba_event);
 	try {
