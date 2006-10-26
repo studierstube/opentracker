@@ -101,8 +101,7 @@ namespace ot {
 	num = sscanf(attributes.get("eid").c_str(), " %h", &eid );
 	sinks.push_back( sink );
 	return sink;
-      } else if ( name.compare("PhantomMiddlewareSource") == 0 ) 
-      {
+      } else if ( name.compare("PhantomMiddlewareSource") == 0 ) {
 	//const char* group = attributes.get("group").c_str();
 	std::string group = attributes.get("group");
 	int pid;

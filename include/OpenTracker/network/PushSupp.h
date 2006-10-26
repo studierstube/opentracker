@@ -100,7 +100,12 @@ protected:
         cycle ( 0 )
     {
       supplier = new Supplier_i();
-      supplier_admin = CORBAUtils::getSupplierAdmin(channel);
+      try {
+	supplier_admin = CORBAUtils::getSupplierAdmin(channel);
+      } catch (CORBA::INV_OBJREF) {
+	LOG_ACE_ERROR("Object reference of event channel is internally malformed. Exiting....\n");
+	exit(-1);
+      }	
       proxy_consumer = CORBAUtils::getProxyPushConsumer(supplier_admin);
       CosEventComm::PushSupplier_var sptr = supplier->_this();
       CORBAUtils::connectPushSupplier(proxy_consumer, sptr);
@@ -132,7 +137,6 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
-      LOG_ACE_INFO("PushSupp::onEventGenerated\n");
       cycle++;
       OT_CORBA::Event* corba_event = new OT_CORBA::Event;
       CORBAUtils::convertToCORBAEvent(event, *corba_event);

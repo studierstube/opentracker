@@ -230,7 +230,6 @@ void CORBAModule::clear()
 // This method is called to construct a new Node.
 Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
 {
-  std::cerr << "CORBAModule::createNode" << std::endl;
   if( name.compare("CORBASink") == 0 ) 
     {
       int frequency;
