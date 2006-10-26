@@ -147,7 +147,6 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
-      //LOG_ACE_ERROR("PhantomMiddlewareSink::onEventGenerated\n");
       cycle++;
       if ((cycle % frequency) == 0) {
 	seq++;

@@ -158,7 +158,6 @@ public:
     {
       lock();
       if (modified) {
-	LOG_ACE_INFO("modified\n");
 	updateObservers( event );
 	modified = false;
       } 
