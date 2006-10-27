@@ -33,68 +33,53 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** header file for MidiModule.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
 #include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/tool/midi.h>
+#include <vector>
+#include <map>
+#include <string>
 
-#include <iostream>
+namespace ot{
 
-using namespace std;
-using namespace ot;
+  class MidiSource;
 
-/**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
- */
-int main(int argc, char **argv)
-{
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
+  class MidiModule : public Module, public NodeFactory{
+  public:
+    typedef std::map<std::string, unsigned long> MidiInCapsDict;
+    typedef std::vector<MidiSource *> MidiSrcDict;
+  protected:
+    MidiInCapsDict inDevDict;
+    MidiSrcDict    srcDict;
 
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
+    void cleanUpDevCaps();
+    void cleanUpSrcs();
+  public:
+    MidiModule();
+    virtual ~MidiModule();
+    
+    virtual void init(StringTable & attributes, ConfigNode * localTree);
 
-    cout << "Context established." << endl;
+    virtual void close();
 
-    // parse the configuration file, builds the tracker tree
-	try {
-    context.parseConfiguration( argv[1] );
-	} catch (exception & e){
-		printf( "could not configure context because \n\t\t %s\n", e.what());
-	}
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+    virtual void start();
 
-    // initializes the modules and starts the tracker main loop
-    context.run();
-	printf("context closed\n");
-    OSUtils::sleep(1000);
-    return 0;
-}
+    
+    virtual void addNode(const Node *);
+    virtual void removeNode(const Node*);
 
-/* 
- * ------------------------------------------------------------
- *   End of main.cxx
- * ------------------------------------------------------------
- *   Automatic Emacs configuration follows.
- *   Local Variables:
- *   mode:c++
- *   c-basic-offset: 4
- *   eval: (c-set-offset 'substatement-open 0)
- *   eval: (c-set-offset 'case-label '+)
- *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
- *   eval: (setq indent-tabs-mode nil)
- *   End:
- * ------------------------------------------------------------ 
- */
+    // NodeFactory interface
+    virtual Node * createNode( const std::string & name, StringTable & attributes);
+	virtual void pushEvent();
+  };
+
+  OT_MODULE(MidiModule);
+
+}; // namespace ot

@@ -33,68 +33,53 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file containing the main function for standalone use.
+/** header file for MidiSource.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
 #include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/tool/midi.h>
 
-#include <iostream>
+namespace ot {
 
-using namespace std;
-using namespace ot;
+  class MidiSource: public Node, public MidiInHandler{
+  protected:
+    MIDIINHANDLE inHdl;
 
-/**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
- */
-int main(int argc, char **argv)
-{
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
+    Event event;
+    int changed;
 
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
+    MidiSource(unsigned int devid);
 
-    cout << "Context established." << endl;
+    void startRecording();
 
-    // parse the configuration file, builds the tracker tree
-	try {
-    context.parseConfiguration( argv[1] );
-	} catch (exception & e){
-		printf( "could not configure context because \n\t\t %s\n", e.what());
-	}
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+    void stopRecording();
 
-    // initializes the modules and starts the tracker main loop
-    context.run();
-	printf("context closed\n");
-    OSUtils::sleep(1000);
-    return 0;
-}
 
-/* 
- * ------------------------------------------------------------
- *   End of main.cxx
- * ------------------------------------------------------------
- *   Automatic Emacs configuration follows.
- *   Local Variables:
- *   mode:c++
- *   c-basic-offset: 4
- *   eval: (c-set-offset 'substatement-open 0)
- *   eval: (c-set-offset 'case-label '+)
- *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
- *   eval: (setq indent-tabs-mode nil)
- *   End:
- * ------------------------------------------------------------ 
- */
+    void close();
+
+  public:
+    virtual ~MidiSource();
+    virtual int isEventGenerator();
+    void pushEvent();
+
+    // MidiInHandler interface
+    void handleShortMsg( MIDISHORTMSG & msg) ;
+    /* do something when an error from short messages*/
+    void onShortMsgError( MIDISHORTMSG & msg) ;
+    /* receive a long message */
+    void handleLongMsg(  MIDILONGMSG & msg);
+    /* do something when an error from long messages */
+    void onLongMsgError( MIDILONGMSG & msg);
+
+
+    // friends with the factory
+    friend class MidiModule;
+  };
+
+
+}; // namespace ot

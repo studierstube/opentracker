@@ -105,6 +105,9 @@
  *      applications by deriving mouse events from tracking data. Requires Trolltech Qt
  *      library from series 3. See dedicated VS .NET 7.1 solution and project files to
  *      build OTQt. Untested on Windows!
+ * @li @b USE_MIDI
+ *      \n enables midi support and the @ref midisource node and @ref
+ *      midimodule. This works only on Windows.
  * @li @b USE_RAWINPUT
  *      \n enables raw input support and the @ref rawinputsource node and @ref
  *      rawinputmodule. This works only on Windows XP.
@@ -191,7 +194,7 @@
 
 /** uncomment the following line to compile support for the Ubisense system.
  * Support for this is only available on windows. */
-// #define USE_UBISENSE 1
+//#define USE_UBISENSE 1
 
 /** uncomment the following line to compile support for the OTQt.
  */
@@ -200,6 +203,10 @@
 /** uncomment the following line to compile support for raw input.
  * Support for this is only available on windows. */
 #define USE_RAWINPUT 1
+
+/** uncomment the following line to compile support for the ARToolKit library */
+//#define USE_MIDI 1
+
 
 #ifdef _WIN32_WCE
 #  define OT_NO_BUTTON_SUPPORT

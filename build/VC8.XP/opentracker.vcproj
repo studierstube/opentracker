@@ -424,6 +424,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\MidiModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\MidiSource.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\tool\midiw32.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\MulticastInputModule.cxx"
 				>
 			</File>
@@ -975,6 +987,22 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\MergeNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\tool\midi.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\MidiModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\MidiSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\tool\midiw32.h"
 				>
 			</File>
 			<File
