@@ -406,6 +406,9 @@ namespace ot {
     } catch(CORBA::TRANSIENT) {
       LOG_ACE_ERROR("Naming Service isn't running\n");
       return CosNaming::NamingContextExt::_nil();
+    } catch(CORBA::INV_OBJREF) {
+      LOG_ACE_ERROR("An exception has occured that indicates that the object reference to the NameService is internally malformed.\n");
+      return CosNaming::NamingContextExt::_nil();
     }
     return extContext;
   }

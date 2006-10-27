@@ -270,8 +270,8 @@ class TestLoop(threading.Thread):
               print "Failed. Caught COMM_FAILURE Exception!"
           i=i+1
           l=l+1
-          time.sleep(1.0)
-          #time.sleep(0.1)
+          #time.sleep(1.0)
+          time.sleep(0.1)
           #time.sleep(0.001)
 
         # Disconnect - retrying on Comms Failure.
