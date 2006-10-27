@@ -177,6 +177,8 @@ else:
         targetList.append(otcon2)
         targetList.append(otcon2corba)        
     elif sys.platform =='darwin':
+	env.Append(CPPPATH = ['/opt/local/include']) # used by Darwin Ports
+	env.Append(LIBPATH = ['/opt/local/lib'])     # used by Darwin Ports
         # list of libraries that will be searched by the scanner.
         # The scanner will try to locate the libraries and the flags
         # needed to build with those libraries. The obtained result will

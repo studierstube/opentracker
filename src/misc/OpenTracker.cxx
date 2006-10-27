@@ -100,8 +100,8 @@
 #include <OpenTracker/input/CyberMouseModule.h>
 #ifndef __APPLE__
 #include <OpenTracker/input/LinmouseModule.h>
-#endif
 #include <OpenTracker/input/MidiModule.h>
+#endif
 #include <OpenTracker/input/WacomGraphireModule.h>
 #include <OpenTracker/input/JoystickModule.h>
 #include <OpenTracker/input/SpaceDeviceModule.h>
@@ -198,8 +198,10 @@ namespace ot {
 #endif
 #endif //_WIN32_WCE
 
+#ifndef __APPLE__
 #ifdef USE_MIDI
         OT_REGISTER_MODULE(MidiModule, NULL);
+#endif
 #endif
 
 #ifdef USE_ARTOOLKIT
