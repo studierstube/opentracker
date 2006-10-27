@@ -1,0 +1,97 @@
+import sys, os
+from glob import glob
+from os.path import join, basename, dirname, isfile, walk
+from sets import Set as set
+
+def filterHeaders(files):
+    return [file for file in stubsandskeletons if str(file).endswith('.h') or str(file).endswith('.hh')]
+
+def filterCppSources(files):
+    return [file for file in stubsandskeletons if str(file).endswith('.c') or str(file).endswith('.cc') or str(file).endswith('.cxx')]
+
+_libs = ['xerces-c', 'ACE']
+_defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT','OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 'OT_NO_INTERPORLATORMODULE_SUPPORT', 'OT_NO_ARTDATATRACKER_SUPPORT', 'OT_NO_BUTTON_SUPPORT', 'OT_NO_CONFIDENCE_SUPPORT', 'OT_NO_TIMEGATE_SUPPORT', 'OT_NO_TIMESTAMPGENERATOR_SUPPORT']
+
+essential_core_files = glob(join('src', 'core', '*.cxx')) + \
+    [join('src', 'misc', 'OpenTracker.cxx')] + \
+    [join('src', 'tool', 'OT_ACE_LOG.cxx')]
+common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx']
+common_files = [join('src', 'common', file) for file in common]
+
+################################################################################
+#     Set options                                                              #
+################################################################################
+opts = Options('custom.py')
+opts.Add(BoolOption('DEBUG', 'Set to build for debug', 0))
+opts.Add(BoolOption('ENABLE_CORBA', 'Set to build for debug', 0))
+opts.Add('PREFIX', 'Set installation prefix', '')
+
+################################################################################
+#     Set general environment                                                  #
+################################################################################
+env = Environment (ENV = os.environ, options=opts)
+env.Append(CPPPATH=['include'])
+env.Append(LIBS=_libs)
+env.Append(CPPDEFINES=_defines)
+
+################################################################################
+#     Handle different build options                                           #
+################################################################################
+extra_files = []
+additional_headers = []
+if env['DEBUG']:
+    env.Append(CXXFLAGS='-g')
+else:
+    env.Append(CXXFLAGS='-O2')
+if env['ENABLE_CORBA']:
+    import OmniIdlCxx
+    OmniIdlCxx.generate(env)
+    env.Append(CPPDEFINES='USE_CORBA')
+    env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
+    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
+    stubsandskeletons = env.OMNIIDLCXX(os.path.join('idl', 'OT_CORBA.idl'),
+				       OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons'))
+    extra_files += filterCppSources(stubsandskeletons)
+    for header in filterHeaders(stubsandskeletons):
+	print "destination:", join('include','OpenTracker', 'skeletons', basename(str(header)))
+	print "target:", header
+	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
+	print "additional_headers = ", [str(file) for file in additional_headers]
+################################################################################
+#     Handle different platform specific options                               #
+################################################################################
+if sys.platform == 'darwin':
+    # Add default directories used by Darwin Ports
+    env.Append(CPPPATH=['/opt/local/include']) 
+    env.Append(LIBPATH=['/opt/local/lib'])
+elif sys.platform.startswith('linux'):
+    pass
+elif sys.platform == 'win32':
+    pass
+
+otlib = env.SharedLibrary(join('lib', 'opentracker'), 
+			  essential_core_files + common_files + extra_files)
+ot    = env.Program(join('bin','opentracker'), join('src','standalones','main.cxx'), LIBS=otlib)
+
+def gatherHeaders(arg, dirname, fnames):
+    try:
+	fnames.remove('.svn')
+    except ValueError:
+	pass # do nothing
+    arg += [join(dirname, file) for file in fnames if file.endswith('.h') or file.endswith('.hh')]
+
+# install everything into prefix, if there is such a thing
+prefix = ARGUMENTS.get('PREFIX')
+if prefix:
+    bin_inst = env.Install(join(prefix, 'bin'), [ot])
+    lib_inst = env.Install(join(prefix, 'lib'), [otlib])
+    header_files = []
+    walk('include', gatherHeaders, header_files)
+    inc_inst = []
+    # obtain list of all header files to be installed
+    header_files_excluding_duplicates = list(set(tuple(header_files + additional_headers)))
+    for header in header_files_excluding_duplicates:
+	inc_inst.append(env.Install( join(prefix, dirname(str(header))), header))
+    # all files to be installed
+    install_files = [bin_inst, inc_inst, lib_inst]
+    env.Alias('install', install_files )
