@@ -5,9 +5,15 @@ import os
 sys.path.append('ICGBuilder')
 import icgbuilder
 import buildutils
-from time import sleep
 
 env = Environment (ENV = os.environ)
+if ARGUMENTS.has_key("ENABLE_CORBA"):
+    import OmniIdlCxx
+    OmniIdlCxx.generate(env)
+
+if ARGUMENTS.has_key("ENABLE_OMNIORBPY"):
+    import OmniIdlPy
+    OmniIdlPy.generate(env)
 #***************************************************************************************
 #
 #                  BUILD TARGETS DEFINITION
@@ -104,7 +110,13 @@ else:
                 'libs':['opentracker'],
                 'src_use': ['standalones/main.cxx']
                 }
-        
+
+        middleware ={'name':'middleware',
+                'type':'PRG',
+                'libs':['opentracker'],
+                'src_use': ['standalones/middleware.cxx']
+                }
+
         otcon2 ={'name':'opentracker2c',
                  'type':'PRG',
                  'libs':['opentracker', 'ace'],
@@ -114,6 +126,7 @@ else:
         targetList.append(ot)
         targetList.append(otlib)
         targetList.append(otcon)
+        targetList.append(middleware)
         targetList.append(otcon2)
     elif sys.platform == 'linux' or sys.platform == 'linux2':
         # list of libraries that will be searched by the scanner.
@@ -138,15 +151,31 @@ else:
                 'src_use': ['standalones/main.cxx']
                 }
     
+        middleware ={'name':'middleware',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/middleware.cxx']
+                }
+    
         otcon2 ={'name':'opentracker2c',
                  'type':'PRG',
                  'libs':['opentracker','ACE'],
                  'src_use': ['standalones/configurable.cxx']
                  }
-
+        if ARGUMENTS.has_key('ENABLE_CORBA'):
+            otcon2corba ={'name':'opentracker2con',
+                          'type':'PRG',
+                          'libs':['opentracker','ACE','omniORB4', 'COS4',
+                                  'omniDynamic4', 'omnithread'],
+                          'src_use': ['standalones/corba_configurable.cxx']
+                          }
+            targetList.append(otcon2corba)
+            
         targetList.append(ot)
+        targetList.append(middleware)        
         targetList.append(otcon)
         targetList.append(otcon2)
+        targetList.append(otcon2corba)        
     elif sys.platform =='darwin':
         # list of libraries that will be searched by the scanner.
         # The scanner will try to locate the libraries and the flags
@@ -165,6 +194,12 @@ else:
              'src_use' : ['ALL']
              }
         
+        middleware ={'name':'middleware',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/middleware.cxx']
+                }
+
         otcon ={'name':'opentracker',
                 'type':'PRG',
                 'libs':['opentracker','ACE'],
@@ -178,6 +213,7 @@ else:
                  }
 
         targetList.append(ot)
+        targetList.append(middleware)
         targetList.append(otcon)
         targetList.append(otcon2)
     if ARGUMENTS.has_key("ENABLE_OMNIORBPY") or ARGUMENTS.has_key("ENABLE_CORBA"):
@@ -190,18 +226,15 @@ else:
         print 'Please modify the targets to build support for Muddleware. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for Muddleware.\n'
 	os.abort()        	
     if ARGUMENTS.has_key('ENABLE_CORBA'):
-        import OmniIdlCxx
-        OmniIdlCxx.generate(env)
         print 'Support for Corba....... enabled.'
         corba_libs = ['omniORB4', 'COS4', 'omniDynamic4', 'omnithread']
         ot['libs']  += corba_libs
         stubsandskeletons = env.OMNIIDLCXX(os.path.join('idl', 'OT_CORBA.idl'),
-                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons'))
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons')) + env.OMNIIDLCXX(os.path.join('idl', 'uts.idl'),
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons')) 
         if ARGUMENTS.has_key('ENABLE_OMNIORBPY'):
-            import OmniIdlPy
-            OmniIdlPy.generate(env)
-            pythonstubsandskeletons = env.OMNIIDLPY(os.path.join('idl', 'OT_CORBA.idl'),
-                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
+            pythonstubsandskeletons =  env.OMNIIDLPY(os.path.join('idl', 'OT_CORBA.idl'), OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
+            pythonstubsandskeletons += env.OMNIIDLPY(os.path.join('idl', 'uts.idl'), OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
             corbapystubs ={'name': 'corbastubs',
                  'type': 'PY',
                  'src_use' : [os.path.abspath(str(stub)) for stub in pythonstubsandskeletons]
