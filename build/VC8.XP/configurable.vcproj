@@ -136,8 +136,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src;../../src/misc"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../;../../src;../../src/misc;$(ACEROOT);../../include"
+				PreprocessorDefinitions="WIN32;__WIN32__;_DEBUG;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -163,11 +163,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opentrackerd.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="aced.lib opentrackerd.lib odbc32.lib odbccp32.lib"
 				OutputFile="../../bin/win32/configurabled.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../lib/win32"
+				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
 				SubSystem="1"
