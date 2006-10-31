@@ -1,6 +1,8 @@
 #ifndef TOOL_MIDI_H
 #define TOOL_MIDI_H
 
+#ifdef USE_MIDI
+
 #include <string>
 
 #ifdef __WIN32__
@@ -76,5 +78,7 @@ unsigned long midiCloseIn(MIDIINHANDLE hnd);
 unsigned long midiStartIn(MIDIINHANDLE hdl);
 
 unsigned long midiStopIn(MIDIINHANDLE hdl);
+
+#endif // USE_MIDI
 
 #endif // TOOL_MIDI_H

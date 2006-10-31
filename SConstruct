@@ -175,7 +175,7 @@ else:
         targetList.append(middleware)        
         targetList.append(otcon)
         targetList.append(otcon2)
-        targetList.append(otcon2corba)        
+
     elif sys.platform =='darwin':
 	env.Append(CPPPATH = ['/opt/local/include']) # used by Darwin Ports
 	env.Append(LIBPATH = ['/opt/local/lib'])     # used by Darwin Ports
