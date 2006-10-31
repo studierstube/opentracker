@@ -119,6 +119,7 @@
 #include <OpenTracker/core/StringTable.h>
 #include <OpenTracker/core/OSUtils.h>
 #include <OpenTracker/core/NodePort.h>
+#include <OpenTracker/core/OtLogger.h>
 
 namespace ot {
 

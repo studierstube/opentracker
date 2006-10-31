@@ -141,11 +141,11 @@ namespace ot {
             if( ipconnect.connect( server, ACE_INET_Addr( port, serveraddr.c_str() )) != 0 )
             {
                 server = NULL;
-                LOG_ACE_ERROR("ot:GPSDriver could not open connection to DGPS server %s port %d\n", serveraddr.c_str(), port);
+                logPrintE("GPSDriver could not open connection to DGPS server %s port %d\n", serveraddr.c_str(), port);
             }
             if( getDebug())
             {
-                LOG_ACE_INFO("ot:GPSDriver opened connection to %s\n", serveraddr.c_str());
+                logPrintI("GPSDriver opened connection to %s\n", serveraddr.c_str());
             }
 	}
 
@@ -185,11 +185,11 @@ namespace ot {
             {
                 delete this->rtcmdev;
                 this->rtcmdev = NULL;
-                LOG_ACE_ERROR("ot:GPSDriver could not open serial port %s.\n", rtcmdev.c_str());
+                logPrintE("GPSDriver could not open serial port %s.\n", rtcmdev.c_str());
             }
             if( getDebug())
             {
-                LOG_ACE_INFO("ot:GPSDriver opened serial port %s\n", rtcmdev.c_str());
+                logPrintS("GPSDriver opened serial port %s\n", rtcmdev.c_str());
             }
         }    
 	return result;

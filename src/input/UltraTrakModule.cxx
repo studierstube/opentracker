@@ -330,23 +330,23 @@ namespace ot {
 
         if( parseVector(attributes.get("positionMapping"), positionMapping ) != 0 )
         {
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing positionMapping !\n")));
+            logPrintE("Error parsing positionMapping !\n");
             initMappping(positionMapping);
         }
         if( parseVector(attributes.get("orientationMapping"), orientationMapping ) != 0 )
         {
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing orientationMapping !\n")));
+            logPrintE("Error parsing orientationMapping !\n");
             initMappping(orientationMapping);
         }
         if( parseVector(attributes.get("invertPosition"), invertPosition ) != 0 )
         {
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing invertPosition !\n")));
+            logPrintE("Error parsing invertPosition !\n");
             initInversion(invertPosition);
         }
         calcInversion(invertPosition);
         if( parseVector(attributes.get("invertOrientation"), invertOrientation ) != 0 )
         {
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing invertOrientation!\n")));
+            logPrintE("Error parsing invertOrientation!\n");
             initInversion(invertOrientation);
         }
         calcInversion(invertOrientation);

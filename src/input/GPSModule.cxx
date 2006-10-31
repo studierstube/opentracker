@@ -136,11 +136,11 @@ namespace ot {
             {
                 delete logFile;
                 logFile = NULL;
-                LOG_ACE_ERROR("ot:DGPSModule error opening log file %s\n", attributes.get("logfile").c_str());
+                logPrintE("DGPSModule error opening log file %s\n", attributes.get("logfile").c_str());
             }
         }
         Module::init( attributes, localTree );
-	LOG_ACE_INFO("ot:GPSModule initialized for port %s and server %s\n", device.c_str(), dgpsServer.c_str());
+	logPrintI("GPSModule initialized for port %s and server %s\n", device.c_str(), dgpsServer.c_str());
     }
 
     Node * GPSModule::createNode( const std::string & name, StringTable & attributes )

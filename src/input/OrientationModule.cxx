@@ -124,7 +124,7 @@ namespace ot {
 
         // scanning port name from XML-File
         strncpy (port.pathname, attributes.get("device").c_str(), 255);
-        LOG_ACE_INFO("ot:use orientation device on port: %s\n", port.pathname);
+        logPrintI("use orientation device on port: %s\n", port.pathname);
 
     } // init
 
@@ -201,7 +201,7 @@ namespace ot {
                 if (myResult < 0)
                     {
                         // error message
-                        LOG_ACE_ERROR("ot:OrientationModule: error opening port %s\n", port.pathname);
+                        logPrintE("OrientationModule: error opening port %s\n", port.pathname);
                         return;
                     }
                 else

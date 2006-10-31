@@ -90,7 +90,7 @@ namespace ot {
             JoystickSource * source = new JoystickSource(joy_id);
             nodes.push_back( source );
 
-            LOG_ACE_INFO("ot:Build JoystickSource node for ID %d\n", joy_id );
+            logPrintS("Build JoystickSource node for ID %d\n", joy_id );
             initialized = 1;
             return source;
         }
@@ -142,10 +142,10 @@ namespace ot {
                 if (joyPresent[i])
                 {
                     getCaps(i);
-                    LOG_ACE_INFO("ot:JoystickModule: joystick with ID %d(%s) connected.\n", i+1, joyCaps[i].szPname);
+                    logPrintI("JoystickModule: joystick with ID %d(%s) connected.\n", i+1, joyCaps[i].szPname);
                 }
                 else
-                    LOG_ACE_INFO("ot:ot:JoystickModule: joystick with ID %d not connected.\n", i+1 );
+                    logPrintW("JoystickModule: joystick with ID %d not connected.\n", i+1 );
             }
             ThreadModule::start();
         }

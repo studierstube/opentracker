@@ -9,11 +9,11 @@ namespace ot{
 	Configurator * Configurator::self = NULL;
 	Configurator::Registry Configurator::initFunctions;
 
-	Configurator::Configurator():ctx(0), thread(NULL){
+	Configurator::Configurator():ctx(0), thread(NULL)
+    {
 		this->loadModule(ctx, "OpenTracker");
-  	   //this->doInitialization(ctx);
-		
-}
+  	    this->doInitialization(ctx);
+    }
 
 
 	Configurator * Configurator::instance(){
@@ -35,15 +35,14 @@ Configurator::~Configurator(){
 }
 
 void Configurator::doInitialization(Context & newctx){
-	for (Registry::iterator i = initFunctions.begin(); i != initFunctions.end(); i++){
-			
+	for (Registry::iterator i = initFunctions.begin(); i != initFunctions.end(); i++)
+    {
 			(* (i->second).function) (&newctx, (i->second).data);
-		
 	}
 }
 
 void Configurator::loadModule(Context & newctx, const char * module){
-	printf("CONFIGURATOR::LOADMODULE: loading %s\n", module);
+    logPrintS("Configurator loading module %s\n", module);
 	Registry::iterator i = initFunctions.find(module);
 	if (i != initFunctions.end()){
 		(* (i->second).function) (&newctx, (i->second).data);
@@ -55,7 +54,7 @@ void Configurator::addModuleInit(const char * name, ModuleInitFunc function, voi
 	MIFunctor functor;
 	functor.function = function;
 	functor.data = data;
-	printf("CONFIGURATOR::adding %s = %p \n", name, function);
+    //logPrintS("Configurator adding %s = %p \n", name, function);
 	initFunctions[name]=(functor);
 }
 

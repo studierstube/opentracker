@@ -186,7 +186,7 @@ namespace ot {
             GroupMap::iterator find = Groups.find(cgroup);
             if (find != Groups.end()) 
             {
-                LOG_ACE_ERROR("ot:*** ActiveGroup: %s\n", cgroup);
+                logPrintE("*** ActiveGroup: %s\n", cgroup);
                 node =  (* find).second->setActiveGate(true);
             }
             return node;

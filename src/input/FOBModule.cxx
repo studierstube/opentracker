@@ -231,7 +231,7 @@ namespace ot {
         // getting master parameter
         if( attributes.get("master", &master ) != 1 )
         {        
-            LOG_ACE_ERROR("ot:error in master parameter %s\n", attributes.get("master").c_str());
+            logPrintE("error in master parameter %s\n", attributes.get("master").c_str());
             return;
         }
     
@@ -283,7 +283,7 @@ namespace ot {
             int number;
             if( childAttr.get("number", &number ) != 1 )
             {
-                LOG_ACE_ERROR("ot:FOBModule : error parsing Bird %d with number %s\n", childAttr.get("number").c_str());
+                logPrintE("FOBModule : error parsing Bird %d with number %s\n", childAttr.get("number").c_str());
                 continue;
             }
 
@@ -298,7 +298,7 @@ namespace ot {
 
             Bird * bird = new Bird( number, childAttr.get("device"), scale, angles );        
             birds[number] = bird;        
-            LOG_ACE_INFO("ot:created bird %d on dev %s\n", number, childAttr.get("device").c_str());
+            logPrintI("created bird %d on dev %s\n", number, childAttr.get("device").c_str());
         }
     
         if( birds.find(master) == birds.end())

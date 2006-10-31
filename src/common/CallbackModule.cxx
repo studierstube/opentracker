@@ -78,7 +78,7 @@ namespace ot {
             {
                 CallbackNode * node = new CallbackNode( nameVal );
                 nodes[nameVal] = node;
-                LOG_ACE_INFO("ot:Build Callback node %s.\n", nameVal.c_str());
+                logPrintI("Build Callback node %s.\n", nameVal.c_str());
                 return node;
             }
         } 

@@ -114,16 +114,16 @@ namespace ot {
         }
         catch (const XMLException& toCatch) {
             char * message = XMLString::transcode(toCatch.getMessage());
-            LOG_ACE_ERROR("ot:XMLWriter Exception message is: %s\n", message);
+            logPrintE("XMLWriter Exception message is: %s\n", message);
             XMLString::release( &message );
         }
         catch (const DOMException& toCatch) {
             char * message = XMLString::transcode(toCatch.msg);
-            LOG_ACE_ERROR("ot:XMLWriter Exception message is: %s\n", message);
+            logPrintE("XMLWriter Exception message is: %s\n", message);
             XMLString::release( &message );
         }
         catch (...) {
-            LOG_ACE_ERROR("ot:XMLWriter Unexpected Exception \n");
+            logPrintE("XMLWriter Unexpected Exception \n");
         }
         writer->release();
         XMLString::release( &lsCh );

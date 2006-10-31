@@ -47,6 +47,7 @@
 
 #include <OpenTracker/core/Event.h>
 #include <OpenTracker/core/Translator.h>
+#include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
 namespace ot
@@ -391,8 +392,7 @@ namespace ot
     // print out all attributes
     void Event::printout() const
     {
-	LOG_ACE_INFO(getPrintOut().c_str());
-	LOG_ACE_INFO("\n");
+	logPrintI("%s \n",getPrintOut().c_str());
         //std::cout << getPrintOut() << std::endl;
     }
 

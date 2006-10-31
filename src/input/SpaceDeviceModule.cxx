@@ -96,7 +96,7 @@ namespace ot {
 			SpaceDeviceSource * source = new SpaceDeviceSource;
 			source->event.setConfidence( 1.0f );
 			nodes.push_back( source );
-			LOG_ACE_INFO("ot:Built SpaceDeviceSource node\n");
+			logPrintS("Built SpaceDeviceSource node\n");
 			initialized = 1;
 			return source;
 		}
@@ -139,7 +139,7 @@ namespace ot {
 			/*init the SpaceWare input library */
 			if (SiInitialize() == SPW_DLL_LOAD_ERROR)
 			{
-				LOG_ACE_ERROR("ot:SpaceDeviceModule Error Loading SIAPPDLL.DLL.\n");
+				logPrintE("SpaceDeviceModule Error Loading SIAPPDLL.DLL.\n");
 				exit(1);
 			}
 
@@ -158,7 +158,7 @@ namespace ot {
 			/* Register display window class */
 			if ( RegisterClass(&wndclass) == 0) 
 			{
-				LOG_ACE_ERROR("ot:SpaceDeviceModule Could not register windowclass.\n");
+				logPrintE("SpaceDeviceModule Could not register windowclass.\n");
 				exit(1);
 			}
 
@@ -178,7 +178,7 @@ namespace ot {
 			
 			if (hWndSpaceDevice == NULL)
 			{
-				LOG_ACE_ERROR("ot:SpaceDeviceModule Could not create message-only window.\n");
+				logPrintE("SpaceDeviceModule Could not create message-only window.\n");
 				exit(1);
 			}
 
@@ -192,7 +192,7 @@ namespace ot {
 			{
 				// could not open spacemouse device handle
 				SiTerminate();  /* called to shut down the SpaceWare input library */
-				LOG_ACE_INFO("ot:Could not fetch device handle for SpaceMouse.\n");
+				logPrintE("Could not fetch device handle for SpaceMouse.\n");
 				/* ? do not exit? close dummy window? */
 				initialized = 0; 
 				exit(1);

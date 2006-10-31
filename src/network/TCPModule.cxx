@@ -92,7 +92,7 @@ namespace ot {
             int num = sscanf( attributes.get("station").c_str()," %i", 
                               &station );
             if( num != 1 ){
-                LOG_ACE_ERROR("ot:TCPModule : not a number in TCPSink station %s\n", attributes.get("station").c_str());
+                logPrintE("TCPModule : not a number in TCPSink station %s\n", attributes.get("station").c_str());
                 return NULL;
             }
             if( attributes.get("position").compare("on") == 0 )
@@ -241,7 +241,7 @@ namespace ot {
                 continue; 
             } 
             client.addr_to_string( ACE_TEXT_CHAR_TO_TCHAR(buffer), 100 );
-            LOG_ACE_INFO("ot:TCPModule : new connection from %s\n", buffer);
+            logPrintE("TCPModule : new connection from %s\n", buffer);
             lock();
             connections.push_back( stream );
             unlock();

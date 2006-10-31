@@ -117,7 +117,7 @@ namespace ot {
     
         // scanning port name from XML-File
         strncpy (port.pathname, attributes.get("device").c_str(), 255);
-	LOG_ACE_INFO("ot:use device on port: %s\n", port.pathname);
+	logPrintI("use device on port: %s\n", port.pathname);
     
         // check if we need to calculate the orientation
         myResult = attributes.get("lookat", lookAtVector, 3);
@@ -215,7 +215,7 @@ namespace ot {
             if (myResult < 0)
             {
                 // error message
-                LOG_ACE_ERROR("ot:DynaSightModule: error opening port %s\n", port.pathname);
+                logPrintE("DynaSightModule: error opening port %s\n", port.pathname);
                 return;
             }
         

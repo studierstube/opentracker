@@ -380,7 +380,7 @@ namespace ot {
                     }
                     if( sit != receiver->sources.end())
                     {
-                        LOG_ACE_ERROR("ot:There is already a node for station %d in group %s:%hu !\n", number, group.c_str(), port);
+                        logPrintE("There is already a node for station %d in group %s:%hu !\n", number, group.c_str(), port);
                         delete source;
                         return NULL;
                     }
@@ -412,7 +412,7 @@ namespace ot {
                     }
                     if( sit != receiver->sources.end())
                     {
-                        LOG_ACE_ERROR("ot:There is already a node for station %d in %s:%hu !\n", number, address.c_str(), port);
+                        logPrintE("There is already a node for station %d in %s:%hu !\n", number, address.c_str(), port);
                         delete source;
                         return NULL;
                     }

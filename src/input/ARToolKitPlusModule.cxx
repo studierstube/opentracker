@@ -50,7 +50,7 @@
 #include <cctype>
 
 #include <OpenTracker/OpenTracker.h>
-
+#include <OpenTracker/core/OtLogger.h>
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
@@ -113,7 +113,7 @@ class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
     // implement ARToolKitPlus::Logger
     void artLog(const char* nStr)
     {
-        LOG_ACE_INFO("ot:%s", nStr);
+        ot::logPrintI("%s", nStr);
     }
 
     void artLogEx(const char* nStr, ...)
@@ -285,7 +285,7 @@ namespace ot {
                     }
                     else
                     {
-                        LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
+                        logPrintE("ARToolkit could not find tag file %s\n", filename.c_str());
                         return NULL;
                     }
 
@@ -294,7 +294,7 @@ namespace ot {
         
                     if((id = tracker->addPattern((char *)filename.c_str() )) < 0 )
                     {
-                        LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
+                        logPrintE("ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
                         return NULL;
                     }
 		}
@@ -320,7 +320,7 @@ namespace ot {
             sourcesMap.insert(std::make_pair(id, source));
 
             //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
-            LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
+            logPrintI("Build ARToolKitSource %s id %d\n", filename.c_str(), id);
             return source;
         }
 
@@ -336,7 +336,7 @@ namespace ot {
                 filename = fullname;
             else
             {
-                LOG_ACE_ERROR("ot:ARToolkit could not find multi-cfg file %s\n", filename.c_str());
+                logPrintE("ARToolkit could not find multi-cfg file %s\n", filename.c_str());
                 return NULL;
             }
 
@@ -369,7 +369,7 @@ namespace ot {
             }
             else
             {
-                LOG_ACE_ERROR("ot:ARToolKit Error reading multi-cfg %s\n");
+                logPrintE("ARToolKit Error reading multi-cfg %s\n");
                 return NULL;
             }
 	}
@@ -404,27 +404,27 @@ namespace ot {
 	//
 	if(useMarkerDetectLite = (detectmode=="lite"))
 	{
-            LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'lite'\n");
+            logPrintI("ARToolkitModule using marker detect mode 'lite'\n");
 	}
 	else
 	{
-            LOG_ACE_INFO("ot:ARToolkitModule using marker detect mode 'normal'\n");
+            logPrintI("ARToolkitModule using marker detect mode 'normal'\n");
 	}
 
 
 	if(undistmode=="none")
 	{
             tracker->setUndistortionMode(ARToolKitPlus::UNDIST_NONE);
-            LOG_ACE_INFO("ot:ARToolkitModule lens undistortion disabled\n");
+            logPrintI("ARToolkitModule lens undistortion disabled\n");
 	}
 	else if(undistmode=="lut")
 	{
             tracker->setUndistortionMode(ARToolKitPlus::UNDIST_LUT);
-            LOG_ACE_INFO("ot:ARToolkitModule lens undistortion set to lookup-table\n");
+            logPrintI("ARToolkitModule lens undistortion set to lookup-table\n");
 	}
 	else
 	{
-            LOG_ACE_INFO("ot:ARToolkitModule using default lens undistortion (this will be slow!)\n");
+            logPrintI("ARToolkitModule using default lens undistortion (this will be slow!)\n");
 	}
 
 
@@ -433,16 +433,16 @@ namespace ot {
 	if(posemode=="cont")
 	{
             tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_ORIGINAL_CONT);
-            LOG_ACE_INFO("ot:ARToolkitModule using CONT pose estimator\n");
+            logPrintI("ARToolkitModule using CONT pose estimator\n");
 	}
 	else if(posemode=="rpp")
 	{
             tracker->setPoseEstimator(ARToolKitPlus::POSE_ESTIMATOR_RPP);
-            LOG_ACE_INFO("ot:ARToolkitModule using robust pose estimator\n");
+            logPrintI("ARToolkitModule using robust pose estimator\n");
 	}
 	else
 	{
-            LOG_ACE_INFO("ot:ARToolkitModule using default pose estimator\n");
+            logPrintI("ARToolkitModule using default pose estimator\n");
 	}
 
 
@@ -451,7 +451,7 @@ namespace ot {
 	if(threshold == "auto")
 	{
             tracker->activateAutoThreshold(true);
-            LOG_ACE_INFO("ot:ARToolkitModule auto-thresholding activated\n");
+            logPrintI("ARToolkitModule auto-thresholding activated\n");
 	}
 	else
 	{
@@ -463,7 +463,7 @@ namespace ot {
                 tmpThreshold = 255;
 
             tracker->setThreshold(tmpThreshold);
-            LOG_ACE_INFO("ot:ARToolkitModule manual thresholding with '%s'\n", tmpThreshold);
+            logPrintI("ARToolkitModule manual thresholding with '%s'\n", tmpThreshold);
 	}
 
 
@@ -473,17 +473,17 @@ namespace ot {
 	if(markermode == "idbased")
 	{
             tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_SIMPLE);
-            LOG_ACE_INFO("ot:ARToolkitModule using id-based markers\n");
+            logPrintI("ARToolkitModule using id-based markers\n");
 	}
 	else
             if(markermode == "bch")
             {
 		tracker->setMarkerMode(ARToolKitPlus::MARKER_ID_BCH);
-		LOG_ACE_INFO("ot:ARToolkitModule using BCH markers\n");
+		logPrintI("ARToolkitModule using BCH markers\n");
             }
             else
             {
-		LOG_ACE_INFO("ot:ARToolkitModule using template markers\n");
+		logPrintI("ARToolkitModule using template markers\n");
             }
 
 
@@ -492,12 +492,12 @@ namespace ot {
 	if(attributes.get("border-width").length()>0)
 	{
             float w = (float)atof(attributes.get("border-width").c_str());
-            LOG_ACE_INFO("ot:ARToolkitModule using border-width of %.3f\n", w);
+            logPrintI("ARToolkitModule using border-width of %.3f\n", w);
             tracker->setBorderWidth(w);
 	}
 	else
 	{
-            LOG_ACE_INFO("ot:ARToolkitModule using default border-width of 0.250\n");
+            logPrintI("ARToolkitModule using default border-width of 0.250\n");
 	}
 
 
@@ -514,13 +514,13 @@ namespace ot {
 
                 if(devName.length()>0 && devFile.length()>0 && devName==cameraDeviceHint)
                 {
-                    LOG_ACE_INFO("ot:ARToolkitModule uses camera-hint for '%s'\n", devName.c_str());
+                    logPrintI("ARToolkitModule uses camera-hint for '%s'\n", devName.c_str());
                     cameradata = devFile;
                     break;
                 }
             }
 
-	LOG_ACE_INFO("ot:ARToolkitModule loads camera file %s", cameradata.c_str());
+	logPrintI("ARToolkitModule loads camera file %s", cameradata.c_str());
 
 
 	// setting for template pattern folder
@@ -536,7 +536,7 @@ namespace ot {
         else
         {
             //cout << "ARToolkitModule could not find camera parameter file " << cameradata << endl;
-            LOG_ACE_ERROR("ot:ARToolkitModule could not find camera parameter file %s\n", cameradata.c_str());
+            logPrintE("ARToolkitModule could not find camera parameter file %s\n", cameradata.c_str());
             initialized = 0;
             return;
         }
@@ -549,14 +549,14 @@ namespace ot {
 	//
 	if(!tracker->loadCameraFile(cameradata.c_str(), trackerNear, trackerFar))
 	{
-            LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
+            logPrintE("ARToolkitModule error loading camera parameters from %s\n", cameradata.c_str());
             initialized = 0;
             return;
 	}
 
 
 	initialized = 1;
-	LOG_ACE_INFO("ot:ARToolkitModule initialization finished\n");
+	logPrintI("ARToolkitModule initialization finished\n");
     }
 
 

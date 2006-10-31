@@ -85,7 +85,7 @@ namespace ot {
 		
         if( init != 0 )
         {
-			printf("CONTEXT::CONSTRUCTOR initializing self with %p\n", this);
+            logPrintS("Context::Constructor initializing self with %p\n", this);
             initializeContext( this , NULL);
             cleanUp = true;
         }
@@ -624,7 +624,7 @@ namespace ot {
                 nodeTypes[2] = sink;
 		
 		std::string modname;
-		printf("CONTEXT::GETMODULEFROMNODE: node->getType() %s \n", nodename.c_str());
+        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
 			modname = nodename ;
 			result = getModule(modname);
@@ -645,7 +645,7 @@ namespace ot {
 				modname += "Config";
 	
 				result = getModule(modname);
-				printf("CONTEXT::GETMODULEFROMNODE: %s  result %p\n", modname.c_str(), result);
+				logPrintI("Context GetModuleFromNode %s  result %p\n", modname.c_str(), result);
 			}
 		}
 		return result;
@@ -686,7 +686,7 @@ namespace ot {
 					unlock();
 				} else{
 					// the node cannot be removed, because its module is unknown, we must throw
-					printf("CONTEXT::REMOVE_SUBTREE: could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
+					logPrintE("Context Remove_Subtree could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
 
 				}
 			}
@@ -698,24 +698,24 @@ namespace ot {
 	void Context::removeNode(std::string nodeid){
 
 		Node * target = findNode(nodeid);
-		printf("CONTEXT::REMOVE_NODE target is %p\n", target);
+		logPrintI("Context Remove_Node target is %p\n", target);
 		if (target != NULL){
 			unsigned int count = target->countChildren();
-			printf("CONTEXT::REMOVE_NODE: %u children before removing\n", count);
+            logPrintW("Context Remove_Node %u children before removing\n", count);
 
 
-			printf("CONTEXT::REMOVE_NODE: removing node %p, of type %s\n", target, (target->getType().c_str()));
+			logPrintI("Context Remove_Node removing node %p, of type %s\n", target, (target->getType().c_str()));
 			if (CommonNodeFactory::isKnownNode(target->getType())){
 				// The node is a common node, and does not belong to a module
 				Node * parent = target->getParent();
 				lock();
 				unsigned int childrencount = target->countChildren();
-				printf("CONTEXT::REMOVE_NODE: must add %u node's children to its parent's\n", childrencount);
+				logPrintI("Context Remove_Node must add %u node's children to its parent's\n", childrencount);
 				for(unsigned int i = 0; i < childrencount; i++){
 					Node * child = target->getChild(i);
 					parent->addChild(*child);
 					
-					printf("CONTEXT::REMOVE_NODE: adding child of type %s, to parent of type%s\n", ((child->getType()).c_str()), ((parent->getType()).c_str()));
+					logPrintI("Context Remove_Node adding child of type %s, to parent of type%s\n", ((child->getType()).c_str()), ((parent->getType()).c_str()));
 					target->removeChild(*child);					
 				}
 
@@ -745,7 +745,7 @@ namespace ot {
 					unlock();
 				} else{
 					// the node cannot be removed, because its module is unknown, we must throw
-					printf("CONTEXT::REMOVE_SUBTREE: could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
+					logPrintE("Context Remove_Subtree could not remove node of type %s, because its module was not found\n", (target->getType().c_str()));
 
 				}
 			}

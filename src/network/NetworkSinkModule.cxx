@@ -242,7 +242,7 @@ namespace ot {
 
                 NetworkSink * sink = new NetworkSink( name, number, multicastData );
                 nodes.push_back( sink );
-                LOG_ACE_INFO("ot:Built NetworkSink node %s .\n", name.c_str());
+                logPrintS("Built NetworkSink node %s .\n", name.c_str());
                 return sink;
             }
             if( attributes.get("mode").compare("unicast") == 0 )
@@ -262,7 +262,7 @@ namespace ot {
 
                 NetworkSink * sink = new NetworkSink( name, number, unicastData );
                 nodes.push_back( sink );
-                LOG_ACE_INFO("ot:Built NetworkSink node %s .\n", name.c_str());
+                logPrintS("Built NetworkSink node %s .\n", name.c_str());
                 return sink;
             }
         }
@@ -435,7 +435,7 @@ namespace ot {
                 // send without blocking to avoid stalls in the mainloop, packet is thrown away !
                 if (! blockMulticast && (*mc_it)->socket.send(sendBuffer, sendBufferSize, (*mc_it)->address, 0, &ACE_Time_Value::zero) < 0)
                 {
-                    LOG_ACE_ERROR("ot:NetworkSinkModule : Error sending Multicast packet for %s:%hu\n", (*mc_it)->address.get_host_name(), (*mc_it)->address.get_port_number());
+                    logPrintE("NetworkSinkModule : Error sending Multicast packet for %s:%hu\n", (*mc_it)->address.get_host_name(), (*mc_it)->address.get_port_number());
                 }
                 free(sendBuffer);
             }
@@ -461,7 +461,7 @@ namespace ot {
                 for( ACE_Unbounded_Set_Iterator<ACE_INET_Addr> it = (*uc_it)->addresses.begin() ; ! it.done(); it.advance() )
                     if( (*uc_it)->socket.send(sendBuffer, sendBufferSize, *it, 0, &ACE_Time_Value::zero ) < 0 )
                     {
-                        LOG_ACE_ERROR("ot:NetworkSinkModule : Error sending Unicast packet for %s:%hu\n", (*it).get_host_name(), (*it).get_port_number());
+                        logPrintE("NetworkSinkModule : Error sending Unicast packet for %s:%hu\n", (*it).get_host_name(), (*it).get_port_number());
                     }
                 free(sendBuffer);
             }

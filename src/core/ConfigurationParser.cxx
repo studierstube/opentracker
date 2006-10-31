@@ -142,7 +142,7 @@ namespace ot {
         }
         catch (const XMLException& toCatch) {
             char * message = XMLString::transcode( toCatch.getMessage());
-            LOG_ACE_ERROR( "ot: ConfigurationParser Error during initialization: %s\n", message );
+            logPrintE("ConfigurationParser Error during initialization: %s\n", message );
             XMLString::release( &message );
             exit(1);
         }
@@ -161,7 +161,7 @@ namespace ot {
         }
         catch (const XMLException& toCatch) {
             char * message = XMLString::transcode( toCatch.getMessage());
-            LOG_ACE_ERROR( "ot: ConfigurationParser Error during deinitialization: %s\n", message );
+            logPrintE( "ConfigurationParser Error during deinitialization: %s\n", message );
             XMLString::release( &message );
             exit(1);
         }
@@ -225,11 +225,11 @@ namespace ot {
                 RefNode * ref = new RefNode( (*find).second );
                 ref->type = tagName;
                 ref->setParent( element );
-                LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
+                logPrintI("Build Reference node -> %s\n", map->get("USE").c_str());
                 return ref;
             } else
             {
-                LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
+                logPrintE("Undefined reference %s\n", map->get("USE").c_str());
                 return NULL;
             }
         }
@@ -252,7 +252,7 @@ namespace ot {
             {
                 references[map->get("DEF")] = value;
                 value->name = map->get("DEF");
-                LOG_ACE_INFO("ot:Storing Reference %s\n", map->get("USE").c_str());
+                logPrintI("Storing Reference %s\n", map->get("USE").c_str());
             }
             //auto_ptr<DOMNodeList> list ( element->getChildNodes());
             DOMNodeList * list = element->getChildNodes();
@@ -267,7 +267,7 @@ namespace ot {
         }
         else
         {
-            LOG_ACE_INFO("ot:Warning : Could not parse element %s\n", tagName.c_str());
+            logPrintW("Could not parse element %s\n", tagName.c_str());
         }
         return value;
 #endif //USE_XERCES
@@ -283,11 +283,11 @@ namespace ot {
                 RefNode * ref = new RefNode( (*find).second );
                 ref->type = tagName;
                 ref->setParent( element );
-                LOG_ACE_INFO("ot:Build Reference node -> %s\n", map->get("USE").c_str());
+                logPrintI("Build Reference node -> %s\n", map->get("USE").c_str());
                 return ref;
             } else
             {
-                LOG_ACE_ERROR("ot:Undefined reference %s\n", map->get("USE").c_str());
+                logPrintE("Undefined reference %s\n", map->get("USE").c_str());
                 return NULL;
             }
         }
@@ -297,7 +297,7 @@ namespace ot {
 			//try loading the module, and then creating the node
 			if (context.getModuleFromNodeType(tagName) != NULL){
 				// try creating the node again
-				printf("CONFIGURATIONPARSER:: trying to create node %s again \n", tagName.c_str());
+				logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
 				value = context.factory.createNode(tagName, *map);
 			}
 		}
@@ -309,7 +309,7 @@ namespace ot {
             {
                 references[map->get("DEF")] = value;
                 value->name = map->get("DEF");
-                LOG_ACE_INFO("ot:Storing Reference %s\n", map->get("USE").c_str());
+                logPrintI("Storing Reference %s\n", map->get("USE").c_str());
             }
 
             TiXmlElement * el = element->FirstChildElement();
@@ -321,7 +321,7 @@ namespace ot {
         }
         else
         {
-            LOG_ACE_INFO("ot:Warning : Could not parse element %s\n", tagName.c_str());
+            logPrintW("Could not parse element %s\n", tagName.c_str());
         }
         return value;
 #endif //USE_TINYXML
@@ -352,21 +352,21 @@ namespace ot {
         catch (const XMLException& e)
         {
             char * message = XMLString::transcode( e.getMessage());
-            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", message);
+            logPrintE("An error occured during parsing\n   Message: %s\n", message);
             XMLString::release( & message );
             exit(1);
         }
         catch (const DOMException& e)
         {
             char * message = XMLString::transcode( e.msg );
-            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", message);
+            logPrintE("An error occured during parsing\n   Message: %s\n", message);
             XMLString::release( & message );
             exit(1);
         }
         if( errReporter.errorsEncountered() > 0 )
         {
-            LOG_ACE_ERROR("ot:There were non fatal errors in the configuration file !\n");
-            LOG_ACE_ERROR("ot:Please check the file and start again.\n");
+            logPrintE("There were non fatal errors in the configuration file !\n");
+            logPrintE("Please check the file and start again.\n");
             exit(1);
         }
 
@@ -375,17 +375,17 @@ namespace ot {
         Node * node = new Node();
         node->setParent( root );
         char * tempName = XMLString::transcode( root->getLocalName());
-        LOG_ACE_INFO("ot:Root node is %s\n", tempName);
+        logPrintI("Root node is %s\n", tempName);
         XMLString::release( & tempName );
 
         const XMLCh* xmlspace = root->getNamespaceURI();
         if (xmlspace != NULL) {
             char * tempSpace = XMLString::transcode( xmlspace );
-            LOG_ACE_INFO("ot:Namespace is %s\n", tempSpace);
+            logPrintI("Namespace is %s\n", tempSpace);
             XMLString::release( & tempSpace );
         }
         else {
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Not using namespaces!\n")));
+            logPrintW("Not using namespaces!\n");
         }
 
         // get the configuration part
@@ -395,12 +395,12 @@ namespace ot {
         XMLString::release( & configurationCh );
         if( list->getLength() != 1 )
         {
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:not valid config file, not exactly one configuration tag\n")));
-            LOG_ACE_INFO("ot:%d configurations.\n", list->getLength());
+            logPrintE("not valid config file, not exactly one configuration tag\n");
+            logPrintI("%d configurations.\n", list->getLength());
             exit(1);
         }
 
-        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
+        logPrintI("parsing configuration section\n");
 
         // parse configuration elements subelements
         DOMElement * config = (DOMElement *)list->item(0);
@@ -418,7 +418,7 @@ namespace ot {
                 XMLString::release( &tempName );
                 ConfigNode * base = new ConfigNode( *attributes );
                 base->setParent( configElement );
-                LOG_ACE_INFO("ot:config for %s\n", tagName.c_str());
+                logPrintI("config for %s\n", tagName.c_str());
 
                 //auto_ptr<DOMNodeList> nodelist( configElement->getChildNodes());
                 DOMNodeList * nodelist = configElement->getChildNodes();
@@ -440,7 +440,7 @@ namespace ot {
             }
         }
 
-        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
+        logPrintI("parsing tracker tree section\n")));
 
         // parse the rest of the elements
         //auto_ptr<DOMNodeList> rootlist( root->getChildNodes());
@@ -474,14 +474,14 @@ namespace ot {
         node->setParent( root );
         const char* tempName = root->Value();
 
-        LOG_ACE_INFO("ot:Root node is %s\n", tempName);
+        logPrintI("Root node is %s\n", tempName);
 
         const char* xmlspace = NULL; //root->getNamespaceURI();
         if (xmlspace != NULL) {
-            LOG_ACE_INFO("ot:Namespace is %s\n", xmlspace);
+            logPrintI("Namespace is %s\n", xmlspace);
         }
         else {
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Not using namespaces!\n")));
+            logPrintW("Not using namespaces!\n");
         }
 
         // get the configuration part
@@ -490,11 +490,11 @@ namespace ot {
         TiXmlElement * config = root->FirstChildElement(configurationCh);
         if(config->NextSiblingElement(configurationCh))
         {
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:not valid config file, not exactly one configuration tag\n")));
+            logPrintE("not valid config file, not exactly one configuration tag\n");
             exit(1);
         }
 
-        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing configuration section\n")));
+        logPrintI("parsing configuration section\n");
 
         TiXmlElement * configElement = config->FirstChildElement();
         while(configElement)
@@ -503,7 +503,7 @@ namespace ot {
             std::string tagName = configElement->Value();
             ConfigNode * base = new ConfigNode( *attributes );
             base->setParent( configElement );
-            LOG_ACE_INFO("ot:config for %s\n", tagName.c_str());
+            logPrintI("config for %s\n", tagName.c_str());
 
             TiXmlElement * element = configElement->FirstChildElement();
             while(element)
@@ -521,7 +521,7 @@ namespace ot {
             configElement = configElement->NextSiblingElement();
         }
 
-        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:parsing tracker tree section\n")));
+        logPrintI("parsing tracker tree section\n");
 
         // parse the rest of the elements
 
@@ -594,7 +594,7 @@ namespace ot {
 
         if(!document->LoadFile(filename.c_str()))
         {
-            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
             exit(1);
         }
 		return parseConfiguration(document);
@@ -621,7 +621,7 @@ namespace ot {
 
         if(!document->Parse(xmlstring))
         {
-            LOG_ACE_ERROR("ot:An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
             exit(1);
         }
 		return parseConfiguration(document);

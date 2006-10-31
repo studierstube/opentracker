@@ -134,7 +134,7 @@ namespace ot {
                 NodeVector::iterator nodeIt = vector.begin();
                 FileSink * sink = new FileSink(*file, station );
                 vector.push_back( sink );
-                LOG_ACE_ERROR("ot:Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
+                logPrintE("Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
                 return sink;
             }
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id.c_str()));
@@ -150,7 +150,7 @@ namespace ot {
             }
             else
             {
-                LOG_ACE_ERROR("ot:FileModule could not find file %s for FileSource!\n", id.c_str());
+                logPrintE("FileModule could not find file %s for FileSource!\n", id.c_str());
                 return NULL;
             }
             int station;

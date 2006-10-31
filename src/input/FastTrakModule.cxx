@@ -109,7 +109,7 @@ namespace ot {
             trackerType = ISOTRAK;
         else
         {
-            LOG_ACE_ERROR("ot:FastTrakModule : unknown trackertype %s\n", attributes.get("type").c_str());
+            logPrintE("FastTrakModule : unknown trackertype %s\n", attributes.get("type").c_str());
             exit(-1);
         }
 
@@ -120,7 +120,7 @@ namespace ot {
         initString = attributes.get("init-string");
     
         ThreadModule::init( attributes, localTree );
-	LOG_ACE_INFO("ot:FastTrakModule : initialized !\nusing tracker protocol for %s\n", attributes.get("type").c_str());
+	logPrintI("FastTrakModule : initialized !\nusing tracker protocol for %s\n", attributes.get("type").c_str());
     }
 
     // This method is called to construct a new Node 

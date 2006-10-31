@@ -112,8 +112,10 @@ namespace ot {
 	    iss.get(linetype,' ');
 	    
 	    if ((linenumber == 0) && (linetype.str() != "fr")) {
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error receiving correct Data!!! [#001]\n")));
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Check if Format in ARTTracker Software is set to ASCII !!!\n")));
+        logPrintD("Error receiving correct Data [#001]\n");
+        logPrintD("Check if Format in ARTTracker Software is set to ASCII\n");
+		//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error receiving correct Data!!! [#001]\n")));
+		//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Check if Format in ARTTracker Software is set to ASCII !!!\n")));
 		return;       
 	    }
 
@@ -310,129 +312,162 @@ namespace ot {
     void ARTDataTrackerChomp::displayRecords()
     {
 	// Output
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Contents of tempBodyRecord, tempMarkerRecord, tempFlystickRecord and tempMeasuretargetRecord\n")));
+        logPrintD("Contents of tempBodyRecord, tempMarkerRecord, tempFlystickRecord and tempMeasuretargetRecord\n");
+	//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Contents of tempBodyRecord, tempMarkerRecord, tempFlystickRecord and tempMeasuretargetRecord\n")));
 
 
-	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), tempBodyRecord.size() ));
+        logPrintD("Number of  Tracked Bodies for 6d: %d\n", tempBodyRecord.size());
+	//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), tempBodyRecord.size() ));
 	std::map<int, BodyRecord>::iterator itb;
 	for ( itb = tempBodyRecord.begin(); itb != tempBodyRecord.end(); itb++)
 	    {
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), numberTrackedBodies));
+            logPrintD("Framenumber of Datagramm is: %d\n", frameNumber);
+            logPrintD("Number of  Tracked Bodies for 6d: %d\n", numberTrackedBodies);
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of  Tracked Bodies for 6d: %d\n"), numberTrackedBodies));
 		if ( itb->second.valid == true )
 		    {
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].id  %d\n"), itb->first, itb->second.id));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].quality %f\n"), itb->first, itb->second.quality));
+                logPrintD("tempBodyRecord[%d].id  %d\n", itb->first, itb->second.id);
+                logPrintD("tempBodyRecord[%d].quality %f\n", itb->first, itb->second.quality);
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].id  %d\n"), itb->first, itb->second.id));
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].quality %f\n"), itb->first, itb->second.quality));
 			int j;
 			for(j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), 
-					   itb->first, j, itb->second.location[j]));
+                    logPrintD("tempBodyRecord[%d].location[%d]: \n",itb->first, j, itb->second.location[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), 
+					   //itb->first, j, itb->second.location[j]));
 			    }
 			for(j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].eulerAngles[%d]: \n"), 
-					   itb->first, j, itb->second.eulerAngles[j]));
+                    logPrintD("tempBodyRecord[%d].eulerAngles[%d]: \n", itb->first, j, itb->second.eulerAngles[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].eulerAngles[%d]: \n"), 
+					   //itb->first, j, itb->second.eulerAngles[j]));
 			    }
 			for(j=0; j < 9; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].rotationMatrix[%d]: \n"), 
-					   itb->first, j, itb->second.rotationMatrix[j]));
+                    logPrintD("ot:tempBodyRecord[%d].rotationMatrix[%d]: \n", itb->first, j, itb->second.rotationMatrix[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].rotationMatrix[%d]: \n"), 
+					   //itb->first, j, itb->second.rotationMatrix[j]));
 			    }
 		    }// END if
 		else
 		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Body ####")));
+                logPrintD("#### No Valid DATA for this Body ####\n");
+	    		//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Body ####")));
 		    }// END else
 	    }
 
 	std::map<int, MarkerRecord>::iterator itm;
 	for(itm = tempMarkerRecord.begin(); itm != tempMarkerRecord.end(); itm++)
 	    {
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of Markers for 3d: %d\n"), numberTrackedMarkers));
+            logPrintD("Number of Markers for 3d: %d\n", numberTrackedMarkers);
+		//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of Markers for 3d: %d\n"), numberTrackedMarkers));
 
 		if ( itm->second.valid == true )
 		    {
 
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].id %d\n"), itm->first, itm->second.id));
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].quality %d\n"), itm->first, itm->second.quality));
+                logPrintD("tempMarkerRecord[%d].id  %d\n", itm->first, itm->second.id);
+                logPrintD("tempMarkerRecord[%d].quality %f\n", itm->first, itm->second.quality);
+			//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].id %d\n"), itm->first, itm->second.id));
+			//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:tempMarkerRecord[%d].quality %d\n"), itm->first, itm->second.quality));
 			
 			for(int j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), itm->first, j, itm->second.location[j]));
+                    logPrintD("tempBodyRecord[%d].location[%d]: \n",itm->first, j, itm->second.location[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempBodyRecord[%d].location[%d]: \n"), itm->first, j, itm->second.location[j]));
 			    }
 		    }
 		else
 		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Marker ####")));
+                logPrintD("#### No Valid DATA for this Marker ####\n");
+			//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Marker ####")));
 		    }
 	    }
 
 	std::map<int, FlystickRecord>::iterator itf;
 	for ( itf = tempFlystickRecord.begin(); itf != tempFlystickRecord.end(); itf++)
 	    {
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Flysticks: %d\n"), numberTrackedFlysticks));
+            logPrintD("Framenumber of Datagramm is: %d\n", frameNumber);
+            logPrintD("Number of Tracked Flysticks: %d\n", numberTrackedFlysticks);
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Flysticks: %d\n"), numberTrackedFlysticks));
 		if ( itf->second.valid == true )
 		    {
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].id  %d\n"), itf->first, itf->second.id));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].quality %f\n"), itf->first, itf->second.quality));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].buttons %d\n"), itf->first, itf->second.buttons));
+                logPrintD("tempFlystickRecord[%d].id  %d\n", itf->first, itf->second.id);
+                logPrintD("tempFlystickRecord[%d].quality %f\n", itf->first, itf->second.quality);
+                logPrintD("tempFlystickRecord[%d].buttons %d\n", itf->first, itf->second.buttons);
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].id  %d\n"), itf->first, itf->second.id));
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].quality %f\n"), itf->first, itf->second.quality));
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].buttons %d\n"), itf->first, itf->second.buttons));
 			int j;
 			for(j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].location[%d]: \n"), 
-					   itf->first, j, itf->second.location[j]));
+                    logPrintD("tempFlystickRecord[%d].location[%d]: \n",itf->first, j, itf->second.location[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].location[%d]: \n"), 
+					   //itf->first, j, itf->second.location[j]));
 			    }
 			for(j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].eulerAngles[%d]: \n"), 
-					   itf->first, j, itf->second.eulerAngles[j]));
+                    logPrintD("tempFlystickRecord[%d].eulerAngles[%d]: \n",itf->first, j, itf->second.eulerAngles[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].eulerAngles[%d]: \n"), 
+					   //itf->first, j, itf->second.eulerAngles[j]));
 			    }
 			for(j=0; j < 9; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].rotationMatrix[%d]: \n"), 
-					   itf->first, j, itf->second.rotationMatrix[j]));
+                    logPrintD("tempFlystickRecord[%d].rotationMatrix[%d]: \n",itf->first, j, itf->second.rotationMatrix[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempFlystickRecord[%d].rotationMatrix[%d]: \n"), 
+					   //itf->first, j, itf->second.rotationMatrix[j]));
 			    }
 		    }// END if
 		else
 		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Flystick ####")));
+                logPrintD("#### No Valid DATA for this Flystick ####\n");
+			//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Flystick ####")));
 		    }// END else
 	    }
 
 	std::map<int, MeasuretargetRecord>::iterator itmt;
 	for ( itmt = tempMeasuretargetRecord.begin(); itmt != tempMeasuretargetRecord.end(); itmt++)
 	    {
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
-		ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Measurement Targets: %d\n"), numberTrackedMeasuretargets));
+            logPrintD("Framenumber of Datagramm is: %d\n", frameNumber);
+            logPrintD("Number of Tracked Measurement Targets: %d\n", numberTrackedMeasuretargets);
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Framenumber of Datagramm is: %d\n"), frameNumber));
+		//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Number of Tracked Measurement Targets: %d\n"), numberTrackedMeasuretargets));
 		if ( itmt->second.valid == true )
 		    {
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].id  %d\n"), itmt->first, itmt->second.id));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].quality %f\n"), itmt->first, itmt->second.quality));
-			ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].buttons %d\n"), itmt->first, itmt->second.buttons));
+                logPrintD("tempMeasureTargetRecord[%d].id  %d\n", itmt->first, itmt->second.id);
+                logPrintD("tempMeasureTargetRecord[%d].quality %f\n", itmt->first, itmt->second.quality);
+                logPrintD("tempMeasureTargetRecord[%d].buttons %d\n", itmt->first, itmt->second.buttons);
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].id  %d\n"), itmt->first, itmt->second.id));
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].quality %f\n"), itmt->first, itmt->second.quality));
+			//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].buttons %d\n"), itmt->first, itmt->second.buttons));
 			int j;
 			for(j=0; j < 3; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].location[%d]: \n"), 
-					   itmt->first, j, itmt->second.location[j]));
+                    logPrintD("tempMeasureTargetRecord[%d].location[%d]: \n",itmt->first, j, itmt->second.location[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].location[%d]: \n"), 
+				//	   itmt->first, j, itmt->second.location[j]));
 			    }
 			for(j=0; j < 9; j++)
 			    {
-				ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].rotationMatrix[%d]: \n"), 
-					   itmt->first, j, itmt->second.rotationMatrix[j]));
+                    logPrintD("tempMeasureTargetRecord[%d].rotationMatrix[%d]: \n",itmt->first, j, itmt->second.rotationMatrix[j]);
+				//ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tempMeasureTargetRecord[%d].rotationMatrix[%d]: \n"), 
+				//	   itmt->first, j, itmt->second.rotationMatrix[j]));
 			    }
 		    }// END if
 		else
 		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Measurement Target ####")));
+                logPrintD("#### No Valid DATA for this Measurement Target ####\n");
+			//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:#### No Valid DATA for this Measurement Target ####")));
 		    }// END else
 	    }
 
 
 	if(numberTrackedCalBodies != 0)
 	    {
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of calibrated Bodies: %d\n"), numberTrackedCalBodies));
+            logPrintD("Number of calibrated Bodies: %d\n", numberTrackedCalBodies);
+		//ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Number of calibrated Bodies: %d\n"), numberTrackedCalBodies));
 	    }
 
 	//assert(0);

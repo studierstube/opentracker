@@ -411,6 +411,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\OtLogger.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\P5GloveModule.cxx"
 				>
 			</File>
@@ -966,6 +970,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\tool\OT_ACE_Log.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\core\OtLogger.h"
 				>
 			</File>
 			<File

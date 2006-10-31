@@ -140,7 +140,7 @@ namespace ot {
             std::string dev = attributes.get("dev");
             if( nodes.find( dev ) !=  nodes.end() )
             {
-                LOG_ACE_INFO("ot:ParButtonSource on port %s already defined!\n", dev.c_str() );
+                logPrintW("ParButtonSource on port %s already defined!\n", dev.c_str() );
                 return NULL;
             }
 
@@ -148,7 +148,7 @@ namespace ot {
             UINT addr;
             if( sscanf( dev.c_str(), " %i", &addr ) != 1 )
             {
-                LOG_ACE_INFO("ot:ParButtonModule not an address %s\n", dev.c_str());
+                logPrintW("ParButtonModule not an address %s\n", dev.c_str());
                 return NULL;
             }
             // setting parallel port for input
@@ -197,24 +197,24 @@ namespace ot {
             int handle = open( dev.c_str(), O_RDWR | O_NDELAY  );
             if( handle < 0 )
             {
-                LOG_ACE_INFO("ot:ParButtonModule Error opening parallel port %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error opening parallel port %s\n", dev.c_str());
                 return NULL;
             }
             if(ioctl(handle, PLPIOMODE, PLP_BI) < 0) {
                 ::close(handle);
-                LOG_ACE_INFO("ot:ParButtonModule Error setting centronics mode on %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error setting centronics mode on %s\n", dev.c_str());
                 return NULL;
             }
             if(ioctl(handle, PLPIOCREAD, 1) < 0) 
             {
                 ::close(handle);
-                LOG_ACE_INFO("ot:ParButtonModule Error setting bidirectional mode on %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error setting bidirectional mode on %s\n", dev.c_str());
                 return NULL;
             }
             if(ioctl(handle, PLPIOCRTO, 1) < 0) 
             {
                 ::close(handle);
-                LOG_ACE_INFO("ot:ParButtonModule Error timeout on %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error timeout on %s\n", dev.c_str());
                 return NULL;
             }
             ParButtonSource * source = new ParButtonSource((unsigned int) handle );
@@ -222,13 +222,13 @@ namespace ot {
             int handle = open( dev.c_str(), O_RDWR | O_NDELAY );
             if( handle < 0 )
             {
-                LOG_ACE_INFO("ot:ParButtonModule Error opening parallel port %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error opening parallel port %s\n", dev.c_str());
                 return NULL;
             }
 	
             if(ioctl(handle, PPCLAIM) < 0) 
             {
-                LOG_ACE_INFO("ot:ParButtonModule Error claiming port %s\n" , dev.c_str() );
+                logPrintE("ParButtonModule Error claiming port %s\n" , dev.c_str() );
                 ::close(handle);
                 return NULL;
             }
@@ -237,7 +237,7 @@ namespace ot {
   
             if (ioctl(handle, PPDATADIR, &datadir) < 0)
             {
-                LOG_ACE_INFO("ot:ParButtonModule Error setting datadir %s\n", dev.c_str());
+                logPrintE("ParButtonModule Error setting datadir %s\n", dev.c_str());
                 ::close(handle);
                 return NULL;
             }
@@ -246,7 +246,7 @@ namespace ot {
 #endif
 #endif
             nodes[dev] = source;
-            LOG_ACE_INFO("ot:Build ParButtonSource on %s\n", dev.c_str());
+            logPrintI("Build ParButtonSource on %s\n", dev.c_str());
             return source;
         }
         return NULL;

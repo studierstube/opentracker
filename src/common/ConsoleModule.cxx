@@ -315,7 +315,7 @@ namespace ot {
                 val = 0;
             ConsoleSink * sink = new ConsoleSink( attributes.get("comment"), val );
             sinks.push_back( sink );
-            LOG_ACE_INFO("ot:Built ConsoleSink node.\n");
+            logPrintS("Built ConsoleSink node.\n");
             return sink;
         } else if( name.compare("ConsoleSource") == 0 )
 		{
@@ -328,14 +328,14 @@ namespace ot {
                     if ( !attributes.get("pen").empty() ) pen=1;
 					ConsoleSource * source = new ConsoleSource( number, pen );
                     sources.push_back( source );
-                    LOG_ACE_INFO("ot:Built ConsoleSource node.\n");
+                    logPrintS("Built ConsoleSource node.\n");
                     return source;
 				} else
                 {
-					LOG_ACE_INFO("ot:ConsoleSource station number not in [0,9]: %d\n", number );
+					logPrintW("ConsoleSource station number not in [0,9]: %d\n", number );
                 }
 			} else
-                LOG_ACE_INFO("ot:ConsoleSource station number not a number.\n");
+                logPrintW("ConsoleSource station number not a number.\n");
 		}
 		return NULL;
     }

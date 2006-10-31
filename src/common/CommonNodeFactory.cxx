@@ -231,16 +231,16 @@ namespace ot {
         {
             if( parseVector(attributes.get("translation"), translation ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
+                logPrintE("Error parsing translation !\n");
             }
             if( parseVector(attributes.get("scale"), scale ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing scale !\n")));
+                logPrintE("Error parsing scale !\n");
             }
             if( parseRotation(attributes.get("rotation"),
                               attributes.get("rotationtype"), rot ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
+                logPrintE("Error parsing rotation !\n");
             }
             result =  new StaticTransformation( translation, scale, rot, true, false );
         }
@@ -251,7 +251,7 @@ namespace ot {
             if( parseRotation(attributes.get("rotation"),
                               attributes.get("rotationtype"), rot ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
+                logPrintE("Error parsing rotation !\n");
             }
             result = new StaticTransformation( translation, scale, rot, false, true );
         }
@@ -261,16 +261,16 @@ namespace ot {
         {
             if( parseVector(attributes.get("translation"), translation ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
+                logPrintE("Error parsing translation !\n");
             }
             if( parseVector(attributes.get("scale"), scale ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing scale !\n")));
+                logPrintE("Error parsing scale !\n");
             }
             if( parseRotation(attributes.get("rotation"),
                               attributes.get("rotationtype"), rot ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
+                logPrintE("Error parsing rotation !\n");
             }
             result = new StaticTransformation( translation, scale, rot, true, true );
         }
@@ -280,12 +280,12 @@ namespace ot {
         {
             if( parseVector(attributes.get("translation"), translation ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
+                logPrintE("Error parsing translation !\n");
             }
             if( parseRotation(attributes.get("rotation"),
                               attributes.get("rotationtype"), rot ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
+                logPrintE("Error parsing rotation !\n");
             }
             result = new VirtualTransformation( translation, scale, rot, 1, 1 );
         }
@@ -295,7 +295,7 @@ namespace ot {
         {
             if( parseVector(attributes.get("translation"), translation ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing translation !\n")));
+                logPrintE("Error parsing translation !\n");
             }
             result = new VirtualTransformation( translation, scale, rot, 1, 0 );
         }
@@ -306,7 +306,7 @@ namespace ot {
             if( parseRotation(attributes.get("rotation"),
                               attributes.get("rotationtype"), rot ) != 0 )
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing rotation !\n")));
+                logPrintE("Error parsing rotation !\n");
             }
             result = new VirtualTransformation( translation, scale, rot, 0, 1 );
         }
@@ -582,7 +582,7 @@ namespace ot {
             {
                 std::string::size_type firstBlank = rename.find(' ');
                 if (firstBlank == std::string::npos)
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing names for renaming in EventUtilityNode!\n")));
+                    logPrintE("Error parsing names for renaming in EventUtilityNode!\n");
                 else
                 {
                     std::string oldName = rename.substr(0, firstBlank);
@@ -597,7 +597,7 @@ namespace ot {
                 if (firstBlank == std::string::npos ||
                     secondBlank == std::string::npos)
                 {
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error parsing serialized event for creation in EventUtilityNode!\n")));
+                    logPrintE("Error parsing serialized event for creation in EventUtilityNode!\n");
                 }
                 else
                 {
@@ -625,12 +625,12 @@ namespace ot {
         // the node ports are just looked up in a simple list
         else if( std::find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
         {
-            LOG_ACE_INFO("ot:Build NodePort %s.\n", name.c_str());
+            logPrintI("Build NodePort %s.\n", name.c_str());
             return new NodePort();
         }
         if( result != NULL )
         {
-            LOG_ACE_INFO("ot:Build %s node.\n", name.c_str());
+            logPrintI("Build %s node.\n", name.c_str());
         }
         return result;
     }

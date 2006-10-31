@@ -93,7 +93,7 @@ namespace ot {
             }
             source->event.setConfidence( 1.0f );
             nodes.push_back( source );
-            LOG_ACE_INFO("ot:Built GoGoSinkSource node\n");
+            logPrintS("Built GoGoSinkSource node\n");
             initialized = 1;
             return source;
         }

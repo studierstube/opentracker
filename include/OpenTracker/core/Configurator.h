@@ -49,7 +49,7 @@ namespace ot {
 
 	static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
 	static void loadModule(Context & newctx, const char * module);
-	friend void initializeContext(Context *, void *);
+	friend OPENTRACKER_API void initializeContext(Context *, void *);
   };
 
 }

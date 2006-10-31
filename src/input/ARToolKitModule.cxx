@@ -163,7 +163,7 @@ namespace ot {
             }
             else
             {
-                LOG_ACE_ERROR("ot:ARToolkit could not find tag file %s\n", filename.c_str());
+                logPrintE("ARToolkit could not find tag file %s\n", filename.c_str());
                 return NULL;
             }
         
@@ -172,12 +172,12 @@ namespace ot {
         
             if((id = arLoadPatt((char *)filename.c_str() )) < 0 )
             {
-                LOG_ACE_ERROR("ot:ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
+                logPrintE("ARToolKit Error reading tag-file %s or %s\n", attributes.get("tag-file").c_str(), filename.c_str());
                 return NULL;
             }
             ARToolKitSource * source = new ARToolKitSource( id, center, size );
             sources.push_back( source );
-            LOG_ACE_INFO("ot:Build ARToolKitSource %s id %d\n", filename.c_str(), id);
+            logPrintI("Build ARToolKitSource %s id %d\n", filename.c_str(), id);
             return source;
         }
         return NULL;
@@ -201,7 +201,7 @@ namespace ot {
 
             if(error_ret != 0)
             {
-                LOG_ACE_ERROR("ot:ARToolKitModule Error opening stereo video source(s) !\n");
+                logPrintE("ARToolKitModule Error opening stereo video source(s) !\n");
                 exit(1);
             }
 	}
@@ -210,14 +210,14 @@ namespace ot {
 
             if( arVideoOpen((char *) videomode.c_str() ) < 0 )
             {
-                LOG_ACE_ERROR("ot:ARToolKitModule Error opening video source !\n");
+                logPrintE("ARToolKitModule Error opening video source !\n");
                 exit(1);
             }
     
 #ifdef __sgi
         if( arVideoSetupDevice( did, AR_VIDEO_INTERLEAVED, AR_VIDEO_RGB_8, AR_VIDEO_1_P_1 ) < 0 )
         {
-            LOG_ACE_ERROR("ot:ARToolKitModule Error setting up video source !\n");
+            logPrintE("ARToolKitModule Error setting up video source !\n");
             exit(1);
         }
         if( arVideoInqSize(did, &sizeX, &sizeY ) < 0 )
@@ -225,7 +225,7 @@ namespace ot {
         if( arVideoInqSize( &sizeX, &sizeY ) < 0 )
 #endif
         {
-            LOG_ACE_ERROR("ot:ARToolKitModule Error querying video size !\n");
+            logPrintE("ARToolKitModule Error querying video size !\n");
             exit(1);
         }
         
@@ -247,7 +247,7 @@ namespace ot {
         }
         else
         {
-            LOG_ACE_ERROR("ot:ARToolkitModule could not find camera parameter file %s\n", cameradata);
+            logPrintE("ARToolkitModule could not find camera parameter file %s\n", cameradata);
             initialized = 0;
             return;
         }
@@ -257,7 +257,7 @@ namespace ot {
     
         if( arParamLoad((char *)cameradata.c_str(), 1, &wparam ) < 0 )
         {
-            LOG_ACE_ERROR("ot:ARToolkitModule error loading camera parameters from %s\n", cameradata);
+            logPrintE("ARToolkitModule error loading camera parameters from %s\n", cameradata);
             initialized = 0;
             return;
         }
@@ -269,7 +269,7 @@ namespace ot {
 
         frame = new unsigned char[sizeX*sizeY*AR_PIX_SIZE];
         ThreadModule::start();
-        LOG_ACE_INFO("ot:ARToolKitModule started\n");
+        logPrintI("ARToolKitModule started\n");
     }
 
     // closes the artoolkit library
@@ -288,7 +288,7 @@ namespace ot {
         // join the thread to wait for proper cleanup
         ThreadModule::close();
         
-        LOG_ACE_INFO("ot:ARToolkit stopped\n");
+        logPrintI("ARToolkit stopped\n");
     }
     
     // pushes events into the tracker tree
@@ -394,7 +394,7 @@ namespace ot {
         arVideoCapStop();
         arVideoClose();
 
-        LOG_ACE_INFO("ot:ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
+        logPrintI("ARToolKit Framerate %f\n", 1000 * count / ( OSUtils::currentTime() - startTime ));
     }
 
     // grabs a frame and processes the data
