@@ -41,6 +41,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#ifdef USE_MIDI
+
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/tool/midi.h>
 #include <vector>
@@ -83,3 +85,5 @@ namespace ot{
   OT_MODULE(MidiModule);
 
 }; // namespace ot
+
+#endif

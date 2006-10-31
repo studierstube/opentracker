@@ -39,6 +39,7 @@
 #include <OpenTracker/network/PhantomMiddlewareModule.h>
 #include <OpenTracker/network/PhantomMiddlewareSource.h>
 #include <phantom/EventIdQuery.hh>
+#include <phantom/Exceptions.hh>
 
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
@@ -153,18 +154,22 @@ namespace ot {
 	char source[32];
 	std::string src;
 	if (eid != 13 && eid !=14) {
-	  ucm >> pid >> x >> y >> z;
-	  ucm >> theta;
-	  if (eid == 24) {
-	    ucm >> source;
-	  }
-	  src = source;
-	  PidSourceMultiMap* multi_map = group_map_pairing->second;
-	  std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = multi_map->equal_range(pid);
-	  for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-	    if (eid == (it->second)->getEventId()) {
- 	      (it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
+	  try {
+	    ucm >> pid >> x >> y >> z;
+	    ucm >> theta;
+	    if (eid == 24) {
+	      ucm >> source;
 	    }
+	    src = source;
+	    PidSourceMultiMap* multi_map = group_map_pairing->second;
+	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = multi_map->equal_range(pid);
+	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
+	      if (eid == (it->second)->getEventId()) {
+		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
+	      }
+	    }
+	  } catch (PhantomException) {
+	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
 	  }
 	}
 	//      }

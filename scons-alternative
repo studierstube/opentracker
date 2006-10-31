@@ -30,9 +30,10 @@ _defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', '
 
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
-    [join('src', 'tool', 'OT_ACE_LOG.cxx')]
+    [join('src', 'tool', 'OT_ACE_Log.cxx')]
 common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx']
 common_files = [join('src', 'common', file) for file in common]
+input_files = []
 
 ################################################################################
 #     Set options                                                              #
@@ -63,7 +64,9 @@ if sys.platform == 'darwin':
     env.Append(CPPPATH=['/opt/local/include']) 
     env.Append(LIBPATH=['/opt/local/lib'])
 elif sys.platform.startswith('linux'):
-    pass
+    print "Linux specific configuration"
+    input_files += [join('src', 'input', 'ParButtonModule.cxx'),
+		    join('src', 'input', 'LinmouseModule.cxx')]
 elif sys.platform == 'win32':
     pass
 
@@ -152,7 +155,7 @@ if env['ENABLE_OTQT']:
 #     set targets                                                              #
 ################################################################################
 otlib = env.SharedLibrary(join('lib', 'opentracker'), 
-			  essential_core_files + common_files + extra_files)
+			  essential_core_files + common_files + input_files + extra_files)
 
 # create new environment for building executables
 prgenv = env.Copy()
