@@ -113,6 +113,7 @@ namespace ot {
         }
 
         delete _mutex;
+		
     }
 
     
@@ -627,7 +628,10 @@ namespace ot {
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
 			modname = nodename ;
 			result = getModule(modname);
-		} else {
+		} else if ((nodename.compare("EventMouseSource") == 0))
+			modname = "EventConfig";
+			result = getModule(modname);
+		{
 			std::string::size_type loc= std::string::npos;
 			
 			for (int i = 0; i < 3; i++){
