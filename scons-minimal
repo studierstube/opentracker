@@ -12,10 +12,17 @@ essential_core_files = glob(join('src', 'core', '*.cxx')) + \
 common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx']
 common_files = [join('src', 'common', file) for file in common]
 
-env = Environment (ENV = os.environ)
+opts = Options('custom.py')
+opts.Add(BoolOption('DEBUG', 'Set to build for debug', 0))
+
+env = Environment (ENV = os.environ, options=opts)
 env.Append(CPPPATH=['include'])
 env.Append(LIBS=_libs)
 env.Append(CPPDEFINES=_defines)
+if env['DEBUG']:
+    env.Append(CXXFLAGS='-g')
+else:
+    env.Append(CXXFLAGS='-O2')
 
 if sys.platform == 'darwin':
     # Add default directories used by Darwin Ports

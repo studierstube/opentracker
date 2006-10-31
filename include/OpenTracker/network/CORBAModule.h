@@ -58,7 +58,9 @@
 #ifdef USE_OMNIEVENTS
 #include <OpenTracker/network/PushSupp.h>
 #include <OpenTracker/network/PushCons.h>
+#ifdef USE_SHARED
 #include <OpenTracker/network/SharedEngineNode.h>
+#endif //USE_SHARED
 #endif //USE_OMNIEVENTS
 
 namespace ot {
@@ -66,7 +68,9 @@ namespace ot {
 typedef std::vector<CORBASink*> CORBASinkVector;
 typedef std::map<CORBASource*, OT_CORBA::OTSource_var> SourceNodeMap;
 #ifdef USE_OMNIEVENTS
+#ifdef USE_SHARED
 typedef std::vector<SharedEngineNode*> SharedEngineNodeVector;
+#endif //USE_SHARED
 typedef std::vector<PushSupp*> PushSuppVector;
 typedef std::vector<PushCons*> PushConsVector;
 typedef std::map<PushCons*, CosEventChannelAdmin::ProxyPushSupplier_var> ProxyPushSupplierMap;
@@ -91,7 +95,9 @@ protected:
     PushSuppVector pushsupps;
     PushConsVector pushconsumers;
     ProxyPushSupplierMap proxy_pushsupplier_map;
+#ifdef USE_SHARED
     SharedEngineNodeVector sharedengines;
+#endif
 #endif
     bool persistent;
 
