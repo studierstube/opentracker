@@ -69,13 +69,7 @@ else:
     targetList = []
 
     # use flags that will be shared both by static and dynamic libs.
-    use= {'tinyxmlmod'   : 'true',
-          'artoolkitplus': 'false',
-          'joystick'     : 'false',
-          'otqt'        : 'false',
-          'muddleware'   : 'false',
-          'corba'        : 'false'
-          }
+    use= ['xerces']
 
     if sys.platform == 'win32':
         # list of libraries that will be searched by the scanner.
