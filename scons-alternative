@@ -49,6 +49,7 @@ opts.Add(BoolOption('ENABLE_OMNIORBPY', 'Set to build python stubs and skeletons
 opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middleware ', 0))
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Qt support', 0))
+opts.Add(BoolOption('ENABLE_INTERPOLATION', 'Set to enable interpolation support', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -84,6 +85,9 @@ if env['DEBUG']:
     env.Append(CXXFLAGS='-g')
 else:
     env.Append(CXXFLAGS='-O2')
+if env['ENABLE_INTERPOLATION']:
+    env['CPPDEFINES'].remove('OT_NO_INTERPORLATORMODULE_SUPPORT')
+    extra_files += [join('src', 'common', 'InterpolatorModule.cxx'), join('src', 'common', 'ElasticFilterNode.cxx')]
 # Enable or disable CORBA support
 if env['ENABLE_CORBA']:
     print "OmniEvents support enabled"
