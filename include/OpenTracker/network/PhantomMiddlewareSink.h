@@ -158,7 +158,7 @@ public:
 	  pm << (float) position[0];
 	  pm << (float) position[1];
 	  pm << (float) position[2];
-	  pm << (float) (2.0f * atan2(orientation[3], orientation[2])/MathUtils::GradToRad);
+	  pm << (float) (2.0f * atan2(orientation[2], orientation[3])/MathUtils::GradToRad);
 	  //	  if (eid == 24) {
 	  //	    pm << src;
 	  //	  }

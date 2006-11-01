@@ -44,7 +44,8 @@
 #include <ace/OS.h>
 #include <OpenTracker/network/CORBAUtils.h>
 #include <iostream>
-#include <OpenTracker/tool/OT_ACE_Log.h>
+//#include <OpenTracker/tool/OT_ACE_Log.h>
+#include <OpenTracker/core/OtLogger.h>
 #ifdef USE_OMNIEVENTS
 #include <omniEvents/CosEventComm.hh>
 #include <omniEvents/CosEventChannelAdmin.hh>
@@ -62,7 +63,7 @@ namespace ot {
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE Exception disconnecting Push Consumer! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE Exception disconnecting Push Consumer! Retrying...\n");
 		continue;
 	    }
 	}
@@ -81,14 +82,14 @@ namespace ot {
 		break;
 	    }
 	    catch (CORBA::BAD_PARAM& ex) {
-		LOG_ACE_ERROR("Caught BAD_PARAM Exception connecting Push Consumer!\n");
+		logPrintE("Caught BAD_PARAM Exception connecting Push Consumer!\n");
 	    }
 	    catch (CosEventChannelAdmin::AlreadyConnected& ex) {
-		LOG_ACE_ERROR("Proxy Push Supplier already connected!\n");
+		logPrintE("Proxy Push Supplier already connected!\n");
            break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE exception connecting Push Consumer! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE exception connecting Push Consumer! Retrying...\n");
 		continue;
 	    }
 	}
@@ -105,13 +106,13 @@ namespace ot {
 		consumer_admin = channel->for_consumers ();
 		if (CORBA::is_nil (consumer_admin))
 		{
-		    LOG_ACE_ERROR("Event Channel returned nil Consumer Admin!\n");
+		    logPrintE("Event Channel returned nil Consumer Admin!\n");
 		    exit(1);
 		}
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE exception obtaining Consumer Admin! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE exception obtaining Consumer Admin! Retrying...\n");
 		continue;
 	    }
 	}
@@ -130,13 +131,13 @@ namespace ot {
 		proxy_supplier = consumer_admin->obtain_push_supplier ();
 		if (CORBA::is_nil (proxy_supplier))
 		{
-		    LOG_ACE_ERROR("Consumer Admin returned nil proxy_supplier!\n");
+		    logPrintE("Consumer Admin returned nil proxy_supplier!\n");
 		    exit (1);
 		}
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Push Supplier! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE Exception obtaining Push Supplier! Retrying...\n");
 		continue;
 	    }
 	}
@@ -156,13 +157,13 @@ namespace ot {
 		    proxy_consumer = supplier_admin->obtain_push_consumer ();
 		    if (CORBA::is_nil(proxy_consumer))
 		    {
-			LOG_ACE_ERROR("Supplier Admin returned nil proxy_consumer!\n");
+			logPrintE("Supplier Admin returned nil proxy_consumer!\n");
 			exit(1);
 		    }
 		    break;
 		}
 		catch (CORBA::COMM_FAILURE& ex) {
-		    LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Proxy Push Consumer! Retrying...\n");
+		    logPrintE("Caught COMM_FAILURE Exception obtaining Proxy Push Consumer! Retrying...\n");
 		    continue;
 		}
 	    }
@@ -182,13 +183,13 @@ namespace ot {
 		supplier_admin = channel->for_suppliers ();
 		if (CORBA::is_nil(supplier_admin))
 		{
-		    LOG_ACE_ERROR("Event Channel returned nil Supplier Admin!\n");
+		    logPrintE("Event Channel returned nil Supplier Admin!\n");
 		    exit(1);
 		}
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE Exception obtaining Supplier Admin! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE Exception obtaining Supplier Admin! Retrying...\n");
 		continue;
 	    }
 	}
@@ -205,15 +206,15 @@ namespace ot {
 		break;
 	    }
 	    catch (CORBA::BAD_PARAM& ex) {
-		LOG_ACE_ERROR("Caught BAD_PARAM Exception connecting Push Supplier!\n");
+		logPrintE("Caught BAD_PARAM Exception connecting Push Supplier!\n");
 		exit (1);
 	    }
 	    catch (CosEventChannelAdmin::AlreadyConnected& ex) {
-		LOG_ACE_ERROR("Proxy Push Consumer already connected!\n");
+		logPrintE("Proxy Push Consumer already connected!\n");
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE Exception connecting Push Supplier! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE Exception connecting Push Supplier! Retrying...\n");
 		continue;
 	    }
 	}
@@ -231,7 +232,7 @@ namespace ot {
 		break;
 	    }
 	    catch (CORBA::COMM_FAILURE& ex) {
-		LOG_ACE_ERROR("Caught COMM_FAILURE Exception disconnecting Push Supplier! Retrying...\n");
+		logPrintE("Caught COMM_FAILURE Exception disconnecting Push Supplier! Retrying...\n");
 		continue;
 	    }
 	}
@@ -283,7 +284,7 @@ namespace ot {
             name = extContext->to_name(string_name);
         } catch(CosNaming::NamingContext::InvalidName) {
             // This exception is thrown if the name is not valid
-            LOG_ACE_ERROR("Name is not valid\n Exiting....");
+            logPrintE("Name is not valid\n Exiting....");
             exit(-1);
         }
         CORBA::String_var oid_string = CORBA::string_dup(name[name->length()-1].id);
@@ -306,7 +307,7 @@ namespace ot {
             name = extContext->to_name(string_name);
 	  } catch(CosNaming::NamingContext::InvalidName) {
             // This exception is thrown if the name is not valid
-            LOG_ACE_ERROR("Name is not valid\n Exiting....");
+            logPrintE("Name is not valid\n Exiting....");
             exit(-1);
 	  }
 	  CosNaming::Name object_name;
@@ -318,13 +319,13 @@ namespace ot {
 	  {
 	      CosNaming::NamingContext_var desired_context = CosNaming::NamingContext::_narrow(getContext(CosNaming::NamingContext::_narrow(extContext), name));
 	    if (CORBA::is_nil(desired_context)) {
-	      LOG_ACE_ERROR("Was unable to obtain the appropriate context\nExiting...");
+	      logPrintE("Was unable to obtain the appropriate context\nExiting...");
 	      exit(-1);
 	    }
 	    try {
 	      desired_context->bind(object_name, obj);
 	    } catch(CosNaming::NamingContext::AlreadyBound) {
-	      LOG_ACE_ERROR("The context %s.%s is already bound. Rebinding...", (const char*) object_name[0].id, (const char*) object_name[0].kind);
+	      logPrintE("The context %s.%s is already bound. Rebinding...", (const char*) object_name[0].id, (const char*) object_name[0].kind);
 	      desired_context->rebind(object_name, obj);
 	    }
 	  } // close scope that includes desired_context
@@ -337,13 +338,13 @@ namespace ot {
     try {
       obj = root_context->resolve(name);
     } catch (CosNaming::NamingContext::NotFound) {
-            LOG_ACE_ERROR("Name not found\n");
+            logPrintE("Name not found\n");
             return CosNaming::NamingContext::_nil();
         } 
         //CosNaming::NamingContext_var sink_context = CosNaming::NamingContextExt::_narrow(obj);
 	CosNaming::NamingContext_var sink_context = CosNaming::NamingContext::_narrow(obj);
         if  (CORBA::is_nil(sink_context)) {
-            LOG_ACE_ERROR("Object reference isn't a Context");
+            logPrintE("Object reference isn't a Context");
         }
         return sink_context;
     }
@@ -360,7 +361,7 @@ namespace ot {
       while (CORBA::is_nil(context_already_bound) && (name->length() > 0)) {
 	context_already_bound = CosNaming::NamingContextExt::_narrow(getContextFromName(root_context, name));
 	if (CORBA::is_nil(context_already_bound)) {
-	  LOG_ACE_ERROR("Context not already bound\n");
+	  logPrintE("Context not already bound\n");
 	  // extend the NameComponent sequence
 	  uncontextualised_names.length(max-length+1); 
 	  uncontextualised_names[max-length] = name[length-1];
@@ -369,7 +370,7 @@ namespace ot {
 	} 
       }
       if (CORBA::is_nil(context_already_bound)) {
-	LOG_ACE_ERROR("binding directly to root context\n");
+	logPrintE("binding directly to root context\n");
 	context_already_bound = CosNaming::NamingContextExt::_narrow(root_context);
       }
       CosNaming::NamingContext_var previous_context = CosNaming::NamingContextExt::_duplicate(context_already_bound);
@@ -379,7 +380,7 @@ namespace ot {
 	new_name.length(1);
 	new_name[0].id = CORBA::string_dup(uncontextualised_names[i-1].id);
 	new_name[0].kind = CORBA::string_dup(uncontextualised_names[i-1].kind);
-	LOG_ACE_ERROR("Binding context with name %s.%s to previous context\n", (const char*) new_name[0].id, (const char*) new_name[0].kind);
+	logPrintE("Binding context with name %s.%s to previous context\n", (const char*) new_name[0].id, (const char*) new_name[0].kind);
 	previous_context = previous_context->bind_new_context(new_name);
       }
       return previous_context;
@@ -395,19 +396,19 @@ namespace ot {
       // Narrow the reference returned.
       extContext = CosNaming::NamingContextExt::_narrow(obj);
       if( CORBA::is_nil(extContext) ) {
-	LOG_ACE_ERROR("Failed to narrow the root naming context.");
+	logPrintE("Failed to narrow the root naming context.");
 	//return CORBA::Object::_nil();
 	return CosNaming::NamingContextExt::_nil();
       }
     } catch(CORBA::ORB::InvalidName& ex) {
       // This should not happen!
-      LOG_ACE_ERROR("Service required is invalid [does not exist].");
+      logPrintE("Service required is invalid [does not exist].");
       return CosNaming::NamingContextExt::_nil();
     } catch(CORBA::TRANSIENT) {
-      LOG_ACE_ERROR("Naming Service isn't running\n");
+      logPrintE("Naming Service isn't running\n");
       return CosNaming::NamingContextExt::_nil();
     } catch(CORBA::INV_OBJREF) {
-      LOG_ACE_ERROR("An exception has occured that indicates that the object reference to the NameService is internally malformed.\n");
+      logPrintE("An exception has occured that indicates that the object reference to the NameService is internally malformed.\n");
       return CosNaming::NamingContextExt::_nil();
     }
     return extContext;

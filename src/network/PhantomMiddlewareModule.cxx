@@ -41,8 +41,6 @@
 #include <phantom/EventIdQuery.hh>
 #include <phantom/Exceptions.hh>
 
-#include <OpenTracker/tool/OT_ACE_Log.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -74,7 +72,7 @@ namespace ot {
 
   Node * PhantomMiddlewareModule::createNode( const std::string & name, StringTable & attributes )
   {
-    logPrintI("PhantomMiddlewareModule::createNode\n");
+    logPrintI("PhantomMiddlewareModule::createNode %s\n", name.c_str());
     if( name.compare("PhantomMiddlewareSink") == 0 ) 
       {
 	int frequency;
@@ -96,7 +94,7 @@ namespace ot {
 	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d )", group, frequency, pid, (int) eid );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid );
 	} else {
-	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d, %s )", group, frequency, pid, (int) eid, source );
+	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d, %s )", group, frequency, pid, (int) eid, source.c_str() );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid, source );
 	}
 	num = sscanf(attributes.get("eid").c_str(), " %h", &eid );

@@ -226,11 +226,11 @@ else:
         corba_libs = ['omniORB4', 'COS4', 'omniDynamic4', 'omnithread']
         ot['libs']  += corba_libs
         stubsandskeletons = env.OMNIIDLCXX(os.path.join('idl', 'OT_CORBA.idl'),
-                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons')) + env.OMNIIDLCXX(os.path.join('idl', 'uts.idl'),
+                                           OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons')) + env.OMNIIDLCXX(os.path.join('idl', 'UTS.idl'),
                                            OMNIIDL_INSTALL_DIRECTORY=os.path.join('idl', 'skeletons')) 
         if ARGUMENTS.has_key('ENABLE_OMNIORBPY'):
             pythonstubsandskeletons =  env.OMNIIDLPY(os.path.join('idl', 'OT_CORBA.idl'), OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
-            pythonstubsandskeletons += env.OMNIIDLPY(os.path.join('idl', 'uts.idl'), OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
+            pythonstubsandskeletons += env.OMNIIDLPY(os.path.join('idl', 'UTS.idl'), OMNIIDL_INSTALL_DIRECTORY=os.path.join('lib', 'python'))
             corbapystubs ={'name': 'corbastubs',
                  'type': 'PY',
                  'src_use' : [os.path.abspath(str(stub)) for stub in pythonstubsandskeletons]
