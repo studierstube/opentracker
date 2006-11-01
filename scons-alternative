@@ -34,6 +34,8 @@ essential_core_files = glob(join('src', 'core', '*.cxx')) + \
 common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx']
 common_files = [join('src', 'common', file) for file in common]
 input_files = []
+python_files = []
+jars = []
 
 ################################################################################
 #     Set options                                                              #
@@ -46,6 +48,7 @@ opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for OmniEvents', 0))
 opts.Add(BoolOption('ENABLE_OMNIORBPY', 'Set to build python stubs and skeletons', 0))
 opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middleware ', 0))
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
+opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Qt support', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -92,7 +95,7 @@ if env['ENABLE_CORBA']:
     stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OT_CORBA.idl'),
 				       CPPPATH=['/usr/local/share/idl/omniORB'],
 				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
-    stubsandskeletons += env.OMNIIDLCXX(join('idl', 'uts.idl'),
+    stubsandskeletons += env.OMNIIDLCXX(join('idl', 'UTS.idl'),
 				       CPPPATH=['/usr/local/share/idl/omniORB'],
 				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
     # Generate python stubs and skeletons if appropriate
@@ -102,7 +105,7 @@ if env['ENABLE_CORBA']:
 	python_files = env.OMNIIDLPY(join('idl', 'OT_CORBA.idl'),
 					    CPPPATH=['/usr/local/share/idl/omniORB'],
 					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
-	python_files += env.OMNIIDLPY(join('idl', 'uts.idl'),
+	python_files += env.OMNIIDLPY(join('idl', 'UTS.idl'),
 					    CPPPATH=['/usr/local/share/idl/omniORB'],
 					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
     extra_files += filterCppSources(stubsandskeletons)
@@ -144,18 +147,65 @@ if env['ENABLE_PHANTOM_MIDDLEWARE']:
     env['LIBS'].append('phantom')
     extra_files += [join('src', 'network', 'PhantomMiddlewareModule.cxx')]
 # Enable or disable support for OTQT
+# not working on Mac OS X at present time
 if env['ENABLE_OTQT']:
     env.Append(LIBPATH=join(env['ENV']['QTDIR'], 'lib'))
-    env.Append(CPPPATH=join(env['ENV']['QTDIR'], 'include'))
+    env.Append(CPPPATH=[join(env['ENV']['QTDIR'], 'include'), 'extras'])
     env.Append(LIBS='qt-mt')
     env.Append(CPPDEFINES=['QT_NO_DEBUG', 'USE_OTQT'])
     extra_files += glob(join('extras', 'newmat10', '*.cpp'))
-    extra_files += [join('src', 'otqt', 'otqt_mem_calib_main.cxx')]
+    extra_files += [join('src', 'otqt', f) for f in ['OTQt.cxx', 'QtMouseEventCalibModule.cxx', 'OTQtConfigFileEditor.cxx', 'QtMouseEventModule.cxx', 'OTQtLog.cxx', 'QtMouseEventModuleBase.cxx', 'OTQtMEMCalibProc.cxx', 'QtMouseEventSinkBase.cxx', 'OTQtMath.cxx', 'QtMousePosSink.cxx', 'QtAppScreen.cxx', 'QtMouseWheelSink.cxx', 'QtAppScreenPosSink.cxx', 'QtMouseButtonSink.cxx']]
+    mocaction='moc $SOURCE -o $TARGET'
+    env['BUILDERS']['moc']= Builder(action=mocaction)
+    extra_files += env.moc('src/otqt/moc_OTQT.cxx', 'include/OpenTracker/otqt/OTQt.h')
+# Enable or disable java support
+if env['ENABLE_JAVA']:
+    print "Java support enabled"
+    import JavacBld, JarBuilder, JavaShellScript
+    JavacBld.generate(env)
+    JarBuilder.generate(env)
+    JavaShellScript.generate(env)
+    if env['ENABLE_CORBA']:
+	import IDLJBuilder
+	IDLJBuilder.generate(env)
+	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
+	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
+	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
+	env.Append(IDL_INSTALL_DIRECTORY='src_java')
+	stubsandskeletons  = env.IDLJ(join('idl', 'OT_CORBA.idl'),
+				     PKGPREFIX='org.studierstube.opentracker')
+	stubsandskeletons += env.IDLJ(join('idl', 'UTS.idl'),
+				     PKGPREFIX='org.studierstube.opentracker')
+	if env['ENABLE_OMNIEVENTS']:
+	    	stubsandskeletons += env.IDLJ(join('idl', 'OT_EventChannel.idl'),
+					      PKGPREFIX ='org.studierstube.opentracker')
+		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosEventComm.idl'),
+					      PKGPREFIX='org.omg')
+		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosLifeCycle.idl'),
+					      PKGPREFIX='org.omg')
+		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosEventChannelAdmin.idl'),
+					      PKGPREFIX='org.omg')
+		stubsandskeletons += env.IDLJ(join('idl', 'EventChannelAdmin.idl'),
+					      PKGPREFIX='net.sourceforge.omniorb')
+	stub_classes = env.JavacBld(stubsandskeletons, SOURCEDIR='src_java', CLASSINSTALLDIR='build')
+	opentracker_stubs_jar = env.JarBld(target=join('lib', 'OpenTrackerStubs.jar'),
+					   source = stub_classes, 
+					   JARCHDIR='build')
+	if env['ENABLE_OMNIEVENTS']:
+	    push_cons_class = env.JavacBld(join('src_java', 'org', 'studierstube', 
+						'opentracker', 'tests', 'PushCons.java'),
+					   CLASSPATH=[join('lib', 'java-getopt-1.0.12.jar')],
+					   SOURCEDIR='src_java', CLASSINSTALLDIR='build')
+	    push_cons_jar = env.JarBld(target=join('lib', 'PushCons.jar'),
+				       source = push_cons_class, 
+				       JARCHDIR='build')
+	    push_cons = env.JavaShellScript(join('bin', 'PushCons'), 
+					    push_cons_class + opentracker_stubs_jar + push_cons_jar + [join('lib', 'java-getopt-1.0.12.jar')],
+					    PKGPREFIX='org.studierstube.opentracker.tests')
 ################################################################################
 #     set targets                                                              #
 ################################################################################
-otlib = env.SharedLibrary(join('lib', 'opentracker'), 
-			  essential_core_files + common_files + input_files + extra_files)
+otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files)
 
 # create new environment for building executables
 prgenv = env.Copy()
@@ -184,6 +234,8 @@ if prefix:
     site_package_directory = join(prefix, 'lib', 'python%d.%d' % tuple(sys.version_info[0:2]), 'site-packages')
     for _destination, _source in [( str(f)[libpythondirstrlen:] , f) for f in python_files]:
 	py_inst.append(env.InstallAs(join(site_package_directory, _destination), _source))
+    # jar files to install
+    jar_inst = env.Install(join(prefix, 'lib'), jars)
     # all files to be installed
-    install_files = [bin_inst, inc_inst, lib_inst, py_inst]
+    install_files = [bin_inst, inc_inst, lib_inst, py_inst, jar_inst]
     env.Alias('install', install_files )
