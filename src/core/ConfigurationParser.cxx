@@ -440,7 +440,7 @@ namespace ot {
             }
         }
 
-        logPrintI("parsing tracker tree section\n")));
+        logPrintI("parsing tracker tree section\n");
 
         // parse the rest of the elements
         //auto_ptr<DOMNodeList> rootlist( root->getChildNodes());

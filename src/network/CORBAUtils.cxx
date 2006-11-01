@@ -66,7 +66,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Disconnected Push Consumer.\n");
+	logPrintI("Disconnected Push Consumer.\n");
     }
 
     //
@@ -92,7 +92,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Connected Push Consumer.\n");
+	logPrintI("Connected Push Consumer.\n");
     }
 
     //
@@ -115,7 +115,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Obtained ConsumerAdmin.\n");
+	logPrintI("Obtained ConsumerAdmin.\n");
 	return consumer_admin;
     }
     
@@ -140,7 +140,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Obtained ProxyPushSupplier.\n");
+	logPrintI("Obtained ProxyPushSupplier.\n");
 	return proxy_supplier;
     }
 
@@ -166,7 +166,7 @@ namespace ot {
 		    continue;
 		}
 	    }
-	    LOG_ACE_INFO("Obtained ProxyPushConsumer.\n");
+	    logPrintI("Obtained ProxyPushConsumer.\n");
 	    return proxy_consumer;
 	}
     }
@@ -192,7 +192,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Obtained SupplierAdmin.\n");
+	logPrintI("Obtained SupplierAdmin.\n");
 	return supplier_admin;
     }
 
@@ -217,7 +217,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("Connected Push Supplier.\n");
+	logPrintI("Connected Push Supplier.\n");
 
     }
 
@@ -235,7 +235,7 @@ namespace ot {
 		continue;
 	    }
 	}
-	LOG_ACE_INFO("ProxyPushConsumer disconnected.\n");
+	logPrintI("ProxyPushConsumer disconnected.\n");
 	
     }
 #endif //ENABLE_OMNIEVENTS    
@@ -296,7 +296,7 @@ namespace ot {
     {
       CosNaming::NamingContextExt_var extContext = CosNaming::NamingContextExt::_duplicate(getRootContext(orb));
         if (CORBA::is_nil(extContext)) {
-            LOG_ACE_INFO("Could not obtain a reference to the root Context\nExiting....\n");
+            logPrintI("Could not obtain a reference to the root Context\nExiting....\n");
             exit(-1);
         }
         {
@@ -418,7 +418,7 @@ namespace ot {
         
       CosNaming::NamingContextExt_var extContext = getRootContext(orb);
       if (CORBA::is_nil(extContext)) {
-            LOG_ACE_INFO("Could not obtain a reference to the root Context\nExiting....\n");
+            logPrintI("Could not obtain a reference to the root Context\nExiting....\n");
             exit(-1);
       }
 
@@ -428,7 +428,7 @@ namespace ot {
             name = extContext->to_name(string_name);
         } catch(CosNaming::NamingContext::InvalidName) {
             // This exception is thrown if the name is not valid
-            LOG_ACE_ERROR("Name is not valid");
+            logPrintE("Name is not valid");
             return CORBA::Object::_nil();
         }
         
@@ -438,11 +438,11 @@ namespace ot {
         } catch(CosNaming::NamingContext::NotFound& ex) {
             // This exception is thrown if any of the components of the
             // path [contexts or the object] aren't found:
-            LOG_ACE_ERROR("Context not found.");
+            logPrintE("Context not found.");
         } catch(CORBA::COMM_FAILURE& ex) {
-            LOG_ACE_ERROR("Caught system exception COMM_FAILURE -- unable to contact the naming service.");
+            logPrintE("Caught system exception COMM_FAILURE -- unable to contact the naming service.");
         } catch(CORBA::SystemException&) {
-            LOG_ACE_ERROR("Caught a CORBA::SystemException while using the naming service.");
+            logPrintE("Caught a CORBA::SystemException while using the naming service.");
         }
         return CORBA::Object::_nil();
     }

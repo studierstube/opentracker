@@ -72,7 +72,7 @@ class Supplier_i : virtual public POA_CosEventComm::PushSupplier {
 public:
   Supplier_i () {};
   void disconnect_push_supplier () {
-    LOG_ACE_INFO("Push Supplier: disconnected.\n");
+    logPrintI("Push Supplier: disconnected.\n");
   };
 };
 
@@ -113,7 +113,7 @@ protected:
     virtual ~PushSupp() {
       CORBAUtils::disconnectPushSupplier(proxy_consumer);
       delete supplier;
-      LOG_ACE_INFO("PushSupp destructor");
+      logPrintI("PushSupp destructor");
     }
 
 public:
@@ -141,22 +141,17 @@ public:
       OT_CORBA::Event* corba_event = new OT_CORBA::Event;
       CORBAUtils::convertToCORBAEvent(event, *corba_event);
       try {
-	//corba_sink->setEvent(corba_event);
         CORBA::Any any;
-	//OT_CORBA::Event* event_pointer = &corba_event;
-        //any <<= event_pointer;
 	any <<= corba_event;
 	proxy_consumer->push(any);
-	//LOG_ACE_INFO("call push on proxy consumer\n");
       }
       catch (CORBA::COMM_FAILURE) {
-	LOG_ACE_ERROR("Caught CORBA::COMM_FAILURE\n");
+	logPrintE("Caught CORBA::COMM_FAILURE\n");
       }
       catch (CORBA::TRANSIENT) {
-	LOG_ACE_ERROR("Caught CORBA::TRANSIENT\n");
+	logPrintE("Caught CORBA::TRANSIENT\n");
       }
       updateObservers( event );
-      //delete corba_event;
     }
     
     friend class CORBAModule;

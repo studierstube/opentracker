@@ -80,19 +80,19 @@ void CORBAModule::destroyORB()
     orb->destroy();
   }
   catch(CORBA::SystemException&) {
-    LOG_ACE_ERROR("Caught CORBA::SystemException when trying to destroy ORB.\n");
+    logPrintE("Caught CORBA::SystemException when trying to destroy ORB.\n");
   }
   catch(CORBA::Exception&) {
-    LOG_ACE_ERROR("Caught CORBA::Exception when trying to destroy ORB");
+    logPrintE("Caught CORBA::Exception when trying to destroy ORB");
   }
   catch(omniORB::fatalException& fe) {
-    LOG_ACE_ERROR("Caught omniORB::fatalException when trying to destroy ORB:");
-    LOG_ACE_ERROR("  file: %s", fe.file());
-    LOG_ACE_ERROR("  line: %s", fe.line());
-    LOG_ACE_ERROR("  mesg: %s", fe.errmsg());
+    logPrintE("Caught omniORB::fatalException when trying to destroy ORB:");
+    logPrintE("  file: %s", fe.file());
+    logPrintE("  line: %s", fe.line());
+    logPrintE("  mesg: %s", fe.errmsg());
   }
   catch(...) {
-    LOG_ACE_ERROR("Caught unknown exception while trying to destroy ORB.");
+    logPrintE("Caught unknown exception while trying to destroy ORB.");
   }
 }
 
@@ -125,19 +125,19 @@ void CORBAModule::initializeORB(int argc, char **argv)
   }
   catch(CORBA::SystemException&) {
 
-    LOG_ACE_ERROR("Caught CORBA::SystemException.");
+    logPrintE("Caught CORBA::SystemException.");
   }
   catch(CORBA::Exception&) {
-    LOG_ACE_ERROR("Caught CORBA::Exception.");
+    logPrintE("Caught CORBA::Exception.");
   } 
   catch(omniORB::fatalException& fe) {
-    LOG_ACE_ERROR("Caught omniORB::fatalException:");
-    LOG_ACE_ERROR("  file: %s", fe.file());
-    LOG_ACE_ERROR("  line: %s", fe.line());
-    LOG_ACE_ERROR("  mesg: ", fe.errmsg());
+    logPrintE("Caught omniORB::fatalException:");
+    logPrintE("  file: %s", fe.file());
+    logPrintE("  line: %s", fe.line());
+    logPrintE("  mesg: ", fe.errmsg());
   }
   catch(...) {
-    LOG_ACE_ERROR("Caught unknown exception.");
+    logPrintE("Caught unknown exception.");
   }
 }
 
@@ -244,7 +244,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
-	LOG_ACE_INFO("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       OT_CORBA::Node_var sink_ref = OT_CORBA::Node::_narrow(obj);
@@ -259,7 +259,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
-	LOG_ACE_INFO("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       OT_CORBA::TransformNode_var sink_ref = OT_CORBA::TransformNode::_narrow(obj);
@@ -297,7 +297,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
-	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       CosEventChannelAdmin::EventChannel_var channel;
@@ -305,10 +305,10 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 
       PushCons * pushcons_impl = new PushCons( );
       if (pushcons_impl == NULL) {
-	LOG_ACE_ERROR("pushcons_impl is NULL exiting...\n");
+	logPrintE("pushcons_impl is NULL exiting...\n");
 	exit(-1);
       } else {
-	LOG_ACE_ERROR("pushcons_impl is not NULL. Carrying on...\n");
+	logPrintE("pushcons_impl is not NULL. Carrying on...\n");
       }
       
       POA_OT_EventChannel::PushConsNode_tie<PushCons>* pushcons_source = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (pushcons_impl);
@@ -326,7 +326,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosEventComm::PushConsumer_var consumer_ref = 
 	CosEventComm::PushConsumer::_narrow(pushcons_ref);
       if (CORBA::is_nil(consumer_ref)) {
-	LOG_ACE_ERROR("Could not narrow down to CosEventComm::PushConsumer\n");
+	logPrintE("Could not narrow down to CosEventComm::PushConsumer\n");
 	exit(-1);
       }
       CORBAUtils::connectPushConsumer(proxy_supplier, consumer_ref);
@@ -341,7 +341,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
-	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       CosEventChannelAdmin::EventChannel_var channel;
@@ -357,7 +357,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
-	LOG_ACE_INFO("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       CosEventChannelAdmin::EventChannel_var channel;
@@ -380,7 +380,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	try {
 	  source_it->second->push();
 	} catch (CORBA::TRANSIENT) {
-	  LOG_ACE_ERROR("Caught CORBA::TRANSIENT");
+	  logPrintE("Caught CORBA::TRANSIENT");
 	}
       }
 #ifdef USE_OMNIEVENTS
@@ -412,12 +412,12 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 #ifdef USE_OMNIEVENTS
   void PushCons::disconnect_push_consumer () 
   {
-    LOG_ACE_INFO("Push Consumer: disconnected.\n");
+    logPrintI("Push Consumer: disconnected.\n");
   }
 
   void PushCons::push(const CORBA::Any& data) 
   {
-    //LOG_ACE_INFO("data received\n");
+    //logPrintI("data received\n");
     const OT_CORBA::Event* new_event;
     if (data >>= new_event) {
       lock();

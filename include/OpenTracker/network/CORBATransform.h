@@ -104,7 +104,7 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
-      LOG_ACE_INFO("CORBATransform::onEventGenerated\n");
+      logPrintI("CORBATransform::onEventGenerated\n");
       cycle++;
       //if ((cycle % frequency) == 0) {
 	OT_CORBA::Event corba_event;
@@ -112,10 +112,8 @@ public:
 	Event new_event;
 	CORBAUtils::convertToCORBAEvent(event, corba_event);
 	try {
-	  LOG_ACE_INFO("about to transformEvent\n");
 	  new_corba_event = corba_transform->transformEvent(corba_event);
 	  CORBAUtils::convertFromCORBAEvent(new_event, new_corba_event);
-	  LOG_ACE_INFO("about to updateObservers\n");
 	  updateObservers( new_event );
 	}
 	catch (CORBA::COMM_FAILURE) {

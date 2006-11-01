@@ -95,7 +95,7 @@ protected:
         cycle ( 0 )
     {}
     virtual ~CORBASink() {
-      LOG_ACE_ERROR("CORBASink destructor");
+      // CORBASink destructor
     }
 
 public:

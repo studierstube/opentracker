@@ -64,17 +64,17 @@ namespace ot {
   // destructor cleans up any allocated memory
   PhantomMiddlewareModule::~PhantomMiddlewareModule()
   {
-    LOG_ACE_INFO("PhantomMiddlewareModule destructor\n");
+    logPrintI("PhantomMiddlewareModule destructor\n");
   }
 
   void PhantomMiddlewareModule::init(StringTable& attributes, ConfigNode * localTree)
   {    
-    LOG_ACE_INFO("PhantomMiddlewareModule::init\n");
+    logPrintI("PhantomMiddlewareModule::init\n");
   } // init
 
   Node * PhantomMiddlewareModule::createNode( const std::string & name, StringTable & attributes )
   {
-    LOG_ACE_INFO("PhantomMiddlewareModule::createNode\n");
+    logPrintI("PhantomMiddlewareModule::createNode\n");
     if( name.compare("PhantomMiddlewareSink") == 0 ) 
       {
 	int frequency;
@@ -93,10 +93,10 @@ namespace ot {
 	std::string source = attributes.get("source");//.c_str();
 	PhantomMiddlewareSink* sink;
 	if (source == "") {
-	  LOG_ACE_INFO("new PhantomMiddlewareSink( %s, %d, %d, %d )", group, frequency, pid, (int) eid );
+	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d )", group, frequency, pid, (int) eid );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid );
 	} else {
-	  LOG_ACE_INFO("new PhantomMiddlewareSink( %s, %d, %d, %d, %s )", group, frequency, pid, (int) eid, source );
+	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d, %s )", group, frequency, pid, (int) eid, source );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid, source );
 	}
 	num = sscanf(attributes.get("eid").c_str(), " %h", &eid );
@@ -125,7 +125,7 @@ namespace ot {
 	} else {
 	  g->second->insert(PidSourcePair(pid, source));
 	}
-	LOG_ACE_INFO("Returning PhantomMiddlewareSource*\n");
+	logPrintI("Returning PhantomMiddlewareSource*\n");
 	return source;
       } 
     return NULL;
@@ -188,7 +188,7 @@ namespace ot {
   
   void PhantomMiddlewareModule::close()
   {
-    LOG_ACE_INFO("PhantomMiddlewareModule::close()\n");
+    logPrintI("PhantomMiddlewareModule::close()\n");
   }
 
   void PhantomMiddlewareModule::clear()

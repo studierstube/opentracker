@@ -101,7 +101,6 @@ protected:
     virtual ~SharedEngineNode() {
       CORBAUtils::disconnectPushSupplier(proxy_consumer);
       delete supplier;
-      LOG_ACE_INFO("SharedEngineNode destructor");
     }
 
 public:
@@ -146,10 +145,10 @@ public:
 	proxy_consumer->push(any);
       }
       catch (CORBA::COMM_FAILURE) {
-	LOG_ACE_ERROR("Caught CORBA::COMM_FAILURE\n");
+	logPrintE("Caught CORBA::COMM_FAILURE\n");
       }
       catch (CORBA::TRANSIENT) {
-	LOG_ACE_ERROR("Caught CORBA::TRANSIENT\n");
+	logPrintE("Caught CORBA::TRANSIENT\n");
       }
       updateObservers( event );
       //delete corba_event;

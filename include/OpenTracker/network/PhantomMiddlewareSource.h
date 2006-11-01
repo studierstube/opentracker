@@ -114,7 +114,7 @@ protected:
     virtual ~PhantomMiddlewareSource() {
       //delete msr;
       delete mu;
-      LOG_ACE_ERROR("PhantomMiddlewareSource destructor\n");
+      logPrintE("PhantomMiddlewareSource destructor\n");
     }
 private:
     ACE_Thread_Mutex* mu;

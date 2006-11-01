@@ -48,7 +48,7 @@ opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for OmniEvents', 0))
 opts.Add(BoolOption('ENABLE_OMNIORBPY', 'Set to build python stubs and skeletons', 0))
 opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middleware ', 0))
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
-opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Qt support', 0))
+opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_INTERPOLATION', 'Set to enable interpolation support', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 

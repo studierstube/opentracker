@@ -119,7 +119,7 @@ protected:
 
     virtual ~PhantomMiddlewareSink() {
       delete mss;
-      LOG_ACE_ERROR("PhantomMiddlewareSink destructor\n");
+      logPrintE("PhantomMiddlewareSink destructor\n");
     }
 
 public:
