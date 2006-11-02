@@ -13,6 +13,9 @@
 
 package org.studierstube.opentracker.tests;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import gnu.getopt.Getopt;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -177,19 +180,18 @@ abstract public class OTPushCons extends PushConsumerPOA
 	
 	public void mainLoop(String args[])
 	{
-		//
-		// Start orb.
-		ORB orb =ORB.init(args, null);
 		// Must strip out ORB arguments manually in Java,
 		// since ORB.init() doesn't do it for us.
-		args=stripOrbArgs(args);
+		String orb_args[]   = filterOrbArgs(args);
+		String other_args[] = stripOrbArgs(args);
 
 		// Process Options
 		int discnum =0;
 		int sleepInterval =0;
 		String channelName ="EventChannel";
-
-		Getopt g =new Getopt("eventc",args,"hd:s:n:");
+		String hostName    ="localhost";
+		
+		Getopt g =new Getopt("eventc", other_args,"ud:s:n:h:");
 		int c;
 		while ((c = g.getopt()) != -1)
 		{
@@ -206,12 +208,25 @@ abstract public class OTPushCons extends PushConsumerPOA
 			case 'n': channelName=g.getOptarg();
 			break;
 
-			case 'h':
+			case 'h': hostName=g.getOptarg();
+			break;
+
+			case 'u':
 			default : usage();
 			System.exit(-1);
 			break;
 			}
 		}
+		// If -ORBInitRef not present then make a best guess based on hostName
+		ArrayList<String> orb_args_list = new ArrayList<String>(java.util.Arrays.asList(orb_args));
+		if (!orb_args_list.contains("-ORBInitRef")) {
+			orb_args_list.add("-ORBInitRef");
+			orb_args_list.add("NameService=corbaloc::" + hostName + ":2809/NameService");
+		}
+		//
+		// Start orb.
+		orb_args = orb_args_list.toArray(new String[0]);
+		ORB orb =ORB.init(orb_args, null);
 
 		EventChannel channel =null;
 
@@ -231,8 +246,8 @@ abstract public class OTPushCons extends PushConsumerPOA
 			action="activate the RootPOA's POAManager";
 			POAManager pman =rootPoa.the_POAManager();
 			pman.activate();
-
-			channel = getEventChannel(g, args, orb, channelName);
+			
+			channel = getEventChannel(g, other_args, orb, channelName);
 
 		}
 		catch(org.omg.CORBA.ORBPackage.InvalidName ex) { // resolve_initial_references
@@ -295,6 +310,7 @@ abstract public class OTPushCons extends PushConsumerPOA
 			if(g.getOptind()<args.length)
 			{
 				action="convert URI from command line into object reference";
+				System.out.println(action);
 				obj=orb.string_to_object(args[g.getOptind()]);
 			}
 			else
@@ -375,17 +391,26 @@ abstract public class OTPushCons extends PushConsumerPOA
 
 	static String[] stripOrbArgs(String[] args)
 	{
-		int len =0;
+		java.util.ArrayList<String> orb_arg_list = new ArrayList<String>();
+		for(int i=0; i<args.length; ++i)
+		{
+			if(!args[i].startsWith("-ORB"))
+				orb_arg_list.add(args[i]);
+		}
+		String orb_args[] = orb_arg_list.toArray(new String[0]);
+		return orb_args;
+	}
+
+	static String[] filterOrbArgs(String[] args)
+	{
+		java.util.ArrayList<String> filtered_arg_list = new ArrayList<String>();
 		for(int i=0; i<args.length; ++i)
 		{
 			if(args[i].startsWith("-ORB"))
-				++i; // Skip this arg AND the next one.
-			else
-				args[len++]=args[i]; // keep this arg.
+				filtered_arg_list.add(args[i]);
 		}
-		String[] result =new String[len];
-		System.arraycopy(args,0,result,0,len);
-		return result;
+		String filtered_args[] = filtered_arg_list.toArray(new String[0]);
+		return filtered_args;
 	}
 
 
@@ -403,6 +428,7 @@ abstract public class OTPushCons extends PushConsumerPOA
 				+" -d NUM   disconnect after receiving NUM events   [0 - never disconnect]\n"
 				+" -s SECS  sleep SECS seconds after disconnecting  [0]\n"
 				+" -n NAME  channel name (if URI is not specified)  [\"EventChannel\"]\n"
-				+" -h       display this help text\n");
+				+" -h NAME  host name (if ORBInitRef not specified)  [\"localhost\"]\n"				
+				+" -u       display this help text\n");
 	}
 } // end class PushCons
