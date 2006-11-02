@@ -23,6 +23,8 @@ import org.omg.CosEventComm.*;
 import org.omg.CosEventChannelAdmin.*;
 import net.sourceforge.omniorb.EventChannelAdmin.*;
 
+import org.studierstube.opentracker.OT_CORBA.*;
+
 public class PushCons extends PushConsumerPOA
 {
   //
@@ -40,9 +42,13 @@ public class PushCons extends PushConsumerPOA
   public void push (Any data)
   {
     _count++;
-    int l=data.extract_ulong();
-    System.out.println("Push Consumer: push() called. Data : "+l);
-
+    //int l=data.extract_ulong();
+    Event event = EventHelper.extract(data);
+    System.out.println("Push Consumer: push() called #" + _count);
+    System.out.println("Position = [" + event.pos[0] + ", " + event.pos[1] + ", " + event.pos[2] + "]");
+    System.out.println("Orientation = [" + event.ori[0] + ", " + event.ori[1] + 
+    					", " + event.ori[2] +  event.ori[3] + "]\n");
+    
     // Exercise Disconnect
     if(_count==_disconnect)
     {
@@ -104,9 +110,8 @@ public class PushCons extends PushConsumerPOA
     int discnum =0;
     int sleepInterval =0;
     String channelName ="EventChannel";
-    String channelKind ="EventChannel";
 
-    Getopt g =new Getopt("eventc",args,"hd:s:n:k:");
+    Getopt g =new Getopt("eventc",args,"hd:s:n:");
     int c;
     while ((c = g.getopt()) != -1)
     {
@@ -121,9 +126,6 @@ public class PushCons extends PushConsumerPOA
                     break;
 
           case 'n': channelName=g.getOptarg();
-                    break;
-
-          case 'k': channelKind=g.getOptarg();
                     break;
 
           case 'h':
@@ -169,12 +171,12 @@ public class PushCons extends PushConsumerPOA
 	    System.err.println("Error occurred whilst trying to contact the NameService. Is it running?");
 	    System.exit(1);
 	} 
-        NamingContext rootContext=NamingContextHelper.narrow(obj);
+		NamingContextExtOperations rootContext=NamingContextExtHelper.narrow(obj);			
         if(rootContext==null)
             throw new OBJECT_NOT_EXIST();
 
-        NameComponent name[] ={ new NameComponent(channelName,channelKind) };
-
+        NameComponent name[] = rootContext.to_name(channelName);
+        
         action="find EventChannel in NameService";
         System.out.println(action);
         obj=rootContext.resolve(name);
@@ -377,7 +379,6 @@ public class PushCons extends PushConsumerPOA
  +" -d NUM   disconnect after receiving NUM events   [0 - never disconnect]\n"
  +" -s SECS  sleep SECS seconds after disconnecting  [0]\n"
  +" -n NAME  channel name (if URI is not specified)  [\"EventChannel\"]\n"
- +" -k KIND  channel kind (if URI is not specified)  [\"EventChannel\"]\n"
  +" -h       display this help text\n");
   }
 } // end class PushCons
