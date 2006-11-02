@@ -316,13 +316,14 @@ abstract public class OTPushCons extends PushConsumerPOA
 			else
 			{
 				action="resolve initial reference 'NameService'";
+				NamingContextExtOperations rootContext = null;
 				try {
 					obj=orb.resolve_initial_references("NameService");
+					rootContext=NamingContextExtHelper.narrow(obj);									
 				} catch (org.omg.CORBA.COMM_FAILURE ex) {
 					System.err.println("Error occurred whilst trying to contact the NameService. Is it running?");
 					System.exit(1);
 				} 
-				NamingContextExtOperations rootContext=NamingContextExtHelper.narrow(obj);			
 				if(rootContext==null)
 					throw new OBJECT_NOT_EXIST();
 
