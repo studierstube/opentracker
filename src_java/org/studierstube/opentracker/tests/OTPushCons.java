@@ -18,7 +18,13 @@ import java.util.Iterator;
 
 import gnu.getopt.Getopt;
 import org.omg.CORBA.*;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.PortableInterceptor.ObjectIdHelper;
 import org.omg.PortableServer.*;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CosLifeCycle.*;
@@ -29,6 +35,9 @@ import net.sourceforge.omniorb.EventChannelAdmin.*;
 
 import org.studierstube.opentracker.OT_CORBA.*;
 
+import com.sun.corba.se.impl.orbutil.ORBUtility;
+import com.sun.corba.se.spi.activation.ORBidHelper;
+
 abstract public class OTPushCons extends PushConsumerPOA
 {
 	//
@@ -36,10 +45,78 @@ abstract public class OTPushCons extends PushConsumerPOA
 	protected int _disconnect =0;
 	protected int _count =0;
 	protected boolean _disconnectFlag =false;
+	protected ConsumerAdmin consumer_admin;
+	protected EventChannel channel =null;
+	
+	static protected ORB orb;
+	static protected POA rootPoa;
+	static protected POAManager pman;
 
-	public OTPushCons(int disconnect)
+	public OTPushCons(String[] args)
 	{
-		_disconnect=disconnect;
+		// Must strip out ORB arguments manually in Java,
+		// since ORB.init() doesn't do it for us.
+		String other_args[] = stripOrbArgs(args);
+
+		// Process Options
+		int discnum =0;
+		int sleepInterval =0;
+		String channelName ="EventChannel";
+		
+		Getopt g =new Getopt("eventc", other_args,"ud:s:n:");
+		int c;
+		while ((c = g.getopt()) != -1)
+		{
+			switch (c)
+			{
+			case 'd': Integer discnumObj =new Integer(g.getOptarg());
+			discnum=discnumObj.intValue();
+			break;
+
+			case 's': Integer sleepIntervalObj =new Integer(g.getOptarg());
+			sleepInterval=sleepIntervalObj.intValue();
+			break;
+
+			case 'n': channelName=g.getOptarg();
+			break;
+
+			case 'u':
+			default : usage();
+			System.exit(-1);
+			break;
+			}
+		}
+		//orb =ORB.init(orb_args, null);
+		orb = getORB(args);
+
+		String action=""; // Use this variable to help report errors.
+		try {
+			this.activate();
+			activateManager();
+			channel = getEventChannel(channelName);
+
+		}
+		catch(org.omg.CORBA.ORBPackage.InvalidName ex) { // resolve_initial_references
+			System.err.println("Failed to "+action+". ORB::InvalidName");
+			System.exit(1);
+		}
+		catch(TRANSIENT ex) { // _narrow()
+			System.err.println("Failed to "+action+". TRANSIENT");
+			System.exit(1);
+		}
+		catch(OBJECT_NOT_EXIST ex) { // _narrow()
+			System.err.println("Failed to "+action+". OBJECT_NOT_EXIST");
+			System.exit(1);
+		}
+		catch (SystemException ex) {
+			System.err.println("System exception, unable to "+action);
+			System.exit(1);
+		}
+		catch (UserException ex) {
+			System.err.println("CORBA exception, unable to "+action);
+			System.exit(1);
+		}
+		consumer_admin = getConsumerAdmin(channel);
 	}
 
 	/** Used to pass a signal from the CORBA message processing thread
@@ -65,13 +142,11 @@ abstract public class OTPushCons extends PushConsumerPOA
 	}
 
 	/** The one and only PushCons object */
-	static protected OTPushCons consumer =null;
+	//static protected OTPushCons consumer =null;
 
-	static ConsumerAdmin consumer_admin =null;
+	//static ConsumerAdmin consumer_admin =null;
 	
-	static public OTPushCons getPushCons() {
-		return consumer;
-	}
+
 
 	static public ConsumerAdmin getConsumerAdmin(EventChannel channel) {
 		//
@@ -149,7 +224,7 @@ abstract public class OTPushCons extends PushConsumerPOA
 		System.out.println("Disconnected Push Consumer.");
 	}
 
-	public static ProxyPushSupplier getProxyPushSupplier(ConsumerAdmin consumer_admin2) {
+	public static ProxyPushSupplier getProxyPushSupplier(ConsumerAdmin consumer_admin) {
 		ProxyPushSupplier proxy_supplier;
 		//
 		// Get proxy supplier - retrying on Comms Failure.
@@ -176,44 +251,62 @@ abstract public class OTPushCons extends PushConsumerPOA
 
 	}
 	
+	static public POA getPOA() throws InvalidName {
+		if( rootPoa == null ) {
+			org.omg.CORBA.Object obj = getORB().resolve_initial_references("RootPOA");
+			rootPoa =POAHelper.narrow(obj);
+			if(rootPoa==null)
+				throw new OBJECT_NOT_EXIST();
+		} 
+		return rootPoa;
+	}
 	
+	static public POAManager getPOAManager() {
+		if (pman == null) {
+			// do nothing
+			pman = rootPoa.the_POAManager();
+			return pman;
+		}
+		return pman;
+	}
 	
-	public void mainLoop(String args[])
-	{
-		// Must strip out ORB arguments manually in Java,
+	static public void activateManager() throws AdapterInactive {
+		getPOAManager().activate();
+	}
+	
+	static public ORB getORB() {
+		if (orb == null) {
+			String args[] = {};
+			return initializeORB(args);
+		}
+		return orb;
+	}
+	
+	static public ORB getORB(String args[]) {
+		if (orb == null) {
+			return initializeORB(args);
+		} else {
+			return orb;
+		}
+	}
+	
+	static public ORB initializeORB(String args[]) {
+        // Must strip out ORB arguments manually in Java,
 		// since ORB.init() doesn't do it for us.
 		String orb_args[]   = filterOrbArgs(args);
 		String other_args[] = stripOrbArgs(args);
 
 		// Process Options
-		int discnum =0;
-		int sleepInterval =0;
 		String channelName ="EventChannel";
 		String hostName    ="localhost";
 		
-		Getopt g =new Getopt("eventc", other_args,"ud:s:n:h:");
+		Getopt g =new Getopt("eventc", other_args,"h:");
 		int c;
 		while ((c = g.getopt()) != -1)
 		{
 			switch (c)
 			{
-			case 'd': Integer discnumObj =new Integer(g.getOptarg());
-			discnum=discnumObj.intValue();
-			break;
-
-			case 's': Integer sleepIntervalObj =new Integer(g.getOptarg());
-			sleepInterval=sleepIntervalObj.intValue();
-			break;
-
-			case 'n': channelName=g.getOptarg();
-			break;
-
 			case 'h': hostName=g.getOptarg();
-			break;
-
-			case 'u':
-			default : usage();
-			System.exit(-1);
 			break;
 			}
 		}
@@ -226,58 +319,26 @@ abstract public class OTPushCons extends PushConsumerPOA
 		//
 		// Start orb.
 		orb_args = orb_args_list.toArray(new String[0]);
-		ORB orb =ORB.init(orb_args, null);
+		return ORB.init(orb_args, null);
+	}
+	
+	public void activate() throws ServantAlreadyActive, WrongPolicy, InvalidName {
+		getPOA().activate_object(this);
+	}
+	
+	public void mainLoop() {
+		mainLoop(0);
+	}
+	
+	public void mainLoop(int sleepInterval)
+	{
 
-		EventChannel channel =null;
-
-		String action=""; // Use this variable to help report errors.
-		try {
-
-			action="resolve initial reference 'RootPOA'";
-			org.omg.CORBA.Object obj =orb.resolve_initial_references("RootPOA");
-			POA rootPoa =POAHelper.narrow(obj);
-			if(rootPoa==null)
-				throw new OBJECT_NOT_EXIST();
-
-			action="activate the PushConsumer";
-			//consumer = getPushCons(discnum);
-			rootPoa.activate_object(consumer);
-
-			action="activate the RootPOA's POAManager";
-			POAManager pman =rootPoa.the_POAManager();
-			pman.activate();
-			
-			channel = getEventChannel(g, other_args, orb, channelName);
-
-		}
-		catch(org.omg.CORBA.ORBPackage.InvalidName ex) { // resolve_initial_references
-			System.err.println("Failed to "+action+". ORB::InvalidName");
-			System.exit(1);
-		}
-		catch(TRANSIENT ex) { // _narrow()
-			System.err.println("Failed to "+action+". TRANSIENT");
-			System.exit(1);
-		}
-		catch(OBJECT_NOT_EXIST ex) { // _narrow()
-			System.err.println("Failed to "+action+". OBJECT_NOT_EXIST");
-			System.exit(1);
-		}
-		catch (SystemException ex) {
-			System.err.println("System exception, unable to "+action);
-			System.exit(1);
-		}
-		catch (UserException ex) {
-			System.err.println("CORBA exception, unable to "+action);
-			System.exit(1);
-		}
-
-		consumer_admin = getConsumerAdmin(channel);
 
 		while(true)
 		{
 			// Connect and listen for events.
 			//getPushCons().connect();
-			connect();
+			connect(consumer_admin);
 			// Disconnected... reconnect!
 
 			// Yawn.
@@ -299,7 +360,7 @@ abstract public class OTPushCons extends PushConsumerPOA
 	
 	//abstract OTPushCons getPushCons();
 
-	public static EventChannel getEventChannel(Getopt g, String args[], ORB orb, String channelName) {
+	public static EventChannel getEventChannel(String channelName) {
 		//
 		// Obtain object reference to EventChannel
 		// (from command-line argument or from the Naming Service).
@@ -307,21 +368,13 @@ abstract public class OTPushCons extends PushConsumerPOA
 		EventChannel _channel;
 		org.omg.CORBA.Object obj = null;
 		try {
-			if(g.getOptind()<args.length)
-			{
-				action="convert URI from command line into object reference";
-				System.out.println(action);
-				obj=orb.string_to_object(args[g.getOptind()]);
-			}
-			else
-			{
 				action="resolve initial reference 'NameService'";
 				NamingContextExtOperations rootContext = null;
 				try {
-					obj=orb.resolve_initial_references("NameService");
+					obj=getORB().resolve_initial_references("NameService");
 					rootContext=NamingContextExtHelper.narrow(obj);									
 				} catch (org.omg.CORBA.COMM_FAILURE ex) {
-					System.err.println("Error occurred whilst trying to contact the NameService. Is it running?");
+					System.err.println("Error occured whilst trying to contact the NameService. Is it running?");
 					System.exit(1);
 				} 
 				if(rootContext==null)
@@ -332,7 +385,6 @@ abstract public class OTPushCons extends PushConsumerPOA
 				action="find EventChannel in NameService";
 				System.out.println(action);
 				obj=rootContext.resolve(name);
-			}
 
 			action="narrow object reference to event channel";
 			_channel=EventChannelHelper.narrow(obj);
@@ -374,16 +426,30 @@ abstract public class OTPushCons extends PushConsumerPOA
 		return null;
 	}
 
+	static private void connect(ConsumerAdmin consumer_admin, ProxyPushSupplier proxy_supplier, OTPushCons consumer) {
+		connectPushConsumer(proxy_supplier, consumer);
+	}
+	
+	public void connect() {
+		ProxyPushSupplier proxy_supplier = getProxyPushSupplier(consumer_admin);
+		connect(consumer_admin, proxy_supplier, this);
+	}
+	
+	public void disconnect() {
+		ProxyPushSupplier proxy_supplier = getProxyPushSupplier(consumer_admin);
+		disconnectPushConsumer(proxy_supplier);
+	}
+	
 	/** The Java synchronization methods we use must be called from within the
 	 *  object to be synchronized. Therefore we must do the work from an
 	 * instance method, rather than from main().
 	 */
-	private void connect()
+	private void connect(ConsumerAdmin consumer_admin)
 	{
 		ProxyPushSupplier proxy_supplier = getProxyPushSupplier(consumer_admin);
 		setDisconnectFlag(false);
 
-		connectPushConsumer(proxy_supplier, consumer);
+		connectPushConsumer(proxy_supplier, this);
 		// Wait for indication to disconnect before re-connecting.
 		waitDisconnect();
 
