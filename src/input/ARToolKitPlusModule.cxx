@@ -113,7 +113,7 @@ class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
     // implement ARToolKitPlus::Logger
     void artLog(const char* nStr)
     {
-        ot::logPrintI("%s\n", nStr);
+        ot::logPrintI("%s", nStr);
     }
 
     void artLogEx(const char* nStr, ...)
