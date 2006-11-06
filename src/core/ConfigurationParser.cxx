@@ -225,7 +225,7 @@ namespace ot {
                 RefNode * ref = new RefNode( (*find).second );
                 ref->type = tagName;
                 ref->setParent( element );
-                logPrintI("Build Reference node -> %s\n", map->get("USE").c_str());
+                logPrintI("Built Reference node -> %s\n", map->get("USE").c_str());
                 return ref;
             } else
             {
@@ -283,7 +283,7 @@ namespace ot {
                 RefNode * ref = new RefNode( (*find).second );
                 ref->type = tagName;
                 ref->setParent( element );
-                logPrintI("Build Reference node -> %s\n", map->get("USE").c_str());
+                logPrintI("Built Reference node -> %s\n", map->get("USE").c_str());
                 return ref;
             } else
             {

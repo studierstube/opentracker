@@ -113,7 +113,7 @@ class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
     // implement ARToolKitPlus::Logger
     void artLog(const char* nStr)
     {
-        ot::logPrintI("%s", nStr);
+        ot::logPrintI("%s\n", nStr);
     }
 
     void artLogEx(const char* nStr, ...)
@@ -319,8 +319,8 @@ namespace ot {
             sources.push_back( source );
             sourcesMap.insert(std::make_pair(id, source));
 
-            //cout << "Build ARToolKitSource " << filename << " id " << id << endl;
-            logPrintI("Build ARToolKitSource %s id %d\n", filename.c_str(), id);
+            //cout << "Built ARToolKitSource " << filename << " id " << id << endl;
+            logPrintI("Built ARToolKitSource %s id %d\n", filename.c_str(), id);
             return source;
         }
 
@@ -520,7 +520,7 @@ namespace ot {
                 }
             }
 
-	logPrintI("ARToolkitModule loads camera file %s", cameradata.c_str());
+	logPrintI("ARToolkitModule loads camera file %s\n", cameradata.c_str());
 
 
 	// setting for template pattern folder

@@ -177,7 +177,7 @@ namespace ot {
             }
             ARToolKitSource * source = new ARToolKitSource( id, center, size );
             sources.push_back( source );
-            logPrintI("Build ARToolKitSource %s id %d\n", filename.c_str(), id);
+            logPrintI("Built ARToolKitSource %s id %d\n", filename.c_str(), id);
             return source;
         }
         return NULL;

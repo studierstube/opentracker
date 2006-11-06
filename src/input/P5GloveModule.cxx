@@ -118,7 +118,7 @@ namespace ot {
             P5GloveSource *source = new P5GloveSource(finger);
             source->event.getConfidence() = 1.0f;
             nodes.push_back( source );
-            printf("Build P5GloveSource node for finger %d \n",finger);
+            printf("Built P5GloveSource node for finger %d \n",finger);
             initialized = 1;
             return source;
         }

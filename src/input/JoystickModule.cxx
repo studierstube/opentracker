@@ -90,7 +90,7 @@ namespace ot {
             JoystickSource * source = new JoystickSource(joy_id);
             nodes.push_back( source );
 
-            logPrintS("Build JoystickSource node for ID %d\n", joy_id );
+            logPrintS("Built JoystickSource node for ID %d\n", joy_id );
             initialized = 1;
             return source;
         }

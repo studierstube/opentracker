@@ -625,12 +625,12 @@ namespace ot {
         // the node ports are just looked up in a simple list
         else if( std::find( nodePorts.begin(), nodePorts.end(), name ) != nodePorts.end())
         {
-            logPrintI("Build NodePort %s.\n", name.c_str());
+            logPrintI("Built NodePort %s.\n", name.c_str());
             return new NodePort();
         }
         if( result != NULL )
         {
-            logPrintI("Build %s node.\n", name.c_str());
+            logPrintI("Built %s node.\n", name.c_str());
         }
         return result;
     }

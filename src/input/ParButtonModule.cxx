@@ -246,7 +246,7 @@ namespace ot {
 #endif
 #endif
             nodes[dev] = source;
-            logPrintI("Build ParButtonSource on %s\n", dev.c_str());
+            logPrintI("Built ParButtonSource on %s\n", dev.c_str());
             return source;
         }
         return NULL;
