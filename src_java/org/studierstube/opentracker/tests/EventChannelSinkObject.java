@@ -23,7 +23,7 @@ public class EventChannelSinkObject extends OTPushCons {
 
 	}
 
-	public void push(Any data) throws Disconnected {
+	synchronized public void push(Any data) throws Disconnected {
 		/** CORBA method implementation. */
 		//int l=data.extract_ulong();
 		Event event = EventHelper.extract(data);
@@ -32,24 +32,23 @@ public class EventChannelSinkObject extends OTPushCons {
 		z = event.pos[2];
 	}
 
-	public float X() {
+	synchronized public float X() {
 		return x;
 	}
 	
-	public float Y() {
+	synchronized public float Y() {
 		return y;
 	}
 	
-	public float Z() {
+	synchronized public float Z() {
 		return z;
 	}
 	
-	public Vector3f Pos() {
+	synchronized public Vector3f Pos() {
 		return new Vector3f(x, y, z);
 	}
 	
-	public static void main(String[] args) {
-		//EventChannelSinkObject ec = new EventChannelSinkObject(args);
+	synchronized public static void main(String[] args) {
 		EventChannelSinkObject ec = new EventChannelSinkObject(args);
 		ec.connect();
 		while (true) {
