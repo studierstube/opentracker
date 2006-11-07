@@ -50,6 +50,7 @@ opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middlewa
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_INTERPOLATION', 'Set to enable interpolation support', 0))
+opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -176,6 +177,8 @@ if env['ENABLE_JAVA']:
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
 	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
 	env.Append(IDL_INSTALL_DIRECTORY='src_java')
+	env.Append(JARCHDIR='build')
+	env.Append(SOURCEDIR='src_java')
 	stubsandskeletons  = env.IDLJ(join('idl', 'OT_CORBA.idl'),
 				     PKGPREFIX='org.studierstube.opentracker')
 	stubsandskeletons += env.IDLJ(join('idl', 'UTS.idl'),
@@ -191,20 +194,17 @@ if env['ENABLE_JAVA']:
 					      PKGPREFIX='org.omg')
 		stubsandskeletons += env.IDLJ(join('idl', 'EventChannelAdmin.idl'),
 					      PKGPREFIX='net.sourceforge.omniorb')
-	stub_classes = env.JavacBld(stubsandskeletons, SOURCEDIR='src_java', CLASSINSTALLDIR='build')
-	opentracker_stubs_jar = env.JarBld(target=join('lib', 'OpenTrackerStubs.jar'),
-					   source = stub_classes, 
-					   JARCHDIR='build')
+	stub_classes = env.JavacBld(stubsandskeletons, CLASSINSTALLDIR='build')
+	opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'),
+					   source = stub_classes)
 	if env['ENABLE_OMNIEVENTS']:
-	    push_cons_class = env.JavacBld(join('src_java', 'org', 'studierstube', 
-						'opentracker', 'tests', 'PushCons.java'),
-					   CLASSPATH=[join('lib', 'java-getopt-1.0.12.jar')],
-					   SOURCEDIR='src_java', CLASSINSTALLDIR='build')
-	    push_cons_jar = env.JarBld(target=join('lib', 'PushCons.jar'),
-				       source = push_cons_class, 
-				       JARCHDIR='build')
-	    push_cons = env.JavaShellScript(join('bin', 'PushCons'), 
-					    push_cons_class + opentracker_stubs_jar + push_cons_jar + [join('lib', 'java-getopt-1.0.12.jar')],
+	    push_cons_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTPushCons.java', 'OpenTrackerEventConsumer.java']],
+					   CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
+					   CLASSINSTALLDIR='build')
+	    push_cons_jar = env.JarBld(target=join('src_java', 'PushCons.jar'), source = push_cons_classes)
+	    push_cons = env.JavaShellScript(join('bin', 'OpenTrackerEventConsumer'), 
+					    opentracker_stubs_jar + push_cons_jar + \
+					    [join('src_java', 'java-getopt-1.0.12.jar')],
 					    PKGPREFIX='org.studierstube.opentracker.tests')
 ################################################################################
 #     set targets                                                              #
