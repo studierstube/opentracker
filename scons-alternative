@@ -11,6 +11,10 @@ def gatherHeaders(arg, dirname, fnames):
 	fnames.remove('.svn')
     except ValueError:
 	pass # do nothing
+    for file in [file for file in fnames if file.startswith('#')]:
+	fnames.remove(file)
+    for file in [file for file in fnames if file.startswith('.#')]:
+	fnames.remove(file)
     arg += [join(dirname, file) for file in fnames if file.endswith('.h') or file.endswith('.hh')]
 
 def filterHeaders(files):
@@ -58,6 +62,7 @@ opts.Add('PREFIX', 'Set installation prefix', '')
 ################################################################################
 env = Environment (ENV = os.environ, options=opts)
 env.Append(CPPPATH=['include'])
+env.Append(LIBPATH=['lib'])
 env.Append(LIBS=_libs)
 env.Append(CPPDEFINES=_defines)
 
@@ -68,10 +73,14 @@ if sys.platform == 'darwin':
     # Add default directories used by Darwin Ports
     env.Append(CPPPATH=['/opt/local/include']) 
     env.Append(LIBPATH=['/opt/local/lib'])
+    if env['ENABLE_CORBA']:
+	env.Append(CPPDEFINES=["__x86__", "__darwin__", "__OSVERSION__=1"])
 elif sys.platform.startswith('linux'):
     print "Linux specific configuration"
     input_files += [join('src', 'input', 'ParButtonModule.cxx'),
 		    join('src', 'input', 'LinmouseModule.cxx')]
+    if env['ENABLE_CORBA']:
+	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
 elif sys.platform == 'win32':
     pass
 
@@ -146,6 +155,22 @@ if env['ENABLE_SHARED']:
     env['LIBS'].remove('COS4')
     if sys.platform == 'darwin':
 	env.Append(LIBS='coin')
+# Enable or disable support for fine-grained dynamic reconfiguration
+if env['ENABLE_LIVE']:
+    if not env['ENABLE_CORBA']:
+	print "Cannot have support for fine-grained dynamic reconfigurationwithout also enabling CORBA support. Exiting..."
+	sys.exit(-1)
+    print "Fine-grained dynamic reconfiguration support enabled"
+    env.Append(CPPDEFINES='USE_LIVE');
+    stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OTGraph.idl'),
+				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
+    # Generate python stubs and skeletons if appropriate
+    if env['ENABLE_OMNIORBPY']:
+	python_files += env.OMNIIDLPY(join('idl', 'OTGraph.idl'),
+					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
+    extra_files += filterCppSources(stubsandskeletons)
+    for header in filterHeaders(stubsandskeletons):
+	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
 # Enable or disable support for Phantom Middleware
 if env['ENABLE_PHANTOM_MIDDLEWARE']:
     env.Append(CPPDEFINES='USE_PHANTOMMIDDLEWARE')
@@ -176,8 +201,7 @@ if env['ENABLE_JAVA']:
 	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
 	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
-	env.Append(IDL_INSTALL_DIRECTORY='src_java')
-	env.Append(JARCHDIR='build')
+	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
 	env.Append(SOURCEDIR='src_java')
 	stubsandskeletons  = env.IDLJ(join('idl', 'OT_CORBA.idl'),
 				     PKGPREFIX='org.studierstube.opentracker')
@@ -196,9 +220,12 @@ if env['ENABLE_JAVA']:
 					      PKGPREFIX='net.sourceforge.omniorb')
 	stub_classes = env.JavacBld(stubsandskeletons, CLASSINSTALLDIR='build')
 	opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'),
-					   source = stub_classes)
+					   source = stub_classes, JARCHDIR='build')
+	print [str(file) for file in stubsandskeletons]
+	opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'),
+					       source = stubsandskeletons, JARCHDIR='src_java')
 	if env['ENABLE_OMNIEVENTS']:
-	    push_cons_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTPushCons.java', 'OpenTrackerEventConsumer.java']],
+	    push_cons_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java']],
 					   CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
 					   CLASSINSTALLDIR='build')
 	    push_cons_jar = env.JarBld(target=join('src_java', 'PushCons.jar'), source = push_cons_classes)
@@ -219,6 +246,8 @@ executables += prgenv.Program(join('bin','middleware'), join('src','standalones'
 executables += prgenv.Program(join('bin','opentracker2c'), join('src','standalones','configurable.cxx'))
 if env['ENABLE_CORBA']:
     executables += prgenv.Program(join('bin','opentracker2con'), join('src','standalones','corba_configurable.cxx'))
+if env['ENABLE_LIVE']:
+    executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
 
 ################################################################################
 # install everything into prefix, if there is such a thing                     #
