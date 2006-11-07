@@ -67,11 +67,15 @@
 #pragma comment(lib,"siapp")
 
 
-#include "..\tool\OT_ACE_Log.h"
-#include "..\core\MathUtils.h"
+#include <opentracker\tool\OT_ACE_Log.h>
+#include <opentracker\core\MathUtils.h>
 
 namespace ot {
 
+	
+	OT_MODULE_REGISTER_FUNC(SpaceDeviceModule){
+		OT_MODULE_REGISTRATION_DEFAULT(SpaceDeviceModule, "SpaceDeviceConfig");
+	}
 	HWND		SpaceDeviceModule::hWndSpaceDevice = NULL;
 	SiHdl		devHdl;		/* Handle to Spaceball Device */
 	SiOpenData	oData;		/* OS Independent data to open ball  */ 

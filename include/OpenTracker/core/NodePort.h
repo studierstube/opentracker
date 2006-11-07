@@ -89,7 +89,9 @@ namespace ot {
 	}
 
         friend class CommonNodeFactory;
-		friend class SpaceMouseModule;
+		friend class SpaceDeviceModule;
+		friend class PanTiltUnitModule;
+		friend class GoGoModule;
     };
 
 } // namespace ot

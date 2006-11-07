@@ -133,10 +133,10 @@ public:
 private:
 
 	// 
-	void processMovements();
+	void processLoop();
 
 };
-
+OT_MODULE(PanTiltUnitModule);
 } // namespace ot
 
 #else

@@ -116,7 +116,7 @@ private:
 	void processMessages();
 
 };
-
+OT_MODULE(GoGoModule);
 } // namespace ot
 
 #else

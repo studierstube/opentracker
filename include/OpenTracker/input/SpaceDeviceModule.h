@@ -130,7 +130,7 @@ private:
 	void processMessages();
 
 };
-
+OT_MODULE(SpaceDeviceModule);
 } // namespace ot
 
 #else

@@ -237,11 +237,11 @@ namespace ot {
 #endif	
 
 #ifdef USE_GOGO
-OT_REGISTER_MODULE(GoGoModule, NULL);
+		OT_REGISTER_MODULE(GoGoModule, NULL);
 #endif	
 
 #ifdef USE_PANTILTUNIT
-OT_REGISTER_MODULE(PanTiltUnitModule, NULL);
+		OT_REGISTER_MODULE(PanTiltUnitModule, NULL);
 #endif	
 
 #ifndef OT_NO_NETWORK_SUPPORT

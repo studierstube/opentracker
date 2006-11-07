@@ -44,7 +44,7 @@
 
 #include <OpenTracker/tool/disable4786.h>
 
-#include <OpenTracker/input/PanTiltUnitSource.h>
+#include <OpenTracker/input/PanTiltUnitSinkSource.h>
 #include <OpenTracker/input/PanTiltUnitModule.h>
 
 #ifdef USE_PANTILTUNIT
@@ -59,11 +59,13 @@
 #include <Windows.h>
 #include <math.h>
 
-#include "..\tool\OT_ACE_Log.h"
+#include <opentracker\tool\OT_ACE_Log.h>
 
 
 namespace ot {
-
+	OT_MODULE_REGISTER_FUNC(PanTiltUnitModule){
+		OT_MODULE_REGISTRATION_DEFAULT(PanTiltUnitModule, "PanTiltUnitConfig");
+	}
 	// Destructor method
 	PanTiltUnitModule::~PanTiltUnitModule()
 	{
