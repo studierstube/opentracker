@@ -4,6 +4,7 @@
   <configuration>
     <ConsoleConfig headerline="Sample Output" interval="1"/>
   </configuration>
+
   <ConsoleSink comment="Test Source 1">
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
@@ -11,4 +12,29 @@
 	<TestSource frequency="10000" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
+
+  <ConsoleSink comment="Test Source 1">
+    <EventTransform translation="1 1 1" scale="1 1 1"
+    rotationtype="euler" rotation="0 0 0"> 
+      
+	<TestSource frequency="10000" noise="0.1" />
+    </EventTransform>
+  </ConsoleSink>
+
+  <ConsoleSink comment="Test Source 1">
+    <EventTransform translation="1 1 1" scale="1 1 1"
+    rotationtype="euler" rotation="0 0 0"> 
+      
+	<TestSource frequency="10000" noise="0.1" />
+    </EventTransform>
+  </ConsoleSink>
+
+  <ConsoleSink comment="Test Source 1">
+    <EventTransform translation="1 1 1" scale="1 1 1"
+    rotationtype="euler" rotation="0 0 0"> 
+      
+	<TestSource frequency="10000" noise="0.1" />
+    </EventTransform>
+  </ConsoleSink>
+
 </OpenTracker>
