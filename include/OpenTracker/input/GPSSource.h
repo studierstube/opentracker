@@ -115,9 +115,50 @@ namespace ot {
             module->lock();
             buffer.timeStamp();
 
+          
+            
+            
+            
+           if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("ecef")))
+            {
             buffer.getPosition()[0] = (float)(point->xECEF);
             buffer.getPosition()[1] = (float)(point->yECEF);
             buffer.getPosition()[2] = (float)(point->zECEF);
+            } else
+	    if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("utm_33n")))
+            {
+		
+            buffer.getPosition()[0] = (float)(point->lon_utm_33n);
+            buffer.getPosition()[1] = (float)(point->lat_utm_33n);
+            buffer.getPosition()[2] = (float)(1.0f);
+
+            } else
+	    if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("gk_m34")))
+            {
+                
+            buffer.getPosition()[0] = (float)(point->lon_gk_m34);
+            buffer.getPosition()[1] = (float)(point->lat_gk_m34);
+            buffer.getPosition()[2] = (float)(1.0f);                 
+                
+
+            } else
+	    if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("bmn_34")))
+            {
+              
+            buffer.getPosition()[0] = (float)(point->lon_bmn_34);
+            buffer.getPosition()[1] = (float)(point->lat_bmn_34);
+            buffer.getPosition()[2] = (float)(1.0f);    
+                          
+
+            } 
+
+            
+            
+            
+            
+     
+            
+            
             buffer.getConfidence() = (float)(1 / point->hdop);
 
             buffer.setAttribute<double>("lat", point->lat); 

@@ -52,6 +52,11 @@ const int NMEABUFSZ = 1024;
 
 #ifndef OT_NO_GPS_SUPPORT
 
+/* False easting for transformation from GK_M34 to BMN 34 format  */
+static double TranMerc_False_Easting_BMN = 750000.0;        /* False easting in meters */
+
+
+
 
 namespace ot {
 
@@ -111,6 +116,8 @@ namespace ot {
             alt = 0,
             height = 0,
             diffdelay = 0;
+            
+
 
     
         // copy string into work buffer
@@ -272,6 +279,75 @@ namespace ot {
 
             // convert lat/lon values to ECEF
             result->convert2ECEF(new WGS84Geoid);
+            
+            		    // convert lat/lon values to GK_M34 
+			
+			double gk_east, gk_north;
+			double utm_east, utm_north;
+			double gdlat, gdlon;
+			long zone;
+			char hem;
+
+            // convert angles to radians
+            gdlat = MathUtils::GradToRad * lat;
+            gdlon = MathUtils::GradToRad * lon;
+
+			// For Gauss Krüger projetion the Datum has to be MGI for Austria, not WGS84
+			// parameters: double a, double f, double Origin_Latitude, double Central_Meridian,
+			// double False_Easting, double False_Northing, double Scale_Factor
+			long e = result->Set_Transverse_Mercator_Parameters(6378137.0,
+                                                                (1 / 298.257223563),
+																0,
+																0.285070444,
+																0,
+																-5000000,
+																1);			
+
+			// project coordinates from WGS84 datum to Gauss Krüger format
+			result->Convert_Geodetic_To_Transverse_Mercator(gdlat, gdlon, &gk_east, &gk_north);
+			result->lon_gk_m34 = gk_east;
+			result->lat_gk_m34 = gk_north;
+
+			/*
+			printf("\nlon_gk_m34 = %08.2f\n", result->lon_gk_m34);
+			printf("lat_gk_m34 = %08.2f\n\n", result->lat_gk_m34);
+			*/
+
+			// convert values values from GK_M34 to BMN34 format	
+			result->lon_bmn_34 = result->lon_gk_m34 + TranMerc_False_Easting_BMN;
+			result->lat_bmn_34 = result->lat_gk_m34;
+
+			/*
+			printf("\nlon_bmn_34 = %08.2f\n", result->lon_bmn_34);
+			printf("lat_bmn_34 = %08.2f\n\n", result->lat_bmn_34);
+			*/
+
+			/* project coordinates from WGS84 datum to UTM format */
+
+			// parameters: double a, double f, long   override
+
+			long f = result->Set_UTM_Parameters(6378137.0,
+									(1 / 298.257223563),
+									0);
+
+
+			//parameters: double Latitude, double Longitude, long   *Zone,
+			//            char   *Hemisphere, double *Easting, double *Northing
+			f = result->Convert_Geodetic_To_UTM (gdlat, gdlon, &zone, &hem, &utm_east, &utm_north);
+
+			result->lon_utm_33n = utm_east;
+			result->lat_utm_33n = utm_north;
+			result->zone_utm_33n = zone;
+			result->hem_utm_33n = hem;
+			
+			/*
+			printf("lon_utm = %08.2f\n", result->lon_utm_33n);
+			printf("lat_utm = %08.2f\n", result->lat_utm_33n);
+			printf("zone_utm = %i\n", result->zone_utm_33n);
+			printf("hem_utm = %c\n", result->hem_utm_33n);
+			getchar();
+			*/
+
 
             return result;
         }
