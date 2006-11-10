@@ -46,6 +46,10 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef USE_LIVE
+#include <OpenTracker/skeletons/OTGraph.hh>
+#endif
+
 //using namespace std;
 
 // emtpy string to be returned, if key is not in the map
@@ -62,6 +66,19 @@ namespace ot {
     // copy constructor
     StringTable::StringTable(const StringTable& table ) : map(table.map)
     {}
+
+#ifdef USE_LIVE
+    // copy constructor
+    StringTable::StringTable(const OTGraph::StringTable& st ) 
+    {
+        for (CORBA::ULong i = 0; i < st.length(); i++) { 
+            OTGraph::KeyValuePair kvp = st[i];
+            std::string key(kvp.Key);
+            std::string value(kvp.Value);
+            map[key] = value;
+        }
+    }
+#endif //USE_LIVE
 
     // clears the map
 

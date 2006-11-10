@@ -41,51 +41,26 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <ace/Thread.h>
+#include <ace/Thread_Mutex.h>
+
 #include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/core/Configurator.h>
 #include <OpenTracker/network/CORBAUtils.h>
-#include <OpenTracker/skeletons/UTS.hh>
+#include <OpenTracker/network/CORBAModule.h>
+#include <OpenTracker/skeletons/OTGraph.hh>
+
+#include <OpenTracker/core/Node.h>
+#include <OpenTracker/core/Module.h>
+#include <OpenTracker/core/Configurator.h>
+#include <OpenTracker/core/NodeFactoryContainer.h>
+#include <OpenTracker/core/LiveContext.h>
 
 #include <iostream>
 
 using namespace std;
 using namespace ot;
 
-class UbitrackClient_i : public POA_UTS::UbitrackClient,
-			 public PortableServer::RefCountServantBase
-{
-protected:
-  Configurator * config;
-
-public:
-    //  UbitrackClient_i(Context * ctx) {
-  UbitrackClient_i() {
-    // UbitrackClient_i constructor
-    //config = new Configurator(1, ctx);
-      //config = new Configurator();
-      config = Configurator::instance(); //->getContext();
-  };
-  virtual ~UbitrackClient_i() {
-    // UbitrackClient_i destructor
-    delete config;
-  };
-  virtual void updateConfiguration(const char* xmlstring) {
-    // method responsible for updating the OT configuration
-    cerr << "xmlstring = " << xmlstring << endl;
-    config->changeConfiguration(xmlstring);
-  };
-  virtual char* getConfiguration() {return NULL;};
-
-    Configurator * getConfigurator() {return config;};
-};
-
-
-
 /**
- * The main function for the standalone program. It expects a
- * filename as argument, tries to parse the configuration file
- * and starts the main loop, if successful
+ * The main function for the standalone program.
  */
 int main(int argc, char **argv)
 {
@@ -95,43 +70,43 @@ int main(int argc, char **argv)
         return 1;
     }
     try {
-      CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
+      LiveContext* context_impl = new LiveContext();
+      cerr << "got LiveContext instance" << endl;
+      ModuleMap modules = context_impl->getModules();
+      ModuleMap::iterator module_iterator  = modules.find("CORBAConfig");
+      if ( module_iterator == modules.end() ) {
+	exit(-1);
+      } 
+      CORBAModule *corba_module = (CORBAModule*) module_iterator->second;
+      if (corba_module == NULL) {
+	cerr << "cast from iterator failed. Exiting...";
+	exit(-1);
+      }
+      CORBA::ORB_var orb = corba_module->getORB();
+      if (CORBA::is_nil(orb)) {
+	cerr << "Unable to obtain orb reference. Exiting...";
+	exit(-1);
+      }
 
-      CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
-      PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
+      PortableServer::POA_var poa = corba_module->getPOA();
+      if (CORBA::is_nil(poa)) {
+	cerr << "got nil reference to POA. Exiting...." << endl;
+	exit(-1);
+      }
 
+      POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
 
-      // important parts of the system get a context
-      //Context context( 0 );
-      
-      cout << "Context established." << endl;
-      
-      //UbitrackClient_i* configurator_impl = new UbitrackClient_i(&context);
-      UbitrackClient_i* configurator_impl = new UbitrackClient_i();
-      PortableServer::ObjectId_var configurator_id = poa->activate_object(configurator_impl);
+      PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId(CORBA::string_dup("livecontext"));
+      poa->activate_object_with_id(configurator_id, context);
+      cerr << "activated configurator" << endl;
 
       // Obtain a reference to the object, and register it in
       // the naming service.
-      cout << "Obtaining reference" << endl;
-      obj = configurator_impl->_this();
-      cout << "Binding reference to name" << endl;
+      CORBA::Object_var obj = context->_this();
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[1]);
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-      cout << "Bound reference to name" << endl;
-      PortableServer::POAManager_var pman = poa->the_POAManager();
-      cout << "activating POA Manager" << endl;
-      pman->activate();
-      Context & context = Configurator::instance() ->getContext();
-      //delete configurator;      
-      //orb->run(); 
-      if (argc == 2) {
-          context.run();
-      } else if (argc == 3) {
-          int rate;
-          sscanf(argv[2], "%d", rate);
-          context.runAtRate(rate);
-      }
-      poa->deactivate_object(configurator_id);
+      //      orb->run(); 
+      context_impl->run();
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;
@@ -156,7 +131,7 @@ int main(int argc, char **argv)
  *   End of configurable.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
- *   Local Variables:
+ *   oLcal Variables:
  *   mode:c++
  *   c-basic-offset: 4
  *   eval: (c-set-offset 'substatement-open 0)

@@ -109,7 +109,7 @@ namespace ot {
 	std::string source_description = attributes.get("source");
 	PhantomMiddlewareSource* source;
 	if  (source_description == "") {
-	  std::cerr << "PhantomMiddlewareSource: " << pid << ", " << eid << ", " << source_description << std::endl;
+	  //std::cerr << "PhantomMiddlewareSource: " << pid << ", " << eid << ", " << source_description << std::endl;
 	  source = new PhantomMiddlewareSource( group.c_str(), pid, eid );
 	} else {
 	  std::cerr << "PhantomMiddlewareSource with source: " << pid << ", " << eid << ", " << source_description << std::endl;

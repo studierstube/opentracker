@@ -51,6 +51,7 @@ void Configurator::loadModule(Context & newctx, const char * module){
 
 
 void Configurator::addModuleInit(const char * name, ModuleInitFunc function, void * data){
+    cerr << "adding module " << name << " to map of initFunctions" << endl;
 	MIFunctor functor;
 	functor.function = function;
 	functor.data = data;

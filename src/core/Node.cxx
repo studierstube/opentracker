@@ -63,6 +63,10 @@
 #include <OpenTracker/core/StringTable.h>
 #include <OpenTracker/core/Context.h>
 
+#ifdef USE_LIVE
+#include <OpenTracker/skeletons/OTGraph.hh>
+#endif
+
 //using namespace std;
 
 #ifdef USE_XERCES
@@ -735,6 +739,57 @@ namespace ot {
         }
         return count;
     }
+
+#ifdef USE_LIVE
+    char* Node::get_type() {
+        return CORBA::string_dup(getType().c_str());
+    }
+
+    char* Node::get_name() {
+        return CORBA::string_dup(getName().c_str());
+    }
+
+    char* Node::get_id() {
+        return CORBA::string_dup(get("ID").c_str());
+    }
+
+    char* Node::get_attribute(const char* _key) {
+        std::string key(CORBA::string_dup(_key));
+        return CORBA::string_dup(get(key).c_str());
+    }
+
+    void Node::remove_reference(OTGraph::Node_ptr reference) {
+        // Foo
+    }
+
+    void Node::add_reference(OTGraph::Node_ptr reference) {
+        // Foo
+    }
+
+    OTGraph::Node_ptr Node::get_parent() {
+    //OTGraph::Node_ptr Node::get_parent() {
+        std::cerr << "get Parent node" << std::endl;
+        return NULL;
+    }
+
+    OTGraph::Node_ptr Node::get_child(CORBA::UShort) {
+        // empty for time being
+    }
+
+    //void Node::add_child(const OTGraph::Node_var& child) {
+    void Node::add_child(OTGraph::Node_ptr child) {
+        // empty for time being
+        std::cerr << "Adding child node" << std::endl;
+    }
+
+    void Node::remove_child(OTGraph::Node_ptr child) {
+        // empty for time being
+    }
+
+    CORBA::UShort Node::count_ports() {
+        return 0;
+    }
+#endif
 
 } // namespace ot
 

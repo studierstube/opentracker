@@ -289,15 +289,15 @@ namespace ot {
 
 
 	inline int Context::loopOnce(){
-		int stopflag=1;
-        // lock the Graph first
-        lock();
-        // push and pull parts of the main loop
-        pushEvents();
-        pullEvents();
-        stopflag = stop(); 
-        unlock();
-		return stopflag;
+            int stopflag=1;
+            // lock the Graph first
+            lock();
+            // push and pull parts of the main loop
+            pushEvents();
+            pullEvents();
+            stopflag = stop(); 
+            unlock();
+            return stopflag;
 	}
     // This method implements the main loop and runs until it is stopped somehow.
 

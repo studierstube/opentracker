@@ -276,7 +276,7 @@ namespace ot {
     } 
     
     // This method returns an object id based on the id of the last NameComponent of a Name sequence
-    PortableServer::ObjectId_var CORBAUtils::getObjectId(CORBA::ORB_ptr orb, CosNaming::NamingContextExt::StringName_var string_name) {
+    PortableServer::ObjectId_var CORBAUtils::getObjectId(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name) {
         CosNaming::NamingContextExt_var extContext = getRootContext(orb);
         CosNaming::Name_var name;
         try {
@@ -293,7 +293,7 @@ namespace ot {
     
     // This method binds an object reference to a Name specified using a string
 
-    void CORBAUtils::bindObjectReferenceToName(CORBA::ORB_ptr orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name)
+    void CORBAUtils::bindObjectReferenceToName(CORBA::ORB_var orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name)
     {
       CosNaming::NamingContextExt_var extContext = CosNaming::NamingContextExt::_duplicate(getRootContext(orb));
         if (CORBA::is_nil(extContext)) {
@@ -386,12 +386,19 @@ namespace ot {
       return previous_context;
     } 
 
-  CosNaming::NamingContextExt_var CORBAUtils::getRootContext(CORBA::ORB_ptr orb) 
+  CosNaming::NamingContextExt_var CORBAUtils::getRootContext(CORBA::ORB_var orb) 
   {
     CosNaming::NamingContextExt_var extContext;
     try {
       // Obtain a reference to the root context of the Name service:
+      std::cerr << "About to resolve initial reference to NameService" << std::endl;
+      if (CORBA::is_nil(orb)) {
+	cerr << "Reference to orb is nil. Exiting..." << endl;
+	exit(-1);
+      }
       CORBA::Object_var obj = orb->resolve_initial_references("NameService");
+      
+      std::cerr << "Got CORBA::Object reference to root Context. Now narrow" << std::endl;
       
       // Narrow the reference returned.
       extContext = CosNaming::NamingContextExt::_narrow(obj);
@@ -414,7 +421,7 @@ namespace ot {
     return extContext;
   }
 
-    CORBA::Object_ptr CORBAUtils::getObjectReference(CORBA::ORB_ptr orb, CosNaming::NamingContextExt::StringName_var string_name)
+    CORBA::Object_ptr CORBAUtils::getObjectReference(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name)
     {
         
       CosNaming::NamingContextExt_var extContext = getRootContext(orb);

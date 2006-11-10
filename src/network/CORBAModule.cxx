@@ -73,6 +73,16 @@ namespace ot {
 	}	
 
 
+ PortableServer::POAManager_var CORBAModule::pman;
+ CORBA::ORB_var CORBAModule::orb;
+ PortableServer::POA_var CORBAModule::poa;
+ PortableServer::POA_var CORBAModule::root_poa;
+ bool CORBAModule::persistent;
+ bool CORBAModule::initialised;
+
+
+
+
 void CORBAModule::destroyORB()
 {
   try {
@@ -103,28 +113,33 @@ void CORBAModule::initializeORB(int argc, char **argv)
   try {
     // initialize the ORB
     orb = CORBA::ORB_init(argc, argv);
-    initialised = true;
+    if (CORBA::is_nil(orb)) {
+      logPrintE("Orb is nil. Exiting...\n");
+    } else {
+      logPrintI("Orb successfully initialised\n");
+    }
+    CORBAModule::initialised = true;
     
     // Initialise the POA.
-    objref = orb->resolve_initial_references("RootPOA");
-    root_poa = PortableServer::POA::_narrow(objref);
+    CORBA::Object_var objref = orb->resolve_initial_references("RootPOA");
+    CORBAModule::root_poa = PortableServer::POA::_narrow(objref);
     pman = root_poa->the_POAManager();
     pman->activate();
     
-    if (persistent) {
+    if (CORBAModule::persistent) {
       // Create a new POA with the persistent lifespan policy.
       CORBA::PolicyList pl;
       pl.length(2);
-      pl[0] = root_poa->create_lifespan_policy(PortableServer::PERSISTENT);
-      pl[1] = root_poa->create_id_assignment_policy(PortableServer::USER_ID);
-      
-      poa = root_poa->create_POA("persistent poa", pman, pl);
+      pl[0] = CORBAModule::root_poa->create_lifespan_policy(PortableServer::PERSISTENT);
+      pl[1] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
+      //pl[2] = CORBAModule::root_poa->create_implicit_activation_policy (PortableServer::NO_IMPLICIT_ACTIVATION);
+      poa = CORBAModule::root_poa->create_POA("persistent poa", pman, pl);
+      //poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa      
     } else {
-      poa = PortableServer::POA::_duplicate(root_poa); // i.e. poa is the same as root_poa
-	}
+      poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa
+    }
   }
   catch(CORBA::SystemException&) {
-
     logPrintE("Caught CORBA::SystemException.");
   }
   catch(CORBA::Exception&) {
@@ -155,30 +170,29 @@ void CORBAModule::initializeORB(int argc, char **argv)
   
   void CORBAModule::init(StringTable& attributes,  ConfigNode * localTree)
   {
+    logPrintI("CORBAModule is being initialised\n");
     Module::init(  attributes, localTree );
-    //cerr << "CORBAModule::init" << endl;
     if( attributes.containsKey("endPoint")) {
-      //cerr << "persistent" << endl;
-      persistent = true;
+      cerr << "persistent" << endl;
+      CORBAModule::persistent = true;
       // Spoof the command-line arguments
       std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
-      char *av[4]; int ac = 4;
+      char *av[5]; int ac = 4;
       char arg1[] = "opentracker";
       char arg2[] = "-ORBendPoint";
-      char* arg3 = new char[endpoint.length()+1]; // note +1
-      endpoint.copy(arg3, std::string::npos);
+      char arg3[endpoint.length()+1]; // note +1
+      strcpy(arg3, endpoint.c_str());
       char arg4[] = "\0";
       char arg5 = (char) 0;
-      av[0] = arg1;
-      av[1] = arg2;
-      av[2] = arg3;
-      av[3] = arg4;
+      av[0] = &arg1[0];
+      av[1] = &arg2[0];
+      av[2] = &arg3[0];
+      av[3] = &arg4[0];
       av[4] = &arg5;
       initializeORB(ac, av);
-      delete arg3;
     } else {
-      //cerr << "non-persistent" << endl;
-      persistent = false;
+      cerr << "non-persistent" << endl;
+      CORBAModule::persistent = false;
       // Spoof the command-line arguments
       char *av[3]; int ac = 2;
       char arg1[] = "opentracker";
@@ -230,17 +244,25 @@ void CORBAModule::clear()
 // This method is called to construct a new Node.
 Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
 {
+//   logPrintI("createNode: %s\n", name.c_str());
+//   cerr << "First test whether orb is fresh" << endl;
+//   if (CORBA::is_nil(orb)) {
+//     cerr << "ORB reference is nil. Exiting...." << endl;
+//     exit(-1);
+//   }
+//   CORBA::Object_var obj = orb->resolve_initial_references("NameService");
+//   cerr << "resolve initial references NameService" << endl;
   if( name.compare("CORBASink") == 0 ) 
     {
       int frequency;
       int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-      std::cerr << "num = " << num << std::endl;
+      //      std::cerr << "num = " << num << std::endl;
       if( num <= 0 ) {
 	frequency = 1;
       } else {
 	frequency = num;
       }
-      std::cerr << "frequency = " << frequency << std::endl;
+      logPrintI("frequency = %d\n", frequency);
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
@@ -274,7 +296,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       
       POA_OT_CORBA::OTSource_tie<CORBASource>* corba_source = new POA_OT_CORBA::OTSource_tie<CORBASource>(source_impl);
       PortableServer::ObjectId_var corba_source_id;
-      if (persistent)
+      if (CORBAModule::persistent)
 	{
 	  corba_source_id = CORBAUtils::getObjectId(orb, name);
 	  poa->activate_object_with_id(corba_source_id, corba_source);
