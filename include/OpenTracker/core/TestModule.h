@@ -102,6 +102,12 @@ namespace ot {
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
+
+        /**
+         * removes Node from module AND destroys it
+         */
+        virtual void removeNode(const Node * node);
+
         /**
          * pushes events into the tracker tree. Checks all TestSources and
          * pushes new events, if a TestSource fires.

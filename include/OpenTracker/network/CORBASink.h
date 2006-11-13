@@ -119,6 +119,7 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
+      logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
       if ((cycle++ % frequency) == 0) {
 	OT_CORBA::Event corba_event;
 	CORBAUtils::convertToCORBAEvent(event, corba_event);

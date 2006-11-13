@@ -106,6 +106,9 @@ namespace ot {
 	}
 
         friend class ConfigurationParser;
+#ifdef USE_LIVE
+        friend class LiveContext;
+#endif
     };
 
 } // namespace ot

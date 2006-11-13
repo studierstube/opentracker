@@ -65,10 +65,16 @@ namespace ot {
     class RefNode;
     class Node;
     class NodePort;
+#ifdef USE_LIVE
+    class LiveContext;
+#endif
 
 } // namespace ot
 
 #include "Event.h"
+#ifdef USE_LIVE
+#include <OpenTracker/skeletons/OTGraph.hh>
+#endif
 
 namespace ot {
 
@@ -88,8 +94,12 @@ namespace ot {
      * @author Gerhard Reitmayr
      * @ingroup core
      */
-
+#ifdef USE_LIVE
+    class OPENTRACKER_API Node : public POA_OTGraph::Node,
+                                 public PortableServer::RefCountServantBase
+#else
     class OPENTRACKER_API Node
+#endif
     {
 
     protected:
@@ -293,6 +303,7 @@ namespace ot {
          * root node will return NULL, because it has no parent.
          * @return pointer to parent node
          */
+
         Node * getParent();
 
         /**
@@ -326,12 +337,28 @@ namespace ot {
          */
         error removeChild(Node & child);
 
+
         /**
          * returns the number of NodePorts present on this Node. This is the
          * number of NodePorts actually used, not the total number possible
          * by the content definition.
          * @returns unsigned number of NodePorts */
         unsigned int countPorts();
+#ifdef USE_LIVE
+        char* get_attribute(const char* _key);
+        void remove_reference(OTGraph::Node_ptr reference);
+        char* get_type();
+        void add_reference(OTGraph::Node_ptr reference);
+        char* get_name();
+        char* get_id();
+        OTGraph::Node_ptr get_parent();
+        OTGraph::Node_ptr count_children(){return NULL;};
+        OTGraph::Node_ptr get_child(CORBA::UShort index);
+        void add_child(OTGraph::Node_ptr child);
+        void remove_child(OTGraph::Node_ptr child);
+        CORBA::UShort count_ports();
+#endif
+        
 
         /**
          * returns a NodePort child object indexed by Name. If the NodePort is
@@ -508,6 +535,9 @@ namespace ot {
         friend class ConfigurationParser;
         friend class RefNode;
         friend class XMLWriter;
+#ifdef USE_LIVE
+        friend class LiveContext;
+#endif
     };
 
 } // namespace ot

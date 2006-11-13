@@ -28,7 +28,7 @@
   *
   * @author Gerhard Reitmayr
   *
-  * $Id: TestModule.h 760 2004-11-14 18:20:34Z daniel $
+  * $Id: CORBAModule.h 760 2004-11-14 18:20:34Z daniel $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -99,14 +99,14 @@ protected:
     SharedEngineNodeVector sharedengines;
 #endif
 #endif
-    bool persistent;
+    static bool persistent;
 
 // Methods
 public:
     /** constructor method. */
- CORBAModule() : Module(), NodeFactory(), initialised(false)
+ CORBAModule() : Module(), NodeFactory()
     {
-      // Constructor is currently blank
+      // Empty constructor
     };
     /** Destructor method, clears nodes member. */
     virtual ~CORBAModule();
@@ -114,7 +114,7 @@ public:
     virtual void init(StringTable& attributes,  ConfigNode * localTree);
 
     /** initializes CORBA orb */
-    void initializeORB(int argc, char **argv);
+    static void initializeORB(int argc, char **argv);
 
     /** block waiting for orb to be destroyed */
     void runORB();
@@ -122,11 +122,15 @@ public:
     /** initializes CORBA orb */
     void destroyORB();
 
-    PortableServer::POAManager_var pman;
-    PortableServer::POA_var getPOA() { return poa; };
+    static PortableServer::POAManager_var pman;
+    static PortableServer::POA_var getPOA() { return PortableServer::POA::_duplicate(CORBAModule::poa); };
+    static PortableServer::POA_var getRootPOA() { return PortableServer::POA::_duplicate(CORBAModule::root_poa); };
+    static PortableServer::POAManager_var getPOAManager() { return PortableServer::POAManager::_duplicate(pman); }
+    static CORBA::ORB_var getORB() { return CORBA::ORB::_duplicate(CORBAModule::orb); };
     
     /** Clears nodes */
     virtual void clear();
+    virtual void removeNode(const Node *);
     /** This method is called to ruct a new Node. It compares
      * name to the TestSource element name, and if it matches
      * creates a new TestSource node.
@@ -141,12 +145,13 @@ public:
      */
     virtual void pushEvent();
     
+    
 private:
-    CORBA::ORB_var orb;
-    CORBA::Object_var objref;
-    PortableServer::POA_var poa;
-    PortableServer::POA_var root_poa;
-    bool initialised;
+    static CORBA::ORB_var orb;
+    //CORBA::Object_var objref;
+    static PortableServer::POA_var poa;
+    static PortableServer::POA_var root_poa;
+    static bool initialised;
 
 };
 

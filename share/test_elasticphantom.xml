@@ -6,9 +6,7 @@
   </configuration>
   <PhantomMiddlewareSink group="225.0.0.12" eid="6" pid="94" frequency="1" DEF="Marcelo">
       <ElasticFilter force="0.4" damp="0.7">
-	<!--EventVirtualTransform rotationtype="axisangle" rotation="1.0 0.0 0.0 1.5707963267948966"-->
-	    <PhantomMiddlewareSource group="225.0.0.12" eid="6" pid="100" DEF="Miguel"/>
-	<!--/EventVirtualTransform-->
+	<PhantomMiddlewareSource group="225.0.0.12" eid="6" pid="100" DEF="Miguel"/>
       </ElasticFilter>
   </PhantomMiddlewareSink>
   <PushSupp name="EventChannel.Marcelo">

@@ -49,7 +49,12 @@ def getContext(root_context, context_name):
 
 if __name__ == '__main__':
     # Initialise the ORB
-    sys.argv.extend(["-ORBendPoint", "giop:tcp:localhost:9903"])
+    string_name = sys.argv[1]
+    if len(sys.argv) >= 2:
+	endpoint_port = sys.argv[2]
+    else:
+	endpoint = "9000"
+    sys.argv.extend(["-ORBendPoint", "giop:tcp:localhost:" + endpoint_port])
     print sys.argv
     orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 
@@ -81,7 +86,6 @@ if __name__ == '__main__':
 	print "Failed to narrow the root naming context"
 	sys.exit(1)
 
-    string_name = sys.argv[1]
     name = extContext.to_name(string_name)
     context_name = name[:-1]
     sink_name = name[-1:]

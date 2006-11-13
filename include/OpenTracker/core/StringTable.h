@@ -51,6 +51,10 @@
 #include<vector>
 #include<map>
 
+#ifdef USE_LIVE
+#include <OpenTracker/skeletons/OTGraph.hh>
+#endif
+
 typedef std::map<std::string,std::string> StringMap;
 
 /**
@@ -75,6 +79,9 @@ namespace ot {
          * @param table StringTable to copy from
          */
         StringTable( const StringTable & table );
+#ifdef USE_LIVE
+        StringTable( const OTGraph::StringTable& st ) ;
+#endif
         /** destructor */
         ~StringTable();
         /** returns a value stored in the map

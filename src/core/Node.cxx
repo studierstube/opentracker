@@ -1,3 +1,4 @@
+
 /* ========================================================================
  * Copyright (c) 2006,
  * Institute for Computer Graphics and Vision
@@ -155,6 +156,12 @@ namespace ot {
         {
             references.erase( result );
         }
+#ifdef USE_LIVE
+        // If there are no more references, then remove the DEF attribute
+        if (references.size() == 0) {
+            remove("DEF");
+        }
+#endif //USE_LIVE
     }
 
     // returns a pointer to the parent node

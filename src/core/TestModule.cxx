@@ -72,6 +72,21 @@ namespace ot {
 		OT_MODULE_REGISTRATION_DEFAULT(TestModule, "TestConfig");
 	}
 
+
+    void TestModule::removeNode(const Node * node) {
+        cerr << "TestModule deleting node " << node->get("ID") << endl;
+        NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
+        if( result != nodes.end())
+        {
+            delete *result;
+            nodes.erase( result );
+            return;
+        }
+        
+    }
+
+
+
     TestModule::~TestModule()
     {
         nodes.clear();

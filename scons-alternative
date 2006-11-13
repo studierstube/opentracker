@@ -73,6 +73,8 @@ if sys.platform == 'darwin':
     # Add default directories used by Darwin Ports
     env.Append(CPPPATH=['/opt/local/include']) 
     env.Append(LIBPATH=['/opt/local/lib'])
+    #if env['DEBUG']:
+	#env.Append(LIBS=['MallocDebug'])
     if env['ENABLE_CORBA']:
 	env.Append(CPPDEFINES=["__x86__", "__darwin__", "__OSVERSION__=1"])
 elif sys.platform.startswith('linux'):
@@ -107,20 +109,16 @@ if env['ENABLE_CORBA']:
     env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
     extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
     stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OT_CORBA.idl'),
-				       CPPPATH=['/usr/local/share/idl/omniORB'],
 				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
     stubsandskeletons += env.OMNIIDLCXX(join('idl', 'UTS.idl'),
-				       CPPPATH=['/usr/local/share/idl/omniORB'],
 				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
     # Generate python stubs and skeletons if appropriate
     if env['ENABLE_OMNIORBPY']:
 	import OmniIdlPy
 	OmniIdlPy.generate(env)
 	python_files = env.OMNIIDLPY(join('idl', 'OT_CORBA.idl'),
-					    CPPPATH=['/usr/local/share/idl/omniORB'],
 					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
 	python_files += env.OMNIIDLPY(join('idl', 'UTS.idl'),
-					    CPPPATH=['/usr/local/share/idl/omniORB'],
 					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
     extra_files += filterCppSources(stubsandskeletons)
     for header in filterHeaders(stubsandskeletons):
@@ -221,7 +219,6 @@ if env['ENABLE_JAVA']:
 	stub_classes = env.JavacBld(stubsandskeletons, CLASSINSTALLDIR='build')
 	opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'),
 					   source = stub_classes, JARCHDIR='build')
-	print [str(file) for file in stubsandskeletons]
 	opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'),
 					       source = stubsandskeletons, JARCHDIR='src_java')
 	if env['ENABLE_OMNIEVENTS']:
@@ -237,6 +234,9 @@ if env['ENABLE_JAVA']:
 #     set targets                                                              #
 ################################################################################
 otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files)
+# Copy otlib sources
+#env.Install( join('build', 'src'), essential_core_files + common_files + input_files + extra_files )
+
 
 # create new environment for building executables
 prgenv = env.Copy()

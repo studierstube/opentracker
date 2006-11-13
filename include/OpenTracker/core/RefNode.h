@@ -101,7 +101,7 @@ namespace ot {
          */
         virtual ~RefNode()
         {
-            reference->removeReference( this );
+            //reference->removeReference( this );
 	}
 	
         /** returns the referenced node
@@ -207,6 +207,9 @@ namespace ot {
 
 	// end TimeDependend interface
         friend class ConfigurationParser;
+#ifdef USE_LIVE
+        friend class LiveContext;
+#endif
     };
 
 } // namespace ot {

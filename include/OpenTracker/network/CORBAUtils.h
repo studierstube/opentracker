@@ -90,17 +90,17 @@ namespace ot {
 
         static void convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event);
         
-        static CORBA::Object_ptr getObjectReference(CORBA::ORB_ptr orb, CosNaming::NamingContextExt::StringName_var string_name);
+        static CORBA::Object_ptr getObjectReference(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name);
         
-        static void bindObjectReferenceToName(CORBA::ORB_ptr orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name);
+        static void bindObjectReferenceToName(CORBA::ORB_var orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name);
         
-        static CosNaming::NamingContextExt_var getRootContext(CORBA::ORB_ptr orb);
+        static CosNaming::NamingContextExt_var getRootContext(CORBA::ORB_var orb);
         
         static CosNaming::NamingContext_var getContextFromName(CosNaming::NamingContext_var root_context, CosNaming::Name_var name);
 
         static CosNaming::NamingContext_var getContext(CosNaming::NamingContext_var root_context, CosNaming::Name_var name);
 
-        static PortableServer::ObjectId_var getObjectId(CORBA::ORB_ptr orb, CosNaming::NamingContextExt::StringName_var string_name);
+        static PortableServer::ObjectId_var getObjectId(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name);
     };
             
 } // namespace ot

@@ -206,6 +206,19 @@ void CORBAModule::initializeORB(int argc, char **argv)
   }
     
 
+  void CORBAModule::removeNode(const Node * node) {
+    cerr << "CORBAModule deleting node " << node->get("ID") << endl;
+    if (node->getType().compare("CORBASink")) {
+      CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
+        if( result != sinks.end())
+        {
+          delete *result;
+	  sinks.erase( result );
+	  return;
+        }
+    }
+  }
+
 // This method is called to remove all nodes
 
 void CORBAModule::clear()
@@ -244,19 +257,10 @@ void CORBAModule::clear()
 // This method is called to construct a new Node.
 Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
 {
-//   logPrintI("createNode: %s\n", name.c_str());
-//   cerr << "First test whether orb is fresh" << endl;
-//   if (CORBA::is_nil(orb)) {
-//     cerr << "ORB reference is nil. Exiting...." << endl;
-//     exit(-1);
-//   }
-//   CORBA::Object_var obj = orb->resolve_initial_references("NameService");
-//   cerr << "resolve initial references NameService" << endl;
   if( name.compare("CORBASink") == 0 ) 
     {
       int frequency;
       int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-      //      std::cerr << "num = " << num << std::endl;
       if( num <= 0 ) {
 	frequency = 1;
       } else {
