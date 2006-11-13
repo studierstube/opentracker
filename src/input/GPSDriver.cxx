@@ -82,7 +82,9 @@ namespace ot {
         fix( false )
     {
 	if( NULL == reactor )
+	{       printf("\n reactor is null");
             reactor = ACE_Reactor::instance();
+	}
     }
 
     GPSDriver::~GPSDriver()
@@ -197,6 +199,11 @@ namespace ot {
 
     void GPSDriver::close()
     {
+		if ( reactor != NULL)
+		{
+			//reactor->remove_handler(receiver);
+			reactor->close();
+		}
 	if( server != NULL )
 	{
             server->destroy();
@@ -204,8 +211,10 @@ namespace ot {
 	}
 	if( receiver != NULL )
 	{
-            receiver->destroy();
-            receiver = NULL;
+		
+		receiver->shutdown();
+		//receiver->destroy();
+		//receiver = NULL;
 	}
         if( acceptor != NULL )
         {

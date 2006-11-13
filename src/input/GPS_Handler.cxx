@@ -62,7 +62,7 @@ namespace ot {
 
     GPS_Handler::~GPS_Handler()
     {
-	
+	   printf("GPSHANDLER DELETED BY SOMEONE\n");
     }
 
     int GPS_Handler::open( void * factory )

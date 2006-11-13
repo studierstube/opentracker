@@ -72,7 +72,7 @@ namespace ot {
         OT_MODULE_REGISTRATION_DEFAULT(GPSModule, "GPSConfig");
 	}
 
-    ACE_Reactor gps_reactor;
+//ACE_Reactor gps_reactor;
 
     GPSModule::GPSModule() :
         position_mode( "default" ),
@@ -84,6 +84,7 @@ namespace ot {
         driver( NULL ),
         logFile( NULL )
     {
+		gps_reactor = (void *)new ACE_Reactor;
     }
 
     GPSModule::~GPSModule()
@@ -100,6 +101,8 @@ namespace ot {
             delete infoSource;
         if( logFile != NULL )
             delete logFile;
+		if ( gps_reactor != NULL)
+			delete (ACE_Reactor *)gps_reactor;
     }
 
     void GPSModule::init(StringTable& attributes,  ConfigNode * localTree)
@@ -264,7 +267,7 @@ namespace ot {
 
     void GPSModule::run()
     {
-	driver = new GPSDriver( &gps_reactor );
+	driver = new GPSDriver( (ACE_Reactor *)gps_reactor );
 	driver->setDebug( debug ); // only for debug purposes ...
         if( source != NULL )
             driver->addListener( source, this );

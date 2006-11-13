@@ -171,6 +171,8 @@ namespace ot {
     
         ACE_FILE_IO * logFile;
     
+		void * gps_reactor;
+
         friend class GPSSource;
         friend class GPSDirectionSource;
         friend class GPSGarminCompass;
