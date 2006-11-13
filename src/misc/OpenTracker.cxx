@@ -117,6 +117,8 @@
 #include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/network/PhantomMiddlewareModule.h>
 #include <OpenTracker/common/TimestampGeneratorModule.h>
+#include <OpenTracker/network/OldOTNetworkSourceModule.h>
+
 // DLL main function
 
 #ifdef WIN32
@@ -196,6 +198,8 @@ namespace ot {
 #ifndef OT_NO_NETWORK_SUPPORT
         OT_REGISTER_MODULE(NetworkSourceModule, NULL);
 #endif
+
+
 #endif //_WIN32_WCE
 
 #ifndef __APPLE__
@@ -210,6 +214,10 @@ namespace ot {
 
 #ifdef USE_ARTOOLKITPLUS
         OT_REGISTER_MODULE(ARToolKitPlusModule, NULL);
+#endif
+
+#ifdef OT_OLD_NETWORK_SUPPORT
+        OT_REGISTER_MODULE(OldOTNetworkSourceModule, NULL );
 #endif
 
 #ifdef USE_OPENVIDEO

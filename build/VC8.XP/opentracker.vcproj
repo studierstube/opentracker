@@ -456,6 +456,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\network\OldOTNetworkSourceModule.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\misc\OpenTracker.cxx"
 				>
 			</File>
@@ -1055,6 +1059,18 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\core\NodePort.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\OldOTNetwork.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\OldOTNetworkSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\OldOTNetworkSourceModule.h"
 				>
 			</File>
 			<File
