@@ -67,9 +67,6 @@ namespace ot
 
 	void TriangulateOrientationNode::onEventGenerated(Event &event, Node &generator)
 	{	
-#ifdef WIN32
-#pragma message(">>> daniel2everybody: please do not use cout!")
-#endif
 		//std::cout << "TriangulateOrientationNode:onEventGenerated" << std::endl;
 		//std::cout << " getType: " << generator.getType() << std::endl;
 		//std::cout << " getName: " << generator.getName() << std::endl;
@@ -97,9 +94,6 @@ namespace ot
 		if ((generator.getName().compare("top") == 0)| (generator.getName().compare("bLeft") == 0) |
 			(generator.getName().compare("bRight") == 0))
 		{
-#ifdef WIN32
-#pragma message(">>> daniel2everybody: please do not use cout!")
-#endif
 			//std::cout << " merging positions and rotations" << std::endl;
 			// merge Position
 			/*mergedState.position[0] = (topState.getPosition()[0] + bLeftState.getPosition()[0] + 
@@ -121,9 +115,6 @@ namespace ot
 
 			mergedState.setPosition(pos_vector);
 
-#ifdef WIN32
-#pragma message(">>> daniel2everybody: please do not use cout!")
-#endif
 			//std::cout << "Position = " << mergedState.getPosition()[0] << mergedState.getPosition()[1] << mergedState.getPosition()[2] << std::endl;
 
 

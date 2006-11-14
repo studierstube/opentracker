@@ -63,6 +63,7 @@
 #include <ace/Log_Msg.h>
 
 #include <OpenTracker/core/Context.h>
+#include <OpenTracker/core/OtLogger.h>
 //using namespace std;
 
 // Destructor method
@@ -126,7 +127,7 @@ namespace ot {
 
             nodes.push_back( source );
 
-            ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build TestSource node\n")));
+            logPrintI("Built TestSource node\n");
             initialized = 1;
             return source;
         }

@@ -83,7 +83,15 @@ namespace ot {
     void InterSenseModule::init(StringTable& attributes, ConfigNode * localTree)
     {
         Module::init( attributes, localTree );
-        bool verbose = TRUE;
+        bool verbose = FALSE;
+        resetheading = TRUE;
+
+        StringTable & localAttrib= localTree->getAttributes();
+        if( localAttrib.get("verbose").compare("true") == 0 )
+            verbose=TRUE;
+        if( localAttrib.get("resetheading").compare("false") == 0 )
+            resetheading=FALSE;
+
         for( unsigned i = 0; i < localTree->countChildren(); i++ )
         {
             ConfigNode * trConfig = (ConfigNode *)localTree->getChild(i);
@@ -91,8 +99,9 @@ namespace ot {
             const std::string & id = trackerAttrib.get("id");
             int comport = 0;
             int num = sscanf(trackerAttrib.get("comport").c_str(), " %i", &comport );
-            if( num == 0 ){            
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting serial port number !\n")));
+            if( num == 0 )
+            {
+                logPrintE("Error in converting serial port number !\n");
                 comport = 0;
             }
             ISTrackerVector::iterator it;
@@ -106,7 +115,7 @@ namespace ot {
                 ISD_TRACKER_HANDLE handle = ISD_OpenTracker( 0, comport, FALSE, verbose );
                 if( handle <= 0 )
                 {                
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to open tracker %s\n"), id.c_str()));
+                    logPrintE("Failed to open tracker %s\n", id.c_str());
                 } 
                 else {
                     ISTracker * tracker = new ISTracker;
@@ -117,7 +126,7 @@ namespace ot {
                     res = ISD_GetTrackerConfig( tracker->handle, &tracker->info , FALSE);
                     if( res == FALSE )
                     {                    
-                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Failed to get tracker config for %s\n"), id.c_str()));
+                        logPrintE("Failed to get tracker config for %s\n", id.c_str());
                     }
                     /* InterTrax does not support quaternions */
                     if (tracker->info.TrackerType != ISD_INTERTRAX_SERIES ) 
@@ -129,33 +138,26 @@ namespace ot {
                         for( int j = 1; j <= ISD_MAX_STATIONS; j++ )
                         {   
                             int error = 0;
-                            if( !ISD_GetStationConfig( tracker->handle, &station, j, FALSE ) )
+                            if( ISD_GetStationConfig( tracker->handle, &station, j, FALSE ) )
                             {
-                                error = 1;                
-                            }
-                            else {
-                                if( station.Event == TRUE )
+                                if( station.State == TRUE )
                                 {
                                     station.AngleFormat = ISD_QUATERNION;
                                     station.GetInputs = TRUE;
-                                    if( !ISD_SetStationConfig( tracker->handle, 
+                                    if( ISD_SetStationConfig( tracker->handle, 
                                                                &station, j, FALSE ) )
-                                        error = 2;
+                                      logPrintI("InterSenseModule correctly set event for tracker %s station %d \n", id.c_str(), j);
+
                                 }
                             }               
-                            if( error )
-                            {
-                                ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:WARNING: InterSenseModule cannot %s event for tracker %s station %d \n"), ((error == 1 ) ? "get " : "set "), id.c_str(), j));
-                                ACE_DEBUG((LM_WARNING, ACE_TEXT("ot:- orientation measure may not be quaternion.\n")));
-                            }                       
                         }
                     }   // setup not intertrax
                     trackers.push_back( tracker );                
-                    ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Configured tracker %s of %d\n"), id.c_str(), tracker->info.TrackerType));
+                    logPrintI("Configured tracker %s of %d\n", id.c_str(), tracker->info.TrackerType);
                 }       // open tracker ok
             }           // got a new tracker
             else {      // some conflict with another tracker            
-                ACE_DEBUG((LM_INFO, ACE_TEXT("ot:tracker %s at port %d conflicts with with %s\n"), id.c_str(), comport, (*it)->id.c_str()));
+                logPrintE("Intersense Tracker %s at port %d conflicts with with %s\n", id.c_str(), comport, (*it)->id.c_str());
             }
         }               // all ConfigNodes
     }
@@ -177,21 +179,21 @@ namespace ot {
                 int station;
                 int num = sscanf(attributes.get("station").c_str(), " %i", &station );
                 if( num == 0 ){                
-                    ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Error in converting station number !\n")));
+                    logPrintE("Error in converting station number !\n");
                     return NULL;
                 }
                 if( station < 0 || station >= ISD_MAX_STATIONS )
                 {
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Station number out of range [0,%d] !\n"), ISD_MAX_STATIONS-1));
+                    logPrintE("Station number out of range [0,%d] !\n", ISD_MAX_STATIONS-1);
                     return NULL;
                 }
                 InterSenseSource * source = new InterSenseSource( station );
                 (*it)->sources.push_back( source );            
-                ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build InterSenseSource node\n")));
+                logPrintI("Built InterSenseSource node\n");
                 return source;
             }
             else {            
-                ACE_DEBUG((LM_INFO, ACE_TEXT("ot:No tracker %s configured !\n"), id.c_str()));
+                logPrintW("No tracker %s configured !\n", id.c_str());
             }
         }
         return NULL;
@@ -199,17 +201,21 @@ namespace ot {
 
     void InterSenseModule::start()
     {
-        ISTrackerVector::iterator it;
-        for(it = trackers.begin(); it != trackers.end(); it ++ )
+        if (resetheading)
         {
-            if( (*it)->info.TrackerType == ISD_INTERTRAX_SERIES || 
-                (*it)->info.TrackerModel == ISD_IS300 ||
-                (*it)->info.TrackerModel == ISD_ICUBE2 ||
-                (*it)->info.TrackerModel == ISD_ICUBE2_PRO ||
-                (*it)->info.TrackerModel == ISD_ICUBE3)
+            logPrintW("Resetting heading of Intersense trackers\n");
+            ISTrackerVector::iterator it;
+            for(it = trackers.begin(); it != trackers.end(); it ++ )
             {
-                for( int j = 1; j <= ISD_MAX_STATIONS; j++ )                
-                    ISD_ResetHeading((*it)->handle, j);
+                if( (*it)->info.TrackerType == ISD_INTERTRAX_SERIES || 
+                    (*it)->info.TrackerModel == ISD_IS300 ||
+                    (*it)->info.TrackerModel == ISD_ICUBE2 ||
+                    (*it)->info.TrackerModel == ISD_ICUBE2_PRO ||
+                    (*it)->info.TrackerModel == ISD_ICUBE3)
+                {
+                    for( int j = 1; j <= ISD_MAX_STATIONS; j++ )
+                        ISD_ResetHeading((*it)->handle, j);
+                }
             }
         }
     }
@@ -282,7 +288,7 @@ namespace ot {
                         unsigned short button = 0;
                         for( int i = 0; i < ISD_MAX_BUTTONS; i++ )
                         {
-                            button |= data->ButtonEvent[i];
+                            button |= data->ButtonState[i];
                         }
                         if( button != source->event.getButton() )
                         {

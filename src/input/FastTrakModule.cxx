@@ -143,7 +143,7 @@ namespace ot {
             FastTrakSource * source = new FastTrakSource(number);
             nodes.push_back( source );
 
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build FastTrakSource for %d\n"), number));
+            logPrintI("Build FastTrakSource for %d\n", number);
             return source;
         }
         return NULL;

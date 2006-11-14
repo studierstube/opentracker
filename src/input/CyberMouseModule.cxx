@@ -110,7 +110,7 @@ namespace ot {
             CyberMouseSource * source = new CyberMouseSource;
             source->event.getConfidence() = 1.0f;
             nodes.push_back( source );
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build CyberMouseSource node\n")));
+            logPrintI("Build CyberMouseSource node\n");
             initialized = 1;
             return source;
         }

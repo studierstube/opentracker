@@ -74,11 +74,12 @@ int main(int argc, char **argv)
 	} catch (exception & e){
 		printf( "could not configure context because \n\t\t %s\n", e.what());
 	}
-    cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+    printf("OT |SETUP : Parsing Complete\n");
+    printf("OT |INFO : Starting Mainloop\n");
 
     // initializes the modules and starts the tracker main loop
     context.run();
-	printf("context closed\n");
+    printf("OT |INFO : Context closed\n");
     OSUtils::sleep(1000);
     return 0;
 }

@@ -327,7 +327,7 @@ namespace ot {
             }
             FOBSource * source = new FOBSource();
             birds[number]->source = source;        
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build FOBSource for %d\n"), number));
+            logPrintI("Build FOBSource for %d\n", number);
             return source;
         }
         return NULL;

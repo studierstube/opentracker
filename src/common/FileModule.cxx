@@ -134,7 +134,7 @@ namespace ot {
                 NodeVector::iterator nodeIt = vector.begin();
                 FileSink * sink = new FileSink(*file, station );
                 vector.push_back( sink );
-                logPrintE("Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
+                logPrintI("Built FileSink node writing into %s with station %d station\n", id.c_str(), station);
                 return sink;
             }
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:FileSink referencing input file %d\n"), id.c_str()));
@@ -183,7 +183,7 @@ namespace ot {
                 }
                 FileSource * source = new FileSource( station, localTime );
                 vector.push_back( source );
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built FileSource node reading from %s with station %d and localtime %s\n"), id.c_str(), station, localTime ? "'true'" : "'false'"));
+                logPrintI("Built FileSource node reading from %s with station %d and localtime %s\n", id.c_str(), station, localTime ? "'true'" : "'false'");
 
                 // fill event map of new source for realtime playback
                 if (realtime)

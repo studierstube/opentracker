@@ -89,7 +89,7 @@ namespace ot {
 
             ButtonHoldFilterNode * source = new ButtonHoldFilterNode(offDuration  );
             nodes.push_back( source );
-            ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Built ButtonHoldFilter node \n")));
+            logPrintI("Built ButtonHoldFilter node \n");
 
             initialized = 1;
             return source;

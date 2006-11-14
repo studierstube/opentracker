@@ -386,7 +386,7 @@ namespace ot {
                     }
                     receiver->sources.push_back( new Station( number, source ));
                 }
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
+                logPrintI("Built NetworkSource node.\n");
                 return source;
             }
             if( attributes.get("mode").compare("unicast") == 0 )
@@ -418,7 +418,7 @@ namespace ot {
                     }
                     receiver->sources.push_back( new Station( number, source ));
                 }
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built NetworkSource node.\n")));
+                logPrintI("Built NetworkSource node.\n");
                 return source;
             }
         }

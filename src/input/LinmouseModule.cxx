@@ -110,7 +110,7 @@ Node * LinmouseModule::createNode( const std::string& name, StringTable& attribu
         source->event.getConfidence() = 1.0f;
         sources.push_back( source );
 
-        ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build LinmouseSource node\n")));
+        logPrintI("Build LinmouseSource node\n");
 
         return source;
     }

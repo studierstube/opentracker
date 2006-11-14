@@ -179,7 +179,7 @@ namespace ot {
             assert(target);
             targets.push_back(target);
                 
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built DynaSightSource node - target %d\n"), number));
+            logPrintI("Built DynaSightSource node - target %d\n", number);
         
             // return pointer to the source node
             return source;

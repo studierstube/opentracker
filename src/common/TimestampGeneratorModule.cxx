@@ -66,7 +66,7 @@ namespace ot {
             TimestampGeneratorNode* pNode = new TimestampGeneratorNode(timeOut);
             pNodes.push_back(pNode);
 
-            ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Build TimestampGenerator node\n")));
+            logPrintI("Build TimestampGenerator node\n");
             initialized = 1;
             return pNode;
         }

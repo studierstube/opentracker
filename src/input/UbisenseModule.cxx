@@ -92,7 +92,7 @@ namespace ot {
                 UbisenseSource* pSource = new UbisenseSource(object,locationClient,dataClient);
                 pSources.push_back(pSource);
 
-				ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Build UbisenseSource node\n")));
+				logPrintI("Build UbisenseSource node\n");
 				initialized = 1;
 				return pSource;
             }

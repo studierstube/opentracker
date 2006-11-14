@@ -117,7 +117,7 @@ namespace ot {
             }
             MulticastInputSource * source = new MulticastInputSource( number);
             sources.push_back( source );
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built MulticastInputSource node. Number: %d\n"), number));
+            logPrintI("Built MulticastInputSource node. Number: %d\n", number);
             return source;
         }
         return NULL;

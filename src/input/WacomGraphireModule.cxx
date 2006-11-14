@@ -103,7 +103,7 @@ namespace ot {
             if (num == 0) device = 1;
             WacomGraphireSource * source = new WacomGraphireSource(device);
             nodes.push_back( source );        
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Build WacomGraphireSource node\n")));
+            logPrintI("Build WacomGraphireSource node\n");
             initialized = 1;
             return source;
         }

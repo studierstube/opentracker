@@ -89,7 +89,7 @@ namespace ot {
                                 RawInputSource* pSource = new RawInputSource(rawInputDeviceList[device].hDevice);
                                 pSources.push_back(pSource);
 
-                                ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Build RawInputSource node\n")));
+                                logPrintI("Build RawInputSource node\n");
                                 initialized = 1;
                                 return pSource;
                             }

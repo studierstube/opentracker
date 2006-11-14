@@ -46,6 +46,10 @@
 #include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 namespace ot {
 
 /*
@@ -254,7 +258,15 @@ void OtLogger::printWarning(const char *warningMessage)
 			writeToFileEx("OT |WARN : %s",warningMessage);
 			break;
 		case MODE_CONSOLE:
-			printf("OT |WARN : %s",warningMessage);
+#ifdef WIN32
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+            LOG_ACE_ERROR("OT |WARN : ");
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            LOG_ACE_ERROR("%s",warningMessage);
+#else
+            /// Color changes for console text are platform dependent
+            LOG_ACE_ERROR("OT |WARN : %s",warningMessage);
+#endif
 			break;
 		default:
 			break;
@@ -272,8 +284,15 @@ void OtLogger::printErrorAndContinue(const char *errorMessage)
 			writeToFileEx("OT |ERROR: %s",errorMessage);
 			break;
 		case MODE_CONSOLE:
+#ifdef WIN32
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+            LOG_ACE_ERROR("OT |ERROR: ");
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            LOG_ACE_ERROR("%s",errorMessage);
+#else
+            /// Color changes for console text are platform dependent
             LOG_ACE_ERROR("OT |ERROR: %s",errorMessage);
-            //printf("OT |ERROR: %s",errorMessage);
+#endif
 			break;
 		default:
 			break;

@@ -161,7 +161,7 @@ namespace ot {
                 return NULL;
             }
             source = new GPSSource;
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSSource node.\n")));
+            logPrintI("Built GPSSource node.\n");
             return source;
 	}
         if( name.compare("GPSDirectionSource") == 0 )
@@ -177,7 +177,7 @@ namespace ot {
                 return NULL;
             }
             dirSource = new GPSDirectionSource;
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSDirectionSource node.\n")));
+            logPrintI("Built GPSDirectionSource node.\n");
             return dirSource;
         }
         if( name.compare("GPSGarminCompass") == 0 )
@@ -193,7 +193,7 @@ namespace ot {
                 return NULL;
             }
             compassSource = new GPSGarminCompass;
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminCompass node.\n")));
+            logPrintI("Built GPSGarminCompass node.\n");
             return compassSource;
         }
         if( name.compare("GPSGarminAltitude") == 0 )
@@ -209,7 +209,7 @@ namespace ot {
                 return NULL;
             }
             altitudeSource = new GPSGarminAltitude;
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSGarminAltitude node.\n")));
+            logPrintI("Built GPSGarminAltitude node.\n");
             return altitudeSource;
         }
         if( name.compare("GPSInfoSource") == 0 )
@@ -225,7 +225,7 @@ namespace ot {
                 return NULL;
             }
             infoSource = new GPSInfoSource;
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built GPSInfoSource node.\n")));
+            logPrintI("Built GPSInfoSource node.\n");
             return infoSource;
         }
 	return NULL;	

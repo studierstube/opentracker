@@ -102,6 +102,9 @@ namespace ot {
         /// sources.
         ISTrackerVector trackers;
 
+        /// Indicates if we should reset the heading of the trackers upon start
+        bool resetheading;
+
         // Methods
     public:
         /** constructor method. */
@@ -124,7 +127,7 @@ namespace ot {
          * name to the InterTraxSource element name, and if it matches
          * creates a new InterTraxSource node.
          * @param name reference to string containing element name
-         * @attributes refenrence to StringTable containing attribute values
+         * @attributes reference to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);

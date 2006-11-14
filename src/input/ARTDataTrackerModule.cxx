@@ -134,7 +134,7 @@ namespace ot {
 		    }
 		ARTDataTrackerSource * source = new ARTDataTrackerSource( number);
 		sources.push_back( source );
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built ARTDataTrackerSource node. Number: %d\n"), number));
+		logPrintI("Built ARTDataTrackerSource node. Number: %d\n", number);
 		return source;
 	    }
 	return NULL;

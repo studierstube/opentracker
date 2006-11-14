@@ -218,7 +218,7 @@ namespace ot {
             UltraTrakSource * source = new UltraTrakSource;
             Station *station = new Station(number, source);
             stations.push_back( station );
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Built UltratrakSource node.\n")));
+            logPrintI("Built UltratrakSource node.\n");
 
             return source;
         }
