@@ -55,7 +55,7 @@
 namespace ot {
 #ifdef USE_OMNIEVENTS
     // Disconnect PushConsumer - retrying on Comms Failure.
-    void CORBAUtils::disconnectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier) {
+    void CORBAUtils::disconnectPushConsumer(const CosEventChannelAdmin::ProxyPushSupplier_var& proxy_supplier) {
 	while (1)
 	{
 	    try {
@@ -72,7 +72,7 @@ namespace ot {
 
     //
     // Connect Push Consumer - retrying on Comms Failure.
-    void CORBAUtils::connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var  proxy_supplier, CosEventComm::PushConsumer_var consumer_ref) {
+    void CORBAUtils::connectPushConsumer(const CosEventChannelAdmin::ProxyPushSupplier_var&  proxy_supplier, const CosEventComm::PushConsumer_var& consumer_ref) {
 	//void CORBAUtils::connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var  proxy_supplier, OT_EventChannel::PushConsNode_var consumer_ref) {
 	while (1)
 	{
@@ -98,7 +98,7 @@ namespace ot {
 
     //
     // Get Consumer admin interface - retrying on Comms Failure.
-    CosEventChannelAdmin::ConsumerAdmin_var CORBAUtils::getConsumerAdmin(CosEventChannelAdmin::EventChannel_var channel) {
+    CosEventChannelAdmin::ConsumerAdmin_var CORBAUtils::getConsumerAdmin(const CosEventChannelAdmin::EventChannel_var& channel) {
 	CosEventChannelAdmin::ConsumerAdmin_var consumer_admin;
 	while (1)
 	{
@@ -120,7 +120,7 @@ namespace ot {
 	return consumer_admin;
     }
     
-    CosEventChannelAdmin::ProxyPushSupplier_var CORBAUtils::getProxyPushSupplier(CosEventChannelAdmin::ConsumerAdmin_var consumer_admin)
+    CosEventChannelAdmin::ProxyPushSupplier_var CORBAUtils::getProxyPushSupplier(const CosEventChannelAdmin::ConsumerAdmin_var& consumer_admin)
     {
 	CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier;
 	//
@@ -145,7 +145,7 @@ namespace ot {
 	return proxy_supplier;
     }
 
-    CosEventChannelAdmin::ProxyPushConsumer_var CORBAUtils::getProxyPushConsumer(CosEventChannelAdmin::SupplierAdmin_var supplier_admin) {
+    CosEventChannelAdmin::ProxyPushConsumer_var CORBAUtils::getProxyPushConsumer(const CosEventChannelAdmin::SupplierAdmin_var& supplier_admin) {
 	while (1)
 	{
 	    //
@@ -174,7 +174,7 @@ namespace ot {
 
     //
     // Get Supplier Admin interface - retrying on Comms Failure.
-    CosEventChannelAdmin::SupplierAdmin_var CORBAUtils::getSupplierAdmin(CosEventChannelAdmin::EventChannel_var channel) 
+    CosEventChannelAdmin::SupplierAdmin_var CORBAUtils::getSupplierAdmin(const CosEventChannelAdmin::EventChannel_var& channel) 
     {
 	CosEventChannelAdmin::SupplierAdmin_var supplier_admin;
 	while (1)
@@ -197,7 +197,7 @@ namespace ot {
 	return supplier_admin;
     }
 
-    void CORBAUtils::connectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer, CosEventComm::PushSupplier_var sptr) 
+    void CORBAUtils::connectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer, const CosEventComm::PushSupplier_var& sptr) 
     {
 	while (1)
 	{
@@ -222,7 +222,7 @@ namespace ot {
 
     }
 
-    void CORBAUtils::disconnectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer)
+    void CORBAUtils::disconnectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer)
     {
 	// Disconnect - retrying on Comms Failure.
 	while (1)
@@ -276,7 +276,7 @@ namespace ot {
     } 
     
     // This method returns an object id based on the id of the last NameComponent of a Name sequence
-    PortableServer::ObjectId_var CORBAUtils::getObjectId(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name) {
+    PortableServer::ObjectId_var CORBAUtils::getObjectId(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name) {
         CosNaming::NamingContextExt_var extContext = getRootContext(orb);
         CosNaming::Name_var name;
         try {
@@ -293,7 +293,7 @@ namespace ot {
     
     // This method binds an object reference to a Name specified using a string
 
-    void CORBAUtils::bindObjectReferenceToName(CORBA::ORB_var orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name)
+    void CORBAUtils::bindObjectReferenceToName(const CORBA::ORB_var& orb, const CORBA::Object_var& obj, const CosNaming::NamingContextExt::StringName_var& string_name)
     {
       CosNaming::NamingContextExt_var extContext = CosNaming::NamingContextExt::_duplicate(getRootContext(orb));
         if (CORBA::is_nil(extContext)) {
@@ -332,7 +332,7 @@ namespace ot {
 	} // close scope that includes name
     } // close scope that includes extContext
   
-  CosNaming::NamingContext_var CORBAUtils::getContextFromName(CosNaming::NamingContext_var root_context, CosNaming::Name_var name)
+  CosNaming::NamingContext_var CORBAUtils::getContextFromName(const CosNaming::NamingContext_var& root_context, const CosNaming::Name_var& name)
   {
     CORBA::Object_var obj;
     try {
@@ -349,7 +349,7 @@ namespace ot {
         return sink_context;
     }
 
-    CosNaming::NamingContext_var CORBAUtils::getContext(CosNaming::NamingContext_var root_context, CosNaming::Name_var name)
+    CosNaming::NamingContext_var CORBAUtils::getContext(const CosNaming::NamingContext_var& root_context, CosNaming::Name_var& name)
     {
       // This method obtains a context, creating it if necessary, having bound
       // it to all the other contexts specified in the 
@@ -386,26 +386,24 @@ namespace ot {
       return previous_context;
     } 
 
-  CosNaming::NamingContextExt_var CORBAUtils::getRootContext(CORBA::ORB_var orb) 
+  CosNaming::NamingContextExt_var CORBAUtils::getRootContext(const CORBA::ORB_var& orb) 
   {
-    CosNaming::NamingContextExt_var extContext;
     try {
       // Obtain a reference to the root context of the Name service:
-      std::cerr << "About to resolve initial reference to NameService" << std::endl;
       if (CORBA::is_nil(orb)) {
 	cerr << "Reference to orb is nil. Exiting..." << endl;
 	exit(-1);
       }
       CORBA::Object_var obj = orb->resolve_initial_references("NameService");
       
-      std::cerr << "Got CORBA::Object reference to root Context. Now narrow" << std::endl;
-      
       // Narrow the reference returned.
-      extContext = CosNaming::NamingContextExt::_narrow(obj);
+      CosNaming::NamingContextExt_var extContext = CosNaming::NamingContextExt::_narrow(obj);
       if( CORBA::is_nil(extContext) ) {
 	logPrintE("Failed to narrow the root naming context.");
 	//return CORBA::Object::_nil();
 	return CosNaming::NamingContextExt::_nil();
+      } else {
+	return extContext;
       }
     } catch(CORBA::ORB::InvalidName& ex) {
       // This should not happen!
@@ -418,10 +416,9 @@ namespace ot {
       logPrintE("An exception has occured that indicates that the object reference to the NameService is internally malformed.\n");
       return CosNaming::NamingContextExt::_nil();
     }
-    return extContext;
   }
 
-    CORBA::Object_ptr CORBAUtils::getObjectReference(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name)
+  CORBA::Object_ptr CORBAUtils::getObjectReference(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name)
     {
         
       CosNaming::NamingContextExt_var extContext = getRootContext(orb);

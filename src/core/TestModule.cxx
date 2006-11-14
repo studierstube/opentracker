@@ -43,6 +43,7 @@
 
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/core/OtLogger.h>
 #include <cstdlib>
 
 #include <OpenTracker/core/TestModule.h>
@@ -81,8 +82,9 @@ namespace ot {
             delete *result;
             nodes.erase( result );
             return;
+        } else {
+            logPrintE("Node with ID %s not in TestModule nodes vector\n", node->get("ID").c_str());
         }
-        
     }
 
 

@@ -67,40 +67,40 @@ namespace ot {
 
     public:
 #ifdef USE_OMNIEVENTS
-        static void connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier, CosEventComm::PushConsumer_var consumer_ref);
+        static void connectPushConsumer(const CosEventChannelAdmin::ProxyPushSupplier_var& proxy_supplier, const CosEventComm::PushConsumer_var& consumer_ref);
 
         //static void connectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier, OT_EventChannel::PushConsNode_var consumer_ref);
         
-        static void disconnectPushConsumer(CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier);
+        static void disconnectPushConsumer(const CosEventChannelAdmin::ProxyPushSupplier_var& proxy_supplier);
 
-        static CosEventChannelAdmin::ConsumerAdmin_var getConsumerAdmin(CosEventChannelAdmin::EventChannel_var channel);
+        static CosEventChannelAdmin::ConsumerAdmin_var getConsumerAdmin(const CosEventChannelAdmin::EventChannel_var& channel);
 
-        static CosEventChannelAdmin::ProxyPushSupplier_var getProxyPushSupplier(CosEventChannelAdmin::ConsumerAdmin_var consumer_admin);
+        static CosEventChannelAdmin::ProxyPushSupplier_var getProxyPushSupplier(const CosEventChannelAdmin::ConsumerAdmin_var& consumer_admin);
 
-        static CosEventChannelAdmin::ProxyPushConsumer_var getProxyPushConsumer(CosEventChannelAdmin::SupplierAdmin_var supplier_admin);
+        static CosEventChannelAdmin::ProxyPushConsumer_var getProxyPushConsumer(const CosEventChannelAdmin::SupplierAdmin_var& supplier_admin);
 
-        static CosEventChannelAdmin::SupplierAdmin_var getSupplierAdmin(CosEventChannelAdmin::EventChannel_var channel);
+        static CosEventChannelAdmin::SupplierAdmin_var getSupplierAdmin(const CosEventChannelAdmin::EventChannel_var& channel);
 
-        static void connectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer, CosEventComm::PushSupplier_var sptr);
+        static void connectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer, const CosEventComm::PushSupplier_var& sptr);
 
-        static void disconnectPushSupplier(CosEventChannelAdmin::ProxyPushConsumer_var proxy_consumer);
+        static void disconnectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer);
 #endif //USE_OMNIEVENTS
         
         static void convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event);
 
         static void convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event);
         
-        static CORBA::Object_ptr getObjectReference(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name);
+        static CORBA::Object_ptr getObjectReference(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name);
         
-        static void bindObjectReferenceToName(CORBA::ORB_var orb, CORBA::Object_var obj, CosNaming::NamingContextExt::StringName_var string_name);
+        static void bindObjectReferenceToName(const CORBA::ORB_var& orb, const CORBA::Object_var& obj, const CosNaming::NamingContextExt::StringName_var& string_name);
         
-        static CosNaming::NamingContextExt_var getRootContext(CORBA::ORB_var orb);
+        static CosNaming::NamingContextExt_var getRootContext(const CORBA::ORB_var& orb);
         
-        static CosNaming::NamingContext_var getContextFromName(CosNaming::NamingContext_var root_context, CosNaming::Name_var name);
+        static CosNaming::NamingContext_var getContextFromName(const CosNaming::NamingContext_var& root_context, const CosNaming::Name_var& name);
 
-        static CosNaming::NamingContext_var getContext(CosNaming::NamingContext_var root_context, CosNaming::Name_var name);
+        static CosNaming::NamingContext_var getContext(const CosNaming::NamingContext_var& root_context, CosNaming::Name_var& name);
 
-        static PortableServer::ObjectId_var getObjectId(CORBA::ORB_var orb, CosNaming::NamingContextExt::StringName_var string_name);
+        static PortableServer::ObjectId_var getObjectId(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name);
     };
             
 } // namespace ot

@@ -207,15 +207,18 @@ void CORBAModule::initializeORB(int argc, char **argv)
     
 
   void CORBAModule::removeNode(const Node * node) {
-    cerr << "CORBAModule deleting node " << node->get("ID") << endl;
-    if (node->getType().compare("CORBASink")) {
+    cerr << "CORBAModule deleting node " << node->get("ID");
+    cerr << " of type " << node->getType() << endl;
+    if (node->getType().compare("CORBASink") == 0) {
       CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
         {
           delete *result;
 	  sinks.erase( result );
 	  return;
-        }
+        } else {
+	  logPrintE("Node with ID %s not in sinks CORBAModule sinks vector\n", node->get("ID").c_str());
+	}
     }
   }
 
@@ -266,7 +269,6 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       } else {
 	frequency = num;
       }
-      logPrintI("frequency = %d\n", frequency);
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {

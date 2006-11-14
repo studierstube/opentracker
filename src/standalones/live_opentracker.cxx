@@ -96,17 +96,18 @@ int main(int argc, char **argv)
 
       POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
 
-      PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId(CORBA::string_dup("livecontext"));
+      PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId("livecontext");
       poa->activate_object_with_id(configurator_id, context);
       cerr << "activated configurator" << endl;
 
       // Obtain a reference to the object, and register it in
       // the naming service.
       CORBA::Object_var obj = context->_this();
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[1]);
+      //CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[1]);
+      CosNaming::NamingContextExt::StringName_var string_name = argv[1];
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
       //      orb->run(); 
-      context_impl->run();
+      context_impl->runAtRate(30);
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;

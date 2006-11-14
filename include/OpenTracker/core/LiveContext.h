@@ -84,7 +84,8 @@ namespace ot {
     OTGraph::Node_var activateNode(Node* node) {
       PortableServer::POA_var poa = corba_module->getPOA();
       CORBA::String_var string_id = CORBA::string_dup(node->get("ID").c_str());
-      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(CORBA::string_dup(string_id));
+      //PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(CORBA::string_dup(string_id));
+      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
       poa->activate_object_with_id(corba_id, node);
       OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(corba_id));
       return node_ref;
@@ -92,7 +93,8 @@ namespace ot {
 
     void deactivateNode(Node* node) {
       string id(node->get("ID"));
-      PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(CORBA::string_dup(id.c_str()));
+      //PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(CORBA::string_dup(id.c_str()));
+      PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
       (corba_module->getPOA())->deactivate_object(node_id);
     }
 
@@ -163,7 +165,6 @@ namespace ot {
 	// so remove from rootNode and add to the receivingNode
 	rootNode->removeChild(*sender);
 	receiver->addChild(*sender);
-	cerr << "the parent of the sender should be " << (sender->getParent())->get("ID") << endl;
       } else {
 	// The sender node already has a functional Node as parent
 	// so add the receiving node as a reference
@@ -203,7 +204,6 @@ namespace ot {
       Node* target  = getNodeFromRef(target_ref);
       // Handle referencing nodes
       NodeVector::iterator it = target->references.begin();
-      //      while( it != target->references.end())
       for (NodeVector::iterator it = target->references.begin(); it != target->references.end(); it++) {
 	Node* ref_parent = ((*it)->getParent());
 	if (ref_parent != NULL) {

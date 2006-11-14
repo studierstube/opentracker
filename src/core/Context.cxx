@@ -624,7 +624,7 @@ namespace ot {
                 nodeTypes[2] = sink;
 		
 		std::string modname;
-        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
+                //        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
 			modname = nodename ;
 			result = getModule(modname);
@@ -645,7 +645,7 @@ namespace ot {
 				modname += "Config";
 	
 				result = getModule(modname);
-				logPrintI("Context GetModuleFromNode %s  result %p\n", modname.c_str(), result);
+                                //				logPrintI("Context GetModuleFromNode %s  result %p\n", modname.c_str(), result);
 			}
 		}
 		return result;
