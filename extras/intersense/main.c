@@ -116,7 +116,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
             break;
         }
         
-        printf("\nStation\tTime\tEvent\tCube  Enhancement  Sensitivity  Compass  Prediction\n");
+        printf("\nStation\tTime\tState\tCube  Enhancement  Sensitivity  Compass  Prediction\n");
         
         for(i = 1; i <= numStations; i++)
         {
@@ -128,7 +128,7 @@ void showTrackerStats( ISD_TRACKER_HANDLE handle )
                 
                 printf("%s\t%s\t%s\t   %u\t\t%u\t  %u\t  %u\n", 
                     Station.TimeStamped ? "ON" : "OFF", 
-                    Station.Event ? "ON" : "OFF", 
+                    Station.State ? "ON" : "OFF", 
                     Station.InertiaCube == -1 ? "None" : buf, 
                     Station.Enhancement, 
                     Station.Sensitivity, 
@@ -207,11 +207,11 @@ void showStationData( ISD_TRACKER_HANDLE             handle,
             // Currently available products have at most 5 buttons,
             // stylus has 2, wand has 5
             printf("%d%d%d%d%d ", 
-                (int) data->ButtonEvent[0], 
-                (int) data->ButtonEvent[1], 
-                (int) data->ButtonEvent[2], 
-                (int) data->ButtonEvent[3], 
-                (int) data->ButtonEvent[4]);
+                (int) data->ButtonState[0], 
+                (int) data->ButtonState[1], 
+                (int) data->ButtonState[2], 
+                (int) data->ButtonState[3], 
+                (int) data->ButtonState[4]);
 
             printf("%d %d ", data->AnalogData[0], data->AnalogData[1]); 
         }
@@ -252,14 +252,17 @@ void showStationData( ISD_TRACKER_HANDLE             handle,
 ******************************************************************************/
 int main()
 {
-    ISD_TRACKER_HANDLE       handle;
-    ISD_TRACKER_DATA_TYPE    data;
-    ISD_STATION_INFO_TYPE    Station[ISD_MAX_STATIONS];
-    ISD_CAMERA_DATA_TYPE     cameraData;
-    ISD_TRACKER_INFO_TYPE    Tracker;
+    ISD_TRACKER_HANDLE              handle;
+    ISD_TRACKER_DATA_TYPE           data;
+    ISD_STATION_INFO_TYPE           Station[ISD_MAX_STATIONS];
+    ISD_CAMERA_DATA_TYPE            cameraData;
+    ISD_TRACKER_INFO_TYPE           Tracker;
+    ISD_HARDWARE_INFO_TYPE          hwInfo;
+    ISD_STATION_HARDWARE_INFO_TYPE  stationHwInfo[ISD_MAX_STATIONS];
 
    
     WORD done = FALSE, station = 1;
+    DWORD maxStations = 4;
     Bool verbose = TRUE;
     float lastTime;
 
@@ -279,10 +282,20 @@ int main()
     {
         // Get tracker configuration info 
         ISD_GetTrackerConfig( handle, &Tracker, verbose );
-        
+                
+        memset((void *) &hwInfo, 0, sizeof(hwInfo));
+
+        if( ISD_GetSystemHardwareInfo( handle, &hwInfo ) )
+        {
+            if( hwInfo.Valid )
+            {
+                maxStations = hwInfo.Capability.MaxStations;
+            }
+        }
+
         // Clear station configuration info to make sure GetAnalogData and other flags are FALSE 
         memset((void *) Station, 0, sizeof(Station));
-        
+
         // General procedure for changing any setting is to first retrieve current 
         // configuration, make the change, and then apply it. Calling 
         // ISD_GetStationConfig is important because you only want to change 
@@ -290,12 +303,15 @@ int main()
         
         if( Tracker.TrackerType == ISD_PRECISION_SERIES )
         {
-            for( station = 1; station <= 4; station++ )
+            for( station = 1; station <= maxStations; station++ )
             {         
                 // fill ISD_STATION_INFO_TYPE structure with current station configuration 
                 if( !ISD_GetStationConfig( handle, 
                     &Station[station-1], station, verbose )) break;
                 
+                if( !ISD_GetStationHardwareInfo( handle, 
+                    &stationHwInfo[station-1], station )) break;
+
                 if( GET_AUX_INPUTS && Tracker.TrackerModel == ISD_IS900 )
                 {
                     Station[station-1].GetAuxInputs = TRUE;
@@ -421,21 +437,34 @@ int main()
             case '1':
                 
                 station = 1;
+                printf("Current Station is set to %d \n", station);
                 break;
                 
             case '2': // IS-x products only, not for InterTrax 
                 
-                if( Tracker.TrackerType == ISD_PRECISION_SERIES ) station = 2;
+                if( maxStations > 1 ) 
+                {
+                    station = 2;
+                    printf("Current Station is set to %d \n", station);
+                }
                 break;
                 
             case '3': // IS-x products only, not for InterTrax 
                 
-                if( Tracker.TrackerType == ISD_PRECISION_SERIES ) station = 3;
+                if( maxStations > 2 ) 
+                {
+                    station = 3;
+                    printf("Current Station is set to %d \n", station);
+                }
                 break;
                 
             case '4': // IS-x products only, not for InterTrax 
                 
-                if( Tracker.TrackerType == ISD_PRECISION_SERIES ) station = 4;
+                if( maxStations > 3 ) 
+                {
+                    station = 4;
+                    printf("Current Station is set to %d \n", station);
+                }
                 break;
                 
             case 'O':
@@ -512,7 +541,7 @@ int main()
                 if( handle > 0 )
                 {
                     showStationData( handle, &Tracker,
-                        &Station[0], &data.Station[0], &cameraData.Camera[0] );
+                        &Station[station-1], &data.Station[station-1], &cameraData.Camera[station-1] );
                 }
             }
         }
