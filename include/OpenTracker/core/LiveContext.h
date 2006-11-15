@@ -33,6 +33,8 @@ using namespace std;
 
 namespace ot {
 
+  typedef std::pair<Node *, Node *> Edge;  // Excluding RefNodes
+  typedef std::vector<Edge> EdgeVector;    // Excluding RefNodes
   typedef std::map<std::string, Node *> NodeMap;
   
  class OPENTRACKER_API LiveContext : public Context, 
@@ -40,7 +42,8 @@ namespace ot {
   private:
     CORBAModule* corba_module;
     int no_nodes;
-    NodeMap references;
+    NodeVector nodes;
+    EdgeVector edges;
 
     string generateNewId() {
       char node_string[5];
@@ -81,10 +84,16 @@ namespace ot {
       return node;
     }
 
+    OTGraph::Node_var getRefFromNode(Node* node) {
+      string id(node->get("ID"));
+      PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
+      OTGraph::Node_var node_ref = OTGraph::Node::_narrow((corba_module->getPOA())->id_to_reference(node_id));
+      return node_ref;
+    }
+
     OTGraph::Node_var activateNode(Node* node) {
       PortableServer::POA_var poa = corba_module->getPOA();
       CORBA::String_var string_id = CORBA::string_dup(node->get("ID").c_str());
-      //PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(CORBA::string_dup(string_id));
       PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
       poa->activate_object_with_id(corba_id, node);
       OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(corba_id));
@@ -93,7 +102,6 @@ namespace ot {
 
     void deactivateNode(Node* node) {
       string id(node->get("ID"));
-      //PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(CORBA::string_dup(id.c_str()));
       PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
       (corba_module->getPOA())->deactivate_object(node_id);
     }
@@ -121,7 +129,9 @@ namespace ot {
 
       // By default add to root Node
       rootNode->addChild(*value);
-      
+
+      // Add node to local list of nodes
+      nodes.push_back(value);
       OTGraph::Node_var node_ref = activateNode(value); 
       unlock();
       return node_ref;
@@ -155,7 +165,7 @@ namespace ot {
       return ref;
     }
 
-    void connect_node(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
+    void connect_nodes(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
       lock();
       Node* sender   = getNodeFromRef(sendingNode);
       Node* receiver = getNodeFromRef(receivingNode);
@@ -176,28 +186,63 @@ namespace ot {
 	// Now set the ref RefNode to be a child of the receiver
 	receiver->addChild(*ref);
       }
+      // add new edge to list of edges
+      edges.push_back(Edge(sender, receiver));
       unlock();
     }
     
-    void add_node(const OTGraph::Node_var& parentNode, const OTGraph::Node_var& newNode) {
-      PortableServer::POA_var poa = corba_module->getPOA();
-      PortableServer::ServantBase* parent_servant = poa->reference_to_servant(OTGraph::Node::_duplicate(parentNode));
-      PortableServer::ServantBase* new_servant = poa->reference_to_servant(OTGraph::Node::_duplicate(newNode));
-      Node* parent  = dynamic_cast<Node*>(parent_servant);
-      Node* newnode = dynamic_cast<Node*>(new_servant);
-      Module * mod = NULL;
-      if (newnode->type.compare("Ref") != 0) {
-	mod  = getModuleFromNode(newnode);
-      }
-      if (parent != NULL){
-	lock();
-	parent->addChild(*newnode);
-	if (mod != NULL) {
-	  mod->addNode(newnode);
+    void disconnect_nodes(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
+      lock();
+      Node* sender   = getNodeFromRef(sendingNode);
+      Node* receiver = getNodeFromRef(receivingNode);
+      if (receiver == sender->getParent()) {
+	// The sender node is the child of the receiver node
+	receiver->removeChild(*sender);
+	rootNode->addChild(*sender);
+      } else {
+	// The nodes must be connected via a RefNode
+	Node* child = receiver->getChild(0);
+	if ((child->getType()).compare("Ref") == 0) {
+	  // remove reference to child in referencing node
+	  sender->removeReference(child); 
+	  // remove as Child from receiving node
+	  receiver->removeChild(*child);
+	  // delete the RefNode
+	  delete child;
 	}
-	unlock();
       }
+      // removing edge from local list of edges
+      Edge edge(sender, receiver);
+      EdgeVector::iterator result = std::find( edges.begin(), edges.end(), edge );
+      if( result != edges.end())
+        {
+	  edges.erase( result );
+        }
+      unlock();
     }
+
+    OTGraph::NodeVector* get_nodes() {
+      OTGraph::NodeVector_var node_refs = new OTGraph::NodeVector;
+      int len = nodes.size();
+      node_refs->length(len);
+      for (int i=0; i < nodes.size(); i++) {
+	node_refs[i] = getRefFromNode(nodes[i]);
+      }
+      return node_refs._retn();
+    };
+
+    OTGraph::EdgeVector* get_edges() {
+      OTGraph::EdgeVector_var _edges = new OTGraph::EdgeVector;
+      int len = edges.size();
+      _edges->length(len);
+      for (int i=0; i < edges.size(); i++) {
+	OTGraph::Edge _edge;
+	_edge.sender   = getRefFromNode(edges[i].first);
+	_edge.receiver = getRefFromNode(edges[i].second);
+	_edges[i] = _edge;
+      }
+      return _edges._retn();
+    };
 
     void remove_node(const OTGraph::Node_var& target_ref) {
       lock();
@@ -235,6 +280,13 @@ namespace ot {
 
       // deactivate the object before passing the node to the module to be deleted
       deactivateNode(target);
+
+      // removing node from local list
+      NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), target );
+      if( result != nodes.end())
+        {
+	  nodes.erase( result );
+        }
       
       // identify module, and instruct module to delete node
       Module * mod = getModuleFromNode(target);

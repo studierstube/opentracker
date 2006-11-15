@@ -345,18 +345,11 @@ namespace ot {
          * @returns unsigned number of NodePorts */
         unsigned int countPorts();
 #ifdef USE_LIVE
-        char* get_attribute(const char* _key);
-        void remove_reference(OTGraph::Node_ptr reference);
         char* get_type();
-        void add_reference(OTGraph::Node_ptr reference);
         char* get_name();
         char* get_id();
-        OTGraph::Node_ptr get_parent();
-        OTGraph::Node_ptr count_children(){return NULL;};
-        OTGraph::Node_ptr get_child(CORBA::UShort index);
-        void add_child(OTGraph::Node_ptr child);
-        void remove_child(OTGraph::Node_ptr child);
-        CORBA::UShort count_ports();
+        char* get_attribute(const char* _key);
+        OTGraph::StringTable* get_attributes();
 #endif
         
 

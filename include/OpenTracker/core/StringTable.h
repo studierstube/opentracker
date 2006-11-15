@@ -87,6 +87,9 @@ namespace ot {
         /** returns a value stored in the map
          * @param key the key the value is for 
          * @returns the string value or an empty string, if the key is not found */
+#ifdef USE_LIVE
+        OTGraph::StringTable* getStringTable();
+#endif
         const std::string & get( const std::string & key );
         /** stores a key value pair in the table, overwritting a possible prior 
          * value

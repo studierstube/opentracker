@@ -87,6 +87,22 @@ namespace ot {
         map.clear();
     }
 
+#ifdef USE_LIVE
+    OTGraph::StringTable* StringTable::getStringTable() {
+        OTGraph::StringTable_var st = new OTGraph::StringTable;
+        st->length((CORBA::ULong) map.size());
+        int i=0;
+        for (StringMap::iterator it=map.begin(); it!=map.end(); ++it) {
+            OTGraph::KeyValuePair kvp;
+            kvp.Key = (it->first).c_str();
+            kvp.Value = (it->second).c_str();
+            st[i++] = kvp;
+        }
+        return st._retn();
+    }
+#endif //USE_LIVE
+
+
     // returns a value to a given key
 
     const std::string & StringTable::get( const std::string & key )

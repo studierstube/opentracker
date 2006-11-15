@@ -1,4 +1,3 @@
-
 /* ========================================================================
  * Copyright (c) 2006,
  * Institute for Computer Graphics and Vision
@@ -765,37 +764,25 @@ namespace ot {
         return CORBA::string_dup(get(key).c_str());
     }
 
-    void Node::remove_reference(OTGraph::Node_ptr reference) {
-        // Foo
-    }
+    OTGraph::StringTable* Node::get_attributes() {
+        StringTable* value = new StringTable;
+        //DOMElement * element = ELEMENT(parent);
+        DOMElement * element =  (DOMElement* ) parent;
+        DOMNamedNodeMap * map = element->getAttributes();
+        for( unsigned int i = 0; i < map->getLength(); i++ )
+        {
+            DOMAttr * attribute = (DOMAttr *)map->item( i );
+            char * nameTemp = XMLString::transcode( attribute->getName());
+            char * valueTemp = XMLString::transcode( attribute->getValue());
+            value->put(nameTemp, valueTemp );
+            XMLString::release( &valueTemp );
+            XMLString::release( &nameTemp );
+        }
+        OTGraph::StringTable_var attributes = value->getStringTable();
+        delete value;
+        return attributes._retn();
+   };
 
-    void Node::add_reference(OTGraph::Node_ptr reference) {
-        // Foo
-    }
-
-    OTGraph::Node_ptr Node::get_parent() {
-    //OTGraph::Node_ptr Node::get_parent() {
-        std::cerr << "get Parent node" << std::endl;
-        return NULL;
-    }
-
-    OTGraph::Node_ptr Node::get_child(CORBA::UShort) {
-        // empty for time being
-    }
-
-    //void Node::add_child(const OTGraph::Node_var& child) {
-    void Node::add_child(OTGraph::Node_ptr child) {
-        // empty for time being
-        std::cerr << "Adding child node" << std::endl;
-    }
-
-    void Node::remove_child(OTGraph::Node_ptr child) {
-        // empty for time being
-    }
-
-    CORBA::UShort Node::count_ports() {
-        return 0;
-    }
 #endif
 
 } // namespace ot
