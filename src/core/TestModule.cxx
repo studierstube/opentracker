@@ -58,12 +58,12 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <algorithm>
 // #include <iostream> FIXME Why was this included ?
 
 #include <ace/Log_Msg.h>
 
 #include <OpenTracker/core/Context.h>
-#include <OpenTracker/core/OtLogger.h>
 //using namespace std;
 
 // Destructor method
@@ -77,15 +77,15 @@ namespace ot {
 
     void TestModule::removeNode(const Node * node) {
         logPrintI("TestModule deleting node %s\n", node->get("ID"));
-        //NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
-        //if( result != nodes.end())
-        //{
-        //    delete *result;
-        //    nodes.erase( result );
-        //    return;
-        //} else {
-        //    logPrintE("Node with ID %s not in TestModule nodes vector\n", node->get("ID").c_str());
-        //}
+        NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
+        if( result != nodes.end())
+        {
+            delete *result;
+            nodes.erase( result );
+            return;
+        } else {
+            logPrintE("Node with ID %s not in TestModule nodes vector\n", node->get("ID").c_str());
+        }
     }
 
 
