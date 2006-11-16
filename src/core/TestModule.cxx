@@ -76,16 +76,16 @@ namespace ot {
 
 
     void TestModule::removeNode(const Node * node) {
-        cerr << "TestModule deleting node " << node->get("ID") << endl;
-        NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
-        if( result != nodes.end())
-        {
-            delete *result;
-            nodes.erase( result );
-            return;
-        } else {
-            logPrintE("Node with ID %s not in TestModule nodes vector\n", node->get("ID").c_str());
-        }
+        logPrintI("TestModule deleting node %s\n", node->get("ID"));
+        //NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
+        //if( result != nodes.end())
+        //{
+        //    delete *result;
+        //    nodes.erase( result );
+        //    return;
+        //} else {
+        //    logPrintE("Node with ID %s not in TestModule nodes vector\n", node->get("ID").c_str());
+        //}
     }
 
 

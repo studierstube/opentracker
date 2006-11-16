@@ -105,6 +105,9 @@ namespace ot {
         /// Indicates if we should reset the heading of the trackers upon start
         bool resetheading;
 
+        /// Indicates whether the tracker is used for head tracking
+        bool headtracking;
+
         // Methods
     public:
         /** constructor method. */

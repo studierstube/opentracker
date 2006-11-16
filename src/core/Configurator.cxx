@@ -51,11 +51,11 @@ void Configurator::loadModule(Context & newctx, const char * module){
 
 
 void Configurator::addModuleInit(const char * name, ModuleInitFunc function, void * data){
-    cerr << "adding module " << name << " to map of initFunctions" << endl;
 	MIFunctor functor;
 	functor.function = function;
 	functor.data = data;
     //logPrintS("Configurator adding %s = %p \n", name, function);
+    //cerr << "adding module " << name << " to map of initFunctions" << endl;
 	initFunctions[name]=(functor);
 }
 

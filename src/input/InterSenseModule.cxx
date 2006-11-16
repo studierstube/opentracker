@@ -85,12 +85,15 @@ namespace ot {
         Module::init( attributes, localTree );
         bool verbose = FALSE;
         resetheading = TRUE;
+        headtracking = FALSE;
 
         StringTable & localAttrib= localTree->getAttributes();
         if( localAttrib.get("verbose").compare("true") == 0 )
             verbose=TRUE;
         if( localAttrib.get("resetheading").compare("false") == 0 )
             resetheading=FALSE;
+        if( localAttrib.get("headtracking").compare("true") == 0 )
+            headtracking=TRUE;
 
         for( unsigned i = 0; i < localTree->countChildren(); i++ )
         {
@@ -143,6 +146,10 @@ namespace ot {
                                 if( station.State == TRUE )
                                 {
                                     station.AngleFormat = ISD_QUATERNION;
+                                    // Do Not Delete this commented code.
+                                    // Necessary to test Euler (and Gimbal Lock).
+                                    //
+                                    //station.AngleFormat = ISD_EULER;
                                     station.GetInputs = TRUE;
                                     if( ISD_SetStationConfig( tracker->handle, 
                                                                &station, j, FALSE ) )
@@ -265,17 +272,46 @@ namespace ot {
                     }
                     else {
                         int changed = 0;
-                        if( data->Orientation[0] != source->event.getOrientation()[0] || 
-                            data->Orientation[1] != source->event.getOrientation()[1] ||
-                            data->Orientation[2] != source->event.getOrientation()[2] ||
-                            data->Orientation[3] != -source->event.getOrientation()[3] )
+
+                        if (headtracking)
                         {
-                            changed = 1;
-                            source->event.getOrientation()[0] = data->Orientation[0];
-                            source->event.getOrientation()[1] = data->Orientation[1];
-                            source->event.getOrientation()[2] = data->Orientation[2];
-                            source->event.getOrientation()[3] = -data->Orientation[3];
+                            // If headtracking is activated, we send the "Real" component of the
+                            // quaternion to the end. Plus we align the axes of the InertiaCubes
+                            // so that the cable points in the positive Z direction. And its base
+                            // is the ZX plane. Also, we switch from Left handed to Right handed
+                            // coordinate system.
+                            if( data->Orientation[2] != source->event.getOrientation()[0] || 
+                                -data->Orientation[3] != source->event.getOrientation()[1] ||
+                                -data->Orientation[1] != source->event.getOrientation()[2] ||
+                                data->Orientation[0] != source->event.getOrientation()[3] )
+                            {
+                                changed = 1;
+                                source->event.getOrientation()[0] = data->Orientation[2];
+                                source->event.getOrientation()[1] = -data->Orientation[3];
+                                source->event.getOrientation()[2] = -data->Orientation[1];
+                                source->event.getOrientation()[3] = data->Orientation[0];
+                            }
                         }
+                        else {
+                            // The reason to switch the Quaterion[0] to the end is
+                            // that the Intersense tracker provides the "Real" component of the
+                            // quaternion as the first value, however, inventor assumes is the last value.
+                            // If you find problems on your opentracker configuration files, is maybe
+                            // because you found a hack to get around this problem. You should now
+                            // be able to get rid of that hack. Mendez. 20061115.
+                            if( data->Orientation[1] != source->event.getOrientation()[0] || 
+                                data->Orientation[2] != source->event.getOrientation()[1] ||
+                                data->Orientation[3] != source->event.getOrientation()[2] ||
+                                data->Orientation[0] != source->event.getOrientation()[3] )
+                            {
+                                changed = 1;
+                                source->event.getOrientation()[0] = data->Orientation[1];
+                                source->event.getOrientation()[1] = data->Orientation[2];
+                                source->event.getOrientation()[2] = data->Orientation[3];
+                                source->event.getOrientation()[3] = data->Orientation[0];
+                            }
+                        }
+
                         if( data->Position[0] != source->event.getPosition()[0] || 
                             data->Position[1] != source->event.getPosition()[1] ||
                             data->Position[2] != source->event.getPosition()[2] )
