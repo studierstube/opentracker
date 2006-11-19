@@ -234,8 +234,8 @@ namespace ot {
         if (isInitialized() == 1)
             {
                 // close the serial port
-                if (serialportIsOpen)
-                    myResult = closeSerialPort (&port);
+                //if (serialportIsOpen)
+                //    myResult = closeSerialPort (&port);
             }
     } // stop
 
