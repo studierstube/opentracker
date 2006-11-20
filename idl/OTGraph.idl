@@ -1,0 +1,46 @@
+// OTGraph.idl
+
+module OTGraph {
+  exception IndexOutOfRange {};
+  exception GraphRulesViolation {};
+  exception NotChildNode {};
+  exception AttributeNonExistent {};
+  exception NodesNotConnected {};
+  exception VertexNonExistent {};
+  exception EdgeNonExistent {};
+  exception PropertyNonExistent {};
+
+  struct KeyValuePair {
+    string Key;
+    string Value;
+  };
+  
+  typedef sequence<KeyValuePair> StringTable;
+
+  interface Node {
+    string get_type();
+    string get_name();
+    string get_id();
+    string get_attribute(in string key);
+    StringTable get_attributes();
+  };
+
+  struct Edge {
+    Node sender;
+    Node receiver;
+  };
+
+  typedef sequence<Node> NodeVector;
+  typedef sequence<Edge> EdgeVector;
+
+  interface DataFlowGraph {
+    Node create_node(in string name, in StringTable attributes);
+    Node get_node(in string id);
+    void remove_node(in Node removalNode);
+    string getXMLString();
+    void connect_nodes(in Node sendingNode, in Node receivingNode);
+    void disconnect_nodes(in Node sendingNode, in Node receivingNode) raises (NodesNotConnected);
+    EdgeVector get_edges();
+    NodeVector get_nodes();
+  };
+};
