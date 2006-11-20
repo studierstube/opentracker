@@ -288,7 +288,7 @@ namespace ot {
     }
 
 
-	inline int Context::loopOnce(){
+    int Context::loopOnce(){
             int stopflag=1;
             // lock the Graph first
             lock();
