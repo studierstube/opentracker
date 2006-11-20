@@ -46,14 +46,29 @@
 
 namespace ot {
 
+  class MidiIn;
+
+
   class MidiSource: public Node, public MidiInHandler{
   protected:
-    MIDIINHANDLE inHdl;
+    MidiIn * inDev;
+    std::vector<MIDIBUFFER*> buffers;
 
     Event event;
     int changed;
 
+    unsigned long bufferSize;
+    unsigned long bufferCount;
+
     MidiSource(unsigned int devid);
+    MidiSource(std::string devname);
+
+    void setBufferSize(unsigned long size);
+    void setBufferCount(unsigned long count);
+
+
+    void initBuffers();
+    void releaseBuffers();
 
     void startRecording();
 
@@ -67,16 +82,14 @@ namespace ot {
     virtual int isEventGenerator();
     void pushEvent();
 
-    // MidiInHandler interface
-    void handleShortMsg( MIDISHORTMSG & msg) ;
-    /* do something when an error from short messages*/
-    void onShortMsgError( MIDISHORTMSG & msg) ;
-    /* receive a long message */
-    void handleLongMsg(  MIDILONGMSG & msg);
-    /* do something when an error from long messages */
-    void onLongMsgError( MIDILONGMSG & msg);
-
-
+  virtual void handleShortMsg( unsigned long msg, unsigned long timestamp ) ;
+  /* do something when an error from short messages*/
+  virtual void onShortMsgError( unsigned long msg, unsigned long timestamp) ;
+  /* receive a long message */
+  virtual void handleLongMsg(  unsigned long msg, unsigned long timestamp) ;
+  /* do something when an error from long messages */
+  virtual void onLongMsgError( unsigned long msg, unsigned long timestamp) ;
+  
     // friends with the factory
     friend class MidiModule;
   };

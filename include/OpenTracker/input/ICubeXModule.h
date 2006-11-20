@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for MidiModule.
+/** header file for ICubeXModule.
  *
  * @author Eduardo Veas
  *
@@ -41,34 +41,29 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifdef USE_MIDI
-
 #include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/tool/midi.h>
 #include <vector>
 #include <map>
 #include <string>
 
 namespace ot{
 
-  class MidiSource;
-  class MidiSink;
-  class MidiModule : public Module, public NodeFactory{
+  class ICubeXSource;
+  class ixMidiSocket;
+  class ICubeXModule : public Module, public NodeFactory{
   public:
-    typedef std::map<std::string, unsigned long> MidiInCapsDict;
-    typedef std::vector<MidiSource *> MidiSrcDict;
-    typedef std::vector<MidiSink *>MidiSinkDict;
+    typedef std::vector<ICubeXSource *> ICubeXSourceDict;
+    typedef std::map<std::string, ixMidiSocket * > SocketDict;
   protected:
-    MidiInCapsDict inDevDict;
-    MidiSrcDict    srcDict;
-    MidiSinkDict   sinkDict;
+    ICubeXSourceDict cubes;
+    SocketDict sockets;
 
-    void cleanUpSinks();
-    void cleanUpDevCaps();
-    void cleanUpSrcs();
+    void cleanUpCubes();
+    void cleanUpSockets();
+
   public:
-    MidiModule();
-    virtual ~MidiModule();
+    ICubeXModule();
+    virtual ~ICubeXModule();
     
     virtual void init(StringTable & attributes, ConfigNode * localTree);
 
@@ -77,16 +72,14 @@ namespace ot{
     virtual void start();
 
     
-    virtual void addNode(const Node *, unsigned long data);
+    virtual void addNode(const Node *);
     virtual void removeNode(const Node*);
 
     // NodeFactory interface
     virtual Node * createNode( const std::string & name, StringTable & attributes);
-	virtual void pushEvent();
+    virtual void pushEvent();
   };
 
-  OT_MODULE(MidiModule);
+  OT_MODULE(ICubeXModule);
 
 }; // namespace ot
-
-#endif

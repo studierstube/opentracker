@@ -33,15 +33,13 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for MidiModule.
+/** header file for ICubeXSource.
  *
  * @author Eduardo Veas
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
-
-#ifdef USE_MIDI
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/tool/midi.h>
@@ -51,42 +49,110 @@
 
 namespace ot{
 
-  class MidiSource;
-  class MidiSink;
-  class MidiModule : public Module, public NodeFactory{
+
+  /// helper class 
+  template<class T>
+  class SyncQueue{
+  private:
+    std::queue<T> msgQueue;
+    ACE_Thread_Mutex _mutex;  
+  
+    ACE_Thread_Mutex _sigMutex;
+
+    ACE_Condition<ACE_Thread_Mutex> haveDataSignal;
+
   public:
-    typedef std::map<std::string, unsigned long> MidiInCapsDict;
-    typedef std::vector<MidiSource *> MidiSrcDict;
-    typedef std::vector<MidiSink *>MidiSinkDict;
-  protected:
-    MidiInCapsDict inDevDict;
-    MidiSrcDict    srcDict;
-    MidiSinkDict   sinkDict;
+    //delete all the messages in the queue
+    void cleanupAll(){
+      _mutex.acquire();
+      while(!msgQueue.empty()){
+	delete msgQueue.front();
+	msgQueue.pop();
+      }
+      _mutex.release();
+   
+    };
 
-    void cleanUpSinks();
-    void cleanUpDevCaps();
-    void cleanUpSrcs();
   public:
-    MidiModule();
-    virtual ~MidiModule();
-    
-    virtual void init(StringTable & attributes, ConfigNode * localTree);
+    SyncQueue():_mutex("SyncQueueMutex"),_sigMutex("SyncQueueHaveData"),
+		haveDataSignal(_sigMutex, USYNC_THREAD, "SyncQueueDataSignal", NULL){
+    };
 
-    virtual void close();
+    ~SyncQueue(){
+      removeAll();
+    };
+  
+    void push(T msg){
+      _mutex.acquire();
+      msgQueue.push(msg);
 
-    virtual void start();
+      haveDataSignal.broadcast();
+      _mutex.release();
+    };
 
-    
-    virtual void addNode(const Node *, unsigned long data);
-    virtual void removeNode(const Node*);
+    T front(){
+      T result=0;
+      _mutex.acquire();
+      if (!msgQueue.empty()){
+	result = msgQueue.front();
+	msgQueue.pop();
+      }
+      _mutex.release();
+      return result;
+    };
 
-    // NodeFactory interface
-    virtual Node * createNode( const std::string & name, StringTable & attributes);
-	virtual void pushEvent();
+    void removeAll(){
+      _mutex.acquire();
+      while(!msgQueue.empty()){
+	//      delete msgQueue.front();
+	msgQueue.pop();
+      }
+      _mutex.release();
+    };
+    bool isEmpty(){
+      bool result = true;
+      _mutex.acquire();
+      result = msgQueue.empty();
+      _mutex.release();
+      return result;
+    };
+
+    void waitForData(){
+      _sigMutex.acquire();
+      haveDataSignal.wait();
+      _sigMutex.release();
+    }
+  
   };
 
-  OT_MODULE(MidiModule);
 
-}; // namespace ot
+  class ixMdig;
+  class ixMidiSocket;
+  class MidiMsg;
+  class ICubeXSource: public Node{
+  protected:
+    ixMdig * mdig;
+    ixMidiSocket * socket;
+    bool changed;
+    Event event;
 
-#endif
+    friend class ICubeXModule;
+    ICubeXSource();
+    void configure(StringTable & config);
+
+    void start();
+    void stop();
+
+  public:
+    typedef SyncQueue<MidiMsg *> MsgQueue;
+    MsgQueue mQueue;
+    virtual ~ICubeXSource();
+    virtual int isEventGenerator();
+    void pushEvent();
+
+    ixMdig * getDevice();
+  };
+  
+
+
+} // namespace ot

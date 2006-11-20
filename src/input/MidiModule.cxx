@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for ICubeXModule.
+/** source file for MidiModule.
  *
  * @author Eduardo Veas
  *
@@ -45,100 +45,124 @@
 
 #ifdef USE_MIDI
 
-#  include <OpenTracker/input/ICubeXModule.h>
-#  include <OpenTracker/input/ICubeXSource.h>
+#  include <OpenTracker/input/MidiModule.h>
+#  include <OpenTracker/input/MidiSource.h>
+#  include <OpenTracker/input/MidiSink.h>
 #  include <OpenTracker/tool/midi.h>
+#  include <OpenTracker/core/Event.h>
 #  include <vector>
 
+#  define MIDISOURCE_ID 0
+#  define MIDISINK_ID   1
 
 namespace ot{
 
-  OT_MODULE_REGISTER_FUNC(ICubeXModule){
-    OT_MODULE_REGISTRATION_DEFAULT(MidiModule, "ICubeXConfig");
+  OT_MODULE_REGISTER_FUNC(MidiModule){
+    OT_MODULE_REGISTRATION_DEFAULT(MidiModule, "MidiConfig");
+
+    //    Event::registerGenericTypeName((std::vector<unsigned char>*)NULL, "vector<unsigned char>");
+    Event::registerGenericTypeName((MidiMsg*)NULL, "MidiMsg");
   }
 
 
 
-  void ICubeXModule::cleanUpSrcs(){
-    for (ICubeXSrcDict::iterator i = srcDict.begin(); i != srcDict.end(); i++){
-      ICubeXSource * src = (*i);
+  void MidiModule::cleanUpSrcs(){
+      logPrintE("MIDI MODULE: deleting all sources\n");  
+    for (MidiSrcDict::iterator i = srcDict.begin(); i != srcDict.end(); i++){
+      MidiSource * src = (*i);
+      logPrintE("MIDI MODULE: deleting src %p\n", src);  
       delete src;
     }
   }
 
-  ICubeXModule::ICubeXModule(){
-    /* store a description of the capabilities for all available devices */
-    unsigned int  devcount = midiInDevCount();
-    for (unsigned int i = 0; i < devcount; i++){
-      MIDIINPUTCAPS * caps = new MIDIINPUTCAPS;
-      
-      unsigned int err = midiInDevCaps(i, caps, (unsigned int)sizeof(*caps));
-      
-      if (err == MIDINOERROR){
-	inDevDict[(caps->mPname)] = i;
-      } else {
-	printf("MIDIMODULE:: error retrieving capabilities for input device id %u\n", i);
-      }
-      
+  void MidiModule::cleanUpSinks(){
+    for (MidiSinkDict::iterator i = sinkDict.begin(); i != sinkDict.end(); i++){
+      MidiSink * sink = (*i);
+      delete sink;
     }
+  }
+
+
+  MidiModule::MidiModule(){
+
   };
 
- ICubeXModule::~ICubeXModule(){
-   printf("ICubeXMODULE::Destroyed\n");
+ MidiModule::~MidiModule(){
+    cleanUpSinks();
     cleanUpSrcs();
+    logPrintE("MIDI MODULE: deleting finished cleaning up\n");  
   };
     
-  void ICubeXModule::init(StringTable & attributes, ConfigNode * localTree){
+  void MidiModule::init(StringTable & attributes, ConfigNode * localTree){
 
   };
   
-  void ICubeXModule::close(){
+  void MidiModule::close(){
     
   };
   
-  void ICubeXModule::start(){
-    for (ICubeXSrcDict::iterator i= srcDict.begin(); i != srcDict.end(); i++){
+  void MidiModule::start(){
+    for (MidiSrcDict::iterator i= srcDict.begin(); i != srcDict.end(); i++){
       (*i)->startRecording();
     }
     
   };
   
-  void ICubeXModule::addNode(const Node *node){
+  void MidiModule::addNode(const Node *node, unsigned long data){
     Node * tmp = const_cast<Node *> (node);
-    srcDict.push_back( dynamic_cast<ICubeXSource *>(tmp));
+    if (data == MIDISOURCE_ID)
+        srcDict.push_back( dynamic_cast<MidiSource *>(tmp));
+    else 
+        sinkDict.push_back(dynamic_cast<MidiSink *>(tmp));
   };
-  void ICubeXModule::removeNode(const Node*){};
+  void MidiModule::removeNode(const Node*){};
   
   // NodeFactory interface
-  Node * ICubeXModule::createNode( const std::string & name, StringTable & attributes){
+  Node * MidiModule::createNode( const std::string & name, StringTable & attributes){
     Node * result = 0;
 	//printf("MIDIMODULE::CREATENODE creating a node %s\n", name.c_str());
-    if (name.compare ("ICubeXSource") == 0){
+    if (name.compare ("MidiSource") == 0){
       std::string device = attributes.get("device");
 	//  printf("MIDIMODULE::CREATENODE using device %s\n", device.c_str());
       if (device.compare("")!=0){
-	ICubeXInCapsDict::iterator search = inDevDict.find(device);
-	if (search != inDevDict.end()){
-	  unsigned long devid = search->second;
-	  printf("MIDIMODULE::CREATENODE using devId %u\n", devid);
-	  
-	  ICubeXSource * node = new ICubeXSource(devid);
-	  addNode(node);
+	  MidiSource * node = new MidiSource(device);
+	  addNode(node, (unsigned long)MIDISOURCE_ID);
 	  result = node;
-	  
-	}
-	  }
-	}
+      }
+    } else if(name.compare ("MidiSink") == 0){
+      std::string device = attributes.get("device");
+      if (device.compare("")!=0){
+	MidiSink * node = new MidiSink;
+	node->openStr(device);
+	addNode(node, (unsigned long)MIDISINK_ID);
+	result = node;
+      }
+    }
 
     return result;
   };
   
-  void ICubeXModule::pushEvent(){
-	  for (ICubeXSrcDict::iterator i = srcDict.begin(); i != srcDict.end(); i++){
-		ICubeXSource * src = (*i);
+  void MidiModule::pushEvent(){
+	  for (MidiSrcDict::iterator i = srcDict.begin(); i != srcDict.end(); i++){
+		MidiSource * src = (*i);
 		src->pushEvent();
 	  }
 };
 }; // namespace ot
 
 #endif //USE_MIDI
+/* 
+ * ------------------------------------------------------------
+ *   End of MidiModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

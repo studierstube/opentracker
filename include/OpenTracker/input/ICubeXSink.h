@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for MidiModule.
+/** header file for ICubeXSink.
  *
  * @author Eduardo Veas
  *
@@ -41,52 +41,25 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifdef USE_MIDI
-
 #include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/tool/midi.h>
-#include <vector>
-#include <map>
-#include <string>
 
 namespace ot{
+class ixMidiSocket;
 
-  class MidiSource;
-  class MidiSink;
-  class MidiModule : public Module, public NodeFactory{
-  public:
-    typedef std::map<std::string, unsigned long> MidiInCapsDict;
-    typedef std::vector<MidiSource *> MidiSrcDict;
-    typedef std::vector<MidiSink *>MidiSinkDict;
-  protected:
-    MidiInCapsDict inDevDict;
-    MidiSrcDict    srcDict;
-    MidiSinkDict   sinkDict;
-
-    void cleanUpSinks();
-    void cleanUpDevCaps();
-    void cleanUpSrcs();
-  public:
-    MidiModule();
-    virtual ~MidiModule();
+class ICubeXSink: public Node{
+ protected:
+  friend class ICubeXModule;
+  unsigned char devid;
+  ixMidiSocket * outPort;
     
-    virtual void init(StringTable & attributes, ConfigNode * localTree);
+  ICubeXSink();
+ public:
 
-    virtual void close();
+  virtual ~ICubeXSink();
+  virtual int isEventGenerator();
+  virtual void onEventGenerated(Event & event, Node & generator);
 
-    virtual void start();
+};
 
-    
-    virtual void addNode(const Node *, unsigned long data);
-    virtual void removeNode(const Node*);
 
-    // NodeFactory interface
-    virtual Node * createNode( const std::string & name, StringTable & attributes);
-	virtual void pushEvent();
-  };
-
-  OT_MODULE(MidiModule);
-
-}; // namespace ot
-
-#endif
+} // namespace ot

@@ -11,67 +11,37 @@
 
 #endif // WIN32
 
-typedef struct MIDIINPUTCAPS {
-  int       mMid; // manufacturer id
-  int       mPid; // product id
-  unsigned int mDriverVersion;
-  char     mPname[MAXPNAMELEN];
-  //  DWORD     dwSupport;
-}MIDIINPUTCAPS;
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <OpenTracker/core/OtException.h>
+namespace ot{
 
-/* Find out the number of input devices available */
-unsigned long midiInDevCount();
-/* read capabilities of device id, devid can also be a casted handle,
-   return values can */
-unsigned long midiInDevCaps(unsigned long devid, MIDIINPUTCAPS * Outcaps, unsigned long sizeofcaps);
+class MidiEx: public OtException{
+ public:
+  MidiEx(std::string e) throw():OtException(e)
+    { };
 
-void midiFormatErrorString(unsigned long err, char * buf, unsigned long size);
-
-std::string midiErrorString(unsigned long err);
-
-
-
-typedef struct MIDISHORTMSG{
-  unsigned long msg;
-  //  unsigned long noStatus;
-  unsigned long timestamp;
-}MIDISHORTMSG;
-
-typedef struct MIDISHORTMSG_CHANNEL{
-  unsigned char command;
-  unsigned char channel;
-  unsigned char data1;
-  unsigned char data2;
-} MIDISHORTMSG_CHANNEL;
-
-typedef struct MIDISHORTMSG_STATUS{
-  unsigned char status;
-  unsigned char data1;
-  unsigned char data2;
-}MIDISHORTMSG_STATUS;
-
-void unpackChannelMsg(const MIDISHORTMSG *msg, MIDISHORTMSG_CHANNEL * cmsg);
-void unpackStatusMsg(const MIDISHORTMSG * msg, MIDISHORTMSG_STATUS * smsg);
-
-typedef struct MIDILONGMSG{
-
-}MIDILONGMSG;
+};
 
 class MidiInHandler {
 public:
   virtual ~MidiInHandler(){};
   /* receive a short message */
-  virtual void handleShortMsg( MIDISHORTMSG & msg) {};
+  virtual void handleShortMsg( unsigned long msg, unsigned long timestamp ) {};
   /* do something when an error from short messages*/
-  virtual void onShortMsgError( MIDISHORTMSG & msg) {};
+  virtual void onShortMsgError( unsigned long msg, unsigned long timestamp) {};
   /* receive a long message */
-  virtual void handleLongMsg(  MIDILONGMSG & msg) {};
+  virtual void handleLongMsg(  unsigned long msg, unsigned long timestamp) {};
   /* do something when an error from long messages */
-  virtual void onLongMsgError( MIDILONGMSG & msg) {};
+  virtual void onLongMsgError( unsigned long msg, unsigned long timestamp) {};
   
 };
 
-unsigned long midiOpenIn(MIDIINHANDLE * moutHnd, unsigned long devnum, MidiInHandler * midiInHandler);
+
+void midiFormatErrorString(unsigned long err, char * buf, unsigned long size);
+
+std::string midiErrorString(unsigned long err);
 
 unsigned long midiCloseIn(MIDIINHANDLE hnd);
 
@@ -79,6 +49,87 @@ unsigned long midiStartIn(MIDIINHANDLE hdl);
 
 unsigned long midiStopIn(MIDIINHANDLE hdl);
 
+typedef struct MIDIBUFFER{
+  MIDIHDR hdr;
+  unsigned long timestamp;
+  unsigned long Hdl;
+}MIDIBUFFER;
+
+unsigned long midiInitBuffer(unsigned long size, MIDIBUFFER * buf);
+unsigned long midiReleaseBuffer(MIDIBUFFER * buf);
+
+unsigned long midiInPrepareBuffer(MIDIINHANDLE inHdl, MIDIBUFFER * buf);
+unsigned long midiInUnPrepareBuffer(MIDIBUFFER * buf);
+unsigned long midiInQueueBuffer(MIDIBUFFER *buf);
+unsigned long midiBufferGetSize(MIDIBUFFER * buf);
+unsigned long midiBufferGetBytesRecorded(MIDIBUFFER * buf);
+unsigned char * midiBufferGetPtr(MIDIBUFFER * buf);
+
+
+
+
+class MidiIn{
+protected:
+  MIDIINHANDLE hdl;
+  MidiInHandler * inHandler;
+  bool recording;
+  bool _open;
+public:
+  virtual ~MidiIn();
+  MidiIn();
+
+  MIDIINHANDLE getHandle();
+  
+  static void CALLBACK handleFunc(MIDIINHANDLE hdl, unsigned long msg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2 );
+
+  void openId(unsigned long id );
+  void openStr(std::string devname);
+  bool isOpen();
+  void close();
+
+  bool isRecording();
+  void startRecording();
+  void stopRecording();
+  void setHandler(MidiInHandler * inHdl);
+  void addBuffer(MIDIBUFFER * buf);
+  void queueBuffer(MIDIBUFFER * buf);
+};
+
+
+class MidiOut{
+protected:
+  MIDIOUTHANDLE out;
+  bool _opened;
+
+public:
+  MidiOut();
+  virtual ~MidiOut();
+  
+  void close ();
+  bool isOpen();
+  void openId(unsigned long devid);
+  void openStr(std::string devName);
+
+  void sendShortMessage( unsigned long msg);
+  void sendSysExMessage( unsigned char * buf, unsigned long size);
+};
+
+
+/* helper class to handle messages */
+class MidiMsg{
+ public:
+  std::vector<unsigned char> msg;
+  unsigned long timestamp;
+ public:
+  unsigned long packMsg();
+  bool isSysEx();
+  static void unpackShortMsg(unsigned long msg, unsigned char & byte1, unsigned char & byte2, unsigned char & byte3);
+};
+
+std::ostream& operator<<(std::ostream& os, MidiMsg& object);
+std::istream& operator>>(std::istream& is, MidiMsg& object);
+
+}; // namespace ot
 #endif // USE_MIDI
 
 #endif // TOOL_MIDI_H

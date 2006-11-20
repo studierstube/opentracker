@@ -44,39 +44,64 @@
 #include <OpenTracker/OpenTracker.h>
 
 #ifdef USE_MIDI
-
-#include <OpenTracker/input/MidiSource.h>
 #include <OpenTracker/tool/midi.h>
+#include <OpenTracker/input/MidiSource.h>
+
 
 namespace ot{
 
-MidiSource::MidiSource(unsigned int devid){
-    unsigned long err;
-    changed = 0;
-	printf("MIDISOURCE:: opening devid %u\n", devid);
-    if((err=midiOpenIn(&inHdl, (unsigned long)devid, dynamic_cast<MidiInHandler *>(this)))){
-		printf("MIDISOURCE::error openning device %s\n", midiErrorString(err).c_str());
-		//      throw MidiEx(midiErrorString(err));
-      }  
+
+MidiSource::MidiSource(unsigned int devid):bufferSize(256), bufferCount(1){
+  inDev = new MidiIn;
+  inDev->setHandler(this);
+  inDev->openId(devid);
+};
+
+MidiSource::MidiSource(std::string devname):bufferSize(256), bufferCount(1){
+  inDev = new MidiIn;
+  inDev->setHandler(this);
+  inDev->openStr(devname);
 };
 
 
 MidiSource::~MidiSource(){
-  printf("MIDISRC IS DESTROYED\n");
+  //logPrintW("MIDISRC IS DESTROYED\n");
   stopRecording();
+  //logPrintW("MIDISRC closing\n");
   close();
+  //logPrintW("MIDISRC releasing buffers\n");
+   releaseBuffers();
 };
 
-void MidiSource::startRecording(){
-  unsigned long err = midiStartIn(inHdl);
-  if (err != MIDINOERROR){
-      //      throw MidiEx(midiErrorString(err));
+void MidiSource::initBuffers(){
+  if (buffers.size() != bufferCount){
+    for (unsigned long i = 0; i < bufferCount; i++){
+      MIDIBUFFER * buf = new MIDIBUFFER;
+      midiInitBuffer(bufferSize, buf);
+      inDev->addBuffer(buf);
+      buffers.push_back(buf);
     }
+  }
+};
 
+void MidiSource::releaseBuffers(){
+  for (std::vector<MIDIBUFFER*>::iterator i = buffers.begin();
+       i != buffers.end(); i++){
+    MIDIBUFFER * buf = (*i);
+    midiInUnPrepareBuffer(buf);
+    midiReleaseBuffer(buf);
+  }
+
+};
+
+
+void MidiSource::startRecording(){
+  initBuffers();
+  inDev->startRecording();
 };
 
 void MidiSource::stopRecording(){
-  midiStopIn(inHdl);
+  inDev->stopRecording();
 };
 
 int MidiSource::isEventGenerator(){
@@ -85,48 +110,79 @@ int MidiSource::isEventGenerator(){
 void MidiSource::pushEvent(){
 	
   if (changed){
-		  printf("MIDISOURCE::Updating observers\n");
     updateObservers(event);
     changed = 0;
   }
 };
 
+  void MidiSource::handleShortMsg( unsigned long msg, unsigned long timestamp ){
+    unsigned char byte1, byte2, byte3;
+    
+    MidiMsg::unpackShortMsg(msg, byte1, byte2, byte3);
 
-void MidiSource::handleShortMsg( MIDISHORTMSG & msg) {
-  MIDISHORTMSG_STATUS statusMsg;
-  unpackStatusMsg(& msg, &statusMsg);
-  //printf("0x%08X 0x%02X 0x%02X 0x%02X\r\n", msg.timestamp, (statusMsg.status & 0x000000FF), (statusMsg.data1 & 0x000000FF), (statusMsg.data2 & 0x000000FF));
-  event.setAttribute("status", statusMsg.status);
-  event.setAttribute("data1", statusMsg.data1);
-  event.setAttribute("data2", statusMsg.data2);
-  event.setAttribute("midiTimestamp", msg.timestamp);
-  changed = 1;
+    MidiMsg mMsg;
+    mMsg.timestamp = timestamp;
+    mMsg.msg.push_back(byte1);
+    mMsg.msg.push_back(byte2);
+    mMsg.msg.push_back(byte3);
+    event.setAttribute("midiMsg", mMsg);
 
-};
+    changed = 1;
+    
+  };
 
-/* do something when an error from short messages*/
-void MidiSource::onShortMsgError( MIDISHORTMSG & msg) {
+  /* do something when an error from short messages*/
+void MidiSource::onShortMsgError( unsigned long msg, unsigned long timestamp) {};
 
-};
+
+
 /* receive a long message */
-void MidiSource::handleLongMsg(  MIDILONGMSG & msg) {
+  
+  void MidiSource::handleLongMsg(  unsigned long msg, unsigned long timestamp) {
+    MIDIBUFFER * buf = (MIDIBUFFER *)((LPMIDIHDR)msg)->dwUser;
+    unsigned long size = midiBufferGetBytesRecorded(buf);
+    unsigned char * ptr  = midiBufferGetPtr (buf);
+    if (size ==0){
+      midiInUnPrepareBuffer(buf);
+      // and quit
+      return;
+    }
+
+    printf("MIDI GOT LONG MSG with %u bytes\n", size);
+    int bytes = 16;
+    bool ended = (*(ptr + (buf->hdr.dwBytesRecorded -1)) == 0xF7);
+    
+    MidiMsg mMsg;
+    std::vector<unsigned char> &out = mMsg.msg;
+    mMsg.timestamp = timestamp;
+
+    if (ended){
+      while (size --){
+	out.push_back((*ptr));
+	ptr++;
+      }
+     
+      event.setAttribute("midiMsg", mMsg);
+      //      event.setAttribute("midiTimestamp", timestamp);
+      //     event.setAttribute("midiMsg", out);
+      changed = 1;
+
+    } else {
+      // there is no message yet because the buffer was full, the end of the message should be 
+      // in the next message... the first part should be stored somewhere to make sure the message
+      // can be put together again
+    }
+
+  // enqueue the buffer once again
+  inDev->queueBuffer(buf);
 
 };
 /* do something when an error from long messages */
-void MidiSource::onLongMsgError( MIDILONGMSG & msg) {
-
-};
+void MidiSource::onLongMsgError( unsigned long msg, unsigned long timestamp) {};
+  
 
 void MidiSource::close(){
-  unsigned long err;
-  while ((err = midiInClose(inHdl)) == MIDISTILLPLAYING){
-    stopRecording();
-    Sleep(0);
-  }
-  
-  if (err){
-    //      throw MidiEx(midiErrorString(err));
-  }
+  inDev->close();
 };
 
 }; // namespace ot

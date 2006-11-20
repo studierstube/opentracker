@@ -618,11 +618,12 @@ namespace ot {
 		char * source = "Source";
 		char * node = "Node";
 		char * sink = "Sink";
-		char * nodeTypes[3];
-                nodeTypes[0] = source;
-                nodeTypes[1] = node;
-                nodeTypes[2] = sink;
-		
+		char * sinksource = "SinkSource";
+		char * nodeTypes[4];
+                nodeTypes[1] = source;
+                nodeTypes[2] = node;
+                nodeTypes[3] = sink;
+		        nodeTypes[0] = sinksource;
 		std::string modname;
                 //        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
@@ -634,7 +635,7 @@ namespace ot {
 		{
 			std::string::size_type loc= std::string::npos;
 			
-			for (int i = 0; i < 3; i++){
+			for (int i = 0; i < 4; i++){
 				loc = nodename.find(nodeTypes[i]);
 				if (loc != std::string::npos)
 					break;
