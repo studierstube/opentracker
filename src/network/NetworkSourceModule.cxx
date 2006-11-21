@@ -300,16 +300,15 @@ namespace ot {
 
         short maxStationNum = ntohs(buffer.maxStationNum);
         short numOfStations = ntohs(buffer.numOfStations);
-        //short bufferLength = ntohs(buffer.bufferLength);
-        char *stationData = (char*)(&buffer) + 5 * sizeof(short);
+        char *stationData = (char*)(&buffer) + sizeof(FlexibleTrackerDataRecord);
 
-        short int si[3];
+        ACE_INT32 si[3];
         for( int cnt = 0; cnt < numOfStations; cnt ++ )
         {
-            memcpy(si, stationData, 3*sizeof( short int ));
-            short stationNumber = ntohs(si[0]);
-            short stationBufferLength = ntohs(si[1]);
-            short stationNameLength = ntohs(si[2]);
+            memcpy(si, stationData, 3*sizeof(ACE_INT32));
+            short stationNumber = (short)ACE_NTOHL(si[0]);
+            ACE_INT32 stationBufferLength = ACE_NTOHL(si[1]);
+            short stationNameLength = (short)ACE_NTOHL(si[2]);
 
             if( stationNumber >= 0 && stationNumber <= maxStationNum)
             {
@@ -326,9 +325,11 @@ namespace ot {
 
                     {
                         ACE_Guard<ACE_Thread_Mutex> guard( rec->mutex );
-                        char *eventStr = stationData + (3 * sizeof(short)) + stationNameLength+1;
-                        std::string str(eventStr);
-                        event.deserialize(str);
+                        char *eventStr = stationData + (3 * sizeof(ACE_INT32)) + stationNameLength+1;
+                        std::stringstream os;
+                        os.write(eventStr,stationBufferLength);
+
+                        os >> event;
                         (*station)->modified = 1;
                     }
                 }
@@ -511,7 +512,7 @@ namespace ot {
 #pragma message(">>> OT_NO_NETWORK_SUPPORT")
 #endif // OT_NO_NETWORK_SUPPORT
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of NetworkSourceModule.cxx
  * ------------------------------------------------------------
@@ -524,5 +525,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

@@ -350,7 +350,7 @@ namespace ot {
         // for each NetworkSink node: copy data to sink's buffer
         unsigned int i;
         char** sinkBuffers = (char**)malloc(nodes.size() * sizeof(char*));
-        short* sinkBufferLengths = (short*)malloc(nodes.size() * sizeof(short));
+        ACE_INT32* sinkBufferLengths = (ACE_INT32*)malloc(nodes.size() * sizeof(ACE_INT32));
 
         for (i = 0; i < nodes.size(); i++)
         {
@@ -360,24 +360,24 @@ namespace ot {
             if( sink->modified == 1 )
             {
                 const std::string &eventStr = sink->event.serialize();
-                short si[3];
+                ACE_INT32 si[3];
                 char *index;
 
                 // sink buffer length
-                sinkBufferLengths[i] = 3 * sizeof(short)
+                sinkBufferLengths[i] = 3 * sizeof(ACE_INT32)
                     + sink->stationName.length() + eventStr.length() + 2*sizeof(char);
 
                 // header
-                si[0] = htons(sink->stationNumber);
-                si[1] = htons(sinkBufferLengths[i]);
-                si[2] = htons((short)sink->stationName.length());
+                si[0] = ACE_HTONL((ACE_INT32)sink->stationNumber);
+                si[1] = ACE_HTONL(sinkBufferLengths[i]);
+                si[2] = ACE_HTONL((ACE_INT32)sink->stationName.length());
 
                 // copy data to this sink's buffer
                 sinkBuffers[i] = (char*)malloc(sinkBufferLengths[i]);
                 index = sinkBuffers[i];
 
-                memcpy(index, &si, 3 * sizeof(short));
-                index += 3 * sizeof(short);
+                memcpy(index, &si, 3 * sizeof(ACE_INT32));
+                index += 3 * sizeof(ACE_INT32);
                 memcpy(index, sink->stationName.c_str(), sink->stationName.length()+1);
                 index += sink->stationName.length()+1;
                 memcpy(index, eventStr.c_str(), eventStr.length()+1);
@@ -422,12 +422,12 @@ namespace ot {
             if( (*mc_it)->data.numOfStations > 0 )
             {
                 (*mc_it)->data.numOfStations = htons( (*mc_it)->data.numOfStations );
-                (*mc_it)->data.bufferLength = htons( (*mc_it)->data.bufferLength );
-                short headerLength = sizeof(short) * 5;
-                short bufferLength = ntohs((*mc_it)->data.bufferLength);
+                (*mc_it)->data.bufferLength = ACE_HTONL( (*mc_it)->data.bufferLength );
+                short headerLength = sizeof(FlexibleTrackerDataRecord);
+                ACE_INT32 bufferLength = ntohl((*mc_it)->data.bufferLength);
 
                 // copy header and data to the same address
-                short sendBufferSize = headerLength + bufferLength;
+                ACE_INT32 sendBufferSize = (ACE_INT32)headerLength + bufferLength;
                 char *sendBuffer = (char*)malloc(sendBufferSize);
                 memcpy(sendBuffer, &(*mc_it)->data, headerLength);
                 memcpy(sendBuffer + headerLength, (*mc_it)->dataBuffer, bufferLength);
@@ -447,12 +447,12 @@ namespace ot {
             {
                 ACE_Guard<ACE_Thread_Mutex> guard( (*uc_it)->mutex );
                 (*uc_it)->data.numOfStations = htons( (*uc_it)->data.numOfStations );
-                (*uc_it)->data.bufferLength = htons( (*uc_it)->data.bufferLength );
-                short headerLength = sizeof(short) * 5;
-                short bufferLength = ntohs((*uc_it)->data.bufferLength);
+                (*uc_it)->data.bufferLength = ACE_HTONL( (*uc_it)->data.bufferLength );
+                short headerLength = sizeof(FlexibleTrackerDataRecord);
+                ACE_INT32 bufferLength = ntohl((*uc_it)->data.bufferLength);
 
                 // copy header and data to the same address
-                short sendBufferSize = headerLength + bufferLength;
+                ACE_INT32 sendBufferSize = (ACE_INT32)headerLength + bufferLength;
                 char *sendBuffer = (char*)malloc(sendBufferSize);
                 memcpy(sendBuffer, &(*uc_it)->data, headerLength);
                 memcpy(sendBuffer + headerLength, (*uc_it)->dataBuffer, bufferLength);
@@ -551,7 +551,7 @@ namespace ot {
 #pragma message(">>> OT_NO_NETWORK_SUPPORT")
 #endif // OT_NO_NETWORK_SUPPORT
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of NetworkSinkModule.cxx
  * ------------------------------------------------------------
@@ -564,5 +564,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

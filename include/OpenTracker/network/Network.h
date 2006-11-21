@@ -62,13 +62,13 @@ typedef struct FlexibleTrackerDataRecord
     short int revNum;           // Revision Number
     short int maxStationNum;    // Number of stations dealt with by the server
     short int numOfStations;    // Number of station packets to follow
-    short int bufferLength;
+    ACE_INT32 bufferLength;
 
 }FlexibleTrackerDataRecord;
 
 #endif
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of Network.h
  * ------------------------------------------------------------
@@ -81,5 +81,5 @@ typedef struct FlexibleTrackerDataRecord
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
