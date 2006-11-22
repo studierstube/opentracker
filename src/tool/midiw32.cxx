@@ -49,7 +49,7 @@
 //#  ifdef WIN32
 
 #  include <OpenTracker/tool/midi.h>
-
+#  include <OpenTracker/tool/midiCodes.h>
 #  include <string>
 
 #  pragma message("MidiModule: linking against : Winmm.lib")
@@ -76,6 +76,23 @@ unsigned long MidiMsg::packMsg(){
   result = (((unsigned long)msg[2])<< SHORTMSG_DATA2)|(((unsigned long)msg[1])<< SHORTMSG_DATA1)|(unsigned long)msg[0];
   return result;
 };
+
+unsigned char MidiMsg::getCommand(){
+  unsigned char result = msg[0];
+  result = result & ~((unsigned char) CHANNEL_MASK);
+  return result;
+};
+
+unsigned char MidiMsg::getChannel(){
+  unsigned char result = msg[0];
+  result = result & ((unsigned char) CHANNEL_MASK);
+  return result;
+};
+
+unsigned char MidiMsg::getStatus(){
+  return msg[0];
+};
+
 
   bool MidiMsg::isSysEx(){
 
@@ -391,7 +408,7 @@ void MidiIn::queueBuffer(MIDIBUFFER * buf){
   };
   
   void MidiOut::close (){
-    logPrintE("Closing midi output\n");
+    //logPrintE("Closing midi output\n");
     unsigned long err = midiOutClose(out);
     if (err != MIDINOERROR){
       logPrintE("Error closing out dev %s\n", (midiErrorString(err).c_str()));

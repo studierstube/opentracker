@@ -43,6 +43,7 @@
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/tool/midi.h>
+#include <OpenTracker/tool/SyncQueue.h>
 #include <vector>
 #include <map>
 #include <string>
@@ -50,91 +51,29 @@
 namespace ot{
 
 
-  /// helper class 
-  template<class T>
-  class SyncQueue{
-  private:
-    std::queue<T> msgQueue;
-    ACE_Thread_Mutex _mutex;  
-  
-    ACE_Thread_Mutex _sigMutex;
-
-    ACE_Condition<ACE_Thread_Mutex> haveDataSignal;
-
-  public:
-    //delete all the messages in the queue
-    void cleanupAll(){
-      _mutex.acquire();
-      while(!msgQueue.empty()){
-	delete msgQueue.front();
-	msgQueue.pop();
-      }
-      _mutex.release();
-   
-    };
-
-  public:
-    SyncQueue():_mutex("SyncQueueMutex"),_sigMutex("SyncQueueHaveData"),
-		haveDataSignal(_sigMutex, USYNC_THREAD, "SyncQueueDataSignal", NULL){
-    };
-
-    ~SyncQueue(){
-      removeAll();
-    };
-  
-    void push(T msg){
-      _mutex.acquire();
-      msgQueue.push(msg);
-
-      haveDataSignal.broadcast();
-      _mutex.release();
-    };
-
-    T front(){
-      T result=0;
-      _mutex.acquire();
-      if (!msgQueue.empty()){
-	result = msgQueue.front();
-	msgQueue.pop();
-      }
-      _mutex.release();
-      return result;
-    };
-
-    void removeAll(){
-      _mutex.acquire();
-      while(!msgQueue.empty()){
-	//      delete msgQueue.front();
-	msgQueue.pop();
-      }
-      _mutex.release();
-    };
-    bool isEmpty(){
-      bool result = true;
-      _mutex.acquire();
-      result = msgQueue.empty();
-      _mutex.release();
-      return result;
-    };
-
-    void waitForData(){
-      _sigMutex.acquire();
-      haveDataSignal.wait();
-      _sigMutex.release();
-    }
-  
-  };
-
-
-  class ixMdig;
   class ixMidiSocket;
   class MidiMsg;
+  class ICubeXSensor;
   class ICubeXSource: public Node{
+  public:
+    typedef std::vector<ICubeXSensor *> SensorArray;
   protected:
-    ixMdig * mdig;
+    SensorArray sensors;
+
+    unsigned char confignr;  
+    char name[8];
+    unsigned char version[5];
+    unsigned char id;
+    unsigned char mode;
+    unsigned char running_status;
+    unsigned char midi_thru;
+
+	unsigned char default_config[9];
+
     ixMidiSocket * socket;
     bool changed;
     Event event;
+
 
     friend class ICubeXModule;
     ICubeXSource();
@@ -144,13 +83,42 @@ namespace ot{
     void stop();
 
   public:
+    static const unsigned int numberOfPorts;
     typedef SyncQueue<MidiMsg *> MsgQueue;
     MsgQueue mQueue;
+
     virtual ~ICubeXSource();
     virtual int isEventGenerator();
     void pushEvent();
 
-    ixMdig * getDevice();
+    void addSensor(ICubeXSensor * );
+	ICubeXSensor * getSensor( int index );
+    
+
+    void asHostMode(unsigned char idd);
+    bool isHostMode();
+    bool isStandAloneMode();
+    unsigned char getId();
+    unsigned char getConfigNr();
+    unsigned char getRunningStatus();
+    unsigned char getMidiThru();
+    float getFirmwareVersion();
+    float getHardwareVersion();
+    unsigned int getSerial();
+    void setVersion( unsigned char * ptr ); 
+    void setSensorConfig(int index, unsigned char * ptr);
+    unsigned char * getSensorConfig(int index);
+    void setName(unsigned char * ptr);
+    void clear(MidiMsg & mMsg) ;
+    void makeHeader(MidiMsg & mMsg);
+    void makeFooter(MidiMsg & mMsg);
+    void makeCmdMsg(MidiMsg & mMsg, unsigned char cmd);
+    void makeOneByteMsg(MidiMsg & mMsg, unsigned char cmd, unsigned char data1);
+
+    void makeTwoByteMsg(MidiMsg & mMsg, unsigned char cmd, unsigned char data1, unsigned char data2);
+
+
+
   };
   
 

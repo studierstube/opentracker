@@ -123,6 +123,9 @@ class MidiMsg{
  public:
   unsigned long packMsg();
   bool isSysEx();
+  unsigned char getCommand();
+  unsigned char getChannel();
+  unsigned char getStatus();
   static void unpackShortMsg(unsigned long msg, unsigned char & byte1, unsigned char & byte2, unsigned char & byte3);
 };
 

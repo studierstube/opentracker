@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for ICubeXModule.
+/** header file for ICubeXSource.
  *
  * @author Eduardo Veas
  *
@@ -42,53 +42,34 @@
 /* ======================================================================= */
 
 #include <OpenTracker/OpenTracker.h>
-#include <vector>
-#include <map>
-#include <string>
+#include <OpenTracker/tool/midi.h>
+#include <OpenTracker/tool/SyncQueue.h>
+
 
 namespace ot{
 
-  class ICubeXSource;
-  class ICubeXSink;
-  class ICubeXSensor;
-  class ixMidiSocket;
-  class ICubeXModule : public Module, public NodeFactory{
-  public:
-    typedef std::vector<ICubeXSource *> ICubeXSourceDict;
-    typedef std::vector<ICubeXSink *> ICubeXSinkDict;
-    typedef std::vector<ICubeXSensor *> ICubeXSensorDict;
-    typedef std::map<std::string, ixMidiSocket * > SocketDict;
+  class MidiMsg;
+  class ICubeXSensor: public Node{
   protected:
-    ICubeXSourceDict srcs;
-    ICubeXSinkDict   sinks;
-    ICubeXSensorDict sensors;
-    SocketDict sockets;
-    
+    unsigned char port;
+    bool changed;
+    Event event;
 
-    void cleanUpSrcs();
-    void cleanUpSinks();
-    void cleanUpSensors();
-    void cleanUpSockets();
+    unsigned char config[7];
+
+    friend class ICubeXModule;
+    friend class ICubeXSource;
+    ICubeXSensor();
+    void configure(StringTable & config);
 
   public:
-    ICubeXModule();
-    virtual ~ICubeXModule();
-    
-    virtual void init(StringTable & attributes, ConfigNode * localTree);
-
-    virtual void close();
-
-    virtual void start();
-
-    
-    virtual void addNode(const Node *);
-    virtual void removeNode(const Node*);
-
-    // NodeFactory interface
-    virtual Node * createNode( const std::string & name, StringTable & attributes);
-    virtual void pushEvent();
+    typedef SyncQueue<MidiMsg *> MsgQueue;
+    MsgQueue mQueue;
+    virtual ~ICubeXSensor();
+    virtual int isEventGenerator();
+    void pushEvent();
+    unsigned char getPort(){return port;};
+    void haveData(unsigned long data);
   };
-
-  OT_MODULE(ICubeXModule);
-
+  
 }; // namespace ot
