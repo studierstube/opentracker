@@ -55,6 +55,7 @@ opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_INTERPOLATION', 'Set to enable interpolation support', 0))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
+opts.Add(BoolOption('ENABLE_FILE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -100,6 +101,9 @@ else:
 if env['ENABLE_INTERPOLATION']:
     env['CPPDEFINES'].remove('OT_NO_INTERPORLATORMODULE_SUPPORT')
     extra_files += [join('src', 'common', 'InterpolatorModule.cxx'), join('src', 'common', 'ElasticFilterNode.cxx')]
+if env['ENABLE_FILE']:
+    env['CPPDEFINES'].remove('OT_NO_FILEMODULE_SUPPORT')
+    extra_files += [join('src', 'common', file) for file in ['FileModule.cxx', 'File.cxx']]
 # Enable or disable CORBA support
 if env['ENABLE_CORBA']:
     print "OmniEvents support enabled"
