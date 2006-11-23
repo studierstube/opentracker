@@ -78,8 +78,9 @@ else:
         # will be used by the build, for each target that lists a
         # library in its 'libs' or in its 'use' sections.
         libraryList =['boost', 'ace', 'xercesc', 'omniorb', 'muddleware','ot',
-		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus']
+		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus','ptu', '3dconnexion']
 
+        use= ['tinyxml','tinyxmlmod','artoolkitplus','ptu','3dconnexion']
 
         ot ={'name': 'opentracker',
              'type': 'DL',
@@ -437,6 +438,7 @@ buildConfig.setIncDir(includeDir)
 buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras', 'intersense'))
 buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras'))
 buildConfig.addIncDir(os.path.join(os.getcwd(), 'extras', 'newmat10'))
+
 
 # create the build targets
 buildConfig.setTargetList(targetList)

@@ -108,6 +108,8 @@
 #include <OpenTracker/input/SpaceDeviceModule.h>
 #include <OpenTracker/input/GoGoModule.h>
 #include <OpenTracker/input/PanTiltUnitModule.h>
+#include <OpenTracker/input/SysMouseModule.h>
+#include <OpenTracker/common/ThreeToTwoDimFilterModule.h>
 #include <OpenTracker/input/SpeechModule.h>
 #include <OpenTracker/input/P5GloveModule.h>
 #include <OpenTracker/input/MulticastInputModule.h>
@@ -256,6 +258,14 @@ namespace ot {
 
 #ifdef USE_PANTILTUNIT
 		OT_REGISTER_MODULE(PanTiltUnitModule, NULL);
+#endif	
+
+#ifdef USE_SYSMOUSE
+		OT_REGISTER_MODULE(SysMouseModule, NULL);
+#endif	
+
+#ifdef USE_THREETOTWODIMFILTER
+		OT_REGISTER_MODULE(ThreeToTwoDimFilterModule, NULL);
 #endif	
 
 #ifndef OT_NO_NETWORK_SUPPORT

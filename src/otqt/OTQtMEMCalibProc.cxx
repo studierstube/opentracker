@@ -52,7 +52,7 @@
 #include <cstdio>
 #include <stdexcept>
 #include <cmath>
-#include <qdatetime.h>
+#include <Qt/qdatetime.h>
 
 namespace ot {
 

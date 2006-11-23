@@ -96,8 +96,11 @@ OTQtMath::distance(std::vector<float> const & v1, std::vector<float> const & v2)
   if (v1.size() != v2.size()) {
     throw Exception("OTQtMath::distance(): Argument vectors have different dimension.");
   }
+#ifdef WIN32
+  float tmp[3];
+#else
   float tmp[v1.size()];
-
+#endif
   RowVector vec1(v1.size());
   vec1 << ot::copyV2A<float>(v1, tmp);
   RowVector vec2(v2.size());

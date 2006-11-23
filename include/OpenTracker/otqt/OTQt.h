@@ -66,9 +66,9 @@
 #include <OpenTracker/otqt/QtMouseEventCalibModule.h>
 #include <OpenTracker/otqt/OTQtLog.h>
 #include <OpenTracker/OpenTracker.h>
-#include <qobject.h>
-#include <qtimer.h>
-#include <qmutex.h>
+#include <Qt/qobject.h>
+#include <Qt/qtimer.h>
+#include <Qt/qmutex.h>
 #include <string>
 
 namespace ot {

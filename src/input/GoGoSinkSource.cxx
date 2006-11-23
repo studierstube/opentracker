@@ -94,7 +94,7 @@ namespace ot {
 	
     void GoGoSinkSource::computeNewLocation()
     {
-        float tmp[3], corr[3], rq[4], q[4];
+        float tmp[3], rq[4], q[4];
 		
         tmp[0] = relativeInputPos[0] * tWeight;
         tmp[1] = relativeInputPos[1] * tWeight;

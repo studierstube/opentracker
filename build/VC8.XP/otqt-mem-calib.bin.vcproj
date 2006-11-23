@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)&quot;;&quot;$(OTROOT)/include&quot;;&quot;$(OTROOT)\extras&quot;;&quot;$(OTROOT)/include/OpenTracker&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\mkspecs\win32-msvc.net&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\Qt&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(ACEROOT)/include&quot;;&quot;$(OTROOT)/src&quot;;&quot;$(OTROOT)&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\mkspecs\win32-msvc.net&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;QT_THREAD_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -136,7 +136,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)&quot;;&quot;$(OTROOT)/include&quot;;&quot;$(OTROOT)\extras&quot;;&quot;$(OTROOT)/include/OpenTracker&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\mkspecs\win32-msvc.net&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\Qt&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)\extras&quot;;&quot;$(OTROOT)\include&quot;;&quot;$(OTROOT)/src&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\mkspecs\win32-msvc.net&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;QT_THREAD_SUPPORT"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"

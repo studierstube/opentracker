@@ -1,121 +1,185 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8,00"
 	Name="opentracker"
 	ProjectGUID="{9C260567-A9B4-4489-8B2C-F3663004A18D}"
 	RootNamespace="opentracker"
-	Keyword="Win32Proj">
+	Keyword="Win32Proj"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="2"
-			CharacterSet="2">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(VIDCAPROOT)/Source/VidCapture&quot;;&quot;$(OPENVIDEOROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;TINYXML_MOD_DLL"
-				MinimalRebuild="TRUE"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				RuntimeTypeInfo="TRUE"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="aced.lib"
 				OutputFile="$(OTROOT)/bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;"
-				GenerateDebugInformation="TRUE"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OTROOT)/lib/Win32/opentrackerd.pdb"
 				SubSystem="2"
 				ImportLibrary="$(OTROOT)/lib/Win32/opentrackerd.lib"
-				TargetMachine="1"/>
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
-			CharacterSet="2">
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/src/TinyXML&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/extras/intersense&quot;;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(VIDCAPROOT)/Source/VidCapture&quot;;&quot;$(OPENVIDEOROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ace.lib"
 				OutputFile="$(OTROOT)/bin/Win32/opentracker.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib/win32&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
-				GenerateDebugInformation="TRUE"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OTROOT)/lib/Win32/opentracker.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				ImportLibrary="$(OTROOT)/lib/Win32/opentracker.lib"
-				TargetMachine="1"/>
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -124,779 +188,1037 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerChomp.cxx">
+				RelativePath="..\..\src\input\ARTDataTrackerChomp.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerModule.cxx">
+				RelativePath="..\..\src\input\ARTDataTrackerModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitModule.cxx">
+				RelativePath="..\..\src\input\ARToolKitModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitPlusModule.cxx">
+				RelativePath="..\..\src\input\ARToolKitPlusModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonFilterNode.cxx">
+				RelativePath="..\..\src\common\ButtonFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterModule.cxx">
+				RelativePath="..\..\src\common\ButtonHoldFilterModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterNode.cxx">
+				RelativePath="..\..\src\common\ButtonHoldFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonOpNode.cxx">
+				RelativePath="..\..\src\common\ButtonOpNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CallbackModule.cxx">
+				RelativePath="..\..\src\common\CallbackModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CommonNodeFactory.cxx">
+				RelativePath="..\..\src\common\CommonNodeFactory.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceFilterNode.cxx">
+				RelativePath="..\..\src\common\ConfidenceFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceSelectNode.cxx">
+				RelativePath="..\..\src\common\ConfidenceSelectNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigurationParser.cxx">
+				RelativePath="..\..\src\core\ConfigurationParser.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleModule.cxx">
+				RelativePath="..\..\src\common\ConsoleModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Context.cxx">
+				RelativePath="..\..\src\core\Context.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\CyberMouseModule.cxx">
+				RelativePath="..\..\src\input\CyberMouseModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESP.cxx">
+				RelativePath="..\..\src\common\DESP.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESPFilterNode.cxx">
+				RelativePath="..\..\src\common\DESPFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSIP_Handler.cxx">
+				RelativePath="..\..\src\input\DGPSIP_Handler.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSMirror_Handler.cxx">
+				RelativePath="..\..\src\input\DGPSMirror_Handler.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DifferenceNode.cxx">
+				RelativePath="..\..\src\common\DifferenceNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\DOMTreeErrorReporter.cxx">
+				RelativePath="..\..\src\core\DOMTreeErrorReporter.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfModule.cxx">
+				RelativePath="..\..\src\network\DwarfModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DynamicTransformation.cxx">
+				RelativePath="..\..\src\common\DynamicTransformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DynaSightModule.cxx">
+				RelativePath="..\..\src\input\DynaSightModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ElasticFilterNode.cxx">
+				RelativePath="..\..\src\common\ElasticFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EllipsoidTransformNode.cxx">
+				RelativePath="..\..\src\common\EllipsoidTransformNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.cxx">
+				RelativePath="..\..\src\core\Event.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventAttributeBase.cxx">
+				RelativePath="..\..\src\core\EventAttributeBase.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventQueueImplementation.cxx">
+				RelativePath="..\..\src\core\EventQueueImplementation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventQueueNode.cxx">
+				RelativePath="..\..\src\common\EventQueueNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventUtilityNode.cxx">
+				RelativePath="..\..\src\common\EventUtilityNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FastTrakModule.cxx">
+				RelativePath="..\..\src\input\FastTrakModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.cxx">
+				RelativePath="..\..\src\common\File.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.cxx">
+				RelativePath="..\..\src\common\FileModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FilterNode.cxx">
+				RelativePath="..\..\src\common\FilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FOBModule.cxx">
+				RelativePath="..\..\src\input\FOBModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GKTransformNode.cxx">
+				RelativePath="..\..\src\common\GKTransformNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPS_Handler.cxx">
+				RelativePath="..\..\src\input\GPS_Handler.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSDriver.cxx">
+				RelativePath="..\..\src\input\GPSDriver.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSModule.cxx">
+				RelativePath="..\..\src\input\GPSModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSParser.cxx">
+				RelativePath="..\..\src\input\GPSParser.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateModule.cxx">
+				RelativePath="..\..\src\common\GroupGateModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateNode.cxx">
+				RelativePath="..\..\src\common\GroupGateNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InterpolatorModule.cxx">
+				RelativePath="..\..\src\common\InterpolatorModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\InterSenseModule.cxx">
+				RelativePath="..\..\src\input\InterSenseModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InvertTransformation.cxx">
+				RelativePath="..\..\src\common\InvertTransformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\extras\intersense\isense.c">
+				RelativePath="..\..\extras\intersense\isense.c"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\JoystickModule.cxx">
+				RelativePath="..\..\src\input\JoystickModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\LinmouseModule.cxx">
+				RelativePath="..\..\src\input\LinmouseModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\LogModule.cxx">
+				RelativePath="..\..\src\common\LogModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MagicYModule.cxx">
+				RelativePath="..\..\src\input\MagicYModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\MathUtils.cxx">
+				RelativePath="..\..\src\core\MathUtils.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MatrixTransformation.cxx">
+				RelativePath="..\..\src\common\MatrixTransformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MergeNode.cxx">
+				RelativePath="..\..\src\common\MergeNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MulticastInputModule.cxx">
+				RelativePath="..\..\src\input\MulticastInputModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSinkModule.cxx">
+				RelativePath="..\..\src\network\NetworkSinkModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSourceModule.cxx">
+				RelativePath="..\..\src\network\NetworkSourceModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Node.cxx">
+				RelativePath="..\..\src\core\Node.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactoryContainer.cxx">
+				RelativePath="..\..\src\core\NodeFactoryContainer.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\OpenTracker.cxx">
+				RelativePath="..\..\src\misc\OpenTracker.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OpenVideoModule.cxx">
+				RelativePath="..\..\src\input\OpenVideoModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OrientationModule.cxx">
+				RelativePath="..\..\src\input\OrientationModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\OSUtils.cxx">
+				RelativePath="..\..\src\core\OSUtils.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\OT_ACE_Log.cxx">
+				RelativePath="..\..\src\tool\OT_ACE_Log.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\P5GloveModule.cxx">
+				RelativePath="..\..\src\input\P5GloveModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ParButtonModule.cxx">
+				RelativePath="..\..\src\input\ParButtonModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\portio.cxx">
+				RelativePath="..\..\src\misc\portio.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\PositionFilterNode.cxx">
+				RelativePath="..\..\src\common\PositionFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\RangeFilterNode.cxx">
+				RelativePath="..\..\src\common\RangeFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\RawInputModule.cxx">
+				RelativePath="..\..\src\input\RawInputModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\RawInputSource.cxx">
+				RelativePath="..\..\src\input\RawInputSource.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\SelectionNode.cxx">
+				RelativePath="..\..\src\common\SelectionNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\serialcomm.cxx">
+				RelativePath="..\..\src\misc\serialcomm.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpaceMouseModule.cxx">
+				RelativePath="..\..\src\input\SpaceMouseModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechCore.cxx">
+				RelativePath="..\..\src\input\SpeechCore.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechModule.cxx">
+				RelativePath="..\..\src\input\SpeechModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSet.cxx">
+				RelativePath="..\..\src\input\SpeechSet.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSource.cxx">
+				RelativePath="..\..\src\input\SpeechSource.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoice.cxx">
+				RelativePath="..\..\src\input\SpeechVoice.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoiceModule.cxx">
+				RelativePath="..\..\src\input\SpeechVoiceModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\StaticTransformation.cxx">
+				RelativePath="..\..\src\common\StaticTransformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\StringTable.cxx">
+				RelativePath="..\..\src\core\StringTable.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\TargusModule.cxx">
+				RelativePath="..\..\src\input\TargusModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\TCPModule.cxx">
+				RelativePath="..\..\src\network\TCPModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\TestModule.cxx">
+				RelativePath="..\..\src\core\TestModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ThreadModule.cxx">
+				RelativePath="..\..\src\core\ThreadModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ThresholdFilterNode.cxx">
+				RelativePath="..\..\src\common\ThresholdFilterNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeGateNode.cxx">
+				RelativePath="..\..\src\common\TimeGateNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeModule.cxx">
+				RelativePath="..\..\src\common\TimeModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorModule.cxx">
+				RelativePath="..\..\src\common\TimestampGeneratorModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorNode.cxx">
+				RelativePath="..\..\src\common\TimestampGeneratorNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\Transformation.cxx">
+				RelativePath="..\..\src\common\Transformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Translator.cxx">
+				RelativePath="..\..\src\core\Translator.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TriangulateOrientationNode.cxx">
+				RelativePath="..\..\src\common\TriangulateOrientationNode.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseModule.cxx">
+				RelativePath="..\..\src\input\UbisenseModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseSource.cxx">
+				RelativePath="..\..\src\input\UbisenseSource.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UltraTrakModule.cxx">
+				RelativePath="..\..\src\input\UltraTrakModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\VirtualTransformation.cxx">
+				RelativePath="..\..\src\common\VirtualTransformation.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNModule.cxx">
+				RelativePath="..\..\src\network\VRPNModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSink.cxx">
+				RelativePath="..\..\src\network\VRPNSink.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSource.cxx">
+				RelativePath="..\..\src\network\VRPNSource.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\WacomGraphireModule.cxx">
+				RelativePath="..\..\src\input\WacomGraphireModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\XKeys.cxx">
+				RelativePath="..\..\src\misc\XKeys.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\xml\XMLWriter.cxx">
+				RelativePath="..\..\src\misc\xml\XMLWriter.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensModule.cxx">
+				RelativePath="..\..\src\input\XSensModule.cxx"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensSource.cxx">
+				RelativePath="..\..\src\input\XSensSource.cxx"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerChomp.h">
+				RelativePath="..\..\src\input\ARTDataTrackerChomp.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerModule.h">
+				RelativePath="..\..\src\input\ARTDataTrackerModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerSource.h">
+				RelativePath="..\..\src\input\ARTDataTrackerSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitModule.h">
+				RelativePath="..\..\src\input\ARToolKitModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitMultiMarkerSource.h">
+				RelativePath="..\..\src\input\ARToolKitMultiMarkerSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitPlusModule.h">
+				RelativePath="..\..\src\input\ARToolKitPlusModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitSource.h">
+				RelativePath="..\..\src\input\ARToolKitSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonFilterNode.h">
+				RelativePath="..\..\src\common\ButtonFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterModule.h">
+				RelativePath="..\..\src\common\ButtonHoldFilterModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterNode.h">
+				RelativePath="..\..\src\common\ButtonHoldFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonOpNode.h">
+				RelativePath="..\..\src\common\ButtonOpNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CallbackModule.h">
+				RelativePath="..\..\src\common\CallbackModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CallbackNode.h">
+				RelativePath="..\..\src\common\CallbackNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CommonNodeFactory.h">
+				RelativePath="..\..\src\common\CommonNodeFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceFilterNode.h">
+				RelativePath="..\..\src\common\ConfidenceFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceSelectNode.h">
+				RelativePath="..\..\src\common\ConfidenceSelectNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\config_win.h">
+				RelativePath="..\..\config_win.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigNode.h">
+				RelativePath="..\..\src\core\ConfigNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigurationParser.h">
+				RelativePath="..\..\src\core\ConfigurationParser.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleModule.h">
+				RelativePath="..\..\src\common\ConsoleModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleSink.h">
+				RelativePath="..\..\src\common\ConsoleSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleSource.h">
+				RelativePath="..\..\src\common\ConsoleSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Context.h">
+				RelativePath="..\..\src\core\Context.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\CyberMouseModule.h">
+				RelativePath="..\..\src\input\CyberMouseModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\CyberMouseSource.h">
+				RelativePath="..\..\src\input\CyberMouseSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESP.h">
+				RelativePath="..\..\src\common\DESP.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESPFilterNode.h">
+				RelativePath="..\..\src\common\DESPFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSIP_Handler.h">
+				RelativePath="..\..\src\input\DGPSIP_Handler.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSMirror_Handler.h">
+				RelativePath="..\..\src\input\DGPSMirror_Handler.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DifferenceNode.h">
+				RelativePath="..\..\src\common\DifferenceNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\DOMTreeErrorReporter.h">
+				RelativePath="..\..\src\core\DOMTreeErrorReporter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfModule.h">
+				RelativePath="..\..\src\network\DwarfModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfSink.h">
+				RelativePath="..\..\src\network\DwarfSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfSource.h">
+				RelativePath="..\..\src\network\DwarfSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DynamicTransformation.h">
+				RelativePath="..\..\src\common\DynamicTransformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DynaSightModule.h">
+				RelativePath="..\..\src\input\DynaSightModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DynaSightSource.h">
+				RelativePath="..\..\src\input\DynaSightSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ElasticFilterNode.h">
+				RelativePath="..\..\src\common\ElasticFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EllipsoidTransformNode.h">
+				RelativePath="..\..\src\common\EllipsoidTransformNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.h">
+				RelativePath="..\..\src\core\Event.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventAttribute.h">
+				RelativePath="..\..\src\core\EventAttribute.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventQueueImplementation.h">
+				RelativePath="..\..\src\core\EventQueueImplementation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventQueueNode.h">
+				RelativePath="..\..\src\common\EventQueueNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventUtilityNode.h">
+				RelativePath="..\..\src\common\EventUtilityNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FastTrakModule.h">
+				RelativePath="..\..\src\input\FastTrakModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FastTrakSource.h">
+				RelativePath="..\..\src\input\FastTrakSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.h">
+				RelativePath="..\..\src\common\File.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.h">
+				RelativePath="..\..\src\common\FileModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileSink.h">
+				RelativePath="..\..\src\common\FileSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileSource.h">
+				RelativePath="..\..\src\common\FileSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FilterNode.h">
+				RelativePath="..\..\src\common\FilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FOBModule.h">
+				RelativePath="..\..\src\input\FOBModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FOBSource.h">
+				RelativePath="..\..\src\input\FOBSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GKTransformNode.h">
+				RelativePath="..\..\src\common\GKTransformNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPS_Handler.h">
+				RelativePath="..\..\src\input\GPS_Handler.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSDirectionSource.h">
+				RelativePath="..\..\src\input\GPSDirectionSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSDriver.h">
+				RelativePath="..\..\src\input\GPSDriver.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSGarminAltitude.h">
+				RelativePath="..\..\src\input\GPSGarminAltitude.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSGarminCompass.h">
+				RelativePath="..\..\src\input\GPSGarminCompass.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSInfoSource.h">
+				RelativePath="..\..\src\input\GPSInfoSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSModule.h">
+				RelativePath="..\..\src\input\GPSModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSParser.h">
+				RelativePath="..\..\src\input\GPSParser.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSSource.h">
+				RelativePath="..\..\src\input\GPSSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateModule.h">
+				RelativePath="..\..\src\common\GroupGateModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateNode.h">
+				RelativePath="..\..\src\common\GroupGateNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InterpolatorModule.h">
+				RelativePath="..\..\src\common\InterpolatorModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\InterSenseModule.h">
+				RelativePath="..\..\src\input\InterSenseModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\InterSenseSource.h">
+				RelativePath="..\..\src\input\InterSenseSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InvertTransformation.h">
+				RelativePath="..\..\src\common\InvertTransformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\iostream_ext.h">
+				RelativePath="..\..\src\core\iostream_ext.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\extras\intersense\isense.h">
+				RelativePath="..\..\extras\intersense\isense.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\JoystickModule.h">
+				RelativePath="..\..\src\input\JoystickModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\JoystickSource.h">
+				RelativePath="..\..\src\input\JoystickSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\LinmouseModule.h">
+				RelativePath="..\..\src\input\LinmouseModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\LinmouseSource.h">
+				RelativePath="..\..\src\input\LinmouseSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\LogModule.h">
+				RelativePath="..\..\src\common\LogModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MagicYModule.h">
+				RelativePath="..\..\src\input\MagicYModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MagicYSource.h">
+				RelativePath="..\..\src\input\MagicYSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\MathUtils.h">
+				RelativePath="..\..\src\core\MathUtils.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MatrixTransformation.h">
+				RelativePath="..\..\src\common\MatrixTransformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MergeNode.h">
+				RelativePath="..\..\src\common\MergeNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Module.h">
+				RelativePath="..\..\src\core\Module.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MulticastInputModule.h">
+				RelativePath="..\..\src\input\MulticastInputModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MulticastInputSource.h">
+				RelativePath="..\..\src\input\MulticastInputSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\Network.h">
+				RelativePath="..\..\src\network\Network.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSink.h">
+				RelativePath="..\..\src\network\NetworkSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSinkModule.h">
+				RelativePath="..\..\src\network\NetworkSinkModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSource.h">
+				RelativePath="..\..\src\network\NetworkSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSourceModule.h">
+				RelativePath="..\..\src\network\NetworkSourceModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Node.h">
+				RelativePath="..\..\src\core\Node.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactory.h">
+				RelativePath="..\..\src\core\NodeFactory.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactoryContainer.h">
+				RelativePath="..\..\src\core\NodeFactoryContainer.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodePort.h">
+				RelativePath="..\..\src\core\NodePort.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OpenVideoModule.h">
+				RelativePath="..\..\src\input\OpenVideoModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OrientationModule.h">
+				RelativePath="..\..\src\input\OrientationModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OrientationSource.h">
+				RelativePath="..\..\src\input\OrientationSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\OSUtils.h">
+				RelativePath="..\..\src\core\OSUtils.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\OT_ACE_Log.h">
+				RelativePath="..\..\src\tool\OT_ACE_Log.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\P5GloveModule.h">
+				RelativePath="..\..\src\input\P5GloveModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\P5GloveSource.h">
+				RelativePath="..\..\src\input\P5GloveSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ParButtonModule.h">
+				RelativePath="..\..\src\input\ParButtonModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ParButtonSource.h">
+				RelativePath="..\..\src\input\ParButtonSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\portio.h">
+				RelativePath="..\..\src\misc\portio.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\PositionFilterNode.h">
+				RelativePath="..\..\src\common\PositionFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\RangeFilterNode.h">
+				RelativePath="..\..\src\common\RangeFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\RefNode.h">
+				RelativePath="..\..\src\core\RefNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\SelectionNode.h">
+				RelativePath="..\..\src\common\SelectionNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\serialcomm.h">
+				RelativePath="..\..\src\misc\serialcomm.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpaceMouseModule.h">
+				RelativePath="..\..\src\input\SpaceMouseModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpaceMouseSource.h">
+				RelativePath="..\..\src\input\SpaceMouseSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechCore.h">
+				RelativePath="..\..\src\input\SpeechCore.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechDef.h">
+				RelativePath="..\..\src\input\SpeechDef.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechInc.h">
+				RelativePath="..\..\src\input\SpeechInc.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechModule.h">
+				RelativePath="..\..\src\input\SpeechModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSet.h">
+				RelativePath="..\..\src\input\SpeechSet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSource.h">
+				RelativePath="..\..\src\input\SpeechSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoice.h">
+				RelativePath="..\..\src\input\SpeechVoice.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoiceModule.h">
+				RelativePath="..\..\src\input\SpeechVoiceModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\StaticTransformation.h">
+				RelativePath="..\..\src\common\StaticTransformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\StringTable.h">
+				RelativePath="..\..\src\core\StringTable.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\TargusModule.h">
+				RelativePath="..\..\src\input\TargusModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\TargusSource.h">
+				RelativePath="..\..\src\input\TargusSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\TCPModule.h">
+				RelativePath="..\..\src\network\TCPModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\TCPSink.h">
+				RelativePath="..\..\src\network\TCPSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\TestModule.h">
+				RelativePath="..\..\src\core\TestModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\TestSource.h">
+				RelativePath="..\..\src\core\TestSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ThreadModule.h">
+				RelativePath="..\..\src\core\ThreadModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ThresholdFilterNode.h">
+				RelativePath="..\..\src\common\ThresholdFilterNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeGateNode.h">
+				RelativePath="..\..\src\common\TimeGateNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeModule.h">
+				RelativePath="..\..\src\common\TimeModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorModule.h">
+				RelativePath="..\..\src\common\TimestampGeneratorModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorNode.h">
+				RelativePath="..\..\src\common\TimestampGeneratorNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\Transformation.h">
+				RelativePath="..\..\src\common\Transformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Translator.h">
+				RelativePath="..\..\src\core\Translator.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TriangulateOrientationNode.h">
+				RelativePath="..\..\src\common\TriangulateOrientationNode.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseModule.h">
+				RelativePath="..\..\src\input\UbisenseModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseSource.h">
+				RelativePath="..\..\src\input\UbisenseSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UltraTrakModule.h">
+				RelativePath="..\..\src\input\UltraTrakModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UltraTrakSource.h">
+				RelativePath="..\..\src\input\UltraTrakSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\VirtualTransformation.h">
+				RelativePath="..\..\src\common\VirtualTransformation.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNModule.h">
+				RelativePath="..\..\src\network\VRPNModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSink.h">
+				RelativePath="..\..\src\network\VRPNSink.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSource.h">
+				RelativePath="..\..\src\network\VRPNSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\WacomGraphireModule.h">
+				RelativePath="..\..\src\input\WacomGraphireModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\WacomGraphireSource.h">
+				RelativePath="..\..\src\input\WacomGraphireSource.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\XKeys.h">
+				RelativePath="..\..\src\misc\XKeys.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\xml\XMLWriter.h">
+				RelativePath="..\..\src\misc\xml\XMLWriter.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensModule.h">
+				RelativePath="..\..\src\input\XSensModule.h"
+				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensSource.h">
+				RelativePath="..\..\src\input\XSensSource.h"
+				>
 			</File>
 		</Filter>
 	</Files>

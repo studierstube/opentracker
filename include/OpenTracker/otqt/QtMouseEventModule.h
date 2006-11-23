@@ -90,10 +90,10 @@
 
 #include <OpenTracker/otqt/QtMouseEventModuleBase.h>
 #include <OpenTracker/otqt/QtAppScreen.h>
-#include <qrect.h>
-#include <qevent.h>
-#include <qpoint.h>
-#include <qdatetime.h>
+#include <Qt/qrect.h>
+#include <Qt/qevent.h>
+#include <Qt/qpoint.h>
+#include <Qt/qdatetime.h>
 #include <list>
 
 namespace ot {

@@ -87,6 +87,8 @@ namespace ot {
         int changed;
         /// flag whether it is displayed or not
         int active;
+        /// flag for forwarding event to system (win only sofar)
+        int toSysMouse;
 
         // Methods
     protected:
@@ -96,7 +98,8 @@ namespace ot {
             Node(), 
             comment( comment_ ),
             changed( 0 ),
-            active( active_ )
+            active( active_ ),
+            toSysMouse( 0 )
 	{}
 
     public:

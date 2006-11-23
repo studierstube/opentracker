@@ -38,10 +38,6 @@
 #ifndef EXCEPTION_LIB
 #define EXCEPTION_LIB
 
-#ifdef WIN32
-#include <dllinclude.h>
-#endif
-
 #ifdef use_namespace
 namespace RBD_COMMON {
 #endif
@@ -69,11 +65,7 @@ public:
 };
 
 
-#ifdef WIN32
-class OPENTRACKER_API Exception                          // The base exception class
-#else
 class Exception                          // The base exception class
-#endif
 {
 protected:
    static char* what_error;              // error message

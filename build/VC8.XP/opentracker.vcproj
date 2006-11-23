@@ -5,7 +5,7 @@
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
-	Keyword="Win32Proj"
+	Keyword="Qt4VSv1.0"
 	>
 	<Platforms>
 		<Platform
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include;&quot;$(QTDIR)\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,10 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="aced.lib"
+				AdditionalDependencies="aced.lib QtCored4.lib QtGuid4.lib newmatd.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../bin/Win32/opentrackerd.pdb"
 				SubSystem="2"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include;&quot;$(QTDIR)\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -141,10 +141,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ace.lib"
+				AdditionalDependencies="ace.lib QtCore4.lib QtGui4.lib newmat.lib"
 				OutputFile="../../bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
 				SubSystem="2"
@@ -484,6 +484,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\otqt\OTQt.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\OTQtConfigFileEditor.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\OTQtLog.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\OTQtMath.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\OTQtMEMCalibProc.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\P5GloveModule.cxx"
 				>
 			</File>
@@ -505,6 +525,42 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\PositionFilterNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtAppScreen.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtAppScreenPosSink.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseButtonSink.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseEventCalibModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseEventModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseEventModuleBase.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseEventSinkBase.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMousePosSink.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\otqt\QtMouseWheelSink.cxx"
 				>
 			</File>
 			<File
@@ -564,6 +620,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\SysMouseModule.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\network\TCPModule.cxx"
 				>
 			</File>
@@ -573,6 +633,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\core\ThreadModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\ThreeToTwoDimCalc.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\ThreeToTwoDimFilter.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\ThreeToTwoDimFilterModule.cxx"
 				>
 			</File>
 			<File
@@ -1060,6 +1132,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\core\NodePort.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\network\OldOTNetwork.h"
@@ -1098,6 +1192,48 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\otqt\OTQt.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing OTQt.h..."
+						CommandLine="$(QTDIR)\bin\moc.exe  -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(XERCESCROOT)\src&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;C:\dev\Ubisense\include&quot; -I&quot;$(QTDIR)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
+						Outputs="&quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing OTQt.h..."
+						CommandLine="$(QTDIR)\bin\moc.exe  -DWIN32 -DNDEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(XERCESCROOT)\src&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;C:\dev\Ubisense\include&quot; -I&quot;$(QTDIR)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\OTQtConfigFileEditor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\OTQtLog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\OTQtMath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\OTQtMEMCalibProc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\input\P5GloveModule.h"
 				>
 			</File>
@@ -1119,6 +1255,64 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\PositionFilterNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtAppScreen.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtAppScreenPosSink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseButtonSink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseEventCalibModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseEventModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseEventModuleBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseEventSinkBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMousePosSink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\otqt\QtMouseWheelSink.h"
 				>
 			</File>
 			<File
@@ -1202,6 +1396,58 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\input\SysMouseModule.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\SysMouseSink.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\network\TCPModule.h"
 				>
 			</File>
@@ -1220,6 +1466,84 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\core\ThreadModule.h"
 				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\ThreeToTwoDimCalc.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\ThreeToTwoDimFilter.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\ThreeToTwoDimFilterModule.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\ThresholdFilterNode.h"
@@ -1331,6 +1655,47 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="Generated Files"
+			Filter="moc;h;cpp"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
+			>
+			<File
+				RelativePath=".\generatedfiles\release\moc_OTQt.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\generatedfiles\debug\moc_OTQt.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

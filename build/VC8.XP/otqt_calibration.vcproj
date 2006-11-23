@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="otqt_mem_calib"
+	Name="otqt"
 	ProjectGUID="{FB322898-6B0F-40F6-9E9C-1083EBC47CEF}"
 	RootNamespace="otqt_calibration"
 	Keyword="Win32Proj"
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(OTROOT)/include&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/include/OpenTracker&quot;;&quot;$(ACEROOT)&quot;;&quot;$(QTROOT)/include&quot;;&quot;$(QTROOT)/include/QtCore&quot;;&quot;$(QTROOT)/include/Qt3Support&quot;"
+				AdditionalIncludeDirectories="&quot;$(OTROOT)/include&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/include/OpenTracker&quot;;&quot;$(ACEROOT)&quot;;&quot;$(QTROOT)/include&quot;;&quot;$(QTROOT)/include/QtCore&quot;;&quot;$(QTROOT)/include/Qt3Support&quot;;&quot;$(QTROOT)/include/Qt&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -116,6 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;$(OTROOT)/include&quot;;&quot;$(OTROOT)/extras&quot;;&quot;$(OTROOT)/include/OpenTracker&quot;;&quot;$(ACEROOT)&quot;;&quot;$(QTROOT)/include&quot;;&quot;$(QTROOT)/include/QtCore&quot;;&quot;$(QTROOT)/include/Qt3Support&quot;;&quot;$(QTROOT)/include/Qt&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -177,10 +178,6 @@
 			>
 			<File
 				RelativePath="..\..\src\otqt\OTQt.cxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\otqt\otqt_mem_calib_main.cxx"
 				>
 			</File>
 			<File

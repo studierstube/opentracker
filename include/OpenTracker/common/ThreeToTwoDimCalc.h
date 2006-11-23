@@ -34,16 +34,16 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /**
- * @file   QtAppScreen.h
+ * @file   ThreeToTwoDimCalc.h
  * @author Christian Pirchheim
  *
- * @brief  Interface of class \c QtAppScreen
+ * @brief  Interface of class \c ThreeToTwoDimCalc
  *
- * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
+ * 
  */
 /**
  * @page Nodes Node Reference
- * @section qtappscreen QtAppScreen
+ * @section ThreeToTwoDimCalc ThreeToTwoDimCalc
  *
  * This @e configuration @e node is associated with @ref qtmouseeventmodule. Consists of
  * XML attributes, which determine the spatial location and extent of the Qt target
@@ -66,33 +66,27 @@
  * An example element looks like this:
  *
 @verbatim
-<QtAppScreen
-  ASHeightVec="0.0000 -0.9999 0.0000"
-  ASWidthVec="0.9999 0.0000 0.0000"
-  CSOrientationQuat="0.0000 0.0000 -0.7071 0.7071"
-  CSRoot2ScreenRootVec="-0.9999 -0.9999 0.0000"
-/>@endverbatim
+@endverbatim
  *
- * @see class @c ot::QtAppScreen description
+ * @see class @c ot::ThreeToTwoDimCalc description
  */
 
-#ifndef OTQT_QTAPPSCREEN_H
-#define OTQT_QTAPPSCREEN_H
+#ifndef _THREETOTWODIMCALC_H
+#define _THREETOTWODIMCALC_H
 #include <OpenTracker/dllinclude.h>
-#if USE_OTQT
+#if USE_THREETOTWODIMFILTER
 
 #include <OpenTracker/otqt/OTQtMath.h>
 #include <OpenTracker/otqt/OTQtLog.h>
 #include <OpenTracker/core/ConfigNode.h>
 #include <OpenTracker/core/Event.h>
-#include <QtCore/qpoint.h>
+//#include <QtCore/qpoint.h>
 #include <string>
 
-namespace ot {
 
 //--------------------------------------------------------------------------------
 /**
- * @class QtAppScreen
+ * @class ThreeToTwoDimCalc
  * @ingroup group_otqt_classes
  * @brief Updates of application screen location and mouse cursor coordinates
  *
@@ -138,7 +132,9 @@ namespace ot {
  * of the MPD relative to the screen cuboid can be retrieved with getMPDLocation().
  *
  */
-class OPENTRACKER_API QtAppScreen : public ConfigNode {
+namespace ot {
+
+class OPENTRACKER_API ThreeToTwoDimCalc {
 public:
   /**
    * @class ASCorner
@@ -246,12 +242,17 @@ private:
    * @brief Data collection reflecting latest perceived (current) MPD tracking state
    */
   typedef struct {
+	  int x;
+	  int y;
+  } Point;
+
+  typedef struct {
     /// latest perceived (current) 3D position of MPD
     Event position;
     /// true if MPD currently resides inside SC
     bool mpd_loc_inside_screen_cuboid;
     /// latest valid 2D desktop coordinates (computed from MPD position)
-    QPoint desktop_coords;
+    Point desktop_coords;
   } MPData;
 
 public:
@@ -279,7 +280,7 @@ public:
    * @param out final geometric data from the calibration routine
    * @param table XML attribute key/value map containing the geometric values
    */
-  static void convert(CalibOutputData const & out, StringTable & table);
+	static void convert(CalibOutputData const & out, StringTable & table);
 
 public:
   /**
@@ -290,13 +291,10 @@ public:
    *
    * @param table XML attribute key/value map
    */
-  QtAppScreen(StringTable & table);
-  ~QtAppScreen() { };
+	ThreeToTwoDimCalc();
+	~ThreeToTwoDimCalc() { };
 
 private:
-  QtAppScreen();
-  QtAppScreen(QtAppScreen const & ref);
-  QtAppScreen operator = (QtAppScreen const & ref);
 
 public: // methods
   /**
@@ -336,7 +334,7 @@ public: // methods
    * MPD position.
    * @return desktop mouse coordinates
    */
-  inline QPoint getMPD2DCoords() const { return mp_data_.desktop_coords; };
+  inline Point getMPD2DCoords() const { return mp_data_.desktop_coords; };
   /**
    * Returns the latest perceived spatial 3D MPD position.
    * @return MPD 3D position
@@ -368,14 +366,14 @@ private: // members
 
 } // namespace ot
 
-#endif // USE_OTQT
+#endif // USE_THREETOTWODIMFILTER
 
-#endif // OTQT_QTAPPSCREEN_H
+#endif // _THREETOTWODIMCALC_H
 
 
 /*
  * ------------------------------------------------------------
- *   End of QtAppScreen.h
+ *   End of ThreeToTwoDimCalc.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

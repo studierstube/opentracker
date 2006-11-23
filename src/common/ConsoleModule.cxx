@@ -230,6 +230,7 @@ namespace ot {
             keyCodeMap["insert"] = 0xe052;
             keyCodeMap["enter"] = 0x000d;
             keyCodeMap["escape"] = 0x001b;
+
 #else
             // This keycode map reflects my german sgi keyboard !!
             // Not everything makes sense, but it works :)
@@ -314,6 +315,8 @@ namespace ot {
             if( attributes.get("active").compare("off") == 0)
                 val = 0;
             ConsoleSink * sink = new ConsoleSink( attributes.get("comment"), val );
+            if( attributes.get("toSysMouse").compare("on") == 0)
+                sink->toSysMouse = 1;
             sinks.push_back( sink );
             logPrintS("Built ConsoleSink node.\n");
             return sink;
@@ -808,9 +811,11 @@ namespace ot {
 
                 if (display || stationChanged ||  currentChanged || delAttribute || addAttribute || changeAttrByVal)
                 {
+                    
+                    
 #if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
 #ifdef WIN32
-                    clearLastLines();
+					clearLastLines();
                     printf("%s\n\n", headerline.c_str());
                     if (sources.size() > 0)
                         printf( "Station: %d PosSpeed: %f RotSpeed: %f\n", station, posSpeed, angularSpeed );
@@ -837,6 +842,11 @@ namespace ot {
 
 #if !defined (_WIN32_WCE) && !defined(USE_MSDEV_DEBUGOUTPUT)
 #ifdef WIN32
+						if(sink->toSysMouse)
+						{
+							// do sth
+						}
+							
                         printf("\n%s :\n", sink->comment.c_str());
                         printf(event.getPrintOut().c_str());
 #else

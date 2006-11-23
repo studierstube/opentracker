@@ -48,9 +48,9 @@
 
 #include <OpenTracker/otqt/OTQtMEMCalibProc.h>
 #include <OpenTracker/otqt/OTQtLog.h>
-#include <extras/tclap/CmdLine.h>
-#include <extras/newmat10/include.h> // activates the RBD_COMMON namespace in myexcept.h
-#include <extras/newmat10/myexcept.h>
+#include <tclap/CmdLine.h>
+#include <newmat10/include.h> // activates the RBD_COMMON namespace in myexcept.h
+#include <newmat10/myexcept.h>
 #include <stdexcept>
 
 //--------------------------------------------------------------------------------

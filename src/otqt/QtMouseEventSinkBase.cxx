@@ -73,6 +73,8 @@ QtMouseEventSinkBase::QtMouseEventSinkBase(StringTable & xml_attrib_table)
   OTQT_DEBUG("QtMouseEventSinkBase::QtMouseEventSinkBase(): POS_THRESH_RADIUS = %f\n",
              POS_THRESH_RADIUS);
 
+  /// schrott (!!!)
+
   // orientation threshold filter angle
   float angle = 0.0;
   xml_attrib_table.get("OrientThreshAngle", &angle);

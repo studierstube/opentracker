@@ -162,6 +162,8 @@
 
 #include "../OpenTracker.h"
 
+
+
 /**
  * The module and factory to drive the console output sink nodes.
  * On a windows system it uses WIN32 API calls to clear the console and reset
@@ -365,6 +367,7 @@ namespace ot {
         static const short CHANGE_ATTR_VAL;
         static const short ACCEL_ANG;
         static const short BRAKE_ANG;
+		
     };
 
 	OT_MODULE(ConsoleModule);

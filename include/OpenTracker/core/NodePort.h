@@ -92,6 +92,8 @@ namespace ot {
 		friend class SpaceDeviceModule;
 		friend class PanTiltUnitModule;
 		friend class GoGoModule;
+		friend class SysMouseModule;
+		friend class ThreeToTwoDimFilterModule;
     };
 
 } // namespace ot

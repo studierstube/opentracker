@@ -34,85 +34,34 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /**
- * @file   QtAppScreen.cxx
+ * @file   ThreeToTwoDimCalc.cxx
  * @author Christian Pirchheim
  *
- * @brief  Implementation of class \c QtAppScreen
+ * @brief  Implementation of class \c ThreeToTwoDimCalc
  *
- * $Id: OpenTracker.h 900 2006-01-19 16:47:43Z spiczak $
+ * 
  */
 
 #include <OpenTracker/dllinclude.h>
-#if USE_OTQT
+#if USE_THREETOTWODIMFILTER
 
-#include <OpenTracker/otqt/QtAppScreen.h>
-#include <Qt/qapplication.h>
-#include <Qt/qrect.h>
-#include <Qt/qdesktopwidget.h>
+#include <OpenTracker/common/ThreeToTwoDimCalc.h>
+//#include <Qt/qapplication.h>
+//#include <Qt/qrect.h>
+//#include <Qt/qdesktopwidget.h>
 #include <cmath>
 
 namespace ot {
 
 //--------------------------------------------------------------------------------
-QtAppScreen::QtAppScreen(StringTable & table)
-  : ConfigNode(table),
-  screenResWidth(1280),
-  screenResHeight(1024)
+ThreeToTwoDimCalc::ThreeToTwoDimCalc():screenResWidth(1280),
+									   screenResHeight(1024)
 {
-  ///// init calib out structure
 
-  attributes.get("CSOrientationQuat", calib_out_.as_cs_orient, 4);
-  attributes.get("CSRoot2ScreenRootVec", calib_out_.as_cs_root_to_screen_root, 3);
-  attributes.get("ASWidthVec", calib_out_.as_width_vec, 3);
-  attributes.get("ASHeightVec", calib_out_.as_height_vec, 3);
-
-  ///// init app screen data
-
-  // CS root / screen root position
-  for (int i = 0; i < 4; i++) {
-    as_data_init_.as_cs_root.getOrientation()[i] = calib_out_.as_cs_orient[i];
-    as_data_init_.as_screen_root.getOrientation()[i] = calib_out_.as_cs_orient[i];
-  }
-  // CS root / screen root position, screen plane span vectors
-  for (int i = 0; i < 3; i++) {
-    as_data_init_.as_cs_root.getPosition()[i] = 0;
-    as_data_init_.as_screen_root.getPosition()[i] = calib_out_.as_cs_root_to_screen_root[i];
-    as_data_init_.as_width_vec[i] = calib_out_.as_width_vec[i];
-    as_data_init_.as_height_vec[i] = calib_out_.as_height_vec[i];
-  }
-
-  // compute screen depth scale
-  float tracking_one_meter(1);
-  attributes.get("TrackingSystemScaleOneMeter", &tracking_one_meter);
-  float as_depth_front_in_meter(0.1), as_depth_back_in_meter(0.1);
-  attributes.get("ScreenDepthFrontInMeter", &as_depth_front_in_meter);
-  attributes.get("ScreenDepthBackInMeter", &as_depth_back_in_meter);
-  as_data_init_.as_depth_scalar_front = tracking_one_meter * as_depth_front_in_meter;
-  as_data_init_.as_depth_scalar_back = tracking_one_meter * as_depth_back_in_meter;
-
-  ///// assign current data the initial values
-
-  as_data_.as_cs_root = as_data_init_.as_cs_root;
-  as_data_.as_screen_root = as_data_init_.as_screen_root;
-  as_data_.as_depth_scalar_front = as_data_init_.as_depth_scalar_front;
-  as_data_.as_depth_scalar_back = as_data_init_.as_depth_scalar_back;
-  for (int i = 0; i < 3; i++) {
-    as_data_.as_width_vec[i] = as_data_init_.as_width_vec[i];
-    as_data_.as_height_vec[i] = as_data_init_.as_height_vec[i];
-  }
-
-  ///// init screen res
-
-  attributes.get("ScreenResWidth", &screenResWidth);
-  attributes.get("ScreenResHeight", &screenResHeight);
-  
-  ///// init mouse position object data
-
-  updateMPD(Event::null);
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::initCalibrationData(std::vector<float> aSWidthVec_, std::vector<float> aSHeightVec_, 
+void ThreeToTwoDimCalc::initCalibrationData(std::vector<float> aSWidthVec_, std::vector<float> aSHeightVec_, 
 									 std::vector<float> cSOrientationQuat_, std::vector<float> cSRoot2ScreenRootVec_,  
 									 float trackingSystemScaleOneMeter_, float screenDepthFrontInMeter_, 
 									 float screenDepthBackInMeter_, float screenResWidth_, float screenResHeight_)
@@ -160,7 +109,7 @@ void QtAppScreen::initCalibrationData(std::vector<float> aSWidthVec_, std::vecto
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::convert(CalibOutputData const & out, StringTable & table)
+void ThreeToTwoDimCalc::convert(CalibOutputData const & out, StringTable & table)
 {
   // generate attributes from calibration output data
   float tmp3[3], tmp4[4];
@@ -172,7 +121,7 @@ void QtAppScreen::convert(CalibOutputData const & out, StringTable & table)
 
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
+void ThreeToTwoDimCalc::convert(CalibInputData const & in, CalibOutputData & out)
 {
   ///// transform input corners to common coordinate system
 
@@ -200,7 +149,7 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
   ///// save screen coordinate system orientation
 
   //  out.as_cs_orient.resize(4);
-  OTQT_DEBUG("QtAppScreen::convert(): out.as_cs_orient.size() = %i\n", out.as_cs_orient.size());
+  OTQT_DEBUG("ThreeToTwoDimCalc::convert(): out.as_cs_orient.size() = %i\n", out.as_cs_orient.size());
   for (int i = 0; i < 4; i++) {
     out.as_cs_orient[i] = in_final.as_cs_root.getOrientation()[i];
   }
@@ -271,7 +220,7 @@ void QtAppScreen::convert(CalibInputData const & in, CalibOutputData & out)
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::updateASPD(Event const & as_cs_root_curr)
+void ThreeToTwoDimCalc::updateASPD(Event const & as_cs_root_curr)
 {
   ///// transform screen position
 
@@ -297,7 +246,7 @@ void QtAppScreen::updateASPD(Event const & as_cs_root_curr)
 }
 
 //--------------------------------------------------------------------------------
-void QtAppScreen::updateMPD(Event const & mpd_pos)
+void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
 {
 
   // save current MPD pos
@@ -315,7 +264,7 @@ void QtAppScreen::updateMPD(Event const & mpd_pos)
 
   // base vector "z-axis" as cross product width x height
   RowVector depth = - OTQtMath::crossProductR3(width, height);
-  OTQT_DEBUG("QtAppScreen::updateMPD(): depth = width x height = %f %f %f\n",
+  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = width x height = %f %f %f\n",
              depth(1), depth(2), depth(3));
   RowVector depth1 = depth / depth.NormFrobenius();
   // add negative depth (back side of screen depth)
@@ -345,13 +294,13 @@ void QtAppScreen::updateMPD(Event const & mpd_pos)
     mp_data_.mpd_loc_inside_screen_cuboid = false;
 
     if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-      OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f %f %f\n",
+      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",
 		  depth(1), depth(2), depth(3));
-      OTQT_DEBUG("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
+      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
 		  width.NormFrobenius(), distances_width(1), distances_width(2));
-      OTQT_DEBUG("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
+      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
 		  height.NormFrobenius(), distances_height(1), distances_height(2));
-      OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
 		  depth.NormFrobenius(), distances_depth(1), distances_depth(2));
     }
     return;
@@ -364,27 +313,15 @@ void QtAppScreen::updateMPD(Event const & mpd_pos)
   RowVector mpos_screen_coords(2);
   mpos_screen_coords(1) = distances_width(1);
   mpos_screen_coords(2) = distances_height(1);
-  OTQT_DEBUG("QtAppScreen::isMPDWithinScreenCuboid(): mpos_screen_coords = %f %f\n",
+  OTQT_DEBUG("ThreeToTwoDimCalc::isMPDWithinScreenCuboid(): mpos_screen_coords = %f %f\n",
              mpos_screen_coords(1), mpos_screen_coords(2));
   // convert to desktop coordinates
-  QPoint desktop_coords_new;
+  Point desktop_coords_new;
 
-#ifdef USE_THREETOTWODIMFILTER
+
   // optimize this for clarity ... 
-  desktop_coords_new.setX( ((int)floor((mpos_screen_coords(1) / width.NormFrobenius()) * screenResWidth) - 1)/screenResWidth*65535 );
-  desktop_coords_new.setY( ((int)floor((mpos_screen_coords(2) / height.NormFrobenius()) * screenResHeight) - 1)/screenResHeight*65535 );
-#else
-  QRect const & desktop = QApplication::desktop()->screenGeometry();
-  OTQT_DEBUG("QtAppScreen::isMPDWithinScreenCuboid(): desktop = %d %d\n",
-             desktop.width(), desktop.height());
-#ifdef WIN32
-  desktop_coords_new.setX((int)floor((mpos_screen_coords(1) / width.NormFrobenius()) * (float)desktop.width()) - 1);
-  desktop_coords_new.setY((int)floor((mpos_screen_coords(2) / height.NormFrobenius()) * (float)desktop.height()) - 1);
-#else
-  desktop_coords_new.setX((int)round((mpos_screen_coords(1) / width.NormFrobenius()) * (float)desktop.width()) - 1);
-  desktop_coords_new.setY((int)round((mpos_screen_coords(2) / height.NormFrobenius()) * (float)desktop.height()) - 1);
-#endif
-#endif // USE_THREETOTWODIMFILTER
+  desktop_coords_new.x = ((int)floor((mpos_screen_coords(1) / width.NormFrobenius()) * screenResWidth) - 1)/screenResWidth*65535;
+  desktop_coords_new.y = ((int)floor((mpos_screen_coords(2) / height.NormFrobenius()) * screenResHeight) - 1)/screenResHeight*65535;
 
   /////  save MPD data
 
@@ -396,11 +333,11 @@ void QtAppScreen::updateMPD(Event const & mpd_pos)
   mp_data_.desktop_coords = desktop_coords_new;
 
   if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-    OTQT_DEBUG("QtAppScreen::updateMPD(): width = %f, distances_width() = %f %f\n",
+    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
               width.NormFrobenius(), distances_width(1), distances_width(2));
-    OTQT_DEBUG("QtAppScreen::updateMPD(): height = %f, distances_height() = %f %f\n",
+    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
               height.NormFrobenius(), distances_height(1), distances_height(2));
-    OTQT_DEBUG("QtAppScreen::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
               depth.NormFrobenius(), distances_depth(1), distances_depth(2));
   }
 
@@ -408,8 +345,8 @@ void QtAppScreen::updateMPD(Event const & mpd_pos)
 }
 
 //--------------------------------------------------------------------------------
-QtAppScreen::MPDLocationState
-QtAppScreen::getMPDLocation() const
+ThreeToTwoDimCalc::MPDLocationState
+ThreeToTwoDimCalc::getMPDLocation() const
 {
   MPDLocationState ret = MPD_LOC_UNKNOWN;
 
@@ -423,12 +360,12 @@ QtAppScreen::getMPDLocation() const
 
 } // namespace ot
 
-#endif // USE_OTQT
+#endif // USE_THREETOTWODIMFILTER
 
 
 /*
  * ------------------------------------------------------------
- *   End of QtAppScreen.cxx
+ *   End of ThreeToTwoDimCalc.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

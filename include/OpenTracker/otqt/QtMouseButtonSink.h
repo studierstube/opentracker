@@ -73,7 +73,7 @@
 #if USE_OTQT
 
 #include <OpenTracker/otqt/QtMouseEventSinkBase.h>
-#include <qnamespace.h>
+#include <QtCore/qnamespace.h>
 
 namespace ot {
 
@@ -103,6 +103,13 @@ Slot           Qt Button Id
  *
  * @see class @c QtMouseEventSinkBase description
  */
+
+#if QT_VERSION >= 0x040000
+	typedef Qt::MouseButton QMouseButton_t;
+#else
+	typedef Qt::ButtonState QMouseButton_t;
+#endif
+
 class OPENTRACKER_API QtMouseButtonSink : public QtMouseEventSinkBase {
 public:
   /// number of buttons supported
@@ -126,7 +133,7 @@ public: // static
    * @param button_id mouse button identifier
    * @return appropriate Qt mouse button identifier
    */
-  static Qt::ButtonState getQButtonId(ButtonId button_id);
+  static QMouseButton_t getQButtonId(ButtonId button_id);
 
 public:
   /**
