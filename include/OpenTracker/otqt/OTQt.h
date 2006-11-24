@@ -71,6 +71,15 @@
 #include <Qt/qmutex.h>
 #include <string>
 
+#ifdef _DEBUG
+#pragma comment(lib,"QtCored4.lib")
+#pragma comment(lib,"QtGuid4.lib")
+#else
+#pragma comment(lib,"QtCore4.lib")
+#pragma comment(lib,"QtGui4.lib")
+#endif
+
+
 namespace ot {
 
     //--------------------------------------------------------------------------------

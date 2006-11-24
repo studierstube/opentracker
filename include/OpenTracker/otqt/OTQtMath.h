@@ -45,7 +45,7 @@
 #ifndef OTQT_OTQTMATH_H
 #define OTQT_OTQTMATH_H
 #include <OpenTracker/dllinclude.h>
-#if USE_OTQT
+#if USE_OTQT || USE_THREETOTWODIMFILTER
 
 #define WANT_STREAM
 #include <newmat10/include.h>
