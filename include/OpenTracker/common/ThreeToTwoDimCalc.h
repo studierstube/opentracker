@@ -177,7 +177,7 @@ public:
             as_width_vec(3),
             as_height_vec(3)
       {
-          OTQT_DEBUG("CalibOutputData(): as_cs_orient.size () = %i\n", as_cs_orient.size());
+          //OTQT_DEBUG("CalibOutputData(): as_cs_orient.size () = %i\n", as_cs_orient.size());
       };
       ~CalibOutputData()
       {};

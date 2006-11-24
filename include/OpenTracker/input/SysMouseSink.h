@@ -70,6 +70,7 @@
 
 #ifdef WIN32 
 #include <Windows.h>
+#include <Winuser.h>
 #endif
 
 namespace ot {
@@ -102,8 +103,8 @@ public:
 		changed(0)
 	{
 #ifdef WIN32 
-		inputPtr = new INPUT;
-		mouseInputPtr = new MOUSEINPUT;
+		inputPtr = new ::INPUT;
+		mouseInputPtr = new ::MOUSEINPUT;
 #endif		
 	}
 
@@ -170,7 +171,7 @@ protected:
 
 			inputPtr->type = INPUT_MOUSE;
 			inputPtr->mi = *mouseInputPtr;
-			int send = SendInput( 1, inputPtr, sizeof(*inputPtr) );
+			int send = ::SendInput( 1, inputPtr, sizeof(*inputPtr) );
 #endif
 		}
 		if (generator.getName().compare("RelativeInput") == 0) 
@@ -203,7 +204,7 @@ protected:
 
 			inputPtr->type = INPUT_MOUSE;
 			inputPtr->mi = *mouseInputPtr;
-			int send = SendInput( 1, inputPtr, sizeof(*inputPtr) );
+			int send = ::SendInput( 1, inputPtr, sizeof(*inputPtr) );
 #endif
 		}
 
