@@ -1194,28 +1194,6 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\otqt\OTQt.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing OTQt.h..."
-						CommandLine="$(QTDIR)\bin\moc.exe  -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(XERCESCROOT)\src&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;C:\dev\Ubisense\include&quot; -I&quot;$(QTDIR)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
-						Outputs="&quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing OTQt.h..."
-						CommandLine="$(QTDIR)\bin\moc.exe  -DWIN32 -DNDEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(XERCESCROOT)\src&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;C:\dev\Ubisense\include&quot; -I&quot;$(QTDIR)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
-						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\otqt\OTQtConfigFileEditor.h"
@@ -1655,47 +1633,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			Filter="moc;h;cpp"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
-			<File
-				RelativePath=".\generatedfiles\release\moc_OTQt.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\debug\moc_OTQt.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
