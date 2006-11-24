@@ -43,7 +43,7 @@
  */
 
 #include <OpenTracker/dllinclude.h>
-#if USE_OTQT
+#if USE_OTQT || USE_THREETOTWODIMFILTER
 
 #include <OpenTracker/otqt/OTQtMath.h>
 #include <OpenTracker/otqt/OTQtLog.h>
@@ -131,8 +131,8 @@ OTQtMath::isWithinPlaneBorders(RowVector const & mpos,
                                RowVector const & normal, RowVector const & point_on_plane,
                                RowVector & distances)
 {
-  OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): *** START. normal = %f %f %f\n",
-             normal(1), normal(2), normal(3));
+  //OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): *** START. normal = %f %f %f\n",
+  //           normal(1), normal(2), normal(3));
 
   double normal_length = normal.NormFrobenius();
   double tmp2 = (normal * mpos.t()).AsScalar();
@@ -146,10 +146,10 @@ OTQtMath::isWithinPlaneBorders(RowVector const & mpos,
 
   // compare with max distance
   double max_distance = normal_length;
-  OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): max_distance = %f\n",
-             max_distance);
-  OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): *** END. distances = %f %f\n",
-             distances(1), distances(2));
+  //OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): max_distance = %f\n",
+  //           max_distance);
+  //OTQT_DEBUG("OTQtMath::isWithinPlaneBorders(): *** END. distances = %f %f\n",
+  //           distances(1), distances(2));
   return (distances(1) <= max_distance && distances(2) <= max_distance);
 }
 

@@ -39,7 +39,7 @@
  *
  * @brief  Implementation of class \c ThreeToTwoDimCalc
  *
- * 
+ *  *************** still depends on OTQTMath ******************
  */
 
 #include <OpenTracker/dllinclude.h>
@@ -149,7 +149,7 @@ void ThreeToTwoDimCalc::convert(CalibInputData const & in, CalibOutputData & out
   ///// save screen coordinate system orientation
 
   //  out.as_cs_orient.resize(4);
-  OTQT_DEBUG("ThreeToTwoDimCalc::convert(): out.as_cs_orient.size() = %i\n", out.as_cs_orient.size());
+  //OTQT_DEBUG("ThreeToTwoDimCalc::convert(): out.as_cs_orient.size() = %i\n", out.as_cs_orient.size());
   for (int i = 0; i < 4; i++) {
     out.as_cs_orient[i] = in_final.as_cs_root.getOrientation()[i];
   }
@@ -264,8 +264,8 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
 
   // base vector "z-axis" as cross product width x height
   RowVector depth = - OTQtMath::crossProductR3(width, height);
-  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = width x height = %f %f %f\n",
-             depth(1), depth(2), depth(3));
+  //OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = width x height = %f %f %f\n",
+  //           depth(1), depth(2), depth(3));
   RowVector depth1 = depth / depth.NormFrobenius();
   // add negative depth (back side of screen depth)
   depth = depth1 * (as_data_.as_depth_scalar_front + as_data_.as_depth_scalar_back);
@@ -293,16 +293,16 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
     // MPD is located outside SC
     mp_data_.mpd_loc_inside_screen_cuboid = false;
 
-    if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",
-		  depth(1), depth(2), depth(3));
-      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
-		  width.NormFrobenius(), distances_width(1), distances_width(2));
-      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
-		  height.NormFrobenius(), distances_height(1), distances_height(2));
-      OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
-		  depth.NormFrobenius(), distances_depth(1), distances_depth(2));
-    }
+    //if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
+    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",
+		  //depth(1), depth(2), depth(3));
+    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
+		  //width.NormFrobenius(), distances_width(1), distances_width(2));
+    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
+		  //height.NormFrobenius(), distances_height(1), distances_height(2));
+    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+		  //depth.NormFrobenius(), distances_depth(1), distances_depth(2));
+    //}
     return;
   }
 
@@ -313,8 +313,8 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
   RowVector mpos_screen_coords(2);
   mpos_screen_coords(1) = distances_width(1);
   mpos_screen_coords(2) = distances_height(1);
-  OTQT_DEBUG("ThreeToTwoDimCalc::isMPDWithinScreenCuboid(): mpos_screen_coords = %f %f\n",
-             mpos_screen_coords(1), mpos_screen_coords(2));
+  //OTQT_DEBUG("ThreeToTwoDimCalc::isMPDWithinScreenCuboid(): mpos_screen_coords = %f %f\n",
+  //           mpos_screen_coords(1), mpos_screen_coords(2));
   // convert to desktop coordinates
   Point desktop_coords_new;
 
@@ -332,14 +332,14 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
   // desktop mouse cursor coordinates
   mp_data_.desktop_coords = desktop_coords_new;
 
-  if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
-              width.NormFrobenius(), distances_width(1), distances_width(2));
-    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
-              height.NormFrobenius(), distances_height(1), distances_height(2));
-    OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
-              depth.NormFrobenius(), distances_depth(1), distances_depth(2));
-  }
+  //if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
+  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
+  //            width.NormFrobenius(), distances_width(1), distances_width(2));
+  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
+  //            height.NormFrobenius(), distances_height(1), distances_height(2));
+  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+  //            depth.NormFrobenius(), distances_depth(1), distances_depth(2));
+  //}
 
   return;
 }
