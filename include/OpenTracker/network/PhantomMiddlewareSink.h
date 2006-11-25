@@ -154,11 +154,13 @@ public:
 	  Phantom::PhantomMessageV1 pm(eid, seq);
 	  std::vector<float> position = event.getPosition();
 	  std::vector<float> orientation = event.getOrientation();
+	  float theta = 2.0f *atan2(orientation[1], orientation[3]);
+	  float alpha = MathUtils::Pi - theta;
 	  pm << pid;
 	  pm << (float) position[0];
+	  pm << (float) -position[2];
 	  pm << (float) position[1];
-	  pm << (float) position[2];
-	  pm << (float) (2.0f * atan2(orientation[2], orientation[3])/MathUtils::GradToRad);
+	  pm << (float) (alpha / MathUtils::GradToRad);
 	  //	  if (eid == 24) {
 	  //	    pm << src;
 	  //	  }

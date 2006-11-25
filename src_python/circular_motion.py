@@ -50,12 +50,13 @@ class EllipticalMotion:
   def getEvent(self):
     t = time.time()
     x = self.a * cos(self.omega * t)
-    y = self.b * sin(self.omega * t)
-    z = 0.0
+    y = 1.7
+    z = self.b * sin(self.omega * t)
     xdot = -self.a * self.omega * sin(self.omega * t)
-    ydot = self.b  * self.omega * cos(self.omega * t)
-    alpha = atan2 (ydot, xdot)
-    qx, qy, qz, qw = 0.0, 0.0, sin(alpha*0.5), cos(alpha*0.5)
+    zdot = self.b  * self.omega * cos(self.omega * t)
+    theta = atan2 (xdot, zdot)
+    alpha = theta
+    qx, qy, qz, qw = 0.0, sin(alpha*0.5), 0.0, cos(alpha*0.5)
     return OT_CORBA.Event([x, y, z], [qx, qy, qz, qw], t, 0, 0.5)
 
 class CircularMotion:
@@ -271,7 +272,7 @@ class TestLoop(threading.Thread):
           i=i+1
           l=l+1
           #time.sleep(1.0)
-          time.sleep(0.1)
+          time.sleep(0.05)
           #time.sleep(0.001)
 
         # Disconnect - retrying on Comms Failure.

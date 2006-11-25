@@ -35,6 +35,4 @@ if __name__ == '__main__':
     orb, graph = init()
     n1=graph.create_node("CORBASink",[KeyValuePair("name","CORBA.Sink01")])
     n2=graph.create_node("TestSource", [KeyValuePair("frequency", "100"), KeyValuePair("noise", "0.1")])
-    graph.add_node(n1, n2)
-    graph.add_node_to_root(n1)
-    #graph.add_node_to_root(n2)
+    graph.connect_nodes(n2, n1)

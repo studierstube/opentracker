@@ -130,16 +130,17 @@ public:
       //      }
     };
 
-    void setEvent(float x, float y, float z, float theta, int t1, int t2, short event_id) {
+    void setEvent(float x, float y, float z, float alpha, int t1, int t2, short event_id) {
       //      if ( (event_id == eid) && strcmp(event_source, source) ) {
 	std::vector<float> position(3);
 	std::vector<float> orientation(4);
-	position[0] = x; position[1] =  y; position[2] = z;
+	position[0] = x; position[1] =  z; position[2] = -y;
+	float theta    = 180.0f - alpha; 
 	float thetaby2 = theta * MathUtils::GradToRad / 2.0;
 	orientation[0] = 0.0;
-	orientation[1] = 0.0; 
-	orientation[2] = sin(thetaby2);
-	orientation[3] = cos(thetaby2); 
+	orientation[1] = sin(thetaby2);
+	orientation[2] = 0.0; 
+	orientation[3] = cos(thetaby2);
 	lock();
 	event.setPosition(position);
 	event.setOrientation(orientation);

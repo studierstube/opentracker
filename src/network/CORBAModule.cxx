@@ -219,7 +219,18 @@ void CORBAModule::initializeORB(int argc, char **argv)
         } else {
 	  logPrintE("Node with ID %s not in sinks CORBAModule sinks vector\n", node->get("ID").c_str());
 	}
-    }
+    } else if (node->getType().compare("CORBASource") == 0) {
+      SourceNodeMap::iterator result = sources.find((CORBASource*) node);
+      if (result != sources.end()) {
+	OT_CORBA::OTSource_var corba_source_ref = result->second;
+	// deactivate object
+	PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
+	delete result->first;
+      } else {
+	logPrintE("Node not present in SourceNodeMap");
+      }
+      return;
+    } 
   }
 
 // This method is called to remove all nodes
@@ -231,8 +242,13 @@ void CORBAModule::clear()
       delete *it;
     }
   sinks.clear();
-  for (SourceNodeMap::const_iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
+  for (SourceNodeMap::iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
     {
+      OT_CORBA::OTSource_var corba_source_ref = source_it->second;
+      // deactivate object
+      PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
+      
+      
       delete source_it->first;
       //have to sort out reference counting - it may be sufficient to delete the servant
       //delete source_it->second; //have to sort out reference counting
