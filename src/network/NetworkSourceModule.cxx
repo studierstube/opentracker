@@ -326,10 +326,18 @@ namespace ot {
                     {
                         ACE_Guard<ACE_Thread_Mutex> guard( rec->mutex );
                         char *eventStr = stationData + (3 * sizeof(ACE_INT32)) + stationNameLength+1;
-                        std::stringstream os;
-                        os.write(eventStr,stationBufferLength);
-
-                        os >> event;
+#ifndef WIN32
+						/* this is the right way to do it*/
+						std::stringstream ss;
+						ss.write(eventStr,stationBufferLength);
+						ss >> event; 
+#else
+						/* VS8 has buggy allocator for stringstream that leaks memory. This is a workaround, but will most likely fail
+						for binary event attributes */
+						std::ostringstream os;
+						os.write(eventStr,stationBufferLength);
+						event.deserialize(os.str());
+#endif
                         (*station)->modified = 1;
                     }
                 }
