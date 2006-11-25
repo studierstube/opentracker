@@ -320,8 +320,8 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
 
 
   // optimize this for clarity ... 
-  desktop_coords_new.x = ((int)floor((mpos_screen_coords(1) / width.NormFrobenius()) * screenResWidth) - 1)/screenResWidth*65535;
-  desktop_coords_new.y = ((int)floor((mpos_screen_coords(2) / height.NormFrobenius()) * screenResHeight) - 1)/screenResHeight*65535;
+  desktop_coords_new.x = mpos_screen_coords(1) / width.NormFrobenius();
+  desktop_coords_new.y = mpos_screen_coords(2) / height.NormFrobenius();
 
   /////  save MPD data
 

@@ -242,8 +242,8 @@ private:
    * @brief Data collection reflecting latest perceived (current) MPD tracking state
    */
   typedef struct {
-	  int x;
-	  int y;
+	  float x;
+	  float y;
   } Point;
 
   typedef struct {

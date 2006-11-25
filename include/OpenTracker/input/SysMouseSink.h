@@ -146,8 +146,8 @@ protected:
 			//printf("\nrelative mouseY:%i :\n", yMouse);
 			printf("\nbutton:%i :\n", buttonInput);
 			
-			mouseInputPtr->dx = (int)event.getPosition()[0];
-			mouseInputPtr->dy = (int)event.getPosition()[1];
+			mouseInputPtr->dx = (int)(event.getPosition()[0]*65535);
+			mouseInputPtr->dy = (int)(event.getPosition()[1]*65535);
 			mouseInputPtr->mouseData = 0;
 			mouseInputPtr->dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
 			if( buttonInput == 1 )
