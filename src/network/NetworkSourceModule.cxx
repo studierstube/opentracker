@@ -330,13 +330,15 @@ namespace ot {
 						/* this is the right way to do it*/
 						std::stringstream ss;
 						ss.write(eventStr,stationBufferLength);
-						ss >> event; 
+						ss >> std::noskipws >> event; 
 #else
 						/* VS8 has buggy allocator for stringstream that leaks memory. This is a workaround, but will most likely fail
 						for binary event attributes */
-						std::ostringstream os;
+						std::ostringstream os(std::ostringstream::out|std::ostringstream::binary);
 						os.write(eventStr,stationBufferLength);
-						event.deserialize(os.str());
+                                                
+                                                std::istringstream is(os.str(), std::istringstream::in|std::istringstream::binary);
+                                                is >> std::noskipws >> event;
 #endif
                         (*station)->modified = 1;
                     }

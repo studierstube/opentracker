@@ -172,9 +172,10 @@ namespace ot
     {
         if (hasAttribute(name))
         {
-            std::ostringstream ss;
+            std::ostringstream ss(std::ostringstream::out|
+                                  std::ostringstream::binary);
             EventAttributeBase *att = (*attributes.find(name)).second;
-            ss << *att;
+            ss << std::noskipws << *att;
             return ss.str();
         }
         std::string errorStr = "event does not have attribute called '" + name + "'";
@@ -210,11 +211,8 @@ namespace ot
     // serialize the event
     void Event::serialize(std::ostream &out) const
     {
-
-
-        std::ostringstream tmp;
-
-
+        std::ostringstream tmp(std::ostringstream::out|
+                               std::ostringstream::binary);
 
         //        out.precision(24);
         //        out << "{" << std::fixed << time << "-" << attributes.size() << ":";
@@ -224,25 +222,30 @@ namespace ot
 
             if (it != attributes.begin())
                 tmp << ",";
-            std::ostringstream tmp_sstream;
-            tmp_sstream << *((*it).second);
-            tmp << (*it).second->getGenericTypeName() << "." << (*it).first << "#" << tmp_sstream.str().length() << "=" << tmp_sstream.str();
+            std::ostringstream tmp_sstream(std::ostringstream::out|
+                                           std::ostringstream::binary);
+            tmp_sstream << std::noskipws << *((*it).second);
+            tmp << std::noskipws << (*it).second->getGenericTypeName() << "." << (*it).first << "#" << tmp_sstream.str().length() << "=" << tmp_sstream.str();
         }
 
-        out << "{" << std::fixed << time << "-" << attributes.size() << "<" << tmp.str().length() << ":" << tmp.str() << "}";
+        out <<std::noskipws << "{" << std::fixed << time << "-" << attributes.size() << "<" << tmp.str().length() << ":" << tmp.str() << "}";
     }
 
     const std::string Event::serialize() const
     {
-        std::ostringstream ss;
-        ss << *this;
+        std::ostringstream ss(std::ostringstream::out|
+                              std::ostringstream::binary);
+
+        ss << std::noskipws << *this;
         return ss.str();
     }
 
     void Event::deserialize(std::string &str)
     {
-        std::istringstream ss(str);
-        ss >> *this;
+        std::istringstream ss(str,
+                              std::istringstream::out|
+                              std::istringstream::binary);
+        ss >> std::noskipws >> *this;
     }
 
     // deserialize the event
@@ -312,9 +315,11 @@ namespace ot
             try
             {
                 EventAttributeBase *att = EventAttributeBase::create(typeStr);
-                std::stringstream ss;
+                std::stringstream ss(std::stringstream::in|
+                                     std::stringstream::out|
+                                     std::stringstream::binary);
                 ss.write(attrCArray,size);
-                if (ss >> *att)
+                if (ss >> std::noskipws >> *att)
                     attributes[nameStr] = att;
                 else
                 {
@@ -341,8 +346,10 @@ namespace ot
             return false;
 
         EventAttributeBase *att = EventAttributeBase::create(type); // may throw std::runtime_error
-        std::istringstream ss(value);
-        if (ss >> *att)
+        std::istringstream ss(value, 
+                              std::istringstream::in |
+                              std::istringstream::binary);
+        if (ss >> std::noskipws >> *att)
         {
             attributes[name] = att;
             return true;
@@ -360,8 +367,10 @@ namespace ot
         if (!hasAttribute(name))
             attributes[name] = EventAttributeBase::create(type); // may throw std::runtime_error
         EventAttributeBase *att = attributes[name];
-        std::istringstream ss(value);
-        if (ss >> *att)
+        std::istringstream ss(value,
+                              std::istringstream::in |
+                              std::istringstream::binary);
+        if (ss >>std::noskipws >> *att)
             return true;
         return false;
     }
