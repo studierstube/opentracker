@@ -315,12 +315,25 @@ namespace ot
             try
             {
                 EventAttributeBase *att = EventAttributeBase::create(typeStr);
+#ifndef WIN32
                 std::stringstream ss(std::stringstream::in|
                                      std::stringstream::out|
                                      std::stringstream::binary);
                 ss.write(attrCArray,size);
                 if (ss >> std::noskipws >> *att)
                     attributes[nameStr] = att;
+#else
+                std::ostringstream os(std::ostringstream::out|
+                                      std::ostringstream::binary);
+                os.write(attrCArray,size);
+
+                std::istringstream is(os.str(), 
+                                      std::istringstream::in|
+                                      std::istringstream::binary);
+
+                if (is >> std::noskipws >> *att)
+                    attributes[nameStr] = att;
+#endif
                 else
                 {
                     in.setstate(std::ios_base::failbit);

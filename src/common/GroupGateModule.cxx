@@ -167,6 +167,7 @@ namespace ot {
             // groupgate node not yet supported under wince
             assert(false);
 #else
+#ifndef WIN32
             std::stringstream neighborstream;
             neighborstream << cneighbors;
             while (true)
@@ -176,6 +177,21 @@ namespace ot {
                 if (neighbor == "") break;
                 node->addNeighbor(neighbor.c_str());
             }
+#else
+            //workaround for broken VS8 stringstream implementation
+            std::ostringstream oneighborstream;
+            oneighborstream << cneighbors;
+            std::istringstream ineighborstream(oneighborstream.str());
+
+            while (true)
+            {
+                std::string neighbor;
+                ineighborstream >> neighbor;
+                if (neighbor == "") break;
+                node->addNeighbor(neighbor.c_str());
+            }
+
+#endif
             return node;
 #endif //_WIN32_WCE
         }
