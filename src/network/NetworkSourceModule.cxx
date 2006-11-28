@@ -306,10 +306,10 @@ namespace ot {
         for( int cnt = 0; cnt < numOfStations; cnt ++ )
         {
             memcpy(si, stationData, 3*sizeof(ACE_INT32));
-            short stationNumber = (short)ACE_NTOHL(si[0]);
+            ACE_INT32 stationNumber = ACE_NTOHL(si[0]);
             ACE_INT32 stationBufferLength = ACE_NTOHL(si[1]);
-            short stationNameLength = (short)ACE_NTOHL(si[2]);
-
+			ACE_INT32 stationNameLength = ACE_NTOHL(si[2]);
+			ACE_INT32 msgSize = stationBufferLength - ((3 * sizeof(ACE_INT32)) + stationNameLength+1);
             if( stationNumber >= 0 && stationNumber <= maxStationNum)
             {
                 StationVector::iterator station;
@@ -329,13 +329,14 @@ namespace ot {
 #ifndef WIN32
 						/* this is the right way to do it*/
 						std::stringstream ss;
-						ss.write(eventStr,stationBufferLength);
+						ss.write(eventStr, msgSize);
 						ss >> std::noskipws >> event; 
 #else
 						/* VS8 has buggy allocator for stringstream that leaks memory. This is a workaround, but will most likely fail
 						for binary event attributes */
 						std::ostringstream os(std::ostringstream::out|std::ostringstream::binary);
-						os.write(eventStr,stationBufferLength);
+						
+						os.write(eventStr, msgSize);
                                                 
                                                 std::istringstream is(os.str(), std::istringstream::in|std::istringstream::binary);
                                                 is >> std::noskipws >> event;
