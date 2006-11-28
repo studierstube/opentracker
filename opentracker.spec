@@ -1,10 +1,10 @@
 Summary:	Open Tracker
 Name:		opentracker
-Version:	1.3
+Version:	2.0
 Release:	1
 License:	LGPL
 Group:		Development/Tools
-Source:		%{name}-%{version}.tar.gz
+Source:		%{name}-%{version}.tar.bz2
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Requires:	ACE Xerces-c boost
@@ -25,14 +25,14 @@ export CFLAGS=-DUSE_64_BIT
 export CXXFLAGS=-DUSE_64_BIT
 %endif
 #./configure --prefix=%{_prefix} --libdir=%{_libdir}
-%configure
+scons PREFIX=%{_prefix} LIBDIR=%{_libdir}
 make
 
 %install
-DESTDIR=$RPM_BUILD_ROOT make install
+scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
 
 %clean
-make clean
+scons -c
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
