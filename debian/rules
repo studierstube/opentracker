@@ -54,8 +54,9 @@ install: build
 	scons --no-cache PREFIX=`pwd`/debian/tmp/usr USE_OTQT=yes
 	scons --no-cache install PREFIX=`pwd`/debian/tmp/usr USE_OTQT=yes
 	sed s:\/home.*.\/debian\/tmp:: debian/tmp/usr/lib/pkgconfig/opentracker.pc -ibak
+	mkdir -p debian/tmp/usr/include/OpenTracker/extras/newmat10
+	cp extras/newmat10/*.h* debian/tmp/usr/include/OpenTracker/extras/newmat10
 	dh_install --sourcedir=debian/tmp
-	#dh_movefiles
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
@@ -85,6 +86,8 @@ binary-common:
 # Build architecture dependant packages using the common target.
 binary-arch: build install
 	#d-shlibmove --commit --movedev "debian/tmp/usr/include/OpenTracker" usr/include/ debian/tmp/usr/lib/libopentracker.so
+	
+
 
 	$(MAKE) -f debian/rules binary-common DH_OPTIONS=-a
 
