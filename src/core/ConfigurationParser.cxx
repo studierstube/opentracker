@@ -186,7 +186,7 @@ namespace ot {
             if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
                 OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
-                ConfigNode * child = buildConfigTree( childElement );
+                /*ConfigNode * child = */buildConfigTree( childElement );
             }
         }
         return config;
@@ -261,7 +261,8 @@ namespace ot {
                 if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
                 {
                     OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
-                    Node * childNode = buildTree( childElement );
+                    ///FIXXXME: what was the assignment for? 
+                    /*Node * childNode = */buildTree( childElement );
                 }
             }
         }
@@ -429,7 +430,8 @@ namespace ot {
                     if( nodelist->item(j)->getNodeType() == DOMNode::ELEMENT_NODE )
                     {
                         DOMElement * element = (DOMElement *)nodelist->item(j);
-                        ConfigNode * child = buildConfigTree( element );
+                        ///FIXXXME: What was the assignment good for?
+                        /*ConfigNode * child = */buildConfigTree( element );
                     }
                 }
                 Module * module = context.getModule( tagName );

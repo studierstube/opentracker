@@ -52,7 +52,7 @@
 using namespace std;
 using namespace ot;
 
-#include <OpenTracker//misc/FileConfigurationThread.h>
+#include <OpenTracker/misc/FileConfigurationThread.h>
 
 
 /**

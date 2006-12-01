@@ -140,7 +140,6 @@ namespace ot {
                         ISD_STATION_INFO_TYPE station;
                         for( int j = 1; j <= ISD_MAX_STATIONS; j++ )
                         {   
-                            int error = 0;
                             if( ISD_GetStationConfig( tracker->handle, &station, j, FALSE ) )
                             {
                                 if( station.State == TRUE )

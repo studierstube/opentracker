@@ -76,7 +76,7 @@ namespace ot {
 
 
     void TestModule::removeNode(const Node * node) {
-        logPrintI("TestModule deleting node %s\n", node->get("ID"));
+        logPrintI("TestModule deleting node %s\n", node->get("ID").c_str());
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
