@@ -47,9 +47,15 @@
 
 #include <OpenTracker/otqt/QtMouseEventModule.h>
 #include <OpenTracker/otqt/OTQtLog.h>
+#ifdef USE_QT4
 #include <Qt/qapplication.h>
 #include <Qt/qcursor.h>
 #include <Qt/qwidget.h>
+#else
+#include <qapplication.h>
+#include <qcursor.h>
+#include <qwidget.h>
+#endif
 
 namespace ot {
 

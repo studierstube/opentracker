@@ -46,9 +46,15 @@
 #if USE_OTQT
 
 #include <OpenTracker/otqt/QtAppScreen.h>
+#ifdef USE_QT4
 #include <Qt/qapplication.h>
 #include <Qt/qrect.h>
 #include <Qt/qdesktopwidget.h>
+#else
+#include <qapplication.h>
+#include <qrect.h>
+#include <qdesktopwidget.h>
+#endif
 #include <cmath>
 
 namespace ot {

@@ -66,17 +66,25 @@
 #include <OpenTracker/otqt/QtMouseEventCalibModule.h>
 #include <OpenTracker/otqt/OTQtLog.h>
 #include <OpenTracker/OpenTracker.h>
+#ifdef USE_QT4
 #include <Qt/qobject.h>
 #include <Qt/qtimer.h>
 #include <Qt/qmutex.h>
+#else
+#include <qobject.h>
+#include <qtimer.h>
+#include <qmutex.h>
+#endif
 #include <string>
 
+#ifdef WIN32
 #ifdef _DEBUG
 #pragma comment(lib,"QtCored4.lib")
 #pragma comment(lib,"QtGuid4.lib")
 #else
 #pragma comment(lib,"QtCore4.lib")
 #pragma comment(lib,"QtGui4.lib")
+#endif
 #endif
 
 

@@ -85,7 +85,11 @@
 #include <OpenTracker/otqt/OTQtLog.h>
 #include <OpenTracker/core/ConfigNode.h>
 #include <OpenTracker/core/Event.h>
+#ifdef USE_QT4
 #include <QtCore/qpoint.h>
+#else
+#include <qpoint.h>
+#endif
 #include <string>
 
 namespace ot {

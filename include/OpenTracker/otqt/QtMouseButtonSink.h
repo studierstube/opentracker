@@ -73,7 +73,12 @@
 #if USE_OTQT
 
 #include <OpenTracker/otqt/QtMouseEventSinkBase.h>
+
+#ifdef USE_QT4
 #include <QtCore/qnamespace.h>
+#else
+#include <qnamespace.h>
+#endif
 
 namespace ot {
 

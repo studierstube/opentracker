@@ -44,11 +44,12 @@
 
 #include <OpenTracker/dllinclude.h>
 #if USE_OTQT
-
 #include <OpenTracker/otqt/OTQt.h>
 #include <newmat10/include.h> // activates the RBD_COMMON namespace in myexcept.h
 #include <newmat10/myexcept.h>
+#ifdef USE_QT4
 #include <Qt/qdatetime.h>
+#endif
 #include <stdexcept>
 
 namespace ot {
