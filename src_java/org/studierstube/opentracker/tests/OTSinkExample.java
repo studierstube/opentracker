@@ -20,8 +20,8 @@ public class OTSinkExample extends CorbaApp {
 	public void activateSink(String name) {
 		sink = new Sink_i();
 		try {
-			CorbaApp.activateObject(sink);
-			OTSinkExample.bindObectToName(sink._this(), name);
+			activateObject(sink);
+			bindObectToName(sink._this(), name);
 		} catch (ObjectActivationFailure e1) {
 			System.err.println("Unable to activate sink. Exiting...");
 			System.exit(-1);
@@ -34,7 +34,7 @@ public class OTSinkExample extends CorbaApp {
 	public static void main(String[] args) {
 		OTSinkExample app = new OTSinkExample(args);
 		app.activateSink("CORBA.Sink01");
-		CorbaApp.getORB().run();
+		getORB().run();
 	}
 
 }
