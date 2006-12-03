@@ -101,7 +101,6 @@ namespace ot {
 	sinks.push_back( sink );
 	return sink;
       } else if ( name.compare("PhantomMiddlewareSource") == 0 ) {
-	//const char* group = attributes.get("group").c_str();
 	std::string group = attributes.get("group");
 	int pid;
 	sscanf(attributes.get("pid").c_str(), " %i", &pid );
@@ -109,19 +108,26 @@ namespace ot {
 	std::string source_description = attributes.get("source");
 	PhantomMiddlewareSource* source;
 	if  (source_description == "") {
-	  //std::cerr << "PhantomMiddlewareSource: " << pid << ", " << eid << ", " << source_description << std::endl;
 	  source = new PhantomMiddlewareSource( group.c_str(), pid, eid );
+	  std::cerr << "PhantomMiddlewareSource with source: " << pid << ", " << eid << std::endl;
 	} else {
 	  std::cerr << "PhantomMiddlewareSource with source: " << pid << ", " << eid << ", " << source_description << std::endl;
 	  source = new PhantomMiddlewareSource( group.c_str(), pid, eid, source_description);
 	}
-	GroupMapping::iterator g = groups.find(group);
-	if (g == groups.end()) {
-	  PidSourceMultiMap* multi_mapping = new PidSourceMultiMap;
-	  groups[group] = multi_mapping;
-	  multi_mapping->insert(PidSourcePair(pid, source));
+	//GroupMapping::iterator g = groups.find(group);
+	GroupListenerMap::iterator l = listeners.find(group);
+	if (l == listeners.end()) {
+	  PhantomListener* listener = new PhantomListener(group);
+	  listener->addNode(source, pid);
+	  listener->Start();
+	  listener->activate();
+	  listeners[group] = listener;
+//  	  PidSourceMultiMap* multi_mapping = new PidSourceMultiMap;
+// 	  groups[group] = multi_mapping;
+// 	  multi_mapping->insert(PidSourcePair(pid, source));
 	} else {
-	  g->second->insert(PidSourcePair(pid, source));
+	  //g->second->insert(PidSourcePair(pid, source));
+	  l->second->addNode(source, pid);
 	}
 	logPrintI("Returning PhantomMiddlewareSource*\n");
 	return source;
@@ -129,58 +135,78 @@ namespace ot {
     return NULL;
   };
 
-  void PhantomMiddlewareModule::runPhantomMessageListener( void * data )
-  {
-    GroupMappingPair* group_map_pairing = (GroupMappingPair *) data;
-    const char* group = group_map_pairing->first.c_str();
-    Phantom::Utils::MulticastSocketReceiver msr(group);
-    short locpreeid;
-    while (1) {
-      Phantom::Utils::UCharMessageReader ucm;
-      msr >> ucm;
+//   void PhantomMiddlewareModule::runPhantomMessageListener( void * data )
+//   {
+//     GroupMappingPair* group_map_pairing = (GroupMappingPair *) data;
+//     const char* group = group_map_pairing->first.c_str();
+//     Phantom::Utils::MulticastSocketReceiver msr(group);
+//     short locpreeid;
+//     while (1) {
+//       Phantom::Utils::UCharMessageReader ucm;
+//       msr >> ucm;
       
-      unsigned char ver;
-      short eid;
-      unsigned char seq;
-      long t1, t2;
-      int discard;
+//       unsigned char ver;
+//       short eid;
+//       unsigned char seq;
+//       long t1, t2;
+//       int discard;
 
-      ucm >> ver >> eid >> seq >> t1 >> t2 >> discard;
-      //      if (eid==6) {
-	int pid;
-	float x,y,z, theta;
-	char source[32];
-	std::string src;
-	if (eid != 13 && eid !=14) {
-	  try {
-	    ucm >> pid >> x >> y >> z;
-	    ucm >> theta;
-	    if (eid == 24) {
-	      ucm >> source;
-	    }
-	    src = source;
-	    PidSourceMultiMap* multi_map = group_map_pairing->second;
-	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = multi_map->equal_range(pid);
-	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-	      if (eid == (it->second)->getEventId()) {
-		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
-	      }
-	    }
-	  } catch (PhantomException) {
-	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
-	  }
+//       ucm >> ver >> eid >> seq >> t1 >> t2 >> discard;
+//       //      if (eid==6) {
+// 	int pid;
+// 	float x,y,z, theta;
+// 	char source[32];
+// 	std::string src;
+// 	if (eid != 13 && eid !=14) {
+// 	  try {
+// 	    ucm >> pid >> x >> y >> z;
+// 	    ucm >> theta;
+// 	    if (eid == 24) {
+// 	      ucm >> source;
+// 	    }
+// 	    src = source;
+// 	    PidSourceMultiMap* multi_map = group_map_pairing->second;
+// 	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = multi_map->equal_range(pid);
+// 	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
+// 	      if (eid == (it->second)->getEventId()) {
+// 		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
+// 	      }
+// 	    }
+// 	  } catch (PhantomException) {
+// 	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
+// 	  }
+// 	}
+// 	//      }
+//     }
+//   }
+  
+  void PhantomMiddlewareModule::removeNode(Node* node) {
+    if (node->getType().compare("PhantomMiddlewareSink") == 0) {
+      PhantomMiddlewareSinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
+        if( result != sinks.end())
+        {
+	  sinks.erase( result );
+	  delete node;
+        } else {
+	  logPrintE("Node with ID %s not in sinks PhantomMiddlewareModule sinks vector\n", node->get("ID").c_str());
 	}
-	//      }
+    } else if (node->getType().compare("PhantomMiddlewareSource") == 0) {
+      std::string group = node->get("group");
+      GroupListenerMap::iterator result = listeners.find(group);
+      if (result != listeners.end()) {
+	result->second->removeNode((PhantomMiddlewareSource *) node);
+      } else {
+	logPrintE("Node not present in SourceNodeMap");
+      }
     }
   }
 
-  
   void PhantomMiddlewareModule::start()
   {
-    for(GroupMapping::const_iterator group_it = groups.begin(); group_it != groups.end(); ++group_it )
-      {
-	ACE_Thread::spawn((ACE_THR_FUNC)PhantomMiddlewareModule::runPhantomMessageListener, (void *) (GroupMappingPair *) &(*group_it));
-      }
+//     for(GroupMapping::const_iterator group_it = groups.begin(); group_it != groups.end(); ++group_it )
+//       {
+// 	ACE_Thread::spawn((ACE_THR_FUNC)PhantomMiddlewareModule::runPhantomMessageListener, (void *) (GroupMappingPair *) &(*group_it));
+//       }
 
   }
   
@@ -202,15 +228,9 @@ namespace ot {
 
   void PhantomMiddlewareModule::pushEvent()
   {        
-    for(GroupMapping::const_iterator group_it = groups.begin(); group_it != groups.end(); ++group_it )
-      {
-	PidSourceMultiMap* multi_map = group_it->second;
-	for (PidSourceMultiMap::iterator pidsource_it = (*multi_map).begin(); pidsource_it != (*multi_map).end(); ++pidsource_it )
-	  {
-	    pidsource_it->second->push();
-	  }
-      }
-  }
-  
+    for (GroupListenerMap::const_iterator listener_it = listeners.begin(); listener_it != listeners.end(); ++listener_it) {
+      listener_it->second->pushEvent();
+    }
+  }  
 } //namespace ot
 #endif //USE_PHANTOMMIDDLEWARE

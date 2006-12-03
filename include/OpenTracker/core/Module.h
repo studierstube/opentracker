@@ -142,7 +142,7 @@ namespace ot {
 		 * This method deregisters a node from the Module. It is called when removing a node from the graph.
 		 * It should be overloaded by descendants that need to keep track of their Nodes.
 		 */
-		virtual void removeNode(const Node *){};
+		virtual void removeNode(Node *){};
 
         /**
          * tests whether the module was initialized or not.

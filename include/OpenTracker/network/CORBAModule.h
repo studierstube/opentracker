@@ -131,9 +131,9 @@ public:
     /** Clears nodes */
     virtual void clear();
     virtual void removeNode(const Node *);
-    /** This method is called to ruct a new Node. It compares
-     * name to the TestSource element name, and if it matches
-     * creates a new TestSource node.
+    /** This method is called to construct a new Node. It compares
+     * name to the element name, and if it matches
+     * creates a new node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringMap containing attribute values
      * @return pointer to new Node or NULL. The new Node must be

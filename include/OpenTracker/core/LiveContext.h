@@ -245,6 +245,7 @@ namespace ot {
     };
 
     void remove_node(const OTGraph::Node_var& target_ref) {
+      cerr << "remove_node" << endl;
       lock();
       Node* target  = getNodeFromRef(target_ref);
       // Handle referencing nodes

@@ -173,6 +173,7 @@ public:
     }
     
     friend class PhantomMiddlewareModule;
+    friend class PhantomListener;
 };
 
 }

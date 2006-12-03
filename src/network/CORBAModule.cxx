@@ -205,11 +205,10 @@ void CORBAModule::initializeORB(int argc, char **argv)
     }
   }
     
-
   void CORBAModule::removeNode(const Node * node) {
     cerr << "CORBAModule deleting node " << node->get("ID");
     cerr << " of type " << node->getType() << endl;
-    if (node->getType().compare("CORBASink") == 0) {
+    if ((node->getType().compare("CORBASink") == 0) || (node->getType().compare("CORBATransform") == 0)) {
       CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
         {
@@ -230,6 +229,32 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	logPrintE("Node not present in SourceNodeMap");
       }
       return;
+    } else if (node->getType().compare("PushSupp") == 0) {
+      // TODO: handle removal of PushSupp nodes...
+      PushSuppVector::iterator result =  std::find( pushsupps.begin(), pushsupps.end(), node );//pushsupps.find((PushSupp*) node);
+      if (result != pushsupps.end()) {
+	pushsupps.erase( result );
+	delete *result;
+	return;
+      }
+    } else if (node->getType().compare("SharedEngineNode") == 0) {
+      // TODO: handle removal of PushSupp nodes...
+      SharedEngineNodeVector::iterator result =  std::find( sharedengines.begin(), sharedengines.end(), node );//pushsupps.find((PushSupp*) node);
+      if (result != sharedengines.end()) {
+	sharedengines.erase( result );
+	delete *result;
+	return;
+      }
+    } else if (node->getType().compare("PushCons") == 0) {
+      // TODO: handle removal of PushCons nodes...
+      PushConsVector::iterator result = std::find( pushconsumers.begin(), pushconsumers.end(), node );//pushconsumers.find((PushCons*) node);
+      if (result != pushconsumers.end()) {
+	// disconnect the PushCons node
+	CORBAUtils::disconnectPushConsumer(proxy_pushsupplier_map[*result]);
+	proxy_pushsupplier_map.erase(*result);
+	pushconsumers.erase(result);
+      	delete *result;
+      }
     } 
   }
 
