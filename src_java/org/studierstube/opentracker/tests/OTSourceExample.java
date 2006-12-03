@@ -2,7 +2,6 @@ package org.studierstube.opentracker.tests;
 
 import org.omg.CORBA.COMM_FAILURE;
 import org.studierstube.opentracker.OT_CORBA.*;
-import org.studierstube.opentracker.tests.CorbaApp.ManagerActivationFailure;
 
 public class OTSourceExample extends CorbaApp {
 	public OTSourceExample(String[] args) throws ManagerActivationFailure {
@@ -34,7 +33,8 @@ public class OTSourceExample extends CorbaApp {
 			}
 		} catch (NamingServiceUnavailable e) {
 			System.err.println("Unable to get reference to source object");
+		} catch (NamingServiceFailure e) {
+			System.err.println("Unable to get reference to source object");
 		}
 	}
-
 }

@@ -1,7 +1,6 @@
 package org.studierstube.opentracker.tests;
 
 import org.studierstube.opentracker.OT_CORBA.Event;
-import org.studierstube.opentracker.tests.CorbaApp.ManagerActivationFailure;
 
 public class OTSinkExample extends CorbaApp {
 	class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {

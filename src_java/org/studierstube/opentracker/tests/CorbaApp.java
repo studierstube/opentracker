@@ -10,14 +10,12 @@
 package org.studierstube.opentracker.tests;
 
 import java.util.ArrayList;
-import java.net.ConnectException;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.CosNaming.NamingContextExtOperations;
-import org.omg.CosNaming.NamingContextOperations;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
@@ -35,7 +33,10 @@ abstract public class CorbaApp
 	static protected POAManager pman;
 	static protected NamingContextExtOperations rootContext = null;
 
-	static class NamingServiceUnavailable extends Exception {
+	static class NamingServiceFailure extends Exception {
+		private static final long serialVersionUID = 4759765287644763254L;
+	}
+	static class NamingServiceUnavailable extends NamingServiceFailure {
 		private static final long serialVersionUID = 6431140587106965650L;
 	};
 	static class ManagerActivationFailure extends Exception {
@@ -105,22 +106,18 @@ abstract public class CorbaApp
 		return rootContext;
 	}
 
-	static public Object getObjectReference(String name) throws NamingServiceUnavailable {
+	static public Object getObjectReference(String name) throws NamingServiceFailure {
 		NameComponent[] nc = {};
 		try {
 			nc = getRootContext().to_name(name);
 			return getRootContext().resolve(nc);
 		} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NamingServiceFailure();
 		} catch (NotFound e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NamingServiceFailure();
 		} catch (CannotProceed e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NamingServiceFailure();
 		}
-		return null;
 	}
 
 	static public void bindObectToName(org.omg.CORBA.Object obj, String name) throws NamingServiceUnavailable {
