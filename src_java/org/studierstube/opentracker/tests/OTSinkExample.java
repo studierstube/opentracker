@@ -11,14 +11,14 @@ public class OTSinkExample extends CorbaApp {
 		}
 	}
 	
-	public OTSinkExample(String[] args) {
-		super(args);
-	}
-	
 	protected Sink_i sink;
 	
-	public void activateSink(String name) {
+	public OTSinkExample(String[] args) {
+		super(args);
 		sink = new Sink_i();
+	}
+
+	public void activateSink(String name) {
 		try {
 			activateObject(sink);
 			bindObectToName(sink._this(), name);
@@ -32,8 +32,9 @@ public class OTSinkExample extends CorbaApp {
 	}
 	
 	public static void main(String[] args) {
-		OTSinkExample app = new OTSinkExample(args);
-		app.activateSink("CORBA.Sink01");
+		System.out.println("Starting sink.");
+		OTSinkExample _sink = new OTSinkExample(args);
+		_sink.activateSink("CORBA.Sink01");
 		getORB().run();
 	}
 
