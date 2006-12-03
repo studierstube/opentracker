@@ -2,9 +2,10 @@ package org.studierstube.opentracker.tests;
 
 import org.omg.CORBA.COMM_FAILURE;
 import org.studierstube.opentracker.OT_CORBA.*;
+import org.studierstube.opentracker.tests.CorbaApp.ManagerActivationFailure;
 
 public class OTSourceExample extends CorbaApp {
-	public OTSourceExample(String[] args) {
+	public OTSourceExample(String[] args) throws ManagerActivationFailure {
 		super(args);
 	}
 	

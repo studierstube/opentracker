@@ -1,6 +1,7 @@
 package org.studierstube.opentracker.tests;
 
 import org.studierstube.opentracker.OT_CORBA.Event;
+import org.studierstube.opentracker.tests.CorbaApp.ManagerActivationFailure;
 
 public class OTSinkExample extends CorbaApp {
 	class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {
@@ -13,7 +14,7 @@ public class OTSinkExample extends CorbaApp {
 	
 	protected Sink_i sink;
 	
-	public OTSinkExample(String[] args) {
+	public OTSinkExample(String[] args) throws ManagerActivationFailure {
 		super(args);
 		sink = new Sink_i();
 	}
@@ -33,9 +34,13 @@ public class OTSinkExample extends CorbaApp {
 	
 	public static void main(String[] args) {
 		System.out.println("Starting sink.");
-		OTSinkExample _sink = new OTSinkExample(args);
-		_sink.activateSink("CORBA.Sink01");
-		getORB().run();
+		try {
+			OTSinkExample _sink = new OTSinkExample(args);
+			_sink.activateSink("CORBA.Sink01");
+			getORB().run();
+		} catch (ManagerActivationFailure ex) {
+			System.err.println("Manager could not be activated");
+		}
 	}
 
 }

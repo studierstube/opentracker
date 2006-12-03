@@ -45,7 +45,7 @@ abstract public class CorbaApp
 		private static final long serialVersionUID = 6431140587106965652L;
 	};
 	
-	public CorbaApp(String[] args)
+	public CorbaApp(String[] args) throws ManagerActivationFailure
 	{
 		// Must strip out ORB arguments manually in Java,
 		// since ORB.init() doesn't do it for us.
@@ -65,10 +65,6 @@ abstract public class CorbaApp
 		}
 		catch (SystemException ex) {
 			System.err.println("System exception, unable to "+action);
-			System.exit(1);
-		}
-		catch (ManagerActivationFailure ex) {
-			System.err.println("Unable to activate the POA Manager. Exiting...");
 			System.exit(1);
 		}
 	}

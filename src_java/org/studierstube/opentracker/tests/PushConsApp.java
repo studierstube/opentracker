@@ -2,7 +2,7 @@ package org.studierstube.opentracker.tests;
 
 public class PushConsApp extends CorbaApp {
 
-	public PushConsApp(String[] args) {
+	public PushConsApp(String[] args) throws ManagerActivationFailure {
 		super(args);
 		// TODO Auto-generated constructor stub
 	}
