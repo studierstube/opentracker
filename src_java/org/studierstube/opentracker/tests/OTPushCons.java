@@ -14,29 +14,17 @@
 package org.studierstube.opentracker.tests;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import gnu.getopt.Getopt;
 import org.omg.CORBA.*;
-import org.omg.CORBA.Object;
 import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.PortableInterceptor.ObjectIdHelper;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CosLifeCycle.*;
 import org.omg.CosEventComm.*;
 import org.omg.CosEventChannelAdmin.*;
-
-import net.sourceforge.omniorb.EventChannelAdmin.*;
-
-import org.studierstube.opentracker.OT_CORBA.*;
-
-import com.sun.corba.se.impl.orbutil.ORBUtility;
-import com.sun.corba.se.spi.activation.ORBidHelper;
 
 abstract public class OTPushCons extends PushConsumerPOA
 {
@@ -44,6 +32,8 @@ abstract public class OTPushCons extends PushConsumerPOA
 	// class members
 	protected int _disconnect =0;
 	protected int _count =0;
+	protected int discnum =0;
+	protected int sleepInterval =0;
 	protected boolean _disconnectFlag =false;
 	protected ConsumerAdmin consumer_admin;
 	protected EventChannel channel =null;
@@ -59,8 +49,6 @@ abstract public class OTPushCons extends PushConsumerPOA
 		String other_args[] = stripOrbArgs(args);
 
 		// Process Options
-		int discnum =0;
-		int sleepInterval =0;
 		String channelName ="EventChannel";
 		
 		Getopt g =new Getopt("eventc", other_args,"ud:s:n:");
@@ -297,8 +285,7 @@ abstract public class OTPushCons extends PushConsumerPOA
 		String other_args[] = stripOrbArgs(args);
 
 		// Process Options
-		String channelName ="EventChannel";
-		String hostName    ="localhost";
+		String hostName = "localhost";
 		
 		Getopt g =new Getopt("eventc", other_args,"h:");
 		int c;
@@ -337,7 +324,6 @@ abstract public class OTPushCons extends PushConsumerPOA
 		while(true)
 		{
 			// Connect and listen for events.
-			//getPushCons().connect();
 			connect(consumer_admin);
 			// Disconnected... reconnect!
 
@@ -355,10 +341,6 @@ abstract public class OTPushCons extends PushConsumerPOA
 		// NEVER GET HERE
 
 	} // end main()
-
-	//abstract OTPushCons getPushCons(int discnum);
-	
-	//abstract OTPushCons getPushCons();
 
 	public static EventChannel getEventChannel(String channelName) {
 		//

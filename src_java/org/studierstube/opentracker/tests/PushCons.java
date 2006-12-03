@@ -18,11 +18,8 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CosLifeCycle.*;
 import org.omg.CosEventComm.*;
 import org.omg.CosEventChannelAdmin.*;
-import net.sourceforge.omniorb.EventChannelAdmin.*;
-
 import org.studierstube.opentracker.OT_CORBA.*;
 
 public class PushCons extends PushConsumerPOA

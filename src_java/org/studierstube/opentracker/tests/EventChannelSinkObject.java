@@ -1,14 +1,11 @@
 package org.studierstube.opentracker.tests;
 
-import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import org.omg.CORBA.Any;
 import org.omg.CosEventComm.Disconnected;
 
 import org.studierstube.opentracker.OT_CORBA.*;
-
-import org.studierstube.opentracker.tests.*;
 
 public class EventChannelSinkObject extends OTPushCons {
 	private float x,y,z;
