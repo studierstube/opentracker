@@ -52,24 +52,28 @@ namespace ot{
   class ICubeXSink;
   class ICubeXSensor;
   class ixMidiSocket;
+  class ixPreset;
+
   class ICubeXModule : public Module, public NodeFactory{
   public:
     typedef std::vector<ICubeXSource *> ICubeXSourceDict;
     typedef std::vector<ICubeXSink *> ICubeXSinkDict;
     typedef std::vector<ICubeXSensor *> ICubeXSensorDict;
     typedef std::map<std::string, ixMidiSocket * > SocketDict;
+    typedef std::map<std::string, ixPreset *> PresetDict;
   protected:
     ICubeXSourceDict srcs;
     ICubeXSinkDict   sinks;
     ICubeXSensorDict sensors;
     SocketDict sockets;
+    PresetDict presets;
     
 
     void cleanUpSrcs();
     void cleanUpSinks();
     void cleanUpSensors();
     void cleanUpSockets();
-
+    void loadPresetFile(std::string);
   public:
     ICubeXModule();
     virtual ~ICubeXModule();

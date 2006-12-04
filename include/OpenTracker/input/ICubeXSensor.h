@@ -49,6 +49,7 @@
 namespace ot{
 
   class MidiMsg;
+  class ixPreset;
   class ICubeXSensor: public Node{
   protected:
     unsigned char port;
@@ -56,6 +57,8 @@ namespace ot{
     Event event;
 
     unsigned char config[7];
+    ixPreset * preset;
+    bool sendConfiguration;
 
     friend class ICubeXModule;
     friend class ICubeXSource;
@@ -70,6 +73,12 @@ namespace ot{
     void pushEvent();
     unsigned char getPort(){return port;};
     void haveData(unsigned long data);
+
+
+    void setMappingType(unsigned char);
+    void setChannel(unsigned char);
+    void setController(unsigned char);
+    void setPreset(ixPreset * preset);
   };
   
 }; // namespace ot

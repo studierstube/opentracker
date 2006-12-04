@@ -9,23 +9,33 @@
 	<ConsoleConfig headerline="Midi Input" interval="1"/>
 
 	<ICubeXConfig>
+	   <Preset filename="ICubeXPresets.ini"/>
+	                             
 	   <ICubeXSocket socket_id="cable" indevice="In-B USB MidiSport 2x2" outdevice="Out-B USB MidiSport 2x2"/>
 	</ICubeXConfig>
 
+
   </configuration>
 
-  <ConsoleSink comment="MidiSrc output" active="on">
-     <ICubeXSource socket_id="cable"/>
+  <ConsoleSink comment="MidiSrc output" active="off">
+     <ICubeXSource socket_id="cable" config="local"/>
   </ConsoleSink>
 
-  <ConsoleSink comment="Sensor 0" active="on">
-     <ICubeXSensor socket_id="cable" dev_id="0" port="0" type="TouchMiniOn"/>
+  <ConsoleSink comment="TouchMiniOn" active="on">
+     <ICubeXSensor socket_id="cable" dev_id="0" port="0" preset="TouchMiniOn" midi_type="note-on" midi_channel="0" midi_controller="0" configure="on"/>
   </ConsoleSink>
 
-
-  <ConsoleSink comment="Sensor 1" active="on">
-     <ICubeXSensor socket_id="cable" dev_id="0" port="1" type="OrientV2.0"/>
+  <ConsoleSink comment="Turn" active="on">
+     <ICubeXSensor socket_id="cable" dev_id="0" port="1" preset="Turn" midi_type="control-change" midi_channel="0" midi_controller="0" configure="on"/>
   </ConsoleSink>
 
+  <ConsoleSink comment="TouchMicro" active="on">
+     <ICubeXSensor socket_id="cable" dev_id="0" port="4" preset="TouchMicro" midi_type="control-change" midi_channel="0" midi_controller="1" configure="on"/>
+  </ConsoleSink>
+
+  <ConsoleSink comment="Orient V2" active="on">
+     <ICubeXSensor socket_id="cable" dev_id="0" port="7" preset="Orient v2" midi_type="control-change" midi_channel="0" midi_controller="7" configure="on"/>
+  </ConsoleSink>
+  
 
 </OpenTracker>

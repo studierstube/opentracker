@@ -59,7 +59,7 @@ namespace ot{
     typedef std::vector<ICubeXSensor *> SensorArray;
   protected:
     SensorArray sensors;
-
+    std::string config;
     unsigned char confignr;  
     char name[8];
     unsigned char version[5];
@@ -68,7 +68,10 @@ namespace ot{
     unsigned char running_status;
     unsigned char midi_thru;
 
-	unsigned char default_config[9];
+    unsigned char default_config[9];
+
+
+    unsigned char nextControllerNumber;
 
     ixMidiSocket * socket;
     bool changed;
