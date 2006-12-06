@@ -56,6 +56,13 @@
 
 #ifdef USE_SYSMOUSE
 
+#include <ace/OS.h>
+#include <ace/Time_Value.h>
+
+#ifdef WIN32 
+#include <Windows.h>
+#include <Winuser.h>
+#endif
 
 /**
  * The module and factory to drive the SysMouseSinks nodes. It constructs
@@ -65,7 +72,7 @@
 
 namespace ot {
 
-class OPENTRACKER_API SysMouseModule : public Module, public NodeFactory
+class OPENTRACKER_API SysMouseModule : public ThreadModule, public NodeFactory
 {
 
 protected:
@@ -73,12 +80,16 @@ protected:
     NodeVector nodes;
 
 public:
-    /** constructor method. 
-     */
-    SysMouseModule() : Module(), NodeFactory()
-    {};
 
-    /** Destructor method, clears nodes member.
+
+
+    /** 
+	 * Constructor method. 
+     */
+    SysMouseModule();
+
+    /** 
+	 * Destructor method, clears nodes member.
 	 */
     virtual ~SysMouseModule();
 
@@ -91,6 +102,52 @@ public:
      * allocated with new ! 
 	 */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
+
+	/**
+	 * stop the thread
+	 */
+	virtual void close();
+
+	/**
+	 *  starts the thread
+	 */
+	virtual void start();
+
+	/**
+	 *  the thread
+	 */
+	virtual void run();
+
+	/**
+	 *  flag to stop the thread
+	 */
+	bool stop;
+
+	/**
+	 * pushes events into the tracker tree. Checks all SysMouseSinks and
+	 * pushes new events. 
+	 */
+	virtual void pushEvent();
+
+	
+	/**
+	 *  the working thread loop
+	 */
+	void processLoop();
+
+	friend class SysMouseSink;
+
+private:
+
+	unsigned short buttonInput, lastButtonInput;
+	int mouseX, mouseY;
+
+#ifdef WIN32 
+	PINPUT inputPtr;
+	PMOUSEINPUT mouseInputPtr;
+	int buttonPressed;
+	DWORD mouseFlags;
+#endif	
 
 };
 

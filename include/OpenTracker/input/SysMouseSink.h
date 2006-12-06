@@ -68,10 +68,8 @@
 
 #ifdef USE_SYSMOUSE
 
-#ifdef WIN32 
-#include <Windows.h>
-#include <Winuser.h>
-#endif
+#include <OpenTracker/input/SysMouseModule.h>
+
 
 namespace ot {
 
@@ -86,9 +84,11 @@ class OPENTRACKER_API SysMouseSink : public Node
 
 public:
     /// the event that is stored
-    Event event;
+    Event relativeEvent, absoluteEvent;
     /// flag whether event was changed since last display
-    int changed;
+    int changedAbsolute, changedRelative;
+
+	SysMouseModule * sysMouseModule;
          
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -99,21 +99,15 @@ public:
     }
 
 	/** simple constructor, sets members to initial values */
-	SysMouseSink() : Node(),
-		changed(0)
-	{
-#ifdef WIN32 
-		inputPtr = new ::INPUT;
-		mouseInputPtr = new ::MOUSEINPUT;
-#endif		
+	SysMouseSink( SysMouseModule * ptr) : Node(),
+		changedAbsolute(1),
+		changedRelative(1)
+	{ 
+		sysMouseModule = ptr;
 	}
 
 	~SysMouseSink(void)
-	{
-#ifdef WIN32 
-		delete inputPtr;
-#endif
-	}
+	{}
 
 protected:
     
@@ -128,97 +122,25 @@ protected:
      */
     virtual void onEventGenerated( Event& e, Node& generator)
 	{
-        event = e;
-        changed = 1;
 		if (generator.getName().compare("AbsoluteInput") == 0) 
 		{
-#ifdef WIN32 
-			//int wheelValue(0); // positive = increase / negative = decrease with MOUSEEVENTF_WHEEL
-			
-			// adaption for reasonable keyboard input
-			//LONG xMouse;
-			//LONG yMouse;
-			//xMouse = (int)((event.getPosition()[0]*1000)/screenSizeX*65535);
-			//yMouse = (int)((event.getPosition()[1]*1000)/screenSizeY*65535);
-			
-			unsigned short buttonInput = event.getButton();
-			//printf("\nrelative mouseX:%i :", xMouse);
-			//printf("\nrelative mouseY:%i :\n", yMouse);
-			printf("\nbutton:%i :\n", buttonInput);
-			
-			mouseInputPtr->dx = (int)(event.getPosition()[0]*65535);
-			mouseInputPtr->dy = (int)(event.getPosition()[1]*65535);
-			mouseInputPtr->mouseData = 0;
-			mouseInputPtr->dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
-			if( buttonInput == 1 )
-			{
-				mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_LEFTDOWN;
-				buttonPressed = 1;
-			}
-			if( buttonInput == 2 )
-			{
-				mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_RIGHTDOWN;
-				buttonPressed = 2;
-			}
-			if( buttonInput == 0 )
-			{
-				if( buttonPressed == 1 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_LEFTUP;
-				if( buttonPressed == 2 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_RIGHTUP;
-				buttonPressed = 0;
-			}
-			mouseInputPtr->time = 0;
-			mouseInputPtr->dwExtraInfo = 0;
-
-			inputPtr->type = INPUT_MOUSE;
-			inputPtr->mi = *mouseInputPtr;
-			int send = ::SendInput( 1, inputPtr, sizeof(*inputPtr) );
-#endif
+			sysMouseModule->lock();
+			absoluteEvent = e;
+			changedAbsolute = 1;
+			sysMouseModule->unlock();
 		}
 		if (generator.getName().compare("RelativeInput") == 0) 
 		{
-#ifdef WIN32 
-			unsigned short buttonInput = event.getButton();
-
-			mouseInputPtr->dx = (int)(event.getPosition()[0]*10);
-			mouseInputPtr->dy = (int)(event.getPosition()[1]*10);
-			mouseInputPtr->mouseData = 0;
-			mouseInputPtr->dwFlags = MOUSEEVENTF_MOVE;
-			if( buttonInput == 1 )
-			{
-				mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_LEFTDOWN;
-				buttonPressed = 1;
-			}
-			if( buttonInput == 2 )
-			{
-				mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_RIGHTDOWN;
-				buttonPressed = 2;
-			}
-			if( buttonInput == 0 )
-			{
-				if( buttonPressed == 1 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_LEFTUP;
-				if( buttonPressed == 2 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_RIGHTUP;
-				buttonPressed = 0;
-			}
-			mouseInputPtr->time = 0;
-			mouseInputPtr->dwExtraInfo = 0;
-
-			inputPtr->type = INPUT_MOUSE;
-			inputPtr->mi = *mouseInputPtr;
-			int send = ::SendInput( 1, inputPtr, sizeof(*inputPtr) );
-#endif
+			sysMouseModule->lock();
+			relativeEvent = e;
+			changedRelative = 1;
+			sysMouseModule->unlock();
 		}
-
-        updateObservers( event );
+        updateObservers( e );
 	}
 
 	friend class SysMouseModule;
 
-private:
-#ifdef WIN32 
-	PINPUT inputPtr;
-	PMOUSEINPUT mouseInputPtr;
-	int buttonPressed;
-#endif	
 };
 
 }  // namespace ot

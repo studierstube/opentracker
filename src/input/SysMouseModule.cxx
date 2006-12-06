@@ -47,20 +47,37 @@
 #include <OpenTracker/input/SysMouseSink.h>
 #include <OpenTracker/input/SysMouseModule.h>
 
+
 #ifdef USE_SYSMOUSE
 
 
 #include <opentracker\tool\OT_ACE_Log.h>
 
-
 namespace ot {
 	OT_MODULE_REGISTER_FUNC(SysMouseModule){
 		OT_MODULE_REGISTRATION_DEFAULT(SysMouseModule, "SysMouseConfig");
 	}
+
+	SysMouseModule::SysMouseModule() : ThreadModule(), 
+									NodeFactory(), 
+									stop(0),
+									buttonInput(0), 
+									lastButtonInput(0),
+									mouseX(0), mouseY(0)
+	{
+#ifdef WIN32 
+		inputPtr = new ::INPUT;
+		mouseInputPtr = new ::MOUSEINPUT;
+#endif		
+	};
+
 	// Destructor method
 	SysMouseModule::~SysMouseModule()
 	{
 		nodes.clear();
+#ifdef WIN32 
+		delete inputPtr;
+#endif
 	}
 
 	// This method is called to construct a new Node.
@@ -68,12 +85,12 @@ namespace ot {
 	{
 		if( name.compare("SysMouseSink") == 0 )
 		{       
-			SysMouseSink * source = new SysMouseSink;
-			source->event.setConfidence( 1.0f );
-			nodes.push_back( source );
+			SysMouseSink * sink = new SysMouseSink( this );
+			//sink->event.setConfidence( 1.0f );
+			nodes.push_back( sink );
 			logPrintS("Built SysMouseSink node\n");
 			initialized = 1;
-			return source;
+			return sink;
 		}
 		if( (name.compare("AbsoluteInput") == 0) || (name.compare("RelativeInput") == 0) ) 
 		{	
@@ -87,6 +104,147 @@ namespace ot {
 		return NULL;
 	}
 
+	// starts the ptu thread
+	void SysMouseModule::start()
+	{
+		if( isInitialized() == 1 && !nodes.empty())
+		{
+			ThreadModule::start();
+		}
+	}
+
+	// stops the thread
+	void SysMouseModule::close()
+	{
+		// stop thread
+		lock();
+		stop = 1;
+		unlock();
+
+		if( isInitialized() == 1 && !nodes.empty()) 
+		{
+			SysMouseSink * sink;
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				sink = (SysMouseSink *) *it;
+				//source->deleteSth;
+			}
+		}
+	}
+
+
+	void SysMouseModule::run()
+	{
+		static int init = 0;
+
+		if( init == 0 )
+		{
+			initialized = 1;
+			init = 1;
+		}
+		while(stop == 0)
+		{
+			processLoop();
+		}
+	}
+
+// not needed here - no source ...
+	void SysMouseModule::pushEvent()
+	{
+		SysMouseSink *sink;
+
+		if( isInitialized() == 1 )
+		{   
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				sink = (SysMouseSink *) *it;     
+				////source->delay--;
+				////if ((source->process||source->movingPan||source->movingTilt) && source->delay<1)
+				//if (source->process||source->movingPan||source->movingTilt)
+				//{
+				//	//source->delay = source->delayEvent;
+
+				//	//if((cycle + source->offset) % source->frequency == 0 )
+				//	//{
+				//	//	source->push();
+				//	//}
+
+				//	//source->publishEvent = false;
+
+				//	source->process = false;
+				//	//OSUtils::sleep(source->delayEvent);
+
+				//	source->push();
+				//}
+			}
+		}
+	}
+
+	void SysMouseModule::processLoop()
+	{
+		if( isInitialized() == 1 )
+		{
+			SysMouseSink *sink;
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				sink = (SysMouseSink *) *it;
+				if( sink->changedAbsolute )
+				{
+					buttonInput = sink->absoluteEvent.getButton();
+					mouseX = (int)(sink->absoluteEvent.getPosition()[0]*65535);
+					mouseY = (int)(sink->absoluteEvent.getPosition()[1]*65535);
+					#ifdef WIN32
+					mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
+					#endif
+					sink->changedAbsolute = 0;
+				}
+				if( sink->changedRelative )
+				{
+					buttonInput = sink->relativeEvent.getButton();
+					mouseX = (int)(sink->relativeEvent.getPosition()[0]*10);
+					mouseY = (int)(sink->relativeEvent.getPosition()[1]*10);
+					#ifdef WIN32
+					mouseFlags = MOUSEEVENTF_MOVE;
+					#endif
+					sink->changedRelative = 0;
+				}				
+#ifdef WIN32
+				mouseInputPtr->dx = mouseX;
+				mouseInputPtr->dy = mouseY;
+				mouseInputPtr->mouseData = 0;
+				mouseInputPtr->dwFlags = mouseFlags;
+				if( lastButtonInput != buttonInput )
+				{
+					if( buttonInput == 1 )
+					{
+						mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_LEFTDOWN;
+						buttonPressed = 1;
+					}
+					if( buttonInput == 2 )
+					{
+						mouseInputPtr->dwFlags = mouseInputPtr->dwFlags | MOUSEEVENTF_RIGHTDOWN;
+						buttonPressed = 2;
+					}
+					if( buttonInput == 0 )
+					{
+						if( buttonPressed == 1 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_LEFTUP;
+						if( buttonPressed == 2 ) mouseInputPtr->dwFlags |=  MOUSEEVENTF_RIGHTUP;
+						buttonPressed = 0;
+					}
+				}
+				lastButtonInput = buttonInput;
+				mouseInputPtr->time = 0;
+				mouseInputPtr->dwExtraInfo = 0;
+
+				inputPtr->type = INPUT_MOUSE;
+				inputPtr->mi = *mouseInputPtr;
+				int send = ::SendInput( 1, inputPtr, sizeof(*inputPtr) );
+#endif
+			}
+		}
+		// wait 10msec for now - this sets the update intervall to the system
+		ACE_OS::sleep( ACE_Time_Value(0, 10000) );
+	}
 } // namespace ot
 
 #endif //USE_SYSMOUSE
