@@ -64,7 +64,20 @@ namespace ot
     // set type, name, and value of new attribute to be created
     void EventUtilityNode::setCreate(const std::string &type, const std::string &name, const std::string &value)
     {
+        //normalize the type naming
         this->type = type;
+        // it is impossible to write < or > in xml, so the parser requires
+        // writing &lt instead, but c++ does not understand this. In order to 
+        // use an independent mapping, we need to specify the type of templated
+        // datastructures in another way. The [] is for such purpose.
+        //        logPrintI("Event utilitynode using type %s\n", type.c_str());
+        std::string::size_type left_bracket = this->type.find_first_of("[");
+        std::string::size_type right_bracket = this->type.find_last_of("]");
+        if ((left_bracket != std::string::npos) && (right_bracket != std::string::npos)){
+            this->type[(int)left_bracket] = '<';
+            this->type[(int)right_bracket] = '>';
+        }
+        //        logPrintI("Event utilitynode created type %s\n", (this->type.c_str()));
         this->name = name;
         this->value = value;
     }
@@ -81,7 +94,8 @@ namespace ot
         if (discard.length() > 0)
             success |= event.delAttribute(discard);
 		if (type.length() > 0){
-			// this is necessary in order to updateObservers even when reusing an event
+			// this is necessary in order to updateObservers 
+                        // even when reusing an event
 			// to which the attribute has already been added
 			success |=event.hasAttribute(name);
 			if (!success)
