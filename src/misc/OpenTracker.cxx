@@ -110,6 +110,7 @@
 #include <OpenTracker/input/PanTiltUnitModule.h>
 #include <OpenTracker/input/SysMouseModule.h>
 #include <OpenTracker/common/ThreeToTwoDimFilterModule.h>
+#include <OpenTracker/common/VirtualKeyModule.h>
 #include <OpenTracker/input/SpeechModule.h>
 #include <OpenTracker/input/P5GloveModule.h>
 #include <OpenTracker/input/MulticastInputModule.h>
@@ -262,6 +263,10 @@ namespace ot {
 
 #ifdef USE_SYSMOUSE
 		OT_REGISTER_MODULE(SysMouseModule, NULL);
+#endif
+
+#ifdef USE_VIRTUALKEYSOURCE
+		OT_REGISTER_MODULE(VirtualKeyModule, NULL);
 #endif	
 
 #ifdef USE_THREETOTWODIMFILTER

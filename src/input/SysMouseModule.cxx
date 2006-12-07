@@ -148,37 +148,6 @@ namespace ot {
 		}
 	}
 
-// not needed here - no source ...
-	void SysMouseModule::pushEvent()
-	{
-		SysMouseSink *sink;
-
-		if( isInitialized() == 1 )
-		{   
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			{
-				sink = (SysMouseSink *) *it;     
-				////source->delay--;
-				////if ((source->process||source->movingPan||source->movingTilt) && source->delay<1)
-				//if (source->process||source->movingPan||source->movingTilt)
-				//{
-				//	//source->delay = source->delayEvent;
-
-				//	//if((cycle + source->offset) % source->frequency == 0 )
-				//	//{
-				//	//	source->push();
-				//	//}
-
-				//	//source->publishEvent = false;
-
-				//	source->process = false;
-				//	//OSUtils::sleep(source->delayEvent);
-
-				//	source->push();
-				//}
-			}
-		}
-	}
 
 	void SysMouseModule::processLoop()
 	{
@@ -188,16 +157,7 @@ namespace ot {
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				sink = (SysMouseSink *) *it;
-				if( sink->changedAbsolute )
-				{
-					buttonInput = sink->absoluteEvent.getButton();
-					mouseX = (int)(sink->absoluteEvent.getPosition()[0]*65535);
-					mouseY = (int)(sink->absoluteEvent.getPosition()[1]*65535);
-					#ifdef WIN32
-					mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
-					#endif
-					sink->changedAbsolute = 0;
-				}
+				
 				if( sink->changedRelative )
 				{
 					buttonInput = sink->relativeEvent.getButton();
@@ -207,6 +167,18 @@ namespace ot {
 					mouseFlags = MOUSEEVENTF_MOVE;
 					#endif
 					sink->changedRelative = 0;
+				}
+				if( sink->changedAbsolute )
+				{
+					buttonInput = sink->absoluteEvent.getButton();
+					mouseX = (int)(sink->absoluteEvent.getPosition()[0]*65535);
+					mouseY = (int)(sink->absoluteEvent.getPosition()[1]*65535);
+					#ifdef WIN32
+					mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
+					#endif
+					sink->changedAbsolute = 0;
+					// comment out for overriding the systems mouse
+					sink->changedRelative = 1; 
 				}				
 #ifdef WIN32
 				mouseInputPtr->dx = mouseX;

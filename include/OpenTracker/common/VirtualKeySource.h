@@ -33,42 +33,33 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
-/** header file for SysMouseSink Node.
+/** header file for VirtualKeySource Node.
   *
   * @author Markus Sareika
   *
-  * $Id: SysMouseSink.h
+  * $Id: VirtualKeySource.h
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section SysMouseSink SysMouseSink
- * The SysMouseSink node is a sink which forwards the events to the 
- * systems mouse.
- * the @ref SysMouseModule. 
+ * @section VirtualKeySource VirtualKeySource
+ * The VirtualKeySource node is a sink which monitors a key of the keyboard and
+ * generates a button event when the key state changes
  *
  * An example element looks like this :
  * @verbatim
-<SysMouseSink>
-	<AbsoluteInput>               
-		<Any EventGenerator element type normalized to 65535>      
-	</AbsoluteInput>
-	<RelativeInput>               
-		<Any EventGenerator element type>          
-	</RelativeInput>
-</SysMouseSink>@endverbatim
+<VirtualKeySource virtualKeyCode="integer of virtualkeycode"/>
  */
 
-#ifndef _SYSMOUSESINK_H
-#define _SYSMOUSESINK_H
+#ifndef _VIRTUALKEYSOURCE_H
+#define _VIRTUALKEYSOURCE_H
 
 
 #include "../OpenTracker.h"
 
-#ifdef USE_SYSMOUSE
-
-#include <OpenTracker/input/SysMouseModule.h>
+#ifdef USE_VIRTUALKEYSOURCE
+#include <OpenTracker/common/VirtualKeyModule.h>
 
 
 namespace ot {
@@ -79,16 +70,12 @@ namespace ot {
  * @author Markus Sareika
  * @ingroup input
  */
-class OPENTRACKER_API SysMouseSink : public Node
+class OPENTRACKER_API VirtualKeySource : public Node
 {
 
 public:
-    /// the event that is stored
-    Event relativeEvent, absoluteEvent;
-    /// flag whether event was changed since last display
-    int changedAbsolute, changedRelative;
-
-	
+    /// the event that is published
+    Event event;
          
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -99,52 +86,35 @@ public:
     }
 
 	/** simple constructor, sets members to initial values */
-	SysMouseSink( SysMouseModule * ptr) : Node(),
-		changedAbsolute(0),
-		changedRelative(1)
+	VirtualKeySource(VirtualKeyModule * ptr) : Node(),
+		virtualKeyCode(33)
 	{ 
-		sysMouseModule = ptr;
+		virtualKeyModule = ptr;
 	}
 
-	~SysMouseSink(void)
-	{}
+	~VirtualKeySource(void)
+	{
+		//
+	}
 
 protected:
     
-    /**
-     * this method notifies the object that a new event was generated.
-     * It stores a copy of the received event and passes the event on
-     * to its observers.
-     * @param event reference to the new event. Do not change the
-     *        event values, make a copy and change that !
-     * @param generator reference to the EventGenerator object that
-     *        notified the EventObserver.
-     */
-    virtual void onEventGenerated( Event& e, Node& generator)
+
+	virtual void push()
 	{
-		if (generator.getName().compare("AbsoluteInput") == 0) 
-		{
-			sysMouseModule->lock();
-			absoluteEvent = e;
-			changedAbsolute = 1;
-			sysMouseModule->unlock();
-		}
-		if (generator.getName().compare("RelativeInput") == 0) 
-		{
-			sysMouseModule->lock();
-			relativeEvent = e;
-			changedRelative = 1;
-			sysMouseModule->unlock();
-		}
-        updateObservers( e );
+		virtualKeyModule->lock();
+		updateObservers( event );
+		virtualKeyModule->unlock();
 	}
-	SysMouseModule * sysMouseModule;
-	friend class SysMouseModule;
+
+	int virtualKeyCode;
+	VirtualKeyModule * virtualKeyModule;
+	friend class VirtualKeyModule;
 
 };
 
 }  // namespace ot
 
-#endif //USE_SYSMOUSE
+#endif //USE_VIRTUALKEYSOURCE
 
-#endif //_SYSMOUSESINK_H
+#endif //_VIRTUALKEYSOURCE_H

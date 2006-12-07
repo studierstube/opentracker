@@ -33,28 +33,27 @@
   * ========================================================================
   * PROJECT: OpenTracker
   * ======================================================================== */
- /** header file for SysMouseModule Node.
+ /** header file for VirtualKeyModule Node.
   *
   * @author Markus Sareika
   *
-  * $Id: SysMouseModule.h
+  * $Id: VirtualKeyModule.h
   * @file                                                                   */
  /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section SysMouseModule SysMouseModule
- * The SysMouseModule manages the @ref SysMouseSinks nodes that 
- * receive events in certain intervals.
+ * @section VirtualKeyModule VirtualKeyModule
+ * The VirtualKeyModule manages the @ref SysMouseSinks nodes
  */
 
 
-#ifndef _SYSMOUSEMODULE_H
-#define _SYSMOUSEMODULE_H
+#ifndef _VIRTUALKEYMODULE_H
+#define _VIRTUALKEYMODULE_H
 
 #include <OpenTracker/OpenTracker.h>
 
-#ifdef USE_SYSMOUSE
+#ifdef USE_VIRTUALKEYSOURCE
 
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
@@ -64,38 +63,30 @@
 #include <Winuser.h>
 #endif
 
-/**
- * The module and factory to drive the SysMouseSinks nodes. It constructs
- * SysMouseSinks nodes via the NodeFactory interface and pushes events into
- * the tracker tree according to the nodes configuration.
- */
-
 namespace ot {
 
-class OPENTRACKER_API SysMouseModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API VirtualKeyModule : public ThreadModule, public NodeFactory
 {
 
 protected:
-    // list of SysMouseSinks nodes in the tree
+    
     NodeVector nodes;
 
 public:
 
-
-
     /** 
 	 * Constructor method. 
      */
-    SysMouseModule();
+    VirtualKeyModule();
 
     /** 
 	 * Destructor method, clears nodes member.
 	 */
-    virtual ~SysMouseModule();
+    virtual ~VirtualKeyModule();
 
     /** This method is called to construct a new Node. It compares
-     * name to the SysMouseSink element name, and if it matches
-     * creates a new SysMouseSink node.
+     * name to the VirtualKeySource element name, and if it matches
+     * creates a new VirtualKeySource node.
      * @param name reference to string containing element name
      * @attributes refenrence to StringTable containing attribute values
      * @return pointer to new Node or NULL. The new Node must be
@@ -104,7 +95,7 @@ public:
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
 
 	/**
-	 * stop the thread
+	 *  stop the thread
 	 */
 	virtual void close();
 
@@ -124,33 +115,27 @@ public:
 	bool stop;
 
 	/**
+	 *  checks all VirtualKeySources and pushes new events into the tracker tree
+	 */
+	virtual void pushEvent();
+
+	
+	/**
 	 *  the working thread loop
 	 */
 	void processLoop();
 
-	friend class SysMouseSink;
-
-private:
-
-	unsigned short buttonInput, lastButtonInput;
-	int mouseX, mouseY;
-
-#ifdef WIN32 
-	PINPUT inputPtr;
-	PMOUSEINPUT mouseInputPtr;
-	int buttonPressed;
-	DWORD mouseFlags;
-#endif	
+	friend class VirtualKeySource;
 
 };
 
-OT_MODULE(SysMouseModule);
+OT_MODULE(VirtualKeyModule);
 } // namespace ot
 
 #else
 #ifdef WIN32
-#pragma message(">>> OT_NO_SYSMOUSE_SUPPORT")
+#pragma message(">>> OT_NO_VIRTUALKEY_SUPPORT")
 #endif
-#endif	//USE_SYSMOUSE
+#endif	//USE_VIRTUALKEYSOURCE
 
-#endif	//_SYSMOUSEMODULE_H
+#endif	//_VIRTUALKEYMODULE_H
