@@ -5,11 +5,11 @@
 #
 # Author: Tamer Fahmy <tamer@tammura.at>
 #
+#&& libtoolize --force --copy \
 
 # set -x -v
 
 aclocal -I cfg/m4 \
-&& libtoolize --force --copy \
 && autoheader \
 && automake --add-missing --copy \
 && autoconf

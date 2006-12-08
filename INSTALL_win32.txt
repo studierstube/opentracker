@@ -104,7 +104,7 @@ created: 13-04-2006
           or  
         XERCESCROOT
       
-    Note: Either TINYXMLMODROOT or XERCESROOT are required for parsing XML files with TinyXML or Xerces
+    Note: Either TINYXMLMODROOT or XERCESCROOT are required for parsing XML files with TinyXML or Xerces
 
 
 
