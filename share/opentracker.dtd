@@ -590,6 +590,7 @@ $Id$
 <!ATTLIST ConsoleSource
 	DEF ID #IMPLIED
 	number CDATA #REQUIRED
+        pen CDATA "1"
 >
 <!-- Joystick Module -->
 <!ELEMENT JoystickConfig EMPTY>
