@@ -1,14 +1,14 @@
 Summary:	Open Tracker
 Name:		opentracker
-Version:	1.1.1
+Version:	2.0.0
 Release:	1
-Copyright:	BSD
+License:	LGPL
 Group:		Development/Tools
-Source:		%{name}-%{version}.tar.gz
+Source:		%{name}-%{version}.tar.bz2
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
-Requires:	ACE Xerces-c
-BuildRequires:	ACE-devel Xerces-c-devel
+Requires:	ACE Xerces-c boost ncurses
+BuildRequires:	ACE-devel Xerces-c-devel boost-devel ncurses-devel
 Prefix:		/usr
 BuildRoot: 	%{_tmppath}/buildroot-%{name}-%{version}
 
@@ -18,26 +18,26 @@ none available
 %prep
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 %setup
+sed -i 's/curses/ncurses/' SConstruct
 
 %build
 %ifarch x86_64
 export CFLAGS=-DUSE_64_BIT
 export CXXFLAGS=-DUSE_64_BIT
 %endif
-./configure --prefix=%{_prefix} --libdir=%{_libdir}
-make
+scons
 
 %install
-DESTDIR=$RPM_BUILD_ROOT make install
+scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
 
 %clean
-make clean
+scons -c
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_libdir}/*
-%{_bindir}/opentracker
+%{_libdir}/*.so*
+%{_bindir}/*
 
 %package devel
 Summary:	Open Tracker header and include files
@@ -49,5 +49,5 @@ This package contains header files and include files that are needed for develop
 
 %files devel
 %defattr(-,root,root)
-%{_bindir}/opentracker-config
+%{_libdir}/pkgconfig/*
 %{_prefix}/include/OpenTracker
