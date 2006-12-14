@@ -42,6 +42,11 @@
  /* ======================================================================= */
 
 
+// prevent ACE from defining _WIN32_WINNT to 0x0400...
+#ifdef WIN32 
+#define _WIN32_WINNT 0x0501
+#endif
+
 #include <OpenTracker/tool/disable4786.h>
 
 #include <OpenTracker/input/SysMouseSink.h>

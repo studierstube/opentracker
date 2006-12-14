@@ -42,8 +42,13 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-// a trick to avoid warnings when ace includes the STL headers
+// prevent ACE from defining _WIN32_WINNT to 0x0400...
+#ifdef WIN32 
+#define _WIN32_WINNT 0x0501
+#endif
+
 #ifdef WIN32
+// a trick to avoid warnings when ace includes the STL headers
 #pragma warning(disable:4786)
 #endif
 
