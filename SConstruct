@@ -86,7 +86,7 @@ else:
              'type': 'DL',
              'libs': ['ace'],
              'use' : use,
-             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince', 'core_new'],
+             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
              'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
              'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS', 'USING_SCONS']
              }
@@ -95,7 +95,7 @@ else:
                 'type':'LIB',
                 'libs': ['ace'],
                 'use' :use,
-                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince', 'core_new'],
+                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
                 'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
                 'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_STATIC','USING_SCONS']	
                 }
