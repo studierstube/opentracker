@@ -71,8 +71,11 @@
 #endif
 #endif
 
-#include "../config_win.h"
-
+# ifndef USING_SCONS
+#   include "../config_win.h"
+# else // USING_SCONS
+#   define ARTOOLKIT_UNFLIP_V
+# endif // USING_SCONS
 #else
 
 #if HAVE_CONFIG_H
