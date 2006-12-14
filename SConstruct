@@ -78,26 +78,26 @@ else:
         # will be used by the build, for each target that lists a
         # library in its 'libs' or in its 'use' sections.
         libraryList =['boost', 'ace', 'xercesc', 'omniorb', 'muddleware','ot',
-		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus','ptu', '3dconnexion']
+		      'openvideo', 'tinyxml', 'tinyxmlmod','artoolkitplus','ptu', 'midi', 'icubex']
 
-        use= ['tinyxml','tinyxmlmod','artoolkitplus','ptu','3dconnexion']
+        use= ['xercesc', 'midi', 'icubex']
 
         ot ={'name': 'opentracker',
              'type': 'DL',
              'libs': ['ace'],
              'use' : use,
-             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince', 'core_new'],
              'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
-             'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS']
+             'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS', 'USING_SCONS']
              }
 
         otlib ={'name':'opentrackerlib',
                 'type':'LIB',
                 'libs': ['ace'],
                 'use' :use,
-                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince', 'core_new'],
                 'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
-                'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_STATIC']	
+                'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_STATIC','USING_SCONS']	
                 }
         
         otcon ={'name':'opentracker',
