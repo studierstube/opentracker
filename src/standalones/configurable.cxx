@@ -36,7 +36,7 @@
  * ======================================================================== */
 /** source file containing the main function for standalone use.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo E. Veas
  *
  * $Id: main.cxx 1164 2006-06-14 05:27:23Z bornik $
  * @file                                                                   */
@@ -62,22 +62,29 @@ using namespace ot;
  */
 int main(int argc, char **argv)
 {
+    const char * filename;
     if( argc != 2 )
     {
         cout << "Usage : " << argv[0] << " configfile" << endl;
         return 1;
     }
+    if (argc > 2)
+    {
+        filename = argv[2];
+    } else {
+        filename = argv[1];
+    }
 
     // important parts of the system
     // get a context, the default modules and factories are
     // added allready ( because of the parameter 1 )
-	Context & context = Configurator::instance() ->getContext();
+    Context & context = Configurator::instance() ->getContext();
 
     cout << "Context established." << endl;
     
     //FileConfigurationThread*  ct= new FileConfigurationThread( "reconfig.xml");
 
-	Configurator::instance() ->runConfigurationThread();
+    Configurator::instance() ->runConfigurationThread( filename );
 	
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );

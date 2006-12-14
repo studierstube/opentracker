@@ -240,6 +240,7 @@ namespace ot {
 		if (value == NULL) {
 			//try loading the module, and then creating the node
 			if (context.getModuleFromNodeType(tagName) != NULL){
+                            //                            logPrintW("Context found module from %s\n", tagName.c_str());
 				// try creating the node again
 				value = context.factory.createNode(tagName, *map);
 			}
@@ -294,14 +295,14 @@ namespace ot {
         }
 
         Node * value = context.factory.createNode( tagName , *map );
-		if (value == NULL) {
-			//try loading the module, and then creating the node
-			if (context.getModuleFromNodeType(tagName) != NULL){
-				// try creating the node again
-				logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
-				value = context.factory.createNode(tagName, *map);
-			}
-		}
+        if (value == NULL) {
+            //try loading the module, and then creating the node
+            if (context.getModuleFromNodeType(tagName) != NULL){
+                // try creating the node again
+                logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
+                value = context.factory.createNode(tagName, *map);
+            }
+        }
         if( value != NULL )
         {
             value->setParent( element );

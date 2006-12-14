@@ -6,17 +6,17 @@
 using namespace std;
 namespace ot{
 
-	Configurator * Configurator::self = NULL;
-	Configurator::Registry Configurator::initFunctions;
+    Configurator * Configurator::self = NULL;
+    Configurator::Registry Configurator::initFunctions;
 
-	Configurator::Configurator():ctx(0), thread(NULL)
+    Configurator::Configurator():ctx(0), thread(NULL)
     {
-		this->loadModule(ctx, "OpenTracker");
-  	    this->doInitialization(ctx);
+        this->loadModule(ctx, "OpenTracker");
+        //this->doInitialization(ctx);
     }
 
 
-	Configurator * Configurator::instance(){
+    Configurator * Configurator::instance(){
 	if (self == NULL){
 		initializeOpenTracker();
 		//addModuleInit("OpenTracker", initializeContext, NULL);
@@ -42,7 +42,7 @@ void Configurator::doInitialization(Context & newctx){
 }
 
 void Configurator::loadModule(Context & newctx, const char * module){
-    // logPrintS("Configurator loading module %s\n", module);
+    //    logPrintS("Configurator loading module %s\n", module);
 	Registry::iterator i = initFunctions.find(module);
 	if (i != initFunctions.end()){
 		(* (i->second).function) (&newctx, (i->second).data);
@@ -54,8 +54,8 @@ void Configurator::addModuleInit(const char * name, ModuleInitFunc function, voi
 	MIFunctor functor;
 	functor.function = function;
 	functor.data = data;
-    //logPrintS("Configurator adding %s = %p \n", name, function);
-    //cerr << "adding module " << name << " to map of initFunctions" << endl;
+        //        logPrintS("Configurator adding %s = %p \n", name, function);
+
 	initFunctions[name]=(functor);
 }
 
@@ -108,38 +108,38 @@ void Configurator::changeConfigurationFile(const char * file){
 
 // not up to date
 
-	void Configurator::changeConfigurationString(const char* xmlstring) {
-		if(ctx.isConfigured()){
-			//create a new context object
-			Context newContext(0);
-  
-			this->doInitialization(newContext);
-
-/*			std::ofstream of("tmp.xml");
-			of << xmlstring << flush;
-			printf("CONFIGURATOR::CHANGING CONFIGURATION %s\n", xmlstring);
-			of.close();
-*/
-			//newContext.parseConfiguration("tmp.xml");
-			newContext.parseConfigurationString(xmlstring);
-        
-			this->ctx.copyFrom(newContext);
-		} else {
-			this->ctx.parseConfigurationString(xmlstring);
-		}
+    void Configurator::changeConfigurationString(const char* xmlstring) {
+        if(ctx.isConfigured()){
+            //create a new context object
+            Context newContext(0);
+            
+            this->doInitialization(newContext);
+            
+            /*			std::ofstream of("tmp.xml");
+                                of << xmlstring << flush;
+                                printf("CONFIGURATOR::CHANGING CONFIGURATION %s\n", xmlstring);
+                                of.close();
+            */
+            //newContext.parseConfiguration("tmp.xml");
+            newContext.parseConfigurationString(xmlstring);
+            
+            this->ctx.copyFrom(newContext);
+        } else {
+            this->ctx.parseConfigurationString(xmlstring);
+        }
     }
 
-	void Configurator::runConfigurationThread(){
-		if (thread == NULL){
-			// Create reconfiguration thread
-			FileConfigurationThread * fct= new FileConfigurationThread( "reconfig.xml");
-			// start it up
-			fct->start();
-
-			thread = fct;
-		}
-	}
-
+    void Configurator::runConfigurationThread(const char * filename){
+        if (thread == NULL){
+            // Create reconfiguration thread
+            FileConfigurationThread * fct= new FileConfigurationThread( filename );
+            // start it up
+            fct->start();
+            
+            thread = fct;
+        }
+    }
+    
 } //namespace ot
 /* 
  * ------------------------------------------------------------

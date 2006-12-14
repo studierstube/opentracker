@@ -83,7 +83,7 @@ namespace ot {
 	
 	//register the module with the context
 	OT_MODULE_REGISTER_FUNC(ConsoleModule){
-			OT_MODULE_REGISTRATION_DEFAULT(ConsoleModule, "ConsoleConfig");
+            OT_MODULE_REGISTRATION_DEFAULT(ConsoleModule, "ConsoleConfig");
 	}
 
     // list of key symbols as ints to provide faster lookup

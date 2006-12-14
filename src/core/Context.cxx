@@ -148,18 +148,19 @@ namespace ot {
     Module * Context::getModule(const std::string & name)
     {	Module * result = NULL;
         ModuleMap::iterator it = modules.find( name );
-		if( it != modules.end()){
+        if( it != modules.end()){
             result = (*it).second;
-		} else {
-			std::string modname;
-			std::string::size_type loc = name.find("Config");
-			modname = name.substr(0, loc) + "Module";
-			
-			Configurator::loadModule(*this, modname.c_str());
-			it = modules.find(name);
-			if (it != modules.end())
-				result = (*it).second;
-		}
+        } else {
+
+            std::string modname;
+            std::string::size_type loc = name.find("Config");
+            modname = name.substr(0, loc) + "Module";
+            //            logPrintW("Context could not find module %s, requesting Configurator to load %s\n", name.c_str(), modname.c_str());            
+            Configurator::loadModule(*this, modname.c_str());
+            it = modules.find(name);
+            if (it != modules.end())
+                result = (*it).second;
+        }
 
         return result;
     }
@@ -623,16 +624,16 @@ namespace ot {
                 nodeTypes[1] = source;
                 nodeTypes[2] = node;
                 nodeTypes[3] = sink;
-		        nodeTypes[0] = sinksource;
+	        nodeTypes[0] = sinksource;
 		std::string modname;
                 //        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
 			modname = nodename ;
 			result = getModule(modname);
-		} else if ((nodename.compare("EventMouseSource") == 0))
+		} else if ((nodename.compare("EventMouseSource") == 0)){
 			modname = "EventConfig";
-			result = getModule(modname);
-		{
+                        result = getModule(modname);
+		}else {
 			std::string::size_type loc= std::string::npos;
 			
 			for (int i = 0; i < 4; i++){

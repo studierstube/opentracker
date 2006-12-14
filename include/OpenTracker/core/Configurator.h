@@ -45,7 +45,7 @@ namespace ot {
 	void changeConfigurationFile(const char* xmlstring);
 	void changeConfigurationString(const char* xmlstring);
 
-	void runConfigurationThread();
+	void runConfigurationThread(const char * filename);
 
 	static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
 	static void loadModule(Context & newctx, const char * module);
