@@ -33,6 +33,8 @@
           library in your own application.</li>
         <li><a href="multimodalguide.php">Multi-Modal Event Guide</a> - How
 	  to use multimodal events, introduced with OpenTracker version 1.3.</li>
+        <li><a href="reconfigurationguide.php">Reconfiguration Guide</a> - How
+	  to use reconfiguration introduced in OpenTracker version 2.0.</li>
         <li><a href="progguide.php">Programmer's Guide</a> - How to extend          OpenTracker 
           with new modules and nodes.</li>
         <li><a href="libs.php">External Libraries</a> - links to libraries needed 
