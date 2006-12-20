@@ -224,6 +224,7 @@ namespace ot {
         else {
             rootNamespace = "";
         }
+
 #endif //USE_XERCES
 
 
@@ -574,15 +575,39 @@ namespace ot {
         // copy the modules from other
         modules = other.modules;
         // copy the rootNode from other
-		Node * tmp = rootNode;
+	Node * tmp = rootNode;
         rootNode = other.rootNode;
+        // set this context in the new rootNode
+#ifdef USE_XERCES
+        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
+        doc->setUserData( ud_node, this, NULL );
+
+        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        if (xmlspace != NULL) {
+            char * tempName = XMLString::transcode( xmlspace );
+            rootNamespace = tempName;
+            XMLString::release( &tempName );
+        }
+        else {
+            rootNamespace = "";
+        }
+
+#endif //USE_XERCES
+
+
+#ifdef USE_TINYXML
+        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+        doc->SetUserData(this);
+#endif //USE_TINYXML
+        
+
 		// let the other context clean up the old rootNode
 		other.rootNode = tmp;
         // copy the factories from other
         factory.copyFrom(other.factory);
 
-		// copy the videouser vector
-		videoUsers = other.videoUsers;
+	// copy the videouser vector
+	videoUsers = other.videoUsers;
 
         // change the cleanUp flag so the other won't destroy the modules when its gone
         this->cleanUp = other.cleanUp;

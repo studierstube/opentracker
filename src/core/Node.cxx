@@ -575,6 +575,7 @@ namespace ot {
 #ifdef USE_XERCES
         XMLCh * temp = XMLString::transcode( key.c_str() );
         XMLCh * xmlspace = XMLString::transcode(getContext()->getRootNamespace().c_str());
+
         const XMLCh * res = ELEMENT(parent)->getAttributeNS( xmlspace, temp );
         XMLString::release( &temp );
         XMLString::release( &xmlspace );

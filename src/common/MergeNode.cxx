@@ -46,6 +46,7 @@
 
 #include <OpenTracker/common/MergeNode.h>
 
+#include <OpenTracker/core/OtLogger.h>
 
 #ifndef OT_NO_MERGENODE_SUPPORT
 
@@ -56,9 +57,10 @@ namespace ot {
 
     void MergeNode::onEventGenerated( Event& event, Node & generatorNode)
     {
-        if (generatorNode.isNodePort() != 1) // this should never happen
+        if (generatorNode.isNodePort() != 1){ // this should never happen
+            logPrintE("Is generator happened\n");
             return;
-
+        }
         NodePort &generator = (NodePort&)generatorNode;
 
         // merge attribute
@@ -74,6 +76,7 @@ namespace ot {
             catch (std::invalid_argument)
             {
                 // two attributes of the same name but of different types are present!
+                logPrintE("MergeNode::Caught invalid argument \n");
                 return;
             }
         }
