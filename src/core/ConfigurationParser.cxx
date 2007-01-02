@@ -218,6 +218,11 @@ namespace ot {
         XMLString::release( &tempName );
         std::auto_ptr<StringTable> map ( parseElement( element ));
         // Test for a reference node
+#ifdef OT_LOCAL_GRAPH
+        // OT_GRAPH
+        map->put("OtNodeType", tagName);
+        // OT_GRAPH
+#endif // OT_LOCAL_GRAPH
         if( tagName.compare("Ref") == 0 )
         {
             NodeMap::iterator find = references.find(map->get("USE"));
@@ -234,36 +239,47 @@ namespace ot {
             }
         }
 
-        Node * value = context.factory.createNode( tagName , *map );
+        Node * value = context.createNode( tagName , *map );
 		// if the value is NULL, it might be the case that the Module has not yet being loaded,
 		// a trick to force the context to load this module, is to ask for it.
 		if (value == NULL) {
 			//try loading the module, and then creating the node
 			if (context.getModuleFromNodeType(tagName) != NULL){
                             //                            logPrintW("Context found module from %s\n", tagName.c_str());
-				// try creating the node again
-				value = context.factory.createNode(tagName, *map);
+                            // try creating the node again
+                            
+                            value = context.createNode(tagName, *map);
 			}
 		}
         if( value != NULL )
         {
+
             value->setParent( element );
+      
             // Test for ID
             if( map->containsKey("DEF"))
             {
                 references[map->get("DEF")] = value;
                 value->name = map->get("DEF");
-                logPrintI("Storing Reference %s\n", map->get("USE").c_str());
+                logPrintI("Storing Reference %s\n", (map->get("DEF").c_str()));
             }
+
             //auto_ptr<DOMNodeList> list ( element->getChildNodes());
             DOMNodeList * list = element->getChildNodes();
             for( unsigned int i = 0; i < list->getLength(); i ++ )
             {
                 if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
                 {
+
                     OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
                     ///FIXXXME: what was the assignment for? 
-                    /*Node * childNode = */buildTree( childElement );
+
+                    Node * childNode = buildTree( childElement );
+#ifdef OT_LOCAL_GRAPH
+                    // OT_GRAPH
+                    value->addChild(*childNode);
+                    // OT_GRAPH
+#endif // OT_LOCAL_GRAPH
                 }
             }
         }
@@ -318,6 +334,11 @@ namespace ot {
             while( el != NULL )
             {
                 Node * childNode = buildTree( el );
+#ifdef OT_LOCAL_GRAPH
+                // OT_GRAPH
+                value->addChild(*childNode);
+                // OT_GRAPH
+#endif // OT_LOCAL_GRAPH
                 el = el->NextSiblingElement();
             }
         }
@@ -432,7 +453,12 @@ namespace ot {
                     {
                         DOMElement * element = (DOMElement *)nodelist->item(j);
                         ///FIXXXME: What was the assignment good for?
-                        /*ConfigNode * child = */buildConfigTree( element );
+                        ConfigNode * child = buildConfigTree( element );
+#ifdef OT_LOCAL_GRAPH
+                        // OT_GRAPH
+                        node->addChild(*child);
+                        // OT_GRAPH
+#endif OT_LOCAL_GRAPH
                     }
                 }
                 Module * module = context.getModule( tagName );
@@ -462,7 +488,13 @@ namespace ot {
                 continue;
             }
             XMLString::release( &tempTagName );
-            buildTree( element );
+            
+            Node * child = buildTree( element );
+#ifdef OT_LOCAL_GRAPH
+            //OT_GRAPH
+            node->addChild(*child);
+            //OT_GRAPH
+#endif // OT_LOCAL_GRAPH
         }
         return node;
 #endif //USE_XERCES
@@ -531,8 +563,12 @@ namespace ot {
         TiXmlElement * element = root->FirstChildElement();
         while(element)
         {
-            if(strcmp(element->Value(), "configuration")!=0)
-                buildTree( element );
+            if(strcmp(element->Value(), "configuration")!=0){
+               Node * child= buildTree( element );
+#ifdef OT_LOCAL_GRAPH
+               node->addChild(*child);
+#endif // OT_LOCAL_GRAPH
+            }
 
             element = element->NextSiblingElement();
         }

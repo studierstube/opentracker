@@ -65,12 +65,15 @@ namespace ot {
     class RefNode;
     class Node;
     class NodePort;
+
 #ifdef USE_LIVE
     class LiveContext;
 #endif
 
 } // namespace ot
-
+#ifdef OT_LOCAL_GRAPH
+#include "StringTable.h"
+#endif //OT_LOCAL_GRAPH
 #include "Event.h"
 #ifdef USE_LIVE
 #include <OpenTracker/skeletons/OTGraph.hh>
@@ -104,8 +107,15 @@ namespace ot {
 
     protected:
         /** Pointer to the parent XML element.*/
-        void * parent;
 
+#ifdef OT_LOCAL_GRAPH
+        NodeVector parents;
+        NodeVector children;
+
+        StringTable attributes;
+#else //OT_LOCAL_GRAPH
+        void * parent; 
+#endif //OT_LOCAL_GRAPH
         /**  A Vector of pointers to reference nodes referencing this node. */
         NodeVector references;
 
@@ -173,7 +183,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single int only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, int * value, int len = 1 ) const;
+        int get(const std::string & key, int * value, int len = 1 ) ;
         /**
          * parses a stored entry into an array of floats. It assumes that the
          * floats are separated by spaces. It returns the number of actually
@@ -183,7 +193,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single float only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, float * value, int len = 1 ) const;
+        int get(const std::string & key, float * value, int len = 1 ) ;
         /**
          * parses a stored entry into an array of doubles. It assumes that the
          * doubles are separated by spaces. It returns the number of actually
@@ -193,7 +203,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single double only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, double * value, int len = 1 ) const;
+        int get(const std::string & key, double * value, int len = 1 ) ;
 
     protected:
         /** stores a key value pair in the table, overwritting a possible prior
@@ -296,6 +306,7 @@ namespace ot {
          * rather safe manner.*/
         //@{
 
+   
         /**
          * returns a pointer to the parent node of the current node. This can
          * be a wrapper node to mark a certain input port of a real node. In this
@@ -523,6 +534,18 @@ namespace ot {
         {
             return 0;
         }
+
+#ifdef OT_LOCAL_GRAPH
+	/** Searches the tree rooted in this node for a node containing an attribute
+	 * named key with the value val.
+         * @returns a pointer to the node or null.
+         */
+	Node * findNode(const std::string & key, const std::string & val);
+	  
+       // adds a parent to this node. Because the new implementation is a graph, any
+       // given child can have more than one parent.
+        void addParent( Node * parent);
+#endif //OT_LOCAL_GRAPH
 
         friend class Context;
         friend class ConfigurationParser;

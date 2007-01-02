@@ -60,7 +60,10 @@
 #endif //USE_XERCES
 
 #include <OpenTracker/core/Node.h>
+#ifdef OT_LOCAL_GRAPH
 #include <OpenTracker/core/StringTable.h>
+#include <OpenTracker/core/Configurator.h>
+#endif //OT_LOCAL_GRAPH
 #include <OpenTracker/core/Context.h>
 
 #ifdef USE_LIVE
@@ -93,7 +96,9 @@ namespace ot {
     // constructor
     Node::Node() : name("")
     {
+#ifndef OT_LOCAL_GRAPH
         parent = NULL;
+#endif// OT_LOCAL_GRAPH
     }
 
     // destructor
@@ -101,27 +106,30 @@ namespace ot {
     Node::~Node()
     {
         references.clear();
-		if( parent != NULL )
+#ifndef OT_LOCAL_GRAPH
+        if( parent != NULL )
         {
 #ifdef USE_XERCES
             try {
                 ELEMENT(parent)->release();
             }
             catch(DOMException &)
-            {
+            {x
             }
 #endif //USE_XERCES
 
 #ifdef USE_TINYXML
             delete ELEMENT(parent);
 #endif //USE_TINYXML
-        }
+}
+#endif // OT_LOCAL_GRAPH
     }
 
     // sets the DOM_Element this node belongs to ( not the parent in OT )
 
     void Node::setParent( void * parElement )
     {
+#ifndef OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         parent = parElement;
         ELEMENT(parent)->setUserData( ud_node, this, NULL );
@@ -135,8 +143,10 @@ namespace ot {
         ELEMENT(parent)->SetUserData(this);
         const char* temp = ELEMENT(parent)->Value();
         type = temp;
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif // OT_LOCAL_GRAPH
     }
+
 
     // adds a reference to the node
 
@@ -167,6 +177,10 @@ namespace ot {
 
     Node * Node::getParent()
     {
+#ifdef OT_LOCAL_GRAPH
+        return parents[0];
+#else // OT_LOCAL_GRAPH
+        
 #ifdef USE_XERCES
         DOMNode * parentElement = ELEMENT(parent)->getParentNode();
         if( parentElement != 0 )
@@ -184,12 +198,19 @@ namespace ot {
         }
         return NULL;
 #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH        
+
     }
 
     // returns the Context this node lives in
 
     Context * Node::getContext() const
     {
+#ifdef OT_LOCAL_GRAPH
+        // fix for the moment
+        // must be changed for a stronger statement
+        return & (Configurator::instance() ->getContext());
+#else // OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         DOMDocument * doc = ELEMENT(parent)->getOwnerDocument();
         if( doc != 0)
@@ -207,12 +228,22 @@ namespace ot {
         }
         return NULL;
 #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
 
     // returns the number of children
 
     unsigned int Node::countChildren()
     {
+#ifdef OT_LOCAL_GRAPH
+        unsigned int count = 0;
+        for (NodeVector::iterator it = children.begin(); it != children.end(); it++)
+            if ((*it)->isNodePort() == 0)
+                count ++;
+
+        return count;
+#else // OT_LOCAL_GRAPH
+
 #ifdef USE_XERCES
         DOMNode * node = ELEMENT(parent)->getFirstChild();
         unsigned int count = 0;
@@ -246,12 +277,25 @@ namespace ot {
         }
         return count;
 #endif //USE_TINYXML
+
+
+#endif //OT_LOCAL_GRAPH
+
     }
 
     // adds a new child
 
     Node::error Node::addChild(Node & child)
     {
+#ifdef OT_LOCAL_GRAPH
+        //        logPrintI("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
+        // add this to the parent list of the child
+        child.addParent(this);
+        // add the child to the children list of this node
+        children.push_back(&child);
+
+        return OK;
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         try {
             ELEMENT(parent)->appendChild( ELEMENT(child.parent));
@@ -268,12 +312,28 @@ namespace ot {
 		//child.parent = NULL;
         return OK;
 #endif //USE_TINYXML
+
+#endif //OT_LOCAL_GRAPH
     }
 
     // removes a child
 
     Node::error Node::removeChild(Node & child)
     {
+#ifdef OT_LOCAL_GRAPH
+        Node * theNode = NULL;
+        for (NodeVector::iterator it = children.begin(); it != children.end(); it++){
+            if ((*it) == (&child)){
+                children.erase(it);
+                theNode = (*it);
+            }
+        }
+
+        if (theNode)
+            return OK;
+        else
+            return NOT_FOUND;
+#else //OT_LOCAL_GRAPH            
 #ifdef USE_XERCES
         try {
             ELEMENT(parent)->removeChild( ELEMENT(child.parent));
@@ -290,12 +350,27 @@ namespace ot {
 //		child.parent = NULL;
         return OK;
 #endif //USE_TINYXML
+
+#endif //OT_LOCAL_GRAPH
     }
 
     // iterates through the children by returning the child by index
 
     Node * Node::getChild( unsigned int index )
     {
+#ifdef OT_LOCAL_GRAPH
+        Node * result=NULL;
+        for (int i = 0; i < (int) children.size(); i++){
+            Node * tmp = children[i];
+            if (tmp->isNodePort() == 0){
+                if (index == 0){
+                    result = tmp;
+                    break;
+                }else index --;
+            }
+        }
+        return result;
+#else  //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         Node * myNode = NULL;
         DOMNode * node = ELEMENT(parent)->getFirstChild();
@@ -329,12 +404,22 @@ namespace ot {
         }
         return NULL;
 #endif //USE_TINYXML
+
+#endif //OT_LOCAL_GRAPH
     }
 
     // returns number of NodePorts present on this Node
 
     unsigned int Node::countPorts()
     {
+#ifdef OT_LOCAL_GRAPH
+        unsigned int result = 0;
+        for (NodeVector::iterator it = children.begin(); it != children.end(); it ++)
+            if ((*it)->isNodePort() == 1)
+                result++;
+
+        return result;
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         Node * myNode = NULL;
         unsigned int count = 0;
@@ -364,12 +449,26 @@ namespace ot {
         }
         return count;
 #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
+            
 
     // returns a NodePort child object indexed by Name and index
 
     NodePort * Node::getPort( const std::string & name, unsigned int index )
     {
+#ifdef OT_LOCAL_GRAPH
+        for (NodeVector::iterator it = children.begin(); it != children.end(); it++){
+            if ((*it)->isNodePort() == 1){
+                if (name.compare((*it)->getName()) == 0){
+                    if (index == 0)
+                        return (NodePort *) (*it);
+                    else index --;
+                }
+            }
+        }
+        return NULL;
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         XMLCh * temp = XMLString::transcode( name.c_str());
         XMLCh * xmlspace = XMLString::transcode(getContext()->getRootNamespace().c_str());
@@ -407,13 +506,27 @@ namespace ot {
         }
 
         return NULL;
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
 
     // returns a NodePort child object by index
 
     NodePort * Node::getPort( unsigned int index )
     {
+#ifdef OT_LOCAL_GRAPH
+        NodePort * result = NULL;
+        for (int i = 0; i < (int)children.size(); i ++){
+            Node * tmp = children[i];
+            if (tmp->isNodePort() == 1)
+                if (index == 0){
+                    result = (NodePort*) tmp;
+                    break;
+                } else index--;
+        }
+        return result;
+    }
+#else OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         Node * myNode = NULL;
         DOMNode * node = ELEMENT(parent)->getFirstChild();
@@ -448,11 +561,22 @@ namespace ot {
         return NULL;
 #endif //USE_TINYXML
     }
-
+#endif //OT_LOCAL_GRAPH
     // creates and adds a new child NodePort object of the given name.
+
 
     Node::error Node::addPort( const std::string & name )
     {
+#ifdef OT_LOCAL_GRAPH
+        // To create the node port, we can use any instance of the context
+        StringTable table;
+        Context * ctx = getContext();
+        Node * node = ctx->createNode( name, table );
+        if (node == NULL) 
+            return GRAPH_CONSTRAINT;
+        else
+            return addChild(*node);
+#else ////OT_LOCAL_GRAPH       
 #ifdef USE_XERCES
         XMLCh * temp = XMLString::transcode( name.c_str());
         XMLCh * xmlspace = XMLString::transcode(getContext()->getRootNamespace().c_str());
@@ -487,45 +611,33 @@ namespace ot {
         if( node == NULL )
             return GRAPH_CONSTRAINT;
         return addChild( *node );
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
-
+     
     // removes a child NodePort object indexed by name
 
     Node::error Node::removePort( const std::string & name )
     {
-#ifdef USE_XERCES
-        NodePort * port = getPort( name );
-        if( port == NULL )
-            return NOT_FOUND;
-        return removePort( *port );
-#endif //USE_XERCES
 
-#ifdef USE_TINYXML
         NodePort * port = getPort( name );
         if( port == NULL )
             return NOT_FOUND;
         return removePort( *port );
-#endif //USE_TINYXML
+
     }
 
     // removes a child NodePort object by index
 
     Node::error Node::removePort( unsigned int index )
     {
-#ifdef USE_XERCES
-        NodePort * port = getPort( index );
-        if( port == NULL )
-            return NOT_FOUND;
-        return removePort( *port );
-#endif //USE_XERCES
 
-#ifdef USE_TINYXML
         NodePort * port = getPort( index );
         if( port == NULL )
             return NOT_FOUND;
         return removePort( *port );
-#endif //USE_TINYXML
+
+
     }
 
     Node::error Node::removePort( NodePort & port)
@@ -537,6 +649,18 @@ namespace ot {
 
     void Node::updateObservers( Event &data )
     {
+#ifdef OT_LOCAL_GRAPH
+        if (isEventGenerator() == 1 || isNodePort() == 1){
+            for (NodeVector::iterator it = parents.begin() ; it != parents.end() ; it++){
+                (*it)->onEventGenerated(data, *this);
+            }
+
+            for (NodeVector::iterator it = references.begin(); it != references.end() ; it++){
+
+                (*it)->onEventGenerated(data, *this);
+            }
+        }
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         if( isEventGenerator() == 1 || isNodePort() == 1 )
         {
@@ -565,17 +689,23 @@ namespace ot {
                 (*it)->onEventGenerated( data, *this );
             }
         }
-#endif //USE_TINYXML
+        #endif //USE_TINYXML 
+#endif //OT_LOCAL_GRAPH
     }
 
     // returns a value to a given key
 
     const std::string Node::get( const std::string & key ) const
     {
+#ifdef OT_LOCAL_GRAPH
+        Node * self = const_cast<Node*>(this);
+        const std::string & result =  self->attributes.get(key) ;
+
+        return result;
+#else  //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         XMLCh * temp = XMLString::transcode( key.c_str() );
         XMLCh * xmlspace = XMLString::transcode(getContext()->getRootNamespace().c_str());
-
         const XMLCh * res = ELEMENT(parent)->getAttributeNS( xmlspace, temp );
         XMLString::release( &temp );
         XMLString::release( &xmlspace );
@@ -590,13 +720,21 @@ namespace ot {
         const char* xmlspace = getContext()->getRootNamespace().c_str();
         const char* res = ELEMENT(parent)->Attribute(temp);
         return  std::string( res );
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
 
     // stores a key, value pair
 
     void Node::put( const std::string & key, const std::string & value )
     {
+#ifdef OT_LOCAL_GRAPH
+        if (key.compare("OtNodeType") == 0){
+
+            this->type = value;
+        }
+        attributes.put(key, value);
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         XMLCh * tempKey = XMLString::transcode( key.c_str() );
         XMLCh * tempValue = XMLString::transcode( value.c_str());
@@ -612,13 +750,17 @@ namespace ot {
         const char* tempValue = value.c_str();
         const char* xmlspace = getContext()->getRootNamespace().c_str();
         ELEMENT(parent)->SetAttribute( tempKey, tempValue);
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
 
     // removes a key, value pair
 
     void Node::remove( const std::string & key )
     {
+#ifdef OT_LOCAL_GRAPH
+        attributes.remove(key);
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         XMLCh * tempKey = XMLString::transcode( key.c_str() );
         XMLCh * xmlspace = XMLString::transcode(getContext()->getRootNamespace().c_str());
@@ -631,7 +773,8 @@ namespace ot {
         const char* tempKey = key.c_str();
         const char* xmlspace = getContext()->getRootNamespace().c_str();
         ELEMENT(parent)->RemoveAttribute( tempKey );
-#endif //USE_TINYXML
+        #endif //USE_TINYXML
+#endif //OT_LOCAL_GRAPH
     }
 
     // some put and get methods
@@ -705,7 +848,7 @@ namespace ot {
         put( key, strvalue );
     }
 
-    int Node::get(const std::string & key, int * value, int len ) const
+    int Node::get(const std::string & key, int * value, int len ) 
     {
         std::string data = get( key );
         const char * start = data.c_str();
@@ -719,7 +862,7 @@ namespace ot {
         return count;
     }
 
-    int Node::get(const std::string & key, float * value, int len ) const
+    int Node::get(const std::string & key, float * value, int len ) 
     {
         std::string data = get( key );
         const char * start = data.c_str();
@@ -733,7 +876,7 @@ namespace ot {
         return count;
     }
 
-    int Node::get(const std::string & key, double * value, int len ) const
+    int Node::get(const std::string & key, double * value, int len ) 
     {
         std::string data = get( key );
         const char * start = data.c_str();
@@ -746,6 +889,31 @@ namespace ot {
         }
         return count;
     }
+
+#ifdef OT_LOCAL_GRAPH
+    // add one parent node
+    void Node::addParent( Node * parent ){
+        parents.push_back( parent );
+    }
+
+    Node * Node::findNode(const std::string & key, const std::string & val){
+        Node * result = NULL;
+
+        if (attributes.containsKey(key)){
+            const std::string & value = attributes.get(key);
+            if (value.compare(val) == 0)
+                result = this;
+        }
+        // search the children
+        if (result == NULL){
+            for (int i = 0; i < (int)children.size() ; i++){
+                result = children[i] ->findNode(key, val);
+            }
+        }
+
+        return result;
+    };
+#endif OT_LOCAL_GRAPH
 
 #ifdef USE_LIVE
     char* Node::get_type() {
@@ -783,6 +951,8 @@ namespace ot {
         delete value;
         return attributes._retn();
    };
+
+
 
 #endif
 

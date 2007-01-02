@@ -212,10 +212,12 @@ namespace ot {
 
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
-        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        doc->setUserData( ud_node, this, NULL );
-
-        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        //OT_GRAPH
+        //        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
+        //        doc->setUserData( ud_node, this, NULL );
+        const XMLCh* xmlspace = NULL;
+        //        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        //OT_GRAPH
         if (xmlspace != NULL) {
             char * tempName = XMLString::transcode( xmlspace );
             rootNamespace = tempName;
@@ -236,8 +238,10 @@ namespace ot {
 		
 		ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
-        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-        doc->SetUserData(this);
+        //OT_GRAPH
+        //TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+        //doc->SetUserData(this);
+        //OT_GRAPH
 #endif //USE_TINYXML
     }
 
@@ -246,10 +250,12 @@ namespace ot {
 #ifdef USE_XERCES
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationString( xmlstring );
-        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        doc->setUserData( ud_node, this, NULL );
-
-        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        //OT_GRAPH
+        //DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
+        //doc->setUserData( ud_node, this, NULL );
+        const XMLCh * xmlspace = NULL;
+        //        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
+        //OT_GRAPH
         if (xmlspace != NULL) {
             char * tempName = XMLString::transcode( xmlspace );
             rootNamespace = tempName;
@@ -297,7 +303,9 @@ namespace ot {
             // push and pull parts of the main loop
             pushEvents();
             pullEvents();
+            // check for stop flag
             stopflag = stop(); 
+            // unlock the graph
             unlock();
             return stopflag;
 	}
@@ -361,20 +369,27 @@ namespace ot {
         if( value != NULL )
         {
             // add a correctly created DOM_Element to the node here and return
-            DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-            std::auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
-            std::auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
-            DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
-            value->setParent( el );
+        //OT_GRAPH
+            //            DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
+            //            std::auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
+            //            std::auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
+            //            DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
+            //            value->setParent( el );
+        //OT_GRAPH
             // set attributes on the element node
             KeyIterator keys(attributes);
             while( keys.hasMoreKeys())
             {
+
                 const std::string & key = keys.nextElement();
+
                 value->put( key, attributes.get( key ));
-                std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
-                std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-                el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
+        //OT_GRAPH
+                //    std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
+                //    std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
+                //    el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
+        //OT_GRAPH
+
             }
         }
         return value;
@@ -386,20 +401,24 @@ namespace ot {
         if( value != NULL )
         {
             // add a correctly created DOM_Element to the node here and return
-            TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-            const char * tempName = name.c_str();
-            const char * tempNS = rootNamespace.c_str();
-            TiXmlElement * el = new TiXmlElement(tempName);
-            value->setParent( el );
+        //OT_GRAPH
+            //            TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
+            //            const char * tempName = name.c_str();
+            //            const char * tempNS = rootNamespace.c_str();
+            //            TiXmlElement * el = new TiXmlElement(tempName);
+            //            value->setParent( el );
+        //OT_GRAPH
             // set attributes on the element node
             KeyIterator keys(attributes);
             while( keys.hasMoreKeys())
             {
                 const std::string & key = keys.nextElement();
                 value->put( key, attributes.get( key ));
-                const char * attName = key.c_str();
-                const char * attVal = attributes.get( key ).c_str();
-                el->SetAttribute(attName, attVal);
+        //OT_GRAPH
+                //                const char * attName = key.c_str();
+                //                const char * attVal = attributes.get( key ).c_str();
+                //                el->SetAttribute(attName, attVal);
+        //OT_GRAPH
             }
         }
         return value;
@@ -444,6 +463,11 @@ namespace ot {
 
     Node * Context::findNode(const std::string & id)
     {
+
+        return rootNode->findNode("ID", id);
+        
+        
+        /*
 #ifdef USE_XERCES
         // search for the right node via the DOM_Document API
         std::auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
@@ -460,6 +484,7 @@ namespace ot {
             return (Node *)el->GetUserData();
         return NULL;
 #endif //USE_TINYXML
+        */
     }
 
     // add a directory to the front of the directory stack
@@ -577,7 +602,10 @@ namespace ot {
         // copy the rootNode from other
 	Node * tmp = rootNode;
         rootNode = other.rootNode;
+
         // set this context in the new rootNode
+        //OT_GRAPH 
+        /*
 #ifdef USE_XERCES
         DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
         doc->setUserData( ud_node, this, NULL );
@@ -599,10 +627,12 @@ namespace ot {
         TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
         doc->SetUserData(this);
 #endif //USE_TINYXML
+*/
+        //OT_GRAPH
         
 
-		// let the other context clean up the old rootNode
-		other.rootNode = tmp;
+        // let the other context clean up the old rootNode
+        other.rootNode = tmp;
         // copy the factories from other
         factory.copyFrom(other.factory);
 
@@ -749,7 +779,11 @@ namespace ot {
 				// remove the node from the graph
 
 				parent->removeChild(*target);
-				target->parent = NULL;
+
+                                // OT_GRAPH
+                                //				target->parent = NULL;
+                                // OT_GRAPH
+
 				// delete target;
 				unlock();
 			}else{
