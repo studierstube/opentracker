@@ -239,7 +239,12 @@ namespace ot {
             }
         }
 
+#ifdef OT_LOCAL_GRAPH
         Node * value = context.createNode( tagName , *map );
+#else // 
+        Node * value = context.factory.createNode( tagName , *map );
+#endif //OT_LOCAL_GRAPH
+
 		// if the value is NULL, it might be the case that the Module has not yet being loaded,
 		// a trick to force the context to load this module, is to ask for it.
 		if (value == NULL) {
@@ -247,8 +252,13 @@ namespace ot {
 			if (context.getModuleFromNodeType(tagName) != NULL){
                             //                            logPrintW("Context found module from %s\n", tagName.c_str());
                             // try creating the node again
+#ifdef OT_LOCAL_GRAPH
+                            value = context.createNode( tagName , *map );
+#else // 
+                            value = context.factory.createNode( tagName , *map );
+#endif //OT_LOCAL_GRAPH
                             
-                            value = context.createNode(tagName, *map);
+       
 			}
 		}
         if( value != NULL )
@@ -310,13 +320,21 @@ namespace ot {
             }
         }
 
+#ifdef OT_LOCAL_GRAPH
+        Node * value = context.createNode( tagName , *map );
+#else
         Node * value = context.factory.createNode( tagName , *map );
+#endif
         if (value == NULL) {
             //try loading the module, and then creating the node
             if (context.getModuleFromNodeType(tagName) != NULL){
                 // try creating the node again
                 logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
+#ifdef OT_LOCAL_GRAPH
+                value = context.createNode(tagName, *map);
+#else
                 value = context.factory.createNode(tagName, *map);
+#endif
             }
         }
         if( value != NULL )
@@ -410,6 +428,7 @@ namespace ot {
         else {
             logPrintW("Not using namespaces!\n");
         }
+
 
         // get the configuration part
         XMLCh * configurationCh = XMLString::transcode( "configuration" );

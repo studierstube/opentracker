@@ -103,7 +103,7 @@ namespace ot{
 
         void start()
         {
-            printf( "START_THREAD::starting the new thread\n");
+            logPrintI( "START_THREAD::starting FileConfiguration thread\n");
             thread = new ACE_thread_t;
             ACE_Thread::spawn((ACE_THR_FUNC)ConfigurationThread::thread_func, 
                               this, 
@@ -114,11 +114,11 @@ namespace ot{
 
 
         void configTask(){
-            printf("CONFIG_FUNC::starting the new thread\n");
+            logPrintI("CONFIG_FUNC::starting the new thread\n");
        
 
 #     ifdef WIN32
-            printf( "CONFIG_FUNC:: initial timestamp: %d %d\n", last.dwLowDateTime ,last.dwHighDateTime );
+            logPrintI( "CONFIG_FUNC:: initial timestamp: %d %d\n", last.dwLowDateTime ,last.dwHighDateTime );
             // try to open the file
 #     endif //WIN32
         
@@ -131,10 +131,10 @@ namespace ot{
                 
                     // if yes push the new configuration string into the Configurator to reconfigure OpenTracker
                   
-                    printf( "CONFIG_FUNC::changing configuration\n");
+                    logPrintI( "CONFIG_FUNC::changing configuration\n");
                     //xmlstring = readFileIntoString("reconfig.xml");
                     config->changeConfiguration(filename);
-                    printf( "CONFIG_FUNC::configuration changed\n");
+                    logPrintI( "CONFIG_FUNC::configuration changed\n");
                     last = current;
             
             

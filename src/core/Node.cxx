@@ -114,7 +114,7 @@ namespace ot {
                 ELEMENT(parent)->release();
             }
             catch(DOMException &)
-            {x
+            {
             }
 #endif //USE_XERCES
 
