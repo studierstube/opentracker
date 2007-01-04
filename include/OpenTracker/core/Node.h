@@ -323,6 +323,8 @@ namespace ot {
          * @return unsigned number of children */
         unsigned int countChildren();
 
+
+
         /**
          * returns a child indicated by the index. This only returns children
          * that are not wrapped or Wrapper nodes themselves.
@@ -535,6 +537,7 @@ namespace ot {
             return 0;
         }
 
+        
 #ifdef OT_LOCAL_GRAPH
 	/** Searches the tree rooted in this node for a node containing an attribute
 	 * named key with the value val.
@@ -545,6 +548,19 @@ namespace ot {
        // adds a parent to this node. Because the new implementation is a graph, any
        // given child can have more than one parent.
         void addParent( Node * parent);
+
+        /**
+         * returns the total number of direct children.
+         * @return unsigned number of children */
+        unsigned int countAllChildren();
+
+        /**
+         * returns a child at index, no matter whether it is a wrapper or not
+         * @return unsigned number of children */
+        Node * getAnyChild( unsigned int index);
+
+        StringTable & getAttributes();
+
 #endif //OT_LOCAL_GRAPH
 
         friend class Context;

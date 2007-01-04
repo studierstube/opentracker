@@ -1,6 +1,7 @@
 #ifndef FILE_CONFIGURATION_THREAD_HH
 #define FILE_CONFIGURATION_THREAD_HH
 #include "../core/ConfigurationThread.h"
+#include <OpenTracker/misc/xml/XMLWriter.h>
 #include <ace/Thread.h>
 #include <string>
 #include <fstream>
@@ -31,7 +32,7 @@ namespace ot{
     class FileConfigurationThread: public ConfigurationThread{
 
     protected :
-    
+            
         Configurator * config;
     	void * thread;
         bool finishflag;
@@ -91,12 +92,14 @@ namespace ot{
 
     public:
         FileConfigurationThread( const char * fname): 
-            thread(0), finishflag(false), filename(fname){
+            thread(0), finishflag(false), filename(fname),writer(0){
             config = Configurator::instance();
             initializeFileTime();
+
         }
         ~FileConfigurationThread(){
             closeThread();
+            //            delete writer;
         }
 
 
@@ -130,7 +133,12 @@ namespace ot{
                 if (COMPARE_FTIME(current, last)){
                 
                     // if yes push the new configuration string into the Configurator to reconfigure OpenTracker
-                  
+#ifdef OT_BACKUP_ON_RECONFIG
+                    XMLWriter writer(config->getContext());
+
+                    logPrintI( "CONFIG_FUNC::writing backup \n");
+                    writer.write("backup.xml");
+#endif //OT_BACKUP_ON_RECONFIG
                     logPrintI( "CONFIG_FUNC::changing configuration\n");
                     //xmlstring = readFileIntoString("reconfig.xml");
                     config->changeConfiguration(filename);

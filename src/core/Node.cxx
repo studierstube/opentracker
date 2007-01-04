@@ -732,8 +732,8 @@ namespace ot {
         if (key.compare("OtNodeType") == 0){
 
             this->type = value;
-        }
-        attributes.put(key, value);
+        } else
+            attributes.put(key, value);
 #else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         XMLCh * tempKey = XMLString::transcode( key.c_str() );
@@ -913,6 +913,24 @@ namespace ot {
 
         return result;
     };
+
+    unsigned int Node::countAllChildren(){
+        return (unsigned int) children.size();
+    };
+
+    /*
+     * returns a child at index, no matter whether it is a wrapper or not
+     * @return unsigned number of children */
+    Node * Node::getAnyChild( unsigned int index){
+        if (index >= children.size())
+            return NULL;
+        return children[(int)index];
+    };
+
+
+StringTable & Node::getAttributes(){
+    return attributes;
+};
 #endif OT_LOCAL_GRAPH
 
 #ifdef USE_LIVE

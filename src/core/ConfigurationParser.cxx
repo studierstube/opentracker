@@ -178,6 +178,9 @@ namespace ot {
         std::string tagName = tempName;
         XMLString::release( &tempName );
         ConfigNode * config = new ConfigNode( *map );
+#ifdef OT_LOCAL_GRAPH
+        config->type = tagName;
+#endif // OT_LOCAL_GRAPH
         config->setParent( element );
         //auto_ptr<DOMNodeList> list( element->getChildNodes());
         DOMNodeList * list = element->getChildNodes();
@@ -186,7 +189,14 @@ namespace ot {
             if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
                 OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
-                /*ConfigNode * child = */buildConfigTree( childElement );
+                ConfigNode * child = buildConfigTree( childElement );
+#ifdef OT_LOCAL_GRAPH
+                        // OT_GRAPH
+                config->addChild(*child);
+                        // OT_GRAPH
+#endif OT_LOCAL_GRAPH
+
+
             }
         }
         return config;
@@ -197,11 +207,20 @@ namespace ot {
         std::string tagName = element->Value();
         ConfigNode * config = new ConfigNode( *map );
         config->setParent( element );
+#ifdef OT_LOCAL_GRAPH
+        config->type = tagName;
+#endif // OT_LOCAL_GRAPH
 
         TiXmlElement * el = element->FirstChildElement();
         while( el != NULL )
         {
             ConfigNode * child = buildConfigTree( el);
+#ifdef OT_LOCAL_GRAPH
+                        // OT_GRAPH
+            config->addChild(*child);
+                        // OT_GRAPH
+#endif OT_LOCAL_GRAPH
+            
             el = el->NextSiblingElement();
         }
         return config;
@@ -227,7 +246,19 @@ namespace ot {
         {
             NodeMap::iterator find = references.find(map->get("USE"));
             if( find != references.end()){
+
                 RefNode * ref = new RefNode( (*find).second );
+#ifdef OT_LOCAL_GRAPH
+                KeyIterator keys(*map.get());
+                while( keys.hasMoreKeys())
+                {
+                    const std::string & key = keys.nextElement();
+                    ref->put( key, map->get( key ) );
+                }
+
+#endif // OT_LOCAL_GRAPH
+
+
                 ref->type = tagName;
                 ref->setParent( element );
                 logPrintI("Built Reference node -> %s\n", map->get("USE").c_str());
@@ -309,6 +340,16 @@ namespace ot {
             NodeMap::iterator find = references.find(map->get("USE"));
             if( find != references.end()){
                 RefNode * ref = new RefNode( (*find).second );
+#ifdef OT_LOCAL_GRAPH
+                KeyIterator keys(*map.get());
+                while( keys.hasMoreKeys())
+                {
+                    const std::string & key = keys.nextElement();
+                    ref->put( key, map->get( key ) );
+                }
+
+#endif // OT_LOCAL_GRAPH
+
                 ref->type = tagName;
                 ref->setParent( element );
                 logPrintI("Built Reference node -> %s\n", map->get("USE").c_str());
@@ -321,6 +362,7 @@ namespace ot {
         }
 
 #ifdef OT_LOCAL_GRAPH
+        map->put("OtNodeType", tagName);        
         Node * value = context.createNode( tagName , *map );
 #else
         Node * value = context.factory.createNode( tagName , *map );
@@ -449,8 +491,14 @@ namespace ot {
         //auto_ptr<DOMNodeList> configlist( config->getChildNodes());
         DOMNodeList * configlist = config->getChildNodes();
         unsigned int i;
+#ifdef OT_LOCAL_GRAPH
+        Node * configNode = new Node();
+        configNode->type = "configuration";
+#endif //OT_LOCAL_GRAPH
+
         for( i = 0; i < configlist->getLength(); i ++ )
         {
+
             if( configlist->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
                 DOMElement * configElement = (DOMElement *)configlist->item(i);
@@ -459,6 +507,9 @@ namespace ot {
                 std::string tagName = tempName;
                 XMLString::release( &tempName );
                 ConfigNode * base = new ConfigNode( *attributes );
+#ifdef OT_LOCAL_GRAPH
+                base->type = tagName;
+#endif // OT_LOCAL_GRAPH
                 base->setParent( configElement );
                 logPrintI("config for %s\n", tagName.c_str());
 
@@ -466,6 +517,12 @@ namespace ot {
                 DOMNodeList * nodelist = configElement->getChildNodes();
 
                 unsigned int j;
+#ifdef OT_LOCAL_GRAPH
+                        // OT_GRAPH
+                configNode->addChild(*base);
+                        // OT_GRAPH
+#endif OT_LOCAL_GRAPH
+                
                 for( j = 0; j < nodelist->getLength(); j++ )
                 {
                     if( nodelist->item(j)->getNodeType() == DOMNode::ELEMENT_NODE )
@@ -475,7 +532,7 @@ namespace ot {
                         ConfigNode * child = buildConfigTree( element );
 #ifdef OT_LOCAL_GRAPH
                         // OT_GRAPH
-                        node->addChild(*child);
+                        base->addChild(*child);
                         // OT_GRAPH
 #endif OT_LOCAL_GRAPH
                     }
@@ -487,6 +544,17 @@ namespace ot {
                 }
             }
         }
+
+#ifdef OT_LOCAL_GRAPH
+        logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
+        if (configNode->countAllChildren() > 0){
+            
+            node->addChild(*configNode);
+        }
+
+
+#endif //OT_LOCAL_GRAPH
+
 
         logPrintI("parsing tracker tree section\n");
 
@@ -550,12 +618,22 @@ namespace ot {
 
         logPrintI("parsing configuration section\n");
 
+#ifdef OT_LOCAL_GRAPH
+        Node * configNode = new Node();
+        configNode->type = "configuration";
+#endif //OT_LOCAL_GRAPH
+
         TiXmlElement * configElement = config->FirstChildElement();
         while(configElement)
         {
             std::auto_ptr<StringTable> attributes( parseElement( configElement ));
             std::string tagName = configElement->Value();
+
             ConfigNode * base = new ConfigNode( *attributes );
+#ifdef OT_LOCAL_GRAPH
+            base->type = tagName;
+#endif // OT_LOCAL_GRAPH
+
             base->setParent( configElement );
             logPrintI("config for %s\n", tagName.c_str());
 
@@ -563,6 +641,12 @@ namespace ot {
             while(element)
             {
                 ConfigNode * child = buildConfigTree( element );
+#ifdef OT_LOCAL_GRAPH
+            //OT_GRAPH
+                base->addChild(*child);
+            //OT_GRAPH
+#endif // OT_LOCAL_GRAPH
+                
                 element = element->NextSiblingElement();
             }
 
@@ -571,9 +655,18 @@ namespace ot {
             {
                 module->init( *attributes, base );
             }
+#ifdef OT_LOCAL_GRAPH
+            configNode->addChild(*base);
+#endif //OT_LOCAL_GRAPH
+
 
             configElement = configElement->NextSiblingElement();
         }
+
+#ifdef OT_LOCAL_GRAPH
+        node->addChild(*configNode);
+#endif //OT_LOCAL_GRAPH
+
 
         logPrintI("parsing tracker tree section\n");
 

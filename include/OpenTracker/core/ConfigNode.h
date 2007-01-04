@@ -64,8 +64,10 @@ namespace ot {
     {
         // Members
     protected:
+#ifndef OT_LOCAL_GRAPH
         /// the wrapper element name
         StringTable attributes;
+#endif // OT_LOCAL_GRAPH
 
         // Methods
     protected:
@@ -74,11 +76,23 @@ namespace ot {
          * @param name_ element name of the config node
          * @param map_ string table with attribute values 
          */
+#ifdef OT_LOCAL_GRAPH
+        ConfigNode( StringTable & map_)
+            : Node()
+        {
+            KeyIterator keys(map_);
+            while( keys.hasMoreKeys())
+            {
+                const std::string & key = keys.nextElement();
+                Node::put( key, map_.get( key ) );
+            }
+        }
+#else // OT_LOCAL_GRAPH
         ConfigNode( const StringTable & map_)
             : Node()
 	    , attributes( map_ )
         {}
-
+#endif // OT_LOCAL_GRAPH
     public:   
         /**
          * returns a reference to the attribute StringTable
