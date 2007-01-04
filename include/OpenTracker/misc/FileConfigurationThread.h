@@ -92,14 +92,14 @@ namespace ot{
 
     public:
         FileConfigurationThread( const char * fname): 
-            thread(0), finishflag(false), filename(fname),writer(0){
+            thread(0), finishflag(false), filename(fname){
             config = Configurator::instance();
             initializeFileTime();
 
         }
         ~FileConfigurationThread(){
             closeThread();
-            //            delete writer;
+
         }
 
 
@@ -135,7 +135,6 @@ namespace ot{
                     // if yes push the new configuration string into the Configurator to reconfigure OpenTracker
 #ifdef OT_BACKUP_ON_RECONFIG
                     XMLWriter writer(config->getContext());
-
                     logPrintI( "CONFIG_FUNC::writing backup \n");
                     writer.write("backup.xml");
 #endif //OT_BACKUP_ON_RECONFIG
