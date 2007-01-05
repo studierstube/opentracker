@@ -583,6 +583,13 @@ namespace ot {
             //OT_GRAPH
 #endif // OT_LOCAL_GRAPH
         }
+#ifdef OT_LOCAL_GRAPH
+
+        root->release();
+
+#endif // OT_LOCAL_GRAPH
+
+
         return node;
 #endif //USE_XERCES
 
@@ -684,6 +691,10 @@ namespace ot {
 
             element = element->NextSiblingElement();
         }
+
+#ifdef OT_LOCAL_GRAPH
+        delete root;
+#endif // OT_LOCAL_GRAPH
 
         return node;
 #endif //USE_TINYXML

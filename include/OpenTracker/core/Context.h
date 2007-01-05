@@ -99,7 +99,7 @@ namespace ot {
         /// A map of the modules this context works with
         ModuleMap modules;
         /// Pointer to the root node of the local tracker tree
-        Node* rootNode;
+        Node::Ptr rootNode;
         /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
         NodeFactoryContainer factory;
         /// flag to remember whether the Context is responsible for cleaning up the modules.

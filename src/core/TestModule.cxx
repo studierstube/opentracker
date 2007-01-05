@@ -80,7 +80,9 @@ namespace ot {
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
+#ifndef OT_LOCAL_GRAPH            
             delete *result;
+#endif  OT_LOCAL_GRAPH
             nodes.erase( result );
             return;
         } else {
@@ -140,7 +142,7 @@ namespace ot {
     {
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
         {
-            TestSource *source = (TestSource *) *it;
+            TestSource *source = (TestSource *) ((Node*)*it);
             if((cycle + source->offset) % source->frequency == 0 )
             {
                 source->push();

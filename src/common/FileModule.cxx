@@ -174,7 +174,7 @@ namespace ot {
                 NodeVector & vector = nodes[id];
                 NodeVector::iterator nodeIt = vector.begin();
                 for( ; nodeIt != vector.end(); nodeIt++ )  // test for another node with the same station
-                    if(((FileSource *)(*nodeIt))->station == station )
+                    if(((FileSource *)((Node*)*nodeIt))->station == station )
                         break;
                 if( nodeIt != vector.end())
                 {
@@ -281,12 +281,12 @@ namespace ot {
                     // reset all file sources
                     for( it2 = vector.begin(); it2 != vector.end(); it2++ )
                     {
-                        ((FileSource*)(*it2))->changed = false;
+                        ((FileSource*)((Node*)*it2))->changed = false;
                     }
                     // update observers of according file source:
                     for (it2 = vector.begin(); it2 != vector.end(); it2++)
                     {
-                        FileSource *fileSrc = (FileSource*)(*it2);
+                        FileSource *fileSrc = (FileSource*)((Node*)*it2);
                         if(fileSrc->station == station && fileSrc->changed == false)
                         {
                             fileSrc->changed = true;

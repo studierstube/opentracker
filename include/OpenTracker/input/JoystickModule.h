@@ -74,7 +74,7 @@
 
 namespace ot {
 
-    typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node::Ptr> NodeVector;
 
     /**
      * The module and factory to drive the JoystickSource nodes. It constructs

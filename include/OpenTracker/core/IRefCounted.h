@@ -33,61 +33,84 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for TimestampGeneratorModule module.
+/** The header file for Reference counted defines.
  *
- * @author Mathis Csisinko
+ * @author Eduardo Veas
  *
- * $Id$
+ * $Id: IRefCounted.h 1691 2007-01-04 15:15:44Z veas $
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <OpenTracker/common/TimestampGeneratorModule.h>
+#ifndef OT_CORE_IREFCOUNT_H_INCLUDED
+#define OT_CORE_IREFCOUNT_H_INCLUDED
 
+//#include <ace/Atomic_Op.h>
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
-
-#include <OpenTracker/common/TimestampGeneratorNode.h>
-
-
-#include <ace/Log_Msg.h>
 
 namespace ot {
-	
-    OT_MODULE_REGISTER_FUNC(TimestampGeneratorModule){
-        OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorModule");
-    }	
-
-    Node* TimestampGeneratorModule::createNode(const std::string &name,StringTable &attributes)
-    {
-        if (name.compare("TimestampGenerator") == 0)
-        {
-            int timeOut = 1000;
-			attributes.get("timeout",&timeOut);
-            TimestampGeneratorNode* pNode = new TimestampGeneratorNode(timeOut);
-            pNodes.push_back(pNode);
-
-            logPrintI("Build TimestampGenerator node\n");
-            initialized = 1;
-            return pNode;
-        }
-        return NULL;
-    }
-
-    // pushes events into the tracker tree.
-
-    void TimestampGeneratorModule::pushEvent()
-    {
-        for (NodeVector::iterator it = pNodes.begin();it != pNodes.end();++ it)
-        {
-            TimestampGeneratorNode* pNode = reinterpret_cast<TimestampGeneratorNode*>((Node*)*it);
-            if (pNode->calcEvent())
-                pNode->updateObservers(pNode->getEvent());
-        }
-    }
-
-} //namespace ot
 
 
-#else
-#pragma message(">>> OT_NO_TIMESTAMPGENERATOR_SUPPORT")
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+  /*
+/// interface for reference countable objects
+
+/// declares the methods used for reference counting throughout the entire
+/// architecture.
+class OPENTRACKER_API IRefCounted{
+ public:
+  //  typedef ACE_Atomic_Op<ACE_Thread_Mutex, unsigned long> COUNTING_TYPE;
+  typedef unsigned long COUNTING_TYPE;
+  /// increment reference count of this object
+  virtual int _ref();
+
+  /// decrement reference count (dispose of previously in use reference)
+  virtual int _deref();
+  
+  /// retrieve current count of references
+  virtual int getRefCount();
+ protected:
+  COUNTING_TYPE _rcount;
+};
+  */
+
+#define OT_DECLARE_IREFCOUNTED protected:\
+     int _rcount;\
+  public:\
+  virtual int _ref();\
+  virtual int _deref();\
+  virtual int getRefCount()
+
+
+#define IMPLEMENT_IREFCOUNTED(CLASS) int CLASS##::_ref(){\
+  return ++ _rcount;\
+  };\
+  \
+  int CLASS##::_deref(){\
+     if (--_rcount == 0){\
+        delete this;\
+     } \
+     return _rcount;\
+   };\
+  \
+  int CLASS##::getRefCount(){\
+     return _rcount;\
+  }
+
+}; //NAMESPACE_OT
+#endif // OT_CORE_IREFCOUNT_H_INCLUDED
+
+
+/* 
+ * ------------------------------------------------------------
+ *   End of IRefCounted.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

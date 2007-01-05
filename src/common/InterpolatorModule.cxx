@@ -112,7 +112,7 @@ namespace ot {
     {
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
         {
-            ElasticFilterNode *source = (ElasticFilterNode *) *it;
+            ElasticFilterNode *source = (ElasticFilterNode *) ((Node*)*it);
             //if((cycle + source->offset) % source->frequency == 0 )
             //{
             source->push();

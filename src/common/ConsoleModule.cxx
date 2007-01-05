@@ -560,7 +560,7 @@ namespace ot {
         // check for changed sources and let them generate events
         for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
         {
-            source = (ConsoleSource *)(*it);
+            source = (ConsoleSource *)((Node*)*it);
             if( source->changed == 1 )
             {
                 source->event.timeStamp();
@@ -576,7 +576,7 @@ namespace ot {
             ConsoleSource *source;
             for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station && Event::knowsType(type))
                 {
                     if (source->event.addAttribute(type, name, value))
@@ -591,7 +591,7 @@ namespace ot {
             ConsoleSource *source;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station)
                 {
                     if (source->event.delAttribute(name))
@@ -611,7 +611,7 @@ namespace ot {
             bool gotNextAttr = false;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station && source->event.getSize() > 0)
                 {
                     currentChanged = true;
@@ -647,7 +647,7 @@ namespace ot {
             ConsoleSource *source;
             for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station)
                 {
                     if (source->event.setAttribute(nameOfAttributeToBeChanged, value))
@@ -665,7 +665,7 @@ namespace ot {
             ConsoleSource * source;
             for( NodeVector::const_iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station )
                 {
                     source->changed = 1;
@@ -717,7 +717,7 @@ namespace ot {
             ConsoleSource * source;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station )
                 {
                     source->event.getButton() ^= ( 1 << ( button - 1 ));
@@ -734,7 +734,7 @@ namespace ot {
             ConsoleSource * source;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station )
                 {
 					if( source->penConsole )
@@ -764,7 +764,7 @@ namespace ot {
             ConsoleSource * source;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station )
                 {
                     std::vector<float> help(source->event.getOrientation());
@@ -781,7 +781,7 @@ namespace ot {
             ConsoleSource * source;
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
             {
-                source = (ConsoleSource *)(*it);
+                source = (ConsoleSource *)((Node*)*it);
                 if( source->number == station )
                 {
                     source->event.clearAttributes();
@@ -804,9 +804,9 @@ namespace ot {
                 NodeVector::iterator it;
                 for( it = sinks.begin(); it != sinks.end(); it++ )
                 {
-                    display |= ((ConsoleSink *)(*it))->changed;
-                    ((ConsoleSink *)(*it))->changed = 0;
-                    count += ((ConsoleSink *)(*it))->active;
+                    display |= ((ConsoleSink *)((Node*)*it))->changed;
+                    ((ConsoleSink *)((Node*)*it))->changed = 0;
+                    count += ((ConsoleSink *)((Node*)*it))->active;
                 }
 
                 if (display || stationChanged ||  currentChanged || delAttribute || addAttribute || changeAttrByVal)
@@ -829,7 +829,7 @@ namespace ot {
 
                     for( it = sinks.begin(); it != sinks.end(); it++ )
                     {
-                        ConsoleSink * sink = (ConsoleSink *) *it;
+                        ConsoleSink * sink = (ConsoleSink *) ((Node*)*it);
                         if( sink->active == 0 )
                             continue;
                         Event & event = sink->event;

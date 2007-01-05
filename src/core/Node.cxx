@@ -36,12 +36,13 @@
 /** The source file for the basic Node class.
  *
  * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
  * $Id$
  *
  * @file                                                                   */
 /* ======================================================================= */
-
+ 
 #include <cstdio>
 #include <iostream>
 
@@ -462,7 +463,7 @@ namespace ot {
             if ((*it)->isNodePort() == 1){
                 if (name.compare((*it)->getName()) == 0){
                     if (index == 0)
-                        return (NodePort *) (*it);
+                        return (NodePort *) ((Node*) *it);
                     else index --;
                 }
             }
@@ -891,6 +892,8 @@ namespace ot {
     }
 
 #ifdef OT_LOCAL_GRAPH
+    IMPLEMENT_IREFCOUNTED(Node);
+
     // add one parent node
     void Node::addParent( Node * parent ){
         parents.push_back( parent );

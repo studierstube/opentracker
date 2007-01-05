@@ -246,7 +246,7 @@ namespace ot {
                 ISD_GetData( tracker->handle, &tracker->data );
                 for( NodeVector::iterator si = tracker->sources.begin(); si != tracker->sources.end(); si++ )
                 {
-                    InterSenseSource * source = ( InterSenseSource * )*si;
+                    InterSenseSource * source = ( InterSenseSource * ) ((Node*)*si);
                     ISD_STATION_STATE_TYPE * data = &tracker->data.Station[source->station];
                     if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES )
                     {

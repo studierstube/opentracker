@@ -128,7 +128,7 @@ namespace ot {
 
         if( isInitialized() == 1 && connections.size() != 0 && sinks.size() != 0 ){
             for( NodeVector::iterator it = sinks.begin(); it != sinks.end(); it ++ ){
-                TCPSink * sink = (TCPSink*) (*it);
+                TCPSink * sink = (TCPSink*) ((Node*) *it);
                 Event & event = sink->event;
                 if( sink->changed == 1 ){
                     protocol = sink->posFlag | (sink->orientFlag << 1) | (sink->buttonFlag << 2) |

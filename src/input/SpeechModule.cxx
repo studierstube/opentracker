@@ -204,7 +204,7 @@ namespace ot {
             {
                 for(unsigned int i = 0; i < m_Push2Nodes.size(); ++i)
                 {
-                    SpeechSource *source = (SpeechSource*)m_Push2Nodes[i];
+                    SpeechSource *source = (SpeechSource*) ((Node*)m_Push2Nodes[i]);
                     source->push2();
                 }
                 m_Push2Nodes.clear();
@@ -215,7 +215,7 @@ namespace ot {
 
                 for(NodeVector::iterator it = m_Nodes.begin(); it != m_Nodes.end(); it++)
                 {
-                    SpeechSource *source = (SpeechSource*)*it;
+                    SpeechSource *source = (SpeechSource*)((Node*)*it);
                     if(source->push())
                     {
                         m_Push2Nodes.push_back(source);

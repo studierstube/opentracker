@@ -70,7 +70,7 @@
 
 namespace ot {
 
-    typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node::Ptr> NodeVector;
 
     /**
      * Module for filters that interpolate tracking data between updates and therefore need

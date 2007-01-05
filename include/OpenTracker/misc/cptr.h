@@ -33,61 +33,114 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for TimestampGeneratorModule module.
+/** The include file for the basic CountingPtr class.
  *
- * @author Mathis Csisinko
+ * @author Eduardo Veas
  *
- * $Id$
+ * $Id:  1691 2007-01-04 15:15:44Z veas $
+ *
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <OpenTracker/common/TimestampGeneratorModule.h>
+
+#ifndef OT_MISC_CPTR_H_INCLUDED
+#define OT_MISC_CPTR_H_INCLUDED
+
+#include <cassert>
+
+/// counting pointer
+
+/// uses reference counting interface (ircountable ) to keep an object alive
+/// for as long as the Cptr instance is alive.
+template <class T>
+class Cptr{
+
+ protected:
+  T * obj;
+
+ public:
+
+  Cptr () :obj(0){};
+  Cptr(T * o):obj(0){
+    *this = o;
+  }; 
+
+  Cptr (const Cptr<T> & p): obj(0){ 
+    *this = p;
+  };
+  
+  ~Cptr (){
+    if(obj) obj->_deref();
+  };
+
+  inline Cptr<T>& operator = (const Cptr<T> &p){
+
+    if(obj) obj->_deref();
+    obj=p.obj;
+    if(obj) obj->_ref();
+    return *this;
+  };
+
+  inline Cptr<T>& operator = (T * p){
+
+    if(obj) obj->_deref();
+    obj=p;
+    if(obj) obj->_ref() ;
+    return *this;
+  };
+
+  inline T& operator *(){
+    assert (obj != 0 && "Tried to access empty obj");
+    return *obj;
+  };
 
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+  inline T* operator ->() const {
 
-#include <OpenTracker/common/TimestampGeneratorNode.h>
+    assert (obj != 0 && "Tried to -> empty obj");
+    return obj;
+  };
 
+  inline operator T* () const{
+    return obj;
+  } ;
 
-#include <ace/Log_Msg.h>
+  inline T* item () const {
+    return obj;
+  }	
 
-namespace ot {
-	
-    OT_MODULE_REGISTER_FUNC(TimestampGeneratorModule){
-        OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorModule");
-    }	
+  inline bool operator !() {return !(obj);};
 
-    Node* TimestampGeneratorModule::createNode(const std::string &name,StringTable &attributes)
-    {
-        if (name.compare("TimestampGenerator") == 0)
-        {
-            int timeOut = 1000;
-			attributes.get("timeout",&timeOut);
-            TimestampGeneratorNode* pNode = new TimestampGeneratorNode(timeOut);
-            pNodes.push_back(pNode);
+  inline bool isValid() const {
+    return (obj !=0);
+  };
 
-            logPrintI("Build TimestampGenerator node\n");
-            initialized = 1;
-            return pNode;
-        }
-        return NULL;
-    }
+  inline bool operator ==(const Cptr<T> &p) const{
 
-    // pushes events into the tracker tree.
+    return (obj == p.obj);
+  };
 
-    void TimestampGeneratorModule::pushEvent()
-    {
-        for (NodeVector::iterator it = pNodes.begin();it != pNodes.end();++ it)
-        {
-            TimestampGeneratorNode* pNode = reinterpret_cast<TimestampGeneratorNode*>((Node*)*it);
-            if (pNode->calcEvent())
-                pNode->updateObservers(pNode->getEvent());
-        }
-    }
+  inline bool operator == (T * o) const{
+    return (obj == o);
+  };
 
-} //namespace ot
+};
+
+#endif // MEM_CPTR_H_INCLUDED
 
 
-#else
-#pragma message(">>> OT_NO_TIMESTAMPGENERATOR_SUPPORT")
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+/* 
+ * ------------------------------------------------------------
+ *   End of Cptr.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

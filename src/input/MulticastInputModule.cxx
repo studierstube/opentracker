@@ -104,7 +104,7 @@ namespace ot {
             }
             NodeVector::iterator it;
             for( it = sources.begin(); it != sources.end(); it++ ){
-                MulticastInputSource * source = (MulticastInputSource*)(*it);
+                MulticastInputSource * source = (MulticastInputSource*)((Node*) *it);
                 if( source->number == number )
                 {
                     break;
@@ -190,7 +190,7 @@ namespace ot {
             for( it = sources.begin(); it != sources.end(); it++)
             {
 
-                MulticastInputSource * source = (MulticastInputSource*)(*it);
+                MulticastInputSource * source = (MulticastInputSource*)((Node*)*it);
                 int bodyID = source->number;
                 if( recordTemp[bodyID].valid == 1 )
                 {
@@ -355,7 +355,7 @@ namespace ot {
         {
             for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
             {
-                MulticastInputSource *source = (MulticastInputSource *) *it;
+                MulticastInputSource *source = (MulticastInputSource *) ((Node*)*it);
                 lock();
                 if( source->changed == 1 )
                 {

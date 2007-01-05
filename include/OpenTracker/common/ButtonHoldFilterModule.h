@@ -65,7 +65,7 @@
 
 namespace ot {
 
-    typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node::Ptr> NodeVector;
 
     /**
      * Module for filters that filters out drops in a ButtonSource between updates. Therefore need

@@ -121,7 +121,7 @@ namespace ot {
 
 		NodeVector::iterator it;
 		for( it = sources.begin(); it != sources.end(); it++ ){
-		    ARTDataTrackerSource * source = (ARTDataTrackerSource*)(*it);
+		    ARTDataTrackerSource * source = (ARTDataTrackerSource*)((Node*) *it);
 		    if( source->number == number )
 			{
 			    break;
@@ -221,7 +221,7 @@ namespace ot {
 		lock();
 		for( it = sources.begin(); it != sources.end(); it++)
 		    {
-			ARTDataTrackerSource * source = (ARTDataTrackerSource*)(*it);
+			ARTDataTrackerSource * source = (ARTDataTrackerSource*)((Node*) *it);
 			bodyID = source->number;
 			if (bodyID < 20)
 			    {
@@ -462,7 +462,7 @@ namespace ot {
 	    {
 		for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
 		    {
-			ARTDataTrackerSource *source = (ARTDataTrackerSource *) *it;
+			ARTDataTrackerSource *source = (ARTDataTrackerSource *) ((Node*)*it);
 			lock();
 			if( source->changed == 1 )
 			    {

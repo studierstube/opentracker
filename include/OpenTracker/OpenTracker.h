@@ -137,7 +137,7 @@ namespace ot {
      * container of Nodes such as a parent node, or to keep pointers
      * to several nodes around.
      */
-    typedef std::vector<Node *> NodeVector;
+    typedef std::vector<Node::Ptr> NodeVector;
 
     /** initializes a context by instantiating the available modules and factories
      * and registering them with the given context. So for each passed context 

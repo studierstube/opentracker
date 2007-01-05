@@ -102,7 +102,7 @@ namespace ot {
     {
         for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
         {
-            ButtonHoldFilterNode *source = (ButtonHoldFilterNode *) *it;
+            ButtonHoldFilterNode *source = (ButtonHoldFilterNode *) ((Node*)*it);
             source->push();
         }
         cycle++;

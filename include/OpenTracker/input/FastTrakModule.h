@@ -80,7 +80,7 @@
 
 namespace ot {
 
-    typedef std::vector<Node*> NodeVector;
+    typedef std::vector<Node::Ptr> NodeVector;
 
     /// this struct just stores a event, and if the event was changed 
     typedef struct

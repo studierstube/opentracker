@@ -81,7 +81,7 @@ class ACE_SOCK_Dgram;
 
 namespace ot {
 
-  typedef std::vector<Node*> NodeVector;
+  typedef std::vector<Node::Ptr> NodeVector;
 
 
   /**

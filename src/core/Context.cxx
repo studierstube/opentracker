@@ -109,7 +109,9 @@ namespace ot {
         }
         modules.clear();
         if (rootNode != NULL) {
+#ifndef OT_LOCAL_GRAPH
             delete rootNode;
+#endif  //OT_LOCAL_GRAPH
         }
 
         delete _mutex;
@@ -634,11 +636,14 @@ namespace ot {
         // copy the modules from other
         modules = other.modules;
         // copy the rootNode from other
-	Node * tmp = rootNode;
+	Node::Ptr tmp = rootNode;
         rootNode = other.rootNode;
 
-        // set this context in the new rootNode
 
+
+        // let the other context clean up the old rootNode
+        other.rootNode = tmp;
+        // set this context in the new rootNode
 #ifndef OT_LOCAL_GRAPH
         
 #ifdef USE_XERCES
@@ -665,9 +670,6 @@ namespace ot {
 
 #endif OT_LOCAL_GRAPH
         
-
-        // let the other context clean up the old rootNode
-        other.rootNode = tmp;
         // copy the factories from other
         factory.copyFrom(other.factory);
 

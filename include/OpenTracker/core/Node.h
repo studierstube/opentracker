@@ -36,6 +36,7 @@
 /** The header file for the basic Node class.
  *
  * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
  * $Id$
  * @file                                                                   */
@@ -73,6 +74,8 @@ namespace ot {
 } // namespace ot
 #ifdef OT_LOCAL_GRAPH
 #include "StringTable.h"
+#include <OpenTracker/core/IRefCounted.h>
+#include <OpenTracker/misc/Cptr.h>
 #endif //OT_LOCAL_GRAPH
 #include "Event.h"
 #ifdef USE_LIVE
@@ -81,12 +84,6 @@ namespace ot {
 
 namespace ot {
 
-    /**
-     * a Vector of Node pointers. Very useful to implement a simple
-     * container of Nodes such as a parent node, or to keep pointers
-     * to several nodes around.
-     */
-    typedef std::vector<Node *> NodeVector;
 
 
     /**
@@ -104,6 +101,21 @@ namespace ot {
     class OPENTRACKER_API Node
 #endif
     {
+        
+
+    public:
+#ifdef OT_LOCAL_GRAPH
+        OT_DECLARE_IREFCOUNTED;
+        typedef Cptr<Node> Ptr;
+#else  //OT_LOCAL_GRAPH
+        typedef Node * Ptr;
+#endif //OT_LOCAL_GRAPH
+    /**
+     * a Vector of Node pointers. Very useful to implement a simple
+     * container of Nodes such as a parent node, or to keep pointers
+     * to several nodes around.
+     */
+    typedef std::vector<Ptr> NodeVector;
 
     protected:
         /** Pointer to the parent XML element.*/

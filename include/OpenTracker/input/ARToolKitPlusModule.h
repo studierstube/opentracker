@@ -96,8 +96,8 @@ namespace ot
 {
 
   class ARToolKitPlusModule;
-  typedef std::vector<Node*> NodeVector;
-  typedef std::map<int,Node*> MarkerIdMap;
+  typedef std::vector<Node::Ptr> NodeVector;
+  typedef std::map<int,Node::Ptr> MarkerIdMap;
 
 
   /**

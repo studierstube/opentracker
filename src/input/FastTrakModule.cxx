@@ -363,7 +363,7 @@ namespace ot {
         {
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
-                source = (FastTrakSource *) *it;
+                source = (FastTrakSource *) ((Node*)*it);
                 lock();
                 if (stations[source->station].newVal == 1)
                 {
