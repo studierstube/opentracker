@@ -585,7 +585,7 @@ namespace ot {
         }
 #ifdef OT_LOCAL_GRAPH
 
-        root->release();
+        //        root->release();
 
 #endif // OT_LOCAL_GRAPH
 
