@@ -228,6 +228,8 @@ private :
                            X("OpenTracker"),         // root element name
                            0);                   // document type object (DTD).
                docElem = doc->getDocumentElement();
+
+               
            }catch(...){
                logPrintE("XMLWriter failed to create DOMDocument instance\n");
                
@@ -235,7 +237,8 @@ private :
        }
 
        if (docElem != NULL){
-           
+           DOMComment * com = doc->createComment(X("OpenTracker data version 2.0 XERCES XMLWriter"));
+           docElem->appendChild(com);
            // now create all the nodes starting from the rootNode
            for (unsigned int i=0 ; i < (rootNode->countAllChildren()); i++){
                DOMElement * el = createNode(doc, rootNode->getAnyChild(i));
