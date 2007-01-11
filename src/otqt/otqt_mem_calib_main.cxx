@@ -122,12 +122,21 @@ int main(int argc, char *argv[]) {
     OTQT_ERROR("%s\n", ex_nummat.what());
     ret = -1;
   }
+ 
 #endif
   // all other exceptions
   catch (std::exception & ex) {
     OTQT_ERROR("%s\n", ex.what());
     ret = -1;
   }
+
+#ifdef WIN32
+   catch(...)
+  {
+	OTQT_ERROR("probably some tinyxml issue occured\n");
+	ret = -1;
+  }
+#endif
 
   OTQT_INFO("Regular Exit!\n");
   return ret;

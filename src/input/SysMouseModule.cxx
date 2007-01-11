@@ -68,7 +68,8 @@ namespace ot {
 									stop(0),
 									buttonInput(0), 
 									lastButtonInput(0),
-									mouseX(0), mouseY(0)
+									mouseX(0), mouseY(0),
+									resetAbs(false)
 	{
 #ifdef WIN32 
 		inputPtr = new ::INPUT;
@@ -132,7 +133,7 @@ namespace ot {
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				sink = (SysMouseSink *) *it;
-				//source->deleteSth;
+				//sink->deleteSth;
 			}
 		}
 	}
@@ -150,6 +151,8 @@ namespace ot {
 		while(stop == 0)
 		{
 			processLoop();
+			// wait a msec
+			ACE_OS::sleep( ACE_Time_Value(0, 1000) );
 		}
 	}
 
@@ -165,7 +168,11 @@ namespace ot {
 				
 				if( sink->changedRelative )
 				{
-					buttonInput = sink->relativeEvent.getButton();
+					if(!resetAbs)
+					{
+						buttonInput = sink->relativeEvent.getButton();
+						resetAbs = false;
+					}
 					mouseX = (int)(sink->relativeEvent.getPosition()[0]*10);
 					mouseY = (int)(sink->relativeEvent.getPosition()[1]*10);
 					#ifdef WIN32
@@ -182,8 +189,25 @@ namespace ot {
 					mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
 					#endif
 					sink->changedAbsolute = 0;
-					// comment out for overriding the systems mouse
-					sink->changedRelative = 1; 
+					// comment out next two for overriding the systems mouse
+					sink->changedRelative = 1;
+					resetAbs = true;
+
+					if(1) // switch counter on/off
+					{
+						// compute framerate
+						DWORD timeNow = GetTickCount(), diffTime = timeNow-frameRateLastTime;
+						//printf("painting thread: %d \n", diffTime);
+						if(diffTime>1000 && frameRateCtr>0)		// only update every second
+						{
+							//printf("[Render FPS: %3.1f] \n", frameRateCtr*1000.0f/diffTime);
+							printf("mouseRate: %.f \n", frameRateCtr*1000.0f/diffTime);
+							frameRateLastTime = timeNow;
+							frameRateCtr = 0;
+						}
+						else
+							frameRateCtr++;
+					}
 				}				
 #ifdef WIN32
 				mouseInputPtr->dx = mouseX;
@@ -219,8 +243,6 @@ namespace ot {
 #endif
 			}
 		}
-		// wait 10msec for now - this sets the update intervall to the system
-		ACE_OS::sleep( ACE_Time_Value(0, 10000) );
 	}
 } // namespace ot
 

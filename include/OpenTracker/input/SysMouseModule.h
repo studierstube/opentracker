@@ -61,7 +61,7 @@
 
 #ifdef WIN32 
 #include <Windows.h>
-#include <Winuser.h>
+
 #endif
 
 /**
@@ -134,6 +134,9 @@ private:
 
 	unsigned short buttonInput, lastButtonInput;
 	int mouseX, mouseY;
+	bool resetAbs;
+
+	DWORD frameRateLastTime, frameRateCtr;
 
 #ifdef WIN32 
 	PINPUT inputPtr;

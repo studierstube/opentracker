@@ -174,6 +174,7 @@ void OTQtMEMCalibProc::exec() {
   // <QtMouseEventCalibConfig
   // [..]
   // />
+
   int kill_line_no_start = editor_.firstLineNoOfExpr("<QtMouseEventCalibConfig");
   int kill_line_no_end = editor_.firstLineNoOfExpr("/>", kill_line_no_start);
   for (int count = kill_line_no_start; count <= kill_line_no_end; count++) {
@@ -362,8 +363,8 @@ bool OTQtMEMCalibProc::trackASCorner(QtAppScreen::ASCorner & as_corner) {
   // one meter in tracking scale
   float tracking_one_meter;
   getMECM().getXMLAttribTable().get("TrackingSystemScaleOneMeter", &tracking_one_meter);
-  // converted to millimeter
-  float THRESH_SPHERE_RADIUS = tracking_one_meter * 0.001;
+  // converted to 3mm radius
+  float THRESH_SPHERE_RADIUS = tracking_one_meter * 0.003;
 
   while (true) {
 
