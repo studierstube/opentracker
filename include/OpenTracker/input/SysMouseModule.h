@@ -136,8 +136,6 @@ private:
 	int mouseX, mouseY;
 	bool resetAbs;
 
-	DWORD frameRateLastTime, frameRateCtr;
-
 #ifdef WIN32 
 	PINPUT inputPtr;
 	PMOUSEINPUT mouseInputPtr;

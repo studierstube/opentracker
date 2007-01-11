@@ -192,22 +192,6 @@ namespace ot {
 					// comment out next two for overriding the systems mouse
 					sink->changedRelative = 1;
 					resetAbs = true;
-
-					if(1) // switch counter on/off
-					{
-						// compute framerate
-						DWORD timeNow = GetTickCount(), diffTime = timeNow-frameRateLastTime;
-						//printf("painting thread: %d \n", diffTime);
-						if(diffTime>1000 && frameRateCtr>0)		// only update every second
-						{
-							//printf("[Render FPS: %3.1f] \n", frameRateCtr*1000.0f/diffTime);
-							printf("mouseRate: %.f \n", frameRateCtr*1000.0f/diffTime);
-							frameRateLastTime = timeNow;
-							frameRateCtr = 0;
-						}
-						else
-							frameRateCtr++;
-					}
 				}				
 #ifdef WIN32
 				mouseInputPtr->dx = mouseX;
