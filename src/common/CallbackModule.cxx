@@ -88,7 +88,7 @@ namespace ot {
 
     //  sets a callback on a certain node.
 
-    void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
+    void CallbackModule::setCallback( const std::string& name, OTCallbackFunction * function, void * data )
     {
         NodeMap::iterator it = nodes.find( name );
         if( it != nodes.end())
@@ -99,13 +99,13 @@ namespace ot {
     }
 
     // sets a global callback function.
-    void CallbackModule::setGlobalCallback(GlobalCallbackFunction *function, void * data)
+    void CallbackModule::setGlobalCallback(OTGlobalCallbackFunction *function, void * data)
     {
         gcbfunction = function;
         gcbdata = data;
     }
 
-    GlobalCallbackFunction* 
+    OTGlobalCallbackFunction* 
     CallbackModule::getGlobalCallbackFunction() const
     {
         return gcbfunction;

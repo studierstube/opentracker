@@ -65,13 +65,16 @@
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
+namespace ot {
+class CallbackNode;
+}
+
+typedef static void OTCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 
 namespace ot {
 
     class CallbackModule;
     class CallbackNode;
-
-    typedef void CallbackFunction(CallbackNode &, Event &, void *);
 
     /**
      * This class implements a simple node that stores a function pointer
@@ -91,7 +94,7 @@ namespace ot {
          */
         std::string name;
         /// callback function
-        CallbackFunction * function;
+        OTCallbackFunction * function;
         /// data pointer
         void * data;
         /// the event passed to the function and the parent

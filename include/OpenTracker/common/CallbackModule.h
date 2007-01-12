@@ -61,11 +61,12 @@
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
+typedef static void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 
 namespace ot {
 
     typedef std::map<std::string, Node*> NodeMap;
-    typedef void GlobalCallbackFunction(CallbackNode &, Event &, void *);
+
     /**
      * The module and factory to drive the callback nodes. It constructs
      * CallbackNode nodes via the NodeFactory interface and registers
@@ -81,7 +82,7 @@ namespace ot {
         NodeMap nodes;
 
         /// global callback function pointer
-        GlobalCallbackFunction *gcbfunction;
+        OTGlobalCallbackFunction *gcbfunction;
         /// data passed to global callback function
         void *gcbdata;
         
@@ -109,7 +110,7 @@ namespace ot {
          * @param function the new callback function to set on the node
          * @param data pointer to data that is passed to the callback function
          */
-        void setCallback( const std::string& name, CallbackFunction * function, void * data = NULL );
+        void setCallback( const std::string& name, OTCallbackFunction * function, void * data = NULL );
 
         /** sets a global callback. Any present global callback function in the
          * module is overwritten by the new one.
@@ -117,11 +118,11 @@ namespace ot {
          * @param data pointer to data that is passed to the callback function
          */
         
-        void setGlobalCallback( GlobalCallbackFunction * function, void * data = NULL );
+        void setGlobalCallback( OTGlobalCallbackFunction * function, void * data = NULL );
         /** returns the global callback function
          */
 
-        GlobalCallbackFunction * getGlobalCallbackFunction() const;
+        OTGlobalCallbackFunction * getGlobalCallbackFunction() const;
         /** returns the global callback function data
          */
         void * getGlobalCallbackData() const;

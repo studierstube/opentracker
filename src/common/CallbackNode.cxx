@@ -65,7 +65,7 @@ namespace ot {
     {
         // call to global callback function
         
-        GlobalCallbackFunction *gcbfunc = NULL;
+        OTGlobalCallbackFunction *gcbfunc = NULL;
       
         if (cbmodule != NULL) cbmodule->getGlobalCallbackFunction();
         
