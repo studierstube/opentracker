@@ -1,0 +1,55 @@
+<ui version="4.0" >
+ <class>CbCfMainWindow</class>
+ <widget class="QMainWindow" name="CbCfMainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" />
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuClient_Mode" >
+    <property name="title" >
+     <string>Client Mode</string>
+    </property>
+    <addaction name="separator" />
+    <addaction name="actionClient_A" />
+    <addaction name="actionClient_B" />
+   </widget>
+   <addaction name="menuClient_Mode" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionClient_A" >
+   <property name="text" >
+    <string>Client A</string>
+   </property>
+   <property name="iconText" >
+    <string>Client A</string>
+   </property>
+   <property name="toolTip" >
+    <string>Client A</string>
+   </property>
+  </action>
+  <action name="actionClient_B" >
+   <property name="text" >
+    <string>Client B</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
