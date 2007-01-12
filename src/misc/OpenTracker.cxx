@@ -97,6 +97,7 @@
 #include <OpenTracker/input/GPSModule.h>
 #include <OpenTracker/input/MagicYModule.h>
 #include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallforwardModule.h>
 #include <OpenTracker/common/LogModule.h>
 
 // these modules depend on compile options
@@ -370,6 +371,10 @@ namespace ot {
     
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
         OT_REGISTER_MODULE(CallbackModule, NULL);
+#endif
+
+#ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
+        OT_REGISTER_MODULE(CallforwardModule, NULL);
 #endif
 
 #ifdef USE_DWARF

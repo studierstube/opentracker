@@ -33,113 +33,95 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for Callback module.
+/** header file for Callforward module.
  *
- * @author Gerhard Reitmayr
+ * @author Alexander Bornik
  *
- * $Id$
+ * $$
  * @file                                                                   */
 /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section callbackmodule CallbackModule
- * The Callback module provides @ref callbacknode nodes that call registered 
- * callbacks functions for any event they receive. Each node can call only
- * one function. The nodes are addressed by unique names, set in the 
- * element of that node. After reading the initialization file an application
- * can register callback functions on the read nodes. It doesn't have a 
- * configuration element but reserves the name 'CallbackConfig' for it.
+ * @section callforwardmodule CallforwardModule
+ * The Callforward module provides @ref callforward nodes that pick up data
+ * sent to them by the application. Callforward nodes thereby
+ * are event generators. registered 
+ * The Callforward module does not have a 
+ * configuration element but reserves the name 'CallforwardConfig' for it.
  */
 
-#ifndef _CALLBACKMODULE_H
-#define _CALLBACKMODULE_H
+#ifndef _CALLFORWARDMODULE_H
+#define _CALLFORWARDMODULE_H
 
 #include "../OpenTracker.h"
-#include "CallbackNode.h"
+#include "CallforwardNode.h"
 
-
-#ifndef OT_NO_CALLBACKMODULE_SUPPORT
-
+#ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 
 namespace ot {
 
     typedef std::map<std::string, Node*> NodeMap;
-    typedef void GlobalCallbackFunction(CallbackNode &, Event &, void *);
     /**
-     * The module and factory to drive the callback nodes. It constructs
-     * CallbackNode nodes via the NodeFactory interface and registers
-     * callbacks with them after parsing
-     * @author Gerhard Reitmayr
+     * The module and factory to drive the callforward nodes. It constructs
+     * Callforward nodes via the NodeFactory interface and registers
+     * @author Alexander Bornik
      * @ingroup common
      */
-    class OPENTRACKER_API CallbackModule : public Module, public NodeFactory
+    class OPENTRACKER_API CallforwardModule : public Module, public NodeFactory
     {
+     
         // Members
     protected:
         /// map of strings onto nodes
         NodeMap nodes;
-
-        /// global callback function pointer
-        GlobalCallbackFunction *gcbfunction;
-        /// data passed to global callback function
-        void *gcbdata;
         
-
         // Methods
     public:
         /** constructor method. */
-        CallbackModule() : Module(), NodeFactory()
+        CallforwardModule() : Module(), NodeFactory()
 	{};
         /** Destructor method, clears nodes member. */
-        virtual ~CallbackModule(){};    
+        virtual ~CallforwardModule(){};    
         /** This method is called to construct a new Node. It compares
-         * name to the TestSource element name, and if it matches
-         * creates a new TestSource node.
-         * @param name reference to string containing element name
-         * @attributes refenrence to StringMap containing attribute values
+         * name to the Callforward element name, and if it matches
+         * creates a new Callforward node.         * @param name reference to string containing element name
+         * @attributes reference to StringMap containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
  
-        /** sets a callback on a certain node. The node is identified by its
-         * unique name. Any present callback function in the node is overwritten
-         * by the new one.
-         * @param name the unique name of the callback node 
-         * @param function the new callback function to set on the node
-         * @param data pointer to data that is passed to the callback function
-         */
-        void setCallback( const std::string& name, CallbackFunction * function, void * data = NULL );
 
-        /** sets a global callback. Any present global callback function in the
-         * module is overwritten by the new one.
-         * @param function the new callback function to set on the module
-         * @param data pointer to data that is passed to the callback function
+        /** Registers a user provided event to be transported through the graph.
+         * This call is thread safe. The event can be produced outside
+         * the OpenTracker loop thread.
+         * @param name of the Callforward node to push the event in
+         * @param reference to the user provided event
          */
+        bool callForward(const std::string& name, Event &event); 
+
+        /**
+         * pushes events into the tracker tree. Determines, whether the user
+         * has set an Event via the callForward method and passes the events 
+         * on in that case.
+         */
+        virtual void pushEvent();
         
-        void setGlobalCallback( GlobalCallbackFunction * function, void * data = NULL );
-        /** returns the global callback function
-         */
-
-        GlobalCallbackFunction * getGlobalCallbackFunction() const;
-        /** returns the global callback function data
-         */
-        void * getGlobalCallbackData() const;
     };
 
-    OT_MODULE(CallbackModule);
+    OT_MODULE(CallforwardModule);
 
 } // namespace ot {
 
 
-#endif //OT_NO_CALLBACKMODULE_SUPPORT
+#endif //OT_NO_CALLFORWARDMODULE_SUPPORT
 
 
 #endif
 
 /* 
  * ------------------------------------------------------------
- *   End of CallbackModule.h
+ *   End of CallforwardModule.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

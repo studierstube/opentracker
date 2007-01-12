@@ -33,9 +33,9 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for Callback module.
+/** source file for Callback Node.
  *
- * @author Gerhard Reitmayr
+ * @author Alexander Bornik
  *
  * $Id$
  * @file                                                                   */
@@ -54,88 +54,52 @@
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
-// called to construct a new Node.
-
+// called to construct a new Node. 
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
 
 namespace ot {
-
-
-	OT_MODULE_REGISTER_FUNC(CallbackModule){
-		OT_MODULE_REGISTRATION_DEFAULT(CallbackModule,"CallbackConfig" );
-	}
-
-
-    Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
+  
+    void CallbackNode::onEventGenerated( Event& event, Node& generator)
     {
-        if( name.compare("Callback") == 0 )
+        // call to global callback function
+        
+        GlobalCallbackFunction *gcbfunc = NULL;
+      
+        if (cbmodule != NULL) cbmodule->getGlobalCallbackFunction();
+        
+        if (gcbfunc != NULL)
         {
-            const std::string & nameVal = attributes.get("name");
-            NodeMap::iterator it = nodes.find( nameVal );
-            if( it == nodes.end())
-            {
-                CallbackNode * node = new CallbackNode( nameVal );
-                nodes[nameVal] = node;
-                logPrintI("Built Callback node %s.\n", nameVal.c_str());
-                return node;
-            }
-        } 
-        return NULL;
-    }
-
-
-    //  sets a callback on a certain node.
-
-    void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
-    {
-        NodeMap::iterator it = nodes.find( name );
-        if( it != nodes.end())
-        {
-            ((CallbackNode *)(*it).second)->function = function;
-            ((CallbackNode *)(*it).second)->data = data;
+            (*gcbfunc)(*this, event, data);
         }
+        // call node based callback function
+        if ( function != NULL )
+        {
+            (*function)(*this, event, data );
+        }
+
+        updateObservers( event );
     }
-
-    // sets a global callback function.
-    void CallbackModule::setGlobalCallback(GlobalCallbackFunction *function, void * data)
-    {
-        gcbfunction = function;
-        gcbdata = data;
-    }
-
-    GlobalCallbackFunction* 
-    CallbackModule::getGlobalCallbackFunction() const
-    {
-        return gcbfunction;
-    }
-
-    void* CallbackModule::getGlobalCallbackData() const
-    {
-        return gcbdata;
-    }
-
-} // namespace ot
-
+}  // namespace ot
 
 #else
 #pragma message(">>> OT_NO_CALLBACKMODULE_SUPPORT")
 #endif //OT_NO_CALLBACKMODULE_SUPPORT
 
 
-/* 
- * ------------------------------------------------------------
- *   End of CallbackModule.cxx
- * ------------------------------------------------------------
- *   Automatic Emacs configuration follows.
- *   Local Variables:
- *   mode:c++
- *   c-basic-offset: 4
- *   eval: (c-set-offset 'substatement-open 0)
- *   eval: (c-set-offset 'case-label '+)
- *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
- *   eval: (setq indent-tabs-mode nil)
- *   End:
- * ------------------------------------------------------------ 
- */
+    /* 
+     * ------------------------------------------------------------
+     *   End of CallbackModule.cxx
+     * ------------------------------------------------------------
+     *   Automatic Emacs configuration follows.
+     *   Local Variables:
+     *   mode:c++
+     *   c-basic-offset: 4
+     *   eval: (c-set-offset 'substatement-open 0)
+     *   eval: (c-set-offset 'case-label '+)
+     *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+     *   eval: (setq indent-tabs-mode nil)
+     *   End:
+     * ------------------------------------------------------------ 
+     */

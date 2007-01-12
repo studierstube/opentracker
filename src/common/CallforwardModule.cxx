@@ -33,9 +33,9 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for Callback module.
+/** source file for Callforward module.
  *
- * @author Gerhard Reitmayr
+ * @author Alexander Bornik
  *
  * $Id$
  * @file                                                                   */
@@ -45,88 +45,90 @@
 #include <OpenTracker/tool/disable4786.h>
 
 #include <cstdlib>
-#include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallforwardModule.h>
 
 #include <iostream>
-
-//using namespace std;
 
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
-// called to construct a new Node.
-
-
-#ifndef OT_NO_CALLBACKMODULE_SUPPORT
-
+#ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 
 namespace ot {
-
-
-	OT_MODULE_REGISTER_FUNC(CallbackModule){
-		OT_MODULE_REGISTRATION_DEFAULT(CallbackModule,"CallbackConfig" );
+        
+    OT_MODULE_REGISTER_FUNC(CallforwardModule){
+            OT_MODULE_REGISTRATION_DEFAULT(CallforwardModule,"CallforwardConfig" );
 	}
 
 
-    Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
+    Node * CallforwardModule::createNode( const std::string& name, StringTable& attributes)
     {
-        if( name.compare("Callback") == 0 )
+        if( name.compare("Callforward") == 0 )
         {
             const std::string & nameVal = attributes.get("name");
             NodeMap::iterator it = nodes.find( nameVal );
             if( it == nodes.end())
             {
-                CallbackNode * node = new CallbackNode( nameVal );
+                CallforwardNode * node = new CallforwardNode( nameVal );
                 nodes[nameVal] = node;
-                logPrintI("Built Callback node %s.\n", nameVal.c_str());
+                logPrintI("Built Callforward node %s.\n", nameVal.c_str());
                 return node;
             }
         } 
         return NULL;
     }
 
-
-    //  sets a callback on a certain node.
-
-    void CallbackModule::setCallback( const std::string& name, CallbackFunction * function, void * data )
+    bool CallforwardModule::callForward(const std::string& name, Event &event)
     {
+        using namespace std;
+       
         NodeMap::iterator it = nodes.find( name );
+       
         if( it != nodes.end())
         {
-            ((CallbackNode *)(*it).second)->function = function;
-            ((CallbackNode *)(*it).second)->data = data;
+            ((CallforwardNode *)(*it).second)->setEvent(event);
         }
-    }
+        else
+        {
+            return false;
+        }
 
-    // sets a global callback function.
-    void CallbackModule::setGlobalCallback(GlobalCallbackFunction *function, void * data)
+        return true;
+    } 
+
+   void CallforwardModule::pushEvent()
     {
-        gcbfunction = function;
-        gcbdata = data;
-    }
+        unsigned short data;    
 
-    GlobalCallbackFunction* 
-    CallbackModule::getGlobalCallbackFunction() const
-    {
-        return gcbfunction;
-    }
+        for( std::map<std::string, Node *>::iterator it = nodes.begin(); 
+             it != nodes.end(); it++ )
+        {
+            CallforwardNode * cfnode = 
+                dynamic_cast<CallforwardNode*>((*it).second);
 
-    void* CallbackModule::getGlobalCallbackData() const
-    {
-        return gcbdata;
-    }
+            if (cfnode)
+            {
+                cfnode->updateObservers( cfnode->event );
+            }
+            else
+            {
+                ///FIXXXME: insert proper error handling
+                assert(0);
+            }
 
+        }  
+    }
 } // namespace ot
 
 
 #else
-#pragma message(">>> OT_NO_CALLBACKMODULE_SUPPORT")
-#endif //OT_NO_CALLBACKMODULE_SUPPORT
+#pragma message(">>> OT_NO_CALLFORWARDMODULE_SUPPORT")
+#endif //OT_NO_CALLFORWARDMODULE_SUPPORT
 
 
 /* 
  * ------------------------------------------------------------
- *   End of CallbackModule.cxx
+ *   End of CallforwardModule.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

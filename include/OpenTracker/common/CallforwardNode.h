@@ -33,9 +33,9 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for Callback node.
+/** header file for Callforward node.
  *
- * @author Gerhard Reitmayr
+ * @author Alexander Bornik
  *
  * $Id$
  * @file                                                                   */
@@ -43,73 +43,70 @@
 
 /**
  * @page Nodes Node Reference
- * @section callbacknode Callback Node
- * The Callback node is a simple EventObserver / EventGenerator that passes
- * events on and calls a registered callback function everytime it
- * receives a new event with the passed event.
+ * @section callforwardnode Callforward Node
+ * The Callforward node is a simple EventGenerator
  * It has the following attributes :
- * @li @c name a unique name to identify it among all Callback nodes.
+ * @li @c name a unique name to identify it among all Callforward nodes.
  *
  * An example element looks like this :
  * @verbatim
- <Callback name="cb1">
- <Any EventGenerator element type>
- </Callback>@endverbatim
+ <Callforward name="cf1">
+ @endverbatim
 */
 
-#ifndef _CALLBACKNODE_H
-#define _CALLBACKNODE_H
+#ifndef _CALLFORWARDNODE_H
+#define _CALLFORWARDNODE_H
 
 #include "../OpenTracker.h"
 
 
-#ifndef OT_NO_CALLBACKMODULE_SUPPORT
+#ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 
+#include <ace/Synch.h>
 
 namespace ot {
 
-    class CallbackModule;
-    class CallbackNode;
-
-    typedef void CallbackFunction(CallbackNode &, Event &, void *);
+    typedef ACE_Mutex mutex_type;
+    class CallforwardModule;
+    class CallforwardNode;
 
     /**
-     * This class implements a simple node that stores a function pointer
-     * and calls it every time an event it received. The event passed to the
-     * can be changed by the function and the changes will propagate to the parent node.
-     * Furthermore it passes the event on to its single child.
-     * @author Gerhard Reitmayr
+     * This class implements a simple node that stores an event and passes
+     * an eventually pending event, each time it is traversed.
+     * @author Alexander Bornik
      * @ingroup common
      */
-    class OPENTRACKER_API CallbackNode : public Node
+    class OPENTRACKER_API CallforwardNode : public Node
     {
         // Members
     public:
-        /** name of the CallbackNode for retrieving it from the module.
-         * Note that this is not the name returned by getName(), rather the value
-         * set by the attribute name.
+        /** name of the CallforwardNode for retrieving it from the module.
+         * Note that this is not the name returned by getName(), rather the 
+         * value set by the attribute name.
          */
         std::string name;
-        /// callback function
-        CallbackFunction * function;
-        /// data pointer
-        void * data;
-        /// the event passed to the function and the parent
+
+        /// flag, whether a new event has been set
+        bool pendingevent;
+
+        /// the event set by the uses
         Event event;
 
-        /// pointer to creating module CallbackModule
-        CallbackModule * cbmodule;
+        /// pointer to creating module CallforwardModule
+        CallforwardModule * cfmodule;
+
+        /// used for mutual exclusive access to the pending events
+        mutex_type cfmutex;
 
         // Methods
     protected:
         /** constructor method,sets commend member
-         * @param name_ the name of the Callback node */
-        CallbackNode( const std::string & name_ ) :
+         * @param name_ the name of the Callforward node */
+        CallforwardNode( const std::string & name_ ) :
             Node(),
             name( name_ ),
-            function( NULL ),
-            data( NULL ),
-            cbmodule( NULL )
+            pendingevent(false),
+            cfmodule( NULL )
 	{}
 
     public:
@@ -120,40 +117,64 @@ namespace ot {
 	{
             return 1;
 	}
-
-        /**
-         * This method notifies the object that a new event was generated.
-         * @param event reference to the new event.
-         * @param generator reference to the EventGenerator object that
-         *        notified the EventObserver.
+        
+        /** overridden from node
+         * only updates the observers in case of a new event
+         * ensures mutual exclusive acces to the event
          */
-        virtual void onEventGenerated( Event& event, Node& generator);
+        virtual void updateObservers( Event &data)
+        {
+            cfmutex.acquire();
 
+            if (pendingevent)
+            {
+                Node::updateObservers(data);
+                pendingevent = false;
+            }
+            cfmutex.release();
+        }
         /**
-         * This method returns the value set by the name attribute of the CallbackNode.
-         * This is a different value then the one returned by getName() which is the
+         * This method returns the value set by the name attribute of the 
+         * Callforward node.
+         * This is a different value then the one returned by getName(),
+         * which is the
          * value set by the attribute DEF.
          * @return reference to the name string.
          */
-        const std::string & getCallbackName(void) const
+        const std::string & getCallforwardName(void) const
 	{
-            return CallbackNode::name;
+            return CallforwardNode::name;
 	};
 
-        friend class CallbackModule;
+        /** 
+         * method to set the event to be pushed into the graph
+         * the lock ensures threadsafe event setting 
+         */
+
+        void setEvent(const Event& inevent)
+        {
+            cfmutex.acquire();
+
+            event = inevent;
+            pendingevent = true;
+
+            cfmutex.release();
+        }
+
+        friend class CallforwardModule;
     };
 
 } // namespace ot
 
 
-#endif //OT_NO_CALLBACKMODULE_SUPPORT
+#endif //OT_NO_CALLFORWARDMODULE_SUPPORT
 
 
 #endif
 
 /* 
  * ------------------------------------------------------------
- *   End of CallbackNode.h
+ *   End of CallforwardNode.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
