@@ -44,11 +44,100 @@
 #include <QtGui>
 #include "cbcfmainwindow.h"
 
+
 CbCfMainWindow::CbCfMainWindow( QWidget * parent, 
                                 Qt::WindowFlags flags)
-    : QMainWindow(parent, flags)
+    : QMainWindow(parent, flags),
+      otthread(NULL)
 {
+    setupUi(this);
+    connect(actionClient_A, SIGNAL (activated()), this, SLOT(readFileA()));
+    connect(actionClient_B, SIGNAL (activated()), this, SLOT(readFileB()));
 
+    otthread = new OpentrackerThread(this);
+
+    updateConfigFileEdit("clientA.xml");
+    
+    otthread->getCallbackModule()->
+        setCallback( "clientA", CbCfMainWindow::clientACB, this );
+    otthread->getCallbackModule()->
+        setCallback( "clientB", CbCfMainWindow::clientBCB, this );
+    otthread->getCallbackModule()->
+        setGlobalCallback(CbCfMainWindow::globalClientCB, this);
+    
+    connect(this, SIGNAL(fileNameSignal(const QString&)),
+            otthread, SLOT(setConfigurationFile(const QString&)));
+
+    connect(this, SIGNAL(fileNameSignal(const QString&)),
+            this, SLOT(updateConfigFileEdit(const QString&)));
+
+    connect(configPushButton, SIGNAL(pressed()),
+            this, SLOT(setupConfigFromEdit()));
+
+    connect(eventPushButton, SIGNAL(pressed()),
+            this, SLOT(createEventFromEdit()));
+
+    otthread->start();
+}
+
+void CbCfMainWindow::readFileA()
+{
+    emit fileNameSignal("clientA.xml");
+}
+
+void CbCfMainWindow::readFileB()
+{
+    emit fileNameSignal("clientB.xml");
+}
+
+void CbCfMainWindow::updateConfigFileEdit(const QString &fileName)
+{
+    QFile file(fileName);
+
+    if (file.open(QFile::ReadOnly | QFile::Text))
+    {
+        configEdit->setPlainText(file.readAll());   
+    }
+}
+
+void CbCfMainWindow::setupConfigFromEdit()
+{
+    otthread->setConfigurationString(configEdit->toPlainText());
+}
+
+void CbCfMainWindow::createEventFromEdit()
+{
+    using namespace ot;
+    Event event;
+    event.timeStamp();
+    event.getPosition()[0] = 1.0;
+    otthread->getCallforwardModule()->callForward("clientAInput", event);
+                                                  
+}
+
+void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, void * data )
+{
+    using namespace ot;
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    cout << node.getName() << " time diff " << diff << endl;
+
+}
+
+void CbCfMainWindow::clientBCB( ot::CallbackNode & node, 
+                                ot::Event & event, void * data )
+{
+    using namespace ot;
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    cout << node.getName() << " time diff " << diff << endl;
+
+}
+
+void CbCfMainWindow::globalClientCB( ot::CallbackNode & node,  
+                                     ot::Event & event, void * data )
+{
+    using namespace std;
+
+    cout << "This is the global callback function." << endl;
 }
 
 /* 

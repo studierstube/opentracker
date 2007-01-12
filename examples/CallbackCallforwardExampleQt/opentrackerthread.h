@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** main window of the Callback/Callforward program
+/** thread running the opentracker context
  *
  * @author Alexander Bornik
  *
@@ -41,38 +41,37 @@
  * @file                                                                   */
 /* ======================================================================= */
 
- #ifndef CALCULATORFORM_H
- #define CALCULATORFORM_H
+#ifndef OPENTRACKERTHREAD_H
+#define OPENTRACKERTHREAD_H
 
-#include "ui_cbcfmainwindow.h"
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallforwardModule.h>
 
-#include "opentrackerthread.h"
+#include <QtCore>
 
-#include <QtGui>
-
-class CbCfMainWindow : public QMainWindow, private Ui::CbCfMainWindow
+class OpentrackerThread : public QThread
 {
 Q_OBJECT
-   
-private:
-    OpentrackerThread *otthread;
-
-private slots:
-    void readFileA();
-    void readFileB();
-    void updateConfigFileEdit(const QString &);
-    void setupConfigFromEdit();
-    void createEventFromEdit();
-
-signals:
-    void fileNameSignal(const QString &);
-
 public:
-    CbCfMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
+    OpentrackerThread(QObject *parent = 0);
+    ~OpentrackerThread();
+
+    ot::CallbackModule* getCallbackModule();
+    ot::CallforwardModule* getCallforwardModule();
+
+public slots:
+    void setConfigurationFile(const QString &);
+    void setConfigurationString(const QString &);
 protected:
-    static void clientACB(ot::CallbackNode &, ot::Event &, void *);
-    static void clientBCB(ot::CallbackNode &, ot::Event &, void *);
-    static void globalClientCB(ot::CallbackNode &, ot::Event &, void *);
+    ot::Context &context;
+    ot::CallbackModule * cbModule;
+    ot::CallforwardModule * cfModule;
+
+    void run();
+
+private:
+    
 };
 
 #endif

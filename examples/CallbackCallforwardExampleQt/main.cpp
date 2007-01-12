@@ -43,18 +43,11 @@
 /* ======================================================================= */
 
 #include <QApplication>
-
-#include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/common/CallbackModule.h>
-#include <OpenTracker/common/CallforwardModule.h>
+#include <QtCore>
 
 #include <iostream>
 
 #include "cbcfmainwindow.h"
-
-ot::CallbackFunction *clientACB;
-ot::CallbackFunction *clientBCB;
-ot::GlobalCallbackFunction *globalClientCB;
 
 int main(int argc, char** argv)
 {
@@ -64,67 +57,13 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     CbCfMainWindow mainwin;
 
-    Context context( 1 );
-    
-    cout << "Context established." << endl;
-
-    // gain access to the interface modules for reading and writing
-    // events from/to the OpenTracker Graph
-    CallbackModule * cbModule = 
-      dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
-    CallforwardModule * cfModule = 
-      dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
-
-    // make sure that the needed modules are in OpenTracker
-    /*
-    if (cbModule == NULL)
-    {
-        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
-        exit(1);
-    }
-    if (cbModule == NULL)
-    {
-        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
-        exit(1);
-    }
-    */
-
-    // parse the configuration file, builds the tracker tree
-    context.parseConfiguration( argv[1] );
-
-
-    cbModule->setCallback( "clientA", clientACB );
-    cbModule->setCallback( "clientB", clientBCB );
-    cbModule->setGlobalCallback( globalClientCB);
-    
-    //context.run();
-
-
     mainwin.show();
+    mainwin.resize(640, 480);
 
     return app.exec();
 }
 
-namespace ot {
-void clientACB( Node & node,  Event & event, void * data ){
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
 
-}
-
-void clientBCB( Node & node,  Event & event, void * data ){
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
-
-}
-
-void globalClientCB( Node & node,  Event & event, void * data ){
-    using namespace std;
-
-    cout << "This is the global callback function." << endl;
-}
-
-}
 /* 
  * ------------------------------------------------------------
  *   End of main.cpp

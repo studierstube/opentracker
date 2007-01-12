@@ -10,9 +10,63 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>MainWindow</string>
+   <string>OpenTracker Callback/Callforward Example</string>
   </property>
-  <widget class="QWidget" name="centralwidget" />
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" >
+    <property name="margin" >
+     <number>9</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QWidget" native="1" name="widget" >
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QTextEdit" name="eventsEdit" />
+       </item>
+       <item>
+        <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QTextEdit" name="configEdit" />
+         </item>
+         <item>
+          <widget class="QPushButton" name="configPushButton" >
+           <property name="text" >
+            <string>Update OT Configuration</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="textEdit" />
+         </item>
+         <item>
+          <widget class="QPushButton" name="eventPushButton" >
+           <property name="text" >
+            <string>Push Event</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
     <rect>
@@ -21,6 +75,9 @@
      <width>800</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="defaultUp" >
+    <bool>false</bool>
    </property>
    <widget class="QMenu" name="menuClient_Mode" >
     <property name="title" >
@@ -34,6 +91,12 @@
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionClient_A" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
    <property name="text" >
     <string>Client A</string>
    </property>
@@ -45,11 +108,47 @@
    </property>
   </action>
   <action name="actionClient_B" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
    <property name="text" >
     <string>Client B</string>
    </property>
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionClient_A</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>actionClient_B</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionClient_B</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>actionClient_A</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** main window of the Callback/Callforward program
+/** thread running the opentracker context
  *
  * @author Alexander Bornik
  *
@@ -41,45 +41,102 @@
  * @file                                                                   */
 /* ======================================================================= */
 
- #ifndef CALCULATORFORM_H
- #define CALCULATORFORM_H
-
-#include "ui_cbcfmainwindow.h"
 
 #include "opentrackerthread.h"
 
-#include <QtGui>
+#include <OpenTracker/core/Configurator.h>
+#include <OpenTracker/core/OSUtils.h>
 
-class CbCfMainWindow : public QMainWindow, private Ui::CbCfMainWindow
+OpentrackerThread::OpentrackerThread(QObject *parent)
+    : QThread(parent),
+      context(ot::Configurator::instance()->getContext())
 {
-Q_OBJECT
-   
-private:
-    OpentrackerThread *otthread;
+    using namespace ot;
 
-private slots:
-    void readFileA();
-    void readFileB();
-    void updateConfigFileEdit(const QString &);
-    void setupConfigFromEdit();
-    void createEventFromEdit();
 
-signals:
-    void fileNameSignal(const QString &);
+    // gain access to the interface modules for reading and writing
+    // events from/to the OpenTracker Graph
+    cbModule = 
+        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
+    cfModule = 
+        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
 
-public:
-    CbCfMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
-protected:
-    static void clientACB(ot::CallbackNode &, ot::Event &, void *);
-    static void clientBCB(ot::CallbackNode &, ot::Event &, void *);
-    static void globalClientCB(ot::CallbackNode &, ot::Event &, void *);
-};
+    // make sure that the needed modules are in OpenTracker
 
-#endif
+    if (cbModule == NULL)
+    {
+        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
+        exit(1);
+    }
+    if (cbModule == NULL)
+    {
+        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
+        exit(1);
+    }
+
+    // parse the configuration file, builds the tracker tree
+    Configurator::instance()->changeConfigurationFile("clientA.xml");
+
+
+}
+    
+OpentrackerThread::~OpentrackerThread()
+{
+    using namespace std;
+
+    cout << "stopping OpenTracker ... ";
+
+    context.stop();
+
+    wait();
+
+    cout << "done." << endl;
+}
+
+ot::CallbackModule* OpentrackerThread::getCallbackModule()
+{
+    return cbModule;
+}
+
+ot::CallforwardModule* OpentrackerThread::getCallforwardModule()
+{
+    return cfModule;
+}
+
+void OpentrackerThread::setConfigurationFile(const QString& fname)
+{
+    using namespace ot;
+
+    cout << " parsing new configuration file " 
+         << fname.toAscii().constData() << " ... ";
+
+    Configurator::instance()->
+        changeConfigurationFile(fname.toAscii().constData());
+    
+    cout << "done." << endl;
+}
+
+void OpentrackerThread::setConfigurationString(const QString& fname)
+{
+    using namespace ot;
+
+    Configurator::instance()->
+        changeConfigurationString(fname.toAscii().constData());
+}
+
+
+void OpentrackerThread::run()
+{
+    using namespace std;
+    
+    cout << "starting OpenTracker loop ..." << endl; 
+    context.run();
+    cout << "loop finished." << endl;
+}
 
 /* 
  * ------------------------------------------------------------
- *   End of cbcfmainwindow.h
+ *   End of cbcfmainwindow.cpp
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

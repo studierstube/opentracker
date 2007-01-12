@@ -3,11 +3,13 @@ TEMPLATE = app
 FORMS = cbcfmainwindow.ui
 
 HEADERS = \
-    cbcfmainwindow.h
+    cbcfmainwindow.h \
+    opentrackerthread.h
 
 SOURCES  = \
     main.cpp \
-    cbcfmainwindow.cpp
+    cbcfmainwindow.cpp \
+    opentrackerthread.cpp
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker
