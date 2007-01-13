@@ -86,7 +86,7 @@ else:
              'type': 'DL',
              'libs': ['ace'],
              'use' : use,
-             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+             'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\wince'],
              'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
              'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS', 'USING_SCONS']
              }
@@ -95,7 +95,7 @@ else:
                 'type':'LIB',
                 'libs': ['ace'],
                 'use' :use,
-                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\test.cxx', 'misc\\wince'],
+                'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\wince'],
                 'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
                 'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_STATIC','USING_SCONS']	
                 }
@@ -136,7 +136,7 @@ else:
              'type': 'DL',
              'libs': ['ACE','xerces-c','curses'],
              'use' : use,
-             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/test.cxx', 'misc/wince', 'misc/portio.cxx'],
+             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx'],
              'src_use' : ['ALL', os.path.join(os.getcwd(), 'extras/intersense/isense.c') ]
              }
 
@@ -187,7 +187,7 @@ else:
              'type': 'DL',
              'libs': ['ACE','xerces-c','curses'],
              'use' : use,
-             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/test.cxx', 'misc/wince', 'misc/portio.cxx', 'input/ParButtonModule.cxx','input/InterSenseModule.cxx','input/LinmouseModule.cxx'],
+             'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx', 'input/ParButtonModule.cxx','input/InterSenseModule.cxx','input/LinmouseModule.cxx'],
              'src_use' : ['ALL']
              }
         
