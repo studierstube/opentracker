@@ -75,7 +75,7 @@ OpentrackerThread::OpentrackerThread(QObject *parent)
     }
 
     // parse the configuration file, builds the tracker tree
-    Configurator::instance()->changeConfigurationFile("clientA.xml");
+    Configurator::instance()->changeConfigurationFile("clientLocal.xml");
 
 
 }
@@ -84,12 +84,14 @@ OpentrackerThread::~OpentrackerThread()
 {
     using namespace std;
 
-    cout << "stopping OpenTracker ... ";
+    if (isRunning())
+    {
+        cout << "stopping OpenTracker ... ";
+        
+        context.stopLoop();       
 
-    context.stop();
-
-    wait();
-
+        wait();
+    }
     cout << "done." << endl;
 }
 
@@ -113,6 +115,10 @@ void OpentrackerThread::setConfigurationFile(const QString& fname)
     Configurator::instance()->
         changeConfigurationFile(fname.toAscii().constData());
     
+    cbModule = 
+        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
+    cfModule = 
+        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
     cout << "done." << endl;
 }
 
@@ -122,6 +128,11 @@ void OpentrackerThread::setConfigurationString(const QString& fname)
 
     Configurator::instance()->
         changeConfigurationString(fname.toAscii().constData());
+
+    cbModule = 
+        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
+    cfModule = 
+        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
 }
 
 
@@ -129,6 +140,8 @@ void OpentrackerThread::run()
 {
     using namespace std;
     
+    usleep(5000);
+
     cout << "starting OpenTracker loop ..." << endl; 
     context.run();
     cout << "loop finished." << endl;

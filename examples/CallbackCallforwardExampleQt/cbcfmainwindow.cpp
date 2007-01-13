@@ -53,15 +53,23 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     setupUi(this);
     connect(actionClient_A, SIGNAL (activated()), this, SLOT(readFileA()));
     connect(actionClient_B, SIGNAL (activated()), this, SLOT(readFileB()));
+    connect(actionLocal_TestSource, SIGNAL (activated()), 
+            this, SLOT(readFileTest()));
+
+    qRegisterMetaType<QTextCursor>("QTextCursor");
+    //textCursor = new QTextCursor();
+    //eventsEdit->setTextCursor(textCursor);
 
     otthread = new OpentrackerThread(this);
 
-    updateConfigFileEdit("clientA.xml");
+    updateConfigFileEdit("clientLocal.xml");
     
     otthread->getCallbackModule()->
-        setCallback( "clientA", CbCfMainWindow::clientACB, this );
+        setCallback( "clientAInput", CbCfMainWindow::clientACB, this );
     otthread->getCallbackModule()->
-        setCallback( "clientB", CbCfMainWindow::clientBCB, this );
+        setCallback( "clientBInput", CbCfMainWindow::clientBCB, this );
+    otthread->getCallbackModule()->
+        setCallback( "clientTestInput", CbCfMainWindow::clientTestCB, this );
     otthread->getCallbackModule()->
         setGlobalCallback(CbCfMainWindow::globalClientCB, this);
     
@@ -80,6 +88,11 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     otthread->start();
 }
 
+CbCfMainWindow::~CbCfMainWindow()
+{
+    usleep(2000);
+}
+
 void CbCfMainWindow::readFileA()
 {
     emit fileNameSignal("clientA.xml");
@@ -88,6 +101,11 @@ void CbCfMainWindow::readFileA()
 void CbCfMainWindow::readFileB()
 {
     emit fileNameSignal("clientB.xml");
+}
+
+void CbCfMainWindow::readFileTest()
+{
+    emit fileNameSignal("clientLocal.xml");
 }
 
 void CbCfMainWindow::updateConfigFileEdit(const QString &fileName)
@@ -111,24 +129,92 @@ void CbCfMainWindow::createEventFromEdit()
     Event event;
     event.timeStamp();
     event.getPosition()[0] = 1.0;
-    otthread->getCallforwardModule()->callForward("clientAInput", event);
+    if (!otthread->getCallforwardModule()->callForward("clientAInput", event))
+    {
+        outEventsEdit->append("callForward to 'clientAInput' failed");
+    }
+    else
+    {
+        outEventsEdit->append("callForward to 'clientAInput' succeeded");
+    }
+
+    if (!otthread->getCallforwardModule()->callForward("clientBInput", event))
+    {
+        outEventsEdit->append("callForward to 'clientBInput' failed");
+    }
+    else
+    {
+        outEventsEdit->append("callForward to 'clientBInput' succeeded");
+    }
+
+
+    if (!otthread->getCallforwardModule()->callForward("clientLocalInput", event))
+    {
+        outEventsEdit->append("callForward to 'clientLocalInput' failed");
+    }
+    else
+    {
+        outEventsEdit->append("callForward to 'clientLocalInput' succeeded");
+    }
                                                   
 }
 
 void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, void * data )
 {
     using namespace ot;
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
 
+    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+
+    if (self->eventsEdit)
+    {
+        //self->eventsEdit->clear();
+        self->eventsEdit->append("CbCfMainWindow::clientACB");
+        self->eventsEdit->append(event.getPrintOut().c_str());
+        //cout << node.getName() << " time diff " << diff << endl;
+        //self->textCursor.movePosition(QTextCursor::End);
+    }
 }
 
 void CbCfMainWindow::clientBCB( ot::CallbackNode & node, 
                                 ot::Event & event, void * data )
 {
     using namespace ot;
+
+    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
+
+    if (self->eventsEdit)
+    {        
+        //self->eventsEdit->clear();
+        self->eventsEdit->append("CbCfMainWindow::clientBCB");
+        self->eventsEdit->append(event.getPrintOut().c_str());
+        //cout << node.getName() << " time diff " << diff << endl;
+        //self->textCursor.movePosition(QTextCursor::End);
+    }
+}
+
+void CbCfMainWindow::clientTestCB( ot::CallbackNode & node, 
+                                ot::Event & event, void * data )
+{
+    using namespace ot;
+
+    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    
+    if (self->eventsEdit)
+    {
+        //self->eventsEdit->clear();
+        self->eventsEdit->append("CbCfMainWindow::clientTestCB");
+        self->eventsEdit->append(event.getPrintOut().c_str());
+        //cout << node.getName() << " time diff " << diff << endl;
+        //QTextCursor cursor = self->eventsEdit->textCursor();
+        //cursor.movePosition(QTextCursor::End);
+        //self->eventsEdit->setTextCursor(self->textCursor);
+    }
 
 }
 
@@ -137,7 +223,14 @@ void CbCfMainWindow::globalClientCB( ot::CallbackNode & node,
 {
     using namespace std;
 
-    cout << "This is the global callback function." << endl;
+    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+
+    if (self->eventsEdit)
+    {
+        self->eventsEdit->append("CbCfMainWindow::globalClientCB");
+           
+        //cout << "This is the global callback function." << endl;
+    }
 }
 
 /* 

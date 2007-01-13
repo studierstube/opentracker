@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     CbCfMainWindow mainwin;
 
     mainwin.show();
-    mainwin.resize(640, 480);
+    mainwin.resize(1000, 700);
 
     return app.exec();
 }

@@ -2,13 +2,13 @@
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
   <configuration>
-    <ConsoleConfig headerline="ClientA configuration" interval="1"/>
+    <NetworkSinkConfig name="NWSA" />
   </configuration>
   
   <NetworkSink  mode="unicast" name="ClientA" number="0" port="12101"> 
-    <Callforward name="ClientAInput"/>
+    <Callforward name="clientAInput"/>
   </NetworkSink>
-  <Callback name="ClientBInput">
+  <Callback name="clientBInput">
     <NetworkSource mode="unicast" address="127.0.0.1" number="0" port="12102" />
   </Callback>
 
