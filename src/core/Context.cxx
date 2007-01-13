@@ -79,6 +79,7 @@ namespace ot {
     Context::Context( int init ) :
         rootNode( NULL ),
         cleanUp( false ),
+        stoploopflag(false),
         rootNamespace( "" )
     {
 		
@@ -100,6 +101,10 @@ namespace ot {
     // Destructor method.
     Context::~Context()
     {
+        // stop the loop, if it is running
+        stopLoop();
+
+        // delete all modules
         if( cleanUp )
         {
             for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
@@ -335,10 +340,14 @@ namespace ot {
     {
         start();
         int stopflag = stop();
-        while ( stopflag == 0 )
+        while ( stoploopflag == 0 && stopflag == 0 )
         {
-			stopflag=loopOnce();
+            stopflag=loopOnce();
         }
+
+        stoploopflag = 0;
+
+        cout << "closing loop" << endl;
         close();
     }
 
@@ -352,7 +361,7 @@ namespace ot {
         double t1 = OSUtils::currentTime(); // in milliseconds
         start();
         int stopflag = stop();
-        while ( stopflag == 0 )
+        while ( stoploopflag == 0 && stopflag == 0 )
         {
             // push and pull parts of the main loop
   
@@ -365,6 +374,9 @@ namespace ot {
             }
             t1 = t2;
         }
+
+        stoploopflag = 0;
+
         close();
     }
 
@@ -375,9 +387,27 @@ namespace ot {
         int value = 0;
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
-            value |= (*it).second->stop();
+            int retval = (*it).second->stop();
+            /*
+            if (retval != 0)
+            {
+                cout << it->first << " not ready for stop" << endl;
+            }
+            else
+            {
+                cout << it->first << " ready for stop" << endl;
+                }
+            */
+            value |= retval;
         }
         return value;
+    }
+
+    void Context::stopLoop()
+    {
+        lock();
+        stoploopflag = 1;
+        unlock();
     }
 
     // creates a new node from a given element name and an attribute table

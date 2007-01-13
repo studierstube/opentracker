@@ -91,8 +91,8 @@ void Configurator::changeConfigurationFile(const char * file){
 
 		//create a new context object
 		Context newContext(0);
-		this->loadModule(newContext, "OpenTracker");
-		//this->doInitialization(newContext);
+		//this->loadModule(newContext, "OpenTracker");
+		this->doInitialization(newContext);
 
 		newContext.parseConfiguration(file);
 

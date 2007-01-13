@@ -86,10 +86,23 @@ namespace ot {
        
         if( it != nodes.end())
         {
-            ((CallforwardNode *)(*it).second)->setEvent(event);
+            CallforwardNode * cfnode =
+                dynamic_cast<CallforwardNode*>((*it).second);
+            
+            if (cfnode)
+            {
+                cfnode->setEvent(event);
+            }
+            else
+            {
+                //cout << " not a callforward node" << endl;
+                return false;
+            }
         }
         else
         {
+            //cout << " callforward node with name " 
+            //     << name <<" not found!" << endl;
             return false;
         }
 

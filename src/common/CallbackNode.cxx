@@ -53,6 +53,7 @@
 
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
+#include <ace/Synch.h>
 
 // called to construct a new Node. 
 
@@ -67,8 +68,15 @@ namespace ot {
         
         OTGlobalCallbackFunction *gcbfunc = NULL;
       
-        if (cbmodule != NULL) cbmodule->getGlobalCallbackFunction();
+        if (cbmodule != NULL) 
+        {
+            gcbfunc = cbmodule->getGlobalCallbackFunction();
+        }
+
+        // lock event for the time of the callback
         
+        eventmutex.acquire();
+
         if (gcbfunc != NULL)
         {
             (*gcbfunc)(*this, event, data);
@@ -78,6 +86,8 @@ namespace ot {
         {
             (*function)(*this, event, data );
         }
+
+        eventmutex.release();
 
         updateObservers( event );
     }

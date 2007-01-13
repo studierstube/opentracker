@@ -77,6 +77,9 @@ namespace ot {
             if( it == nodes.end())
             {
                 CallbackNode * node = new CallbackNode( nameVal );
+                // for the global callback function to work,
+                // the nodes need to know the module
+                node->cbmodule = this;
                 nodes[nameVal] = node;
                 logPrintI("Built Callback node %s.\n", nameVal.c_str());
                 return node;
