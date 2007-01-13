@@ -104,6 +104,8 @@ namespace ot {
         NodeFactoryContainer factory;
         /// flag to remember whether the Context is responsible for cleaning up the modules.
         bool cleanUp;
+        /// flag for stopping the main loop
+        bool stoploopflag;
         /// stores the filename of the current configuration.
         std::string file;
         /// stores a stack of directory names to search for files in
@@ -211,6 +213,9 @@ namespace ot {
         /** tests whether the mainloop should stop, by asking all modules whether
          * they need to stop.*/
         int stop();
+
+        /** sets a termination flag for the main loop*/
+        void stopLoop();
 
         /** calls close on all modules to close any resources.*/
         void close();

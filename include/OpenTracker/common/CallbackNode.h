@@ -61,7 +61,7 @@
 #define _CALLBACKNODE_H
 
 #include "../OpenTracker.h"
-
+#include <ace/Synch.h>
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
@@ -86,6 +86,8 @@ namespace ot {
      */
     class OPENTRACKER_API CallbackNode : public Node
     {
+        typedef ACE_Mutex mutex_type;
+
         // Members
     public:
         /** name of the CallbackNode for retrieving it from the module.
@@ -100,11 +102,15 @@ namespace ot {
         /// the event passed to the function and the parent
         Event event;
 
+        /// mutex to protect the event
+        mutex_type eventmutex;
+
         /// pointer to creating module CallbackModule
         CallbackModule * cbmodule;
 
         // Methods
     protected:
+        
         /** constructor method,sets commend member
          * @param name_ the name of the Callback node */
         CallbackNode( const std::string & name_ ) :
