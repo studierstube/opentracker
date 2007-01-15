@@ -91,7 +91,7 @@ Node * LinmouseModule::createNode( const std::string& name, StringTable& attribu
         }
 	 
         for( it = sources.begin(); it != sources.end(); it++ ){
-            LinmouseSource * source = (LinmouseSource*)(*it);
+            LinmouseSource * source = (LinmouseSource*)((Node*)*it);
             if( source->devname.compare(attributes.get("dev")) == 0 )
 	    {
                 break;
@@ -142,7 +142,7 @@ void LinmouseModule::run()
 
     char name[256]= "Unknown";
    
-    if ((fd = open(dynamic_cast<LinmouseSource*>(sources.at(0))->devname.c_str(), O_RDONLY)) < 0) {
+    if ((fd = open(dynamic_cast<LinmouseSource*>((Node *) sources.at(0))->devname.c_str(), O_RDONLY)) < 0) {
         perror("evdev open");
         exit(1);
     }
@@ -273,7 +273,7 @@ void LinmouseModule::run()
       
         for( it = sources.begin(); it != sources.end(); it++) {
 	 
-            LinmouseSource * source = (LinmouseSource*)(*it);
+            LinmouseSource * source = (LinmouseSource*)((Node*) *it);
 
             // buttons
             source->event.getButton() = buttons;
@@ -300,7 +300,7 @@ void LinmouseModule::pushEvent() {
     {
         for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
         {
-            LinmouseSource *source = (LinmouseSource *) *it;
+            LinmouseSource *source = (LinmouseSource *) ((Node*)*it);
             lock();
             if( source->changed == 1 )
             {			

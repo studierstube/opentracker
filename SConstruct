@@ -85,6 +85,7 @@ else:
         ot ={'name': 'opentracker',
              'type': 'DL',
              'libs': ['ace'],
+	     'defines': ['OT_BACKUP_ON_RECONFIG','OT_LOCAL_GRAPH'],
              'use' : use,
              'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\wince'],
              'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
@@ -94,6 +95,7 @@ else:
         otlib ={'name':'opentrackerlib',
                 'type':'LIB',
                 'libs': ['ace'],
+	     'defines': ['OT_BACKUP_ON_RECONFIG','OT_LOCAL_GRAPH'],
                 'use' :use,
                 'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBAUtils.cxx', 'misc\\wince'],
                 'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
@@ -135,8 +137,11 @@ else:
         ot ={'name': 'opentracker',
              'type': 'DL',
              'libs': ['ACE','xerces-c','curses'],
+	     'defines': ['OT_BACKUP_ON_RECONFIG','OT_LOCAL_GRAPH'],
              'use' : use,
              'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx'],
+
+
              'src_use' : ['ALL', os.path.join(os.getcwd(), 'extras/intersense/isense.c') ]
              }
 
@@ -187,6 +192,7 @@ else:
              'type': 'DL',
              'libs': ['ACE','xerces-c','curses'],
              'use' : use,
+	     'defines': ['OT_BACKUP_ON_RECONFIG','OT_LOCAL_GRAPH'],
              'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx', 'input/ParButtonModule.cxx','input/InterSenseModule.cxx','input/LinmouseModule.cxx'],
              'src_use' : ['ALL']
              }
@@ -345,6 +351,12 @@ else:
         targetList.append(otqtcalib)
 
         print 'Support for OTQt....... enabled.'
+
+    if ARGUMENTS.has_key('NO_OT_LOCAL_GRAPH'):
+	for t in targetList:
+	    if t.has_key('defines'):
+		t['defines'].remove('OT_LOCAL_GRAPH')
+		t['defines'].remove('OT_BACKUP_ON_RECONFIG')
 
 #**********************  End of the default configuration*******************************
 #     if you want to use a custom.py, you should first copy up to here, and then

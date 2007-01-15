@@ -527,7 +527,7 @@ namespace ot {
         }
         return result;
     }
-#else OT_LOCAL_GRAPH
+#else //OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         Node * myNode = NULL;
         DOMNode * node = ELEMENT(parent)->getFirstChild();

@@ -851,7 +851,7 @@ namespace ot {
 
 #ifndef OT_LOCAL_GRAPH
             				target->parent = NULL;
-#endif  OT_LOCAL_GRAPH
+#endif  //OT_LOCAL_GRAPH
 
 				// delete target;
 				unlock();

@@ -80,18 +80,18 @@ class OPENTRACKER_API IRefCounted{
   virtual int getRefCount()
 
 
-#define IMPLEMENT_IREFCOUNTED(CLASS) int CLASS##::_ref(){\
+#define IMPLEMENT_IREFCOUNTED(CLASS) int CLASS ::_ref(){\
   return ++ _rcount;\
   };\
   \
-  int CLASS##::_deref(){\
+  int CLASS ::_deref(){\
      if (--_rcount == 0){\
         delete this;\
      } \
      return _rcount;\
    };\
   \
-  int CLASS##::getRefCount(){\
+  int CLASS ::getRefCount(){\
      return _rcount;\
   }
 
