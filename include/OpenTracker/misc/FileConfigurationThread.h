@@ -42,6 +42,12 @@ namespace ot{
 
         DIR_HDL hFile;
 
+        void backupCurrentGraph(){
+            XMLWriter writer(config->getContext());
+            logPrintI( "CONFIG_FUNC::writing backup \n");
+            writer.write("backup.xml");
+        };
+
         void initializeFileTime(){
 #       ifdef __WIN32__
             if (! timestamp(filename.c_str(), &last)){
@@ -134,9 +140,7 @@ namespace ot{
                 
                     // if yes push the new configuration string into the Configurator to reconfigure OpenTracker
 #ifdef OT_BACKUP_ON_RECONFIG
-                    XMLWriter writer(config->getContext());
-                    logPrintI( "CONFIG_FUNC::writing backup \n");
-                    writer.write("backup.xml");
+                    backupCurrentGraph();
 #endif //OT_BACKUP_ON_RECONFIG
                     logPrintI( "CONFIG_FUNC::changing configuration\n");
                     //xmlstring = readFileIntoString("reconfig.xml");

@@ -333,11 +333,31 @@ private :
 
     XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
         context( context_ ), indent( indent_ )
-    {}
+    {
+        // Initialize the XercesC system
+        try {
+            XMLPlatformUtils::Initialize();
+        }
+        catch (const XMLException& toCatch) {
+            char * message = XMLString::transcode( toCatch.getMessage());
+            logPrintE("ConfigurationParser Error during initialization: %s\n", message );
+            XMLString::release( &message );
+            exit(1);
+        }
+    }
 
     XMLWriter::~XMLWriter()
     {
-  
+          // Deinitialize the XercesC system
+        try {
+            XMLPlatformUtils::Terminate();
+        }
+        catch (const XMLException& toCatch) {
+            char * message = XMLString::transcode( toCatch.getMessage());
+            logPrintE( "ConfigurationParser Error during deinitialization: %s\n", message );
+            XMLString::release( &message );
+            exit(1);
+        }
     }
          
     void XMLWriter::write( const char * file )

@@ -585,6 +585,7 @@ namespace ot {
         }
 #ifdef OT_LOCAL_GRAPH
 
+        delete parser;
         //        root->release();
 
 #endif // OT_LOCAL_GRAPH

@@ -56,10 +56,11 @@
 #define _CALLBACKMODULE_H
 
 #include "../OpenTracker.h"
-#include "CallbackNode.h"
+
 
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
+#include "CallbackNode.h"
 
 typedef void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 
