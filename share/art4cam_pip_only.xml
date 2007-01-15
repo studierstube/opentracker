@@ -3,6 +3,7 @@
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
   <configuration>
+    <NetworkSinkConfig name="ARTVISCENTER_piponly" />
     <ConsoleConfig headerline="ART Trackerserver" interval="1"/>
     <ARTDataTrackerConfig port="5000"/>
   </configuration>
