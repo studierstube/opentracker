@@ -224,6 +224,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\CallbackNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\CallforwardModule.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\CommonNodeFactory.cxx"
 				>
 			</File>
@@ -782,6 +790,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\common\CallforwardModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\CallforwardNode.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\common\CommonNodeFactory.h"
 				>
 			</File>
@@ -803,6 +819,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\core\ConfigurationParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\core\Configurator.h"
 				>
 			</File>
 			<File
