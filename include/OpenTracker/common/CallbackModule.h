@@ -61,7 +61,7 @@
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
-typedef static void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
+typedef void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 
 namespace ot {
 

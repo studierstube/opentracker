@@ -69,7 +69,7 @@ namespace ot {
 class CallbackNode;
 }
 
-typedef static void OTCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
+typedef void OTCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 
 namespace ot {
 
