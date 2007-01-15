@@ -338,6 +338,8 @@ namespace ot {
 
     void Context::run()
     {
+        using namespace std;
+
         start();
         int stopflag = stop();
         while ( stoploopflag == 0 && stopflag == 0 )
@@ -698,7 +700,7 @@ namespace ot {
         doc->SetUserData(this);
 #endif //USE_TINYXML
 
-#endif OT_LOCAL_GRAPH
+#endif //OT_LOCAL_GRAPH
         
         // copy the factories from other
         factory.copyFrom(other.factory);
