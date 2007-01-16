@@ -72,7 +72,7 @@ namespace ot {
 #endif
 
 } // namespace ot
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH 
 #include "StringTable.h"
 #include <OpenTracker/core/IRefCounted.h>
 #include <OpenTracker/misc/Cptr.h>
@@ -104,12 +104,12 @@ namespace ot {
         
 
     public:
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         OT_DECLARE_IREFCOUNTED;
         typedef Cptr<Node> Ptr;
-#else  //OT_LOCAL_GRAPH
+#else  //NO_OT_LOCAL_GRAPH
         typedef Node * Ptr;
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
     /**
      * a Vector of Node pointers. Very useful to implement a simple
      * container of Nodes such as a parent node, or to keep pointers
@@ -120,14 +120,14 @@ namespace ot {
     protected:
         /** Pointer to the parent XML element.*/
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         NodeVector parents;
         NodeVector children;
 
         StringTable attributes;
-#else //OT_LOCAL_GRAPH
+#else //NO_OT_LOCAL_GRAPH
         void * parent; 
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
         /**  A Vector of pointers to reference nodes referencing this node. */
         NodeVector references;
 
@@ -550,7 +550,7 @@ namespace ot {
         }
 
         
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
 	/** Searches the tree rooted in this node for a node containing an attribute
 	 * named key with the value val.
          * @returns a pointer to the node or null.
@@ -573,7 +573,7 @@ namespace ot {
 
         StringTable & getAttributes();
 
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
         friend class Context;
         friend class ConfigurationParser;

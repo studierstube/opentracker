@@ -178,9 +178,9 @@ namespace ot {
         std::string tagName = tempName;
         XMLString::release( &tempName );
         ConfigNode * config = new ConfigNode( *map );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         config->type = tagName;
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
         config->setParent( element );
         //auto_ptr<DOMNodeList> list( element->getChildNodes());
         DOMNodeList * list = element->getChildNodes();
@@ -190,11 +190,11 @@ namespace ot {
             {
                 OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
                 ConfigNode * child = buildConfigTree( childElement );
-#ifdef OT_LOCAL_GRAPH
-                        // OT_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
+                // OT_GRAPH
                 config->addChild(*child);
-                        // OT_GRAPH
-#endif OT_LOCAL_GRAPH
+                // OT_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
             }
@@ -207,19 +207,19 @@ namespace ot {
         std::string tagName = element->Value();
         ConfigNode * config = new ConfigNode( *map );
         config->setParent( element );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         config->type = tagName;
-#endif // OT_LOCAL_GRAPH
+#endif // NO_OT_LOCAL_GRAPH
 
         TiXmlElement * el = element->FirstChildElement();
         while( el != NULL )
         {
             ConfigNode * child = buildConfigTree( el);
-#ifdef OT_LOCAL_GRAPH
-                        // OT_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
+            // OT_GRAPH
             config->addChild(*child);
-                        // OT_GRAPH
-#endif OT_LOCAL_GRAPH
+            // OT_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
             
             el = el->NextSiblingElement();
         }
@@ -237,18 +237,16 @@ namespace ot {
         XMLString::release( &tempName );
         std::auto_ptr<StringTable> map ( parseElement( element ));
         // Test for a reference node
-#ifdef OT_LOCAL_GRAPH
-        // OT_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         map->put("OtNodeType", tagName);
-        // OT_GRAPH
-#endif // OT_LOCAL_GRAPH
+#endif // NO_OT_LOCAL_GRAPH
         if( tagName.compare("Ref") == 0 )
         {
             NodeMap::iterator find = references.find(map->get("USE"));
             if( find != references.end()){
 
                 RefNode * ref = new RefNode( (*find).second );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                 KeyIterator keys(*map.get());
                 while( keys.hasMoreKeys())
                 {
@@ -256,7 +254,7 @@ namespace ot {
                     ref->put( key, map->get( key ) );
                 }
 
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
                 ref->type = tagName;
@@ -270,11 +268,11 @@ namespace ot {
             }
         }
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         Node * value = context.createNode( tagName , *map );
 #else // 
         Node * value = context.factory.createNode( tagName , *map );
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 		// if the value is NULL, it might be the case that the Module has not yet being loaded,
 		// a trick to force the context to load this module, is to ask for it.
@@ -283,11 +281,11 @@ namespace ot {
 			if (context.getModuleFromNodeType(tagName) != NULL){
                             //                            logPrintW("Context found module from %s\n", tagName.c_str());
                             // try creating the node again
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                             value = context.createNode( tagName , *map );
 #else // 
                             value = context.factory.createNode( tagName , *map );
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
                             
        
 			}
@@ -316,11 +314,11 @@ namespace ot {
                     ///FIXXXME: what was the assignment for? 
 
                     Node * childNode = buildTree( childElement );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                     // OT_GRAPH
                     value->addChild(*childNode);
                     // OT_GRAPH
-#endif // OT_LOCAL_GRAPH
+#endif // NO_OT_LOCAL_GRAPH
                 }
             }
         }
@@ -340,7 +338,7 @@ namespace ot {
             NodeMap::iterator find = references.find(map->get("USE"));
             if( find != references.end()){
                 RefNode * ref = new RefNode( (*find).second );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                 KeyIterator keys(*map.get());
                 while( keys.hasMoreKeys())
                 {
@@ -348,7 +346,7 @@ namespace ot {
                     ref->put( key, map->get( key ) );
                 }
 
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
                 ref->type = tagName;
                 ref->setParent( element );
@@ -361,7 +359,7 @@ namespace ot {
             }
         }
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         map->put("OtNodeType", tagName);        
         Node * value = context.createNode( tagName , *map );
 #else
@@ -372,7 +370,7 @@ namespace ot {
             if (context.getModuleFromNodeType(tagName) != NULL){
                 // try creating the node again
                 logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                 value = context.createNode(tagName, *map);
 #else
                 value = context.factory.createNode(tagName, *map);
@@ -394,11 +392,11 @@ namespace ot {
             while( el != NULL )
             {
                 Node * childNode = buildTree( el );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                 // OT_GRAPH
                 value->addChild(*childNode);
                 // OT_GRAPH
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
                 el = el->NextSiblingElement();
             }
         }
@@ -491,10 +489,10 @@ namespace ot {
         //auto_ptr<DOMNodeList> configlist( config->getChildNodes());
         DOMNodeList * configlist = config->getChildNodes();
         unsigned int i;
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         Node * configNode = new Node();
         configNode->type = "configuration";
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
         for( i = 0; i < configlist->getLength(); i ++ )
         {
@@ -507,9 +505,9 @@ namespace ot {
                 std::string tagName = tempName;
                 XMLString::release( &tempName );
                 ConfigNode * base = new ConfigNode( *attributes );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                 base->type = tagName;
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
                 base->setParent( configElement );
                 logPrintI("config for %s\n", tagName.c_str());
 
@@ -517,11 +515,11 @@ namespace ot {
                 DOMNodeList * nodelist = configElement->getChildNodes();
 
                 unsigned int j;
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                         // OT_GRAPH
                 configNode->addChild(*base);
                         // OT_GRAPH
-#endif OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
                 
                 for( j = 0; j < nodelist->getLength(); j++ )
                 {
@@ -530,11 +528,11 @@ namespace ot {
                         DOMElement * element = (DOMElement *)nodelist->item(j);
                         ///FIXXXME: What was the assignment good for?
                         ConfigNode * child = buildConfigTree( element );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                         // OT_GRAPH
                         base->addChild(*child);
                         // OT_GRAPH
-#endif OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
                     }
                 }
                 Module * module = context.getModule( tagName );
@@ -545,15 +543,15 @@ namespace ot {
             }
         }
 
-#ifdef OT_LOCAL_GRAPH
-        logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
-        if (configNode->countAllChildren() > 0){
-            
+#ifndef NO_OT_LOCAL_GRAPH
+        //logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
+        if (configNode->countAllChildren() > 0)
+        {            
             node->addChild(*configNode);
         }
 
 
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
         logPrintI("parsing tracker tree section\n");
@@ -577,18 +575,18 @@ namespace ot {
             XMLString::release( &tempTagName );
             
             Node * child = buildTree( element );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
             //OT_GRAPH
             node->addChild(*child);
             //OT_GRAPH
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
         }
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
 
         delete parser;
         //        root->release();
 
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
         return node;
@@ -626,10 +624,10 @@ namespace ot {
 
         logPrintI("parsing configuration section\n");
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         Node * configNode = new Node();
         configNode->type = "configuration";
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
         TiXmlElement * configElement = config->FirstChildElement();
         while(configElement)
@@ -638,9 +636,9 @@ namespace ot {
             std::string tagName = configElement->Value();
 
             ConfigNode * base = new ConfigNode( *attributes );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
             base->type = tagName;
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
             base->setParent( configElement );
             logPrintI("config for %s\n", tagName.c_str());
@@ -649,10 +647,10 @@ namespace ot {
             while(element)
             {
                 ConfigNode * child = buildConfigTree( element );
-#ifdef OT_LOCAL_GRAPH
-            //OT_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
+                //OT_GRAPH
                 base->addChild(*child);
-            //OT_GRAPH
+                //OT_GRAPH
 #endif // OT_LOCAL_GRAPH
                 
                 element = element->NextSiblingElement();
@@ -663,17 +661,17 @@ namespace ot {
             {
                 module->init( *attributes, base );
             }
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
             configNode->addChild(*base);
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
             configElement = configElement->NextSiblingElement();
         }
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         node->addChild(*configNode);
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 
         logPrintI("parsing tracker tree section\n");
@@ -685,17 +683,17 @@ namespace ot {
         {
             if(strcmp(element->Value(), "configuration")!=0){
                Node * child= buildTree( element );
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
                node->addChild(*child);
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
             }
 
             element = element->NextSiblingElement();
         }
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         delete root;
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
         return node;
 #endif //USE_TINYXML

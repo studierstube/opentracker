@@ -80,7 +80,7 @@ namespace ot {
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
-#ifndef OT_LOCAL_GRAPH            
+#ifdef NO_OT_LOCAL_GRAPH            
             delete *result;
 #endif  OT_LOCAL_GRAPH
             nodes.erase( result );

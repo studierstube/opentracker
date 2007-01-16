@@ -114,9 +114,9 @@ namespace ot {
         }
         modules.clear();
         if (rootNode != NULL) {
-#ifndef OT_LOCAL_GRAPH
+#ifdef NO_OT_LOCAL_GRAPH
             delete rootNode;
-#endif  //OT_LOCAL_GRAPH
+#endif  //NO_OT_LOCAL_GRAPH
         }
 
         delete _mutex;
@@ -211,7 +211,7 @@ namespace ot {
 
     void Context::parseConfiguration(const std::string& filename)
     {
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         file = filename;
         std::string::size_type limit = file.find_last_of( "/\\" );
         if( limit != std::string::npos )
@@ -220,7 +220,7 @@ namespace ot {
 		ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
         
-#else // OT_LOCAL_GRAPH
+#else //NO_OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         file = filename;
         std::string::size_type limit = file.find_last_of( "/\\" );
@@ -260,17 +260,17 @@ namespace ot {
         doc->SetUserData(this);
 
 #endif //USE_TINYXML
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
     }
 
     void Context::parseConfigurationString(const char* xmlstring)
     {
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationString( xmlstring );
 
         rootNamespace = "";
-#else // OT_LOCAL_GRAPH
+#else //NO_OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationString( xmlstring );
@@ -296,7 +296,7 @@ namespace ot {
         TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
         doc->SetUserData(this);
 #endif //USE_TINYXML
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
     }
 
 
@@ -416,7 +416,7 @@ namespace ot {
 
     Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         Node * value = factory.createNode( name , attributes );
         if( value != NULL )
         {
@@ -431,7 +431,7 @@ namespace ot {
             }
         }
         return value;
-#else //#ifdef OT_LOCAL_GRAPH
+#else //NO_OT_LOCAL_GRAPH
 #ifdef USE_XERCES
         Node * value = factory.createNode( name , attributes );
         if( value != NULL )
@@ -490,7 +490,7 @@ namespace ot {
         }
         return value;
 #endif //USE_TINYXML
-#endif // OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
     }
 
 #ifdef USE_TINYXML
@@ -531,9 +531,9 @@ namespace ot {
 
     Node * Context::findNode(const std::string & id)
     {
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
         return rootNode->findNode("ID", id);
-#else //#ifdef OT_LOCAL_GRAPH
+#else //NO_OT_LOCAL_GRAPH
         
         
 #ifdef USE_XERCES
@@ -552,7 +552,7 @@ namespace ot {
             return (Node *)el->GetUserData();
         return NULL;
 #endif //USE_TINYXML
-#endif // OT_LOCAL_GRAPH        
+#endif //NO_OT_LOCAL_GRAPH        
     }
 
     // add a directory to the front of the directory stack
@@ -676,7 +676,7 @@ namespace ot {
         // let the other context clean up the old rootNode
         other.rootNode = tmp;
         // set this context in the new rootNode
-#ifndef OT_LOCAL_GRAPH
+#ifdef NO_OT_LOCAL_GRAPH
         
 #ifdef USE_XERCES
         DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
@@ -700,7 +700,7 @@ namespace ot {
         doc->SetUserData(this);
 #endif //USE_TINYXML
 
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
         
         // copy the factories from other
         factory.copyFrom(other.factory);
@@ -849,9 +849,9 @@ namespace ot {
 
 				parent->removeChild(*target);
 
-#ifndef OT_LOCAL_GRAPH
+#ifdef NO_OT_LOCAL_GRAPH
             				target->parent = NULL;
-#endif  //OT_LOCAL_GRAPH
+#endif  //NO_OT_LOCAL_GRAPH
 
 				// delete target;
 				unlock();

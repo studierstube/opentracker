@@ -80,7 +80,7 @@ XERCES_CPP_NAMESPACE_USE
 
 namespace ot {
 
-#ifdef OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
     XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
         context( context_ ), indent( indent_ )
     {};
