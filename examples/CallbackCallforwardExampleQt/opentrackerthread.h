@@ -65,8 +65,6 @@ public slots:
     void setConfigurationString(const QString &);
 protected:
     ot::Context &context;
-    ot::CallbackModule * cbModule;
-    ot::CallforwardModule * cfModule;
 
     void run();
 

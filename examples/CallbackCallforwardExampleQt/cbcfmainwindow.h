@@ -49,6 +49,7 @@
 #include "opentrackerthread.h"
 
 #include <QtGui>
+#include <QtCore>
 
 class CbCfMainWindow : public QMainWindow, private Ui::CbCfMainWindow
 {
@@ -57,14 +58,19 @@ Q_OBJECT
 private:
     OpentrackerThread *otthread;
     QTextCursor textCursor;
-
+    QQueue<QString> messagequeue;
+    QMutex *qmutex;
+    QTimer *timer;
+                          
 private slots:
     void readFileA();
     void readFileB();
     void readFileTest();
+    void registerCallbacks();
     void updateConfigFileEdit(const QString &);
     void setupConfigFromEdit();
     void createEventFromEdit();
+    void updateEventsEdit();
 
 signals:
     void fileNameSignal(const QString &);

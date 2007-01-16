@@ -1,5 +1,7 @@
 TEMPLATE = app
 
+CONFIG += debug
+
 FORMS = cbcfmainwindow.ui
 
 HEADERS = \

@@ -53,31 +53,8 @@ OpentrackerThread::OpentrackerThread(QObject *parent)
 {
     using namespace ot;
 
-
-    // gain access to the interface modules for reading and writing
-    // events from/to the OpenTracker Graph
-    cbModule = 
-        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
-    cfModule = 
-        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
-
-    // make sure that the needed modules are in OpenTracker
-
-    if (cbModule == NULL)
-    {
-        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
-        exit(1);
-    }
-    if (cbModule == NULL)
-    {
-        cout << "Your OpenTracker does no contain the CallbackModule!" << endl;
-        exit(1);
-    }
-
     // parse the configuration file, builds the tracker tree
     Configurator::instance()->changeConfigurationFile("clientLocal.xml");
-
-
 }
     
 OpentrackerThread::~OpentrackerThread()
@@ -97,12 +74,17 @@ OpentrackerThread::~OpentrackerThread()
 
 ot::CallbackModule* OpentrackerThread::getCallbackModule()
 {
-    return cbModule;
+    using namespace ot;
+
+    return dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
 }
 
 ot::CallforwardModule* OpentrackerThread::getCallforwardModule()
 {
-    return cfModule;
+    using namespace ot;
+
+    return dynamic_cast<CallforwardModule*>
+        (context.getModule("CallforwardConfig"));
 }
 
 void OpentrackerThread::setConfigurationFile(const QString& fname)
@@ -114,11 +96,7 @@ void OpentrackerThread::setConfigurationFile(const QString& fname)
 
     Configurator::instance()->
         changeConfigurationFile(fname.toAscii().constData());
-    
-    cbModule = 
-        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
-    cfModule = 
-        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
+   
     cout << "done." << endl;
 }
 
@@ -128,11 +106,6 @@ void OpentrackerThread::setConfigurationString(const QString& fname)
 
     Configurator::instance()->
         changeConfigurationString(fname.toAscii().constData());
-
-    cbModule = 
-        dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
-    cfModule = 
-        dynamic_cast<CallforwardModule*>(context.getModule("CallforwardConfig"));
 }
 
 

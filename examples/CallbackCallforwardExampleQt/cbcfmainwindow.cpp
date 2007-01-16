@@ -56,23 +56,16 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     connect(actionLocal_TestSource, SIGNAL (activated()), 
             this, SLOT(readFileTest()));
 
-    qRegisterMetaType<QTextCursor>("QTextCursor");
-    //textCursor = new QTextCursor();
-    //eventsEdit->setTextCursor(textCursor);
+    qmutex = new QMutex();
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateEventsEdit()));
 
     otthread = new OpentrackerThread(this);
 
+    registerCallbacks();
+
     updateConfigFileEdit("clientLocal.xml");
-    
-    otthread->getCallbackModule()->
-        setCallback( "clientAInput", CbCfMainWindow::clientACB, this );
-    otthread->getCallbackModule()->
-        setCallback( "clientBInput", CbCfMainWindow::clientBCB, this );
-    otthread->getCallbackModule()->
-        setCallback( "clientTestInput", CbCfMainWindow::clientTestCB, this );
-    otthread->getCallbackModule()->
-        setGlobalCallback(CbCfMainWindow::globalClientCB, this);
-    
+     
     connect(this, SIGNAL(fileNameSignal(const QString&)),
             otthread, SLOT(setConfigurationFile(const QString&)));
 
@@ -85,11 +78,18 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     connect(eventPushButton, SIGNAL(pressed()),
             this, SLOT(createEventFromEdit()));
 
+    timer->start();
+
     otthread->start();
 }
 
 CbCfMainWindow::~CbCfMainWindow()
 {
+    timer->stop();
+
+    delete timer;
+    delete qmutex;
+
     usleep(2000);
 }
 
@@ -108,6 +108,17 @@ void CbCfMainWindow::readFileTest()
     emit fileNameSignal("clientLocal.xml");
 }
 
+void CbCfMainWindow::registerCallbacks()
+{
+    otthread->getCallbackModule()->
+        setCallback( "clientAInput", CbCfMainWindow::clientACB, this );
+    otthread->getCallbackModule()->
+        setCallback( "clientBInput", CbCfMainWindow::clientBCB, this );
+    otthread->getCallbackModule()->
+        setCallback( "clientTestInput", CbCfMainWindow::clientTestCB, this );
+    otthread->getCallbackModule()->
+        setGlobalCallback(CbCfMainWindow::globalClientCB, this);
+}
 void CbCfMainWindow::updateConfigFileEdit(const QString &fileName)
 {
     QFile file(fileName);
@@ -159,6 +170,16 @@ void CbCfMainWindow::createEventFromEdit()
                                                   
 }
 
+void CbCfMainWindow::updateEventsEdit()
+{
+    qmutex->lock();
+    while (not messagequeue.empty())
+    {
+        eventsEdit->append(messagequeue.dequeue());
+    }
+    qmutex->unlock();
+}
+
 void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, void * data )
 {
     using namespace ot;
@@ -167,14 +188,14 @@ void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, voi
 
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
 
-    if (self->eventsEdit)
-    {
-        //self->eventsEdit->clear();
-        self->eventsEdit->append("CbCfMainWindow::clientACB");
-        self->eventsEdit->append(event.getPrintOut().c_str());
-        //cout << node.getName() << " time diff " << diff << endl;
-        //self->textCursor.movePosition(QTextCursor::End);
-    }
+    self->qmutex->lock();
+
+    self->messagequeue.append("CbCfMainWindow::clientACB");
+    self->messagequeue.append(event.getPrintOut().c_str());
+    //cout << node.getName() << " time diff " << diff << endl;
+    //self->textCursor.movePosition(QTextCursor::End);
+
+    self->qmutex->unlock();
 }
 
 void CbCfMainWindow::clientBCB( ot::CallbackNode & node, 
@@ -186,14 +207,14 @@ void CbCfMainWindow::clientBCB( ot::CallbackNode & node,
 
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
 
-    if (self->eventsEdit)
-    {        
-        //self->eventsEdit->clear();
-        self->eventsEdit->append("CbCfMainWindow::clientBCB");
-        self->eventsEdit->append(event.getPrintOut().c_str());
-        //cout << node.getName() << " time diff " << diff << endl;
-        //self->textCursor.movePosition(QTextCursor::End);
-    }
+    self->qmutex->lock();
+
+    self->messagequeue.append("CbCfMainWindow::clientBCB");
+    self->messagequeue.append(event.getPrintOut().c_str());
+    //cout << node.getName() << " time diff " << diff << endl;
+    //self->textCursor.movePosition(QTextCursor::End);
+
+    self->qmutex->unlock();
 }
 
 void CbCfMainWindow::clientTestCB( ot::CallbackNode & node, 
@@ -204,18 +225,17 @@ void CbCfMainWindow::clientTestCB( ot::CallbackNode & node,
     CbCfMainWindow *self = (CbCfMainWindow*)(data);
 
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    
-    if (self->eventsEdit)
-    {
-        //self->eventsEdit->clear();
-        self->eventsEdit->append("CbCfMainWindow::clientTestCB");
-        self->eventsEdit->append(event.getPrintOut().c_str());
-        //cout << node.getName() << " time diff " << diff << endl;
-        //QTextCursor cursor = self->eventsEdit->textCursor();
-        //cursor.movePosition(QTextCursor::End);
-        //self->eventsEdit->setTextCursor(self->textCursor);
-    }
 
+    self->qmutex->lock();
+   
+    self->messagequeue.append("CbCfMainWindow::clientTestCB");
+    self->messagequeue.append(event.getPrintOut().c_str());
+    //cout << node.getName() << " time diff " << diff << endl;
+    //QTextCursor cursor = self->eventsEdit->textCursor();
+    //cursor.movePosition(QTextCursor::End);
+    //self->eventsEdit->setTextCursor(self->textCursor);
+
+    self->qmutex->unlock();
 }
 
 void CbCfMainWindow::globalClientCB( ot::CallbackNode & node,  
@@ -225,12 +245,12 @@ void CbCfMainWindow::globalClientCB( ot::CallbackNode & node,
 
     CbCfMainWindow *self = (CbCfMainWindow*)(data);
 
-    if (self->eventsEdit)
-    {
-        self->eventsEdit->append("CbCfMainWindow::globalClientCB");
-           
-        //cout << "This is the global callback function." << endl;
-    }
+    self->qmutex->lock();
+
+    self->messagequeue.append("CbCfMainWindow::globalClientCB");
+    //cout << "This is the global callback function." << endl;
+
+    self->qmutex->unlock();
 }
 
 /* 
