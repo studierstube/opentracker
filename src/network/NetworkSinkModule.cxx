@@ -69,12 +69,14 @@
 #ifndef OT_NO_NETWORK_SUPPORT
 
 
+
+
 namespace ot {
 
-	// function to register the module with the context
-	OT_MODULE_REGISTER_FUNC(NetworkSinkModule){
-		OT_MODULE_REGISTRATION_DEFAULT(NetworkSinkModule, "NetworkSinkConfig");
-	}
+    // function to register the module with the context
+    OT_MODULE_REGISTER_FUNC(NetworkSinkModule){
+        OT_MODULE_REGISTRATION_DEFAULT(NetworkSinkModule, "NetworkSinkConfig");
+    }
 
 
     // definitions for the Network Data protocol
@@ -193,7 +195,7 @@ namespace ot {
         {
             serverName = "OpenTracker";
         }
-		blockMulticast = attributes.containsKey("blockMode") && attributes.get("blockMode").compare("multicast") == 0;
+        blockMulticast = attributes.containsKey("blockMode") && attributes.get("blockMode").compare("multicast") == 0;
     }
 
     // This method is called to construct a new Node.
@@ -278,18 +280,18 @@ namespace ot {
             // sets maxStationNum to network byte order
             for( MulticastSenderVector::iterator mc_it = multicasts.begin() ; mc_it != multicasts.end(); ++mc_it )
             {
-				if(! blockMulticast)
-				{
-					if( (*mc_it)->socket.open(ACE_Addr::sap_any) == -1 )
-					{
-						ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
-						exit(1);
-					}
-					if((*mc_it)->nic.compare("") != 0 )
-					{
-						(*mc_it)->socket.set_nic(ACE_TEXT_CHAR_TO_TCHAR((*mc_it)->nic.c_str()));
-					}
-				}
+                if(! blockMulticast)
+                {
+                    if( (*mc_it)->socket.open(ACE_Addr::sap_any) == -1 )
+                    {
+                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
+                        exit(1);
+                    }
+                    if((*mc_it)->nic.compare("") != 0 )
+                    {
+                        (*mc_it)->socket.set_nic(ACE_TEXT_CHAR_TO_TCHAR((*mc_it)->nic.c_str()));
+                    }
+                }
                 (*mc_it)->data.maxStationNum = htons((*mc_it)->data.maxStationNum);
             }
             for( UnicastSenderVector::iterator uc_it = unicasts.begin() ; uc_it != unicasts.end(); ++uc_it )
@@ -452,17 +454,47 @@ namespace ot {
                 ACE_INT32 bufferLength = ntohl((*uc_it)->data.bufferLength);
 
                 // copy header and data to the same address
-                ACE_INT32 sendBufferSize = (ACE_INT32)headerLength + bufferLength;
+                int xheadlen=0;
+                ACE_INT32 sendBufferSize;
+                if(((ACE_INT32)headerLength+bufferLength)>=MAXMSGLEN)
+                {
+                    sendBufferSize = (ACE_INT32)headerLength + bufferLength + sizeof(ACE_INT32);
+                    xheadlen=sizeof(ACE_INT32);
+                }
+                else
+                    sendBufferSize = (ACE_INT32)headerLength + bufferLength;
                 char *sendBuffer = (char*)malloc(sendBufferSize);
-                memcpy(sendBuffer, &(*uc_it)->data, headerLength);
-                memcpy(sendBuffer + headerLength, (*uc_it)->dataBuffer, bufferLength);
+                // adding length of the whole packet as first value
+                if(xheadlen>0)
+                    memcpy(sendBuffer, &sendBufferSize, sizeof(ACE_INT32));
+
+                memcpy(sendBuffer + xheadlen, &(*uc_it)->data, headerLength);
+                memcpy(sendBuffer + xheadlen + headerLength, (*uc_it)->dataBuffer, bufferLength);
 
                 // send without blocking to avoid stalls in the mainloop, packet is thrown away !
                 for( ACE_Unbounded_Set_Iterator<ACE_INET_Addr> it = (*uc_it)->addresses.begin() ; ! it.done(); it.advance() )
-                    if( (*uc_it)->socket.send(sendBuffer, sendBufferSize, *it, 0, &ACE_Time_Value::zero ) < 0 )
+                {
+                    int sentBytes=0;
+                    char *tmpBuffer=sendBuffer;
+                    int sendBytes;
+
+                    while(sentBytes<sendBufferSize)
                     {
-                        logPrintE("NetworkSinkModule : Error sending Unicast packet for %s:%hu\n", (*it).get_host_name(), (*it).get_port_number());
+                        sendBytes=MAXMSGLEN;
+                        if((sendBufferSize-sentBytes)<MAXMSGLEN)
+                            sendBytes=sendBufferSize-sentBytes;
+                        int rv=(*uc_it)->socket.send(tmpBuffer, sendBytes, *it, 0, &ACE_Time_Value::zero );
+                        if(rv<0)
+                        {
+                            logPrintE("NetworkSinkModule : Error sending Unicast packet for %s:%hu\n", (*it).get_host_name(), (*it).get_port_number());
+                        }
+                        else
+                        {
+                            sentBytes+=rv;
+                            tmpBuffer+=rv;
+                        }
                     }
+                }
                 free(sendBuffer);
             }
             free((*uc_it)->dataBuffer);
@@ -502,18 +534,18 @@ namespace ot {
                 if((retval = uc->socket.recv( &command, sizeof( command ), remoteAddr, 0,
                                               &timeOut )) == -1 )
                 {
-					if ((errno == ECONNRESET) && (! uc->addresses.find(remoteAddr))){
-							static int counter = 0;
-							command = 'L';
-							ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d Connection with %s was reset %d times, forcing leave command!\n"), errno, remoteAddr.get_host_addr(),counter));
-							retval = 1;
-							counter++;
+                    if ((errno == ECONNRESET) && (! uc->addresses.find(remoteAddr))){
+                        static int counter = 0;
+                        command = 'L';
+                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d Connection with %s was reset %d times, forcing leave command!\n"), errno, remoteAddr.get_host_addr(),counter));
+                        retval = 1;
+                        counter++;
 
-					}else if( errno != ETIME && errno != 0 )
+                    }else if( errno != ETIME && errno != 0 )
                     {
-						
-						
-						ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSinkModule !\n"), errno));
+
+
+                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSinkModule !\n"), errno));
                         exit( -1 );
                     }
                 }

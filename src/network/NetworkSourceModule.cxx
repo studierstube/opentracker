@@ -73,9 +73,9 @@
 
 namespace ot {
 
-	OT_MODULE_REGISTER_FUNC(NetworkSourceModule){
-			OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
-	}
+    OT_MODULE_REGISTER_FUNC(NetworkSourceModule){
+        OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
+    }
 
     struct Station
     {
@@ -270,7 +270,34 @@ namespace ot {
             do
             {
                 bytesRead = rec->socket.recv(&io_vec, remoteAddr, 0, &timeOut);
-                rec->dataRec = (FlexibleTrackerDataRecord*)io_vec.iov_base;
+                if(bytesRead<MAXMSGLEN)
+                    rec->dataRec = (FlexibleTrackerDataRecord*)io_vec.iov_base;
+                else
+                {
+                    if(bytesRead>0)
+                    {
+                        ACE_INT32 *tmp = (ACE_INT32*)io_vec.iov_base;
+                        ACE_INT32 bytes2read=*tmp-sizeof(ACE_INT32);
+                        bytesRead-=sizeof(ACE_INT32);
+
+                        rec->dataRec = (FlexibleTrackerDataRecord*)malloc(bytes2read);
+                        memcpy(rec->dataRec,(char*)io_vec.iov_base+sizeof(ACE_INT32),bytesRead);
+
+
+                        free(io_vec.iov_base);
+
+                        int br;
+                        while(bytesRead<bytes2read)
+                        {
+                            br = rec->socket.recv(&io_vec, remoteAddr, 0, &timeOut);
+                            if(br>0)
+                            {
+                                memcpy((char*)rec->dataRec+bytesRead,io_vec.iov_base,br);
+                                bytesRead+=br;
+                            }
+                        }
+                    }
+                }
                 if(bytesRead == -1 && errno == ETIME)
                     rec->socket.send( &poll, sizeof(poll), rec->address,0, &ACE_Time_Value::zero );
             } while( bytesRead < 0 && rec->stop == 0);
@@ -308,8 +335,8 @@ namespace ot {
             memcpy(si, stationData, 3*sizeof(ACE_INT32));
             ACE_INT32 stationNumber = ACE_NTOHL(si[0]);
             ACE_INT32 stationBufferLength = ACE_NTOHL(si[1]);
-			ACE_INT32 stationNameLength = ACE_NTOHL(si[2]);
-			ACE_INT32 msgSize = stationBufferLength - ((3 * sizeof(ACE_INT32)) + stationNameLength+1);
+            ACE_INT32 stationNameLength = ACE_NTOHL(si[2]);
+            ACE_INT32 msgSize = stationBufferLength - ((3 * sizeof(ACE_INT32)) + stationNameLength+1);
             if( stationNumber >= 0 && stationNumber <= maxStationNum)
             {
                 StationVector::iterator station;
@@ -327,19 +354,19 @@ namespace ot {
                         ACE_Guard<ACE_Thread_Mutex> guard( rec->mutex );
                         char *eventStr = stationData + (3 * sizeof(ACE_INT32)) + stationNameLength+1;
 #ifndef WIN32
-						/* this is the right way to do it*/
-						std::stringstream ss;
-						ss.write(eventStr, msgSize);
-						ss >> std::noskipws >> event; 
+                        /* this is the right way to do it*/
+                        std::stringstream ss;
+                        ss.write(eventStr, msgSize);
+                        ss >> std::noskipws >> event;
 #else
-						/* VS8 has buggy allocator for stringstream that leaks memory. This is a workaround, but will most likely fail
-						for binary event attributes */
-						std::ostringstream os(std::ostringstream::out|std::ostringstream::binary);
-						
-						os.write(eventStr, msgSize);
-                                                
-                                                std::istringstream is(os.str(), std::istringstream::in|std::istringstream::binary);
-                                                is >> std::noskipws >> event;
+                        /* VS8 has buggy allocator for stringstream that leaks memory. This is a workaround, but will most likely fail
+                           for binary event attributes */
+                        std::ostringstream os(std::ostringstream::out|std::ostringstream::binary);
+
+                        os.write(eventStr, msgSize);
+
+                        std::istringstream is(os.str(), std::istringstream::in|std::istringstream::binary);
+                        is >> std::noskipws >> event;
 #endif
                         (*station)->modified = 1;
                     }

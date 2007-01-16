@@ -44,6 +44,8 @@
 #ifndef _NETWORK_H
 #define _NETWORK_H
 
+#define MAXMSGLEN 0x7fff
+
 /**
  * @defgroup network Network Classes
  * This group contains classes related to network input / output. So far only
