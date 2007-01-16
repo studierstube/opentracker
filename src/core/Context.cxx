@@ -62,6 +62,7 @@
 
 #include <OpenTracker/core/ConfigurationParser.h>
 #include <OpenTracker/common/CommonNodeFactory.h>
+#include <OpenTracker/common/CallbackModule.h>
 
 #include <OpenTracker/core/Configurator.h>
 
@@ -217,7 +218,7 @@ namespace ot {
         if( limit != std::string::npos )
             addDirectoryFirst( file.substr(0, limit));
 		
-		ConfigurationParser parser( *this );
+        ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
         
 #else //NO_OT_LOCAL_GRAPH
@@ -650,20 +651,47 @@ namespace ot {
         lock();
         // safely stop all the modules
         close();
+
+        // copy Callbacks from old context
+        CallbackModule *cbmodule = dynamic_cast<CallbackModule*>
+            (getModule("CallbackConfig"));
+        CallbackModule *ocbmodule = dynamic_cast<CallbackModule*>
+            (other.getModule("CallbackConfig"));
+       
+        // this is only possible, if the callback module exists
+        // in both contexts
+        if (cbmodule && ocbmodule)
+        {
+            // obtain callback mapping from current module
+            fctmap_type fctmap;
+            cbmodule->getLocalCallbackMap(fctmap);
+           
+            // and set it in the newly setup context's module
+            fctmap_type::iterator it;
+            for (it=fctmap.begin(); it != fctmap.end(); it++)
+            {            
+                ocbmodule->setCallback(it->first, it->second.first, 
+                                       it->second.second);
+            }
+
+            // the same for the global callback function
+            ocbmodule->setGlobalCallback(cbmodule->getGlobalCallbackFunction(),
+                                         cbmodule->getGlobalCallbackData());
+        }
+
         // destroy all the modules
         //if (cleanUp)
-            for (ModuleMap::iterator it = modules.begin(); it != modules.end(); it++){
-                delete (*it).second;
-            }
+        for (ModuleMap::iterator it = modules.begin(); 
+             it != modules.end(); it++)
+        {
+            delete (*it).second;
+        }
+
         modules.clear();
-        /* destroy the rootNode
-        if (rootNode != NULL)
-            delete rootNode;
-			*/
    
         // remove all the factories, as they point to the already removed modules
         factory.removeAll();
-		videoUsers.clear();
+        videoUsers.clear();
 
         // copy the modules from other
         modules = other.modules;

@@ -67,7 +67,7 @@ typedef void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
 namespace ot {
 
     typedef std::map<std::string, Node*> NodeMap;
-
+    typedef std::map<std::string, std::pair<OTCallbackFunction*, void*> > fctmap_type;
     /**
      * The module and factory to drive the callback nodes. It constructs
      * CallbackNode nodes via the NodeFactory interface and registers
@@ -86,12 +86,15 @@ namespace ot {
         OTGlobalCallbackFunction *gcbfunction;
         /// data passed to global callback function
         void *gcbdata;
-        
+        /// map storing all local callbacks -> even if the nodes are not there
+        /// Thus Callbacks are bound when the node is created later on
+        fctmap_type lcbmap;
 
         // Methods
     public:
         /** constructor method. */
-        CallbackModule() : Module(), NodeFactory()
+        CallbackModule() : Module(), NodeFactory(), 
+            gcbfunction(NULL), gcbdata(NULL), lcbmap()
 	{};
         /** Destructor method, clears nodes member. */
         virtual ~CallbackModule(){};    
@@ -103,7 +106,14 @@ namespace ot {
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
- 
+        /** This method can be used to setup a map of the existing per node
+         * callback functions and data registered in all nodes of the module
+         * regardless of their current existance.
+         * This function is internally used to keep registered callback 
+         * functions alive, when the context is newly set up or copied
+         */
+        void getLocalCallbackMap(fctmap_type &fmap);
+        
         /** sets a callback on a certain node. The node is identified by its
          * unique name. Any present callback function in the node is overwritten
          * by the new one.

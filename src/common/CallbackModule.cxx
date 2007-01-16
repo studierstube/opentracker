@@ -80,6 +80,15 @@ namespace ot {
                 // for the global callback function to work,
                 // the nodes need to know the module
                 node->cbmodule = this;
+                // setup callback if they are in the lcbmap
+                // This way a callback set, when the nod was not
+                // there, still works
+                fctmap_type::iterator lcbit = lcbmap.find(nameVal);
+                if (lcbit != lcbmap.end())
+                {
+                    setCallback(nameVal, lcbit->second.first, 
+                                lcbit->second.second);
+                }
                 nodes[nameVal] = node;
                 logPrintI("Built Callback node %s.\n", nameVal.c_str());
                 return node;
@@ -91,6 +100,32 @@ namespace ot {
 
     //  sets a callback on a certain node.
 
+    void CallbackModule::getLocalCallbackMap(fctmap_type &fmap)
+    {
+        using namespace std;
+        
+        fmap = lcbmap;
+        /*
+        NodeMap::iterator mit;
+        OTCallbackFunction * cbf = NULL;
+        void * cbd = NULL;
+        
+        for (mit = nodes.begin(); 
+             mit != nodes.end(); mit++)
+        {
+            cerr << mit->first << endl;
+
+            cbf = ((CallbackNode *)(*mit).second)->function;
+            cbd = ((CallbackNode *)(*mit).second)->data;
+
+            if (cbf != NULL)
+            {
+                fmap[mit->first] = std::make_pair(cbf,cbd);
+            }
+            }
+        */
+    }
+
     void CallbackModule::setCallback( const std::string& name, OTCallbackFunction * function, void * data )
     {
         NodeMap::iterator it = nodes.find( name );
@@ -99,6 +134,7 @@ namespace ot {
             ((CallbackNode *)(*it).second)->function = function;
             ((CallbackNode *)(*it).second)->data = data;
         }
+        lcbmap[name] = std::make_pair(function,data);
     }
 
     // sets a global callback function.

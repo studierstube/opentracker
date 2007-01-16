@@ -274,22 +274,23 @@ namespace ot {
         Node * value = context.factory.createNode( tagName , *map );
 #endif //NO_OT_LOCAL_GRAPH
 
-		// if the value is NULL, it might be the case that the Module has not yet being loaded,
-		// a trick to force the context to load this module, is to ask for it.
-		if (value == NULL) {
-			//try loading the module, and then creating the node
-			if (context.getModuleFromNodeType(tagName) != NULL){
-                            //                            logPrintW("Context found module from %s\n", tagName.c_str());
-                            // try creating the node again
+        // if the value is NULL, it might be the case that the Module has not yet being loaded,
+        // a trick to force the context to load this module, is to ask for it.
+        if (value == NULL) {
+            //try loading the module, and then creating the node
+            if (context.getModuleFromNodeType(tagName) != NULL)
+            {
+                // logPrintW("Context found module from %s\n", tagName.c_str());
+                // try creating the node again
 #ifndef NO_OT_LOCAL_GRAPH
-                            value = context.createNode( tagName , *map );
+                value = context.createNode( tagName , *map );
 #else // 
-                            value = context.factory.createNode( tagName , *map );
+                value = context.factory.createNode( tagName , *map );
 #endif //NO_OT_LOCAL_GRAPH
-                            
-       
-			}
-		}
+                
+                
+            }
+        }
         if( value != NULL )
         {
 
@@ -316,7 +317,10 @@ namespace ot {
                     Node * childNode = buildTree( childElement );
 #ifndef NO_OT_LOCAL_GRAPH
                     // OT_GRAPH
-                    value->addChild(*childNode);
+                    if (childNode)
+                    {
+                        value->addChild(*childNode);
+                    }
                     // OT_GRAPH
 #endif // NO_OT_LOCAL_GRAPH
                 }
@@ -577,7 +581,10 @@ namespace ot {
             Node * child = buildTree( element );
 #ifndef NO_OT_LOCAL_GRAPH
             //OT_GRAPH
-            node->addChild(*child);
+            if (child)
+            {
+                node->addChild(*child);
+            }
             //OT_GRAPH
 #endif //NO_OT_LOCAL_GRAPH
         }

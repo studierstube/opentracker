@@ -64,22 +64,27 @@ namespace ot {
   
     void CallbackNode::onEventGenerated( Event& event, Node& generator)
     {
-        // call to global callback function
-        
-        OTGlobalCallbackFunction *gcbfunc = NULL;
-      
-        if (cbmodule != NULL) 
-        {
-            gcbfunc = cbmodule->getGlobalCallbackFunction();
-        }
+
+        using namespace std;
 
         // lock event for the time of the callback
         
         eventmutex.acquire();
+        
+        OTGlobalCallbackFunction *gcbfunc = NULL;
+        void * gcbdata;
+
+        // call to global callback function
+      
+        if (cbmodule != NULL) 
+        {
+            gcbfunc = cbmodule->getGlobalCallbackFunction();
+            gcbdata = cbmodule->getGlobalCallbackData();
+        }
 
         if (gcbfunc != NULL)
         {
-            (*gcbfunc)(*this, event, data);
+            (*gcbfunc)(*this, event, gcbdata);
         }
         // call node based callback function
         if ( function != NULL )
