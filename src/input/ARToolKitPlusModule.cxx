@@ -601,7 +601,7 @@ namespace ot {
 	//
         for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
 	{
-	    ARToolKitSource *source = (ARToolKitSource *)*it;
+	    ARToolKitSource *source = (ARToolKitSource *)((Node *)*it);
 
             Event & event = source->buffer;
             if (event.getConfidence() > 0.00000001f) 
@@ -749,7 +749,7 @@ namespace ot {
     {
 	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
 	{
-            ARToolKitSource * source = (ARToolKitSource *)*it;
+            ARToolKitSource * source = (ARToolKitSource *)((Node *)*it);
             if( source->modified == 1 )
             {
                 source->event = source->buffer;

@@ -107,7 +107,7 @@ namespace ot {
         {   
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
-                source = (JoystickSource *) *it;
+                source = (JoystickSource *) ((Node *)*it);
                 lock();
                 if (source->changed == 1)
                 {
@@ -263,7 +263,7 @@ namespace ot {
 
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
-                source = (JoystickSource *) *it;
+                source = (JoystickSource *) ((Node *)*it);
                 if (source->id == i+1)
                 {
                     update = 0;
