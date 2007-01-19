@@ -196,7 +196,6 @@ namespace ot {
                 // OT_GRAPH
 #endif //NO_OT_LOCAL_GRAPH
 
-
             }
         }
         return config;
@@ -219,7 +218,7 @@ namespace ot {
             // OT_GRAPH
             config->addChild(*child);
             // OT_GRAPH
-#endif //NO_OT_LOCAL_GRAPH
+#endif //OT_LOCAL_GRAPH
             
             el = el->NextSiblingElement();
         }
@@ -520,9 +519,8 @@ namespace ot {
 
                 unsigned int j;
 #ifndef NO_OT_LOCAL_GRAPH
-                        // OT_GRAPH
+                // OT_GRAPH
                 configNode->addChild(*base);
-                        // OT_GRAPH
 #endif //NO_OT_LOCAL_GRAPH
                 
                 for( j = 0; j < nodelist->getLength(); j++ )
@@ -548,13 +546,11 @@ namespace ot {
         }
 
 #ifndef NO_OT_LOCAL_GRAPH
-        //logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
+        logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
         if (configNode->countAllChildren() > 0)
         {            
             node->addChild(*configNode);
         }
-
-
 #endif //NO_OT_LOCAL_GRAPH
 
 

@@ -61,6 +61,7 @@
 #include <ace/Guard_T.h>
 #include <ace/INET_Addr.h>
 #include <ace/SOCK_Dgram_Mcast.h>
+#include <ace/Signal.h>
 
 #include <OpenTracker/network/NetworkSourceModule.h>
 
@@ -237,15 +238,29 @@ namespace ot {
             {
                 bytesRead = rec->socket.recv(&io_vec, remoteAddr, 0, &timeOut);
                 rec->dataRec = (FlexibleTrackerDataRecord*)io_vec.iov_base;
-                if (bytesRead == -1 && errno != ETIME && errno != 0 )
+
+                if (errno == EINTR)
+                {
+                    ACE_Sig_Action asa;
+                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule: Signal Flags: %d!\n"), errno, asa.flags()));
+                    asa.flags(asa.flags()|SA_RESTART);
+                }
+                else if (bytesRead == -1 && errno != ETIME && errno != 0 )
                 {
                     ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule!\n"), errno));
-                    exit( -1 );
+                    exit( -1 );                 
                 }
             } while( bytesRead < 0 && rec->stop == 0);
             if( rec->stop != 0 )
                 break;
             processRecord( rec );
+            if (contextx != NULL)
+	    { contextx->dataSignal();
+	    } else
+	    {
+               ACE_DEBUG((LM_INFO, ACE_TEXT("contextx is null \n")));
+	      
+	    }
         }
         if( rec->socket.close() == -1)
         {

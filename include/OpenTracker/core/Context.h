@@ -51,7 +51,8 @@
 #include "NodeFactoryContainer.h"
 #include "VideoUser.h"
 
- class ACE_Thread_Mutex;
+class ACE_Thread_Mutex;
+class ACE_Condition_Thread_Mutex;
 
 
 
@@ -117,12 +118,19 @@ namespace ot {
 
         /// used for synchronization between the main loop and the reconfiguration scheme
         ACE_Thread_Mutex* _mutex;
-
+        /// used for synchronization in data-driven traversal
+        /// in this case the graph is only traversed if some
+        /// event-driven enabled event generator node produces new data
+        ACE_Thread_Mutex* _havedatamutex;
+        ACE_Condition_Thread_Mutex* _havedatacondition;
     public:
         ///shortcut to stop the main loop by ackquiring the mutex
         void lock();
         void unlock();
-
+        /// methods for data driven traversal
+        void waitDataSignal();
+        void dataSignal();
+        void dataBroadcast();
         // Methods
     public:
 
@@ -208,7 +216,13 @@ namespace ot {
          * somehow. Then it calls close() on all modules. */
         void run();
 
+        /** This method implements the main loop in a way that it is
+         * run at a specificed rate until it is stopped
+         * somehow. Then it calls close() on all modules. */
         void runAtRate(double rate);
+
+        /** This is a data-driven implementation of the main loop */
+        void runOnDemand();
 
         /** tests whether the mainloop should stop, by asking all modules whether
          * they need to stop.*/

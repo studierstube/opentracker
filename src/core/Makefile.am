@@ -48,6 +48,7 @@ libcore_la_SOURCES = \
         EventQueueImplementation.h \
         MathUtils.cxx \
         MathUtils.h \
+	Module.cxx \
         Module.h \
         Node.cxx \
         Node.h \

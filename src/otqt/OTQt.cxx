@@ -52,6 +52,8 @@
 #endif
 #include <stdexcept>
 
+#include <ace/Signal.h>
+
 namespace ot {
 
     //-------------------------------------------------------------------------
@@ -94,9 +96,18 @@ namespace ot {
         // store OT config filename
         cfg_filename_ = cfg_filename;
 
+        ACE_Sig_Action asa;
+        
+        
+        int oflags = asa.flags();
+        oflags |= SA_RESTART;
+        asa.flags(oflags);
+        cout << asa.flags() << endl;
+
         // INIT OpenTracker
         initializeContext(&context_, NULL);
 
+	Module::contextx = (&context_);
         ///// add modules to context
 
         context_.addFactory(*mec_mod_);
@@ -159,6 +170,7 @@ namespace ot {
             me_mod_->resetPendingEventBitAllSinks();
             mec_mod_->resetPendingEventBitAllSinks();
 
+            context_.waitDataSignal();
             // receive states from sources
             context_.pushEvents();
             // process new states in modules

@@ -46,6 +46,7 @@
 #include <OpenTracker/tool/FixWinCE.h>
 #include <ace/OS.h>
 #include <ace/FILE.h>
+#include <ace/Condition_Thread_Mutex.h>
 #include <ace/Thread_Mutex.h>
 #include <algorithm>
 
@@ -95,7 +96,8 @@ namespace ot {
             cleanUp = false;
         }
         directories.push_back(".");
-
+        _havedatamutex = new ACE_Thread_Mutex("contex_havedatamutex");
+        _havedatacondition = new ACE_Condition_Thread_Mutex((*_havedatamutex));//, "context_havedatacondition");
         _mutex = new ACE_Thread_Mutex("context_mutex");
     }
 
@@ -119,9 +121,9 @@ namespace ot {
             delete rootNode;
 #endif  //NO_OT_LOCAL_GRAPH
         }
-
+        delete _havedatacondition;
+        delete _havedatamutex;
         delete _mutex;
-		
     }
 
     
@@ -382,6 +384,23 @@ namespace ot {
 
         close();
     }
+
+    void Context::runOnDemand()
+    {
+        start();
+        int stopflag = stop();
+        while ( stopflag == 0 )
+        {
+            waitDataSignal();            
+            pushEvents();
+            pullEvents();
+        }
+        close();
+    }
+
+    void Context::waitDataSignal() { _havedatacondition->wait(); };
+    void Context::dataSignal() { _havedatacondition->signal(); };
+    void Context::dataBroadcast() { _havedatacondition->broadcast(); };
 
     // tests all modules for stopping
 

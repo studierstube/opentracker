@@ -287,7 +287,10 @@ void LinmouseModule::run()
             source->event.timeStamp();
             source->event.getConfidence() = 1.0;
             source->changed = 1;
-	 
+            if (contextx != NULL)
+	    { 
+                contextx->dataSignal();
+	    } 
         }
         unlock();      
     }

@@ -1,3 +1,15 @@
+libopentracker (2.0a-8) unstable; urgency=low
+
+  * with OT_LOCAL_GRAPH 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Tue, 16 Jan 2007 12:18:12 +0100
+
+libopentracker (2.0a-7) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Mon, 15 Jan 2007 16:16:47 +0100
+
 libopentracker (2.0a-6) unstable; urgency=low
 
   * new version 

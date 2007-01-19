@@ -75,6 +75,9 @@ namespace ot {
          * by the initialize method.
          */
         Context * context;
+        
+    public:
+        static Context * contextx;
 
         //methods
     public:
