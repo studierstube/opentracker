@@ -461,7 +461,7 @@ namespace ot {
 #ifndef NO_OT_LOCAL_GRAPH
         for (NodeVector::iterator it = children.begin(); it != children.end(); it++){
             if ((*it)->isNodePort() == 1){
-                if (name.compare((*it)->getName()) == 0){
+                if (name.compare((*it)->getType()) == 0){
                     if (index == 0)
                         return (NodePort *) ((Node*) *it);
                     else index --;
