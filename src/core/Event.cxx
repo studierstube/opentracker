@@ -68,10 +68,23 @@ namespace ot
         *this = rv;
     }
 
+    // copy constructor, copying all attributes
+    Event::Event(const OT_CORBA::Event &ev)
+    {
+        // Need to go through every member of the sequence...
+    }
+
+
+
     // destructor, deleting all attributes
     Event::~Event()
     {
         clearAttributes();
+    }
+
+    // convert Event to OpenTracker Event type
+    OT_CORBA::Event Event::getCORBAEvent() {
+        // code to convert
     }
 
     // assignment operator, copying all attributes

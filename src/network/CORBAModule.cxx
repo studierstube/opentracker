@@ -474,7 +474,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
   {
     lock();
     modified = true;
-    CORBAUtils::convertFromCORBAEvent(event, new_event); 
+    event = new_event.getCORBAEvent();
     unlock();
   }
 
@@ -492,7 +492,8 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       lock();
       modified = true;
       OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);
-      CORBAUtils::convertFromCORBAEvent(event, copy_of_new_event); 
+      //CORBAUtils::convertFromCORBAEvent(event, copy_of_new_event);
+      event = Event(copy_of_new_event);
       unlock();
     }
   }

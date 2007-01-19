@@ -86,9 +86,9 @@ namespace ot {
         static void disconnectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer);
 #endif //USE_OMNIEVENTS
         
-        static void convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event);
+        //        static void convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event);
 
-        static void convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event);
+        //        static void convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event);
         
         static CORBA::Object_ptr getObjectReference(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name);
         

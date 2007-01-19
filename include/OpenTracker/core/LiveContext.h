@@ -10,7 +10,6 @@
 #include <OpenTracker/core/Context.h>
 #include <OpenTracker/core/Module.h>
 #include <OpenTracker/core/NodeFactoryContainer.h>
-#include <OpenTracker/core/RefNode.h>
 
 #include <OpenTracker/skeletons/OTGraph.hh>
 
@@ -33,8 +32,8 @@ using namespace std;
 
 namespace ot {
 
-  typedef std::pair<Node *, Node *> Edge;  // Excluding RefNodes
-  typedef std::vector<Edge> EdgeVector;    // Excluding RefNodes
+  typedef std::pair<Node *, Node *> Edge;
+  typedef std::vector<Edge> EdgeVector;
   typedef std::map<std::string, Node *> NodeMap;
   
  class OPENTRACKER_API LiveContext : public Context, 
@@ -137,59 +136,22 @@ namespace ot {
       return node_ref;
     }
 
-    RefNode* createRefNode(const std::string& id, const std::string& def, Node* referenced_node) {
-      RefNode * ref = new RefNode( referenced_node );
-      StringTable attributes;
-      attributes.put("ID", id);
-      attributes.put("USE", def);
-      const std::string tagName("Ref");
-
-      // add a correctly created DOM_Element to the node here and return
-      DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-      std::auto_ptr<XMLCh> tempName ( XMLString::transcode( tagName.c_str()));
-      std::auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
-      DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
-      ref->setParent( el );
-      // set attributes on the element node
-      KeyIterator keys(attributes);
-      while( keys.hasMoreKeys())
-	{
-	  const std::string & key = keys.nextElement();
-	  ref->put( key, attributes.get( key ));
-	  std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
-	  std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-	  el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
-	}
-      ref->type = tagName;
-      ref->name = id;
-      return ref;
-    }
-
-    void connect_nodes(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
+    void connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       lock();
-      Node* sender   = getNodeFromRef(sendingNode);
-      Node* receiver = getNodeFromRef(receivingNode);
+      Node* sender   = getNodeFromRef(upstreamNode);
+      Node* receiver = getNodeFromRef(downstreamNode);
       // Test to see whether parent of sender is rootNode
       if (sender->getParent() == rootNode) {
 	// The sender node has no functional Node as parent
 	// so remove from rootNode and add to the receivingNode
 	rootNode->removeChild(*sender);
-	receiver->addChild(*sender);
-      } else {
-	// The sender node already has a functional Node as parent
-	// so add the receiving node as a reference
-	// First set the DEF attribute of the sender to the same as its ID
-	std::string sender_def(sender->get("ID"));
-	sender->put("DEF", sender_def);
-	// Manufacture a RefNode with appropriate ID and USE attributes
-	RefNode * ref = createRefNode(generateNewId(), sender_def, sender );
-	// Now set the ref RefNode to be a child of the receiver
-	receiver->addChild(*ref);
       }
+      receiver->addChild(*sender);
       // add new edge to list of edges
       edges.push_back(Edge(sender, receiver));
       unlock();
     }
+
     
     void disconnect_nodes(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
       lock();
@@ -221,6 +183,7 @@ namespace ot {
       unlock();
     }
 
+
     OTGraph::NodeVector* get_nodes() {
       OTGraph::NodeVector_var node_refs = new OTGraph::NodeVector;
       int len = nodes.size();
@@ -248,36 +211,26 @@ namespace ot {
       cerr << "remove_node" << endl;
       lock();
       Node* target  = getNodeFromRef(target_ref);
-      // Handle referencing nodes
-      NodeVector::iterator it = target->references.begin();
-      for (NodeVector::iterator it = target->references.begin(); it != target->references.end(); it++) {
-	Node* ref_parent = ((*it)->getParent());
-	if (ref_parent != NULL) {
-	  ref_parent->removeChild(*(*it));
-	}
-	delete (*it); 
-      }
-      target->references.clear(); // Now clear the references vector
 
-      // Handle child nodes
-      Node* child = target->getChild(0);
-      if (child != NULL) {
-	if ((child->getType()).compare("Ref") == 0) {
-	  // Child node is a RefNode, and should NOT have any children
-	  Node* referenced_node = ((RefNode*)child)->getReferenced();
-	  referenced_node->removeReference(child);
+      // Handle child nodes (upstream nodes)
+      NodeVector::iterator child_it = target->children.begin();
+      while ( child_it != target->children.end())
+        {
+	  Node* child = child_it->item();
 	  target->removeChild(*child);
-	  delete child;
-	} else {
-	  // remove the child from this node
-	  target->removeChild(*child);
-	  //  and add to rootNode
-	  rootNode->addChild(*child);
-	}
-      }
-      // Handle parent
-      Node* parent = target->getParent();
-      parent->removeChild(*target);
+	  //  and add to rootNode if child node has been orphaned
+	  if (child->parents.size() == 0) {
+	    rootNode->addChild(*child);
+	  }
+	  child_it++;
+        }
+      // Handle parents
+      NodeVector::iterator parent_it = target->parents.begin();
+      while ( parent_it != target->parents.end())
+        {
+	  parent_it->item()->removeChild(*target);
+	  parent_it++;
+        }
 
       // deactivate the object before passing the node to the module to be deleted
       deactivateNode(target);
@@ -313,44 +266,7 @@ namespace ot {
     
 
     char* getXMLString() {
-      XMLCh tempStr[100];
-      XMLString::transcode("LS", tempStr, 99);
-      DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(tempStr);
-      DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
-      
-      if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
-	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
-      
-      if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
-	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
-      
-      try {
-	XMLCh * xmlstring = theSerializer->writeToString(*((DOMNode *)(rootNode->parent)));
-	char * tmpstring = XMLString::transcode( xmlstring );
-	char * corba_string = CORBA::string_dup(tmpstring);
-	theSerializer->release();
-	XMLString::release( & xmlstring );
-	XMLString::release( & tmpstring );
-	return corba_string;
-      }
-      catch (const XMLException& toCatch) {
-	char* message = XMLString::transcode(toCatch.getMessage());
-	cout << "Exception message is: \n"
-	     << message << "\n";
-	XMLString::release(&message);
-      }
-      catch (const DOMException& toCatch) {
-	char* message = XMLString::transcode(toCatch.msg);
-	cout << "Exception message is: \n"
-	     << message << "\n";
-	XMLString::release(&message);
-      }
-      catch (...) {
-	cout << "Unexpected Exception \n" ;
-      }
-      theSerializer->release();
-      
-      return CORBA::string_dup("");
+      return CORBA::string_dup("<foo/>");
     }
 
   protected:

@@ -54,6 +54,10 @@
 #include "iostream_ext.h"
 #include "OSUtils.h"
 
+#ifdef USE_CORBA
+#include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif USE_CORBA
+
 namespace ot
 {
     /**
@@ -134,6 +138,15 @@ namespace ot
          * @param rv the right-value, which is the event to copy from
          */
         Event(const Event &rv);
+
+        /**
+         * Copy constructor. Copies all attributes from the CORBA OT_CORBA::Event event type into the new one.
+         * @param ev the corba event, which is the event to copy from
+         */
+#ifdef USE_CORBA
+        Event(const OT_CORBA::Event &ev);
+#endif
+
         /**
          * Destructor, deleting all attributes held by the event.
          */
@@ -402,6 +415,17 @@ namespace ot
          * @param dummy a dummy pointer to deduce the template parameter (use like (int*)NULL, just added for VC6 support)
          * @param genericTypeName the generic type name to be registered (must be unique!)
          */
+
+       /**
+         * Converts Event into a CORBA sequence of string-any structs, which is the CORBA definition of the OpenTracker
+         * event type
+         *
+         * @return the CORBA Event sequence
+         */
+#ifdef USE_CORBA
+        OT_CORBA::Event getCORBAEvent();
+#endif
+
         template <typename T>
             static void registerGenericTypeName(const T *dummy, const std::string &genericTypeName)
         {

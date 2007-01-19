@@ -2,20 +2,12 @@
 module OT_CORBA {
   const string OT_CORBA__doc__ = "This is the CORBA Module for OpenTracker";
 
-  typedef float Position[3];
-  typedef float Orientation[4];
-  typedef float Timestamp;
-  typedef short Button;
-  typedef float Confidence;
-  
-  struct Event {
-    Position pos;
-    Orientation ori;
-    Timestamp time;
-    Button but;
-    Confidence conf;
+  struct EventAttribute {
+    string name;
+    any value;
   };
-  const string Event__doc__ = "The Event struct is a CORBA equivalent of the State class used in OpenTracker1.1";
+
+  typedef sequence<EventAttribute> Event;
 
   interface Node {
     void setEvent(in Event ev);

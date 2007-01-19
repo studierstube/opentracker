@@ -121,8 +121,8 @@ public:
     {
       //logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
       if ((cycle++ % frequency) == 0) {
-	OT_CORBA::Event corba_event;
-	CORBAUtils::convertToCORBAEvent(event, corba_event);
+	OT_CORBA::Event corba_event = event.getCORBAEvent();
+	//CORBAUtils::convertToCORBAEvent(event, corba_event);
 	try {
 	  corba_sink->setEvent(corba_event);
 	}

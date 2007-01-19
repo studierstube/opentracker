@@ -958,8 +958,8 @@ StringTable & Node::getAttributes(){
     }
 
     OTGraph::StringTable* Node::get_attributes() {
+#ifdef NO_OT_LOCAL_GRAPH
         StringTable* value = new StringTable;
-        //DOMElement * element = ELEMENT(parent);
         DOMElement * element =  (DOMElement* ) parent;
         DOMNamedNodeMap * map = element->getAttributes();
         for( unsigned int i = 0; i < map->getLength(); i++ )
@@ -974,6 +974,13 @@ StringTable & Node::getAttributes(){
         OTGraph::StringTable_var attributes = value->getStringTable();
         delete value;
         return attributes._retn();
+#endif //NO_OT_LOCAL_GRAPH
+#ifndef NO_OT_LOCAL_GRAPH
+        Node * self = const_cast<Node*>(this);
+        StringTable value(self->attributes);
+        OTGraph::StringTable_var attributes = value.getStringTable();
+        return attributes._retn();
+#endif //NO_OT_LOCAL_GRAPH
    };
 
 
