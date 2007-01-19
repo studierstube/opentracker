@@ -9,6 +9,8 @@ module OT_CORBA {
 
   typedef sequence<EventAttribute> Event;
 
+  typedef sequence<float> FloatVector;
+
   interface Node {
     void setEvent(in Event ev);
   };

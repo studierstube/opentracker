@@ -138,8 +138,9 @@ public:
     virtual void onEventGenerated( Event& event, Node& generator)
     {
       cycle++;
-      OT_CORBA::Event* corba_event = new OT_CORBA::Event;
-      CORBAUtils::convertToCORBAEvent(event, *corba_event);
+      //OT_CORBA::Event* corba_event = new OT_CORBA::Event;
+      //CORBAUtils::convertToCORBAEvent(event, *corba_event);
+      OT_CORBA::Event corba_event = event.getCORBAEvent();
       try {
         CORBA::Any any;
 	any <<= corba_event;

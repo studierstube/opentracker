@@ -107,22 +107,22 @@ public:
       logPrintI("CORBATransform::onEventGenerated\n");
       cycle++;
       //if ((cycle % frequency) == 0) {
-	OT_CORBA::Event corba_event;
-	OT_CORBA::Event new_corba_event;
-	Event new_event;
-	CORBAUtils::convertToCORBAEvent(event, corba_event);
-	try {
-	  new_corba_event = corba_transform->transformEvent(corba_event);
-	  CORBAUtils::convertFromCORBAEvent(new_event, new_corba_event);
-	  updateObservers( new_event );
-	}
-	catch (CORBA::COMM_FAILURE) {
-	  std::cerr << "Caught CORBA::COMM_FAILURE" << std::endl;
-	}
-	catch (CORBA::TRANSIENT) {
-	  std::cerr << "Caught CORBA::TRANSIENT" << std::endl;
-	}
-	//      }
+      //Event new_event;
+      //CORBAUtils::convertToCORBAEvent(event, corba_event);
+      OT_CORBA::Event corba_event = event.getCORBAEvent();
+      try {
+	OT_CORBA::Event* new_corba_event = corba_transform->transformEvent(corba_event);
+	//CORBAUtils::convertFromCORBAEvent(new_event, new_corba_event);
+	Event new_event(*new_corba_event);
+	updateObservers( new_event );
+      }
+      catch (CORBA::COMM_FAILURE) {
+	std::cerr << "Caught CORBA::COMM_FAILURE" << std::endl;
+      }
+      catch (CORBA::TRANSIENT) {
+	std::cerr << "Caught CORBA::TRANSIENT" << std::endl;
+      }
+      //      }
     }
     
     friend class CORBAModule;

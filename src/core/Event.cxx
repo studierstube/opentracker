@@ -67,13 +67,84 @@ namespace ot
     {
         *this = rv;
     }
-
+#ifdef USE_CORBA
     // copy constructor, copying all attributes
     Event::Event(const OT_CORBA::Event &ev)
     {
-        // Need to go through every member of the sequence...
+        CORBA::ULong l = ev.length();
+        for (CORBA::ULong i=0; i<=l; i++) {
+            std::string name((const char*) CORBA::string_dup(ev[i].name));
+            CORBA::TypeCode_var tc = ev[i].value.type();
+            switch (tc->kind()) {
+                case CORBA::tk_short:
+                    CORBA::Short s;
+                    ev[i].value >>= s;
+                    setAttribute(name, (short) s);
+                    break;
+                case CORBA::tk_boolean:
+                    CORBA::Boolean b;
+                    ev[i].value >>= CORBA::Any::to_boolean(b);
+                    setAttribute(name, (bool) b);
+                    break;
+                case CORBA::tk_long:
+                    CORBA::Long l;
+                    ev[i].value >>= l;
+                    setAttribute(name, (int) l);
+                    break;
+                case CORBA::tk_longlong:
+                    CORBA::LongLong ll;
+                    ev[i].value >>= ll;
+                    setAttribute(name, (long) ll);
+                    break;
+                case CORBA::tk_ulong:
+                    CORBA::ULong ul;
+                    ev[i].value >>= ul;
+                    setAttribute(name, (unsigned long) l);
+                    break;
+                case CORBA::tk_ushort:
+                    CORBA::UShort us;
+                    ev[i].value >>= us;
+                    setAttribute(name, (unsigned short) us);
+                    break;
+                case CORBA::tk_double:
+                    CORBA::Double d;
+                    ev[i].value >>= d;
+                    setAttribute(name, (double) d);
+                    break;
+                case CORBA::tk_float:
+                    CORBA::Float f;
+                    ev[i].value >>= f;
+                    setAttribute(name, (float) f);
+                    break;
+                case CORBA::tk_string:
+                    {
+                        const char* msg;
+                        ev[i].value >>= msg;
+                        CORBA::String_var copy(msg);
+                        std::string val((const char*) copy);
+                        setAttribute("string", val);
+                    }
+                    break; 
+                case CORBA::tk_sequence:
+                    {
+                        OT_CORBA::FloatVector* fv;
+                        if (ev[i].value >>= fv) {
+                            CORBA::ULong l = fv->length();
+                            std::vector<float> vecF = std::vector<float>(l);
+                            for (CORBA::ULong i; i <= l; i++) {
+                                vecF[i] = (float) (*fv)[i];
+                            }
+                            setAttribute("vector<float>", vecF);
+                        }
+                    }
+                    break; 
+                default:
+                    std::cerr << "Value could not be extracted" << std::endl;
+                
+            }
+        }
     }
-
+#endif //USE_CORBA
 
 
     // destructor, deleting all attributes
@@ -82,10 +153,59 @@ namespace ot
         clearAttributes();
     }
 
+#ifdef USE_CORBA
     // convert Event to OpenTracker Event type
     OT_CORBA::Event Event::getCORBAEvent() {
         // code to convert
+        int i = 0;
+        OT_CORBA::Event ev;
+        ev.length(attributes.size());
+        for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
+        {
+            OT_CORBA::EventAttribute att;
+            std::string name = (*it).first;
+            EventAttributeBase *Att = (*it).second;
+            std::string type_name = Att->getGenericTypeName();
+
+            att.name = CORBA::string_dup((const char*) name.c_str());
+            if (type_name.compare("bool") == 0) {
+                att.value <<= CORBA::Any::from_boolean((CORBA::Boolean) getAttribute(type_name, (bool) false));
+            } else if (type_name.compare("int") == 0) {
+                att.value <<= (CORBA::Long) getAttribute(type_name, (int) 0);
+            } else if (type_name.compare("long") == 0) {
+                att.value <<= (CORBA::LongLong) getAttribute(type_name, (long) 0);
+            } else if (type_name.compare("short") == 0) {
+                att.value <<= (CORBA::Short) getAttribute(type_name, (short) 0);
+            } else if (type_name.compare("unsigned_int") == 0) {
+                att.value <<= (CORBA::ULong) getAttribute(type_name, (long) 0);
+            } else if (type_name.compare("unsigned_long") == 0) {
+                att.value <<= (CORBA::ULongLong) getAttribute(type_name, (unsigned long) 0);
+            } else if (type_name.compare("unsigned_short") == 0) {
+                att.value <<= (CORBA::UShort) getAttribute(type_name, (unsigned short) 0);
+            } else if (type_name.compare("double") == 0) {
+                att.value <<= (CORBA::Double) getAttribute(type_name, (double) 0.0);
+            } else if (type_name.compare("float") == 0) {
+                att.value <<= (CORBA::Float) getAttribute(type_name, (float) 0.0f);
+            } else if (type_name.compare("string") == 0) {
+                std::string dummy("");
+                std::string val = getAttribute(&dummy, type_name);
+                att.value <<= (char*) val.c_str();
+            } else if (type_name.compare("vector<float>") == 0) {
+                std::vector<float> dummy;
+                std::vector<float> val = getAttribute(&dummy, type_name);
+                int l = val.size();
+                OT_CORBA::FloatVector fv;
+                fv.length(l);
+                for (CORBA::ULong i=0; i <= l; i++) {
+                    fv[i] = (CORBA::Float) val[i];
+                }
+                att.value <<= fv;
+            }
+            i++;
+        }
+        return ev;
     }
+#endif //USE_CORBA
 
     // assignment operator, copying all attributes
     Event& Event::operator=(const Event& rv) //throw (std::runtime_error)

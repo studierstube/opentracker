@@ -474,7 +474,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
   {
     lock();
     modified = true;
-    event = new_event.getCORBAEvent();
+    Event event(new_event);
     unlock();
   }
 

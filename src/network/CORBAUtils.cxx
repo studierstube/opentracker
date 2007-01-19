@@ -241,39 +241,6 @@ namespace ot {
     }
 #endif //ENABLE_OMNIEVENTS    
 
-// This method converts an ot::Event to an OT_CORBA::Event
-    void CORBAUtils::convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event) 
-{
-    int i;
-    std::vector<float> position = ot_event.getPosition();
-    std::vector<float> orientation = ot_event.getOrientation();
-    for( i = 0; i < 3; i++ )
-    {
-      corba_event.pos[i] = position[i];
-      corba_event.ori[i] = orientation[i];
-    }
-    corba_event.ori[3] = (float) orientation[3];
-    corba_event.but = ot_event.getButton();
-    corba_event.time = ot_event.time;
-} 
-
-// This method converts from an OT_CORBA::Event to an ot::Event
-    void CORBAUtils::convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event) 
-    {
-        int i;
-        std::vector<float> position(3);
-        std::vector<float> orientation(4);
-        for( i = 0; i < 3; i++ )
-        {
-            position[i] = corba_event.pos[i];
-            orientation[i] = corba_event.ori[i];
-        }
-        orientation[3] = corba_event.ori[3];
-        ot_event.setPosition(position);
-        ot_event.setOrientation(orientation);
-        ot_event.setButton(corba_event.but);
-        ot_event.time = corba_event.time;
-    } 
     
     // This method returns an object id based on the id of the last NameComponent of a Name sequence
     PortableServer::ObjectId_var CORBAUtils::getObjectId(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name) {

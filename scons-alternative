@@ -163,7 +163,7 @@ if env['ENABLE_SHARED']:
 	sys.exit(-1)
     print "Shared support enabled"
     env.Append(CPPDEFINES='USE_SHARED')
-    env.Append(LIBS='shared')
+    env.Append(LIBS=['shared', 'cvd'])
     env['LIBS'].remove('COS4')
     if sys.platform == 'darwin':
 	env.Append(LIBS='coin')
