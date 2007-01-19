@@ -3,6 +3,7 @@ import sys
 sys.path.append('../idl/skeletons')
 from copy import deepcopy
 from omniORB import CORBA, PortableServer, PortableServer__POA
+from omniORB import any
 
 # Import the stubs for the Naming service
 import CosNaming
@@ -13,7 +14,9 @@ import OT_CORBA, OT_CORBA__POA
 # Define an implementation of the Echo interface
 class SimpleSink_i (OT_CORBA__POA.Sink):
     def setEvent(self, event):
-        print "pushEvent() called with event:", event
+	print "**************************"
+	for att in event:
+	    print "%s:\t%s" % (att.name, str(any.from_any(att.value)))
 
 def getContextFromName(root_context, context_name):
     try:

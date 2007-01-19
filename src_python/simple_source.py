@@ -2,7 +2,7 @@
 import sys, time, math
 sys.path.append('../idl/skeletons')
 
-from omniORB import CORBA
+from omniORB import CORBA, any
 
 # Import the stubs for the Naming service
 import CosNaming
@@ -45,7 +45,10 @@ if __name__ == '__main__':
     previous_time = time.time()
     period = 1.0/rate;
     while True:
-	ev = OT_CORBA.Event([0.1, 0.2, 0.3],[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
+	#ev = OT_CORBA.Event([0.1, 0.2, 0.3],[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
+	ev = [OT_CORBA.EventAttribute("position", CORBA.Any(CORBA.TypeCode("IDL:OT_CORBA/FloatVector:1.0"), [0.1,0.2,0.3])),
+	      OT_CORBA.EventAttribute("foo", any.to_any("bar")),
+	      OT_CORBA.EventAttribute("confidence", any.to_any(0.345))]#,[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
 	try:
 	    source_ref.setEvent(ev)
 	except CORBA.COMM_FAILURE:

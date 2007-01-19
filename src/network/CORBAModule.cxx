@@ -470,11 +470,12 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
     unlock();
   }
   
-  void CORBASource::setEvent(const OT_CORBA::Event& new_event) 
+  void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
   {
     lock();
     modified = true;
-    Event event(new_event);
+    Event new_event(corba_event);
+    event = new_event;
     unlock();
   }
 

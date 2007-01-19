@@ -72,7 +72,7 @@ namespace ot
     Event::Event(const OT_CORBA::Event &ev)
     {
         CORBA::ULong l = ev.length();
-        for (CORBA::ULong i=0; i<=l; i++) {
+        for (CORBA::ULong i=0; i<l; i++) {
             std::string name((const char*) CORBA::string_dup(ev[i].name));
             CORBA::TypeCode_var tc = ev[i].value.type();
             switch (tc->kind()) {
@@ -122,25 +122,33 @@ namespace ot
                         ev[i].value >>= msg;
                         CORBA::String_var copy(msg);
                         std::string val((const char*) copy);
-                        setAttribute("string", val);
+                        setAttribute(name, val);
                     }
                     break; 
                 case CORBA::tk_sequence:
                     {
-                        OT_CORBA::FloatVector* fv;
-                        if (ev[i].value >>= fv) {
-                            CORBA::ULong l = fv->length();
-                            std::vector<float> vecF = std::vector<float>(l);
-                            for (CORBA::ULong i; i <= l; i++) {
-                                vecF[i] = (float) (*fv)[i];
-                            }
-                            setAttribute("vector<float>", vecF);
-                        }
+                        // got a sequence
                     }
                     break; 
                 default:
-                    std::cerr << "Value could not be extracted" << std::endl;
-                
+                    // Value could not be extracted
+                    ;
+            
+            }
+            // More complex types should be extracted here
+            if (tc->equal(OT_CORBA::_tc_FloatVector)) {
+                OT_CORBA::FloatVector* fv;
+                if (ev[i].value >>= fv) {
+                    CORBA::ULong l = fv->length();
+                    std::vector<float> vecF = std::vector<float>(l);
+                    for (CORBA::ULong i=0; i < l; i++) {
+                        vecF[i] = (float) (*fv)[i];
+                    }
+                    setAttribute("vector<float>", vecF);
+                } else {
+                    std::cerr << "couldn't extract float vector" << std::endl;
+                }
+
             }
         }
     }
@@ -169,38 +177,39 @@ namespace ot
 
             att.name = CORBA::string_dup((const char*) name.c_str());
             if (type_name.compare("bool") == 0) {
-                att.value <<= CORBA::Any::from_boolean((CORBA::Boolean) getAttribute(type_name, (bool) false));
+                att.value <<= CORBA::Any::from_boolean((CORBA::Boolean) getAttribute(name, (bool) false));
             } else if (type_name.compare("int") == 0) {
-                att.value <<= (CORBA::Long) getAttribute(type_name, (int) 0);
+                att.value <<= (CORBA::Long) getAttribute(name, (int) 0);
             } else if (type_name.compare("long") == 0) {
-                att.value <<= (CORBA::LongLong) getAttribute(type_name, (long) 0);
+                att.value <<= (CORBA::LongLong) getAttribute(name, (long) 0);
             } else if (type_name.compare("short") == 0) {
-                att.value <<= (CORBA::Short) getAttribute(type_name, (short) 0);
+                att.value <<= (CORBA::Short) getAttribute(name, (short) 0);
             } else if (type_name.compare("unsigned_int") == 0) {
-                att.value <<= (CORBA::ULong) getAttribute(type_name, (long) 0);
+                att.value <<= (CORBA::ULong) getAttribute(name, (long) 0);
             } else if (type_name.compare("unsigned_long") == 0) {
-                att.value <<= (CORBA::ULongLong) getAttribute(type_name, (unsigned long) 0);
+                att.value <<= (CORBA::ULongLong) getAttribute(name, (unsigned long) 0);
             } else if (type_name.compare("unsigned_short") == 0) {
-                att.value <<= (CORBA::UShort) getAttribute(type_name, (unsigned short) 0);
+                att.value <<= (CORBA::UShort) getAttribute(name, (unsigned short) 0);
             } else if (type_name.compare("double") == 0) {
-                att.value <<= (CORBA::Double) getAttribute(type_name, (double) 0.0);
+                att.value <<= (CORBA::Double) getAttribute(name, (double) 0.0);
             } else if (type_name.compare("float") == 0) {
-                att.value <<= (CORBA::Float) getAttribute(type_name, (float) 0.0f);
+                att.value <<= (CORBA::Float) getAttribute(name, (float) 0.0f);
             } else if (type_name.compare("string") == 0) {
                 std::string dummy("");
-                std::string val = getAttribute(&dummy, type_name);
+                std::string val = getAttribute(&dummy, name);
                 att.value <<= (char*) val.c_str();
             } else if (type_name.compare("vector<float>") == 0) {
                 std::vector<float> dummy;
-                std::vector<float> val = getAttribute(&dummy, type_name);
+                std::vector<float> val = getAttribute(&dummy, name);
                 int l = val.size();
                 OT_CORBA::FloatVector fv;
                 fv.length(l);
-                for (CORBA::ULong i=0; i <= l; i++) {
+                for (CORBA::ULong i=0; i < l; i++) {
                     fv[i] = (CORBA::Float) val[i];
                 }
                 att.value <<= fv;
             }
+            ev[i] = att;
             i++;
         }
         return ev;
