@@ -89,7 +89,7 @@ namespace ot {
             localEvent = event;
             localEvent.time = temp.time;
 
-            int i = 0;
+            unsigned int i = 0;
             NodePort *port = getPort("MergeAttribute", i++);
             while (port != NULL)
             {
