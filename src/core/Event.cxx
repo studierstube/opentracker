@@ -144,7 +144,7 @@ namespace ot
                     for (CORBA::ULong i=0; i < l; i++) {
                         vecF[i] = (float) (*fv)[i];
                     }
-                    setAttribute("vector<float>", vecF);
+                    setAttribute(name, vecF);
                 } else {
                     std::cerr << "couldn't extract float vector" << std::endl;
                 }
