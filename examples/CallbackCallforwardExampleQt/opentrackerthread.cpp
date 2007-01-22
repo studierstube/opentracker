@@ -76,7 +76,9 @@ OpentrackerThread::~OpentrackerThread()
 
 ot::CallbackModule* OpentrackerThread::getCallbackModule()
 {
+    using namespace std;
     using namespace ot;
+
 
     return dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
 }
@@ -91,6 +93,7 @@ ot::CallforwardModule* OpentrackerThread::getCallforwardModule()
 
 void OpentrackerThread::setConfigurationFile(const QString& fname)
 {
+    using namespace std;
     using namespace ot;
 
     cout << " parsing new configuration file " 
