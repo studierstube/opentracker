@@ -307,7 +307,7 @@ else:
         print 'Support for PyQt....... enabled.'
         print 'Please modify the targets to build support for PyQt. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for PyQt.\n'
 	os.abort()        	
-    if ARGUMENTS.has_key('ENABLE_OTQT'):
+    if ARGUMENTS.has_key('ENABLE_OTQT') or ARGUMENTS.has_key('ENABLE_OTQT_QT3'):
         # make the library scanner search the configuration of qt
         libraryList.append('qt-mt')
         # add the qt flags to the dll
@@ -346,7 +346,52 @@ else:
 
         targetList.append(otqtcalib)
 
-        print 'Support for OTQt....... enabled.'
+        print 'Support for OTQt based on Qt version 3.x ....... enabled.'
+    elif ARGUMENTS.has_key('ENABLE_OTQT_QT4'):
+        ### env.Append( QT_MOC = '$QT_BINPATH/moc-qt4' )
+        # make the library scanner search the configuration of qt
+        libraryList.append('QtCore')
+        libraryList.append('QtGui')
+        # add the qt flags to the dll
+        ot['libs'].append('QtCore')
+        ot['libs'].append('QtGui')
+        try:
+            ot['defines'] += ['QT_NO_DEBUG', 'USE_OTQT', 'USE_QT4']
+        except KeyError:
+            ot['defines'] = ['QT_NO_DEBUG', 'USE_OTQT', 'USE_QT4' ]
+        ot['src_use'].append('../extras/newmat10')
+        #ot['src_use'].append('../include/OpenTracker/otqt')
+	# adding a source that does not exist to the target
+        ot['src_ignore'].remove('otqt')
+        ot['src_ignore'].append('otqt/otqt_mem_calib_main.cxx')
+        #use['otqt'] = 'true'
+        otcon['libs'].append('QtCore')
+        otcon['libs'].append('QtGui')
+        otcon2['libs'].append('QtCore')
+        otcon2['libs'].append('QtGui')
+        
+        otqtcalib = {'name':'otqt_calib',
+                'type':'PRG',
+                'libs':['opentracker','ACE','QtCore','QtGui'],
+                'src_use': ['otqt/otqt_mem_calib_main.cxx','../extras/newmat10']
+                }
+        mocaction='moc-qt4 -DUSE_OTQT=1 -DUSE_QT4 $SOURCE -o $TARGET'
+        bld = Builder(action=mocaction)
+        env = Environment(ENV=os.environ, tools=['default','qt'])
+        env['QT_LIB'] = 'QtCore'
+        #env['QT_DEBUG'] = 1
+        #env['QT_AUTOSCAN'] = 0
+        env['BUILDERS']['moc']= bld
+        mocdep = env.moc('src/otqt/moc_OTQT.cxx', 'include/OpenTracker/otqt/OTQt.h')
+
+	# a NodeList is added to the src_use. In this case they will be added as 
+	# source files for the compiler, and also as dependencies in the environment
+	# so that the appropriate builder is called before compiling the target
+        ot['src_use'].append(mocdep)
+
+        targetList.append(otqtcalib)
+
+        print 'Support for OTQt based on Qt version 4.x ....... enabled.'
 
     if ARGUMENTS.has_key('NO_OT_LOCAL_GRAPH'):
 	for t in targetList:

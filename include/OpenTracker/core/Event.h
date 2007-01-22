@@ -56,7 +56,7 @@
 
 #ifdef USE_CORBA
 #include <OpenTracker/skeletons/OT_CORBA.hh>
-#endif USE_CORBA
+#endif //USE_CORBA
 
 namespace ot
 {
