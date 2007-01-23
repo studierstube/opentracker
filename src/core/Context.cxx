@@ -200,18 +200,22 @@ namespace ot {
         if( limit != std::string::npos )
             addDirectoryFirst( file.substr(0, limit));
 		
-        ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationFile( filename );
+        ConfigurationParser *  parser = getConfigurationParser(*this);
+
+        rootNode = parser->parseConfigurationFile( filename );
+
+        delete parser;
         
     }
 
     void Context::parseConfigurationString(const char* xmlstring)
     {
 
-        ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationString( xmlstring );
+        ConfigurationParser * parser = getConfigurationParser( *this );
+        rootNode = parser->parseConfigurationString( xmlstring );
 
         rootNamespace = "";
+        delete parser;
     }
 
 

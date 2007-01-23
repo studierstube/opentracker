@@ -63,10 +63,9 @@ namespace ot {
     class OPENTRACKER_API ConfigNode : public Node
     {
         // Members
-    protected:
 
-        // Methods
-    protected:
+    public:   
+
         /**
          * constructor method
          * @param name_ element name of the config node
@@ -84,7 +83,6 @@ namespace ot {
             }
         }
 
-    public:   
         /**
          * returns a reference to the attribute StringTable
          * @return reference to the attribute StringTable */
@@ -110,7 +108,7 @@ namespace ot {
             return Node::getChild( index );
 	}
 
-        friend class ConfigurationParser;
+
 #ifdef USE_LIVE
         friend class LiveContext;
 #endif

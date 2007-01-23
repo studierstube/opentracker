@@ -37,7 +37,7 @@
  *
  * @author Gerhard Reitmayr
  *
- * $Id$
+ * $Id: ConfigurationParser.cxx 1739 2007-01-23 16:57:46Z veas $
  * @file                                                                   */
 /* ======================================================================= */
 
@@ -49,7 +49,16 @@
 
 #include <OpenTracker/core/ConfigurationParser.h>
 
+
+// selects between usage of XERCES and TinyXML
+#include <OpenTracker/tool/XMLSelection.h>
+
+
 #ifdef USE_XERCES
+XERCES_CPP_NAMESPACE_USE
+#include <xercesc/sax/InputSource.hpp>
+
+
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/XMLUniDefs.hpp>
@@ -59,7 +68,7 @@
 #include <xercesc/framework/LocalFileInputSource.hpp>
 #include <xercesc/framework/MemBufInputSource.hpp>
 
-#endif //USE_XERCES
+
 
 #include <OpenTracker/core/DOMTreeErrorReporter.h>
 
@@ -67,14 +76,76 @@
 
 //using namespace std;
 
-#ifdef USE_XERCES
 XERCES_CPP_NAMESPACE_USE
-#endif //USE_XERCES
-
 
 namespace ot {
 
-#ifdef USE_XERCES
+    class XercesConfigurationParser: public ConfigurationParser
+    {
+        // Members
+    protected:
+        /// reference to the Context to use its modules and factories
+        Context & context;
+        /// maps IDs to nodes
+        NodeMap references;
+        /// stores the parsed document tree
+        OT_DOMDOCUMENT * document;
+    protected:
+        
+        // Methods
+        /**
+         * builds a tree of configuration nodes. This is just mirroring
+         * the structure of the XML document with ConfigNodes that 
+         * just hold the element names and attributes. The resulting tree
+         * is a parameter to the initialization method of modules.
+         * @param elements pointer to the XML element to be parsed.
+         * @return pointer to the hew ConfigNode or NULL, if something
+         *         went wrong.
+         */
+        ConfigNode * buildConfigTree( OT_DOMELEMENT * element );
+
+        /**
+         * builds the tracker tree starting from a certain DOM_Element.
+         * Is used recoursively to walk the DOMTree and create new nodes.
+         * @param element pointer to the element to be parsed.
+         * @return pointer to the new Node or NULL
+         */
+        Node * buildTree( OT_DOMELEMENT * element);
+        /**
+         * parses an Elements attributes and returns a StringTable describing them.
+         * @param element pointer to the element
+         * @return a StringMap mapping attribute names to attribute values. This map
+         *    was created on the heap and it is now owned by the caller.
+         */
+        StringTable * parseElement( OT_DOMELEMENT * element);
+
+    public:
+        /**
+         * constructor method. The Xerces XML parser library is initialized here.
+         * @param factory_ pointer to set the member factory
+         */
+        XercesConfigurationParser( Context & context_);
+        /** Destructor method.*/
+        virtual ~XercesConfigurationParser();
+        /**
+         * These methods parses an XML configuration file. It returns a Node as
+         * root with all the root nodes defined in the configuration file.
+         * @param filename the name and path of the configuration file
+         * @return pointer to the root Node or NULL
+         */
+        virtual Node * parseConfigurationFile(const std::string& filename);
+        virtual Node * parseConfigurationString(const char* xmlstring);
+
+	Node * parseConfiguration(InputSource* input_source);
+
+    };
+
+
+    ConfigurationParser * getConfigurationParser(Context & context){
+        return new XercesConfigurationParser(context);
+    };
+
+
     const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
     static const char*  otMemBufId = "otgraph";
 
@@ -127,30 +198,30 @@ namespace ot {
         return NULL;
     }
 
-#endif //USE_XERCES
+
 
     // constructor method
 
-    ConfigurationParser::ConfigurationParser( Context & context_)
+    XercesConfigurationParser::XercesConfigurationParser( Context & context_)
         : context( context_ )
     {
-#ifdef USE_XERCES
+
         // Initialize the XercesC system
         try {
             XMLPlatformUtils::Initialize();
         }
         catch (const XMLException& toCatch) {
             char * message = XMLString::transcode( toCatch.getMessage());
-            logPrintE("ConfigurationParser Error during initialization: %s\n", message );
+            logPrintE("XercesConfigurationParser Error during initialization: %s\n", message );
             XMLString::release( &message );
             exit(1);
         }
-#endif //USE_XERCES
+
     }
 
     // Destructor method.
 
-    ConfigurationParser::~ConfigurationParser()
+    XercesConfigurationParser::~XercesConfigurationParser()
     {
         references.clear();
 #ifdef fish
@@ -160,7 +231,7 @@ namespace ot {
         }
         catch (const XMLException& toCatch) {
             char * message = XMLString::transcode( toCatch.getMessage());
-            logPrintE( "ConfigurationParser Error during deinitialization: %s\n", message );
+            logPrintE( "XercesConfigurationParser Error during deinitialization: %s\n", message );
             XMLString::release( &message );
             exit(1);
         }
@@ -169,16 +240,17 @@ namespace ot {
 
     // builds a tree of configuration nodes.
 
-    ConfigNode * ConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
+    ConfigNode * XercesConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
     {
-#ifdef USE_XERCES
+
         std::auto_ptr<StringTable> map ( parseElement( element ));
         char * tempName = XMLString::transcode( element->getLocalName());
         std::string tagName = tempName;
         XMLString::release( &tempName );
         ConfigNode * config = new ConfigNode( *map );
 
-        config->type = tagName;
+        config->put("OtNodeType", tagName);
+
 
         //auto_ptr<DOMNodeList> list( element->getChildNodes());
         DOMNodeList * list = element->getChildNodes();
@@ -193,35 +265,15 @@ namespace ot {
             }
         }
         return config;
-#endif //USE_XERCES
-
-#ifdef USE_TINYXML
-        std::auto_ptr<StringTable> map ( parseElement( element ));
-        std::string tagName = element->Value();
-        ConfigNode * config = new ConfigNode( *map );
 
 
-        config->type = tagName;
-
-
-        TiXmlElement * el = element->FirstChildElement();
-        while( el != NULL )
-        {
-            ConfigNode * child = buildConfigTree( el);
-
-            config->addChild(*child);
-            
-            el = el->NextSiblingElement();
-        }
-        return config;
-#endif //USE_TINYXML
     }
 
     // builds the tracker tree starting from a certain DOM_Element.
 
-    Node * ConfigurationParser::buildTree( OT_DOMELEMENT * element)
+    Node * XercesConfigurationParser::buildTree( OT_DOMELEMENT * element)
     {
-#ifdef USE_XERCES
+
         char * tempName = XMLString::transcode( element->getLocalName());
         std::string tagName = tempName;
         XMLString::release( &tempName );
@@ -270,7 +322,7 @@ namespace ot {
             if( map->containsKey("DEF"))
             {
                 references[map->get("DEF")] = value;
-                value->name = map->get("DEF");
+                value->setName ( map->get("DEF"));
                 logPrintI("Storing Reference %s\n", (map->get("DEF").c_str()));
             }
 
@@ -297,70 +349,13 @@ namespace ot {
             logPrintW("Could not parse element %s\n", tagName.c_str());
         }
         return value;
-#endif //USE_XERCES
-
-#ifdef USE_TINYXML
-        std::string tagName = element->Value();
-        std::auto_ptr<StringTable> map ( parseElement( element ));
-        // Test for a reference node
-        if( tagName.compare("Ref") == 0 )
-        {
-            NodeMap::iterator find = references.find(map->get("USE"));
-            if( find != references.end()){
-                Node * ref = (Node*) ((*find).second );
 
 
-                logPrintI("Found Reference node -> %s\n", map->get("USE").c_str());
-                return ref;
-            } else
-            {
-                logPrintE("Undefined reference %s\n", map->get("USE").c_str());
-                return NULL;
-            }
-        }
-
-
-        map->put("OtNodeType", tagName);        
-        Node * value = context.createNode( tagName , *map );
-
-        if (value == NULL) {
-            //try loading the module, and then creating the node
-            if (context.getModuleFromNodeType(tagName) != NULL){
-                // try creating the node again
-                logPrintI("ConfigurationParser trying to create node %s again \n", tagName.c_str());
-
-                value = context.createNode(tagName, *map);
-            }
-        }
-        if( value != NULL )
-        {
-            // Test for ID
-            if( map->containsKey("DEF"))
-            {
-                references[map->get("DEF")] = value;
-                value->name = map->get("DEF");
-                logPrintI("Storing Reference %s\n", map->get("USE").c_str());
-            }
-
-            TiXmlElement * el = element->FirstChildElement();
-            while( el != NULL )
-            {
-                Node * childNode = buildTree( el );
-                value->addChild(*childNode);
-                el = el->NextSiblingElement();
-            }
-        }
-        else
-        {
-            logPrintW("Could not parse element %s\n", tagName.c_str());
-        }
-        return value;
-#endif //USE_TINYXML
     }
 
-#ifdef USE_XERCES
+
     // This method takes an InputSource and configures the OT graph accordingly
-    Node * ConfigurationParser::parseConfiguration(InputSource* input_source) 
+    Node * XercesConfigurationParser::parseConfiguration(InputSource* input_source) 
     {
       
         // read and parse configuration file
@@ -441,7 +436,8 @@ namespace ot {
         unsigned int i;
 
         Node * configNode = new Node();
-        configNode->type = "configuration";
+        configNode->put("OtNodeType", "configuration");
+
 
 
         for( i = 0; i < configlist->getLength(); i ++ )
@@ -455,8 +451,8 @@ namespace ot {
                 std::string tagName = tempName;
                 XMLString::release( &tempName );
                 ConfigNode * base = new ConfigNode( *attributes );
-
-                base->type = tagName;
+                
+                base->put("OtNodeType", tagName);                
 
                 logPrintI("config for %s\n", tagName.c_str());
 
@@ -493,8 +489,6 @@ namespace ot {
             node->addChild(*configNode);
         }
 
-
-
         logPrintI("parsing tracker tree section\n");
 
         // parse the rest of the elements
@@ -530,116 +524,12 @@ namespace ot {
 
 
         return node;
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-    Node * ConfigurationParser::parseConfiguration(TiXmlDocument* document) 
-    {
-
-        TiXmlElement* root = document->RootElement();
-        Node * node = new Node();
-
-        const char* tempName = root->Value();
-
-        logPrintI("Root node is %s\n", tempName);
-
-        const char* xmlspace = NULL; //root->getNamespaceURI();
-        if (xmlspace != NULL) {
-            logPrintI("Namespace is %s\n", xmlspace);
-        }
-        else {
-            logPrintW("Not using namespaces!\n");
-        }
-
-        // get the configuration part
-        const char* configurationCh = "configuration";
-
-        TiXmlElement * config = root->FirstChildElement(configurationCh);
-        if(config->NextSiblingElement(configurationCh))
-        {
-            logPrintE("not valid config file, not exactly one configuration tag\n");
-            exit(1);
-        }
-
-        logPrintI("parsing configuration section\n");
-
-
-        Node * configNode = new Node();
-        configNode->type = "configuration";
-
-
-        TiXmlElement * configElement = config->FirstChildElement();
-        while(configElement)
-        {
-            std::auto_ptr<StringTable> attributes( parseElement( configElement ));
-            std::string tagName = configElement->Value();
-
-            ConfigNode * base = new ConfigNode( *attributes );
-
-            base->type = tagName;
-
-
-
-            logPrintI("config for %s\n", tagName.c_str());
-
-            TiXmlElement * element = configElement->FirstChildElement();
-            while(element)
-            {
-                ConfigNode * child = buildConfigTree( element );
-                base->addChild(*child);
-                
-                element = element->NextSiblingElement();
-            }
-
-            Module * module = context.getModule( tagName );
-            if( module != NULL )
-            {
-                module->init( *attributes, base );
-            }
-
-            configNode->addChild(*base);
-
-
-
-            configElement = configElement->NextSiblingElement();
-        }
-
-
-        node->addChild(*configNode);
-
-
-
-        logPrintI("parsing tracker tree section\n");
-
-        // parse the rest of the elements
-
-        TiXmlElement * element = root->FirstChildElement();
-        while(element)
-        {
-            if(strcmp(element->Value(), "configuration")!=0){
-               Node * child= buildTree( element );
-
-               node->addChild(*child);
-
-            }
-
-            element = element->NextSiblingElement();
-        }
-
-
-        delete root;
-
-
-        return node;
-#endif //USE_TINYXML
     }
 
     // parses an Elements attributes and returns a StringMap describing them.
 
-    StringTable * ConfigurationParser::parseElement( OT_DOMELEMENT * element)
+    StringTable * XercesConfigurationParser::parseElement( OT_DOMELEMENT * element)
     {
-#ifdef USE_XERCES
         StringTable * value = new StringTable;
         // auto_ptr<DOMNamedNodeMap> map( element->getAttributes());   // is it still owned by the library ?
         DOMNamedNodeMap * map = element->getAttributes();
@@ -653,27 +543,13 @@ namespace ot {
             XMLString::release( &nameTemp );
         }
         return value;
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-        StringTable * value = new StringTable;
-
-        TiXmlAttribute* attribute = element->FirstAttribute();
-        while(attribute)
-        {
-            value->put(attribute->Name(), attribute->Value());
-            attribute = attribute->Next();
-        }
-        return value;
-#endif //USE_TINYXML
 
     }
 
     // This method parses an XML configuration file.
-    Node * ConfigurationParser::parseConfigurationFile(const std::string& filename)
+    Node * XercesConfigurationParser::parseConfigurationFile(const std::string& filename)
     {
-#ifdef USE_XERCES
+
         ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
         std::string otrootvalue = (std::string)otroot;
         std::string otdatadir;
@@ -685,24 +561,13 @@ namespace ot {
         }
         LocalFileInputSource input_source((const XMLCh*) XMLString::transcode(filename.c_str()));
         return parseConfiguration(&input_source);
-#endif //USE_XERCES
-#ifdef USE_TINYXML
-        TiXmlDocument* document = new TiXmlDocument();
-
-        if(!document->LoadFile(filename.c_str()))
-        {
-            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
-            exit(1);
-        }
-		return parseConfiguration(document);
-#endif //USE_TINYXML
     }
 
     // This method parses an XML configuration string.
 
-    Node * ConfigurationParser::parseConfigurationString(const char* xmlstring)
+    Node * XercesConfigurationParser::parseConfigurationString(const char* xmlstring)
     {
-#ifdef USE_XERCES
+
 		MemBufInputSource* input_source = new MemBufInputSource(
                                                                 (const XMLByte*) xmlstring
                                                                 , strlen(xmlstring)
@@ -712,25 +577,15 @@ namespace ot {
         Node* node = parseConfiguration(input_source);
         delete input_source;
         return node;
-#endif //USE_XERCES
-#ifdef USE_TINYXML
-        TiXmlDocument* document = new TiXmlDocument();
-
-        if(!document->Parse(xmlstring))
-        {
-            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
-            exit(1);
-        }
-		return parseConfiguration(document);
-#endif //USE_TINYXML
     }
 
 
 } // namespace ot
 
+#endif //USE_XERCES
 /* 
  * ------------------------------------------------------------
- *   End of ConfigurationParser.cxx
+ *   End of XercesConfigurationParser.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

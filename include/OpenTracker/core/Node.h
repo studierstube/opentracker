@@ -127,6 +127,7 @@ namespace ot {
 
         /// the unique ID given in the XML configuration file.
         std::string name;
+        
 
         /// the type of the node, equals the name of the configuration element
         std::string type;
@@ -143,19 +144,7 @@ namespace ot {
     protected:
 
 
-        
-        /**
-         * adds a reference node to the list of references. Parents of
-         * references need to be updated in case of an event generated.
-         * @param reference the reference node to add
-         
-         void addReference( Node * reference );*/
-
-        /**
-         * removes a reference from the list.
-         * @param reference the reference node to remove
-         
-         void removeReference( Node * reference );*/
+    public:        
 
         /**
          * empty basic constructor. The constructors of any nodes should be
@@ -175,7 +164,7 @@ namespace ot {
          * XML elements attributes as well.*/
         //@{
 
-    public:
+
         /** returns a value stored in the map
          * @param key the key the value is for
          * @returns the string value or an empty string, if the key is not found */
@@ -211,7 +200,6 @@ namespace ot {
          */
         int get(const std::string & key, double * value, int len = 1 ) ;
 
-    protected:
         /** stores a key value pair in the table, overwritting a possible prior
          * value
          * @param key the key to store it under
@@ -299,6 +287,10 @@ namespace ot {
         const std::string & getName() const
         {
             return name;
+        }
+
+        void setName(const std::string & name_){
+            name = name_;
         }
 
         /**
@@ -584,9 +576,7 @@ namespace ot {
 
 
         friend class Context;
-        friend class ConfigurationParser;
-        //        friend class RefNode;
-        //        friend class XMLWriter;
+
 #ifdef USE_LIVE
         friend class LiveContext;
 #endif

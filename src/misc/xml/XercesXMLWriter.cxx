@@ -35,16 +35,15 @@
  * ======================================================================== */
 /** source file for XMLWriter class.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo E. Veas
  *
- * $Id$
+ * $Id: XMLWriter.cxx 1738 2007-01-23 16:28:37Z veas $
  * @file                                                                   */
 /* ======================================================================= */
 
 #include <OpenTracker/OpenTracker.h>
 
 #ifndef OT_NO_XMLWRITER_SUPPORT
-
 
 // selects between usage of XERCES and TinyXML
 #include <OpenTracker/tool/XMLSelection.h>
@@ -66,7 +65,7 @@
 #include <xercesc/util/OutOfMemoryException.hpp>
 
 
-#endif //USE_XERCES
+
 
 #include <memory>
 
@@ -75,16 +74,16 @@
 
 //using namespace std;
 
-#ifdef USE_XERCES
+
 XERCES_CPP_NAMESPACE_USE
-#endif //USE_XERCES
+
 
 
 namespace ot {
 
 
 
-#ifndef NO_OT_LOCAL_GRAPH
+
     XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
         context( context_ ), indent( indent_ )
     {};
@@ -95,7 +94,7 @@ namespace ot {
     };
 
 
-#  ifdef USE_XERCES
+
 // ---------------------------------------------------------------------------
 //  This is a simple class that lets us do easy (though not terribly efficient)
 //  trancoding of char* data to XMLCh data.
@@ -308,198 +307,9 @@ private :
 
         doc->release();
     };
-#  endif //USE_XERCES
+}
 
-#  ifdef USE_TINYXML
-
-    char * header = "<?xml version=\"1.0\" standalone=\"no\" >\n<!-- OpenTracker data version 2.0 TinyXMLWriter -->"/*
-                                                                                 "<OpenTracker>"*/;
- 
-    void insertNode(Node * node, TiXmlElement & parent, XMLWriter & writer){
-        bool writeSubtree= true;
-        std::string defstring (node->get("DEF"));
-
-        if (defstring.compare("")!=0){
-            XMLWriter::DefDict::iterator search = writer.defnodes.find(defstring);
-            if (search != writer.defnodes.end()){        
-                writeSubtree = false;
-            } else
-                writer.defnodes[defstring]= node;
-        }
-        
-        if (writeSubtree){
-
-            // create the node with the right name
-            TiXmlElement theNode((node->getType()) .c_str());
-            // add the attributes to the node
-            StringTable & attr = node->getAttributes();
-            KeyIterator keys(attr);
-            while( keys.hasMoreKeys())
-            {
-                const std::string & key = keys.nextElement();
-                theNode.SetAttribute(key.c_str(), attr.get(key) .c_str());
-            }
-            // add children to the node
-            for (unsigned int i = 0; i < node->countAllChildren() ; i++){
-                insertNode(node->getAnyChild(i), theNode, writer);
-            }
-            
-            // insert the node into the tree
-            parent.InsertEndChild(theNode);
-            
-        } else {
-            // write a ref node
-            TiXmlElement theNode("Ref");
-            theNode.SetAttribute("USE", defstring.c_str());
-            parent.InsertEndChild(theNode);
-        }
-       
-    }
-    
-    void XMLWriter::write( const char * file )
-    {
-	TiXmlDocument doc;
-        doc.Parse(header);
-        if (doc.Error()){
-            std::string errorstring = "XMLWriter: ERROR parsing header: ";
-            errorstring +=  doc.Value();
-            errorstring += doc.ErrorDesc();
-            // throw OtException(errorstring);
-        }
-
-        TiXmlElement opentracker("OpenTracker");
-
-        Node * someNode = context.getRootNode();
-        if (someNode != NULL){
-
-            for (unsigned int i = 0; i < someNode->countAllChildren() ; i++){
-                 insertNode(someNode->getAnyChild(i), opentracker, *this);
-            }
-        }
-        
-        doc.InsertEndChild(opentracker);
-
-
-	doc.SaveFile(file);
-    }
-
-
-#  endif //USE_TINYXML
-       
-
-
-#else  // NO_OT_LOCAL_GRAPH
-
-#  ifdef USE_XERCES
-
-    /** internal method that writes out the graph recursively. This may change 
-     * and therefore is not part of the interface.
-     * @param toWrite the current XML element to write out
-     * @param target the output stream to write to
-     */
-    void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target );
-
-    XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
-        context( context_ ), indent( indent_ )
-    {
-        // Initialize the XercesC system
-        try {
-            XMLPlatformUtils::Initialize();
-        }
-        catch (const XMLException& toCatch) {
-            char * message = XMLString::transcode( toCatch.getMessage());
-            logPrintE("ConfigurationParser Error during initialization: %s\n", message );
-            XMLString::release( &message );
-            exit(1);
-        }
-    }
-
-    XMLWriter::~XMLWriter()
-    {
-          // Deinitialize the XercesC system
-        try {
-            XMLPlatformUtils::Terminate();
-        }
-        catch (const XMLException& toCatch) {
-            char * message = XMLString::transcode( toCatch.getMessage());
-            logPrintE( "ConfigurationParser Error during deinitialization: %s\n", message );
-            XMLString::release( &message );
-            exit(1);
-        }
-    }
-         
-    void XMLWriter::write( const char * file )
-    {
-	std::auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
-        writeNode( ((DOMNode *)(context.getRootNode()->parent))->getOwnerDocument(), 
-                   myFormatTarget.get());
-    }
-    /*
-      void XMLWriter::write( ostream & stream )
-      {
-      // empty
-      }
-    */
-    void writeNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode * toWrite, XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget * target )
-    {
-        XMLCh * lsCh =  XMLString::transcode("LS");
-        DOMImplementation * impl = DOMImplementationRegistry::getDOMImplementation(lsCh);
-        DOMWriter * writer = impl->createDOMWriter();
-        if (writer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
-            writer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
-        if (writer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
-            writer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
-        try {
-            // do the serialization through DOMWriter::writeNode();
-            writer->writeNode(target, *toWrite);
-        }
-        catch (const XMLException& toCatch) {
-            char * message = XMLString::transcode(toCatch.getMessage());
-            logPrintE("XMLWriter Exception message is: %s\n", message);
-            XMLString::release( &message );
-        }
-        catch (const DOMException& toCatch) {
-            char * message = XMLString::transcode(toCatch.msg);
-            logPrintE("XMLWriter Exception message is: %s\n", message);
-            XMLString::release( &message );
-        }
-        catch (...) {
-            logPrintE("XMLWriter Unexpected Exception \n");
-        }
-        writer->release();
-        XMLString::release( &lsCh );
-    }
-
-#  endif //USE_XERCES
-
-
-#  ifdef USE_TINYXML
-
-    XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
-        context( context_ ), indent( indent_ )
-    {}
-
-    XMLWriter::~XMLWriter()
-    {
-  
-    }
-         
-    void XMLWriter::write( const char * file )
-    {
-	TiXmlNode* node = (TiXmlNode*)context.getRootNode()->parent;
-	TiXmlDocument* doc = node->GetDocument();
-
-	doc->SaveFile(file);
-    }
-
-#  endif //USE_TINYXML
-
-#endif //NO_OT_LOCAL_GRAPH
-
-}  // namespace ot
-
-
-
+#endif //USE_XERCES
 #else
 #pragma message(">>> OT_NO_XMLWRITER_SUPPORT")
 #endif //OT_NO_XMLWRITER_SUPPORT
