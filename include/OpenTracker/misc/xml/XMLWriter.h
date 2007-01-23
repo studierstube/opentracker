@@ -49,7 +49,7 @@
 #ifndef OT_NO_XMLWRITER_SUPPORT
 
 #include <iostream>
-
+#include <map>
 // need that to make it work with standard conformind stdc++ libs and older ones
 
 
@@ -65,13 +65,17 @@ namespace ot {
      * @ingroup xml
      */ 
     class OPENTRACKER_API XMLWriter {
-
+    public:
+        typedef std::map<std::string, Node *> DefDict;
+        DefDict defnodes;
     protected:
+
         /// the context to write out
         Context & context;
         /// amount of indentation per level
         unsigned int indent;
-    
+
+
     public:
         /** constructor, takes a context to work with.
          * @param context_ the context to write out

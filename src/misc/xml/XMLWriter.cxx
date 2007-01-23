@@ -65,6 +65,7 @@
 #endif
 #include <xercesc/util/OutOfMemoryException.hpp>
 
+
 #endif //USE_XERCES
 
 #include <memory>
@@ -78,7 +79,10 @@
 XERCES_CPP_NAMESPACE_USE
 #endif //USE_XERCES
 
+
 namespace ot {
+
+
 
 #ifndef NO_OT_LOCAL_GRAPH
     XMLWriter::XMLWriter( Context & context_ , unsigned int indent_ ) :
@@ -87,7 +91,7 @@ namespace ot {
 
     XMLWriter::~XMLWriter()
     {
-  
+        defnodes.clear();
     };
 
 
@@ -167,53 +171,97 @@ private :
 
 
     
-    DOMElement * createNode(DOMDocument * doc, Node * someNode){
+    DOMElement * createNode(DOMDocument * doc, Node * someNode, XMLWriter & writer){
         if ( doc == NULL || someNode ==NULL)
             return NULL;
+        bool writeSubtree= true;
+        std::string defstring (someNode->get("DEF"));
 
-        DOMElement* theElement = NULL;
-        try {
-            theElement = doc->createElement(X((someNode->getType()) .c_str()));
-            // add all attributes
-            StringTable & attr = someNode->getAttributes();
-            KeyIterator keys(attr);
-            while( keys.hasMoreKeys())
-            {
+        if (defstring.compare("")!=0){
+            XMLWriter::DefDict::iterator search = writer.defnodes.find(defstring);
+            if (search != writer.defnodes.end()){        
+                writeSubtree = false;
+            } else
+                writer.defnodes[defstring]= someNode;
+        }
+        
+
+
+        if (writeSubtree){
+
+            DOMElement* theElement = NULL;
+            try {
+                theElement = doc->createElement(X((someNode->getType()) .c_str()));
+                // add all attributes
+                StringTable & attr = someNode->getAttributes();
+                KeyIterator keys(attr);
+                while( keys.hasMoreKeys())
+                {
+                    
+                    const std::string & key = keys.nextElement();
+                    XMLCh * tempKey = XMLString::transcode( key.c_str() );
+                    XMLCh * tempValue = XMLString::transcode( attr.get( key ) .c_str());
+                    XMLCh * xmlspace = XMLString::transcode("");
+                    theElement->setAttributeNS( xmlspace, tempKey, tempValue );
+                    XMLString::release( & tempKey );
+                    XMLString::release( & tempValue );
+                    XMLString::release( & xmlspace );
+                    
+                }
                 
-                const std::string & key = keys.nextElement();
-                XMLCh * tempKey = XMLString::transcode( key.c_str() );
-                XMLCh * tempValue = XMLString::transcode( attr.get( key ) .c_str());
+                // add all children
+                for (unsigned int i = 0; i < someNode->countAllChildren() ; i++){
+                    DOMElement * el = createNode(doc, someNode->getAnyChild(i), writer);
+                    
+                    if (el != NULL)
+                        theElement->appendChild(el);
+                }
+            }catch (const OutOfMemoryException&)
+            {
+                logPrintE("XMLWriter error, out of memory exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
+            }
+            catch (const DOMException&)
+            {
+                logPrintE("XMLWriter error, DOM exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
+            }
+            catch (...)
+            {
+                logPrintE("XMLWriter error, unknown exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
+            }
+            return theElement;
+        }else {
+            DOMElement* theElement = NULL;
+            try {
+                theElement = doc->createElement(X("Ref"));
+                // add all attributes
+
+                XMLCh * tempKey = XMLString::transcode( "USE" );
+                XMLCh * tempValue = XMLString::transcode( defstring.c_str() );
                 XMLCh * xmlspace = XMLString::transcode("");
                 theElement->setAttributeNS( xmlspace, tempKey, tempValue );
                 XMLString::release( & tempKey );
                 XMLString::release( & tempValue );
                 XMLString::release( & xmlspace );
-                
+                    
+            }catch (const OutOfMemoryException&)
+            {
+                logPrintE("XMLWriter error, out of memory exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
             }
-            
-            // add all children
-            for (unsigned int i = 0; i < someNode->countAllChildren() ; i++){
-                DOMElement * el = createNode(doc, someNode->getAnyChild(i));
-                
-                if (el != NULL)
-                    theElement->appendChild(el);
+            catch (const DOMException&)
+            {
+                logPrintE("XMLWriter error, DOM exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
             }
-        }catch (const OutOfMemoryException&)
-        {
-            logPrintE("XMLWriter error, out of memory exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
+            catch (...)
+            {
+                logPrintE("XMLWriter error, unknown exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
+            }
+            return theElement;
+
+
         }
-        catch (const DOMException&)
-        {
-            logPrintE("XMLWriter error, DOM exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
-        }
-        catch (...)
-        {
-            logPrintE("XMLWriter error, unknown exception caught while trying to create node %s!!\n", (someNode->getType() .c_str()));
-        }
-        return theElement;
     }
 
-    DOMDocument * createDocument(Node * rootNode){
+    DOMDocument * createDocument(Node * rootNode, XMLWriter & writer){
         if (rootNode == NULL)
             return NULL;
        DOMImplementation* impl =  DOMImplementationRegistry::getDOMImplementation(X("Core"));
@@ -241,7 +289,7 @@ private :
            docElem->appendChild(com);
            // now create all the nodes starting from the rootNode
            for (unsigned int i=0 ; i < (rootNode->countAllChildren()); i++){
-               DOMElement * el = createNode(doc, rootNode->getAnyChild(i));
+               DOMElement * el = createNode(doc, rootNode->getAnyChild(i), writer);
                if (el != NULL)
                    docElem->appendChild(el);
            }
@@ -252,7 +300,7 @@ private :
 
     void XMLWriter::write(const char * file){
         // create the DOMDocument from the graph
-        DOMDocument * doc = createDocument(context.getRootNode());
+        DOMDocument * doc = createDocument(context.getRootNode(), *this);
         
 	std::auto_ptr<XMLFormatTarget> myFormatTarget ( new LocalFileFormatTarget( file ));
         writeNode( (DOMNode *)(doc) , myFormatTarget.get());
@@ -268,6 +316,22 @@ private :
                                                                                  "<OpenTracker>"*/;
  
     void insertNode(Node * node, TiXmlElement & parent){
+        bool writeSubtree= true;
+        std::string defstring (node->get("DEF"));
+
+        if (defstring.compare("")!=0){
+            XMLWriter::DefDict::iterator search = writer.defnodes.find(defstring);
+            if (search != writer.defnodes.end()){        
+                writeSubtree = false;
+            } else
+                writer.defnodes[defstring]= someNode;
+        }
+        
+
+
+        if (writeSubtree){
+
+
         // create the node with the right name
         TiXmlElement theNode((node->getType()) .c_str());
         // add the attributes to the node
@@ -320,7 +384,7 @@ private :
        
 
 
-#else  // OT_LOCAL_GRAPH
+#else  // NO_OT_LOCAL_GRAPH
 
 #  ifdef USE_XERCES
 
@@ -426,7 +490,7 @@ private :
 
 #  endif //USE_TINYXML
 
-#endif //OT_LOCAL_GRAPH
+#endif //NO_OT_LOCAL_GRAPH
 
 }  // namespace ot
 

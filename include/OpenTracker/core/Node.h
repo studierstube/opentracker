@@ -63,7 +63,6 @@ namespace ot {
 
     class Context;
     class ConfigurationParser;
-    class RefNode;
     class Node;
     class NodePort;
 
@@ -72,11 +71,11 @@ namespace ot {
 #endif
 
 } // namespace ot
-#ifndef NO_OT_LOCAL_GRAPH 
+
 #include "StringTable.h"
 #include <OpenTracker/core/IRefCounted.h>
 #include <OpenTracker/misc/Cptr.h>
-#endif //OT_LOCAL_GRAPH
+
 #include "Event.h"
 #ifdef USE_LIVE
 #include <OpenTracker/skeletons/OTGraph.hh>
@@ -104,12 +103,9 @@ namespace ot {
         
 
     public:
-#ifndef NO_OT_LOCAL_GRAPH
+
         OT_DECLARE_IREFCOUNTED;
         typedef Cptr<Node> Ptr;
-#else  //NO_OT_LOCAL_GRAPH
-        typedef Node * Ptr;
-#endif //NO_OT_LOCAL_GRAPH
     /**
      * a Vector of Node pointers. Very useful to implement a simple
      * container of Nodes such as a parent node, or to keep pointers
@@ -120,16 +116,14 @@ namespace ot {
     protected:
         /** Pointer to the parent XML element.*/
 
-#ifndef NO_OT_LOCAL_GRAPH
+
         NodeVector parents;
         NodeVector children;
 
         StringTable attributes;
-#else //NO_OT_LOCAL_GRAPH
-        void * parent; 
-#endif //NO_OT_LOCAL_GRAPH
-        /**  A Vector of pointers to reference nodes referencing this node. */
-        NodeVector references;
+
+        /**  A Vector of pointers to reference nodes referencing this node. 
+             NodeVector references;*/
 
         /// the unique ID given in the XML configuration file.
         std::string name;
@@ -148,20 +142,20 @@ namespace ot {
 
     protected:
 
-        virtual void setParent( void * parElement );
 
+        
         /**
          * adds a reference node to the list of references. Parents of
          * references need to be updated in case of an event generated.
          * @param reference the reference node to add
-         */
-        void addReference( Node * reference );
+         
+         void addReference( Node * reference );*/
 
         /**
          * removes a reference from the list.
          * @param reference the reference node to remove
-         */
-        void removeReference( Node * reference );
+         
+         void removeReference( Node * reference );*/
 
         /**
          * empty basic constructor. The constructors of any nodes should be
@@ -329,6 +323,18 @@ namespace ot {
 
         Node * getParent();
 
+        /**
+         * returns a parent indicated by the index.
+         * @param index unsigned number =>0 and < countParents()
+         * @return pointer to the parent node or NULL if index is out of range.
+         */
+        Node * getParent( unsigned int index);
+
+        /**
+         * returns the number of parents of this node
+         * @return unsigned number of parents
+         */
+        unsigned int countParents();
         /**
          * returns the number of children that are not wrapped, nor wrapper nodes.
          * That is the direct children a node may work with.
@@ -550,35 +556,37 @@ namespace ot {
         }
 
         
-#ifndef NO_OT_LOCAL_GRAPH
-	/** Searches the tree rooted in this node for a node containing an attribute
-	 * named key with the value val.
+
+	/** Searches the tree rooted in this node for a node containing 
+	 * an attribute named key with the value val.
          * @returns a pointer to the node or null.
          */
 	Node * findNode(const std::string & key, const std::string & val);
 	  
-       // adds a parent to this node. Because the new implementation is a graph, any
-       // given child can have more than one parent.
+       // adds a parent to this node. Because the new implementation 
+       // is a graph, any given child can have more than one parent.
         void addParent( Node * parent);
 
         /**
-         * returns the total number of direct children.
+         * returns the total number of direct children. Without regards to
+         * whether they are nodeports or not. Meaning it counts ALL children
          * @return unsigned number of children */
         unsigned int countAllChildren();
 
         /**
-         * returns a child at index, no matter whether it is a wrapper or not
+         * returns a child at index, no matter whether it is a wrapper or not.
+         * Meaning it could return a nodeport.
          * @return unsigned number of children */
         Node * getAnyChild( unsigned int index);
 
         StringTable & getAttributes();
 
-#endif //NO_OT_LOCAL_GRAPH
+
 
         friend class Context;
         friend class ConfigurationParser;
-        friend class RefNode;
-        friend class XMLWriter;
+        //        friend class RefNode;
+        //        friend class XMLWriter;
 #ifdef USE_LIVE
         friend class LiveContext;
 #endif

@@ -52,29 +52,12 @@
 
 #include <OpenTracker/OpenTracker.h>
 
-// selects between usage of XERCES and TinyXML
-#include <OpenTracker/tool/XMLSelection.h>
-
-#ifdef USE_XERCES
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/XMLUniDefs.hpp>
-#endif //USE_XERCES
-
 #include <OpenTracker/core/ConfigurationParser.h>
 #include <OpenTracker/common/CommonNodeFactory.h>
 #include <OpenTracker/common/CallbackModule.h>
 
 #include <OpenTracker/core/Configurator.h>
 
-#ifdef USE_XERCES
-XERCES_CPP_NAMESPACE_USE;
-const XMLCh ud_node[] = { chLatin_n, chLatin_o, chLatin_d, chLatin_e, chNull };
-#endif //USE_XERCES
-
-//using namespace std;
-
-// constructor method.
 
 namespace ot {
 
@@ -117,9 +100,6 @@ namespace ot {
         }
         modules.clear();
         if (rootNode != NULL) {
-#ifdef NO_OT_LOCAL_GRAPH
-            delete rootNode;
-#endif  //NO_OT_LOCAL_GRAPH
         }
         delete _havedatacondition;
         delete _havedatamutex;
@@ -214,7 +194,7 @@ namespace ot {
 
     void Context::parseConfiguration(const std::string& filename)
     {
-#ifndef NO_OT_LOCAL_GRAPH
+
         file = filename;
         std::string::size_type limit = file.find_last_of( "/\\" );
         if( limit != std::string::npos )
@@ -223,83 +203,15 @@ namespace ot {
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationFile( filename );
         
-#else //NO_OT_LOCAL_GRAPH
-#ifdef USE_XERCES
-        file = filename;
-        std::string::size_type limit = file.find_last_of( "/\\" );
-        if( limit != std::string::npos )
-            addDirectoryFirst( file.substr(0, limit));
-
-        ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationFile( filename );
-
-        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        doc->setUserData( ud_node, this, NULL );
-        
-        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
-        
-        if (xmlspace != NULL) {
-            char * tempName = XMLString::transcode( xmlspace );
-            rootNamespace = tempName;
-            XMLString::release( &tempName );
-        }
-        else {
-            rootNamespace = "";
-        }
-
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-        file = filename;
-        std::string::size_type limit = file.find_last_of( "/\\" );
-        if( limit != std::string::npos )
-            addDirectoryFirst( file.substr(0, limit));
-		
-		ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationFile( filename );
-        
-        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-        doc->SetUserData(this);
-
-#endif //USE_TINYXML
-#endif //NO_OT_LOCAL_GRAPH
     }
 
     void Context::parseConfigurationString(const char* xmlstring)
     {
-#ifndef NO_OT_LOCAL_GRAPH
+
         ConfigurationParser parser( *this );
         rootNode = parser.parseConfigurationString( xmlstring );
 
         rootNamespace = "";
-#else //NO_OT_LOCAL_GRAPH
-#ifdef USE_XERCES
-        ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationString( xmlstring );
-        
-        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        doc->setUserData( ud_node, this, NULL );
-        
-        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
-        
-        if (xmlspace != NULL) {
-            char * tempName = XMLString::transcode( xmlspace );
-            rootNamespace = tempName;
-            XMLString::release( &tempName );
-        }
-        else {
-            rootNamespace = "";
-        }
-#endif //USE_XERCES
-
-#ifdef USE_TINYXML
-        ConfigurationParser parser( *this );
-        rootNode = parser.parseConfigurationString( xmlstring );
-        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-        doc->SetUserData(this);
-#endif //USE_TINYXML
-#endif //NO_OT_LOCAL_GRAPH
     }
 
 
@@ -436,7 +348,6 @@ namespace ot {
 
     Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
-#ifndef NO_OT_LOCAL_GRAPH
         Node * value = factory.createNode( name , attributes );
         if( value != NULL )
         {
@@ -451,98 +362,8 @@ namespace ot {
             }
         }
         return value;
-#else //NO_OT_LOCAL_GRAPH
-#ifdef USE_XERCES
-        Node * value = factory.createNode( name , attributes );
-        if( value != NULL )
-        {
-            // add a correctly created DOM_Element to the node here and return
-
-            DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-            std::auto_ptr<XMLCh> tempName ( XMLString::transcode( name.c_str()));
-            std::auto_ptr<XMLCh> tempNS ( XMLString::transcode(rootNamespace.c_str()));
-            DOMElement * el = doc->createElementNS( tempNS.get(), tempName.get());
-            value->setParent( el );
-
-            // set attributes on the element node
-            KeyIterator keys(attributes);
-            while( keys.hasMoreKeys())
-            {
-
-                const std::string & key = keys.nextElement();
-
-                value->put( key, attributes.get( key ));
-
-                std::auto_ptr<XMLCh> attName ( XMLString::transcode( key.c_str()));
-                std::auto_ptr<XMLCh> attVal ( XMLString::transcode( attributes.get( key ).c_str()));
-                el->setAttributeNS(tempNS.get(), attName.get(), attVal.get());
-
-            }
-        }
-        return value;
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-        Node * value = factory.createNode( name , attributes );
-        if( value != NULL )
-        {
-            // add a correctly created DOM_Element to the node here and return
-        
-            TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-            const char * tempName = name.c_str();
-            const char * tempNS = rootNamespace.c_str();
-            TiXmlElement * el = new TiXmlElement(tempName);
-            value->setParent( el );
-
-            // set attributes on the element node
-            KeyIterator keys(attributes);
-            while( keys.hasMoreKeys())
-            {
-                const std::string & key = keys.nextElement();
-                value->put( key, attributes.get( key ));
-        
-                const char * attName = key.c_str();
-                const char * attVal = attributes.get( key ).c_str();
-                el->SetAttribute(attName, attVal);
-
-            }
-        }
-        return value;
-#endif //USE_TINYXML
-#endif //NO_OT_LOCAL_GRAPH
     }
 
-#ifdef USE_TINYXML
-    TiXmlElement *
-    findElementRecursive(TiXmlElement* element, const std::string & id)
-    {
-	// does this element have the attribute we search for?
-	if(element->Attribute(id.c_str()))
-            return element;
-
-	// walk through all children
-	TiXmlElement* child = element->FirstChildElement();
-	while(child)
-	{
-            if(TiXmlElement * found = findElementRecursive(child, id))
-                return found;
-            child = child->NextSiblingElement();
-	}
-
-	// walk through all siblings
-	TiXmlElement* sibling = element->NextSiblingElement();
-	while(sibling)
-	{
-            if(TiXmlElement * found = findElementRecursive(sibling, id))
-                return found;
-            sibling = sibling->NextSiblingElement();
-	}
-
-	// finally give up
-	return NULL;
-    }
-#endif //USE_TINYXML
 
     Node * Context::getRootNode()
     {
@@ -551,28 +372,8 @@ namespace ot {
 
     Node * Context::findNode(const std::string & id)
     {
-#ifndef NO_OT_LOCAL_GRAPH
+
         return rootNode->findNode("ID", id);
-#else //NO_OT_LOCAL_GRAPH
-        
-        
-#ifdef USE_XERCES
-        // search for the right node via the DOM_Document API
-        std::auto_ptr<XMLCh> tempId ( XMLString::transcode( id.c_str()));
-        DOMElement * el = ((DOMNode *)(rootNode->parent))->getOwnerDocument()->getElementById( tempId.get());
-        if( el != 0 )
-            return (Node *)el->getUserData(ud_node);
-        return NULL;
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-	TiXmlElement* el = findElementRecursive(((TiXmlNode*)rootNode->parent)->GetDocument()->RootElement(), id);
-        if( el != 0 )
-            return (Node *)el->GetUserData();
-        return NULL;
-#endif //USE_TINYXML
-#endif //NO_OT_LOCAL_GRAPH        
     }
 
     // add a directory to the front of the directory stack
@@ -723,31 +524,6 @@ namespace ot {
         // let the other context clean up the old rootNode
         other.rootNode = tmp;
         // set this context in the new rootNode
-#ifdef NO_OT_LOCAL_GRAPH
-        
-#ifdef USE_XERCES
-        DOMDocument * doc = ((DOMNode *)(rootNode->parent))->getOwnerDocument();
-        doc->setUserData( ud_node, this, NULL );
-
-        const XMLCh* xmlspace = ((DOMNode *)(rootNode->parent))->getNamespaceURI();
-        if (xmlspace != NULL) {
-            char * tempName = XMLString::transcode( xmlspace );
-            rootNamespace = tempName;
-            XMLString::release( &tempName );
-        }
-        else {
-            rootNamespace = "";
-        }
-
-#endif //USE_XERCES
-
-
-#ifdef USE_TINYXML
-        TiXmlDocument * doc = ((TiXmlNode *)(rootNode->parent))->GetDocument();
-        doc->SetUserData(this);
-#endif //USE_TINYXML
-
-#endif //NO_OT_LOCAL_GRAPH
         
         // copy the factories from other
         factory.copyFrom(other.factory);
@@ -896,9 +672,6 @@ namespace ot {
 
 				parent->removeChild(*target);
 
-#ifdef NO_OT_LOCAL_GRAPH
-            				target->parent = NULL;
-#endif  //NO_OT_LOCAL_GRAPH
 
 				// delete target;
 				unlock();
