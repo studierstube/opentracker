@@ -315,7 +315,7 @@ private :
     char * header = "<?xml version=\"1.0\" standalone=\"no\" >\n<!-- OpenTracker data version 2.0 TinyXMLWriter -->"/*
                                                                                  "<OpenTracker>"*/;
  
-    void insertNode(Node * node, TiXmlElement & parent){
+    void insertNode(Node * node, TiXmlElement & parent, XMLWriter & writer){
         bool writeSubtree= true;
         std::string defstring (node->get("DEF"));
 
@@ -324,34 +324,38 @@ private :
             if (search != writer.defnodes.end()){        
                 writeSubtree = false;
             } else
-                writer.defnodes[defstring]= someNode;
+                writer.defnodes[defstring]= node;
         }
         
-
-
         if (writeSubtree){
 
-
-        // create the node with the right name
-        TiXmlElement theNode((node->getType()) .c_str());
-        // add the attributes to the node
-        StringTable & attr = node->getAttributes();
-        KeyIterator keys(attr);
-        while( keys.hasMoreKeys())
-        {
-            const std::string & key = keys.nextElement();
-            theNode.SetAttribute(key.c_str(), attr.get(key) .c_str());
+            // create the node with the right name
+            TiXmlElement theNode((node->getType()) .c_str());
+            // add the attributes to the node
+            StringTable & attr = node->getAttributes();
+            KeyIterator keys(attr);
+            while( keys.hasMoreKeys())
+            {
+                const std::string & key = keys.nextElement();
+                theNode.SetAttribute(key.c_str(), attr.get(key) .c_str());
+            }
+            // add children to the node
+            for (unsigned int i = 0; i < node->countAllChildren() ; i++){
+                insertNode(node->getAnyChild(i), theNode, writer);
+            }
+            
+            // insert the node into the tree
+            parent.InsertEndChild(theNode);
+            
+        } else {
+            // write a ref node
+            TiXmlElement theNode("Ref");
+            theNode.SetAttribute("USE", defstring.c_str());
+            parent.InsertEndChild(theNode);
         }
-        // add children to the node
-        for (unsigned int i = 0; i < node->countAllChildren() ; i++){
-            insertNode(node->getAnyChild(i), theNode);
-        }
-
-        // insert the node into the tree
-        parent.InsertEndChild(theNode);
-
+       
     }
-
+    
     void XMLWriter::write( const char * file )
     {
 	TiXmlDocument doc;
@@ -369,7 +373,7 @@ private :
         if (someNode != NULL){
 
             for (unsigned int i = 0; i < someNode->countAllChildren() ; i++){
-                 insertNode(someNode->getAnyChild(i), opentracker);
+                 insertNode(someNode->getAnyChild(i), opentracker, *this);
             }
         }
         

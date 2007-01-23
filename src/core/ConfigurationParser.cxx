@@ -199,7 +199,7 @@ namespace ot {
         std::auto_ptr<StringTable> map ( parseElement( element ));
         std::string tagName = element->Value();
         ConfigNode * config = new ConfigNode( *map );
-        config->setParent( element );
+
 
         config->type = tagName;
 
@@ -307,18 +307,10 @@ namespace ot {
         {
             NodeMap::iterator find = references.find(map->get("USE"));
             if( find != references.end()){
-                RefNode * ref = new RefNode( (*find).second );
+                Node * ref = (Node*) ((*find).second );
 
-                KeyIterator keys(*map.get());
-                while( keys.hasMoreKeys())
-                {
-                    const std::string & key = keys.nextElement();
-                    ref->put( key, map->get( key ) );
-                }
 
-                ref->type = tagName;
-
-                logPrintI("Built Reference node -> %s\n", map->get("USE").c_str());
+                logPrintI("Found Reference node -> %s\n", map->get("USE").c_str());
                 return ref;
             } else
             {
