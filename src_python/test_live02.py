@@ -6,6 +6,8 @@ from omniORB import CORBA, any
 import OTGraph
 from OTGraph import *
 
+from itertools import izip
+
 # Import the stubs for the Naming service
 import CosNaming
 
@@ -31,19 +33,32 @@ def init():
     orb = initialiseORB()
     return orb, getGraphReference(orb)
 
+def gotoSleep(t):
+    whole_seconds = int(t)
+    frac_second   = t % 1
+    for i in range(0, whole_seconds):
+	sleep(1)
+	print ".", 
+	sys.stdout.flush()
+    sleep(frac_second)
+    print "."
+
 if __name__ == '__main__':
     # Initialise the ORB
     orb, graph = init()
-    print "creating CORBASink"
-    n1=graph.create_node("CORBASink",[KeyValuePair("name","CORBA.Sink01")])
-    print "creating TestSource"
-    n2=graph.create_node("TestSource", [KeyValuePair("frequency", "1"), KeyValuePair("noise", "0.1")])
-    print "connecting nodes"
-    graph.connect_nodes(n2, n1)
-    sleep(5)
-    print "disconnecting nodes"
-    graph.disconnect_nodes(n2, n1)
-    print "removing CORBASink"
-    graph.remove_node(n1)
-    print "removing TestSource"
-    graph.remove_node(n2)
+    sources = []
+    sinks = []
+    for i in range(0,1000):
+	sources += [graph.create_node("TestSource", [KeyValuePair("frequency", "10"), KeyValuePair("noise", "0.1")])]
+	sinks += [graph.create_node("CORBASink",[KeyValuePair("name","CORBA.Sink01")])]
+    for source, sink in izip(sources, sinks):
+	graph.connect_nodes(source, sink)
+    print "sleeping for five seconds"
+    gotoSleep(5)
+    print "woken up"
+    for source, sink in izip(sources, sinks):
+	graph.disconnect_nodes(source, sink)
+	graph.remove_node(source)
+	graph.remove_node(sink)
+    
+
