@@ -212,7 +212,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
         {
-          delete *result;
+          //delete *result;
 	  sinks.erase( result );
 	  return;
         } else {
@@ -224,7 +224,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	OT_CORBA::OTSource_var corba_source_ref = result->second;
 	// deactivate object
 	PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
-	delete result->first;
+	//delete result->first;
       } else {
 	logPrintE("Node not present in SourceNodeMap");
       }
@@ -234,7 +234,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       PushSuppVector::iterator result =  std::find( pushsupps.begin(), pushsupps.end(), node );//pushsupps.find((PushSupp*) node);
       if (result != pushsupps.end()) {
 	pushsupps.erase( result );
-	delete *result;
+	//delete *result;
 	return;
       }
     } else if (node->getType().compare("SharedEngineNode") == 0) {
@@ -242,7 +242,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       SharedEngineNodeVector::iterator result =  std::find( sharedengines.begin(), sharedengines.end(), node );//pushsupps.find((PushSupp*) node);
       if (result != sharedengines.end()) {
 	sharedengines.erase( result );
-	delete *result;
+	//delete *result;
 	return;
       }
     } else if (node->getType().compare("PushCons") == 0) {
@@ -253,7 +253,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	CORBAUtils::disconnectPushConsumer(proxy_pushsupplier_map[*result]);
 	proxy_pushsupplier_map.erase(*result);
 	pushconsumers.erase(result);
-      	delete *result;
+      	//delete *result;
       }
     } 
   }
@@ -262,35 +262,35 @@ void CORBAModule::initializeORB(int argc, char **argv)
 
 void CORBAModule::clear()
 {
-  for( CORBASinkVector::iterator it = sinks.begin(); it != sinks.end(); it++ )
-    {
-      delete *it;
-    }
+  // for( CORBASinkVector::iterator it = sinks.begin(); it != sinks.end(); it++ )
+//     {
+//       delete *it;
+//     }
   sinks.clear();
-  for (SourceNodeMap::iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
-    {
-      OT_CORBA::OTSource_var corba_source_ref = source_it->second;
-      // deactivate object
-      PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
+  // for (SourceNodeMap::iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
+//     {
+//       OT_CORBA::OTSource_var corba_source_ref = source_it->second;
+//       // deactivate object
+//       PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
       
       
-      delete source_it->first;
-      //have to sort out reference counting - it may be sufficient to delete the servant
-      //delete source_it->second; //have to sort out reference counting
-    }
+//       delete source_it->first;
+//       //have to sort out reference counting - it may be sufficient to delete the servant
+//       //delete source_it->second; //have to sort out reference counting
+//     }
   sources.clear();
 #ifdef USE_OMNIEVENTS
-  for( PushSuppVector::iterator it = pushsupps.begin(); it != pushsupps.end(); it++ )
-    {
-      delete *it;
-    }
+//   for( PushSuppVector::iterator it = pushsupps.begin(); it != pushsupps.end(); it++ )
+//     {
+//       delete *it;
+//     }
   pushsupps.clear();
   for( PushConsVector::iterator it = pushconsumers.begin(); it != pushconsumers.end(); it++ )
     {
       // disconnect the PushCons node
       CORBAUtils::disconnectPushConsumer(proxy_pushsupplier_map[*it]);
       // have to sort out the reference counting wrt to the proxy_pushsupplier_map
-      delete *it;
+      //delete *it;
     }
   pushconsumers.clear();
   proxy_pushsupplier_map.clear();

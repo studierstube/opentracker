@@ -103,9 +103,12 @@ namespace ot {
         
 
     public:
-
+#ifdef USE_LIVE
+        typedef Node* Ptr;
+#else
         OT_DECLARE_IREFCOUNTED;
         typedef Cptr<Node> Ptr;
+#endif
     /**
      * a Vector of Node pointers. Very useful to implement a simple
      * container of Nodes such as a parent node, or to keep pointers

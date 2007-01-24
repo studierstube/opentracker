@@ -75,14 +75,12 @@ namespace ot {
 	}
 
 
-    void TestModule::removeNode(const Node * node) {
+    void TestModule::removeNode(Node * node) {
+        logPrintI("TestModule::removeNode\n");
         logPrintI("TestModule deleting node %s\n", node->get("ID").c_str());
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
-#ifdef NO_OT_LOCAL_GRAPH            
-            delete *result;
-#endif  OT_LOCAL_GRAPH
             nodes.erase( result );
             return;
         } else {

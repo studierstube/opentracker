@@ -83,6 +83,7 @@ namespace ot {
 
     Node::~Node()
     {
+        std::cout << "destructor of Node " << get("ID") << std::endl;
         children.clear();
         parents.clear();
         //        references.clear();
@@ -421,8 +422,9 @@ namespace ot {
         return count;
     }
 
-
+#ifndef USE_LIVE
     IMPLEMENT_IREFCOUNTED(Node);
+#endif
 
     // add one parent node
     void Node::addParent( Node * parent ){

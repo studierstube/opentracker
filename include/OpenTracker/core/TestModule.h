@@ -106,7 +106,7 @@ namespace ot {
         /**
          * removes Node from module AND destroys it
          */
-        virtual void removeNode(const Node * node);
+        virtual void removeNode(Node * node);
 
         /**
          * pushes events into the tracker tree. Checks all TestSources and

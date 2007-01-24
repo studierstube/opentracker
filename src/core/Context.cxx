@@ -136,16 +136,20 @@ namespace ot {
     // returns a module indexed by its configuration elements name
 
     Module * Context::getModule(const std::string & name)
-    {	Module * result = NULL;
+    {	
+        logPrintI("getModule(%s)\n", name.c_str());
+        Module * result = NULL;
         ModuleMap::iterator it = modules.find( name );
         if( it != modules.end()){
+            logPrintI("found module\n");
             result = (*it).second;
         } else {
-
+            logPrintI("Couldn't find module\n");
             std::string modname;
             std::string::size_type loc = name.find("Config");
             modname = name.substr(0, loc) + "Module";
             //            logPrintW("Context could not find module %s, requesting Configurator to load %s\n", name.c_str(), modname.c_str());            
+            logPrintI("loading Module %s\n", modname.c_str());
             Configurator::loadModule(*this, modname.c_str());
             it = modules.find(name);
             if (it != modules.end())
@@ -349,7 +353,7 @@ namespace ot {
     }
 
     // creates a new node from a given element name and an attribute table
-
+    
     Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
         Node * value = factory.createNode( name , attributes );
@@ -564,6 +568,7 @@ namespace ot {
 	}
 
 	Module * Context::getModuleFromNodeType(std::string nodename){
+            logPrintI("getModuleFromNodeType(%s)\n", nodename.c_str());
 		// gcc does not allow doing this
 		// char * nodeTypes[3] = {{"Source"},{"Node"},{"Sink"}};
 		Module * result= NULL;
@@ -584,7 +589,15 @@ namespace ot {
 		} else if ((nodename.compare("EventMouseSource") == 0)){
 			modname = "EventConfig";
                         result = getModule(modname);
-		}else {
+		} else if ((nodename.compare("TestSource") == 0)){
+                    logPrintI("TestSource maps to TestConfig\n");
+			modname = "TestConfig";
+                        result = getModule(modname);
+		} else if ((nodename.compare("CORBASink") == 0)){
+                    logPrintI("CORBASink maps to CORBAConfig\n");
+			modname = "CORBAConfig";
+                        result = getModule(modname);
+		} else {
 			std::string::size_type loc= std::string::npos;
 			
 			for (int i = 0; i < 4; i++){

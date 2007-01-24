@@ -7,7 +7,7 @@
   <PushSupp name="EventChannel">
       <TestSource position="0 1 2" noise="0.5" frequency="10"/>
   </PushSupp>
-  <CORBASink name="Test.Sink01">
+  <FileSink file="test.out">
       <PushCons name="EventChannel"/>
-  </CORBASink>
+  </FileSink>
 </OpenTracker>

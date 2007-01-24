@@ -94,9 +94,10 @@ protected:
         frequency( frequency_ ),
         cycle ( 0 )
     {}
-    virtual ~CORBASink() {
+	virtual ~CORBASink() {
       // CORBASink destructor
-    }
+	  std::cout << "CORBASink destructor" << std::endl;
+	}
 
 public:
     /** tests for EventGenerator interface being present. Is overriden to

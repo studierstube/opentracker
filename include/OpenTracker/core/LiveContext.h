@@ -34,14 +34,16 @@ namespace ot {
 
   typedef std::pair<Node *, Node *> Edge;
   typedef std::vector<Edge> EdgeVector;
-  typedef std::map<std::string, Node *> NodeMap;
+  //typedef std::map<std::string, Node::Ptr> NodeMap;
+  typedef std::map<std::string, Node*> NodeMap;
   
  class OPENTRACKER_API LiveContext : public Context, 
     public PortableServer::RefCountServantBase {
   private:
     CORBAModule* corba_module;
     int no_nodes;
-    NodeVector nodes;
+    //NodeVector nodes;
+    NodeMap    nodes;
     EdgeVector edges;
 
     string generateNewId() {
@@ -80,6 +82,7 @@ namespace ot {
       PortableServer::POA_var poa = corba_module->getPOA();
       PortableServer::ServantBase* node_servant = poa->reference_to_servant(OTGraph::Node::_duplicate(node_ref));
       Node* node = dynamic_cast<Node*>(node_servant);
+      node->_remove_ref();
       return node;
     }
 
@@ -96,13 +99,17 @@ namespace ot {
       PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
       poa->activate_object_with_id(corba_id, node);
       OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(corba_id));
+      node->_remove_ref();
+      std::cout << "Node " << node->get("ID") << " activated with reference count " << node->_refcount_value() << std::endl;
       return node_ref;
     }
 
     void deactivateNode(Node* node) {
       string id(node->get("ID"));
       PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
+      std::cout << "Node " << node->get("ID") << " deactivating with reference count " << node->_refcount_value() << std::endl;
       (corba_module->getPOA())->deactivate_object(node_id);
+      //std::cout << "Node " << node->get("ID") << " deactivated with reference count " << node->_refcount_value() << std::endl;
     }
 
     OTGraph::Node_var create_node(const char* _name, const OTGraph::StringTable& _attributes) {
@@ -120,17 +127,17 @@ namespace ot {
       value->name = value->get("ID");
 
       // get Module (loading it if necessary)
-      Module * mod = NULL;
-      mod  = getModuleFromNode(value);
-      if (mod != NULL){
-	mod->addNode(value);
-      }
+      //Module * mod = NULL;
+      //mod  = getModuleFromNode(value);
+      //if (mod != NULL){
+      //mod->addNode(value);
+      //}
 
       // By default add to root Node
-      rootNode->addChild(*value);
+      //rootNode->addChild(*value);
 
-      // Add node to local list of nodes
-      nodes.push_back(value);
+      // Add node to the name-Node mapping
+      nodes[value->name] = value;
       OTGraph::Node_var node_ref = activateNode(value); 
       unlock();
       return node_ref;
@@ -138,58 +145,60 @@ namespace ot {
 
     void connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       lock();
-      Node* sender   = getNodeFromRef(upstreamNode);
-      Node* receiver = getNodeFromRef(downstreamNode);
-      // Test to see whether parent of sender is rootNode
-      if (sender->getParent() == rootNode) {
-	// The sender node has no functional Node as parent
-	// so remove from rootNode and add to the receivingNode
-	rootNode->removeChild(*sender);
-      }
-      receiver->addChild(*sender);
+      Node::Ptr upstream_node   = getNodeFromRef(upstreamNode);
+      Node*     downstream_node = getNodeFromRef(downstreamNode);
+      downstream_node->addChild(*upstream_node);
+      //rootNode->removeChild(*sender);
+
+      // Test to see  whether parent of sender is rootNode
+/*       if (sender->parents.size() == 1) { */
+/* 	if (sender->getParent() == rootNode) { */
+	  // The sender node has no functional Node as parent
+	  // so remove from rootNode and add to the receivingNode
+
+/* 	} */
+/*       } */
+
+
       // add new edge to list of edges
-      edges.push_back(Edge(sender, receiver));
+      edges.push_back(Edge(((Node*) upstream_node), downstream_node));
       unlock();
     }
 
     
-    void disconnect_nodes(const OTGraph::Node_var& sendingNode, const OTGraph::Node_var& receivingNode) {
+    void disconnect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       lock();
-      Node* sender   = getNodeFromRef(sendingNode);
-      Node* receiver = getNodeFromRef(receivingNode);
-      if (receiver == sender->getParent()) {
-	// The sender node is the child of the receiver node
-	receiver->removeChild(*sender);
-	rootNode->addChild(*sender);
-      } else {
-	// The nodes must be connected via a RefNode
-	Node* child = receiver->getChild(0);
-	if ((child->getType()).compare("Ref") == 0) {
-	  // remove reference to child in referencing node
-	  sender->removeReference(child); 
-	  // remove as Child from receiving node
-	  receiver->removeChild(*child);
-	  // delete the RefNode
-	  delete child;
-	}
+      Node* upstream_node   = getNodeFromRef(upstreamNode);
+      Node* downstream_node = getNodeFromRef(downstreamNode);
+
+      NodeVector::iterator parent =
+	std::find( upstream_node->parents.begin(),  upstream_node->parents.end(), downstream_node);
+      if (parent != upstream_node->parents.end()) {
+	upstream_node->parents.erase(parent);
       }
-      // removing edge from local list of edges
-      Edge edge(sender, receiver);
+      NodeVector::iterator child =
+	std::find( downstream_node->children.begin(),  downstream_node->children.end(), upstream_node);
+      if (child != downstream_node->children.end()) {
+	// The sender node is the child of the receiver node
+	downstream_node->children.erase(child);
+      }
+      Edge edge(upstream_node, downstream_node);
       EdgeVector::iterator result = std::find( edges.begin(), edges.end(), edge );
       if( result != edges.end())
-        {
+	{
 	  edges.erase( result );
-        }
+	}
       unlock();
     }
-
 
     OTGraph::NodeVector* get_nodes() {
       OTGraph::NodeVector_var node_refs = new OTGraph::NodeVector;
       int len = nodes.size();
       node_refs->length(len);
-      for (int i=0; i < nodes.size(); i++) {
-	node_refs[i] = getRefFromNode(nodes[i]);
+      int i = 0;
+      for (NodeMap::iterator it=nodes.begin(); it != nodes.end(); it++) {
+	node_refs[i] = getRefFromNode(it->second);	
+	i++;
       }
       return node_refs._retn();
     };
@@ -208,35 +217,30 @@ namespace ot {
     };
 
     void remove_node(const OTGraph::Node_var& target_ref) {
-      cerr << "remove_node" << endl;
       lock();
       Node* target  = getNodeFromRef(target_ref);
+      std::cout << "Node " << target->get("ID") << " of type " << target->getType() << " being removed with reference count " << target->_refcount_value() << std::endl;
 
       // Handle child nodes (upstream nodes)
       NodeVector::iterator child_it = target->children.begin();
       while ( child_it != target->children.end())
         {
-	  Node* child = child_it->item();
+	  Node* child = (Node *) *child_it;
 	  target->removeChild(*child);
-	  //  and add to rootNode if child node has been orphaned
-	  if (child->parents.size() == 0) {
-	    rootNode->addChild(*child);
-	  }
 	  child_it++;
         }
       // Handle parents
       NodeVector::iterator parent_it = target->parents.begin();
       while ( parent_it != target->parents.end())
         {
-	  parent_it->item()->removeChild(*target);
+	  Node * parent = (Node *) (*parent_it);
+	  parent->removeChild(*target);
 	  parent_it++;
         }
 
-      // deactivate the object before passing the node to the module to be deleted
-      deactivateNode(target);
-
       // removing node from local list
-      NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), target );
+      string id(target->get("ID"));
+      NodeMap::iterator result = nodes.find(id);
       if( result != nodes.end())
         {
 	  nodes.erase( result );
@@ -245,11 +249,17 @@ namespace ot {
       // identify module, and instruct module to delete node
       Module * mod = getModuleFromNode(target);
       if (mod != NULL) {
+	logPrintI("calling mod->removeNode\n");
 	mod->removeNode(target);
+	logPrintI("called mod->removeNode\n");
       } else {
-	// node doesn't have a known module so delete here
-	delete target;
+	logPrintE("unable to find module associated with node %s\n",id.c_str());
       }
+
+      // deactivate the object before passing the node to the module to be deleted
+      deactivateNode(target);
+
+
       unlock();
     }
 

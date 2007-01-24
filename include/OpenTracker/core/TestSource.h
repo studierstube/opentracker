@@ -118,6 +118,9 @@ namespace ot {
 	    frequency( frequency_ ),
 	    offset( offset_ )
             {}
+        virtual ~TestSource() {
+	  std::cout << "TestSource destructor" << std::endl;
+	}
     public:
         /** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
