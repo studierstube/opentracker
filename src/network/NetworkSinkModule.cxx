@@ -75,7 +75,7 @@ namespace ot {
 
     // function to register the module with the context
     OT_MODULE_REGISTER_FUNC(NetworkSinkModule){
-        OT_MODULE_REGISTRATION_DEFAULT(NetworkSinkModule, "NetworkSinkConfig");
+        OT_MODULE_REGISTRATION_DEFAULT(NetworkSinkModule, "NetworkSink");
     }
 
 

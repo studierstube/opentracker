@@ -46,6 +46,7 @@
 
 #include <cstdlib>
 #include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallbackNode.h>
 
 #include <iostream>
 

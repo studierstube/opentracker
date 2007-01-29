@@ -73,7 +73,7 @@ namespace ot {
 	ConfigurationThread * thread;
 
 	static void doInitialization(Context & newctx);
-	
+      
 	Configurator();
   public:
 	

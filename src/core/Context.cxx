@@ -137,11 +137,11 @@ namespace ot {
 
     Module * Context::getModule(const std::string & name)
     {	
-        logPrintI("getModule(%s)\n", name.c_str());
+        //logPrintI("getModule(%s)\n", name.c_str());
         Module * result = NULL;
         ModuleMap::iterator it = modules.find( name );
         if( it != modules.end()){
-            logPrintI("found module\n");
+        //    logPrintI("found module\n");
             result = (*it).second;
         } else {
             logPrintI("Couldn't find module\n");

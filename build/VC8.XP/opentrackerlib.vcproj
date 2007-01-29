@@ -199,10 +199,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigurationParser.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\ConsoleModule.cxx"
 				>
 			</File>
@@ -515,6 +511,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\TinyXMLConfigurationParser.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\xml\TinyXMLWriter.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\Transformation.cxx"
 				>
 			</File>
@@ -559,7 +563,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\xml\XMLWriter.cxx"
+				RelativePath="..\..\src\core\XercesConfigurationParser.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\xml\XercesXMLWriter.cxx"
 				>
 			</File>
 			<File

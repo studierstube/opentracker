@@ -60,9 +60,14 @@
 
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
-#include "CallbackNode.h"
+namespace ot{
 
-typedef void OTGlobalCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
+    class CallbackNode;
+};
+//#include "CallbackNode.h"
+
+typedef void OTGlobalCallbackFunction(ot::CallbackNode *, ot::Event &, void *);
+typedef void OTCallbackFunction (ot::CallbackNode *, ot::Event &, void *);
 
 namespace ot {
 

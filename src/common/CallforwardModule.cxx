@@ -46,7 +46,7 @@
 
 #include <cstdlib>
 #include <OpenTracker/common/CallforwardModule.h>
-
+#include <OpenTracker/common/CallforwardNode.h>
 #include <iostream>
 
 #include <ace/Log_Msg.h>

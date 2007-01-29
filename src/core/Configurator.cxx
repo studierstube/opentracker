@@ -89,11 +89,12 @@ namespace ot{
 
     void Configurator::loadModule(Context & newctx, const char * module)
     {
-        //logPrintS("Configurator loading module %s\n", module);
+        logPrintS("Configurator loading module %s\n", module);
         Registry::iterator i = initFunctions.find(module);
         if (i != initFunctions.end()){
             (* (i->second).function) (&newctx, (i->second).data);
-        }
+        } else
+            logPrintE("module %s not found\n", module);
     };
 
 

@@ -75,7 +75,7 @@
 namespace ot {
 
     OT_MODULE_REGISTER_FUNC(NetworkSourceModule){
-        OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
+        OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSource");
     }
 
     struct Station

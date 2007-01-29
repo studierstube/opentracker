@@ -235,7 +235,7 @@ namespace ot
          * Return the number of attributes held by the event.
          * @return number of attributes
          */
-        inline int getSize() const { return attributes.size(); };
+        inline int getSize() const { return (int)attributes.size(); };
         /**
          * Returns the RTTI type information of an attribute's value. An exception is thrown if
          * the name is not valid.

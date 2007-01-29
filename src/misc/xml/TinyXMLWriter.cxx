@@ -45,11 +45,11 @@
 
 #ifndef OT_NO_XMLWRITER_SUPPORT
 
-
+#  ifdef USE_TINYXML
 // selects between usage of XERCES and TinyXML
 #include <OpenTracker/tool/XMLSelection.h>
 
-#  ifdef USE_TINYXML
+
 
 #include <memory>
 

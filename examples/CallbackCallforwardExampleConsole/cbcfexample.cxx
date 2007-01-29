@@ -53,10 +53,24 @@ using namespace std;
 
 using namespace ot;
 
-CallbackFunction *clientACB;
-CallbackFunction *clientBCB;
-GlobalCallbackFunction *globalClientCB;
 
+void clientACB( CallbackNode & node,  Event & event, void * data ){
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    cout << node.getName() << " time diff " << diff << endl;
+
+}
+
+void clientBCB( CallbackNode & node,  Event & event, void * data ){
+    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    cout << node.getName() << " time diff " << diff << endl;
+
+}
+
+void globalClientCB( CallbackNode & node,  Event & event, void * data ){
+    using namespace std;
+
+    cout << "This is the global callback function." << endl;
+}
 
 /**
  * The main function for the test program. It expects a
@@ -109,23 +123,6 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void clientACB( Node & node,  Event & event, void * data ){
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
-
-}
-
-void clientBCB( Node & node,  Event & event, void * data ){
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
-
-}
-
-void globalClientCB( Node & node,  Event & event, void * data ){
-    using namespace std;
-
-    cout << "This is the global callback function." << endl;
-}
 /* 
  * ------------------------------------------------------------
  *   End of cbcfexample.cxx

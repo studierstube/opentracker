@@ -45,6 +45,7 @@
 #include <OpenTracker/tool/disable4786.h>
 
 #include <cstdlib>
+#include <OpenTracker/common/CallbackNode.h>
 #include <OpenTracker/common/CallbackModule.h>
 
 #include <iostream>
@@ -59,6 +60,7 @@
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
+#include <OpenTracker/core/OtLogger.h>
 
 namespace ot {
   
@@ -66,6 +68,8 @@ namespace ot {
     {
 
         using namespace std;
+
+		//logPrintW("CallbackNode:: onEventGenerated for node %s\n", (name.c_str()));
 
         // lock event for the time of the callback
         
@@ -84,12 +88,13 @@ namespace ot {
 
         if (gcbfunc != NULL)
         {
-            (*gcbfunc)(*this, event, gcbdata);
+            (*gcbfunc)(this, event, gcbdata);
         }
         // call node based callback function
         if ( function != NULL )
         {
-            (*function)(*this, event, data );
+			//logPrintW("CallbackNode:: calling the function\n");
+            (*function)(this, event, data );
         }
 
         eventmutex.release();

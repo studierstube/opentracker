@@ -55,7 +55,7 @@
 #define _CALLFORWARDMODULE_H
 
 #include "../OpenTracker.h"
-#include "CallforwardNode.h"
+//#include "CallforwardNode.h"
 
 #ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 

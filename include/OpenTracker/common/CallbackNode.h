@@ -65,11 +65,12 @@
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
+#include <OpenTracker/common/CallbackModule.h>
 namespace ot {
 class CallbackNode;
 }
 
-typedef void OTCallbackFunction(ot::CallbackNode &, ot::Event &, void *);
+
 
 namespace ot {
 
