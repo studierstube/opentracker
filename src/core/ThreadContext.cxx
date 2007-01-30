@@ -47,6 +47,8 @@
 #include <ace/OS.h>
 #include <ace/FILE.h>
 #include <ace/Condition_Thread_Mutex.h>
+#include <ace/Thread.h>
+#include <ace/Synch.h>
 #include <ace/Thread_Mutex.h>
 #include <algorithm>
 
@@ -65,16 +67,133 @@ namespace ot {
 
     ThreadContext::ThreadContext(int init ) : Context(init)
     {
-		
+        action_type = POLL;
+        action_rate = 1.0;
+
+        thread_mutex = new ACE_Thread_Mutex;
+        action_mutex = new ACE_Thread_Mutex;
+        action_cond = new ACE_Condition<ACE_Thread_Mutex>(*action_mutex);
+
+        thread = new ACE_thread_t;
+        ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
+                          this, 
+                          THR_NEW_LWP | THR_JOINABLE,
+                          (ACE_thread_t *)thread );	
     }
 
     // Destructor method.
     ThreadContext::~ThreadContext()
     {
         using namespace ot;
+
+        stopLoop();
+#ifdef WIN32
+	ACE_Thread::join( (ACE_thread_t*)thread );
+#else
+	ACE_Thread::join( (ACE_thread_t)thread );
+#endif
         this->~Context();
+        
+        delete action_cond;
+        delete action_mutex;
+        delete thread_mutex;
     }
 
+    // enters a critical section. 
+
+    void ThreadContext::thlock()
+    {
+	thread_mutex->acquire();
+    }
+
+    // leaves a critical section. 
+
+    void ThreadContext::thunlock()
+    {
+	thread_mutex->release();
+    }
+
+    void ThreadContext::runDispatcher()
+    {
+        using namespace std;
+        bool havetoquit = false;
+
+        while (!havetoquit)
+        {
+            cerr << " waiting for action command ..." << endl;
+
+            action_cond->wait();            
+
+            thlock();
+            int locactiontype = action_type;
+            thunlock();
+            
+            switch (locactiontype)
+            {
+                case POLL:
+                    Context::run();
+                    break;
+                case RATE:
+                    Context::runAtRate(action_rate);
+                    break;
+                case DEMAND:
+                    Context::runOnDemand();
+                    break;
+                case QUIT:
+                    havetoquit = true;
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        cerr << " thread finished." << endl;
+        
+    }
+
+    void ThreadContext::run()
+    {
+        using namespace std;
+        cout << "ThreadContext::run()" << endl;
+
+        thlock();
+
+        action_type = POLL;
+
+        thunlock();
+
+        action_cond->signal();
+    }
+
+    void ThreadContext::runAtRate(double rate)
+    {
+        using namespace std;
+        cout << "ThreadContext::runAtRate()" << endl;
+
+        thlock();
+
+        action_type = RATE;
+        action_rate = rate;
+
+        thunlock();
+
+        action_cond->signal();
+    }
+
+    void ThreadContext::runOnDemand()
+    {
+        using namespace std;
+        cout << "ThreadContext::runOnDemand()" << endl;
+     
+        thlock();
+
+        action_type = DEMAND;
+
+        thunlock();
+
+        action_cond->signal();
+    }
+    
    
 } // namespace ot
 

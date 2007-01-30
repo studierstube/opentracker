@@ -207,7 +207,7 @@ void CbCfMainWindow::updateEventsEdit()
 }
 
 /// below are the callback functions running in the OpenTracker thread
-void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, void * data )
+void CbCfMainWindow::clientACB( ot::CallbackNode * node,  ot::Event & event, void * data )
 {
     using namespace ot;
 
@@ -224,7 +224,7 @@ void CbCfMainWindow::clientACB( ot::CallbackNode & node,  ot::Event & event, voi
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::clientBCB( ot::CallbackNode & node, 
+void CbCfMainWindow::clientBCB( ot::CallbackNode * node, 
                                 ot::Event & event, void * data )
 {
     using namespace ot;
@@ -241,7 +241,7 @@ void CbCfMainWindow::clientBCB( ot::CallbackNode & node,
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::clientTestCB( ot::CallbackNode & node, 
+void CbCfMainWindow::clientTestCB( ot::CallbackNode * node, 
                                 ot::Event & event, void * data )
 {
     using namespace ot;
@@ -258,7 +258,7 @@ void CbCfMainWindow::clientTestCB( ot::CallbackNode & node,
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::globalClientCB( ot::CallbackNode & node,  
+void CbCfMainWindow::globalClientCB( ot::CallbackNode * node,  
                                      ot::Event & event, void * data )
 {
     using namespace std;

@@ -54,7 +54,7 @@
 
 class ACE_Thread_Mutex;
 class ACE_Condition_Thread_Mutex;
-
+//class ACE_Condition<ACE_Thread_mutex>;
 
 
 namespace ot {
@@ -68,7 +68,25 @@ namespace ot {
 
     class OPENTRACKER_API ThreadContext : Context
     {
-        // Methods
+        // members
+    protected:
+        enum ActionType {
+            POLL = 0,
+            RATE = 1,
+            DEMAND = 2,
+            QUIT = 255
+        };
+
+        int action_type;
+        double action_rate;
+
+        void * thread;
+        
+        ACE_Thread_Mutex * thread_mutex;
+        ACE_Thread_Mutex * action_mutex;
+        ACE_Condition<ACE_Thread_Mutex> * action_cond;
+        
+        // methods        
     public:
 
         /** a constructor method.
@@ -76,9 +94,38 @@ namespace ot {
          *        factories, adds them to its local containers and also takes care of
          *        removing them again in the destructor.*/
         ThreadContext( int init = 0 );
+
         /** destructor method clears containers and removes any modules instantiated in
          * the default setup, if cleanUp is st. */
         virtual ~ThreadContext();
+
+    protected:
+        /** enters a critical section. Use this method to protect your operations
+         * from another thread. This is not a recursive lock, do not call it
+         * several times without unlocking !*/
+        void thlock();
+       /** leaves a critical section. Use this method to release the protection.
+         */
+        void thunlock();    
+        /** This method implements the dispatcher, which runs one of the maint 
+         *  loops in the thread. */
+        void runDispatcher();
+
+        /** This method implements the main loop and runs until it is stopped
+         * somehow. Then it calls close() on all modules. */
+        virtual void run();
+
+        /** This method a main loop at a fixed rate until it is stopped
+         * somehow. Then it calls close() on all modules. */
+        virtual void runAtRate(double rate);
+
+        /** This is a data-driven implementation of the main loop */
+        virtual void runOnDemand();
+
+        static void thread_func( void * data )
+        {
+            ((ThreadContext*)data)->runDispatcher();
+        };
 
         friend class ConfigurationParser;
     };

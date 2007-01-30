@@ -263,6 +263,8 @@ namespace ot {
     {
         using namespace std;
 
+        cout << "Context::run()" << endl;
+
         start();
         int stopflag = stop();
         while ( stoploopflag == 0 && stopflag == 0 )
@@ -283,6 +285,9 @@ namespace ot {
 
     void Context::runAtRate(double rate)
     {
+        using namespace std;
+        cout << "Context::runAtRate()" << endl;
+
         double t1 = OSUtils::currentTime(); // in milliseconds
         start();
         int stopflag = stop();
@@ -302,11 +307,15 @@ namespace ot {
 
         stoploopflag = 0;
 
+        cout << "closing loop" << endl;
         close();
     }
 
     void Context::runOnDemand()
     {
+        using namespace std;
+        cout << "Context::runOnDemand()" << endl;
+
         start();
         int stopflag = stop();
         while ( stopflag == 0 )
@@ -315,6 +324,8 @@ namespace ot {
             pushEvents();
             pullEvents();
         }
+
+        cout << "closing loop" << endl;
         close();
     }
 

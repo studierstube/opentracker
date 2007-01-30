@@ -79,10 +79,10 @@ public:
     CbCfMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
     ~CbCfMainWindow();
 protected:
-    static void clientACB(ot::CallbackNode &, ot::Event &, void *);
-    static void clientBCB(ot::CallbackNode &, ot::Event &, void *);
-    static void clientTestCB(ot::CallbackNode &, ot::Event &, void *);
-    static void globalClientCB(ot::CallbackNode &, ot::Event &, void *);
+    static void clientACB(ot::CallbackNode *, ot::Event &, void *);
+    static void clientBCB(ot::CallbackNode *, ot::Event &, void *);
+    static void clientTestCB(ot::CallbackNode *, ot::Event &, void *);
+    static void globalClientCB(ot::CallbackNode *, ot::Event &, void *);
 };
 
 #endif
