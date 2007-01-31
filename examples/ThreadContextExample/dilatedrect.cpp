@@ -52,7 +52,7 @@ DilatedRect::DilatedRect(double da, QGraphicsItem * parent, QGraphicsScene * sce
 }
 
 
-QRectF DilatedRect::boundigRect() const
+QRectF DilatedRect::boundingRect() const
 {
     QRectF rect(parentItem()->boundingRect());
     rect.adjust(-d*0.5, -d*0.0, d, d);

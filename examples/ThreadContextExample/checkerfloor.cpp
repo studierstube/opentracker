@@ -43,13 +43,14 @@
 
 #include "checkerfloor.h"
 
-CheckerFloor::CheckerFloor(double adimension) : QGraphicsItem()
+CheckerFloor::CheckerFloor(double adimension) 
+  : QGraphicsItem()
 {
     dimension = adimension;
     setZValue(0.0);
 }
 
-QRectF CheckerFloor::boundigRect() const
+QRectF CheckerFloor::boundingRect() const
 {
     return QRectF(-dimension*0.5, -dimension*0.0,
                   dimension, dimension);
@@ -64,7 +65,7 @@ void CheckerFloor::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 /* 
  * ------------------------------------------------------------
- *   End of pongview.h
+ *   End of checkerfloor.cpp
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

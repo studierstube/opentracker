@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** CheckerFloor Class implementation
+/** Arena Class implementation
  *
  * @author Alexander Bornik
  *
@@ -57,7 +57,7 @@ QPainterPath Arena::shape() const
     return path;
 }
 
-QRectF Arena::boundigRect() const
+QRectF Arena::boundingRect() const
 {
     return QRectF(-dimension*0.5, -dimension*0.0,
                   dimension, dimension);

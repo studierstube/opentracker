@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** CheckerFloor Class header
+/** Arena Class header
  *
  * @author Alexander Bornik
  *
@@ -49,13 +49,15 @@
 
 class Arena : public QGraphicsItem
 {
+Q_OBJECT
 public:
     Arena(double dimension = 24);
 
-    QRectF boundigRect() const;
-    QPainterPath shape() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget);
+    virtual QRectF boundingRect() const;
+    virtual QPainterPath shape() const;
+    virtual void paint(QPainter *painter, 
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget);
 protected:
     double dimension;
 

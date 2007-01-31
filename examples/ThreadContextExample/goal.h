@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** PongScene Class header
+/** Goal Class header
  *
  * @author Alexander Bornik
  *
@@ -41,19 +41,29 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifndef PONGSCENE_H
-#define PONGSCENE_H
+#ifndef PONGGOAL_H
+#define PONGGOAL_H
 
 #include <QtGui>
 #include <QtCore>
 
-class PongScene : public QGraphicsScene
+class DilatedRect;
+
+class Goal : public QGraphicsItem
 {
 Q_OBJECT
 public:
-    PongScene(double xorig = -12.5, double yorig = -12.5, 
-              double xsize =  25,   double ysize =  25 );
-    virtual void mouseMoveEvent(QEvent &ev);
+    Goal(double iwidth = 5.0, double iheight = 2.0);
+
+    virtual QRectF boundingRect() const;
+    virtual void paint(QPainter *painter, 
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget);
+    virtual QPainterPath shape() const;
+
+protected:
+    double width;
+    double height;
 
 };
 
@@ -61,7 +71,7 @@ public:
 
 /* 
  * ------------------------------------------------------------
- *   End of pongscene.h
+ *   End of goal.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

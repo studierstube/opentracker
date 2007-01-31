@@ -51,6 +51,7 @@
 
 class PongView : public QGraphicsView
 {
+Q_OBJECT
 public:
     PongView(PongScene &scene);
 

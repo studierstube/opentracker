@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** PongScene Class header
+/** PlayingField Class implementation
  *
  * @author Alexander Bornik
  *
@@ -41,27 +41,39 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifndef PONGSCENE_H
-#define PONGSCENE_H
+#include "playingfield.h"
+#include "dilatedrect.h"
 
-#include <QtGui>
-#include <QtCore>
-
-class PongScene : public QGraphicsScene
+PlayingField::PlayingField(double iwidth, double iheight) 
+    : QGraphicsItem()
 {
-Q_OBJECT
-public:
-    PongScene(double xorig = -12.5, double yorig = -12.5, 
-              double xsize =  25,   double ysize =  25 );
-    virtual void mouseMoveEvent(QEvent &ev);
+    setAcceptedMouseButtons(Qt::NoButton);
+    width = iwidth;
+    height = iheight;
+    setZValue(2.0);
+    inner_bound = new DilatedRect(-0.4);
+}
 
-};
 
-#endif
+QRectF PlayingField::boundingRect() const
+{
+    
+    return QRectF(-width*.05, -height*0.5,
+                  width, height);
+}
+
+
+void PlayingField::paint(QPainter *painter, 
+                         const QStyleOptionGraphicsItem *option, 
+                         QWidget *widget)
+{
+    painter->setBrush(Qt::darkGreen);
+    painter->drawRect(boundingRect());
+}
 
 /* 
  * ------------------------------------------------------------
- *   End of pongscene.h
+ *   End of playingfield.cpp
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

@@ -10,7 +10,9 @@ HEADERS = \
     pongscene.h \
     checkerfloor.h \
     arena.h \
-    dilatedrect.h
+    dilatedrect.h \
+    playingfield.h \
+    goal.h
 
 SOURCES  = \
     main.cpp \
@@ -19,7 +21,9 @@ SOURCES  = \
     pongscene.cpp \
     checkerfloor.cpp \
     arena.cpp \
-    dilatedrect.cpp
+    dilatedrect.cpp \
+    playingfield.cpp \
+    goal.cpp
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker

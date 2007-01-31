@@ -49,11 +49,12 @@
 
 class CheckerFloor : public QGraphicsItem
 {
+Q_OBJECT
 public:
     CheckerFloor(double dimension = 25);
 
-    QRectF boundigRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+    virtual QRectF boundingRect() const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 protected:
     double dimension;
