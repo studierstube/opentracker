@@ -360,6 +360,7 @@ namespace ot {
     {
         lock();
         stoploopflag = 1;
+        dataSignal();
         unlock();
     }
 

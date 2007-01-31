@@ -104,7 +104,7 @@ namespace ot {
 
         // fix for the moment
         // must be changed for a stronger statement
-        return & (Configurator::instance() ->getContext());
+        return Configurator::instance()->getContext();
     }
 
     // returns the number of children

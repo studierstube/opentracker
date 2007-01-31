@@ -70,9 +70,9 @@ namespace ot {
         action_type = POLL;
         action_rate = 1.0;
 
-        thread_mutex = new ACE_Thread_Mutex;
-        action_mutex = new ACE_Thread_Mutex;
-        action_cond = new ACE_Condition<ACE_Thread_Mutex>(*action_mutex);
+        thread_mutex = new thread_mutex_type;
+        action_mutex = new mutex_type;
+        action_cond = new condition_type(*action_mutex);
 
         thread = new ACE_thread_t;
         ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 

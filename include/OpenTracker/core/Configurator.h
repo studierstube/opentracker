@@ -47,42 +47,47 @@
 #include <string>
 #include "../dllinclude.h"
 
-namespace ot {
+namespace ot 
+{
 
-  class Context;
-  class ConfigurationThread;
+    class Context;
+    class ThreadContext;
+    class ConfigurationThread;
+    enum ContextType {
+        NORMAL = 0,
+        THREAD = 1
+    };
 
-  class OPENTRACKER_API Configurator {
-  public:
-	  typedef void (*ModuleInitFunc) (Context *, void * data);
+    class OPENTRACKER_API Configurator {
+    public:
+        typedef void (*ModuleInitFunc) (Context *, void * data);
 	 
-  protected:
-	  struct MIFunctor{
-		ModuleInitFunc function;
-		void * data;
-		//MIFunctor(ModuleInitFunc f, void * d):function(f), data(d){};
-	  };
-  public:
-	  typedef std::map<std::string, MIFunctor> Registry;
-  protected:
+    protected:
+        struct MIFunctor{
+            ModuleInitFunc function;
+            void * data;
+            //MIFunctor(ModuleInitFunc f, void * d):function(f), data(d){};
+        };
+    public:
+        typedef std::map<std::string, MIFunctor> Registry;
+    protected:
 	static Registry initFunctions;
 	static Configurator * self;
-    Context ctx;
+        Context * ctx;
 	bool isDefaultContext;
 
 	ConfigurationThread * thread;
 
 	static void doInitialization(Context & newctx);
       
-	Configurator();
-  public:
+	Configurator(int ctx_type = NORMAL);
+    public:
 	
 
-	static Configurator * instance();
+	static Configurator * instance(int ctx_type = NORMAL);
 	virtual ~Configurator();
 
-	Context & getContext();
-
+	Context * getContext();
 	
 	void parseConfigurationString(std::string configString);
 	void changeConfiguration(std::string configString);
@@ -94,7 +99,7 @@ namespace ot {
 	static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
 	static void loadModule(Context & newctx, const char * module);
 	friend OPENTRACKER_API void initializeContext(Context *, void *);
-  };
+    };
 
 }
 

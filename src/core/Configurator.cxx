@@ -43,6 +43,8 @@
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/core/Configurator.h>
+#include <OpenTracker/core/Context.h>
+#include <OpenTracker/core/ThreadContext.h>
 #include <OpenTracker/misc/FileConfigurationThread.h>
 #include <iostream>
 #include <fstream>
@@ -52,19 +54,31 @@ namespace ot{
     Configurator * Configurator::self = NULL;
     Configurator::Registry Configurator::initFunctions;
 
-    Configurator::Configurator():ctx(0), thread(NULL)
+    Configurator::Configurator(int ctx_type):ctx(NULL), thread(NULL)
     {
-        this->loadModule(ctx, "OpenTracker");
+        switch (ctx_type)
+        {
+            case NORMAL:
+                ctx = new Context(0);
+                break;
+            case THREAD:
+                ctx = new ThreadContext(0);
+                break;
+            default:
+                ctx = new Context(0);
+                break;
+        }
+        this->loadModule(*ctx, "OpenTracker");
         //this->doInitialization(ctx);
     }
 
 
-    Configurator * Configurator::instance()
+    Configurator * Configurator::instance(int ctx_type)
     {
 	if (self == NULL){
             initializeOpenTracker();
             //addModuleInit("OpenTracker", initializeContext, NULL);
-            self = new Configurator;
+            self = new Configurator(ctx_type);
 	}
 	return self;
     }
@@ -78,6 +92,8 @@ namespace ot{
             OSUtils::sleep(1000);
             delete ct;
 	}
+
+        if (ctx) delete ctx;
     }
     
     void Configurator::doInitialization(Context & newctx){
@@ -116,7 +132,7 @@ namespace ot{
   
     }
 
-    Context & Configurator::getContext(){
+    Context * Configurator::getContext(){
 	return ctx;
     }
 
@@ -135,7 +151,7 @@ namespace ot{
     void Configurator::changeConfigurationFile(const char * file)
     {
         // check whether the runtime context is already configured
-        if (ctx.isConfigured())
+        if (ctx->isConfigured())
         {
             //if it is, we want to change its configuration
         
@@ -146,12 +162,12 @@ namespace ot{
         
             newContext.parseConfiguration(file);
         
-            this->ctx.copyFrom(newContext);
+            this->ctx->copyFrom(newContext);
         } 
         else 
         {
             // if it has not been configured for the first time, do it now
-            ctx.parseConfiguration(file);
+            ctx->parseConfiguration(file);
         }
     
     }
@@ -161,7 +177,7 @@ namespace ot{
 
     void Configurator::changeConfigurationString(const char* xmlstring) 
     {
-        if(ctx.isConfigured()){
+        if(ctx->isConfigured()){
             //create a new context object
             Context newContext(0);
             
@@ -173,9 +189,9 @@ namespace ot{
             */
             newContext.parseConfigurationString(xmlstring);
             
-            this->ctx.copyFrom(newContext);
+            this->ctx->copyFrom(newContext);
         } else {
-            this->ctx.parseConfigurationString(xmlstring);
+            this->ctx->parseConfigurationString(xmlstring);
         }
     }
 

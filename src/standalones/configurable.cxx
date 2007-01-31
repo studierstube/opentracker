@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     // important parts of the system
     // get a context, the default modules and factories are
     // added allready ( because of the parameter 1 )
-    Context & context = Configurator::instance() ->getContext();
+    Context & context = (*(Configurator::instance() ->getContext()));
 
     cout << "Context established." << endl;
     

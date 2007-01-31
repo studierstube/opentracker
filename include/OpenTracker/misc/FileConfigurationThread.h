@@ -43,7 +43,7 @@ namespace ot{
         DIR_HDL hFile;
 
         void backupCurrentGraph(){
-            XMLWriter writer(config->getContext());
+            XMLWriter writer(*(config->getContext()));
             logPrintI( "CONFIG_FUNC::writing backup \n");
             writer.write("backup.xml");
         };
