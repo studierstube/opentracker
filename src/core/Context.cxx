@@ -87,8 +87,11 @@ namespace ot {
     // Destructor method.
     Context::~Context()
     {
+        using namespace std;
+        cerr << "Context::~Context()" << endl;
+
         // stop the loop, if it is running
-        stopLoop();
+        Context::stopLoop();
 
         // delete all modules
         if( cleanUp )
@@ -104,6 +107,7 @@ namespace ot {
         delete _havedatacondition;
         delete _havedatamutex;
         delete _mutex;
+        cerr << "Context::~Context() done." << endl;
     }
 
     
@@ -244,19 +248,24 @@ namespace ot {
     }
 
 
-    int Context::loopOnce(){
+    int Context::loopOnce()
+    {
+        using namespace std;
+        //cerr << "Context::loopOnce() ...";
+
             int stopflag=1;
-            // lock the Graph first
-            lock();
-            // push and pull parts of the main loop
-            pushEvents();
-            pullEvents();
-            // check for stop flag
-            stopflag = stop(); 
-            // unlock the graph
-            unlock();
-            return stopflag;
-	}
+        // lock the Graph first
+        lock();
+        // push and pull parts of the main loop
+        pushEvents();
+        pullEvents();
+        // check for stop flag
+        stopflag = stop(); 
+        // unlock the graph
+        unlock();
+        //cerr << "done."<< endl;
+        return stopflag;
+    }
     // This method implements the main loop and runs until it is stopped somehow.
 
     void Context::run()

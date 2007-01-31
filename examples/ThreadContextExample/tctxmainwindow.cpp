@@ -52,26 +52,30 @@
 TCtxMainWindow::TCtxMainWindow( QWidget * parent, 
                                 Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
-      tcontext(*(dynamic_cast<ot::ThreadContext*>(ot::Configurator::instance(ot::THREAD)->getContext())))
+      configurator(NULL),
+      tcontext(NULL)
 {
+    using namespace std;
+
     setupUi(this);
+
+    configurator = ot::Configurator::instance(ot::THREAD);
+    tcontext = dynamic_cast<ot::ThreadContext*>(configurator->getContext());
+
     connect(actionClient_A, SIGNAL (activated()), this, SLOT(readFileA()));
     connect(actionClient_B, SIGNAL (activated()), this, SLOT(readFileB()));
     connect(actionLocal_TestSource, SIGNAL (activated()), 
-            this, SLOT(readFileTest()));
-
-
-    //tcontext = ot::Configurator::instance(ot::THREAD)->getContext();
+            this, SLOT(readFileTest()));        
 
     qmutex = new QMutex();
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(updateEventsEdit()));
 
     /// setup the opentracker context
-    ot::initializeContext( &tcontext , NULL);
+    ot::initializeContext( tcontext , NULL);
 
     // parse the configuration file, builds the tracker tree
-    ot::Configurator::instance()->changeConfigurationFile("clientLocal.xml");
+    configurator->changeConfigurationFile("clientLocal.xml");
 
     /// register all callbacks
     registerCallbacks();
@@ -102,18 +106,23 @@ TCtxMainWindow::TCtxMainWindow( QWidget * parent,
     timer->start();
     
     /// finally start the OpenTracker thread.
-    tcontext.run();
+    tcontext->run();
+    cerr << "TCtxMainWindow::TCtxMainWindow done." << endl;
 }
 
 TCtxMainWindow::~TCtxMainWindow()
 {
     using namespace std;
+    cerr << "TCtxMainWindow::~TCtxMainWindow  ..." << endl;
 
     /// stop left textedit update timer
     timer->stop();
 
     delete timer;
     delete qmutex;
+
+    delete configurator;
+    cerr << "TCtxMainWindow::~TCtxMainWindow done." << endl;
     
 }
 
@@ -226,8 +235,7 @@ void TCtxMainWindow::setConfigurationFile(const QString& fname)
     cout << " parsing new configuration file " 
          << fname.toAscii().constData() << " ... ";
 
-    Configurator::instance()->
-        changeConfigurationFile(fname.toAscii().constData());
+    configurator->changeConfigurationFile(fname.toAscii().constData());
    
     cout << "done." << endl;
 }
@@ -237,8 +245,7 @@ void TCtxMainWindow::setConfigurationString(const QString& fname)
 {
     using namespace ot;
 
-    Configurator::instance()->
-        changeConfigurationString(fname.toAscii().constData());
+    configurator->changeConfigurationString(fname.toAscii().constData());
 }
 
 /// below are the callback functions running in the OpenTracker thread
@@ -318,7 +325,7 @@ ot::CallbackModule* TCtxMainWindow::getCallbackModule()
 {
     using namespace ot;
 
-    return dynamic_cast<CallbackModule*>(tcontext.getModule("CallbackConfig"));
+    return dynamic_cast<CallbackModule*>(tcontext->getModule("CallbackConfig"));
 }
 
 ot::CallforwardModule* TCtxMainWindow::getCallforwardModule()
@@ -326,7 +333,7 @@ ot::CallforwardModule* TCtxMainWindow::getCallforwardModule()
     using namespace ot;
 
     return dynamic_cast<CallforwardModule*>
-        (tcontext.getModule("CallforwardConfig"));
+        (tcontext->getModule("CallforwardConfig"));
 }
 
 /* 

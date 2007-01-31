@@ -67,12 +67,20 @@ namespace ot {
 
     ThreadContext::ThreadContext(int init ) : Context(init)
     {
+        using namespace std;
+        cerr << "ThreadContext::ThreadContext()" << endl;
+
         action_type = POLL;
         action_rate = 1.0;
 
         thread_mutex = new thread_mutex_type;
         action_mutex = new mutex_type;
         action_cond = new condition_type(*action_mutex);
+        loopend_mutex = new mutex_type;
+        loopend_cond = new condition_type(*loopend_mutex);
+
+        
+        inloop = false;
 
         thread = new ACE_thread_t;
         ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
@@ -83,20 +91,45 @@ namespace ot {
 
     // Destructor method.
     ThreadContext::~ThreadContext()
-    {
+    {     
+        using namespace std;
         using namespace ot;
+        
+        cerr << "ThreadContext::~ThreadContext()" << endl;
 
+        /// make sure that next action is causing dispatcher loop to exit
+        thlock();
+
+        action_type = QUIT;
+
+        thunlock();
+        
+        /// stop the running event loop, thread wait for new action signal
+        /// afterwards
         stopLoop();
+
+        if (inloop) loopend_cond->wait();
+
+        /// send action signal
+        //action_cond->signal();
+
+        /// wait until thread has closed down
+        cerr << " waiting for thread to finish ..." << endl;
 #ifdef WIN32
 	ACE_Thread::join( (ACE_thread_t*)thread );
 #else
 	ACE_Thread::join( (ACE_thread_t)thread );
 #endif
-        this->~Context();
-        
+        cerr << " done." << endl;
+
+        delete ((ACE_thread_t *)thread);
+
+        delete loopend_cond;
+        delete loopend_mutex;        
         delete action_cond;
         delete action_mutex;
         delete thread_mutex;
+        cerr << "ThreadContext::~ThreadContext() done." << endl;
     }
 
     // enters a critical section. 
@@ -128,6 +161,8 @@ namespace ot {
             int locactiontype = action_type;
             thunlock();
             
+            inloop = true;
+
             switch (locactiontype)
             {
                 case POLL:
@@ -145,8 +180,13 @@ namespace ot {
                 default:
                     break;
             }
+            cerr << "  at end of loop." << endl;
 
+            inloop = false;
+
+            loopend_cond->signal();
         }
+
         cerr << " thread finished." << endl;
         
     }
@@ -194,7 +234,6 @@ namespace ot {
         action_cond->signal();
     }
     
-   
 } // namespace ot
 
 /* 

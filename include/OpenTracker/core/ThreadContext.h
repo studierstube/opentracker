@@ -87,12 +87,16 @@ namespace ot {
 
         int action_type;
         double action_rate;
+        bool inloop;
 
         void * thread;
         
         thread_mutex_type * thread_mutex;
         mutex_type * action_mutex;
         condition_type * action_cond;
+        mutex_type * loopend_mutex;
+        condition_type * loopend_cond;
+
         
         // methods        
     public:

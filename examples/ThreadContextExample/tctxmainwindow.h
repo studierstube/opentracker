@@ -54,6 +54,7 @@
 #include <ace/Thread_Mutex.h>
 
 #include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/core/Configurator.h>
 #include <OpenTracker/core/ThreadContext.h>
 #include <OpenTracker/common/CallbackModule.h>
 #include <OpenTracker/common/CallforwardModule.h>
@@ -68,7 +69,9 @@ protected:
     QQueue<QString> messagequeue;
     QMutex *qmutex;
     QTimer *timer;
-    ot::ThreadContext tcontext;
+    ot::Configurator *configurator;
+    ot::ThreadContext *tcontext;
+
                           
 private slots:
     void readFileA();
