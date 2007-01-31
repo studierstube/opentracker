@@ -7,13 +7,19 @@ FORMS = tctxmainwindow.ui
 HEADERS = \
     tctxmainwindow.h \
     pongview.h \
-    pongscene.h
+    pongscene.h \
+    checkerfloor.h \
+    arena.h \
+    dilatedrect.h
 
 SOURCES  = \
     main.cpp \
     tctxmainwindow.cpp \
     pongview.cpp \
-    pongscene.cpp
+    pongscene.cpp \
+    checkerfloor.cpp \
+    arena.cpp \
+    dilatedrect.cpp
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker
