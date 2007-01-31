@@ -34,7 +34,7 @@
  * PROJECT: OpenTracker
  * ======================================================================== */
 /** header main program of the Qt application to test the
- *  Callback and Callforward nodes.
+ *  Callback and Callforward nodes based on threaded Context.
  *
  * @author Alexander Bornik
  *
@@ -47,7 +47,7 @@
 
 #include <iostream>
 
-#include "cbcfmainwindow.h"
+#include "tctxmainwindow.h"
 
 int main(int argc, char** argv)
 {
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     using namespace ot;
 
     QApplication app(argc, argv);
-    CbCfMainWindow mainwin;
+    TCtxMainWindow mainwin;
 
     mainwin.show();
     mainwin.resize(1000, 700);

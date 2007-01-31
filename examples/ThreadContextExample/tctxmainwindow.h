@@ -33,7 +33,8 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** main window of the Callback/Callforward program
+/** main window of the Callback/Callforward program based on threaded
+ *  context.
  *
  * @author Alexander Bornik
  *
@@ -41,26 +42,33 @@
  * @file                                                                   */
 /* ======================================================================= */
 
- #ifndef CALCULATORFORM_H
- #define CALCULATORFORM_H
+ #ifndef TCTXMAINWINDOW_H
+ #define TCTXMAINWINDOW_H
 
-#include "ui_cbcfmainwindow.h"
-
-#include "opentrackerthread.h"
+#include "ui_tctxmainwindow.h"
 
 #include <QtGui>
 #include <QtCore>
 
-class CbCfMainWindow : public QMainWindow, private Ui::CbCfMainWindow
+#include <ace/Condition_Thread_Mutex.h>
+#include <ace/Thread_Mutex.h>
+
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/core/ThreadContext.h>
+#include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallforwardModule.h>
+
+
+class TCtxMainWindow : public QMainWindow, private Ui::TCtxMainWindow
 {
 Q_OBJECT
    
-private:
-    OpentrackerThread *otthread;
+protected:
     QTextCursor textCursor;
     QQueue<QString> messagequeue;
     QMutex *qmutex;
     QTimer *timer;
+    ot::ThreadContext tcontext;
                           
 private slots:
     void readFileA();
@@ -74,22 +82,26 @@ private slots:
 
 signals:
     void fileNameSignal(const QString &);
-
+public slots:
+    void setConfigurationFile(const QString &);
+    void setConfigurationString(const QString &);
 public:
-    CbCfMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
-    ~CbCfMainWindow();
+    TCtxMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
+    ~TCtxMainWindow();
 protected:
     static void clientACB(ot::CallbackNode *, ot::Event &, void *);
     static void clientBCB(ot::CallbackNode *, ot::Event &, void *);
     static void clientTestCB(ot::CallbackNode *, ot::Event &, void *);
     static void globalClientCB(ot::CallbackNode *, ot::Event &, void *);
+    ot::CallbackModule* getCallbackModule();
+    ot::CallforwardModule* getCallforwardModule();
 };
 
 #endif
 
 /* 
  * ------------------------------------------------------------
- *   End of cbcfmainwindow.h
+ *   End of tctxmainwindow.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

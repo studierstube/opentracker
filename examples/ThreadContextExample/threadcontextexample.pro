@@ -2,16 +2,14 @@ TEMPLATE = app
 
 CONFIG += debug
 
-FORMS = cbcfmainwindow.ui
+FORMS = tctxmainwindow.ui
 
 HEADERS = \
-    cbcfmainwindow.h \
-    opentrackerthread.h
+    tctxmainwindow.h 
 
 SOURCES  = \
     main.cpp \
-    cbcfmainwindow.cpp \
-    opentrackerthread.cpp
+    tctxmainwindow.cpp 
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker

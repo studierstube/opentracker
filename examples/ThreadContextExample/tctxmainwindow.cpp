@@ -42,13 +42,17 @@
 /* ======================================================================= */
 
 #include <QtGui>
-#include "cbcfmainwindow.h"
+#include "tctxmainwindow.h"
+
+#include <OpenTracker/core/Configurator.h>
+#include <OpenTracker/core/OSUtils.h>
+#include <OpenTracker/common/CallbackNode.h>
 
 
-CbCfMainWindow::CbCfMainWindow( QWidget * parent, 
+TCtxMainWindow::TCtxMainWindow( QWidget * parent, 
                                 Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
-      otthread(NULL)
+      tcontext(*(dynamic_cast<ot::ThreadContext*>(ot::Configurator::instance(ot::THREAD)->getContext())))
 {
     setupUi(this);
     connect(actionClient_A, SIGNAL (activated()), this, SLOT(readFileA()));
@@ -56,12 +60,18 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     connect(actionLocal_TestSource, SIGNAL (activated()), 
             this, SLOT(readFileTest()));
 
+
+    //tcontext = ot::Configurator::instance(ot::THREAD)->getContext();
+
     qmutex = new QMutex();
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(updateEventsEdit()));
 
-    /// create OpenTrackerThread instance
-    otthread = new OpentrackerThread(this);
+    /// setup the opentracker context
+    ot::initializeContext( &tcontext , NULL);
+
+    // parse the configuration file, builds the tracker tree
+    ot::Configurator::instance()->changeConfigurationFile("clientLocal.xml");
 
     /// register all callbacks
     registerCallbacks();
@@ -71,7 +81,7 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
      
     /// connect signal, for configuration file update
     connect(this, SIGNAL(fileNameSignal(const QString&)),
-            otthread, SLOT(setConfigurationFile(const QString&)));
+            this, SLOT(setConfigurationFile(const QString&)));
 
     /// connect signal for upper right textedit content update
     connect(this, SIGNAL(fileNameSignal(const QString&)),
@@ -92,54 +102,55 @@ CbCfMainWindow::CbCfMainWindow( QWidget * parent,
     timer->start();
     
     /// finally start the OpenTracker thread.
-    otthread->start();
+    tcontext.run();
 }
 
-CbCfMainWindow::~CbCfMainWindow()
+TCtxMainWindow::~TCtxMainWindow()
 {
+    using namespace std;
+
     /// stop left textedit update timer
     timer->stop();
 
     delete timer;
     delete qmutex;
-
+    
 }
 
-void CbCfMainWindow::readFileA()
+void TCtxMainWindow::readFileA()
 {
     emit fileNameSignal("clientA.xml");
 }
 
-void CbCfMainWindow::readFileB()
+void TCtxMainWindow::readFileB()
 {
     emit fileNameSignal("clientB.xml");
 }
 
-void CbCfMainWindow::readFileTest()
+void TCtxMainWindow::readFileTest()
 {
     emit fileNameSignal("clientLocal.xml");
 }
 
 /// This is registers the callbacks
-void CbCfMainWindow::registerCallbacks()
+void TCtxMainWindow::registerCallbacks()
 {
     /// some per-node callbacks
     /// note, that the nodes don't need to exist!
-    otthread->getCallbackModule()->
-        setCallback( "clientAInput", CbCfMainWindow::clientACB, this );
-    otthread->getCallbackModule()->
-        setCallback( "clientBInput", CbCfMainWindow::clientBCB, this );
-    otthread->getCallbackModule()->
-        setCallback( "clientTestInput", CbCfMainWindow::clientTestCB, this );
+    getCallbackModule()->
+        setCallback( "clientAInput", TCtxMainWindow::clientACB, this );
+    getCallbackModule()->
+        setCallback( "clientBInput", TCtxMainWindow::clientBCB, this );
+    getCallbackModule()->
+        setCallback( "clientTestInput", TCtxMainWindow::clientTestCB, this );
 
     /// register a global callback
-    otthread->getCallbackModule()->
-        setGlobalCallback(CbCfMainWindow::globalClientCB, this);
+    getCallbackModule()->
+        setGlobalCallback(TCtxMainWindow::globalClientCB, this);
 }
 
-
 /// reads a configuration file into the upper right textedit
-void CbCfMainWindow::updateConfigFileEdit(const QString &fileName)
+void TCtxMainWindow::updateConfigFileEdit(const QString &fileName)
 {
     QFile file(fileName);
 
@@ -150,13 +161,13 @@ void CbCfMainWindow::updateConfigFileEdit(const QString &fileName)
 }
 
 /// setup of an OpenTracker configuration form the upper right textedit
-void CbCfMainWindow::setupConfigFromEdit()
+void TCtxMainWindow::setupConfigFromEdit()
 {
-    otthread->setConfigurationString(configEdit->toPlainText());
+    setConfigurationString(configEdit->toPlainText());
 }
 
 /// creates an event from the content of the lower right textedit
-void CbCfMainWindow::createEventFromEdit()
+void TCtxMainWindow::createEventFromEdit()
 {
     using namespace ot;
     Event event;
@@ -165,7 +176,7 @@ void CbCfMainWindow::createEventFromEdit()
 
     event.timeStamp();
     event.getPosition()[0] = 1.0;
-    if (!otthread->getCallforwardModule()->callForward("clientAInput", event))
+    if (!getCallforwardModule()->callForward("clientAInput", event))
     {
         outEventsEdit->append("callForward to 'clientAInput' failed");
     }
@@ -174,7 +185,7 @@ void CbCfMainWindow::createEventFromEdit()
         outEventsEdit->append("callForward to 'clientAInput' succeeded");
     }
 
-    if (!otthread->getCallforwardModule()->callForward("clientBInput", event))
+    if (!getCallforwardModule()->callForward("clientBInput", event))
     {
         outEventsEdit->append("callForward to 'clientBInput' failed");
     }
@@ -184,7 +195,7 @@ void CbCfMainWindow::createEventFromEdit()
     }
 
 
-    if (!otthread->getCallforwardModule()->callForward("clientLocalInput", event))
+    if (!getCallforwardModule()->callForward("clientLocalInput", event))
     {
         outEventsEdit->append("callForward to 'clientLocalInput' failed");
     }
@@ -196,7 +207,7 @@ void CbCfMainWindow::createEventFromEdit()
 }
 
 /// update of the left textedit from a queue storing strings
-void CbCfMainWindow::updateEventsEdit()
+void TCtxMainWindow::updateEventsEdit()
 {
     qmutex->lock();
     while (not messagequeue.empty())
@@ -206,68 +217,94 @@ void CbCfMainWindow::updateEventsEdit()
     qmutex->unlock();
 }
 
-/// below are the callback functions running in the OpenTracker thread
-void CbCfMainWindow::clientACB( ot::CallbackNode * node,  ot::Event & event, void * data )
+/// set OpenTracker XML configuration file
+void TCtxMainWindow::setConfigurationFile(const QString& fname)
+{
+    using namespace std;
+    using namespace ot;
+
+    cout << " parsing new configuration file " 
+         << fname.toAscii().constData() << " ... ";
+
+    Configurator::instance()->
+        changeConfigurationFile(fname.toAscii().constData());
+   
+    cout << "done." << endl;
+}
+
+/// set OpenTracker XML configuration string
+void TCtxMainWindow::setConfigurationString(const QString& fname)
 {
     using namespace ot;
 
-    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+    Configurator::instance()->
+        changeConfigurationString(fname.toAscii().constData());
+}
 
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+/// below are the callback functions running in the OpenTracker thread
+void TCtxMainWindow::clientACB( ot::CallbackNode * node,  ot::Event & event, void * data )
+{
+    using namespace ot;
+
+    TCtxMainWindow *self = (TCtxMainWindow*)(data);
+
+    //double diff = (OSUtils::currentTime() - event.time ) / 1000;
 
     self->qmutex->lock();
 
-    self->messagequeue.append("CbCfMainWindow::clientACB");
+    self->messagequeue.append("TCtxMainWindow::clientACB");
     /// get a readable form of the event
     self->messagequeue.append(event.getPrintOut().c_str());
 
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::clientBCB( ot::CallbackNode * node, 
+void TCtxMainWindow::clientBCB( ot::CallbackNode * node, 
                                 ot::Event & event, void * data )
 {
     using namespace ot;
 
-    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+    TCtxMainWindow *self = (TCtxMainWindow*)(data);
 
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    //double diff = (OSUtils::currentTime() - event.time ) / 1000;
 
     self->qmutex->lock();
 
-    self->messagequeue.append("CbCfMainWindow::clientBCB");
+    self->messagequeue.append("TCtxMainWindow::clientBCB");
     self->messagequeue.append(event.getPrintOut().c_str());
 
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::clientTestCB( ot::CallbackNode * node, 
+void TCtxMainWindow::clientTestCB( ot::CallbackNode * node, 
                                 ot::Event & event, void * data )
 {
     using namespace ot;
 
-    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+    TCtxMainWindow *self = (TCtxMainWindow*)(data);
 
-    double diff = (OSUtils::currentTime() - event.time ) / 1000;
+    //double diff = (OSUtils::currentTime() - event.time ) / 1000;
 
     self->qmutex->lock();
    
-    self->messagequeue.append("CbCfMainWindow::clientTestCB");
+    self->messagequeue.append("TCtxMainWindow::clientTestCB");
     self->messagequeue.append(event.getPrintOut().c_str());
   
     self->qmutex->unlock();
 }
 
-void CbCfMainWindow::globalClientCB( ot::CallbackNode * node,  
+void TCtxMainWindow::globalClientCB( ot::CallbackNode * node,  
                                      ot::Event & event, void * data )
 {
     using namespace std;
 
-    CbCfMainWindow *self = (CbCfMainWindow*)(data);
+    TCtxMainWindow *self = (TCtxMainWindow*)(data);
 
     self->qmutex->lock();
 
-    self->messagequeue.append("CbCfMainWindow::globalClientCB");
+    self->messagequeue.append("TCtxMainWindow::globalClientCB");
+    self->messagequeue.append("  emitter:");
+    self->messagequeue.append(node->getName().c_str());
 
     self->qmutex->unlock();
    
@@ -275,6 +312,21 @@ void CbCfMainWindow::globalClientCB( ot::CallbackNode * node,
     // go here
 
 
+}
+
+ot::CallbackModule* TCtxMainWindow::getCallbackModule()
+{
+    using namespace ot;
+
+    return dynamic_cast<CallbackModule*>(tcontext.getModule("CallbackConfig"));
+}
+
+ot::CallforwardModule* TCtxMainWindow::getCallforwardModule()
+{
+    using namespace ot;
+
+    return dynamic_cast<CallforwardModule*>
+        (tcontext.getModule("CallforwardConfig"));
 }
 
 /* 

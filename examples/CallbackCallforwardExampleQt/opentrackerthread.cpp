@@ -49,7 +49,7 @@
 
 OpentrackerThread::OpentrackerThread(QObject *parent)
     : QThread(parent),
-      context(ot::Configurator::instance()->getContext())
+      context(*(ot::Configurator::instance()->getContext()))
 {
     using namespace ot;
 
