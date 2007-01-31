@@ -56,8 +56,15 @@ TCtxMainWindow::TCtxMainWindow( QWidget * parent,
       tcontext(NULL)
 {
     using namespace std;
-
+ 
     setupUi(this);
+
+    scene = new PongScene();
+    view = new PongView(*scene);
+  
+   
+    QVBoxLayout *pongla = new QVBoxLayout(tabWidget->widget(1));
+    pongla->addWidget(view);
 
     configurator = ot::Configurator::instance(ot::THREAD);
     tcontext = dynamic_cast<ot::ThreadContext*>(configurator->getContext());

@@ -5,15 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>985</width>
+    <height>826</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>OpenTracker Callback/Callforward Example</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <layout class="QVBoxLayout" >
+   <layout class="QHBoxLayout" >
     <property name="margin" >
      <number>9</number>
     </property>
@@ -21,88 +21,113 @@
      <number>6</number>
     </property>
     <item>
-     <widget class="QWidget" native="1" name="widget" >
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QTextEdit" name="eventsEdit" >
-           <property name="minimumSize" >
-            <size>
-             <width>0</width>
-             <height>590</height>
-            </size>
+     <widget class="QTabWidget" name="tabWidget" >
+      <property name="currentIndex" >
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="ottab" >
+       <attribute name="title" >
+        <string>OpenTracker</string>
+       </attribute>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>9</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QWidget" native="1" name="widget" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>9</number>
            </property>
-           <property name="lineWrapMode" >
-            <enum>QTextEdit::NoWrap</enum>
+           <property name="spacing" >
+            <number>6</number>
            </property>
-           <property name="readOnly" >
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="outEventsEdit" >
-           <property name="lineWrapMode" >
-            <enum>QTextEdit::NoWrap</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QTextEdit" name="configEdit" >
-           <property name="minimumSize" >
-            <size>
-             <width>0</width>
-             <height>430</height>
-            </size>
-           </property>
-           <property name="lineWrapMode" >
-            <enum>QTextEdit::NoWrap</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="configPushButton" >
-           <property name="text" >
-            <string>Update OT Configuration</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="textEdit" />
-         </item>
-         <item>
-          <widget class="QPushButton" name="eventPushButton" >
-           <property name="text" >
-            <string>Push Event</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+           <item>
+            <layout class="QVBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QTextEdit" name="eventsEdit" >
+               <property name="minimumSize" >
+                <size>
+                 <width>0</width>
+                 <height>590</height>
+                </size>
+               </property>
+               <property name="lineWrapMode" >
+                <enum>QTextEdit::NoWrap</enum>
+               </property>
+               <property name="readOnly" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTextEdit" name="outEventsEdit" >
+               <property name="lineWrapMode" >
+                <enum>QTextEdit::NoWrap</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QTextEdit" name="configEdit" >
+               <property name="minimumSize" >
+                <size>
+                 <width>0</width>
+                 <height>430</height>
+                </size>
+               </property>
+               <property name="lineWrapMode" >
+                <enum>QTextEdit::NoWrap</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="configPushButton" >
+               <property name="text" >
+                <string>Update OT Configuration</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTextEdit" name="textEdit" />
+             </item>
+             <item>
+              <widget class="QPushButton" name="eventPushButton" >
+               <property name="text" >
+                <string>Push Event</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pongTab" >
+       <attribute name="title" >
+        <string>Pong</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -112,8 +137,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>985</width>
+     <height>29</height>
     </rect>
    </property>
    <property name="defaultUp" >

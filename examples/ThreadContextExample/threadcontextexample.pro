@@ -5,11 +5,15 @@ CONFIG += debug
 FORMS = tctxmainwindow.ui
 
 HEADERS = \
-    tctxmainwindow.h 
+    tctxmainwindow.h \
+    pongview.h \
+    pongscene.h
 
 SOURCES  = \
     main.cpp \
-    tctxmainwindow.cpp 
+    tctxmainwindow.cpp \
+    pongview.cpp \
+    pongscene.cpp
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker

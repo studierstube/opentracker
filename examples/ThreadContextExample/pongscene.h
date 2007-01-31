@@ -33,8 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** main window of the Callback/Callforward program based on threaded
- *  context.
+/** PongScene Class header
  *
  * @author Alexander Bornik
  *
@@ -42,73 +41,26 @@
  * @file                                                                   */
 /* ======================================================================= */
 
- #ifndef TCTXMAINWINDOW_H
- #define TCTXMAINWINDOW_H
-
-#include "ui_tctxmainwindow.h"
+#ifndef PONGSCENE_H
+#define PONGSCENE_H
 
 #include <QtGui>
 #include <QtCore>
 
-#include <ace/Condition_Thread_Mutex.h>
-#include <ace/Thread_Mutex.h>
-
-#include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/core/Configurator.h>
-#include <OpenTracker/core/ThreadContext.h>
-#include <OpenTracker/common/CallbackModule.h>
-#include <OpenTracker/common/CallforwardModule.h>
-
-#include "pongscene.h"
-#include "pongview.h"
-
-class TCtxMainWindow : public QMainWindow, private Ui::TCtxMainWindow
+class PongScene : public QGraphicsScene
 {
-Q_OBJECT
-   
-protected:
-    QTextCursor textCursor;
-    QQueue<QString> messagequeue;
-    QMutex *qmutex;
-    QTimer *timer;
-    ot::Configurator *configurator;
-    ot::ThreadContext *tcontext;
-    PongView *view;
-    PongScene *scene;
-
-                          
-private slots:
-    void readFileA();
-    void readFileB();
-    void readFileTest();
-    void registerCallbacks();
-    void updateConfigFileEdit(const QString &);
-    void setupConfigFromEdit();
-    void createEventFromEdit();
-    void updateEventsEdit();
-
-signals:
-    void fileNameSignal(const QString &);
-public slots:
-    void setConfigurationFile(const QString &);
-    void setConfigurationString(const QString &);
 public:
-    TCtxMainWindow( QWidget * parent = 0, Qt::WindowFlags flags = 0 );
-    ~TCtxMainWindow();
-protected:
-    static void clientACB(ot::CallbackNode *, ot::Event &, void *);
-    static void clientBCB(ot::CallbackNode *, ot::Event &, void *);
-    static void clientTestCB(ot::CallbackNode *, ot::Event &, void *);
-    static void globalClientCB(ot::CallbackNode *, ot::Event &, void *);
-    ot::CallbackModule* getCallbackModule();
-    ot::CallforwardModule* getCallforwardModule();
+    PongScene(double xorig = -12.5, double yorig = -12.5, 
+              double xsize =  25,   double ysize =  25 );
+    virtual void mouseMoveEvent(QEvent &ev);
+
 };
 
 #endif
 
 /* 
  * ------------------------------------------------------------
- *   End of tctxmainwindow.h
+ *   End of pongview.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
