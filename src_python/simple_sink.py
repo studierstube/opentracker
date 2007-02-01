@@ -4,6 +4,7 @@ sys.path.append('../idl/skeletons')
 from copy import deepcopy
 from omniORB import CORBA, PortableServer, PortableServer__POA
 from omniORB import any
+from omniORBUtils import *
 
 # Import the stubs for the Naming service
 import CosNaming
@@ -18,47 +19,12 @@ class SimpleSink_i (OT_CORBA__POA.Sink):
 	for att in event:
 	    print "%s:\t%s" % (att.name, str(any.from_any(att.value)))
 
-def getContextFromName(root_context, context_name):
-    try:
-	obj = root_context.resolve(context_name)
-    except CosNaming.NamingContext.NotFound, ex:
-	print "Name not found"
-	return None
-    sink_context = obj._narrow(obj)
-    if sink_context is None:
-	print "Object reference isn't a Context"
-	return None
-    return sink_context
-    
-def getContext(root_context, context_name):
-    name = deepcopy(context_name)
-    context_already_bound = None
-    uncontextualised_names = []
-    # terminate loop when `name' is non-existent or a bound context is found
-    while name and not(context_already_bound):
-	context_already_bound = getContextFromName(root_context, name)
-	if context_already_bound is None:
-	    uncontextualised_names.append(name.pop())
-    uncontextualised_names.reverse() # reverse order of names
-    print "name = ", name
-    if not(name):
-	context_already_bound = root_context
-    previous_context = context_already_bound
-    for n in uncontextualised_names:
-	print "binding context with name ", n, " to context ", previous_context
-	next_context = previous_context.bind_new_context([n])
-	previous_context = next_context
-    return previous_context
-
 if __name__ == '__main__':
     # Initialise the ORB
     string_name = sys.argv[1]
-    if len(sys.argv) >= 2:
+    if len(sys.argv) > 2:
 	endpoint_port = sys.argv[2]
-    else:
-	endpoint = "9000"
-    sys.argv.extend(["-ORBendPoint", "giop:tcp:localhost:" + endpoint_port])
-    print sys.argv
+	sys.argv.extend(["-ORBendPoint", "giop:tcp:localhost:" + endpoint_port])
     orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 
     # Find the root POA
@@ -80,6 +46,8 @@ if __name__ == '__main__':
     #persistentPOA.activate_object(servant)
     persistentPOA.activate_object_with_id("test", servant);
     sinkref = servant._this()
+    
+    print orb.object_to_string(sinkref)
     
     # Obtain a reference to the root naming context
     obj         = orb.resolve_initial_references("NameService")

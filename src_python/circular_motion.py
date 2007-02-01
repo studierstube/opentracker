@@ -48,7 +48,9 @@ class CircularMotion:
     z = 0.0
     alpha = self.omega * t
     qx, qy, qz, qw = 0.0, 0.0, sin(alpha*0.5), cos(alpha*0.5)
-    return OT_CORBA.Event([x, y, z], [qx, qy, qz, qw], t, 0, 0.5)
+    return [OT_CORBA.EventAttribute("position", CORBA.Any(CORBA.TypeCode("IDL:OT_CORBA/FloatVector:1.0"), [x,y,z])),
+            OT_CORBA.EventAttribute("orientation", CORBA.Any(CORBA.TypeCode("IDL:OT_CORBA/FloatVector:1.0"), [qx,qy,qz,qw])),
+            OT_CORBA.EventAttribute("timestamp", any.to_any(t))]
 
 def main():
   orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
@@ -187,7 +189,7 @@ class TestLoop(threading.Thread):
       self.refnil=0
       self.sleepInterval=0
       #self.motion = CircularMotion( 4.0, 3.0 )
-      self.motion = EllipticalMotion( 5.0, 16.0,  0.5)
+      self.motion = EllipticalMotion( 3.0, 8.0,  0.5)
       self.supplier_admin=None
   
   def run(self):

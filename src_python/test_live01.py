@@ -3,29 +3,16 @@ import sys
 from omniORB import CORBA, any
 
 import OTGraph
-from OTGraph import *
 
 # Import the stubs for the Naming service
 import CosNaming
 
-def initialiseORB():
-    return CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
+from omniORBUtils import *
 
 def getGraphReference(orb):
-    # Obtain a reference to the root naming context
-    obj         = orb.resolve_initial_references("NameService")
-    rootContext = obj._narrow(CosNaming.NamingContext)
-
-    if rootContext is None:
-        print "Failed to narrow the root naming context"
-        sys.exit(1)
-
-    name = [CosNaming.NameComponent("Foo", "Test")]
-
-    obj = rootContext.resolve(name)
-    graph_ref = obj._narrow(OTGraph.DataFlowGraph)
-    return graph_ref
-
+    return getNarrowedObjectReference(orb, 
+				      [CosNaming.NameComponent("Foo", "Test")],
+				      OTGraph.DataFlowGraph)
 def init():
     orb = initialiseORB()
     return orb, getGraphReference(orb)

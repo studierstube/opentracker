@@ -121,15 +121,15 @@ int main(int argc, char **argv)
       PortableServer::POAManager_var pman = poa->the_POAManager();
       cout << "activating POA Manager" << endl;
       pman->activate();
-      Context & context = Configurator::instance() ->getContext();
+      Context * context = Configurator::instance() ->getContext();
       //delete configurator;      
       //orb->run(); 
       if (argc == 2) {
-          context.run();
+          context->run();
       } else if (argc == 3) {
           int rate;
           sscanf(argv[2], "%d", rate);
-          context.runAtRate(rate);
+          context->runAtRate(rate);
       }
       poa->deactivate_object(configurator_id);
     }
