@@ -75,7 +75,7 @@
 namespace ot {
 
     OT_MODULE_REGISTER_FUNC(NetworkSourceModule){
-        OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSource");
+        OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
     }
 
     struct Station
@@ -248,7 +248,7 @@ namespace ot {
                 else if (bytesRead == -1 && errno != ETIME && errno != 0 )
                 {
                     ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule!\n"), errno));
-                    exit( -1 );                 
+                    exit( -1 );
                 }
             } while( bytesRead < 0 && rec->stop == 0);
             if( rec->stop != 0 )
@@ -259,7 +259,7 @@ namespace ot {
 	    } else
 	    {
                ACE_DEBUG((LM_INFO, ACE_TEXT("contextx is null \n")));
-	      
+
 	    }
         }
         if( rec->socket.close() == -1)
