@@ -133,10 +133,16 @@ void CORBAModule::initializeORB(int argc, char **argv)
       pl[0] = CORBAModule::root_poa->create_lifespan_policy(PortableServer::PERSISTENT);
       pl[1] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
       //pl[2] = CORBAModule::root_poa->create_implicit_activation_policy (PortableServer::NO_IMPLICIT_ACTIVATION);
-      poa = CORBAModule::root_poa->create_POA("persistent poa", pman, pl);
+      poa = CORBAModule::root_poa->create_POA("id poa", pman, pl);
       //poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa      
     } else {
-      poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa
+      // Create a new POA with the id assignment policy.
+      CORBA::PolicyList pl;
+      pl.length(1);
+      pl[0] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
+      //pl[2] = CORBAModule::root_poa->create_implicit_activation_policy (PortableServer::NO_IMPLICIT_ACTIVATION);
+      poa = CORBAModule::root_poa->create_POA("id poa", pman, pl);
+      //poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa      
     }
   }
   catch(CORBA::SystemException&) {
@@ -363,6 +369,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 #ifdef USE_OMNIEVENTS
   else if (name.compare("PushCons") == 0 ) 
     {
+      std::cout << "creating PushCons node" << endl;
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
@@ -388,8 +395,13 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       // get Proxy Supplier
       CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier = CORBAUtils::getProxyPushSupplier(consumer_admin);
 
-      PortableServer::ObjectId_var corba_source_id = 
-	poa->activate_object(pushcons_source);
+      CORBA::String_var string_id = CORBA::string_dup( attributes.get("name").c_str() );
+      cout << "got string id" << endl;
+      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
+      cout << "got object id" << endl;
+      poa->activate_object_with_id(corba_id, pushcons_source);
+      //PortableServer::ObjectId_var corba_source_id = 
+      //	poa->activate_object(pushcons_source);
       OT_EventChannel::PushConsNode_var pushcons_ref = 
 	pushcons_source->_this();
       CosEventComm::PushConsumer_var consumer_ref = 
