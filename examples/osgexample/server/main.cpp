@@ -108,6 +108,8 @@ int main(int argc, char **argv)
 	  Player * p = new Player();
 	  
 	  p->init( root );
+	  p->activate(0,0,0,0,0,0);
+	  p->status= ACTIVE;
 	  players.push_back(p);
 
 

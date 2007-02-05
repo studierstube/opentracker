@@ -349,51 +349,60 @@ bool Puck::update()
 
 bool Puck::goalScored()
 {
-  /*
+  
 	bool result = false;
 	// check behind player 2
 	if(position[2]-radius <= -WALLZ)
 	{
 		position[2] = -WALLZ+radius; 
-		velocity[2] = -(velocity[2]);
-		velocity.normalize();
+		velocity[0] = (velocity[0])+(0.2*RandFloat()-0.1);
+		velocity[2] = -(velocity[2])+(0.1*RandFloat()-0.05);
+
+
+
 		// check for goal
-		if(position[0] >= -2.0 && position[0] <= 2.0)
+/*		if(position[0] >= -2.0 && position[0] <= 2.0)
 		{
 			if(players[0]->status == ACTIVE)
 			{
 				players[0]->score++;
-				otSendScoreFor(0);	
+				//	otSendScoreFor(0);	
 				
-				if(players[1]->status == ACTIVE)
-					otSendScoreAgainst(1);	
+				if(players[1]->status == ACTIVE){
+				  //	otSendScoreAgainst(1);	
+				}
 				return true;
 			}			
 		}
+		*/
 	}
 
    // check behing player 1
 	if(position[2]+radius >= WALLZ)
 	{
 		position[2] = WALLZ-radius;
+		velocity[0] = (velocity[0])+(0.2*RandFloat()-0.1);
+		velocity[2] = -(velocity[2])+(0.1*RandFloat()-0.05);
+		/*
 		velocity[2] = -(velocity[2]);
-		velocity.normalize();
+		velocity.normalize();*/
 		// check for goal
-		if(position[0] >= -2.0 && position[0] <= 2.0)
+		/*		if(position[0] >= -2.0 && position[0] <= 2.0)
 		{
 			if(players[1]->status == ACTIVE)
 			{
 				players[1]->score++;
-				otSendScoreFor(1);
+				//				otSendScoreFor(1);
 
-				if(players[0]->status == ACTIVE)
-					otSendScoreAgainst(0);	
+				if(players[0]->status == ACTIVE){
+				  //					otSendScoreAgainst(0);	
+				}
 				return true;
 			}
 
-		}
+			}*/
 	}
-  */
+  
 	return false;
 }
 //---------------------------------------------------------: broadcast
