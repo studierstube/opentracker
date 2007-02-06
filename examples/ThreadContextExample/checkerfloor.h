@@ -49,7 +49,6 @@
 
 class CheckerFloor : public QGraphicsItem
 {
-Q_OBJECT
 public:
     CheckerFloor(double dimension = 25);
 

@@ -60,7 +60,7 @@ TCtxMainWindow::TCtxMainWindow( QWidget * parent,
     setupUi(this);
 
     scene = new PongScene();
-    view = new PongView(*scene);
+    view = new PongView(scene);
   
    
     QVBoxLayout *pongla = new QVBoxLayout(tabWidget->widget(1));

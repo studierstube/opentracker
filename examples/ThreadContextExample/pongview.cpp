@@ -44,12 +44,13 @@
 #include "pongview.h"
 #include "pongscene.h"
 
-PongView::PongView(PongScene &scene)
+PongView::PongView(PongScene *scene)
+    : QGraphicsView(scene)
 {
   setRenderHint(QPainter::Antialiasing);
   setWindowTitle("Distributed Pong");
   resize(700,700);
-  scale(25,250);
+  scale(25,25);
 }
 
 

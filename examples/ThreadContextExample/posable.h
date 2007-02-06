@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** PlayingField Class implementation
+/** Posable Class header
  *
  * @author Alexander Bornik
  *
@@ -41,39 +41,35 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "playingfield.h"
-#include "dilatedrect.h"
+#ifndef POSABLE_H
+#define POSABLE_H
 
-PlayingField::PlayingField(double iwidth, double iheight) 
-    : QGraphicsItem()
+#include <QtGui>
+#include <QtCore>
+
+class Axes;
+
+class Posable
 {
-    setAcceptedMouseButtons(Qt::NoButton);
-    width = iwidth;
-    height = iheight;
-    setZValue(2.0);
-    inner_bound = new DilatedRect(this, -0.4);
-}
+public:
+    Posable(double axes_length = 2.0);
+    QPointF getPosition() const;
+    virtual void setPose(const QPointF &position, double angle);
+    double getAngle() const;
+    virtual QMatrix matrix() const = 0;
+    virtual void setMatrix(const QMatrix &mat) = 0;
+    virtual ~Posable() = 0;
 
+protected:
+    Axes * axes;
 
-QRectF PlayingField::boundingRect() const
-{
-    
-    return QRectF(-width*0.5, -height*0.5,
-                  width, height);
-}
+};
 
-
-void PlayingField::paint(QPainter *painter, 
-                         const QStyleOptionGraphicsItem *option, 
-                         QWidget *widget)
-{
-    painter->setBrush(Qt::darkGreen);
-    painter->drawRect(boundingRect());
-}
+#endif
 
 /* 
  * ------------------------------------------------------------
- *   End of playingfield.cpp
+ *   End of Posable.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

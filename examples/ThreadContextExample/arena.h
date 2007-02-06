@@ -49,7 +49,6 @@
 
 class Arena : public QGraphicsItem
 {
-Q_OBJECT
 public:
     Arena(double dimension = 24);
 

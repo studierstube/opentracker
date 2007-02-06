@@ -59,7 +59,7 @@ QPainterPath Arena::shape() const
 
 QRectF Arena::boundingRect() const
 {
-    return QRectF(-dimension*0.5, -dimension*0.0,
+    return QRectF(-dimension*0.5, -dimension*0.5,
                   dimension, dimension);
 }
 

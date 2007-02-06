@@ -51,7 +51,6 @@ class DilatedRect;
 
 class PlayingField : public QGraphicsItem
 {
-Q_OBJECT
 public:
     PlayingField(double iwidth = 12.0, double iheight = 18.0);
 
@@ -62,6 +61,8 @@ protected:
     double width;
     double height;
     DilatedRect *inner_bound;
+
+    friend class Puck;
 
 };
 

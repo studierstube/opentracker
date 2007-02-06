@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** PlayingField Class implementation
+/** Posable Class implementation
  *
  * @author Alexander Bornik
  *
@@ -41,39 +41,49 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "playingfield.h"
-#include "dilatedrect.h"
+#include "posable.h"
+#include "axes.h"
 
-PlayingField::PlayingField(double iwidth, double iheight) 
-    : QGraphicsItem()
+#include <cmath>
+
+Posable::Posable(double axes_length)
 {
-    setAcceptedMouseButtons(Qt::NoButton);
-    width = iwidth;
-    height = iheight;
-    setZValue(2.0);
-    inner_bound = new DilatedRect(this, -0.4);
+    QGraphicsItem * gi = dynamic_cast<QGraphicsItem*>(this);
+
+    if (gi)
+    {
+        axes = new Axes(gi, axes_length);
+    }
 }
 
-
-QRectF PlayingField::boundingRect() const
+Posable::~Posable()
 {
-    
-    return QRectF(-width*0.5, -height*0.5,
-                  width, height);
+    // empty
 }
 
-
-void PlayingField::paint(QPainter *painter, 
-                         const QStyleOptionGraphicsItem *option, 
-                         QWidget *widget)
+QPointF Posable::getPosition() const
 {
-    painter->setBrush(Qt::darkGreen);
-    painter->drawRect(boundingRect());
+    QMatrix m(matrix());
+    return QPointF(m.dx(), m.dy());
+}
+
+void Posable::setPose(const QPointF &position, double angle)
+{
+    QMatrix m;
+    m.translate(position.x(), position.y());
+    m.rotate(angle*180.0/M_PI);
+    setMatrix(m);
+}
+
+double Posable::getAngle() const
+{
+    QMatrix m;
+    return atan2(m.m21(), m.m11());
 }
 
 /* 
  * ------------------------------------------------------------
- *   End of playingfield.cpp
+ *   End of arena.cpp
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

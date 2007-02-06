@@ -42,13 +42,33 @@
 /* ======================================================================= */
 
 #include "pongscene.h"
+#include "checkerfloor.h"
+#include "arena.h"
+#include "playingfield.h"
+#include "goal.h"
 
 PongScene::PongScene(double xorig, double yorig, double xsize, double ysize)
- : QGraphicsScene()
+ : QGraphicsScene(this)
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
     setSceneRect(xorig, yorig, xsize, ysize);
-    
+    floor_area = new CheckerFloor(25);  
+    addItem(floor_area);
+
+    arena = new Arena(24);
+    addItem(arena);
+
+    playing_field = new PlayingField();
+    addItem(playing_field);
+
+    goalA = new Goal();
+    addItem(goalA);
+    goalA->setPos(0, 9);
+    goalA->rotate(180);
+
+    goalB = new Goal();
+    addItem(goalB);
+    goalB->setPos(0, -9);
 
 }
 

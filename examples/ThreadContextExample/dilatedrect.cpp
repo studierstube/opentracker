@@ -43,8 +43,8 @@
 
 #include "dilatedrect.h"
 
-DilatedRect::DilatedRect(double da, QGraphicsItem * parent, QGraphicsScene * scene) 
-    : QGraphicsItem(parent, scene)
+DilatedRect::DilatedRect(QGraphicsItem * parent, double da) 
+    : QGraphicsItem(parent)
 {
     setAcceptedMouseButtons(Qt::NoButton);
     d = da;
@@ -55,7 +55,7 @@ DilatedRect::DilatedRect(double da, QGraphicsItem * parent, QGraphicsScene * sce
 QRectF DilatedRect::boundingRect() const
 {
     QRectF rect(parentItem()->boundingRect());
-    rect.adjust(-d*0.5, -d*0.0, d, d);
+    rect.adjust(-d*0.5, -d*0.5, d, d);
     return rect;
 }
 

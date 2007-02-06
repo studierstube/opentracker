@@ -51,7 +51,6 @@ class DilatedRect;
 
 class Goal : public QGraphicsItem
 {
-Q_OBJECT
 public:
     Goal(double iwidth = 5.0, double iheight = 2.0);
 

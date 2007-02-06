@@ -47,6 +47,11 @@
 #include <QtGui>
 #include <QtCore>
 
+class CheckerFloor;
+class Arena;
+class PlayingField;
+class Goal;
+
 class PongScene : public QGraphicsScene
 {
 Q_OBJECT
@@ -54,7 +59,11 @@ public:
     PongScene(double xorig = -12.5, double yorig = -12.5, 
               double xsize =  25,   double ysize =  25 );
     virtual void mouseMoveEvent(QEvent &ev);
-
+protected:
+    CheckerFloor * floor_area;
+    Arena * arena;
+    PlayingField * playing_field;
+    Goal *goalA, *goalB;
 };
 
 #endif

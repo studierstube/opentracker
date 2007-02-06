@@ -49,9 +49,8 @@
 
 class DilatedRect : public QGraphicsItem
 {
-Q_OBJECT
 public:
-    DilatedRect(double da, QGraphicsItem * parent = 0, QGraphicsScene * scene= 0);
+    DilatedRect(QGraphicsItem * parent, double da);
 
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const 
