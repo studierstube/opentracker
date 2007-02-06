@@ -3,6 +3,7 @@ import sys
 from omniORB import CORBA, any
 
 import OTGraph
+from OTGraph import *
 
 # Import the stubs for the Naming service
 import CosNaming
