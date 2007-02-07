@@ -3,85 +3,45 @@
 // Copyright (C) GarageGames.com, Inc.
 //-----------------------------------------------------------------------------
 
-#ifndef _OTOBJECT_H_
-#define _OTOBJECT_H_
 
-class OtObject{
-protected:
-  static  bool initialized;
-#ifdef USE_LIVECONTEXT
-  static ot::Context * runtime;
-#endif //USE_LIVECONTEXT  
-public:
-  /// opentracker initialization
-  static void initialize(const char * config);
-  static void runOnce();
-  static void terminate();
-  /// the callback that will be registered with opentracker
-  static void callback( ot::CallbackNode * node,  ot::Event & event, void * data ) ;  
-  
-  /// use this method to register a callback for a node named nodename
-  void register(const char * nodename);
-
-  
-  virtual void theCallback(ot::CallbackNode * node, ot::Event & event);
-  virtual void sendData(const char *);
-  virtual void sendDataStrings(const char *, int argc, char ** argv);
-};
+#include "otObject.h"
+#include <string>
 
 bool OtObject::initialized=false;
-#ifdef USE_LIVECONTEXT
-  ot::Context *  OtObject::runtime=NULL;
-#endif //USE_LIVECONTEXT  
 
-
-void OtObject::initialize(const char * config){
-
-  
-
+void OtObject::initialize(const char * config)
+{
     // important parts of the system
     // get a context, the default modules and factories are
     // added allready ( because of the parameter 1 )
     // this call creates the context only, so that the configurator does not start 
     // the configuration thread with an empty context.
-#ifdef USE_LIVECONTEXT
-	runtime = ot::getLiveContext(config);
-#endif //USE_LIVECONTEXT
-    ot::Context & ct = otContext;
+
+    ot::Context * ct = otContext;
+
     printf( "Context established.\n");
     otCallbackModule;
     otCallforwardModule;
 
-
-
-#ifndef USE_LIVECONTEXT
-    ct .parseConfiguration(std::string(config));
-    otConfigurator ->runConfigurationThread( config );
-#endif //USE_LIVECONTEXT
-
-	printf( "Parsing complete.\nStarting UbiTrackClient !\n");
-
-    otUbiTrackClient->initialize();
+    ct->parseConfiguration(std::string(config));
+    otConfigurator->runConfigurationThread( config );
     
+    printf( "Parsing complete.\nStarting UbiTrackClient !\n");
 
     //run is done by the otInterface method, by calling context.loopOnce()
-    //    context.run();
-    
-    
-};
+    //    context.run();        
+}
 
-};
 
-void OtObject::terminate(const char * config){
-#ifdef USE_LIVECONTEXT
-  delete runtime;
-#endif //USE_LIVECONTEXT  
-};
+void OtObject::terminate()
+{
+  otContext->stopLoop();
+}
 
 void OtObject::runOnce( void )
 {
 
-  otContext .loopOnce();
+  otContext->loopOnce();
 
 }
 
@@ -94,7 +54,7 @@ void OtObject::callback(ot::CallbackNode * node,  ot::Event & event, void * data
 
 };
 
-void OtObject::register(const char * nodename){
+void OtObject::registerNode(const char * nodename){
   otCallbackModule ->setCallback(nodename, callback, (void *)this);	
   
 }
@@ -110,15 +70,29 @@ void OtObject::sendData(const char * name){
   event.setAttribute("val", std::string(" not implemented, sending default message"));
   otCallforwardModule ->callForward(name, event);
 
-};
+}
 
 void OtObject::sendDataStrings(const char *, int argc, char ** argv){
   ot::Event event;
   event.timeStamp();
-  for (int i = 0; i < argc; i++){
-    // get the type the name and the value and call
-    event.setAttribute(type, name, value);
-  }
-  otCallforwardModule ->callForward(name, event);
+  for (int i = 0; i < argc; i++)
+    {
+      // get the type the name and the value and call
+      
+      event.setAttribute(std::string("string"), std::string("attr"), argv[i]);
+    }
+  otCallforwardModule ->callForward("ASCD", event);
+}
+
+ConsoleFunction(OpenTrackerInit, S32, 2, 2, "OpenTrackerInit( configurationFile )"){
+OtObject::initialize(argv[2]);
 };
-#endif  // _H_OTOBJECT_
+
+ConsoleFunction(OpenTrackerRunOnce, S32, 1, 1, "OpenTrackerRunOnce( )"){
+OtObject::runOnce();
+};
+
+
+ConsoleFunction(OpenTrackerTerminate, S32, 1, 1, "OpenTrackerTerminate( )"){
+OtObject::terminate();
+};
