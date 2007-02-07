@@ -8,10 +8,17 @@
 
 
 class OtObject: public SimObject{
+ public:
+  //  typedef std::vector<OtObject*> ObjTable;
 protected:
   static  bool initialized;
   std::string scriptCallback;
+  static OtObject * objTable[10];
+  static int objcount;
+
+  //  static ObjTable objTable;
 public:
+
   /// opentracker initialization
   static void initialize(const char * config);
   static void runOnce();
@@ -24,9 +31,12 @@ public:
   void setScriptCallback(const char * cbname);
   
   virtual void theCallback(ot::CallbackNode * node, ot::Event & event);
-  /*
-  virtual void sendData(const char *);
-  virtual void sendDataStrings(const char *, int argc, char ** argv);*/
+
+  DECLARE_CONOBJECT(OtObject);
+  
+  
+  //virtual void sendData(const char *);
+  //virtual void sendDataStrings(const char *, int argc, char ** argv);
 };
 
 
