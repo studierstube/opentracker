@@ -1,6 +1,11 @@
 #ifndef _OTOBJECT_H_
 #define _OTOBJECT_H_
 
+#include <OpenTracker/OpenTracker.h>
+
+namespace ot {
+  class CallbackNode; 
+}
 
 #ifndef _SIMBASE_H_
 #include "console/simBase.h"
@@ -10,11 +15,11 @@
 class OtObject: public SimObject{
  public:
   //  typedef std::vector<OtObject*> ObjTable;
+  static OtObject * objTable[10];
+  static int objcount;
 protected:
   static  bool initialized;
   std::string scriptCallback;
-  static OtObject * objTable[10];
-  static int objcount;
 
   //  static ObjTable objTable;
 public:
@@ -32,7 +37,7 @@ public:
   
   virtual void theCallback(ot::CallbackNode * node, ot::Event & event);
 
-  DECLARE_CONOBJECT(OtObject);
+  //DECLARE_CONOBJECT(OtObject);
   
   
   //virtual void sendData(const char *);

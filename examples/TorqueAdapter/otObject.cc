@@ -25,6 +25,11 @@
 
 #else
 
+#  define otConfigurator ot::Configurator::instance()
+#  define otContext      ot::Configurator::instance() ->getContext()
+#  define otCallforwardModule dynamic_cast<ot::CallforwardModule*> (otContext->getModule("CallforwardConfig") )
+#  define otCallbackModule dynamic_cast<ot::CallbackModule*> (otContext->getModule("CallbackConfig") )
+
 #endif
 
 //IMPLEMENT_CONOBJECT(OtObject);
@@ -100,9 +105,11 @@ void OtObject::terminate(){
 
 void OtObject::runOnce( void )
 {
-
-  otContext .loopOnce();
-
+#ifdef OTCORBA
+  otContext.loopOnce();
+#else
+  otContext->loopOnce();
+#endif
 }
 
 void OtObject::callback(ot::CallbackNode * node,  ot::Event & event, void * data ){
@@ -202,7 +209,7 @@ ConsoleFunction(OpenTrackerInit, void, 2, 2, "OpenTrackerInit( configurationFile
 };
 
 ConsoleFunction(OpenTrackerRunOnce, void, 1, 1, "OpenTrackerRunOnce(  )"){
-  printf("OpenTrackerRunOnce getting called \n");
+  //printf("OpenTrackerRunOnce getting called \n");
   OtObject::runOnce();
 };
 
@@ -211,22 +218,19 @@ ConsoleFunction(OpenTrackerTerminate, void, 1, 1, "OpenTrackerTerminate(  )"){
   OtObject::terminate();
 };
 
-/*
 ConsoleFunction( OpenTrackerRegisterCallback, void, 3, 3, "OpenTrackeRegisterCallback( nodename, callbackfcn )"){
   OtObject * objs = new OtObject();
   objs->registerNode(argv[1]);
   objs->setScriptCallback(argv[2]);
-  if (objcount < 10){
-    OtObject::objTable[objcount] = objs;
-    objcount++;
+  if (OtObject::objcount < 10){
+    OtObject::objTable[OtObject::objcount] = objs;
+    OtObject::objcount++;
   }
 
   //  otCallbackModule ->setCallback(argv[1], fcnCallback, (void *)NULL);	
   
 }
-*/
-/*
-ConsoleFunction( OpenTrackerSendPosition, void, 4, 0, ("String NodeName, Point3F position "))
+ConsoleFunction( OpenTrackerSendPosition, void, 3, 0, ("String NodeName, Point3F position "))
 {
   ot::Event event;
 	
@@ -240,7 +244,7 @@ ConsoleFunction( OpenTrackerSendPosition, void, 4, 0, ("String NodeName, Point3F
 
   event.timeStamp();
   event.setPosition(pos);
+  event.setConfidence(1.0);
  // event.setAttribute(std::string("vector<float>"), std::string("position"), std::string(argv[3]));
   otCallforwardModule ->callForward(argv[1], event);
 }
-*/
