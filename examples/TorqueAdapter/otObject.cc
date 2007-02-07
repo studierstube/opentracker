@@ -177,7 +177,9 @@ ConsoleMethod( OtObject, sendPosition, void, 4, 0, ("String NodeName, Point3F po
   
 
   event.timeStamp();
-  event.setPosition(pos);
+  event.getPosition()[0]= pos[0];
+  event.getPosition()[1]= pos[1];
+  event.getPosition()[2]= pos[2];
  // event.setAttribute(std::string("vector<float>"), std::string("position"), std::string(argv[3]));
   otCallforwardModule ->callForward(argv[2], event);
 }
@@ -248,7 +250,7 @@ ConsoleFunction( OpenTrackerSendPosition, void, 3, 0, ("String NodeName, Point3F
 
   event.timeStamp();
   event.setPosition(pos);
-  event.setConfidence(1.0);
+  event.setConfidence(1.0f);
  // event.setAttribute(std::string("vector<float>"), std::string("position"), std::string(argv[3]));
   printf("Argv is %s\n", argv[1]);
   otCallforwardModule ->callForward(argv[1], event);
@@ -257,16 +259,17 @@ ConsoleFunction( OpenTrackerSendPosition, void, 3, 0, ("String NodeName, Point3F
 
 
 void OtObject::sendPositionC(const char * nodename, Point3F & pos){
-  float otpos[3];
-   otpos[0] = pos.x;
-   otpos[1] = pos.y;
-   otpos[2] = pos.z;
-   
    ot::Event event;
    event.timeStamp();
-   event.setPosition(otpos);
+   event.getConfidence() = 1.0;
+   event.getPosition()[0] = pos.x;
+   event.getPosition()[1] = pos.y;
+   event.getPosition()[2] = pos.z;
+
+ // event.setAttribute(std::string("vector<float>"), std::string("position"), std::string(argv[3]));
+   event.setConfidence(1.0f);
    //   ot::CallforwardModule * module = dynamic_cast<ot::CallforwardModule*> ( ( otContext ).getModule("CallforwardConfig") )   ;
    printf("calling module %s\n", nodename);
-   otCallforwardModule ->callForward(nodename, event);
+   otCallforwardModule->callForward(nodename, event);
    
 };
