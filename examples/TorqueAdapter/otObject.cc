@@ -105,11 +105,14 @@ void OtObject::terminate(){
 
 void OtObject::runOnce( void )
 {
+
+ 
 #ifdef OTCORBA
   otContext.loopOnce();
 #else
   otContext->loopOnce();
 #endif
+
 }
 
 void OtObject::callback(ot::CallbackNode * node,  ot::Event & event, void * data ){
@@ -209,7 +212,6 @@ ConsoleFunction(OpenTrackerInit, void, 2, 2, "OpenTrackerInit( configurationFile
 };
 
 ConsoleFunction(OpenTrackerRunOnce, void, 1, 1, "OpenTrackerRunOnce(  )"){
-  //printf("OpenTrackerRunOnce getting called \n");
   OtObject::runOnce();
 };
 
@@ -230,7 +232,9 @@ ConsoleFunction( OpenTrackerRegisterCallback, void, 3, 3, "OpenTrackeRegisterCal
   //  otCallbackModule ->setCallback(argv[1], fcnCallback, (void *)NULL);	
   
 }
+
 ConsoleFunction( OpenTrackerSendPosition, void, 3, 0, ("String NodeName, Point3F position "))
+
 {
   ot::Event event;
 	
@@ -246,5 +250,23 @@ ConsoleFunction( OpenTrackerSendPosition, void, 3, 0, ("String NodeName, Point3F
   event.setPosition(pos);
   event.setConfidence(1.0);
  // event.setAttribute(std::string("vector<float>"), std::string("position"), std::string(argv[3]));
+  printf("Argv is %s\n", argv[1]);
   otCallforwardModule ->callForward(argv[1], event);
 }
+
+
+
+void OtObject::sendPositionC(const char * nodename, Point3F & pos){
+  float otpos[3];
+   otpos[0] = pos.x;
+   otpos[1] = pos.y;
+   otpos[2] = pos.z;
+   
+   ot::Event event;
+   event.timeStamp();
+   event.setPosition(otpos);
+   //   ot::CallforwardModule * module = dynamic_cast<ot::CallforwardModule*> ( ( otContext ).getModule("CallforwardConfig") )   ;
+   printf("calling module %s\n", nodename);
+   otCallforwardModule ->callForward(nodename, event);
+   
+};

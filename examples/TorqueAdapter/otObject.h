@@ -10,7 +10,11 @@ namespace ot {
 #ifndef _SIMBASE_H_
 #include "console/simBase.h"
 #endif
+#include <OpenTracker/OpenTracker.h>
 
+namespace ot{
+class CallbackNode;
+}
 
 class OtObject: public SimObject{
  public:
@@ -31,6 +35,8 @@ public:
   /// the callback that will be registered with opentracker
   static void callback( ot::CallbackNode * node,  ot::Event & event, void * data ) ;  
   
+  static void sendPositionC(const char * nodename, Point3F & pos);
+
   /// use this method to register a callback for a node named nodename
   void registerNode(const char * nodename);
   void setScriptCallback(const char * cbname);
