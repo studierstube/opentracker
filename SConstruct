@@ -303,6 +303,17 @@ else:
         print 'Support for Phantom Middleware....... enabled.'
         ot['defines'] += ['USE_PHANTOMMIDDLEWARE']
         ot['libs'] += ['phantom']
+    if ARGUMENTS.has_key('ENABLE_PHANTOM'):
+        print 'Support for Phantom Omni Haptic Device....... enabled.'
+        try:
+            ot['defines'] += ['USE_PHANTOM']
+        except KeyError:        
+            ot['defines'] = ['USE_PHANTOM']
+        try:
+            ot['libs'] += ['HDU','HD','HLU','HL']           
+        except KeyError:        
+            ot['libs'] = ['HDU','HD','HLU','HL']
+        
     if ARGUMENTS.has_key('ENABLE_PYQT'):
         print 'Support for PyQt....... enabled.'
         print 'Please modify the targets to build support for PyQt. IF YOU SEE THIS MESSAGE WHILE COMPILING IS BECAUSE THIS FEATURE HAS NOT BEEN ADDED TO THE BUILD SCRIPT. Developers should modify the targetList at the point where this message is generated to add support for PyQt.\n'

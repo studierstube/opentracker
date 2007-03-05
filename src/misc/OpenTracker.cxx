@@ -129,6 +129,10 @@
 #include <OpenTracker/common/TimestampGeneratorModule.h>
 #include <OpenTracker/network/OldOTNetworkSourceModule.h>
 
+#include <OpenTracker/input/PhantomModule.h>
+#include <OpenTracker/input/PhantomSourceModule.h>
+#include <OpenTracker/input/PhantomSinkModule.h>
+
 // DLL main function
 
 #ifdef WIN32
@@ -411,6 +415,12 @@ namespace ot {
 
 #ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
         OT_REGISTER_MODULE(TimestampGeneratorModule, NULL);
+#endif
+
+#ifdef USE_PHANTOM
+        OT_REGISTER_MODULE(PhantomModule, NULL);
+        OT_REGISTER_MODULE(PhantomSourceModule, NULL);
+        OT_REGISTER_MODULE(PhantomSinkModule, NULL);
 #endif
 
 	}
