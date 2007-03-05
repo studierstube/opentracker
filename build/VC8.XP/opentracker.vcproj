@@ -644,6 +644,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\core\ThreadContext.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core\ThreadModule.cxx"
 				>
 			</File>

@@ -208,7 +208,7 @@
 //#define USE_MIDI 1
 
 /** uncomment the following line to compile support for old (1.1) Opentracker nodes */
-#define OT_OLD_NETWORK_SUPPORT 1
+//#define OT_OLD_NETWORK_SUPPORT 1
 
 
 #ifdef _WIN32_WCE

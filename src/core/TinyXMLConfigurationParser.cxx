@@ -41,6 +41,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#include <OpenTracker/OpenTracker.h>
+#ifdef USE_TINYXML
 #include <cstdlib>
 #include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Log_Msg.h>
@@ -49,7 +51,7 @@
 
 // selects between usage of XERCES and TinyXML
 #include <OpenTracker/tool/XMLSelection.h>
-#ifdef USE_TINYXML
+
 class TiXmlDocument;
 
 
