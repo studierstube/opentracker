@@ -7,16 +7,8 @@ namespace ot {
   class CallbackNode; 
 }
 
-#ifndef _SIMBASE_H_
-#include "console/simBase.h"
-#endif
-#include <OpenTracker/OpenTracker.h>
 
-namespace ot{
-class CallbackNode;
-}
-
-class OtObject: public SimObject{
+class OtObject{
  public:
   //  typedef std::vector<OtObject*> ObjTable;
   static OtObject * objTable[10];
@@ -42,11 +34,8 @@ public:
   void setScriptCallback(const char * cbname);
   
   virtual void theCallback(ot::CallbackNode * node, ot::Event & event);
+  virtual void sendData(const char *);
 
-  //DECLARE_CONOBJECT(OtObject);
-  
-  
-  //virtual void sendData(const char *);
   //virtual void sendDataStrings(const char *, int argc, char ** argv);
 };
 
