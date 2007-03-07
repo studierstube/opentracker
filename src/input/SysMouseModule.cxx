@@ -132,7 +132,7 @@ namespace ot {
 			SysMouseSink * sink;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				sink = (SysMouseSink *) *it;
+				sink = (SysMouseSink *) ((Node*)*it);
 				//sink->deleteSth;
 			}
 		}
@@ -164,7 +164,7 @@ namespace ot {
 			SysMouseSink *sink;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				sink = (SysMouseSink *) *it;
+				sink = (SysMouseSink *) ((Node*)*it);
 				
 				if( sink->changedRelative )
 				{
@@ -227,6 +227,8 @@ namespace ot {
 #endif
 			}
 		}
+		// wait 10msec - this sets the update intervall to the system
+		ACE_OS::sleep( ACE_Time_Value(0, 10000) );
 	}
 } // namespace ot
 

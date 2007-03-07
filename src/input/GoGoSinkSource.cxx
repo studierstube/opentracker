@@ -68,6 +68,20 @@ namespace ot {
             newEvent = true;			
             return;
         }
+		// the SetAbsolutePosition
+		if (generator.getName().compare("SetAbsoluteLocation") == 0) {
+			// store input event from sink	
+			setAbsolutePos[0] = event.getPosition()[0];
+			setAbsolutePos[1] = event.getPosition()[1];
+			setAbsolutePos[2] = event.getPosition()[2];
+			setAbsoluteOri[0] = event.getOrientation()[0];
+			setAbsoluteOri[1] = event.getOrientation()[1];
+			setAbsoluteOri[2] = event.getOrientation()[2];
+			setAbsoluteOri[3] = event.getOrientation()[3];
+			setAbsoluteBut = event.getButton();
+			setAbsPos = true;		
+			return;
+		}
 
         // the ViewerLocation
         if (generator.getName().compare("ViewerLocation") == 0) {
@@ -108,6 +122,14 @@ namespace ot {
 
         // calculate distance between cursor and viewer
         tmpEventCursorDistance = DIST(tmpEventPos, viewerLocationPos);
+		
+		// reset if cursor is to near the viewer
+		if (tmpEventCursorDistance<0.3f)
+		{
+			gogoDeviceKitBut = OTCOM_RESETPOSITION;
+			newKitEvent = 1;
+			return;
+		}
 
         // GoGo factor
         float gogofact = 1.0f;
@@ -219,6 +241,17 @@ namespace ot {
                 break;
         }
     }
+
+	void GoGoSinkSource::setAbsoluteLocation()
+	{
+		for (int i(0);i<3;i++) 
+		{
+			tmpEventPos[i] = setAbsolutePos[i];
+			tmpEventOri[i] = setAbsoluteOri[i];
+		}
+		tmpEventOri[3] = setAbsoluteOri[3];
+		tmpEventBut = setAbsoluteBut;
+	}
 
     void GoGoSinkSource::push()
     {

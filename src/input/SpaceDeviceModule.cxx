@@ -220,7 +220,7 @@ namespace ot {
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (SpaceDeviceSource *) *it;
+				source = (SpaceDeviceSource *) ((Node*)*it);
 
 				lock();            
 				if (source->changed == 1)
@@ -286,7 +286,7 @@ namespace ot {
 						for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 						{
 							lock();
-    						SpaceDeviceSource * source = (SpaceDeviceSource *)(*it);
+    						SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 
 							source->tmpEvent.getPosition()[0] = newPosX;
 							source->tmpEvent.getPosition()[1] = newPosY;
@@ -318,7 +318,7 @@ namespace ot {
 							for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 							{
 								lock();
-								SpaceDeviceSource * source = (SpaceDeviceSource *)(*it);
+								SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 								source->tmpEvent.getButton() |= newBut;
 								source->changed = 1;
 								unlock();
@@ -331,7 +331,7 @@ namespace ot {
 							for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 							{
 								lock();
-								SpaceDeviceSource * source = (SpaceDeviceSource *)(*it);
+								SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 								source->tmpEvent.getButton() ^= newBut;
 								source->changed = 1;
 								unlock();

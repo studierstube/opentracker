@@ -99,7 +99,7 @@ namespace ot {
 			initialized = 1;
 			return source;
 		}
-		if( (name.compare("PtuLocation") == 0) ||(name.compare("PtuMoveTo") == 0) || 
+		if( (name.compare("PtuLocation") == 0) ||(name.compare("AbsoluteInput") == 0) || 
 			(name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
 		{
 			// create just a pass-through node
@@ -134,7 +134,7 @@ namespace ot {
 			PanTiltUnitSinkSource * source;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSinkSource *) *it;
+				source = (PanTiltUnitSinkSource *) ((Node*)*it);
 				source->closeComPort();
 			}
 		}
@@ -165,7 +165,7 @@ namespace ot {
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSinkSource *) *it;     
+				source = (PanTiltUnitSinkSource *) ((Node*)*it);     
 				//source->delay--;
 				//if ((source->process||source->movingPan||source->movingTilt) && source->delay<1)
 				if (source->process||source->movingPan||source->movingTilt)
@@ -195,7 +195,7 @@ namespace ot {
 			PanTiltUnitSinkSource *source;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (PanTiltUnitSinkSource *) *it;
+				source = (PanTiltUnitSinkSource *) ((Node*)*it);
 				if( source->lanc->isZooming() )
 				{
 					source->lanc->updateTimePos();

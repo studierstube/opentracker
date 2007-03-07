@@ -152,6 +152,8 @@ private:
 	Event topOffset;
 	// This Event holds the physical ptu location
 	Event ptuLocation;
+	// This Event defines the absolute orientation of the PTU axis
+	Event absoluteInput;
 
 	portstream_fd COMstream;
 	

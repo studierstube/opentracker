@@ -121,6 +121,13 @@ namespace ot {
             np->name = name;
             return np;
         }
+		if( name.compare("SetAbsoluteLocation") == 0 ) 
+		{
+			// create just a pass-through node
+			NodePort *np = new NodePort();
+			np->name = name;
+			return np;
+		}
 
         return NULL;
     }
@@ -169,7 +176,7 @@ namespace ot {
         {   
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
-                source = (GoGoSinkSource *) *it;
+                source = (GoGoSinkSource *) ((Node*)*it);
 
                 lock();            
                 if (source->changed == 1)
@@ -198,7 +205,7 @@ namespace ot {
             GoGoSinkSource *source;
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
-                source = (GoGoSinkSource *) *it;
+                source = (GoGoSinkSource *)((Node*)*it);
                 if(source->newEvent)
                 {
                     source->newEvent=false;
@@ -211,6 +218,12 @@ namespace ot {
                     source->computeGoGoNodeKitEvent();
                     source->changed = 1;
                 }
+				if(source->setAbsPos)
+				{
+					source->setAbsPos = false;
+					source->setAbsoluteLocation();
+					source->changed = 1;
+				}
             }	
         }
         OSUtils::sleep(2);

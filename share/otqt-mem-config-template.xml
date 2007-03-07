@@ -30,9 +30,7 @@
   <!-- IMPORTANT: parent XML-tag must include the attribute DEF="MouseButtonDevice" -->
   <TODOUnknownSource DEF="MouseButtonDevice" />
 
-  <!-- Mouse Wheel Device (MPD): enter OpenTracker source -->
-  <!-- IMPORTANT: parent XML-tag must include the attribute DEF="MouseWheelDevice" -->
-  <TODOUnknownSource DEF="MouseWheelDevice" />
+ 
 
 
   <!-- ///// Sink Section ///// -->
@@ -53,8 +51,5 @@
     <Ref USE="MouseButtonDevice" />
   </QtMouseButtonSink>
 
-  <QtMouseWheelSink>
-    <Ref USE="MouseWheelDevice" />
-  </QtMouseWheelSink>
 
 </OpenTracker>

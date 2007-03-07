@@ -121,7 +121,7 @@ namespace ot {
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (ThreeToTwoDimFilter *) *it;     
+				source = (ThreeToTwoDimFilter *) ((Node*)*it);     
 				if (source->newInput)
 				{
 					source->newInput = false;

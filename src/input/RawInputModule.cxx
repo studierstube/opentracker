@@ -118,7 +118,7 @@ namespace ot {
     {
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
             {
-                RawInputSource* pSource = reinterpret_cast<RawInputSource*>(*it);
+                RawInputSource* pSource = reinterpret_cast<RawInputSource*>((Node*)*it);
                 lock();
                 if (pSource->calcEvent())
                     pSource->updateObservers(pSource->getEvent());
@@ -256,7 +256,7 @@ namespace ot {
         if (GetRawInputData(hRawInput,RID_INPUT,&rawInput,&rawInputSize,sizeof(RAWINPUTHEADER)))
             for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
                 {
-                    RawInputSource* pSource = reinterpret_cast<RawInputSource*>(*it);
+                    RawInputSource* pSource = reinterpret_cast<RawInputSource*>((Node*)*it);
                     if (pSource->getDevice() == rawInput.header.hDevice)
                         {
                             if (rawInput.header.dwType == RIM_TYPEMOUSE)

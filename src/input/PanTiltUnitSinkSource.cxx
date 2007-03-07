@@ -109,8 +109,30 @@ namespace ot {
 	{
 		static int i=0;
 		// does nothing yet
-		if (generator.getName().compare("PtuMoveTo") == 0) {
-			printf ("not implemented PtuMoveTo: x: %.2f y: %.2f z: %.2f\n", event.getPosition()[0], event.getPosition()[1], event.getPosition()[2]);
+		if (generator.getName().compare("AbsoluteInput") == 0) {
+			printf ("not tested AbsoluteInput: x: %.2f y: %.2f z: %.2f\n", event.getPosition()[0], event.getPosition()[1], event.getPosition()[2]);
+			absoluteInput=event;		
+			if(0)
+			{
+				MathUtils::Matrix4x4 mOri = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
+				MathUtils::Quaternion qOri={absoluteInput.getOrientation()[0], absoluteInput.getOrientation()[1], absoluteInput.getOrientation()[2], absoluteInput.getOrientation()[3]};
+				MathUtils::Vector3 eulerAngles = {0, 0, 0};
+				MathUtils::quaternionToMatrix( qOri, mOri);
+				MathUtils::MatrixToEuler(eulerAngles, mOri);
+				
+				signed short int ptuPanAngle = (signed short int)(eulerAngles[0]/panResolution);
+				signed short int ptuTiltAngle = (signed short int)(eulerAngles[1]/tiltResolution);
+
+				// todo check for CONTROL_MODE
+				//set_mode(SPEED_CONTROL_MODE, PTU_PURE_VELOCITY_SPEED_CONTROL_MODE)
+				signed short int val=1000;
+				set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+				set_desired(TILT,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+				set_desired(PAN,  POSITION, (PTU_PARM_PTR *) &ptuPanAngle, ABSOLUTE);
+				set_desired(TILT, POSITION, (PTU_PARM_PTR *) &ptuTiltAngle, ABSOLUTE);
+				//await_completion();
+				process=true;
+			}
 			return;
 		}
 		// the top offset

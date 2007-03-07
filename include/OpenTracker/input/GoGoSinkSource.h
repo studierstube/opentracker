@@ -117,13 +117,16 @@ public:
 		{
 			viewerLocationPos[i] = 0.f;
 			relativeInputPos[i] = 0.f;
+			setAbsolutePos[i] = 0.f;
 			tmpEventPos[i] = 0.f;
 			viewerLocationOri[i] = 0.f;
 			relativeInputOri[i] = 0.f;
+			setAbsoluteOri [i] = 0.f;
 			tmpEventOri[i] = 0.f;
 		}
 		viewerLocationOri[3] = 1.f;
 		relativeInputOri[3] = 1.f;
+		setAbsoluteOri [3] = 0.f;
 		tmpEventOri[3] = 1.f;
 
 		tmpEventCursorDistance=0.f;
@@ -141,6 +144,7 @@ public:
 		//scale = 1.0f;
 
 		useAbsRotation = true;
+		setAbsPos = false;
 	};
         
     /** tests for EventGenerator interface being present. Is overriden to
@@ -160,12 +164,16 @@ protected:
 	// SpaceMouse Cursor-specific variables
 	bool useAbsRotation;
 
+	bool setAbsPos;
+
 	// Incoming events providing data for calculations
 	float viewerLocationPos[3];
 	float relativeInputPos[3];
+	float setAbsolutePos[3];
 	float viewerLocationOri[4]; 
 	float relativeInputOri[4];
-	unsigned short relativeInputBut, gogoDeviceKitBut;
+	float setAbsoluteOri[4];
+	unsigned short relativeInputBut, gogoDeviceKitBut, setAbsoluteBut;
 
 	// This Event holds the result of the calculation of
 	// current cursor position and is sent to the observers
@@ -200,6 +208,7 @@ protected:
 
 	void computeNewLocation();
 	void computeGoGoNodeKitEvent();
+	void setAbsoluteLocation();
 
 	friend class GoGoModule;
 

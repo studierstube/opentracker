@@ -130,7 +130,7 @@ namespace ot {
 		{   
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (VirtualKeySource *) *it;     
+				source = (VirtualKeySource *) ((Node*)*it);     
 				source->push();
 			}
 		}
@@ -143,7 +143,7 @@ namespace ot {
 			VirtualKeySource *source;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
-				source = (VirtualKeySource *) *it;
+				source = (VirtualKeySource *) ((Node*)*it);
 #ifdef WIN32
 				if( GetAsyncKeyState(source->virtualKeyCode) )	// default pgup
 				{
