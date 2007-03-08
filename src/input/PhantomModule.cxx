@@ -161,30 +161,19 @@ namespace ot {
       
       logPrintW( "Got internal haptic device handle %d\n", handle);
 
-//      hdGetError() causes a segfault when liking to libstdc++ 6 or higher. This 
-// 	Error code avoids using hdGetError() until the problem has been solved
-      if(handle == HD_INVALID_HANDLE){
-	logPrintE("There was an error initializing the device, invalid handle\n");
-	return false;
-      }else {
-	logPrintI("Haptic device %s initialized with handle %d\n", devicename.c_str(), handle);
-	id2handle[id] = handle;
-	name2handle[deviceName] = handle;
-	
-      }
       
-//       HDErrorInfo error = hdGetError();
+       HDErrorInfo error = hdGetError();
 			
 //       // Check if device can be initialized
-//       if (HD_DEVICE_ERROR(error)) {
+       if (HD_DEVICE_ERROR(error)) {
 //         // The device can't be initialized
-//     	  hduPrintError(stderr, &error, "Failed to initialize the haptic device");
-// 	      return false;
-//       }
-//       else {
-// 	      hduPrintError(stderr, &error, "Haptic device initialized");
-// 	      id2handle[id] = handle;
-// 	      name2handle[deviceName] = handle;
+     	  hduPrintError(stderr, &error, "Failed to initialize the haptic device");
+ 	      return false;
+       }
+       else {
+ 	      hduPrintError(stderr, &error, "Haptic device initialized");
+ 	      id2handle[id] = handle;
+ 	      name2handle[deviceName] = handle;
       }
     }
     else {
@@ -206,18 +195,16 @@ namespace ot {
       HDenum calibrationType = HD_CALIBRATION_AUTO;
       hdScheduleSynchronous(updateCalibrationCallback, &calibrationType, HD_MIN_SCHEDULER_PRIORITY);
 
-      // the following error code is out because hdGetError() causes a segfault.
-      // when using libstdc++ 6 or higher
 
-//       HDErrorInfo error = hdGetError();
+       HDErrorInfo error = hdGetError();
 
-//       if (HD_DEVICE_ERROR(error)) {
+       if (HD_DEVICE_ERROR(error)) {
 
-// 	      // The sceduler can't be initialized
-// 	      hduPrintError(stderr, &error, "Failed to start the scheduler");
-//       }
-//       else
-//	      hduPrintError(stderr, &error, "Scheduler started");
+ 	      // The sceduler can't be initialized
+ 	      hduPrintError(stderr, &error, "Failed to start the scheduler");
+       }
+       else
+/	      hduPrintError(stderr, &error, "Scheduler started");
 
     }
     else 
