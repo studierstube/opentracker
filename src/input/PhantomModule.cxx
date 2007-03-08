@@ -115,11 +115,11 @@ namespace ot {
   }
   // -----------------------------------------------------------------------------
   Node *PhantomModule::createNode(const string &name, StringTable &attributes) {
-    fprintf(stderr, "ot:Try to built PhantomModule node (%s)\n", name.c_str());
+    logPrintI( "ot:Try to built PhantomModule node (%s)\n", name.c_str());
     if (name.compare("PhantomModule") == 0) {
       if (attributes.get("schedule").compare("true") == 0) {
 	      startScheduler();
-	      ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Built PhantomModule node\n")));
+	      logPrintD("ot:Built PhantomModule node\n");
       }
     }
 
@@ -144,14 +144,14 @@ namespace ot {
   		
     std::string deviceName = attributes.get("devicename");
     if (deviceName.compare("") == 0) {
-      fprintf(stderr, "No devicename specified!\n");
+      logPrintE( "No devicename specified!\n");
       return false;
     }
   		
     int id=0;
     std::stringstream(attributes.get("id")) >> id;
 			
-    fprintf(stderr, "Try to init haptic device %s with id %d\n", deviceName.c_str(), id);
+    logPrintI("Trying to init haptic device %s with id %d\n", deviceName.c_str(), id);
 
     HHD handle = getHandleByName(deviceName);
 		
@@ -159,20 +159,32 @@ namespace ot {
     	
       handle = hdInitDevice(deviceName.c_str()); // Handle to the haptic device
       
-      fprintf(stderr, "Got internal haptic device handle %d\n", handle);
-    		
-      HDErrorInfo error = hdGetError();
-			
-      // Check if device can be initialized
-      if (HD_DEVICE_ERROR(error)) {
-        // The device can't be initialized
-    	  hduPrintError(stderr, &error, "Failed to initialize the haptic device");
-	      return false;
+      logPrintW( "Got internal haptic device handle %d\n", handle);
+
+//      hdGetError() causes a segfault when liking to libstdc++ 6 or higher. This 
+// 	Error code avoids using hdGetError() until the problem has been solved
+      if(handle == HD_INVALID_HANDLE){
+	logPrintE("There was an error initializing the device, invalid handle\n");
+	return false;
+      }else {
+	logPrintI("Haptic device %s initialized with handle %d\n", devicename.c_str(), handle);
+	id2handle[id] = handle;
+	name2handle[deviceName] = handle;
+	
       }
-      else {
-	      hduPrintError(stderr, &error, "Haptic device initialized");
-	      id2handle[id] = handle;
-	      name2handle[deviceName] = handle;
+      
+//       HDErrorInfo error = hdGetError();
+			
+//       // Check if device can be initialized
+//       if (HD_DEVICE_ERROR(error)) {
+//         // The device can't be initialized
+//     	  hduPrintError(stderr, &error, "Failed to initialize the haptic device");
+// 	      return false;
+//       }
+//       else {
+// 	      hduPrintError(stderr, &error, "Haptic device initialized");
+// 	      id2handle[id] = handle;
+// 	      name2handle[deviceName] = handle;
       }
     }
     else {
@@ -194,19 +206,23 @@ namespace ot {
       HDenum calibrationType = HD_CALIBRATION_AUTO;
       hdScheduleSynchronous(updateCalibrationCallback, &calibrationType, HD_MIN_SCHEDULER_PRIORITY);
 
-      HDErrorInfo error = hdGetError();
+      // the following error code is out because hdGetError() causes a segfault.
+      // when using libstdc++ 6 or higher
 
-      if (HD_DEVICE_ERROR(error)) {
+//       HDErrorInfo error = hdGetError();
 
-	      // The sceduler can't be initialized
-	      hduPrintError(stderr, &error, "Failed to start the scheduler");
-      }
-      else
-	      hduPrintError(stderr, &error, "Scheduler started");
+//       if (HD_DEVICE_ERROR(error)) {
+
+// 	      // The sceduler can't be initialized
+// 	      hduPrintError(stderr, &error, "Failed to start the scheduler");
+//       }
+//       else
+//	      hduPrintError(stderr, &error, "Scheduler started");
 
     }
     else 
-      ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:PhantomModule has nothing to schedule\n")));
+      logPrintD("ot:PhantomModule has nothing to schedule\n");
+
     		
   }
       
@@ -215,7 +231,7 @@ namespace ot {
   void PhantomModule::init(StringTable& attributes, ConfigNode *localTree) {
     ThreadModule::init( attributes, localTree );
 
-    fprintf(stderr, "PhantomModule::init(...)\n");
+    logPrintI("PhantomModule::init(...)\n");
 //    name2handle["Default PHANToM"] = HHD(0);
     initDevice(attributes);
 
