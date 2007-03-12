@@ -47,6 +47,7 @@
 #include "../dllinclude.h"
 
 #include "Node.h"
+#include "Graph.h"
 #include "Module.h"
 #include "NodeFactoryContainer.h"
 #include "VideoUser.h"
@@ -59,7 +60,7 @@ class ACE_Condition_Thread_Mutex;
 namespace ot {
 
     /// a string map to store modules in
-    typedef std::map<std::string, Module *> ModuleMap;
+    typedef std::map<std::string, Module::Ptr> ModuleMap;
 
     /**
      * This class represents one context. It keeps its own modules and tracker tree. Using
@@ -100,7 +101,8 @@ namespace ot {
         /// A map of the modules this context works with
         ModuleMap modules;
         /// Pointer to the root node of the local tracker tree
-        Node::Ptr rootNode;
+        //        Node::Ptr rootNode;
+        Graph::Ptr graph;
         /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
         NodeFactoryContainer factory;
         /// flag to remember whether the Context is responsible for cleaning up the modules.
@@ -180,7 +182,7 @@ namespace ot {
          * is an instance of the generic node class and only deal with the
          * children API. It does also contain the configuration element in the first node.
          * @returns pointer to the root node */
-        Node * getRootNode();
+        Graph * getRootNode();
 
         /** returns the node with the given unique ID tag. If none is found
          * NULL is returned.

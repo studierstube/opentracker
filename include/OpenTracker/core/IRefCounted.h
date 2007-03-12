@@ -50,6 +50,7 @@
 namespace ot {
 
 
+
   /*
 /// interface for reference countable objects
 
@@ -79,8 +80,9 @@ class OPENTRACKER_API IRefCounted{
   virtual int _deref();\
   virtual int getRefCount()
 
+#define OT_INITIALIZE_IREFCOUNTED _rcount = 0
 
-#define IMPLEMENT_IREFCOUNTED(CLASS) int CLASS ::_ref(){\
+#define OT_IMPLEMENT_IREFCOUNTED(CLASS) int CLASS ::_ref(){\
   return ++ _rcount;\
   };\
   \

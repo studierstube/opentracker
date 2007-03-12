@@ -48,6 +48,8 @@
 
 #include "ConfigNode.h"
 #include "StringTable.h"
+#include <OpenTracker/core/IRefCounted.h>
+#include <OpenTracker/misc/Cptr.h>
 
 /**
  * Module is an abstract super class for all OpenTracker modules. A module
@@ -76,16 +78,19 @@ namespace ot {
          */
         Context * context;
         
+        OT_DECLARE_IREFCOUNTED;
+        typedef Cptr<Module> Ptr;
     public:
+        
         static Context * contextx;
 
         //methods
     public:
         /// constructor method
-        Module(): initialized(0), context(NULL) {};
+        Module(): initialized(0), context(NULL) { OT_INITIALIZE_IREFCOUNTED; };
 
 	/// virtual destructor (as it befits any true class hierarchy)
-        virtual ~Module() {};
+        virtual ~Module();
 
         /**
          * closes the module. A place for cleanup code etc.

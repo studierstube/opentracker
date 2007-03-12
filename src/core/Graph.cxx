@@ -1,4 +1,3 @@
-
 /* ========================================================================
  * Copyright (c) 2006,
  * Institute for Computer Graphics and Vision
@@ -34,69 +33,124 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for class ConfigurationParser.
+/** The source file for the basic Graph class.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
- * $Id$
+ *
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifndef _CONFIGURATIONPARSER_H
-#define _CONFIGURATIONPARSER_H
 
-#include "../dllinclude.h"
-#include "../OpenTracker.h"
+#include <OpenTracker/core/Node.h>
+#include <OpenTracker/core/Graph.h>
+
+#include <OpenTracker/core/OtLogger.h>
+#include <algorithm>
+
+namespace ot{
+
+  Graph::Graph(){
+    OT_INITIALIZE_IREFCOUNTED;
+  }
+
+Graph::~Graph(){
+  for (NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++){
+    logPrintE("Graph contains node %p type %s\n", (*it), ((*it)->getType() .c_str()) );
+  }
+  NodeVector copy(nodes);
+  nodes.clear();
+};
+  
+void Graph::addNode(Node * node){
+  if (node == 0) return;
+  if (node->getGraph() == this) return;
+  node->setGraph(this);
+  nodes.push_back(node);
+  //  nodes[node->getName()]=(node);
+};
+
+void Graph::remNode(Node * node){
+  NodeVector::iterator search= find(nodes.begin(), nodes.end(), node);
+  if (search != nodes.end()){
+    // reset the graph
+    node->setGraph(0);
+    // disconnect from other nodes
+    node->disconnect();
+    // erase from the list
+    
+    nodes.erase(search);
+  }
+  
+			      
+};
+  
+void Graph::connectNodes(Node * parent, Node * child){
+  if (!parent){
+    logPrintE("Graph::connectNodes the parent is 0 \n");
+    return;
+  } else if ((parent->getGraph()) != this){
+    addNode(parent);
+    //    parent->setGraph(this);
+  }
+  
+  if (!child ){
+    logPrintE("Graph::connectNodes the child is 0 ");
+    return;
+  } else if ((child->getGraph()) != this){
+    addNode(child);
+    //    child->setGraph(this);
+  }
+  
+  parent->addChild(*child);
+  child->addParent(parent);
+
+};
 
 
-namespace ot {
+void Graph::disconnectNodes(Node * parent, Node * child){
+  if (!parent || ((parent->getGraph()) == this)){
+    logPrintE("Graph::disconnectNodes the parent is 0 or does not belong to graph");
+    return;
+  }
+  if (!child || ((child->getGraph()) == this)){
+    logPrintE("Graph::disconnectNodes the child is 0 or does not belong to graph");
+    return;
+  }
+  
+  parent->removeChild(*child);
+  child->removeParent(parent);
+};
 
+Node * Graph::findNode(const std::string & key, const std::string & val){
+  Node * result = NULL;
+  for (NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++){
+    Node * current = (*it);
+    const std::string & res = current->get(key);
+    if (res.compare(val) == 0){
+      result = current;
+      break;
+    }
+      
+  }
+    return result;
+};
 
-    class Context;
+unsigned int Graph::countNodes(){
+  return (unsigned int)nodes.size();
+};
 
-    /// used to map a string to a node
-    typedef std::map<std::string, Node *> NodeMap;
+Node * Graph::getNode(unsigned int idx){
+  return nodes[(int)idx];
+};
 
-    /**
-     * parses the XML configuration file. This class reads the configuration file
-     * using DOM and builds the tracker tree. It is not part of the public API of
-     * OpenTracker, therefore do not use it !
-     * @author Gerhard Reitmayr
-     * @ingroup core
-     */
-    class ConfigurationParser
-    {
-    protected:
-        ConfigurationParser(){};
-    public:
-        /**
-         * constructor method. The Xerces XML parser library is initialized here.
-         * @param factory_ pointer to set the member factory
-         */
+OT_IMPLEMENT_IREFCOUNTED(Graph);
 
-        /** Destructor method.*/
-        virtual ~ConfigurationParser(){};
-        /**
-         * These methods parses an XML configuration file. It returns a Node as
-         * root with all the root nodes defined in the configuration file.
-         * @param filename the name and path of the configuration file
-         * @return pointer to the root Node or NULL
-         */
-        virtual Graph * parseConfigurationFile(const std::string& filename)=0;
-        virtual Graph * parseConfigurationString(const char* xmlstring)=0;
-
-    };
-
-    ConfigurationParser * getConfigurationParser(Context & context_);
-
-}  // namespace ot
-
-
-#endif
+}; //namespace ot
 
 /* 
  * ------------------------------------------------------------
- *   End of ConfigurationParser.h
+ *   End of Graph.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

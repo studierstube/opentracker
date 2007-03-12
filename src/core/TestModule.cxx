@@ -104,13 +104,15 @@ namespace ot {
             int frequency;
             int offset;
             int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
-            if( num == 0 ){
+            if( num <= 0 ){
                 frequency = 1;
             }
             num = sscanf(attributes.get("offset").c_str(), " %i", &offset );
-            if( num == 0 ){
+
+            if( num <= 0){
                 offset = 0;
             }
+
             TestSource * source = new TestSource( frequency, offset );
             attributes.get("position", source->event.getPosition(), 3);
             attributes.get("orientation", source->event.getOrientation(), 4);
@@ -126,8 +128,7 @@ namespace ot {
             }
 
             nodes.push_back( source );
-
-            logPrintI("Built TestSource node\n");
+            logPrintI("Built TestSource node \n");
             initialized = 1;
             return source;
         }
@@ -184,6 +185,7 @@ namespace ot {
         else
         {
             event.timeStamp();
+
             updateObservers( event );
         }
     }

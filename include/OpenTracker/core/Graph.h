@@ -1,4 +1,3 @@
-
 /* ========================================================================
  * Copyright (c) 2006,
  * Institute for Computer Graphics and Vision
@@ -34,69 +33,57 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for class ConfigurationParser.
+/** The header file for the basic Graph class.
  *
- * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
- * $Id$
+ *
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifndef _CONFIGURATIONPARSER_H
-#define _CONFIGURATIONPARSER_H
+#ifndef OT_CORE_GRAPH_HH_INCLUDED
+#define OT_CORE_GRAPH_HH_INCLUDED
 
-#include "../dllinclude.h"
-#include "../OpenTracker.h"
+#include <vector>
+#include <map>
+#include <string>
+#include <OpenTracker/misc/Cptr.h>
+#include "IRefCounted.h"
+namespace ot{
+  class Node;
 
+class Graph{
+ protected:
+  //  typedef std::map<std::string, Node::Ptr> NodeVector;
+  typedef std::vector<Node::Ptr> NodeVector;
 
-namespace ot {
+  NodeVector nodes;
+  OT_DECLARE_IREFCOUNTED;
+  typedef Cptr<Graph> Ptr;
+ public:
+  Graph();
+  virtual ~Graph();
+  
+  void addNode(Node *);
+  void remNode(Node *);
+  
+  void connectNodes(Node * parent, Node * child);
+  void disconnectNodes(Node * parent, Node * child);
 
+  unsigned int countNodes();
+  Node * getNode(unsigned int idx);
 
-    class Context;
+  Node * findNode(const std::string & key, const std::string & val);
 
-    /// used to map a string to a node
-    typedef std::map<std::string, Node *> NodeMap;
+};
 
-    /**
-     * parses the XML configuration file. This class reads the configuration file
-     * using DOM and builds the tracker tree. It is not part of the public API of
-     * OpenTracker, therefore do not use it !
-     * @author Gerhard Reitmayr
-     * @ingroup core
-     */
-    class ConfigurationParser
-    {
-    protected:
-        ConfigurationParser(){};
-    public:
-        /**
-         * constructor method. The Xerces XML parser library is initialized here.
-         * @param factory_ pointer to set the member factory
-         */
+};
 
-        /** Destructor method.*/
-        virtual ~ConfigurationParser(){};
-        /**
-         * These methods parses an XML configuration file. It returns a Node as
-         * root with all the root nodes defined in the configuration file.
-         * @param filename the name and path of the configuration file
-         * @return pointer to the root Node or NULL
-         */
-        virtual Graph * parseConfigurationFile(const std::string& filename)=0;
-        virtual Graph * parseConfigurationString(const char* xmlstring)=0;
-
-    };
-
-    ConfigurationParser * getConfigurationParser(Context & context_);
-
-}  // namespace ot
-
-
-#endif
+#endif // OT_CORE_GRAPH_HH_INCLUDED
 
 /* 
  * ------------------------------------------------------------
- *   End of ConfigurationParser.h
+ *   End of Graph.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

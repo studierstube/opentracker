@@ -62,7 +62,7 @@
 namespace ot {
 
     Context::Context( int init ) :
-        rootNode( NULL ),
+        //        rootNode( NULL ),
         cleanUp( false ),
         stoploopflag(false),
         rootNamespace( "" )
@@ -88,26 +88,27 @@ namespace ot {
     Context::~Context()
     {
         using namespace std;
-        cerr << "Context::~Context()" << endl;
+
 
         // stop the loop, if it is running
         Context::stopLoop();
 
         // delete all modules
-        if( cleanUp )
+	/*        if( cleanUp )
         {
             for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
             {
                 delete (*it).second;
             }
-        }
+	    }*/
         modules.clear();
-        if (rootNode != NULL) {
-        }
+        //        if (rootNode != NULL) {
+        //        }
         delete _havedatacondition;
         delete _havedatamutex;
         delete _mutex;
-        cerr << "Context::~Context() done." << endl;
+        //        delete graph;
+
     }
 
     
@@ -148,12 +149,12 @@ namespace ot {
         //    logPrintI("found module\n");
             result = (*it).second;
         } else {
-            logPrintI("Couldn't find module\n");
+            //            logPrintI("Couldn't find module\n");
             std::string modname;
             std::string::size_type loc = name.find("Config");
             modname = name.substr(0, loc) + "Module";
             //            logPrintW("Context could not find module %s, requesting Configurator to load %s\n", name.c_str(), modname.c_str());            
-            logPrintI("loading Module %s\n", modname.c_str());
+
             Configurator::loadModule(*this, modname.c_str());
             it = modules.find(name);
             if (it != modules.end())
@@ -210,7 +211,7 @@ namespace ot {
 		
         ConfigurationParser *  parser = getConfigurationParser(*this);
 
-        rootNode = parser->parseConfigurationFile( filename );
+        graph = parser->parseConfigurationFile( filename );
 
         delete parser;
         
@@ -220,7 +221,7 @@ namespace ot {
     {
 
         ConfigurationParser * parser = getConfigurationParser( *this );
-        rootNode = parser->parseConfigurationString( xmlstring );
+        graph = parser->parseConfigurationString( xmlstring );
 
         rootNamespace = "";
         delete parser;
@@ -272,7 +273,7 @@ namespace ot {
     {
         using namespace std;
 
-        cout << "Context::run()" << endl;
+        logPrintI( "Context::run()\n" );
 
         start();
         int stopflag = stop();
@@ -283,7 +284,7 @@ namespace ot {
 
         stoploopflag = 0;
 
-        cout << "closing loop" << endl;
+        logPrintI("closing loop \n");
         close();
     }
 
@@ -295,7 +296,7 @@ namespace ot {
     void Context::runAtRate(double rate)
     {
         using namespace std;
-        cout << "Context::runAtRate()" << endl;
+        logPrintI( "Context::runAtRate()\n" );
 
         double t1 = OSUtils::currentTime(); // in milliseconds
         start();
@@ -316,14 +317,14 @@ namespace ot {
 
         stoploopflag = 0;
 
-        cout << "closing loop" << endl;
+        logPrintI( "closing loop\n");
         close();
     }
 
     void Context::runOnDemand()
     {
         using namespace std;
-        cout << "Context::runOnDemand()" << endl;
+        logPrintI("Context::runOnDemand()\n");
 
         start();
         int stopflag = stop();
@@ -334,7 +335,7 @@ namespace ot {
             pullEvents();
         }
 
-        cout << "closing loop" << endl;
+        logPrintI("closing loop\n");
         close();
     }
 
@@ -394,15 +395,15 @@ namespace ot {
     }
 
 
-    Node * Context::getRootNode()
+    Graph * Context::getRootNode()
     {
-        return rootNode;
+        return graph;
     }
 
     Node * Context::findNode(const std::string & id)
     {
 
-        return rootNode->findNode("ID", id);
+        return graph->findNode("ID", id);
     }
 
     // add a directory to the front of the directory stack
@@ -529,14 +530,16 @@ namespace ot {
         }
 
         // destroy all the modules
+        logPrintW("CONTEXT: deleting all modules\n");
         //if (cleanUp)
-        for (ModuleMap::iterator it = modules.begin(); 
+	/*        for (ModuleMap::iterator it = modules.begin(); 
              it != modules.end(); it++)
         {
             delete (*it).second;
-        }
-
+        }*/
         modules.clear();
+        logPrintW("CONTEXT: deleted all modules\n");
+
    
         // remove all the factories, as they point to the already removed modules
         factory.removeAll();
@@ -544,14 +547,16 @@ namespace ot {
 
         // copy the modules from other
         modules = other.modules;
-        // copy the rootNode from other
+        /*        // copy the rootNode from other
 	Node::Ptr tmp = rootNode;
         rootNode = other.rootNode;
 
-
-
         // let the other context clean up the old rootNode
-        other.rootNode = tmp;
+        other.rootNode = tmp; */
+        //        Graph * tmp = graph;
+        graph = other.graph;
+        //        other.graph = tmp;
+
         // set this context in the new rootNode
         
         // copy the factories from other
@@ -767,7 +772,7 @@ namespace ot {
 	}
 
 	bool Context::isConfigured(){
-		return (rootNode != NULL);
+		return (graph != NULL);
 	}
 
 } // namespace ot

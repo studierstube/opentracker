@@ -77,19 +77,42 @@ namespace ot {
     // constructor
     Node::Node() : name("")
     {
+        OT_INITIALIZE_IREFCOUNTED;
+        graph=0;
+
     }
 
     // destructor
 
     Node::~Node()
     {
-        std::cout << "destructor of Node " << get("ID") << std::endl;
-        children.clear();
-        parents.clear();
-        //        references.clear();
+        logPrintW("Destructor of node %s\n",getType().c_str());
+        // this one will call disconnect indirectly!
+        disconnect();
+        if (graph) graph->remNode(this);
+        //        setGraph(0);
+
 
     }
 
+    void Node::disconnect(){
+        for (NodeVector::iterator i = children.begin(); i != children.end(); i++){
+            (*i) ->removeParent(this);
+        }
+
+        children.clear();
+       
+        //        logPrintW("children cleared\n");
+        for (NodeVector::iterator i = parents.begin(); i != parents.end(); i++){
+            (*i) ->removeChild(*this);
+        }
+        
+
+
+        parents.clear();
+        //        logPrintW("parents cleared\n");
+
+    }
 
     // returns a pointer to the parent node
 
@@ -120,13 +143,26 @@ namespace ot {
 
     }
 
+
+    void Node::setGraph(Graph * g){
+        if (graph){
+            Graph * tmp = graph;
+            graph = 0;
+            tmp->remNode(this);
+        }
+        graph = g;
+           
+    };
+    Graph * Node::getGraph(){
+        return graph;
+    };
     // adds a new child
 
     Node::error Node::addChild(Node & child)
     {
         // logPrintI("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
         // add this to the parent list of the child
-        child.addParent(this);
+        //        child.addParent(this);
         // add the child to the children list of this node
         children.push_back(&child);
 
@@ -139,17 +175,46 @@ namespace ot {
     {
 
         bool found = false;
-        for (NodeVector::iterator it = children.begin(); it != children.end(); it++){
+
+        NodeVector::iterator it = children.begin();
+        while (it != children.end()){
             if (((Node*)*it) == (&child)){
                 found = true;
-                children.erase(it);
-            }
+                //                logPrintE("Erasing parent %p = %p\n", parent, (*it));
+                it = children.erase(it);
+                
+            }else
+                it ++;
+            
+        }
+
+        if (found)
+            return OK;
+        else
+            return NOT_FOUND;
+    }
+
+    Node::error Node::removeParent(Node * parent)
+    {
+
+        bool found = false;
+        NodeVector::iterator it = parents.begin();
+        while (it != parents.end()){
+            if (((Node*)*it) == (parent)){
+                found = true;
+                //                logPrintE("Erasing parent %p = %p\n", parent, (*it));
+                it = parents.erase(it);
+                
+            }else
+                it ++;
+            
         }
         if (found)
             return OK;
         else
             return NOT_FOUND;
     }
+
 
     // iterates through the children by returning the child by index
 
@@ -423,7 +488,24 @@ namespace ot {
     }
 
 #ifndef USE_LIVE
-    IMPLEMENT_IREFCOUNTED(Node);
+    OT_IMPLEMENT_IREFCOUNTED(Node);
+//         int Node ::_ref(){
+//         logPrintW("node %p rcount %d\n", this, _rcount);
+//         return ++ _rcount;
+//     };
+  
+//   int Node ::_deref(){
+//      if (--_rcount == 0){
+//          logPrintW("Node deleting %p, rcount %d\n", this, _rcount);
+//         delete this;
+//         return 0;
+//      } 
+//      return _rcount;
+//    };
+  
+//   int Node ::getRefCount(){
+//      return _rcount;
+//   }
 #endif
 
     // add one parent node

@@ -83,7 +83,7 @@ namespace ot {
 
 namespace ot {
 
-
+    class Graph;
 
     /**
      * The basic superclass for all nodes. It implements several interfaces
@@ -108,13 +108,14 @@ namespace ot {
 #else
         OT_DECLARE_IREFCOUNTED;
         typedef Cptr<Node> Ptr;
+        Graph * graph;
 #endif
     /**
      * a Vector of Node pointers. Very useful to implement a simple
      * container of Nodes such as a parent node, or to keep pointers
      * to several nodes around.
      */
-    typedef std::vector<Ptr> NodeVector;
+    typedef std::vector<Node *> NodeVector;
 
     protected:
         /** Pointer to the parent XML element.*/
@@ -362,6 +363,7 @@ namespace ot {
          * @return error code describing outcome of the operation
          */
         error removeChild(Node & child);
+        error removeParent(Node * parent);
 
 
         /**
@@ -561,7 +563,9 @@ namespace ot {
        // adds a parent to this node. Because the new implementation 
        // is a graph, any given child can have more than one parent.
         void addParent( Node * parent);
-
+        void setGraph(Graph * g);
+        void disconnect();
+        Graph * getGraph();
         /**
          * returns the total number of direct children. Without regards to
          * whether they are nodeports or not. Meaning it counts ALL children

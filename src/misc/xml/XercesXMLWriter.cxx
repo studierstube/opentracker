@@ -260,8 +260,8 @@ private :
         }
     }
 
-    DOMDocument * createDocument(Node * rootNode, XMLWriter & writer){
-        if (rootNode == NULL)
+    DOMDocument * createDocument(Graph * graph, XMLWriter & writer){
+        if (graph == NULL)
             return NULL;
        DOMImplementation* impl =  DOMImplementationRegistry::getDOMImplementation(X("Core"));
        DOMDocument * doc = NULL;
@@ -287,10 +287,14 @@ private :
            DOMComment * com = doc->createComment(X("OpenTracker data version 2.0 XERCES XMLWriter"));
            docElem->appendChild(com);
            // now create all the nodes starting from the rootNode
-           for (unsigned int i=0 ; i < (rootNode->countAllChildren()); i++){
-               DOMElement * el = createNode(doc, rootNode->getAnyChild(i), writer);
-               if (el != NULL)
-                   docElem->appendChild(el);
+           for (unsigned int i=0 ; i < (graph->countNodes()); i++){
+               Node * someRootNode = graph->getNode(i);
+               logPrintI("XMLWriter:: writing node %s parentcount %u\n", (someRootNode->getType().c_str()), (someRootNode->countParents()));
+               if (someRootNode->countParents() == 0) {
+                   DOMElement * el = createNode(doc, graph->getNode(i), writer);
+                   if (el != NULL)
+                       docElem->appendChild(el);
+               }
            }
        }
        return doc;

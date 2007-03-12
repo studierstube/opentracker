@@ -36,6 +36,7 @@
 /** source file for class ConfigurationParser.
  *
  * @author Gerhard Reitmayr
+ * @author Eduardo Veas
  *
  * $Id: ConfigurationParser.cxx 1739 2007-01-23 16:57:46Z veas $
  * @file                                                                   */
@@ -48,7 +49,7 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <OpenTracker/core/ConfigurationParser.h>
-
+#include <OpenTracker/core/Graph.h>
 
 // selects between usage of XERCES and TinyXML
 #include <OpenTracker/tool/XMLSelection.h>
@@ -102,7 +103,7 @@ namespace ot {
          * @return pointer to the hew ConfigNode or NULL, if something
          *         went wrong.
          */
-        ConfigNode * buildConfigTree( OT_DOMELEMENT * element );
+        ConfigNode * buildConfigTree( OT_DOMELEMENT * element , Graph * graph);
 
         /**
          * builds the tracker tree starting from a certain DOM_Element.
@@ -110,7 +111,7 @@ namespace ot {
          * @param element pointer to the element to be parsed.
          * @return pointer to the new Node or NULL
          */
-        Node * buildTree( OT_DOMELEMENT * element);
+        Node * buildTree( OT_DOMELEMENT * element, Graph * graph);
         /**
          * parses an Elements attributes and returns a StringTable describing them.
          * @param element pointer to the element
@@ -133,10 +134,10 @@ namespace ot {
          * @param filename the name and path of the configuration file
          * @return pointer to the root Node or NULL
          */
-        virtual Node * parseConfigurationFile(const std::string& filename);
-        virtual Node * parseConfigurationString(const char* xmlstring);
+        virtual Graph * parseConfigurationFile(const std::string& filename);
+        virtual Graph * parseConfigurationString(const char* xmlstring);
 
-	Node * parseConfiguration(InputSource* input_source);
+	Graph * parseConfiguration(InputSource* input_source);
 
     };
 
@@ -240,7 +241,7 @@ namespace ot {
 
     // builds a tree of configuration nodes.
 
-    ConfigNode * XercesConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
+    ConfigNode * XercesConfigurationParser::buildConfigTree( OT_DOMELEMENT * element , Graph * graph)
     {
 
         std::auto_ptr<StringTable> map ( parseElement( element ));
@@ -259,8 +260,10 @@ namespace ot {
             if( list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE )
             {
                 OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
-                ConfigNode * child = buildConfigTree( childElement );
-                config->addChild(*child);
+                ConfigNode * child = buildConfigTree( childElement, graph );
+                
+                //                config->addChild(*child);
+                graph->connectNodes(config, child);
 
             }
         }
@@ -271,7 +274,7 @@ namespace ot {
 
     // builds the tracker tree starting from a certain DOM_Element.
 
-    Node * XercesConfigurationParser::buildTree( OT_DOMELEMENT * element)
+    Node * XercesConfigurationParser::buildTree( OT_DOMELEMENT * element, Graph * graph)
     {
 
         char * tempName = XMLString::transcode( element->getLocalName());
@@ -336,10 +339,11 @@ namespace ot {
                     OT_DOMELEMENT * childElement = (OT_DOMELEMENT *)list->item(i);
                     ///FIXXXME: what was the assignment for? 
 
-                    Node * childNode = buildTree( childElement );
+                    Node * childNode = buildTree( childElement, graph );
                     if (childNode)
                     {
-                        value->addChild(*childNode);
+                        //                        value->addChild(*childNode);
+                        graph->connectNodes(value, childNode);
                     }
                 }
             }
@@ -355,7 +359,7 @@ namespace ot {
 
 
     // This method takes an InputSource and configures the OT graph accordingly
-    Node * XercesConfigurationParser::parseConfiguration(InputSource* input_source) 
+    Graph * XercesConfigurationParser::parseConfiguration(InputSource* input_source) 
     {
       
         // read and parse configuration file
@@ -398,7 +402,8 @@ namespace ot {
 
         DOMDocument * doc = parser->getDocument();
         DOMElement * root = doc->getDocumentElement();
-        Node * node = new Node();
+        //        Node * node = new Node();
+        Graph * graph = new Graph();
 
         char * tempName = XMLString::transcode( root->getLocalName());
         logPrintI("Root node is %s\n", tempName);
@@ -436,6 +441,7 @@ namespace ot {
         unsigned int i;
 
         Node * configNode = new Node();
+        //        configNode->setGraph(graph);
         configNode->put("OtNodeType", "configuration");
 
 
@@ -451,6 +457,7 @@ namespace ot {
                 std::string tagName = tempName;
                 XMLString::release( &tempName );
                 ConfigNode * base = new ConfigNode( *attributes );
+
                 
                 base->put("OtNodeType", tagName);                
 
@@ -461,8 +468,8 @@ namespace ot {
 
                 unsigned int j;
 
-                configNode->addChild(*base);
-
+                //                configNode->addChild(*base);
+                graph->connectNodes(configNode, base);
                 
                 for( j = 0; j < nodelist->getLength(); j++ )
                 {
@@ -470,8 +477,9 @@ namespace ot {
                     {
                         DOMElement * element = (DOMElement *)nodelist->item(j);
                         ///FIXXXME: What was the assignment good for?
-                        ConfigNode * child = buildConfigTree( element );
-                        base->addChild(*child);
+                        ConfigNode * child = buildConfigTree( element, graph );
+                        //                        base->addChild(*child);
+                        graph->connectNodes(base, child);
                     }
                 }
                 Module * module = context.getModule( tagName );
@@ -486,7 +494,9 @@ namespace ot {
         logPrintE("Number of config nodes %d\n", (configNode->countAllChildren()));
         if (configNode->countAllChildren() > 0)
         {            
-            node->addChild(*configNode);
+            //            node->addChild(*configNode);
+            //            graph->connectNodes(node, configNode);
+            graph->addNode(configNode);
         }
 
         logPrintI("parsing tracker tree section\n");
@@ -509,10 +519,11 @@ namespace ot {
             }
             XMLString::release( &tempTagName );
             
-            Node * child = buildTree( element );
+            Node * child = buildTree( element, graph );
             if (child)
             {
-                node->addChild(*child);
+                //                node->addChild(*child);
+                graph->addNode( child);
             }
 
         }
@@ -523,7 +534,7 @@ namespace ot {
 
 
 
-        return node;
+        return graph;
     }
 
     // parses an Elements attributes and returns a StringMap describing them.
@@ -547,7 +558,7 @@ namespace ot {
     }
 
     // This method parses an XML configuration file.
-    Node * XercesConfigurationParser::parseConfigurationFile(const std::string& filename)
+    Graph * XercesConfigurationParser::parseConfigurationFile(const std::string& filename)
     {
 
         ACE_Env_Value<std::string> otroot(ACE_TEXT("OTROOT"), "");
@@ -565,7 +576,7 @@ namespace ot {
 
     // This method parses an XML configuration string.
 
-    Node * XercesConfigurationParser::parseConfigurationString(const char* xmlstring)
+    Graph * XercesConfigurationParser::parseConfigurationString(const char* xmlstring)
     {
 
 		MemBufInputSource* input_source = new MemBufInputSource(
@@ -574,9 +585,9 @@ namespace ot {
                                                                 , otMemBufId
                                                                 , false
                                                                 );
-        Node* node = parseConfiguration(input_source);
+        Graph*  graph= parseConfiguration(input_source);
         delete input_source;
-        return node;
+        return graph;
     }
 
 

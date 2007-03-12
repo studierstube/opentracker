@@ -131,11 +131,15 @@ namespace ot {
 
         TiXmlElement opentracker("OpenTracker");
 
-        Node * someNode = context.getRootNode();
-        if (someNode != NULL){
+        Graph * graph = context.getRootNode();
+        if (graph != NULL){
 
-            for (unsigned int i = 0; i < someNode->countAllChildren() ; i++){
-                 insertNode(someNode->getAnyChild(i), opentracker, *this);
+            for (unsigned int i = 0; i < graph->countNodes() ; i++){
+               Node * someRootNode = graph->getNode(i);
+               logPrintI("XMLWriter:: writing node %s parentcount %u\n", (someRootNode->getType().c_str()), (someRootNode->countParents()));
+               if (someRootNode->countParents() == 0) {
+                   insertNode(graph->getNode(i), opentracker, *this);
+               }
             }
         }
         

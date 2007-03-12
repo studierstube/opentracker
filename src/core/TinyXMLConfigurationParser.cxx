@@ -43,6 +43,7 @@
 
 #include <OpenTracker/OpenTracker.h>
 #ifdef USE_TINYXML
+
 #include <cstdlib>
 #include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Log_Msg.h>
@@ -60,6 +61,7 @@ class TiXmlDocument;
 #include <OpenTracker/core/Context.h>
 
 #include <OpenTracker/core/DOMTreeErrorReporter.h>
+#include <OpenTracker/core/Graph.h>
 
 #include <iostream>
 
@@ -104,7 +106,7 @@ namespace ot {
          * @return pointer to the hew ConfigNode or NULL, if something
          *         went wrong.
          */
-        ConfigNode * buildConfigTree( OT_DOMELEMENT * element );
+        ConfigNode * buildConfigTree( OT_DOMELEMENT * element , Graph * graph);
 
         /**
          * builds the tracker tree starting from a certain DOM_Element.
@@ -112,7 +114,7 @@ namespace ot {
          * @param element pointer to the element to be parsed.
          * @return pointer to the new Node or NULL
          */
-        Node * buildTree( OT_DOMELEMENT * element);
+        Node * buildTree( OT_DOMELEMENT * element, Graph * graph);
         /**
          * parses an Elements attributes and returns a StringTable describing them.
          * @param element pointer to the element
@@ -135,10 +137,10 @@ namespace ot {
          * @param filename the name and path of the configuration file
          * @return pointer to the root Node or NULL
          */
-        virtual Node * parseConfigurationFile(const std::string& filename);
-        virtual Node * parseConfigurationString(const char* xmlstring);
+        virtual Graph * parseConfigurationFile(const std::string& filename);
+        virtual Graph * parseConfigurationString(const char* xmlstring);
 
-        Node * parseConfiguration(TiXmlDocument * tinyXMLDocument);
+        Graph * parseConfiguration(TiXmlDocument * tinyXMLDocument);
 
     };
 
@@ -162,7 +164,7 @@ namespace ot {
 
     // builds a tree of configuration nodes.
 
-    ConfigNode * TinyXMLConfigurationParser::buildConfigTree( OT_DOMELEMENT * element )
+    ConfigNode * TinyXMLConfigurationParser::buildConfigTree( OT_DOMELEMENT * element , Graph * graph)
     {
 
 
@@ -178,9 +180,9 @@ namespace ot {
         TiXmlElement * el = element->FirstChildElement();
         while( el != NULL )
         {
-            ConfigNode * child = buildConfigTree( el);
-
-            config->addChild(*child);
+            ConfigNode * child = buildConfigTree( el, graph);
+            graph->connectNodes(config, child);
+            //            config->addChild(*child);
             
             el = el->NextSiblingElement();
         }
@@ -190,7 +192,7 @@ namespace ot {
 
     // builds the tracker tree starting from a certain DOM_Element.
 
-    Node * TinyXMLConfigurationParser::buildTree( OT_DOMELEMENT * element)
+    Node * TinyXMLConfigurationParser::buildTree( OT_DOMELEMENT * element, Graph * graph)
     {
 
         std::string tagName = element->Value();
@@ -238,8 +240,9 @@ namespace ot {
             TiXmlElement * el = element->FirstChildElement();
             while( el != NULL )
             {
-                Node * childNode = buildTree( el );
-                value->addChild(*childNode);
+                Node * childNode = buildTree( el , graph);
+                graph->connectNodes(value, childNode);
+                //                value->addChild(*childNode);
                 el = el->NextSiblingElement();
             }
         }
@@ -252,15 +255,17 @@ namespace ot {
     }
 
 
-    Node * TinyXMLConfigurationParser::parseConfiguration(TiXmlDocument* document) 
+    Graph * TinyXMLConfigurationParser::parseConfiguration(TiXmlDocument* document) 
     {
 
         TiXmlElement* root = document->RootElement();
-        Node * node = new Node();
+        Graph * graph = new Graph();
 
-        const char* tempName = root->Value();
+
+        /*        const char* tempName = root->Value();
 
         logPrintI("Root node is %s\n", tempName);
+        */
 
         const char* xmlspace = NULL; //root->getNamespaceURI();
         if (xmlspace != NULL) {
@@ -298,11 +303,14 @@ namespace ot {
 
             logPrintI("config for %s\n", tagName.c_str());
 
+            graph->connectNodes(configNode, base);
+
             TiXmlElement * element = configElement->FirstChildElement();
             while(element)
             {
-                ConfigNode * child = buildConfigTree( element );
-                base->addChild(*child);
+                ConfigNode * child = buildConfigTree( element , graph);
+                graph->connectNodes(base, child);
+                //                base->addChild(*child);
                 
                 element = element->NextSiblingElement();
             }
@@ -312,16 +320,16 @@ namespace ot {
             {
                 module->init( *attributes, base );
             }
-
-            configNode->addChild(*base);
+            //            graph->connectNodes(configNode, base);
+            //            configNode->addChild(*base);
 
 
 
             configElement = configElement->NextSiblingElement();
         }
 
-
-        node->addChild(*configNode);
+        
+        //        node->addChild(*configNode);
 
 
 
@@ -333,9 +341,9 @@ namespace ot {
         while(element)
         {
             if(strcmp(element->Value(), "configuration")!=0){
-               Node * child= buildTree( element );
-
-               node->addChild(*child);
+               Node * child= buildTree( element , graph);
+               graph->addNode(child);
+               //               node->addChild(*child);
 
             }
 
@@ -343,10 +351,8 @@ namespace ot {
         }
 
 
-        delete root;
 
-
-        return node;
+        return graph;
 
     }
 
@@ -371,32 +377,32 @@ namespace ot {
     }
 
     // This method parses an XML configuration file.
-    Node * TinyXMLConfigurationParser::parseConfigurationFile(const std::string& filename)
+    Graph * TinyXMLConfigurationParser::parseConfigurationFile(const std::string& filename)
     {
 
-        TiXmlDocument* document = new TiXmlDocument();
+        TiXmlDocument document;// = new TiXmlDocument();
 
-        if(!document->LoadFile(filename.c_str()))
+        if(!document.LoadFile(filename.c_str()))
         {
-            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            logPrintE("An error occured during parsing\n   Message: %s\n", document.ErrorDesc());
             exit(1);
         }
-		return parseConfiguration(document);
+		return parseConfiguration(&document);
 
     }
 
     // This method parses an XML configuration string.
 
-    Node * TinyXMLConfigurationParser::parseConfigurationString(const char* xmlstring)
+    Graph * TinyXMLConfigurationParser::parseConfigurationString(const char* xmlstring)
     {
-        TiXmlDocument* document = new TiXmlDocument();
+        TiXmlDocument document;// = new TiXmlDocument();
 
-        if(!document->Parse(xmlstring))
+        if(!document.Parse(xmlstring))
         {
-            logPrintE("An error occured during parsing\n   Message: %s\n", document->ErrorDesc());
+            logPrintE("An error occured during parsing\n   Message: %s\n", document.ErrorDesc());
             exit(1);
         }
-		return parseConfiguration(document);
+		return parseConfiguration(&document);
 
     }
 
