@@ -34,88 +34,104 @@
 * PROJECT: OpenTracker
 * ======================================================================== */
 /** header file for the Ot Logger
-*
-* @author Erick Mendez
-*
-* $Id$
-* @file                                                                   */
+ *
+ * @author Erick Mendez
+ *
+ * $Id$
+ * @file                                                                   */
 /* ======================================================================= */
 
 
 #ifndef _OTLOGGER_H_
 #define _OTLOGGER_H_
 
-#include <assert.h>
+#include <cassert>
 
 #include "../OpenTracker.h"
 
 namespace ot {
 
-/*
- * Usage:  
- *		- logPrintE("File Not Found");
- *		- logPrintE(LOG_ERROR_FILE_NOT_FOUND);
- *		- logPrintE("File %s Not Found", filename);
- *
-*/
-void OPENTRACKER_API logPrint(const char *message, ...);
-void OPENTRACKER_API logPrintD(const char *debugMessage, ...);
-void OPENTRACKER_API logPrintS(const char *setupMessage, ...);
-void OPENTRACKER_API logPrintI(const char *infoMessage, ...);
-void OPENTRACKER_API logPrintW(const char *warningMessage, ...);
-void OPENTRACKER_API logPrintE(const char *errorMessage, ...);
-void OPENTRACKER_API logPrintEAbort(const char *errorMessage, ...);
-
-/*
- * Enumerations
- */
-enum LOG_MODE
-{
-	MODE_OFF = 0,
-	MODE_FILE = 1,
-	MODE_CONSOLE = 2,
-	MODE_CALLBACK = 3
-};
-
-class OPENTRACKER_API OtLogger
-{
-public:
-
-	/// The instance retriever, this is a singleton
-	static OtLogger *getInstance();
-
-	/// The destructor
-	virtual ~OtLogger();
-
-	virtual void setLogMode(LOG_MODE newMode);
-
-	virtual void printMessage(const char *message);
-	virtual void printDebug(const char *debugMessage);
-	virtual void printSetup(const char *setupMessage);
-	virtual void printInfo(const char *infoMessage);
-	virtual void printWarning(const char *warningMessage);
-	virtual void printErrorAndContinue(const char *errorMessage);
-	virtual void printErrorAndAbort(const char *errorMessage);
-
-	virtual void writeToFile(const char * message);
-	virtual void writeToFileEx(const char * format, ...);
-
-	virtual char * getLogFileName();
-	virtual void setLogFileName(char * filename);
-
-protected:
-	LOG_MODE logMode;
-
-
-	/// The instance
-	static OtLogger *instance;
-
-	char * logFileName;
-
-	/// The constructor
-	OtLogger();
-};
-
+    /*
+     * Usage:  
+     *        - logPrintE("File Not Found");
+     *        - logPrintE(LOG_ERROR_FILE_NOT_FOUND);
+     *        - logPrintE("File %s Not Found", filename);
+     *
+     */
+    void OPENTRACKER_API logPrint(const char *message, ...);
+    void OPENTRACKER_API logPrintD(const char *debugMessage, ...);
+    void OPENTRACKER_API logPrintS(const char *setupMessage, ...);
+    void OPENTRACKER_API logPrintI(const char *infoMessage, ...);
+    void OPENTRACKER_API logPrintW(const char *warningMessage, ...);
+    void OPENTRACKER_API logPrintE(const char *errorMessage, ...);
+    void OPENTRACKER_API logPrintEAbort(const char *errorMessage, ...);
+ 
+    /*
+     * Enumerations
+     */
+    enum LOG_MODE
+        {
+            MODE_OFF = 0,
+            MODE_FILE = 1,
+            MODE_CONSOLE = 2,
+            MODE_CALLBACK = 3
+        };
+ 
+    class OPENTRACKER_API OtLogger
+    {
+    public:
+         
+        /// The instance retriever, this is a singleton
+        static OtLogger *getInstance();
+             
+        /// The destructor
+        virtual ~OtLogger();
+                 
+        virtual void setLogMode(LOG_MODE newMode);
+                     
+        virtual void printMessage(const char *message);
+        virtual void printDebug(const char *debugMessage);
+        virtual void printSetup(const char *setupMessage);
+        virtual void printInfo(const char *infoMessage);
+        virtual void printWarning(const char *warningMessage);
+        virtual void printErrorAndContinue(const char *errorMessage);
+        virtual void printErrorAndAbort(const char *errorMessage);
+                                                 
+        virtual void writeToFile(const char * message);
+        virtual void writeToFileEx(const char * format, ...);
+                                                         
+        virtual char * getLogFileName();
+        virtual void setLogFileName(char * filename);
+                                                                 
+    protected:
+        LOG_MODE logMode;
+                                                                         
+                                                                         
+        /// The instance
+        static OtLogger *instance;
+                                                                             
+        char * logFileName;
+                                                                                 
+        /// The constructor
+        OtLogger();
+    };
+ 
 } // namespace ot {
 
 #endif //_OTLOGGER_H_
+
+/* 
+ * ------------------------------------------------------------
+ *   End of OtLogger.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

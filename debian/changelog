@@ -1,3 +1,9 @@
+libopentracker (2.0a-13) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Tue, 13 Mar 2007 08:58:59 +0100
+
 libopentracker (2.0a-12) unstable; urgency=low
 
   * new version based on ACE 5.5.6 

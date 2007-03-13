@@ -324,9 +324,9 @@ else:
         # add the qt flags to the dll
         ot['libs'].append('qt-mt')
         try:
-            ot['defines'] += ['QT_NO_DEBUG', 'USE_OTQT']
+            ot['defines'] += ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
         except KeyError:
-            ot['defines'] = ['QT_NO_DEBUG', 'USE_OTQT']
+            ot['defines'] = ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
         ot['src_use'].append('../extras/newmat10')
         #ot['src_use'].append('../include/OpenTracker/otqt')
 	# adding a source that does not exist to the target
