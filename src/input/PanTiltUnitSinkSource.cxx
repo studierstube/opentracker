@@ -109,30 +109,35 @@ namespace ot {
 	{
 		static int i=0;
 		// does nothing yet
-		if (generator.getName().compare("AbsoluteInput") == 0) {
-			printf ("not tested AbsoluteInput: x: %.2f y: %.2f z: %.2f\n", event.getPosition()[0], event.getPosition()[1], event.getPosition()[2]);
-			absoluteInput=event;		
-			if(0)
+		if (generator.getName().compare("SetPtuOrientation") == 0) {
+			absoluteInput=event;
+			if(1)
 			{
-				MathUtils::Matrix4x4 mOri = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
-				MathUtils::Quaternion qOri={absoluteInput.getOrientation()[0], absoluteInput.getOrientation()[1], absoluteInput.getOrientation()[2], absoluteInput.getOrientation()[3]};
-				MathUtils::Vector3 eulerAngles = {0, 0, 0};
-				MathUtils::quaternionToMatrix( qOri, mOri);
-				MathUtils::MatrixToEuler(eulerAngles, mOri);
-				
-				signed short int ptuPanAngle = (signed short int)(eulerAngles[0]/panResolution);
-				signed short int ptuTiltAngle = (signed short int)(eulerAngles[1]/tiltResolution);
+				signed short int ptuPanAngle = (signed short int)(absoluteInput.getPosition()[1]/panResolution);
+				signed short int ptuTiltAngle = (signed short int)(absoluteInput.getPosition()[0]/tiltResolution);
 
-				// todo check for CONTROL_MODE
-				//set_mode(SPEED_CONTROL_MODE, PTU_PURE_VELOCITY_SPEED_CONTROL_MODE)
-				signed short int val=1000;
+				if (set_mode(SPEED_CONTROL_MODE, SET_INDEPENDENT_CONTROL_MODE) != PTU_OK)
+					printf("Speed control mode change failed\n");
+				printf("\nSPEED_CONTROL_MODE set to SET_INDEPENDENT_CONTROL_MODE\n");
+				float speed;
+				signed short int val;
+				if(absoluteInput.getAttribute("absoluteSpeed", speed)>0) val =(int)speed; else val=500;
+				//signed short int val=1000;
 				set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
 				set_desired(TILT,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
 				set_desired(PAN,  POSITION, (PTU_PARM_PTR *) &ptuPanAngle, ABSOLUTE);
 				set_desired(TILT, POSITION, (PTU_PARM_PTR *) &ptuTiltAngle, ABSOLUTE);
-				//await_completion();
+				
+				await_completion();
 				process=true;
 			}
+
+			return;
+		}
+		// picking calculation
+		if (generator.getName().compare("PickMouse") == 0) {
+			// store input event from sink		
+			pickMouse=event;		
 			return;
 		}
 		// the top offset
@@ -151,6 +156,11 @@ namespace ot {
 		}
 		// relative input which defines the moving speed of the ptu axis and the zoom
 		if (generator.getName().compare("RelativeInput") == 0) {
+
+			//if (set_mode(SPEED_CONTROL_MODE, PTU_PURE_VELOCITY_SPEED_CONTROL_MODE) != PTU_OK)
+			//	printf("Speed control mode change failed\n");
+			//printf("\nSPEED_CONTROL_MODE set to PTU_PURE_VELOCITY_SPEED_CONTROL_MODE\n");
+
 			// store input event from sink
 			relativeInput=event;
 
@@ -221,35 +231,50 @@ namespace ot {
 		MathUtils::Matrix4x4 mOriOffset = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
 		MathUtils::Quaternion qOriOffset={topOffset.getOrientation()[0], topOffset.getOrientation()[1], topOffset.getOrientation()[2], topOffset.getOrientation()[3]};
 		MathUtils::quaternionToMatrix(qOriOffset, mOriOffset);
-		MathUtils::Matrix4x4 mOriTop, mPtu, mTemp, mPosRes, mOriRes;
+		MathUtils::Matrix4x4 mOriTop, mPtu, mTemp, mTemp2, mPosRes, mOriRes;
 		
-		// calc position top(not really needed :)
-		//MathUtils::matrixMultiply(mPos, mOri, mPosTop);
 		// calc ptu angles
 		MathUtils::Matrix4x4 mTilt = {{1, 0, 0, 0},{0, cos(tiltAngle), -sin(tiltAngle), 0},
-		{0, sin(tiltAngle), cos(tiltAngle), 0},{0, 0, 0, 1}};               
+			{0, sin(tiltAngle), cos(tiltAngle), 0},{0, 0, 0, 1}};               
 		MathUtils::Matrix4x4 mPan = {{cos(panAngle), 0, sin(panAngle), 0}, {0, 1, 0, 0},
-		{-sin(panAngle), 0, cos(panAngle), 0},{0, 0, 0, 1}};
+			{-sin(panAngle), 0, cos(panAngle), 0},{0, 0, 0, 1}};
 		MathUtils::matrixMultiply(mTilt, mPan, mPtu);
+		// convert the current ptu orientation for output
+		double qPtuOri[4];
+		MathUtils::matrixToQuaternion(mPtu, qPtuOri);
 		// calc orientation top
 		MathUtils::matrixMultiply(mOri, mPtu, mOriTop);
 		
-		// calculate top offset
-		//MathUtils::matrixMultiply(mPosTop, mOriTop, mTemp);
+		//// calculate top offset
+		////MathUtils::matrixMultiply(mPosTop, mOriTop, mTemp);
+		////MathUtils::matrixMultiply(mPos, mOri, mPosTop);
 		MathUtils::matrixMultiply(mPos, mOriTop, mTemp);
 		MathUtils::matrixMultiply(mTemp, mPosOffset, mPosRes);
 		MathUtils::matrixMultiply(mOriTop, mOriOffset, mOriRes);
+		// calculate top offset RT
+		//MathUtils::matrixMultiply(mOriTop, mPos, mTemp);
+		//MathUtils::matrixMultiply(mTemp, mOriOffset, mTemp2);
+		//MathUtils::matrixMultiply(mTemp2, mPosOffset, mPosRes);
+		//MathUtils::matrixMultiply(mPosRes, mOriOffset, mOriRes);
 
 		// put result into event
 		for (int i(0);i<3;i++) event.getPosition()[i]=(float)mPosRes[i][3];
 		double qOriRes[4];
+		//MathUtils::matrixToQuaternion(mPosRes, qOriRes);
 		MathUtils::matrixToQuaternion(mOriRes, qOriRes);
 		for (int i(0);i<4;i++) event.getOrientation()[i]=(float)qOriRes[i];
 		
-		// put ptu angles into event
-		//event.getPosition()[0]= (float)panAngle;
-		//event.getPosition()[1]= (float)tiltAngle;
-
+		// put ptu angles and quaternion into event
+		event.setAttribute<float>("ptuPan", (float)panAngle);
+		event.setAttribute<float>("ptuTilt", (float)tiltAngle);
+		for (int i(0);i<4;i++)
+		{
+			std::vector<float> defVec = std::vector<float>(3, .0f);
+			defVec.push_back(1.f);
+			event.getAttribute("ptuOri", defVec)[i]=(float)qPtuOri[i];
+		}
+		
+		// put extra attributes into event
 		float fov = lanc->getFieldOfView();
 		event.setAttribute<float>("fieldOfView", fov);
 		float tp = (float)lanc->timePos;

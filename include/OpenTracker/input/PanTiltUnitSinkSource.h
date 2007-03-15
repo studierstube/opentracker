@@ -154,6 +154,7 @@ private:
 	Event ptuLocation;
 	// This Event defines the absolute orientation of the PTU axis
 	Event absoluteInput;
+	Event pickMouse;
 
 	portstream_fd COMstream;
 	

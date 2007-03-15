@@ -40,18 +40,17 @@
 * $Id: Lanc.cpp
 * @file                                                                   */
 /* ======================================================================= */
-
+#include "ace/os.h"
 #ifdef WIN32
 #include <windows.h>
 #endif //WIN32
 #include <iostream>
 
-
 #include <OpenTracker/input/Lanc.h>
 
 #ifdef USE_PANTILTUNIT
-
 #include <OpenTracker/core/OSUtils.h>
+
 
 namespace ot {
     
@@ -174,8 +173,6 @@ namespace ot {
 			startTime = OSUtils::currentTime();
 			zoomout=true;
 		}
-		OSUtils::sleep(1);
-
 
 		/////////////////////////// multiple speeds mapping +8/-8
 		//if (speed>=0.9)				       // zoom in speed 8

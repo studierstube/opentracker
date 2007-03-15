@@ -43,7 +43,7 @@
 
 
 #include <OpenTracker/tool/disable4786.h>
-
+#include "ace/os.h"
 #include <OpenTracker/input/PanTiltUnitSinkSource.h>
 #include <OpenTracker/input/PanTiltUnitModule.h>
 
@@ -81,17 +81,19 @@ namespace ot {
 			source->event.addAttribute("float", "fieldOfView", "0");
 			source->event.addAttribute("float", "timePos", "0");
 			source->event.addAttribute("float", "zoomFactor", "0");
+			source->event.addAttribute("vector<float>", "ptuOri", "0");
+			source->event.addAttribute("float", "ptuPan", "0");
+			source->event.addAttribute("float", "ptuTilt", "0");
+			source->event.addAttribute("int", "absoluteSpeed", "500");
 			// read values from xml config file and initialize PTU
 			if ( !attributes.get("comPort").empty() ) {
-				int comPort = (int)atof(attributes.get("comPort").c_str());
+				int comPort = atoi(attributes.get("comPort").c_str());
 				if (!source->initComPort(comPort)) 
 					std::cerr << "PTU Serial Port: "<<comPort<<" setup error.\n" << std::endl;
 				else std::cerr << "PTU Serial Port: "<<comPort<<" initialized" << std::endl;
 			}
-			//if ( !attributes.get("frequency").empty() ) 
-			//	source->frequency = (int)atof(attributes.get("frequency").c_str());
 			if ( !attributes.get("delayEvent").empty() ) 
-				source->delayEvent = (int)atof(attributes.get("delayEvent").c_str());
+				source->delayEvent = atoi(attributes.get("delayEvent").c_str());
 			
 			source->event.setConfidence( 1.0f );
 			nodes.push_back( source );
@@ -99,7 +101,7 @@ namespace ot {
 			initialized = 1;
 			return source;
 		}
-		if( (name.compare("PtuLocation") == 0) ||(name.compare("AbsoluteInput") == 0) || 
+		if( (name.compare("PtuLocation") == 0) ||(name.compare("SetPtuOrientation") == 0) || 
 			(name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
 		{
 			// create just a pass-through node
@@ -203,7 +205,7 @@ namespace ot {
 				}
 			}	
 		}
-		OSUtils::sleep(10);
+		ACE_OS::sleep(ACE_Time_Value(0, 500));
 	}
 
 } // namespace ot
