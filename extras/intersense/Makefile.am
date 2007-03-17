@@ -1,6 +1,6 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
-SUBDIRS = unix
+SUBDIRS = Linux
 
 include $(top_srcdir)/src/Makefile.common
 

@@ -8,7 +8,7 @@ Source:		%{name}-%{version}.tar.bz2
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Requires:	ACE Xerces-c boost ncurses
-BuildRequires:	ACE-devel Xerces-c-devel boost-devel ncurses-devel
+BuildRequires:	ICGBuilder ACE-devel Xerces-c-devel boost-devel ncurses-devel
 Prefix:		/usr
 BuildRoot: 	%{_tmppath}/buildroot-%{name}-%{version}
 

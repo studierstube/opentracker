@@ -11,11 +11,14 @@ tar cfjh $NAME.tar.bz2 \
 --exclude "*.bz2" \
 --exclude "*.dll" \
 --exclude "*.gz" \
+--exclude "*.la" \
+--exclude "*.lib" \
 --exclude "*.lo" \
 --exclude "*.o" \
 --exclude "*.os" \
 --exclude "*.so" \
 --exclude "*.vcproj" \
+--exclude "*.zip" \
 --exclude "*~" \
 --exclude ".deps" \
 --exclude ".libs" \

@@ -40,7 +40,7 @@
 * $Id: Lanc.cpp
 * @file                                                                   */
 /* ======================================================================= */
-#include "ace/os.h"
+#include <ace/OS.h>
 #ifdef WIN32
 #include <windows.h>
 #endif //WIN32
