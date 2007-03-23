@@ -197,9 +197,7 @@ namespace ot {
 				// could not open spacemouse device handle
 				SiTerminate();  /* called to shut down the SpaceWare input library */
 				logPrintE("Could not fetch device handle for SpaceMouse.\n");
-				/* ? do not exit? close dummy window? */
 				initialized = 0; 
-				exit(1);
 			}
 
 			initialized = 1;

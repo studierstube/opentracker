@@ -62,6 +62,7 @@ namespace ot {
 		portstream_fd COMstream;
 		COMstream = open_host_port(COMportName);
 		if ( COMstream == PORT_NOT_OPENED ) return false;
+		isInit = true;
 		// actually move with max. speed both axis to give haptic feedback
 		signed short int val=1000;
 		set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
@@ -116,9 +117,9 @@ namespace ot {
 				signed short int ptuPanAngle = (signed short int)(absoluteInput.getPosition()[1]/panResolution);
 				signed short int ptuTiltAngle = (signed short int)(absoluteInput.getPosition()[0]/tiltResolution);
 
-				if (set_mode(SPEED_CONTROL_MODE, SET_INDEPENDENT_CONTROL_MODE) != PTU_OK)
-					printf("Speed control mode change failed\n");
-				printf("\nSPEED_CONTROL_MODE set to SET_INDEPENDENT_CONTROL_MODE\n");
+				//if (set_mode(SPEED_CONTROL_MODE, SET_INDEPENDENT_CONTROL_MODE) != PTU_OK)
+				//	printf("Speed control mode change failed\n");
+				//printf("\nSPEED_CONTROL_MODE set to SET_INDEPENDENT_CONTROL_MODE\n");
 				float speed;
 				signed short int val;
 				if(absoluteInput.getAttribute("absoluteSpeed", speed)>0) val =(int)speed; else val=500;
@@ -164,36 +165,38 @@ namespace ot {
 			// store input event from sink
 			relativeInput=event;
 
-			// rotate ptu according to relative input
-			long val;
-			// pan speed rotate
-			if ( (relativeInput.getPosition()[0] < 0.2)&&(relativeInput.getPosition()[0] > -0.2) ) 
+			if(isInit)
 			{
-				halt(PAN);
-				movingPan = false;
-			}else{
-				val=(long)(relativeInput.getPosition()[0]*-285);	// min 285 - max 1000
-				set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
-				movingPan = true;
+				// rotate ptu according to relative input
+				long val;
+				// pan speed rotate
+				if ( (relativeInput.getPosition()[0] < 0.2)&&(relativeInput.getPosition()[0] > -0.2) ) 
+				{
+					halt(PAN);
+					movingPan = false;
+				}else{
+					val=(long)(relativeInput.getPosition()[0]*-285);	// min 285 - max 1000
+					set_desired(PAN,  SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+					movingPan = true;
+				}
+				// tilt speed rotate
+				if ( (relativeInput.getPosition()[1] < 0.2)&&(relativeInput.getPosition()[1] > -0.2) )
+				{
+					halt(TILT);
+					movingTilt = false;
+				}else{
+					val=(long)(relativeInput.getPosition()[1]*-285);	// min 285 - max 1000
+					set_desired(TILT, SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
+					movingTilt = true;
+				}
+				// handle button events
+				// button 1-4 pressed simultainiously
+				if (relativeInput.getButton()>14) // reset and recalibrate ptu
+					SerialOut(UNIT_RESET);
 			}
-			// tilt speed rotate
-			if ( (relativeInput.getPosition()[1] < 0.2)&&(relativeInput.getPosition()[1] > -0.2) )
-			{
-				halt(TILT);
-				movingTilt = false;
-			}else{
-				val=(long)(relativeInput.getPosition()[1]*-285);	// min 285 - max 1000
-				set_desired(TILT, SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
-				movingTilt = true;
-			}
-			// handle button events
-			// button 1-4 pressed simultainiously
-			if (relativeInput.getButton()>14) // reset and recalibrate ptu
-				SerialOut(UNIT_RESET);
-
 			// handle lanc control
 			lanc->Zoom(relativeInput.getPosition()[2]);
-			process=true;		
+			process=true;	
 		}
 	}
 
@@ -213,9 +216,11 @@ namespace ot {
 	void PanTiltUnitSinkSource::push()
 	{
 		// calculate transformation with respect to ptu location and camera offset
-		double tiltAngle= tiltResolution*(double)get_current(TILT,POSITION);
-		double panAngle= panResolution*(double)get_current(PAN,POSITION);
-		
+		if(isInit)
+		{
+			tiltAngle= tiltResolution*(double)get_current(TILT,POSITION);
+			panAngle= panResolution*(double)get_current(PAN,POSITION);
+		}
 		// initialize arrays and put ptu location and offset into matrices
 		MathUtils::Matrix4x4 mPos = {{1, 0, 0, ptuLocation.getPosition()[0]},
 									 {0, 1, 0, ptuLocation.getPosition()[1]},
@@ -231,7 +236,7 @@ namespace ot {
 		MathUtils::Matrix4x4 mOriOffset = {{1, 0, 0, 0},{0, 1, 0, 0},{0, 0, 1, 0},{0, 0, 0, 1}};
 		MathUtils::Quaternion qOriOffset={topOffset.getOrientation()[0], topOffset.getOrientation()[1], topOffset.getOrientation()[2], topOffset.getOrientation()[3]};
 		MathUtils::quaternionToMatrix(qOriOffset, mOriOffset);
-		MathUtils::Matrix4x4 mOriTop, mPtu, mTemp, mTemp2, mPosRes, mOriRes;
+		MathUtils::Matrix4x4 mOriTop, mPtu, mTemp, mPosRes, mOriRes;
 		
 		// calc ptu angles
 		MathUtils::Matrix4x4 mTilt = {{1, 0, 0, 0},{0, cos(tiltAngle), -sin(tiltAngle), 0},

@@ -60,7 +60,8 @@ namespace ot {
 		offsetFactor(1.f),
 		wideAngle(37.1f),
 		startTime(0),
-		maxTimePos(8000)
+		maxTimePos(8000),
+		initLanc(false)
 	{
 		timePos=maxTimePos;
 		#ifdef WIN32
@@ -143,8 +144,9 @@ namespace ot {
 
 		if ( (speed<0.2) && (speed>-0.2) )   // zoom stop
 		{
-			if (!SendLancCommand(lancDevice,  0, 0)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
+			if(initLanc)
+				if (!SendLancCommand(lancDevice,  0, 0)) 
+					std::cerr << "LANC Device Not Responding" << std::endl;
 			double time = OSUtils::currentTime();
 			if (zoomin)
 			{
@@ -161,15 +163,17 @@ namespace ot {
 		}
 		if (speed>=0.2)
 		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SLOW, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
+			if(initLanc)
+				if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SLOW, NULL)) 
+					std::cerr << "LANC Device Not Responding" << std::endl;
 			startTime = OSUtils::currentTime();
 			zoomin=true;
 		}
 		if (speed<=-0.2)
 		{
-			if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SLOW, NULL)) 
-				std::cerr << "LANC Device Not Responding" << std::endl;
+			if(initLanc)
+				if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SLOW, NULL)) 
+					std::cerr << "LANC Device Not Responding" << std::endl;
 			startTime = OSUtils::currentTime();
 			zoomout=true;
 		}

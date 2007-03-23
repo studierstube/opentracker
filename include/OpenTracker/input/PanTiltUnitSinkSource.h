@@ -120,7 +120,9 @@ public:
 		topOffset.setOrientation(initOri);
 		ptuLocation.setPosition(initPos);
 		ptuLocation.setOrientation(initOri);
-		
+		tiltAngle = 0.;
+		panAngle = 0.;
+		isInit = false;
 	}
 
 	~PanTiltUnitSinkSource();
@@ -163,6 +165,9 @@ private:
 	Lanc* lanc;
 
 	std::queue<Event> delayQueue;
+
+	double tiltAngle, panAngle;
+	bool isInit;
 };
 
 }  // namespace ot
