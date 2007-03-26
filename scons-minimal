@@ -21,6 +21,7 @@ env = Environment (ENV = os.environ, options=opts)
 env.Append(CPPPATH=['include'])
 env.Append(LIBS=_libs)
 env.Append(CPPDEFINES=_defines)
+env.Append(LIBPATH='lib')
 if env['DEBUG']:
     env.Append(CXXFLAGS='-g')
 else:
@@ -37,7 +38,7 @@ elif sys.platform == 'win32':
     pass
 
 otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files)
-ot    = env.Program(join('bin','opentracker'), join('src','standalones','main.cxx'), LIBS=otlib)
+ot    = env.Program(join('bin','opentracker'), join('src','standalones','main.cxx'), LIBS='opentracker')
 
 # install everything into prefix, if there is such a thing
 prefix = ARGUMENTS.get('PREFIX')

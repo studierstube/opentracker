@@ -501,7 +501,7 @@ namespace ot {
         lock();
         // safely stop all the modules
         close();
-
+#ifndef OT_NO_CALLBACKMODULE_SUPPORT
         // copy Callbacks from old context
         CallbackModule *cbmodule = dynamic_cast<CallbackModule*>
             (getModule("CallbackConfig"));
@@ -528,7 +528,7 @@ namespace ot {
             ocbmodule->setGlobalCallback(cbmodule->getGlobalCallbackFunction(),
                                          cbmodule->getGlobalCallbackData());
         }
-
+#endif //OT_NO_CALLBACKMODULE_SUPPORT
         // destroy all the modules
         logPrintW("CONTEXT: deleting all modules\n");
         //if (cleanUp)
