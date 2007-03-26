@@ -77,7 +77,9 @@ namespace ot {
     // constructor
     Node::Node() : name("")
     {
+#ifndef USE_LIVE
         OT_INITIALIZE_IREFCOUNTED;
+#endif
         graph=0;
 
     }

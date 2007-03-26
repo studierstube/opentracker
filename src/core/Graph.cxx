@@ -51,7 +51,9 @@
 namespace ot{
 
   Graph::Graph(){
-    OT_INITIALIZE_IREFCOUNTED;
+#ifndef USE_LIVE
+      OT_INITIALIZE_IREFCOUNTED;
+#endif
   }
 
 Graph::~Graph(){
@@ -144,8 +146,9 @@ Node * Graph::getNode(unsigned int idx){
   return nodes[(int)idx];
 };
 
+#ifndef USE_LIVE
 OT_IMPLEMENT_IREFCOUNTED(Graph);
-
+#endif
 }; //namespace ot
 
 /* 

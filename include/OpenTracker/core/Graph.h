@@ -58,8 +58,10 @@ class Graph{
   typedef std::vector<Node::Ptr> NodeVector;
 
   NodeVector nodes;
+#ifndef USE_LIVE
   OT_DECLARE_IREFCOUNTED;
   typedef Cptr<Graph> Ptr;
+#endif
  public:
   Graph();
   virtual ~Graph();

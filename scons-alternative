@@ -259,7 +259,7 @@ otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + com
 
 # create new environment for building executables
 prgenv = env.Copy()
-prgenv.Append(LIBS=otlib)
+prgenv.Append(LIBS='opentracker')
 executables  =  prgenv.Program(join('bin','opentracker'), join('src','standalones','main.cxx'))
 executables += prgenv.Program(join('bin','middleware'), join('src','standalones','middleware.cxx'))
 executables += prgenv.Program(join('bin','opentracker2c'), join('src','standalones','configurable.cxx'))

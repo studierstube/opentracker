@@ -235,7 +235,9 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	logPrintE("Node not present in SourceNodeMap");
       }
       return;
-    } else if (node->getType().compare("PushSupp") == 0) {
+    } 
+#ifdef USE_OMNIEVENTS
+    else if (node->getType().compare("PushSupp") == 0) {
       // TODO: handle removal of PushSupp nodes...
       PushSuppVector::iterator result =  std::find( pushsupps.begin(), pushsupps.end(), node );//pushsupps.find((PushSupp*) node);
       if (result != pushsupps.end()) {
@@ -243,7 +245,9 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	//delete *result;
 	return;
       }
-    } else if (node->getType().compare("SharedEngineNode") == 0) {
+    }
+#ifdef USE_SHARED
+    else if (node->getType().compare("SharedEngineNode") == 0) {
       // TODO: handle removal of PushSupp nodes...
       SharedEngineNodeVector::iterator result =  std::find( sharedengines.begin(), sharedengines.end(), node );//pushsupps.find((PushSupp*) node);
       if (result != sharedengines.end()) {
@@ -251,7 +255,9 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	//delete *result;
 	return;
       }
-    } else if (node->getType().compare("PushCons") == 0) {
+    } 
+#endif
+    else if (node->getType().compare("PushCons") == 0) {
       // TODO: handle removal of PushCons nodes...
       PushConsVector::iterator result = std::find( pushconsumers.begin(), pushconsumers.end(), node );//pushconsumers.find((PushCons*) node);
       if (result != pushconsumers.end()) {
@@ -261,7 +267,8 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	pushconsumers.erase(result);
       	//delete *result;
       }
-    } 
+    }
+#endif //USE_OMNIEVENTS 
   }
 
 // This method is called to remove all nodes

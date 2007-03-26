@@ -102,7 +102,11 @@ namespace ot {
         ModuleMap modules;
         /// Pointer to the root node of the local tracker tree
         //        Node::Ptr rootNode;
+#ifndef USE_LIVE
         Graph::Ptr graph;
+#else
+        Graph* graph;
+#endif
         /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
         NodeFactoryContainer factory;
         /// flag to remember whether the Context is responsible for cleaning up the modules.

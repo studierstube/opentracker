@@ -108,8 +108,8 @@ namespace ot {
 #else
         OT_DECLARE_IREFCOUNTED;
         typedef Cptr<Node> Ptr;
-        Graph * graph;
 #endif
+        Graph * graph;
     /**
      * a Vector of Node pointers. Very useful to implement a simple
      * container of Nodes such as a parent node, or to keep pointers

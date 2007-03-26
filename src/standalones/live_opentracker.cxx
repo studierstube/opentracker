@@ -77,7 +77,7 @@ int main(int argc, char **argv)
       if ( module_iterator == modules.end() ) {
 	exit(-1);
       } 
-      CORBAModule *corba_module = (CORBAModule*) module_iterator->second;
+      CORBAModule *corba_module = (CORBAModule*) module_iterator->second.item();
       if (corba_module == NULL) {
 	cerr << "cast from iterator failed. Exiting...";
 	exit(-1);

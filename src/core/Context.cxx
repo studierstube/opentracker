@@ -111,10 +111,14 @@ namespace ot {
 
     }
 
-    
-    inline void Context::lock() { _mutex->acquire(); };
-    inline void Context::unlock() { _mutex->release(); };
-
+#ifndef USE_LIVE
+     inline 
+#endif
+     void Context::lock() { _mutex->acquire(); };
+#ifndef USE_LIVE
+     inline 
+#endif
+     void Context::unlock() { _mutex->release(); };
 
     // adds a new factory to the NodeFactoryContainer
 
