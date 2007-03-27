@@ -341,6 +341,10 @@ else:
                 'libs':['opentracker','ACE','qt-mt'],
                 'src_use': ['otqt/otqt_mem_calib_main.cxx','../extras/newmat10']
                 }
+        try:
+            otqtcalib['defines'] += ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
+        except KeyError:
+            otqtcalib['defines'] = ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
         mocaction='moc $SOURCE -o $TARGET'
         bld = Builder(action=mocaction)
         env = Environment(ENV=os.environ, tools=['default','qt'])
@@ -386,6 +390,10 @@ else:
                 'libs':['opentracker','ACE','QtCore','QtGui'],
                 'src_use': ['otqt/otqt_mem_calib_main.cxx','../extras/newmat10']
                 }
+        try:
+            otqtcalib['defines'] += ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT4']
+        except KeyError:
+            otqtcalib['defines'] = ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT4']
         mocaction='moc-qt4 -DUSE_OTQT=1 -DUSE_QT4 $SOURCE -o $TARGET'
         bld = Builder(action=mocaction)
         env = Environment(ENV=os.environ, tools=['default','qt'])
