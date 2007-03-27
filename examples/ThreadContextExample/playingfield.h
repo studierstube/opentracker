@@ -47,9 +47,11 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "poseable.h"
+
 class DilatedRect;
 
-class PlayingField : public QGraphicsItem
+class PlayingField : public QGraphicsItem, public Poseable
 {
 public:
     PlayingField(double iwidth = 12.0, double iheight = 18.0);

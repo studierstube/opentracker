@@ -49,8 +49,9 @@
 #include "dilatedrect.h"
 
 Puck::Puck(double adimension, PlayingField * parea):
-    QGraphicsItem(this),
-    Posable(),
+    QObject(),
+    QGraphicsItem(),
+    Poseable(),
     color(Qt::white)
 {
     timer = new QTimer;
@@ -60,7 +61,7 @@ Puck::Puck(double adimension, PlayingField * parea):
     dx = 6.0;
     dz = -5.0;
     playarea = parea;
-    //QObject::connect(timer, SIGNAL(timeout()), timerEvent);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timerEvent()));
     timer->start(1000.0/33.0);
             
 }
@@ -177,6 +178,8 @@ QPointF Puck::testForWallCollisions(const QPointF &pos)
     }
     return (nudge + pos);
 }
+
+
 /* 
  * ------------------------------------------------------------
  *   End of paddle.cpp

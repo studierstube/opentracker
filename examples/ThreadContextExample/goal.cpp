@@ -43,7 +43,9 @@
 
 #include "goal.h"
 
-Goal::Goal(double iwidth, double iheight) : QGraphicsItem()
+Goal::Goal(double iwidth, double iheight) 
+  : QGraphicsItem(),
+    Poseable()
 {
     setAcceptedMouseButtons(Qt::NoButton);
     width = iwidth;

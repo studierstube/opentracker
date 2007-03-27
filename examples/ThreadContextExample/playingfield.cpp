@@ -45,7 +45,8 @@
 #include "dilatedrect.h"
 
 PlayingField::PlayingField(double iwidth, double iheight) 
-    : QGraphicsItem()
+    : QGraphicsItem(),
+      Poseable()
 {
     setAcceptedMouseButtons(Qt::NoButton);
     width = iwidth;

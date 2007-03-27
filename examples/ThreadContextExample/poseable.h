@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** Posable Class implementation
+/** Poseable Class header
  *
  * @author Alexander Bornik
  *
@@ -41,49 +41,33 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include "posable.h"
-#include "axes.h"
+#ifndef POSABLE_H
+#define POSABLE_H
 
-#include <cmath>
+#include <QtGui>
+#include <QtCore>
 
-Posable::Posable(double axes_length)
+class Axes;
+
+class Poseable
 {
-    QGraphicsItem * gi = dynamic_cast<QGraphicsItem*>(this);
+public:
+    Poseable(double axes_length = 2.0);
+    virtual QPointF getPosition() const;
+    void setPose(const QPointF &position, double angle);
+    double getAngle() const;
+    virtual ~Poseable() {};
+  
+protected:
+    Axes * axes;
 
-    if (gi)
-    {
-        axes = new Axes(gi, axes_length);
-    }
-}
+};
 
-Posable::~Posable()
-{
-    // empty
-}
-
-QPointF Posable::getPosition() const
-{
-    QMatrix m(matrix());
-    return QPointF(m.dx(), m.dy());
-}
-
-void Posable::setPose(const QPointF &position, double angle)
-{
-    QMatrix m;
-    m.translate(position.x(), position.y());
-    m.rotate(angle*180.0/M_PI);
-    setMatrix(m);
-}
-
-double Posable::getAngle() const
-{
-    QMatrix m;
-    return atan2(m.m21(), m.m11());
-}
+#endif
 
 /* 
  * ------------------------------------------------------------
- *   End of arena.cpp
+ *   End of poseable.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

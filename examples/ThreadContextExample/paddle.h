@@ -46,10 +46,10 @@
 
 #include <QtGui>
 #include <QtCore>
-#include "posable.h"
+#include "poseable.h"
 
 class Axes;
-class Paddle : public QGraphicsItem, public Posable
+class Paddle : public QGraphicsItem, public Poseable
 {
 public:
     Paddle(double dimension = 1.0);

@@ -47,17 +47,17 @@
 #include <QtGui>
 #include <QtCore>
 
-#include "posable.h"
+#include "poseable.h"
 
 class Paddle;
 class PlayingField;
 
-class Puck : public QGraphicsItem, public Posable
+class Puck : public QObject, public QGraphicsItem, public Poseable
 {
+Q_OBJECT
 public:
     Puck(double dimension = 0.8, PlayingField * playareain = NULL);
-    
-    virtual void addPaddle(Paddle * paddle);
+    void addPaddle(Paddle * paddle);
     
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
@@ -66,11 +66,11 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget);
 
-
-    virtual QPointF testForPaddleCollisions(const QPointF &pos);
-    virtual QPointF testForWallCollisions(const QPointF &pos);
+    QPointF testForPaddleCollisions(const QPointF &pos);
+    QPointF testForWallCollisions(const QPointF &pos);
+                                                              
 public slots:
-    virtual void timerEvent();
+    void timerEvent();
 protected:
     QTimer *timer;
     QColor color;

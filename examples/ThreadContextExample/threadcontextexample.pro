@@ -9,7 +9,7 @@ HEADERS = \
     tctxmainwindow.h \
     pongview.h \
     pongscene.h \
-    posable.h \
+    poseable.h \
     axes.h \
     goal.h \
     checkerfloor.h \
@@ -24,7 +24,7 @@ SOURCES  = \
     tctxmainwindow.cpp \
     pongview.cpp \
     pongscene.cpp \
-    posable.cpp \
+    poseable.cpp \
     axes.cpp \
     goal.cpp \
     checkerfloor.cpp \

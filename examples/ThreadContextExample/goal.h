@@ -47,9 +47,11 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "poseable.h"
+
 class DilatedRect;
 
-class Goal : public QGraphicsItem
+class Goal : public QGraphicsItem, public Poseable
 {
 public:
     Goal(double iwidth = 5.0, double iheight = 2.0);

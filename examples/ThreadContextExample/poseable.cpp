@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** Posable Class header
+/** Poseable Class implementation
  *
  * @author Alexander Bornik
  *
@@ -41,35 +41,55 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifndef POSABLE_H
-#define POSABLE_H
+#include "poseable.h"
+#include "axes.h"
 
-#include <QtGui>
-#include <QtCore>
+#include <cmath>
 
-class Axes;
-
-class Posable
+Poseable::Poseable(double axes_length)
 {
-public:
-    Posable(double axes_length = 2.0);
-    QPointF getPosition() const;
-    virtual void setPose(const QPointF &position, double angle);
-    double getAngle() const;
-    virtual QMatrix matrix() const = 0;
-    virtual void setMatrix(const QMatrix &mat) = 0;
-    virtual ~Posable() = 0;
+    QGraphicsItem * gi = dynamic_cast<QGraphicsItem*>(this);
 
-protected:
-    Axes * axes;
+    if (gi)
+    {
+        axes = new Axes(gi, axes_length);
+    }
+}
 
-};
 
-#endif
+
+QPointF Poseable::getPosition() const
+{
+    const QGraphicsItem * gi = dynamic_cast<const QGraphicsItem*>(this);
+    if (gi)
+    {
+        QMatrix m(gi->matrix());
+        return QPointF(m.dx(), m.dy());
+    }
+    return QPointF(0.0, 0.0);
+}
+
+void Poseable::setPose(const QPointF &position, double angle)
+{
+    QGraphicsItem * gi = dynamic_cast<QGraphicsItem*>(this);
+    if (gi)
+    {
+        QMatrix m;
+        m.translate(position.x(), position.y());
+        m.rotate(angle*180.0/M_PI);
+        gi->setMatrix(m);
+    }
+}
+
+double Poseable::getAngle() const
+{
+    QMatrix m;
+    return atan2(m.m21(), m.m11());
+}
 
 /* 
  * ------------------------------------------------------------
- *   End of Posable.h
+ *   End of poseable.cpp
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
