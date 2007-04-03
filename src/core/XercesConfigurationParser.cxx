@@ -282,9 +282,9 @@ namespace ot {
         XMLString::release( &tempName );
         std::auto_ptr<StringTable> map ( parseElement( element ));
         // Test for a reference node
-
+        logPrintI("Building Tree for node %s\n", tempName);
         map->put("OtNodeType", tagName);
-
+        
         if( tagName.compare("Ref") == 0 )
         {
             NodeMap::iterator find = references.find(map->get("USE"));
@@ -301,12 +301,13 @@ namespace ot {
             }
         }
 
-
+        logPrintI("Calling the context create node\n");
         Node * value = context.createNode( tagName , *map );
 
         // if the value is NULL, it might be the case that the Module has not yet being loaded,
         // a trick to force the context to load this module, is to ask for it.
         if (value == NULL) {
+            logPrintI("Didn't work, try loading and then creating\n");
             //try loading the module, and then creating the node
             if (context.getModuleFromNodeType(tagName) != NULL)
             {
@@ -518,12 +519,14 @@ namespace ot {
                 continue;
             }
             XMLString::release( &tempTagName );
-            
+            logPrintI("XERCESCONFIGURATIONPARSER::BUILDTREE\n");
             Node * child = buildTree( element, graph );
+            logPrintI("XERCESCONFIGURATIONPARSER::BUILDTREE returned child %p\n", child);
             if (child)
             {
                 //                node->addChild(*child);
                 graph->addNode( child);
+                logPrintI("XERCESCONFIGURATIONPARSER::graph added node\n");
             }
 
         }

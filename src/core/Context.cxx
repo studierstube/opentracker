@@ -382,7 +382,9 @@ namespace ot {
     
     Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
+        logPrintI("Calling the factory create node for node %s\n", name.c_str());
         Node * value = factory.createNode( name , attributes );
+        
         if( value != NULL )
         {
             KeyIterator keys(attributes);

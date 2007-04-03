@@ -69,7 +69,7 @@ namespace ot{
                 break;
         }
         this->loadModule(*ctx, "OpenTracker");
-        //this->doInitialization(ctx);
+        //        this->doInitialization(*ctx);
     }
 
 
