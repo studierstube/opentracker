@@ -42,7 +42,7 @@ scons -c
 %package devel
 Summary:	Open Tracker header and include files
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version} ICGBuilder ACE-devel Xerces-c-devel boost-devel
 
 %description devel
 This package contains header files and include files that are needed for development using the OpenTracker library.
