@@ -68,8 +68,8 @@ namespace ot{
                 ctx = new Context(0);
                 break;
         }
-        this->loadModule(*ctx, "OpenTracker");
-        //        this->doInitialization(*ctx);
+        //this->loadModule(*ctx, "OpenTracker");
+        this->doInitialization(*ctx);
     }
 
 
