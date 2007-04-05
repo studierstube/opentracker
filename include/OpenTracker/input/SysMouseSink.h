@@ -87,8 +87,8 @@ public:
     Event relativeEvent, absoluteEvent;
     /// flag whether event was changed since last display
     int changedAbsolute, changedRelative;
-
-	
+	/// offsets for various screen adaptions
+	int xOffset, yOffset, xFactor, yFactor;
          
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -101,7 +101,11 @@ public:
 	/** simple constructor, sets members to initial values */
 	SysMouseSink( SysMouseModule * ptr) : Node(),
 		changedAbsolute(0),
-		changedRelative(1)
+		changedRelative(1),
+		xOffset(0),
+		yOffset(0),
+		xFactor(1),
+		yFactor(1)
 	{ 
 		sysMouseModule = ptr;
 	}

@@ -113,8 +113,13 @@ void OTQtMEMCalibProc::exec() {
   ///// Track ASP
   printf("** Tracking ASP (Qt Application Screen Position)\n");
   Event app_screen;
-  if (!trackASPos(app_screen)) {
-    throw std::runtime_error("Could not track Application Screen Position.");
+  int retries=0;
+  while (!trackASPos(app_screen)) {
+	if(retries>5) throw std::invalid_argument("Exeeded number of retries.");
+    printf("Could not track Application Screen Position.\nMove target into tracking range.");
+	printf("\n");
+	waitForEnterKey();
+	retries++;
   }
   printf("Tracked at: %f %f %f\n",
          app_screen.getPosition()[0], app_screen.getPosition()[1], app_screen.getPosition()[2]);
@@ -124,8 +129,13 @@ void OTQtMEMCalibProc::exec() {
   ///// Track MPD
   printf("** Tracking MPD (Mouse Position Device)\n");
   Event mouse_pos_obj;
-  if (!trackMPD(mouse_pos_obj)) {
-    throw std::runtime_error("Could not track MPD (Mouse Position Device).");
+  retries=0;
+  while (!trackMPD(mouse_pos_obj)) {
+	if(retries>5) throw std::invalid_argument("Exeeded number of retries.");
+    printf("Could not track MPD (Mouse Position Device).\nMove target into tracking range.");
+	printf("\n");
+	waitForEnterKey();
+	retries++;
   }
   printf("Tracked at: %f %f %f\n",
          mouse_pos_obj.getPosition()[0], mouse_pos_obj.getPosition()[1], mouse_pos_obj.getPosition()[2]);

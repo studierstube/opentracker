@@ -170,7 +170,8 @@ namespace ot {
             me_mod_->resetPendingEventBitAllSinks();
             mec_mod_->resetPendingEventBitAllSinks();
 
-            context_.waitDataSignal();
+			/// todo improve this strategy for optimal cpu usage
+            //context_.waitDataSignal();
             // receive states from sources
             context_.pushEvents();
             // process new states in modules
