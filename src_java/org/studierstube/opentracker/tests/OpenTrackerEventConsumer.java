@@ -3,6 +3,7 @@ package org.studierstube.opentracker.tests;
 import org.omg.CORBA.Any;
 import org.omg.CosEventComm.Disconnected;
 
+import org.studierstube.opentracker.OTEvent;
 import org.studierstube.opentracker.OT_CORBA.*;
 
 public class OpenTrackerEventConsumer extends OTPushCons {
@@ -18,13 +19,12 @@ public class OpenTrackerEventConsumer extends OTPushCons {
 	}
 	
 	synchronized public void push(Any data) throws Disconnected {
-		/** CORBA method implementation. */
-		//int l=data.extract_ulong();
-		Event event = EventHelper.extract(data);
+		OTEvent event = new OTEvent(EventHelper.extract(data));
+		
 		System.out.println("Push Consumer: push() called");
-		System.out.println("Position = [" + event.pos[0] + ", " + event.pos[1] + ", " + event.pos[2] + "]");
-		System.out.println("Orientation = [" + event.ori[0] + ", " + event.ori[1] + 
-				", " + event.ori[2] +  event.ori[3] + "]\n");
+		System.out.println("Position = [" + event.getPosition().x + ", " + event.getPosition().y + ", " + event.getPosition().z + "]");
+		System.out.println("Orientation = [" + event.getOrientation().x + ", " + event.getOrientation().y + 
+				", " + event.getOrientation().z +  event.getOrientation().w + "]\n");
 	}
 	
 	static public void main(String args[]) {

@@ -6,6 +6,8 @@ import org.omg.CORBA.Any;
 import org.omg.CosEventComm.Disconnected;
 
 import org.studierstube.opentracker.OT_CORBA.*;
+import org.studierstube.opentracker.OTEvent;
+
 
 public class EventChannelSinkObject extends OTPushCons {
 	private float x,y,z;
@@ -22,11 +24,12 @@ public class EventChannelSinkObject extends OTPushCons {
 
 	synchronized public void push(Any data) throws Disconnected {
 		/** CORBA method implementation. */
-		//int l=data.extract_ulong();
-		Event event = EventHelper.extract(data);
-		x = event.pos[0];
-		y = event.pos[1];
-		z = event.pos[2];
+		EventAttribute[] atts = EventHelper.extract(data);
+		OTEvent event = new OTEvent(atts);
+		Vector3f pos = event.getPosition();
+		x = pos.x;
+		y = pos.y;
+		z = pos.z;
 	}
 
 	synchronized public float X() {

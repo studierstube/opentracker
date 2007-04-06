@@ -20,6 +20,7 @@ import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CosEventComm.*;
 import org.omg.CosEventChannelAdmin.*;
+import org.studierstube.opentracker.OTEvent;
 import org.studierstube.opentracker.OT_CORBA.*;
 
 public class PushCons extends PushConsumerPOA
@@ -39,12 +40,13 @@ public class PushCons extends PushConsumerPOA
   public void push (Any data)
   {
     _count++;
-    //int l=data.extract_ulong();
-    Event event = EventHelper.extract(data);
     System.out.println("Push Consumer: push() called #" + _count);
-    System.out.println("Position = [" + event.pos[0] + ", " + event.pos[1] + ", " + event.pos[2] + "]");
-    System.out.println("Orientation = [" + event.ori[0] + ", " + event.ori[1] + 
-    					", " + event.ori[2] +  event.ori[3] + "]\n");
+	OTEvent event = new OTEvent(EventHelper.extract(data));
+	
+	System.out.println("Push Consumer: push() called");
+	System.out.println("Position = [" + event.getPosition().x + ", " + event.getPosition().y + ", " + event.getPosition().z + "]");
+	System.out.println("Orientation = [" + event.getOrientation().x + ", " + event.getOrientation().y + 
+			", " + event.getOrientation().z +  event.getOrientation().w + "]\n");
     
     // Exercise Disconnect
     if(_count==_disconnect)
