@@ -236,7 +236,7 @@ if env['ENABLE_JAVA']:
 	opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'),
 					       source = stubsandskeletons, JARCHDIR='src_java')
 	if env['ENABLE_OMNIEVENTS']:
-	    test_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java', 'OTSinkExample.java']],
+	    test_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java']], #'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']],
 					   CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
 					   CLASSINSTALLDIR='build')
 	    test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 

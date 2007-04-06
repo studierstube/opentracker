@@ -1,13 +1,21 @@
 package org.studierstube.opentracker.tests;
 
-import org.studierstube.opentracker.OT_CORBA.Event;
+import org.studierstube.opentracker.OT_CORBA.*;
+import org.omg.CORBA.Any;
+import java.util.HashMap;
 
 public class OTSinkExample extends CorbaApp {
-	class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {
 
-		public void setEvent(Event ev) {
-			System.out.println("position = (" + ev.pos[0] + ", " + ev.pos[1] + ", " + ev.pos[2] + ")");
-			System.out.println("orientation = [(" + ev.ori[0] + ", " + ev.ori[1] + ", " + ev.ori[2] + "), " + ev.ori[3] + "]");
+    class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {
+	class OTEvent extends HashMap<String, Any> {
+	    
+	}
+	    
+	    public void setEvent(EventAttribute[] ev) {
+		
+
+		//System.out.println("position = (" + ev.pos[0] + ", " + ev.pos[1] + ", " + ev.pos[2] + ")");
+		//	System.out.println("orientation = [(" + ev.ori[0] + ", " + ev.ori[1] + ", " + ev.ori[2] + "), " + ev.ori[3] + "]");
 		}
 	}
 	
