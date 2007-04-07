@@ -25,7 +25,7 @@ public class EventChannelSinkObject extends OTPushCons {
 	synchronized public void push(Any data) throws Disconnected {
 		/** CORBA method implementation. */
 		EventAttribute[] atts = EventHelper.extract(data);
-		OTEvent event = new OTEvent(atts);
+		OTEvent event = new OTEvent(getORB(), atts);
 		Vector3f pos = event.getPosition();
 		x = pos.x;
 		y = pos.y;

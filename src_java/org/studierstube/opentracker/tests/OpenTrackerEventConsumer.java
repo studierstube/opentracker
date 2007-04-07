@@ -19,7 +19,7 @@ public class OpenTrackerEventConsumer extends OTPushCons {
 	}
 	
 	synchronized public void push(Any data) throws Disconnected {
-		OTEvent event = new OTEvent(EventHelper.extract(data));
+		OTEvent event = new OTEvent(getORB(), EventHelper.extract(data));
 		
 		System.out.println("Push Consumer: push() called");
 		System.out.println("Position = [" + event.getPosition().x + ", " + event.getPosition().y + ", " + event.getPosition().z + "]");

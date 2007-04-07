@@ -30,6 +30,7 @@ public class PushCons extends PushConsumerPOA
   private int _disconnect =0;
   private int _count =0;
   private boolean _disconnectFlag =false;
+  static private org.omg.CORBA.ORB orb;
 
   public PushCons(int disconnect)
   {
@@ -41,7 +42,7 @@ public class PushCons extends PushConsumerPOA
   {
     _count++;
     System.out.println("Push Consumer: push() called #" + _count);
-	OTEvent event = new OTEvent(EventHelper.extract(data));
+	OTEvent event = new OTEvent(orb, EventHelper.extract(data));
 	
 	System.out.println("Push Consumer: push() called");
 	System.out.println("Position = [" + event.getPosition().x + ", " + event.getPosition().y + ", " + event.getPosition().z + "]");
@@ -100,7 +101,8 @@ public class PushCons extends PushConsumerPOA
   {
     //
     // Start orb.
-    ORB orb =ORB.init(args, null);
+    //ORB orb =ORB.init(args, null);
+	orb = ORB.init(args, null);
     // Must strip out ORB arguments manually in Java,
     // since ORB.init() doesn't do it for us.
     args=stripOrbArgs(args);
