@@ -13,8 +13,9 @@ public class OTSourceExample extends CorbaApp {
 	}
 	
 	static public OTEvent getEvent() {
-		OTEvent ev = null;
-		ev.setPosition(new Vector3f(1.0f, 2.0f, 3.0f));
+		OTEvent ev = new OTEvent(getORB());
+		Vector3f pos = new Vector3f(1.0f, 2.0f, 3.0f);
+		ev.setPosition(pos);
 		ev.setOrientation(new Vector4f(0.707f, 0.0f, 0.0f, 0.707f));
 		ev.setTimestamp(0.0f);
 		ev.setButton((short) 3);

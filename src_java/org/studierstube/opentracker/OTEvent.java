@@ -2,21 +2,25 @@ package org.studierstube.opentracker;
 
 import org.studierstube.opentracker.OT_CORBA.*;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Set;
-
-import org.omg.CORBA.Any;
 import javax.vecmath.*;
 
-public class OTEvent extends HashMap<String, Any> {
+public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6849795742997397981L;
+	private org.omg.CORBA.ORB orb;
 	
-	public OTEvent(EventAttribute[] atts) {
+	public OTEvent(org.omg.CORBA.ORB _orb) {
+		orb = _orb;
+	}
+	
+	public OTEvent(org.omg.CORBA.ORB _orb, EventAttribute[] atts) {
+		this(_orb);
 		for (int i = 0; i < atts.length; i++) {
-			//System.out.println("name of event attribute is " + atts[i].name);
+			System.out.println("name of event attribute is " + atts[i].name);
 			put(atts[i].name, atts[i].value);
 		}
 	}
@@ -26,7 +30,7 @@ public class OTEvent extends HashMap<String, Any> {
 	}
 	
 	public void setPosition(Vector3f pos) {
-		Any value = null;
+		org.omg.CORBA.Any value = orb.create_any();
 		float fv[] = {pos.x, pos.y, pos.y};
 		FloatVectorHelper.insert(value, fv);
 		put("position", value);
@@ -37,7 +41,7 @@ public class OTEvent extends HashMap<String, Any> {
 	}
 	
 	public void setOrientation(Vector4f ori) {
-		Any value = null;
+		org.omg.CORBA.Any value = orb.create_any();
 		float fv[] = {ori.x, ori.y, ori.z, ori.w};
 		FloatVectorHelper.insert(value, fv);
 		put("orientation", value);
@@ -48,13 +52,13 @@ public class OTEvent extends HashMap<String, Any> {
 	}
 	
 	public void setTimestamp(float timestamp) {
-		Any value = null;
+		org.omg.CORBA.Any value = orb.create_any();
 		value.insert_float(timestamp);
 		put("timestamp", value);
 	}
 	
 	public void setButton(short button) {
-		Any value = null;
+		org.omg.CORBA.Any value = orb.create_any();
 		value.insert_short(button);
 		put("button", value);
 	}
@@ -64,20 +68,19 @@ public class OTEvent extends HashMap<String, Any> {
 	}
 	
 	public EventAttribute[] getEventAttributes() {
-		Set<EventAttribute> atts = null;
+		Set<EventAttribute> atts = new HashSet<EventAttribute>();
 		Set<String> keys = keySet();
 		for (String key : keys) {
-			EventAttribute att = null;
+			EventAttribute att = new EventAttribute();
 			att.name  = key;
 			att.value = get(key);
 			atts.add(att);
 		}
-		EventAttribute[] attributes = null;
-		return atts.toArray(attributes);
+		return (EventAttribute[]) atts.toArray(new EventAttribute[atts.size()]);
 	}
 	
-	public Any asAny() {
-		Any ret = null;
+	public org.omg.CORBA.Any asAny() {
+		org.omg.CORBA.Any ret = orb.create_any();
 		EventHelper.insert(ret, getEventAttributes());
 		return ret;
 	}

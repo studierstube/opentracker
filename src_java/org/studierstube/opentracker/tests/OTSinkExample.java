@@ -10,12 +10,14 @@ public class OTSinkExample extends CorbaApp {
     class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {
    
 	    public void setEvent(EventAttribute[] atts) {
-	    	OTEvent ev = new OTEvent(atts);
+	    	OTEvent ev = new OTEvent(getORB(), atts);
 	    	Vector3f pos = ev.getPosition();
 	    	Vector4f ori = ev.getOrientation();
+	    	//Float timestamp = new Float(ev.getTimestamp());
 
 	    	System.out.println("position = (" + pos.x + ", " + pos.y + ", " + pos.z + ")");
 	    	System.out.println("orientation = [(" + ori.x + ", " + ori.y + ", " + ori.z + "), " + ori.w + "]");
+	    	//System.out.println("time = " + timestamp.toString());
 		}
 	}
 	
