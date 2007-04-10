@@ -356,14 +356,14 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       
       POA_OT_CORBA::OTSource_tie<CORBASource>* corba_source = new POA_OT_CORBA::OTSource_tie<CORBASource>(source_impl);
       PortableServer::ObjectId_var corba_source_id;
-      if (CORBAModule::persistent)
-	{
+      //      if (CORBAModule::persistent)
+      //	{
 	  corba_source_id = CORBAUtils::getObjectId(orb, name);
 	  poa->activate_object_with_id(corba_source_id, corba_source);
-	} 
-      else {
-	corba_source_id = poa->activate_object(corba_source);
-      }
+	  //	} 
+	  //      else {
+	  //corba_source_id = poa->activate_object(corba_source);
+	//      }
       OT_CORBA::OTSource_var corba_source_ref = corba_source->_this();
       CORBA::Object_var obj = CORBA::Object::_narrow(corba_source_ref);
       CORBAUtils::bindObjectReferenceToName(orb, obj, name);

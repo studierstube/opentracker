@@ -236,7 +236,9 @@ if env['ENABLE_JAVA']:
 	opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'),
 					       source = stubsandskeletons, JARCHDIR='src_java')
 	if env['ENABLE_OMNIEVENTS']:
-	    test_classes = env.JavacBld([join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java']], #'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']],
+	    test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']] + \
+		[join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
+	    test_classes = env.JavacBld(test_sources,
 					   CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
 					   CLASSINSTALLDIR='build')
 	    test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 
@@ -246,6 +248,10 @@ if env['ENABLE_JAVA']:
 					    [join('src_java', 'java-getopt-1.0.12.jar')],
 					    PKGPREFIX='org.studierstube.opentracker.tests')
 	    sink_example = env.JavaShellScript(join('bin', 'OTSinkExample'), 
+					    opentracker_stubs_jar + test_jar + \
+					    [join('src_java', 'java-getopt-1.0.12.jar')],
+					    PKGPREFIX='org.studierstube.opentracker.tests')
+	    source_example = env.JavaShellScript(join('bin', 'OTSourceExample'), 
 					    opentracker_stubs_jar + test_jar + \
 					    [join('src_java', 'java-getopt-1.0.12.jar')],
 					    PKGPREFIX='org.studierstube.opentracker.tests')
