@@ -61,73 +61,69 @@ namespace ot {
 			const std::type_info &type = event.getAttributeType(attributeName);
 			if (previousEvent.getAttributeType(attributeName) == type)
 			{
-				if (type == typeid(bool))
-					localEvent.setAttribute(attributeName,event.getAttribute(static_cast<bool*>(0),attributeName) - previousEvent.getAttribute(static_cast<bool*>(0),attributeName));
-				else
-					if (type == typeid(char))
-						localEvent.setAttribute(attributeName,event.getAttribute(static_cast<char*>(0),attributeName) - previousEvent.getAttribute(static_cast<char*>(0),attributeName));
-					else
-						if (type == typeid(signed char))
-							localEvent.setAttribute(attributeName,event.getAttribute(static_cast<signed char*>(0),attributeName) - previousEvent.getAttribute(static_cast<signed char*>(0),attributeName));
-						else
-							if (type == typeid(unsigned char))
-								localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned char*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned char*>(0),attributeName));
-							else
-								if (type == typeid(int))
-									localEvent.setAttribute(attributeName,event.getAttribute(static_cast<int*>(0),attributeName) - previousEvent.getAttribute(static_cast<int*>(0),attributeName));
-								else
-									if (type == typeid(long))
-										localEvent.setAttribute(attributeName,event.getAttribute(static_cast<long*>(0),attributeName) - previousEvent.getAttribute(static_cast<long*>(0),attributeName));
-									else
-										if (type == typeid(short))
-											localEvent.setAttribute(attributeName,event.getAttribute(static_cast<short*>(0),attributeName) - previousEvent.getAttribute(static_cast<short*>(0),attributeName));
-										else
-											if (type == typeid(unsigned int))
-												localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned int*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned int*>(0),attributeName));
-											else
-												if (type == typeid(unsigned long))
-													localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned long*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned long*>(0),attributeName));
-												else
-													if (type == typeid(unsigned short))
-														localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned short*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned short*>(0),attributeName));
-													else
-														if (type == typeid(double))
-															localEvent.setAttribute(attributeName,event.getAttribute(static_cast<double*>(0),attributeName) - previousEvent.getAttribute(static_cast<double*>(0),attributeName));
-														else
-															if (type == typeid(long double))
-																localEvent.setAttribute(attributeName,event.getAttribute(static_cast<long double*>(0),attributeName) - previousEvent.getAttribute(static_cast<long double*>(0),attributeName));
-															else
-																if (type == typeid(float))
-																	localEvent.setAttribute(attributeName,event.getAttribute(static_cast<float*>(0),attributeName) - previousEvent.getAttribute(static_cast<float*>(0),attributeName));
-																else
-																	if (type == typeid(std::vector<float>))
-																	{
-																		std::vector<float> &values = event.getAttribute(static_cast<std::vector<float>*>(0),attributeName);
-																		std::vector<float> &previousValues = previousEvent.getAttribute(static_cast<std::vector<float>*>(0),attributeName);
-																		if (values.size() == previousValues.size())
-																		{
-																			std::vector<float> localValues(values.size());
-																			for (std::vector<float>::size_type i = 0;i < localValues.size();i ++)
-																				localValues[i] = values[i] - previousValues[i];
-																			localEvent.setAttribute(attributeName,localValues);
-																		}
-																		else
-																			return;
-																	}
-																	else
-																		return;
-				localEvent.timeStamp();
-				updateObservers(localEvent);
+			  if (type == typeid(bool))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<bool*>(0),attributeName) - previousEvent.getAttribute(static_cast<bool*>(0),attributeName));
+			  else if (type == typeid(char))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<char*>(0),attributeName) - previousEvent.getAttribute(static_cast<char*>(0),attributeName));
+			  else if (type == typeid(signed char))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<signed char*>(0),attributeName) - previousEvent.getAttribute(static_cast<signed char*>(0),attributeName));
+			  else if (type == typeid(unsigned char))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned char*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned char*>(0),attributeName));
+			  else if (type == typeid(int))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<int*>(0),attributeName) - previousEvent.getAttribute(static_cast<int*>(0),attributeName));
+			  else if (type == typeid(long))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<long*>(0),attributeName) - previousEvent.getAttribute(static_cast<long*>(0),attributeName));
+			  else if (type == typeid(short))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<short*>(0),attributeName) - previousEvent.getAttribute(static_cast<short*>(0),attributeName));
+			  else if (type == typeid(unsigned int))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned int*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned int*>(0),attributeName));
+			  else if (type == typeid(unsigned long))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned long*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned long*>(0),attributeName));
+			  else if (type == typeid(unsigned short))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<unsigned short*>(0),attributeName) - previousEvent.getAttribute(static_cast<unsigned short*>(0),attributeName));
+			  else if (type == typeid(double))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<double*>(0),attributeName) - previousEvent.getAttribute(static_cast<double*>(0),attributeName));
+			  else if (type == typeid(long double))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<long double*>(0),attributeName) - previousEvent.getAttribute(static_cast<long double*>(0),attributeName));
+			  else if (type == typeid(float))
+			    localEvent.setAttribute(attributeName,event.getAttribute(static_cast<float*>(0),attributeName) - previousEvent.getAttribute(static_cast<float*>(0),attributeName));
+			  else if (type == typeid(std::vector<float>))
+			    {
+			      std::vector<float> &values = event.getAttribute(static_cast<std::vector<float>*>(0),attributeName);
+			      std::vector<float> &previousValues = previousEvent.getAttribute(static_cast<std::vector<float>*>(0),attributeName);
+			      if (values.size() == previousValues.size())
+				{
+				  std::vector<float> localValues(values.size());
+				  for (std::vector<float>::size_type i = 0;i < localValues.size();i ++)
+												  localValues[i] = values[i] - previousValues[i];
+				  localEvent.setAttribute(attributeName,localValues);
+				}
+			      else
+				return;
+			    }
+			  else
+			    return;
+			  localEvent.timeStamp();
+			  updateObservers(localEvent);
 			}
 			else
-				return;
+			  return;
 		}
 		catch (std::invalid_argument)
-		{
-			return;
-		}
+		  {
+		    return;
+		  }
 	}
 
+  void DifferenceNode::pushEvent()
+  {
+    // nothing to do
+  }
+
+  void DifferenceNode::pullEvent()
+  {
+    // nothing to do
+  }
 } // namespace ot
 
 

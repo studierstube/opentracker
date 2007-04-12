@@ -69,11 +69,14 @@ int main(int argc, char **argv)
     cout << "Context established." << endl;
 
     // parse the configuration file, builds the tracker tree
-	try {
-    context.parseConfiguration( argv[1] );
-	} catch (exception & e){
-		printf( "could not configure context because \n\t\t %s\n", e.what());
-	}
+    try {
+        context.parseConfiguration( argv[1] );
+    } catch (exception & e){
+        printf( "could not configure context because \n\t\t %s\n", e.what());
+    }
+    
+    Module::contextx = (&context);
+        
     printf("OT |SETUP : Parsing Complete\n");
     printf("OT |INFO : Starting Mainloop\n");
 

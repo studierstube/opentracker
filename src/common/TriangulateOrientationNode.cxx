@@ -174,5 +174,15 @@ namespace ot
 
 		}
 	}
-	
+
+  void TriangulateOrientationNode::pushEvent()
+  {
+    // nothing to do
+  }
+
+  void TriangulateOrientationNode::pullEvent()
+  {
+    // nothing to do
+  }
+
 } // namespace ot

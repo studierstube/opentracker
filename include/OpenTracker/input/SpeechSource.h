@@ -86,7 +86,7 @@
  */
 
 
-#ifndef OT_NO_SPEECH_SUPPORT
+#ifdef OT_SPEECH_SUPPORT
 
 
 namespace ot {
@@ -185,6 +185,8 @@ namespace ot {
             updateObservers(event);
 
         }
+        void pushEvent();
+        void pullEvent();
 
         friend class SpeechModule;
     };
@@ -192,7 +194,7 @@ namespace ot {
 } // namespace ot
 
 
-#endif //OT_NO_SPEECH_SUPPORT
+#endif //OT_SPEECH_SUPPORT
 
 
 #endif

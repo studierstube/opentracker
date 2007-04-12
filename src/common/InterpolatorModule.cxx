@@ -110,14 +110,6 @@ namespace ot {
     // pushes events into the tracker tree.
     void InterpolatorModule::pushEvent()
     {
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
-            ElasticFilterNode *source = (ElasticFilterNode *) ((Node*)*it);
-            //if((cycle + source->offset) % source->frequency == 0 )
-            //{
-            source->push();
-            //} 
-        }
         cycle++;
     }
 

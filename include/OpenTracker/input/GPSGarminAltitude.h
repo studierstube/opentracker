@@ -96,6 +96,23 @@ namespace ot {
 	/// protected constructor so it is only accessible by the module
 	GPSGarminAltitude() {};
 
+        void pushEvent()
+        {
+            lock();
+            if(event.time < buffer.time )
+            {
+                event = buffer;
+                unlock();
+                updateObservers( event );
+            }
+            else
+            {
+                unlock();
+            }
+        }
+
+        void pullEvent() {};
+
 	friend class GPSModule;
     };
 
@@ -107,17 +124,16 @@ namespace ot {
             GPSModule * module = (GPSModule *)userData;
             if( !module->driver->hasFix() )
                 return;
-            module->lock();
+            module->lockLoop();
             buffer.timeStamp();
             buffer.getPosition()[0] = 0;
             // 1 feet = 0.3048 meter, by google
             buffer.getPosition()[1] = (float)(point->altitude * 0.3048);
             buffer.getPosition()[0] = 0;
             buffer.getConfidence() = (float)(1 / module->driver->getHdop());
-            module->unlock();
+            module->unlockLoop();
         }
     }
-
 
 }  // namespace ot
 

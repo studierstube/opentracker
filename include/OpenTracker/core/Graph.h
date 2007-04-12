@@ -49,35 +49,44 @@
 #include <string>
 #include <OpenTracker/misc/Cptr.h>
 #include "IRefCounted.h"
+
 namespace ot{
-  class Node;
+    class Node;
 
-class Graph{
- protected:
-  //  typedef std::map<std::string, Node::Ptr> NodeVector;
-  typedef std::vector<Node::Ptr> NodeVector;
+    class Graph{    
+    protected:
+        //  typedef std::map<std::string, Node::Ptr> NodeVector;
+        typedef std::vector<Node::Ptr> NodeVector;
 
-  NodeVector nodes;
+        NodeVector nodes;
 #ifndef USE_LIVE
-  OT_DECLARE_IREFCOUNTED;
-  typedef Cptr<Graph> Ptr;
+        OT_DECLARE_IREFCOUNTED;
+        typedef Cptr<Graph> Ptr;
 #endif
- public:
-  Graph();
-  virtual ~Graph();
+        bool changed;
+
+    public:
+        Graph();
+        virtual ~Graph();
   
-  void addNode(Node *);
-  void remNode(Node *);
+        void addNode(Node *);
+        void remNode(Node *);
   
-  void connectNodes(Node * parent, Node * child);
-  void disconnectNodes(Node * parent, Node * child);
+        void connectNodes(Node * parent, Node * child);
+        void disconnectNodes(Node * parent, Node * child);
 
-  unsigned int countNodes();
-  Node * getNode(unsigned int idx);
+        unsigned int countNodes();
+        Node * getNode(unsigned int idx);
 
-  Node * findNode(const std::string & key, const std::string & val);
+        Node * findNode(const std::string & key, const std::string & val);
 
-};
+        void pushEvents();
+        void pullEvents();
+
+        void writeGraph(const char * filename);
+    };
+
+    bool traversalCompare(const Node::Ptr &ptr1, const Node::Ptr &ptr2);
 
 };
 

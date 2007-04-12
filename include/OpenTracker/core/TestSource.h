@@ -97,10 +97,12 @@ namespace ot {
     {
         // Members
     public:
-        /// frequency of updates
-        int frequency;
-        /// offset of first update relative to main loop start
-        int offset;
+        /// per node cycle counter
+        unsigned long cycle;
+        /// Time to sleep between executions
+        ACE_Time_Value sleeptime;
+        /// Time offset of executions
+        ACE_Time_Value sleepoffset;
         /// use noise and noise level
         double noise;
         /// the original event
@@ -113,12 +115,10 @@ namespace ot {
         /** simple constructor, sets members to initial values
          * @param frequency_ initial value for member frequency
          * @param offset_ initial value for member offset */
-        TestSource( int frequency_, int offset_ ) :
-            Node(),
-	    frequency( frequency_ ),
-	    offset( offset_ )
-            {}
-        virtual ~TestSource() {
+        TestSource( double frequency_, int offset_ );
+        
+        virtual ~TestSource() 
+        {
             //	  std::cout << "TestSource destructor" << std::endl;
 	}
     public:
@@ -134,7 +134,11 @@ namespace ot {
          * updateObservers method in EventGenerator. Note that the
          * implementation of this method is in the file TestModule.cxx !
          */
-        void push(void);
+        void pushEvent();
+        void pullEvent();
+
+        inline void resetCycleCounter() { cycle = 1; };
+        void calculateEvent();
 
         friend class TestModule;
     };

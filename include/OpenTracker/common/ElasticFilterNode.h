@@ -113,7 +113,8 @@ namespace ot {
 
         /** pushes event down the line. Needed to access protected
          * updateObservers method in EventGenerator */
-        void push();
+        void pushEvent();
+        void pullEvent();
 
         friend class InterpolatorModule;
     };

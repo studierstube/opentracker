@@ -62,7 +62,7 @@ namespace ot {
         if (name.compare("TimestampGenerator") == 0)
         {
             int timeOut = 1000;
-			attributes.get("timeout",&timeOut);
+            attributes.get("timeout",&timeOut);
             TimestampGeneratorNode* pNode = new TimestampGeneratorNode(timeOut);
             pNodes.push_back(pNode);
 
@@ -77,12 +77,7 @@ namespace ot {
 
     void TimestampGeneratorModule::pushEvent()
     {
-        for (NodeVector::iterator it = pNodes.begin();it != pNodes.end();++ it)
-        {
-            TimestampGeneratorNode* pNode = reinterpret_cast<TimestampGeneratorNode*>((Node*)*it);
-            if (pNode->calcEvent())
-                pNode->updateObservers(pNode->getEvent());
-        }
+        // nothing to do
     }
 
 } //namespace ot
@@ -91,3 +86,19 @@ namespace ot {
 #else
 #pragma message(">>> OT_NO_TIMESTAMPGENERATOR_SUPPORT")
 #endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of TimestampGeneratorModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

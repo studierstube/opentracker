@@ -107,9 +107,11 @@ namespace ot {
          */
         virtual void onEventGenerated( Event& event, Node& generator);
 
+        void pushEvent();
+        void pullEvent();
+
         friend class CommonNodeFactory;
     };
-
 
 }  // namespace ot
 

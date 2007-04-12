@@ -89,6 +89,16 @@ namespace ot {
         }
     }
 
+    void ButtonOpNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void ButtonOpNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

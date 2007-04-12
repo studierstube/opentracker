@@ -80,7 +80,7 @@ namespace ot {
         currentEvent.getConfidence() = event.getConfidence();
     }
 
-    void ElasticFilterNode::push() {
+    void ElasticFilterNode::pushEvent() {
         // maybe we should us absolute timing, but for now we try without
         // double curTime = OSUtils::currentTime();
         // double dt = lastTime - curTime;
@@ -119,6 +119,10 @@ namespace ot {
         }
     }
 
+    void ElasticFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

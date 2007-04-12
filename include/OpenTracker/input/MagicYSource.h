@@ -78,12 +78,16 @@ namespace ot {
     public:
         /// the new event
         Event event;
+    protected:
+        bool modified;
 
         // Methods
     protected:
         /** constructor */
         MagicYSource() : Node()
-        {}
+        {
+            modified = true;
+        }
 
     public:                
         /** tests for EventGenerator interface being present. Is overriden to
@@ -93,6 +97,9 @@ namespace ot {
         {
             return 1;
         }  
+        
+        void pushEvent();
+        void pullEvent();
 
         friend class MagicYModule;
     };

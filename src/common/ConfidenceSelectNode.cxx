@@ -90,6 +90,16 @@ namespace ot {
 	}	
     }
 
+    void ConfidenceSelectNode::pushEvent()
+    {
+        // nothing to do
+    }
+    
+    void ConfidenceSelectNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

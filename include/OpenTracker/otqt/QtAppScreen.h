@@ -296,6 +296,9 @@ public:
    */
   QtAppScreen(StringTable & table);
   ~QtAppScreen() { };
+  
+  void pushEvent();
+  void pullEvent();
 
 private:
   QtAppScreen();

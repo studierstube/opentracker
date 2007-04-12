@@ -204,6 +204,10 @@ namespace ot {
 					source->process = true;
 				}
 			}	
+			if (Module::contextx != NULL)
+			  {
+			    Module::contextx->dataSignal();
+			  }
 		}
 		ACE_OS::sleep(ACE_Time_Value(0, 500));
 	}

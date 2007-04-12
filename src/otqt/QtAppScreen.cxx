@@ -427,6 +427,16 @@ QtAppScreen::getMPDLocation() const
   return ret;
 }
 
+void QtAppScreen::pushEvent()
+{
+    //nothing to do
+}
+
+void QtAppScreen::pullEvent()
+{
+    //nothing to do
+}
+
 } // namespace ot
 
 #endif // USE_OTQT

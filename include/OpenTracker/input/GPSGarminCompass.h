@@ -59,8 +59,8 @@
 #ifndef _GPSGARMINCOMPASS_H
 #define _GPSGARMINCOMPASS_H
 
-#include "../OpenTracker.h"
-#include "GPSDriver.h"
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/input/GPSDriver.h>
 
 
 #ifndef OT_NO_GPS_SUPPORT
@@ -91,37 +91,18 @@ namespace ot {
             return 1;
         }
 
-        virtual void newData( const GPResult * point, const char * line, void * userData );
+        inline virtual void newData( const GPResult * point, const char * line, void * userData );
 
     protected:
 	/// protected constructor so it is only accessible by the module
 	GPSGarminCompass() {};
 
+        void pushEvent();
+        void pullEvent();
+
 	friend class GPSModule;
     };
-
-    inline void GPSGarminCompass::newData( const GPResult * res, const char * line, void * userData )
-    {
-        assert( userData != NULL );
-        if( res->type == GPResult::HCHDG){
-            HCHDG * point = (HCHDG *) res;
-            GPSModule * module = (GPSModule *)userData;
-            if( !module->driver->hasFix() )
-                return;
-            module->lock();
-            buffer.timeStamp();
-            float temp[4];
-            temp[0] = 0;
-            temp[1] = 1;
-            temp[2] = 0;
-            temp[3] = (float)(point->heading * MathUtils::GradToRad);
-            MathUtils::axisAngleToQuaternion( copyA2V(temp, 4), buffer.getOrientation() );
-            buffer.getConfidence() = (float)(1 / module->driver->getHdop());
-            module->unlock();
-        }
-    }
-
-
+   
 }  // namespace ot
 
 

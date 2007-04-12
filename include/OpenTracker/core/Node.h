@@ -59,12 +59,15 @@
 #include <string>
 #include <vector>
 
+class ACE_Thread_Mutex;
+
 namespace ot {
 
     class Context;
     class ConfigurationParser;
     class Node;
     class NodePort;
+
 
 #ifdef USE_LIVE
     class LiveContext;
@@ -124,6 +127,15 @@ namespace ot {
         NodeVector parents;
         NodeVector children;
 
+        /** used to store the traversal order
+            0 ... node can be traversed immediately
+            1 ... node must be traversed after all nodes with 0
+            2 ... and so on
+            This strategy ensures that new events are propagated
+            from source nodes to sink nodes in only one traversal
+        */
+        int traversalorder;
+
         StringTable attributes;
 
         /**  A Vector of pointers to reference nodes referencing this node. 
@@ -136,17 +148,29 @@ namespace ot {
         /// the type of the node, equals the name of the configuration element
         std::string type;
 
+        /// Mutex to implement lock, unlock behavior
+        ACE_Thread_Mutex * mutex;
+
     public:
         /// error type returned by some graph manipulation functions
-        enum error { OK=0,				///< operation succeded
-                     GRAPH_CONSTRAINT,  ///< operation failed because it is not allowed in the XML tree
-                     READONLY,			///< operation failed because the node is readonly
-                     CONTEXT_ERROR,		///< operation failed because the node belongs to another context
-                     NOT_FOUND			///< operation failed because a node was not found
+        enum error { OK=0,		///< operation succeded
+                     GRAPH_CONSTRAINT,  ///< operation failed: not allowed in tree
+                     READONLY,		///< operation failed: node is readonly
+                     CONTEXT_ERROR,	///< operation failed: node belongs to other context
+                     NOT_FOUND		///< operation failed: node not found
         };
+    public:
+        /** enters a critical section. Use this method to protect your operations
+         * from another thread. This is not a recursive lock, do not call it
+         * several times without unlocking !
+         */
+        void lock();
+        /** leaves a critical section. Use this method to release the protection.
+         */
+        void unlock();
 
-    protected:
-
+        virtual void pushEvent() { };
+        virtual void pullEvent() { };
 
     public:        
 
@@ -347,6 +371,12 @@ namespace ot {
          */
         Node * getChild( unsigned int index );
 
+        /** 
+         * returns the traversal order of a node
+         * @return traversal pass
+         */
+        int getTraversalOrder() const;
+
         /**
          * adds a new child to the direct children of the node. This method
          * will only work, if it does not violate any rules for the graph.
@@ -365,6 +395,7 @@ namespace ot {
         error removeChild(Node & child);
         error removeParent(Node * parent);
 
+        void updateTraversalOrder();
 
         /**
          * returns the number of NodePorts present on this Node. This is the
@@ -580,7 +611,12 @@ namespace ot {
 
         StringTable & getAttributes();
 
-
+        /**
+         * operator enabling the comparison of nodes according to their
+         * traversal order
+         * @return true if node has a lower number 
+         */
+        bool operator<(const Node &nd) const;
 
         friend class Context;
 

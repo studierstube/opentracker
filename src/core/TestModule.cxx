@@ -62,6 +62,8 @@
 // #include <iostream> FIXME Why was this included ?
 
 #include <ace/Log_Msg.h>
+#include <ace/OS.h>
+
 
 #include <OpenTracker/core/Context.h>
 //using namespace std;
@@ -73,8 +75,7 @@ namespace ot {
 	OT_MODULE_REGISTER_FUNC(TestModule){
 		OT_MODULE_REGISTRATION_DEFAULT(TestModule, "TestConfig");
 	}
-
-
+                  
     void TestModule::removeNode(Node * node) {
         logPrintI("TestModule::removeNode\n");
         logPrintI("TestModule deleting node %s\n", node->get("ID").c_str());
@@ -101,9 +102,9 @@ namespace ot {
     {
         if( name.compare("TestSource") == 0 )
         {
-            int frequency;
+            double frequency;
             int offset;
-            int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
+            int num = sscanf(attributes.get("frequency").c_str(), " %lf", &frequency );
             if( num <= 0 ){
                 frequency = 1;
             }
@@ -135,32 +136,16 @@ namespace ot {
         return NULL;
     }
 
-    // pushes events into the tracker tree.
-
-    void TestModule::pushEvent()
+    void TestSource::calculateEvent()
     {
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
-            TestSource *source = (TestSource *) ((Node*)*it);
-            if((cycle + source->offset) % source->frequency == 0 )
-            {
-                source->push();
-            }
-        }
-        cycle++;
-    }
-
-
-    void TestSource::push(void)
-    {
-        static int count;
         if( noise > 0 )
         {
-            perturbed.setAttribute("intAttr", count++);
-            perturbed.setAttribute("chrAttr", (char)(33 + count % 92));
-            perturbed.setAttribute("dblAttr", (double)(count / 7.3));
-            perturbed.setAttribute("fltAttr", (float)(count / 7.3));
-
+            lock();                
+            perturbed.setAttribute("intAttr", cycle++);
+            perturbed.setAttribute("chrAttr", (char)(33 + cycle % 92));
+            perturbed.setAttribute("dblAttr", (double)(cycle / 7.3));
+            perturbed.setAttribute("fltAttr", (float)(cycle / 7.3));
+                
             int i;
             for( i = 0; i < 3; i++ )
             {
@@ -177,18 +162,207 @@ namespace ot {
                 perturbed.getOrientation()[3] = -perturbed.getOrientation()[3];
             }
             perturbed.setConfidence(static_cast<float>((rand()/RAND_MAX)*noise - noise / 2.0));
-            perturbed.setButton(count % 16);
+            perturbed.setButton(cycle % 16);
+
 
             perturbed.timeStamp();
-            updateObservers( perturbed );
+            unlock();
         }
         else
         {
-            event.timeStamp();
+            lock();
+            perturbed.timeStamp();
+            unlock();
+        }
 
-            updateObservers( event );
+    }
+
+    // pushes events into the tracker tree.
+
+    void TestModule::start()
+    {
+        if( isInitialized() && !nodes.empty())
+	    ThreadModule::start();
+    }
+
+  void TestModule::close()
+    {
+	lockLoop();
+	stop = 1;
+	unlockLoop();
+    }
+
+    TestSource::TestSource( double frequency_, int offset_ ) :
+        Node(), cycle( 1 )
+    {
+        using namespace std;
+        double tau = 1.0/static_cast<double>(frequency_);
+        long taus(static_cast<long>(tau));
+        long tauu(static_cast<long>((tau-static_cast<double>(taus))*1000000.0));
+        sleeptime = ACE_Time_Value(taus,tauu);
+        sleepoffset = ACE_Time_Value(offset_/1000000, offset_);
+        if (taus == 0 && tauu == 0)
+        {
+            cerr << "frequency: " << frequency_ << endl;
+            cerr << "tau: " << tau << endl;
+            cerr << "taus: " << taus << endl;
+            cerr << "tauu: " << tauu << endl;
+            cerr << "sleeptime.sec : "<< sleeptime.sec() << endl;
+            cerr << "sleeptime.usec: "<< sleeptime.usec() << endl;
+            cerr << "sleepoffs.sec : "<< sleepoffset.sec() << endl;
+            cerr << "sleepoffs.usec: "<< sleepoffset.usec() << endl;  
+            exit(1);
         }
     }
+
+    void TestModule::run()
+    {
+        using namespace std;
+        cout << "TestModule::run()" << endl;
+        starttime = ACE_OS::gettimeofday();
+        
+        // trigger all nodes
+
+        NodeVector::iterator it;
+        for (it = nodes.begin(); it != nodes.end(); it++)
+        {
+            TestSource * src = dynamic_cast<TestSource*>(it->item());
+            if (src)
+            {
+                src->resetCycleCounter();
+
+                ACE_Time_Value newtime(starttime + 
+                                       src->sleeptime +
+                                       src->sleepoffset);
+                cerr << "sleeptime.sec : "<< src->sleeptime.sec() << endl;
+                cerr << "sleeptime.usec: "<< src->sleeptime.usec() << endl;
+                cerr << "newtime.sec : "<< newtime.sec() << endl;
+                cerr << "newtime.usec: "<< newtime.usec() << endl;   
+           
+                pqueue.push(make_pair(newtime, (*it)));
+            }
+            else
+            {
+                ACE_DEBUG((LM_ERROR, 
+                           ACE_TEXT("ot:Error: not a TestSource !\n")));
+                exit( -1 );
+            }
+            
+        }
+
+        // central loop
+        while (1)
+        {
+            lockLoop();
+            if(stop)
+            {
+                unlockLoop();
+                break;
+            }
+            else
+            {
+                unlockLoop();
+            }
+
+            // update event value
+            TestSource * tsrc = 
+                dynamic_cast<TestSource*>(pqueue.top().second.item());
+
+
+            // calculate time to wait for next traversal
+
+            ACE_Time_Value looptime(ACE_OS::gettimeofday());
+            ACE_Time_Value sleeptime(pqueue.top().first);
+
+            if (sleeptime > looptime)
+            {
+                ACE_OS::sleep(sleeptime - looptime);
+                tsrc->calculateEvent();
+                ACE_Time_Value newtime(starttime + 
+                                       (tsrc->sleeptime * tsrc->cycle) +
+                                       tsrc->sleepoffset);
+                pqueue.push(make_pair(newtime, pqueue.top().second));
+                
+                pqueue.pop();            
+                
+                if (Module::contextx != NULL)
+                {
+                    Module::contextx->dataSignal();
+                }
+            }
+            else if ( (sleeptime - looptime).sec() == 0 &&
+                      abs((sleeptime - looptime).usec()) < 5000)
+            {
+                // if we are a bit too slow -> skip sleep
+                tsrc->calculateEvent();
+                ACE_Time_Value newtime(starttime + 
+                                       (tsrc->sleeptime * tsrc->cycle) +
+                                       tsrc->sleepoffset);
+                pqueue.push(make_pair(newtime, pqueue.top().second));
+                
+                pqueue.pop();            
+                
+                if (Module::contextx != NULL)
+                {
+                    Module::contextx->dataSignal();
+                }
+            }
+            else
+            {     
+                // if we are far too slow, some cycles are just skipped
+                // by calculating the next future cycle
+               
+                while (ACE_OS::gettimeofday() >=
+                       ( starttime+tsrc->sleepoffset + 
+                         (tsrc->cycle*tsrc->sleeptime)) )
+                {
+                    ++(tsrc->cycle);
+                }
+                
+                /*
+                  cerr << "jumping to cycle " << tsrc->cycle << endl;
+                */
+
+                pqueue.push(make_pair(starttime + 
+                                      (tsrc->cycle * tsrc->sleeptime) +
+                                      tsrc->sleepoffset,
+                                      pqueue.top().second));
+                /*
+                  cerr << "cycle:        : " << tsrc->cycle << endl;
+                  cerr << "ssleep.sec:   : " << tsrc->sleeptime.sec() << endl;
+                  cerr << "ssleep.usec:  : " << tsrc->sleeptime.usec() << endl;
+                  cerr << "starttime.sec : " << starttime.sec() << endl;
+                  cerr << "starttime.usec: " << starttime.usec() << endl;
+                  cerr << "looptime.sec  : " << looptime.sec() << endl;
+                  cerr << "looptime.usec : " << looptime.usec() << endl;
+                  cerr << "sleeptime.sec : " << sleeptime.sec() << endl;
+                  cerr << "sleeptime.usec: " << sleeptime.usec() << endl;
+                  exit (1);
+                */
+                pqueue.pop(); 
+            }
+
+            //if (tsrc->cycle > 5) exit(1);
+        }
+    }   
+    void TestModule::pushEvent()
+    {
+        /// nothing to do
+    }
+
+    void TestSource::pullEvent()
+    {
+        /// nothing to do
+    }
+
+    void TestSource::pushEvent(void)
+    {
+        lock();
+        event = perturbed;
+        unlock();
+        updateObservers( event );
+    }
+
 
 } //namespace ot
 

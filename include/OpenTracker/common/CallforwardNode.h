@@ -161,6 +161,9 @@ namespace ot {
             cfmutex.release();
         }
 
+        void pushEvent();
+        void pullEvent();
+
         friend class CallforwardModule;
     };
 

@@ -121,6 +121,9 @@ namespace ot {
          * and notifies its observers in turn, propagating the change.
          */
         virtual void onEventGenerated( Event& event, Node& generator);
+
+        void pushEvent();
+        void pullEvent();
     };
 
 } // namespace ot

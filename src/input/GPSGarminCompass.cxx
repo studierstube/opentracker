@@ -33,79 +33,74 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for FastTrakSource Node.
+/** source file for GPSGarminCompass Node.
  *
- * @author Rainer Splechtna
+ * @author Gerhard Reitmayr
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page Nodes Node Reference
- * @section fasttraksource FastTrakSource 
- *
- * The FastTrakSource node is a simple EventGenerator that inserts events generated from
- * the tracker-device data into the tracker tree. The FastTrakSource element has the 
- * following attributes :
- * @li @c number the stations number
- *
- * An example element looks like this :
- * @verbatim
- <FastTrakSource number="1"/>@endverbatim
-*/
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/input/GPSModule.h>
+#include <OpenTracker/input/GPSGarminCompass.h>
 
-#ifndef _FASTTRAKSOURCE_H
-#define _FASTTRAKSOURCE_H
-
-#include "../OpenTracker.h"
-
-/**
- * This class implements a simple EventGenerator. It is updated by the
- * FastTrakModule.
- * @author Rainer Splechtna
- * @ingroup input
- */
+#ifndef OT_NO_GPS_SUPPORT
 
 namespace ot {
-
-    class OPENTRACKER_API FastTrakSource : public Node
+    void GPSGarminCompass::pushEvent()  
     {
-        // Members
-    public: 
-        /// the event that is posted to the EventObservers
-        Event event;
-        /// number of station
-        int station;
-        bool newVal;
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values */
-        FastTrakSource(int station_) : Node(), station(station_)
-        { newVal = true; }
-
-    public:            
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
+        lock();
+        if(event.time < buffer.time )
         {
-            return 1;
+            event = buffer;
+            unlock();
+            updateObservers( event );
         }
+        else
+        {
+            unlock();
+        }
+    }
+  
+    void GPSGarminCompass::pullEvent()
+    {
+        // nothing to do
+    }
+    
+    inline void  GPSGarminCompass::newData( const GPResult * res, const char * line, void * userData )
+    {
+        assert( userData != NULL );
+        if( res->type == GPResult::HCHDG){
+            HCHDG * point = (HCHDG *) res;
+            GPSModule * module = (GPSModule *)userData;
+            if( !module->driver->hasFix() )
+                return;
+            module->lockLoop();
+            buffer.timeStamp();
+            float temp[4];
+            temp[0] = 0;
+            temp[1] = 1;
+            temp[2] = 0;
+            temp[3] = (float)(point->heading * MathUtils::GradToRad);
+            MathUtils::axisAngleToQuaternion( copyA2V(temp, 4), buffer.getOrientation() );
+            buffer.getConfidence() = (float)(1 / module->driver->getHdop());
+            module->unlockLoop();
 
-        void pushEvent();
-        void pullEvent();
+            if (Module::contextx != NULL)
+            {
+                Module::contextx->dataSignal();
+            }       
+        }
+    }
 
-        friend class FastTrakModule;
-    };
+}  // namespace ot
 
-} // namespace ot
-
-#endif
+#endif // OT_NO_GPS_SUPPORT
 
 /* 
  * ------------------------------------------------------------
- *   End of FastTrakSource.h
+ *   End of GPSGarminCompass.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

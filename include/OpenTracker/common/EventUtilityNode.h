@@ -126,6 +126,9 @@ namespace ot {
        */
       void setCreate(const std::string &type, const std::string &name, const std::string &value);
 
+      void pushEvent();
+      void pullEvent();
+
       friend class CommonNodeFactory;
     };
 

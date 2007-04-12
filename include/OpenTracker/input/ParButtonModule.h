@@ -74,18 +74,23 @@ namespace ot {
      * @author Gerhard Reitmayr
      * @ingroup input
      */
-    class OPENTRACKER_API ParButtonModule : public Module, public NodeFactory
+    class OPENTRACKER_API ParButtonModule : public ThreadModule, public NodeFactory
     {
         // Members
     protected:
         /// maps devices to nodes
-        std::map<std::string, Node *> nodes;
+        std::map<std::string, std::pair<Node *, unsigned short> > nodes;
+        /// stop flag
+        bool stop;
+        /**
+	 * Mainloop 
+         */
+	void run();
     public:
         /** constructor method. */
-        ParButtonModule() : 
-            Module(), 
-            NodeFactory()        
-        {}
+        ParButtonModule(); 
+        /** destructor method */
+        ~ParButtonModule();
         /** This method is called to construct a new Node. It compares
          * name to the InterTraxSource element name, and if it matches
          * creates a new InterTraxSource node.
@@ -94,6 +99,12 @@ namespace ot {
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);    
+        /**
+         * opens the ports needed and starts the receive thread
+         * It is called after initialisation is done.
+         */
+        virtual void start();
+
 	/**
          * closes devices */
         virtual void close();

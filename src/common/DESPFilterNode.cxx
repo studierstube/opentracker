@@ -120,6 +120,15 @@ namespace ot {
         updateObservers( targetEvent );
     }
 
+    void DESPFilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void DESPFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

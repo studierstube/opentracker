@@ -150,6 +150,9 @@ namespace ot {
             return CallbackNode::name;
 	};
 
+        void pushEvent();
+        void pullEvent();
+
         friend class CallbackModule;
     };
 

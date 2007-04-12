@@ -178,7 +178,7 @@ namespace ot {
                         //index += sizeof(int);
                     }
                     // send to all connections
-                    lock();
+                    lockLoop();
                     for( std::vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){
                         // FIXME: send could be blocking on slow connections !
                         if( (*conit)->send_n( buffer, index, 0 ) != index ){
@@ -188,7 +188,7 @@ namespace ot {
                             ACE_DEBUG((LM_INFO, ACE_TEXT("ot:TCPModule : closed connection\n")));
                         }
                     }
-                    unlock();
+                    unlockLoop();
                     sink->changed = 0;
                 }
             }
@@ -242,9 +242,9 @@ namespace ot {
             } 
             client.addr_to_string( ACE_TEXT_CHAR_TO_TCHAR(buffer), 100 );
             logPrintE("TCPModule : new connection from %s\n", buffer);
-            lock();
+            lockLoop();
             connections.push_back( stream );
-            unlock();
+            unlockLoop();
         }
         acceptor.close();
         for( std::vector<ACE_SOCK_Stream *>::iterator conit = connections.begin(); conit != connections.end(); conit ++ ){

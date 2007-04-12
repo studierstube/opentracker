@@ -65,6 +65,16 @@ void QtMouseButtonSink::onEventGenerated(Event & event, Node & generator) {
 }
 
 
+    void QtMouseButtonSink::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void QtMouseButtonSink::pullEvent()
+    {
+        // nothing to do
+    }
+
 //--------------------------------------------------------------------------------
 bool QtMouseButtonSink::buttonPressed(ButtonId button_id) const {
   if (button_id < 0 || button_id >= BUTTON_COUNT)

@@ -84,6 +84,15 @@ namespace ot {
         }
     }
 
+    void ThresholdFilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void ThresholdFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

@@ -151,9 +151,10 @@ namespace ot {
                     // if source with same stationNumber exists
                     if( station != stations.end())
                     {
-                        Event & event = (*station)->event;
                         // critical section start
-                        lock();
+                        (*station)->lock();
+
+                        Event & event = (*station)->event;
                         // convert & store position
                         float eventPosition[3];
                         memcpy(eventPosition,buffer.stationData[i].position,3*sizeof(float));
@@ -176,8 +177,13 @@ namespace ot {
 
                         (*station)->modified = 1;
                         event.timeStamp();
+
                         // end of critical section
-                        unlock();
+                        (*station)->unlock();
+                        if (Module::contextx != NULL)
+                        {
+                            Module::contextx->dataSignal();
+                        }
                     }
                 }
             }//for all received stations
@@ -203,8 +209,8 @@ namespace ot {
             StationVector::iterator it;
             for( it = stations.begin(); it != stations.end(); it++ )
             {
-                Station * station = (Station*)(*it);
-                if( station->number == number )
+
+                if( (*it)->number == number )
                 {
                     break;
                 }
@@ -216,8 +222,8 @@ namespace ot {
             }
 
             UltraTrakSource * source = new UltraTrakSource;
-            Station *station = new Station(number, source);
-            stations.push_back( station );
+            source->number = number;
+            stations.push_back( source );
             logPrintI("Built UltratrakSource node.\n");
 
             return source;
@@ -237,37 +243,39 @@ namespace ot {
     void UltraTrakModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
     }
 
     // pushes event information into the tree
     void UltraTrakModule::pushEvent()
     {
-        if (stations.empty())
-            return;
-
-        for (StationVector::iterator it = stations.begin();
-             it != stations.end(); it ++ )
-        {
-            // critical section start
-            lock();
-            if((*it)->modified == 1 )
-            {
-                (*it)->source->event = (*it)->event;
-                (*it)->modified = 0;
-                unlock();
-                (*it)->source->updateObservers( (*it)->source->event );
-            }
-            else
-                unlock();
-            // end of critical section
-
-        }
+      
     }
 
+    void UltraTrakSource::pushEvent()
+    {
+        // critical section start
 
+        lock();
+
+        if(modified == 1 )
+        {
+            //(*it)->source->event = (*it)->event;
+            modified = 0;
+            updateObservers( event );        
+        }
+
+        unlock();
+
+        // end of critical section
+    }
+
+    void UltraTrakSource::pullEvent()
+    {
+        // nothing to do
+    }
 
     int UltraTrakModule::parseVector(const std::string & line, int * val )
     {

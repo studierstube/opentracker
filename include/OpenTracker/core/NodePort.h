@@ -88,6 +88,9 @@ namespace ot {
             updateObservers( event );
 	}
 
+        void pushEvent() {};
+        void pullEvent() {};
+
         friend class CommonNodeFactory;
 		friend class SpaceDeviceModule;
 		friend class PanTiltUnitModule;

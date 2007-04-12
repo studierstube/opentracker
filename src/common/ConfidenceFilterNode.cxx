@@ -77,6 +77,16 @@ namespace ot {
         }	
     }
 
+    void ConfidenceFilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void ConfidenceFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

@@ -50,34 +50,46 @@
 
 namespace ot {
 
-//--------------------------------------------------------------------------------
-void QtMouseWheelSink::onEventGenerated(Event & event, Node & generator)
-{
-  OTQT_DEBUG("QtMouseWheelSink::onEventGenerated(): event.getButton() = %hx\n", event.getButton());
+    //--------------------------------------------------------------------------------
+    void QtMouseWheelSink::onEventGenerated(Event & event, Node & generator)
+    {
+        OTQT_DEBUG("QtMouseWheelSink::onEventGenerated(): event.getButton() = %hx\n", event.getButton());
 
-  if (event.getButton() != curr_event_.getButton()) {
-    // acquire tracking event
-    acquireEvent(event);
-  }
+        if (event.getButton() != curr_event_.getButton()) {
+            // acquire tracking event
+            acquireEvent(event);
+        }
 
-  // pass original event to parent nodes
-  forwardEvent(event);
-}
+        // pass original event to parent nodes
+        forwardEvent(event);
+    }
 
-//--------------------------------------------------------------------------------
-bool QtMouseWheelSink::wheelForwardMove() const
-{
-  return (((prev_event_.getButton() >> 0) & 0x0001) == 0 &&
-          ((curr_event_.getButton() >> 0) & 0x0001) == 1);
+    //--------------------------------------------------------------------------------
+    void QtMouseWheelSink::pushEvent()
+    {
+        // nothing to do
+    }
+    //--------------------------------------------------------------------------------
+    void QtMouseWheelSink::pullEvent()
+    {
+        // nothing to do
+    }
+    
 
-}
+    //--------------------------------------------------------------------------------
+    bool QtMouseWheelSink::wheelForwardMove() const
+    {
+        return (((prev_event_.getButton() >> 0) & 0x0001) == 0 &&
+                ((curr_event_.getButton() >> 0) & 0x0001) == 1);
 
-//--------------------------------------------------------------------------------
-bool QtMouseWheelSink::wheelBackwardMove() const
-{
-  return (((prev_event_.getButton() >> 1) & 0x0001) == 0 &&
-          ((curr_event_.getButton() >> 1) & 0x0001) == 1);
-}
+    }
+
+    //--------------------------------------------------------------------------------
+    bool QtMouseWheelSink::wheelBackwardMove() const
+    {
+        return (((prev_event_.getButton() >> 1) & 0x0001) == 0 &&
+                ((curr_event_.getButton() >> 1) & 0x0001) == 1);
+    }
 
 
 } // namespace ot

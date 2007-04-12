@@ -114,7 +114,9 @@ namespace ot {
 	/// protected constructor so it is only accessible by the module
 	XSensSource(int _comport = 1, bool _amd = false);
 
-        void push(void);
+        void pushEvent();
+        void pullEvent();
+        
 
         IMotionTracker * pMT;
 

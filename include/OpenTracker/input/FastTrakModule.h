@@ -82,16 +82,6 @@ namespace ot {
 
     typedef std::vector<Node::Ptr> NodeVector;
 
-    /// this struct just stores a event, and if the event was changed 
-    typedef struct
-    {
-        /// the local event buffer
-        Event event;
-        /// flag indicating a new value in event
-        int newVal;
-    
-    } tmpStationEvent;
-
     /**
      * developer level information and implementation specifics here
      *
@@ -106,8 +96,6 @@ namespace ot {
         /// flag to stop the thread
         int stop;
 
-        /// pointer to array of tmpStationEvent storing the event of each station
-        tmpStationEvent *stations;
         /// vector of all created fasttrak source nodes 
         NodeVector nodes;
 

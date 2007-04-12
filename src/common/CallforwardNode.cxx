@@ -33,79 +33,51 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for FastTrakSource Node.
+/** source file for Callforward module.
  *
- * @author Rainer Splechtna
+ * @author Alexander Bornik
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page Nodes Node Reference
- * @section fasttraksource FastTrakSource 
- *
- * The FastTrakSource node is a simple EventGenerator that inserts events generated from
- * the tracker-device data into the tracker tree. The FastTrakSource element has the 
- * following attributes :
- * @li @c number the stations number
- *
- * An example element looks like this :
- * @verbatim
- <FastTrakSource number="1"/>@endverbatim
-*/
+// this will remove the warning 4786
+#include <OpenTracker/tool/disable4786.h>
+#include <OpenTracker/OpenTracker.h>
 
-#ifndef _FASTTRAKSOURCE_H
-#define _FASTTRAKSOURCE_H
+#include <cstdlib>
+#include <iostream>
 
-#include "../OpenTracker.h"
+#include <OpenTracker/common/CallforwardNode.h>
 
-/**
- * This class implements a simple EventGenerator. It is updated by the
- * FastTrakModule.
- * @author Rainer Splechtna
- * @ingroup input
- */
+
+#include <ace/Log_Msg.h>
+#include <OpenTracker/tool/OT_ACE_Log.h>
+
+#ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 
 namespace ot {
 
-    class OPENTRACKER_API FastTrakSource : public Node
+    void CallforwardNode::pushEvent()
     {
-        // Members
-    public: 
-        /// the event that is posted to the EventObservers
-        Event event;
-        /// number of station
-        int station;
-        bool newVal;
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values */
-        FastTrakSource(int station_) : Node(), station(station_)
-        { newVal = true; }
+    }
 
-    public:            
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
-        {
-            return 1;
-        }
-
-        void pushEvent();
-        void pullEvent();
-
-        friend class FastTrakModule;
-    };
+    void CallforwardNode::pullEvent()
+    {
+        // nothing to do here
+    }
 
 } // namespace ot
 
-#endif
+
+#else
+#pragma message(">>> OT_NO_CALLFORWARDMODULE_SUPPORT")
+#endif //OT_NO_CALLFORWARDMODULE_SUPPORT
+
 
 /* 
  * ------------------------------------------------------------
- *   End of FastTrakSource.h
+ *   End of CallforwardNode.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

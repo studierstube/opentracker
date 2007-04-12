@@ -149,6 +149,8 @@ namespace ot {
 	}
 
         virtual void onEventGenerated(Event &event, Node &generator);                                
+        void pushEvent();
+        void pullEvent();
 
         friend class GroupGateModule;
         friend class GroupGateGroup;
@@ -173,6 +175,9 @@ namespace ot {
 	{
             updateObservers(event);
 	}
+
+        void pushEvent();
+        void pullEvent();
 
         friend class GroupGateModule;
     };
@@ -206,6 +211,9 @@ namespace ot {
             event.timeStamp();
             updateObservers(event);
 	}
+
+        void pushEvent() { };
+        void pullEvent() { };
 
         friend class GroupGateModule;
         friend class GroupGateGroup;

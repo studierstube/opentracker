@@ -179,6 +179,9 @@ public:
    * @return true if mouse button is currently pressed
    */
   bool buttonOn(ButtonId button_id) const;
+  
+  void pushEvent();
+  void pullEvent();
 
 };
 

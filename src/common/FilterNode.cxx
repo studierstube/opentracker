@@ -172,6 +172,15 @@ namespace ot {
         }
     }
 
+    void FilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+    
+    void FilterNode::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

@@ -101,6 +101,16 @@ namespace ot {
 
         updateObservers( event );
     }
+    
+    void CallbackNode::pushEvent()
+    {
+        /// nothing to do here
+    }
+    
+    void CallbackNode::pullEvent()
+    {
+        /// nothing to do here
+    }
 }  // namespace ot
 
 #else

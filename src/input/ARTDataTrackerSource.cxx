@@ -33,79 +33,42 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for FastTrakSource Node.
+/** header file for ARTDataTrackerSource Node.
  *
- * @author Rainer Splechtna
+ * @author Alexander Bornik
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
+#include <OpenTracker/OpenTracker.h>
 
-/**
- * @page Nodes Node Reference
- * @section fasttraksource FastTrakSource 
- *
- * The FastTrakSource node is a simple EventGenerator that inserts events generated from
- * the tracker-device data into the tracker tree. The FastTrakSource element has the 
- * following attributes :
- * @li @c number the stations number
- *
- * An example element looks like this :
- * @verbatim
- <FastTrakSource number="1"/>@endverbatim
-*/
+#include <OpenTracker/input/ARTDataTrackerSource.h>
 
-#ifndef _FASTTRAKSOURCE_H
-#define _FASTTRAKSOURCE_H
-
-#include "../OpenTracker.h"
-
-/**
- * This class implements a simple EventGenerator. It is updated by the
- * FastTrakModule.
- * @author Rainer Splechtna
- * @ingroup input
- */
-
-namespace ot {
-
-    class OPENTRACKER_API FastTrakSource : public Node
+namespace ot
+{
+    int ARTDataTrackerSource::isEventGenerator()
     {
-        // Members
-    public: 
-        /// the event that is posted to the EventObservers
-        Event event;
-        /// number of station
-        int station;
-        bool newVal;
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values */
-        FastTrakSource(int station_) : Node(), station(station_)
-        { newVal = true; }
-
-    public:            
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
-        {
-            return 1;
+        return 1;
+    }
+    
+    void ARTDataTrackerSource::pushEvent()
+    {
+        lock();
+        if ( changed == 1 ) {
+            updateObservers( event );
+            changed = 0;
         }
-
-        void pushEvent();
-        void pullEvent();
-
-        friend class FastTrakModule;
-    };
-
-} // namespace ot
-
-#endif
-
+        unlock();
+    }
+    
+    void ARTDataTrackerSource::pullEvent()
+    {
+        
+    }
+};
 /* 
  * ------------------------------------------------------------
- *   End of FastTrakSource.h
+ *   End of ARTDataTrackerSource.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

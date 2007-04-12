@@ -76,7 +76,7 @@ namespace ot {
         currentEvent = event;
     }
 
-    void ButtonHoldFilterNode::push() {
+    void ButtonHoldFilterNode::pushEvent() {
         if (init) {
             //printf("ButtonHoldFilterNode::push() \n");
             int updatedButtonEvent = 0;
@@ -107,6 +107,11 @@ namespace ot {
             currentEvent.timeStamp();
             updateObservers(currentEvent);
         }
+    }
+
+    void ButtonHoldFilterNode::pullEvent() 
+    {
+        /// nothing to do here
     }
 
 } // namespace ot

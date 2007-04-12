@@ -66,6 +66,17 @@ namespace ot {
         updateObservers( event );
     }
 
+    void EventQueueNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void EventQueueNode::pullEvent()
+    {
+        // nothing to do
+    }
+
+    
 } // namespace ot
 
 

@@ -135,21 +135,22 @@ namespace ot {
     
         virtual void run();
     
-        template<class T> void updateSource(T * source)
+        /*template<class T> void updateSource(T * source)
         {
             if( source != NULL )
             {
-                lock();
+                source->lock();
                 if( source->event.time < source->buffer.time )
                 {
                     source->event = source->buffer;
-                    unlock();
+                    source->unlock();
                     source->updateObservers( source->event );
                 }
                 else
-                    unlock();
+                    source->unlock();
             }
-        };
+            };
+        */
     
         bool debug;
         std::string device;

@@ -74,12 +74,14 @@ namespace ot {
     public:
         /// the new event
         Event event;
+        int number;
+        bool modified;
 
         // Methods
     protected:
         /** constructor */
         DynaSightSource() : Node()
-        {}
+        { number = -1; modified = true; }
 
     public:                
         /** tests for EventGenerator interface being present. Is overriden to
@@ -89,6 +91,9 @@ namespace ot {
         {
             return 1;
         }  
+
+        void pushEvent();
+        void pullEvent();
     
         friend class DynaSightModule;
     };

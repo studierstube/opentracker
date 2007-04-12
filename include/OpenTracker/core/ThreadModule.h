@@ -83,10 +83,10 @@ namespace ot {
         /** enters a critical section. Use this method to protect your operations
          * from another thread. This is not a recursive lock, do not call it
          * several times without unlocking !*/
-        void lock();
+        void lockLoop();
         /** leaves a critical section. Use this method to release the protection.
          */
-        void unlock();
+        void unlockLoop();
         /** the work method for the module thread. This is executed by the new
          * module thread. In this class it does nothing but subclasses should
          * override it to add their implementation. */

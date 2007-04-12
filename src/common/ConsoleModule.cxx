@@ -904,7 +904,10 @@ namespace ot {
                     scanf("%s", value);
 #endif
                     clearLastLines(4);
-                    addAttr(station, std::string(type), std::string(name), std::string(value));
+                    addAttr(station,
+                            std::string(type),
+                            std::string(name),
+                            std::string(value));
                     addAttribute = false;
                 }
 
@@ -990,7 +993,9 @@ namespace ot {
                     {
                         std::string function = config->getAttributes().get("function");
                         std::string key = config->getAttributes().get("key");
-                        std::vector<std::string>::iterator funcIt = std::find( functionMap.begin(), functionMap.end(), function );
+                        std::vector<std::string>::iterator funcIt = 
+                            std::find( functionMap.begin(), functionMap.end(), 
+                                       function );
                         if( funcIt != functionMap.end() )
                         {
                             int index = funcIt - functionMap.begin();

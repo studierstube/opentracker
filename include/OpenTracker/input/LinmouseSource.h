@@ -56,9 +56,8 @@
 #ifndef _LINMOUSESOURCE_H
 #define _LINMOUSESOURCE_H
 
-#include "../OpenTracker.h"
+#include <OpenTracker/OpenTracker.h>
 
-#ifdef USE_LINMOUSEMODULE
 
 namespace ot {
 
@@ -91,19 +90,18 @@ namespace ot {
         {
             return 1;
         }
-   
-        friend class TargetModule;
+
+        void pushEvent( );
+        void pullEvent( );
     };
    
 }  // namespace ot
 
 #endif
 
-#endif
-
 /* 
  * ------------------------------------------------------------
- *   End of LinMouseSourc.h
+ *   End of LinMouseSource.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

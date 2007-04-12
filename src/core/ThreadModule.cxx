@@ -59,17 +59,19 @@ namespace ot {
 
     // enters a critical section. 
 
-    void ThreadModule::lock()
+    
+    void ThreadModule::lockLoop()
     {
 	mutex->acquire();
     }
 
     // leaves a critical section. 
 
-    void ThreadModule::unlock()
+    void ThreadModule::unlockLoop()
     {
 	mutex->release();
     }
+    
 
     // constructor
         

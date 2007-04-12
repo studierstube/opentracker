@@ -232,52 +232,19 @@ namespace ot {
 
         lastTime = time;
 
-        // realtime playback
-        if (realtime)
-        {
-            // iterate over all file sources
-            std::list<FileSource*>::iterator sourceIt;
-            unsigned int reachedLastEvent = 0;
-            for (sourceIt = sources.begin(); sourceIt != sources.end(); sourceIt++)
-            {
-                FileSource *fileSrc = (*sourceIt);
-                if (fileSrc->currentEvent != fileSrc->eventMap.end() &&
-                    OSUtils::currentTime() - firstPlaybackTime >= (*fileSrc->currentEvent).first - firstSavedEventTime)
-                {
-                    if (firstPlaybackTime == 0)
-                        firstPlaybackTime = OSUtils::currentTime();
-                    if(fileSrc->localTime )
-                        (*fileSrc->currentEvent).second->time = time;
-
-                    fileSrc->updateObservers(*(*fileSrc->currentEvent).second);
-                    fileSrc->currentEvent++;
-                }
-                else if (fileSrc->currentEvent == fileSrc->eventMap.end())
-                    reachedLastEvent += 1;
-            }
-            if (reachedLastEvent == sources.size() && loop)
-            {
-                for (sourceIt = sources.begin(); sourceIt != sources.end(); sourceIt++)
-                {
-                    (*sourceIt)->currentEvent = (*sourceIt)->eventMap.begin();
-                    (*sourceIt)->updateObservers(Event::null);
-                }
-                firstPlaybackTime = 0;
-            }
-        }
         // non-realtime playback
-        else
+        if (!realtime)
         {
             // iterate over all files
             for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it++ )
             {
-
-
-                    if((*it).second->mode == File::FILE_IN && (*it).second->read(event,&station))
+            
+            
+                if((*it).second->mode == File::FILE_IN && (*it).second->read(event,&station))
                 {
                     NodeVector & vector = nodes[(*it).first];
                     NodeVector::iterator it2;
-
+                
                     // reset all file sources
                     for( it2 = vector.begin(); it2 != vector.end(); it2++ )
                     {
@@ -298,6 +265,7 @@ namespace ot {
                 }
             }
         }
+        
     }
 
     // Closes the files and cleans up datastructures

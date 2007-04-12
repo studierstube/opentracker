@@ -69,6 +69,10 @@
 
 namespace ot {
 
+  class MulticastReceiver;
+  class UnicastReceiver;
+  class Station;
+
 /**
  * This class implements a simple node that inserts new events from the network
  * into the tracker tree.
@@ -85,8 +89,16 @@ public:
 // Methods
 protected:
     /** constructor */
-    NetworkSource() : Node()
-    {}
+   NetworkSource() : Node()
+    {
+      multicastreceiver = NULL;
+      unicastreceiver = NULL;
+      station = NULL;
+    }
+
+    MulticastReceiver * multicastreceiver;
+    UnicastReceiver * unicastreceiver;
+    Station* station;
 
 public:
     /** tests for EventGenerator interface being present. Is overriden to
@@ -96,6 +108,11 @@ public:
     {
         return 1;
     }
+    void setMulticastReceiver(MulticastReceiver * recv);
+    void setUnicastReceiver(UnicastReceiver * recv);
+    void setStation(Station * station);
+    void pushEvent();
+    void pullEvent();
 
     friend class NetworkSourceModule;
 };

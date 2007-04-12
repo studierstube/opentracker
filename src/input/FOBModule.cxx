@@ -60,149 +60,12 @@
 
 #ifndef OT_NO_FOB_SUPPORT
 
-
 namespace ot {
 
-
-	OT_MODULE_REGISTER_FUNC(FOBModule){
-		OT_MODULE_REGISTRATION_DEFAULT(FOBModule, "FOBConfig" );
-	}
-
-    /** This class is a datatype helper class for the FOBModule class. It stores 
-     * the relevant data for a single bird station and provides buffer storage and
-     * conversion routines.
-     * @author Thomas Peterseil */
-    class Bird {
-    public:
-
-        /// constant to convert inches to meters
-        static const float inchesToMeters ; //= 0.0254;
-
-        /// the bird number
-        int number;
-    
-        /// port structure for the serial port data
-        SerialPort port;
-
-        /// data buffer for incoming data
-        char buffer[20];
-
-        /// number of the current position in the buffer
-        int count;
-
-        /// associated source node
-        FOBSource * source;
-
-        /// the local event buffer event
-        Event event;
-
-        /// flag indicating a new value in event
-        bool newVal;
-
-        /// total range of positions
-        float scale;
-
-        /// anglealign data
-        float angleAlign[3];
-
-        /// constructor 
-        Bird( int number_, const std::string & device_, float scale_, float * anglealign_ = NULL ) :
-            number( number_ )
-        {
-            source = NULL;
-            count = 0;
-            newVal = false;
-            scale = scale_ * inchesToMeters / 32767;
-            if( anglealign_ != NULL )
-            {
-                angleAlign[0] = anglealign_[0];
-                angleAlign[1] = anglealign_[1];
-                angleAlign[2] = anglealign_[2];            
-            }
-            else 
-            {
-                angleAlign[0] = 0;
-                angleAlign[1] = 0;
-                angleAlign[2] = 0;
-            }
-            event.getConfidence() = 1;
-            strncpy( port.pathname, device_.c_str(), 255 );
-        }
-    
-        /** converts the buffer data and writes it to
-         * the local event member */
-        inline void convert();
-
-        /** converts data from another buffer and writes it
-         * to the local event member. It assumes that data is
-         * in the POSITION/QUATERNION format.
-         * @param buffer pointer to the char buffer storing
-         * the input data. */
-        inline void convert( const char * buffer );
-
-        /** reads data from an input buffer into the internal buffer.
-         * this method looks for the phasing bit and then starts to read 
-         * in data until the input buffer ends, or it has read a whole 
-         * frame. If the frame is completed it sets the flag newVal to true.
-         * @param buffer input buffer
-         * @param len length of the input buffer    
-         * @param framesize size of the frame for the current mode
-         * @returns the number of chars read from the buffer
-         */
-        inline int parse( const char * buffer, int len, int framesize );
-    
-        /** opens the serial port associated with the bird.
-         * @return the error value from the serial library. */
-        inline int open();
-
-        /** writes data to the serial port associated with the 
-         * bird.
-         * @param data pointer to the char data to write
-         * @param count number of chars to write
-         * @return the error value from the serial library. */
-        inline int write( const char * data, int count );
-
-        /** reads data from the serial port associated with the 
-         * bird.
-         * @param data pointer to the char data buffer to read into
-         * @param count maximal number of chars to read
-         * @return the error value from the serial library. */
-        inline int read( char * data, int count );
-
-        /** closes the serial port associated with the bird.
-         * @return the error value from the serial library. */
-        inline int close();
-
-        /** toggles some lines on the serial interface to 
-         * reset the bird. 
-         * @return the error value from the serial library. */
-        inline int reset();
-
-        // some bird protocol stuff
-        inline int setGroupMode( const bool value );
-
-        inline int getErrorCode();
-
-        inline int autoConfig( const int number );
-
-        inline void sleep();
-
-        inline void setReportMode( const int toBird = -1 );
-
-        inline void setScale( const int scale, const int toBird = -1 );
-
-        inline void setXYZFrame( const bool useFrame, const int toBird = -1 );
-
-        inline void setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird = -1 );
-
-        inline void setAngleAlign( const float * angles, const int toBird = -1 );
-
-        inline void setReferenceFrame( const float * angles, const int toBird = -1 );
-
-        inline int sendReset();
-    };
-
-
+    OT_MODULE_REGISTER_FUNC(FOBModule){
+        OT_MODULE_REGISTRATION_DEFAULT(FOBModule, "FOBConfig" );
+    }    
+        
     // constructor method.
     FOBModule::FOBModule() : ThreadModule(), NodeFactory()
     {
@@ -326,7 +189,8 @@ namespace ot {
                 return NULL;
             }
             FOBSource * source = new FOBSource();
-            birds[number]->source = source;        
+            birds[number]->source = source;   
+            source->bird = birds[number];
             logPrintI("Build FOBSource for %d\n", number);
             return source;
         }
@@ -436,9 +300,9 @@ namespace ot {
     void FOBModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = true;
-        unlock();
+        unlockLoop();
 
         // close serial ports
         if( isInitialized() == 1 )
@@ -490,13 +354,13 @@ namespace ot {
                 // yield to let other processes do something
                 OSUtils::sleep(1);
                 iter++;            
-                lock();
+                lockLoop();
                 if( stop == true )
                 {           
-                    unlock();
+                    unlockLoop();
                     break;
                 } else { 
-                    unlock();
+                    unlockLoop();
                 }      
             
                 // test if something is wrong, if so do an init again 
@@ -528,10 +392,14 @@ namespace ot {
                         num = bird->buffer[GROUP_FRAME_SIZE - 1];
                         if( birds.find(num) != birds.end())
                         {
-                            lock();                    
+                            birds[num]->source->lock();                    
                             birds[num]->convert( bird->buffer );
                             birds[num]->newVal = true;
-                            unlock();                        
+                            birds[num]->source->unlock();
+                            if (Module::contextx != NULL)
+                            {
+                                Module::contextx->dataSignal();
+                            }
                         }
                     }
                 }
@@ -543,13 +411,13 @@ namespace ot {
                 // yield to let other processes do something
                 OSUtils::sleep(1);
                 iter++;
-                lock();
+                lockLoop();
                 if( stop == true )
                 {           
-                    unlock();
+                    unlockLoop();
                     break;
                 } else { 
-                    unlock();
+                    unlockLoop();
                 }
 
                 // test if something is wrong, if so do an init again 
@@ -581,10 +449,15 @@ namespace ot {
                         if( bird->count == MULTI_FRAME_SIZE )
                         {
                             bird->count = 0;
-                            lock();
+                            bird->source->lock();
                             bird->convert();
                             bird->newVal = true;
-                            unlock();
+                            bird->source->unlock();
+
+                            if (Module::contextx != NULL)
+                            {
+                                Module::contextx->dataSignal();
+                            }
                         }
                     }
                     count = 0;
@@ -597,22 +470,28 @@ namespace ot {
     // pushes events into the tracker tree
     void FOBModule::pushEvent()
     {
-        if( isInitialized() == 1 )
+        // nothing to do
+    }
+
+    void FOBSource::pushEvent()
+    {
+        lock();
+        if( bird->newVal == true)
         {
-            std::map<int,Bird *>::iterator it;
-            for( it = birds.begin(); it != birds.end(); it++ )
-            {
-                lock();
-                if(it->second->newVal == 1 && it->second->source != NULL)
-                {
-                    it->second->source->event = it->second->event;
-                    it->second->newVal = 0;
-                    unlock();
-                    it->second->source->updateObservers(it->second->source->event);
-                } else
-                    unlock();
-            }
+            event = bird->event;
+            bird->newVal = false;
+            unlock();
+            updateObservers(event);
+        } 
+        else
+        {
+            unlock();
         }
+    }
+    
+    void FOBSource::pullEvent()
+    {
+        // nothing to do
     }
 
     // toggle reset on the birds
@@ -997,31 +876,31 @@ namespace ot {
         }
     }
 
-    inline void Bird::setHemisphere( const FOBModule::Hemisphere hemisphere, const int toBird )
+    inline void Bird::setHemisphere( const Hemisphere hemisphere, const int toBird )
     {
         char buffer[4];
-        if( hemisphere != FOBModule::FORWARD )
+        if( hemisphere != FORWARD )
         {
             buffer[1] = 'L';
             switch( hemisphere )
             {
-                case FOBModule::REAR:
+                case REAR:
                     buffer[2] = 0x00;
                     buffer[3] = 0x01;
                     break;
-                case FOBModule::UPPER:
+                case UPPER:
                     buffer[2] = 0x0c;
                     buffer[3] = 0x01;
                     break;
-                case FOBModule::LOWER:
+                case LOWER:
                     buffer[2] = 0x0c;
                     buffer[3] = 0x00;
                     break;
-                case FOBModule::LEFT:
+                case LEFT:
                     buffer[2] = 0x06;
                     buffer[3] = 0x01;
                     break;
-                case FOBModule::RIGHT:
+                case RIGHT:
                     buffer[2] = 0x06;
                     buffer[3] = 0x00;
                     break;

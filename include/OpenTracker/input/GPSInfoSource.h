@@ -98,6 +98,23 @@ namespace ot {
 	/// protected constructor so it is only accessible by the module
 	GPSInfoSource() {};
 
+        void pushEvent()
+        {
+            lock();
+            if(event.time < buffer.time )
+            {
+                event = buffer;
+                unlock();
+                updateObservers( event );
+            }
+            else
+            {
+                unlock();
+            }
+        }
+
+        void pullEvent() {};
+
 	friend class GPSModule;
     };
 
@@ -107,12 +124,12 @@ namespace ot {
         if( res->type == GPResult::GPGGA){
             GPGGA * point = (GPGGA *) res;
             GPSModule * module = (GPSModule *)userData;
-            module->lock();
+            module->lockLoop();
             buffer.timeStamp();
             buffer.getPosition()[0] = (float)point->fix;
             buffer.getPosition()[1] = (float)point->numsats;
             buffer.getPosition()[2] = (float)point->hdop;
-            module->unlock();
+            module->unlockLoop();
         }
     }
 

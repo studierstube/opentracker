@@ -278,6 +278,10 @@ namespace ot {
                         source->tmpEvent = tmp;
                         source->changed = 1;
                         unlock();
+                        if (Module::contextx != NULL)
+                        {
+                            Module::contextx->dataSignal();
+                        }
                     }
                 }
             }

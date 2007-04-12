@@ -53,7 +53,7 @@
 
 // this is a linux implementation !!!
 #ifndef WIN32
-#ifndef DARWIN
+#ifndef __APPLE__
 
 #include "../OpenTracker.h"
 #include "../core/StringTable.h"
@@ -71,9 +71,6 @@
 #include <linux/input.h>
 #include <iostream>
 #include <string>
-
-#define USE_LINMOUSEMODULE
-#ifdef USE_LINMOUSEMODULE
 
 /**
  * The module and factory to drive the TargusSource node.
@@ -146,12 +143,8 @@ namespace ot {
 	OT_MODULE(LinmouseModule);
 } // namespace ot
 
-#endif
-
-// DARWIN
-#endif
-// WIN32
-#endif
+#endif // __APPLE__
+#endif // WIN32
 
 #endif
 

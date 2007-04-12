@@ -88,6 +88,8 @@ int main(int argc, char **argv)
 	
     // parse the configuration file, builds the tracker tree
     context.parseConfiguration( argv[1] );
+    Module::contextx = &context;
+
     cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
 
     //ct->start();

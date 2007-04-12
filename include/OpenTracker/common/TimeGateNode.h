@@ -117,6 +117,8 @@ namespace ot {
          * @param generator the node generating the event
          */
         virtual void onEventGenerated( Event& event, Node & generator);                                
+        void pushEvent();
+        void pullEvent();
 
         friend class CommonNodeFactory;
     };

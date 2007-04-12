@@ -108,6 +108,15 @@ namespace ot
 
     }
 
+    void EventUtilityNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void EventUtilityNode::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

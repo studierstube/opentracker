@@ -324,7 +324,12 @@ namespace ot {
                                         pSource->setButtonEvent(button,buttonMask);
                                     unlock();
                                 }
+                            if (Module::contextx != NULL)
+                                {
+                                    Module::contextx->dataSignal();
+                                }      
                         }
+
                 }
     }
 

@@ -520,7 +520,7 @@ $Id$
 <!ELEMENT TestSource EMPTY>
 <!ATTLIST TestSource
 	DEF ID #IMPLIED
-	frequency CDATA "1"
+	frequency CDATA "1.0"
 	offset CDATA "0"
 	position CDATA #IMPLIED
 	orientation CDATA #IMPLIED

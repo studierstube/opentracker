@@ -51,20 +51,33 @@
 namespace ot {
 
     void TimestampGeneratorNode::onEventGenerated(Event &event,Node &generator)
-	{
-		this->event = event;
-		updateObservers(event);
-	}
+    {
+        this->event = event;
+        updateObservers(event);
+    }
 
     bool TimestampGeneratorNode::calcEvent()
     {
-		if (event.time + timeOut < Event().time)
-		{
-	        event.timeStamp();
-			return true;
-		}
-		else
-			return false;
+        if (event.time + timeOut < Event().time)
+        {
+            event.timeStamp();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void TimestampGeneratorNode::pushEvent()
+    {
+        if (calcEvent())
+        {
+            updateObservers(event);
+        }
+    }
+
+    void TimestampGeneratorNode::pullEvent()
+    {
+        // nothing to do
     }
 
 } // namespace ot
@@ -73,3 +86,19 @@ namespace ot {
 #else
 #pragma message(">>> OT_NO_TIMESTAMPGENERATOR_SUPPORT")
 #endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+
+/* 
+ * ------------------------------------------------------------
+ *   End of TimestampGeneratorNode.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

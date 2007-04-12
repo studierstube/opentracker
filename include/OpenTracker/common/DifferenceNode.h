@@ -112,6 +112,9 @@ namespace ot {
          * @param event new event
          * @param generator the calling EventGenerator */
         virtual void onEventGenerated(Event &event,Node &generator);
+
+	void pushEvent();
+	void pullEvent();
     };
 
 } // namespace ot

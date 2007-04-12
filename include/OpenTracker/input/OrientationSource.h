@@ -72,17 +72,22 @@
 namespace ot {
 
 
+    class OrientationSource;
+    typedef std::vector<OrientationSource*> OrientationSourceVector;
+
     /**
      * The OrientationSource reads and propagates data from an Orientation sensor delivered by FTW Vienna.
      * @author Gerhard Schall
      * @ingroup input
      */
+
     class OPENTRACKER_API OrientationSource : public Node 
     {
-    public:
+    public:        
 
 	/// the new event
         Event event;
+        bool modified;
 
     
         /** tests for EventGenerator interface being present. Is overriden to
@@ -93,11 +98,13 @@ namespace ot {
             return 1;
         }
     
+        void pushEvent();
+        void pullEvent();
 
     protected:
 	/// protected constructor so it is only accessible by the module
 	OrientationSource() : Node()
-            {}
+            { modified = true; }
 
 
         friend class OrientationModule;

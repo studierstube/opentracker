@@ -88,6 +88,15 @@ namespace ot {
         }
     }
 
+    void PositionFilterNode::pushEvent() 
+    {
+        // nothing to do
+    }
+    
+    void PositionFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
 
 }  // namespace ot
 

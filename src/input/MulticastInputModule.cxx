@@ -136,9 +136,9 @@ namespace ot {
 
     void MulticastInputModule::close()
     {
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
     }
 
     // -------------------------------------------------------------------------------------------------------
@@ -174,9 +174,15 @@ namespace ot {
                 }
             } while( retval < 0 && stop == 0);
 
+            lockLoop();
             if( stop != 0 )
             {
+                unlockLoop();
                 break;
+            }
+            else
+            {
+                unlockLoop();
             }
 
             // from here the String is in the Buffer!
@@ -186,11 +192,14 @@ namespace ot {
             parseString(std::string(receiveBuffer, retval), recordTemp);
             NodeVector::iterator it;
 
-            lock();
             for( it = sources.begin(); it != sources.end(); it++)
             {
 
                 MulticastInputSource * source = (MulticastInputSource*)((Node*)*it);
+                source->lock();
+
+                // critical section
+
                 int bodyID = source->number;
                 if( recordTemp[bodyID].valid == 1 )
                 {
@@ -220,9 +229,16 @@ namespace ot {
                         source->event.getConfidence() = 0.0f;
                     }
                 }
+                
+                // end of critical section
 
+                source->unlock();
+
+                if (Module::contextx != NULL)
+                {
+                    Module::contextx->dataSignal();
+                }
             }
-            unlock();
         }
         socket->close();
     }
@@ -351,20 +367,25 @@ namespace ot {
     // pushes events into the tracker tree
     void MulticastInputModule::pushEvent()
     {
-        if( isInitialized() )
+        // nothing to do
+    }
+
+
+    void MulticastInputSource::pushEvent()
+    {
+        lock();
+        if( changed == 1 )
         {
-            for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-            {
-                MulticastInputSource *source = (MulticastInputSource *) ((Node*)*it);
-                lock();
-                if( source->changed == 1 )
-                {
-                    source->updateObservers( source->event );
-                    source->changed = 0;
-                }
-                unlock();
-            }
+            updateObservers( event );
+            changed = 0;
         }
+        unlock();
+        
+    }
+
+    void MulticastInputSource::pullEvent()
+    {
+        // nothing to do
     }
 
     // -------------------------------------------------------------------------------------------------------

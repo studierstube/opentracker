@@ -269,6 +269,16 @@ namespace ot {
         updateObservers( lastEvent );
     }
 
+    void ButtonFilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void ButtonFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

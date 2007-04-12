@@ -48,7 +48,7 @@
 
 #include <OpenTracker/input/LinmouseSource.h>
 
-#ifdef USE_LINMOUSEMODULE
+//#ifdef USE_LINMOUSEMODULE
 
 #include <cstdio>
 #include <iostream>
@@ -128,9 +128,9 @@ void LinmouseModule::start()
 // closes CyberMouse library
 void LinmouseModule::close() {
     //ACE_DEBUG((LM_INFO, ACE_TEXT("LinmouseModule::close() \n")));
-    lock();
+    lockLoop();
     stop = 1;
-    unlock();
+    unlockLoop();
 }
 void LinmouseModule::run()
 {
@@ -156,9 +156,15 @@ void LinmouseModule::run()
     bool wheelflag = false;
 
     while(1) {
-
-        if (stop != 0) {
+        lockLoop();
+        if (stop == true) 
+        {
+            unlockLoop();
             break;
+        }
+        else
+        {
+            unlockLoop();
         }
 
         if (wheelflag) {  // the wheel does not reset the button -> insert artificial button release event
@@ -269,11 +275,12 @@ void LinmouseModule::run()
 
         NodeVector::iterator it;
       
-        lock();
       
         for( it = sources.begin(); it != sources.end(); it++) {
 	 
             LinmouseSource * source = (LinmouseSource*)((Node*) *it);
+
+            source->lock();
 
             // buttons
             source->event.getButton() = buttons;
@@ -287,32 +294,21 @@ void LinmouseModule::run()
             source->event.timeStamp();
             source->event.getConfidence() = 1.0;
             source->changed = 1;
+
+            source->unlock();
+
             if (contextx != NULL)
 	    { 
                 contextx->dataSignal();
 	    } 
         }
-        unlock();      
     }
 }
 
 // pushes events into the tracker tree.
-void LinmouseModule::pushEvent() {
-    using namespace std;
-    if( isInitialized() )
-    {
-        for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-        {
-            LinmouseSource *source = (LinmouseSource *) ((Node*)*it);
-            lock();
-            if( source->changed == 1 )
-            {			
-                source->updateObservers( source->event );
-                source->changed = 0;
-            }
-            unlock();
-        }
-    }
+void LinmouseModule::pushEvent() 
+{
+    /// nothing to do
 }
 
 // initializes the ARTDataTracker module
@@ -329,7 +325,7 @@ void LinmouseModule::init(StringTable& attributes, ConfigNode * localTree)
 
 OT_NAMESPACE_END
 
-#endif
+//#endif
 
 // WIN32
 #endif

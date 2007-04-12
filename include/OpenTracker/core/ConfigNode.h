@@ -108,7 +108,8 @@ namespace ot {
             return Node::getChild( index );
 	}
 
-
+        void pushEvent() {};
+        void pullEvent() {};
 #ifdef USE_LIVE
         friend class LiveContext;
 #endif

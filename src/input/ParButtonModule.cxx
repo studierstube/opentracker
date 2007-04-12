@@ -100,6 +100,7 @@
 #endif
 #endif
 
+#include <ace/OS.h>
 
 #ifndef OT_NO_PARBUTTON_SUPPORT
 
@@ -130,6 +131,33 @@ namespace ot {
     }
 #endif
 #endif
+
+
+    ParButtonModule::ParButtonModule() : 
+            ThreadModule(), 
+            NodeFactory(),
+            stop(false)
+    {
+    }
+
+    ParButtonModule::~ParButtonModule()
+    {
+        std::map<std::string, std::pair<Node *, unsigned short> >::iterator it;
+
+        for(  it = nodes.begin(); it != nodes.end(); it++ )
+        {
+#ifndef WIN32
+#ifdef _SGI_SOURCE
+            ::close(dynamic_cast<ParButtonSource*>((*it).second.first)->handle);
+#else  // LINUX
+            ioctl(dynamic_cast<ParButtonSource*>((*it).second.first)->handle, 
+                  PPRELEASE);
+            ::close(dynamic_cast<ParButtonSource*>((*it).second.first)->handle);
+#endif
+#endif
+        }
+        nodes.clear();
+    }  
 
     // This method is called to construct a new Node
 
@@ -245,93 +273,144 @@ namespace ot {
             ParButtonSource * source = new ParButtonSource((unsigned int) handle );
 #endif
 #endif
-            nodes[dev] = source;
+            nodes[dev].first = source;
+            nodes[dev].second = 0x0000;
             logPrintI("Built ParButtonSource on %s\n", dev.c_str());
             return source;
         }
         return NULL;
     }
+
+    void ParButtonModule::run()
+    {
+        std::map<std::string, std::pair<Node *, unsigned short> >::iterator it;
+
+        while (1)
+        {
+            lockLoop();
+            if( stop)
+            {
+                unlockLoop();
+                break;
+            }
+            unlockLoop();  
+
+            // read from parallel ports
+            for (it = nodes.begin(); it != nodes.end(); it++)
+            {
+                unsigned short data;
+#ifdef WIN32
+                ParButtonSource * src = dynamic_cast<ParButtonSource*>
+                    (it->second.first);
+                
+#ifndef _DLPORTIO
+                data = (~inportb(src->handle )) & 0xff;
+#else
+                // just check for two buttons if using hardware hack
+                //data = (~DlPortReadPortUchar(source->handle )) & 0x03;
+                data = (~DlPortReadPortUchar(src->handle )) & 0xFF;
+                
+#endif //_DLPORTIO
+                
+#if 0
+                printf("%d%d%d%d %d%d%d%d\n",
+                       (data>>7)&1,
+                       (data>>6)&1,
+                       (data>>5)&1,
+                       (data>>4)&1,
+                       (data>>3)&1,
+                       (data>>2)&1,
+                       (data>>1)&1,
+                       (data>>0)&1
+                       );
+#endif //0
+
+                if( data != it->second.second )
+                {
+                    src->lock();
+                    src->event.getButton() = data;
+                    src->event.timeStamp();
+                    it->second.second = data;
+                    src->changed = 1;
+                    src->unlock();                    
+                }
+#else //WIN32
+
+#ifdef _SGI_SOURCE
+                ParButtonSource * src = dynamic_cast<ParButtonSource*>
+                    (it->second.first);
+                if( read( src->handle, &data, 1 ) == 1 )
+                {
+                    event.getButton() = data;
+                    event.timeStamp();
+                    updateObservers( source->event );
+                }
+#else  // LINUX
+                int cstatus;
+                ParButtonSource * src = dynamic_cast<ParButtonSource*>
+                    (it->second.first);
+                cstatus = ioctl(src->handle, PPRDATA, &data);	
 	
+                if( (unsigned int)(~data) != it->second.second )
+                {
+                    src->lock();
+                    src->event.getButton() = 0x00ff&(~data);
+                    src->event.timeStamp();
+                    it->second.second = data;
+                    src->changed = 1;
+                    src->unlock();                    
+
+                }
+#endif //_SGI_SOURCE
+            
+#endif //WIN32
+            
+            } // for loop
+        
+            // sleep for 5 milliseconds
+            ACE_OS::sleep(ACE_Time_Value(0,5000));
+        } // while loop
+    }
+    
+    void ParButtonModule::start()
+    {
+	if( isInitialized() && !nodes.empty())
+	    ThreadModule::start();
+    }
+
     // closes the devices    
     
     void ParButtonModule::close()
     {
-        for( std::map<std::string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
-#ifndef WIN32
-#ifdef _SGI_SOURCE
-            ::close(((ParButtonSource*)(*it).second)->handle);
-#else  // LINUX
-            ioctl(((ParButtonSource*)(*it).second)->handle, PPRELEASE);
-            ::close(((ParButtonSource*)(*it).second)->handle);
-#endif
-#endif
-        }
-        nodes.clear();
+        lockLoop();
+        stop = 1;
+        unlockLoop();
     }
-  
+
     // pushes events into the tracker tree
 
     void ParButtonModule::pushEvent()
     {
-        unsigned short data;
-    
-        for( std::map<std::string, Node *>::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
-            ParButtonSource * source = (ParButtonSource*)(*it).second;
-#ifdef WIN32
-
-#ifndef _DLPORTIO
-            data = (~inportb( source->handle )) & 0xff;
-#else
-            // just check for two buttons if using hardware hack
-            //data = (~DlPortReadPortUchar(source->handle )) & 0x03;
-            data = (~DlPortReadPortUchar(source->handle )) & 0xFF;
-
-#endif
-
-#if 0
-            printf("%d%d%d%d %d%d%d%d\n",
-                   (data>>7)&1,
-                   (data>>6)&1,
-                   (data>>5)&1,
-                   (data>>4)&1,
-                   (data>>3)&1,
-                   (data>>2)&1,
-                   (data>>1)&1,
-                   (data>>0)&1
-                   );
-#endif
-            if( data != source->event.getButton() )
-            {
-                source->event.getButton() = data;
-                source->event.timeStamp();
-                source->updateObservers( source->event );
-            }
-#else
-
-#ifdef _SGI_SOURCE
-            if( read( source->handle, &data, 1 ) == 1 )
-            {
-                source->event.getButton() = data;
-                source->event.timeStamp();
-                source->updateObservers( source->event );
-            }
-#else  // LINUX
-            int cstatus;
-	    cstatus = ioctl(source->handle, PPRDATA, &data);	
-	
-            if( (unsigned int)(~data) != source->event.getButton() )
-            {
-                source->event.getButton() = 0x00ff&(~data);
-                source->event.timeStamp();
-                source->updateObservers( source->event );
-            }
-#endif
-
-#endif
-        }  
+        // nothing to do
     }
+
+
+
+    void ParButtonSource::pushEvent()
+    {            
+        lock();
+        if( changed == 1 )
+        {			
+            updateObservers( event );
+            changed = 0;
+        }
+        unlock();
+    }
+    
+    void ParButtonSource::pullEvent()
+    {
+        // nothing to do
+    }    
 
 } // namespace ot
 

@@ -342,7 +342,7 @@ namespace ot {
         OT_REGISTER_MODULE(GroupGateModule, NULL);
 #endif
     
-#ifndef OT_NO_SPEECH_SUPPORT
+#ifdef OT_SPEECH_SUPPORT
         OT_REGISTER_MODULE(SpeechModule, NULL);
 #endif
 

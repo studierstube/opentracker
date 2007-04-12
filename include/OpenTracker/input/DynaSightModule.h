@@ -90,22 +90,10 @@ namespace ot {
   /// status values for the tracker data
   enum TargetStatus { SEARCH=0, COAST=1, CAUTION=2, TRACK=3 };
 
-
-  /// this structure stores the attributes of a DynaSightSource 
-  struct Target
-  {
-    int number;
-    int modified;
-    Event event;
-    DynaSightSource * source;
-
-    Target( const int number_, DynaSightSource * source_ ) :
-      number( number_ ), modified( 0 ), source( source_ )
-    {};
-  };
+    class DynaSightSource;
 
 
-  typedef std::vector<Target *> TargetVector;
+  typedef std::vector<DynaSightSource *> TargetVector;
 
 
   /**

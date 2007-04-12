@@ -100,6 +100,8 @@ namespace ot {
         {
             return 1;
         }
+        void pushEvent() {};
+        void pullEvent() {};
 
         friend class InterSenseModule;
     };

@@ -105,6 +105,12 @@ else:
                 'libs':['opentracker'],
                 'src_use': ['standalones/main.cxx']
                 }
+        
+	otcondemand ={'name':'opentrackerdemand',
+                'type':'PRG',
+                'libs':['opentracker'],
+                'src_use': ['standalones/main_ondemand.cxx']
+                }
 
         middleware ={'name':'middleware',
                 'type':'PRG',
@@ -121,6 +127,7 @@ else:
         targetList.append(ot)
         targetList.append(otlib)
         targetList.append(otcon)
+	targetList.append(otcondemand)
         targetList.append(middleware)
         targetList.append(otcon2)
     elif sys.platform == 'linux' or sys.platform == 'linux2':
@@ -147,6 +154,12 @@ else:
                 'libs':['opentracker','ACE'],
                 'src_use': ['standalones/main.cxx']
                 }
+	
+	otcondemand ={'name':'opentrackerdemand',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main_ondemand.cxx']
+                }
     
         middleware ={'name':'middleware',
                 'type':'PRG',
@@ -171,6 +184,7 @@ else:
         targetList.append(ot)
         targetList.append(middleware)        
         targetList.append(otcon)
+        targetList.append(otcondemand)
         targetList.append(otcon2)
 
     elif sys.platform =='darwin':
@@ -205,6 +219,12 @@ else:
                 'src_use': ['standalones/main.cxx']
                 }
     
+	otcondemand ={'name':'opentrackerdemand',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main_ondemand.cxx']
+                }
+
         otcon2 ={'name':'opentracker2c',
                  'type':'PRG',
                  'libs':['opentracker','ACE'],
@@ -214,6 +234,7 @@ else:
         targetList.append(ot)
         targetList.append(middleware)
         targetList.append(otcon)
+        targetList.append(otcondemand)
         targetList.append(otcon2)
     if ARGUMENTS.has_key("ENABLE_OMNIORBPY") or ARGUMENTS.has_key("ENABLE_CORBA"):
         print "Currently it is not possible to run 'scons install' in one single step"
@@ -334,6 +355,7 @@ else:
         ot['src_ignore'].append('otqt/otqt_mem_calib_main.cxx')
         #use['otqt'] = 'true'
         otcon['libs'].append('qt-mt')
+        otcondemand['libs'].append('qt-mt')
         otcon2['libs'].append('qt-mt')
         
         otqtcalib = {'name':'otqt_calib',
@@ -382,6 +404,8 @@ else:
         #use['otqt'] = 'true'
         otcon['libs'].append('QtCore')
         otcon['libs'].append('QtGui')
+        otcondemand['libs'].append('QtCore')
+        otcondemand['libs'].append('QtGui')
         otcon2['libs'].append('QtCore')
         otcon2['libs'].append('QtGui')
         

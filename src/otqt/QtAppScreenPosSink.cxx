@@ -49,53 +49,62 @@
 
 namespace ot {
 
-//--------------------------------------------------------------------------------
-void QtAppScreenPosSink::onEventGenerated(Event & event, Node & generator) {
+    //--------------------------------------------------------------------------------
+    void QtAppScreenPosSink::onEventGenerated(Event & event, Node & generator) {
 
-  // switch 'acquire pending event' (default: yes)
-  bool acquire = true;
+        // switch 'acquire pending event' (default: yes)
+        bool acquire = true;
 
-  // basic check: position or orientation unchanged
-  acquire = false;
-  for (int i = 0; i < 3; i++) {
-    if (event.getPosition()[i] != curr_event_.getPosition()[i] ||
-        event.getOrientation()[i] != curr_event_.getOrientation()[i]) {
-      acquire = true;
-      break;
+        // basic check: position or orientation unchanged
+        acquire = false;
+        for (int i = 0; i < 3; i++) {
+            if (event.getPosition()[i] != curr_event_.getPosition()[i] ||
+                event.getOrientation()[i] != curr_event_.getOrientation()[i]) {
+                acquire = true;
+                break;
+            }
+        }
+        if (acquire) {
+
+            // at least one filter check must be performed
+            bool one_true = false;
+            // all performed filter checks must apply
+            bool all_true = true;
+
+            // within position threshold sphere ?!
+            if (all_true && (state_ & POS_THRESH_FILTER)) {
+                one_true = true;
+                all_true &= isInsidePosThreshSphere(event);
+            }
+            // within orientation thresh cone ?!
+            if (all_true && (state_ & ORIENT_THRESH_FILTER)) {
+                one_true = true;
+                all_true &= isInsideOrientThreshCone(event);
+            }
+
+            // do NOT filter per default
+            bool discard = (one_true && all_true);
+
+            // do NOT acquire only if ALL filters apply
+            acquire = !discard;
+        }
+        // acquire tracking event
+        if (acquire)
+            acquireEvent(event);
+
+        // pass original event to parent nodes
+        forwardEvent(event);
     }
-  }
-  if (acquire) {
 
-    // at least one filter check must be performed
-    bool one_true = false;
-    // all performed filter checks must apply
-    bool all_true = true;
-
-    // within position threshold sphere ?!
-    if (all_true && (state_ & POS_THRESH_FILTER)) {
-      one_true = true;
-      all_true &= isInsidePosThreshSphere(event);
-    }
-    // within orientation thresh cone ?!
-    if (all_true && (state_ & ORIENT_THRESH_FILTER)) {
-      one_true = true;
-      all_true &= isInsideOrientThreshCone(event);
+    void QtAppScreenPosSink::pushEvent()
+    {
+        // nothing to do
     }
 
-    // do NOT filter per default
-    bool discard = (one_true && all_true);
-
-    // do NOT acquire only if ALL filters apply
-    acquire = !discard;
-  }
-  // acquire tracking event
-  if (acquire)
-    acquireEvent(event);
-
-  // pass original event to parent nodes
-  forwardEvent(event);
-}
-
+    void QtAppScreenPosSink::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 #endif // USE_OTQT

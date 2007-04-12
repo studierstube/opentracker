@@ -92,6 +92,10 @@ namespace ot {
             if (cfnode)
             {
                 cfnode->setEvent(event);
+                if (Module::contextx != NULL)
+                {
+                    Module::contextx->dataSignal();
+                }
             }
             else
             {
@@ -111,25 +115,7 @@ namespace ot {
 
    void CallforwardModule::pushEvent()
     {
-        unsigned short data;    
-
-        for( std::map<std::string, Node *>::iterator it = nodes.begin(); 
-             it != nodes.end(); it++ )
-        {
-            CallforwardNode * cfnode = 
-                dynamic_cast<CallforwardNode*>((*it).second);
-
-            if (cfnode)
-            {
-                cfnode->updateObservers( cfnode->event );
-            }
-            else
-            {
-                ///FIXXXME: insert proper error handling
-                assert(0);
-            }
-
-        }  
+        /// nothing to do here
     }
 } // namespace ot
 

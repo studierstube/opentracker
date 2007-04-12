@@ -99,7 +99,9 @@ namespace ot
 		* @param event the event value passed
 		* @param generator the node generating the event
 		*/
-		virtual void onEventGenerated( Event& event, Node & generator);                                
+		virtual void onEventGenerated( Event& event, Node & generator); 
+		void pushEvent();
+		void pullEvent();
 
 		friend class CommonNodeFactory;
 	};

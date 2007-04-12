@@ -99,12 +99,7 @@ namespace ot {
 
     // pushes events into the tracker tree.
     void ButtonHoldFilterModule::pushEvent()
-    {
-        for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-        {
-            ButtonHoldFilterNode *source = (ButtonHoldFilterNode *) ((Node*)*it);
-            source->push();
-        }
+    {        
         cycle++;
     }
 

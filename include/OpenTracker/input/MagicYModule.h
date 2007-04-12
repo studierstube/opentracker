@@ -87,25 +87,11 @@ namespace ot {
     public:
         int number;    
 	bool average;
-        Event event;
-        int modified;
         MagicYSource * source;
 
         MagicY( const int number_, const bool average_, MagicYSource * source_ ) :
-            number( number_ ), average( average_ ), modified( 0 ), source( source_ )
-        {
-            event.getPosition()[0] = 0;
-            event.getPosition()[1] = 0;
-            event.getPosition()[2] = 0;
-
-            event.getOrientation()[0] = 0;
-            event.getOrientation()[1] = 0;
-            event.getOrientation()[2] = 0;
-            event.getOrientation()[3] = 0;
-
-            event.getButton() = 0;
-            event.getConfidence() = 0.0f;
-	};
+            number( number_ ), average( average_ ), source( source_ )
+        { }
     };
 
     // struct to store points for intermediate processing (prediction, etc.)

@@ -237,16 +237,39 @@ namespace ot {
         int average_x=0, average_y=0, socks_active;
         bool connected = false;
 
-        while(stop == 0)
+        while(1)
         {
+            lockLoop();
+            if (stop == true)
+            {           
+                unlockLoop();
+                break;
+            }
+            else
+            { 
+                unlockLoop();
+            }
+
             // connecting
             ACE_DEBUG((LM_INFO, ACE_TEXT("Trying to connect ... \n")));
             if(connect() == 0)
             {
                 connected = true;
+
                 // do while no error occurs
-                while(stop == 0)
+                while(1)
                 {
+                     lockLoop();
+                     if (stop == true)
+                     {           
+                         unlockLoop();
+                         break;
+                     }
+                     else
+                     { 
+                         unlockLoop();
+                     }
+
                     average_x=0;
                     average_y=0;
 
@@ -265,7 +288,7 @@ namespace ot {
                     if(receive())
                         break;
 
-                    lock();
+
                     // calculate average
                     for (unsigned int i=0; i < points.size(); i++)
                     {
@@ -282,8 +305,9 @@ namespace ot {
                     MagicYVector::iterator mY_it;
                     for( mY_it = magicYs.begin(); mY_it != magicYs.end(); mY_it++ )
                     {
+                        (*mY_it)->source->lock();
                         // critical section start, fill event
-                        Event & event = (*mY_it)->event;
+                        Event & event = (*mY_it)->source->event;
                         if ((*mY_it)->average)
                         {
                             if(points.size())
@@ -320,11 +344,19 @@ namespace ot {
                         event.getOrientation()[2] = orientation[2];
                         event.getOrientation()[3] = orientation[3];
 
-                        (*mY_it)->modified = 1;
+                        (*mY_it)->source->modified = 1;
                         event.timeStamp();
+
                         // end of critical section
+                        (*mY_it)->source->unlock();
+
                     }// for all MagicY sources
-                    unlock();
+
+                    if (Module::contextx != NULL)
+                    {
+                        Module::contextx->dataSignal();
+                    }
+
                 }// while no error
             }// if connected
             disconnect();
@@ -382,34 +414,40 @@ namespace ot {
     void MagicYModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
     }
 
     // pushes event information into the tree
     void MagicYModule::pushEvent()
     {
-        if (magicYs.empty())
-            return;
-
-        for (MagicYVector::iterator it = magicYs.begin(); it != magicYs.end(); it++ )
-        {
-            // critical section start
-            lock();
-            if((*it)->modified == 1 )
-            {
-                (*it)->source->event = (*it)->event;
-                (*it)->modified = 0;
-                unlock();
-                (*it)->source->updateObservers( (*it)->source->event );
-            }
-            else
-                unlock();
-            // end of critical section
-        }
+        // nothing to do
     }
 
+    void MagicYSource::pushEvent()
+    {
+        // critical section start
+        lock();
+        if(modified == 1 )
+        {
+            //(*it)->source->event = (*it)->event;
+            modified = 0;
+            unlock();
+            updateObservers(event );
+        }
+        else
+        {
+            unlock();
+        }
+        // end of critical section
+
+    }
+    
+    void MagicYSource::pullEvent()
+    {
+        // nothing to do
+    }
 
     int MagicYModule::parseVector(const std::string & line, int * val )
     {

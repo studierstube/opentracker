@@ -67,18 +67,20 @@
 
 namespace ot {
 
+    class Bird;
     class OPENTRACKER_API FOBSource : public Node
     {
         // Members
     public: 
         /// the event that is posted to the EventObservers
         Event event;
+        Bird * bird;
 
         // Methods
     protected:
         /** simple constructor, sets members to initial values */
         FOBSource() : Node()
-        {}
+        { bird = NULL; }
 
     public:            
         /** tests for EventGenerator interface being present. Is overriden to
@@ -88,6 +90,9 @@ namespace ot {
         {
             return 1;
         }
+
+        void pushEvent();
+        void pullEvent();
 
         friend class FOBModule;
     };

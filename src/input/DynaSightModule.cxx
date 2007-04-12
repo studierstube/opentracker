@@ -102,7 +102,7 @@ namespace ot {
         for (it = targets.begin(); it != targets.end(); it++)
         {
             assert((*it) != NULL);
-            delete (*it)->source;
+            delete (*it);
         }
         targets.clear();
     } // ~DynaSightModule
@@ -158,8 +158,7 @@ namespace ot {
             TargetVector::iterator it;
             for (it = targets.begin(); it != targets.end(); it++)
             {
-                Target * target = (Target*)(*it);
-                if (target->number == number)
+                if ((*it)->number == number)
                 {
                     break;
                 }
@@ -173,11 +172,9 @@ namespace ot {
         
             DynaSightSource * source = new DynaSightSource; 
             assert(source);
+            source->number = number;
         
-            // add the source object to the target list
-            Target *target = new Target(number, source);
-            assert(target);
-            targets.push_back(target);
+            targets.push_back(source);
                 
             logPrintI("Built DynaSightSource node - target %d\n", number);
         
@@ -234,9 +231,9 @@ namespace ot {
     
         // stop the thread
         // critical section start
-        lock();
+        //lock();
         stop = true;
-        unlock();
+        //unlock();
         // end of critical section
     
         if (isInitialized() == 1)
@@ -250,56 +247,47 @@ namespace ot {
     // pushes event information into the tree
     void DynaSightModule::pushEvent()
     {
-        // cout << "DynaSightModule::pushEvent" << endl;
-
-        if (isInitialized() == 1)
-        {
-            if (targets.empty())
-                return;
-        
-            TargetVector::iterator it;
-            for (it = targets.begin(); it != targets.end(); it ++)
-            {       
-                // critical section start
-                lock();
-            
-                assert((*it) != NULL);
-            
-                // DEBUG
-                // (*it)->modified = 1;
-                // DEBUG
-            
-                if ((*it)->modified == 1)
-                {
-                    // update the event information
-                    assert((*it)->source != NULL);
-                
-                    // DEBUG
-                    /*
-                      cout << "DynaSightModule::pushEvent" << endl;
-                      (*it)->event.getPosition()[0] = 1.0;
-                      (*it)->event.getPosition()[1] = 2.0;
-                      (*it)->event.getPosition()[2] = 3.0;
-                      (*it)->event.getOrientation()[0] = 0.0;
-                      (*it)->event.getOrientation()[1] = 0.0;
-                      (*it)->event.getOrientation()[2] = 0.0;
-                      (*it)->event.getOrientation()[3] = 1.0;
-                      (*it)->event.getConfidence() = 1.0;
-                      (*it)->event.timeStamp();
-                    */
-                    // DEBUG
-
-                    (*it)->source->event = (*it)->event;
-                    (*it)->modified = 0;
-                    unlock();
-                    (*it)->source->updateObservers ((*it)->source->event);
-                }
-                else
-                    unlock();
-                // end of critical section
-            } // for
-        }  // if
+        // nothing to do
     } // pushEvent
+
+    void DynaSightSource::pushEvent()
+    {
+        lock();
+                    
+        if (modified == 1)
+        {
+            // update the event information
+            
+            // DEBUG
+            /*
+              cout << "DynaSightModule::pushEvent" << endl;
+              (*it)->event.getPosition()[0] = 1.0;
+              (*it)->event.getPosition()[1] = 2.0;
+              (*it)->event.getPosition()[2] = 3.0;
+              (*it)->event.getOrientation()[0] = 0.0;
+              (*it)->event.getOrientation()[1] = 0.0;
+              (*it)->event.getOrientation()[2] = 0.0;
+              (*it)->event.getOrientation()[3] = 1.0;
+              (*it)->event.getConfidence() = 1.0;
+              (*it)->event.timeStamp();
+            */
+            // DEBUG
+            
+            modified = 0;
+            unlock();
+            updateObservers (event);
+        }
+        else
+        {
+            unlock();
+        }
+        // end of critical section
+    }
+    
+    void DynaSightSource::pullEvent()
+    {
+        //nothing to do
+    }
 
     // reads from the DynaSight Sensor and parses the data
     void DynaSightModule::run()
@@ -342,15 +330,15 @@ namespace ot {
             OSUtils::sleep(1);
         
             // critical section start
-            lock();
+            lockLoop();
             if (stop == true)
             {           
-                unlock();
+                unlockLoop();
                 break;
             }
             else
             { 
-                unlock();
+                unlockLoop();
             }
             // critical section end
         
@@ -488,7 +476,7 @@ namespace ot {
                             if (target != targets.end())
                             {
                                 // start of critical section
-                                lock();
+                                (*target)->lock();
                                 Event & myEvent = (*target)->event;
 
                                 // mark the event as modified
@@ -541,8 +529,12 @@ namespace ot {
                                 myEvent.getConfidence() = (status == TRACK) ? 1.0f : 0.5f;
 
                                 myEvent.timeStamp();
-                                unlock();
+                                (*target)->unlock();
                                 // end of critical section
+                                if (Module::contextx != NULL)
+                                {
+                                    Module::contextx->dataSignal();
+                                }
                             }
                         }
                 

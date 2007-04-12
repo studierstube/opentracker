@@ -89,7 +89,10 @@ public:
     virtual int isEventGenerator()
     {
         return 1;
-    }  
+    }
+  
+    void pushEvent() {};
+    void pullEvent() {};
     
     friend class OldOTNetworkSourceModule;
 };

@@ -83,31 +83,12 @@ namespace ot {
      * @author Gerhard Schall
      */
 
-    /// this structure stores the attributes of a OrientationSource 
-    struct TargetOri
-    {
-        OrientationSource *source;
-        int modified;
-        Event event;
-
-
-        TargetOri( OrientationSource * source_ ) :
-            source( source_ ), event()
-        {};
-    };
-
-
-    typedef std::vector<TargetOri *> TargetOriVector;
-
-
-
-
     class OPENTRACKER_API OrientationModule : public ThreadModule, public NodeFactory
     {
     protected:
       
         /// vector containing all targets, which have an associated sourceNode
-        TargetOriVector targets;
+        OrientationSourceVector sources;
       
       
         /// flag to stop the thread

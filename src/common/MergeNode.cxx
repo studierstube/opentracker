@@ -154,6 +154,16 @@ namespace ot {
             updateObservers(localEvent);
     }
 
+    void MergeNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void MergeNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

@@ -60,10 +60,10 @@
  *
  * An example element looks like this:
  *
-@verbatim
-<QtMouseWheelSink consume-events="false" >
-  <Any EventGenerator element type>
-</QtMouseWheelSink>@endverbatim
+ @verbatim
+ <QtMouseWheelSink consume-events="false" >
+ <Any EventGenerator element type>
+ </QtMouseWheelSink>@endverbatim
  *
  */
 
@@ -76,61 +76,64 @@
 
 namespace ot {
 
-//--------------------------------------------------------------------------------
-/**
- * @class QtMouseWheelSink
- * @ingroup group_otqt_classes
- * @brief Destination sink of the MWD
- *
- * Provides wheel state values either @e enabled or @e disabled for wheel forward and
- * backward rotation.
- *
- * The MWS uses he @c button member of the OpenTracker @c State event class and maps slots
- * to wheel events as follows. A wheel move is indicated by a binary slot value of
- * @c 1 (@e true/enabled).
-@verbatim
-Slot           Wheel Event
+    //--------------------------------------------------------------------------------
+    /**
+     * @class QtMouseWheelSink
+     * @ingroup group_otqt_classes
+     * @brief Destination sink of the MWD
+     *
+     * Provides wheel state values either @e enabled or @e disabled for wheel forward and
+     * backward rotation.
+     *
+     * The MWS uses he @c button member of the OpenTracker @c State event class and maps slots
+     * to wheel events as follows. A wheel move is indicated by a binary slot value of
+     * @c 1 (@e true/enabled).
+     @verbatim
+     Slot           Wheel Event
 
-0              Wheel Forward Move
-1              Wheel Backward Move
-2-7            not used
-@endverbatim
- *
- * Provides methods indicating wheel forward (see wheelForwardMove()) and wheel backward
- * (see wheelBackwardMove()) moves.
- */
-class OPENTRACKER_API QtMouseWheelSink : public QtMouseEventSinkBase {
-public:
-  /**
-   * Calls base class constructor.
-   * @see QtMouseEventSinkBase(StringTable&)
-   */
-  QtMouseWheelSink(StringTable & xml_attrib_table)
-    : QtMouseEventSinkBase(xml_attrib_table) { };
-  ~QtMouseWheelSink() { };
+     0              Wheel Forward Move
+     1              Wheel Backward Move
+     2-7            not used
+     @endverbatim
+     *
+     * Provides methods indicating wheel forward (see wheelForwardMove()) and wheel backward
+     * (see wheelBackwardMove()) moves.
+     */
+    class OPENTRACKER_API QtMouseWheelSink : public QtMouseEventSinkBase {
+    public:
+        /**
+         * Calls base class constructor.
+         * @see QtMouseEventSinkBase(StringTable&)
+         */
+        QtMouseWheelSink(StringTable & xml_attrib_table)
+            : QtMouseEventSinkBase(xml_attrib_table) { };
+        ~QtMouseWheelSink() { };
 
-public:
+    public:
 
-  ///// class Node interface
+        ///// class Node interface
 
-  virtual void onEventGenerated(Event & event, Node & generator);
+        virtual void onEventGenerated(Event & event, Node & generator);
 
-  /**
-   * Returns true if a forward move state bit transition disabled -> enabled is discovered
-   * investigating the current and previous wheel events.
-   *
-   * @return true if wheel recently moved forward
-   */
-  bool wheelForwardMove() const;
-  /**
-   * Returns true if a backward move state bit transition disabled -> enabled is
-   * discovered investigating the current and previous wheel events.
-   *
-   * @return true if wheel recently moved backward
-   */
-  bool wheelBackwardMove() const;
+        /**
+         * Returns true if a forward move state bit transition disabled -> enabled is discovered
+         * investigating the current and previous wheel events.
+         *
+         * @return true if wheel recently moved forward
+         */
+        bool wheelForwardMove() const;
+        /**
+         * Returns true if a backward move state bit transition disabled -> enabled is
+         * discovered investigating the current and previous wheel events.
+         *
+         * @return true if wheel recently moved backward
+         */
+        bool wheelBackwardMove() const;
 
-};
+        void pushEvent();
+        void pullEvent();
+
+    };
 
 } // namespace ot
 

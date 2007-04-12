@@ -337,7 +337,12 @@ namespace ot {
 						}
 					}
 			        
-					handled = SPW_TRUE;              /* spacedevice event handled */ 
+					handled = SPW_TRUE;              /* spacedevice event handled */                 
+					if (Module::contextx != NULL)
+					  {
+					    Module::contextx->dataSignal();
+					  }
+
 				}
 
 				/* not a Spacedevice event, let windows handle it */

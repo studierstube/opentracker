@@ -97,6 +97,23 @@ namespace ot {
 	/// protected constructor so it is only accessible by the module
 	GPSDirectionSource() {};
 
+        void pushEvent()
+        {
+            lock();
+            if(event.time < buffer.time )
+            {
+                event = buffer;
+                unlock();
+                updateObservers( event );
+            }
+            else
+            {
+                unlock();
+            }
+        }
+
+        void pullEvent() {};
+
 	friend class GPSModule;
     };
 
@@ -108,7 +125,7 @@ namespace ot {
             GPSModule * module = (GPSModule *)userData;
             if( !module->driver->hasFix() )
                 return;
-            module->lock();
+            module->lockLoop();
             buffer.timeStamp();
             // klm/h = 3.6 * m/s, 1/3.6 = 0.27777777777777777777777777777778
             buffer.getPosition()[0] = (float)(point->speedKlm * 0.27777777777777777777777777777778);
@@ -119,7 +136,7 @@ namespace ot {
             temp[3] = (float)(point->trueCourse * MathUtils::GradToRad);
             MathUtils::axisAngleToQuaternion( copyA2V(temp, 4), buffer.getOrientation() );
             buffer.getConfidence() = (float)(1 / module->driver->getHdop());
-            module->unlock();
+            module->unlockLoop();
         }
     }
 

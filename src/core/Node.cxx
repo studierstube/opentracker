@@ -29,7 +29,7 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF  SUCH DAMAGE.
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
@@ -49,13 +49,14 @@
 #include <memory>
 #include <algorithm>
 
+#include <ace/Thread.h>
+#include <ace/Synch.h>
+
 #include <OpenTracker/OpenTracker.h>
 
 #include <OpenTracker/core/Node.h>
-
 #include <OpenTracker/core/StringTable.h>
 #include <OpenTracker/core/Configurator.h>
-
 #include <OpenTracker/core/Context.h>
 
 #ifdef USE_LIVE
@@ -81,7 +82,8 @@ namespace ot {
         OT_INITIALIZE_IREFCOUNTED;
 #endif
         graph=0;
-
+        traversalorder = 0;
+	mutex = new ACE_Thread_Mutex;
     }
 
     // destructor
@@ -94,10 +96,11 @@ namespace ot {
         if (graph) graph->remNode(this);
         //        setGraph(0);
 
-
+        delete mutex;
     }
 
-    void Node::disconnect(){
+    void Node::disconnect()
+    {
         for (NodeVector::iterator i = children.begin(); i != children.end(); i++){
             (*i) ->removeParent(this);
         }
@@ -109,8 +112,6 @@ namespace ot {
             (*i) ->removeChild(*this);
         }
         
-
-
         parents.clear();
         //        logPrintW("parents cleared\n");
 
@@ -167,6 +168,7 @@ namespace ot {
         //        child.addParent(this);
         // add the child to the children list of this node
         children.push_back(&child);
+        updateTraversalOrder();
 
         return OK;
     }
@@ -182,8 +184,9 @@ namespace ot {
         while (it != children.end()){
             if (((Node*)*it) == (&child)){
                 found = true;
-                //                logPrintE("Erasing parent %p = %p\n", parent, (*it));
+                //                logPrintE("Erasing parent %p = %p\n", parent, (*it));                
                 it = children.erase(it);
+                
                 
             }else
                 it ++;
@@ -191,7 +194,10 @@ namespace ot {
         }
 
         if (found)
+        {
+            updateTraversalOrder();
             return OK;
+        }
         else
             return NOT_FOUND;
     }
@@ -211,12 +217,41 @@ namespace ot {
                 it ++;
             
         }
-        if (found)
-            return OK;
+        if (found)         
+            return OK;            
         else
             return NOT_FOUND;
     }
 
+    void Node::updateTraversalOrder()
+    {
+        int maxtraversalorder = -1;
+        NodeVector::iterator it = children.begin();
+        int acttravorder = 0;
+
+        while (it != children.end()) 
+        {
+            if ((acttravorder = (*it)->getTraversalOrder()) > maxtraversalorder)
+            {
+                maxtraversalorder = acttravorder;
+            }
+            ++it;
+        }
+        if (traversalorder != maxtraversalorder + 1)
+        {
+            traversalorder = maxtraversalorder + 1;
+
+            // propagate to all parents
+            if (countParents() > 0)
+            {
+                NodeVector::iterator pit;
+                for (pit=parents.begin(); pit != parents.end(); pit++)
+                {
+                    (*pit)->updateTraversalOrder();
+                }
+            }
+        }
+    }
 
     // iterates through the children by returning the child by index
 
@@ -235,6 +270,11 @@ namespace ot {
         }
         return result;
 
+    }
+
+    int Node::getTraversalOrder() const
+    {
+        return traversalorder;
     }
 
     // returns number of NodePorts present on this Node
@@ -489,6 +529,18 @@ namespace ot {
         return count;
     }
 
+    void Node::lock()
+    {
+	mutex->acquire();
+    };
+
+    // leaves a critical section. 
+
+    void Node::unlock()
+    {
+	mutex->release();
+    };
+
 #ifndef USE_LIVE
     OT_IMPLEMENT_IREFCOUNTED(Node);
 //         int Node ::_ref(){
@@ -513,6 +565,7 @@ namespace ot {
     // add one parent node
     void Node::addParent( Node * parent ){
         parents.push_back( parent );
+        parent->updateTraversalOrder();
     }
 
     /**
@@ -566,10 +619,14 @@ namespace ot {
     };
 
 
-StringTable & Node::getAttributes(){
-    return attributes;
-};
+    StringTable & Node::getAttributes(){
+        return attributes;
+    };
 
+    bool Node::operator<(const Node &nd) const
+    {
+        return traversalorder < nd.traversalorder;
+    }
 
 #ifdef USE_LIVE
     char* Node::get_type() {
@@ -614,7 +671,6 @@ StringTable & Node::getAttributes(){
         return attributes._retn();
 #endif //NO_OT_LOCAL_GRAPH
    };
-
 
 
 #endif

@@ -104,6 +104,8 @@ public:
   ///// class Node interface
 
   virtual void onEventGenerated(Event & event, Node & generator);
+  void pushEvent();
+  void pullEvent();
 
 };
 

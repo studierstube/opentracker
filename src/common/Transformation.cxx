@@ -159,6 +159,16 @@ namespace ot {
         updateObservers( *transformEvent( &event ));
     }
 
+    void Transformation::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void Transformation::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

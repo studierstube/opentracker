@@ -80,6 +80,16 @@ namespace ot {
         }		    
     }
 
+    void TimeGateNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void TimeGateNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

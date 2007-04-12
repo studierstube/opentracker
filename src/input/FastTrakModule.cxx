@@ -72,15 +72,13 @@ namespace ot {
     const int ISOTRAK = 2;
 
     // constructor method.
-    FastTrakModule::FastTrakModule() : ThreadModule(), NodeFactory(), stations( NULL )
+    FastTrakModule::FastTrakModule() : ThreadModule(), NodeFactory()
     {
     }
 
     // Destructor method, clears nodes member.
     FastTrakModule::~FastTrakModule()
     {
-	if( stations != NULL )
-            delete[] stations;
         nodes.clear();
     }
 
@@ -101,7 +99,7 @@ namespace ot {
             exit(-1);
         }
 
-        stations = new tmpStationEvent[numberOfStations];
+        //stations = new tmpStationEvent[numberOfStations];
 
         if (attributes.get("type").compare("fasttrak") == 0)
             trackerType = FASTTRAK;
@@ -273,9 +271,9 @@ namespace ot {
     void FastTrakModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
 
         // close serial ports
         if( isInitialized() == 1 )
@@ -308,13 +306,13 @@ namespace ot {
 
             while(1)
             {
-                lock();
+                lockLoop();
                 if( stop == 1 )
                 {			
-                    unlock();
+                    unlockLoop();
                     break;
                 } else { 
-                    unlock();
+                    unlockLoop();
                 }
                 if( (bytesRead = readfromSerialPort( &port, readBuffer, 128 )) < 1 )
                     noData++;
@@ -330,9 +328,7 @@ namespace ot {
                     if (stationNr > -1)
                     {
                         // we got a full buffer, set the data of the addressed station
-                        lock();
                         convert(stationNr, inputBuffer); 
-                        unlock();
                     }
                     else if (stationNr == -2)
                         break;
@@ -357,28 +353,31 @@ namespace ot {
     // pushes events into the tracker tree
     void FastTrakModule::pushEvent()
     {
-        FastTrakSource *source;
+        // nothing to do
+    }
 
-        if( isInitialized() == 1 )
+    void FastTrakSource::pushEvent()
+    {
+        lock();
+        if (newVal == 1)
         {
-            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-            {
-                source = (FastTrakSource *) ((Node*)*it);
-                lock();
-                if (stations[source->station].newVal == 1)
-                {
-                    source->event = stations[source->station].event;
-                    stations[source->station].newVal = 0;
-                    unlock();
-                    source->event.timeStamp();
-                    source->updateObservers(source->event);
-                }
-                else
-                    unlock();
-            }
+            //source->event = stations[source->station].event;
+            newVal = 0;
+            event.timeStamp();
+            updateObservers(event);
+            
+            unlock();
+        }
+        else
+        {
+            unlock();
         }
     }
 
+    void FastTrakSource::pullEvent()
+    {
+        // nothing to do
+    }
 
     // events of parser
     const int tsStart=0;
@@ -619,12 +618,16 @@ namespace ot {
 
     void FastTrakModule::setButtonIT(int stationNr, int button)
     {
-        if (stations[stationNr].event.getButton() != button)
+        FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr].item());
+        if (node)
         {
-            lock();
-            stations[stationNr].event.getButton() = button;
-            stations[stationNr].newVal = 1;
-            unlock();
+            if (node->event.getButton() != button)
+            {
+                node->lock();
+                node->event.getButton() = button;
+                node->newVal = 1;
+                node->unlock();
+            }
         }
     }
 
@@ -632,20 +635,25 @@ namespace ot {
 
     void FastTrakModule::convert(int stationNr, char *inputBuffer)
     {
-        if (trackerType == FASTTRAK)
+        FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr].item()); 
+        if (node)
         {
-            buildPositionFT(inputBuffer, stations[stationNr].event.getPosition());
-            buildQuaternionFT(inputBuffer,stations[stationNr].event.getOrientation());
-        }
-        else if (trackerType == ISOTRAK)
-        {
-            buildPositionIT(inputBuffer, stations[stationNr].event.getPosition());
-            buildQuaternionIT(inputBuffer,stations[stationNr].event.getOrientation());
-        }
+            node->lock();
+            if (trackerType == FASTTRAK)
+            {
+                buildPositionFT(inputBuffer, node->event.getPosition());
+                buildQuaternionFT(inputBuffer, node->event.getOrientation());
+            }
+            else if (trackerType == ISOTRAK)
+            {
+                buildPositionIT(inputBuffer, node->event.getPosition());
+                buildQuaternionIT(inputBuffer, node->event.getOrientation());
+            }
 
-        stations[stationNr].newVal = 1;
+            node->newVal = 1;
+            node->unlock();
+        }
     }
-
 } // namespace ot
 
 

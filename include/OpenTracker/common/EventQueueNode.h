@@ -137,6 +137,9 @@ namespace ot {
             return EventQueueImplementation::getSize();
 	}
 
+        void pushEvent();
+        void pullEvent();
+
         friend class CommonNodeFactory;
     };
 

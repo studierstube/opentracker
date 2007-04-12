@@ -108,7 +108,7 @@ namespace ot {
 #endif
     }
 
-    void XSensSource::push()
+    void XSensSource::pushEvent()
     {
 #ifdef WIN32
         // do something with xsens
@@ -163,6 +163,10 @@ namespace ot {
 #endif
     }
 
+    void XSensSource::pullEvent()
+    {
+        // nothing to do
+    }
 
 }  // namespace ot
 

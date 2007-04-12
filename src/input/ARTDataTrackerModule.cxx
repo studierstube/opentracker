@@ -64,11 +64,11 @@
 
 
 namespace ot {
-
-	OT_MODULE_REGISTER_FUNC(ARTDataTrackerModule){
-		OT_MODULE_REGISTRATION_DEFAULT(ARTDataTrackerModule, "ARTDataTrackerConfig" );
-	}
-
+    
+    OT_MODULE_REGISTER_FUNC(ARTDataTrackerModule){
+        OT_MODULE_REGISTRATION_DEFAULT(ARTDataTrackerModule, "ARTDataTrackerConfig" );
+    }
+    
 
     static const float DEG_TO_RAD = (float)(3.14159/180.0);
 
@@ -95,48 +95,48 @@ namespace ot {
     Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& attributes)
     {
 	if( name.compare("ARTDataTrackerSource") == 0 )
-	    {
-		stop = 0;
-		int number;
-		int num = sscanf(attributes.get("number").c_str(), " %i", &number );
+        {
+            stop = 0;
+            int number;
+            int num = sscanf(attributes.get("number").c_str(), " %i", &number );
 
-		if (attributes.get("type") == "3d" )
-		    {
-			number += 20;
-		    }
-		else if (attributes.get("type") == "fly" )
-		    {
-			number += 40;
-		    }
-		else if (attributes.get("type") == "pen" )
-		    {
-			number += 60;
-		    }
+            if (attributes.get("type") == "3d" )
+            {
+                number += 20;
+            }
+            else if (attributes.get("type") == "fly" )
+            {
+                number += 40;
+            }
+            else if (attributes.get("type") == "pen" )
+            {
+                number += 60;
+            }
 
-		if( num == 0 )
-		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting ARTDataTrackerSource number !\n")));
-			return NULL;
-		    }
+            if( num == 0 )
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting ARTDataTrackerSource number !\n")));
+                return NULL;
+            }
 
-		NodeVector::iterator it;
-		for( it = sources.begin(); it != sources.end(); it++ ){
-		    ARTDataTrackerSource * source = (ARTDataTrackerSource*)((Node*) *it);
-		    if( source->number == number )
-			{
-			    break;
-			}
-		}
-		if( it != sources.end())
-		    {
-			ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d already exists\n"), number));
-			return NULL;
-		    }
-		ARTDataTrackerSource * source = new ARTDataTrackerSource( number);
-		sources.push_back( source );
-		logPrintI("Built ARTDataTrackerSource node. Number: %d\n", number);
-		return source;
-	    }
+            NodeVector::iterator it;
+            for( it = sources.begin(); it != sources.end(); it++ ){
+                ARTDataTrackerSource * source = (ARTDataTrackerSource*)((Node*) *it);
+                if( source->number == number )
+                {
+                    break;
+                }
+            }
+            if( it != sources.end())
+            {
+                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Source with number %d already exists\n"), number));
+                return NULL;
+            }
+            ARTDataTrackerSource * source = new ARTDataTrackerSource( number);
+            sources.push_back( source );
+            logPrintI("Built ARTDataTrackerSource node. Number: %d\n", number);
+            return source;
+        }
 	return NULL;
     }
 
@@ -153,9 +153,9 @@ namespace ot {
 
     void ARTDataTrackerModule::close()
     {
-	lock();
+	lockLoop();
 	stop = 1;
-	unlock();
+	unlockLoop();
     }
 
     // -------------------------------------------------------------------------------------------------------
@@ -181,192 +181,199 @@ namespace ot {
 	// mainloop for reading data from the port
 
 	while (1)
-	    {
-		do
-		    {
-			if( (retval = socket->recv( receiveBuffer, receiveBufferSize , addr, 0, &timeOut )) == -1 )
-			    {
-				if(errno != ETIME && errno != 0)
-				    {
-					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR %d receiving data\n"), errno));
-					exit( -1 );
-				    }
-			    }
-		    } while( retval < 0 && stop == 0);
+        {
+            do
+            {
+                if( (retval = socket->recv( receiveBuffer, receiveBufferSize , addr, 0, &timeOut )) == -1 )
+                {
+                    if(errno != ETIME && errno != 0)
+                    {
+                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:ERROR %d receiving data\n"), errno));
+                        exit( -1 );
+                    }
+                }
+            } while( retval < 0 && stop == 0);
 
-		if( stop != 0 )
-		    {
-			break;
-		    }
+            lockLoop();
+            if( stop)
+            {
+                unlockLoop();
+                break;
+            }
+            unlockLoop();
 
-		// from here the String is in the Buffer!
-		// converts c-String into String
-		receiveString = std::string(receiveBuffer, retval);
-		// call .chomp Method from DataTrackerInstance to bring the received  String into a Record
-		//endwin();
+            // from here the String is in the Buffer!
+            // converts c-String into String
+            receiveString = std::string(receiveBuffer, retval);
+            // call .chomp Method from DataTrackerInstance to bring the received  String into a Record
+            //endwin();
 
-		DataTracker->chomp(receiveString);
-		//DataTracker->displayRecords();
+            DataTracker->chomp(receiveString);
+            //DataTracker->displayRecords();
 
-		// brings the Record from the ARTDataTrackerChomp class to the BodyRecordTemp Record
-		std::map<int, ARTDataTrackerChomp::BodyRecord> & BodyRecordTemp = DataTracker->getBodyRecord();
-		std::map<int, ARTDataTrackerChomp::MarkerRecord> & MarkerRecordTemp = DataTracker->getMarkerRecord();
-		std::map<int, ARTDataTrackerChomp::FlystickRecord> & FlystickRecordTemp = DataTracker->getFlystickRecord();
-		std::map<int, ARTDataTrackerChomp::MeasuretargetRecord> & MeasuretargetRecordTemp = DataTracker->getMeasuretargetRecord();
+            // brings the Record from the ARTDataTrackerChomp class to the BodyRecordTemp Record
+            std::map<int, ARTDataTrackerChomp::BodyRecord> & BodyRecordTemp = DataTracker->getBodyRecord();
+            std::map<int, ARTDataTrackerChomp::MarkerRecord> & MarkerRecordTemp = DataTracker->getMarkerRecord();
+            std::map<int, ARTDataTrackerChomp::FlystickRecord> & FlystickRecordTemp = DataTracker->getFlystickRecord();
+            std::map<int, ARTDataTrackerChomp::MeasuretargetRecord> & MeasuretargetRecordTemp = DataTracker->getMeasuretargetRecord();
 
 
 
-		NodeVector::iterator it;
+            NodeVector::iterator it;
 
-		lock();
-		for( it = sources.begin(); it != sources.end(); it++)
-		    {
-			ARTDataTrackerSource * source = (ARTDataTrackerSource*)((Node*) *it);
-			bodyID = source->number;
-			if (bodyID < 20)
-			    {
-				if( BodyRecordTemp[bodyID].valid == true )
-				    {
-					// convert Data such as quaternion and euler-Angles
-					convert( BodyRecordTemp[bodyID] );
-					// Brings the locationdata from BodyRecordTemp to  source->event.position !
-					source->event.getPosition()[0] = BodyRecordTemp[bodyID].location[0];
-					source->event.getPosition()[1] = BodyRecordTemp[bodyID].location[1];
-					source->event.getPosition()[2] = BodyRecordTemp[bodyID].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
-					source->event.getOrientation()[0] = BodyRecordTemp[bodyID].orientation[0];
-					source->event.getOrientation()[1] = BodyRecordTemp[bodyID].orientation[1];
-					source->event.getOrientation()[2] = BodyRecordTemp[bodyID].orientation[2];
-					source->event.getOrientation()[3] = BodyRecordTemp[bodyID].orientation[3];
-					// Bring a timeStamp to source->event
-					source->event.timeStamp();
-					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-					// fixed to 0.5 ??
-					source->event.getConfidence() = 0.5;
-					// Source was definitly changed !
-					source->changed = 1;
-				    }
-				else
-				    {
-					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
-					// confidence to 0.0!
-					if (source->event.getConfidence() > 0.000001f)
-					    {
-						source->changed = 1;
-						source->event.getConfidence() = 0.0f;
-					    }
-				    }
-			    }
-			else if (bodyID < 40)
-			    {
-				if( MarkerRecordTemp[bodyID-20].valid == true )
-				    {
-					// convert Data such as quaternion and euler-Angles
-					convert( BodyRecordTemp[bodyID-20] );
-					// Brings the locationdata from BodyRecordTemp to  source->event.position !
-					source->event.getPosition()[0] = MarkerRecordTemp[bodyID-20].location[0];
-					source->event.getPosition()[1] = MarkerRecordTemp[bodyID-20].location[1];
-					source->event.getPosition()[2] = MarkerRecordTemp[bodyID-20].location[2];
-					// Bring a timeStamp to source->event
-					source->event.timeStamp();
-					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-					// fixed to 0.5 ??
-					source->event.getConfidence() = 0.5;
-					// Source was definitly changed !
-					source->changed = 1;
-				    }
-				else
-				    {
-					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
-					// confidence to 0.0!
-					if (source->event.getConfidence() > 0.000001f)
-					    {
-						source->changed = 1;
-						source->event.getConfidence() = 0.0f;
-					    }
-				    }
-			    }
-			else if (bodyID < 60)
-			    {
-				if( FlystickRecordTemp[bodyID-40].valid == true )
-				    {
-					// convert Data such as quaternion and euler-Angles
-					convert( FlystickRecordTemp[bodyID-40] );
-					// Brings the locationdata from BodyRecordTemp to  source->event.position !
-					source->event.getPosition()[0] = FlystickRecordTemp[bodyID-40].location[0];
-					source->event.getPosition()[1] = FlystickRecordTemp[bodyID-40].location[1];
-					source->event.getPosition()[2] = FlystickRecordTemp[bodyID-40].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
-					source->event.getOrientation()[0] = FlystickRecordTemp[bodyID-40].orientation[0];
-					source->event.getOrientation()[1] = FlystickRecordTemp[bodyID-40].orientation[1];
-					source->event.getOrientation()[2] = FlystickRecordTemp[bodyID-40].orientation[2];
-					source->event.getOrientation()[3] = FlystickRecordTemp[bodyID-40].orientation[3];
-					// buttons ...
-					source->event.getButton() = (unsigned short)FlystickRecordTemp[bodyID-40].buttons;
-					// Bring a timeStamp to source->event
-					source->event.timeStamp();
-					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-					// fixed to 0.5 ??
-					source->event.getConfidence() = 0.5;
-					// Source was definitly changed !
-					source->changed = 1;
-				    }
-				else
-				    {
-					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
-					// confidence to 0.0!
-					if (source->event.getConfidence() > 0.000001f)
-					    {
-						source->changed = 1;
-						source->event.getConfidence() = 0.0f;
-					    }
-				    }
-			    }
-			else if (bodyID < 80)
-			    {
-				if( MeasuretargetRecordTemp[bodyID-60].valid == true )
-				    {
-					// convert Data such as quaternion and euler-Angles
-					convert( MeasuretargetRecordTemp[bodyID-60] );
-					// Brings the locationdata from BodyRecordTemp to  source->event.position !
-					source->event.getPosition()[0] = MeasuretargetRecordTemp[bodyID-60].location[0];
-					source->event.getPosition()[1] = MeasuretargetRecordTemp[bodyID-60].location[1];
-					source->event.getPosition()[2] = MeasuretargetRecordTemp[bodyID-60].location[2];
-					// Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
-					source->event.getOrientation()[0] = MeasuretargetRecordTemp[bodyID-60].orientation[0];
-					source->event.getOrientation()[1] = MeasuretargetRecordTemp[bodyID-60].orientation[1];
-					source->event.getOrientation()[2] = MeasuretargetRecordTemp[bodyID-60].orientation[2];
-					source->event.getOrientation()[3] = MeasuretargetRecordTemp[bodyID-60].orientation[3];
-					// buttons ...
-					source->event.getButton() = (unsigned short)MeasuretargetRecordTemp[bodyID-60].buttons;
-					// Bring a timeStamp to source->event
-					source->event.timeStamp();
-					// Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
-					// fixed to 0.5 ??
-					source->event.getConfidence() = 0.5;
-					// Source was definitly changed !
-					source->changed = 1;
-				    }
-				else
-				    {
-					// only if marker was found in the last grab (event.getConfidence() > epsilon) set
-					// confidence to 0.0!
-					if (source->event.getConfidence() > 0.000001f)
-					    {
-						source->changed = 1;
-						source->event.getConfidence() = 0.0f;
-					    }
-				    }
-			    }
-			else
-			    {
-			    }
+            for( it = sources.begin(); it != sources.end(); it++)
+            {
+                ARTDataTrackerSource * source = 
+                    (ARTDataTrackerSource*)((Node*) *it);
+                source->lock();
 
-		    } // for ...
+                bodyID = source->number;
+                if (bodyID < 20)
+                {
+                    if( BodyRecordTemp[bodyID].valid == true )
+                    {
+                        // convert Data such as quaternion and euler-Angles
+                        convert( BodyRecordTemp[bodyID] );
+                        // Brings the locationdata from BodyRecordTemp to  source->event.position !
+                        source->event.getPosition()[0] = BodyRecordTemp[bodyID].location[0];
+                        source->event.getPosition()[1] = BodyRecordTemp[bodyID].location[1];
+                        source->event.getPosition()[2] = BodyRecordTemp[bodyID].location[2];
+                        // Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+                        source->event.getOrientation()[0] = BodyRecordTemp[bodyID].orientation[0];
+                        source->event.getOrientation()[1] = BodyRecordTemp[bodyID].orientation[1];
+                        source->event.getOrientation()[2] = BodyRecordTemp[bodyID].orientation[2];
+                        source->event.getOrientation()[3] = BodyRecordTemp[bodyID].orientation[3];
+                        // Bring a timeStamp to source->event
+                        source->event.timeStamp();
+                        // Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+                        // fixed to 0.5 ??
+                        source->event.getConfidence() = 0.5;
+                        // Source was definitly changed !
+                        source->changed = 1;
+                    }
+                    else
+                    {
+                        // only if marker was found in the last grab (event.getConfidence() > epsilon) set
+                        // confidence to 0.0!
+                        if (source->event.getConfidence() > 0.000001f)
+                        {
+                            source->changed = 1;
+                            source->event.getConfidence() = 0.0f;
+                        }
+                    }
+                }
+                else if (bodyID < 40)
+                {
+                    if( MarkerRecordTemp[bodyID-20].valid == true )
+                    {
+                        // convert Data such as quaternion and euler-Angles
+                        convert( BodyRecordTemp[bodyID-20] );
+                        // Brings the locationdata from BodyRecordTemp to  source->event.position !
+                        source->event.getPosition()[0] = MarkerRecordTemp[bodyID-20].location[0];
+                        source->event.getPosition()[1] = MarkerRecordTemp[bodyID-20].location[1];
+                        source->event.getPosition()[2] = MarkerRecordTemp[bodyID-20].location[2];
+                        // Bring a timeStamp to source->event
+                        source->event.timeStamp();
+                        // Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+                        // fixed to 0.5 ??
+                        source->event.getConfidence() = 0.5;
+                        // Source was definitly changed !
+                        source->changed = 1;
+                    }
+                    else
+                    {
+                        // only if marker was found in the last grab (event.getConfidence() > epsilon) set
+                        // confidence to 0.0!
+                        if (source->event.getConfidence() > 0.000001f)
+                        {
+                            source->changed = 1;
+                            source->event.getConfidence() = 0.0f;
+                        }
+                    }
+                }
+                else if (bodyID < 60)
+                {
+                    if( FlystickRecordTemp[bodyID-40].valid == true )
+                    {
+                        // convert Data such as quaternion and euler-Angles
+                        convert( FlystickRecordTemp[bodyID-40] );
+                        // Brings the locationdata from BodyRecordTemp to  source->event.position !
+                        source->event.getPosition()[0] = FlystickRecordTemp[bodyID-40].location[0];
+                        source->event.getPosition()[1] = FlystickRecordTemp[bodyID-40].location[1];
+                        source->event.getPosition()[2] = FlystickRecordTemp[bodyID-40].location[2];
+                        // Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+                        source->event.getOrientation()[0] = FlystickRecordTemp[bodyID-40].orientation[0];
+                        source->event.getOrientation()[1] = FlystickRecordTemp[bodyID-40].orientation[1];
+                        source->event.getOrientation()[2] = FlystickRecordTemp[bodyID-40].orientation[2];
+                        source->event.getOrientation()[3] = FlystickRecordTemp[bodyID-40].orientation[3];
+                        // buttons ...
+                        source->event.getButton() = (unsigned short)FlystickRecordTemp[bodyID-40].buttons;
+                        // Bring a timeStamp to source->event
+                        source->event.timeStamp();
+                        // Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+                        // fixed to 0.5 ??
+                        source->event.getConfidence() = 0.5;
+                        // Source was definitly changed !
+                        source->changed = 1;
+                    }
+                    else
+                    {
+                        // only if marker was found in the last grab (event.getConfidence() > epsilon) set
+                        // confidence to 0.0!
+                        if (source->event.getConfidence() > 0.000001f)
+                        {
+                            source->changed = 1;
+                            source->event.getConfidence() = 0.0f;
+                        }
+                    }
+                }
+                else if (bodyID < 80)
+                {
+                    if( MeasuretargetRecordTemp[bodyID-60].valid == true )
+                    {
+                        // convert Data such as quaternion and euler-Angles
+                        convert( MeasuretargetRecordTemp[bodyID-60] );
+                        // Brings the locationdata from BodyRecordTemp to  source->event.position !
+                        source->event.getPosition()[0] = MeasuretargetRecordTemp[bodyID-60].location[0];
+                        source->event.getPosition()[1] = MeasuretargetRecordTemp[bodyID-60].location[1];
+                        source->event.getPosition()[2] = MeasuretargetRecordTemp[bodyID-60].location[2];
+                        // Brings the calculated Quaternion Data from BodyRecordTemp to source->event.orientation !
+                        source->event.getOrientation()[0] = MeasuretargetRecordTemp[bodyID-60].orientation[0];
+                        source->event.getOrientation()[1] = MeasuretargetRecordTemp[bodyID-60].orientation[1];
+                        source->event.getOrientation()[2] = MeasuretargetRecordTemp[bodyID-60].orientation[2];
+                        source->event.getOrientation()[3] = MeasuretargetRecordTemp[bodyID-60].orientation[3];
+                        // buttons ...
+                        source->event.getButton() = (unsigned short)MeasuretargetRecordTemp[bodyID-60].buttons;
+                        // Bring a timeStamp to source->event
+                        source->event.timeStamp();
+                        // Quality taken from the Datagramm (not used by DTrack in this Version of DTrack)
+                        // fixed to 0.5 ??
+                        source->event.getConfidence() = 0.5;
+                        // Source was definitly changed !
+                        source->changed = 1;
+                    }
+                    else
+                    {
+                        // only if marker was found in the last grab (event.getConfidence() > epsilon) set
+                        // confidence to 0.0!
+                        if (source->event.getConfidence() > 0.000001f)
+                        {
+                            source->changed = 1;
+                            source->event.getConfidence() = 0.0f;
+                        }
+                    }
+                    
+                    // notify main loop
+                    if (Module::contextx != NULL)
+                    {
+                        Module::contextx->dataSignal();
+                    }
+                }
 
-		unlock();
+                source->unlock();
+            } // for ...
 
-	    } // while(1)
+        } // while(1)
 
 	socket->close();
     }
@@ -458,20 +465,7 @@ namespace ot {
     // pushes events into the tracker tree
     void ARTDataTrackerModule::pushEvent()
     {
-	if( isInitialized() )
-	    {
-		for( NodeVector::iterator it = sources.begin(); it != sources.end(); it++ )
-		    {
-			ARTDataTrackerSource *source = (ARTDataTrackerSource *) ((Node*)*it);
-			lock();
-			if( source->changed == 1 )
-			    {
-				source->updateObservers( source->event );
-				source->changed = 0;
-			    }
-			unlock();
-		    }
-	    }
+        //nothing to do here
     }
 
     // -------------------------------------------------------------------------------------------------------
@@ -486,9 +480,9 @@ namespace ot {
 	// Scannig port number from XML-File
 	num = sscanf(attributes.get("port").c_str(), " %i", &port );
 	if( num == 0 )
-	    {
-		port = 12345;
-	    }
+        {
+            port = 12345;
+        }
 
 	DataTracker = new ARTDataTrackerChomp();
     }
@@ -500,17 +494,18 @@ namespace ot {
 #pragma message(">>> OT_NO_ARTDATATRACKER_SUPPORT")
 #endif // OT_NO_ARTDATATRACKER_SUPPORT
 
-
-/* ===========================================================================
-   End of ARTDataTrackerModule.cxx
-   ===========================================================================
-   Automatic Emacs configuration follows.
-   Local Variables:
-   mode:c++
-   c-basic-offset: 4
-   eval: (c-set-offset 'subeventment-open 0)
-   eval: (c-set-offset 'case-label '+)
-   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
-   eval: (setq indent-tabs-mode nil)
-   End:
-   =========================================================================== */
+/* 
+ * ------------------------------------------------------------
+ *   End of ARTDataTrackerModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

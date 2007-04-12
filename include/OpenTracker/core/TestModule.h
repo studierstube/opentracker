@@ -60,14 +60,30 @@
 
 
 #include <vector>
+#include <queue>
 
 #include "Module.h"
 #include "NodeFactory.h"
 
+#include <ace/Time_Value.h>
+
 namespace ot {
 
     typedef std::vector<Node::Ptr> NodeVector;
+    typedef std::pair<ACE_Time_Value, Node::Ptr> PQEntry;
 
+    class comptimepair
+    {
+    public:
+        comptimepair() {};
+        inline bool operator()(const PQEntry  &n1, const PQEntry &n2)
+        {
+            return (n1.first > n2.first);
+        }
+    };
+
+    typedef std::priority_queue<PQEntry, std::vector<PQEntry >, comptimepair > PriorityQueue;
+                                
     /**
      * The module and factory to drive the test source nodes. It constructs
      * TestSource nodes via the NodeFactory interface and pushes events into
@@ -76,21 +92,23 @@ namespace ot {
      * @ingroup core
      */
 
-    class OPENTRACKER_API TestModule : public Module, public NodeFactory
+    class OPENTRACKER_API TestModule : public ThreadModule, public NodeFactory
     {
         // Members
     protected:
         /// list of TestSource nodes in the tree
         NodeVector nodes;
-        /// current cycle count, for computing when to fire a TestSource
-        int cycle;
+        /// stop flag 
+	int stop;
+        ACE_Time_Value starttime;
+        PriorityQueue pqueue;
 
         // Methods
     public:
         /** constructor method. */
-        TestModule() : Module(), NodeFactory()
+        TestModule() : ThreadModule(), NodeFactory()
         {
-            cycle = 0;
+            stop = 0;
         };
         /** Destructor method, clears nodes member. */
         virtual ~TestModule();
@@ -103,6 +121,14 @@ namespace ot {
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
 
+	/**
+	 * This method is called after initialisation is finished and before the
+	 * main loop is started.*/
+	virtual void start();
+	/**
+	 * Close */
+	virtual void close();
+
         /**
          * removes Node from module AND destroys it
          */
@@ -113,6 +139,11 @@ namespace ot {
          * pushes new events, if a TestSource fires.
          */
         virtual void pushEvent();
+
+    protected:
+	/**
+	 * Mainloop */
+        void run();
     };
 
 	OT_MODULE(TestModule);

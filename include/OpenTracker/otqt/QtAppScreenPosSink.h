@@ -104,6 +104,9 @@ public:
     : QtMouseEventSinkBase(xml_attrib_table) { };
   ~QtAppScreenPosSink() { };
 
+  void pushEvent();
+  void pullEvent();
+
 public:
 
   ///// class Node interface

@@ -82,21 +82,7 @@
 
 namespace ot {
 
-    /// this structure stores the attributes of an UltratrakSource 
-    struct Station
-    {
-        int number;    
-        Event event;
-        int modified;
-        UltraTrakSource * source;
-
-        Station( const int number_, UltraTrakSource * source_ ) :
-            number( number_ ), modified( 0 ), source( source_ )
-        {};
-    };
-
-
-    typedef std::vector<Station *> StationVector;
+    typedef std::vector<UltraTrakSource*> StationVector;
 
     /// maximum number of stations that can be processed
     const int ultraTrakMaxUnits = 16;

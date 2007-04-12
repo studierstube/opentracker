@@ -9,7 +9,7 @@
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
       
-	<TestSource frequency="10000" noise="0.1" />
+	<TestSource frequency="100000.0" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
 
@@ -17,7 +17,7 @@
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
       
-	<TestSource frequency="1000000" noise="0.1" />
+	<TestSource frequency="0.2" offset="500000" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
 
@@ -25,7 +25,7 @@
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
       
-	<TestSource frequency="100000" noise="0.15" />
+	<TestSource frequency="0.1" noise="0.15" />
     </EventTransform>
   </ConsoleSink>
 

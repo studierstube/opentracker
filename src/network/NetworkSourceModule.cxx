@@ -78,6 +78,7 @@ namespace ot {
         OT_MODULE_REGISTRATION_DEFAULT(NetworkSourceModule, "NetworkSourceConfig");
     }
 
+    
     struct Station
     {
         int number;
@@ -89,6 +90,7 @@ namespace ot {
             number( number_ ), modified( 0 ), source( source_ )
         {};
     };
+    
 
     typedef std::vector<Station *> StationVector;
 
@@ -254,13 +256,11 @@ namespace ot {
             if( rec->stop != 0 )
                 break;
             processRecord( rec );
+            
             if (contextx != NULL)
-	    { contextx->dataSignal();
-	    } else
-	    {
-               ACE_DEBUG((LM_INFO, ACE_TEXT("contextx is null \n")));
-
-	    }
+	    { 
+                contextx->dataSignal();
+	    } 
         }
         if( rec->socket.close() == -1)
         {
@@ -420,8 +420,11 @@ namespace ot {
                 if( multicasts.end() == it )
                 {
                     receiver = new MulticastReceiver( group, port );
+                    source->setMulticastReceiver(receiver);
                     multicasts.push_back( receiver );
-                    receiver->sources.push_back( new Station( number, source ));
+                    Station * newstat = new Station( number, source );
+                    source->setStation(newstat);
+                    receiver->sources.push_back(newstat );
                 } else
                 {
                     receiver = *it;
@@ -438,7 +441,10 @@ namespace ot {
                         delete source;
                         return NULL;
                     }
-                    receiver->sources.push_back( new Station( number, source ));
+                    source->setMulticastReceiver(receiver);
+                    Station * newstat = new Station( number, source );
+                    source->setStation(newstat);
+                    receiver->sources.push_back(newstat);
                 }
                 logPrintI("Built NetworkSource node.\n");
                 return source;
@@ -453,7 +459,10 @@ namespace ot {
                 {
                     receiver = new UnicastReceiver( address, port, ACE_INET_Addr( port, address.c_str() ) );
                     unicasts.push_back( receiver );
-                    receiver->sources.push_back( new Station( number, source ));
+                    source->setUnicastReceiver(receiver);
+                    Station * newstat = new Station( number, source );
+                    source->setStation(newstat);
+                    receiver->sources.push_back(newstat);
                 } else
                 {
                     receiver = *it;
@@ -470,7 +479,10 @@ namespace ot {
                         delete source;
                         return NULL;
                     }
-                    receiver->sources.push_back( new Station( number, source ));
+                    source->setUnicastReceiver(receiver);
+                    Station * newstat = new Station( number, source );
+                    source->setStation(newstat);
+                    receiver->sources.push_back( newstat);
                 }
                 logPrintI("Built NetworkSource node.\n");
                 return source;
@@ -516,6 +528,8 @@ namespace ot {
     // pushes event information into the tree
     void NetworkSourceModule::pushEvent()
     {
+        // old source for per module traversal
+        /*
         for(MulticastReceiverVector::iterator mc_it = multicasts.begin();mc_it != multicasts.end();++mc_it)
         {
             for(StationVector::iterator it =(*mc_it)->sources.begin();
@@ -556,8 +570,67 @@ namespace ot {
                     (*it)->source->updateObservers( (*it)->source->event );
             }
         }
+        */
     }
 
+    void NetworkSource::setMulticastReceiver(MulticastReceiver * recv)
+    {
+        multicastreceiver = recv;
+    }
+
+    void NetworkSource::setUnicastReceiver(UnicastReceiver * recv)
+    {
+        unicastreceiver = recv;
+    }
+
+    void NetworkSource::setStation(Station * xstation)
+    {
+        station = xstation;
+    }
+
+    void NetworkSource::pushEvent()
+    {
+        bool updateObservers = false;
+        
+        if ( multicastreceiver )
+        {
+            // critical section
+            {
+                ACE_Guard<ACE_Thread_Mutex> guard( multicastreceiver->mutex );
+                if(station->modified == 1 )
+                {
+                    event = station->event;
+                    station
+->modified = 0;
+                    updateObservers = true;
+                }
+            }
+            if (updateObservers)
+                this->updateObservers(event );
+        }
+        else
+        {
+            bool updateObservers = false;
+            // critical section
+            {
+                ACE_Guard<ACE_Thread_Mutex> guard( unicastreceiver->mutex );
+                if(station->modified == 1 )
+                {
+                    event = station->event;
+                    station->modified = 0;
+                    updateObservers = true;
+                }
+            }
+            if (updateObservers)
+                this->updateObservers(event );
+        }
+
+    }
+
+    void NetworkSource::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 

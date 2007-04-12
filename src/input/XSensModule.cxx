@@ -118,10 +118,7 @@ namespace ot {
 
     void XSensModule::pushEvent()
     {
-	if( source != NULL )
-	{
-            source->push();
-        }
+        // nothing to do
     }
 
     void XSensModule::start()

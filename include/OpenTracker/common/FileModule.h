@@ -125,6 +125,13 @@ namespace ot {
         /** Destructor method, clears nodes member. */
         virtual ~FileModule();
 
+        inline bool getRealtime() const { return realtime; };
+        inline double &getFirstPlaybackTime() { return firstPlaybackTime; };
+        inline double getFirstPlaybackTime() const { return firstPlaybackTime; };
+        inline double &getFirstSavedEventTime() { return firstSavedEventTime; };
+        inline unsigned getSourcesSize() const { return sources.size(); };
+        inline bool getLoop() const { return loop; };
+
         /**
          * initializes the tracker module. This class provides an implementation
          * that sets the initialization flag to true. Subclasses should call this

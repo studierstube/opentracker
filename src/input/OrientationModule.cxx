@@ -103,13 +103,13 @@ namespace ot {
 	
         // cout << "OrientationModule::Destructor" << endl;
 
-	TargetOriVector::iterator it;
-        for (it = targets.begin(); it != targets.end(); it++)
-            {
-                assert((*it) != NULL);
-                delete (*it)->source;
-            }
-        targets.clear();
+	OrientationSourceVector::iterator it;
+        for (it = sources.begin(); it != sources.end(); it++)
+        {
+            assert((*it) != NULL);
+            delete (*it);
+        }
+        sources.clear();
 
 
     }
@@ -132,42 +132,23 @@ namespace ot {
 
     Node * OrientationModule::createNode( const std::string & name, StringTable & attributes )
     {
+        
+	if( name.compare("OrientationSource") == 0 ) {
+            OrientationSource * source = new OrientationSource;
+            
+            printf("\n create node source:%s\n", source->getName().c_str());
 
-	if( name.compare("OrientationSource") == 0 )
-            {
-
-                TargetOriVector::iterator it;
-                for (it = targets.begin(); it != targets.end(); it++)
-                    {
-                        TargetOri * target = (TargetOri*)(*it);
-                        break;
-
-                    }
-
-
-                if (it != targets.end())
-                    {
-                        // error message
-                        ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:OrientationSource already exists !\n")));
-                        return NULL;
-                    }
-
-                OrientationSource * source = new OrientationSource;
-
-                printf("\n create node source:%s\n", source->getName().c_str());
-
-                assert(source);
-                // add the source object to the target list
-                TargetOri *target = new TargetOri(source);
-                assert(target);
-                targets.push_back(target);
-
-                ACE_DEBUG((LM_INFO, "OrientationModule: Built OrientationSource for  %s\n", port.pathname ));
-
-                // return pointer to the source node
-                return source;
-	  
-            }    
+            assert(source);
+            // add the source object to the target list
+            
+            sources.push_back(source);
+            
+            ACE_DEBUG((LM_INFO, "OrientationModule: Built OrientationSource for  %s\n", port.pathname ));
+            
+            // return pointer to the source node
+            return source;
+            
+        }    
 	return NULL;	
     } // createNode
 
@@ -182,35 +163,35 @@ namespace ot {
         int myResult = 0;
 
 
-        if ((isInitialized() == 1) && !targets.empty())
+        if ((isInitialized() == 1) && !sources.empty())
+        {
+            // init serial port
+            initSerialParams (&params);
+            params.baudrate = 19200;
+            params.parity = 0;
+            params.bits = 8;
+            params.sbit = 1;
+            params.hwflow = 0;
+            params.swflow = 0;
+            params.blocking = 0;
+            strncpy (params.pathname, port.pathname, 255);
+
+            // open the serial port
+            myResult = openSerialPort ( &port, &params );
+
+            if (myResult < 0)
             {
-                // init serial port
-                initSerialParams (&params);
-                params.baudrate = 19200;
-                params.parity = 0;
-                params.bits = 8;
-                params.sbit = 1;
-                params.hwflow = 0;
-                params.swflow = 0;
-                params.blocking = 0;
-                strncpy (params.pathname, port.pathname, 255);
-
-                // open the serial port
-                myResult = openSerialPort ( &port, &params );
-
-                if (myResult < 0)
-                    {
-                        // error message
-                        logPrintE("OrientationModule: error opening port %s\n", port.pathname);
-                        return;
-                    }
-                else
-                    printf("\n port opened \n");
-
-                serialportIsOpen = TRUE;
-
-                ThreadModule::start();
+                // error message
+                logPrintE("OrientationModule: error opening port %s\n", port.pathname);
+                return;
             }
+            else
+                printf("\n port opened \n");
+
+            serialportIsOpen = TRUE;
+
+            ThreadModule::start();
+        }
     } // start
 
 
@@ -220,23 +201,23 @@ namespace ot {
     void OrientationModule::close()
     {
 
-        int myResult = 0;
+        //int myResult = 0;
 
         // cout << "DynaSightModule::close" << endl;
 
         // stop the thread
         // critical section start
-        lock();
+        lockLoop();
         stop = true;
-        unlock();
+        unlockLoop();
         // end of critical section
 
         if (isInitialized() == 1)
-            {
-                // close the serial port
-                //if (serialportIsOpen)
-                //    myResult = closeSerialPort (&port);
-            }
+        {
+            // close the serial port
+            //if (serialportIsOpen)
+            //    myResult = closeSerialPort (&port);
+        }
     } // stop
 
 
@@ -246,63 +227,58 @@ namespace ot {
     void OrientationModule::pushEvent()
     {        
         
-    	//std::cout << "OrientationModule::pushEvent" << std::endl;
+        // nothing to do
 
-        if (isInitialized() == 1 )
-            {
-                if (targets.empty())
-                    {	printf("targets empty");
-			return;
 
-                    }
-
-                TargetOriVector::iterator it;
-                for (it = targets.begin(); it != targets.end(); it ++)
-                    {
-                        // critical section start
-                        lock();
-
-                        assert((*it) != NULL);
-
-                        // DEBUG
-                        // (*it)->modified = 1;
-                        // DEBUG
-
-                        if ((*it)->modified == 1)
-                            {
-                                // update the event information
-                                assert((*it)->source != NULL);
-
-                                // DEBUG
-
-                                //cout << "OrientationModule::pushEvent" << endl;
-                                /* (*it)->event.getPosition()[0] = 1.0;
-                                   (*it)->event.getPosition()[1] = 2.0;
-                                   (*it)->event.getPosition()[2] = 3.0;
-                                   (*it)->event.getOrientation()[0] = 0.0;
-                                   (*it)->event.getOrientation()[1] = 0.0;
-                                   (*it)->event.getOrientation()[2] = 0.0;
-                                   (*it)->event.getOrientation()[3] = 1.0;
-                                   (*it)->event.getConfidence() = 1.0;
-                                   (*it)->event.timeStamp();
-                                */
-                                // DEBUG
-
-                                (*it)->source->event = (*it)->event;
-                                (*it)->modified = 0;
-                                unlock();
-                                (*it)->source->updateObservers ((*it)->source->event);
-                            }
-                        else
-                            unlock();
-                        // end of critical section
-                    }//for
-            }  // if
     } // pushEvent
         
         
+    void OrientationSource::pushEvent()
+    {
+        // critical section start
+        
+        lock();
+        
+        // DEBUG
+        // (*it)->modified = 1;
+        // DEBUG
+        
+        if (modified == 1)
+        {
+            // update the event information
+                
+            // DEBUG
+                
+            //cout << "OrientationModule::pushEvent" << endl;
+            /* (*it)->event.getPosition()[0] = 1.0;
+               (*it)->event.getPosition()[1] = 2.0;
+               (*it)->event.getPosition()[2] = 3.0;
+               (*it)->event.getOrientation()[0] = 0.0;
+               (*it)->event.getOrientation()[1] = 0.0;
+               (*it)->event.getOrientation()[2] = 0.0;
+               (*it)->event.getOrientation()[3] = 1.0;
+               (*it)->event.getConfidence() = 1.0;
+               (*it)->event.timeStamp();
+            */
+            // DEBUG
+                
+                
+            modified = 0;
+            updateObservers (event);
+            unlock();
+        }
+        else
+        {
+            unlock();
+        }
+        
+        // end of critical section
+    }
 
-
+    void OrientationSource::pullEvent()
+    {
+        // nothing to do
+    }
 
     // reads from the Orientation Sensor and parses the data
     void OrientationModule::run()
@@ -315,25 +291,25 @@ namespace ot {
         char packetBuffer[ORIENTATION_PACKET_MAX_LENGTH];
         for (count=0; count < ORIENTATION_PACKET_MAX_LENGTH; count++) packetBuffer[count] = 0;
         count = 0;
-        char *characterPointer = NULL;
-        char newCharacter = ' ';
+        //char *characterPointer = NULL;
+        //char newCharacter = ' ';
         // status of the event machine
-        int packetEvent = 0;
+        //int packetEvent = 0;
         // number of target
-        int targetNumber = 0;
+        //int targetNumber = 0;
         // base-2 exponent
-        int exponent = 0;
-        long temp = 0;
+        //int exponent = 0;
+        //long temp = 0;
         // x, y, z coordinates
-        long x = 0, y = 0, z = 0;
-        double x_meter = 0.0, y_meter = 0.0, z_meter = 0.0;
+        //long x = 0, y = 0, z = 0;
+        //double x_meter = 0.0, y_meter = 0.0, z_meter = 0.0;
         float compass = 0, x_kippwinkel = 0, y_kippwinkel=0;
 
         // variables for the calculating of the orientation
-        double diff_x = 0.0, diff_y = 0.0, diff_z = 0.0;
-        float alpha = 0.0, beta = 0.0;
+        //double diff_x = 0.0, diff_y = 0.0, diff_z = 0.0;
+        //float alpha = 0.0, beta = 0.0;
 
-	int k=0;
+	//int k=0;
 
 	char h[255];
 
@@ -345,108 +321,111 @@ namespace ot {
         assert(serialportIsOpen == TRUE);
 
         while (1)
+        {
+            // yield to let other processes do something
+            OSUtils::sleep(1);
+
+            // critical section start
+            lockLoop();
+            if (stop == true)
             {
-                // yield to let other processes do something
-                OSUtils::sleep(1);
+                unlockLoop();
+                break;
+            }
+            else
+            {
+                unlockLoop();
+            }
+            // critical section end
 
-                // critical section start
-                lock();
-                if (stop == true)
-                    {
-                        unlock();
-                        break;
-                    }
-                else
-                    {
-                        unlock();
-                    }
-                // critical section end
+            // read data from the serial port
+            count = readfromSerialPort (&port, serialPortBuffer, 4096);
 
-                // read data from the serial port
-                count = readfromSerialPort (&port, serialPortBuffer, 4096);
+            serialPortBuffer[count]='\0';
 
-                serialPortBuffer[count]='\0';
-
-                // parser
-                // process and decode serialPortBuffer[], which now contains count new bytes
-                // format of the datan at the serial port is: nnn.nn,nn.n,nn.n
-                // first part nnn.n is compass orientation
-                // second part nn.n is x-Kippwinkel
-                // third part nn.n is y-Kippwinkel
+            // parser
+            // process and decode serialPortBuffer[], which now contains count new bytes
+            // format of the datan at the serial port is: nnn.nn,nn.n,nn.n
+            // first part nnn.n is compass orientation
+            // second part nn.n is x-Kippwinkel
+            // third part nn.n is y-Kippwinkel
 	    
-                //	printf ("count: %d\n",count);
+            //	printf ("count: %d\n",count);
 
-		// If sth is at the serial port
-		if (count > 0)
-                    {	// sometimes only 1 or 2 bytes are read from the serial port
-			// that leads to errors, because then scanf only takes the
-			// digits before the comma.
-			// Therefore these single bytes are stored in string h and
-			// the next values from the serial port are then concatenated
-			// which leads to the correct input format of nnn.nn,nn.n,nn.n again
-			if (count <= 3)
-                            {
-				h[0]='\0';
-				strncat(h, serialPortBuffer, count);
-                            }
-			else
-                            {
-				if (strlen(h) > 0)
-                                    {
-					//printf ("strlen h: %d   h: %s spb: %s\n", strlen(h),h ,serialPortBuffer);
-					strcat(h, serialPortBuffer);
-					strcpy(serialPortBuffer, h);
-					//printf ("new spb: %s\n", serialPortBuffer);
-					h[0]='\0';
-                                    }
-                                sscanf (serialPortBuffer, "%f,%f,%f\n",&compass, &x_kippwinkel, &y_kippwinkel);        			
-                                // printf ("count: %d Kompass:%f  x-KW:%f  y-KW:%f\n",count, compass, x_kippwinkel, y_kippwinkel);
-                            }
+            // If sth is at the serial port
+            if (count > 0)
+            {	// sometimes only 1 or 2 bytes are read from the serial port
+                // that leads to errors, because then scanf only takes the
+                // digits before the comma.
+                // Therefore these single bytes are stored in string h and
+                // the next values from the serial port are then concatenated
+                // which leads to the correct input format of nnn.nn,nn.n,nn.n again
+                if (count <= 3)
+                {
+                    h[0]='\0';
+                    strncat(h, serialPortBuffer, count);
+                }
+                else
+                {
+                    if (strlen(h) > 0)
+                    {
+                        //printf ("strlen h: %d   h: %s spb: %s\n", strlen(h),h ,serialPortBuffer);
+                        strcat(h, serialPortBuffer);
+                        strcpy(serialPortBuffer, h);
+                        //printf ("new spb: %s\n", serialPortBuffer);
+                        h[0]='\0';
+                    }
+                    sscanf (serialPortBuffer, "%f,%f,%f\n",
+                            &compass, &x_kippwinkel, &y_kippwinkel);
+                    // printf ("count: %d Kompass:%f  x-KW:%f  y-KW:%f\n",
+                    //         count, compass, x_kippwinkel, y_kippwinkel);
+                }
 			
 
-			TargetOriVector::iterator target;
+                OrientationSourceVector::iterator source;
 
-			for (target = targets.begin(); target != targets.end(); target++)
-                            {
-				if ((*target) == NULL)
-                                    {
-					ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:OrientationModule::run ERROR iterator == NULL!\n")));
-                                    }
-				else
-                                    break;                           
-                            }
+                for (source = sources.begin(); 
+                     source != sources.end(); source++)
+                {
+                    if ((*source) == 0) continue;
 
-			lock();
-			Event & myEvent = (*target)->event;
-			// mark the event as modified
-			(*target)->modified = 1;
+                    (*source)->lock();
+                    Event & myEvent = (*source)->event;
+                    // mark the event as modified
+                    (*source)->modified = 1;
+                                
+                    myEvent.getOrientation()[0] = (float) compass;
 
-			myEvent.getOrientation()[0] = (float) compass;
-
-			myEvent.getOrientation()[1] = (float)x_kippwinkel;
-
-			myEvent.getOrientation()[2] = (float)y_kippwinkel;
-
-                        myEvent.getOrientation()[3] = 1.0;
+                    myEvent.getOrientation()[1] = (float)x_kippwinkel;
+                                
+                    myEvent.getOrientation()[2] = (float)y_kippwinkel;
+                                
+                    myEvent.getOrientation()[3] = 1.0;
+                                
 
 
+                    // we can use the default position
+                    myEvent.getPosition()[0] = 0.0;
+                    myEvent.getPosition()[1] = 0.0;
+                    myEvent.getPosition()[2] = 0.0;
+                                
+                    // set the confidence value
+                    myEvent.getConfidence() = 1.0f;
+                                
+                    myEvent.timeStamp();
+                                
+                    (*source)->unlock();
 
-			// we can use the default position
-			myEvent.getPosition()[0] = 0.0;
-			myEvent.getPosition()[1] = 0.0;
-			myEvent.getPosition()[2] = 0.0;
+                    if (Module::contextx != NULL)
+                    {
+                        Module::contextx->dataSignal();
+                    }
 
-			// set the confidence value
-			myEvent.getConfidence() = 1.0f;
-
-			myEvent.timeStamp();
-
-			unlock();   							
-
-			// end of critical section
-
-                    } // end if
-            } // while forever
+                    // end of critical section
+                }
+                        
+            } // end if
+        } // while forever
 
 	ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping Orientation module thread\n")));
     } // run
@@ -455,17 +434,18 @@ namespace ot {
 
 #endif
 
-/* ===========================================================================
-   End of OrientationModule.cxx
-   ===========================================================================
-   Automatic Emacs configuration follows.
-   Local Variables:
-   mode:c++
-   c-basic-offset: 4
-   eval: (c-set-offset 'subeventment-open 0)
-   eval: (c-set-offset 'case-label '+)
-   eval: (c-set-offset 'eventment 'c-lineup-runin-eventments)
-   eval: (setq indent-tabs-mode nil)
-   End:
-   =========================================================================== */
-
+/* 
+ * ------------------------------------------------------------
+ *   End of OrientationModule.cxx
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

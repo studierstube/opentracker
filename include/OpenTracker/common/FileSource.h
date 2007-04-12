@@ -82,6 +82,7 @@
  */
 namespace ot {
 
+    class FileModule;
     typedef std::map<double, Event*> EventMap;
 
     class OPENTRACKER_API FileSource : public Node
@@ -101,16 +102,20 @@ namespace ot {
         /// iterator pointing to current event in eventMap
         std::map<double, Event*>::iterator currentEvent;
 
+        FileModule *module;
+
         // Methods
     protected:
         /** constructor method,sets the station number and other default values.
          * @param station the station number to use.
          */
-        FileSource( int station_ = 0, bool localTime_ = false ) :
+        FileSource( int station_ = 0, bool localTime_ = false,
+                    FileModule *module_ = NULL ) :
             Node(),
             station( station_ ),
             localTime( localTime_ ),
-            changed( 0 )
+            changed( 0 ),
+            module(module_)
 	{}
 
     public:
@@ -121,6 +126,9 @@ namespace ot {
 	{
             return 1;
 	}
+
+        void pushEvent();
+        void pullEvent();
 
         friend class FileModule;
     };

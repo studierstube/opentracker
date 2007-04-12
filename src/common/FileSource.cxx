@@ -33,79 +33,74 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for FastTrakSource Node.
+/** source file for FileSource module.
  *
- * @author Rainer Splechtna
+ * @author Gerhard Reitmayr
  *
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page Nodes Node Reference
- * @section fasttraksource FastTrakSource 
- *
- * The FastTrakSource node is a simple EventGenerator that inserts events generated from
- * the tracker-device data into the tracker tree. The FastTrakSource element has the 
- * following attributes :
- * @li @c number the stations number
- *
- * An example element looks like this :
- * @verbatim
- <FastTrakSource number="1"/>@endverbatim
-*/
+#ifndef OT_NO_FILEMODULE_SUPPORT
 
-#ifndef _FASTTRAKSOURCE_H
-#define _FASTTRAKSOURCE_H
-
-#include "../OpenTracker.h"
-
-/**
- * This class implements a simple EventGenerator. It is updated by the
- * FastTrakModule.
- * @author Rainer Splechtna
- * @ingroup input
- */
+#include <OpenTracker/common/FileSource.h>
+#include <OpenTracker/common/FileModule.h>
 
 namespace ot {
 
-    class OPENTRACKER_API FastTrakSource : public Node
+    void FileSource::pushEvent()
     {
-        // Members
-    public: 
-        /// the event that is posted to the EventObservers
-        Event event;
-        /// number of station
-        int station;
-        bool newVal;
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values */
-        FastTrakSource(int station_) : Node(), station(station_)
-        { newVal = true; }
-
-    public:            
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
+        if (module == NULL)
         {
-            return 1;
+            assert(0);
         }
+        // realtime playback
+        if (module->getRealtime())
+        {
+            double time = OSUtils::currentTime();
+            // iterate over all file sources
+            unsigned int reachedLastEvent = 0;
+     
+            if (currentEvent != eventMap.end() &&
+                OSUtils::currentTime() - module->getFirstPlaybackTime() >= 
+                currentEvent->first - module->getFirstSavedEventTime())
+            {
+                if (module->getFirstPlaybackTime() == 0)
+                    module->getFirstPlaybackTime() = OSUtils::currentTime();
+                if(localTime )
+                    currentEvent->second->time = time;
+	  
+                updateObservers(*(currentEvent->second));
+                currentEvent++;
+            }
+            else if (currentEvent == eventMap.end())
+            {
+                reachedLastEvent += 1;
+            }        
 
-        void pushEvent();
-        void pullEvent();
+            if (reachedLastEvent == module->getSourcesSize() && 
+                module->getLoop())
+            {
+                currentEvent = eventMap.begin();
+                updateObservers(Event::null);                
+                module->getFirstPlaybackTime() = 0;
+            }
+        }
+ 
+    }
 
-        friend class FastTrakModule;
-    };
+    void FileSource::pullEvent()
+    {
 
-} // namespace ot
+    }
 
-#endif
+}
 
-/* 
+#endif //OT_NO_FILEMODULE_SUPPORT
+
+/*
  * ------------------------------------------------------------
- *   End of FastTrakSource.h
+ *   End of FileSource.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
@@ -116,5 +111,5 @@ namespace ot {
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */

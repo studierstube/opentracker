@@ -73,6 +73,16 @@ namespace ot {
         }		
     }
 
+    void SelectionNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void SelectionNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 

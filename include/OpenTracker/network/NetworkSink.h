@@ -144,6 +144,9 @@ namespace ot {
             updateObservers( event );
         }
 
+        void pushEvent() {};
+        void pullEvent() {};
+
         friend class NetworkSinkModule;
     };
 

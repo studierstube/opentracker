@@ -78,6 +78,9 @@ namespace ot {
     public: 
         /// the event that is posted to the EventObservers
         Event event;
+        
+        bool changed;
+        
         /// device handle or base address
         unsigned int handle;
 
@@ -85,7 +88,9 @@ namespace ot {
     protected:
         /** simple constructor, sets members to initial values */
         ParButtonSource( unsigned int handle_ ) : Node(), handle( handle_ )
-        {}
+        {
+            changed = 1;
+        }
 
     public:            
         /** tests for EventGenerator interface being present. Is overriden to
@@ -95,6 +100,9 @@ namespace ot {
         {
             return 1;
         }
+
+        void pushEvent();
+        void pullEvent();
 
         friend class ParButtonModule;
     };

@@ -51,34 +51,43 @@
 
 namespace ot {
 
-//--------------------------------------------------------------------------------
-void QtMousePosSink::onEventGenerated(Event & event, Node & generator) {
+    //--------------------------------------------------------------------------------
+    void QtMousePosSink::onEventGenerated(Event & event, Node & generator) {
 
-  OTQT_DEBUG("QtMousePosSink::onEventGenerated(): -- START\n");
+        OTQT_DEBUG("QtMousePosSink::onEventGenerated(): -- START\n");
 
-  // switch 'acquire pending event' (default: yes)
-  bool acquire = true;
+        // switch 'acquire pending event' (default: yes)
+        bool acquire = true;
 
-  // basic check: position unchanged ?!
-  acquire = false;
-  for (int i = 0; i < 3; i++) {
-    if (event.getPosition()[i] != curr_event_.getPosition()[i]) {
-      acquire = true;
-      break;
+        // basic check: position unchanged ?!
+        acquire = false;
+        for (int i = 0; i < 3; i++) {
+            if (event.getPosition()[i] != curr_event_.getPosition()[i]) {
+                acquire = true;
+                break;
+            }
+        }
+        // within position threshold sphere ?!
+        if (acquire && (state_ & POS_THRESH_FILTER))
+            acquire = !isInsidePosThreshSphere(event);
+
+        // acquire tracking event
+        if (acquire)
+            acquireEvent(event);
+
+        // pass original event to parent nodes
+        forwardEvent(event);
     }
-  }
-  // within position threshold sphere ?!
-  if (acquire && (state_ & POS_THRESH_FILTER))
-    acquire = !isInsidePosThreshSphere(event);
 
-  // acquire tracking event
-  if (acquire)
-    acquireEvent(event);
+    void QtMousePosSink::pushEvent()
+    {
+        // nothing to do
+    }
 
-  // pass original event to parent nodes
-  forwardEvent(event);
-}
-
+    void QtMousePosSink::pullEvent()
+    {
+        // nothing to do
+    }
 } // namespace ot
 
 #endif // USE_OTQT

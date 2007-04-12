@@ -46,6 +46,7 @@
 #include <OpenTracker/tool/FixWinCE.h>
 #include <ace/OS.h>
 #include <ace/FILE.h>
+#include <ace/Thread_Mutex.h>
 #include <ace/Condition_Thread_Mutex.h>
 #include <ace/Thread_Mutex.h>
 #include <algorithm>
@@ -216,6 +217,7 @@ namespace ot {
         ConfigurationParser *  parser = getConfigurationParser(*this);
 
         graph = parser->parseConfigurationFile( filename );
+        graph-> writeGraph("graph.txt");
 
         delete parser;
         
@@ -240,6 +242,8 @@ namespace ot {
         {
             (*it).second->pullEvent();
         }
+
+        graph->pullEvents();
     }
 
     // This method calls pushEvent on all modules to get new data into the shared data tree.
@@ -250,6 +254,8 @@ namespace ot {
         {
             (*it).second->pushEvent();
         }
+        
+        graph->pushEvents();
     }
 
 
@@ -258,14 +264,17 @@ namespace ot {
         using namespace std;
         //cerr << "Context::loopOnce() ...";
 
-            int stopflag=1;
+        int stopflag=1;
         // lock the Graph first
         lock();
+
         // push and pull parts of the main loop
         pushEvents();
         pullEvents();
+
         // check for stop flag
         stopflag = stop(); 
+
         // unlock the graph
         unlock();
         //cerr << "done."<< endl;
@@ -332,11 +341,10 @@ namespace ot {
 
         start();
         int stopflag = stop();
-        while ( stopflag == 0 )
+        while ( stoploopflag ==0 && stopflag == 0 )
         {
             waitDataSignal();            
-            pushEvents();
-            pullEvents();
+            stopflag = loopOnce();
         }
 
         logPrintI("closing loop\n");

@@ -95,11 +95,10 @@ namespace ot {
 	/** tests for EventGenerator interface being present. Is overriden to
 	 * return 1 always.
 	 * @return always 1 */
-	int isEventGenerator()
-	{
-	    return 1;
-	};
-  
+	int isEventGenerator();
+
+        void pushEvent();
+        void pullEvent();
     };
 
 } // namespace ot

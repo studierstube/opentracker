@@ -42,17 +42,31 @@
 /* ======================================================================= */
 
 
+#ifdef OT_SPEECH_SUPPORT
 
-#ifdef USE_SAPISPEECH
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/input/SpeechSource.h>
+
 //using namespace std;
 
+namespace ot {
 
+    void SpeechSource::pushEvent()
+    {
+        // nothing to do
+    }
+    
+    void SpeechSource::pullEvent()
+    {
+        // nothing to do
+    }
+} // namespace ot
 
 #else
 #ifdef WIN32
 #pragma message(">>> OT_NO_SPEECH_SUPPORT")
 #endif
-#endif //ifdef USE_SAPISPEECH
+#endif //ifdef OT_SPEECH_SUPPORT
 
 /* 
  * ------------------------------------------------------------

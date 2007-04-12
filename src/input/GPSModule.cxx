@@ -236,11 +236,15 @@ namespace ot {
         // here for some template magic:
         // updateSource is a template member function but the compiler appearantly
         // creates different variants for each type passed in :)
+
+        /*
+          not necessary for per-node traversal
         updateSource(source);
         updateSource(dirSource);
         updateSource(compassSource);
         updateSource(altitudeSource);
         updateSource(infoSource);
+        */
     }
 
     void GPSModule::start()

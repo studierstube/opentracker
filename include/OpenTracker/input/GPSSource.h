@@ -99,6 +99,23 @@ namespace ot {
 	/// protected constructor so it is only accessible by the module
 	GPSSource() {};
 
+        void pushEvent()
+        {
+            lock();
+            if(event.time < buffer.time )
+            {
+                event = buffer;
+                unlock();
+                updateObservers( event );
+            }
+            else
+            {
+                unlock();
+            }
+        }
+
+        void pullEvent() {};
+
 	friend class GPSModule;
     };
 
@@ -112,7 +129,7 @@ namespace ot {
                 return;
 
             GPSModule * module = (GPSModule *)userData;
-            module->lock();
+            module->lockLoop();
             buffer.timeStamp();
 
           
@@ -166,7 +183,7 @@ namespace ot {
             buffer.addAttribute<double>("alt", point->altitude); 
             buffer.addAttribute<short>("numsats", point->numsats); 
 
-            module->unlock();
+            module->unlockLoop();
             
 //             std::cout << "Position = " << buffer.getPosition()[0] << buffer.getPosition()[1] << buffer.getPosition()[2] << std::endl;
             

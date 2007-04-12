@@ -181,6 +181,27 @@ namespace ot {
         }
     }
 
+    void GroupGateNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void GroupGateNode::pullEvent()
+    {
+        // nothing to do
+    }
+
+    void Override::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void Override::pullEvent()
+    {
+        // nothing to do
+    }
+
+    
 } // namespace ot {
 
 

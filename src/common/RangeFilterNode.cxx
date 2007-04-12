@@ -80,6 +80,16 @@ namespace ot {
         }
     }
 
+    void RangeFilterNode::pushEvent()
+    {
+        // nothing to do
+    }
+
+    void RangeFilterNode::pullEvent()
+    {
+        // nothing to do
+    }
+
 } // namespace ot
 
 
