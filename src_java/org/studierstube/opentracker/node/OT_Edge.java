@@ -18,7 +18,12 @@ import org._3pq.jgrapht.Edge;
  * @author kalkusch
  *
  */
-public class OT_Edge extends DefaultEdge implements Edge {
+public class OT_Edge extends DefaultEdge implements Edge  {
+
+	/**
+	 * Serializable id
+	 */
+	private static final long serialVersionUID = -6419591664102852378L;
 
 	private final int iUniqueEdgeId;
 	

@@ -11,7 +11,7 @@ import org.jgraph.event.GraphModelListener;
 import org.jgraph.graph.DefaultEdge;
 import org.studierstube.opentracker.OpenTrackerListenableDirectedMultigraph;
 
-import org._3pq.jgrapht.Edge;
+//import org._3pq.jgrapht.Edge;
 import org._3pq.jgrapht.ext.JGraphModelAdapter;
 
 /**
@@ -20,13 +20,13 @@ import org._3pq.jgrapht.ext.JGraphModelAdapter;
  */
 public class OT_GraphModelListener implements GraphModelListener {
 
-	private final OpenTrackerListenableDirectedMultigraph graph;
+//	private final OpenTrackerListenableDirectedMultigraph graph;
 	
 	/**
 	 * 
 	 */
 	public OT_GraphModelListener( final OpenTrackerListenableDirectedMultigraph graph ) {
-		this.graph = graph;
+//		this.graph = graph;
 	}
 
 	/* (non-Javadoc)

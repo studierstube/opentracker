@@ -50,7 +50,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.util.Hashtable;
-import java.util.Iterator;
+//import java.util.Iterator;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
@@ -61,17 +61,17 @@ import javax.swing.JPanel;
 
 
 import org._3pq.jgrapht.Edge;
-import org._3pq.jgrapht.DirectedGraph;
-import org._3pq.jgrapht.ListenableGraph;
+//import org._3pq.jgrapht.DirectedGraph;
+//import org._3pq.jgrapht.ListenableGraph;
 import org._3pq.jgrapht.ext.JGraphModelAdapter;
-import org._3pq.jgrapht.graph.DefaultListenableGraph;
-import org._3pq.jgrapht.graph.DirectedMultigraph;
+//import org._3pq.jgrapht.graph.DefaultListenableGraph;
+//import org._3pq.jgrapht.graph.DirectedMultigraph;
 
 
 import org.jgraph.JGraph;
 
-import org.jgraph.event.GraphModelListener;
-import org.jgraph.event.GraphModelEvent;
+//import org.jgraph.event.GraphModelListener;
+//import org.jgraph.event.GraphModelEvent;
 import org.jgraph.graph.AttributeMap;
 //import org.jgraph.graph.DefaultGraphSelectionModel;
 import org.jgraph.graph.DefaultGraphCell;
@@ -86,7 +86,7 @@ import org.studierstube.opentracker.node.OT_NetworkSinkNode;
 import org.studierstube.opentracker.node.OT_MergeNode;
 import org.studierstube.opentracker.loader.OpenTracker_XMLWriter;
 
-import org._3pq.jgrapht.event.GraphListener;
+//import org._3pq.jgrapht.event.GraphListener;
 
 
 
@@ -102,7 +102,7 @@ public class JGraphOpenTrackerEditor extends JApplet {
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
     private static final Dimension DEFAULT_SIZE     = new Dimension( 530, 320 );
 
-    private JGraphOpenTrackerEditor applet;
+    protected JGraphOpenTrackerEditor applet;
     
     private JFrame jf_frame;
     
