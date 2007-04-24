@@ -21,23 +21,8 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/* ----------------------
- * JGraphOpenTrackerEditor.java
- * ----------------------
- * (C) Copyright 2003, by Barak Naveh and Contributors.
- *
- * Original Author:  Barak Naveh
- * Contributor(s):   -
- *
- * $Id: JGraphOpenTrackerEditor.java,v 1.15 2005/04/26 06:46:34 perfecthash Exp $
- *
- * Changes
- * -------
- * 03-Aug-2003 : Initial revision (BN);
- * 07-Nov-2003 : Adaptation to JGraph 3.0 (BN);
- *
- */
-package org.studierstube.opentracker;
+
+package org.studierstube.opentracker.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -45,12 +30,9 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import java.util.Hashtable;
-//import java.util.Iterator;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
@@ -59,21 +41,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 
-
 import org._3pq.jgrapht.Edge;
-//import org._3pq.jgrapht.DirectedGraph;
-//import org._3pq.jgrapht.ListenableGraph;
 import org._3pq.jgrapht.ext.JGraphModelAdapter;
-//import org._3pq.jgrapht.graph.DefaultListenableGraph;
-//import org._3pq.jgrapht.graph.DirectedMultigraph;
-
 
 import org.jgraph.JGraph;
-
-//import org.jgraph.event.GraphModelListener;
-//import org.jgraph.event.GraphModelEvent;
 import org.jgraph.graph.AttributeMap;
-//import org.jgraph.graph.DefaultGraphSelectionModel;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
 import org.studierstube.opentracker.OpenTrackerListenableDirectedMultigraph;
@@ -84,20 +56,15 @@ import org.studierstube.opentracker.node.OT_ConsoleNode;
 import org.studierstube.opentracker.node.OT_EventTransformNode;
 import org.studierstube.opentracker.node.OT_NetworkSinkNode;
 import org.studierstube.opentracker.node.OT_MergeNode;
-import org.studierstube.opentracker.loader.OpenTracker_XMLWriter;
-
-//import org._3pq.jgrapht.event.GraphListener;
-
-
 
 /**
- * A demo applet that shows how to use JGraph to visualize JGraphT graphs.
+ * JGraphOpenTrackerEditor.
  *
- * @author Barak Naveh
+ * @author Michael Kalkusch
  *
- * @since Aug 3, 2003
  */
 public class JGraphOpenTrackerEditor extends JApplet {
+	
     private static final long      serialVersionUID = 3256444702936019250L;
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
     private static final Dimension DEFAULT_SIZE     = new Dimension( 530, 320 );

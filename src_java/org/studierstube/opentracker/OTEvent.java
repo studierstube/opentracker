@@ -1,23 +1,37 @@
 package org.studierstube.opentracker;
 
-import org.studierstube.opentracker.OT_CORBA.*;
+import org.studierstube.opentracker.OT_CORBA.EventAttribute;
+import org.studierstube.opentracker.OT_CORBA.EventHelper;
+import org.studierstube.opentracker.OT_CORBA.FloatVectorHelper;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import javax.vecmath.*;
 
-public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
+import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
+
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Any;
+
+/**
+ * Multimodal OpenTracker Event.
+ * 
+ * @author Michael Kalkusch
+ * @author jfn
+ */
+public class OTEvent extends HashMap<String, Any> {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6849795742997397981L;
-	private org.omg.CORBA.ORB orb;
+	private ORB orb;
 	
-	public OTEvent(org.omg.CORBA.ORB _orb) {
+	public OTEvent(ORB _orb) {
 		orb = _orb;
 	}
 	
-	public OTEvent(org.omg.CORBA.ORB _orb, EventAttribute[] atts) {
+	public OTEvent(ORB _orb, EventAttribute[] atts) {
 		this(_orb);
 		for (int i = 0; i < atts.length; i++) {
 			System.out.println("name of event attribute is " + atts[i].name);
@@ -30,7 +44,7 @@ public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
 	}
 	
 	public void setPosition(Vector3f pos) {
-		org.omg.CORBA.Any value = orb.create_any();
+		Any value = orb.create_any();
 		float fv[] = {pos.x, pos.y, pos.y};
 		FloatVectorHelper.insert(value, fv);
 		put("position", value);
@@ -41,7 +55,7 @@ public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
 	}
 	
 	public void setOrientation(Vector4f ori) {
-		org.omg.CORBA.Any value = orb.create_any();
+		Any value = orb.create_any();
 		float fv[] = {ori.x, ori.y, ori.z, ori.w};
 		FloatVectorHelper.insert(value, fv);
 		put("orientation", value);
@@ -52,13 +66,13 @@ public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
 	}
 	
 	public void setTimestamp(float timestamp) {
-		org.omg.CORBA.Any value = orb.create_any();
+		Any value = orb.create_any();
 		value.insert_float(timestamp);
 		put("timestamp", value);
 	}
 	
 	public void setButton(short button) {
-		org.omg.CORBA.Any value = orb.create_any();
+		Any value = orb.create_any();
 		value.insert_short(button);
 		put("button", value);
 	}
@@ -79,8 +93,8 @@ public class OTEvent extends HashMap<String, org.omg.CORBA.Any> {
 		return (EventAttribute[]) atts.toArray(new EventAttribute[atts.size()]);
 	}
 	
-	public org.omg.CORBA.Any asAny() {
-		org.omg.CORBA.Any ret = orb.create_any();
+	public Any asAny() {
+		Any ret = orb.create_any();
 		EventHelper.insert(ret, getEventAttributes());
 		return ret;
 	}

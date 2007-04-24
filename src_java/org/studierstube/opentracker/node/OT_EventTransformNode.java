@@ -5,7 +5,6 @@ package org.studierstube.opentracker.node;
 
 import org.studierstube.opentracker.OpenTrackerListenableDirectedMultigraph;
 import org.studierstube.opentracker.OpenTrackerNodeType;
-//import org.studierstube.opentracker.node.OT_KeyValuePair;
 
 /**
  * @author kalkusch

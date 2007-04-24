@@ -5,9 +5,7 @@ package org.studierstube.opentracker.node;
 
 import java.lang.IllegalArgumentException;
 
-//import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.DefaultEdge;
-//import org.jgraph.graph.Edge;
 
 import org._3pq.jgrapht.Edge;
 

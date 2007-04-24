@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.studierstube.opentracker.loader;
+package org.studierstube.opentracker.swing;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-
-
 
 /**
  * @author kalkusch

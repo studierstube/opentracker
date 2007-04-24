@@ -14,7 +14,7 @@ import org._3pq.jgrapht.graph.DirectedMultigraph;
 import org.studierstube.opentracker.node.AbstractOpenTrackerNode;
 
 /**
- * @author kalkusch
+ * @author Michael Kalkusch
  *
  */
 public class OpenTrackerListenableDirectedMultigraph extends DefaultListenableGraph
@@ -88,14 +88,5 @@ public class OpenTrackerListenableDirectedMultigraph extends DefaultListenableGr
 		
 		return result;
 	}
-
-//	/**
-//	 * @param g
-//	 * @param reuseEvents
-//	 */
-//	public OpenTrackerListenableDirectedMultigraph(Graph g, boolean reuseEvents) {
-//		super(g, reuseEvents);
-//		// TODO Auto-generated constructor stub
-//	}
 
 }
