@@ -88,7 +88,8 @@ public:
     /// flag whether event was changed since last display
     int changedAbsolute, changedRelative;
 	/// offsets for various screen adaptions
-	int xOffset, yOffset, xFactor, yFactor;
+	int xOffset, yOffset;
+	float xFactor, yFactor;
          
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
