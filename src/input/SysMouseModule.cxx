@@ -97,9 +97,9 @@ namespace ot {
 			if ( !attributes.get("yOffset").empty() ) 
 				sink->yOffset = atoi(attributes.get("yOffset").c_str());
 			if ( !attributes.get("xFactor").empty() ) 
-				sink->xFactor = atoi(attributes.get("xFactor").c_str());
+				sink->xFactor = atof(attributes.get("xFactor").c_str());
 			if ( !attributes.get("yFactor").empty() ) 
-				sink->yFactor = atoi(attributes.get("yFactor").c_str());
+				sink->yFactor = atof(attributes.get("yFactor").c_str());
 			nodes.push_back( sink );
 			logPrintS("Built SysMouseSink node\n");
 			initialized = 1;
@@ -190,8 +190,14 @@ namespace ot {
 				if( sink->changedAbsolute )
 				{
 					buttonInput = sink->absoluteEvent.getButton();
-					mouseX = ((int)(sink->absoluteEvent.getPosition()[0]*65535*sink->xFactor))+sink->xOffset;
-					mouseY = ((int)(sink->absoluteEvent.getPosition()[1]*65535*sink->yFactor))+sink->yOffset;
+					int xRaw = (int)(sink->absoluteEvent.getPosition()[0]*65535.f*sink->xFactor);
+					int yRaw = (int)(sink->absoluteEvent.getPosition()[1]*65535.f*sink->yFactor);
+					if( xRaw > 65635 )  xRaw = 65635;
+					if( xRaw < 0 )		xRaw = 0;
+					if( yRaw > 65635 )  yRaw = 65635;
+					if( yRaw < 0 )		yRaw = 0;
+					mouseX = xRaw+sink->xOffset;
+					mouseY = yRaw+sink->yOffset;
 					#ifdef WIN32
 					mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
 					#endif
