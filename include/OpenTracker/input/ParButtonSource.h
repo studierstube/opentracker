@@ -101,8 +101,8 @@ namespace ot {
             return 1;
         }
 
-        void pushEvent();
-        void pullEvent();
+        void pushEvent(){};
+        void pullEvent(){};
 
         friend class ParButtonModule;
     };

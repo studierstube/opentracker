@@ -145,9 +145,9 @@ namespace ot {
     void GoGoModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
     }
 
 
@@ -178,7 +178,7 @@ namespace ot {
             {
                 source = (GoGoSinkSource *) ((Node*)*it);
 
-                lock();            
+                lockLoop();            
                 if (source->changed == 1)
                 {
                     source->event.setPosition(source->tmpEventPos);
@@ -188,11 +188,11 @@ namespace ot {
                     source->event.setAttribute<float>("cursorDistance", source->tmpEventCursorDistance);
 					
                     source->changed = 0;
-                    unlock();        
+                    unlockLoop();        
                     source->push();
                 }
                 else
-                    unlock();
+                    unlockLoop();
             }
         }
     }

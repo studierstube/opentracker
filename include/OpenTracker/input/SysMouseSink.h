@@ -129,17 +129,17 @@ protected:
 	{
 		if (generator.getName().compare("AbsoluteInput") == 0) 
 		{
-			sysMouseModule->lock();
+			sysMouseModule->lockLoop();
 			absoluteEvent = e;
 			changedAbsolute = 1;
-			sysMouseModule->unlock();
+			sysMouseModule->unlockLoop();
 		}
 		if (generator.getName().compare("RelativeInput") == 0) 
 		{
-			sysMouseModule->lock();
+			sysMouseModule->lockLoop();
 			relativeEvent = e;
 			changedRelative = 1;
-			sysMouseModule->unlock();
+			sysMouseModule->unlockLoop();
 		}
         updateObservers( e );
 	}

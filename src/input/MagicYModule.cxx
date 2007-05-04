@@ -352,9 +352,9 @@ namespace ot {
 
                     }// for all MagicY sources
 
-                    if (Module::contextx != NULL)
+                    if (context != NULL)
                     {
-                        Module::contextx->dataSignal();
+                        context->dataSignal();
                     }
 
                 }// while no error

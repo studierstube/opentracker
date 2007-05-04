@@ -158,12 +158,13 @@ namespace ot {
             std::string modname;
             std::string::size_type loc = name.find("Config");
             modname = name.substr(0, loc) + "Module";
-            //            logPrintW("Context could not find module %s, requesting Configurator to load %s\n", name.c_str(), modname.c_str());            
+            logPrintW("Context could not find module %s, requesting Configurator to load %s\n", name.c_str(), modname.c_str());            
 
             Configurator::loadModule(*this, modname.c_str());
             it = modules.find(name);
             if (it != modules.end())
                 result = (*it).second;
+			else logPrintD("Couldn't find module 2nd time\n");
         }
 
         return result;
@@ -351,9 +352,22 @@ namespace ot {
         close();
     }
 
-    void Context::waitDataSignal() { _havedatacondition->wait(); };
-    void Context::dataSignal() { _havedatacondition->signal(); };
-    void Context::dataBroadcast() { _havedatacondition->broadcast(); };
+    void Context::waitDataSignal() { 
+		_havedatamutex->acquire();	
+		_havedatacondition->wait(); 
+        _havedatamutex->release();
+	};
+    void Context::dataSignal() 
+	{ 
+        //_havedatamutex->acquire();
+		_havedatacondition->signal(); 
+		//_havedatamutex->release();
+	};
+    void Context::dataBroadcast() { 
+		//_havedatamutex->acquire();
+		_havedatacondition->broadcast(); 
+		//_havedatamutex->release();
+	};
 
     // tests all modules for stopping
 
@@ -622,7 +636,7 @@ namespace ot {
                 nodeTypes[3] = sink;
 	        nodeTypes[0] = sinksource;
 		std::string modname;
-                //        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
+        logPrintI("Context GetModuleFromNode node->getType() %s \n", nodename.c_str());
 		if ((nodename.compare("NetworkSource")==0) || (nodename.compare("NetworkSink")==0)){
 			modname = nodename ;
 			result = getModule(modname);
@@ -651,7 +665,7 @@ namespace ot {
 				modname += "Config";
 	
 				result = getModule(modname);
-                                //				logPrintI("Context GetModuleFromNode %s  result %p\n", modname.c_str(), result);
+  				logPrintI("Context GetModuleFromNode %s  result %p\n", modname.c_str(), result);
 			}
 		}
 		return result;

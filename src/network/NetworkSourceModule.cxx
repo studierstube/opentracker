@@ -71,6 +71,7 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <OpenTracker/core/Context.h>
+#include <OpenTracker/core/Configurator.h>
 
 namespace ot {
 
@@ -257,10 +258,9 @@ namespace ot {
                 break;
             processRecord( rec );
             
-            if (contextx != NULL)
-	    { 
-                contextx->dataSignal();
-	    } 
+			
+			Configurator::instance() ->getContext() ->dataSignal();
+			
         }
         if( rec->socket.close() == -1)
         {
@@ -319,6 +319,8 @@ namespace ot {
             if( rec->stop != 0 )
                 break;
             processRecord( rec );
+			Configurator::instance() ->getContext() ->dataSignal();
+
         }
         rec->socket.send( &leave, sizeof(leave), rec->address,0, &ACE_Time_Value::zero );
         if( rec->socket.close() == -1)

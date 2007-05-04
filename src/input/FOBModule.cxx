@@ -396,9 +396,9 @@ namespace ot {
                             birds[num]->convert( bird->buffer );
                             birds[num]->newVal = true;
                             birds[num]->source->unlock();
-                            if (Module::contextx != NULL)
+                            if (context != NULL)
                             {
-                                Module::contextx->dataSignal();
+                                context->dataSignal();
                             }
                         }
                     }
@@ -454,9 +454,9 @@ namespace ot {
                             bird->newVal = true;
                             bird->source->unlock();
 
-                            if (Module::contextx != NULL)
+                            if (context != NULL)
                             {
-                                Module::contextx->dataSignal();
+                                context->dataSignal();
                             }
                         }
                     }

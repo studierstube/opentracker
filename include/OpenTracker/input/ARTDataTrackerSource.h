@@ -97,8 +97,8 @@ namespace ot {
 	 * @return always 1 */
 	int isEventGenerator();
 
-        void pushEvent();
-        void pullEvent();
+	void pushEvent();
+	void pullEvent();
     };
 
 } // namespace ot

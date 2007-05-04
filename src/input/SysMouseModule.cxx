@@ -130,9 +130,9 @@ namespace ot {
 	void SysMouseModule::close()
 	{
 		// stop thread
-		lock();
+		lockLoop();
 		stop = 1;
-		unlock();
+		unlockLoop();
 
 		if( isInitialized() == 1 && !nodes.empty()) 
 		{

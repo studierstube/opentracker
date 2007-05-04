@@ -7,9 +7,10 @@
 <OpenTracker>
   <configuration>
     <LogConfig file="on" stderr="on" filename="log.txt" active="on" level="debug"/>
-    <NetworkSinkConfig name="Test Server"/>
+    <!--NetworkSinkConfig name="Test Server"/-->
     <ConsoleConfig interval="1" headerline="Test Server - active display of individual tests in file"/>
     <TimeConfig sleep="10" display="true"/>
+    <!--
     <SpeechRecoConfig language="english">
       <CommandSet id="Set1">
         <Command id="1234" name="one"/>
@@ -17,27 +18,27 @@
         <Command id="1236" name="six"/>
         <Command id="1237" name="seven"/>
       </CommandSet>
-    </SpeechRecoConfig>
+    </SpeechRecoConfig>-->
   </configuration>
   <ConsoleSink comment="Transformation" active="off">
-    <EventTransform translation="1 1 1">
+    <EventTransform translation="1 1 1" scale=" 1 1 1" rotation="0 0 0 " rotationtype="euler">
       <TestSource offset="0" frequency="10"/>
     </EventTransform>
   </ConsoleSink>
   <ConsoleSink comment="VirtualTransformation" active="off">
-    <EventVirtualTransform translation="2 2 2">
+    <EventVirtualTransform translation="2 2 2" scale=" 1 1 1" rotation="0 0 0 " rotationtype="euler">
       <TestSource frequency="10" offset="1"/>
     </EventVirtualTransform>
   </ConsoleSink>
   <ConsoleSink comment="Network Sink" DEF="test1" active="off">
-    <NetworkSink name="Test Sink" number="1" multicast-address="224.100.200.101" port="12346">
-      <EventTransform translation="-1 -1 -1">
+    <NetworkSink name="Test Sink" number="1" mode="multicast" multicast-address="224.100.200.101" port="12346">
+      <EventTransform translation="-1 -1 -1" scale=" 1 1 1" rotation="0 0 0 " rotationtype="euler">
         <TestSource frequency="10" offset="2"/>
       </EventTransform>
     </NetworkSink>
   </ConsoleSink>
   <ConsoleSink comment="Network Source" active="off">
-    <NetworkSource number="1" multicast-address="224.100.200.101" port="12346"/>
+    <NetworkSource number="1" mode="multicast" multicast-address="224.100.200.101" port="12346"/>
   </ConsoleSink>
   <ConsoleSink comment="Reference Node" active="off">
     <Callback name="test1">
@@ -142,9 +143,11 @@
   <ConsoleSink comment="ActiveGate" active="off">
     <ActiveGate group="test"/>
   </ConsoleSink>
+  <!--
   <ConsoleSink comment="SpeechSource" active="off">
     <SpeechRecoSource set="Set1" name="Set1"/>
   </ConsoleSink>
+  -->
   <ConsoleSink comment="GK" active="off">
     <EventGKTransform a="6377397.155" b="6356078.963" mode="to" meridian="34" alpha="111120.6196" beta="15988.6385" gamma="16.73" delta="0.0218">
       <ConsoleSink comment="Ellipsoid" active="off">

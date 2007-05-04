@@ -364,9 +364,9 @@ namespace ot {
                     }
                     
                     // notify main loop
-                    if (Module::contextx != NULL)
+                    if (context != NULL)
                     {
-                        Module::contextx->dataSignal();
+                        context->dataSignal();
                     }
                 }
 

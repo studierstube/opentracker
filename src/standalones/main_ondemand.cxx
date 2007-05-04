@@ -42,7 +42,7 @@
 /* ======================================================================= */
 
 #include <OpenTracker/OpenTracker.h>
-
+#include <OpenTracker/core/Configurator.h>
 #include <iostream>
 
 using namespace std;
@@ -55,26 +55,35 @@ using namespace ot;
  */
 int main(int argc, char **argv)
 {
-    if( argc != 2 )
-    {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
-        return 1;
-    }
+	const char * filename;
+	if( argc != 2 )
+	{
+		cout << "Usage : " << argv[0] << " configfile" << endl;
+		return 1;
+	}
+	if (argc > 2)
+	{
+		filename = argv[2];
+	} else {
+		filename = argv[1];
+	}
 
-    // important parts of the system
-    // get a context, the default modules and factories are
-    // added allready ( because of the parameter 1 )
-    Context context( 1 );
+	// important parts of the system
+	// get a context, the default modules and factories are
+	// added allready ( because of the parameter 1 )
+	Context & context = (*(Configurator::instance() ->getContext()));
 
-    cout << "Context established." << endl;
+	cout << "Context established." << endl;
 
-    // parse the configuration file, builds the tracker tree
-    try {
-        context.parseConfiguration( argv[1] );
-    } catch (exception & e){
-        printf( "could not configure context because \n\t\t %s\n", e.what());
-    }
-    Module::contextx = &context;
+	//FileConfigurationThread*  ct= new FileConfigurationThread( "reconfig.xml");
+
+	Configurator::instance() ->runConfigurationThread( filename );
+
+	// parse the configuration file, builds the tracker tree
+	context.parseConfiguration( argv[1] );
+
+	cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+
     printf("OT |SETUP : Parsing Complete\n");
     printf("OT |INFO : Starting Mainloop\n");
 

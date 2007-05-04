@@ -201,9 +201,10 @@ namespace ot {
     // This method is called to construct a new Node.
     Node * NetworkSinkModule::createNode( const std::string& name,  StringTable& attributes)
     {
+		
         if( name.compare("NetworkSink") == 0 )
         {
-            // initialize Network data buffer
+			// initialize Network data buffer
             FlexibleTrackerDataRecord data;
             data.headerId = htons(magicNum);
             data.revNum = htons(revNum);
@@ -215,12 +216,12 @@ namespace ot {
             unsigned short port;
             int num = sscanf(attributes.get("number").c_str(), " %i", &number );
             if( num == 0 ){
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSink number !\n")));
+                logPrintE("ot:Error in converting NetworkSink number !\n");
                 return NULL;
             }
             num = sscanf(attributes.get("port").c_str(), " %hu", &port );
             if( num == 0 ){
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error in converting NetworkSink port number !\n")));
+                logPrintE("ot:Error in converting NetworkSink port number !\n");
                 return NULL;
             }
 

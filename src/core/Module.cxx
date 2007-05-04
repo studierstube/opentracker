@@ -3,7 +3,7 @@
 
 namespace ot {
 
-  Context*  Module::contextx = NULL;
+  Context*  context = NULL;
 
   Module::~Module() {
     ot::logPrintW("Deleting Module\n");

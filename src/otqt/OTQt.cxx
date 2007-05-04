@@ -107,7 +107,6 @@ namespace ot {
         // INIT OpenTracker
         initializeContext(&context_, NULL);
 
-	Module::contextx = (&context_);
         ///// add modules to context
 
         context_.addFactory(*mec_mod_);

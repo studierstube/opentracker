@@ -180,9 +180,9 @@ namespace ot {
 
                         // end of critical section
                         (*station)->unlock();
-                        if (Module::contextx != NULL)
+                        if (context != NULL)
                         {
-                            Module::contextx->dataSignal();
+                            context->dataSignal();
                         }
                     }
                 }

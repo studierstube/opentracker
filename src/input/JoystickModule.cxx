@@ -108,16 +108,16 @@ namespace ot {
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
             {
                 source = (JoystickSource *) ((Node *)*it);
-                lock();
+                lockLoop();
                 if (source->changed == 1)
                 {
                     source->event = source->tmpEvent;
                     source->changed = 0;
-                    unlock();
+                    unlockLoop();
                     source->push();
                 }
                 else
-                    unlock();
+                    unlockLoop();
             }
         }
     }
@@ -190,9 +190,9 @@ namespace ot {
     void JoystickModule::close()
     {
         // stop thread
-        lock();
+        lockLoop();
         stop = 1;
-        unlock();
+        unlockLoop();
     }
 
 
@@ -274,13 +274,13 @@ namespace ot {
                             update = 1;
                     if (update)
                     {
-                        lock();
+                        lockLoop();
                         source->tmpEvent = tmp;
                         source->changed = 1;
-                        unlock();
-                        if (Module::contextx != NULL)
+                        unlockLoop();
+                        if (context != NULL)
                         {
-                            Module::contextx->dataSignal();
+                            context->dataSignal();
                         }
                     }
                 }

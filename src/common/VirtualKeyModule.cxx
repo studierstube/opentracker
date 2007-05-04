@@ -100,9 +100,9 @@ namespace ot {
 	void VirtualKeyModule::close()
 	{
 		// stop thread
-		lock();
+		lockLoop();
 		stop = 1;
-		unlock();
+		unlockLoop();
 	}
 
 

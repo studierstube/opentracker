@@ -102,9 +102,9 @@ protected:
 
 	virtual void push()
 	{
-		virtualKeyModule->lock();
+		virtualKeyModule->lockLoop();
 		updateObservers( event );
-		virtualKeyModule->unlock();
+		virtualKeyModule->unlockLoop();
 	}
 
 	int virtualKeyCode;

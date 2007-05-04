@@ -120,9 +120,9 @@ namespace ot {
 	void SpaceDeviceModule::close()
 	{
 		// stop thread
-		lock();
+		lockLoop();
 		stop = 1;
-		unlock();
+		unlockLoop();
 
 		if( (isInitialized() == 1) && (devHdl != NULL)) 
 		{
@@ -220,17 +220,17 @@ namespace ot {
 			{
 				source = (SpaceDeviceSource *) ((Node*)*it);
 
-				lock();            
+				lockLoop();            
 				if (source->changed == 1)
 				{
 					source->event = source->tmpEvent;
 
 					source->changed = 0;
-					unlock();        
+					unlockLoop();        
 					source->push();
 				}
 				else
-					unlock();
+					unlockLoop();
 			}
 		}
 	}
@@ -283,7 +283,7 @@ namespace ot {
 
 						for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 						{
-							lock();
+							lockLoop();
     						SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 
 							source->tmpEvent.getPosition()[0] = newPosX;
@@ -298,7 +298,7 @@ namespace ot {
 							source->tmpEvent.getOrientation()[3];*/
 
 							source->changed = 1;
-							unlock();
+							unlockLoop();
 						}
 					}
 					if (SpaceEvent.type == SI_ZERO_EVENT)
@@ -315,11 +315,11 @@ namespace ot {
 							newBut = (unsigned short)pow(2.f, num - 1.f);
 							for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 							{
-								lock();
+								lockLoop();
 								SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 								source->tmpEvent.getButton() |= newBut;
 								source->changed = 1;
-								unlock();
+								unlockLoop();
 							}
 						}
 						if ((num = SiButtonReleased (&SpaceEvent)) != SI_NO_BUTTON)	
@@ -328,19 +328,19 @@ namespace ot {
 							newBut = (unsigned short)pow(2.f, num - 1.f);
 							for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 							{
-								lock();
+								lockLoop();
 								SpaceDeviceSource * source = (SpaceDeviceSource *)((Node*)*it);
 								source->tmpEvent.getButton() ^= newBut;
 								source->changed = 1;
-								unlock();
+								unlockLoop();
 							}
 						}
 					}
 			        
 					handled = SPW_TRUE;              /* spacedevice event handled */                 
-					if (Module::contextx != NULL)
+					if (context != NULL)
 					  {
-					    Module::contextx->dataSignal();
+					    context->dataSignal();
 					  }
 
 				}

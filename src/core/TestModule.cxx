@@ -285,9 +285,9 @@ namespace ot {
                 
                 pqueue.pop();            
                 
-                if (Module::contextx != NULL)
+                if (context != NULL)
                 {
-                    Module::contextx->dataSignal();
+                    context->dataBroadcast();
                 }
             }
             else if ( (sleeptime - looptime).sec() == 0 &&
@@ -302,9 +302,9 @@ namespace ot {
                 
                 pqueue.pop();            
                 
-                if (Module::contextx != NULL)
+                if (context != NULL)
                 {
-                    Module::contextx->dataSignal();
+                    context->dataSignal();
                 }
             }
             else

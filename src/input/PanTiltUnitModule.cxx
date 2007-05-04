@@ -127,9 +127,9 @@ namespace ot {
 	void PanTiltUnitModule::close()
 	{
 		// stop thread
-		lock();
+		lockLoop();
 		stop = true;
-		unlock();
+		unlockLoop();
 
 		if( isInitialized() == 1 && !nodes.empty()) 
 		{
@@ -204,9 +204,9 @@ namespace ot {
 					source->process = true;
 				}
 			}	
-			if (Module::contextx != NULL)
+			if (context != NULL)
 			  {
-			    Module::contextx->dataSignal();
+			    context->dataSignal();
 			  }
 		}
 		ACE_OS::sleep(ACE_Time_Value(0, 500));

@@ -80,9 +80,6 @@ int main(int argc, char **argv)
     // initializes the modules and starts the tracker main loop
     context.runAtRate(rate);
 
-    // sets the context for all modules
-    Module::contextx = &context;
-
     OSUtils::sleep(1000);
     return 0;
 }

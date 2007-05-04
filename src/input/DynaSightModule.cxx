@@ -531,9 +531,9 @@ namespace ot {
                                 myEvent.timeStamp();
                                 (*target)->unlock();
                                 // end of critical section
-                                if (Module::contextx != NULL)
+                                if (context != NULL)
                                 {
-                                    Module::contextx->dataSignal();
+                                    context->dataSignal();
                                 }
                             }
                         }

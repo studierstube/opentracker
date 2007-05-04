@@ -58,6 +58,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+
+
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
 
@@ -65,15 +67,19 @@
 #include <OpenTracker/input/ParButtonModule.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
+
 // enable this define, if you want to use an alternative implementation of
 // the parallel port access. You will also have to make sure to include the
 // right libraries etc.
 //#define _DLPORTIO
 
+#include <ace/OS.h>
 
 #ifdef WIN32
 #include <windows.h>
 #endif
+
+
 
 #include <iostream>
 
@@ -100,7 +106,6 @@
 #endif
 #endif
 
-#include <ace/OS.h>
 
 #ifndef OT_NO_PARBUTTON_SUPPORT
 

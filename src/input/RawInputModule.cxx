@@ -119,10 +119,10 @@ namespace ot {
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
             {
                 RawInputSource* pSource = reinterpret_cast<RawInputSource*>((Node*)*it);
-                lock();
+                lockLoop();
                 if (pSource->calcEvent())
                     pSource->updateObservers(pSource->getEvent());
-                unlock();
+                unlockLoop();
             }
     }
 
@@ -313,7 +313,7 @@ namespace ot {
                                             button &= ~ 0x00000010;
                                             buttonMask |= 0x00000010;
                                         }
-                                    lock();
+                                    lockLoop();
                                     if (rawInput.data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
                                         pSource->setMoveEvent(RawInputSource::ZRelative,0,0,static_cast<SHORT>(rawInput.data.mouse.usButtonData) / WHEEL_DELTA);
                                     if (rawInput.data.mouse.usFlags & MOUSE_MOVE_ABSOLUTE)
@@ -322,11 +322,11 @@ namespace ot {
                                         pSource->setMoveEvent(RawInputSource::XYRelative,rawInput.data.mouse.lLastX,- rawInput.data.mouse.lLastY,0);
                                     if (buttonMask && filterButtons)
                                         pSource->setButtonEvent(button,buttonMask);
-                                    unlock();
+                                    unlockLoop();
                                 }
-                            if (Module::contextx != NULL)
+                            if (context != NULL)
                                 {
-                                    Module::contextx->dataSignal();
+                                    context->dataSignal();
                                 }      
                         }
 

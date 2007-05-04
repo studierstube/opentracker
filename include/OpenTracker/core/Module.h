@@ -82,8 +82,8 @@ namespace ot {
         typedef Cptr<Module> Ptr;
     public:
         
-        static Context * contextx;
-
+     //   static Context * contextx;
+        
         //methods
     public:
         /// constructor method
@@ -91,7 +91,8 @@ namespace ot {
 
 	/// virtual destructor (as it befits any true class hierarchy)
         virtual ~Module();
-
+		void setContext(Context * c){  context = c; };
+		Context * getContext() const {return context;}; 
         /**
          * closes the module. A place for cleanup code etc.
          * This class provides an empty implementation for subclasses not doing
@@ -192,6 +193,7 @@ class Context;
 
 #define OT_MODULE_REGISTRATION_DEFAULT(MODNAME, REGISTRATIONSTRING) \
 		MODNAME * mod = new MODNAME();\
+		mod->setContext(context);\
 		context->addFactory (*mod);\
 		context->addModule (REGISTRATIONSTRING, *mod)
 

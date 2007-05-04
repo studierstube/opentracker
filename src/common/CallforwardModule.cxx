@@ -92,9 +92,9 @@ namespace ot {
             if (cfnode)
             {
                 cfnode->setEvent(event);
-                if (Module::contextx != NULL)
+                if (context != NULL)
                 {
-                    Module::contextx->dataSignal();
+                    context->dataSignal();
                 }
             }
             else

@@ -416,9 +416,9 @@ namespace ot {
                                 
                     (*source)->unlock();
 
-                    if (Module::contextx != NULL)
+                    if (context != NULL)
                     {
-                        Module::contextx->dataSignal();
+                        context->dataSignal();
                     }
 
                     // end of critical section

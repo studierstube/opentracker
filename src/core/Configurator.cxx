@@ -99,6 +99,7 @@ namespace ot{
     void Configurator::doInitialization(Context & newctx){
         for (Registry::iterator i = initFunctions.begin(); i != initFunctions.end(); i++)
         {
+			//logPrintS("initialization running function of module %s\n", (i->first.c_str()));
             (* (i->second).function) (&newctx, (i->second).data);
         }
     }
