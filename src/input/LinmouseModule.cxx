@@ -297,9 +297,9 @@ void LinmouseModule::run()
 
             source->unlock();
 
-            if (contextx != NULL)
+            if (context != NULL)
 	    { 
-                contextx->dataSignal();
+                context->dataSignal();
 	    } 
         }
     }

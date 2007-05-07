@@ -82,6 +82,10 @@
 #include <config.h>
 #endif
 
+#ifndef WIN32
+#define OT_NO_SPEECH_SUPPORT
+#endif
+
 #define OPENTRACKER_API
 
 #endif
