@@ -71,6 +71,7 @@ OT_MODULE_REGISTER_FUNC(ARToolKitPlusModule){
 	}
 }
 
+#ifdef WIN32
 // in SAM we use another mechanism to link against ARToolKitPlus
 // in order to use the release DLL even in debug mode.
 // for that case we can define OT_DO_NOT_LINK_ARTOOLKITPLUS
@@ -101,11 +102,13 @@ OT_MODULE_REGISTER_FUNC(ARToolKitPlusModule){
 #    endif
 #  endif
 #endif
-
-
+#else // WIN32
+#  include <ARToolKitPlus/TrackerSingleMarker.h>
+#  include <ARToolKitPlus/TrackerSingleMarkerImpl.h>
+#  include <cctype>
+#  include <iostream>
+#endif
 #include <ARToolKitPlus/Logger.h>
-
-
 
 
 class ARToolKitPlusModuleLogger : public ARToolKitPlus::Logger
@@ -380,8 +383,12 @@ namespace ot {
 
     // initializes the ARToolKit module
 
+#ifdef WIN32
 #define MAKE_STRING_LOWER(STR)  std::transform(STR.begin(), STR.end(), STR.begin(), std::tolower);
 
+#else
+#define MAKE_STRING_LOWER(STR)  std::transform(STR.begin(), STR.end(), STR.begin(), static_cast<int(*)(int)>(std::tolower));
+#endif
     void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
     {
 	cameradata = attributes.get("camera-parameter");
@@ -393,11 +400,22 @@ namespace ot {
 	std::string threshold = attributes.get("treshold");
 	std::string markermode = attributes.get("marker-mode");
 
+
 	MAKE_STRING_LOWER(undistmode);
 	MAKE_STRING_LOWER(detectmode);
 	MAKE_STRING_LOWER(posemode);
 	MAKE_STRING_LOWER(threshold);
 	MAKE_STRING_LOWER(markermode);
+
+#ifndef WIN32
+        std::cerr << undistmode << std::endl;
+        std::cerr << detectmode << std::endl;
+        std::cerr << posemode << std::endl;
+        std::cerr << threshold << std::endl;
+        std::cerr << markermode << std::endl;
+        //exit(1);
+#endif
+
 
 
 	// marker detection mode: lite vs. full
@@ -566,6 +584,7 @@ namespace ot {
 	if(!initialized || maxMarkerId<0)
             return;
 
+
         ARToolKitPlus::ARMarkerInfo * markerInfo;
         int markerNum;
         int j;
@@ -573,7 +592,10 @@ namespace ot {
 	PIXEL_FORMAT artkpImgFormat;
 
 	if(!convertPixelFormat_ARToolKitPlus_to_OpenTracker(tracker->getPixelFormat(), artkpImgFormat))
+        {
+            logPrintW("ARToolKitPlusModule::newVideoFrame: could not convert format\n");
             return;
+        }
 
 	// did we get another pixel format than ARToolKitPlus currently expects?
 	if(imgFormat!=artkpImgFormat)
@@ -582,7 +604,10 @@ namespace ot {
             //
             ARToolKitPlus::PIXEL_FORMAT artkpFormat;
             if(!convertPixelFormat_OpenTracker_to_ARToolKitPlus(imgFormat, artkpFormat))
+            {
+                logPrintW("ARToolKitPlusModule::newVideoFrame: could not convert format\n");
                 return;
+            }
             tracker->setPixelFormat(artkpFormat);
 	}
 
@@ -619,6 +644,7 @@ namespace ot {
 	{
             if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
             {
+                //logPrintW("ARToolKitPlusModule::newVideoFrame: no marker found (lite)\n");
                 return;
             }
 	}
@@ -626,9 +652,11 @@ namespace ot {
 	{
             if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
             {
+                //logPrintW("ARToolKitPlusModule::newVideoFrame: no marker found\n");
                 return;
             }
 	}
+
 
         if( markerNum < 1 )
 	{
@@ -652,6 +680,9 @@ namespace ot {
 	//
 	for(j=0; j<markerNum; j++)
 	{
+            //logPrintI("marker %d found (%f)\n", 
+            //          markerInfo[j].id, markerInfo[j].cf);
+
             int id = markerInfo[j].id;
             if(id!=-1 && bestCFs[id]<markerInfo[j].cf)
                 bestCFs[id] = markerInfo[j].cf;
@@ -739,6 +770,12 @@ namespace ot {
 	//
 	for(j=0; j<markerNum; j++)
             bestCFs[markerInfo[j].id] = 0.0f;
+
+        // after each camera frame we to an opentracker graph traversal
+        if (context)
+        {                    
+            context->dataSignal();
+        }
 
 	return;
     }
