@@ -952,8 +952,8 @@ $Id$
 <!ELEMENT MobilabSource EMPTY>
 <!ATTLIST MobilabSource
 	DEF ID #IMPLIED
-	CDATA channel #REQUIRED
-	CDATA datatype ( USHORT | FLOAT | DOUBLE ) "USHORT"
+	channel CDATA #REQUIRED
+	datatype ( USHORT | FLOAT | DOUBLE ) "USHORT"
 >
 <!--DynaSight receiver acting as sources-->
 <!ELEMENT DynaSightConfig EMPTY>
