@@ -101,7 +101,7 @@ namespace ot {
             return 1;
         }
 
-        virtual void newData( char * userData );
+        virtual void newData( unsigned short sampleValue);
 
     protected:
 	/// protected constructor so it is only accessible by the module
@@ -127,43 +127,40 @@ namespace ot {
 	friend class MobilabModule;
     };
 
-    inline void MobilabSource::newData( char * userData )
+    inline void MobilabSource::newData( unsigned short sampleValue)
     {
         
-        ACE_ASSERT( userData != NULL );
+        lock();
 
-        MobilabModule * module = (MobilabModule *)userData;
-        module->lockLoop();
         buffer.timeStamp();
         
         buffer.getConfidence() = 1.0;
 
-        int convretval = -1;
-
         switch (datatype)
         {
             case  FLOAT_TYPE :
-                float fltval;
-                convretval = sscanf(userData, "%f", &fltval);
-                fltval /= 0xffff;
-                buffer.setAttribute<float>("bcidata",fltval); 
+                {
+                    float fltval = sampleValue;
+                    sampleValue /= 0xffff;
+                    buffer.setAttribute<float>("bcidata",fltval); 
+                }
                 break;
             case DOUBLE_TYPE:
-                double dblval;                    
-                convretval = sscanf(userData, "%lf", &dblval);
-                dblval /= 0xffff;
-                buffer.setAttribute<double>("bcidata", dblval); 
+                {
+                    double dblval = sampleValue;                    
+                    dblval /= 0xffff;
+                    buffer.setAttribute<double>("bcidata", dblval); 
+                }
                 break;
             case USHORT_TYPE:
-                unsigned short ushval;
-                convretval = sscanf(userData, "%hu", &ushval);
-                buffer.setAttribute<unsigned short>("bcidata", ushval); 
+                buffer.setAttribute<unsigned short>("bcidata", sampleValue); 
                 break;
             default:                
                 buffer.setAttribute<unsigned short>("bcidata", 0); 
                 break;
         }
-        module->unlockLoop();
+
+        unlock();
         
         //std::cout << "Position = " << buffer.getAttribute("bcidata")] 
         //<< std::endl;

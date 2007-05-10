@@ -55,6 +55,7 @@ class ACE_TTY_IO;
 namespace ot {
 
     class Mobilab_Handler;
+    class MobilabModule;
 
     /**
      * This is an abstract interface for the clients of the MobilabDriver class.
@@ -69,14 +70,9 @@ namespace ot {
          * This is the callback method called by the MobilabDriver class, 
          * whenever new data arrives. Any subclasses of MobilabListener must 
          * override it to receive the data.
-         * @param point pointer to the MobilabResult object that represents 
-         * the parsed data.
-         * @param line the corresponding string received from the Mobilab 
-         * receiver.
-         * @param userData a pointer to user data stored when registering the 
-         * listener.
+         * @param sampleValue the value received from the Mobilab device.
          */
-	virtual void newData( char * userData ) = 0;
+	virtual void newData( unsigned short sampleValue) = 0;
 	virtual ~MobilabListener() {};
     };
 
@@ -92,7 +88,7 @@ namespace ot {
     class MobilabDriver  
     {
     public:
-	MobilabDriver( ACE_Reactor * reactor_ = NULL );
+	MobilabDriver( ACE_Reactor * reactor_ = NULL, MobilabModule * module_ = NULL);
 	virtual ~MobilabDriver();
 
 	int open( const std::string & device );
@@ -116,10 +112,11 @@ namespace ot {
 
     protected:
 
-        void new_line( const char * line );
+        void newSample( const unsigned short * sample );
 
 	ACE_Reactor * reactor;
 	Mobilab_Handler * receiver;
+        MobilabModule *module;
 
 	bool debugOn;
 

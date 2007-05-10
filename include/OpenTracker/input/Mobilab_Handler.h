@@ -77,11 +77,12 @@ namespace ot {
 	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 	virtual int handle_signal( int, siginfo_t *, ucontext_t * );
 
-    protected:
-        char * mobilabRead( char * nmeabuf, int incnt, int & outnt );
+    protected:     
 	MobilabDriver * parent;
-	int mobilabind;
-	char mobilabbuf[1024];
+        // buffer for storing complete channel set data
+	unsigned short mobilabbuf[16];
+        // buffer fill counter
+        int mobilabind;
     };
 
     typedef ACE_Connector<Mobilab_Handler, ACE_DEV_CONNECTOR> Mobilab_Connector;

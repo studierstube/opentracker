@@ -170,7 +170,7 @@ namespace ot {
 
     void MobilabModule::run()
     {
-	driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor );
+	driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
 	driver->setDebug( debug ); // only for debug purposes ...
         
         SourceVector::iterator it;
@@ -196,21 +196,21 @@ namespace ot {
         /// start device communication
 	if( driver->open( device ) != 0 )
 	{
-            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:MobilabModule could not start MobilabDriver !\n")));
+            logPrintE("MobilabModule could not start MobilabDriver !\n");
             return;
 	}
         if( debug )
 	{
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:MobilabModule started MobilabDriver !\n")));
+            logPrintI("MobilabModule started MobilabDriver !\n");
 	}
 	driver->getReactor()->run_reactor_event_loop();
 	driver->close();
 	delete driver;
     }
 
-    void MobilabModule::newData(char * userData )
+    void MobilabModule::newData(unsigned short sampleValue)
     {
-        logFile->send( userData, ACE_OS::strlen(userData));
+        logFile->send( sampleValue, sizeof(sampleValue));
     }
 
 

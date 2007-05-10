@@ -73,63 +73,40 @@ namespace ot {
 
     int	Mobilab_Handler::handle_input(ACE_HANDLE fd)
     {
+        logPrintI("Mobilab_Handler::handle_input\n");
+
         return handle_signal(0, NULL, NULL);
     }
 
     int Mobilab_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
     {
-        int ncnt, rd;
-        char * line;
+        logPrintI("Mobilab_Handler::handle_input\n");
 
-        ncnt = peer().recv( mobilabbuf + mobilabind, 1024 - mobilabind);
-        if (ncnt > 0) {
+        int ncnt;
+
+        // try to read the difference to 16 bytes = data for all 8 channels
+        ncnt = peer().recv( mobilabbuf + mobilabind, 16 - mobilabind);
+        if (ncnt>0)
+        {
             mobilabind += ncnt;
-            while ((line = mobilabRead(mobilabbuf, mobilabind, rd)) !=  NULL) 
+            
+            // we are complete
+            if (mobilabind == 16)
             {
-    		parent->new_line( line );
-                mobilabind -= rd;
-                memmove(mobilabbuf, mobilabbuf + rd, mobilabind);
-            }
+                parent->newSample(mobilabbuf);
+                mobilabind  = 0;
+            }  
 	}
 #ifdef WIN32
-        else // this is a hack to avoid high resource consumption on windows !
+        else
+        { 
+            // this is a hack to avoid high resource consumption on windows !
+
             ACE_OS::sleep(ACE_Time_Value(0,20000));
+        }
 #endif
 	return 0;
     }
-
-    char * Mobilab_Handler::mobilabRead( char * mobilabbuf, int incnt, 
-                                         int & outnt )
-    {
-        char *cp, *crp, *omobilabbuf;
-        int oincnt;
-    
-        omobilabbuf = mobilabbuf;
-        oincnt = incnt;
-    
-        if ((cp = (char *)memchr(mobilabbuf, '$', incnt)) == NULL) {
-            /* no nmea delims - junk it all */
-            outnt = incnt;
-            return NULL;
-        }
-        /* else align buff and adjust count */
-        incnt -= cp - mobilabbuf;
-        mobilabbuf = cp;
-    
-        if ((crp = (char *)memchr(mobilabbuf, '\n', incnt)) == NULL) {
-            /*
-             * No cr - return till more data trickles in.
-             * Let 'em know how much of buff we looked at and discarded.
-             */
-            outnt = mobilabbuf - omobilabbuf;
-            return NULL;
-        }
-        *crp = '\0';		/* turn current buff fragment into a string */
-        mobilabbuf = crp;
-        outnt = mobilabbuf - mobilabbuf;
-        return cp;
-    }
-
 
 } // namespace ot
 

@@ -57,6 +57,7 @@
 #include <memory>
 
 #include <OpenTracker/input/MobilabDriver.h>
+#include <OpenTracker/input/MobilabSource.h>
 #include <OpenTracker/input/Mobilab_Handler.h>
 
 #include <ace/Log_Msg.h>
@@ -64,19 +65,22 @@
 
 namespace ot {
 
-    MobilabDriver::MobilabDriver(ACE_Reactor * reactor_) :
-        reactor( reactor_ ),
-        receiver( NULL )
+    MobilabDriver::MobilabDriver(ACE_Reactor * reactor_, 
+                                 MobilabModule * module_) :
+        reactor( reactor_ ),        
+        receiver( NULL ),
+        module (module_)
     {
 	if( NULL == reactor )
 	{   
-            logPrintW("ot:MobilabDriver: reactor is null!\n");
+            logPrintW("MobilabDriver: reactor is null!\n");
             reactor = ACE_Reactor::instance();
 	}
     }
 
     MobilabDriver::~MobilabDriver()
     {
+        logPrintI("MobilabDriver::~MobilabDriver()\n");
 	if( receiver != NULL )
             close();
 
@@ -86,15 +90,14 @@ namespace ot {
 
     int MobilabDriver::open( const std::string & device)
     {
-        if( getDebug())
-            ACE_DEBUG((LM_INFO, ACE_TEXT("ot:MobilabDriver open\n")));
+        //if( getDebug())
+        logPrintI("MobilabDriver::open(%s)\n", device.c_str());
 
 	int result;
 	// open the serial port the the mobilab device
 	receiver = new Mobilab_Handler( this );
 	Mobilab_Connector mobilabconnect( reactor );
-	result = mobilabconnect.connect( receiver, 
-ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
+	result = mobilabconnect.connect( receiver, ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
 	if( result == 0)
 	{
             // set the appropriate parameters
@@ -113,20 +116,61 @@ ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
             params.rcvenb = true;
 
             result = receiver->peer().control(ACE_TTY_IO::SETPARAMS, &params );
+            
             if( result != 0 )
             {
                 receiver = NULL;
-                ACE_DEBUG((LM_ERROR, 
-                           ACE_TEXT("ot:MobilabDriver port open failed: %s\n"), 
-                           device.c_str()));
+                logPrintE("MobilabDriver port open failed: %s\n", 
+                          device.c_str());
+                return -1;
             }
 	}
+        else
+        {
+            logPrintE("MobilabDriver connect to port %s failed!\n", 
+                      device.c_str());
+        }
+        
+        /// initialize channels
+        unsigned char send_channel_command[ 3 ];
+        send_channel_command[ 0 ] = 0x63;
+        send_channel_command[ 1 ] = 0xff;
+        send_channel_command[ 2 ] = 0x20;    
+        result = receiver->peer().send(send_channel_command, 
+                                       sizeof(send_channel_command));
+                
+        if (result != sizeof(send_channel_command))
+        {
+            logPrintE("MobilabDriver device initialization failed\n");
+            return -1;
+        }
+        
+        char response;
+        result = receiver->peer().recv(&response, sizeof(response));
+        if (result != sizeof(response))
+        {
+            logPrintE("MobilabDriver got no response from device\n");
+            return -1;
+        }
 
-        if( getDebug())
-            ACE_DEBUG((LM_INFO, 
-                       ACE_TEXT("ot:MobilabDriver opened serial port %s\n"), 
-                       device.c_str()));
-	
+        if (response != 0x63)
+        {
+            logPrintE("received unexpected response '%x'\n", response);
+            return -1;
+        }
+
+        /// initiate data transfer
+
+        char send_transfer_command = 0x61;
+        result = receiver->peer().send(send_transfer_command, 
+                                       sizeof(send_transfer_command));
+
+       	 if (result != sizeof(send_transfer_command))
+        {
+            logPrintE("MobilabDriver device invocation failed\n");
+            return -1;
+        }
+
 	return result;
     }
 
@@ -140,9 +184,19 @@ ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
 	if( receiver != NULL )
 	{
 		
-		receiver->shutdown();
-		//receiver->destroy();
-		//receiver = NULL;
+            /// stop data transfer
+            int result = 0;
+            int send_stoptransfer_command = 0x62;
+            result = receiver->peer().send(send_stoptransfer_command, 
+                                           sizeof(send_stoptransfer_command));
+             if (result != sizeof(send_stoptransfer_command))
+             {
+                 logPrintW("MobilabDriver device stopping failed\n");
+             }
+
+            receiver->shutdown();
+            //receiver->destroy();
+            //receiver = NULL;
 	}
 
     }
@@ -164,13 +218,21 @@ ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
     }
 
 
-    void MobilabDriver::new_line( const char * line )
+    void MobilabDriver::newSample( const unsigned short * sample )
     {       
         std::map<MobilabListener *, void *>::iterator it;
         for( it = listeners.begin(); it != listeners.end(); it++ )
         {
-            //(*it).first->newData(line, (*it).second );
-            (*it).first->newData((char*)it->second);
+            MobilabSource *ms = dynamic_cast<MobilabSource*>(it->first);
+            if (ms)
+            {
+                (*it).first->newData(sample[ms->channel]);
+            }
+        }
+        if (module && module->getContext())
+        {
+            
+            module->getContext()->dataSignal();
         }
     }
 

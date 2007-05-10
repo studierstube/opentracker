@@ -110,7 +110,7 @@ namespace ot {
     
         virtual void close();
     
-        virtual void newData( char * userData );
+        virtual void newData( unsigned short sampleValue);
     
     protected:
     
