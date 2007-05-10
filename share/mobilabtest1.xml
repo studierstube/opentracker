@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <MobilabConfig dev="/dev/ttyUSB0" />
+    <ConsoleConfig headerline="Sample Output" interval="1" display="on"/>
+  </configuration>
+  
+  <ConsoleSink comment="Mobilab channel 0" active="on">
+    <MobilabSource channel="0" />
+  </ConsoleSink>
+  
+  <ConsoleSink comment="Mobilab channel 1" active="on">
+    <MobilabSource channel="1" />
+  </ConsoleSink>
+</OpenTracker>
