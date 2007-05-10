@@ -1,3 +1,15 @@
+libopentracker (2.0a-19) unstable; urgency=low
+
+  * new version with g.Mobilab support 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Thu, 10 May 2007 12:19:38 +0200
+
+libopentracker (2.0a-18) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Wed, 09 May 2007 10:06:29 +0200
+
 libopentracker (2.0a-17) unstable; urgency=low
 
   * new version 

@@ -95,6 +95,7 @@
 #include <OpenTracker/common/InterpolatorModule.h>
 #include <OpenTracker/common/ButtonHoldFilterModule.h>
 #include <OpenTracker/input/GPSModule.h>
+#include <OpenTracker/input/MobilabModule.h>
 #include <OpenTracker/input/MagicYModule.h>
 #include <OpenTracker/common/CallbackModule.h>
 #include <OpenTracker/common/CallforwardModule.h>
@@ -361,6 +362,8 @@ namespace ot {
 #ifndef OT_NO_GPS_SUPPORT
         OT_REGISTER_MODULE(GPSModule, NULL);
 #endif
+
+        OT_REGISTER_MODULE(MobilabModule, NULL);
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_DYNASIGHT_SUPPORT
