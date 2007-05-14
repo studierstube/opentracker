@@ -54,7 +54,7 @@ namespace ot {
         parent( parent_ ),
         mobilabind( 0 )
     {
-	
+        logPrintI("Mobilab_Handler::Mobilab_Handler()\n");	
     }
 
     Mobilab_Handler::~Mobilab_Handler()
@@ -73,14 +73,14 @@ namespace ot {
 
     int	Mobilab_Handler::handle_input(ACE_HANDLE fd)
     {
-        logPrintI("Mobilab_Handler::handle_input\n");
+        //logPrintI("Mobilab_Handler::handle_input\n");
 
         return handle_signal(0, NULL, NULL);
     }
 
     int Mobilab_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
     {
-        logPrintI("Mobilab_Handler::handle_input\n");
+        //logPrintI("Mobilab_Handler::handle_signal\n");
 
         int ncnt;
 

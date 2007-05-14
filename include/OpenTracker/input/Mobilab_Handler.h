@@ -64,7 +64,7 @@ namespace ot {
      * @author Alexander Bornik
      */
 
-    class Mobilab_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_NULL_SYNCH>
+    class Mobilab_Handler : public  ACE_Svc_Handler<ACE_TTY_IO, ACE_MT_SYNCH>
     {
     public:
 	/// default constructor for ace framework. Do not use !

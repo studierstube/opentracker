@@ -66,6 +66,7 @@ namespace ot {
     }
 
     MobilabModule::MobilabModule() :
+        debug (true),
         driver( NULL ),
         logFile( NULL )
     {
@@ -110,7 +111,11 @@ namespace ot {
         }
 
         Module::init( attributes, localTree );
-	logPrintI("MobilabModule initialized for port %s.\n", device.c_str());
+
+        if (debug)
+        {
+            logPrintI("MobilabModule initialized for port %s.\n", device.c_str());
+        }
     }
 
     Node * MobilabModule::createNode( const std::string & name, StringTable & attributes )
@@ -135,7 +140,10 @@ namespace ot {
             MobilabSource *source = new MobilabSource;
             source->channel = channelnum;
             sources.push_back(source);
-            logPrintI("Built MobilabSource node.\n");
+            if (debug)
+            {
+                logPrintI("Built MobilabSource node.\n");
+            }
             return source;
 	}
 	return NULL;	
@@ -194,16 +202,24 @@ namespace ot {
 	driver->getReactor()->owner(ACE_Thread::self());
 
         /// start device communication
-	if( driver->open( device ) != 0 )
+	if( driver->open( device ) )
 	{
             logPrintE("MobilabModule could not start MobilabDriver !\n");
             return;
 	}
-        if( debug )
-	{
+
+        if( debug )          
+        {
             logPrintI("MobilabModule started MobilabDriver !\n");
 	}
+
 	driver->getReactor()->run_reactor_event_loop();
+
+        if (debug)
+        {
+            logPrintI("MobilabModule: reactor event loop exited ...\n");
+        }
+
 	driver->close();
 	delete driver;
     }

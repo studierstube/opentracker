@@ -129,7 +129,7 @@ namespace ot {
 
     inline void MobilabSource::newData( unsigned short sampleValue)
     {
-        
+        //logPrintI("MobilabSource(%x)::newData %hu\n",this,sampleValue);
         lock();
 
         buffer.timeStamp();
