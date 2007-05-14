@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
+<OpenTracker>
+  <configuration>
+    <ConsoleConfig headerline="Network Output" interval="1"/>
+    <FileConfig /> 
+  </configuration>
+
+  <FileSink file="mobilabtest2.dat" station="0">
+    <ConsoleSink comment="Test Source 1">
+      <NetworkSource  mode="multicast" number="0"
+      multicast-address="224.0.0.10" port="12345" />
+    </ConsoleSink>
+  </FileSink>
+
+  <FileSink file="mobilabtest2.dat" station="1">
+    <ConsoleSink comment="Test Source 2">
+      <NetworkSource  mode="multicast" number="1"
+      multicast-address="224.0.0.10" port="12345" />
+    </ConsoleSink>
+  </FileSink>
+</OpenTracker>
