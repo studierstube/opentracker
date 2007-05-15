@@ -364,7 +364,7 @@ namespace ot {
 
     void MobilabDriver::close()
     {
-        logPrintE("MobilabDriver::close()\n");
+        logPrintI("MobilabDriver::close()\n");
 
         if (receiver !=NULL)
         {

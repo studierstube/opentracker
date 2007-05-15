@@ -56,7 +56,7 @@ using namespace ot;
 extern "C" void
 SIGINThandler (int signum, siginfo_t*, ucontext_t*)
 { 
-    logPrintW ("Received SIGINT -> gracefully shutting down!\n");
+    logPrintI ("Received SIGINT -> gracefully shutting down!\n");
     Configurator::instance()->getContext()->stopLoop();
 }
 
