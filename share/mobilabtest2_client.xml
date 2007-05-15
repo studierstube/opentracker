@@ -6,17 +6,26 @@
     <FileConfig /> 
   </configuration>
 
-  <FileSink file="mobilabtest2.dat" station="0">
-    <ConsoleSink comment="Test Source 1">
-      <NetworkSource  mode="multicast" number="0"
-      multicast-address="224.0.0.10" port="12345" />
-    </ConsoleSink>
-  </FileSink>
+  <ConsoleSink comment="Test Source 0">
+    <FileSink file="mobilabtest2.dat" station="0">	
+      <Merge>
+	<MergeDefault>
+	  <NetworkSource  mode="multicast" number="2"
+			  multicast-address="224.100.200.101" port="12346" />
+	</MergeDefault>
+	<MergeAttribute attributeName="bcidata">
+	  <NetworkSource  mode="multicast" number="0"
+			  multicast-address="224.0.0.10" port="12345" />
+	</MergeAttribute>
+      </Merge>
+    </FileSink>
+  </ConsoleSink>
 
-  <FileSink file="mobilabtest2.dat" station="1">
-    <ConsoleSink comment="Test Source 2">
+  <ConsoleSink comment="Test Source 1">
+    <FileSink file="mobilabtest2.dat" station="1">
+
       <NetworkSource  mode="multicast" number="1"
       multicast-address="224.0.0.10" port="12345" />
-    </ConsoleSink>
-  </FileSink>
+    </FileSink>
+  </ConsoleSink>
 </OpenTracker>
