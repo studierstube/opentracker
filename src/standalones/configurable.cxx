@@ -46,11 +46,20 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/core/Configurator.h>
 
-#include <fstream>
+#include <ace/Signal.h>
 
+#include <fstream>
 
 using namespace std;
 using namespace ot;
+
+extern "C" void
+SIGINThandler (int signum, siginfo_t*, ucontext_t*)
+{ 
+    logPrintW ("Received SIGINT -> gracefully shutting down!\n");
+    Configurator::instance()->getContext()->stopLoop();
+}
+
 
 #include <OpenTracker/misc/FileConfigurationThread.h>
 

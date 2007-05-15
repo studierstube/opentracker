@@ -43,10 +43,19 @@
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/core/Configurator.h>
+#include <ace/Signal.h>
 #include <iostream>
 
 using namespace std;
 using namespace ot;
+
+extern "C" void
+SIGINThandler (int signum, siginfo_t*, ucontext_t*)
+{ 
+    logPrintW ("Received SIGINT -> gracefully shutting down!\n");
+    Configurator::instance()->getContext()->stopLoop();
+}
+
 
 /**
  * The main function for the standalone program. It expects a
@@ -77,12 +86,15 @@ int main(int argc, char **argv)
 
 	//FileConfigurationThread*  ct= new FileConfigurationThread( "reconfig.xml");
 
+        ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
+
 	Configurator::instance() ->runConfigurationThread( filename );
 
 	// parse the configuration file, builds the tracker tree
 	context.parseConfiguration( argv[1] );
 
-	cout << "Parsing complete." << endl << endl << "Starting mainloop !" << endl;
+	cout << "Parsing complete." << endl << endl 
+             << "Starting mainloop !" << endl;
 
     printf("OT |SETUP : Parsing Complete\n");
     printf("OT |INFO : Starting Mainloop\n");
