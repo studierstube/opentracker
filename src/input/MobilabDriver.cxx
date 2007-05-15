@@ -62,7 +62,10 @@
 
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
+
+#ifndef WIN32
 #include <termios.h>
+#endif
 
 namespace ot {
 
@@ -205,6 +208,7 @@ namespace ot {
 
         usleep(200000);
 
+#ifndef WIN32
         ACE_HANDLE porthandle = receiver->peer().get_handle();
         struct termios devpar;
         memset(&devpar, 0x0, sizeof(devpar));
@@ -258,6 +262,7 @@ namespace ot {
         
         //int readcount = read(porthandle, &result, 1);
         //logPrintI("Read count: %d\n", readcount);
+#endif
         
         char initio;
         result = receiver->peer().recv(&initio,1);
@@ -361,29 +366,42 @@ namespace ot {
     {
         logPrintE("MobilabDriver::close()\n");
 
+        if (receiver !=NULL)
+        {
+            sendStopTransferCommand();
+        }
+
         if ( reactor != NULL)
         {       
-            reactor->close();
+            reactor->end_reactor_event_loop();
         }
 
 	if( receiver != NULL )
-	{
-		
-            /// stop data transfer
-            int result = 0;
-            int send_stoptransfer_command = 'b';
-            result = receiver->peer().send(send_stoptransfer_command, 
-                                           sizeof(send_stoptransfer_command));
-             if (result != sizeof(send_stoptransfer_command))
-             {
-                 logPrintW("MobilabDriver device stopping failed\n");
-             }
-
-            receiver->shutdown();
-            //receiver->destroy();
-            //receiver = NULL;
+	{		                       
+            receiver->destroy();
+            receiver = NULL;
 	}
 
+        /*if ( reactor != NULL)
+        {       
+            reactor->close();
+        }
+        */
+
+    }
+
+    int MobilabDriver::sendStopTransferCommand() const
+    {
+        /// stop data transfer
+        int result = 0;
+        char send_stoptransfer_command = 'b';
+        result = receiver->peer().send(&send_stoptransfer_command, 1);
+        if (result != 1)
+        {
+            logPrintW("MobilabDriver device stopping failed(%d)\n",
+                      result);
+        } 
+        return result;
     }
 
     void MobilabDriver::addListener( MobilabListener * listener, 

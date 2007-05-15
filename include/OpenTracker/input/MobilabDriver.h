@@ -113,6 +113,7 @@ namespace ot {
     protected:
 
         void newSample( const unsigned short * sample );
+        int sendStopTransferCommand() const;
 
 	ACE_Reactor * reactor;
 	Mobilab_Handler * receiver;

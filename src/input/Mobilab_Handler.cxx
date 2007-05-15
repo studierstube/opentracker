@@ -64,23 +64,17 @@ namespace ot {
 
     int Mobilab_Handler::open( void * factory )
     {
+        //reactor()->register_handler(SIGINT, this);
 #ifdef WIN32
 	return reactor()->register_handler(this);
 #else
 	return reactor()->register_handler(this, ACE_Event_Handler::READ_MASK);
-#endif
+#endif        
     }
 
     int	Mobilab_Handler::handle_input(ACE_HANDLE fd)
     {
         //logPrintI("Mobilab_Handler::handle_input\n");
-
-        return handle_signal(0, NULL, NULL);
-    }
-
-    int Mobilab_Handler::handle_signal( int, siginfo_t *, ucontext_t * )
-    {
-        //logPrintI("Mobilab_Handler::handle_signal\n");
 
         int ncnt;
 
@@ -105,7 +99,27 @@ namespace ot {
             ACE_OS::sleep(ACE_Time_Value(0,20000));
         }
 #endif
-	return 0;
+        return 0;
+    }
+
+    int Mobilab_Handler::handle_signal( int signum, siginfo_t *, ucontext_t * )
+    {
+        logPrintI("Mobilab_Handler::handle_signal\n");
+        
+        if (signum != 0)
+        {
+            ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("received signal %S\n"), signum));
+            if (parent)
+            {
+                parent->sendStopTransferCommand();
+                
+                //reactor()->end_reactor_event_loop();
+                //parent->close();
+            }
+            return 0;
+        }
+
+        return 0;	
     }
 
 } // namespace ot

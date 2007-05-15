@@ -49,6 +49,7 @@
 #include <ace/Thread.h>
 #include <ace/FILE_Connector.h>
 #include <ace/FILE_IO.h>
+#include <ace/Sig_Adapter.h>
 
 #include <OpenTracker/input/MobilabModule.h>
 #include <OpenTracker/input/MobilabSource.h>
@@ -164,6 +165,11 @@ namespace ot {
 
     void MobilabModule::close()
     {
+        if (debug)
+        {
+            logPrintI("MobilabModule::close() !\n");
+        }
+
 	if( driver != NULL )
 	{
             if( driver->getReactor() != NULL )
@@ -199,7 +205,15 @@ namespace ot {
             driver->addListener( this );
         }
 
+        
 	driver->getReactor()->owner(ACE_Thread::self());
+        /*
+        ACE_Sig_Adapter sa( );
+        if (driver->getReactor()->register_handler(SIGINT, &sa) == -1)
+        {
+            logPrintW("MobilabModule: could not register SIGINT handler!\n");
+        }
+        */
 
         /// start device communication
 	if( driver->open( device ) )

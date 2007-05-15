@@ -92,7 +92,7 @@ namespace ot {
 
 
         // stop the loop, if it is running
-        Context::stopLoop();
+        stopLoop();
 
         // delete all modules
 	/*        if( cleanUp )
