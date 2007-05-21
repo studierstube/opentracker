@@ -159,6 +159,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\ARTDataTrackerSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\ARToolKitModule.cxx"
 				>
 			</File>
@@ -184,6 +188,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\CallbackModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\CallforwardNode.cxx"
 				>
 			</File>
 			<File
@@ -287,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\FileSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\FilterNode.cxx"
 				>
 			</File>
@@ -304,6 +316,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\GPSDriver.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\GPSGarminCompass.cxx"
 				>
 			</File>
 			<File
@@ -364,6 +380,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\MergeNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\Mobilab_Handler.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\MobilabDriver.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\MobilabModule.cxx"
 				>
 			</File>
 			<File
