@@ -112,12 +112,14 @@ namespace ot {
 	// open the serial port the the mobilab device
 	receiver = new Mobilab_Handler( this );
 	Mobilab_Connector mobilabconnect( reactor );
+#ifndef WIN32
 	result = mobilabconnect.connect( receiver, 
                                          ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())), 
                                          ACE_Synch_Options::defaults,
                                          (Mobilab_Connector::peer_addr_type&)Mobilab_Connector::ACE_PEER_CONNECTOR_ADDR_ANY,
                                          1 /*reuse*/,
                                          O_RDWR|O_NOCTTY|O_NONBLOCK);
+#endif
 	if( result == 0)
 	{
             // set the appropriate parameters
@@ -205,8 +207,11 @@ namespace ot {
         send_channel_command[ 2 ] = ' ';    
         char send_transfer_command = 'a';
         char send_etransfer_command = 'e';
-
+#ifndef WIN32
         usleep(200000);
+#else
+		Sleep(20);
+#endif
 
 #ifndef WIN32
         ACE_HANDLE porthandle = receiver->peer().get_handle();

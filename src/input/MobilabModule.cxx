@@ -49,7 +49,6 @@
 #include <ace/Thread.h>
 #include <ace/FILE_Connector.h>
 #include <ace/FILE_IO.h>
-#include <ace/Sig_Adapter.h>
 
 #include <OpenTracker/input/MobilabModule.h>
 #include <OpenTracker/input/MobilabSource.h>
