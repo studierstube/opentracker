@@ -248,7 +248,7 @@
 <!-- TCP Network                                                                              -->
 <!--                                                                                          -->
 <!-- **************************************************************************************** -->
-
+<!--
   <NetworkSink name="ARTTCP00" number="20" mode="unicast"  port="12001" interface="129.27.201.31">
 	<Ref USE="transform0"/>
   </NetworkSink>
@@ -322,7 +322,7 @@
 	<Ref USE="transform17"/>
   </NetworkSink>
 
-
+-->
 
 
 </OpenTracker>
