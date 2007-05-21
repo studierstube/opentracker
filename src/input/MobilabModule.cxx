@@ -109,7 +109,18 @@ namespace ot {
                           attributes.get("logfile").c_str());
             }
         }
-
+        if (attributes.containsKey("debug"))
+        {
+            if (attributes.get("debug") == "on")
+            {
+                debug = true;
+            }
+            else
+            {
+                debug = false;
+            }
+        }
+        
         Module::init( attributes, localTree );
 
         if (debug)
@@ -137,8 +148,29 @@ namespace ot {
                 return NULL;
             }
             
+            
+            int datat = USHORT_TYPE;
+
+            if (attributes.containsKey("datatype"))
+            {
+                if (attributes.get("datatype") == "USHORT")
+                {
+                    datat = USHORT_TYPE;
+                }
+                else if (attributes.get("datatype") == "FLOAT")
+                {
+                    datat = FLOAT_TYPE;
+                }
+                else if (attributes.get("datatype") == "DOUBLE")
+                {
+                    datat = DOUBLE_TYPE;
+                }
+
+            }
+
             MobilabSource *source = new MobilabSource;
             source->channel = channelnum;
+            source->datatype = datat;
             sources.push_back(source);
             if (debug)
             {
@@ -166,7 +198,7 @@ namespace ot {
     {
         if (debug)
         {
-            logPrintI("MobilabModule::close() !\n");
+            logPrintI("MobilabModule::close()\n");
         }
 
 	if( driver != NULL )
@@ -223,14 +255,14 @@ namespace ot {
 
         if( debug )          
         {
-            logPrintI("MobilabModule started MobilabDriver !\n");
+            logPrintI("MobilabModule::run started MobilabDriver !\n");
 	}
 
 	driver->getReactor()->run_reactor_event_loop();
 
         if (debug)
         {
-            logPrintI("MobilabModule: reactor event loop exited ...\n");
+            logPrintI("MobilabModule::run reactor event loop exited ...\n");
         }
 
 	driver->close();

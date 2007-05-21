@@ -214,79 +214,27 @@ namespace ot {
 #endif
 
 #ifndef WIN32
+        /* FIXXXME: On Linux this needs to be done to get the Mobilab device to
+           to work properly
+        */
+
         ACE_HANDLE porthandle = receiver->peer().get_handle();
         struct termios devpar;
         memset(&devpar, 0x0, sizeof(devpar));
-
-        //if (fcntl(TCGETS,porthandle, &devpar))
-        //if (fcntl(TCGETA,porthandle, &devpar))
-        if (tcgetattr(porthandle, &devpar) != -1)
-        {
-            //cfgetospeed(&devpar);
-            //cfgetispeed(&devpar);
-
-            logPrintI("%x %x %x %x %x %x \n", 
-                      devpar.c_iflag, devpar.c_oflag,
-                      devpar.c_cflag, devpar.c_lflag,
-                      devpar.c_ispeed, devpar.c_ospeed);
-        }
-        else
-        {
-            logPrintE("Parameter query failed!");
-            exit(1);
-        }
         
+        // read device parameters
+        if (!tcgetattr(porthandle, &devpar) == -1)
+        {
+            logPrintW("Parameter query failed!");
+        }
 
-        //devpar.c_iflag = 4;        
-        //devpar.c_oflag = 4;                
+        // mask out some bits ...
         devpar.c_cflag &= 0x0000fffff;
-        //devpar.c_lflag &= 0x0;
-        //devpar.c_ispeed = 0x00004096;
-        //devpar.c_ospeed = 0x00004096;
-        //cfsetospeed(&devpar, B57600);
-        //cfsetispeed(&devpar, B57600);
 
+        // write modified parameters
         tcsetattr(porthandle, TCSANOW, &devpar);
-        /*if (tcgetattr(porthandle, &devpar) != -1)
-        {
-            logPrintW("%x %x %x %x %x %x \n", 
-                      devpar.c_iflag, devpar.c_oflag,
-                      devpar.c_cflag, devpar.c_lflag,
-                      devpar.c_ispeed, devpar.c_ospeed);
-        }
-        else
-        {
-            logPrintE("Parameter query failed!");
-            exit(1);
-            }*/
-
-
-        //int writecount = write(porthandle, send_channel_command, 3);
-        //logPrintI("Write count: %d\n", writecount);
-
-        
-        //int readcount = read(porthandle, &result, 1);
-        //logPrintI("Read count: %d\n", readcount);
 #endif
-        
-        char initio;
-        result = receiver->peer().recv(&initio,1);
-        if (result > 0)
-        {
-
-            int iresult = receiver->peer().send(&send_etransfer_command, 
-                                                sizeof(send_etransfer_command));
-            logPrintW("Device is already sending -> trying to stop (%d)!\n",
-                      iresult);
-            //tcsendbreak(porthandle, 0);
-            //mobilabconnect.close();
-        }
-        else
-        {
-            logPrintI("receive error (%d) -> is good at this point!\n", 
-                      result);
-        }
-  
+          
         result = receiver->peer().send(send_channel_command, 
                                        sizeof(send_channel_command));
                 

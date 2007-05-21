@@ -141,14 +141,14 @@ namespace ot {
             case  FLOAT_TYPE :
                 {
                     float fltval = sampleValue;
-                    sampleValue /= 0xffff;
+                    fltval /= (float)(0xffff);
                     buffer.setAttribute<float>("bcidata",fltval); 
                 }
                 break;
             case DOUBLE_TYPE:
                 {
                     double dblval = sampleValue;                    
-                    dblval /= 0xffff;
+                    dblval /= (double)(0xffff);
                     buffer.setAttribute<double>("bcidata", dblval); 
                 }
                 break;
