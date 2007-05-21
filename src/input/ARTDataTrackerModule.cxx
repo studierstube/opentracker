@@ -361,15 +361,15 @@ namespace ot {
                             source->changed = 1;
                             source->event.getConfidence() = 0.0f;
                         }
-                    }
-                    
-                    // notify main loop
-                    if (context != NULL)
-                    {
-                        context->dataSignal();
-                    }
-                }
+					}                                        
+				}
 
+				if (source->changed && context != NULL)
+				{
+					// notify main loop
+						
+					context->dataSignal();
+				}
                 source->unlock();
             } // for ...
 
