@@ -954,6 +954,7 @@ $Id$
 	DEF ID #IMPLIED
 	channel CDATA #REQUIRED
 	datatype ( USHORT | FLOAT | DOUBLE ) "USHORT"
+	attname CDATA "bcidata"
 >
 <!--DynaSight receiver acting as sources-->
 <!ELEMENT DynaSightConfig EMPTY>
