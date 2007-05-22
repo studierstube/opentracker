@@ -167,10 +167,18 @@ namespace ot {
                 }
 
             }
+            
+            std::string attname("bcidata");
+
+            if (attributes.containsKey("attname"))
+            {
+                attname = attributes.get("attname");
+            }
 
             MobilabSource *source = new MobilabSource;
             source->channel = channelnum;
             source->datatype = datat;
+            source->attname = attname;
             sources.push_back(source);
             if (debug)
             {

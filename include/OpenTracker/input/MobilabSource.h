@@ -92,6 +92,7 @@ namespace ot {
         Event buffer;
         unsigned int channel;
         int datatype;
+        std::string attname;
     
 	/** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
@@ -105,7 +106,12 @@ namespace ot {
 
     protected:
 	/// protected constructor so it is only accessible by the module
-	MobilabSource() { channel = 0; datatype = USHORT_TYPE; };
+	MobilabSource() 
+        { 
+            channel = 0; 
+            datatype = USHORT_TYPE; 
+            attname="bcidata"; 
+        };
 
         void pushEvent()
         {
@@ -142,21 +148,21 @@ namespace ot {
                 {
                     float fltval = sampleValue;
                     fltval /= (float)(0xffff);
-                    buffer.setAttribute<float>("bcidata",fltval); 
+                    buffer.setAttribute<float>(attname,fltval); 
                 }
                 break;
             case DOUBLE_TYPE:
                 {
                     double dblval = sampleValue;                    
                     dblval /= (double)(0xffff);
-                    buffer.setAttribute<double>("bcidata", dblval); 
+                    buffer.setAttribute<double>(attname, dblval); 
                 }
                 break;
             case USHORT_TYPE:
-                buffer.setAttribute<unsigned short>("bcidata", sampleValue); 
+                buffer.setAttribute<unsigned short>(attname, sampleValue); 
                 break;
             default:                
-                buffer.setAttribute<unsigned short>("bcidata", 0); 
+                buffer.setAttribute<unsigned short>(attname, 0); 
                 break;
         }
 
