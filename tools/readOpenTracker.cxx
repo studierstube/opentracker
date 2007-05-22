@@ -1620,12 +1620,21 @@ void mexFunction( int nlhs, mxArray *plhs[],
                 mxSetFieldByNumber(plhs[0], count, fieldmap[attname], 
                                    record_value);                
             }
-            else if (atttype == "unsigned_short" || atttype == "short" || atttype == "unsigned_int" || atttype == "int" || atttype == "float" || atttype == "double")
+            else if (atttype == "unsigned_short" || atttype == "short" || atttype == "unsigned_int" || atttype == "int" )
             {
                 record_value = mxCreateDoubleMatrix(1,1,mxREAL);
                 *mxGetPr(record_value) = atoi(event.getAttributeValueString(attname).c_str());
-               mxSetFieldByNumber(plhs[0], count, fieldmap[attname], 
-                                   record_value);                
+                //mexPrintf("attribute %s : %s : %s \n", 
+                //          attname.c_str(), atttype.c_str(),event.getAttributeValueString(attname).c_str());
+               mxSetFieldByNumber(plhs[0], count, fieldmap[attname],
+                                   record_value);
+            }
+            else if ( atttype == "float" || atttype == "double")
+            {
+                record_value = mxCreateDoubleMatrix(1,1,mxREAL);
+                *mxGetPr(record_value) = atof(event.getAttributeValueString(attname).c_str());
+                mxSetFieldByNumber(plhs[0], count, fieldmap[attname], 
+                                   record_value);
             }
             else 
             {
