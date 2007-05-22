@@ -47,6 +47,7 @@
 #include <ace/OS.h>
 #include <ace/Reactor.h>
 #include <ace/Thread.h>
+#include <ace/SOCK_Dgram.h>
 #include <ace/FILE_Connector.h>
 #include <ace/FILE_IO.h>
 
@@ -67,8 +68,10 @@ namespace ot {
 
     MobilabModule::MobilabModule() :
         debug (true),
-        driver( NULL ),
-        logFile( NULL )
+        driver ( NULL ),
+        logFile ( NULL ),
+        logHost ( NULL ),
+        logsamplenr(0)
     {
         mobilab_reactor = (void *)new ACE_Reactor;
     }
@@ -109,6 +112,31 @@ namespace ot {
                           attributes.get("logfile").c_str());
             }
         }
+
+        if (attributes.containsKey("loghost"))
+        {
+            logHost = new ACE_SOCK_Dgram;
+
+            //ACE_SOCK_Connector sockconn;
+            
+            int logport = 2069;
+
+            if (attributes.containsKey("logport"))
+            {
+                logport = atoi(attributes.get("logport").c_str());
+            }
+            server_addr.set(logport, attributes.get("loghost").c_str());
+
+            
+            if (logHost->open(ACE_INET_Addr(2069)) < 0)
+            {
+                delete logHost;
+                logHost = NULL;
+                logPrintE("MobilabModule error opening connection to host %s prot %d\n", 
+                          attributes.get("loghost").c_str(), logport);
+            }
+        }
+
         if (attributes.containsKey("debug"))
         {
             if (attributes.get("debug") == "on")
@@ -239,8 +267,9 @@ namespace ot {
             }
         }    
 
-        if( logFile != NULL )
+        if( logFile != NULL || logHost != NULL)
         {
+            logPrintI("ot::MobilabModule running with logfile or loghost support!\n");
             driver->addListener( this );
         }
 
@@ -279,7 +308,35 @@ namespace ot {
 
     void MobilabModule::newData(unsigned short sampleValue)
     {
-        logFile->send( sampleValue, sizeof(sampleValue));
+        // nothing to do
+    }
+    void MobilabModule::newData(const unsigned short * samples, int ssize)
+    {
+        if (logFile)
+        {
+            logFile->send( samples, sizeof(unsigned short)*ssize);
+        }
+        if (logHost)
+        {
+            int buffersize = 5+8*sizeof(unsigned short);
+            unsigned char sendbuffer[buffersize];
+            sendbuffer[0] = 0xff;
+            
+            *((int*)(sendbuffer+1)) = logsamplenr;
+            memcpy(sendbuffer+5, samples, 8*sizeof(unsigned short));
+            int retval = logHost->send(sendbuffer,
+                                       buffersize, 
+                                       server_addr,
+                                       0,
+                                       &ACE_Time_Value::zero);
+            if (retval != buffersize)
+            {
+                logPrintW("MobilabModule::newData problem when transferring data to log host! retval: %d.\n", retval);
+            }
+        }
+
+        ++logsamplenr;
+        //logPrintI("LogSampleNR %d", logsamplenr);
     }
 
 

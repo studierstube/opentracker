@@ -392,7 +392,15 @@ namespace ot {
             MobilabSource *ms = dynamic_cast<MobilabSource*>(it->first);
             if (ms)
             {
-                (*it).first->newData(sample[ms->channel]);
+                ms->newData(sample[ms->channel]);
+            }
+            else
+            {
+                MobilabModule *mm = dynamic_cast<MobilabModule*>(it->first);
+                if (mm)
+                {
+                    mm->newData(sample, 16);  
+                }
             }
         }
         if (module && module->getContext())

@@ -69,8 +69,10 @@
 //#include "MobilabSource.h"
 
 #include <string>
+#include <ace/INET_Addr.h>
 
 class ACE_FILE_IO;
+class ACE_SOCK_Dgram;
 
 
 
@@ -111,6 +113,7 @@ namespace ot {
         virtual void close();
     
         virtual void newData( unsigned short sampleValue);
+        virtual void newData( const unsigned short * samples, int ssize);
     
     protected:
     
@@ -123,6 +126,9 @@ namespace ot {
         MobilabDriver * driver;
     
         ACE_FILE_IO * logFile;
+        ACE_SOCK_Dgram * logHost;
+        ACE_INET_Addr server_addr;
+        int logsamplenr;
     
         void * mobilab_reactor;
 
