@@ -66,17 +66,19 @@ namespace ot {
         // merge attribute
         if (generator.getType().compare("MergeAttribute") == 0)
         {
+            std::string attrName, typeName, value;
             try
             {
-                std::string attrName = generator.get("attributeName");
-                std::string typeName = event.getAttributeTypeName(attrName);
-                std::string value = event.getAttributeValueString(attrName);
+                attrName = generator.get("attributeName");
+                typeName = event.getAttributeTypeName(attrName);
+                value = event.getAttributeValueString(attrName);
                 localEvent.setAttribute(typeName, attrName, value);
             }
             catch (std::invalid_argument)
             {
                 // two attributes of the same name but of different types are present!
-                logPrintE("MergeNode::Caught invalid argument \n");
+                logPrintE("MergeNode::Caught invalid argument: %s, %s, %s \n",
+                          attrName.c_str(), typeName.c_str(), value.c_str());
                 return;
             }
         }
