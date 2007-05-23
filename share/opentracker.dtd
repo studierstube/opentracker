@@ -948,6 +948,8 @@ $Id$
 	dev CDATA #REQUIRED
 	debug (on | off) "off"
 	logfile CDATA #IMPLIED
+	loghost CDATA "127.0.0.1"
+	logport CDATA "2069"
 >
 <!ELEMENT MobilabSource EMPTY>
 <!ATTLIST MobilabSource
