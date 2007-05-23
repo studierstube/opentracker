@@ -58,7 +58,8 @@
 #include <vrpn_Connection.h>
 
 using namespace std;
-using namespace ot;
+
+namespace ot {
 
 
 	OT_MODULE_REGISTER_FUNC(VRPNModule){
@@ -174,6 +175,8 @@ void VRPNModule::pullEvent()
     connection->mainloop();
 }
 
+
+} //namespace ot
 #else
 #ifdef WIN32
 #pragma message(">>> no VRPN support")

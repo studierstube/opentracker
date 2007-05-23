@@ -408,6 +408,9 @@ namespace ot {
         char* get_name();
         char* get_id();
         char* get_attribute(const char* _key);
+        virtual void set_attribute(const char* _key, const char* _value) {
+            throw OTGraph::UnsupportedAttribute();
+        }
         OTGraph::StringTable* get_attributes();
 #endif
         

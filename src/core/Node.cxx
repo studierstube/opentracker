@@ -163,7 +163,7 @@ namespace ot {
 
     Node::error Node::addChild(Node & child)
     {
-        // logPrintI("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
+        logPrintI("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
         // add this to the parent list of the child
         //        child.addParent(this);
         // add the child to the children list of this node
@@ -370,10 +370,12 @@ namespace ot {
     // updates any observers ( the parent and the references )
     void Node::updateObservers( Event &data )
     {
-
+        logPrintI("updateObservers\n");
         if (isEventGenerator() == 1 || isNodePort() == 1){
             for (NodeVector::iterator it = parents.begin() ; it != parents.end() ; it++){
+                logPrintI("about to invoke onEventGenerated\n");
                 (*it)->onEventGenerated(data, *this);
+                logPrintI("invoked onEventGenerated\n");
             }
 
         }

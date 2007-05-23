@@ -189,6 +189,8 @@ namespace ot {
             }
 	}
 
+        virtual void set_attribute(const char* _key, const char* _value);
+
         friend class CommonNodeFactory;
     };
 

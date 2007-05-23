@@ -156,7 +156,8 @@ namespace ot {
 
     void Transformation::onEventGenerated( Event& event, Node& generator)
     {
-        updateObservers( *transformEvent( &event ));
+        Event* transformed_event  = transformEvent( &event );
+        updateObservers( *transformed_event );
     }
 
     void Transformation::pushEvent()

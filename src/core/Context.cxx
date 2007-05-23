@@ -293,6 +293,7 @@ namespace ot {
         int stopflag = stop();
         while ( stoploopflag == 0 && stopflag == 0 )
         {
+            logPrintI("running\n");
             stopflag=loopOnce();
         }
 

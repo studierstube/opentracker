@@ -45,6 +45,7 @@
 #include <OpenTracker/tool/disable4786.h>
 
 #include <OpenTracker/common/StaticTransformation.h>
+#include <OpenTracker/common/CommonNodeFactory.h>
 
 namespace ot {
 
@@ -88,6 +89,11 @@ namespace ot {
 
     Event* StaticTransformation::transformEvent( Event* event )
     {
+        logPrintI("StaticTransformation::transformEvent\n");
+#ifdef USE_LIVE
+        lock();
+#endif
+        logPrintI("transformEvent locked\n");
         // transform the position of the event
         if( usePos )
         {
@@ -95,19 +101,41 @@ namespace ot {
             localEvent.getPosition()[0] = localEvent.getPosition()[0]*scale[0] + translation[0];
             localEvent.getPosition()[1] = localEvent.getPosition()[1]*scale[1] + translation[1];
             localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
+            logPrintI("position transformed\n");            
         }
         // transform the orientation of the event
         if( useOrient )
         {
             MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
+            logPrintI("orientation transformed\n");            
         }
-
-        localEvent.getConfidence() = event->getConfidence() * confidence;
+        try {
+            localEvent.getConfidence() = event->getConfidence() * confidence;
+        } catch (std::invalid_argument) {
+            logPrintE("no confidence value");
+        }
         localEvent.getButton() = event->getButton();
         localEvent.copyAllButStdAttr(*event);
         localEvent.timeStamp();
-
+#ifdef USE_LIVE
+        logPrintI("about to unlock in transformEvent\n");
+        unlock();
+#endif
+        logPrintI("StaticTransformation::transformEvent about to return\n");
         return &localEvent;
+    }
+
+
+    void StaticTransformation::set_attribute(const char* _key, const char* _value) {
+        lock();
+        if (strcmp(_key, "rotation") == 0) {
+            std::string val(_value);
+            int ret = CommonNodeFactory::parseRotation(val, "quaternion", rotation);
+        } else if (strcmp(_key, "translation") == 0) {
+            std::string val(_value);
+            int ret = CommonNodeFactory::parseVector(val, translation);
+        } 
+        unlock();
     }
 
 } //namespace ot

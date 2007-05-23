@@ -45,6 +45,10 @@
 
 #ifdef USE_VRPN
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 #include <cassert>
 
 // #define ACE_NTRACE 0
@@ -57,7 +61,11 @@ using namespace ot;
 #include <vrpn_Tracker.h>
 #include <vrpn_Button.h>
 
+#ifdef WIN32
 void __stdcall trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info )
+#else
+void trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info )
+#endif
 {
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;
@@ -78,7 +86,11 @@ void __stdcall trackerPosOriCallback( void * userdata, const vrpn_TRACKERCB info
     self->updateObservers( self->event );
 }
 
+#ifdef WIN32
 void __stdcall  buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
+#else
+void buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
+#endif
 {
     assert( userdata != NULL );
     VRPNSource * self = (VRPNSource *)userdata;

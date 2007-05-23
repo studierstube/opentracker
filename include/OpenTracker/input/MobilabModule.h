@@ -74,7 +74,7 @@
 class ACE_FILE_IO;
 class ACE_SOCK_Dgram;
 
-
+#ifndef OT_NO_MOBILAB_SUPPORT
 
 namespace ot {
 
@@ -139,6 +139,7 @@ namespace ot {
 
 }  // namespace ot
 
+#endif // OT_NO_SUPPORT
 #endif // !defined(_MOBILABMODULE_H)
 
 /* 
@@ -148,7 +149,64 @@ namespace ot {
  *   Automatic Emacs configuration follows.
  *   Local Variables:
  *   mode:c++
- *   c-basic-offset: 4
+ *   c-basic-offset: 4    try {
+      LiveContext* context_impl = new LiveContext();
+      cerr << "got LiveContext instance" << endl;
+      ModuleMap modules = context_impl->getModules();
+      ModuleMap::iterator module_iterator  = modules.find("CORBAConfig");
+      if ( module_iterator == modules.end() ) {
+	exit(-1);
+      } 
+      CORBAModule *corba_module = (CORBAModule*) module_iterator->second.item();
+      if (corba_module == NULL) {
+	cerr << "cast from iterator failed. Exiting...";
+	exit(-1);
+      }
+      CORBA::ORB_var orb = corba_module->getORB();
+      if (CORBA::is_nil(orb)) {
+	cerr << "Unable to obtain orb reference. Exiting...";
+	exit(-1);
+      }
+
+      PortableServer::POA_var poa = corba_module->getPOA();
+      if (CORBA::is_nil(poa)) {
+	cerr << "got nil reference to POA. Exiting...." << endl;
+	exit(-1);
+      }
+
+      POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
+
+      PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId("livecontext");
+      poa->activate_object_with_id(configurator_id, context);
+      cerr << "activated configurator" << endl;
+
+      // Obtain a reference to the object, and register it in
+      // the naming service.
+      CORBA::Object_var obj = context->_this();
+      //CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[1]);
+      CosNaming::NamingContextExt::StringName_var string_name = argv[1];
+      CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
+      //      orb->run(); 
+      context_impl->runAtRate(30);
+    }
+    catch(CORBA::SystemException&) {
+      cerr << "Caught CORBA::SystemException." << endl;
+    }
+    catch(CORBA::Exception&) {
+      cerr << "Caught CORBA::Exception." << endl;
+    }
+    catch(omniORB::fatalException& fe) {
+      cerr << "Caught omniORB::fatalException:" << endl;
+      cerr << "  file: " << fe.file() << endl;
+      cerr << "  line: " << fe.line() << endl;
+      cerr << "  mesg: " << fe.errmsg() << endl;
+    }
+    catch(...) {
+      cerr << "Caught unknown exception." << endl;
+    }
+
+        }
+
  *   eval: (c-set-offset 'substatement-open 0)
  *   eval: (c-set-offset 'case-label '+)
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)

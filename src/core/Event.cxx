@@ -3,7 +3,7 @@
  * Institute for Computer Graphics and Vision
  * Graz University of Technology
  * All rights reserved.
- *
+ *y
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
@@ -50,8 +50,7 @@
 #include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
-namespace ot
-{
+namespace ot {
 
     // typesafe null reference
     Event Event::null;

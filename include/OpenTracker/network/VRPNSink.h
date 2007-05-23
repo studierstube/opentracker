@@ -136,8 +136,8 @@ namespace ot {
          */
         virtual void onEventGenerated( Event& event, Node& generator);
 
-        void pushEvent();
-        void pullEvent();
+        void pushEvent() {};
+        void pullEvent() {};
 
         friend class VRPNModule;
     };

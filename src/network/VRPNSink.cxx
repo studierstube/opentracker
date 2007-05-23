@@ -45,6 +45,11 @@
 
 #ifdef USE_VRPN
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+
 #include <cassert>
 
 using namespace ot;

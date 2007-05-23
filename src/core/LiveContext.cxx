@@ -120,10 +120,12 @@ namespace ot {
     }
 
   void LiveContext::connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
+      logPrintI("connecting nodes\n");
       lock();
       Node::Ptr upstream_node   = getNodeFromRef(upstreamNode);
       Node*     downstream_node = getNodeFromRef(downstreamNode);
       downstream_node->addChild(*upstream_node);
+      upstream_node->addParent(downstream_node);
 
       // add new edge to list of edges
       edges.push_back(Edge(((Node*) upstream_node), downstream_node));

@@ -226,7 +226,12 @@ namespace ot {
         NodeVector::iterator it;
         for (it = nodes.begin(); it != nodes.end(); it++)
         {
+#ifndef USE_LIVE
             TestSource * src = dynamic_cast<TestSource*>(it->item());
+#else
+            TestSource * src = dynamic_cast<TestSource*>((*it));
+#endif
+
             if (src)
             {
                 src->resetCycleCounter();
@@ -266,8 +271,11 @@ namespace ot {
 
             // update event value
             TestSource * tsrc = 
+#ifndef USE_LIVE
                 dynamic_cast<TestSource*>(pqueue.top().second.item());
-
+#else
+                dynamic_cast<TestSource*>(pqueue.top().second);
+#endif
 
             // calculate time to wait for next traversal
 

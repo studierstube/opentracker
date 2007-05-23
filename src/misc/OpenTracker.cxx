@@ -363,7 +363,9 @@ namespace ot {
         OT_REGISTER_MODULE(GPSModule, NULL);
 #endif
 
+#ifndef OT_NO_MOBILAB_SUPPORT
         OT_REGISTER_MODULE(MobilabModule, NULL);
+#endif
 
 #ifndef _WIN32_WCE
 #ifndef OT_NO_DYNASIGHT_SUPPORT

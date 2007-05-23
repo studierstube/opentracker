@@ -90,12 +90,12 @@ protected:
      */
  CORBASource( ) : Node(), modified(false)
     {
-      mu = new ACE_Thread_Mutex("corbasource");
+            mu = new ACE_Thread_Mutex("corbasource");
     }
 
 public:            
     virtual ~CORBASource( ) {
-      delete mu;
+            delete mu;
     }
 
     /** tests for EventGenerator interface being present. Is overriden to
@@ -120,9 +120,9 @@ public:
     ACE_Thread_Mutex* mu;
     bool modified;
 
- public:
-    void lock() { mu->acquire(); };
-    void unlock() { mu->release(); };
+    // public:
+    void _lock() { mu->acquire(); };
+    void _unlock() { mu->release(); };
     bool isModified() {return modified;};
 };
 

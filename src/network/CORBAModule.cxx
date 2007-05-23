@@ -481,21 +481,26 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
   
   void CORBASource::push()
   {
-    lock();
+    //logPrintI("CORBASource::push()\n");
+    _lock();
+    //logPrintI("CORBASource::push called _lock()\n");
     if (modified) {
+    logPrintI("CORBASource updating observers\n");
       updateObservers( event );
       modified = false;
     }
-    unlock();
+    _unlock();
   }
   
   void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
   {
-    lock();
+    _lock();
+    logPrintI("CORBASource::setEvent\n");
     modified = true;
     Event new_event(corba_event);
     event = new_event;
-    unlock();
+    _unlock();
+    logPrintI("setEvent completed\n");
   }
 
 #ifdef USE_OMNIEVENTS

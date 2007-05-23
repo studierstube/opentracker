@@ -5,6 +5,8 @@ module OTGraph {
   exception GraphRulesViolation {};
   exception NotChildNode {};
   exception AttributeNonExistent {};
+  exception UnsupportedAttribute {};
+  exception UnparseableAttribute {};
   exception NodesNotConnected {};
   exception VertexNonExistent {};
   exception EdgeNonExistent {};
@@ -23,6 +25,7 @@ module OTGraph {
     string get_id();
     string get_attribute(in string key);
     StringTable get_attributes();
+    void set_attribute(in string key, in string value) raises (UnsupportedAttribute);
   };
 
   struct Edge {

@@ -83,7 +83,9 @@
 #endif
 
 #ifndef WIN32
+#ifndef OT_NO_SPEECH_SUPPORT
 #define OT_NO_SPEECH_SUPPORT
+#endif
 #endif
 
 #define OPENTRACKER_API

@@ -107,7 +107,10 @@ int main(int argc, char **argv)
       CosNaming::NamingContextExt::StringName_var string_name = argv[1];
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
       //      orb->run(); 
-      context_impl->runAtRate(30);
+      //context_impl->runAtRate(30);
+      logPrintI("About to invoke context_impl->run()\n");
+      context_impl->run();//AtRate(30);
+      logPrintI("Just invoked context_impl->run()\n");
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;

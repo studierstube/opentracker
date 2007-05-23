@@ -2,6 +2,37 @@ import sys, os
 from glob import glob
 from os.path import join, basename, dirname, isfile, walk
 from sets import Set as set
+################################################################################
+#     Build-specific classes                                                   #
+################################################################################
+class CORBAStubs:
+    def __init__(self, env, 
+		 cxx_install_directory=join('idl', 'skeletons'), 
+		 python_install_directory=join('lib','python')):
+	self.env = env
+	self.cxx_install_directory = cxx_install_directory
+	self.python_install_directory = python_install_directory
+	self.cxx, self.python, self.java = [], [], []
+
+    def addCxxStubs(self, idl_file):
+	self.cxx += env.OMNIIDLCXX(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.cxx_install_directory)
+
+    def addPythonStubs(self, idl_file):
+	self.python += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.python_install_directory)
+
+    def addJavaStubs(self, idl_file, pkgprefix=None):
+	if pkgprefix is None:
+	    self.java += env.IDLJ(idl_file)
+	else:
+	    self.java += env.IDLJ(idl_file, PKGPREFIX=pkgprefix)
+
+    def addStubsAndSkeletons(self, idl_file, pkgprefix=None):
+	self.addCxxStubs(idl_file)
+	if env['ENABLE_OMNIORBPY']:
+	    self.addPythonStubs(idl_file)
+	if env['ENABLE_JAVA']:
+	    self.addJavaStubs(idl_file, pkgprefix)
+	return {'cxx':self.cxx, 'python':self.python, 'java':self.java}
 
 ################################################################################
 #     Build-specific functions                                                 #
@@ -18,10 +49,10 @@ def gatherHeaders(arg, dirname, fnames):
     arg += [join(dirname, file) for file in fnames if file.endswith('.h') or file.endswith('.hh')]
 
 def filterHeaders(files):
-    return [file for file in stubsandskeletons if str(file).endswith('.h') or str(file).endswith('.hh')]
+    return [file for file in files if str(file).endswith('.h') or str(file).endswith('.hh')]
 
 def filterCppSources(files):
-    return [file for file in stubsandskeletons if str(file).endswith('.c') or str(file).endswith('.cc') or str(file).endswith('.cxx')]
+    return [file for file in files if str(file).endswith('.c') or str(file).endswith('.cc') or str(file).endswith('.cxx')]
 
 def excludeDuplicates(_list):
     return list(set(tuple(_list)))
@@ -30,7 +61,7 @@ def excludeDuplicates(_list):
 #     libraries, defines and source files required for minimal build           #
 ################################################################################
 _libs = ['xerces-c', 'ACE']
-_defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT','OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 'OT_NO_INTERPORLATORMODULE_SUPPORT', 'OT_NO_ARTDATATRACKER_SUPPORT', 'OT_NO_BUTTON_SUPPORT', 'OT_NO_CONFIDENCE_SUPPORT', 'OT_NO_TIMEGATE_SUPPORT', 'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 'OT_NO_CALLFORWARDMODULE_SUPPORT', 'OT_BACKUP_ON_RECONFIG']
+_defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT','OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 'OT_NO_INTERPORLATORMODULE_SUPPORT', 'OT_NO_ARTDATATRACKER_SUPPORT', 'OT_NO_BUTTON_SUPPORT', 'OT_NO_CONFIDENCE_SUPPORT', 'OT_NO_TIMEGATE_SUPPORT', 'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 'OT_NO_CALLFORWARDMODULE_SUPPORT', 'OT_BACKUP_ON_RECONFIG', 'OT_NO_MOBILAB_SUPPORT']
 
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
@@ -52,6 +83,7 @@ opts.Add(BoolOption('ENABLE_CORBA', 'Set to enable support for CORBA', 0))
 opts.Add(BoolOption('ENABLE_OMNIEVENTS', 'Set to enable support for OmniEvents', 0))
 opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for OmniEvents', 0))
 opts.Add(BoolOption('ENABLE_OMNIORBPY', 'Set to build python stubs and skeletons', 0))
+opts.Add(BoolOption('ENABLE_PYDOC', 'Set to build python API documentation', 0))
 opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middleware ', 0))
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
@@ -60,6 +92,7 @@ opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynam
 opts.Add(BoolOption('ENABLE_FILE', 'Set to enable support for file sources and file sinks', 0))
 opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
 opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
+opts.Add(BoolOption('ENABLE_VRPN', 'Set to enable support for VRPN', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -89,7 +122,8 @@ elif sys.platform.startswith('linux'):
     if env['ENABLE_CORBA']:
 	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
 elif sys.platform == 'win32':
-    pass
+    print "Windows not supported at this time"
+    sys.exit(-1)
 
 ################################################################################
 #     Handle different build options                                           #
@@ -114,30 +148,37 @@ if env['ENABLE_INTERPOLATION']:
 if env['ENABLE_FILE']:
     env['CPPDEFINES'].remove('OT_NO_FILEMODULE_SUPPORT')
     extra_files += [join('src', 'common', file) for file in ['FileModule.cxx', 'File.cxx']]
-# Enable or disable CORBA support
+
+#*********************************#
+# Enable or disable CORBA support #
+#*********************************#
 if env['ENABLE_CORBA']:
-    print "OmniEvents support enabled"
+    # CORBAStubs instance will manage the various stubs and skeletons
+    stub_generator = CORBAStubs(env)
+    # configure environment to the various idl files that need to be compiled to CORBA stubs and skeletons
     import OmniIdlCxx
     OmniIdlCxx.generate(env)
     env.Append(CPPDEFINES='USE_CORBA')
     env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
+    env.Append(CPPPATH=['idl', join('idl', 'COS')])
     extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
-    stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OT_CORBA.idl'),
-				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
-    stubsandskeletons += env.OMNIIDLCXX(join('idl', 'UTS.idl'),
-				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
-    # Generate python stubs and skeletons if appropriate
+    if env['ENABLE_JAVA']:
+	import IDLJBuilder
+	IDLJBuilder.generate(env)
+	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
+	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
+	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
+	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
+	env.Append(SOURCEDIR='src_java')
     if env['ENABLE_OMNIORBPY']:
 	import OmniIdlPy
 	OmniIdlPy.generate(env)
-	python_files = env.OMNIIDLPY(join('idl', 'OT_CORBA.idl'),
-					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
-	python_files += env.OMNIIDLPY(join('idl', 'UTS.idl'),
-					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
-    extra_files += filterCppSources(stubsandskeletons)
-    for header in filterHeaders(stubsandskeletons):
-	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
-# Enable or disable OmniEvents support
+    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl', 'UTS.idl']]:
+	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
+
+#**************************************#
+# Enable or disable OmniEvents support #
+#**************************************#
 if env['ENABLE_OMNIEVENTS']:
     if not env['ENABLE_CORBA']:
 	print "Cannot have support for OmniEvents without also enabling CORBA support. Exiting...."
@@ -145,51 +186,62 @@ if env['ENABLE_OMNIEVENTS']:
     print "OmniEvents support enabled"
     env.Append(CPPDEFINES='USE_OMNIEVENTS')
     env.Append(LIBS='omniEvents')
-    stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OT_EventChannel.idl'),
-				       CPPPATH=['/usr/local/share/idl/omniORB'],
-				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
-    extra_files += filterCppSources(stubsandskeletons)
-    for header in filterHeaders(stubsandskeletons):
-	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
-    if env['ENABLE_OMNIORBPY']:
-	# Generate python stubs and skeletons if appropriate
-	python_files += env.OMNIIDLPY(join('idl', 'OT_EventChannel.idl'),
-					    CPPPATH=['/usr/local/share/idl/omniORB'],
-					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
-# Enable or disable support for Gerhard's shared library
+    if env['ENABLE_JAVA']:
+	for idl_file in [join('idl', 'COS', _file) for _file in ['CosEventComm.idl', 'CosLifeCycle.idl', 'CosEventChannelAdmin.idl']]:
+	    stub_generator.addJavaStubs(idl_file, pkgprefix='org.omg')
+	stub_generator.addJavaStubs(join('idl', 'EventChannelAdmin.idl'), pkgprefix='net.sourceforge.omniorb')
+    stub_generator.addStubsAndSkeletons(join('idl', 'OT_EventChannel.idl'), pkgprefix='org.studierstube.opentracker')
+
+#********************************************************#
+# Enable or disable support for Gerhard's shared library #
+#********************************************************#
 if env['ENABLE_SHARED']:
-    if not env['ENABLE_CORBA']:
+    if not env['ENABLE_OMNIEVENTS']:
 	print "Cannot have support for Shared library without also enabling OmniEvents support. Exiting..."
 	sys.exit(-1)
     print "Shared support enabled"
     env.Append(CPPDEFINES='USE_SHARED')
-    env.Append(LIBS=['shared', 'cvd'])
-    env['LIBS'].remove('COS4')
-    if sys.platform == 'darwin':
-	env.Append(LIBS='coin')
-# Enable or disable support for fine-grained dynamic reconfiguration
+    stub_generator.addStubsAndSkeletons(join('idl', 'Shared.idl'), pkgprefix='org.studierstube.opentracker')
+
+#************************************#
+# Enable or disable support for VRPN #
+#************************************#
+if env['ENABLE_VRPN']:
+    env.Append(CPPDEFINES='USE_VRPN')
+    env.Append(LIBS=['vrpn', 'vrpnserver'])
+    extra_files += [join('src', 'network', file) for file in ['VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
+#********************************************************************#
+# Enable or disable support for fine-grained dynamic reconfiguration #
+#********************************************************************#
 if env['ENABLE_LIVE']:
     if not env['ENABLE_CORBA']:
 	print "Cannot have support for fine-grained dynamic reconfigurationwithout also enabling CORBA support. Exiting..."
 	sys.exit(-1)
     print "Fine-grained dynamic reconfiguration support enabled"
     env.Append(CPPDEFINES='USE_LIVE');
-    stubsandskeletons = env.OMNIIDLCXX(join('idl', 'OTGraph.idl'),
-				       OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'))
-    # Generate python stubs and skeletons if appropriate
-    if env['ENABLE_OMNIORBPY']:
-	python_files += env.OMNIIDLPY(join('idl', 'OTGraph.idl'),
-					    OMNIIDL_INSTALL_DIRECTORY=python_local_dir)
-    extra_files += filterCppSources(stubsandskeletons)
-    for header in filterHeaders(stubsandskeletons):
+    stub_generator.addStubsAndSkeletons(join('idl', 'OTGraph.idl'), pkgprefix='org.studierstube.opentracker')
+
+#********************************************************************#
+# extract corba c++ stubs and skeletons sources and headers          #
+#********************************************************************#
+if env['ENABLE_CORBA']: 
+    extra_files += filterCppSources(stub_generator.cxx)
+    for header in filterHeaders(stub_generator.cxx):
 	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
-# Enable or disable support for Phantom Middleware
+    python_files += stub_generator.python
+
+#**************************************************#
+# Enable or disable support for Phantom Middleware #
+#**************************************************#
 if env['ENABLE_PHANTOM_MIDDLEWARE']:
     env.Append(CPPDEFINES='USE_PHANTOMMIDDLEWARE')
     env['LIBS'].append('phantom')
     extra_files += [join('src', 'network', 'PhantomMiddlewareModule.cxx')]
-# Enable or disable support for OTQT
-# not working on Mac OS X at present time
+
+#******************************************#
+# Enable or disable support for OTQT       #
+# not working on Mac OS X at present time  #
+#******************************************#
 if env['ENABLE_OTQT']:
     env.Append(LIBPATH=join(env['ENV']['QTDIR'], 'lib'))
     env.Append(CPPPATH=[join(env['ENV']['QTDIR'], 'include'), 'extras'])
@@ -200,61 +252,47 @@ if env['ENABLE_OTQT']:
     mocaction='moc $SOURCE -o $TARGET'
     env['BUILDERS']['moc']= Builder(action=mocaction)
     extra_files += env.moc('src/otqt/moc_OTQT.cxx', 'include/OpenTracker/otqt/OTQt.h')
-# Enable or disable java support
+
+#********************************#
+# Enable or disable java support #
+#********************************#
 if env['ENABLE_JAVA']:
     print "Java support enabled"
     import JavacBld, JarBuilder, JavaShellScript
     JavacBld.generate(env)
     JarBuilder.generate(env)
     JavaShellScript.generate(env)
-    if env['ENABLE_CORBA']:
-	import IDLJBuilder
-	IDLJBuilder.generate(env)
-	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
-	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
-	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
-	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
-	env.Append(SOURCEDIR='src_java')
-	stubsandskeletons  = env.IDLJ(join('idl', 'OT_CORBA.idl'),
-				     PKGPREFIX='org.studierstube.opentracker')
-	stubsandskeletons += env.IDLJ(join('idl', 'UTS.idl'),
-				     PKGPREFIX='org.studierstube.opentracker')
-	if env['ENABLE_OMNIEVENTS']:
-	    	stubsandskeletons += env.IDLJ(join('idl', 'OT_EventChannel.idl'),
-					      PKGPREFIX ='org.studierstube.opentracker')
-		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosEventComm.idl'),
-					      PKGPREFIX='org.omg')
-		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosLifeCycle.idl'),
-					      PKGPREFIX='org.omg')
-		stubsandskeletons += env.IDLJ(join('idl', 'COS', 'CosEventChannelAdmin.idl'),
-					      PKGPREFIX='org.omg')
-		stubsandskeletons += env.IDLJ(join('idl', 'EventChannelAdmin.idl'),
-					      PKGPREFIX='net.sourceforge.omniorb')
-	stub_classes = env.JavacBld(stubsandskeletons, CLASSINSTALLDIR='build')
-	opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'),
-					   source = stub_classes, JARCHDIR='build')
-	opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'),
-					       source = stubsandskeletons, JARCHDIR='src_java')
-	if env['ENABLE_OMNIEVENTS']:
-	    test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']] + \
-		[join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
-	    test_classes = env.JavacBld(test_sources,
-					   CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
-					   CLASSINSTALLDIR='build')
-	    test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 
-				  source = test_classes, JARCHDIR='build')
-	    push_cons = env.JavaShellScript(join('bin', 'OpenTrackerEventConsumer'), 
-					    opentracker_stubs_jar + test_jar + \
-					    [join('src_java', 'java-getopt-1.0.12.jar')],
-					    PKGPREFIX='org.studierstube.opentracker.tests')
-	    sink_example = env.JavaShellScript(join('bin', 'OTSinkExample'), 
-					    opentracker_stubs_jar + test_jar + \
-					    [join('src_java', 'java-getopt-1.0.12.jar')],
-					    PKGPREFIX='org.studierstube.opentracker.tests')
-	    source_example = env.JavaShellScript(join('bin', 'OTSourceExample'), 
-					    opentracker_stubs_jar + test_jar + \
-					    [join('src_java', 'java-getopt-1.0.12.jar')],
-					    PKGPREFIX='org.studierstube.opentracker.tests')
+    stub_classes = env.JavacBld(stub_generator.java, CLASSINSTALLDIR='build')
+    opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'), source = stub_classes, JARCHDIR='build')
+    opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'), source = stub_generator.java, JARCHDIR='src_java')
+    if env['ENABLE_OMNIEVENTS']:
+	test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']] + \
+	    [join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
+	test_classes = env.JavacBld(test_sources,
+				       CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
+				       CLASSINSTALLDIR='build')
+	test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 
+			      source = test_classes, JARCHDIR='build')
+	push_cons = env.JavaShellScript(join('bin', 'OpenTrackerEventConsumer'), 
+					opentracker_stubs_jar + test_jar + \
+					[join('src_java', 'java-getopt-1.0.12.jar')],
+					PKGPREFIX='org.studierstube.opentracker.tests')
+	sink_example = env.JavaShellScript(join('bin', 'OTSinkExample'), 
+					opentracker_stubs_jar + test_jar + \
+					[join('src_java', 'java-getopt-1.0.12.jar')],
+					PKGPREFIX='org.studierstube.opentracker.tests')
+	source_example = env.JavaShellScript(join('bin', 'OTSourceExample'), 
+					opentracker_stubs_jar + test_jar + \
+					[join('src_java', 'java-getopt-1.0.12.jar')],
+					PKGPREFIX='org.studierstube.opentracker.tests')
+#********************************************#
+# Enable or disable python API documentation #
+#********************************************#
+if env['ENABLE_PYDOC']:
+    import PyDocBuilder
+    PyDocBuilder.generate(env)
+    pydocs = env.EPyDoc(glob(join('src_python', '*.py')))
+    print "pydocs = ", pydocs
 ################################################################################
 #     set targets                                                              #
 ################################################################################

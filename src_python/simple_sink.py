@@ -16,6 +16,7 @@ import OT_CORBA, OT_CORBA__POA
 class SimpleSink_i (OT_CORBA__POA.Sink):
     def setEvent(self, event):
 	print "**************************"
+	print event
 	for att in event:
 	    print "%s:\t%s" % (att.name, str(any.from_any(att.value)))
 
