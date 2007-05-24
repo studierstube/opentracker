@@ -2,7 +2,8 @@
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
   <configuration>
-     <MobilabConfig dev="/dev/ttyUSB0" logfile="rawlog.dat" loghost="129.27.145.114" debug="on" />
+     <!--<MobilabConfig dev="/dev/ttyUSB0" logfile="rawlog.dat" loghost="129.27.145.114" debug="on" />-->
+     <MobilabConfig dev="/dev/ttyUSB0" logfile="rawlog.dat" loghost="129.27.201.211" debug="on" />
     <FileConfig />
   </configuration>
   
