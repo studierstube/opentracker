@@ -370,12 +370,12 @@ namespace ot {
     // updates any observers ( the parent and the references )
     void Node::updateObservers( Event &data )
     {
-        logPrintI("updateObservers\n");
+        //logPrintI("updateObservers\n");
         if (isEventGenerator() == 1 || isNodePort() == 1){
             for (NodeVector::iterator it = parents.begin() ; it != parents.end() ; it++){
-                logPrintI("about to invoke onEventGenerated\n");
+                //logPrintI("about to invoke onEventGenerated\n");
                 (*it)->onEventGenerated(data, *this);
-                logPrintI("invoked onEventGenerated\n");
+                //logPrintI("invoked onEventGenerated\n");
             }
 
         }

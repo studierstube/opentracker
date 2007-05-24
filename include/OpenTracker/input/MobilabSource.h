@@ -102,21 +102,44 @@ namespace ot {
             return 1;
         }
 
-        virtual void newData( unsigned short sampleValue);
+        virtual void newData( short sampleValue);
 
     protected:
+        double lastpushtime;
+        int pushcount;
+
 	/// protected constructor so it is only accessible by the module
 	MobilabSource() 
         { 
             channel = 0; 
             datatype = USHORT_TYPE; 
             attname="bcidata"; 
+            lastpushtime = 0.0;
+            pushcount = 0;
         };
 
         void pushEvent()
         {
+            double pushtime = OSUtils::currentTime();
+	    if (pushcount == 0)
+	    {
+	        lastpushtime = pushtime;
+	        pushcount = 1;
+	    }
+	    else if (pushtime - lastpushtime > 10000.0)
+	    {
+	        pushcount++;
+	        logPrintI("MobilabSource push rate: %f Hz\n", pushcount/10.0);
+	        pushcount = 0;
+	  
+	    }
+	    else
+	    {
+	        pushcount++;
+	    }
+
             lock();
-            if(event.time < buffer.time )
+            if(event.time <= buffer.time )
             {
                 event = buffer;
                 unlock();
@@ -124,6 +147,7 @@ namespace ot {
             }
             else
             {
+                exit(1);
                 unlock();
             }
         }
@@ -133,7 +157,7 @@ namespace ot {
 	friend class MobilabModule;
     };
 
-    inline void MobilabSource::newData( unsigned short sampleValue)
+    inline void MobilabSource::newData( short sampleValue)
     {
         //logPrintI("MobilabSource(%x)::newData %hu\n",this,sampleValue);
         lock();
@@ -147,14 +171,14 @@ namespace ot {
             case  FLOAT_TYPE :
                 {
                     float fltval = sampleValue;
-                    fltval /= (float)(0xffff);
+                    fltval /= 32768.0f;
                     buffer.setAttribute<float>(attname,fltval); 
                 }
                 break;
             case DOUBLE_TYPE:
                 {
                     double dblval = sampleValue;                    
-                    dblval /= (double)(0xffff);
+                    dblval /= 32768.0F;
                     buffer.setAttribute<double>(attname, dblval); 
                 }
                 break;

@@ -73,7 +73,8 @@ namespace ot {
                                  MobilabModule * module_) :
         reactor( reactor_ ),        
         receiver( NULL ),
-        module (module_)
+        module (module_),
+	samplecounter(0)
     {
         if (getDebug())
         {
@@ -383,9 +384,29 @@ namespace ot {
     }
 
 
-    void MobilabDriver::newSample( const unsigned short * sample )
+    void MobilabDriver::newSample( const short * sample )
     {  
         //logPrintI("MobilabDriver::newSample\n");
+        if (debugOn)
+	{
+	    double sampletime = OSUtils::currentTime();
+	    if (samplecounter == 0)
+	    {
+	        lastsampletime = sampletime;
+	        samplecounter = 1;
+	    }
+	    else if (sampletime - lastsampletime > 10000.0)
+	    {
+	        samplecounter++;
+	        logPrintI("Mobilab sample rate: %f Hz\n", samplecounter/10.0);
+	        samplecounter = 0;
+	  
+	    }
+	    else
+	    {
+	        samplecounter++;
+	    }
+	}
         std::map<MobilabListener *, void *>::iterator it;
         for( it = listeners.begin(); it != listeners.end(); it++ )
         {
@@ -399,13 +420,14 @@ namespace ot {
                 MobilabModule *mm = dynamic_cast<MobilabModule*>(it->first);
                 if (mm)
                 {
-                    mm->newData(sample, 16);  
+                    mm->newData(sample, 8);  
                 }
             }
         }
         if (module && module->getContext())
         {
             
+            //if (samplecounter%8 == 0) 
             module->getContext()->dataSignal();
         }
     }

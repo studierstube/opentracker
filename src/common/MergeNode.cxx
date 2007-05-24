@@ -150,10 +150,15 @@ namespace ot {
 
         // merge trigger
         if (generator.getType().compare("MergeTrigger") == 0)
+        {
             updateObservers(localEvent);
+        }
         // if there is no special trigger node, always propagate events
-        else if ((getPort("MergeTrigger") == NULL) || (getPort("MergeTrigger")->countChildren() == 0))
+        else if ( (getPort("MergeTrigger") == NULL) || 
+                  (getPort("MergeTrigger")->countChildren() == 0) )
+        {
             updateObservers(localEvent);
+        }
     }
 
     void MergeNode::pushEvent()

@@ -86,13 +86,18 @@ namespace ot {
 
         // Methods
     protected:
+        double lastwritetime;
+	int writecount;
+
         /** constructor method,sets commend member
          * @param file_ the File object to write to
          * @param station_ the station number to use */
         FileSink( File & file_, int station_ = 0 ) :
             Node(), 
             file( file_ ),
-            station( station_ )
+            station( station_ ),
+	    lastwritetime(0.0),
+	    writecount(0)
 	{}
 
     public:
@@ -115,6 +120,22 @@ namespace ot {
          */
         virtual void onEventGenerated( Event& event, Node& generator)
 	{
+	    double writetime = OSUtils::currentTime();
+	    if (writecount == 0)
+	    {
+	        lastwritetime = writetime;
+	        writecount = 1;
+	    }
+	    else if (writetime - lastwritetime > 10000.0)
+	    {
+	        writecount++;
+		logPrintI("File write rate: %f \n", writecount / 10.0);
+		writecount = 0;
+	    }
+	    else
+	    {
+	        writecount++;
+	    }
             file.write( event, station );
             updateObservers( event );
 	}

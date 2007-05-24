@@ -80,7 +80,7 @@ namespace ot {
     protected:     
 	MobilabDriver * parent;
         // buffer for storing complete channel set data
-	unsigned short mobilabbuf[16];
+	short mobilabbuf[16];
         // buffer fill counter
         int mobilabind;
     };

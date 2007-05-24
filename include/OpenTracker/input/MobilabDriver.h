@@ -72,7 +72,7 @@ namespace ot {
          * override it to receive the data.
          * @param sampleValue the value received from the Mobilab device.
          */
-	virtual void newData( unsigned short sampleValue) = 0;
+	virtual void newData( short sampleValue) = 0;
 	virtual ~MobilabListener() {};
     };
 
@@ -112,7 +112,7 @@ namespace ot {
 
     protected:
 
-        void newSample( const unsigned short * sample );
+        void newSample( const short * sample );
         int sendStopTransferCommand() const;
 
 	ACE_Reactor * reactor;
@@ -120,6 +120,8 @@ namespace ot {
         MobilabModule *module;
 
 	bool debugOn;
+	double lastsampletime;
+	int samplecounter;
 
 	std::map<MobilabListener *, void *> listeners;
 

@@ -51,9 +51,11 @@
 #include "Module.h"
 #include "NodeFactoryContainer.h"
 #include "VideoUser.h"
+#include <pthread.h>
 
 class ACE_Thread_Mutex;
 class ACE_Condition_Thread_Mutex;
+
 
 
 
@@ -127,8 +129,16 @@ namespace ot {
         /// used for synchronization in data-driven traversal
         /// in this case the graph is only traversed if some
         /// event-driven enabled event generator node produces new data
+#ifdef WIN32
         ACE_Thread_Mutex* _havedatamutex;
         ACE_Condition_Thread_Mutex* _havedatacondition;
+#else
+        pthread_mutex_t* _havedatamutex;
+        pthread_cond_t* _havedatacondition;
+#endif
+	double lastlooptime;
+	int loopcount;
+
     public:
         ///shortcut to stop the main loop by ackquiring the mutex
         void lock();

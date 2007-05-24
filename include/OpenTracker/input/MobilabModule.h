@@ -112,8 +112,8 @@ namespace ot {
     
         virtual void close();
     
-        virtual void newData( unsigned short sampleValue);
-        virtual void newData( const unsigned short * samples, int ssize);
+        virtual void newData( short sampleValue);
+        virtual void newData( const short * samples, int ssize);
     
     protected:
     

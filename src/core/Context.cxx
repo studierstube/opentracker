@@ -66,7 +66,9 @@ namespace ot {
         //        rootNode( NULL ),
         cleanUp( false ),
         stoploopflag(false),
-        rootNamespace( "" )
+        rootNamespace( "" ),
+	lastlooptime(0.0),
+	loopcount(0)
     {
 		
 		
@@ -80,8 +82,13 @@ namespace ot {
             cleanUp = false;
         }
         directories.push_back(".");
+#ifdef WIN32
         _havedatamutex = new ACE_Thread_Mutex("contex_havedatamutex");
         _havedatacondition = new ACE_Condition_Thread_Mutex((*_havedatamutex));//, "context_havedatacondition");
+#else
+        _havedatamutex = new pthread_mutex_t;
+        _havedatacondition = new pthread_cond_t;
+#endif
         _mutex = new ACE_Thread_Mutex("context_mutex");
     }
 
@@ -105,11 +112,15 @@ namespace ot {
         modules.clear();
         //        if (rootNode != NULL) {
         //        }
+
+#ifdef WIN32
         delete _havedatacondition;
         delete _havedatamutex;
+#else
+        pthread_cond_destroy(_havedatacondition);
+        pthread_mutex_destroy(_havedatamutex);
+#endif
         delete _mutex;
-        //        delete graph;
-
     }
 
 #ifndef USE_LIVE
@@ -264,14 +275,31 @@ namespace ot {
     {
         using namespace std;
         //cerr << "Context::loopOnce() ...";
+       double looptime = OSUtils::currentTime();
 
-        int stopflag=1;
-        // lock the Graph first
-        lock();
+       if (loopcount == 0)
+	 {
+	    lastlooptime = looptime;
+	    loopcount = 1;
+	 }
+       else if (looptime - lastlooptime > 10000.0)
+	 {
+	    loopcount++;
+	    logPrintI("OpenTracker loop rate: %f Hz\n", loopcount/10.0);
+	    loopcount=0;
+	 }
+       else
+	 {
+	    loopcount++;
+	 }
 
-        // push and pull parts of the main loop
-        pushEvents();
-        pullEvents();
+       int stopflag=1;
+       // lock the Graph first
+       lock();
+       
+       // push and pull parts of the main loop
+       pushEvents();
+       pullEvents();
 
         // check for stop flag
         stopflag = stop(); 
@@ -279,6 +307,9 @@ namespace ot {
         // unlock the graph
         unlock();
         //cerr << "done."<< endl;
+
+        double loopetime = OSUtils::currentTime();
+        //logPrintI("looptime : %lf\n", loopetime - looptime);
         return stopflag;
     }
     // This method implements the main loop and runs until it is stopped somehow.
@@ -345,31 +376,86 @@ namespace ot {
         int stopflag = stop();
         while ( stoploopflag ==0 && stopflag == 0 )
         {
+            double looptime = OSUtils::currentTime();
+#ifdef WIN32
+            _havedatamutex->acquire();	
+#else
+            pthread_mutex_lock(_havedatamutex);
+#endif
+
             waitDataSignal();            
+            double loopetime = OSUtils::currentTime();
+            logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
+
             stopflag = loopOnce();
+
+#ifdef WIN32
+            _havedatamutex->release();	
+#else
+            pthread_mutex_unlock(_havedatamutex);
+#endif
         }
 
         logPrintI("closing loop\n");
         close();
     }
 
-    void Context::waitDataSignal() { 
-		_havedatamutex->acquire();	
-		_havedatacondition->wait(); 
-        _havedatamutex->release();
-	};
+    void Context::waitDataSignal() 
+    {
+        //logPrintI(" Context::waitDataSignal()\n");
+        //_havedatamutex->acquire();	
+#ifdef WIN32
+        _havedatacondition->wait(); 
+#else
+        pthread_cond_wait(_havedatacondition, _havedatamutex);
+#endif
+        //_havedatamutex->release();
+    };
     void Context::dataSignal() 
-	{ 
-        //_havedatamutex->acquire();
-		_havedatacondition->signal(); 
-		//_havedatamutex->release();
-	};
-    void Context::dataBroadcast() { 
-		//_havedatamutex->acquire();
-		_havedatacondition->broadcast(); 
-		//_havedatamutex->release();
-	};
+     { 
+         //logPrintI(" Context::dataSignal()\n");
+#ifdef WIN32
+         _havedatamutex->acquire();
+#else
+         pthread_mutex_lock(_havedatamutex);
+#endif
 
+#ifdef WIN32
+         _havedatacondition->signal(); 
+#else
+         pthread_cond_signal(_havedatacondition);
+#endif
+         //_havedatacondition->broadcast(); 
+#ifdef WIN32
+         _havedatamutex->release();
+#else
+         pthread_mutex_unlock(_havedatamutex);
+#endif
+
+     };
+   
+    void Context::dataBroadcast() 
+     { 
+#ifdef WIN32
+         _havedatamutex->acquire();
+#else
+         pthread_mutex_lock(_havedatamutex);
+#endif
+
+#ifdef WIN32
+         _havedatacondition->broadcast(); 
+#else
+         pthread_cond_broadcast(_havedatacondition);
+#endif
+
+#ifdef WIN32
+         _havedatamutex->release();
+#else
+         pthread_mutex_unlock(_havedatamutex);
+#endif
+
+     };
+   
     // tests all modules for stopping
 
     int Context::stop()

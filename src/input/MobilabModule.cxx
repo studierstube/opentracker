@@ -235,6 +235,7 @@ namespace ot {
         if (debug)
         {
             logPrintI("MobilabModule::close()\n");
+	    logPrintI("logged: %d\n", logsamplenr);
         }
 
 	if( driver != NULL )
@@ -306,24 +307,24 @@ namespace ot {
 	delete driver;
     }
 
-    void MobilabModule::newData(unsigned short sampleValue)
+    void MobilabModule::newData(short sampleValue)
     {
         // nothing to do
     }
-    void MobilabModule::newData(const unsigned short * samples, int ssize)
+    void MobilabModule::newData(const short * samples, int ssize)
     {
         if (logFile)
         {
-            logFile->send( samples, sizeof(unsigned short)*ssize);
+            logFile->send( samples, sizeof(short)*ssize);
         }
         if (logHost)
         {
-            int buffersize = 5+8*sizeof(unsigned short);
-            unsigned char sendbuffer[buffersize];
+            int buffersize = 5+ssize*sizeof(short);
+            unsigned char *sendbuffer = new unsigned char [buffersize];
             sendbuffer[0] = 0xff;
             
             *((int*)(sendbuffer+1)) = logsamplenr;
-            memcpy(sendbuffer+5, samples, 8*sizeof(unsigned short));
+            memcpy(sendbuffer+5, samples, ssize*sizeof(short));
             int retval = logHost->send(sendbuffer,
                                        buffersize, 
                                        server_addr,
@@ -333,6 +334,7 @@ namespace ot {
             {
                 logPrintW("MobilabModule::newData problem when transferring data to log host! retval: %d.\n", retval);
             }
+            delete [] sendbuffer;
         }
 
         ++logsamplenr;
