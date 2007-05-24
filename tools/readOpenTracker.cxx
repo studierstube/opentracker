@@ -1524,12 +1524,12 @@ void mexFunction( int nlhs, mxArray *plhs[],
                 fieldmap[attname] =  fieldcount++;
             }
 
-            //mexPrintf("%s (%s) -> %s\n", attname.c_str(), atttype.c_str(), event.getAttributeValueString(attname).c_str());
+            //mexPrintf("%s (%s) -> %s\n", attname.c_str(), atttype.c_str(), //event.getAttributeValueString(attname).c_str());
         }
         
     }
 
-    mwSize odims[2];
+    int odims[2];
     odims[0] = 1;
     odims[1] = count;
 
@@ -1551,24 +1551,26 @@ void mexFunction( int nlhs, mxArray *plhs[],
     count =0;
 
     inputf.close();
-    inputf.open(filename);
+    ifstream xinputf(filename);
     //inputf.seekg(0, ios::beg);
-    while (!inputf.eof() && !inputf.bad() && !inputf.fail())
+    while (!xinputf.eof() && !xinputf.bad() && !xinputf.fail())
     {
-
+        //mexPrintf("in loop ...");
+        
         //inputf.clear();
-        inputf >> station;
-        if (inputf.fail()) 
+        xinputf >> station;
+        if (xinputf.fail()) 
         {
             //mexPrintf("failed reading station\n");       
             break;
         }
-        inputf >> event;
-        if (inputf.fail()) 
+        xinputf >> event;
+        if (xinputf.fail()) 
         {
             //mexPrintf("failed reading event\n");       
             break;
         }
+        //mexPrintf("%d %d\n", station, event.getSize());
         
         mxArray *record_value;
         
@@ -1580,13 +1582,16 @@ void mexFunction( int nlhs, mxArray *plhs[],
         *mxGetPr(record_value) = event.time;
         mxSetFieldByNumber(plhs[0], count, 1, record_value);
 
-
+        
         int i;
         string attname, atttype;
         for (i=0; i<event.getSize(); i++)
         {
             attname = event.getAttributeName(i);
             atttype = event.getAttributeTypeName(attname);   
+            
+            //mexPrintf("%s (%s) -> %s\n", attname.c_str(), atttype.c_str(), event.getAttributeValueString(attname).c_str());
+            
             if (attname == "button")
             {
                 record_value = mxCreateDoubleMatrix(1,1,mxREAL);
@@ -1648,7 +1653,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     }
 
     //mexPrintf("%d events read\n", count);
-    inputf.close();
+    xinputf.close();
    
     int i;
     for (i=0;i<fieldcount; i++)
