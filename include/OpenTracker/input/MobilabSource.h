@@ -93,6 +93,7 @@ namespace ot {
         unsigned int channel;
         int datatype;
         std::string attname;
+        bool changed;
     
 	/** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
@@ -102,11 +103,15 @@ namespace ot {
             return 1;
         }
 
-        virtual void newData( short sampleValue);
+        virtual void newData( short sampleValue, double timev);
 
     protected:
         double lastpushtime;
         int pushcount;
+        double rlastpushtime;
+        int rpushcount;
+        double lastndtime;
+        int ndcounter;
 
 	/// protected constructor so it is only accessible by the module
 	MobilabSource() 
@@ -116,10 +121,14 @@ namespace ot {
             attname="bcidata"; 
             lastpushtime = 0.0;
             pushcount = 0;
+            rpushcount = 0;
+            ndcounter = 0;
+            changed = false;
         };
 
         void pushEvent()
         {
+            //logPrintI("MobilabSource::pushEvent\n");
             double pushtime = OSUtils::currentTime();
 	    if (pushcount == 0)
 	    {
@@ -129,7 +138,9 @@ namespace ot {
 	    else if (pushtime - lastpushtime > 10000.0)
 	    {
 	        pushcount++;
-	        logPrintI("MobilabSource push rate: %f Hz\n", pushcount/10.0);
+	        logPrintI("MobilabSource push rate (%d): %f Hz\n", 
+                          channel,
+                          pushcount/10.0);
 	        pushcount = 0;
 	  
 	    }
@@ -139,15 +150,43 @@ namespace ot {
 	    }
 
             lock();
-            if(event.time <= buffer.time )
+            /*
+            if (channel == 0 && buffer.hasAttribute(attname))
             {
+                std::cout << "PositioX = " << buffer.getAttributeValueString(attname)
+                          << std::endl;
+            }
+            */
+            if( changed )
+            {
+                double rpushtime = OSUtils::currentTime();                
+                if (rpushcount == 0)
+                {
+                    rlastpushtime = rpushtime;
+                    rpushcount = 1;
+                }
+                else if (rpushtime - rlastpushtime > 10000.0)
+                {
+                    rpushcount++;
+                    logPrintI("MobilabSource real push rate (%d): %f Hz\n", 
+                              channel,
+                              rpushcount/10.0);
+                    rpushcount = 0;
+	  
+                }
+                else
+                {
+                    rpushcount++;
+                }
+
                 event = buffer;
+                changed = false;
+                
                 unlock();
                 updateObservers( event );
             }
             else
             {
-                exit(1);
                 unlock();
             }
         }
@@ -157,12 +196,31 @@ namespace ot {
 	friend class MobilabModule;
     };
 
-    inline void MobilabSource::newData( short sampleValue)
+    inline void MobilabSource::newData( short sampleValue, double timev)
     {
         //logPrintI("MobilabSource(%x)::newData %hu\n",this,sampleValue);
+        /*
+        double ndtime = OSUtils::currentTime();
+        if (ndcounter == 0)
+        {
+            lastndtime = ndtime;
+            ndcounter = 1;
+        }
+        else if (ndtime - lastndtime > 10000.0)
+        {
+            ndcounter++;
+            logPrintI("Mobilab newData rate: %f Hz\n", ndcounter/10.0);
+            ndcounter = 0;
+            
+        }
+        else
+        {
+            ndcounter++;
+        }
+        */
         lock();
 
-        buffer.timeStamp();
+        buffer.time = timev;
         
         buffer.getConfidence() = 1.0;
 
@@ -172,7 +230,7 @@ namespace ot {
                 {
                     float fltval = sampleValue;
                     fltval /= 32768.0f;
-                    buffer.setAttribute<float>(attname,fltval); 
+                    buffer.setAttribute<float>(attname, fltval); 
                 }
                 break;
             case DOUBLE_TYPE:
@@ -189,12 +247,16 @@ namespace ot {
                 buffer.setAttribute<unsigned short>(attname, 0); 
                 break;
         }
+        changed = true;
 
         unlock();
-        
-        //std::cout << "Position = " << buffer.getAttribute("bcidata")] 
-        //<< std::endl;
-        
+        /*
+        if (channel == 0)
+        {
+            std::cout << "Position = " << buffer.getAttributeValueString(attname)
+                      << std::endl;
+        }
+        */
     }
     
 } // namespace ot

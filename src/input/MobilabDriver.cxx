@@ -387,6 +387,7 @@ namespace ot {
     void MobilabDriver::newSample( const short * sample )
     {  
         //logPrintI("MobilabDriver::newSample\n");
+        /*
         if (debugOn)
 	{
 	    double sampletime = OSUtils::currentTime();
@@ -407,15 +408,22 @@ namespace ot {
 	        samplecounter++;
 	    }
 	}
+        */
+
+        /// set the same time for all sources
+        double tv = OSUtils::currentTime();
+
+        /// traverse Source list and put the new data to each of them
+
         std::map<MobilabListener *, void *>::iterator it;
         for( it = listeners.begin(); it != listeners.end(); it++ )
         {
             MobilabSource *ms = dynamic_cast<MobilabSource*>(it->first);
-            if (ms)
-            {
-                ms->newData(sample[ms->channel]);
+            if (ms) // regular source -> only one value
+            {                
+                ms->newData(sample[ms->channel], tv);
             }
-            else
+            else // The module needs the whole sample to log the data
             {
                 MobilabModule *mm = dynamic_cast<MobilabModule*>(it->first);
                 if (mm)
@@ -424,11 +432,15 @@ namespace ot {
                 }
             }
         }
+
+        // notify the graph traversal loop, that new data has arrived!
+
         if (module && module->getContext())
-        {
-            
-            //if (samplecounter%8 == 0) 
+        {            
             module->getContext()->dataSignal();
+            //logPrintI("before wait\n");
+            module->getContext()->consumedWait();
+            //logPrintI("came accross conditions\n");
         }
     }
 

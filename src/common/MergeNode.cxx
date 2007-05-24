@@ -57,6 +57,8 @@ namespace ot {
 
     void MergeNode::onEventGenerated( Event& event, Node & generatorNode)
     {
+        //logPrintI("MergeNode::onEventGenerated\n");
+
         if (generatorNode.isNodePort() != 1){ // this should never happen
             logPrintE("Is generator happened\n");
             return;
@@ -77,8 +79,8 @@ namespace ot {
             catch (std::invalid_argument)
             {
                 // two attributes of the same name but of different types are present!
-                logPrintE("MergeNode::Caught invalid argument: %s, %s, %s \n",
-                          attrName.c_str(), typeName.c_str(), value.c_str());
+                //logPrintE("MergeNode::Caught invalid argument: %s, %s, %s \n",
+                //          attrName.c_str(), typeName.c_str(), value.c_str());
                 return;
             }
         }
@@ -163,6 +165,7 @@ namespace ot {
 
     void MergeNode::pushEvent()
     {
+        //logPrintI("MergeNode::pushEvent\n");
         // nothing to do
     }
 

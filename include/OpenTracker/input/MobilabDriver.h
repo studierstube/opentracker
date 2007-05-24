@@ -72,7 +72,7 @@ namespace ot {
          * override it to receive the data.
          * @param sampleValue the value received from the Mobilab device.
          */
-	virtual void newData( short sampleValue) = 0;
+	virtual void newData( short sampleValue, double tv) = 0;
 	virtual ~MobilabListener() {};
     };
 

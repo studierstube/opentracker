@@ -86,8 +86,10 @@ namespace ot {
 
         // Methods
     protected:
+        Event localevent;
         double lastwritetime;
 	int writecount;
+        bool needwrite;
 
         /** constructor method,sets commend member
          * @param file_ the File object to write to
@@ -96,8 +98,10 @@ namespace ot {
             Node(), 
             file( file_ ),
             station( station_ ),
+            localevent(),
 	    lastwritetime(0.0),
-	    writecount(0)
+	    writecount(0),
+            needwrite(false)
 	{}
 
     public:
@@ -120,27 +124,40 @@ namespace ot {
          */
         virtual void onEventGenerated( Event& event, Node& generator)
 	{
-	    double writetime = OSUtils::currentTime();
-	    if (writecount == 0)
-	    {
-	        lastwritetime = writetime;
-	        writecount = 1;
-	    }
-	    else if (writetime - lastwritetime > 10000.0)
-	    {
-	        writecount++;
-		logPrintI("File write rate: %f \n", writecount / 10.0);
-		writecount = 0;
-	    }
-	    else
-	    {
-	        writecount++;
-	    }
-            file.write( event, station );
+            // file.write( event, station );
+            //logPrintI("FileSink::onEventGenerated\n");
+            localevent = event;
             updateObservers( event );
+            needwrite = true;
 	}
 
-        void pushEvent() {};
+        void pushEvent() 
+        {          
+            //logPrintI("FileSink::pushEvent\n");
+            if (needwrite)
+            {
+                double writetime = OSUtils::currentTime();
+                if (writecount == 0)
+                {
+                    lastwritetime = writetime;
+                    writecount = 1;
+                }
+                else if (writetime - lastwritetime > 10000.0)
+                {
+                    writecount++;
+                    logPrintI("File write rate: %f \n", writecount / 10.0);
+                    writecount = 0;
+                }
+                else
+                {
+                    writecount++;
+                }
+
+                needwrite = false;
+                file.write(localevent, station);
+            }
+            
+        };
         void pullEvent() {};
 
         friend class FileModule;

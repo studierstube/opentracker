@@ -319,7 +319,9 @@ namespace ot {
             if( rec->stop != 0 )
                 break;
             processRecord( rec );
-			Configurator::instance() ->getContext() ->dataSignal();
+            Configurator::instance()->getContext()->dataSignal();
+            Configurator::instance()->getContext()->consumedWait();
+
 
         }
         rec->socket.send( &leave, sizeof(leave), rec->address,0, &ACE_Time_Value::zero );

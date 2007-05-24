@@ -82,13 +82,17 @@ namespace ot {
             cleanUp = false;
         }
         directories.push_back(".");
-#ifdef WIN32
-        _havedatamutex = new ACE_Thread_Mutex("contex_havedatamutex");
+        //#ifdef WIN32
+        _havedatamutex = new ACE_Thread_Mutex("context_havedatamutex");
+        _consumeddatamutex = new ACE_Thread_Mutex("context_consumeddatamutex");
         _havedatacondition = new ACE_Condition_Thread_Mutex((*_havedatamutex));//, "context_havedatacondition");
-#else
-        _havedatamutex = new pthread_mutex_t;
-        _havedatacondition = new pthread_cond_t;
-#endif
+        _consumeddatacondition = new ACE_Condition_Thread_Mutex((*_consumeddatamutex));//, "context_havedatacondition");
+        pendingdata = false;
+        dataconsumed = false;
+        //#else
+        //        _havedatamutex = new pthread_mutex_t;
+        //        _havedatacondition = new pthread_cond_t;
+        //#endif
         _mutex = new ACE_Thread_Mutex("context_mutex");
     }
 
@@ -113,13 +117,15 @@ namespace ot {
         //        if (rootNode != NULL) {
         //        }
 
-#ifdef WIN32
+        //#ifdef WIN32
         delete _havedatacondition;
+        delete _consumeddatacondition;
         delete _havedatamutex;
-#else
-        pthread_cond_destroy(_havedatacondition);
-        pthread_mutex_destroy(_havedatamutex);
-#endif
+        delete _consumeddatamutex;
+        //#else
+        //        pthread_cond_destroy(_havedatacondition);
+        //        pthread_mutex_destroy(_havedatamutex);
+        //#endif
         delete _mutex;
     }
 
@@ -324,7 +330,7 @@ namespace ot {
         int stopflag = stop();
         while ( stoploopflag == 0 && stopflag == 0 )
         {
-            logPrintI("running\n");
+            //logPrintI("running\n");
             stopflag=loopOnce();
         }
 
@@ -377,23 +383,32 @@ namespace ot {
         while ( stoploopflag ==0 && stopflag == 0 )
         {
             double looptime = OSUtils::currentTime();
-#ifdef WIN32
+            //#ifdef WIN32
             _havedatamutex->acquire();	
-#else
-            pthread_mutex_lock(_havedatamutex);
-#endif
+            //#else
+            //pthread_mutex_lock(_havedatamutex);
+            //#endif
+            while (!pendingdata)
+            {
+                _havedatacondition->wait(); 
+            }
+            pendingdata = false;
 
-            waitDataSignal();            
+            //waitDataSignal();            
             double loopetime = OSUtils::currentTime();
-            logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
+            //logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
 
             stopflag = loopOnce();
 
-#ifdef WIN32
+            //#ifdef WIN32
             _havedatamutex->release();	
-#else
-            pthread_mutex_unlock(_havedatamutex);
-#endif
+            //logPrintI("before broadcast\n");
+            dataconsumed = true;
+            _consumeddatacondition->broadcast();
+            //logPrintI("after broadcast\n");
+            //#else
+            //            pthread_mutex_unlock(_havedatamutex);
+            //#endif
         }
 
         logPrintI("closing loop\n");
@@ -403,58 +418,102 @@ namespace ot {
     void Context::waitDataSignal() 
     {
         //logPrintI(" Context::waitDataSignal()\n");
-        //_havedatamutex->acquire();	
-#ifdef WIN32
-        _havedatacondition->wait(); 
-#else
-        pthread_cond_wait(_havedatacondition, _havedatamutex);
-#endif
-        //_havedatamutex->release();
+        _havedatamutex->acquire();	
+        //#ifdef WIN32
+        while (!pendingdata)
+        {
+            _havedatacondition->wait(); 
+        }
+        pendingdata = false;
+        //#else
+        //pthread_cond_wait(_havedatacondition, _havedatamutex);
+        //#endif
+        _havedatamutex->release();
     };
     void Context::dataSignal() 
      { 
          //logPrintI(" Context::dataSignal()\n");
-#ifdef WIN32
-         _havedatamutex->acquire();
-#else
-         pthread_mutex_lock(_havedatamutex);
-#endif
+         //#ifdef WIN32
+         //_havedatamutex->acquire();
+         //#else
+         //         pthread_mutex_lock(_havedatamutex);
+         //#endif
 
-#ifdef WIN32
+             //#ifdef WIN32
+         pendingdata = true;
          _havedatacondition->signal(); 
-#else
-         pthread_cond_signal(_havedatacondition);
-#endif
+         //#else
+         //         pthread_cond_signal(_havedatacondition);
+         //#endif
          //_havedatacondition->broadcast(); 
-#ifdef WIN32
-         _havedatamutex->release();
-#else
-         pthread_mutex_unlock(_havedatamutex);
-#endif
+         //#ifdef WIN32
+         //_havedatamutex->release();
+         //#else
+         //         pthread_mutex_unlock(_havedatamutex);
+         //#endif
 
      };
    
     void Context::dataBroadcast() 
      { 
-#ifdef WIN32
-         _havedatamutex->acquire();
-#else
-         pthread_mutex_lock(_havedatamutex);
-#endif
+         //#ifdef WIN32
+         //_havedatamutex->acquire();
+         //#else
+         //         pthread_mutex_lock(_havedatamutex);
+         //#endif
 
-#ifdef WIN32
+         //#ifdef WIN32
+         pendingdata = true;
          _havedatacondition->broadcast(); 
-#else
-         pthread_cond_broadcast(_havedatacondition);
-#endif
-
-#ifdef WIN32
-         _havedatamutex->release();
-#else
-         pthread_mutex_unlock(_havedatamutex);
-#endif
+         //#else
+         //         pthread_cond_broadcast(_havedatacondition);
+         //#endif
+         //#ifdef WIN32
+         //_havedatamutex->release();
+         //#else
+         //         pthread_mutex_unlock(_havedatamutex);
+         //#endif
 
      };
+
+    void Context::dataLock()
+    {
+        _havedatamutex->acquire();
+    }
+    void Context::dataUnlock()
+    {
+        _havedatamutex->release();
+    }
+
+    void Context::consumedWait(suseconds_t usecs)
+    {
+        _consumeddatamutex->acquire();
+        ACE_Time_Value tv(0, usecs);
+        while (!dataconsumed)
+        { 
+            _consumeddatacondition->wait();
+            /*
+            if (_consumeddatacondition->wait(&tv) == -1)
+            {
+                //logPrintW("main loop processing events too slow!\n");
+                break;
+                }*/
+        }
+        dataconsumed = false;
+        _consumeddatamutex->release();
+    }
+
+    void Context::consumedSignal()
+    {
+        dataconsumed = true;
+        _consumeddatacondition->broadcast();
+    }
+
+    void Context::consumedBroadcast()
+    {
+        dataconsumed = true;
+        _consumeddatacondition->broadcast();
+    }
    
     // tests all modules for stopping
 

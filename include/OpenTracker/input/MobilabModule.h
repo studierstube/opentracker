@@ -112,11 +112,11 @@ namespace ot {
     
         virtual void close();
     
-        virtual void newData( short sampleValue);
+        virtual void newData( short sampleValue, double timev);
         virtual void newData( const short * samples, int ssize);
     
     protected:
-    
+        unsigned char sendbuffer[16];
         virtual void run();
         
         bool debug;

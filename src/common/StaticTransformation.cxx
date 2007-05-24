@@ -89,11 +89,11 @@ namespace ot {
 
     Event* StaticTransformation::transformEvent( Event* event )
     {
-        logPrintI("StaticTransformation::transformEvent\n");
+        //logPrintI("StaticTransformation::transformEvent\n");
 #ifdef USE_LIVE
         lock();
 #endif
-        logPrintI("transformEvent locked\n");
+        //logPrintI("transformEvent locked\n");
         // transform the position of the event
         if( usePos )
         {
@@ -101,13 +101,13 @@ namespace ot {
             localEvent.getPosition()[0] = localEvent.getPosition()[0]*scale[0] + translation[0];
             localEvent.getPosition()[1] = localEvent.getPosition()[1]*scale[1] + translation[1];
             localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
-            logPrintI("position transformed\n");            
+            //logPrintI("position transformed\n");            
         }
         // transform the orientation of the event
         if( useOrient )
         {
             MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
-            logPrintI("orientation transformed\n");            
+            //logPrintI("orientation transformed\n");            
         }
         try {
             localEvent.getConfidence() = event->getConfidence() * confidence;
@@ -121,7 +121,7 @@ namespace ot {
         logPrintI("about to unlock in transformEvent\n");
         unlock();
 #endif
-        logPrintI("StaticTransformation::transformEvent about to return\n");
+        //logPrintI("StaticTransformation::transformEvent about to return\n");
         return &localEvent;
     }
 

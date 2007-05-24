@@ -219,7 +219,27 @@ namespace ot {
 
     void MobilabModule::pushEvent()
     {
-        
+        /*
+        if (logHost)
+        {
+            int buffersize = 5+8*sizeof(short);
+            sendbuffer[0] = 0xff;
+            
+            *((int*)(sendbuffer+1)) = logsamplenr;
+            //memcpy(sendbuffer+5, samples, 8*sizeof(short));
+            int retval = logHost->send(sendbuffer,
+                                       buffersize, 
+                                       server_addr,
+                                       0,
+                                       &ACE_Time_Value::zero);
+            if (retval != buffersize)
+            {
+                logPrintW("MobilabModule::newData problem when transferring data to log host! retval: %d.\n", retval);
+            }
+
+        }        
+        ++logsamplenr;*/
+        //logPrintI("LogSampleNR %d", logsamplenr);
     }
 
     void MobilabModule::start()
@@ -307,7 +327,7 @@ namespace ot {
 	delete driver;
     }
 
-    void MobilabModule::newData(short sampleValue)
+    void MobilabModule::newData(short sampleValue, double timev)
     {
         // nothing to do
     }
@@ -317,10 +337,10 @@ namespace ot {
         {
             logFile->send( samples, sizeof(short)*ssize);
         }
+        
         if (logHost)
         {
             int buffersize = 5+ssize*sizeof(short);
-            unsigned char *sendbuffer = new unsigned char [buffersize];
             sendbuffer[0] = 0xff;
             
             *((int*)(sendbuffer+1)) = logsamplenr;
@@ -334,10 +354,10 @@ namespace ot {
             {
                 logPrintW("MobilabModule::newData problem when transferring data to log host! retval: %d.\n", retval);
             }
-            delete [] sendbuffer;
-        }
+            
 
-        ++logsamplenr;
+        }
+        ++logsamplenr;        
         //logPrintI("LogSampleNR %d", logsamplenr);
     }
 
