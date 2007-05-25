@@ -34,8 +34,9 @@ SOURCES  = \
     playingfield.cpp \
     puck.cpp 
 
+INCLUDEPATH += $(OTROOT)/include
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
-QMAKE_LIBS += -lopentracker
+QMAKE_LIBS += -L$(OTROOT)/lib -lopentracker
 mac:QMAKE_LIBDIR += /opt/local/lib /sw/lib
 
 mac:QMAKE_CXXFLAGS_WARN_ON += -Wno-unused
