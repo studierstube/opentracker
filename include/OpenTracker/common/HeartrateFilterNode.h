@@ -96,6 +96,10 @@ namespace ot {
         /// internal variables
         int over;
         int downcnt;
+        unsigned long samplecount;
+        double heartrate[3];
+        double outheartrate;
+        int actheartrate;
 
     public:
         /** constructor method. It sets initial values for the treshhold and type */

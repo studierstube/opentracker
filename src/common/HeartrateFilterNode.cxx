@@ -66,8 +66,16 @@ namespace ot {
         samplefactor = samplefactor_;
         consume = consume_;
 
+        logPrintI("HeartrateFilterNode: ths: %lf, tmch: %lf, onD: %u, offD: %u, sf: %u, cs: %d\n", 
+                  threshold, toomuch, onDuration, offDuration, 
+                  samplefactor, consume);
+
         over = 0;
         downcnt = 0;
+        samplecount = 0;
+        actheartrate = 0;
+        heartrate [0] = heartrate[1] = heartrate[2] = 0.0;
+        outheartrate = 0.0;
 
         init = false;
     } 
@@ -88,49 +96,80 @@ namespace ot {
             init = true;
         }
 
-        // The current event we're working on
-        //currentEvent.getPosition()=event.getPosition();
-        //currentEvent.getOrientation()=event.getOrientation();
-        //currentEvent.getConfidence()=event.getConfidence();
-        //currentEvent.time=event.time;
-
-        // The event we will be passing
-        //targetEvent.getPosition()=event.getPosition();
-        //targetEvent.getOrientation()=event.getOrientation();
-        //targetEvent.getConfidence()=event.getConfidence();
-        //targetEvent.time=event.time; 
-
-        /*
-        if (lastEvent.time!=currentEvent.time) // Check if a new event arrived
+        if (consume)
+        {            
+            targetEvent = Event();
+            targetEvent.time = event.time;
+            targetEvent.getConfidence() = event.getConfidence();
+        }
+        else
         {
-            if (frameCtr>0) // Check if previously no events had arrived
+            /// copy old event
+            targetEvent = event;
+        }
+
+        bool beat = false;
+
+        if (event.hasAttribute(attrname))
+        {
+
+            double attval;
+            if (event.getAttributeTypeName(attrname) == "double")
+                attval = event.getAttribute(attrname, (double)0);
+            else if (event.getAttributeTypeName(attrname) == "float")
+                attval = event.getAttribute(attrname, (float)0);
+            else if (event.getAttributeTypeName(attrname) == "short")
+                attval = event.getAttribute(attrname, (short)0);
+
+
+
+            if (downcnt == 0)
             {
-                poseDesp.reinit();
-                frameCtr=0;
+                if ((attval > threshold) && (attval < toomuch))
+                {
+                    logPrintI("%lf - %d\n", attval,over);
+                    ++over;
+                }
+                else
+                {
+                    over = 0;
+                }
+                if (over >= onDuration)
+                {
+                    downcnt = offDuration;
+                    beat = true;
+
+                    // stabilize heart rate
+                    heartrate[++actheartrate] = OSUtils::currentTime();
+                    if ( heartrate[actheartrate] - 
+                         heartrate[(actheartrate+2)%3] < 6000.0)
+                    {
+                        double hd1 = heartrate[actheartrate] - 
+                            heartrate[(actheartrate+1)%3] ;
+                        double hd2 = heartrate[(actheartrate+1)%3] - 
+                            heartrate[(actheartrate+2)%3] ;
+
+                        outheartrate = 60000.0/hd1;
+                    }
+
+                }                
             }
-
-            // Apply the Heartrate prediction
-            poseDesp.observe(currentEvent.getPosition(), currentEvent.getOrientation());
-            poseDesp.predict(0, targetEvent.getPosition(), targetEvent.getOrientation());
+            else
+            {
+                // show beat for half the off time
+                if (downcnt > offDuration/2) beat = true;
+                --downcnt;                
+            }
         }
-        else // If no new event has arrived
+
+        targetEvent.setAttribute<double>("heartrate", outheartrate);
+        targetEvent.setAttribute<bool>("trigger", beat);
+
+        if (samplecount%samplefactor == 0)
         {
-            // Keep track for how long no new event has arrived
-            frameCtr++;
-
-            // Apply the Heartrate prediction
-            poseDesp.predict(frameCtr, targetEvent.getPosition(), targetEvent.getOrientation());
+            updateObservers( targetEvent );
         }
-
-        // Keep a copy of the last received event
-        lastEvent.getPosition()=currentEvent.getPosition();
-        lastEvent.getOrientation()=currentEvent.getOrientation();
-        lastEvent.getConfidence()=currentEvent.getConfidence();
-        lastEvent.time=currentEvent.time;
-
-        // Update the observers
-        updateObservers( targetEvent );
-        */
+        samplecount++;        
     }
 
     void HeartrateFilterNode::pushEvent()

@@ -571,6 +571,41 @@ namespace ot {
             result = new DESPFilterNode( filterPos, filterOri );
         }
 #endif
+        else if( name.compare("HeartrateFilter") == 0 )
+        {
+            std::string attrname;
+            double threshold, toomuch;
+            int onDuration, offDuration;
+            int samplefactor;
+            bool consume;
+            std::string consumestring;
+
+            if( attributes.containsKey("attrname") )
+                attrname = attributes.get("attrname");
+            else
+                attrname = "bcidata";
+            if( attributes.get("threshold", &threshold) != 1 )
+                threshold = 0.03;
+            if( attributes.get("toomuch", &toomuch) != 1 )
+                toomuch = 0.2;
+            if( attributes.get("onDuration", &onDuration) != 1 )
+                onDuration = 4;
+            if( attributes.get("offDuration", &offDuration) != 1 )
+                offDuration = 100;
+            if( attributes.get("samplefactor", &samplefactor) != 1 )
+                samplefactor = 1;
+            if( attributes.get("consume") == "" || 
+                attributes.get("consume") == "false"  )
+            {
+                consume = false;
+            }
+            else
+            {             
+                consume = true;
+            }
+                        
+            result = new HeartrateFilterNode(attrname, threshold, toomuch, onDuration, offDuration, samplefactor, consume);
+        }
 #ifndef OT_NO_EVENTUTITLY_SUPPORT
         else if ( name.compare("EventUtility") == 0 || name.compare("EventUtilityNode") == 0 )
         {
