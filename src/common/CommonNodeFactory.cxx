@@ -68,6 +68,7 @@
 #include <OpenTracker/common/PositionFilterNode.h>
 #include <OpenTracker/common/EventUtilityNode.h>
 #include <OpenTracker/common/DESPFilterNode.h>
+#include <OpenTracker/common/HeartrateFilterNode.h>
 #include <OpenTracker/common/DifferenceNode.h>
 
 #include <cmath>
@@ -124,6 +125,7 @@ namespace ot {
         knownNodes.push_back("ConfidenceFilterNode");
         knownNodes.push_back("Difference");		
         knownNodes.push_back("DESPFilter");
+        knownNodes.push_back("HeartrateFilter");
     }
 
     CommonNodeFactory::~CommonNodeFactory()

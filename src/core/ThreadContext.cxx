@@ -68,7 +68,7 @@ namespace ot {
     ThreadContext::ThreadContext(int init ) : Context(init)
     {
         using namespace std;
-        cerr << "ThreadContext::ThreadContext()" << endl;
+        logPrintI("ThreadContext::ThreadContext()\n");
 
         action_type = POLL;
         action_rate = 1.0;
@@ -76,8 +76,10 @@ namespace ot {
         thread_mutex = new thread_mutex_type;
         action_mutex = new mutex_type;
         action_cond = new condition_type(*action_mutex);
+        action_cond_val = false;
         loopend_mutex = new mutex_type;
         loopend_cond = new condition_type(*loopend_mutex);
+        loopend_cond_val = false;
 
         
         inloop = false;
@@ -95,7 +97,7 @@ namespace ot {
         using namespace std;
         using namespace ot;
         
-        cerr << "ThreadContext::~ThreadContext()" << endl;
+        logPrintI("ThreadContext::~ThreadContext()\n");
 
         /// make sure that next action is causing dispatcher loop to exit
         thlock();
@@ -106,21 +108,28 @@ namespace ot {
         
         /// stop the running event loop, thread wait for new action signal
         /// afterwards
-        stopLoop();
+        Context::stopLoop();
 
-        if (inloop) loopend_cond->wait();
+        if (inloop)
+        { 
+            while (!loopend_cond_val)
+            {
+                loopend_cond->wait();                
+            }
+            loopend_cond_val = false;
+        }
 
         /// send action signal
         //action_cond->signal();
 
         /// wait until thread has closed down
-        cerr << " waiting for thread to finish ..." << endl;
+        logPrintI(" waiting for thread to finish ...\n");
 #ifdef WIN32
 	ACE_Thread::join( (ACE_thread_t*)thread );
 #else
 	ACE_Thread::join( (ACE_thread_t)thread );
 #endif
-        cerr << " done." << endl;
+        logPrintI(" done.\n");
 
         delete ((ACE_thread_t *)thread);
 
@@ -129,7 +138,7 @@ namespace ot {
         delete action_cond;
         delete action_mutex;
         delete thread_mutex;
-        cerr << "ThreadContext::~ThreadContext() done." << endl;
+        logPrintI("ThreadContext::~ThreadContext() done.\n");
     }
 
     // enters a critical section. 
@@ -153,9 +162,13 @@ namespace ot {
 
         while (!havetoquit)
         {
-            cerr << " waiting for action command ..." << endl;
+            logPrintI(" waiting for action command ...\n");
 
-            action_cond->wait();            
+            while (!action_cond_val)
+            {
+                action_cond->wait();            
+            }
+            action_cond_val = false;
 
             thlock();
             int locactiontype = action_type;
@@ -174,27 +187,32 @@ namespace ot {
                 case DEMAND:
                     Context::runOnDemand();
                     break;
+                case STOP:
+                    Context::stopLoop();
+                    break;
                 case QUIT:
                     havetoquit = true;
                     break;
                 default:
+                    logPrintW("kThreadContext::runDispatcher: Unknown action type %d\n", locactiontype);
                     break;
             }
-            cerr << "  at end of loop." << endl;
+            logPrintI("  at end of loop.\n");
 
             inloop = false;
 
+            loopend_cond_val = true;
             loopend_cond->signal();
         }
 
-        cerr << " thread finished." << endl;
+        logPrintI(" thread finished.\n");
         
     }
 
     void ThreadContext::run()
     {
         using namespace std;
-        cout << "ThreadContext::run()" << endl;
+        logPrintI("ThreadContext::run()\n");
 
         thlock();
 
@@ -202,13 +220,14 @@ namespace ot {
 
         thunlock();
 
+        action_cond_val = true;
         action_cond->signal();
     }
 
     void ThreadContext::runAtRate(double rate)
     {
         using namespace std;
-        cout << "ThreadContext::runAtRate()" << endl;
+        logPrintI("ThreadContext::runAtRate()\n");
 
         thlock();
 
@@ -217,13 +236,14 @@ namespace ot {
 
         thunlock();
 
+        action_cond_val = true;
         action_cond->signal();
     }
 
     void ThreadContext::runOnDemand()
     {
         using namespace std;
-        cout << "ThreadContext::runOnDemand()" << endl;
+        logPrintI("ThreadContext::runOnDemand()\n");
      
         thlock();
 
@@ -231,7 +251,25 @@ namespace ot {
 
         thunlock();
 
+        action_cond_val = true;
         action_cond->signal();
+    }
+
+    void ThreadContext::stopLoop()
+    {
+        using namespace std;
+        
+        logPrintI("ThreadContext::stopRun()\n");
+     
+        thlock();
+
+        action_type = STOP;
+
+        thunlock();
+
+        action_cond_val = true;
+        action_cond->signal();
+        
     }
     
 } // namespace ot

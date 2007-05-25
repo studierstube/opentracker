@@ -187,9 +187,11 @@ namespace ot {
 
   void TestModule::close()
     {
+        logPrintI("TestModule::close() ... \n");
 	lockLoop();
 	stop = 1;
 	unlockLoop();
+        logPrintI("TestModule::close() done. \n");
     }
 
     TestSource::TestSource( double frequency_, int offset_ ) :

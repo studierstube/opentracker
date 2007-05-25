@@ -153,9 +153,11 @@ namespace ot {
 
     void ARTDataTrackerModule::close()
     {
+        logPrintI("ARTDataTrackerModule::close() ... \n");
 	lockLoop();
 	stop = 1;
 	unlockLoop();
+        logPrintI("ARTDataTrackerModule::close() done. \n");
     }
 
     // -------------------------------------------------------------------------------------------------------

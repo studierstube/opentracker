@@ -82,6 +82,7 @@ namespace ot {
             POLL = 0,
             RATE = 1,
             DEMAND = 2,
+            STOP = 3,
             QUIT = 255
         };
 
@@ -94,8 +95,10 @@ namespace ot {
         thread_mutex_type * thread_mutex;
         mutex_type * action_mutex;
         condition_type * action_cond;
+        bool action_cond_val;
         mutex_type * loopend_mutex;
         condition_type * loopend_cond;
+        bool loopend_cond_val;
 
         
         // methods        
@@ -134,6 +137,9 @@ namespace ot {
 
         /** This is a data-driven implementation of the main loop */
         virtual void runOnDemand();
+
+        /** stop the main loop, not the thread */
+        virtual void stopLoop();
 
     protected:
         static void thread_func( void * data )

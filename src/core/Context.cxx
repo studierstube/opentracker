@@ -214,12 +214,18 @@ namespace ot {
 
     void Context::close()
     {
+        int i = 0;
+        logPrintI("Context::close() ... \n");
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
             (*it).second->close();
+            logPrintI("  %d \n", i);
+            i++;
         }
+        logPrintI("Context::close() done.\n");
         // HACK: give some threads time to close down
         OSUtils::sleep(1000);
+
     }
 
     // parses the file and builds the tree.
@@ -280,8 +286,9 @@ namespace ot {
     int Context::loopOnce()
     {
         using namespace std;
-        //cerr << "Context::loopOnce() ...";
-       double looptime = OSUtils::currentTime();
+        //logPrintI("Context::loopOnce() ...\n");
+
+        double looptime = OSUtils::currentTime();
 
        if (loopcount == 0)
 	 {

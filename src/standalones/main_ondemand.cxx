@@ -52,8 +52,8 @@ using namespace ot;
 extern "C" void
 SIGINThandler (int signum, siginfo_t*, ucontext_t*)
 { 
-    logPrintI("Received SIGINT -> gracefully shutting down!\n");
     Configurator::instance()->getContext()->stopLoop();
+    logPrintI("Received SIGINT -> gracefully shutting down!\n");
 }
 
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
 	//FileConfigurationThread*  ct= new FileConfigurationThread( "reconfig.xml");
 
-        ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
+        //ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
 
 	Configurator::instance() ->runConfigurationThread( filename );
 
