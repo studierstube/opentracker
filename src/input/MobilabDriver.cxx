@@ -439,10 +439,12 @@ namespace ot {
 
         if (module && module->getContext())
         {            
+
+            //logPrintI("MobilabDriver: have new data -> telling context\n");
             module->getContext()->dataSignal();
-            //logPrintI("before wait\n");
+            //logPrintI("MobilabDriver: wait for processing ...\n");
             module->getContext()->consumedWait();
-            //logPrintI("came accross conditions\n");
+            //logPrintI("MobilabDriver: context finished processing\n");
         }
     }
 

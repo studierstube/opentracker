@@ -259,8 +259,8 @@ namespace ot {
             processRecord( rec );
             
 			
-			Configurator::instance() ->getContext() ->dataSignal();
-			
+            Configurator::instance() ->getContext() ->dataSignal();
+            Configurator::instance()->getContext()->consumedWait();	
         }
         if( rec->socket.close() == -1)
         {
@@ -314,15 +314,20 @@ namespace ot {
                     }
                 }
                 if(bytesRead == -1 && errno == ETIME)
+                {
+                    logPrintI("nothing received -> reinitializing ...\n");
                     rec->socket.send( &poll, sizeof(poll), rec->address,0, &ACE_Time_Value::zero );
+                }
             } while( bytesRead < 0 && rec->stop == 0);
             if( rec->stop != 0 )
                 break;
+
+            //logPrintI("procrec\n");
             processRecord( rec );
+
             Configurator::instance()->getContext()->dataSignal();
             Configurator::instance()->getContext()->consumedWait();
-
-
+            //logPrint("after locks");
         }
         rec->socket.send( &leave, sizeof(leave), rec->address,0, &ACE_Time_Value::zero );
         if( rec->socket.close() == -1)

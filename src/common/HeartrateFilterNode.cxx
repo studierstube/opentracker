@@ -162,7 +162,7 @@ namespace ot {
                             outheartrate = 60000.0/hd1;
                         }
                     }
-                    //logPrintI("%lf - %d\n", outheartrate,over);
+                    logPrintI("%lf - %d\n", outheartrate,over);
                 }                
             }
             else
@@ -173,7 +173,7 @@ namespace ot {
             }
         }
 
-        targetEvent.setAttribute<double>("heartrate", outheartrate);
+        targetEvent.setAttribute<float>("heartrate", outheartrate);
         targetEvent.setAttribute<bool>("trigger", beat);
 
         if (samplecount%samplefactor == 0)

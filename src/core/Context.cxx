@@ -390,16 +390,18 @@ namespace ot {
         while ( stoploopflag ==0 && stopflag == 0 )
         {
             double looptime = OSUtils::currentTime();
-            //#ifdef WIN32
+
             _havedatamutex->acquire();	
-            //#else
-            //pthread_mutex_lock(_havedatamutex);
-            //#endif
+
+            //logPrintI("Context: Waiting for new data\n");
+
             while (!pendingdata)
             {
                 _havedatacondition->wait(); 
             }
             pendingdata = false;
+
+            //logPrintI("Context: got data -> processing\n");
 
             //waitDataSignal();            
             double loopetime = OSUtils::currentTime();
@@ -407,15 +409,14 @@ namespace ot {
 
             stopflag = loopOnce();
 
-            //#ifdef WIN32
-            _havedatamutex->release();	
-            //logPrintI("before broadcast\n");
+            _havedatamutex->release();
+
+            _consumeddatamutex->acquire();
+            //logPrintI("Context: data processing finished -> telling drivers\n");
             dataconsumed = true;
             _consumeddatacondition->broadcast();
-            //logPrintI("after broadcast\n");
-            //#else
-            //            pthread_mutex_unlock(_havedatamutex);
-            //#endif
+            //logPrintI("Context:  telling drivers done\n");
+            _consumeddatamutex->release();
         }
 
         logPrintI("closing loop\n");
@@ -440,25 +441,13 @@ namespace ot {
     void Context::dataSignal() 
      { 
          //logPrintI(" Context::dataSignal()\n");
-         //#ifdef WIN32
-         //_havedatamutex->acquire();
-         //#else
-         //         pthread_mutex_lock(_havedatamutex);
-         //#endif
+         
+        _havedatamutex->acquire();
 
-             //#ifdef WIN32
          pendingdata = true;
-         _havedatacondition->signal(); 
-         //#else
-         //         pthread_cond_signal(_havedatacondition);
-         //#endif
-         //_havedatacondition->broadcast(); 
-         //#ifdef WIN32
-         //_havedatamutex->release();
-         //#else
-         //         pthread_mutex_unlock(_havedatamutex);
-         //#endif
-
+         _havedatacondition->signal();
+ 
+         _havedatamutex->release();        
      };
    
     void Context::dataBroadcast() 

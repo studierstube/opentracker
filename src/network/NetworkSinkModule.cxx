@@ -563,7 +563,14 @@ namespace ot {
                 {
                     case poll:
                         if( uc->addresses.find( remoteAddr ) )
+                        {
                             uc->addresses.insert( remoteAddr );
+                        }
+                        else
+                        {
+                            logPrintI("Client was already here!\n");
+                            exit(1);
+                        }
                         break;
                     case leave:
                         if( !uc->addresses.find( remoteAddr ) )
