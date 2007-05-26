@@ -76,6 +76,7 @@ namespace ot {
         actheartrate = 0;
         heartrate [0] = heartrate[1] = heartrate[2] = 0.0;
         outheartrate = 0.0;
+        hadstrangerate = false;
 
         init = false;
     } 
@@ -127,7 +128,7 @@ namespace ot {
             {
                 if ((attval > threshold) && (attval < toomuch))
                 {
-                    logPrintI("%lf - %d\n", attval,over);
+                    
                     ++over;
                 }
                 else
@@ -138,20 +139,30 @@ namespace ot {
                 {
                     downcnt = offDuration;
                     beat = true;
+                    over = 0;
 
                     // stabilize heart rate
-                    heartrate[++actheartrate] = OSUtils::currentTime();
-                    if ( heartrate[actheartrate] - 
+                    heartrate[(++actheartrate)%3] = OSUtils::currentTime();
+                    if ( heartrate[actheartrate%3] - 
                          heartrate[(actheartrate+2)%3] < 6000.0)
                     {
-                        double hd1 = heartrate[actheartrate] - 
-                            heartrate[(actheartrate+1)%3] ;
-                        double hd2 = heartrate[(actheartrate+1)%3] - 
+                        double hd1 = heartrate[actheartrate%3] - 
                             heartrate[(actheartrate+2)%3] ;
-
-                        outheartrate = 60000.0/hd1;
+                        double hd2 = heartrate[(actheartrate+2)%3] - 
+                            heartrate[(actheartrate+1)%3] ;
+                        
+                        if ((hd1 > 2.0*hd2 || hd1 < 0.5*hd2) && !hadstrangerate)
+                        {
+                            outheartrate = 60000.0/hd2;
+                            hadstrangerate=true;
+                        }   
+                        else
+                        {
+                            hadstrangerate = false;
+                            outheartrate = 60000.0/hd1;
+                        }
                     }
-
+                    //logPrintI("%lf - %d\n", outheartrate,over);
                 }                
             }
             else

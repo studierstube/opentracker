@@ -100,6 +100,7 @@ namespace ot {
         double heartrate[3];
         double outheartrate;
         int actheartrate;
+        bool hadstrangerate;
 
     public:
         /** constructor method. It sets initial values for the treshhold and type */

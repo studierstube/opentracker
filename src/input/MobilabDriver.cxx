@@ -233,6 +233,8 @@ namespace ot {
         devpar.c_cflag &= 0x0000fffff;
 
         // write modified parameters
+        tcflush(porthandle, TCIFLUSH);
+        tcsendbreak(porthandle,0);
         tcsetattr(porthandle, TCSANOW, &devpar);
 #endif
           

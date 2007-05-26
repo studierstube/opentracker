@@ -475,6 +475,8 @@ namespace ot {
                 // send without blocking to avoid stalls in the mainloop, packet is thrown away !
                 for( ACE_Unbounded_Set_Iterator<ACE_INET_Addr> it = (*uc_it)->addresses.begin() ; ! it.done(); it.advance() )
                 {
+
+                    //logPrintI("sending unicast packet\n");
                     int sentBytes=0;
                     char *tmpBuffer=sendBuffer;
                     int sendBytes;
