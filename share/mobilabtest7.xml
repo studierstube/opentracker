@@ -20,11 +20,12 @@
       <MobilabSource channel="4" datatype="FLOAT" attname="bcidata4"/>
     </HeartrateFilter>
   </NetworkSink>
-  <NetworkSink mode="unicast" 
+
+  <!--<NetworkSink mode="unicast" 
 	       name="EEG station" 
 	       number="1" 
 	       port="12002" >
       <MobilabSource channel="0" datatype="FLOAT" attname="bcidata0"/>
-  </NetworkSink>
+  </NetworkSink>-->
   
 </OpenTracker>
