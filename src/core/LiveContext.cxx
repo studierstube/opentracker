@@ -60,8 +60,9 @@ namespace ot {
       //initializeContext( this , NULL);
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
       StringTable st;
-      //      st.put("endPoint", "giop:tcp:scumble.lce.cl.cam.ac.uk:9999");
-      st.put("endPoint", "giop:tcp:localhost:9999");
+      //st.put("endPoint", "giop:tcp:localhost:9999");
+      st.put("persistent", "true");
+      
       corba_module->init(st, NULL);
       parseConfigurationString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE OpenTracker SYSTEM \"opentracker.dtd\"><OpenTracker> <configuration/></OpenTracker>");
     }
@@ -103,17 +104,17 @@ namespace ot {
       StringTable attributes(_attributes);
       if (!attributes.containsKey("ID")) {
 	attributes.put("ID", generateNewId());
-	cerr << "generated ID = " << attributes.get("ID") << endl;
+	logPrintI("generated ID = %s\n", attributes.get("ID").c_str());
       } else {
-	cerr << "ID in attributes = " << attributes.get("ID") << endl;
+          logPrintI("ID in attributes = %s\n", attributes.get("ID").c_str());
       }
       lock();
       Node* value = createNode(name, attributes);
-      value->type = name;
       value->name = value->get("ID");
+      value->type = name;
 
       // Add node to the name-Node mapping
-      nodes[value->name] = value;
+      nodes[value->get("ID")] = value;
       OTGraph::Node_var node_ref = activateNode(value); 
       unlock();
       return node_ref;

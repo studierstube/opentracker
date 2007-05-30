@@ -3,6 +3,11 @@ from glob import glob
 from os.path import join, basename, dirname, isfile, walk
 from sets import Set as set
 ################################################################################
+#     extend path to include SCons builders                                    #
+################################################################################
+sys.path.append('builders')
+
+################################################################################
 #     Build-specific classes                                                   #
 ################################################################################
 class CORBAStubs:
@@ -93,6 +98,7 @@ opts.Add(BoolOption('ENABLE_FILE', 'Set to enable support for file sources and f
 opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
 opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
 opts.Add(BoolOption('ENABLE_VRPN', 'Set to enable support for VRPN', 0))
+opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -175,6 +181,22 @@ if env['ENABLE_CORBA']:
 	OmniIdlPy.generate(env)
     for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl', 'UTS.idl']]:
 	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
+
+#*********************************#
+# Enable or disable CORBA support #
+#*********************************#
+if env['ENABLE_MONO']:
+    import CSharpBuilder
+    CSharpBuilder.generate(env)
+    if env['ENABLE_LIVE']:
+	import CLSBuilder
+	CLSBuilder.generate(env)
+	otgraph_dll = env.IDL2CLS(target=join('bin', 'dotnet', 'OTGraph.dll'), 
+				  source=join('idl', 'OTGraph.idl'))
+	graph_client = env.CLIProgram(target=join('bin', 'dotnet', 'GraphClient.exe'), 
+				      source=[join('examples','MutableGraph','cs','MutableGraph.cs'),
+					      join('bin','dotnet', 'IIOPChannel.dll')] + \
+					      otgraph_dll)
 
 #**************************************#
 # Enable or disable OmniEvents support #

@@ -178,8 +178,17 @@ void CORBAModule::initializeORB(int argc, char **argv)
   {
     logPrintI("CORBAModule is being initialised\n");
     Module::init(  attributes, localTree );
+    if( attributes.containsKey("persistent")) {
+      std::string is_persistent = attributes.get("persistent");
+      if (is_persistent.compare("true") == 0) {
+	CORBAModule::persistent = true;
+      } else {
+	CORBAModule::persistent = false;
+      }
+    } else {
+      CORBAModule::persistent = false;
+    }
     if( attributes.containsKey("endPoint")) {
-      cerr << "persistent" << endl;
       CORBAModule::persistent = true;
       // Spoof the command-line arguments
       std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
@@ -197,8 +206,6 @@ void CORBAModule::initializeORB(int argc, char **argv)
       av[4] = &arg5;
       initializeORB(ac, av);
     } else {
-      cerr << "non-persistent" << endl;
-      CORBAModule::persistent = false;
       // Spoof the command-line arguments
       char *av[3]; int ac = 2;
       char arg1[] = "opentracker";

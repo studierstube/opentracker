@@ -153,6 +153,12 @@ private:
     static PortableServer::POA_var root_poa;
     static bool initialised;
 
+
+#ifdef USE_LIVE
+        friend class LiveContext;
+#endif
+
+
 };
 
 OT_MODULE(CORBAModule);

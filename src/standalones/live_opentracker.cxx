@@ -97,7 +97,8 @@ int main(int argc, char **argv)
       POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
 
       PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId("livecontext");
-      poa->activate_object_with_id(configurator_id, context);
+      //poa->activate_object_with_id(configurator_id, context);
+      corba_module->getRootPOA()->activate_object(context);
       cerr << "activated configurator" << endl;
 
       // Obtain a reference to the object, and register it in
@@ -107,10 +108,8 @@ int main(int argc, char **argv)
       CosNaming::NamingContextExt::StringName_var string_name = argv[1];
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
       //      orb->run(); 
-      //context_impl->runAtRate(30);
-      logPrintI("About to invoke context_impl->run()\n");
-      context_impl->run();//AtRate(30);
-      logPrintI("Just invoked context_impl->run()\n");
+      context_impl->runAtRate(30);
+
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;

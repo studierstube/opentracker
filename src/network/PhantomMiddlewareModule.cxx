@@ -72,7 +72,6 @@ namespace ot {
 
   Node * PhantomMiddlewareModule::createNode( const std::string & name, StringTable & attributes )
   {
-    logPrintI("PhantomMiddlewareModule::createNode %s\n", name.c_str());
     if( name.compare("PhantomMiddlewareSink") == 0 ) 
       {
 	int frequency;
