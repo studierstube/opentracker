@@ -26,12 +26,12 @@ namespace opentracker.examples.MutableGraph.mono {
 		Object obj = new Object();
 		try {
 		// access COS naming Service
-		NamingContext nameService = (NamingContext)RemotingServices.Connect(typeof(NamingContext), "corbaloc::herceg.cl.cam.ac.uk:2809/NameService");
+		NamingContext nameService = (NamingContext)RemotingServices.Connect(typeof(NamingContext), "corbaloc::localhost:2809/NameService");
 		Console.WriteLine("Got reference to nameService");
 
                 // get the reference to the Graph
  		NameComponent[] name = new NameComponent[] { new NameComponent("Foo", "Test") };
-
+		Console.WriteLine("About to resolve Foo.Test");
  		obj = (DataFlowGraph) nameService.resolve(name);
 		Console.WriteLine("Got reference to graph");
 		} catch (NotFound e) {
