@@ -51,6 +51,9 @@
 #include "Module.h"
 #include "NodeFactoryContainer.h"
 #include "VideoUser.h"
+#include <sys/types.h>
+#include <sys/timeb.h>
+#include <sys/utime.h>
 //#include <pthread.h>
 
 class ACE_Thread_Mutex;
@@ -145,7 +148,7 @@ namespace ot {
 	int loopcount;
 
     public:
-        ///shortcut to stop the main loop by ackquiring the mutex
+        ///shortcut to stop the main loop by acquiring the mutex
         void lock();
         void unlock();
         /// methods for data driven traversal
@@ -154,7 +157,13 @@ namespace ot {
         void dataBroadcast();
         void dataLock();
         void dataUnlock();
+
+#ifdef WIN32
+        void consumedWait(int usecs = 100000); // wait for 100 msec
+#else
         void consumedWait(suseconds_t usecs = 100000); // wait for 100 msec
+#endif
+
         void consumedSignal(); 
         void consumedBroadcast(); 
         // Methods

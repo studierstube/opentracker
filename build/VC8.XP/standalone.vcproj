@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="standalone"
 	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
 	>
@@ -140,7 +140,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug/standalone.pch"
+				PrecompiledHeaderFile=".\Debug/standaloned.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
@@ -162,11 +162,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib aced.dll"
+				AdditionalDependencies="odbc32.lib odbccp32.lib aced.lib"
 				OutputFile="../../bin/win32/opentrackerd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;../../lib/win32"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;../../lib/win32"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
 				SubSystem="1"

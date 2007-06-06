@@ -162,7 +162,7 @@ namespace ot {
                 perturbed.getOrientation()[3] = -perturbed.getOrientation()[3];
             }
             perturbed.setConfidence(static_cast<float>((rand()/RAND_MAX)*noise - noise / 2.0));
-            perturbed.setButton(cycle % 16);
+            perturbed.setButton((unsigned short)(cycle % 16));
 
 
             perturbed.timeStamp();

@@ -72,7 +72,7 @@ namespace ot {
      * @ingroup input
      * @author Gerhard Reitmayr
      */
-    class GPSListener {
+    class OPENTRACKER_API GPSListener {
     public:
         /** 
          * This is the callback method called by the GPSDriver class, whenever new data

@@ -135,7 +135,7 @@ namespace ot {
                 {
                     over = 0;
                 }
-                if (over >= onDuration)
+                if (over >= (int) onDuration)
                 {
                     downcnt = offDuration;
                     beat = true;
@@ -168,12 +168,12 @@ namespace ot {
             else
             {
                 // show beat for half the off time
-                if (downcnt > offDuration/2) beat = true;
+                if (downcnt > (int) offDuration/2) beat = true;
                 --downcnt;                
             }
         }
 
-        targetEvent.setAttribute<float>("heartrate", outheartrate);
+        targetEvent.setAttribute<float>("heartrate", (float)outheartrate);
         targetEvent.setAttribute<bool>("trigger", beat);
 
         if (samplecount%samplefactor == 0)

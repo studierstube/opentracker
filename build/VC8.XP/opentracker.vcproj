@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;TINYXML_MOD;OT_BACKUP_ON_RECONFIG"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include;&quot;$(QTDIR)\include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -65,7 +65,7 @@
 				AdditionalDependencies="aced.lib newmatd.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;$(NOINHERIT)"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../bin/Win32/opentrackerd.pdb"
 				SubSystem="2"
@@ -400,6 +400,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\HeartrateFilterNode.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\ICubeXModule.cxx"
 				>
 			</File>
@@ -634,26 +638,122 @@
 			<File
 				RelativePath="..\..\src\input\SpeechCore.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpeechModule.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpeechSet.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpeechSource.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpeechVoice.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpeechVoiceModule.cxx"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\common\StaticTransformation.cxx"
@@ -864,6 +964,28 @@
 			<File
 				RelativePath="..\..\config_win.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\core\ConfigNode.h"
@@ -892,6 +1014,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\core\Context.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\CyberMouseModule.h"
@@ -1048,6 +1192,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\input\GPSDriver.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\GPSGarminAltitude.h"
@@ -1079,6 +1245,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\GroupGateNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\HeartrateFilterNode.h"
 				>
 			</File>
 			<File
@@ -1188,6 +1358,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\network\NetworkSourceModule.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\core\Node.h"
@@ -1238,6 +1430,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\network\OldOTNetworkSourceModule.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\OpenVideoModule.h"
@@ -1400,34 +1614,162 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechCore.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechDef.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechInc.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechModule.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechSet.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechSource.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechVoice.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\SpeechVoiceModule.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\StaticTransformation.h"

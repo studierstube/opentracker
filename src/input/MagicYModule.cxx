@@ -240,7 +240,7 @@ namespace ot {
         while(1)
         {
             lockLoop();
-            if (stop == true)
+            if ((bool)stop == true)
             {           
                 unlockLoop();
                 break;
@@ -260,7 +260,7 @@ namespace ot {
                 while(1)
                 {
                      lockLoop();
-                     if (stop == true)
+                     if ((bool)stop == true)
                      {           
                          unlockLoop();
                          break;

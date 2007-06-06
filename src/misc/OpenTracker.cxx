@@ -118,7 +118,7 @@
 #include <OpenTracker/input/SysMouseModule.h>
 #include <OpenTracker/common/ThreeToTwoDimFilterModule.h>
 #include <OpenTracker/common/VirtualKeyModule.h>
-#include <OpenTracker/input/SpeechModule.h>
+//#include <OpenTracker/input/SpeechModule.h>               // DEPRECATED Mendez 20070606
 #include <OpenTracker/input/P5GloveModule.h>
 #include <OpenTracker/input/MulticastInputModule.h>
 #include <OpenTracker/input/UbisenseModule.h>
@@ -343,9 +343,9 @@ namespace ot {
         OT_REGISTER_MODULE(GroupGateModule, NULL);
 #endif
     
-#ifndef OT_NO_SPEECH_SUPPORT
-        OT_REGISTER_MODULE(SpeechModule, NULL);
-#endif
+//#ifndef OT_NO_SPEECH_SUPPORT                                  // DEPRECATED Mendez 20070606
+//        OT_REGISTER_MODULE(SpeechModule, NULL);
+//#endif
 
 #ifndef OT_NO_INTERPORLATORMODULE_SUPPORT
         OT_REGISTER_MODULE(InterpolatorModule, NULL);

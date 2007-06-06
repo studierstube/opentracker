@@ -177,7 +177,9 @@
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
  * Support for this is only available on windows. Otherwise an empty implementation
  * will be used */
-// #define USE_SAPISPEECH 1
+// #define USE_SAPISPEECH 1    // DEPRECATED Mendez 20070606
+
+
 
 /** uncomment the following line to compile support for Essentialreality's P5 glove.
  * Support for this is only available on windows yet. Linux support is in development.*/
@@ -218,7 +220,7 @@
 #  define OT_NO_ARTDATATRACKER_SUPPORT
 #  define OT_NO_GPS_SUPPORT
 #  define OT_NO_MAGICY_SUPPORT
-#  define OT_NO_SPEECH_SUPPORT
+//#  define OT_NO_SPEECH_SUPPORT              // DEPRECATED Mendez 20070606
 #  define OT_NO_ULTRATRACK_SUPPORT
 #  define OT_NO_NETWORK_SUPPORT
 #  define OT_NO_CONFIDENCE_SUPPORT

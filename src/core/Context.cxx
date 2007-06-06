@@ -481,7 +481,11 @@ namespace ot {
         _havedatamutex->release();
     }
 
+#ifdef WIN32
+    void Context::consumedWait(int usecs)
+#else
     void Context::consumedWait(suseconds_t usecs)
+#endif
     {
         _consumeddatamutex->acquire();
         ACE_Time_Value tv(0, usecs);

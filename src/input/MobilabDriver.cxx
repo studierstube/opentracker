@@ -109,7 +109,7 @@ namespace ot {
             logPrintI("MobilabDriver::open(%s)\n", device.c_str());
         }
 
-	int result;
+	int result=0;
 	// open the serial port the the mobilab device
 	receiver = new Mobilab_Handler( this );
 	Mobilab_Connector mobilabconnect( reactor );

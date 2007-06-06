@@ -61,7 +61,7 @@ class ACE_Thread_Manager;
 
 namespace ot {
 
-struct MulticastReceiver;
+class MulticastReceiver;
 
 typedef std::vector<MulticastReceiver *> ReceiverVector;
 
