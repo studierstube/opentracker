@@ -41,7 +41,7 @@
  *
  * @file                                                                   */
 /* ======================================================================= */
-
+#ifndef OT_NO_MOBILAB_SUPPORT
 #include <cstdlib>
 #include <OpenTracker/tool/FixWinCE.h>
 #include <OpenTracker/input/Mobilab_Handler.h>
@@ -124,7 +124,7 @@ namespace ot {
 
 } // namespace ot
 
-
+#endif //#ifndef OT_NO_MOBILAB_SUPPORT
 
 /* 
  * ------------------------------------------------------------

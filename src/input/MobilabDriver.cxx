@@ -41,7 +41,7 @@
  *
  * @file                                                                   */
 /* ======================================================================= */
-
+#ifndef OT_NO_MOBILAB_SUPPORT
 
 #include <cstdlib>
 
@@ -455,6 +455,7 @@ namespace ot {
 
 } // namespace ot
 
+#endif //OT_NO_MOBILAB_SUPPORT
 /* 
  * ------------------------------------------------------------
  *   End of MobilabDriver.cxx

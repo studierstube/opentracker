@@ -47,7 +47,7 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
 #include <ace/Log_Msg.h>
-
+#ifndef OT_NO_FOB_SUPPORT
 #include <OpenTracker/input/FOBSource.h>
 #include <OpenTracker/input/FOBModule.h>
 #include <OpenTracker/core/MathUtils.h>
@@ -58,7 +58,7 @@
 #include <iostream>
 
 
-#ifndef OT_NO_FOB_SUPPORT
+
 
 namespace ot {
 

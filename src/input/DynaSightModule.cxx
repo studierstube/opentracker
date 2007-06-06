@@ -42,6 +42,7 @@
 /* ======================================================================== */
 
 // this will remove the warning 4786
+#ifndef OT_NO_DYNASIGHT_SUPPORT
 #include <OpenTracker/tool/disable4786.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
@@ -67,7 +68,7 @@
 #endif
 
 
-#ifndef OT_NO_DYNASIGHT_SUPPORT
+
 
 
 namespace ot {

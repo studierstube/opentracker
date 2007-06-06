@@ -40,6 +40,9 @@
  * $Id$
  * @file                                                                   */
 /* ======================================================================= */
+
+#ifndef OT_NO_ARTDATATRACKER_SUPPORT
+
 #include <OpenTracker/OpenTracker.h>
 
 #include <OpenTracker/input/ARTDataTrackerSource.h>
@@ -66,6 +69,8 @@ namespace ot
         
     }
 };
+
+#endif // OT_NO_ARTDATATRACKER_SUPPORT
 /* 
  * ------------------------------------------------------------
  *   End of ARTDataTrackerSource.cxx

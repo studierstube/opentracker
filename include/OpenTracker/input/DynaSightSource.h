@@ -58,7 +58,7 @@
 #define _DYNASIGHTSOURCE_H
 
 #include "../OpenTracker.h"
-
+#ifndef OT_NO_DYNASIGHT_SUPPORT
 /**
  * This class implements a simple node that inserts new events from the DynaSightSource
  * into the tracker tree.
@@ -99,6 +99,8 @@ namespace ot {
     };
 
 } // namespace ot
+
+#endif // OT_NO_DYNASIGHT_SUPPORT
 
 #endif
 

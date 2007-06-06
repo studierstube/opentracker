@@ -50,7 +50,7 @@
 #include <ace/SOCK_Dgram.h>
 #include <ace/Time_Value.h>
 #include <ace/Log_Msg.h>
-
+#ifndef OT_NO_NETWORK_SUPPORT
 #include <OpenTracker/input/MulticastInputModule.h>
 #include <OpenTracker/input/MulticastInputSource.h>
 
@@ -59,7 +59,7 @@
 #include <iostream>
 
 
-#ifndef OT_NO_NETWORK_SUPPORT
+
 
 
 namespace ot {

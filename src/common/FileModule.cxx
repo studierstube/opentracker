@@ -45,6 +45,7 @@
 #include <OpenTracker/tool/disable4786.h>
 
 #include <cstdlib>
+#ifndef OT_NO_FILEMODULE_SUPPORT
 #include <OpenTracker/common/FileModule.h>
 #include <OpenTracker/common/FileSink.h>
 #include <OpenTracker/common/FileSource.h>
@@ -54,7 +55,7 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
 
-#ifndef OT_NO_FILEMODULE_SUPPORT
+
 
 
 namespace ot {

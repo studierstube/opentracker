@@ -57,11 +57,12 @@
 #define _ORIENTMODULE_H
 
 #include "../OpenTracker.h"
+#ifndef OT_NO_ORIENTATION_SUPPORT
 #include "OrientationSource.h"
 #include "../misc/serialcomm.h"
 
 
-#ifndef OT_NO_ORIENTATION_SUPPORT
+
 
 namespace ot {
 

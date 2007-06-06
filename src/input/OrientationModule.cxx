@@ -42,6 +42,7 @@
 /* ======================================================================= */
 
 // this will remove the warning 4786
+#ifndef OT_NO_ORIENTATION_SUPPORT
 #include <OpenTracker/tool/disable4786.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
@@ -72,7 +73,7 @@
 #define FALSE 0
 #endif
 
-#ifndef OT_NO_ORIENTATION_SUPPORT
+
 
 
 namespace ot {

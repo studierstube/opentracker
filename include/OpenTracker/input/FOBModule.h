@@ -89,14 +89,13 @@
 #define _FOBMODULE_H
 
 #include "../OpenTracker.h"
-
+#ifndef OT_NO_FOB_SUPPORT
 #include <OpenTracker/core/MathUtils.h>
 #include <OpenTracker/misc/serialcomm.h>
 
 #include <map>
 
 
-#ifndef OT_NO_FOB_SUPPORT
 
 
 namespace ot {
