@@ -98,12 +98,12 @@ env.Alias('xercesc-libs', xercesc_debug_libs+xercesc_release_libs)
 ############################################
 env.Append(CPPPATH=['include', join(prefix,'include')])
 env.Append(LIBPATH=[join(prefix,'lib')])
-env.Append(LIBS = ['xerces-c_2', 'ACE'])
-# Make copies of the current Environment
-dllenv = env.Copy()
-prgenv = env.Copy()
-dllenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
-dllenv.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS', 
+env.Append(LIBS = ['xerces-c', 'ACE'])
+#env.Append(LIBS = xercesc_release_libs + ace_libraries)
+env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
+                   'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32'
+                   , 'oleaut32', 'uuid','odbc32', 'odbccp32'])
+env.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS', 
                           'OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 
                           'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 
                           'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT',
@@ -121,9 +121,17 @@ dllenv.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS',
                           'OT_NO_CALLFORWARDMODULE_SUPPORT', 
                           'OT_BACKUP_ON_RECONFIG', 
                           'OT_NO_MOBILAB_SUPPORT'])
-dllenv.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
+env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
                           ,'__x86__','_CRT_SECURE_NO_DEPRECATE', '_WINDLL', 
                           '_MBCS'])
+
+# Make copies of the current Environment
+dllenv = env.Copy()
+prgenv = env.Copy()
+dllenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
+dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG', 
+                         '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
+                         '/MACHINE:X86', '/ERRORREPORT:PROMPT'])
 
 ############################################
 #            Get list of sources           #
@@ -138,6 +146,17 @@ misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx')]
 misc_files = [join('src', 'misc', file) for file in misc]
 extra_files = [join('extras','intersense','isense.c')]
 
+dllenv['PDB'] = join('lib','win32','opentracker.pdb')
 otlib = dllenv.SharedLibrary(join('lib', 'win32', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
 
-#otcon = prgenv.Program(join('
+print "otlib = ", [str(f) for f in otlib]
+dllenv.Install(join(prefix,'lib'), otlib)
+
+############################################
+#        Configure prgenv Environment      #
+############################################
+prgenv.Append(LIBS='opentracker')
+prgenv.Append(CCFLAGS=['/O2','/Ob1', '/GF', '/Gy', '/W3', '/FD', '/EHsc', '/MD', '/GR'])
+prgenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO',
+                         '/SUBSYSTEM:CONSOLE', '/MACHINE:X86'])
+otcon = prgenv.Program(join('bin', 'win32', 'opentracker'), join('src', 'standalones', 'main.cxx'))
