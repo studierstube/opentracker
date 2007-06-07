@@ -78,6 +78,13 @@ except KeyError:
     print "No ACEROOT has been specified"
 
 ace_headers = installHeaders(ace_root_dir, 'ace', prefix, 'ace-headers')
+# Hack to correct anomaly in header scanner 
+# See the following in Condition_Thread_Mutex.h: 
+#        include /**/ "ace/pre.h"
+env.Depends(join(prefix, 'include', 'ace', 'Condition_Thread_Mutex.h'), 
+            join(prefix, 'include', 'ace', 'pre.h'))
+env.Depends(join(prefix, 'include', 'ace', 'config-win32-common.h'), 
+            join(prefix, 'include', 'ace', 'post.h'))
 ace_libraries = installLibraries(join(ace_root_dir, 'lib'), prefix, 'ace-libs')
 
 ############################################
@@ -98,7 +105,7 @@ env.Alias('xercesc-libs', xercesc_debug_libs+xercesc_release_libs)
 ############################################
 env.Append(CPPPATH=['include', join(prefix,'include')])
 env.Append(LIBPATH=[join(prefix,'lib')])
-env.Append(LIBS = ['xerces-c', 'ACE'])
+env.Append(LIBS = ['xerces-c_2', 'ACE'])
 #env.Append(LIBS = xercesc_release_libs + ace_libraries)
 env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
                    'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32'
@@ -149,14 +156,29 @@ extra_files = [join('extras','intersense','isense.c')]
 dllenv['PDB'] = join('lib','win32','opentracker.pdb')
 otlib = dllenv.SharedLibrary(join('lib', 'win32', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
 
-print "otlib = ", [str(f) for f in otlib]
 dllenv.Install(join(prefix,'lib'), otlib)
 
 ############################################
-#        Configure prgenv Environment      #
+#           Build executables              #
 ############################################
 prgenv.Append(LIBS='opentracker')
 prgenv.Append(CCFLAGS=['/O2','/Ob1', '/GF', '/Gy', '/W3', '/FD', '/EHsc', '/MD', '/GR'])
 prgenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO',
                          '/SUBSYSTEM:CONSOLE', '/MACHINE:X86'])
 otcon = prgenv.Program(join('bin', 'win32', 'opentracker'), join('src', 'standalones', 'main.cxx'))
+
+################################################
+# Install binaries and additional dependencies #
+################################################
+dlls = ['ACE.dll', 'xerces-c_2_7.dll', 'opentracker.dll']
+otcon_install = env.Install(join(prefix, 'bin'), otcon)
+executables = env.Alias('executables', [otcon_install])
+prgenv.Depends(executables, [join(prefix, 'lib', _lib) for _lib in dlls])
+
+############################################
+# Install other files DTDs, XML files, etc #
+############################################
+
+ot_headers = installHeaders('include', 'OpenTracker', prefix, 'ot-headers')
+ot_share_files = env.InstallAs(join(prefix, 'share'), 'share')
+env.Alias('share-files', ot_share_files)
