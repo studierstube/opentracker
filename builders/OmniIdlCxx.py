@@ -6,7 +6,6 @@ import SCons.Environment
 import SCons.Builder
 import SCons.Scanner
 
-import _omniidl
 from omniidl.main import *
 
 def omniidl_emitter(target, source, env):
