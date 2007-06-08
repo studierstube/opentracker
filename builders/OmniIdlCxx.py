@@ -6,8 +6,6 @@ import SCons.Environment
 import SCons.Builder
 import SCons.Scanner
 
-from omniidl.main import *
-
 def omniidl_emitter(target, source, env):
     tlist, slist = [], source # source list is unchanged
     for src in source:
