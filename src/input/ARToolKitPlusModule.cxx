@@ -312,7 +312,7 @@ namespace ot {
                 maxMarkerId = id;
                 if(bestCFs)
                 {
-                    delete bestCFs;
+                    delete [] bestCFs;
                     bestCFs = NULL;
                 }
             }
@@ -364,7 +364,7 @@ namespace ot {
 
                 if(bestCFs)
                 {
-                    delete bestCFs;
+                    delete [] bestCFs;
                     bestCFs = NULL;
                 }
 
@@ -581,25 +581,25 @@ namespace ot {
     void
     ARToolKitPlusModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
     {
-	if(!initialized || maxMarkerId<0)
-            return;
+	    if(!initialized || maxMarkerId<0)
+                return;
 
 
         ARToolKitPlus::ARMarkerInfo * markerInfo;
         int markerNum;
         int j;
         ARFloat matrix[3][4];
-	PIXEL_FORMAT artkpImgFormat;
+        PIXEL_FORMAT artkpImgFormat;
 
-	if(!convertPixelFormat_ARToolKitPlus_to_OpenTracker(tracker->getPixelFormat(), artkpImgFormat))
+	    if(!convertPixelFormat_ARToolKitPlus_to_OpenTracker(tracker->getPixelFormat(), artkpImgFormat))
         {
             logPrintW("ARToolKitPlusModule::newVideoFrame: could not convert format\n");
             return;
         }
 
-	// did we get another pixel format than ARToolKitPlus currently expects?
-	if(imgFormat!=artkpImgFormat)
-	{
+	    // did we get another pixel format than ARToolKitPlus currently expects?
+	    if(imgFormat!=artkpImgFormat)
+	    {
             // ARToolKitPlus 2.1 and later can change pixel format at runtime!
             //
             ARToolKitPlus::PIXEL_FORMAT artkpFormat;
@@ -609,24 +609,24 @@ namespace ot {
                 return;
             }
             tracker->setPixelFormat(artkpFormat);
-	}
+	    }
 
 
-	// if the image size changed we have to reinitialize some ARToolKitPlus internal stuff...
-	// 
-	if(newSizeX!=sizeX || newSizeY!=sizeY)
-	{
+	    // if the image size changed we have to reinitialize some ARToolKitPlus internal stuff...
+	    // 
+	    if(newSizeX!=sizeX || newSizeY!=sizeY)
+	    {
             sizeX = newSizeX;
             sizeY = newSizeY;
             tracker->changeCameraSize(newSizeX, newSizeY);
-	}
+	    }
 
 
-	// reset all markers from last grab, then clear list
-	//
+	    // reset all markers from last grab, then clear list
+	    //
         for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
-	{
-	    ARToolKitSource *source = (ARToolKitSource *)((Node *)*it);
+	    {
+            ARToolKitSource *source = (ARToolKitSource *)((Node *)*it);
 
             Event & event = source->buffer;
             if (event.getConfidence() > 0.00000001f) 
@@ -635,89 +635,86 @@ namespace ot {
                 event.timeStamp();
                 source->modified = 1;
             }
-	}
-	visibleMarkers.clear();
+	    }
+	    visibleMarkers.clear();
 
-	// try to find markers in the camera image
-	//
-	if(useMarkerDetectLite)
-	{
+	    // try to find markers in the camera image
+	    //
+	    if(useMarkerDetectLite)
+	    {
             if(tracker->arDetectMarkerLite((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
             {
                 //logPrintW("ARToolKitPlusModule::newVideoFrame: no marker found (lite)\n");
                 return;
             }
-	}
-	else
-	{
+	    }
+	    else
+	    {
             if(tracker->arDetectMarker((ARToolKitPlus::ARUint8*)frameData, tracker->getThreshold(), &markerInfo, &markerNum ) < 0 )
             {
                 //logPrintW("ARToolKitPlusModule::newVideoFrame: no marker found\n");
                 return;
             }
-	}
+	    }
 
 
         if( markerNum < 1 )
-	{
+	    {
             return;
-	}
+	    }
 
-	// we use an array of best confidences to quickly find
-	// the best markers for each id. a simple check against all
-	// other visible markers would result in O(n²), now this method 
-	// results roughly in 4*O(n) which is better than O(n²) for large n.
-	//
-	if(!bestCFs)
-	{
-            bestCFs = new float[maxMarkerId+1];
+	    // we use an array of best confidences to quickly find
+	    // the best markers for each id. a simple check against all
+	    // other visible markers would result in O(n²), now this method 
+	    // results roughly in 4*O(n) which is better than O(n²) for large n.
+	    //
+	    if(!bestCFs)
+	    {
+            bestCFs = new float[maxMarkerId];
             for(j=0; j<maxMarkerId; j++)
                 bestCFs[j] = 0.0f;
-	}
+	    }
 
-
-	// store best confidences
-	//
-	for(j=0; j<markerNum; j++)
-	{
+	    // store best confidences
+	    //
+        int id=0;
+	    for(j=0; j<markerNum; j++)
+	    {
             //logPrintI("marker %d found (%f)\n", 
             //          markerInfo[j].id, markerInfo[j].cf);
 
-            int id = markerInfo[j].id;
-            if(id!=-1 && bestCFs[id]<markerInfo[j].cf)
+            id = markerInfo[j].id;
+            if(id==-1) continue;
+
+            if(bestCFs[id]<markerInfo[j].cf)
                 bestCFs[id] = markerInfo[j].cf;
-	}
+	    }
+        id=0;
 
+	    // stores all multi.marker sources that have already been processed
+	    // in order to prevent multiple calculation of the same source due to multiple markers
+	    NodeVector processedSources;
 
-	// stores all multi.marker sources that have already been processed
-	// in order to prevent multiple calculation of the same source due to multiple markers
-	NodeVector processedSources;
-
-
-	// walk through all markers in the image...
-	//
-
-	for(j=0; j<markerNum; j++)
-	{
-            int id = markerInfo[j].id;
-            Node* source = NULL;
-
-            if(id==-1)
-                continue;
+	    // walk through all markers in the image...
+	    //
+        for(j=0; j<markerNum; j++)
+	    {
+            id = markerInfo[j].id;
+            if(id==-1) continue;
 
             // only use a marker if it has the best confidence for its id
             //
-            if(markerInfo[j].cf<bestCFs[id])
-                continue;
+            if(markerInfo[j].cf<bestCFs[id]) continue;
 
             MarkerIdMap::iterator it = sourcesMap.find(id);
 
-            if(it==sourcesMap.end())
-                continue;
+            if(it==sourcesMap.end()) continue;
+
+            Node* source = NULL;
 
             source = it->second;
-            if(!source)
-                continue;
+            if(source==0) continue;
+
 
             // we found a "best" marker and its source.
             // everything is fine to process it...
@@ -728,56 +725,56 @@ namespace ot {
 
             if(source->getType()=="ARToolKitPlusSource")
             {
-	        ARToolKitSource *sourceA = (ARToolKitSource*)source;
+                ARToolKitSource *sourceA = (ARToolKitSource*)source;
                 ARFloat source_center[2], source_size;
-			
+
                 source_center[0] = (ARFloat)sourceA->center[0];
                 source_center[1] = (ARFloat)sourceA->center[1];
                 source_size = (ARFloat)sourceA->size;
 
                 //if(tracker->arGetTransMat(&markerInfo[j], source_center, source_size, matrix)>=0)
                 if(tracker->executeSingleMarkerPoseEstimator(&markerInfo[j], source_center, source_size, matrix)>=0)
-                                                                                                                        updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
+                    updateSingleMarkerSource(sourceA, markerInfo[j].cf, matrix);
             }
-            else
-		if(source->getType()=="ARToolKitPlusMultiMarkerSource")
-		{
-                    bool alreadyProcessed = false;
+            else if(source->getType()=="ARToolKitPlusMultiMarkerSource")
+            {
+                bool alreadyProcessed = false;
 
-                    for(NodeVector::iterator it=processedSources.begin(); it!=processedSources.end(); it++)
-                        if(*it==source)
-                        {
-                            alreadyProcessed = true;
-                            break;
-                        }
-
-                    if(!alreadyProcessed)
+                for(NodeVector::iterator it=processedSources.begin(); it!=processedSources.end(); it++)
+                {
+                    if(*it==source)
                     {
-                        ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
-                        ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
-
-                        //if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
-                        if((tracker->executeMultiMarkerPoseEstimator(markerInfo, markerNum, mmConfig))>=0)
-                                                                                                              updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
-
-                        processedSources.push_back(source);
+                        alreadyProcessed = true;
+                        break;
                     }
-		}
-	}
+                }
 
+                if(!alreadyProcessed)
+                {
+                    ARToolKitMultiMarkerSource *sourceM = (ARToolKitMultiMarkerSource*)source;
+                    ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = (ARToolKitPlus::ARMultiMarkerInfoT*)sourceM->mmConfig;
 
-	// reset array of best confidences
-	//
-	for(j=0; j<markerNum; j++)
-            bestCFs[markerInfo[j].id] = 0.0f;
+                    //if((tracker->arMultiGetTransMat(markerInfo, markerNum, mmConfig))>=0)
+                    if((tracker->executeMultiMarkerPoseEstimator(markerInfo, markerNum, mmConfig))>=0)
+                        updateMultiMarkerSource(sourceM, 1.0f, mmConfig->trans);
 
-        // after each camera frame we to an opentracker graph traversal
-        if (context)
-        {                    
-            context->dataSignal();
+                    processedSources.push_back(source);
+                }
+            }
+	    }
+        id=0;
+
+	    // reset array of best confidences
+	    //
+	    for(j=0; j<markerNum; j++)
+        {
+            id = markerInfo[j].id;
+            if(id==-1) continue;
+
+            bestCFs[id] = 0.0f;
         }
 
-	return;
+	    return;
     }
 
     // pushes events into the tracker tree.

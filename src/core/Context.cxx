@@ -639,9 +639,13 @@ namespace ot {
     }
 
 
-    void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format) {
+    void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format) 
+    {
         for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
             (*it)->newVideoFrame(image, width, height, format);
+
+        // after each camera frame we to an opentracker graph traversal
+        dataSignal();
     }
 
 
