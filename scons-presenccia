@@ -5,21 +5,52 @@
 
 import sys, os
 from glob import glob
-from os.path import join
+from os.path import join, basename
+################################################################################
+#     extend path to include SCons builders                                    #
+################################################################################
+sys.path.append('builders')
+
+################################################################################
+#     Build-specific classes                                                   #
+################################################################################
+class CORBAStubs:
+    def __init__(self, env, 
+		 cxx_install_directory=join('idl', 'skeletons'), 
+		 python_install_directory=join('lib','python')):
+	self.env = env
+	self.cxx_install_directory = cxx_install_directory
+	self.python_install_directory = python_install_directory
+	self.cxx, self.python, self.java = [], [], []
+
+    def addCxxStubs(self, idl_file):
+	self.cxx += env.OMNIIDLCXX(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.cxx_install_directory)
+
+    def addPythonStubs(self, idl_file):
+	self.python += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.python_install_directory)
+
+    def addJavaStubs(self, idl_file, pkgprefix=None):
+	if pkgprefix is None:
+	    self.java += env.IDLJ(idl_file)
+	else:
+	    self.java += env.IDLJ(idl_file, PKGPREFIX=pkgprefix)
+
+    def addStubsAndSkeletons(self, idl_file, pkgprefix=None):
+	self.addCxxStubs(idl_file)
+	#if env['ENABLE_OMNIORBPY']:
+	#    self.addPythonStubs(idl_file)
+	#if env['ENABLE_JAVA']:
+	#    self.addJavaStubs(idl_file, pkgprefix)
+	return {'cxx':self.cxx, 'python':self.python, 'java':self.java}
+
 ################################
 #       Helper Functions       #
 ################################
-def filterHeaders(files):
-    #ACE includes some .cpp files
-    #Xerces incldes some .c files
+def filterFiles(files, suffixes):
     for file in files:
-        if str(file).endswith('.h') or \
-                str(file).endswith('.hh') or \
-                str(file).endswith('.hpp') or \
-                str(file).endswith('.inl') or \
-                str(file).endswith('.cpp') or \
-                str(file).endswith('.c'):
-            yield file
+        for suffix in suffixes:
+            if str(file).endswith(suffix):
+                yield file
 
 def filterStaticLibraries(files):
     for file in files:
@@ -38,17 +69,25 @@ def findRelativePath(root, target):
         return relative_path[1:] # omit first separator
     return relative_path
 
-def installHeaders(root_dir, include_dir, _prefix, _alias):
+def installRelativeToDirectory(env, root_dir, include_dir, _prefix, _alias, _suffixes):
     _headers = []
     for dirpath, dirnames, filenames in os.walk(join(root_dir, include_dir)):
         relative_path = findRelativePath(root_dir, dirpath)
-        headers = [join(dirpath, header) for header in filterHeaders(filenames)]
-        target_dir = join(_prefix, 'include', relative_path)
+        headers = [join(dirpath, header) for header in filterFiles(filenames, _suffixes)]
+        target_dir = join(_prefix, relative_path)
         _headers += env.Install(target_dir, headers)
     env.Alias(_alias, _headers)
     return _headers
 
-def installLibraries(lib_dir, _prefix, _alias):
+def installFiles(env, include_dir, _prefix, _alias, _suffixes):
+    _headers = []
+    for dirpath, dirnames, filenames in os.walk(join(include_dir)):
+        headers = [join(dirpath, header) for header in filterFiles(filenames, _suffixes)]
+        _headers += env.Install(_prefix, headers)
+    env.Alias(_alias, _headers)
+    return _headers
+    
+def installLibraries(env, lib_dir, _prefix, _alias):
     _libs = []
     for dirpath, dirnames, filenames in os.walk(join(lib_dir)):
         #relative_path = findRelativePath(root_dir, dirpath)
@@ -59,8 +98,13 @@ def installLibraries(lib_dir, _prefix, _alias):
     env.Alias(_alias, _libs)
     return _libs
 
+########################
+# Set up build options #
+########################
 opts = Options('custom.py')
 opts.Add(BoolOption('DEBUG', 'Set to build for debug', 0))
+opts.Add(BoolOption('ENABLE_CORBA', 'Set to enable support for CORBA', 0))
+opts.Add(BoolOption('ENABLE_NETWORKING', 'Set to enable support for ACE networking', 0))
 
 env = Environment (ENV = os.environ, options=opts)
 # This is the project directory to install everything in
@@ -77,7 +121,7 @@ try:
 except KeyError:
     print "No ACEROOT has been specified"
 
-ace_headers = installHeaders(ace_root_dir, 'ace', prefix, 'ace-headers')
+ace_headers = installRelativeToDirectory(env, ace_root_dir, 'ace', join(prefix, 'include'), 'ace-headers', ['.h','.inl','.cpp'])
 # Hack to correct anomaly in header scanner 
 # See the following in Condition_Thread_Mutex.h: 
 #        include /**/ "ace/pre.h"
@@ -85,7 +129,7 @@ env.Depends(join(prefix, 'include', 'ace', 'Condition_Thread_Mutex.h'),
             join(prefix, 'include', 'ace', 'pre.h'))
 env.Depends(join(prefix, 'include', 'ace', 'config-win32-common.h'), 
             join(prefix, 'include', 'ace', 'post.h'))
-ace_libraries = installLibraries(join(ace_root_dir, 'lib'), prefix, 'ace-libs')
+ace_libraries = installLibraries(env, join(ace_root_dir, 'lib'), prefix, 'ace-libs')
 
 ############################################
 # Install the Xerces headers and libraries #
@@ -95,9 +139,9 @@ try:
 except KeyError:
     print "No XERCESCROOT has been specified"
 
-xercesc_headers = installHeaders(join(xercesc_root_dir, 'src'), 'xercesc', prefix, 'xercesc-headers')
-xercesc_debug_libs    = installLibraries(join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Debug'), prefix, 'xercesc-debug-libs')
-xercesc_release_libs = installLibraries(join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Release'), prefix, 'xercesc-release-libs')
+xercesc_headers = installRelativeToDirectory(env, join(xercesc_root_dir, 'src'), 'xercesc', join(prefix, 'include'), 'xercesc-headers', ['.hpp', '.c'])
+xercesc_debug_libs    = installLibraries(env, join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Debug'), prefix, 'xercesc-debug-libs')
+xercesc_release_libs = installLibraries(env, join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Release'), prefix, 'xercesc-release-libs')
 env.Alias('xercesc-libs', xercesc_debug_libs+xercesc_release_libs)
 
 ############################################
@@ -131,15 +175,6 @@ env.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS',
 env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
                           ,'__x86__','_CRT_SECURE_NO_DEPRECATE', '_WINDLL', 
                           '_MBCS'])
-
-# Make copies of the current Environment
-dllenv = env.Copy()
-prgenv = env.Copy()
-dllenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
-dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG', 
-                         '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
-                         '/MACHINE:X86', '/ERRORREPORT:PROMPT'])
-
 ############################################
 #            Get list of sources           #
 ############################################
@@ -153,7 +188,70 @@ misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx')]
 misc_files = [join('src', 'misc', file) for file in misc]
 extra_files = [join('extras','intersense','isense.c')]
 
+#**************************************#
+# Enable or disable networking support #
+#**************************************#
+if env['ENABLE_NETWORKING']:
+    print "*************** ACE-based networking enabled ***************"
+    extra_files += [join('src','network',_file) for _file in ['NetworkSourceModule.cxx', 'NetworkSinkModule.cxx']]
+    env['CPPDEFINES'].remove('OT_NO_NETWORK_SUPPORT')
+
+
+#*********************************#
+# Enable or disable CORBA support #
+#*********************************#
+if env['ENABLE_CORBA']:
+    print "*************** CORBA is enabled ***************"
+    try:
+        omniorb_root_dir = os.environ['OMNIORBROOT']
+    except KeyError:
+        print "No OMNIORBROOT has been specified"
+        sys.exit(-1)
+    # Install the omniORB headers and libraries #
+    #omniorb_headers = installFiles(env, join(omniorb_root_dir, 'include'), join(prefix, 'include'), 'omniorb-headers', ['.h', '.hh'])
+    omniorb_headers = installRelativeToDirectory(env, omniorb_root_dir, 'include', prefix, 'omniorb-headers', ['.hh', 'h'])
+
+    for header in omniorb_headers:
+        print str(header)
+    env.Alias('omniorb-headers', omniorb_headers)
+
+    # CORBAStubs instance will manage the various stubs and skeletons
+    stub_generator = CORBAStubs(env)
+    # configure environment to the various idl files that need to be compiled to CORBA stubs and skeletons
+    import OmniIdlCxx
+    OmniIdlCxx.generate(env)
+    env.Append(CPPDEFINES='USE_CORBA')
+    env.Append(CPPDEFINES=['__x86__', '__NT__', '__OSVERSION__=4', '__WIN32__'])
+    
+    env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
+    env.Append(CPPPATH=['idl', join('idl', 'COS')])
+    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl', 'UTS.idl']]:
+	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
+
+    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
+    extra_files += [cxx_file for cxx_file in filterFiles(stub_generator.cxx, ['.cc'])]
+    # Explicitly define dependency between stubs and omniidl
+#    env.Depends(stub_generator.cxx, omniidl)
+    skeletons = []
+    for header in filterFiles(stub_generator.cxx, ['.hh']):
+        skeletons += env.Install(join(prefix,'include','OpenTracker','skeletons'), header)
+
+############################################
+#         Set up environments              #
+############################################
+# Make copies of the current Environment
+dllenv = env.Copy()
+prgenv = env.Copy()
+dllenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
+dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG', 
+                         '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
+                         '/MACHINE:X86', '/ERRORREPORT:PROMPT'])
+
 dllenv['PDB'] = join('lib','win32','opentracker.pdb')
+
+############################################
+#        Build OpenTracker DLL             #
+############################################
 otlib = dllenv.SharedLibrary(join('lib', 'win32', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
 
 dllenv.Install(join(prefix,'lib'), otlib)
@@ -179,6 +277,7 @@ prgenv.Depends(executables, [join(prefix, 'lib', _lib) for _lib in dlls])
 # Install other files DTDs, XML files, etc #
 ############################################
 
-ot_headers = installHeaders('include', 'OpenTracker', prefix, 'ot-headers')
+ot_headers = installRelativeToDirectory(env, 'include', 'OpenTracker', join(prefix, 'include'), 'ot-headers', ['.h'])
 ot_share_files = env.InstallAs(join(prefix, 'share'), 'share')
 env.Alias('share-files', ot_share_files)
+env.Alias('install', executables + ot_headers + ot_share_files)
