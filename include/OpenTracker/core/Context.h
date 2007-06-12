@@ -161,9 +161,9 @@ namespace ot {
         void dataUnlock();
 
 #ifdef WIN32
-        void consumedWait(int usecs = 100000); // wait for 100 msec
+        void consumedWait(int usecs = 0); // wait forever
 #else
-        void consumedWait(suseconds_t usecs = 100000); // wait for 100 msec
+        void consumedWait(suseconds_t usecs = 0); // wait forever
 #endif
 
         void consumedSignal(); 
