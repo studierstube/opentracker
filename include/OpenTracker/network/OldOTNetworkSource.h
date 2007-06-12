@@ -61,6 +61,8 @@
 
 #include "../OpenTracker.h"
 
+#ifdef OT_OLD_NETWORK_SUPPORT
+
 namespace ot {
 
 /**
@@ -99,4 +101,5 @@ public:
 
 } // namespace ot
 
+#endif
 #endif

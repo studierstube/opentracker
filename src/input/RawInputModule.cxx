@@ -47,8 +47,6 @@
 #ifdef WIN32
 
 #include <OpenTracker/input/RawInputSource.h>
-#define ACE_HAS_WINSOCK2 0
-#include <ace/Log_Msg.h>
 
 #ifndef HID_USAGE_PAGE_GENERIC
 #define HID_USAGE_PAGE_GENERIC (0x00000002)
@@ -60,7 +58,7 @@
 namespace ot {
 
     OT_MODULE_REGISTER_FUNC(RawInputModule){
-        OT_MODULE_REGISTRATION_DEFAULT(RawInputModule, "RawInputModule");
+        OT_MODULE_REGISTRATION_DEFAULT(RawInputModule, "RawInputConfig");
     }	
 
     RawInputModule::RawInputModule(): ThreadModule(),NodeFactory(),pSources(),numDevices(0),deviceNames(0),rawInputDeviceList(0)
@@ -90,7 +88,6 @@ namespace ot {
                                 pSources.push_back(pSource);
 
                                 logPrintI("Build RawInputSource node\n");
-                                initialized = 1;
                                 return pSource;
                             }
                         else
@@ -128,13 +125,14 @@ namespace ot {
 
     void RawInputModule::init(StringTable &attributes,ConfigNode* pLocalTree)
     {
-        GetRawInputDeviceList(NULL,&numDevices,sizeof(RAWINPUTDEVICELIST));
+		Module::init(attributes,pLocalTree);
+		GetRawInputDeviceList(NULL,&numDevices,sizeof(RAWINPUTDEVICELIST));
         rawInputDeviceList = new RAWINPUTDEVICELIST[numDevices];
         if (rawInputDeviceList)
             {
                 GetRawInputDeviceList(rawInputDeviceList,&numDevices,sizeof(RAWINPUTDEVICELIST));
                 deviceNames = new char*[numDevices];
-                ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Known raw input device names:\n")));
+                logPrintI("Known raw input device names:\n");
                 if (deviceNames)
                     {
                         for (UINT device = 0;device < numDevices;device ++)
@@ -145,7 +143,7 @@ namespace ot {
                                 if (deviceNames[device])
                                     {
                                         GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,deviceNames[device],&deviceNameSize);
-                                        ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot: %s\n"),deviceNames[device]));
+                                        logPrintI("%s\n",deviceNames[device]);
                                     }
                             }
                         /*for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
@@ -191,7 +189,7 @@ namespace ot {
                                                 HHOOK hLowLevelMouseHook = SetWindowsHookEx(WH_MOUSE_LL,LowLevelMouseHook,GetModuleHandle(NULL),0);
                                                 if (hLowLevelMouseHook)
                                                     {
-                                                        ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Windows mouse button input %s. Press [F12] to toggle.\n"),(filterButtons ? "disabled": "enabled")));
+                                                        logPrintI("Windows mouse button input %s. Press [F12] to toggle.\n",filterButtons ? "disabled": "enabled");
                                                         MSG msg;
                                                         BOOL result;
                                                         for(;;)
@@ -229,7 +227,7 @@ namespace ot {
                 if (wParam == WM_KEYDOWN)
                     {
                         filterButtons = ! filterButtons;
-                        ACE_DEBUG((LM_DEBUG,ACE_TEXT("ot:Windows mouse button input %s.\n"),(filterButtons ? "disabled": "enabled")));
+                        logPrintI("Windows mouse button input %s.\n",filterButtons ? "disabled": "enabled");
                     }
                 return 1;
             }

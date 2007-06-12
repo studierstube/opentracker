@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for class TimestampGeneratorNode.
+/** header file for class PythonModule.
  *
  * @author Mathis Csisinko
  *
@@ -42,83 +42,86 @@
 /* ======================================================================= */
 
 /**
- * @page Nodes Node Reference
- * @section timestampgenerator TimestampGenerator
- * The TimestampGenerator either acts as a simple event source generating a
- * dummy timestamp event or takes events generated from a child and repeats
- * them every time after a given timeout value. This is very handy in various
- * time dependend operations, e.g. you want to perform some actions at
- * instants, when no input events are generated. It has the following
- * attributes :
- * @li @c timeout timeout after which the last event is regenerated
+ * @page module_ref Module Reference
+ * @section pythonmodule PythonModule
+ * PythonModule drives @ref python nodes featuring scripting capabilities.
+ * It loads and executes a Python module containing class definitions used
+ * in conjunction with @ref python nodes.
+ * The @c PythonConfig configuration element has the following attribute :
+ * @li @c module a string identifying the Python code module to load.
+ * An example configuration element looks like this :
  *
- * An example element looks like this :
  * @verbatim
- <TimestampGenerator timeout="1000">
- <Any EventGenerator element type>
- </TimestampGenerator>@endverbatim
-*/
+ <PythonConfig module="otpy"/>@endverbatim
+ *
+ * @note For the Python interpreter it is necessary that the environment
+ * variable @c PYTHONPATH points to the locations of all needed modules
+ * including the actual Python code module as well as the modules @c ot and
+ * @c _ot.
+ */
 
-#ifndef _TIMESTAMPGENERATORNODE_H
-#define _TIMESTAMPGENERATORNODE_H
+#ifndef _PYTHONMODULE_H
+#define _PYTHONMODULE_H
 
 #include "../OpenTracker.h"
 
+#ifdef USE_PYTHON
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+namespace py {
+	#include <Python.h>
+}
 
 namespace ot {
 
 	/**
-	 * TimestampGeneratorNode resubmits generated or artificially creates
-	 * events periodically after a configurable timeout value.
+	 * PythonModule is the factory for PythonNode nodes.
 	 * 
 	 * @ingroup common
 	 */
 
-    class OPENTRACKER_API TimestampGeneratorNode: public Node
+    class OPENTRACKER_API PythonModule: public Module,public NodeFactory
     {
-        friend class TimestampGeneratorModule;
+        // methods
+    public:
+        /// constructor method
+        PythonModule();
 
-        // Members
+        /// destructor method
+        virtual ~PythonModule();
+
+        /** This method is called to construct a new Node. It compares
+         * name to the Python element name, and if it matches creates a
+		 * new PythonNode node.
+         * @param name reference to string containing element name
+         * @attributes refenrence to StringMap containing attribute values
+         * @return pointer to new Node or NULL.
+         */
+        virtual Node* createNode(const std::string &name,StringTable &attributes);
+
+        /**
+         * closes the module.
+         */
+        //virtual void close();
+
+        /**
+         * initializes the PythonModule. 
+         * @param attributes StringMap of elements attribute values.
+         * @param pLocalTree pointer to root of configuration nodes tree
+         */
+        virtual void init(StringTable &attributes,ConfigNode* pLocalTree);
+
+        // members
     protected:
-        /// timeout between two events
-        double timeOut;
-
-        /// last event
-		Event event;
-
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values
-         * @param timeOut timeout between two events */
-        TimestampGeneratorNode(double timeOut): Node(),timeOut(timeOut)
-        {}
-
-        bool calcEvent();
-
-		Event & getEvent() { return event; }
-	public:    
-        /** tests for EventGenerator interface being present. Overriden in this
-         * node to return this.
-         * @return always this */
-        virtual int isEventGenerator()
-		{
-            return 1;
-		}
-        /** this method is called by the EventGenerator to update it's observers
-         * @param event new event
-         * @param generator the calling EventGenerator */
-        virtual void onEventGenerated(Event &event,Node &generator);
-	
-	void pushEvent();
-	void pullEvent();
+		py::PyObject* pPyOtModule;
+		py::PyObject* pPyModule;
 	};
+
+	OT_MODULE(PythonModule);
 
 } // namespace ot
 
 
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+#endif //USE_PYTHON
 
 
 #endif

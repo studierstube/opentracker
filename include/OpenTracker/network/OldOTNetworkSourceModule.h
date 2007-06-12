@@ -59,6 +59,8 @@
 
 class ACE_Thread_Manager;
 
+#ifdef OT_OLD_NETWORK_SUPPORT
+
 namespace ot {
 
 class MulticastReceiver;
@@ -131,4 +133,5 @@ OT_MODULE(OldOTNetworkSourceModule);
 
 }  // namespace ot
 
+#endif
 #endif

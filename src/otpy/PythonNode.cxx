@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for TimestampGeneratorModule module.
+/** source file for class PythonNode.
  *
  * @author Mathis Csisinko
  *
@@ -41,58 +41,79 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page module_ref Module Reference
- * @section timestampgeneratormodule TimestampGeneratorModule
- * TimestampGeneratorModule drives @ref timestampgenerator nodes, which are
- * able to regenerate events periodically after a configurable timeout to
- * perform time-driven operations even with push-driven event generator
- * nodes. It doesn't have a configuration element but reserves the @c
- * TimestampGeneratorConfig for it.
- */
+#include <OpenTracker/otpy/PythonNode.h>
 
-#ifndef _TIMESTAMPGENERATORMODULE_H
-#define _TIMESTAMPGENERATORMODULE_H
+#ifdef USE_PYTHON
 
-#include <OpenTracker/OpenTracker.h>
+namespace py
+{
+#include "../otpy/ot_wrap.h"
+}
 
+#define STRINGIFY(identifier) #identifier
+#define SWIG_TYPE(type) STRINGIFY(type)
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+using namespace py;
 
 namespace ot {
 
-    typedef std::vector<Node::Ptr> NodeVector;
-
-	/**
-	 * TimestampGeneratorModule is the factory for TimestampGeneratorNode nodes.
-	 * 
-	 * @ingroup common
-	 */
-
-    class OPENTRACKER_API TimestampGeneratorModule: public Module,public NodeFactory
+	PythonNode::PythonNode(py::PyObject* pPyClassObject): Node(),pPyObject(0),pPyOnEventGeneratedObject(0),pPyPushEventObject(0)
     {
-        // Methods
-    public:
-        /** constructor method. */
-        TimestampGeneratorModule(): Module(),NodeFactory()
-        {}
-        /** This method is called to construct a new Node. It compares
-         * name to the TimestampGenerator element name, and if it matches
-         * creates a new TimestampGeneratorNode node.
-         * @param name reference to string containing element name
-         * @attributes refenrence to StringMap containing attribute values
-         * @return pointer to new Node or NULL. The new Node must be
-         *         allocated with new ! */
-        virtual Node* createNode(const std::string& name,StringTable& attributes);
-    };
-              
-	OT_MODULE(TimestampGeneratorModule);
+		if (pPyClassObject && PyCallable_Check(pPyClassObject))
+		{
+			PyObject* pPyTuple = Py_BuildValue("(O)",SWIG_NewPointerObj(this,SWIG_TypeQuery(SWIG_TYPE(ot::PythonNode*)),0));
+			pPyObject = PyObject_CallObject(pPyClassObject,pPyTuple);
+			Py_XDECREF(pPyTuple);
+			if (PyErr_Occurred())
+			{
+				PyErr_Print();
+				PyErr_Clear();
+			}
+			if (pPyObject && PyObject_IsInstance(pPyObject,pPyClassObject))
+			{
+				pPyOnEventGeneratedObject = PyObject_GetAttrString(pPyObject,STRINGIFY(onEventGenerated));
+				pPyPushEventObject = PyObject_GetAttrString(pPyObject,STRINGIFY(pushEvent));
+				PyErr_Clear();
+			}
+		}
+	}
 
+	PythonNode::~PythonNode()
+    {
+		Py_XDECREF(pPyObject);
+		Py_XDECREF(pPyOnEventGeneratedObject);
+		Py_XDECREF(pPyPushEventObject);
+	}
+
+    void PythonNode::onEventGenerated(Event &event,Node &generator)
+	{
+		if (pPyOnEventGeneratedObject && PyCallable_Check(pPyOnEventGeneratedObject))
+		{
+			PyObject* pPyTuple = Py_BuildValue("(OO)",SWIG_NewPointerObj(&event,SWIG_TypeQuery(SWIG_TYPE(ot::Event*)),0),SWIG_NewPointerObj(&generator,SWIG_TypeQuery(SWIG_TYPE(ot::Node*)),0));
+			Py_XDECREF(PyObject_CallObject(pPyOnEventGeneratedObject,pPyTuple));
+			Py_XDECREF(pPyTuple);
+			if (PyErr_Occurred())
+			{
+				PyErr_Print();
+				PyErr_Clear();
+			}
+		}
+	}
+
+    void PythonNode::pushEvent()
+	{
+		if (pPyPushEventObject && PyCallable_Check(pPyPushEventObject))
+		{
+			Py_XDECREF(PyObject_CallObject(pPyPushEventObject,NULL));
+			if (PyErr_Occurred())
+			{
+				PyErr_Print();
+				PyErr_Clear();
+			}
+		}
+	}
 } // namespace ot
 
-
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
-
-
-#endif
-
+#else
+#pragma message(">>> no Python support")
+#endif //USE_PYTHON

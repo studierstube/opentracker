@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for class TimestampGeneratorNode.
+/** header file for class PythonNode.
  *
  * @author Mathis Csisinko
  *
@@ -43,61 +43,62 @@
 
 /**
  * @page Nodes Node Reference
- * @section timestampgenerator TimestampGenerator
- * The TimestampGenerator either acts as a simple event source generating a
- * dummy timestamp event or takes events generated from a child and repeats
- * them every time after a given timeout value. This is very handy in various
- * time dependend operations, e.g. you want to perform some actions at
- * instants, when no input events are generated. It has the following
- * attributes :
- * @li @c timeout timeout after which the last event is regenerated
+ * @section python Python
+ * PythonNode is the interface to Python. In order to script a custom Python
+ * node a Python class has to be derived from @c PythonNode. This class resides
+ * in a module which has to be configured properly by @ref pythonmodule.
+ * Apart from the instantiation method (@c __init__), @c pushEvent and
+ * @c onEventGenerated are relevant in this context. On presence of
+ * @c onEventGenerated, this method is called every time an event is generated
+ * from any child. If there's a @c pushEvent method, it is executed in each
+ * pass of the main loop.
+ * The PythonNode element has the following attributes :
+ * @li @c class name of the associated Python class
  *
  * An example element looks like this :
  * @verbatim
- <TimestampGenerator timeout="1000">
+ <Python class="Python">
  <Any EventGenerator element type>
- </TimestampGenerator>@endverbatim
+ </Python>@endverbatim
 */
 
-#ifndef _TIMESTAMPGENERATORNODE_H
-#define _TIMESTAMPGENERATORNODE_H
+#ifndef _PYTHONNODE_H
+#define _PYTHONNODE_H
 
 #include "../OpenTracker.h"
 
+#ifdef USE_PYTHON
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+namespace py {
+	#include <Python.h>
+}
 
 namespace ot {
 
 	/**
-	 * TimestampGeneratorNode resubmits generated or artificially creates
-	 * events periodically after a configurable timeout value.
+	 * With PythonNode, custom node functionality can be expressed in the
+	 * Python language.
 	 * 
 	 * @ingroup common
 	 */
 
-    class OPENTRACKER_API TimestampGeneratorNode: public Node
+    class OPENTRACKER_API PythonNode: public Node
     {
-        friend class TimestampGeneratorModule;
+        friend class PythonModule;
 
         // Members
     protected:
-        /// timeout between two events
-        double timeOut;
-
-        /// last event
-		Event event;
+		py::PyObject* pPyObject;
+		py::PyObject* pPyOnEventGeneratedObject;
+		py::PyObject* pPyPushEventObject;
 
         // Methods
     protected:
         /** simple constructor, sets members to initial values
-         * @param timeOut timeout between two events */
-        TimestampGeneratorNode(double timeOut): Node(),timeOut(timeOut)
-        {}
+         * @param pPyObject associated Python class object */
+        PythonNode(py::PyObject* pPyObject);
 
-        bool calcEvent();
-
-		Event & getEvent() { return event; }
+		virtual ~PythonNode();
 	public:    
         /** tests for EventGenerator interface being present. Overriden in this
          * node to return this.
@@ -110,15 +111,17 @@ namespace ot {
          * @param event new event
          * @param generator the calling EventGenerator */
         virtual void onEventGenerated(Event &event,Node &generator);
-	
-	void pushEvent();
-	void pullEvent();
+
+        /**
+         * pushes events into the tracker tree.
+         */
+		virtual void pushEvent();
 	};
 
 } // namespace ot
 
 
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
+#endif //USE_PYTHON
 
 
 #endif

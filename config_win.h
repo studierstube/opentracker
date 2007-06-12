@@ -111,6 +111,10 @@
  * @li @b USE_RAWINPUT
  *      \n enables raw input support and the @ref rawinputsource node and @ref
  *      rawinputmodule. This works only on Windows XP.
+ * @li @b USE_PYTHON
+ *      \n enables Python support and the @ref python node and @ref pythonmodule. Set the
+ *      environment variable @c PYTHONROOT to the Python directory to configure the build
+ *      system.
  */
 
 /** uncomment the following line to compile support for the ARToolKit library */
@@ -212,6 +216,9 @@
 /** uncomment the following line to compile support for old (1.1) Opentracker nodes */
 //#define OT_OLD_NETWORK_SUPPORT 1
 
+/** uncomment the following line to compile support for Python.
+ */
+//#define USE_PYTHON 1
 
 #ifdef _WIN32_WCE
 #  define OT_NO_BUTTON_SUPPORT

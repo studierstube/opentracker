@@ -61,6 +61,8 @@
 
 //using namespace std;
 
+#ifdef OT_OLD_NETWORK_SUPPORT
+
 namespace ot {
 
 OT_MODULE_REGISTER_FUNC(OldOTNetworkSourceModule){
@@ -357,3 +359,9 @@ void OldOTNetworkSourceModule::pushEvent()
 }          
 
 } // namespace ot
+
+#else
+#ifdef WIN32
+#pragma message(">>> no old network support")
+#endif
+#endif

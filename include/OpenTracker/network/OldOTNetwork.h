@@ -51,6 +51,8 @@
  * basic. It is expected to grow in the future to be more versatile.
  */
 
+#ifdef OT_OLD_NETWORK_SUPPORT
+
 /** the data structure for a record of the Flexible Network Protocol used by
  * the Studierstube. 
  * @ingroup network
@@ -77,4 +79,5 @@ typedef struct
                                 // position and orientation according to format
 } OldFlexibleTrackerDataRecord;
 
+#endif
 #endif

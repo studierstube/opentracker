@@ -49,12 +49,10 @@
 #include <OpenTracker/common/TimestampGeneratorNode.h>
 
 
-#include <ace/Log_Msg.h>
-
 namespace ot {
 	
     OT_MODULE_REGISTER_FUNC(TimestampGeneratorModule){
-        OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorModule");
+        OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorConfig");
     }	
 
     Node* TimestampGeneratorModule::createNode(const std::string &name,StringTable &attributes)
@@ -64,20 +62,11 @@ namespace ot {
             int timeOut = 1000;
             attributes.get("timeout",&timeOut);
             TimestampGeneratorNode* pNode = new TimestampGeneratorNode(timeOut);
-            pNodes.push_back(pNode);
 
             logPrintI("Build TimestampGenerator node\n");
-            initialized = 1;
             return pNode;
         }
         return NULL;
-    }
-
-    // pushes events into the tracker tree.
-
-    void TimestampGeneratorModule::pushEvent()
-    {
-        // nothing to do
     }
 
 } //namespace ot

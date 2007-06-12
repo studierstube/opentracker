@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for TimestampGeneratorModule module.
+/** source file for class PythonModule.
  *
  * @author Mathis Csisinko
  *
@@ -41,58 +41,90 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page module_ref Module Reference
- * @section timestampgeneratormodule TimestampGeneratorModule
- * TimestampGeneratorModule drives @ref timestampgenerator nodes, which are
- * able to regenerate events periodically after a configurable timeout to
- * perform time-driven operations even with push-driven event generator
- * nodes. It doesn't have a configuration element but reserves the @c
- * TimestampGeneratorConfig for it.
- */
+#include <OpenTracker/otpy/PythonModule.h>
 
-#ifndef _TIMESTAMPGENERATORMODULE_H
-#define _TIMESTAMPGENERATORMODULE_H
+#ifdef USE_PYTHON
 
-#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/otpy/PythonNode.h>
 
+#define STRINGIFY(identifier) #identifier
 
-#ifndef OT_NO_TIMESTAMPGENERATOR_SUPPORT
+using namespace py;
 
 namespace ot {
 
-    typedef std::vector<Node::Ptr> NodeVector;
+    OT_MODULE_REGISTER_FUNC(PythonModule){
+        OT_MODULE_REGISTRATION_DEFAULT(PythonModule,"PythonConfig");
+    }	
 
-	/**
-	 * TimestampGeneratorModule is the factory for TimestampGeneratorNode nodes.
-	 * 
-	 * @ingroup common
-	 */
+	PythonModule::PythonModule(): Module(),NodeFactory(),pPyModule(0),pPyOtModule(0)
+	{
+		Py_Initialize();
+	}
 
-    class OPENTRACKER_API TimestampGeneratorModule: public Module,public NodeFactory
+	PythonModule::~PythonModule()
+	{
+		if (Py_IsInitialized())
+		{
+			Py_XDECREF(pPyOtModule);
+			Py_XDECREF(pPyModule);
+			Py_Finalize();
+		}
+	}
+
+    Node* PythonModule::createNode(const std::string &name,StringTable &attributes)
     {
-        // Methods
-    public:
-        /** constructor method. */
-        TimestampGeneratorModule(): Module(),NodeFactory()
-        {}
-        /** This method is called to construct a new Node. It compares
-         * name to the TimestampGenerator element name, and if it matches
-         * creates a new TimestampGeneratorNode node.
-         * @param name reference to string containing element name
-         * @attributes refenrence to StringMap containing attribute values
-         * @return pointer to new Node or NULL. The new Node must be
-         *         allocated with new ! */
-        virtual Node* createNode(const std::string& name,StringTable& attributes);
-    };
-              
-	OT_MODULE(TimestampGeneratorModule);
+        if (name.compare("Python") == 0 && pPyOtModule && pPyModule)
+		{
+			PyObject* pPyModuleDict = PyModule_GetDict(pPyOtModule);
+			if (pPyModuleDict)
+			{
+				PyObject* pPyBaseClassObject = PyDict_GetItemString(pPyModuleDict,STRINGIFY(PythonNode));
+				pPyModuleDict = PyModule_GetDict(pPyModule);
+				if (pPyModuleDict)
+				{
+					PyObject* pPyClassObject = PyDict_GetItemString(pPyModuleDict,attributes.get("class").c_str());
+					if (pPyClassObject && PyCallable_Check(pPyClassObject) && PyObject_IsSubclass(pPyClassObject,pPyBaseClassObject))
+					{
+						PythonNode* pNode = new PythonNode(pPyClassObject);
+
+						logPrintI("Built Python node\n");
+						return pNode;
+					}
+					else
+						logPrintI("Python class %s is not a valid class derived from PythonNode.\n",attributes.get("class").c_str());
+				}
+			}
+		}
+		return NULL;
+	}
+
+    void PythonModule::init(StringTable &attributes,ConfigNode* pLocalTree)
+	{
+		Module::init(attributes,pLocalTree);
+		if (Py_IsInitialized())
+		{
+			pPyOtModule = PyImport_ImportModule("ot");
+			if (PyErr_Occurred())
+			{
+				PyErr_Print();
+				PyErr_Clear();
+			}
+			if (pPyOtModule)
+			{
+				pPyModule = PyImport_ImportModule(attributes.get("module").c_str());
+				if (PyErr_Occurred())
+				{
+					PyErr_Print();
+					PyErr_Clear();
+				}
+			}
+		}
+	}
+
 
 } // namespace ot
 
-
-#endif //OT_NO_TIMESTAMPGENERATOR_SUPPORT
-
-
-#endif
-
+#else
+#pragma message(">>> no Python support")
+#endif //USE_PYTHON

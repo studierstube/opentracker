@@ -129,6 +129,7 @@
 #include <OpenTracker/network/PhantomMiddlewareModule.h>
 #include <OpenTracker/common/TimestampGeneratorModule.h>
 #include <OpenTracker/network/OldOTNetworkSourceModule.h>
+#include <OpenTracker/otpy/PythonModule.h>
 
 #include <OpenTracker/input/PhantomModule.h>
 #include <OpenTracker/input/PhantomSourceModule.h>
@@ -426,6 +427,10 @@ namespace ot {
         OT_REGISTER_MODULE(PhantomModule, NULL);
         OT_REGISTER_MODULE(PhantomSourceModule, NULL);
         OT_REGISTER_MODULE(PhantomSinkModule, NULL);
+#endif
+
+#ifdef USE_PYTHON
+        OT_REGISTER_MODULE(PythonModule, NULL);
 #endif
 
 	}
