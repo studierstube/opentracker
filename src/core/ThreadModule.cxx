@@ -103,7 +103,8 @@ namespace ot {
     void ThreadModule::close()
     {
         //#ifdef WIN32
-	ACE_Thread::join( (*(ACE_thread_t*)thread) );
+//fiorentino
+		//ACE_Thread::join( (*(ACE_thread_t*)thread) );
         //#else
 	//ACE_Thread::join( (ACE_thread_t)thread );
         //#endif
