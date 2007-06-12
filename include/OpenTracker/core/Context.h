@@ -53,7 +53,9 @@
 #include "VideoUser.h"
 #include <sys/types.h>
 #include <sys/timeb.h>
+#ifdef WIN32
 #include <sys/utime.h>
+#endif
 //#include <pthread.h>
 
 class ACE_Thread_Mutex;

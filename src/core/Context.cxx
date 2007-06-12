@@ -321,7 +321,7 @@ namespace ot {
         unlock();
         //cerr << "done."<< endl;
 
-        double loopetime = OSUtils::currentTime();
+        //double loopetime = OSUtils::currentTime();
         //logPrintI("looptime : %lf\n", loopetime - looptime);
         return stopflag;
     }
@@ -389,7 +389,7 @@ namespace ot {
         int stopflag = stop();
         while ( stoploopflag ==0 && stopflag == 0 )
         {
-            double looptime = OSUtils::currentTime();
+            //double looptime = OSUtils::currentTime();
 
             _havedatamutex->acquire();	
 
@@ -404,7 +404,7 @@ namespace ot {
             //logPrintI("Context: got data -> processing\n");
 
             //waitDataSignal();            
-            double loopetime = OSUtils::currentTime();
+            //double loopetime = OSUtils::currentTime();
             //logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
 
             stopflag = loopOnce();
@@ -488,16 +488,23 @@ namespace ot {
 #endif
     {
         _consumeddatamutex->acquire();
-        ACE_Time_Value tv(0, usecs);
+
         while (!dataconsumed)
         { 
-            _consumeddatacondition->wait();
-            /*
-            if (_consumeddatacondition->wait(&tv) == -1)
+            if (usecs != 0)
             {
-                //logPrintW("main loop processing events too slow!\n");
-                break;
-                }*/
+                ACE_Time_Value tv(0, usecs);                
+                if (_consumeddatacondition->wait(&tv) == -1)
+                {
+                    //logPrintW("main loop processing events too slow!\n");
+                    break;
+                }
+            }
+            else
+            {
+                _consumeddatacondition->wait();
+            }
+            
         }
         dataconsumed = false;
         _consumeddatamutex->release();
