@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
 	//FileConfigurationThread*  ct= new FileConfigurationThread( "reconfig.xml");
 
-        //ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
+        ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
 
 	Configurator::instance() ->runConfigurationThread( filename );
 
