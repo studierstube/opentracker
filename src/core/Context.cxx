@@ -512,14 +512,32 @@ namespace ot {
 
     void Context::consumedSignal()
     {
+        //dataconsumed = true;
+        //_consumeddatacondition->broadcast();
+
+
+        _consumeddatamutex->acquire();
+        //logPrintI("Context: data processing finished -> telling drivers\n");
         dataconsumed = true;
         _consumeddatacondition->broadcast();
+        //logPrintI("Context:  telling drivers done\n");
+        _consumeddatamutex->release();
+
     }
 
     void Context::consumedBroadcast()
     {
+        //dataconsumed = true;
+        //_consumeddatacondition->broadcast();
+
+
+        _consumeddatamutex->acquire();
+        //logPrintI("Context: data processing finished -> telling drivers\n");
         dataconsumed = true;
         _consumeddatacondition->broadcast();
+        //logPrintI("Context:  telling drivers done\n");
+        _consumeddatamutex->release();
+
     }
    
     // tests all modules for stopping
