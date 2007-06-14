@@ -569,7 +569,7 @@ namespace ot {
                         else
                         {
                             logPrintI("Client was already here!\n");
-                            exit(1);
+                            //exit(1);
                         }
                         break;
                     case leave:
