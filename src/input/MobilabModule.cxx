@@ -256,8 +256,8 @@ namespace ot {
     {
         if (debug)
         {
-            logPrintI("MobilabModule::close()\n");
-	    logPrintI("logged: %d\n", logsamplenr);
+            logPrintD("MobilabModule::close()\n");
+	    logPrintD("logged: %d\n", logsamplenr);
         }
 
 	if( driver != NULL )

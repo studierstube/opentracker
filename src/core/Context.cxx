@@ -216,14 +216,13 @@ namespace ot {
     void Context::close()
     {
         int i = 0;
-        logPrintI("Context::close() ... \n");
+        logPrintI("Closing Opentracker Context ... \n");
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
             (*it).second->close();
-            logPrintI("  %d \n", i);
             i++;
         }
-        logPrintI("Context::close() done.\n");
+        logPrintI("Closing Opentracker Context done.\n");
         // HACK: give some threads time to close down
         OSUtils::sleep(1000);
 

@@ -273,7 +273,7 @@ namespace ot {
 
     void FileModule::close()
     {
-        logPrintI("FileModule::close() ...\n");
+        logPrintD("FileModule::close() ...\n");
         for( std::map<std::string, File*>::iterator it = files.begin(); it != files.end(); it ++ )
         {
 
@@ -281,7 +281,7 @@ namespace ot {
             delete file;
         }
         files.clear();
-        logPrintI("FileModule::close() done.\n");
+        logPrintD("FileModule::close() done.\n");
     }
 
 } //namespace ot
