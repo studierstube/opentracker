@@ -163,7 +163,7 @@ namespace ot {
 
     Node::error Node::addChild(Node & child)
     {
-        logPrintI("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
+        logPrintD("setting the childs %s parent to %p\n", (child.getType()).c_str(),this);
         // add this to the parent list of the child
         //        child.addParent(this);
         // add the child to the children list of this node
