@@ -253,8 +253,11 @@ namespace ot {
         OT_REGISTER_MODULE(CyberMouseModule, NULL);
 #endif	
 
-#ifdef USE_LINMOUSEMODULE
-        OT_REGISTER_MODULE(LinmouseModule, NULL);
+//#ifdef USE_LINMOUSEMODULE
+#ifndef WIN32
+#ifndef __APPLE__
+	OT_REGISTER_MODULE(LinmouseModule, NULL);
+#endif
 #endif	
 
 #ifdef USE_JOYSTICK
