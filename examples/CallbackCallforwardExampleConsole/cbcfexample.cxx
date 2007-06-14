@@ -49,24 +49,25 @@
 using namespace std;
 
 #include <OpenTracker/common/CallbackModule.h>
+#include <OpenTracker/common/CallbackNode.h>
 #include <OpenTracker/common/CallforwardModule.h>
 
 using namespace ot;
 
 
-void clientACB( CallbackNode & node,  Event & event, void * data ){
+void clientACB( ot::CallbackNode * node,  Event & event, void * data ){
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
+    cout << node->getName() << " time diff " << diff << endl;
 
 }
 
-void clientBCB( CallbackNode & node,  Event & event, void * data ){
+void clientBCB( ot::CallbackNode * node,  Event & event, void * data ){
     double diff = (OSUtils::currentTime() - event.time ) / 1000;
-    cout << node.getName() << " time diff " << diff << endl;
+    cout << node->getName() << " time diff " << diff << endl;
 
 }
 
-void globalClientCB( CallbackNode & node,  Event & event, void * data ){
+void globalClientCB( CallbackNode * node,  Event & event, void * data ){
     using namespace std;
 
     cout << "This is the global callback function." << endl;
