@@ -66,6 +66,7 @@ namespace ot {
         //        rootNode( NULL ),
         cleanUp( false ),
         stoploopflag(false),
+	dosync(false),
         rootNamespace( "" ),
 	lastlooptime(0.0),
 	loopcount(0)
@@ -333,6 +334,8 @@ namespace ot {
 
         logPrintI( "Context::run()\n" );
 
+        setSynchronization(false);
+
         start();
         int stopflag = stop();
         while ( stoploopflag == 0 && stopflag == 0 )
@@ -358,6 +361,8 @@ namespace ot {
         using namespace std;
         logPrintI( "Context::runAtRate()\n" );
 
+        setSynchronization(false);
+   
         double t1 = OSUtils::currentTime(); // in milliseconds
         start();
         int stopflag = stop();
@@ -384,6 +389,9 @@ namespace ot {
     void Context::runOnDemand()
     {
         using namespace std;
+
+	setSynchronization(true);
+
         logPrintI("Context::runOnDemand()\n");
 
         start();
@@ -528,16 +536,15 @@ namespace ot {
 
     void Context::consumedBroadcast()
     {
-        //dataconsumed = true;
-        //_consumeddatacondition->broadcast();
-
-
         _consumeddatamutex->acquire();
         //logPrintI("Context: data processing finished -> telling drivers\n");
-        dataconsumed = true;
+        
+	dataconsumed = true;
         _consumeddatacondition->broadcast();
-        //logPrintI("Context:  telling drivers done\n");
-        _consumeddatamutex->release();
+        
+	//logPrintI("Context:  telling drivers done\n");
+        
+	_consumeddatamutex->release();
 
     }
    

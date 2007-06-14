@@ -568,7 +568,7 @@ namespace ot {
                         }
                         else
                         {
-                            logPrintI("Client was already here!\n");
+                            //logPrintI("Client was already here!\n");
                             //exit(1);
                         }
                         break;

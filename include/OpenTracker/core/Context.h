@@ -120,6 +120,9 @@ namespace ot {
         bool cleanUp;
         /// flag for stopping the main loop
         bool stoploopflag;
+	/// flag whether synchronization between data producers and consumers
+	//  should be done
+	bool dosync;
         /// stores the filename of the current configuration.
         std::string file;
         /// stores a stack of directory names to search for files in
@@ -267,6 +270,9 @@ namespace ot {
 
         /** sets a termination flag for the main loop*/
         void stopLoop();
+
+        inline bool doSynchronization() const { return dosync; };
+        void setSynchronization( bool val) { dosync = val; };
 
         /** calls close on all modules to close any resources.*/
         void close();

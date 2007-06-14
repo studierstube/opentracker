@@ -369,8 +369,11 @@ namespace ot {
                 if (source->changed && context != NULL)
                 {
                     // notify main loop
-                    context->dataSignal();
-                    context->consumedWait();
+		    if (context->doSynchronization())
+		    {
+                        context->dataSignal();
+                        context->consumedWait();
+		    }
                 }
                 source->unlock();
             } // for ...
