@@ -339,6 +339,7 @@ namespace ot {
         {
             //logPrintI("running\n");
             stopflag=loopOnce();
+	    consumedBroadcast();
         }
 
         stoploopflag = 0;
