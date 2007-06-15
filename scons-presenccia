@@ -88,10 +88,22 @@ def installFiles(env, include_dir, _prefix, _alias, _suffixes):
     return _headers
     
 def installLibraries(env, lib_dir, _prefix, _alias):
+    return installSharedLibraries(env, lib_dir, _prefix, _alias) + \
+        installStaticLibraries(env, lib_dir, _prefix, _alias)
+
+def installSharedLibraries(env, lib_dir, _prefix, _alias):
     _libs = []
     for dirpath, dirnames, filenames in os.walk(join(lib_dir)):
-        libs = [join(dirpath, _lib) for _lib in filterStaticLibraries(filenames)] + \
-            [join(dirpath, _lib) for _lib in filterDynamicLibraries(filenames)]
+        libs = [join(dirpath, _lib) for _lib in filterDynamicLibraries(filenames)]
+        target_dir = join(_prefix, 'bin')
+        _libs += env.Install(target_dir, libs)
+    env.Alias(_alias, _libs)
+    return _libs
+
+def installStaticLibraries(env, lib_dir, _prefix, _alias):
+    _libs = []
+    for dirpath, dirnames, filenames in os.walk(join(lib_dir)):
+        libs = [join(dirpath, _lib) for _lib in filterStaticLibraries(filenames)]
         target_dir = join(_prefix, 'lib')
         _libs += env.Install(target_dir, libs)
     env.Alias(_alias, _libs)
@@ -153,7 +165,6 @@ env.Alias('xercesc-libs', xercesc_debug_libs+xercesc_release_libs)
 env.Append(CPPPATH=['include', join(prefix,'include')])
 env.Append(LIBPATH=[join(prefix,'lib')])
 env.Append(LIBS = ['xerces-c_2', 'ACE'])
-#env.Append(LIBS = xercesc_release_libs + ace_libraries)
 env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
                    'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32'
                    , 'oleaut32', 'uuid','odbc32', 'odbccp32'])
@@ -297,8 +308,8 @@ dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG',
 ############################################
 #        Build static library              #
 ############################################
-stubs_lib = libenv.StaticLibrary(join(prefix,'lib', 'opentracker_static'), copy_srcs)
-stubs_def = env.MAKEDEFFILE(join(prefix, 'lib', 'opentracker.def'), stubs_lib)
+static_lib = libenv.StaticLibrary(join(prefix,'lib', 'opentracker_static'), copy_srcs)
+stubs_def = env.MAKEDEFFILE(join(prefix, 'lib', 'opentracker.def'), static_lib)
 dllenv.Append(LINKFLAGS=['-def:'+str(_def) for _def in stubs_def])
 env.Depends(stubs_def, makedeffile_py)
 
@@ -308,7 +319,8 @@ env.Depends(stubs_def, makedeffile_py)
 otlib = dllenv.SharedLibrary(join('lib', 'win32', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
 # Add explicit dependency on def file
 dllenv.Depends(otlib, stubs_def)
-dllenv.Install(join(prefix,'lib'), otlib)
+dllenv.Install(join(prefix,'bin'), [_dll for _dll in filterDynamicLibraries(otlib)])
+dllenv.Install(join(prefix,'lib'), [_dll for _dll in filterStaticLibraries(otlib)])
 
 ############################################
 #           Build executables              #
@@ -330,7 +342,7 @@ if env['ENABLE_OMNIEVENTS']:
     dlls += ['COS410_vc7_rt.dll']
 ot_install = env.Install(join(prefix, 'bin'), [otcon, otlive])
 executables = env.Alias('executables', [ot_install])
-prgenv.Depends(executables, [join(prefix, 'lib', _lib) for _lib in dlls])
+prgenv.Depends(executables, [join(prefix, 'bin', _lib) for _lib in dlls])
 
 ############################################
 # Install other files DTDs, XML files, etc #
