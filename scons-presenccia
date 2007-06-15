@@ -127,7 +127,8 @@ ace_headers = installRelativeToDirectory(env, ace_root_dir, 'ace', join(prefix, 
 # Hack to correct anomaly in header scanner 
 # See the following in Condition_Thread_Mutex.h: 
 #        include /**/ "ace/pre.h"
-env.Depends(join(prefix, 'include', 'ace', 'Condition_Thread_Mutex.h'), 
+env.Depends([join(prefix, 'include', 'ace', _file) \
+                 for _file in ['Condition_Thread_Mutex.h', 'Thread_Mutex.h']], 
             join(prefix, 'include', 'ace', 'pre.h'))
 env.Depends(join(prefix, 'include', 'ace', 'config-win32-common.h'), 
             join(prefix, 'include', 'ace', 'post.h'))
