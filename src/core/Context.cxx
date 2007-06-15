@@ -298,7 +298,7 @@ namespace ot {
        else if (looptime - lastlooptime > 10000.0)
 	 {
 	    loopcount++;
-	    logPrintI("OpenTracker loop rate: %f Hz\n", loopcount/10.0);
+	    logPrintD("OpenTracker loop rate: %f Hz\n", loopcount/10.0);
 	    loopcount=0;
 	 }
        else
