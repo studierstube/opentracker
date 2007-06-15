@@ -49,8 +49,8 @@
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <OpenTracker/core/Event.h>
 #ifdef USE_OMNIEVENTS
-#include <omniEvents/CosEventComm.hh>
-#include <omniEvents/CosEventChannelAdmin.hh>
+#include <COS/CosEventComm.hh>
+#include <COS/CosEventChannelAdmin.hh>
 #include <OpenTracker/skeletons/OT_EventChannel.hh>
 #endif //ENABLE_OMNIEVENTS
 

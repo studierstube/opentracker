@@ -123,10 +123,10 @@ public:
     void destroyORB();
 
     static PortableServer::POAManager_var pman;
-    static PortableServer::POA_var getPOA() { return PortableServer::POA::_duplicate(CORBAModule::poa); };
-    static PortableServer::POA_var getRootPOA() { return PortableServer::POA::_duplicate(CORBAModule::root_poa); };
-    static PortableServer::POAManager_var getPOAManager() { return PortableServer::POAManager::_duplicate(pman); }
-    static CORBA::ORB_var getORB() { return CORBA::ORB::_duplicate(CORBAModule::orb); };
+    static PortableServer::POA_var getPOA();
+    static PortableServer::POA_var getRootPOA();
+    static PortableServer::POAManager_var getPOAManager();
+    static CORBA::ORB_var getORB();
     
     /** Clears nodes */
     virtual void clear();

@@ -53,8 +53,8 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <OpenTracker/network/CORBAUtils.h>
-#include <omniEvents/CosEventComm.hh>
-#include <omniEvents/CosEventChannelAdmin.hh>
+#include <COS/CosEventComm.hh>
+#include <COS/CosEventChannelAdmin.hh>
 
 /**
  * This class implements a simple EventGenerator that passes any incoming events

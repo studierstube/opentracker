@@ -45,8 +45,8 @@
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 
 #ifdef USE_OMNIEVENTS
-#include <omniEvents/CosEventComm.hh>
-#include <omniEvents/CosEventChannelAdmin.hh>
+#include <COS/CosEventComm.hh>
+#include <COS/CosEventChannelAdmin.hh>
 #include <OpenTracker/skeletons/OT_EventChannel.hh>
 #include <OpenTracker/network/PushCons.h>
 #include <OpenTracker/network/PushSupp.h>
@@ -59,6 +59,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include <ace/Log_Msg.h>
 
@@ -106,7 +107,24 @@ void CORBAModule::destroyORB()
   }
 }
 
+  CORBA::ORB_var CORBAModule::getORB() { 
+    return CORBA::ORB::_duplicate(CORBAModule::orb);
+  }
+
+  PortableServer::POA_var CORBAModule::getPOA() { 
+    return PortableServer::POA::_duplicate(CORBAModule::poa); 
+  }
+
+  PortableServer::POA_var CORBAModule::getRootPOA() { 
+    return PortableServer::POA::_duplicate(CORBAModule::root_poa); 
+  }
+
+  PortableServer::POAManager_var CORBAModule::getPOAManager() { 
+    return PortableServer::POAManager::_duplicate(pman); 
+  }
+
 // This method initialises the ORB and poa
+
 
 void CORBAModule::initializeORB(int argc, char **argv)
 {
@@ -195,7 +213,8 @@ void CORBAModule::initializeORB(int argc, char **argv)
       char *av[5]; int ac = 4;
       char arg1[] = "opentracker";
       char arg2[] = "-ORBendPoint";
-      char arg3[endpoint.length()+1]; // note +1
+      char *arg3 = (char *)malloc(endpoint.length() + 1);
+      //char arg3[endpoint.length()+1]; // note +1
       strcpy(arg3, endpoint.c_str());
       char arg4[] = "\0";
       char arg5 = (char) 0;
@@ -219,8 +238,6 @@ void CORBAModule::initializeORB(int argc, char **argv)
   }
     
   void CORBAModule::removeNode(const Node * node) {
-    cerr << "CORBAModule deleting node " << node->get("ID");
-    cerr << " of type " << node->getType() << endl;
     if ((node->getType().compare("CORBASink") == 0) || (node->getType().compare("CORBATransform") == 0)) {
       CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
@@ -383,7 +400,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 #ifdef USE_OMNIEVENTS
   else if (name.compare("PushCons") == 0 ) 
     {
-      std::cout << "creating PushCons node" << endl;
+      logPrintI("creating PushCons node\n");
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
@@ -410,9 +427,9 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier = CORBAUtils::getProxyPushSupplier(consumer_admin);
 
       CORBA::String_var string_id = CORBA::string_dup( attributes.get("name").c_str() );
-      cout << "got string id" << endl;
+      logPrintI("got string id\n");
       PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
-      cout << "got object id" << endl;
+      logPrintI("got object id");
       poa->activate_object_with_id(corba_id, pushcons_source);
       //PortableServer::ObjectId_var corba_source_id = 
       //	poa->activate_object(pushcons_source);

@@ -47,8 +47,8 @@
 //#include <OpenTracker/tool/OT_ACE_Log.h>
 #include <OpenTracker/core/OtLogger.h>
 #ifdef USE_OMNIEVENTS
-#include <omniEvents/CosEventComm.hh>
-#include <omniEvents/CosEventChannelAdmin.hh>
+#include <COS/CosEventComm.hh>
+#include <COS/CosEventChannelAdmin.hh>
 #include <OpenTracker/skeletons/OT_EventChannel.hh>
 #endif //ENABLE_OMNIEVENTS
 
@@ -358,7 +358,7 @@ namespace ot {
     try {
       // Obtain a reference to the root context of the Name service:
       if (CORBA::is_nil(orb)) {
-	cerr << "Reference to orb is nil. Exiting..." << endl;
+	logPrintE("Reference to orb is nil. Exiting...\n");
 	exit(-1);
       }
       CORBA::Object_var obj = orb->resolve_initial_references("NameService");

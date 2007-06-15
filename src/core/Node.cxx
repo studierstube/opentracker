@@ -381,6 +381,17 @@ namespace ot {
         }
     }
 
+    Event& Node::getEvent(unsigned int index) {
+        return Event::null;
+    }
+    
+    Event& Node::getEventNearTime(double time) {
+        return Event::null;
+    }
+
+    Event& Node::getEventAtTime(double time) {
+        return Event::null;
+    }
 
     // returns a value to a given key
     const std::string Node::get( const std::string & key ) const

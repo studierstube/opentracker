@@ -48,6 +48,8 @@
 #include <OpenTracker/core/Context.h>
 #include <omniORB4/poa.h>
 #include <OpenTracker/skeletons/OTGraph.hh>
+
+#include <algorithm>
 #endif //USE_LIVE
 
 using namespace std;

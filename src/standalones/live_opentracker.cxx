@@ -46,7 +46,11 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/network/CORBAUtils.h>
 #include <OpenTracker/network/CORBAModule.h>
+
+#define USE_stub_in_nt_dll
 #include <OpenTracker/skeletons/OTGraph.hh>
+#undef USE_stub_in_nt_dll
+#include <omniORB4/poa.h>
 
 #include <OpenTracker/core/Node.h>
 #include <OpenTracker/core/Module.h>
@@ -77,6 +81,7 @@ int main(int argc, char **argv)
       if ( module_iterator == modules.end() ) {
 	exit(-1);
       } 
+      cerr << "found CORBA module" << endl;
       CORBAModule *corba_module = (CORBAModule*) module_iterator->second.item();
       if (corba_module == NULL) {
 	cerr << "cast from iterator failed. Exiting...";
@@ -87,29 +92,23 @@ int main(int argc, char **argv)
 	cerr << "Unable to obtain orb reference. Exiting...";
 	exit(-1);
       }
-
+      cerr << "got reference to ORB" << endl;
       PortableServer::POA_var poa = corba_module->getPOA();
       if (CORBA::is_nil(poa)) {
 	cerr << "got nil reference to POA. Exiting...." << endl;
 	exit(-1);
       }
-
       POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
 
-      PortableServer::ObjectId_var configurator_id = PortableServer::string_to_ObjectId("livecontext");
-      //poa->activate_object_with_id(configurator_id, context);
-      corba_module->getRootPOA()->activate_object(context);
-      cerr << "activated configurator" << endl;
+      PortableServer::ObjectId_var id = corba_module->getRootPOA()->activate_object(context);
 
       // Obtain a reference to the object, and register it in
       // the naming service.
-      CORBA::Object_var obj = context->_this();
-      //CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[1]);
+      CORBA::Object_var obj = corba_module->getRootPOA()-> id_to_reference(id);
+
       CosNaming::NamingContextExt::StringName_var string_name = argv[1];
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-      //      orb->run(); 
       context_impl->runAtRate(30);
-
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;

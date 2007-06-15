@@ -522,18 +522,14 @@ namespace ot {
          * @param index index of the desired event, if no index is given the
          *        latest is returned.
          * @return reference to the value of the event. */
-        virtual Event& getEvent(unsigned int index = 0)
-        {
-            return Event::null;
-        }
+        virtual Event& getEvent(unsigned int index = 0);
+
         /**
          * returns the event closest to a given point in time.
          * @param time the point in time in milliseconds since 1.1.1970
          * @return reference to the value of the event. */
-        virtual Event& getEventNearTime(double time)
-        {
-            return Event::null;
-        }
+        virtual Event& getEventNearTime(double time);
+
         /**
          * returns the number of stored events.
          * @return number of stored events. */
@@ -567,10 +563,7 @@ namespace ot {
          * point in time.
          * @param time point in time in milliseconds since 1.1.1970
          * @return reference to the event value */
-        virtual Event& getEventAtTime(double time)
-        {
-            return Event::null;
-        }
+        virtual Event& getEventAtTime(double time);
 
         //@}
 

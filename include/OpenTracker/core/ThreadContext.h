@@ -44,6 +44,10 @@
 #ifndef _THREADCONTEXT_H
 #define _THREADCONTEXT_H
 
+#include <ace/Condition_Thread_Mutex.h>
+#include <ace/Thread_Mutex.h>
+#include <ace/Synch.h>
+
 #include "../dllinclude.h"
 
 #include "Node.h"
@@ -52,9 +56,6 @@
 #include "VideoUser.h"
 #include "Context.h"
 
-#include <ace/Condition_Thread_Mutex.h>
-#include <ace/Thread_Mutex.h>
-#include <ace/Synch.h>
 
 //class ACE_Thread_Mutex;
 //class ACE_Condition_Thread_Mutex;
