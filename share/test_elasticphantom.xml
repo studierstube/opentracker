@@ -5,7 +5,7 @@
     <CORBAConfig/>
   </configuration>
   <PhantomMiddlewareSink group="225.0.0.12" eid="6" pid="94" frequency="1" DEF="Marcelo">
-      <ElasticFilter force="0.4" damp="0.7">
+      <ElasticFilter force="0.1" damp="0.2">
 	<PhantomMiddlewareSource group="225.0.0.12" eid="6" pid="100" DEF="Miguel"/>
       </ElasticFilter>
   </PhantomMiddlewareSink>

@@ -118,7 +118,6 @@ namespace ot {
         localEvent.copyAllButStdAttr(*event);
         localEvent.timeStamp();
 #ifdef USE_LIVE
-        logPrintI("about to unlock in transformEvent\n");
         unlock();
 #endif
         //logPrintI("StaticTransformation::transformEvent about to return\n");

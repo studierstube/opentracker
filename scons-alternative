@@ -144,10 +144,10 @@ else:
     env.Append(CXXFLAGS='-O2')
 if env['ENABLE_CALLFORWARD']:
     env['CPPDEFINES'].remove('OT_NO_CALLFORWARDMODULE_SUPPORT')
-    extra_files += [join('src', 'common', 'CallforwardModule.cxx')]
+    extra_files += [join('src', 'common', _file) for _file in ['CallforwardModule.cxx', 'CallforwardNode.cxx']]
 if env['ENABLE_CALLBACK']:
     env['CPPDEFINES'].remove('OT_NO_CALLBACKMODULE_SUPPORT')
-    extra_files += [join('src', 'common', 'CallbackModule.cxx'), join('src', 'common', 'CallbackNode.cxx')]
+    extra_files += [join('src', 'common', _file) for _file in ['CallbackModule.cxx', 'CallbackNode.cxx']]
 if env['ENABLE_INTERPOLATION']:
     env['CPPDEFINES'].remove('OT_NO_INTERPORLATORMODULE_SUPPORT')
     extra_files += [join('src', 'common', 'InterpolatorModule.cxx'), join('src', 'common', 'ElasticFilterNode.cxx')]
@@ -288,7 +288,7 @@ if env['ENABLE_JAVA']:
     opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'), source = stub_classes, JARCHDIR='build')
     opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'), source = stub_generator.java, JARCHDIR='src_java')
     if env['ENABLE_OMNIEVENTS']:
-	test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java']] + \
+	test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java', 'OTEventChannelSourceObject.java', 'OTPushSupp.java']] + \
 	    [join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
 	test_classes = env.JavacBld(test_sources,
 				       CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
@@ -333,7 +333,9 @@ if env['ENABLE_CORBA']:
     executables += prgenv.Program(join('bin','opentracker2con'), join('src','standalones','corba_configurable.cxx'))
 if env['ENABLE_LIVE']:
     executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
-
+if env['ENABLE_CALLFORWARD'] and env['ENABLE_CALLBACK']:
+    pass
+    #executables += prgenv.Program(join('bin','cbcfexample'), [join('examples', 'CallbackCallforwardExampleConsole', 'cbcfexample.cxx')])
 ################################################################################
 # install everything into prefix, if there is such a thing                     #
 ################################################################################

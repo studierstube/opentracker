@@ -105,31 +105,47 @@ namespace ot {
 	sscanf(attributes.get("pid").c_str(), " %i", &pid );
 	short eid  =  (short) atoi(attributes.get("eid").c_str());
 	std::string source_description = attributes.get("source");
-	PhantomMiddlewareSource* source;
+	PhantomLocationSource* source;
 	if  (source_description == "") {
-	  source = new PhantomMiddlewareSource( group.c_str(), pid, eid );
-	  std::cerr << "PhantomMiddlewareSource with source: " << pid << ", " << eid << std::endl;
+	  source = new PhantomLocationSource( group.c_str(), pid, eid );
+	  std::cerr << "PhantomLocationSource with source: " << pid << ", " << eid << std::endl;
 	} else {
-	  std::cerr << "PhantomMiddlewareSource with source: " << pid << ", " << eid << ", " << source_description << std::endl;
-	  source = new PhantomMiddlewareSource( group.c_str(), pid, eid, source_description);
+	  std::cerr << "PhantomLocationSource with source: " << pid << ", " << eid << ", " << source_description << std::endl;
+	  source = new PhantomLocationSource( group.c_str(), pid, eid, source_description);
 	}
 	//GroupMapping::iterator g = groups.find(group);
-	GroupListenerMap::iterator l = listeners.find(group);
-	if (l == listeners.end()) {
-	  PhantomListener* listener = new PhantomListener(group);
-	  listener->addNode(source, pid);
+	GroupLocationListenerMap::iterator l = location_listeners.find(group);
+	if (l == location_listeners.end()) {
+	  PhantomLocationListener* listener = new PhantomLocationListener(group);
+	  listener->addNode(source);
 	  listener->Start();
 	  listener->activate();
-	  listeners[group] = listener;
-//  	  PidSourceMultiMap* multi_mapping = new PidSourceMultiMap;
-// 	  groups[group] = multi_mapping;
-// 	  multi_mapping->insert(PidSourcePair(pid, source));
+	  location_listeners[group] = listener;
 	} else {
-	  //g->second->insert(PidSourcePair(pid, source));
-	  l->second->addNode(source, pid);
+	  l->second->addNode(source);
 	}
 	logPrintI("Returning PhantomMiddlewareSource*\n");
 	return source;
+    } else if ( name.compare("PhantomZoneSource") == 0 ) {
+      std::string group = attributes.get("group");
+      int zid, oid;
+      short enter_id = (short) atoi(attributes.get("enterid").c_str());
+      short exit_id  = (short) atoi(attributes.get("exitid").c_str());
+      sscanf(attributes.get("zid").c_str(),     " %i", &zid);
+      sscanf(attributes.get("oid").c_str(),     " %i", &oid);
+      std::cerr << enter_id << ", " << exit_id << ", " << zid << ", " << oid << std::endl;
+      GroupZoneListenerMap::iterator l = zone_listeners.find(group);
+      PhantomZoneSource* source = new PhantomZoneSource(group.c_str(), enter_id, exit_id, zid, oid);
+      if (l == zone_listeners.end()) {
+	PhantomZoneListener* listener = new PhantomZoneListener(group);
+	listener->addNode(source);
+	listener->Start();
+	listener->activate();
+	zone_listeners[group] = listener;
+      } else {
+	l->second->addNode(source);
+      }
+      return source;
       } 
     return NULL;
   };
@@ -191,8 +207,8 @@ namespace ot {
 	}
     } else if (node->getType().compare("PhantomMiddlewareSource") == 0) {
       std::string group = node->get("group");
-      GroupListenerMap::iterator result = listeners.find(group);
-      if (result != listeners.end()) {
+      GroupLocationListenerMap::iterator result = location_listeners.find(group);
+      if (result != location_listeners.end()) {
 	result->second->removeNode((PhantomMiddlewareSource *) node);
       } else {
 	logPrintE("Node not present in SourceNodeMap");
@@ -227,7 +243,10 @@ namespace ot {
 
   void PhantomMiddlewareModule::pushEvent()
   {        
-    for (GroupListenerMap::const_iterator listener_it = listeners.begin(); listener_it != listeners.end(); ++listener_it) {
+    for (GroupLocationListenerMap::const_iterator listener_it = location_listeners.begin(); listener_it != location_listeners.end(); ++listener_it) {
+      listener_it->second->pushEvent();
+    }
+    for (GroupZoneListenerMap::const_iterator listener_it = zone_listeners.begin(); listener_it != zone_listeners.end(); ++listener_it) {
       listener_it->second->pushEvent();
     }
   }  

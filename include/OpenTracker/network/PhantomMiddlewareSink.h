@@ -93,7 +93,7 @@ protected:
      * @param multicast_group_ the multicast group on which the node should
      * broadcast events
      * @param frequency_ the frequency at which setEvent should be called */
-    PhantomMiddlewareSink( const char* multicast_group, int frequency_, int pid_, short eid_, const std::string& src_) :
+ PhantomMiddlewareSink( const char* multicast_group, int frequency_, int pid_, short eid_, const std::string& src_) :
       Node(), 
       frequency( frequency_ ),
       pid( pid_ ), 
@@ -167,6 +167,7 @@ public:
 	  (*mss) << pm;
 	}
 	catch (...) {}
+	event.setAttribute("pid", pid);
 	updateObservers( event );
       }
     }

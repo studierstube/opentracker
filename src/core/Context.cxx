@@ -833,6 +833,10 @@ namespace ot {
                     logPrintI("CORBASink maps to CORBAConfig\n");
 			modname = "CORBAConfig";
                         result = getModule(modname);
+		} else if ((nodename.compare("PhantomZoneSource") == 0)){
+                    logPrintI("PhantomZoneSource maps to PhantomMiddlewareConfig\n");
+			modname = "PhantomMiddlewareConfig";
+                        result = getModule(modname);
 		} else {
 			std::string::size_type loc= std::string::npos;
 			

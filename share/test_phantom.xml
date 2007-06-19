@@ -7,4 +7,5 @@
       <PhantomMiddlewareSource group="225.0.0.12" eid="6" pid="100"/>
     </EventTransform>
   </PhantomMiddlewareSink>
+  <PhantomZoneSource group="225.0.2.2" zid="12" oid="100" enterid="7" exitid="8"/>
 </OpenTracker>

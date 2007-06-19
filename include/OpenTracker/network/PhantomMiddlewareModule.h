@@ -53,142 +53,18 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/network/PhantomMiddlewareSink.h>
 #include <OpenTracker/network/PhantomMiddlewareSource.h>
-#include <ace/Task.h>
+#include <OpenTracker/network/PhantomLocationSource.h>
+#include <OpenTracker/network/PhantomZoneSource.h>
+#include <OpenTracker/network/PhantomListener.h>
+#include <OpenTracker/network/PhantomLocationListener.h>
+#include <OpenTracker/network/PhantomZoneListener.h>
+
 
 namespace ot {
 
-typedef std::vector<PhantomMiddlewareSink*> PhantomMiddlewareSinkVector;
-typedef std::multimap<int, PhantomMiddlewareSource*> PidSourceMultiMap;
-typedef PidSourceMultiMap::iterator PidSourceMultiMapIterator;
-typedef std::map<std::string, PidSourceMultiMap*> GroupMapping;
-typedef std::pair<std::string, PidSourceMultiMap*> GroupMappingPair;
-typedef std::pair<int, PhantomMiddlewareSource*> PidSourcePair;
+  typedef std::vector<PhantomMiddlewareSink*> PhantomMiddlewareSinkVector;
 
- class OPENTRACKER_API PhantomListener : public ACE_Task_Base
-    {
-  public:
-    PhantomListener (const std::string& group) : _stop(false) { 
-      pid_node_mapping = new PidSourceMultiMap;
-      msr = new Phantom::Utils::MulticastSocketReceiver(group.c_str());
-    };
-
-    virtual ~PhantomListener () {
-      delete pid_node_mapping;
-      delete msr;
-    };
-
-    void Stop() {
-      lock();
-      _stop = true;
-      unlock();
-    };
-
-    void Start() {
-      lock();
-      _stop = false;
-      unlock();
-    };
-
-    bool isStopping() {
-      lock();
-      bool stopping = _stop;
-      unlock();
-      return stopping;
-    };
-    
-    void addNode(PhantomMiddlewareSource* node, int pid) {
-      cerr << "adding Node with pid " << pid << endl;
-      lock();
-      pid_node_mapping->insert(PidSourcePair(pid, node));
-      unlock();
-    };
-
-    void removeNode(PhantomMiddlewareSource* node) {
-      int pid;
-      sscanf(node->get("pid").c_str(), " %i", &pid );
-      lock();
-      // Get the range of iterators which have the key "pid"
-      std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = pid_node_mapping->equal_range(pid);
-      PidSourceMultiMapIterator it = range_it.first;
-      while (it != range_it.second) {
-	PidSourceMultiMapIterator _it = it;
-	it++;
-	if (_it->second == node) {
-	  pid_node_mapping->erase(_it);
-	  delete node;
-	}
-      }
-/*       for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) { */
-/* 	if (it->second == node) { */
-/* 	  pid_node_mapping->erase(it); */
-/* 	  delete node; */
-/* 	} */
-/*       } */
-      unlock();
-    }
-
-    void pushEvent() {
-      lock();
-      for (PidSourceMultiMap::const_iterator pidsource_it = (*pid_node_mapping).begin(); pidsource_it != (*pid_node_mapping).end(); ++pidsource_it )
-	{
-	  pidsource_it->second->push();
-	}
-      unlock();
-    }
-
-    virtual int svc (void)
-    {
-      while (isStopping() == false) {
-	Phantom::Utils::UCharMessageReader ucm;
-	(*msr) >> ucm;
-	
-	unsigned char ver;
-	short eid;
-	unsigned char seq;
-	long t1, t2;
-	int discard;
-	
-	ucm >> ver >> eid >> seq >> t1 >> t2 >> discard;
-	int pid;
-	float x,y,z, theta;
-	char source[32];
-	std::string src;
-	if (eid != 13 && eid !=14) {
-	  try {
-	    ucm >> pid >> x >> y >> z;
-	    ucm >> theta;
-	    if (eid == 24) {
-	      ucm >> source;
-	    }
-	    src = source;
-	    lock();
-	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = pid_node_mapping->equal_range(pid);
-	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-	      if (eid == (it->second)->getEventId()) {
-		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
-	      }
-	    }
-	    unlock();
-	  } catch (PhantomException) {
-	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
-	  }
-	}
-      }
-      return 0;
-    };
-    
- protected:
-    inline void lock() {lock_.acquire();};
-    inline void unlock() {lock_.release();};
-    bool _stop;
-
-
- private:
-    PidSourceMultiMap* pid_node_mapping;
-    Phantom::Utils::MulticastSocketReceiver* msr;
-  };
-
-typedef std::map<std::string, PhantomListener*> GroupListenerMap;
+//typedef std::map<std::string, PhantomZoneListener*>     GroupZoneListenerMap;
 
 /**
  * The module and factory to drive the test source nodes. It constructs
@@ -204,8 +80,8 @@ class OPENTRACKER_API PhantomMiddlewareModule : public Module, public NodeFactor
 protected:
     /// list of PhantomMiddlewareModule nodes in the tree
     PhantomMiddlewareSinkVector sinks;
-    //GroupMapping                groups;
-    GroupListenerMap            listeners;
+    GroupLocationListenerMap    location_listeners;
+    GroupZoneListenerMap        zone_listeners;
 // Methods
 
   public:
@@ -247,8 +123,6 @@ protected:
      */
     virtual void pushEvent();
 
-    //static void runPhantomMessageListener( void * data );
-    
     virtual void removeNode(Node *);
  private:
 };

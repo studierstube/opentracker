@@ -5,6 +5,8 @@
       <CORBAConfig/>
   </configuration>
   <SharedEngineNode name="TestChannel">
+    <EventTransform scale="2 15 5">
       <PushCons name="EventChannel"/>
+    </EventTransform>
   </SharedEngineNode>
 </OpenTracker>

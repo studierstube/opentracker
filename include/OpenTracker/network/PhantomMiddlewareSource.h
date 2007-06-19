@@ -24,11 +24,12 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for PhantomMiddlewareSink Node.
+/** header file for PhantomMiddlewareSource base class for 
+  *                 PhantomMiddleware Nodes.
   *
   * @author Joseph Newman
   *
-  * $Id: PhantomMiddlewareSink.h 760 2004-11-14 18:20:34Z jfn $
+  * $Id: PhantomMiddlewareSource.h 760 2004-11-14 18:20:34Z jfn $
   * @file                                                                   */
  /* ======================================================================= */
 
@@ -80,80 +81,29 @@ public:
   /// the original event
   Event event;
 
-  int pid;
-  short eid;
-  std::string source;
-  //Phantom::Utils::MulticastSocketReceiver* msr;
-    
-
   // Methods
 protected:
     /** constructor method,sets commend member
      * @param multicast_group_ the multicast group on which the node should
      * broadcast events */
-  PhantomMiddlewareSource( const char* multicast_group, int pid_, short eid_, const std::string& source_) :
-    Node(), 
-    pid( pid_ ), 
-    eid( eid_ ),
-    source( source_ )
+  PhantomMiddlewareSource( const char* multicast_group ) :
+    Node()
       {
 	mu = new ACE_Thread_Mutex("phantommiddlewaresource");
-      }
-
-    
-    PhantomMiddlewareSource( const char* multicast_group, int pid_, short eid_) :
-    Node(), 
-    pid( pid_ ), 
-    eid( eid_ )
-      {
-	mu = new ACE_Thread_Mutex("phantommiddlewaresource");
-	source = "";
-      }
-      
-
+      }      
+    bool modified;
     virtual ~PhantomMiddlewareSource() {
-      //delete msr;
       delete mu;
-      logPrintE("PhantomMiddlewareSource destructor\n");
+      logPrintI("PhantomMiddlewareSource destructor\n");
     }
+
 private:
     ACE_Thread_Mutex* mu;
-    bool modified;
     
-public:
+ public:
     void lock() { mu->acquire(); };
     void unlock() { mu->release(); };
     bool isModified() {return modified;};
-    void setEvent(float x, float y, float z, float theta, int t1, int t2, short event_id, char* event_source) {
-      //      if ( (event_id == eid) && strcmp(event_source, source) ) {
-      setEvent(x, y, z, theta, t1, t2, event_id);
-      //      }
-    };
-
-    void setEvent(float x, float y, float z, float alpha, int t1, int t2, short event_id) {
-      //      if ( (event_id == eid) && strcmp(event_source, source) ) {
-	std::vector<float> position(3);
-	std::vector<float> orientation(4);
-	position[0] = x; position[1] =  z; position[2] = -y;
-	float theta    = 180.0f - alpha; 
-	float thetaby2 = theta * MathUtils::GradToRad / 2.0;
-	orientation[0] = 0.0;
-	orientation[1] = sin(thetaby2);
-	orientation[2] = 0.0; 
-	orientation[3] = cos(thetaby2);
-	lock();
-	event.setPosition(position);
-	event.setOrientation(orientation);
-	event.time = (double) t1 + ((double) t2)/1000000.0;
-	modified=true;
-	unlock();
-	//      }
-    };
-
-
-    int getEventId() {
-      return eid;
-    }
 
     void push()
     {
@@ -175,6 +125,8 @@ public:
     friend class PhantomMiddlewareModule;
     friend class PhantomListener;
 };
+
+
 
 }
 
