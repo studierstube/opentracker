@@ -7,8 +7,8 @@ Group:		Development/Tools
 Source:		%{name}-%{version}.tar.bz2
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
-Requires:	ACE Xerces-c boost ncurses ARToolKitPlus
-BuildRequires:	ICGBuilder ACE-devel Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
+Requires:	ACE >= 5.5.6 Xerces-c boost ncurses ARToolKitPlus
+BuildRequires:	ICGBuilder ACE-devel >= 5.5.6 Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
 Prefix:		/usr
 BuildRoot: 	%{_tmppath}/buildroot-%{name}-%{version}
 
