@@ -72,7 +72,7 @@ namespace ot {
 
   Node * PhantomMiddlewareModule::createNode( const std::string & name, StringTable & attributes )
   {
-    if( name.compare("PhantomMiddlewareSink") == 0 ) 
+    if( name.compare("PhantomLocationSink") == 0 ) 
       {
 	int frequency;
 	int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
@@ -83,23 +83,17 @@ namespace ot {
 	int pid;
 	num = sscanf(attributes.get("pid").c_str(), " %i", &pid );
 	short eid  =  (short) atoi(attributes.get("eid").c_str());
-	std::cerr << "eid extracted from StringTable:" << attributes.get("eid") << std::endl;
-	//std::string id = attributes.get("id");
-	//Phantom::Database::EventIdQuery eidq(id);
-	//eid = eidq.GetId();
 	std::string source = attributes.get("source");//.c_str();
 	PhantomMiddlewareSink* sink;
 	if (source == "") {
-	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d )", group, frequency, pid, (int) eid );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid );
 	} else {
-	  logPrintI("new PhantomMiddlewareSink( %s, %d, %d, %d, %s )", group, frequency, pid, (int) eid, source.c_str() );
 	  sink = new PhantomMiddlewareSink( group, frequency, pid, eid, source );
 	}
 	num = sscanf(attributes.get("eid").c_str(), " %h", &eid );
 	sinks.push_back( sink );
 	return sink;
-      } else if ( name.compare("PhantomMiddlewareSource") == 0 ) {
+      } else if ( name.compare("PhantomLocationSource") == 0 ) {
 	std::string group = attributes.get("group");
 	int pid;
 	sscanf(attributes.get("pid").c_str(), " %i", &pid );
@@ -108,9 +102,7 @@ namespace ot {
 	PhantomLocationSource* source;
 	if  (source_description == "") {
 	  source = new PhantomLocationSource( group.c_str(), pid, eid );
-	  std::cerr << "PhantomLocationSource with source: " << pid << ", " << eid << std::endl;
 	} else {
-	  std::cerr << "PhantomLocationSource with source: " << pid << ", " << eid << ", " << source_description << std::endl;
 	  source = new PhantomLocationSource( group.c_str(), pid, eid, source_description);
 	}
 	//GroupMapping::iterator g = groups.find(group);
@@ -124,7 +116,6 @@ namespace ot {
 	} else {
 	  l->second->addNode(source);
 	}
-	logPrintI("Returning PhantomMiddlewareSource*\n");
 	return source;
     } else if ( name.compare("PhantomZoneSource") == 0 ) {
       std::string group = attributes.get("group");
@@ -133,7 +124,6 @@ namespace ot {
       short exit_id  = (short) atoi(attributes.get("exitid").c_str());
       sscanf(attributes.get("zid").c_str(),     " %i", &zid);
       sscanf(attributes.get("oid").c_str(),     " %i", &oid);
-      std::cerr << enter_id << ", " << exit_id << ", " << zid << ", " << oid << std::endl;
       GroupZoneListenerMap::iterator l = zone_listeners.find(group);
       PhantomZoneSource* source = new PhantomZoneSource(group.c_str(), enter_id, exit_id, zid, oid);
       if (l == zone_listeners.end()) {
@@ -150,53 +140,8 @@ namespace ot {
     return NULL;
   };
 
-//   void PhantomMiddlewareModule::runPhantomMessageListener( void * data )
-//   {
-//     GroupMappingPair* group_map_pairing = (GroupMappingPair *) data;
-//     const char* group = group_map_pairing->first.c_str();
-//     Phantom::Utils::MulticastSocketReceiver msr(group);
-//     short locpreeid;
-//     while (1) {
-//       Phantom::Utils::UCharMessageReader ucm;
-//       msr >> ucm;
-      
-//       unsigned char ver;
-//       short eid;
-//       unsigned char seq;
-//       long t1, t2;
-//       int discard;
-
-//       ucm >> ver >> eid >> seq >> t1 >> t2 >> discard;
-//       //      if (eid==6) {
-// 	int pid;
-// 	float x,y,z, theta;
-// 	char source[32];
-// 	std::string src;
-// 	if (eid != 13 && eid !=14) {
-// 	  try {
-// 	    ucm >> pid >> x >> y >> z;
-// 	    ucm >> theta;
-// 	    if (eid == 24) {
-// 	      ucm >> source;
-// 	    }
-// 	    src = source;
-// 	    PidSourceMultiMap* multi_map = group_map_pairing->second;
-// 	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = multi_map->equal_range(pid);
-// 	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-// 	      if (eid == (it->second)->getEventId()) {
-// 		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
-// 	      }
-// 	    }
-// 	  } catch (PhantomException) {
-// 	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
-// 	  }
-// 	}
-// 	//      }
-//     }
-//   }
-  
   void PhantomMiddlewareModule::removeNode(Node* node) {
-    if (node->getType().compare("PhantomMiddlewareSink") == 0) {
+    if (node->getType().compare("PhantomLocationSink") == 0) {
       PhantomMiddlewareSinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
         {
@@ -205,7 +150,7 @@ namespace ot {
         } else {
 	  logPrintE("Node with ID %s not in sinks PhantomMiddlewareModule sinks vector\n", node->get("ID").c_str());
 	}
-    } else if (node->getType().compare("PhantomMiddlewareSource") == 0) {
+    } else if (node->getType().compare("PhantomLocationSource") == 0) {
       std::string group = node->get("group");
       GroupLocationListenerMap::iterator result = location_listeners.find(group);
       if (result != location_listeners.end()) {
@@ -218,10 +163,6 @@ namespace ot {
 
   void PhantomMiddlewareModule::start()
   {
-//     for(GroupMapping::const_iterator group_it = groups.begin(); group_it != groups.end(); ++group_it )
-//       {
-// 	ACE_Thread::spawn((ACE_THR_FUNC)PhantomMiddlewareModule::runPhantomMessageListener, (void *) (GroupMappingPair *) &(*group_it));
-//       }
 
   }
   

@@ -833,8 +833,9 @@ namespace ot {
                     logPrintI("CORBASink maps to CORBAConfig\n");
 			modname = "CORBAConfig";
                         result = getModule(modname);
-		} else if ((nodename.compare("PhantomZoneSource") == 0)){
-                    logPrintI("PhantomZoneSource maps to PhantomMiddlewareConfig\n");
+		} else if ((nodename.compare("PhantomZoneSource") == 0) 
+                           || (nodename.compare("PhantomLocationSource") == 0)
+                           || (nodename.compare("PhantomLocationSink") == 0)){
 			modname = "PhantomMiddlewareConfig";
                         result = getModule(modname);
 		} else {

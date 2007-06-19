@@ -29,6 +29,8 @@ namespace ot {
     };
 
     void removeNode(PhantomMiddlewareSource* node) {
+      // TODO: Currently unimplemented
+
 /*       int pid; */
 /*       sscanf(node->get("pid").c_str(), " %i", &pid ); */
       lock();
@@ -76,42 +78,16 @@ namespace ot {
 	  int occ;
 	  try {
 	    ucm >> spacepid >> pid >> spacename >> occ >> type;
-	    std::cerr << spacepid << ", " << pid << ", " << spacename;
-	    std::cerr << ", " << occ << ", " << type << std::endl;
 	    lock();
 	    std::pair<ZidSourceMultiMapIterator, ZidSourceMultiMapIterator> range_it = zid_node_mapping->equal_range(spacepid);
 	    for (ZidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-	      std::cerr << "setEvent of PhantomZoneSource" << std::endl;
 	      (it->second)->setEvent(eid, t1, t2, pid, spacename, type);
 	    }
 	    unlock();
 
 	  } catch (PhantomException) {
-	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
+	    logPrintE("Caught Phantom Exception: probably attempting to extract from empty buffer\n");
 	  }
-
-/* 	char source[32]; */
-/* 	std::string src; */
-/* 	if (eid != 13 && eid !=14) { */
-/* 	  try { */
-/* 	    ucm >> pid >> x >> y >> z; */
-/* 	    ucm >> theta; */
-/* 	    if (eid == 24) { */
-/* 	      ucm >> source; */
-/* 	    } */
-/* 	    src = source; */
-/* 	    cerr << "pid is " << pid << endl; */
-/* 	    lock(); */
-/* 	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = pid_node_mapping->equal_range(pid); */
-/* 	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) { */
-/* 	      if (eid == (it->second)->getEventId()) { */
-/* 		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source); */
-/* 	      } */
-/* 	    } */
-/* 	    unlock(); */
-/* 	  } catch (PhantomException) { */
-/* 	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl; */
-/* 	  } */
  	} 
       }
       return 0;

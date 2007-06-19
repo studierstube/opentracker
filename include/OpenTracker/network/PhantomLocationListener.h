@@ -54,7 +54,6 @@ namespace ot {
     virtual int svc (void)
     {
       while (isStopping() == false) {
-	logPrintI("started svc\n");
 	Phantom::Utils::UCharMessageReader ucm;
 	(*msr) >> ucm;
 	
@@ -77,18 +76,16 @@ namespace ot {
 	      ucm >> source;
 	    }
 	    src = source;
-	    cerr << "pid is " << pid << endl;
 	    lock();
 	    std::pair<PidSourceMultiMapIterator, PidSourceMultiMapIterator> range_it = pid_node_mapping->equal_range(pid);
 	    for (PidSourceMultiMapIterator it = range_it.first; it != range_it.second; ++it) {
-	      cerr << "event id of node is " << (it->second)->getEventId() << endl;
 	      if (eid == (it->second)->getEventId()) {
 		(it->second)->setEvent(x, y, z, theta, t1, t2, eid, source);
 	      }
 	    }
 	    unlock();
 	  } catch (PhantomException) {
-	    std::cerr << "Caught Phantom Exception: probably attempting to extract from empty buffer" << std::endl;
+	    logPrintE("Caught Phantom Exception: probably attempting to extract from empty buffer\n");
 	  }
 	}
       }
