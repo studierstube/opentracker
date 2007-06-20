@@ -77,8 +77,8 @@ namespace ot {
 	}
                   
     void TestModule::removeNode(Node * node) {
-        logPrintI("TestModule::removeNode\n");
-        logPrintI("TestModule deleting node %s\n", node->get("ID").c_str());
+        logPrintD("TestModule::removeNode\n");
+        logPrintD("TestModule deleting node %s\n", node->get("ID").c_str());
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
@@ -220,7 +220,8 @@ namespace ot {
     void TestModule::run()
     {
         using namespace std;
-        cout << "TestModule::run()" << endl;
+        logPrintD("TestModule::run()\n");
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
         starttime = ACE_OS::gettimeofday();
         
         // trigger all nodes
@@ -241,17 +242,25 @@ namespace ot {
                 ACE_Time_Value newtime(starttime + 
                                        src->sleeptime +
                                        src->sleepoffset);
-                cerr << "sleeptime.sec : "<< src->sleeptime.sec() << endl;
-                cerr << "sleeptime.usec: "<< src->sleeptime.usec() << endl;
-                cerr << "newtime.sec : "<< newtime.sec() << endl;
-                cerr << "newtime.usec: "<< newtime.usec() << endl;   
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
+                //cerr << "sleeptime.sec : "<< src->sleeptime.sec() << endl;
+                logPrintD("sleeptime.sec : %d\n",src->sleeptime.sec());
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
+                //cerr << "sleeptime.usec: "<< src->sleeptime.usec() << endl;
+                logPrintD("sleeptime.usec: %d\n", src->sleeptime.usec());
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
+                //cerr << "newtime.sec : "<< newtime.sec() << endl;
+                logPrintD("newtime.sec : %d\n", newtime.sec());
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
+                //cerr << "newtime.usec: "<< newtime.usec() << endl;   
+                logPrintD("newtime.usec: %d\n", newtime.usec());
+#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
            
                 pqueue.push(make_pair(newtime, (*it)));
             }
             else
             {
-                ACE_DEBUG((LM_ERROR, 
-                           ACE_TEXT("ot:Error: not a TestSource !\n")));
+                logPrintD("Error: not a TestSource !\n");
                 exit( -1 );
             }
             
