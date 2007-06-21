@@ -129,8 +129,9 @@ namespace ot {
             }
 
             nodes.push_back( source );
-            logPrintI("Built TestSource node \n");
+            source->perturbed=source->event;
             initialized = 1;
+            logPrintI("Built TestSource node \n");
             return source;
         }
         return NULL;
@@ -242,19 +243,10 @@ namespace ot {
                 ACE_Time_Value newtime(starttime + 
                                        src->sleeptime +
                                        src->sleepoffset);
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
-                //cerr << "sleeptime.sec : "<< src->sleeptime.sec() << endl;
                 logPrintD("sleeptime.sec : %d\n",src->sleeptime.sec());
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
-                //cerr << "sleeptime.usec: "<< src->sleeptime.usec() << endl;
                 logPrintD("sleeptime.usec: %d\n", src->sleeptime.usec());
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
-                //cerr << "newtime.sec : "<< newtime.sec() << endl;
                 logPrintD("newtime.sec : %d\n", newtime.sec());
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
-                //cerr << "newtime.usec: "<< newtime.usec() << endl;   
                 logPrintD("newtime.usec: %d\n", newtime.usec());
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
            
                 pqueue.push(make_pair(newtime, (*it)));
             }
@@ -376,10 +368,10 @@ namespace ot {
 
     void TestSource::pushEvent(void)
     {
-        lock();
-        event = perturbed;
-        unlock();
-        updateObservers( event );
+        //lock();
+        //event = perturbed;
+        //unlock();
+        updateObservers( perturbed );
     }
 
 
