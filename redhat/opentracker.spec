@@ -1,19 +1,26 @@
-Summary:	Open Tracker
+Summary:	An open architecture for reconfigurable tracking based on XML
 Name:		opentracker
 Version:	2.0.0
-Release:	1
+Release:	%(date '+%Y%m%d')
 License:	LGPL
 Group:		Development/Tools
 Source:		%{name}-%{version}.tar.bz2
+URL:		http://studierstube.icg.tugraz.at/opentracker
 Vendor:		Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
-Requires:	ACE >= 5.5.6 Xerces-c boost ncurses ARToolKitPlus
-BuildRequires:	ICGBuilder ACE-devel >= 5.5.6 Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
 Prefix:		/usr
 BuildRoot: 	%{_tmppath}/buildroot-%{name}-%{version}
+Requires:	ACE >= 5.5.6 Xerces-c boost ncurses ARToolKitPlus
+BuildRequires:	ICGBuilder ACE-devel >= 5.5.6 Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
 
 %description
-none available
+OpenTracker is developed to be generic solution to the different tasks
+involved in tracking input devices and processing tracking data for virtual
+environments. It provides an open software architecture based on a highly
+modular design and a configuration syntax based on XML, thus taking full
+advantage of this new technology. OpenTracker is a first attempt towards a
+"write once, track anywhere" approach to virtual reality application
+development.
 
 %prep
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
