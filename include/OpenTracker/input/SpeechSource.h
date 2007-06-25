@@ -77,6 +77,7 @@
 #include "SpeechCore.h"
 #include "SpeechSet.h"
 #include "SpeechVoice.h"
+#include "SpeechModule.h"
 
 /**
  * This class implements a speech source that is fired by its module
@@ -86,7 +87,7 @@
  */
 
 
-#ifdef OT_SPEECH_SUPPORT
+#ifndef OT_NO_SPEECH_SUPPORT
 
 
 namespace ot {

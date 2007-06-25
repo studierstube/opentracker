@@ -54,7 +54,7 @@
 #include <OpenTracker/input/SpeechCore.h>
 
 
-#ifdef OT_SPEECH_SUPPORT
+#ifndef OT_NO_SPEECH_SUPPORT
 
 
 namespace ot {
