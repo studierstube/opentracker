@@ -213,6 +213,7 @@ namespace ot {
             // test if joystick with id i is connected
             joyInfoEx.dwSize = sizeof(joyInfoEx);
             joyInfoEx.dwFlags = JOY_RETURNALL;
+
             jp = (joyGetPosEx(i, &joyInfoEx) == JOYERR_NOERROR);
 
             if (jp)
@@ -256,9 +257,13 @@ namespace ot {
             else
                 tmp.getPosition()[2] = 0;
 
-            // only four buttons supported
-            tmp.getButton() = (unsigned short)joyInfoEx.dwButtons & 0x0000000F;
-
+            // all buttons?
+            tmp.getButton() = (unsigned short)joyInfoEx.dwButtons & 0x000000FF;
+            
+            //            logPrintI("dwbuttons %d\n", (unsigned int)joyInfoEx.dwButtons & 0x000000FF);
+            if (joyCaps[i].wCaps & JOYCAPS_HASPOV){
+                tmp.setAttribute("POV", joyInfoEx.dwPOV);
+            }
             int update = 0;
 
             for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
