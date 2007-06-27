@@ -47,6 +47,7 @@ abstract public class OTPushSupp extends PushSupplierPOA
 	{
 		// Must strip out ORB arguments manually in Java,
 		// since ORB.init() doesn't do it for us.
+		@SuppressWarnings("unused")
 		String other_args[] = stripOrbArgs(args);
 
 		//orb =ORB.init(orb_args, null);

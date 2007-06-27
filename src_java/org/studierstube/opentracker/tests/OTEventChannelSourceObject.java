@@ -16,13 +16,15 @@ public class OTEventChannelSourceObject extends OTPushSupp {
 		super(args, "EventChannel");
 	}
 
-	public OTEventChannelSourceObject(String eventChannel) {
-		super(null, "EventChannel");
+	public OTEventChannelSourceObject(String eventChannel)
+	{
+		super(new String[0], eventChannel);
 	}
 
 
 	public static void main(String[] args) {
-		source = new OTEventChannelSourceObject(args, "EventChannel");
+//		System.err.println(args.length);
+		source = new OTEventChannelSourceObject("EventChannel");
 		float[] pos_array = {(float)1.1, (float)2.2, (float)3.3};
 		source.pushPositionEventOntoEventChannel(pos_array);
 	}
@@ -41,5 +43,4 @@ public class OTEventChannelSourceObject extends OTPushSupp {
 		// TODO Auto-generated method stub
 
 	}
-
 }

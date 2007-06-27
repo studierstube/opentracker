@@ -45,7 +45,7 @@ abstract public class CorbaApp
 	static class ObjectActivationFailure extends Exception {
 		private static final long serialVersionUID = 6431140587106965652L;
 	};
-	
+
 	public CorbaApp(String[] args) throws ManagerActivationFailure
 	{
 		// Must strip out ORB arguments manually in Java,
@@ -76,10 +76,10 @@ abstract public class CorbaApp
 			rootPoa =POAHelper.narrow(obj);
 			if(rootPoa==null)
 				throw new OBJECT_NOT_EXIST();
-		} 
+		}
 		return rootPoa;
 	}
-	
+
 	static public POAManager getPOAManager() throws InvalidName {
 		if (pman == null) {
 			pman = getPOA().the_POAManager();
@@ -87,7 +87,7 @@ abstract public class CorbaApp
 		}
 		return pman;
 	}
-	
+
 	static public NamingContextExtOperations getRootContext() throws NamingServiceUnavailable {
 		if (rootContext == null) {
 			try {
@@ -139,10 +139,10 @@ abstract public class CorbaApp
 		} catch (CannotProceed e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 	}
-	
-	
+
+
 	static public void activateManager() throws ManagerActivationFailure {
 		try {
 			getPOAManager().activate();
@@ -152,7 +152,7 @@ abstract public class CorbaApp
 			throw new ManagerActivationFailure();
 		}
 	}
-	
+
 	static public void activateObject(Servant servant) throws ObjectActivationFailure {
 		try {
 			CorbaApp.getPOA().activate_object(servant);
@@ -164,7 +164,7 @@ abstract public class CorbaApp
 			throw new ObjectActivationFailure();
 		}
 	}
-	
+
 	static public ORB getORB() {
 		if (orb == null) {
 			String args[] = {};
@@ -172,7 +172,7 @@ abstract public class CorbaApp
 		}
 		return orb;
 	}
-	
+
 	static public ORB getORB(String args[]) {
 		if (orb == null) {
 			return initializeORB(args);
@@ -180,7 +180,7 @@ abstract public class CorbaApp
 			return orb;
 		}
 	}
-	
+
 	static public ORB initializeORB(String args[]) {
         // Must strip out ORB arguments manually in Java,
 		// since ORB.init() doesn't do it for us.
@@ -189,7 +189,7 @@ abstract public class CorbaApp
 
 		// Process Options
 		String hostName    ="localhost";
-		
+
 		// If -ORBInitRef not present then make a best guess based on hostName
 		ArrayList<String> orb_args_list = new ArrayList<String>(java.util.Arrays.asList(orb_args));
 		if (!orb_args_list.contains("-ORBInitRef")) {
@@ -202,7 +202,7 @@ abstract public class CorbaApp
 		return ORB.init(orb_args, null);
 	}
 
-	
+
 	static String[] stripOrbArgs(String[] args)
 	{
 		java.util.ArrayList<String> orb_arg_list = new ArrayList<String>();
