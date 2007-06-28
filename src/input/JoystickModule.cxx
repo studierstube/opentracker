@@ -263,6 +263,67 @@ namespace ot {
             //            logPrintI("dwbuttons %d\n", (unsigned int)joyInfoEx.dwButtons & 0x000000FF);
             if (joyCaps[i].wCaps & JOYCAPS_HASPOV){
                 tmp.setAttribute("POV", joyInfoEx.dwPOV);
+                std::vector<float> coordsTmp(3);
+                int enabledButton;
+                switch (joyInfoEx.dwPOV)
+                {
+                    case 0:
+                        enabledButton=0;
+                        coordsTmp[0]=0.0f;
+                        coordsTmp[1]=1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 4500:
+                        enabledButton=1;
+                        coordsTmp[0]=1.0f;
+                        coordsTmp[1]=1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 9000:
+                        enabledButton=2;
+                        coordsTmp[0]=1.0f;
+                        coordsTmp[1]=0.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 13500:
+                        enabledButton=3;
+                        coordsTmp[0]=1.0f;
+                        coordsTmp[1]=-1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 18000:
+                        enabledButton=4;
+                        coordsTmp[0]=0.0f;
+                        coordsTmp[1]=-1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 22500:
+                        enabledButton=5;
+                        coordsTmp[0]=-1.0f;
+                        coordsTmp[1]=-1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 27000:
+                        enabledButton=6;
+                        coordsTmp[0]=-1.0f;
+                        coordsTmp[1]=0.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    case 31500:
+                        enabledButton=7;
+                        coordsTmp[0]=-1.0f;
+                        coordsTmp[1]=1.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                    default:
+                        enabledButton=-1;
+                        coordsTmp[0]=0.0f;
+                        coordsTmp[1]=0.0f;
+                        coordsTmp[2]=0.0f;
+                        break;
+                }
+                tmp.setAttribute("POVEnabledButton", enabledButton);
+                tmp.setAttribute("POVCoordinates", coordsTmp);
             }
             int update = 0;
 
