@@ -265,6 +265,7 @@ namespace ot {
                 tmp.setAttribute("POV", joyInfoEx.dwPOV);
                 std::vector<float> coordsTmp(3);
                 int enabledButton;
+                bool POVbuttons[8]={false, false, false, false, false, false, false, false};
                 switch (joyInfoEx.dwPOV)
                 {
                     case 0:
@@ -272,48 +273,56 @@ namespace ot {
                         coordsTmp[0]=0.0f;
                         coordsTmp[1]=1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[0]=true;
                         break;
                     case 4500:
                         enabledButton=1;
                         coordsTmp[0]=1.0f;
                         coordsTmp[1]=1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[1]=true;
                         break;
                     case 9000:
                         enabledButton=2;
                         coordsTmp[0]=1.0f;
                         coordsTmp[1]=0.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[2]=true;
                         break;
                     case 13500:
                         enabledButton=3;
                         coordsTmp[0]=1.0f;
                         coordsTmp[1]=-1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[3]=true;
                         break;
                     case 18000:
                         enabledButton=4;
                         coordsTmp[0]=0.0f;
                         coordsTmp[1]=-1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[4]=true;
                         break;
                     case 22500:
                         enabledButton=5;
                         coordsTmp[0]=-1.0f;
                         coordsTmp[1]=-1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[5]=true;
                         break;
                     case 27000:
                         enabledButton=6;
                         coordsTmp[0]=-1.0f;
                         coordsTmp[1]=0.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[6]=true;
                         break;
                     case 31500:
                         enabledButton=7;
                         coordsTmp[0]=-1.0f;
                         coordsTmp[1]=1.0f;
                         coordsTmp[2]=0.0f;
+                        POVbuttons[7]=true;
                         break;
                     default:
                         enabledButton=-1;
@@ -324,6 +333,15 @@ namespace ot {
                 }
                 tmp.setAttribute("POVEnabledButton", enabledButton);
                 tmp.setAttribute("POVCoordinates", coordsTmp);
+
+                tmp.setAttribute("POVButton.0", POVbuttons[0]);
+                tmp.setAttribute("POVButton.1", POVbuttons[1]);
+                tmp.setAttribute("POVButton.2", POVbuttons[2]);
+                tmp.setAttribute("POVButton.3", POVbuttons[3]);
+                tmp.setAttribute("POVButton.4", POVbuttons[4]);
+                tmp.setAttribute("POVButton.5", POVbuttons[5]);
+                tmp.setAttribute("POVButton.6", POVbuttons[6]);
+                tmp.setAttribute("POVButton.7", POVbuttons[7]);
             }
             int update = 0;
 
