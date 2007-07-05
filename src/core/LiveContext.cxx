@@ -97,7 +97,6 @@ namespace ot {
       poa->activate_object_with_id(corba_id, node);
       OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(corba_id));
       node->_remove_ref();
-      std::cout << "Node " << node->get("ID") << " activated with reference count " << node->_refcount_value() << std::endl;
       return node_ref;
     }
 
@@ -188,7 +187,6 @@ namespace ot {
   void LiveContext::remove_node(const OTGraph::Node_var& target_ref) {
       lock();
       Node* target  = getNodeFromRef(target_ref);
-      std::cout << "Node " << target->get("ID") << " of type " << target->getType() << " being removed with reference count " << target->_refcount_value() << std::endl;
 
       // Handle child nodes (upstream nodes)
       NodeVector::iterator child_it = target->children.begin();

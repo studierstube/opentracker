@@ -124,9 +124,12 @@ if sys.platform == 'darwin':
 elif sys.platform.startswith('linux'):
     print "Linux specific configuration"
     input_files += [join('src', 'input', 'ParButtonModule.cxx'),
-		    join('src', 'input', 'LinmouseModule.cxx')]
+		    join('src', 'input', 'LinmouseModule.cxx'),
+                    join('src', 'input', 'LinmouseSource.cxx')]
     if env['ENABLE_CORBA']:
 	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
+    env.Append(CPPDEFINES='_REENTRANT') # ACE specific issue on linux
+    env.Append(CPPPATH='/usr/include/COS') # pick up COS headers
 elif sys.platform == 'win32':
     print "Windows not supported at this time"
     sys.exit(-1)
@@ -290,22 +293,23 @@ if env['ENABLE_JAVA']:
     if env['ENABLE_OMNIEVENTS']:
 	test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java', 'OTEventChannelSourceObject.java', 'OTPushSupp.java']] + \
 	    [join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
+        other_jars = [join('src_java', _jar) for _jar in ['java-getopt-1.0.12.jar', 'vecmath1.2.jar']]
 	test_classes = env.JavacBld(test_sources,
-				       CLASSPATH=[join('src_java', 'java-getopt-1.0.12.jar')],
+				       CLASSPATH=other_jars,
 				       CLASSINSTALLDIR='build')
 	test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 
 			      source = test_classes, JARCHDIR='build')
 	push_cons = env.JavaShellScript(join('bin', 'OpenTrackerEventConsumer'), 
 					opentracker_stubs_jar + test_jar + \
-					[join('src_java', 'java-getopt-1.0.12.jar')],
+					other_jars,
 					PKGPREFIX='org.studierstube.opentracker.tests')
 	sink_example = env.JavaShellScript(join('bin', 'OTSinkExample'), 
 					opentracker_stubs_jar + test_jar + \
-					[join('src_java', 'java-getopt-1.0.12.jar')],
+					other_jars,
 					PKGPREFIX='org.studierstube.opentracker.tests')
 	source_example = env.JavaShellScript(join('bin', 'OTSourceExample'), 
 					opentracker_stubs_jar + test_jar + \
-					[join('src_java', 'java-getopt-1.0.12.jar')],
+					other_jars,
 					PKGPREFIX='org.studierstube.opentracker.tests')
 #********************************************#
 # Enable or disable python API documentation #

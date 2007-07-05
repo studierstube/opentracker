@@ -75,9 +75,7 @@ namespace ot {
     void deactivateNode(Node* node) {
       string id(node->get("ID"));
       PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
-      std::cout << "Node " << node->get("ID") << " deactivating with reference count " << node->_refcount_value() << std::endl;
       (corba_module->getPOA())->deactivate_object(node_id);
-      //std::cout << "Node " << node->get("ID") << " deactivated with reference count " << node->_refcount_value() << std::endl;
     }
 
     OTGraph::Node_var create_node(const char* _name, const OTGraph::StringTable& _attributes);
