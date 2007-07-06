@@ -1,7 +1,9 @@
 // OT_CORBA.idl
-module OT_CORBA {
-  const string OT_CORBA__doc__ = "This is the CORBA Module for OpenTracker";
+#ifdef USE_LIVE
+#include "OTGraph.idl"
+#endif
 
+module OT_CORBA {
   struct EventAttribute {
     string name;
     any value;
@@ -11,27 +13,22 @@ module OT_CORBA {
 
   typedef sequence<float> FloatVector;
 
-  interface Node {
-    void setEvent(in Event ev);
+#ifdef USE_LIVE
+  interface OTNode: OTGraph::Node {
+#else
+  interface OTNode {
+#endif
   };
 
-  const string Node__doc__ = "The Node is the superclass of all the CORBA objects that are either OpenTracker nodes or are invoked by OpenTracker ndoes.";
-
-  interface TransformNode : Node {
+  interface TransformNode : OTNode {
     Event transformEvent(in Event ev);
   };
 
-  interface OTNode : Node {
-  };
-  const string OTNode__doc__ = "The OTNode is the superclass of all the OpenTracker nodes that are also CORBA objects.";
-
-  interface OTSource : OTNode { 
-    void push();
+  interface OTEntity : OTNode {
+    void setEvent(in Event ev);    
   };
 
-  interface OTSink : OTNode { }; // currently unused
+  interface OTSource : OTEntity { 
+  };
 
-  interface Source : Node { }; // currently unused
-
-  interface Sink : Node { };
 };
