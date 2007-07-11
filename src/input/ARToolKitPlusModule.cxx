@@ -626,15 +626,34 @@ namespace ot {
 	    //
         for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
 	    {
-            ARToolKitSource *source = (ARToolKitSource *)((Node *)*it);
+            Node* source = ((Node *)*it);
 
-            Event & event = source->buffer;
-            if (event.getConfidence() > 0.00000001f) 
+            if(source->getType()=="ARToolKitPlusSource")
             {
-                event.getConfidence() = 0.0f;
-                event.timeStamp();
-                source->modified = 1;
+               ARToolKitSource *smSource = (ARToolKitSource *)source;
+
+               Event & event = smSource->buffer;
+               if (event.getConfidence() > 0.00000001f) 
+               {
+                  event.getConfidence() = 0.0f;
+                  event.timeStamp();
+                  smSource->modified = 1;
+               }
             }
+            else if(source->getType()=="ARToolKitPlusMultiMarkerSource")
+            {
+               ARToolKitMultiMarkerSource *mmSource = (ARToolKitMultiMarkerSource *)source;
+
+               Event & event = mmSource->buffer;
+               if (event.getConfidence() > 0.00000001f) 
+               {
+                  event.getConfidence() = 0.0f;
+                  event.timeStamp();
+                  mmSource->modified = 1;
+               }
+            }
+
+
 	    }
 	    visibleMarkers.clear();
 
