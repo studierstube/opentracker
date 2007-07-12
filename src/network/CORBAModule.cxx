@@ -353,12 +353,15 @@ void CORBAModule::clear()
       }
       CORBASink * sink;
       if (CORBA::is_nil(obj)) {
+	std::cerr << "no name or uri yielded a suitable reference" << std::endl;
 	sink = new CORBASink(frequency);
       } else {
 	OT_CORBA::OTEntity_var sink_ref = OT_CORBA::OTEntity::_narrow(obj);
 	if (CORBA::is_nil(sink_ref)) {
+	  std::cerr << "name or uri could not be narrowed to OTEntity" << std::endl;
 	  sink = new CORBASink( frequency );
 	} else {
+	  std::cerr << "instantiating CORBASink with OTEntity reference" << std::endl;
 	  sink = new CORBASink( sink_ref , frequency );
 	}
       }

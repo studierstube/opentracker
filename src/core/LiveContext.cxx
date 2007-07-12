@@ -98,6 +98,8 @@ namespace ot {
       Node* upstream_node = getNode(upstreamNode);
       logPrintI("getting downstreamNode\n");
       Node* downstream_node = getNode(downstreamNode);
+
+      // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
       if ((upstream_node == NULL) || (downstream_node == NULL)) {
           unlock();
           throw OTGraph::NodeNonExistent();
@@ -108,6 +110,7 @@ namespace ot {
       OTGraph::Edge* _edge = new OTGraph::Edge;
       _edge->sender   = upstreamNode;
       _edge->receiver = downstreamNode;
+      // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
 
       // add new edge to list of edges
       edges.push_back(Edge(((Node*) upstream_node), downstream_node));
@@ -122,6 +125,8 @@ namespace ot {
       Node* upstream_node   = getNode(upstreamNode);
       Node* downstream_node = getNode(downstreamNode);
 
+
+      // SORT OUT THE THREAD SAFETY OF THIS!
       NodeVector::iterator parent =
 	std::find( upstream_node->parents.begin(),  upstream_node->parents.end(), downstream_node);
       if (parent != upstream_node->parents.end()) {
@@ -133,6 +138,7 @@ namespace ot {
 	// The sender node is the child of the receiver node
 	downstream_node->children.erase(child);
       }
+      // SORT OUT THE THREAD SAFETY!!!
       Edge edge(upstream_node, downstream_node);
       EdgeVector::iterator result = std::find( edges.begin(), edges.end(), edge );
       if( result != edges.end())

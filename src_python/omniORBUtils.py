@@ -1,6 +1,7 @@
 import sys
 import CORBA
 import CosNaming
+from naming import str2name
 from copy import deepcopy
 
 def getContextFromName(root_context, context_name):
@@ -35,12 +36,6 @@ def getContext(root_context, context_name):
 	previous_context = next_context
     return previous_context
 
-def bindObjectReferenceToName(orb, obj, name):
-    cos_name = str2name(name)
-    context_name = cos_name[:-1]
-    context = getContext(getRootContext(orb), context_name)
-
-
 def initialiseORB():
     return CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 
@@ -64,6 +59,19 @@ def getObjectReference(orb, name):
     rootContext = getRootContext(orb)
     obj = rootContext.resolve(name)
     return obj
+
+def bindObjectReferenceToName(orb, obj, name):
+    cos_name = str2name(name)
+    root_context = getRootContext(orb)
+    context = getContext(root_context, cos_name[:-1])
+    print cos_name[-1], context
+    try:
+	root_context.bind(cos_name, obj)
+	"Object bound"
+    except CosNaming.NamingContext.AlreadyBound:
+	print cos_name[-1]
+	root_context.rebind(cos_name, obj)
+	"Object rebound"
 
 def getNarrowedObjectReference(orb, name, objectClass):
     obj = getObjectReference(orb, name)

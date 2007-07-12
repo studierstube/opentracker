@@ -139,20 +139,22 @@ public:
     virtual void onEventGenerated( Event& event, Node& generator)
     {
       logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
-      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
-      if ((cycle++ % frequency) == 0) {
-	OT_CORBA::Event corba_event = event.getCORBAEvent();
-	//CORBAUtils::convertToCORBAEvent(event, corba_event);
-	try {
-	  corba_sink->setEvent(corba_event);
+      if (!CORBA::is_nil(corba_sink)) {
+	ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+	if ((cycle++ % frequency) == 0) {
+	  OT_CORBA::Event corba_event = event.getCORBAEvent();
+	  //CORBAUtils::convertToCORBAEvent(event, corba_event);
+	  try {
+	    corba_sink->setEvent(corba_event);
+	  }
+	  catch (CORBA::COMM_FAILURE) {
+	    std::cerr << "Caught CORBA::COMM_FAILURE" << std::endl;
+	  }
+	  catch (CORBA::TRANSIENT) {
+	    std::cerr << "Caught CORBA::TRANSIENT" << std::endl;
+	  }
+	  updateObservers( event );
 	}
-	catch (CORBA::COMM_FAILURE) {
-	  std::cerr << "Caught CORBA::COMM_FAILURE" << std::endl;
-	}
-	catch (CORBA::TRANSIENT) {
-	  std::cerr << "Caught CORBA::TRANSIENT" << std::endl;
-	}
-	updateObservers( event );
       }
     }
 
@@ -166,9 +168,13 @@ public:
       return entity;
     }
 
-    virtual void setEntity(const OT_CORBA::OTEntity_var entity) {
+    virtual void setEntity(const OT_CORBA::OTEntity_var& entity) {
       ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
-      corba_sink = entity;
+      if (!CORBA::is_nil(entity)) {
+	corba_sink = entity;
+      } else {
+	std::cerr << "setEntity was sent a nil reference" << std::endl;
+      }
     }
 #endif    // USE_LIVE
     friend class CORBAModule;
