@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for ARToolKitPlus source node.
+/** header file for ARToolKitMultiMarkerSource source node.
  *
  * @author Daniel Wagner
  *
@@ -58,7 +58,7 @@
 #ifndef _ARTOOLKITMULTIMARKERSOURCE_H
 #define _ARTOOLKITMULTIMARKERSOURCE_H
 
-#include "../OpenTracker.h"
+#include "ARToolKitSource.h"
 
 
 #if defined(USE_ARTOOLKIT) || defined(USE_ARTOOLKITPLUS)
@@ -69,45 +69,24 @@ namespace ot {
      * artoolkit library.
      * @ingroup input
      */
-    class OPENTRACKER_API ARToolKitMultiMarkerSource : public Node
+    class OPENTRACKER_API ARToolKitMultiMarkerSource : public ARToolKitSource
     {
 
     public:
-        /// the event pushed into the tree
-        Event event, 
-            /// buffer variable for grabbing thread
-            buffer;
-	/// filename of the multimarker config file
-	std::string cfgfile;
-	/// pointer to the multi-marker configuration structure (loaded from cfgfile)
-	void* mmConfig;
-        /// is a new update ready in the buffer ?
-        int modified;
+	      std::string cfgfile;    ///< filename of the multimarker config file
+	      void* mmConfig;         ///< pointer to the multi-marker configuration structure (loaded from cfgfile)
 
-    protected:
         /** constructor method
-         * @param markerId_ the id of the marker from artoolkit library
+         * @param cfgfile_ filname of artoolkit multimarker configuration
          * @param vertex_ vertex coordinates of the marker
          */
         ARToolKitMultiMarkerSource(std::string& cfgfile_, void* mmConfig_) : 
-            Node(),
             cfgfile( cfgfile ),
-            mmConfig(mmConfig_),
-            modified(0)
+            mmConfig(mmConfig_)
         {
+           type = "ARToolKitPlusMultiMarkerSource";
         }
 
-    public:
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
-        {
-            return 1;
-        };  
-
-        friend class ARToolKitModule;
-        friend class ARToolKitPlusModule;
     };
 
 } // namespace ot

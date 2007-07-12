@@ -44,18 +44,8 @@
 /**
  * @page Nodes Node Reference
  * @section artoolkitsource ARToolKitSource
- * The ARToolKitSource node is a simple EventGenerator that inserts events 
- * from tracking a visual marker in a video image by using the ARToolKit
- * library. See the @ref artoolkitmodule for information about how to
- * configure the module as a whole. It has the following elements :
- * @li @c tag-file the file containing the marker pattern
- * @li @c center the center within the marker as two coordinates in millimeters
- * @li @c size the size of the quadratic marker in millimeters
- *
- * An example element looks like this :
- * @verbatim
- <ARToolKitSource tag-file="pip.tag" center="0,0" size="40" />@endverbatim
-*/
+ * The ARToolKitSource node is an abstract class providing basic facilities.
+ */
 
 #ifndef _ARTOOLKITSOURCE_H
 #define _ARTOOLKITSOURCE_H
@@ -67,7 +57,7 @@
 
 namespace ot {
 
-  /** An ARToolKitSource represents a single marker that is tracked by the 
+  /** An ARToolKitSource is the base abstract class for ARToolKit library.
    * artoolkit library.
    * @ingroup input
    */
@@ -75,46 +65,25 @@ namespace ot {
     {
 
     public:
-      /// the event pushed into the tree
-      Event event, 
-	/// buffer variable for grabbing thread
-        buffer;
-      /// marker id from the artoolkit library
-      int markerId;
-      /// center of the marker
-      double center[2];
-      /// size of the marker
-      double size;
-      /// is a new update ready in the buffer ?
-      int modified;
-
-    protected:
-      /** constructor method
-       * @param markerId_ the id of the marker from artoolkit library
-       * @param vertex_ vertex coordinates of the marker
-       */
-      ARToolKitSource(int markerId_, double center_[2], double size_) : 
-        Node(),        
-        markerId( markerId_ ),
-        size( size_ ),
-        modified(0)
-	{
-	  center[0] = center_[0];
-	  center[1] = center_[1];
-	};
+       Event event,  ///< the event pushed into the tree
+	          buffer; ///< buffer variable for grabbing thread
+       int modified;  ///< is a new update ready in the buffer ?
 
     public:
-      /** tests for EventGenerator interface being present. Is overriden to
+      /** tests for EventGenerator interface being present. Is overridden to
        * return 1 always.
        * @return always 1 */
       virtual int isEventGenerator()
-	{
-	  return 1;
-	};  
+	   {
+	     return 1;
+	   };  
 
-      friend class ARToolKitModule;
-      friend class ARToolKitPlusModule;
-    };
+     protected:
+      ARToolKitSource() : Node(), modified(0)
+      {}
+  
+
+  };
 
 } // namespace ot
 

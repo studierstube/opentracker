@@ -1054,6 +1054,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\input\ARToolKitSingleMarkerSource.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\input\ARToolKitSource.h"
 				>
 				<FileConfiguration
@@ -2680,6 +2684,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\core\Module.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\MulticastInputModule.h"

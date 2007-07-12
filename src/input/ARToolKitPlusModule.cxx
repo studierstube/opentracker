@@ -56,6 +56,7 @@
 
 #include <OpenTracker/input/ARToolKitPlusModule.h>
 #include <OpenTracker/input/ARToolKitSource.h>
+#include <OpenTracker/input/ARToolKitSingleMarkerSource.h>
 #include <OpenTracker/input/ARToolKitMultiMarkerSource.h>
 
 #ifdef USE_ARTOOLKITPLUS
@@ -247,7 +248,7 @@ namespace ot {
 
     Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
     {
-        if( name.compare("ARToolKitPlusSource") == 0 )
+        if( name.compare("ARToolKitPlusSingleMarkerSource") == 0 )
         {
             double center[2], size;
             int num;
@@ -317,13 +318,13 @@ namespace ot {
                 }
             }
 
-            ARToolKitSource * source = new ARToolKitSource( id, center, size );
-            source->type = "ARToolKitSource";
+            ARToolKitSingleMarkerSource* source = new ARToolKitSingleMarkerSource( id, center, size );
+            //source->type = "ARToolKitPlusSingleMarkerSource";
             sources.push_back( source );
             sourcesMap.insert(std::make_pair(id, source));
 
             //cout << "Built ARToolKitSource " << filename << " id " << id << endl;
-            logPrintI("Built ARToolKitSource %s id %d\n", filename.c_str(), id);
+            logPrintI("Built ARToolKitPlusSingleMarkerSource %s id %d\n", filename.c_str(), id);
             return source;
         }
 
@@ -348,7 +349,7 @@ namespace ot {
             if(mmConfig)
             {
                 ARToolKitMultiMarkerSource * source = new ARToolKitMultiMarkerSource( filename, mmConfig );
-                source->type = "ARToolKitMultiMarkerSource";
+                //source->type = "ARToolKitMultiMarkerSource";
                 sources.push_back( source );
 
                 // we store the ids of all markers in this config...
@@ -389,8 +390,8 @@ namespace ot {
 #else
 #define MAKE_STRING_LOWER(STR)  std::transform(STR.begin(), STR.end(), STR.begin(), static_cast<int(*)(int)>(std::tolower));
 #endif
-    void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
-    {
+void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
+{
 	cameradata = attributes.get("camera-parameter");
         patternDirectory = attributes.get("pattern-dir");
 
@@ -628,8 +629,8 @@ namespace ot {
 	    {
             Node* source = ((Node *)*it);
 
-            if(source->getType()=="ARToolKitPlusSource")
-            {
+            //if(source->getType()=="ARToolKitPlusSource")
+            //{
                ARToolKitSource *smSource = (ARToolKitSource *)source;
 
                Event & event = smSource->buffer;
@@ -639,22 +640,7 @@ namespace ot {
                   event.timeStamp();
                   smSource->modified = 1;
                }
-            }
-            else if(source->getType()=="ARToolKitPlusMultiMarkerSource")
-            {
-               ARToolKitMultiMarkerSource *mmSource = (ARToolKitMultiMarkerSource *)source;
-
-               Event & event = mmSource->buffer;
-               if (event.getConfidence() > 0.00000001f) 
-               {
-                  event.getConfidence() = 0.0f;
-                  event.timeStamp();
-                  mmSource->modified = 1;
-               }
-            }
-
-
-	    }
+  	    }
 	    visibleMarkers.clear();
 
 	    // try to find markers in the camera image
@@ -742,9 +728,9 @@ namespace ot {
             //
             visibleMarkers.push_back(source);
 
-            if(source->getType()=="ARToolKitPlusSource")
+            if(source->getType()=="ARToolKitPlusSingleMarkerSource")
             {
-                ARToolKitSource *sourceA = (ARToolKitSource*)source;
+                ARToolKitSingleMarkerSource *sourceA = (ARToolKitSingleMarkerSource*)source;
                 ARFloat source_center[2], source_size;
 
                 source_center[0] = (ARFloat)sourceA->center[0];
@@ -800,16 +786,17 @@ namespace ot {
 
     void ARToolKitPlusModule::pushEvent()
     {
-	for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-	{
-            ARToolKitSource * source = (ARToolKitSource *)((Node *)*it);
-            if( source->modified == 1 )
-            {
-                source->event = source->buffer;
-                source->modified = 0;
-                source->updateObservers( source->event );
-            }
-	}
+	      for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+	      {
+                  ARToolKitSource * source = (ARToolKitSource *)((Node *)*it);
+                  //if( TRUE ) 
+                  if( source->modified == 1 )
+                  {
+                      source->event = source->buffer;
+                      source->modified = 0;
+                      source->updateObservers( source->event );
+                  }
+	      }
     }
 
     void ARToolKitPlusModule::updateEvent(Event &event, float matrix[3][4])
