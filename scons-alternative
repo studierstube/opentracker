@@ -71,6 +71,7 @@ _defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', '
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
     [join('src', 'tool', 'OT_ACE_Log.cxx')]
+#essential_core_files.remove(join('src', 'core', 'LiveContext.cxx'))
 common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx']
 common_files = [join('src', 'common', file) for file in common]
 misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx')]
@@ -176,6 +177,7 @@ if env['ENABLE_CORBA']:
 	IDLJBuilder.generate(env)
 	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
+	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'OT_CORBA', 'Shared']])
 	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
 	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
 	env.Append(SOURCEDIR='src_java')
@@ -227,6 +229,7 @@ if env['ENABLE_SHARED']:
     print "Shared support enabled"
     env.Append(CPPDEFINES='USE_SHARED')
     stub_generator.addStubsAndSkeletons(join('idl', 'Shared.idl'), pkgprefix='org.studierstube.opentracker')
+    #stub_generator.addStubsAndSkeletons(join('idl', 'Shared.idl'))
 
 #************************************#
 # Enable or disable support for VRPN #
@@ -243,7 +246,8 @@ if env['ENABLE_LIVE']:
 	print "Cannot have support for fine-grained dynamic reconfigurationwithout also enabling CORBA support. Exiting..."
 	sys.exit(-1)
     print "Fine-grained dynamic reconfiguration support enabled"
-    env.Append(CPPDEFINES='USE_LIVE');
+    env.Append(CPPDEFINES='USE_LIVE')
+    env.Append(CPPPATH=join('include', 'OpenTracker', 'skeletons'))
     stub_generator.addStubsAndSkeletons(join('idl', 'OTGraph.idl'), pkgprefix='org.studierstube.opentracker')
 
 #********************************************************************#
@@ -287,7 +291,8 @@ if env['ENABLE_JAVA']:
     JavacBld.generate(env)
     JarBuilder.generate(env)
     JavaShellScript.generate(env)
-    stub_classes = env.JavacBld(stub_generator.java, CLASSINSTALLDIR='build')
+    stub_classes = env.JavacBld(stub_generator.java, 
+                                CLASSINSTALLDIR='build')
     opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'), source = stub_classes, JARCHDIR='build')
     opentracker_stubs_src_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs_src.jar'), source = stub_generator.java, JARCHDIR='src_java')
     if env['ENABLE_OMNIEVENTS']:

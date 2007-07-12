@@ -110,7 +110,6 @@ namespace ot {
          * @return new Node or NULL, if element name was not recognized */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
 		static bool isKnownNode(std::string nodeName);
-
         friend class StaticTransformation;
     };
 

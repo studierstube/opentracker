@@ -68,6 +68,14 @@ namespace ot {
 
     /// a string map to store modules in
     typedef std::map<std::string, Module::Ptr> ModuleMap;
+#ifdef USE_LIVE
+    typedef std::map<Node*, std::string> NodeIDMap;
+    typedef NodeIDMap::iterator NodeIDMapIterator;
+    typedef std::map<std::string, Node*> IDNodeMap;
+    typedef IDNodeMap::iterator IDNodeMapIterator;
+    //typedef std::map<std::string, PortableServer::ServantBase*> IDServantMap;
+    //typedef IDServantMap::iterator IDServantMapIterator;
+#endif
 
     /**
      * This class represents one context. It keeps its own modules and tracker tree. Using
@@ -107,6 +115,11 @@ namespace ot {
     protected:
         /// A map of the modules this context works with
         ModuleMap modules;
+#ifdef USE_LIVE
+        NodeIDMap  node_id_map;
+        IDNodeMap  id_node_map;
+        //IDServantMap id_servant_map;
+#endif
         /// Pointer to the root node of the local tracker tree
         //        Node::Ptr rootNode;
 #ifndef USE_LIVE
@@ -228,7 +241,20 @@ namespace ot {
          * @returns pointer to the found node, or NULL.
          */
         Node * findNode(const std::string & id);
-
+#ifdef USE_LIVE
+        std::string getIDFromNodeRef(const OTGraph::Node_var& node_ref);
+        std::string getIDFromNode(Node* node);
+        OTGraph::Node_var getNodeRefFromID(const std::string& id);
+        OTGraph::Node_var getNode(Node* node);
+        //        PortableServer::ServantBase* getServant(const std::string& id);
+        Node* getNode(const OTGraph::Node_var& node_ref);
+        Node* getNode(const std::string& id);
+        void eraseNode(Node* node);
+        void appendNode(Node* node, const std::string& id);
+        void activateNode(Node* node, const char* id);
+        void activateNode(Node* node);
+        void deactivateNode(Node* node);
+#endif
         /** This method initialies the context with a tracker tree described by
          * a configuration file. It parses the file and builds the tree.
          * @param filename the path and name of the configuration file */

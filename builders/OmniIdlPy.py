@@ -125,9 +125,10 @@ def generate_omniidl_actions(source, target, env, for_signature):
     listCmd = []
     for directory in env['CPPPATH']:
         include_args += "-I%s " % (directory)
+    defines = "-D%s "*len(env['CPPDEFINES']) % tuple(env['CPPDEFINES'])
     for src in source:
         idl_file = src.get_string(for_signature)
-        command = 'omniidl -bpython %s -C %s %s' % (include_args, env['OMNIIDL_INSTALL_DIRECTORY'], idl_file)
+        command = 'omniidl -bpython %s %s -C %s %s' % (defines, include_args, env['OMNIIDL_INSTALL_DIRECTORY'], idl_file)
         listCmd.append(command)
     return listCmd
 

@@ -70,7 +70,7 @@ class OPENTRACKER_API CORBASink : public Node
 // Members
 public:
   /// CORBA Node (sink) object associated with this node.
-  OT_CORBA::Node_var corba_sink;
+  OT_CORBA::OTEntity_var corba_sink;
   /// frequency of updates
     int frequency;
     int cycle;
@@ -88,12 +88,14 @@ protected:
     /** constructor method,sets commend member
      * @param corba_sink_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
-    CORBASink( OT_CORBA::Node_var corba_sink_, int frequency_) :
+    CORBASink( OT_CORBA::OTEntity_var corba_sink_, int frequency_) :
         Node(), 
         corba_sink( corba_sink_ ),
         frequency( frequency_ ),
         cycle ( 0 )
-    {}
+	  {
+	    type = "CORBASink";
+	  }
 	virtual ~CORBASink() {
       // CORBASink destructor
 	  std::cout << "CORBASink destructor" << std::endl;
@@ -106,7 +108,6 @@ public:
     virtual int isEventGenerator()
     {
       return 1;
-      //return 0;
     }
     
     /**

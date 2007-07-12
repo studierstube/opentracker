@@ -87,9 +87,10 @@ public:
 protected:
     /** simple constructor, sets members to initial values
      */
- PushCons( ) : Node(), modified(false)
+ PushCons( ) : Node()
     {
       mu = new ACE_Thread_Mutex("pushcons");
+      type = "PushCons";
     }
 
 public:            
@@ -109,7 +110,7 @@ public:
      * updateObservers method in EventGenerator. Note that the 
      * implementation of this method is in the file CORBAModule.cxx !
      */
-    void push();
+    //    void push();
 
     void push(const CORBA::Any& data);
     
@@ -119,12 +120,10 @@ public:
     
  private:
     ACE_Thread_Mutex* mu;
-    bool modified;
 
  public:
-    void lock() { mu->acquire(); };
-    void unlock() { mu->release(); };
-    bool isModified() {return modified;};
+    void _lock() { mu->acquire(); };
+    void _unlock() { mu->release(); };
     void disconnect_push_consumer ();
 };
 

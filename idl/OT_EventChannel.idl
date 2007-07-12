@@ -1,8 +1,15 @@
 // OT_EventChannel.idl
 #include <COS/CosEventComm.idl>
+#ifdef USE_LIVE
+#include "OTGraph.idl"
+#endif
 
 module OT_EventChannel {
 
+#ifdef USE_LIVE
+  interface PushConsNode : CosEventComm::PushConsumer, OTGraph::Node {};
+#else
   interface PushConsNode : CosEventComm::PushConsumer {};
+#endif
 
 };

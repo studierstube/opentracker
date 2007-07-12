@@ -82,6 +82,23 @@ namespace ot {
         return value;
     }
 
+#ifdef USE_LIVE
+    std::pair<Node*, NodeFactory*> NodeFactoryContainer::createNodeUsingFactory( const std::string& name, StringTable& attributes)
+    {
+        Node * value = NULL;
+        NodeFactory * factory;
+        NodeFactoryVector::iterator it = factories.begin();
+        while( it != factories.end() && value == NULL )
+        {
+            value = (*it)->createNode( name, attributes );
+            if (value != NULL) {
+                factory = (*it);
+            }
+            it++;
+        }
+        return NodeFactoryPair(value, factory);
+    }
+#endif
     // removes a NodeFactory from the container.
 
     void NodeFactoryContainer::removeFactory(NodeFactory& factory)

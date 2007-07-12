@@ -91,6 +91,7 @@ namespace ot {
     Node::~Node()
     {
         logPrintW("Destructor of node %s\n",getType().c_str());
+        std::cerr << "Destructor of node" << std::endl;
         // this one will call disconnect indirectly!
         disconnect();
         if (graph) graph->remNode(this);
@@ -574,7 +575,6 @@ namespace ot {
 //      return _rcount;
 //   }
 #endif
-
     // add one parent node
     void Node::addParent( Node * parent ){
         parents.push_back( parent );
@@ -651,7 +651,7 @@ namespace ot {
     }
 
     char* Node::get_id() {
-        return CORBA::string_dup(get("ID").c_str());
+        return CORBA::string_dup(get("DEF").c_str());
     }
 
     char* Node::get_attribute(const char* _key) {

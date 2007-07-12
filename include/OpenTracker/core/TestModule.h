@@ -130,7 +130,7 @@ namespace ot {
 	virtual void close();
 
         /**
-         * removes Node from module AND destroys it
+         * removes Node from module but does not destroy it
          */
         virtual void removeNode(Node * node);
 

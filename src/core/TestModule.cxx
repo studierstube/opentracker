@@ -77,8 +77,8 @@ namespace ot {
 	}
                   
     void TestModule::removeNode(Node * node) {
-        logPrintD("TestModule::removeNode\n");
-        logPrintD("TestModule deleting node %s\n", node->get("ID").c_str());
+        logPrintI("TestModule::removeNode\n");
+        logPrintI("TestModule deleting node %s\n", node->get("ID").c_str());
         NodeVector::iterator result = std::find( nodes.begin(), nodes.end(), node );
         if( result != nodes.end())
         {
@@ -198,6 +198,7 @@ namespace ot {
     TestSource::TestSource( double frequency_, int offset_ ) :
         Node(), cycle( 1 )
     {
+        type = "TestSource";
         using namespace std;
         double tau = 1.0/static_cast<double>(frequency_);
         long taus(static_cast<long>(tau));

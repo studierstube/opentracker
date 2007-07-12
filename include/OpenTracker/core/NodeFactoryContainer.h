@@ -54,6 +54,7 @@ namespace ot {
      * used to keep a list of NodeFactories.
      */
     typedef std::vector<NodeFactory*> NodeFactoryVector;
+    typedef std::pair<Node*, NodeFactory*> NodeFactoryPair;
 
     /**
      * An implementation of NodeFactory that contains several NodeFactories and
@@ -93,6 +94,9 @@ namespace ot {
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
+#ifdef USE_LIVE
+        NodeFactoryPair createNodeUsingFactory( const std::string& name,  StringTable& attributes);
+#endif
 		void removeAll();
 		void copyFrom(const NodeFactoryContainer & other);
     };

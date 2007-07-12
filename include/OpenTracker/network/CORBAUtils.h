@@ -101,6 +101,9 @@ namespace ot {
         static CosNaming::NamingContext_var getContext(const CosNaming::NamingContext_var& root_context, CosNaming::Name_var& name);
 
         static PortableServer::ObjectId_var getObjectId(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name);
+
+        static void generateUniqueId(CORBA::Octet* k);
+        static std::string generateUniqueId();
     };
             
 } // namespace ot

@@ -48,17 +48,22 @@ if __name__ == '__main__':
     orb, graph = init()
     sources = []
     sinks = []
-    for i in range(0,1000):
-	sources += [graph.create_node("TestSource", [KeyValuePair("frequency", "10"), KeyValuePair("noise", "0.1")])]
+    for i in range(0,1):
+        source = graph.create_node("TestSource", [KeyValuePair("frequency", "10"), KeyValuePair("noise", "0.1"), KeyValuePair("frequency", "10"), KeyValuePair("DEF", "Node"+str(i))])
+	sources += [source]
 	sinks += [graph.create_node("CORBASink",[KeyValuePair("name","CORBA.Sink01")])]
+
     for source, sink in izip(sources, sinks):
 	graph.connect_nodes(source, sink)
     print "sleeping for five seconds"
     gotoSleep(5)
     print "woken up"
     for source, sink in izip(sources, sinks):
+        print source.get_type(), source.get_id()
+        print sink.get_type(), sink.get_id()
 	graph.disconnect_nodes(source, sink)
 	graph.remove_node(source)
+#        print source.get_type(), source.get_id()
 	graph.remove_node(sink)
     
 

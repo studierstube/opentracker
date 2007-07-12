@@ -96,12 +96,7 @@ namespace ot {
      * @author Gerhard Reitmayr
      * @ingroup core
      */
-#ifdef USE_LIVE
-    class OPENTRACKER_API Node : public POA_OTGraph::Node,
-                                 public PortableServer::RefCountServantBase
-#else
     class OPENTRACKER_API Node
-#endif
     {
         
 

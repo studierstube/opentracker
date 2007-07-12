@@ -48,6 +48,9 @@
 
 #include "Node.h"
 #include "StringTable.h"
+#ifdef USE_LIVE
+#include <OpenTracker/network/CORBAUtils.h>
+#endif
 
 /**
  * interface class for node factories. These construct new nodes based on
@@ -73,6 +76,7 @@ namespace ot {
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes) = 0;
+
         virtual ~NodeFactory() {};
     };
 

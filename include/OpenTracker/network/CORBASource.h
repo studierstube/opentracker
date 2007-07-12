@@ -81,21 +81,21 @@ class OPENTRACKER_API CORBASource : public Node
 {
 // Members
 public:
-    /// the original event
-    Event event;
 
 // Methods
 protected:
     /** simple constructor, sets members to initial values
      */
- CORBASource( ) : Node(), modified(false)
+  // CORBASource( ) : Node(), modified(false)
+ CORBASource( ) : Node()
     {
             mu = new ACE_Thread_Mutex("corbasource");
+	    type = "CORBASource";
     }
 
 public:            
     virtual ~CORBASource( ) {
-            delete mu;
+      delete mu;
     }
 
     /** tests for EventGenerator interface being present. Is overriden to
@@ -106,24 +106,17 @@ public:
         return 1;
     }
 
-    /** pushes event down the line. Needed to access protected
-     * updateObservers method in EventGenerator. Note that the 
-     * implementation of this method is in the file CORBAModule.cxx !
-     */
-    void push();
-    
     void setEvent(const OT_CORBA::Event& new_event);
     
     friend class CORBAModule;
     
  private:
     ACE_Thread_Mutex* mu;
-    bool modified;
+    //    bool modified;
 
     // public:
     void _lock() { mu->acquire(); };
     void _unlock() { mu->release(); };
-    bool isModified() {return modified;};
 };
 
 } // namespace ot

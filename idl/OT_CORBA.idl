@@ -10,7 +10,6 @@ module OT_CORBA {
   };
 
   typedef sequence<EventAttribute> Event;
-
   typedef sequence<float> FloatVector;
 
 #ifdef USE_LIVE
@@ -24,11 +23,11 @@ module OT_CORBA {
     Event transformEvent(in Event ev);
   };
 
-  interface OTEntity : OTNode {
+  interface OTEntity {
     void setEvent(in Event ev);    
   };
 
-  interface OTSource : OTEntity { 
+    interface OTSource : OTEntity, OTNode { 
   };
 
 };

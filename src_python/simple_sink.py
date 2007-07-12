@@ -13,7 +13,7 @@ import CosNaming
 import OT_CORBA, OT_CORBA__POA
 
 # Define an implementation of the Echo interface
-class SimpleSink_i (OT_CORBA__POA.Sink):
+class SimpleSink_i (OT_CORBA__POA.OTEntity):
     def setEvent(self, event):
 	print "**************************"
 	print event

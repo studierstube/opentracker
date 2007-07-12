@@ -75,69 +75,52 @@ namespace ot {
       return OTGraph::Node::_duplicate(OTGraph::Node::_narrow(poa->id_to_reference(node_id)));
   }
 
-  Node* LiveContext::getNodeFromRef(const OTGraph::Node_var& node_ref) {
-    PortableServer::POA_var poa = corba_module->getPOA();
-    PortableServer::ServantBase* node_servant = poa->reference_to_servant(OTGraph::Node::_duplicate(node_ref));
-    Node* node = dynamic_cast<Node*>(node_servant);
-    node->_remove_ref();
-      return node;
-  }
-
-  OTGraph::Node_var LiveContext::getRefFromNode(Node* node) {
-      string id(node->get("ID"));
-      PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
-      OTGraph::Node_var node_ref = OTGraph::Node::_narrow((corba_module->getPOA())->id_to_reference(node_id));
-      return node_ref;
-  }
-
-  OTGraph::Node_var LiveContext::activateNode(Node* node) {
-      PortableServer::POA_var poa = corba_module->getPOA();
-      CORBA::String_var string_id = CORBA::string_dup(node->get("ID").c_str());
-      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
-      poa->activate_object_with_id(corba_id, node);
-      OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(corba_id));
-      node->_remove_ref();
-      return node_ref;
-    }
 
   OTGraph::Node_var LiveContext::create_node(const char* _name, const OTGraph::StringTable& _attributes) {
       string name(_name);
       StringTable attributes(_attributes);
-      if (!attributes.containsKey("ID")) {
-	attributes.put("ID", generateNewId());
-	logPrintI("generated ID = %s\n", attributes.get("ID").c_str());
-      } else {
-          logPrintI("ID in attributes = %s\n", attributes.get("ID").c_str());
-      }
       lock();
       Node* value = createNode(name, attributes);
-      value->name = value->get("ID");
-      value->type = name;
-
       // Add node to the name-Node mapping
-      nodes[value->get("ID")] = value;
-      OTGraph::Node_var node_ref = activateNode(value); 
+      logPrintI("just about to getNode(value)\n");
+      OTGraph::Node_var node_ref = getNode(value);
+      logPrintI("just did getNode(value)\n");
       unlock();
+      logPrintI("unlocked create_node\n");
       return node_ref;
     }
 
-  void LiveContext::connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
+
+    OTGraph::Edge* LiveContext::connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       logPrintI("connecting nodes\n");
       lock();
-      Node::Ptr upstream_node   = getNodeFromRef(upstreamNode);
-      Node*     downstream_node = getNodeFromRef(downstreamNode);
+      logPrintI("getting upstreamNode\n");
+      Node* upstream_node = getNode(upstreamNode);
+      logPrintI("getting downstreamNode\n");
+      Node* downstream_node = getNode(downstreamNode);
+      if ((upstream_node == NULL) || (downstream_node == NULL)) {
+          unlock();
+          throw OTGraph::NodeNonExistent();
+      }
       downstream_node->addChild(*upstream_node);
       upstream_node->addParent(downstream_node);
+
+      OTGraph::Edge* _edge = new OTGraph::Edge;
+      _edge->sender   = upstreamNode;
+      _edge->receiver = downstreamNode;
 
       // add new edge to list of edges
       edges.push_back(Edge(((Node*) upstream_node), downstream_node));
       unlock();
+      logPrintI("finished connecting nodes\n");
+      return _edge;
     }
 
   void LiveContext::disconnect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
+      logPrintI("disconnecting nodes\n");
       lock();
-      Node* upstream_node   = getNodeFromRef(upstreamNode);
-      Node* downstream_node = getNodeFromRef(downstreamNode);
+      Node* upstream_node   = getNode(upstreamNode);
+      Node* downstream_node = getNode(downstreamNode);
 
       NodeVector::iterator parent =
 	std::find( upstream_node->parents.begin(),  upstream_node->parents.end(), downstream_node);
@@ -161,13 +144,14 @@ namespace ot {
 
   OTGraph::NodeVector* LiveContext::get_nodes() {
       OTGraph::NodeVector_var node_refs = new OTGraph::NodeVector;
-      int len = nodes.size();
+      int len = node_id_map.size();
       node_refs->length(len);
       int i = 0;
-      for (NodeMap::iterator it=nodes.begin(); it != nodes.end(); it++) {
-	node_refs[i] = getRefFromNode(it->second);	
-	i++;
-      }
+      for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
+      {
+          node_refs[i] = getNodeRefFromID(it->second);	
+          i++;
+     } 
       return node_refs._retn();
     };
 
@@ -177,17 +161,21 @@ namespace ot {
       _edges->length(len);
       for (int i=0; i < edges.size(); i++) {
 	OTGraph::Edge _edge;
-	_edge.sender   = getRefFromNode(edges[i].first);
-	_edge.receiver = getRefFromNode(edges[i].second);
+	_edge.sender   = getNode(edges[i].first);
+	_edge.receiver = getNode(edges[i].second);
 	_edges[i] = _edge;
       }
       return _edges._retn();
     };
 
   void LiveContext::remove_node(const OTGraph::Node_var& target_ref) {
+      logPrintI("remove_node\n");
       lock();
-      Node* target  = getNodeFromRef(target_ref);
-
+      Node* target = getNode(target_ref);
+      if (target == NULL) {
+          unlock();
+          throw OTGraph::NodeNonExistent();
+      }
       // Handle child nodes (upstream nodes)
       NodeVector::iterator child_it = target->children.begin();
       while ( child_it != target->children.end())
@@ -205,28 +193,18 @@ namespace ot {
 	  parent_it++;
         }
 
-      // removing node from local list
-      string id(target->get("ID"));
-      NodeMap::iterator result = nodes.find(id);
-      if( result != nodes.end())
-        {
-	  nodes.erase( result );
-        }
-      
-      // identify module, and instruct module to delete node
+      // identify module, and instruct module to remove references to Node
       Module * mod = getModuleFromNode(target);
       if (mod != NULL) {
 	logPrintI("calling mod->removeNode\n");
 	mod->removeNode(target);
 	logPrintI("called mod->removeNode\n");
       } else {
-	logPrintE("unable to find module associated with node %s\n",id.c_str());
+          logPrintE("unable to find module associated with node %s\n", getIDFromNode(target).c_str());
       }
-
-      // deactivate the object before passing the node to the module to be deleted
-      deactivateNode(target);
-
-
+      // Having removed all references to Node it can now be deactivated
+      logPrintI("about to deactivateNode\n");
+      deactivateNode( target );
       unlock();
     }
 

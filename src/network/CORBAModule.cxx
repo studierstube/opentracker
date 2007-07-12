@@ -150,17 +150,15 @@ void CORBAModule::initializeORB(int argc, char **argv)
       pl.length(2);
       pl[0] = CORBAModule::root_poa->create_lifespan_policy(PortableServer::PERSISTENT);
       pl[1] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
-      //pl[2] = CORBAModule::root_poa->create_implicit_activation_policy (PortableServer::NO_IMPLICIT_ACTIVATION);
-      poa = CORBAModule::root_poa->create_POA("id poa", pman, pl);
-      //poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa      
+      poa = CORBAModule::root_poa->create_POA("persistent poa", pman, pl);
+      logPrintI("Created POA with id assignment policy and persitence policy\n");
     } else {
       // Create a new POA with the id assignment policy.
       CORBA::PolicyList pl;
       pl.length(1);
-      pl[0] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
-      //pl[2] = CORBAModule::root_poa->create_implicit_activation_policy (PortableServer::NO_IMPLICIT_ACTIVATION);
-      poa = CORBAModule::root_poa->create_POA("id poa", pman, pl);
-      //poa = PortableServer::POA::_duplicate(CORBAModule::root_poa); // i.e. poa is the same as root_poa      
+      pl[0] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::SYSTEM_ID);
+      poa = CORBAModule::root_poa->create_POA("transient poa", pman, pl);
+      logPrintI("Created POA with id assignment policy\n");
     }
   }
   catch(CORBA::SystemException&) {
@@ -206,38 +204,34 @@ void CORBAModule::initializeORB(int argc, char **argv)
     } else {
       CORBAModule::persistent = false;
     }
+    std::vector<std::string> args;
+    args.push_back("opentracker");
+    if( attributes.containsKey("InitRef")) {
+      std::string InitRef = attributes.get("InitRef"); //e.g. "NameService=corbaname::herceg.cl.cam.ac.uk"
+      args.push_back("-ORBInitRef");
+      args.push_back(InitRef);
+    }
     if( attributes.containsKey("endPoint")) {
       CORBAModule::persistent = true;
-      // Spoof the command-line arguments
       std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
-      char *av[5]; int ac = 4;
-      char arg1[] = "opentracker";
-      char arg2[] = "-ORBendPoint";
-      char *arg3 = (char *)malloc(endpoint.length() + 1);
-      //char arg3[endpoint.length()+1]; // note +1
-      strcpy(arg3, endpoint.c_str());
-      char arg4[] = "\0";
-      char arg5 = (char) 0;
-      av[0] = &arg1[0];
-      av[1] = &arg2[0];
-      av[2] = &arg3[0];
-      av[3] = &arg4[0];
-      av[4] = &arg5;
-      initializeORB(ac, av);
-    } else {
-      // Spoof the command-line arguments
-      char *av[3]; int ac = 2;
-      char arg1[] = "opentracker";
-      char arg2[] = "\0";
-      char arg3 = (char) 0;
-      av[0] = arg1;
-      av[1] = arg2;
-      av[2] = &arg3;
-      initializeORB(ac, av);
+      args.push_back("-ORBendPoint");
+      args.push_back(endpoint);
     }
+    args.push_back("-ORBabortOnInternalError");
+    args.push_back("1");
+    int argc = args.size();
+    char** argv = (char **) malloc(argc + 1); // note +1
+    for (int i=0; i<argc; i++) {
+      argv[i] = (char *) malloc(args[i].length() + 1);
+      strcpy(argv[i], args[i].c_str());
+    }
+    argv[argc] = (char *) malloc(1);
+    argv[argc] = "\0";
+    initializeORB(argc, argv);
   }
     
-  void CORBAModule::removeNode(const Node * node) {
+  void CORBAModule::removeNode(Node * node) {
+    logPrintI("CORBAModule::removeNode\n");
     if ((node->getType().compare("CORBASink") == 0) || (node->getType().compare("CORBATransform") == 0)) {
       CORBASinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
@@ -246,17 +240,20 @@ void CORBAModule::initializeORB(int argc, char **argv)
 	  sinks.erase( result );
 	  return;
         } else {
-	  logPrintE("Node with ID %s not in sinks CORBAModule sinks vector\n", node->get("ID").c_str());
+	  logPrintE("Node with ID %s not in sinks CORBAModule sinks vector\n", node->get("DEF").c_str());
 	}
     } else if (node->getType().compare("CORBASource") == 0) {
-      SourceNodeMap::iterator result = sources.find((CORBASource*) node);
+      CORBASourceVector::iterator result = std::find( sources.begin(), sources.end(), node);
       if (result != sources.end()) {
-	OT_CORBA::OTSource_var corba_source_ref = result->second;
+	logPrintE("removeNode is unimplemented for CORBASource nodes\n");
+	//OT_CORBA::OTSource_var corba_source_ref = result->second;
 	// deactivate object
-	PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
+	//PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
+	
 	//delete result->first;
+	sources.erase( result );
       } else {
-	logPrintE("Node not present in SourceNodeMap");
+	logPrintE("Node not present in CORBASourceVector");
       }
       return;
     } 
@@ -287,6 +284,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       if (result != pushconsumers.end()) {
 	// disconnect the PushCons node
 	CORBAUtils::disconnectPushConsumer(proxy_pushsupplier_map[*result]);
+	std::cerr << "disconnecting push consumer!" << std::endl;
 	proxy_pushsupplier_map.erase(*result);
 	pushconsumers.erase(result);
       	//delete *result;
@@ -353,7 +351,7 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
-      OT_CORBA::Node_var sink_ref = OT_CORBA::Node::_narrow(obj);
+      OT_CORBA::OTEntity_var sink_ref = OT_CORBA::OTEntity::_narrow(obj);
       
       CORBASink * sink = new CORBASink( sink_ref , frequency );
       sinks.push_back( sink );
@@ -376,24 +374,8 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       return transform;
     } else if (name.compare("CORBASource") == 0 ) {
       CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) attributes.get("name").c_str());
-      CORBASource * source_impl = new CORBASource( );
-      
-      POA_OT_CORBA::OTSource_tie<CORBASource>* corba_source = new POA_OT_CORBA::OTSource_tie<CORBASource>(source_impl);
-      PortableServer::ObjectId_var corba_source_id;
-      //      if (CORBAModule::persistent)
-      //	{
-	  corba_source_id = CORBAUtils::getObjectId(orb, name);
-	  poa->activate_object_with_id(corba_source_id, corba_source);
-	  //	} 
-	  //      else {
-	  //corba_source_id = poa->activate_object(corba_source);
-	//      }
-      OT_CORBA::OTSource_var corba_source_ref = corba_source->_this();
-      CORBA::Object_var obj = CORBA::Object::_narrow(corba_source_ref);
-      CORBAUtils::bindObjectReferenceToName(orb, obj, name);
-      
-      sources[source_impl] = corba_source_ref;
-      
+      CORBASource * source_impl = new CORBASource( );    
+      sources.push_back(source_impl);
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASource node\n")));
       return source_impl;
     }
@@ -417,24 +399,34 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       } else {
 	logPrintE("pushcons_impl is not NULL. Carrying on...\n");
       }
-      
-      POA_OT_EventChannel::PushConsNode_tie<PushCons>* pushcons_source = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (pushcons_impl);
-      
+      // Now activate object
+      if (persistent) {
+	if (!attributes.containsKey("DEF")) {
+	  // need to generate a unique ID
+	  attributes.put("DEF", CORBAUtils::generateUniqueId());
+	}
+	context->activateNode(pushcons_impl, attributes.get("DEF").c_str());
+      } else {
+	context->activateNode(pushcons_impl);
+      }
+      OTGraph::Node_var node_ref = context->getNode(pushcons_impl);
+      OT_EventChannel::PushConsNode_var pushcons_ref = OT_EventChannel::PushConsNode::_narrow(node_ref);
+
       // get Consumer Admin
       CosEventChannelAdmin::ConsumerAdmin_var consumer_admin = CORBAUtils::getConsumerAdmin(channel);
 
       // get Proxy Supplier
       CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier = CORBAUtils::getProxyPushSupplier(consumer_admin);
 
-      CORBA::String_var string_id = CORBA::string_dup( attributes.get("name").c_str() );
-      logPrintI("got string id\n");
-      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
-      logPrintI("got object id");
-      poa->activate_object_with_id(corba_id, pushcons_source);
+      //      CORBA::String_var string_id = CORBA::string_dup( attributes.get("name").c_str() );
+      //      logPrintI("got string id\n");
+      //      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
+      //      logPrintI("got object id");
+      //      poa->activate_object_with_id(corba_id, pushcons_source);
       //PortableServer::ObjectId_var corba_source_id = 
       //	poa->activate_object(pushcons_source);
-      OT_EventChannel::PushConsNode_var pushcons_ref = 
-	pushcons_source->_this();
+      //      OT_EventChannel::PushConsNode_var pushcons_ref = 
+      //	pushcons_source->_this();
       CosEventComm::PushConsumer_var consumer_ref = 
 	CosEventComm::PushConsumer::_narrow(pushcons_ref);
       if (CORBA::is_nil(consumer_ref)) {
@@ -442,10 +434,9 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 	exit(-1);
       }
       CORBAUtils::connectPushConsumer(proxy_supplier, consumer_ref);
-      pushconsumers.push_back( pushcons_impl );
       //CORBAUtils::connectPushConsumer(proxy_supplier, pushcons_ref);
       proxy_pushsupplier_map[pushcons_impl] = proxy_supplier;
-			     
+      pushconsumers.push_back( pushcons_impl );
       return pushcons_impl;
     }
   else if (name.compare("PushSupp") == 0 ) 
@@ -485,46 +476,13 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
 }
 // pushes events into the tracker tree.
 
-  void CORBAModule::pushEvent()
-  {
-    for (SourceNodeMap::const_iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
-      {
-	try {
-	  source_it->second->push();
-	} catch (CORBA::TRANSIENT) {
-	  logPrintE("Caught CORBA::TRANSIENT");
-	}
-      }
-#ifdef USE_OMNIEVENTS
-  for( PushConsVector::iterator it = pushconsumers.begin(); it != pushconsumers.end(); it++ )
-    {
-      (*it)->push();
-    }
-#endif //USE_OMNIEVENTS
-  }
-  
-  void CORBASource::push()
-  {
-    //logPrintI("CORBASource::push()\n");
-    _lock();
-    //logPrintI("CORBASource::push called _lock()\n");
-    if (modified) {
-    logPrintI("CORBASource updating observers\n");
-      updateObservers( event );
-      modified = false;
-    }
-    _unlock();
-  }
-  
   void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
   {
+    Event event(corba_event);
     _lock();
     logPrintI("CORBASource::setEvent\n");
-    modified = true;
-    Event new_event(corba_event);
-    event = new_event;
+    updateObservers( event );
     _unlock();
-    logPrintI("setEvent completed\n");
   }
 
 #ifdef USE_OMNIEVENTS
@@ -538,23 +496,13 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
     //logPrintI("data received\n");
     const OT_CORBA::Event* new_event;
     if (data >>= new_event) {
-      lock();
-      modified = true;
       OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);
+      lock();
+      updateObservers( event );
       //CORBAUtils::convertFromCORBAEvent(event, copy_of_new_event);
       event = Event(copy_of_new_event);
       unlock();
     }
-  }
-
-  void PushCons::push()
-  {
-    lock();
-    if (modified) {
-      updateObservers( event );
-      modified = false;
-    }
-    unlock();
   }
   
 #endif //USE_OMNIEVENTS

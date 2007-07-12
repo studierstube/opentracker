@@ -24,9 +24,9 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for TestModule module.
+/** header file for CORBAModule module.
   *
-  * @author Gerhard Reitmayr
+  * @author Joseph Newman
   *
   * $Id: CORBAModule.h 760 2004-11-14 18:20:34Z daniel $
   * @file                                                                   */
@@ -66,7 +66,8 @@
 namespace ot {
 
 typedef std::vector<CORBASink*> CORBASinkVector;
-typedef std::map<CORBASource*, OT_CORBA::OTSource_var> SourceNodeMap;
+//typedef std::map<CORBASource*, OT_CORBA::OTSource_var> SourceNodeMap;
+typedef std::vector<CORBASource*> CORBASourceVector;
 #ifdef USE_OMNIEVENTS
 #ifdef USE_SHARED
 typedef std::vector<SharedEngineNode*> SharedEngineNodeVector;
@@ -90,7 +91,7 @@ class OPENTRACKER_API CORBAModule : public Module, public NodeFactory
 protected:
     /// list of CORBASource nodes in the tree
     CORBASinkVector sinks;
-    SourceNodeMap sources;
+    CORBASourceVector sources;
 #ifdef USE_OMNIEVENTS
     PushSuppVector pushsupps;
     PushConsVector pushconsumers;
@@ -130,7 +131,7 @@ public:
     
     /** Clears nodes */
     virtual void clear();
-    virtual void removeNode(const Node *);
+    virtual void removeNode(Node *);
     /** This method is called to construct a new Node. It compares
      * name to the element name, and if it matches
      * creates a new node.
@@ -139,12 +140,6 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      *         allocated with new ! */
     virtual Node * createNode( const std::string& name,  StringTable& attributes);
-    /**
-     * pushes events into the tracker tree. Checks all TestSources and
-     * pushes new events, if a TestSource fires.
-     */
-    virtual void pushEvent();
-    
     
 private:
     static CORBA::ORB_var orb;
@@ -156,6 +151,7 @@ private:
 
 #ifdef USE_LIVE
         friend class LiveContext;
+        friend class Context;
 #endif
 
 

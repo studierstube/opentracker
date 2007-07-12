@@ -47,16 +47,18 @@ if __name__ == '__main__':
     while True:
 	#ev = OT_CORBA.Event([0.1, 0.2, 0.3],[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
 	ev = [OT_CORBA.EventAttribute("position", CORBA.Any(CORBA.TypeCode("IDL:OT_CORBA/FloatVector:1.0"), [0.1,0.2,0.3])),
-	      OT_CORBA.EventAttribute("foo", any.to_any("bar"))]#,
-#	      OT_CORBA.EventAttribute("confidence", any.to_any(0.345)),
-#	      OT_CORBA.EventAttribute("timestamp", any.to_any(1001.0)),
-#	      OT_CORBA.EventAttribute("button", any.to_any(6))]#,[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
+              OT_CORBA.EventAttribute("foo", any.to_any("bar")),
+              OT_CORBA.EventAttribute("confidence", CORBA.Any(CORBA.TC_float, 0.053)),
+              OT_CORBA.EventAttribute("timestamp", CORBA.Any(CORBA.TC_float, 1001.323)),
+              OT_CORBA.EventAttribute("button", CORBA.Any(CORBA.TC_ushort, 6))]#,[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
 	try:
 	    source_ref.setEvent(ev)
 	except CORBA.COMM_FAILURE:
 	    print "caught COMM_FAILURE"
 	except CORBA.TRANSIENT:
 	    print "caught CORBA.TRANSIENT"
+        except CORBA.OBJECT_NOT_EXIST:
+            print "caught CORBA.OBJECT_NOT_EXIST"
 	current_time = time.time()
 	sleep_time = period - (current_time - previous_time)
 	if sleep_time > 0.0:

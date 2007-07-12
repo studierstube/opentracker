@@ -238,6 +238,7 @@ def generate_idlj_actions(source, target, env, for_signature):
         idl_file = src.get_string(for_signature)
         #idl_file = str(src)
         #print "GENERATE_IDLJ_ACTIONS:: generating files from %s to be installed in %s" % (idl_file, env['IDL_INSTALL_DIRECTORY'])
+        defines = "-d %s "*len(env['CPPDEFINES']) % tuple(env['CPPDEFINES'])
         try:
             command = '-pkgPrefix %s %s -td %s %s -fallTie %s' % (os.path.splitext(os.path.basename(idl_file))[0], env['PKGPREFIX'], env['IDL_INSTALL_DIRECTORY'], include_args, idl_file)
 	    try:
@@ -245,10 +246,10 @@ def generate_idlj_actions(source, target, env, for_signature):
 		    command = '-pkgTranslate %s %s ' % (transtype, transpkg) + command
 		#command = '-pkgTranslate %s %s ' % (env['TRANSTYPE'], env['TRANSPKG']) + command
 	    except KeyError:
-		print "either TRANSLATETYPE or TRANSLATEPKG is not set. Carrying on..."
-	    command = 'idlj ' + command
+		print "PKGTRANSLATE is not set. Carrying on..."
+	    command = 'idlj %s %s' % (defines, command)
         except KeyError:
-            command = 'idlj  -td %s %s -fallTie %s' % (env['IDL_INSTALL_DIRECTORY'], include_args, idl_file)
+            command = 'idlj %s -td %s %s -fallTie %s' % (defines, env['IDL_INSTALL_DIRECTORY'], include_args, idl_file)
         listCmd.append(command)
     return listCmd
 

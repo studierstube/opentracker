@@ -36,23 +36,13 @@ namespace ot {
 
   typedef std::pair<Node *, Node *> Edge;
   typedef std::vector<Edge> EdgeVector;
-  //typedef std::map<std::string, Node::Ptr> NodeMap;
-  typedef std::map<std::string, Node*> NodeMap;
   
  class OPENTRACKER_API LiveContext : public Context, 
     public PortableServer::RefCountServantBase {
   private:
     CORBAModule* corba_module;
     int no_nodes;
-    //NodeVector nodes;
-    NodeMap    nodes;
     EdgeVector edges;
-
-    string generateNewId() {
-      char node_string[5];
-      sprintf(node_string,"%d", no_nodes++);
-      return string("Node") + string(node_string);
-    };
 
   public:
     LiveContext();
@@ -66,21 +56,9 @@ namespace ot {
 
     OTGraph::Node_ptr get_node(const char* id);
 
-    Node* getNodeFromRef(const OTGraph::Node_var& node_ref);
-
-    OTGraph::Node_var getRefFromNode(Node* node);
-
-    OTGraph::Node_var activateNode(Node* node);
-
-    void deactivateNode(Node* node) {
-      string id(node->get("ID"));
-      PortableServer::ObjectId_var node_id = PortableServer::string_to_ObjectId(id.c_str());
-      (corba_module->getPOA())->deactivate_object(node_id);
-    }
-
     OTGraph::Node_var create_node(const char* _name, const OTGraph::StringTable& _attributes);
 
-    void connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode);
+    OTGraph::Edge* connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode);
     
     void disconnect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode); 
 

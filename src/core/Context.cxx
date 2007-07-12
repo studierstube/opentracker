@@ -58,6 +58,10 @@
 #include <OpenTracker/common/CallbackModule.h>
 
 #include <OpenTracker/core/Configurator.h>
+#ifdef USE_LIVE
+#include <OpenTracker/network/CORBAModule.h>
+#include <OpenTracker/common/StaticTransformation.h>
+#endif
 
 
 namespace ot {
@@ -578,13 +582,173 @@ namespace ot {
         unlock();
     }
 
+#ifdef USE_LIVE
+    std::string Context::getIDFromNodeRef(const OTGraph::Node_var& node_ref) {
+        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+        PortableServer::POA_var poa = corba_module->getPOA();
+        PortableServer::ObjectId_var node_id = poa->reference_to_id(OTGraph::Node::_duplicate(node_ref));
+        std::string id(PortableServer::ObjectId_to_string(node_id));
+        return id;
+    }    
+
+    std::string Context::getIDFromNode(Node* node) {
+        return node_id_map[node];
+    }
+
+    OTGraph::Node_var Context::getNodeRefFromID(const std::string& id) {
+        logPrintI("getNodeRefFromID(%s)\n",id.c_str());
+        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+        PortableServer::POA_var poa = corba_module->getPOA();
+        PortableServer::ObjectId_var oid = PortableServer::string_to_ObjectId(CORBA::string_dup(id.c_str()));
+        OTGraph::Node_var node_ref = OTGraph::Node::_narrow(poa->id_to_reference(oid));
+        return node_ref;
+    }
+    
+    OTGraph::Node_var Context::getNode(Node* node) {
+        NodeIDMapIterator result = node_id_map.find(node);
+        if (result == node_id_map.end()) {
+            return OTGraph::Node::_nil();
+        }
+        return getNodeRefFromID(result->second);
+    }
+    
+    Node* Context::getNode(const OTGraph::Node_var& node_ref) {
+        std::string id = getIDFromNodeRef(node_ref);
+        std::cerr << "recovered id: " << id << std::endl;
+        return getNode(id);
+    }
+    
+    Node* Context::getNode(const std::string& id) {
+        IDNodeMapIterator result = id_node_map.find(id);
+        if( result != id_node_map.end())
+        {
+            return &(*(result->second));
+        } else {
+            return NULL;
+        }
+    }
+
+
+    void Context::eraseNode(Node* node) {
+        std::string id = getIDFromNode(node);
+        IDNodeMapIterator result1 = id_node_map.find(id);
+        if (result1 != id_node_map.end()) {
+            id_node_map.erase(result1);
+        }
+        NodeIDMapIterator result2 = node_id_map.find(node);
+        if (result2 != node_id_map.end()) {
+            node_id_map.erase(result2);
+        }
+    }
+
+    void Context::appendNode(Node* node, const std::string& id) {
+        node_id_map[node] = id;
+        id_node_map[id] = node;
+    }
+
+    void Context::deactivateNode(Node* node) {
+        logPrintI("deactivating node\n");
+        NodeIDMapIterator result = node_id_map.find(node);
+        if( result != node_id_map.end())
+            {
+                PortableServer::ObjectId_var id = PortableServer::string_to_ObjectId((result->second).c_str());
+                CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+                PortableServer::POA_var poa = corba_module->getPOA();
+                poa->deactivate_object(id);
+                eraseNode(node);
+            }
+    }
+
+    void Context::activateNode(Node* node) {
+        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+        PortableServer::POA_var poa = corba_module->getPOA();
+        PortableServer::ObjectId_var corba_id;
+        std::string id;
+        
+	CORBASource* corba_source = dynamic_cast<CORBASource*>(node);
+	StaticTransformation* static_transformation = dynamic_cast<StaticTransformation*>(node);
+        PushCons* push_cons = dynamic_cast<PushCons*>(node);
+	if (corba_source != NULL) {
+            POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
+                new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source, (CORBA::Boolean) 1);
+            corba_id = poa->activate_object(tie_node);
+            tie_node->_remove_ref();
+	} else if (static_transformation != NULL) {
+            POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
+                new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation, (CORBA::Boolean) 1);
+            corba_id = poa->activate_object(tie_node);
+            tie_node->_remove_ref();
+        } else if (push_cons != NULL) {
+            POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = 
+                new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
+            corba_id = poa->activate_object(tie_node);
+            tie_node->_remove_ref();
+        } else {
+            POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node, (CORBA::Boolean) 1);
+            corba_id = poa->activate_object(tie_node);
+            tie_node->_remove_ref();
+        }
+        id = PortableServer::ObjectId_to_string(corba_id);
+        appendNode(node, id);
+    }
+
+    void Context::activateNode(Node* node, const char* id) {
+        std::string stringid(id);
+        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+        PortableServer::POA_var poa = corba_module->getPOA();
+        
+	CORBASource* corba_source = dynamic_cast<CORBASource*>(node);
+	StaticTransformation* static_transformation = 
+            dynamic_cast<StaticTransformation*>(node);
+        PushCons* push_cons = dynamic_cast<PushCons*>(node);
+	if (corba_source != NULL) {
+            POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
+                new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source);//, (CORBA::Boolean) 1);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            poa->activate_object_with_id(corba_id, tie_node);
+            tie_node->_remove_ref();
+	} else if (static_transformation != NULL) {
+            POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
+                new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation);//, (CORBA::Boolean) 1);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            poa->activate_object_with_id(corba_id, tie_node);
+            tie_node->_remove_ref();
+        } else if (push_cons != NULL) {
+            POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            poa->activate_object_with_id(corba_id, tie_node);
+            tie_node->_remove_ref();
+        } else {
+            POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node);//, (CORBA::Boolean) 1);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            poa->activate_object_with_id(corba_id, tie_node);
+            tie_node->_remove_ref();
+        }
+        appendNode(node, stringid);
+        
+    }
+#endif
     // creates a new node from a given element name and an attribute table
     
     Node * Context::createNode( const std::string & name, StringTable & attributes)
     {
-        logPrintD("Calling the factory create node for node %s\n", name.c_str());
         Node * value = factory.createNode( name , attributes );
-        
+#ifdef USE_LIVE
+        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+        if (CORBAModule::persistent) {
+            if (!attributes.containsKey("DEF")) {
+                attributes.put("DEF", CORBAUtils::generateUniqueId());
+            }
+            if (name.compare("PushCons") != 0) { // PushCons node is already activated!
+                activateNode(value, attributes.get("DEF").c_str());
+            }
+        } else {
+            if (name.compare("PushCons") != 0) { // PushCons node is already activated!
+                activateNode(value);
+            }
+        }
+#endif
+        // add all the attributes to the node
         if( value != NULL )
         {
             KeyIterator keys(attributes);
@@ -596,6 +760,17 @@ namespace ot {
                 value->put( key, attributes.get( key ));
 
             }
+#ifdef USE_LIVE
+        // If there is a nameBinding attribute, then bind the node to the NamingService
+        if (value->get("nameBinding").compare("") != 0) {
+            std::cerr << "nameBinding: " << value->get("nameBinding") << std::endl;
+            // bind the node to the Naming Service
+            CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) value->get("nameBinding").c_str());
+            CORBA::Object_var obj = CORBA::Object::_narrow(getNode(value));
+            CORBAUtils::bindObjectReferenceToName(corba_module->getORB(), obj, string_name);
+        }
+#endif
+
         }
         return value;
     }
@@ -830,8 +1005,12 @@ namespace ot {
                     logPrintI("TestSource maps to TestConfig\n");
 			modname = "TestConfig";
                         result = getModule(modname);
-		} else if ((nodename.compare("CORBASink") == 0)){
-                    logPrintI("CORBASink maps to CORBAConfig\n");
+		} else if ((nodename.compare("CORBASink") == 0)
+                           || (nodename.compare("CORBASource") == 0)
+                           || (nodename.compare("PushCons") == 0)
+                           || (nodename.compare("PushSupp") == 0)
+                           || (nodename.compare("SharedEngineNode") == 0)) {
+                    logPrintI("CORBA nodes map to CORBAConfig\n");
 			modname = "CORBAConfig";
                         result = getModule(modname);
 		} else if ((nodename.compare("PhantomZoneSource") == 0) 
