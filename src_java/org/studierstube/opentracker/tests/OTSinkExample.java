@@ -7,7 +7,7 @@ import javax.vecmath.*;
 
 public class OTSinkExample extends CorbaApp {
 
-    class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTSinkPOA {
+    class Sink_i extends org.studierstube.opentracker.OT_CORBA.OTEntityPOA {
    
 	    public void setEvent(EventAttribute[] atts) {
 	    	OTEvent ev = new OTEvent(getORB(), atts);
