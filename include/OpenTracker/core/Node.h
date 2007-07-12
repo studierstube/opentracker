@@ -399,10 +399,10 @@ namespace ot {
          * @returns unsigned number of NodePorts */
         unsigned int countPorts();
 #ifdef USE_LIVE
-        char* get_type();
-        char* get_name();
-        char* get_id();
-        char* get_attribute(const char* _key);
+        virtual char* get_type();
+        virtual char* get_name();
+        virtual char* get_id();
+        virtual char* get_attribute(const char* _key);
         virtual void set_attribute(const char* _key, const char* _value) {
             throw OTGraph::UnsupportedAttribute();
         }

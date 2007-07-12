@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2005 beta 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
@@ -85,7 +85,6 @@ $Id$
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
-        nameBinding CDATA #IMPLIED
 >
 <!ELEMENT EventVirtualPositionTransform (%EventNodes;)>
 <!ATTLIST EventVirtualPositionTransform
@@ -686,7 +685,7 @@ $Id$
 <!ELEMENT CORBAConfig EMPTY>
 <!ATTLIST CORBAConfig
 	endPoint CDATA #IMPLIED
-	persistent (true | false) "false"
+        InitRef  CDATA #IMPLIED
 >
 <!ELEMENT SharedEngineNode (%EventNodes;)>
 <!ATTLIST SharedEngineNode
@@ -705,19 +704,20 @@ $Id$
 >
 <!ELEMENT CORBATransform (%EventNodes;)>
 <!ATTLIST CORBATransform
-        name CDATA #REQUIRED
+        name CDATA #IMPLIED
+        uri  CDATA #IMPLIED
         DEF ID #IMPLIED
 >
 <!ELEMENT CORBASink (%EventNodes;)>
 <!ATTLIST CORBASink
-	name CDATA #REQUIRED
-	nameBinding CDATA #IMPLIED
+	name CDATA #IMPLIED
+        uri  CDATA #IMPLIED
 	frequency CDATA "0"
 	DEF ID #IMPLIED
 >
 <!ELEMENT CORBASource EMPTY>
 <!ATTLIST CORBASource
-	nameBinding CDATA #IMPLIED
+	name CDATA #IMPLIED
 	DEF ID #IMPLIED
 >
 <!ELEMENT PhantomLocationSource EMPTY>

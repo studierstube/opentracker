@@ -27,7 +27,11 @@ module OT_CORBA {
     void setEvent(in Event ev);    
   };
 
-    interface OTSource : OTEntity, OTNode { 
+  interface OTSink : OTNode {
+    void setEntity(in OTEntity entity);
+    OTEntity getEntity();
   };
+
+  interface OTSource : OTEntity, OTNode { };
 
 };

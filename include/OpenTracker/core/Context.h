@@ -208,11 +208,6 @@ namespace ot {
          * @param module reference to the module */
         void addModule(const std::string & name, Module & module);
 
-        /** returns the module associated with a certain configuration element
-         * @param name the element name
-         * @returns pointer to the module or NULL, if name does not exist */
-        Module * getModule(const std::string & name);
-
         /** removes a module from the map
          * @param reference to the module */
         void removeModule(Module & module);
@@ -360,6 +355,11 @@ namespace ot {
 	/// Obtain the Module responsible for a node of type nodename. It might return NULL
 	/// for nodes like EventUtilityNode which are part of opentracker (but have no Module)
 	Module * getModuleFromNodeType(std::string nodename);
+
+        /** returns the module associated with a certain configuration element
+         * @param name the element name
+         * @returns pointer to the module or NULL, if name does not exist */
+        Module * getModule(const std::string & name);
 	
 	bool isConfigured();
 

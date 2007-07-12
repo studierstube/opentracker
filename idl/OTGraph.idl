@@ -6,7 +6,7 @@ module OTGraph {
   exception NotChildNode {};
   exception AttributeNonExistent {};
   exception UnsupportedAttribute {};
-  exception UnparseableAttribute {};
+  exception InvalidAttribute {};
   exception NodesNotConnected {};
   exception NodeNonExistent {};
   exception EdgeNonExistent {};
@@ -27,7 +27,7 @@ module OTGraph {
     string get_id();
     string get_attribute(in string key);
     StringTable get_attributes();
-    void set_attribute(in string key, in string value) raises (UnsupportedAttribute);
+    void set_attribute(in string key, in string value) raises (UnsupportedAttribute, InvalidAttribute);
   };
 
   interface StaticTransformation : Node {

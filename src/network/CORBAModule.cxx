@@ -334,10 +334,16 @@ void CORBAModule::clear()
 }
 
 // This method is called to construct a new Node.
-Node * CORBAModule::createNode( const std::string& name, StringTable& attributes)
-{
-  if( name.compare("CORBASink") == 0 ) 
-    {
+  Node * CORBAModule::createNode( const std::string& name, StringTable& attributes) {
+    CORBA::Object_var obj = CORBA::Object::_nil();
+    if (attributes.containsKey("name")) {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      obj = CORBAUtils::getObjectReference(orb, string_name);
+    }
+    if (attributes.containsKey("uri")) {
+      obj = orb->string_to_object(attributes.get("uri").c_str());
+    }
+    if( name.compare("CORBASink") == 0 )     {
       int frequency;
       int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
       if( num <= 0 ) {
@@ -345,25 +351,27 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
       } else {
 	frequency = num;
       }
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
-      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+      CORBASink * sink;
       if (CORBA::is_nil(obj)) {
-	logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
-	exit(-1);
+	sink = new CORBASink(frequency);
+      } else {
+	OT_CORBA::OTEntity_var sink_ref = OT_CORBA::OTEntity::_narrow(obj);
+	if (CORBA::is_nil(sink_ref)) {
+	  sink = new CORBASink( frequency );
+	} else {
+	  sink = new CORBASink( sink_ref , frequency );
+	}
       }
-      OT_CORBA::OTEntity_var sink_ref = OT_CORBA::OTEntity::_narrow(obj);
-      
-      CORBASink * sink = new CORBASink( sink_ref , frequency );
       sinks.push_back( sink );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASink node\n")));
       return sink;
     } 
-  else if( name.compare("CORBATransform") == 0 ) 
-    {
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
-      CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
-      if (CORBA::is_nil(obj)) {
-	logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
+    else if( name.compare("CORBATransform") == 0 ) 
+      {
+	CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+	CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
+	if (CORBA::is_nil(obj)) {
+	  logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
       OT_CORBA::TransformNode_var sink_ref = OT_CORBA::TransformNode::_narrow(obj);
@@ -496,12 +504,12 @@ Node * CORBAModule::createNode( const std::string& name, StringTable& attributes
     //logPrintI("data received\n");
     const OT_CORBA::Event* new_event;
     if (data >>= new_event) {
-      OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);
-      lock();
+      Event event(*new_event);
+      //      OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
       updateObservers( event );
       //CORBAUtils::convertFromCORBAEvent(event, copy_of_new_event);
-      event = Event(copy_of_new_event);
-      unlock();
+      //      event = Event(copy_of_new_event);
     }
   }
   

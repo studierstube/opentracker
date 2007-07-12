@@ -53,6 +53,15 @@
 #include <OpenTracker/tool/OT_ACE_Log.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <OpenTracker/network/CORBAUtils.h>
+#include <OpenTracker/core/Context.h>
+
+#ifdef USE_LIVE
+//#include <OpenTracker/core/Module.h>
+//#include <OpenTracker/network/CORBAModule.h>
+#include <OpenTracker/skeletons/OTGraph.hh>
+#endif
+
+#include <ace/Guard_T.h>
 /**
  * This class implements a simple EventGenerator that passes any incoming events
  * on to the associated CORBA object.
@@ -82,9 +91,17 @@ protected:
       frequency( 1 ),
       cycle( 0 ) 
 	{
-	  // empty default constructor
+	  type = "CORBASink";	    
 	};
 
+ CORBASink( int frequency_ ) :
+      Node(), 
+        frequency( frequency_ ),
+        cycle ( 0 )
+	  {
+	    type = "CORBASink";
+	  }
+      
     /** constructor method,sets commend member
      * @param corba_sink_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
@@ -96,12 +113,12 @@ protected:
 	  {
 	    type = "CORBASink";
 	  }
-	virtual ~CORBASink() {
-      // CORBASink destructor
-	  std::cout << "CORBASink destructor" << std::endl;
-	}
-
 public:
+    virtual ~CORBASink() {
+      // CORBASink destructor
+      std::cout << "CORBASink destructor" << std::endl;
+    }
+
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
@@ -122,6 +139,7 @@ public:
     virtual void onEventGenerated( Event& event, Node& generator)
     {
       logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
       if ((cycle++ % frequency) == 0) {
 	OT_CORBA::Event corba_event = event.getCORBAEvent();
 	//CORBAUtils::convertToCORBAEvent(event, corba_event);
@@ -137,7 +155,22 @@ public:
 	updateObservers( event );
       }
     }
-    
+
+#ifdef USE_LIVE    
+    virtual char* get_attribute(const char* _key);
+    virtual void set_attribute(const char* _key, const char* _value);
+
+    virtual OT_CORBA::OTEntity_var getEntity() {
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+      OT_CORBA::OTEntity_var entity = corba_sink;
+      return entity;
+    }
+
+    virtual void setEntity(const OT_CORBA::OTEntity_var entity) {
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+      corba_sink = entity;
+    }
+#endif    // USE_LIVE
     friend class CORBAModule;
 };
 

@@ -171,7 +171,7 @@ if env['ENABLE_CORBA']:
     env.Append(CPPDEFINES='USE_CORBA')
     env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
-    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
+    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
     if env['ENABLE_JAVA']:
 	import IDLJBuilder
 	IDLJBuilder.generate(env)

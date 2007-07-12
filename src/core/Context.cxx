@@ -668,6 +668,7 @@ namespace ot {
 	CORBASource* corba_source = dynamic_cast<CORBASource*>(node);
 	StaticTransformation* static_transformation = dynamic_cast<StaticTransformation*>(node);
         PushCons* push_cons = dynamic_cast<PushCons*>(node);
+        CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
             POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
                 new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source, (CORBA::Boolean) 1);
@@ -681,6 +682,11 @@ namespace ot {
         } else if (push_cons != NULL) {
             POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = 
                 new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
+            corba_id = poa->activate_object(tie_node);
+            tie_node->_remove_ref();
+        } else if (corba_sink != NULL) {
+            POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
+                new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
         } else {
@@ -701,6 +707,7 @@ namespace ot {
 	StaticTransformation* static_transformation = 
             dynamic_cast<StaticTransformation*>(node);
         PushCons* push_cons = dynamic_cast<PushCons*>(node);
+        CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
             POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
                 new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source);//, (CORBA::Boolean) 1);
@@ -715,6 +722,12 @@ namespace ot {
             tie_node->_remove_ref();
         } else if (push_cons != NULL) {
             POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            poa->activate_object_with_id(corba_id, tie_node);
+            tie_node->_remove_ref();
+        } else if (corba_sink != NULL) {
+            POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
+                new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
@@ -1166,10 +1179,10 @@ namespace ot {
 		}
 	}
 
-	bool Context::isConfigured(){
-		return (graph != NULL);
-	}
-
+    bool Context::isConfigured(){
+        return (graph != NULL);
+    }
+    
 } // namespace ot
 
 /* 

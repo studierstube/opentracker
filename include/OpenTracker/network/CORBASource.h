@@ -63,7 +63,7 @@
 
 #include "../dllinclude.h"
 
-#include "../core/Node.h"
+#include <OpenTracker/core/Node.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <ace/Thread_Mutex.h>
 #include <stdio.h>

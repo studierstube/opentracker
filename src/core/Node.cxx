@@ -128,7 +128,6 @@ namespace ot {
     // returns the Context this node lives in
     Context * Node::getContext() const
     {
-
         // fix for the moment
         // must be changed for a stronger statement
         return Configurator::instance()->getContext();

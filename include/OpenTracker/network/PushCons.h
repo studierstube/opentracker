@@ -81,7 +81,7 @@ class OPENTRACKER_API PushCons : public Node
 // Members
 public:
     /// the original event
-    Event event;
+    //Event event;
 
 // Methods
 protected:
