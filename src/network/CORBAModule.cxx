@@ -75,7 +75,7 @@ namespace ot {
 
 
  PortableServer::POAManager_var CORBAModule::pman;
- CORBA::ORB_var CORBAModule::orb;
+  CORBA::ORB_var CORBAModule::orb;
  PortableServer::POA_var CORBAModule::poa;
  PortableServer::POA_var CORBAModule::root_poa;
  bool CORBAModule::persistent;
@@ -89,6 +89,7 @@ void CORBAModule::destroyORB()
   try {
     //delete myimpl;
     orb->destroy();
+    CORBA::release(orb);
   }
   catch(CORBA::SystemException&) {
     logPrintE("Caught CORBA::SystemException when trying to destroy ORB.\n");
@@ -108,7 +109,9 @@ void CORBAModule::destroyORB()
 }
 
   CORBA::ORB_var CORBAModule::getORB() { 
-    return CORBA::ORB::_duplicate(CORBAModule::orb);
+    CORBA::ORB_var _orb = orb;
+    //return CORBA::ORB::_duplicate(orb);
+    return CORBA::ORB::_duplicate(_orb);
   }
 
   PortableServer::POA_var CORBAModule::getPOA() { 
@@ -130,7 +133,9 @@ void CORBAModule::initializeORB(int argc, char **argv)
 {
   try {
     // initialize the ORB
-    orb = CORBA::ORB_init(argc, argv);
+    //orb = CORBA::ORB_init(argc, argv);
+    CORBA::ORB_var _orb = CORBA::ORB_init(argc, argv);
+    orb = CORBA::ORB::_duplicate(_orb);
     if (CORBA::is_nil(orb)) {
       logPrintE("Orb is nil. Exiting...\n");
     } else {
@@ -356,10 +361,12 @@ void CORBAModule::clear()
 	std::cerr << "no name or uri yielded a suitable reference" << std::endl;
 	sink = new CORBASink(frequency);
       } else {
-	OT_CORBA::OTEntity_var sink_ref = OT_CORBA::OTEntity::_narrow(obj);
+	OT_CORBA::OTEntity_ptr sink_ref = OT_CORBA::OTEntity::_narrow(obj);
 	if (CORBA::is_nil(sink_ref)) {
 	  std::cerr << "name or uri could not be narrowed to OTEntity" << std::endl;
+	  CORBA::release(sink_ref);
 	  sink = new CORBASink( frequency );
+
 	} else {
 	  std::cerr << "instantiating CORBASink with OTEntity reference" << std::endl;
 	  sink = new CORBASink( sink_ref , frequency );
@@ -489,11 +496,13 @@ void CORBAModule::clear()
 
   void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
   {
-    Event event(corba_event);
-    _lock();
+    Event new_event(corba_event);
+    //_lock();
     logPrintI("CORBASource::setEvent\n");
+    ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+    event = new_event;
     updateObservers( event );
-    _unlock();
+    //_unlock();
   }
 
 #ifdef USE_OMNIEVENTS

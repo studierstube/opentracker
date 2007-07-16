@@ -59,6 +59,7 @@
 //#include <OpenTracker/core/Module.h>
 //#include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/skeletons/OTGraph.hh>
+#include <ace/Thread_Mutex.h>
 #endif
 
 #include <ace/Guard_T.h>
@@ -79,11 +80,13 @@ class OPENTRACKER_API CORBASink : public Node
 // Members
 public:
   /// CORBA Node (sink) object associated with this node.
-  OT_CORBA::OTEntity_var corba_sink;
+  //OT_CORBA::OTEntity_var corba_sink;
   /// frequency of updates
     int frequency;
     int cycle;
-    
+private:
+    ACE_Thread_Mutex * refmutex;
+    OT_CORBA::OTEntity_ptr entity;
 
 // Methods
 protected:
@@ -91,32 +94,41 @@ protected:
       frequency( 1 ),
       cycle( 0 ) 
 	{
-	  type = "CORBASink";	    
+	  type = "CORBASink";
+
+	  refmutex = new ACE_Thread_Mutex;	    
 	};
+
 
  CORBASink( int frequency_ ) :
       Node(), 
         frequency( frequency_ ),
         cycle ( 0 )
 	  {
+	    refmutex = new ACE_Thread_Mutex;	    
 	    type = "CORBASink";
+	    entity = OT_CORBA::OTEntity::_nil();
 	  }
       
     /** constructor method,sets commend member
      * @param corba_sink_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
-    CORBASink( OT_CORBA::OTEntity_var corba_sink_, int frequency_) :
+    CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_) :
         Node(), 
-        corba_sink( corba_sink_ ),
         frequency( frequency_ ),
         cycle ( 0 )
 	  {
+	    refmutex = new ACE_Thread_Mutex;
+	    entity = entity_;
 	    type = "CORBASink";
 	  }
 public:
     virtual ~CORBASink() {
       // CORBASink destructor
+
       std::cout << "CORBASink destructor" << std::endl;
+      //need to make sure that all node activities have ended before deleting!
+      delete refmutex;
     }
 
     /** tests for EventGenerator interface being present. Is overriden to
@@ -139,13 +151,15 @@ public:
     virtual void onEventGenerated( Event& event, Node& generator)
     {
       logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
-      if (!CORBA::is_nil(corba_sink)) {
-	ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+      //ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
 	if ((cycle++ % frequency) == 0) {
 	  OT_CORBA::Event corba_event = event.getCORBAEvent();
 	  //CORBAUtils::convertToCORBAEvent(event, corba_event);
 	  try {
-	    corba_sink->setEvent(corba_event);
+	    ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
+	    if (!CORBA::is_nil(entity)) {
+	      entity->setEvent(corba_event);
+	    }
 	  }
 	  catch (CORBA::COMM_FAILURE) {
 	    std::cerr << "Caught CORBA::COMM_FAILURE" << std::endl;
@@ -155,26 +169,20 @@ public:
 	  }
 	  updateObservers( event );
 	}
-      }
     }
-
+    
 #ifdef USE_LIVE    
     virtual char* get_attribute(const char* _key);
     virtual void set_attribute(const char* _key, const char* _value);
 
-    virtual OT_CORBA::OTEntity_var getEntity() {
-      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
-      OT_CORBA::OTEntity_var entity = corba_sink;
-      return entity;
+    virtual OT_CORBA::OTEntity_ptr getEntity() {
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
+      return OT_CORBA::OTEntity::_duplicate(entity);
     }
 
-    virtual void setEntity(const OT_CORBA::OTEntity_var& entity) {
-      ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
-      if (!CORBA::is_nil(entity)) {
-	corba_sink = entity;
-      } else {
-	std::cerr << "setEntity was sent a nil reference" << std::endl;
-      }
+    virtual void setEntity(OT_CORBA::OTEntity_ptr entity_) {
+	ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
+	entity = OT_CORBA::OTEntity::_duplicate(entity_);
     }
 #endif    // USE_LIVE
     friend class CORBAModule;

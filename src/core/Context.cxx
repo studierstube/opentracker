@@ -59,6 +59,7 @@
 
 #include <OpenTracker/core/Configurator.h>
 #ifdef USE_LIVE
+#include <omniORB4/CORBA.h>
 #include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/common/StaticTransformation.h>
 #endif
@@ -780,7 +781,8 @@ namespace ot {
             // bind the node to the Naming Service
             CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) value->get("nameBinding").c_str());
             CORBA::Object_var obj = CORBA::Object::_narrow(getNode(value));
-            CORBAUtils::bindObjectReferenceToName(corba_module->getORB(), obj, string_name);
+            CORBA::ORB_var orb = CORBAModule::getORB();
+            CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
         }
 #endif
 

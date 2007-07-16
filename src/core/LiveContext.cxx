@@ -121,12 +121,14 @@ namespace ot {
 
   void LiveContext::disconnect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       logPrintI("disconnecting nodes\n");
-      lock();
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
       Node* upstream_node   = getNode(upstreamNode);
       Node* downstream_node = getNode(downstreamNode);
 
 
       // SORT OUT THE THREAD SAFETY OF THIS!
+      upstream_node->lock();
+      downstream_node->lock();
       NodeVector::iterator parent =
 	std::find( upstream_node->parents.begin(),  upstream_node->parents.end(), downstream_node);
       if (parent != upstream_node->parents.end()) {
@@ -138,6 +140,8 @@ namespace ot {
 	// The sender node is the child of the receiver node
 	downstream_node->children.erase(child);
       }
+      downstream_node->unlock();
+      upstream_node->unlock();
       // SORT OUT THE THREAD SAFETY!!!
       Edge edge(upstream_node, downstream_node);
       EdgeVector::iterator result = std::find( edges.begin(), edges.end(), edge );
@@ -145,7 +149,6 @@ namespace ot {
 	{
 	  edges.erase( result );
 	}
-      unlock();
     }
 
   OTGraph::NodeVector* LiveContext::get_nodes() {
@@ -176,10 +179,9 @@ namespace ot {
 
   void LiveContext::remove_node(const OTGraph::Node_var& target_ref) {
       logPrintI("remove_node\n");
-      lock();
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
       Node* target = getNode(target_ref);
       if (target == NULL) {
-          unlock();
           throw OTGraph::NodeNonExistent();
       }
       // Handle child nodes (upstream nodes)
@@ -211,7 +213,6 @@ namespace ot {
       // Having removed all references to Node it can now be deactivated
       logPrintI("about to deactivateNode\n");
       deactivateNode( target );
-      unlock();
     }
 
   void LiveContext::run()

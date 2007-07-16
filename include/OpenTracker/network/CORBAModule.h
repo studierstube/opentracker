@@ -143,7 +143,6 @@ public:
     
 private:
     static CORBA::ORB_var orb;
-    //CORBA::Object_var objref;
     static PortableServer::POA_var poa;
     static PortableServer::POA_var root_poa;
     static bool initialised;

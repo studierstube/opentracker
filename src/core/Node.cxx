@@ -371,6 +371,9 @@ namespace ot {
     void Node::updateObservers( Event &data )
     {
         //logPrintI("updateObservers\n");
+        //#ifdef USE_LIVE
+        //        lock();
+        //#endif
         if (isEventGenerator() == 1 || isNodePort() == 1){
             for (NodeVector::iterator it = parents.begin() ; it != parents.end() ; it++){
                 //logPrintI("about to invoke onEventGenerated\n");
@@ -379,6 +382,9 @@ namespace ot {
             }
 
         }
+        //#ifdef USE_LIVE
+        //unlock();
+        //#endif
     }
 
     Event& Node::getEvent(unsigned int index) {

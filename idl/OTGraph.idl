@@ -25,7 +25,7 @@ module OTGraph {
     string get_type();
     string get_name();
     string get_id();
-    string get_attribute(in string key);
+    string get_attribute(in string key) raises (UnsupportedAttribute);
     StringTable get_attributes();
     void set_attribute(in string key, in string value) raises (UnsupportedAttribute, InvalidAttribute);
   };
@@ -63,4 +63,5 @@ module OTGraph {
     EdgeVector get_edges();
     NodeVector get_nodes();
   };
+
 };

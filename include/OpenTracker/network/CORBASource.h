@@ -95,7 +95,7 @@ protected:
 
 public:            
     virtual ~CORBASource( ) {
-      delete mu;
+      //delete mu;
     }
 
     /** tests for EventGenerator interface being present. Is overriden to
@@ -113,10 +113,10 @@ public:
  private:
     ACE_Thread_Mutex* mu;
     //    bool modified;
-
+    Event event;
     // public:
-    void _lock() { mu->acquire(); };
-    void _unlock() { mu->release(); };
+    //void _lock() { mu->acquire(); };
+    //void _unlock() { mu->release(); };
 };
 
 } // namespace ot
