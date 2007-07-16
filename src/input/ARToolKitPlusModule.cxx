@@ -248,7 +248,16 @@ namespace ot {
 
     Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
     {
-        if( name.compare("ARToolKitPlusSingleMarkerSource") == 0 )
+        // ARToolKitPlusSource Deprecated. Mendez 20070716
+        bool tmpFlag=false;
+        if(name.compare("ARToolKitPlusSingleMarkerSource") == 0 )
+            tmpFlag=true;
+        if(name.compare("ARToolKitPlusSource") == 0 ) // ARToolKitPlusSource Deprecated. Mendez 20070716
+        {
+            logPrintW("Name 'ARToolKitPlusSource' deprecated. Please use 'ARToolKitPlusSingleMarkerSource'.\n");
+            tmpFlag=true;
+        }
+        if(tmpFlag) // ARToolKitPlusSource Deprecated. Mendez 20070716
         {
             double center[2], size;
             int num;
