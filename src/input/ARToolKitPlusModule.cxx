@@ -737,7 +737,7 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
             //
             visibleMarkers.push_back(source);
 
-            if(source->getType()=="ARToolKitPlusSingleMarkerSource")
+            if((source->getType()=="ARToolKitPlusSingleMarkerSource")||(source->getType()=="ARToolKitPlusSource"))
             {
                 ARToolKitSingleMarkerSource *sourceA = (ARToolKitSingleMarkerSource*)source;
                 ARFloat source_center[2], source_size;
