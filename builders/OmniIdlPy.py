@@ -15,6 +15,7 @@ def omniidl_emitter(target, source, env):
         trgs = []
         idl_file = str(src)
         include_args = ['-I' + directory for directory in env['CPPPATH']]
+        print include_args + [idl_file]
         idl = parseOmniIdlArgs(include_args + [idl_file])
         modules = [instance for instance in idl.declarations() if (instance.__class__==idlast.Module) and (instance.file()==idl_file)]
         tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.basename(idl_file)[:-4] + '_idl.py'))
@@ -125,7 +126,10 @@ def generate_omniidl_actions(source, target, env, for_signature):
     listCmd = []
     for directory in env['CPPPATH']:
         include_args += "-I%s " % (directory)
-    defines = "-D%s "*len(env['CPPDEFINES']) % tuple(env['CPPDEFINES'])
+    try:
+        defines = "-D%s "*len(env['CPPDEFINES']) % tuple(env['CPPDEFINES'])
+    except KeyError:
+        defines = ""
     for src in source:
         idl_file = src.get_string(for_signature)
         command = 'omniidl -bpython %s %s -C %s %s' % (defines, include_args, env['OMNIIDL_INSTALL_DIRECTORY'], idl_file)
