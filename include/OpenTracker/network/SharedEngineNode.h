@@ -145,10 +145,10 @@ public:
 	proxy_consumer->push(any);
       }
       catch (CORBA::COMM_FAILURE) {
-	logPrintE("Caught CORBA::COMM_FAILURE\n");
+	//	logPrintE("Caught CORBA::COMM_FAILURE\n");
       }
       catch (CORBA::TRANSIENT) {
-	logPrintE("Caught CORBA::TRANSIENT\n");
+	//	logPrintE("Caught CORBA::TRANSIENT\n");
       }
       updateObservers( event );
       //delete corba_event;

@@ -1,4 +1,7 @@
 // OT_EventChannel.idl
+#ifndef _OT_EVENTCHANNEL_IDL
+#define _OT_EVENTCHANNEL_IDL
+
 #include <COS/CosEventComm.idl>
 #ifdef USE_LIVE
 #include "OTGraph.idl"
@@ -13,3 +16,5 @@ module OT_EventChannel {
 #endif
 
 };
+
+#endif //_OT_EVENTCHANNEL_IDL

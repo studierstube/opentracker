@@ -212,7 +212,7 @@ if env['ENABLE_OMNIEVENTS']:
 	sys.exit(-1)
     print "OmniEvents support enabled"
     env.Append(CPPDEFINES='USE_OMNIEVENTS')
-    env.Append(LIBS='omniEvents')
+    #env.Append(LIBS='omniEvents')
     if env['ENABLE_JAVA']:
 	for idl_file in [join('idl', 'COS', _file) for _file in ['CosEventComm.idl', 'CosLifeCycle.idl', 'CosEventChannelAdmin.idl']]:
 	    stub_generator.addJavaStubs(idl_file, pkgprefix='org.omg')

@@ -1,4 +1,7 @@
 // OT_CORBA.idl
+#ifndef _OT_CORBA_IDL
+#define _OT_CORBA_IDL
+
 #ifdef USE_LIVE
 #include "OTGraph.idl"
 #endif
@@ -35,3 +38,5 @@ module OT_CORBA {
   interface OTSource : OTEntity, OTNode { };
 
 };
+
+#endif //_OT_CORBA_IDL

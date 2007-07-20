@@ -1,4 +1,6 @@
 // OTGraph.idl
+#ifndef _OTGRAPH_IDL
+#define _OTGRAPH_IDL
 
 module OTGraph {
   exception IndexOutOfRange {};
@@ -65,3 +67,5 @@ module OTGraph {
   };
 
 };
+
+#endif

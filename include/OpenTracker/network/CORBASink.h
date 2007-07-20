@@ -150,7 +150,7 @@ public:
      */
     virtual void onEventGenerated( Event& event, Node& generator)
     {
-      logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
+      //logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
       //ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
 	if ((cycle++ % frequency) == 0) {
 	  OT_CORBA::Event corba_event = event.getCORBAEvent();

@@ -71,9 +71,7 @@ class CORBAModule;
 class Supplier_i : virtual public POA_CosEventComm::PushSupplier {
 public:
   Supplier_i () {};
-  void disconnect_push_supplier () {
-    logPrintI("Push Supplier: disconnected.\n");
-  };
+  void disconnect_push_supplier () { };
 };
 
 class OPENTRACKER_API PushSupp : public Node
@@ -113,7 +111,6 @@ protected:
     virtual ~PushSupp() {
       CORBAUtils::disconnectPushSupplier(proxy_consumer);
       delete supplier;
-      logPrintI("PushSupp destructor");
     }
 
 public:
@@ -147,10 +144,10 @@ public:
 	proxy_consumer->push(any);
       }
       catch (CORBA::COMM_FAILURE) {
-	logPrintE("Caught CORBA::COMM_FAILURE\n");
+	//	logPrintE("Caught CORBA::COMM_FAILURE\n");
       }
       catch (CORBA::TRANSIENT) {
-	logPrintE("Caught CORBA::TRANSIENT\n");
+	//	logPrintE("Caught CORBA::TRANSIENT\n");
       }
       updateObservers( event );
     }
