@@ -1,4 +1,14 @@
 # This python script allows the user to automate the configuration of the build
-
-corba=0 # By default build the CORBAModule and associated nodes
-pyqt=0  # By default build the pyqt applications
+DEBUG=1
+ENABLE_CORBA=1
+ENABLE_LIVE=1
+ENABLE_OMNIEVENTS=1
+ENABLE_SHARED=1
+ENABLE_OMNIORBPY=1
+ENABLE_PHANTOM_MIDDLEWARE=1
+ENABLE_CALLBACK=1
+ENABLE_CALLFORWARD=1
+ENABLE_JAVA=1
+ENABLE_INTERPOLATION=1
+ENABLE_PYDOC=0
+ENABLE_VRPN=0
