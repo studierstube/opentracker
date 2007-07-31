@@ -407,6 +407,7 @@ namespace ot {
             throw OTGraph::UnsupportedAttribute();
         }
         OTGraph::StringTable* get_attributes();
+        ACE_Thread_Mutex * getMutex() { return mutex; };
 #endif
         
 

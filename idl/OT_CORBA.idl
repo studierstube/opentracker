@@ -27,7 +27,7 @@ module OT_CORBA {
   };
 
   interface OTEntity {
-    void setEvent(in Event ev);    
+    oneway void setEvent(in Event ev);    
   };
 
   interface OTSink : OTNode {

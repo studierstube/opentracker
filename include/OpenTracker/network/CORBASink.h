@@ -95,7 +95,7 @@ protected:
       cycle( 0 ) 
 	{
 	  type = "CORBASink";
-
+	  entity = OT_CORBA::OTEntity::_nil();
 	  refmutex = new ACE_Thread_Mutex;	    
 	};
 

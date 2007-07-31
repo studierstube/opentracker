@@ -83,6 +83,7 @@ namespace ot {
       Node* value = createNode(name, attributes);
       // Add node to the name-Node mapping
       logPrintI("just about to getNode(value)\n");
+
       OTGraph::Node_var node_ref = getNode(value);
       logPrintI("just did getNode(value)\n");
       unlock();
@@ -93,7 +94,7 @@ namespace ot {
 
     OTGraph::Edge* LiveContext::connect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
       logPrintI("connecting nodes\n");
-      lock();
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
       logPrintI("getting upstreamNode\n");
       Node* upstream_node = getNode(upstreamNode);
       logPrintI("getting downstreamNode\n");
@@ -101,9 +102,11 @@ namespace ot {
 
       // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
       if ((upstream_node == NULL) || (downstream_node == NULL)) {
-          unlock();
           throw OTGraph::NodeNonExistent();
       }
+      upstream_node->lock();
+      downstream_node->lock();
+          
       downstream_node->addChild(*upstream_node);
       upstream_node->addParent(downstream_node);
 
@@ -111,12 +114,19 @@ namespace ot {
       _edge->sender   = upstreamNode;
       _edge->receiver = downstreamNode;
       // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
+      downstream_node->unlock();
+      upstream_node->unlock();
 
       // add new edge to list of edges
       edges.push_back(Edge(((Node*) upstream_node), downstream_node));
-      unlock();
       logPrintI("finished connecting nodes\n");
       return _edge;
+    }
+
+    void LiveContext::remove_edge(const OTGraph::Edge& edge) {
+        OTGraph::Node_var upstreamNode = edge.sender;
+        OTGraph::Node_var downstreamNode = edge.receiver;
+        disconnect_nodes(upstreamNode, downstreamNode);
     }
 
   void LiveContext::disconnect_nodes(const OTGraph::Node_var& upstreamNode, const OTGraph::Node_var& downstreamNode) {
@@ -124,31 +134,53 @@ namespace ot {
       ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
       Node* upstream_node   = getNode(upstreamNode);
       Node* downstream_node = getNode(downstreamNode);
-
-
-      // SORT OUT THE THREAD SAFETY OF THIS!
-      upstream_node->lock();
-      downstream_node->lock();
+      if ((upstream_node == NULL) || (downstream_node == NULL)) {
+          throw OTGraph::NodeNonExistent();
+      }
+      ACE_Guard<ACE_Thread_Mutex> upstreamlock(*(upstream_node->getMutex()));
+      ACE_Guard<ACE_Thread_Mutex> downstreamlock(*(downstream_node->getMutex()));
       NodeVector::iterator parent =
 	std::find( upstream_node->parents.begin(),  upstream_node->parents.end(), downstream_node);
-      if (parent != upstream_node->parents.end()) {
-	upstream_node->parents.erase(parent);
-      }
       NodeVector::iterator child =
 	std::find( downstream_node->children.begin(),  downstream_node->children.end(), upstream_node);
-      if (child != downstream_node->children.end()) {
-	// The sender node is the child of the receiver node
-	downstream_node->children.erase(child);
+      if ((parent == upstream_node->parents.end()) || (child == downstream_node->children.end())) {
+          throw OTGraph::NodesNotConnected();
       }
-      downstream_node->unlock();
-      upstream_node->unlock();
-      // SORT OUT THE THREAD SAFETY!!!
+      upstream_node->parents.erase(parent);
+      // The sender node is the child of the receiver node
+      downstream_node->children.erase(child);
       Edge edge(upstream_node, downstream_node);
       EdgeVector::iterator result = std::find( edges.begin(), edges.end(), edge );
       if( result != edges.end())
 	{
 	  edges.erase( result );
 	}
+    }
+
+    char* LiveContext::getDot() {
+        std::string dot = "digraph DataFlowGraph {\n";
+        {
+            ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
+            for (EdgeVector::iterator it=edges.begin(); it != edges.end(); ++it) {
+                Node* upstreamNode =   it->first;
+                Node* downstreamNode = it->second;
+                std::string upstream_id = getIDFromNode(upstreamNode);
+                std::string downstream_id = getIDFromNode(downstreamNode);
+                dot += std::string("\t") + upstream_id + " -> " + downstream_id + std::string(";\n");
+            }
+            for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
+            {
+                Node* node = it->first;
+                std::string id = it->second;
+                dot += std::string("\t") + id + std::string(" [label=\"") + 
+                    node->getType() + std::string("\\n") + id + std::string("\"];\n");
+                //node_refs[i] = getNodeRefFromID(it->second);	
+                //i++;
+            } 
+
+        }
+        dot += "}";
+        return CORBA::string_dup(dot.c_str());
     }
 
   OTGraph::NodeVector* LiveContext::get_nodes() {

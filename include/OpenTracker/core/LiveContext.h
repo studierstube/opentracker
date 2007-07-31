@@ -67,10 +67,12 @@ namespace ot {
     OTGraph::EdgeVector* get_edges();
 
     void remove_node(const OTGraph::Node_var& target_ref);
+    void remove_edge(const OTGraph::Edge& edge);
     
     void run();
 
     char* getXMLString();
+    char* getDot();
 
   protected:
     ConfigNode* configNode;

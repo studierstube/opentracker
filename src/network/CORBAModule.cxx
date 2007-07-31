@@ -498,7 +498,7 @@ void CORBAModule::clear()
   {
     Event new_event(corba_event);
     //_lock();
-    logPrintI("CORBASource::setEvent\n");
+    //logPrintI("CORBASource::setEvent\n");
     ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
     event = new_event;
     updateObservers( event );
