@@ -668,24 +668,31 @@ namespace ot {
         
 	CORBASource* corba_source = dynamic_cast<CORBASource*>(node);
 	StaticTransformation* static_transformation = dynamic_cast<StaticTransformation*>(node);
+#ifdef USE_OMNIEVENTS
         PushCons* push_cons = dynamic_cast<PushCons*>(node);
+#endif // USE_OMNIEVENTS
         CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
             POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
                 new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
-	} else if (static_transformation != NULL) {
+	}
+        else if (static_transformation != NULL) {
             POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
                 new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
-        } else if (push_cons != NULL) {
+        } 
+#ifdef USE_OMNIEVENTS
+        else if (push_cons != NULL) {
             POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = 
                 new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
-        } else if (corba_sink != NULL) {
+        }
+#endif //USE_OMNIEVENTS
+        else if (corba_sink != NULL) {
             POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
                 new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
             corba_id = poa->activate_object(tie_node);
@@ -707,7 +714,9 @@ namespace ot {
 	CORBASource* corba_source = dynamic_cast<CORBASource*>(node);
 	StaticTransformation* static_transformation = 
             dynamic_cast<StaticTransformation*>(node);
+#ifdef USE_OMNIEVENTS
         PushCons* push_cons = dynamic_cast<PushCons*>(node);
+#endif //USE_OMNIEVENTS
         CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
             POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
@@ -721,12 +730,16 @@ namespace ot {
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
-        } else if (push_cons != NULL) {
+        } 
+#ifdef USE_OMNIEVENTS
+        else if (push_cons != NULL) {
             POA_OT_EventChannel::PushConsNode_tie<PushCons>* tie_node = new POA_OT_EventChannel::PushConsNode_tie<PushCons> (push_cons);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
-        } else if (corba_sink != NULL) {
+        } 
+#endif //USE_OMNIEVENTS
+        else if (corba_sink != NULL) {
             POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
                 new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());

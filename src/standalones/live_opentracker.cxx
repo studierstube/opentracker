@@ -47,9 +47,9 @@
 #include <OpenTracker/network/CORBAUtils.h>
 #include <OpenTracker/network/CORBAModule.h>
 
-#define USE_stub_in_nt_dll
+//#define USE_stub_in_nt_dll
 #include <OpenTracker/skeletons/OTGraph.hh>
-#undef USE_stub_in_nt_dll
+//#undef USE_stub_in_nt_dll
 #include <omniORB4/poa.h>
 
 #include <OpenTracker/core/Node.h>
@@ -73,7 +73,9 @@ int main(int argc, char **argv)
         cout << "Usage : " << argv[0] << " NamingContextName <rate>" << endl;
         return 1;
     }
+#ifdef fish
     try {
+#endif
       LiveContext* context_impl = new LiveContext();
       cerr << "got LiveContext instance" << endl;
       ModuleMap modules = context_impl->getModules();
@@ -108,8 +110,9 @@ int main(int argc, char **argv)
 
       CosNaming::NamingContextExt::StringName_var string_name = argv[1];
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-      context_impl->runAtRate(30);
-      //context_impl->run();
+      //context_impl->runAtRate(30);
+      context_impl->runOnDemand();
+#ifdef fish
     }
     catch(CORBA::SystemException&) {
       cerr << "Caught CORBA::SystemException." << endl;
@@ -126,6 +129,7 @@ int main(int argc, char **argv)
     catch(...) {
       cerr << "Caught unknown exception." << endl;
     }
+#endif
     return 1;
 }
 

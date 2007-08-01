@@ -6,14 +6,14 @@
 import sys, os
 from glob import glob
 from os.path import join, basename, dirname
-################################################################################
-#     extend path to include SCons builders                                    #
-################################################################################
+#########################################
+# extend path to include SCons builders #
+#########################################
 sys.path.append('builders')
 
-################################################################################
-#     Build-specific classes                                                   #
-################################################################################
+###################################
+#     Build-specific classes      #
+###################################
 class CORBAStubs:
     def __init__(self, env, 
 		 cxx_install_directory=join('idl', 'skeletons'), 
@@ -22,12 +22,15 @@ class CORBAStubs:
 	self.cxx_install_directory = cxx_install_directory
 	self.python_install_directory = python_install_directory
 	self.cxx, self.python, self.java = [], [], []
+        self.idl_files = []
 
     def addCxxStubs(self, idl_file):
 	self.cxx += env.OMNIIDLCXX(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.cxx_install_directory)
 
     def addPythonStubs(self, idl_file):
+        print "about to Python Stubs"
 	self.python += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.python_install_directory)
+        print "added Python stubs"
 
     def addJavaStubs(self, idl_file, pkgprefix=None):
 	if pkgprefix is None:
@@ -37,8 +40,8 @@ class CORBAStubs:
 
     def addStubsAndSkeletons(self, idl_file, pkgprefix=None):
 	self.addCxxStubs(idl_file)
-	#if env['ENABLE_OMNIORBPY']:
-	#    self.addPythonStubs(idl_file)
+        self.idl_files.append(idl_file)
+        self.addPythonStubs(idl_file)
 	#if env['ENABLE_JAVA']:
 	#    self.addJavaStubs(idl_file, pkgprefix)
 	return {'cxx':self.cxx, 'python':self.python, 'java':self.java}
@@ -168,7 +171,8 @@ env.Append(LIBS = ['xerces-c_2', 'ACE'])
 env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
                    'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32'
                    , 'oleaut32', 'uuid','odbc32', 'odbccp32'])
-env.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS', 
+#env.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS', 
+env.Append(CPPDEFINES=['PRESENCCIA_BUILD', 'USING_SCONS', 
                           'OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 
                           'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 
                           'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT',
@@ -214,13 +218,18 @@ if env['ENABLE_NETWORKING']:
 # Enable or disable CORBA support #
 #*********************************#
 # CORBAStubs instance will manage the various stubs and skeletons
-stub_generator = CORBAStubs(env)
+stub_generator = CORBAStubs(env,python_install_directory=join(prefix, 'lib','python'))
 if env['ENABLE_CORBA']:
     print "*************** CORBA is enabled ***************"
     try:
         omniorb_root_dir = env['ENV']['OMNIORBROOT']
     except KeyError:
         print "No OMNIORBROOT has been specified"
+        sys.exit(-1)
+    try:
+        omniorbpy_root_dir = env['ENV']['OMNIORBPYROOT']
+    except KeyError:
+        print "No OMNIORBPYROOT has been specified"
         sys.exit(-1)
     # Install the omniidl tool and it's dependencies
     omniidl_tool = env.Install(join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'), join(omniorb_root_dir, 'bin', 'x86_win32', 'omniidl.exe'))
@@ -229,26 +238,31 @@ if env['ENABLE_CORBA']:
     omniidl_pys  = installRelativeToDirectory(env, omniorb_root_dir, 'lib', join(prefix, 'bin', 'omniidl'), 'omniidl-pys', ['.py', '.pyc'])
     env.Depends(omniidl_tool, omniidl_pys + python_dll + omnicpp_exe)
     # Install the makedeffile.py tool
-    makedeffile_py = env.Install(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'scripts', 'makedeffile.py'))
+    #makedeffile_py = env.Install(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'scripts', 'makedeffile.py'))
+    makedeffile_py = env.Command(join(prefix, 'bin', 'makedeffile.py'), join(omniorb_root_dir, 'bin', 'scripts', 'makedeffile.py'), [Copy("$TARGET", "$SOURCE"), Chmod("$TARGET", 0755)])
     env.AppendENVPath('PATH', join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'))
+    env.AppendENVPath('PATH', join(prefix, 'bin'))
+    os.environ['PATH'] += join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32') + ';'
     # Install the omniORB headers and libraries #
     omniorb_headers = installRelativeToDirectory(env, omniorb_root_dir, 'include', prefix, 'omniorb-headers', ['.hh', 'h'])
     cos_headers = installRelativeToDirectory(env, omniorb_root_dir, 'include', prefix, 'omniorb-headers', ['.hh', 'h'])
     omniorb_libraries  = installLibraries(env, join(omniorb_root_dir, 'lib', 'x86_win32'), prefix, 'omniorb-libs')
     omniorb_libraries += installLibraries(env, join(omniorb_root_dir, 'bin', 'x86_win32'), prefix, 'omniorb-dlls')
+    omniorb_python_backends = env.Install(join(prefix,'bin','omniidl','lib','python','omniidl_be'), join(omniorbpy_root_dir, 'lib','python','omniidl_be','python.py'))
   
     # configure environment to the various idl files that need to be compiled to CORBA stubs and skeletons
-    import OmniIdlCxx
+    import OmniIdlCxx, OmniIdlPy
     OmniIdlCxx.generate(env)
-    env.Append(CPPDEFINES='USE_CORBA')
+    OmniIdlPy.generate(env)
+    env.Append(CPPDEFINES=['USE_CORBA'])
     env.Append(CPPDEFINES=['__x86__', '__NT__', '__OSVERSION__=4', '__WIN32__', '_WIN32_WINNT=0x0400'])
     
     env.Append(LIBS=['ws2_32', 'mswsock', 'advapi32', 'omniORB410_rt', 'omniDynamic410_rt', 'omnithread33_rt'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
-    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl', 'UTS.idl']]:
+    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
 	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
 
-    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx']]
+    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
 #**************************************#
 # Enable or disable OmniEvents support #
 #**************************************#
@@ -258,7 +272,7 @@ if env['ENABLE_OMNIEVENTS']:
 	sys.exit(-1)
     print "OmniEvents support enabled"
     env.Append(CPPDEFINES='USE_OMNIEVENTS')
-    env.Append(CPPPATH=join(prefix, 'include', 'COS'))
+    env.Append(CPPPATH=[join(prefix, 'include', 'COS')])
     env.Append(LIBS='COS4')
     stub_generator.addStubsAndSkeletons(join('idl', 'OT_EventChannel.idl'), pkgprefix='org.studierstube.opentracker')
     # explicitly install COS headers in the skeletons directory
@@ -273,6 +287,7 @@ if env['ENABLE_LIVE']:
 	sys.exit(-1)
     print "Fine-grained dynamic reconfiguration support enabled"
     env.Append(CPPDEFINES='USE_LIVE');
+    env.Append(CPPPATH=[join(prefix, 'include', 'OpenTracker', 'skeletons')])
     stub_generator.addStubsAndSkeletons(join('idl', 'OTGraph.idl'), pkgprefix='org.studierstube.opentracker')
 extra_files += [cxx_file for cxx_file in filterFiles(stub_generator.cxx, ['.cc'])]
 skeletons = []
@@ -303,7 +318,10 @@ dllenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
 libenv.Append(CCFLAGS=['/O2','/W3', '/EHsc', '/MD', '/Z7', '/GR'])
 dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG', 
                          '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
-                         '/MACHINE:X86', '/ERRORREPORT:PROMPT'])
+                         '/MACHINE:X86'])
+dllenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+libenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+#prgenv.Append(CPPDEFINES=['_OT_LIBRARY'])
 
 ############################################
 #        Build static library              #
@@ -344,21 +362,44 @@ ot_install = env.Install(join(prefix, 'bin'), [otcon, otlive])
 executables = env.Alias('executables', [ot_install])
 prgenv.Depends(executables, [join(prefix, 'bin', _lib) for _lib in dlls])
 
+########################
+# Install Python files #
+########################
+python_install_files = stub_generator.python
+python_install_files += installRelativeToDirectory(env, omniorbpy_root_dir, join('lib', 'python'), prefix, 'omniorbpy-py', ['.py'])
+python_install_files += installFiles(env, join(omniorbpy_root_dir, 'lib', 'x86_win32'), join(prefix, 'lib', 'python'), 'omniorbpy-pyd', ['.pyd'])
+
+#####################
+# Install IDL files #
+#####################
+installed_idl_files = []
+other_idl_files  = [join('idl','EventChannelAdmin.idl')]
+other_idl_files += [join('idl','COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
+for idl_file in stub_generator.idl_files + other_idl_files:
+    installed_idl_files += env.Command(join(prefix, str(idl_file)), idl_file, Copy("$TARGET", "$SOURCE"))
+
 ############################################
 # Install other files DTDs, XML files, etc #
 ############################################
 ot_headers = installRelativeToDirectory(env, 'include', 'OpenTracker', join(prefix, 'include'), 'ot-headers', ['.h'])
 ot_share_files = env.InstallAs(join(prefix, 'share'), 'share')
 env.Alias('share-files', ot_share_files)
-env.Alias('install', executables + ot_headers + ot_share_files)
+env.Alias('install', executables + ot_headers + ot_share_files + installed_idl_files + python_install_files)
 
 ###############################################################
 # print settings that are useful for setting up Visual Studio #
 ###############################################################
 print "************* DEFINES ***************"
+defines_string = '['
 for _def in prgenv['CPPDEFINES']:
-    print _def
+    #print "#define %s" % (str(_def), )
+    defines_string += '\'' + str(_def) + '\', '
+defines_string = defines_string[:-2] + ']'
+print defines_string
 print "*************************************"
 print "                LIBS                 "
+libs_string = '['
 for _lib in prgenv['LIBS']:
-    print _lib+'.lib'
+    libs_string += '\'' + str(_lib) + '\', '
+libs_string = libs_string[:-2] + ']'
+print libs_string

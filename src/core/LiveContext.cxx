@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for Context class
+/** source file for LiveContext class
  *
  * @author Joseph Newman
  *
@@ -66,7 +66,9 @@ namespace ot {
       st.put("persistent", "true");
       
       corba_module->init(st, NULL);
-      parseConfigurationString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE OpenTracker SYSTEM \"opentracker.dtd\"><OpenTracker> <configuration/></OpenTracker>");
+      logPrintI("about to parse initialise configuration string\n");
+      //parseConfigurationString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE OpenTracker SYSTEM \"opentracker.dtd\"><OpenTracker> <configuration/></OpenTracker>");
+      logPrintI("just parsed configuration string\n");
     }
 
   OTGraph::Node_ptr LiveContext::get_node(const char* id) {

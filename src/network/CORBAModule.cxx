@@ -156,7 +156,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       pl[0] = CORBAModule::root_poa->create_lifespan_policy(PortableServer::PERSISTENT);
       pl[1] = CORBAModule::root_poa->create_id_assignment_policy(PortableServer::USER_ID);
       poa = CORBAModule::root_poa->create_POA("persistent poa", pman, pl);
-      logPrintI("Created POA with id assignment policy and persitence policy\n");
+      logPrintI("Created POA with id assignment policy and persistence policy\n");
     } else {
       // Create a new POA with the id assignment policy.
       CORBA::PolicyList pl;
@@ -165,6 +165,7 @@ void CORBAModule::initializeORB(int argc, char **argv)
       poa = CORBAModule::root_poa->create_POA("transient poa", pman, pl);
       logPrintI("Created POA with id assignment policy\n");
     }
+    logPrintI("Concluding ORB and POA initialisation\n");
   }
   catch(CORBA::SystemException&) {
     logPrintE("Caught CORBA::SystemException.");

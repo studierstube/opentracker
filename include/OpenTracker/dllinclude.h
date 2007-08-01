@@ -58,6 +58,9 @@
 #pragma warning(disable:4290)
 //#pragma warning(disable:4275)
 //#pragma warning(disable:4305)
+#ifdef PRESENCCIA_BUILD
+#define OPENTRACKER_API
+#else
 #ifdef OPENTRACKER_STATIC
 #define OPENTRACKER_API
 #define OPENTRACKER_EXTERN extern
@@ -70,6 +73,7 @@
 #define OPENTRACKER_EXTERN extern
 #endif
 #endif
+#endif //PRESENCCIA_BUILD
 
 # ifndef USING_SCONS
 #   include "../../config_win.h"

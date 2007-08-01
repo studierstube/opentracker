@@ -2,6 +2,9 @@
 #ifndef _OT_EVENTCHANNEL_IDL
 #define _OT_EVENTCHANNEL_IDL
 
+// OpenTracker specific pragma to insert extra includes into the stub header.
+#pragma hh #include <OpenTracker/skeletons/OT_sysdep.h>
+
 #include <COS/CosEventComm.idl>
 #ifdef USE_LIVE
 #include "OTGraph.idl"

@@ -12,6 +12,7 @@
 #include <OpenTracker/core/Context.h>
 #include <OpenTracker/core/Module.h>
 #include <OpenTracker/core/NodeFactoryContainer.h>
+#include <OpenTracker/network/CORBAModule.h>
 
 #include <OpenTracker/skeletons/OTGraph.hh>
 

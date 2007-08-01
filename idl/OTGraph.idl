@@ -2,6 +2,9 @@
 #ifndef _OTGRAPH_IDL
 #define _OTGRAPH_IDL
 
+// OpenTracker specific pragma to insert extra includes into the stub header.
+#pragma hh #include <OpenTracker/skeletons/OT_sysdep.h>
+
 module OTGraph {
   exception IndexOutOfRange {};
   exception GraphRulesViolation {};
