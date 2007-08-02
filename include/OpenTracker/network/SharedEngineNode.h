@@ -55,7 +55,7 @@
 #include <OpenTracker/network/CORBAUtils.h>
 #include <omniEvents/CosEventComm.hh>
 #include <omniEvents/CosEventChannelAdmin.hh>
-#include <shared/shared.hh>
+#include <OpenTracker/skeletons/Shared.hh>
 
 /**
  * This class implements a simple EventGenerator that passes any incoming events

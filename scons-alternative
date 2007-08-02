@@ -18,6 +18,7 @@ class CORBAStubs:
 	self.cxx_install_directory = cxx_install_directory
 	self.python_install_directory = python_install_directory
 	self.cxx, self.python, self.java = [], [], []
+        self.idl_files = []
 
     def addCxxStubs(self, idl_file):
 	self.cxx += env.OMNIIDLCXX(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.cxx_install_directory)
@@ -32,6 +33,7 @@ class CORBAStubs:
 	    self.java += env.IDLJ(idl_file, PKGPREFIX=pkgprefix)
 
     def addStubsAndSkeletons(self, idl_file, pkgprefix=None):
+        self.idl_files.append(idl_file)
 	self.addCxxStubs(idl_file)
 	if env['ENABLE_OMNIORBPY']:
 	    self.addPythonStubs(idl_file)
@@ -169,7 +171,7 @@ if env['ENABLE_CORBA']:
     import OmniIdlCxx
     OmniIdlCxx.generate(env)
     env.Append(CPPDEFINES='USE_CORBA')
-    env.Append(LIBS=['omniORB4', 'COS4', 'omniDynamic4', 'omnithread'])
+    env.Append(LIBS=['omniORB4', 'COSDynamic4', 'COS4', 'omniDynamic4', 'omnithread'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
     extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
     if env['ENABLE_JAVA']:
@@ -358,6 +360,14 @@ if prefix:
     # obtain list of all header files to be installed, and exclude duplicate entries
     for header in excludeDuplicates(header_files + additional_headers):
 	inc_inst.append(env.Install( join(prefix, dirname(str(header))), header))
+    # install IDL files in PREFIX/share/idl
+    idl_inst = []
+    if env['ENABLE_CORBA']:
+        additional_idl_files  = [join('idl', 'EventChannelAdmin.idl')]
+        additional_idl_files += [join('idl', 'COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
+        for idl_file in additional_idl_files + stub_generator.idl_files:
+            print (join(prefix,'share', dirname(idl_file)), idl_file)
+            idl_inst.append(env.Install(join(prefix,'share', dirname(idl_file)), idl_file))
     # python files to install in PREFIX/lib/python2.4/site-packages
     py_inst, libpythondirstrlen = [], len(python_local_dir)+1
     site_package_directory = join(prefix, 'lib', 'python%d.%d' % tuple(sys.version_info[0:2]), 'site-packages')
@@ -366,5 +376,5 @@ if prefix:
     # jar files to install
     jar_inst = env.Install(join(prefix, 'lib'), jars)
     # all files to be installed
-    install_files = [bin_inst, inc_inst, lib_inst, py_inst, jar_inst]
-    env.Alias('install', install_files )
+    install_files = [bin_inst, inc_inst, lib_inst, py_inst, jar_inst, idl_inst]
+    env.Alias('install', install_files)

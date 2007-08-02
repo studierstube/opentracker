@@ -81,17 +81,20 @@ def idlj_emitter(target, source, env):
 
 def idlfile_scan(node, env, path):
     include_args = ['-I' + directory for directory in env['IDL_INCLUDE_PATH']]
-    idl = parseOmniIdlArgs(include_args + [str(node)])
-    idl_dependencies = []
-    for module in idl.declarations():
-        if (module.file() != idl.file()) and (module.file() not in idl_dependencies):
-            idl_dependencies.append(module.file())
-    idlast.clear()
-    idltype.clear()
-    _omniidl.clear()
-    search_dirs = tuple([env.Dir(dirname) for dirname in env['IDL_INCLUDE_PATH']])
-    idl_dependencies = [SCons.Node.FS.find_file(idlname, search_dirs) for idlname in idl_dependencies]
-    return idl_dependencies
+    try:
+        idl = parseOmniIdlArgs(include_args + [str(node)])
+        idl_dependencies = []
+        for module in idl.declarations():
+            if (module.file() != idl.file()) and (module.file() not in idl_dependencies):
+                idl_dependencies.append(module.file())
+        idlast.clear()
+        idltype.clear()
+        _omniidl.clear()
+        search_dirs = tuple([env.Dir(dirname) for dirname in env['IDL_INCLUDE_PATH']])
+        idl_dependencies = [SCons.Node.FS.find_file(idlname, search_dirs) for idlname in idl_dependencies]
+        return idl_dependencies
+    except Exception:
+        return []
 
 def scanTypedefForStruct(contents, typedef):
     contents = filterOutComments(contents)
@@ -163,7 +166,7 @@ def parseOmniIdlArgs(args):
         if name != "-" and not os.path.isfile(name):
             if not quiet:
                 sys.stderr.write(cmdname + ": '" + name + "' does not exist\n")
-            sys.exit(1)
+            raise Exception
 
         if sys.platform != 'OpenVMS' or len(preprocessor_args)==0:
             preproc_cmd = '%s %s "%s"' % (preprocessor_cmd,
@@ -184,8 +187,8 @@ def parseOmniIdlArgs(args):
                     if not quiet:
                         sys.stderr.write(cmdname + \
                                          ": Error running preprocessor\n")
-                    sys.exit(1)
-                sys.exit(0)
+                    raise Exception
+                raise Exception
 
             if temp_file:
                 if verbose:
