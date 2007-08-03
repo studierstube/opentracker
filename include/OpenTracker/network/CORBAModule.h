@@ -115,7 +115,7 @@ public:
     virtual void init(StringTable& attributes,  ConfigNode * localTree);
 
     /** initializes CORBA orb */
-    static void initializeORB(int argc, char **argv);
+    static void initializeORB(int& argc, char**& argv);
 
     /** block waiting for orb to be destroyed */
     void runORB();

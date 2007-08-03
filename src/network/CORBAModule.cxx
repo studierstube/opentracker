@@ -129,7 +129,7 @@ void CORBAModule::destroyORB()
 // This method initialises the ORB and poa
 
 
-void CORBAModule::initializeORB(int argc, char **argv)
+void CORBAModule::initializeORB(int& argc, char**& argv)
 {
   try {
     // initialize the ORB
@@ -226,14 +226,24 @@ void CORBAModule::initializeORB(int argc, char **argv)
     args.push_back("-ORBabortOnInternalError");
     args.push_back("1");
     int argc = args.size();
-    char** argv = (char **) malloc(argc + 1); // note +1
+    char** argv = new char* [argc+1];
+    //char** argv = (char **) malloc(argc + 1); // note +1
     for (int i=0; i<argc; i++) {
-      argv[i] = (char *) malloc(args[i].length() + 1);
+      argv[i] = new char [args[i].length() + 1];
+      //argv[i] = (char *) malloc(args[i].length() + 1);
       strcpy(argv[i], args[i].c_str());
     }
-    argv[argc] = (char *) malloc(1);
+    //argv[argc] = (char *) malloc(1);
+    argv[argc] = new char [1];
     argv[argc] = "\0";
     initializeORB(argc, argv);
+    // Now free the memory
+    //#ifdef fish
+    for (int i=0; i<=argc; i++) {
+      delete argv[i];
+    }
+    delete argv;
+    //#endif
   }
     
   void CORBAModule::removeNode(Node * node) {
