@@ -235,6 +235,7 @@ if env['ENABLE_CORBA']:
     omniidl_tool = env.Install(join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'), join(omniorb_root_dir, 'bin', 'x86_win32', 'omniidl.exe'))
     python_dll   = env.Install(join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'), join(omniorb_root_dir, 'bin', 'x86_win32', 'python15.dll'))
     omnicpp_exe   = env.Install(join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'), join(omniorb_root_dir, 'bin', 'x86_win32', 'omnicpp.exe'))
+    catior_exe   = env.Install(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'x86_win32', 'catior.exe'))
     omniidl_pys  = installRelativeToDirectory(env, omniorb_root_dir, 'lib', join(prefix, 'bin', 'omniidl'), 'omniidl-pys', ['.py', '.pyc'])
     env.Depends(omniidl_tool, omniidl_pys + python_dll + omnicpp_exe)
     # Install the makedeffile.py tool
@@ -301,7 +302,7 @@ env.Install(join('build', 'win32'), skeletons)
 # We need an explicit dependency between the stubs and
 # the omniidl tool, as we can't compile it unless it is
 # installed
-env.Depends(stub_generator.cxx, omniidl_tool)
+env.Depends(stub_generator.cxx + stub_generator.python, omniidl_tool)
 ###################################################
 env.Install(join('build', 'win32'), glob(join('extras', 'intersense', '*.h')))
 import MakeDefFile
@@ -383,8 +384,9 @@ for idl_file in stub_generator.idl_files + other_idl_files:
 ############################################
 ot_headers = installRelativeToDirectory(env, 'include', 'OpenTracker', join(prefix, 'include'), 'ot-headers', ['.h'])
 ot_share_files = env.InstallAs(join(prefix, 'share'), 'share')
+misc_files = [catior_exe]
 env.Alias('share-files', ot_share_files)
-env.Alias('install', executables + ot_headers + ot_share_files + installed_idl_files + python_install_files)
+env.Alias('install', executables + ot_headers + ot_share_files + installed_idl_files + python_install_files + misc_files)
 
 ###############################################################
 # print settings that are useful for setting up Visual Studio #
