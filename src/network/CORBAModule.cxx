@@ -78,6 +78,7 @@ namespace ot {
   CORBA::ORB_var CORBAModule::orb;
  PortableServer::POA_var CORBAModule::poa;
  PortableServer::POA_var CORBAModule::root_poa;
+ PortableServer::POA_var CORBAModule::ins_poa;
  bool CORBAModule::persistent;
  bool CORBAModule::initialised;
 
@@ -122,8 +123,17 @@ void CORBAModule::destroyORB()
     return PortableServer::POA::_duplicate(CORBAModule::root_poa); 
   }
 
+  PortableServer::POA_var CORBAModule::getINSPOA() {
+    CORBA::Object_var obj = orb->resolve_initial_references("omniINSPOA");
+    return PortableServer::POA::_narrow(obj);
+  }
+
   PortableServer::POAManager_var CORBAModule::getPOAManager() { 
     return PortableServer::POAManager::_duplicate(pman); 
+  }
+
+  PortableServer::POAManager_var CORBAModule::getINSPOAManager() { 
+    return getINSPOA()->the_POAManager();
   }
 
 // This method initialises the ORB and poa

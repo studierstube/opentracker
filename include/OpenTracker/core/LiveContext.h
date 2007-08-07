@@ -47,6 +47,7 @@ namespace ot {
 
   public:
     LiveContext();
+    LiveContext(const std::string& endPoint);
     virtual ~LiveContext() {
       cerr << "LiveContext:: Destructor" << endl;
     };

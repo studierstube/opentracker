@@ -126,7 +126,9 @@ public:
     static PortableServer::POAManager_var pman;
     static PortableServer::POA_var getPOA();
     static PortableServer::POA_var getRootPOA();
+    static PortableServer::POA_var getINSPOA();
     static PortableServer::POAManager_var getPOAManager();
+    static PortableServer::POAManager_var getINSPOAManager();
     static CORBA::ORB_var getORB();
     
     /** Clears nodes */
@@ -145,6 +147,7 @@ private:
     static CORBA::ORB_var orb;
     static PortableServer::POA_var poa;
     static PortableServer::POA_var root_poa;
+    static PortableServer::POA_var ins_poa;
     static bool initialised;
 
 

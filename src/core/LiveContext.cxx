@@ -59,17 +59,24 @@ namespace ot {
 #ifdef USE_LIVE
   LiveContext::LiveContext() : Context(1), no_nodes(0) {
       cerr << "LiveContext:: Constructor" << endl;
-      //initializeContext( this , NULL);
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
       StringTable st;
       //st.put("endPoint", "giop:tcp:localhost:9999");
       st.put("persistent", "true");
       
       corba_module->init(st, NULL);
-      //logPrintI("about to parse initialise configuration string\n");
-      //parseConfigurationString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE OpenTracker SYSTEM \"opentracker.dtd\"><OpenTracker> <configuration/></OpenTracker>");
-      //logPrintI("just parsed configuration string\n");
     }
+
+    LiveContext::LiveContext(const std::string& endPoint) : Context(1), no_nodes(0) {
+      cerr << "LiveContext:: Constructor" << endl;
+      corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+      StringTable st;
+      st.put("endPoint", endPoint);
+      st.put("persistent", "true");
+      
+      corba_module->init(st, NULL);
+    }
+   
 
   OTGraph::Node_ptr LiveContext::get_node(const char* id) {
       PortableServer::POA_var poa = corba_module->getPOA();
@@ -161,26 +168,27 @@ namespace ot {
 
     char* LiveContext::getDot() {
         std::string dot = "digraph DataFlowGraph {\n";
-        {
-            ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
-            for (EdgeVector::iterator it=edges.begin(); it != edges.end(); ++it) {
-                Node* upstreamNode =   it->first;
-                Node* downstreamNode = it->second;
-                std::string upstream_id = getIDFromNode(upstreamNode);
+        ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
+        for (EdgeVector::iterator it=edges.begin(); it != edges.end(); ++it) {
+            Node* upstreamNode =   it->first;
+            Node* downstreamNode = it->second;
+            std::string upstream_id = getIDFromNode(upstreamNode);
                 std::string downstream_id = getIDFromNode(downstreamNode);
                 dot += std::string("\t") + upstream_id + " -> " + downstream_id + std::string(";\n");
-            }
-            for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
-            {
-                Node* node = it->first;
-                std::string id = it->second;
-                dot += std::string("\t") + id + std::string(" [label=\"") + 
-                    node->getType() + std::string("\\n") + id + std::string("\"];\n");
-                //node_refs[i] = getNodeRefFromID(it->second);	
-                //i++;
-            } 
-
         }
+        for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
+        {
+            Node* node = it->first;
+            std::string id = it->second;
+            std::string type = node->getType();
+            //dot += std::string("\t") + id + std::string(" [label=\"") + 
+            //    node->getType() + std::string("\\n") + id + std::string("\"];\n");
+            dot += std::string("\t") + id + std::string(" [label=\"") + 
+                type + std::string("\\n") + id + std::string("\"];\n");
+            //node_refs[i] = getNodeRefFromID(it->second);	
+            //i++;
+        } 
+
         dot += "}";
         return CORBA::string_dup(dot.c_str());
     }
