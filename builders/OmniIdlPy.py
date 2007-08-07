@@ -28,11 +28,15 @@ def getModules(env, idl_file):
         text += t
     output.close()
     input.close()
-    recovered_modules = modules_re.findall(text)[0]
-    parsed_modules = recovered_modules.replace('"','').replace(' ', '').split(',')
-    parsed_modules.remove('')
-    print "parsed_modules = ", parsed_modules
-    return parsed_modules
+    try:
+        recovered_modules = modules_re.findall(text)[0]
+        parsed_modules = recovered_modules.replace('"','').replace(' ', '').split(',')
+        parsed_modules.remove('')
+        print "modules extracted from idl file " + str(idl_file) + " = ", parsed_modules
+        return parsed_modules
+    except IndexError:
+        print "could not extract any modules from idl file", str(idl_file)
+        return []
 
 def omniidl_emitter(target, source, env):
     print "omniidl_emitter start"
