@@ -2,7 +2,7 @@
 <!DOCTYPE OpenTracker SYSTEM "opentracker.dtd">
 <OpenTracker>
   <configuration>
-  <CORBAConfig persistent="true" endPoint="giop:tcp:herceg.cl.cam.ac.uk:9999"/>
+  <CORBAConfig persistent="true" endPoint="giop:tcp::9999"/>
   </configuration>
   <CORBASink name="CORBA.Sink01" DEF="foo" nameBinding="Node.foo">
     <EventTransform scale="2 15 5" nameBinding="Node.transform">
