@@ -52,6 +52,7 @@
 #endif
 #include <OpenTracker/common/VirtualTransformation.h>
 #include <OpenTracker/common/DynamicTransformation.h>
+#include <OpenTracker/common/DynamicVirtualTransformation.h>
 #include <OpenTracker/common/InvertTransformation.h>
 #include <OpenTracker/common/MatrixTransformation.h>
 #include <OpenTracker/common/SelectionNode.h>
@@ -106,6 +107,7 @@ namespace ot {
         knownNodes.push_back("TriangulateOrientationNode");
         knownNodes.push_back("VirtualTransformation");
         knownNodes.push_back("DynamicTransformation");
+		knownNodes.push_back("DynamicVirtualTransformation");
         knownNodes.push_back("InvertTransformation");
         knownNodes.push_back("MatrixTransformation");
         knownNodes.push_back("SelectionNode");
@@ -362,6 +364,15 @@ namespace ot {
                 baseEvent = 0;
             result = new DynamicTransformation( baseEvent, true, true );
         }
+		else if( name.compare("EventDynamicVirtualTransform") == 0 )
+		{
+			int baseEvent;
+			if( attributes.get("baseevent").compare("true") == 0 )
+				baseEvent = 1;
+			else
+				baseEvent = 0;
+			result = new DynamicVirtualTransformation( baseEvent, true, true );
+		}
         else if( name.compare("EventDynamicPositionTransform") == 0 ||
                  name.compare("QueueDynamicPositionTransform") == 0 ||
                  name.compare("TimeDynamicPositionTransform") == 0 )

@@ -399,24 +399,6 @@ namespace ot {
         // nothing to do
     }
 
-
-
-    void ParButtonSource::pushEvent()
-    {            
-        lock();
-        if( changed == 1 )
-        {			
-            updateObservers( event );
-            changed = 0;
-        }
-        unlock();
-    }
-    
-    void ParButtonSource::pullEvent()
-    {
-        // nothing to do
-    }    
-
 } // namespace ot
 
 #endif

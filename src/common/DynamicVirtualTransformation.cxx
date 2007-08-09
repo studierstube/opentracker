@@ -33,101 +33,66 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for ParButtonSource Node.
+/** source file for DynamicVirtualTransformation Node.
  *
- * @author Gerhard Reitmayr
+ * @author Markus Sareika
  *
- * $Id$
+ * $Id: DynamicVirtualTransformation.cxx 1547 2006-10-25 10:33:10Z veas $
  * @file                                                                   */
 /* ======================================================================= */
 
-/**
- * @page Nodes Node Reference
- * @section parbuttonsource ParButtonSource 
- * This element reads button values from the parallel port. It will only generate
- * events, when the status changes. It works only on some hardware that has
- * a bidirectional parallel port. This includes Indigo2, O2, and most
- * modern PCs. There may be only one source per parallel port. The port itself
- * is defined by the device name or the base port address, depending on the
- * operating system. Both types of parameters are written into the @c dev attribute.
- *
- * An example element looks like this :
- * @verbatim
- <ParButtonSource dev="0x378"/>@endverbatim
- *
- * See the @ref parbuttonmodule for information on how to get it to work on different
- * operating systems.
- */
+// this will remove the warning 4786
+#include <OpenTracker/tool/disable4786.h>
 
-#ifndef _PARBUTTONSOURCE_H
-#define _PARBUTTONSOURCE_H
+#include <OpenTracker/common/DynamicVirtualTransformation.h>
 
-#include "../OpenTracker.h"
+#include <iostream>
+
+// Constructor
 
 namespace ot {
 
-    /**
-     * This class implements a simple EventGenerator. It is updated by the
-     * ParButtonModule.
-     * @author Gerhard Reitmayr
-     * @ingroup input
-     */
-    class OPENTRACKER_API ParButtonSource : public Node
+    DynamicVirtualTransformation::DynamicVirtualTransformation( int baseEvent_, bool usePos_, bool useOrient_ ) :
+        VirtualTransformation(),
+        baseEvent( baseEvent_ )
     {
-        // Members
-    public: 
-        /// the event that is posted to the EventObservers
-        Event event;
-        
-        bool changed;
-        
-        /// device handle or base address
-        unsigned int handle;
+        usePos = usePos_;
+        useOrient = useOrient_;            
+    }
 
-        // Methods
-    protected:
-        /** simple constructor, sets members to initial values */
-        ParButtonSource( unsigned int handle_ ) : Node(), handle( handle_ )
-        {
-            changed = 1;
-        }
+    // this method is called by the EventGenerator to update it's observers.
 
-    public:            
-        /** tests for EventGenerator interface being present. Is overriden to
-         * return 1 always.
-         * @return always 1 */
-        virtual int isEventGenerator()
-        {
-            return 1;
-        }
+    void DynamicVirtualTransformation::onEventGenerated( Event& event, Node& generator)
+    {
+        if( generator.isNodePort() == 1 )     // if the event is from the NodePort 
+        {	                                  // node, its a change to the base.
+            for( int i = 0; i < 3; i ++ )
+            {
+                translation[i] = event.getPosition()[i];
+                rotation[i] = event.getOrientation()[i];
+            }
+            this->rotation[3] = event.getOrientation()[3];
 
-        
-		void pushEvent()
-		{            
-			lock();
-			if( changed == 1 )
-			{			
-				updateObservers( event );
-				changed = 0;
-			}
-			unlock();
-		}
+            confidence = event.getConfidence();
 
-		void pullEvent()
-		{
-			// nothing to do
-		}    
-
-        friend class ParButtonModule;
-    };
+            if( baseEvent == 1 )
+            {
+                store.time = event.time;
+                StaticTransformation::onEventGenerated( store, generator );
+            }
+        } else 
+	{
+            store = event;
+            StaticTransformation::onEventGenerated( event, generator );
+	}
+    }
 
 } // namespace ot
 
-#endif
 
 /* 
  * ------------------------------------------------------------
- *   End of ParButtonSource.h
+ *   End of DynamicVirtualTransformation.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
