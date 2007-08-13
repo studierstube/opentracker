@@ -45,6 +45,8 @@
 #include <OpenTracker/tool/disable4786.h>
 
 #include <map>
+#include <cmath>
+
 
 #include <OpenTracker/common/EEGFilterNode.h>
 
@@ -153,7 +155,12 @@ namespace ot {
                 // first analyze event buffer and setup voting structure
                 unsigned int precount = 0;
                 unsigned int postcount = 0;
+#ifndef WIN32
                 std::map<int, int> digitmap[codelength];
+#else
+				codelength = 2;
+				std::map<int, int> digitmap[2];
+#endif
                 unsigned int i;
                 for (i=0; i<evbuffertargetsize; i++)
                 {
