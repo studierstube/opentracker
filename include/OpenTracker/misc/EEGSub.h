@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2006,
+ * Copyright (c) 2007,
  * Institute for Computer Graphics and Vision
  * Graz University of Technology
  * All rights reserved.
@@ -33,89 +33,62 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for class PythonNode.
+/** header file for EEGSub class.
  *
- * @author Mathis Csisinko
+ * @author Alexander Bornik bornik@icg.tugraz.at
  *
- * $Id$
+ * $Id $
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <OpenTracker/otpy/PythonNode.h>
 
-#ifdef USE_PYTHON
+#ifndef _EEGSUB_H
+#define _EEGSUB_H
 
-namespace py
-{
-#include "../otpy/ot_wrap.h"
-}
-
-#define STRINGIFY(identifier) #identifier
-#define SWIG_TYPE(type) STRINGIFY(type)
-
-using namespace py;
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/misc/EEGLas.h>
 
 namespace ot {
 
-	PythonNode::PythonNode(py::PyObject* pPyClassObject): Node(),pPyObject(0),pPyOnEventGeneratedObject(0),pPyPushEventObject(0)
+
+    class OPENTRACKER_API EEGSub
     {
-		if (pPyClassObject && PyCallable_Check(pPyClassObject))
-		{
-			PyObject* pPyTuple = Py_BuildValue("(O)",SWIG_NewPointerObj(this,SWIG_TypeQuery(SWIG_TYPE(ot::PythonNode*)),0));
-			pPyObject = PyObject_CallObject(pPyClassObject,pPyTuple);
-			Py_XDECREF(pPyTuple);
-			if (PyErr_Occurred())
-			{
-				PyErr_Print();
-				PyErr_Clear();
-			}
-			if (pPyObject && PyObject_IsInstance(pPyObject,pPyClassObject))
-			{
-				pPyOnEventGeneratedObject = PyObject_GetAttrString(pPyObject,STRINGIFY(onEventGenerated));
-				pPyPushEventObject = PyObject_GetAttrString(pPyObject,STRINGIFY(pushEvent));
-				PyErr_Clear();
-			}
-		}
-	}
+        // Members
+    protected:
+        double frequency;
+        double samplerate;
+        unsigned int harmonics;
+        std::vector<EEGLas> las;
 
-	PythonNode::~PythonNode()
-    {
-		Py_XDECREF(pPyObject);
-		Py_XDECREF(pPyOnEventGeneratedObject);
-		Py_XDECREF(pPyPushEventObject);
-	}
+        // Methods
+    public:
+        /** constructor method
+         */
+        EEGSub(const double &ifrequency, 
+               const unsigned int iharmonics,
+               const double &isamplerate);
 
-    void PythonNode::onEventGenerated(Event &event,Node &generator)
-	{
-		if (pPyOnEventGeneratedObject && PyCallable_Check(pPyOnEventGeneratedObject))
-		{
-			PyObject* pPyTuple = Py_BuildValue("(OO)",SWIG_NewPointerObj(&event,SWIG_TypeQuery(SWIG_TYPE(ot::Event*)),0),SWIG_NewPointerObj(&generator,SWIG_TypeQuery(SWIG_TYPE(ot::Node*)),0));
-			Py_XDECREF(PyObject_CallObject(pPyOnEventGeneratedObject,pPyTuple));
-			Py_XDECREF(pPyTuple);
-			if (PyErr_Occurred())
-			{
-				PyErr_Print();
-				PyErr_Clear();
-			}
-		}
-	}
+	/** takes an input value and returns the filtered value; */
 
-    void PythonNode::pushEvent()
-	{
-		if (pPyPushEventObject && PyCallable_Check(pPyPushEventObject))
-		{
-			Py_XDECREF(PyObject_CallObject(pPyPushEventObject,NULL));
-			if (PyErr_Occurred())
-			{
-				PyErr_Print();
-				PyErr_Clear();
-			}
-		}
-	}
+	double filter(const double &value);
+    };
+
 } // namespace ot
 
-#else
-#ifdef WIN32
-#pragma message(">>> no Python support")
 #endif
-#endif //USE_PYTHON
+
+/* 
+ * ------------------------------------------------------------
+ *   End of EEGSub.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

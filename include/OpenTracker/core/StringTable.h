@@ -198,6 +198,16 @@ namespace ot {
          * @return number of actually parsed values
          */
         int get(const std::string & key, double * value, int len = 1 );
+        /**
+         * parses a stored entry into a vector of doubles. It assumes that the
+         * doubles are separated by spaces. It returns the number of actually
+         * converted doubles.
+         * @param key the key of the entry to parse
+         * @param reference to the vector of double to store the parsed values 
+         * @param len the length of the array, default 1 to use it for a single double only
+         * @return number of actually parsed values
+         */
+        int get(const std::string & key, std::vector<double> & vector, int len = 1 );
 
         friend class KeyIterator;
     };

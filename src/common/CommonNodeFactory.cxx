@@ -69,6 +69,7 @@
 #include <OpenTracker/common/PositionFilterNode.h>
 #include <OpenTracker/common/EventUtilityNode.h>
 #include <OpenTracker/common/DESPFilterNode.h>
+#include <OpenTracker/common/EEGFilterNode.h>
 #include <OpenTracker/common/HeartrateFilterNode.h>
 #include <OpenTracker/common/DifferenceNode.h>
 
@@ -127,6 +128,7 @@ namespace ot {
         knownNodes.push_back("ConfidenceFilterNode");
         knownNodes.push_back("Difference");		
         knownNodes.push_back("DESPFilter");
+        knownNodes.push_back("EEGFilter");
         knownNodes.push_back("HeartrateFilter");
     }
 
@@ -582,6 +584,67 @@ namespace ot {
             result = new DESPFilterNode( filterPos, filterOri );
         }
 #endif
+        else if( name.compare("EEGFilter") == 0 )
+        {
+            std::vector<double> freqs;
+            std::string inattrname;
+            std::string outattrname;
+            int codelength;
+            int harmonics;
+            bool consume;
+            double samplerate;
+            double prepause, postpause, interpause;
+            double codeduration;
+            double threshold;
+            double hitpercentage;
+            
+            inattrname = attributes.get("inattrname");
+            if (inattrname == "" )
+                inattrname = "eeg";
+            outattrname = attributes.get("outattrname");
+            if (outattrname == "" )
+                outattrname = "eegout";
+            if( attributes.get("samplerate", &samplerate) != 1 )
+                samplerate = 256.0;
+            if( attributes.get("codelength", &codelength) != 1 )
+                codelength = 2;
+            if( attributes.get("harmonics", &harmonics) != 1 )
+                harmonics = 3;
+            if( attributes.get("prepause", &prepause) != 1 )
+                prepause = 4000.0;
+            if( attributes.get("postpause", &postpause) != 1 )
+                postpause = 2000.0;
+            if( attributes.get("interpause", &interpause) != 1 )
+                interpause = 1000.0;
+            if( attributes.get("codeduration", &codeduration) != 1 )
+                codeduration = 4000.0;
+            if( attributes.get("threshold", &threshold) != 1 )
+                threshold = 1.0;
+            if( attributes.get("hitpercentage", &hitpercentage) != 1 )
+                hitpercentage = 80.0;
+            if( attributes.get(std::string("frequencies"), freqs) <1)
+            {
+                freqs.clear();
+                freqs.push_back(6.25);
+                freqs.push_back(8.00);
+            }
+            if( attributes.get("consume") == "" || 
+                attributes.get("consume") == "false"  )
+            {
+                consume = false;
+            }
+            else
+            {             
+                consume = true;
+            }
+            result = new EEGFilterNode(freqs, codelength, samplerate, harmonics,
+                                       prepause, postpause, interpause,
+                                       codeduration,
+                                       threshold, hitpercentage,
+                                       inattrname, outattrname,
+                                       consume);
+
+        }
         else if( name.compare("HeartrateFilter") == 0 )
         {
             std::string attrname;
@@ -589,7 +652,6 @@ namespace ot {
             int onDuration, offDuration;
             int samplefactor;
             bool consume;
-            std::string consumestring;
 
             if( attributes.containsKey("attrname") )
                 attrname = attributes.get("attrname");

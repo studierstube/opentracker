@@ -126,5 +126,7 @@ namespace ot {
 } // namespace ot
 
 #else
+#ifdef WIN32
 #pragma message(">>> no Python support")
+#endif
 #endif //USE_PYTHON

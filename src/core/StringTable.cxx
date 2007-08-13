@@ -281,6 +281,18 @@ namespace ot {
         }
         return count;
     }
+    int StringTable::get(const std::string & key, std::vector<double> & vector, int len )
+    {
+        StringMap::iterator it = map.find( key );
+        if( it == map.end())
+            return 0;
+
+        double *array = (double*)malloc(len * sizeof(double));
+        int count = get(key, array, len);
+        copyA2V(array, len, vector);
+        free(array);
+        return count;
+    }
 
     int KeyIterator::hasMoreKeys() const
     {
