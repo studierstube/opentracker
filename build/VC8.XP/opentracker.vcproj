@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -208,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\misc\ButterworthFive.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\ButtonFilterNode.cxx"
 				>
 			</File>
@@ -300,7 +304,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\DynamicVirtualTransformation.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\DynaSightModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\EEGFilterNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\EEGLas.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\EEGSub.cxx"
 				>
 			</File>
 			<File
@@ -1084,6 +1104,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\misc\ButterworthFive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\common\ButtonFilterNode.h"
 				>
 				<FileConfiguration
@@ -1744,6 +1768,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\common\DynamicVirtualTransformation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\input\DynaSightModule.h"
 				>
 				<FileConfiguration
@@ -1794,6 +1822,14 @@
 						Outputs=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\misc\EEGLas.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\misc\EEGSub.h"
+				>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\common\ElasticFilterNode.h"

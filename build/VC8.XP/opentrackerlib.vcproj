@@ -171,6 +171,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\misc\ButterworthFive.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\ButtonFilterNode.cxx"
 				>
 			</File>
@@ -251,7 +255,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\DynamicVirtualTransformation.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\DynaSightModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\EEGLas.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\misc\EEGSub.cxx"
 				>
 			</File>
 			<File
@@ -749,6 +765,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\misc\ButterworthFive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\ButtonFilterNode.h"
 				>
 			</File>
@@ -865,11 +885,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\common\DynamicVirtualTransformation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\DynaSightModule.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\input\DynaSightSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\misc\EEGLas.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\misc\EEGSub.h"
 				>
 			</File>
 			<File
