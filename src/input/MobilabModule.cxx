@@ -127,15 +127,18 @@ namespace ot {
             {
                 logport = atoi(attributes.get("logport").c_str());
             }
-            server_addr.set(logport, attributes.get("loghost").c_str());
+
+            std::string lhstring(attributes.get("loghost").c_str());
+
+            server_addr.set(logport, lhstring.c_str());
+            logPrintI("MobilabModule loghost: '%s' port '%d' \n", lhstring.c_str(),logport);
 
             
-            if (logHost->open(ACE_INET_Addr(2069)) < 0)
+            if (logHost->open(ACE_INET_Addr()) < 0)
             {
                 delete logHost;
                 logHost = NULL;
-                logPrintE("MobilabModule error opening connection to host %s prot %d\n", 
-                          attributes.get("loghost").c_str(), logport);
+                logPrintE("MobilabModule error opening connection to host %s prot %d\n", lhstring.c_str(), logport);
             }
         }
 
@@ -292,7 +295,11 @@ namespace ot {
 
         if( logFile != NULL || logHost != NULL)
         {
-            logPrintI("ot::MobilabModule running with logfile or loghost support!\n");
+            if (logFile != NULL)
+                logPrintI("ot::MobilabModule running with logfile support!\n");
+            else
+                logPrintI("ot::MobilabModule running with loghost support!\n");
+
             driver->addListener( this );
         }
 
@@ -333,15 +340,17 @@ namespace ot {
     {
         // nothing to do
     }
+
     void MobilabModule::newData(const short * samples, int ssize)
     {
-        if (logFile)
+        if (logFile != NULL)
         {
             logFile->send( samples, sizeof(short)*ssize);
         }
         
-        if (logHost)
+        if (logHost != NULL)
         {
+            //logPrintI("LogSampleNR %d", logsamplenr);
             int buffersize = 5+ssize*sizeof(short);
             sendbuffer[0] = 0xff;
             
