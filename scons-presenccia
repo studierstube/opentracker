@@ -302,7 +302,7 @@ env.Install(join('build', 'win32'), skeletons)
 # We need an explicit dependency between the stubs and
 # the omniidl tool, as we can't compile it unless it is
 # installed
-env.Depends(stub_generator.cxx + stub_generator.python, omniidl_tool)
+env.Depends(stub_generator.cxx + stub_generator.python, omniidl_tool + omniorb_python_backends)
 ###################################################
 env.Install(join('build', 'win32'), glob(join('extras', 'intersense', '*.h')))
 import MakeDefFile

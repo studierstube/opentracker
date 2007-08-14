@@ -297,7 +297,7 @@ namespace ot {
         try
         {
             double inval;
-            while (not is.eof() && count < len)
+            while (!is.eof() && count < len)
             {
                 is >> inval;
                 vector.push_back(inval);
