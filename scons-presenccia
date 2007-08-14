@@ -199,10 +199,10 @@ env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
     [join('src', 'tool', 'OT_ACE_Log.cxx')]
-common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx']
+common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'DynamicVirtualTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx', 'EEGFilterNode.cxx']
 common_files = [join('src', 'common', file) for file in common]
 input_files  = []
-misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx')]
+misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGSub.cxx', 'EEGLas.cxx', 'ButterworthFive.cxx']
 misc_files = [join('src', 'misc', file) for file in misc]
 extra_files = [join('extras','intersense','isense.c')]
 
