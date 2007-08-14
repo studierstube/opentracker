@@ -36,6 +36,9 @@ scons
 
 %install
 scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
+# this should better be handled by the scons install procedure:
+mkdir -p $RPM_BUILD_ROOT/%{_datadir}
+cp -a share $RPM_BUILD_ROOT/%{_datadir}/%{name}
 
 %clean
 scons -c
@@ -45,6 +48,7 @@ scons -c
 %defattr(-,root,root)
 %{_libdir}/*.so*
 %{_bindir}/*
+%{_datadir}/%{name}
 
 %package devel
 Summary:	Open Tracker header and include files
