@@ -55,7 +55,7 @@
 namespace ot {
 
     ButterworthFive::ButterworthFive()
-        :actindex(6)
+        :actindex(5)
     {
         int i;
         for (i=0; i<6; i++)
@@ -68,7 +68,7 @@ namespace ot {
     double ButterworthFive::filter(const double &value)
     {
         int i;
-        historyx[actindex] = value;
+        historyx[actindex%6] = value;
         double retval = coefficientsb[0]*value;
 
     
@@ -78,7 +78,7 @@ namespace ot {
             retval -= coefficientsa[i]*historyy[(actindex-i)%6];
         }
         
-        historyy[actindex] = retval;
+        historyy[actindex%6] = retval;
 
         ++actindex;
 

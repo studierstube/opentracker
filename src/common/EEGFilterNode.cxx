@@ -84,6 +84,7 @@ namespace ot {
         eegsubs.clear();
         std::vector<double>::const_iterator it;
 
+        logPrintI("EEGFilter frequencies: %u codelength %u\n",frequencies.size(), codelength);
         for (it = frequencies.begin(); it != frequencies.end(); it++)
         {
             eegsubs.push_back(make_pair(EEGSub(*it, harmonics, samplerate), 1.0));

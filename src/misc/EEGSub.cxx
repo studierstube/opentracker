@@ -61,6 +61,8 @@ namespace ot {
           samplerate(isamplerate),
           harmonics(iharmonics)
     {
+        logPrintI("EEGSub::EEGSub frequency: %f harmonics: %u samplerate: %f\n",ifrequency, iharmonics, isamplerate);
+
         las.clear();
         unsigned int i;
 

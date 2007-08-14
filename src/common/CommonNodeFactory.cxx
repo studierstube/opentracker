@@ -622,7 +622,7 @@ namespace ot {
                 threshold = 1.0;
             if( attributes.get("hitpercentage", &hitpercentage) != 1 )
                 hitpercentage = 80.0;
-            if( attributes.get(std::string("frequencies"), freqs) <1)
+            if( attributes.get(std::string("frequencies"), freqs, 100) <2)
             {
                 freqs.clear();
                 freqs.push_back(6.25);
