@@ -53,7 +53,7 @@ OpentrackerThread::OpentrackerThread(QObject *parent)
     using namespace ot;
 
     // parse the configuration file, builds the tracker tree
-    Configurator::instance()->changeConfigurationFile("clientLocal.xml");
+    Configurator::instance()->changeConfigurationFile("clientB.xml");
 }
     
 OpentrackerThread::~OpentrackerThread()
