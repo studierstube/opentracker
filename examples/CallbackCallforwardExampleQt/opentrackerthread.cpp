@@ -53,7 +53,7 @@ OpentrackerThread::OpentrackerThread(QObject *parent)
 {
     using namespace ot;
 
-    initializeContext( &context , NULL);
+    //initializeContext( &context , NULL);
 
     // parse the configuration file, builds the tracker tree
     Configurator::instance()->changeConfigurationFile("clientLocal.xml");
@@ -119,7 +119,7 @@ void OpentrackerThread::run()
     using namespace std;
 
     cout << "starting OpenTracker loop ..." << endl; 
-    context.run();
+    context.runOnDemand();
     cout << "loop finished." << endl;
 }
 

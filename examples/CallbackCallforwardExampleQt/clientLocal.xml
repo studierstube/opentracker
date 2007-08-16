@@ -12,7 +12,7 @@
   </NetworkSink>
   
   <Callback name="clientTestInput">
-    <TestSource frequency="1000000" noise="0.1" />
+    <TestSource frequency="1" noise="0.1" />
   </Callback>
 
   <Callback name="clientAInput">

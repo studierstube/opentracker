@@ -15,6 +15,10 @@ SOURCES  = \
 
 mac:INCLUDEPATH += /opt/local/include $(ACEROOT)
 QMAKE_LIBS += -lopentracker
+
+LIBPATH += $(OTROOT)/lib
+INCLUDEPATH+=$(OTROOT)/include
+
 mac:QMAKE_LIBDIR += /opt/local/lib /sw/lib
 
 mac:QMAKE_CXXFLAGS_WARN_ON += -Wno-unused
