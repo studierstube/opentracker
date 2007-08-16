@@ -48,12 +48,9 @@
 #include <OpenTracker/core/OSUtils.h>
 
 OpentrackerThread::OpentrackerThread(QObject *parent)
-    : QThread(parent),
-      context(*(ot::Configurator::instance()->getContext()))
+    : QThread(parent)
 {
     using namespace ot;
-
-    //initializeContext( &context , NULL);
 
     // parse the configuration file, builds the tracker tree
     Configurator::instance()->changeConfigurationFile("clientLocal.xml");
@@ -67,7 +64,7 @@ OpentrackerThread::~OpentrackerThread()
     {
         cout << "stopping OpenTracker ... ";
         
-        context.stopLoop();       
+        ot::Configurator::instance()->getContext()->stopLoop();       
 
         wait();
     }
@@ -80,7 +77,7 @@ ot::CallbackModule* OpentrackerThread::getCallbackModule()
     using namespace ot;
 
 
-    return dynamic_cast<CallbackModule*>(context.getModule("CallbackConfig"));
+    return dynamic_cast<CallbackModule*>(ot::Configurator::instance()->getContext()->getModule("CallbackConfig"));
 }
 
 ot::CallforwardModule* OpentrackerThread::getCallforwardModule()
@@ -88,7 +85,7 @@ ot::CallforwardModule* OpentrackerThread::getCallforwardModule()
     using namespace ot;
 
     return dynamic_cast<CallforwardModule*>
-        (context.getModule("CallforwardConfig"));
+        (ot::Configurator::instance()->getContext()->getModule("CallforwardConfig"));
 }
 
 void OpentrackerThread::setConfigurationFile(const QString& fname)
@@ -119,7 +116,7 @@ void OpentrackerThread::run()
     using namespace std;
 
     cout << "starting OpenTracker loop ..." << endl; 
-    context.runOnDemand();
+    ot::Configurator::instance()->getContext()->runOnDemand();
     cout << "loop finished." << endl;
 }
 

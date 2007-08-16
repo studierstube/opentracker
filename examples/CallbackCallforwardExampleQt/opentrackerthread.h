@@ -64,7 +64,6 @@ public slots:
     void setConfigurationFile(const QString &);
     void setConfigurationString(const QString &);
 protected:
-    ot::Context &context;
 
     void run();
 
