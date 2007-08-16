@@ -78,6 +78,7 @@ namespace ot {
     class OPENTRACKER_API EEGFilterNode : public Node   
     {
 
+        enum evmodetype { CALIB =0, NORMAL=1 };
     protected:
         bool init;
         std::vector<double> frequencies;
@@ -89,7 +90,8 @@ namespace ot {
         double threshold;
         double hitpercentage;
         std::string inatt;
-        std::string outatt;            
+        std::string outatt;
+        std::string triggeratt;
         bool consume;
         std::vector<std::pair<EEGSub, double> > eegsubs;
         std::deque<int> evbuffer;
@@ -98,6 +100,10 @@ namespace ot {
         unsigned int evbufferpoststart;
         
         // internal variables
+        evmodetype evmode;
+        unsigned long calibcount;
+        std::vector<double> calibvec;
+
         Event currentEvent;  ///< The event we're currently working with
         Event targetEvent;   ///< The one we will be forwarding
 
@@ -115,6 +121,7 @@ namespace ot {
                        const double &ihitpercentage,
                        const std::string &iinatt,
                        const std::string &ioutatt,
+                       const std::string &itriggeratt,
                        bool iconsume);
 
         /** tests for EventGenerator interface being present and returns

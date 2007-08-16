@@ -55,12 +55,12 @@ namespace ot {
                                              -9.532811413309153,
                                              4.691584824703282,
                                              -0.923644961508006 };
-    static const double coefficientsb[6] = { 0.026755381243859,
-                                             0.133776906219296,
-                                             0.267553812438592,
-                                             0.267553812438592,
-                                             0.133776906219296,
-                                             0.026755381243859 };
+    static const double coefficientsb[6] = { 1.0e-08 * 0.026755381243859,
+                                             1.0e-08 * 0.133776906219296,
+                                             1.0e-08 * 0.267553812438592,
+                                             1.0e-08 * 0.267553812438592,
+                                             1.0e-08 * 0.133776906219296,
+                                             1.0e-08 * 0.026755381243859 };
 
     class OPENTRACKER_API ButterworthFive
     {
@@ -68,7 +68,7 @@ namespace ot {
     protected:
         double historyx[6];
         double historyy[6];
-        long actindex;
+        unsigned long actindex;
 
         // Methods
     public:

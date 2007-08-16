@@ -256,14 +256,30 @@ namespace ot {
 
     int StringTable::get(const std::string & key, std::vector<float> & vector, int len )
     {
+        using namespace std;
         StringMap::iterator it = map.find( key );
         if( it == map.end())
             return 0;
 
-        float *array = (float*)malloc(len * sizeof(float));
-        int count = get(key, array, len);
-        copyA2V(array, len, vector);
-        free(array);
+        std::istringstream is(it->second);
+        
+        int count = 0;
+        try
+        {
+            double inval;
+            while (!is.eof() && count < len)
+            {
+                is >> inval;
+                vector.push_back(inval);
+                count++;
+            }
+           
+        }
+        catch (exception &e)
+        {
+            printf("Exception %s\n", e.what());
+        }
+
         return count;
     }
 
@@ -281,7 +297,7 @@ namespace ot {
             data = end;
             value[count++] = strtod( data, &end );
         }
-        printf("Stringtable value: %s count: %d len: %d\n",it->second.c_str(), count, len);
+
         return count;
     }
     int StringTable::get(const std::string & key, std::vector<double> & vector, int len )

@@ -359,6 +359,7 @@ $Id$
 	  frequencies CDATA "6.25 8.0"
 	  inattrname CDATA "eeg"
 	  outattrname CDATA "eegout"
+	  triggerattrname CDATA "eegtrigger"
 	  samplerate CDATA "256.0"
 	  harmonics CDATA "3"
 	  prepause CDATA "4000"

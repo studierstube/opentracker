@@ -65,6 +65,7 @@ namespace ot {
                                   const double &ihitpercentage,
                                   const std::string &iinatt,
                                   const std::string &ioutatt,
+                                  const std::string &itriggeratt,
                                   bool iconsume)
         : frequencies(ifreqs),
           codelength(icodelength),
@@ -78,7 +79,10 @@ namespace ot {
           hitpercentage(ihitpercentage),
           inatt(iinatt),
           outatt(ioutatt),
-          consume(iconsume)
+          triggeratt(itriggeratt),
+          consume(iconsume),
+          evmode(CALIB),
+          calibcount(0)
     {
         using namespace std;
         eegsubs.clear();
@@ -93,15 +97,19 @@ namespace ot {
         evbuffertargetsize = 
             static_cast<unsigned int>((prepause + 
                                        codelength*(codeduration+interpause) 
-                                       - interpause + postpause) / samplerate);
+                                       - interpause + postpause) 
+                                      * samplerate * 0.001);
         evbuffercodestart = 
-            static_cast<unsigned int>(prepause / samplerate);
+            static_cast<unsigned int>(prepause * samplerate * 0.001);
         evbufferpoststart = 
             static_cast<unsigned int>(
                                 (prepause + 
                                  codelength*(codeduration+interpause) 
-                                 - interpause) / samplerate);
+                                 - interpause) * samplerate * 0.001);
         
+        logPrintI("ebts: %lu, ebcs: %lu, ebps: %lu\n inattname: %s\n outattname: %s\n triggerattname %s\n", 
+                  evbuffertargetsize, evbuffercodestart, evbufferpoststart,
+                  inatt.c_str(), outatt.c_str(), triggeratt.c_str());
     } 
 
     // Applies the filter to incoming events
@@ -116,123 +124,198 @@ namespace ot {
 
         int eegoutval = -1;
 
+        if (currentEvent.hasAttribute(triggeratt))
+        {
+            evmode = CALIB;
+            calibcount = 0;
+        }
+        //logPrintI("EEGFilter ...\n");
+        //event.printout();
+
         // do we need to process the event?
         if (currentEvent.hasAttribute(inatt) && 
             currentEvent.getAttributeTypeName(inatt) == "double")
         {
-            std::vector<std::pair<EEGSub, double> >::iterator it;
-            double actval;
-            double maxval = 0.0;
-            int i;
-            int maxi = -1;
-        
-            // new value into filter and calculate maximum response frequency
-            // index
-
-            for (it=eegsubs.begin(),i=0; it != eegsubs.end(); it++, i++)
-            {
-                actval = it->first.filter(currentEvent.getAttribute(inatt,(double)0));
-                actval *= it->second;
-
-                if (actval > threshold && actval > maxval)
-                {
-                    maxval = actval;
-                    maxi = i;
-                }
-            }
-
-            // update event buffer
-
-            if (evbuffer.size() < evbuffertargetsize)
-            {
-                evbuffer.push_front(maxi);                
-            }
-            else
-            {
-                evbuffer.pop_back();
-                evbuffer.push_front(maxi);
-
-                // calculate whether the code could be successfully recognized
-                // first analyze event buffer and setup voting structure
-                unsigned int precount = 0;
-                unsigned int postcount = 0;
-#ifndef WIN32
-                std::map<int, int> digitmap[codelength];
-#else
-				codelength = 2;
-				std::map<int, int> digitmap[2];
-#endif
-                unsigned int i;
-                for (i=0; i<evbuffertargetsize; i++)
-                {
-                    if (i<evbuffercodestart)
-                    {
-                        if (evbuffer[i] == -1) ++precount;
-                    }
-                    else if (i<evbufferpoststart)
-                    {
-                        digitmap[(i-evbuffercodestart)/((evbufferpoststart-evbuffercodestart)/codelength)][evbuffer[i]]++;
-                    }
-                    else
-                    {
-                        if (evbuffer[i] == -1) ++postcount;
-                    }
-                        
-                }
+            if (evmode != CALIB)
+            {                
+                //logPrintI("EEGFilter normal operation ...\n");
+                std::vector<std::pair<EEGSub, double> >::iterator it;
+                double actval;
+                double maxval = 0.0;
+                int i;
+                int maxi = -1;
                 
-                ///evaluate voting results
-                int tempoutval = 0;
-                for (i=0; i<codelength;  i++)
+                // new value into filter and calculate maximum response frequency
+                // index
+                
+                for (it=eegsubs.begin(),i=0; it != eegsubs.end(); it++, i++)
                 {
-                    int totalsamples =0;
-                    std::map<int, int>::const_iterator it;
-                    int actval,actcount;
-                    int maxval=-1;
-                    int maxcount=0;
+                    actval = it->first.filter(currentEvent.getAttribute(inatt,(double)0));
+                    actval *= it->second;
+                    
+                    if (actval > threshold && actval > maxval)
+                    {
+                        maxval = actval;
+                        maxi = i;
+                    }
+                }
 
-                    /// find the dominant frequency for a code sequence 
-                    /// part
-                    for (it=digitmap[i].begin(); it != digitmap[i].end(); it++)
+                // update event buffer
+                
+                if (evbuffer.size() < evbuffertargetsize)
+                {
+                    evbuffer.push_front(maxi);                
+                }
+                else
+                {
+                    if (evbuffer.size() > evbuffertargetsize)
+                        logPrintI("EEGFilter: reached buffer size exceeded\n");
+                
+                    evbuffer.pop_back();
+                    evbuffer.push_front(maxi);
+                
+                    // calculate whether the code could be successfully recognized
+                    // first analyze event buffer and setup voting structure
+                    unsigned int precount = 0;
+                    unsigned int postcount = 0;
+#ifndef WIN32
+                    std::map<int, int> digitmap[codelength];
+#else
+                    codelength = 2;
+                    std::map<int, int> digitmap[2];
+#endif
+                    unsigned int i;
+                    for (i=0; i<evbuffertargetsize; i++)
                     {
-                        actval = it->first;
-                        actcount = it->second;
-                        totalsamples += actcount;
-                        if (actcount>maxcount)
+                        if (i<evbuffercodestart)
                         {
-                            maxcount = actcount;
-                            maxval = actval;
+                            if (evbuffer[i] == -1) ++precount;
                         }
-                    }       
-                    /// only, if the predominant vote is for one of 
-                    /// the target frequencies, we continue
-                    if (maxval != -1)
-                    {
-                        /// it has to meet the hit percentage requirement also
-                        if (maxcount >= ((evbufferpoststart-evbuffercodestart)/codelength)*hitpercentage/100.0)
+                        else if (i<evbufferpoststart)
                         {
-                            /// calculate output value in a 
-                            /// frequencies.size() - ary number system
-                            tempoutval *= frequencies.size();
-                            tempoutval += maxval;
+                            int dmindex = 
+                                (i-evbuffercodestart)/
+                                ((evbufferpoststart-evbuffercodestart)/codelength);
+                            //printf("dmindex: %d\n", dmindex);
+                            digitmap[dmindex][evbuffer[i]]++;
                         }
                         else
                         {
-                            /// don't continue if sequence part does
-                            /// not meet hit percentage
+                            if (evbuffer[i] == -1) ++postcount;
+                        }
+                        
+                    }
+                
+                    ///evaluate voting results
+                    int tempoutval = 0;
+                    for (i=0; i<codelength;  i++)
+                    {
+                        int totalsamples =0;
+                        std::map<int, int>::const_iterator it;
+                        int actval,actcount;
+                        int maxval=-1;
+                        int maxcount=0;
+
+                        /// find the dominant frequency for a code sequence 
+                        /// part
+                        for (it=digitmap[i].begin(); it != digitmap[i].end(); it++)
+                        {
+                            actval = it->first;
+                            actcount = it->second;
+                            totalsamples += actcount;
+                            if (actcount>maxcount)
+                            {
+                                maxcount = actcount;
+                                maxval = actval;
+                            }
+                        }       
+                        /// only, if the predominant vote is for one of 
+                        /// the target frequencies, we continue
+                        if (maxval != -1)
+                        {
+                            /// it has to meet the hit percentage requirement also
+                            if (maxcount >= ((evbufferpoststart-evbuffercodestart)/codelength)*hitpercentage/100.0)
+                            {
+                                /// calculate output value in a 
+                                /// frequencies.size() - ary number system
+                                tempoutval *= frequencies.size();
+                                tempoutval += maxval;
+                            }
+                            else
+                            {
+                                /// don't continue if sequence part does
+                                /// not meet hit percentage
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            /// if one code sequence part is not responding to 
+                            /// a certain frequency we may skip the other parts
+                            /// as well
                             break;
                         }
-                    }
-                    else
-                    {
-                        /// if one code sequence part is not responding to 
-                        /// a certain frequency we may skip the other parts
-                        /// as well
-                        break;
-                    }
                     
+                    }
                 }
             }
+            else // perform factor calibration
+            {            
+                //logPrintI("EEGFilter calibrating ...\n");
+                std::vector<std::pair<EEGSub, double> >::iterator it;
+                unsigned int i;
+                if (calibcount >= 30*samplerate)
+                {
+                    double maxval = 0.0;
+                    // calculate average response on a specific frequency
+                    // and maximum of averages
+                    for (i=0; i < calibvec.size(); i++)
+                    {
+                        calibvec[i] /= static_cast<double>(calibvec.size());
+                        if (calibvec[i] > maxval)
+                        {
+                            maxval = calibvec[i];
+                        } 
+                    }
+                    
+                    logPrintI("EEGFilter: calibration completed. factors: ");
+                    
+                    // calculate and set influence factors 
+                    for (it=eegsubs.begin(),i=0; it != eegsubs.end(); it++, i++)
+                    {
+                        it->second = maxval / calibvec[i];
+                        std::cerr << it->second << " ";
+                    }
+                    std::cerr << std::endl;
+                                        
+                    // resume to normal operation
+                    evmode = NORMAL;
+                    evbuffer.clear();
+                }
+                else if (calibcount == 0)
+                {
+                    logPrintI("EEGFilter: starting calibration\n");
 
+                    calibvec.clear();
+                    
+                    for (it=eegsubs.begin(); it != eegsubs.end(); it++)
+                    {
+                        calibvec.push_back(0.0);
+                    }
+                    
+                }              
+                else
+                {
+                    // fill calibration vector with values
+                    for (it=eegsubs.begin(),i=0; it != eegsubs.end(); it++, i++)
+                    {
+                        calibvec[i] += it->
+                            first.filter(currentEvent.getAttribute(inatt,
+                                                               (double)0));
+                    }
+                }
+                calibcount++;
+            }
             // remove source event if requested
 
             if (consume) targetEvent.delAttribute(inatt);
@@ -241,6 +324,7 @@ namespace ot {
         // add/set output value to event
 
         targetEvent.setAttribute<int>(outatt, eegoutval);
+        //targetEvent.printout();
 
         // Update the observers
         updateObservers( targetEvent );

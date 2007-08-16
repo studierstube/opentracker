@@ -61,7 +61,7 @@ namespace ot {
           samplerate(isamplerate),
           harmonics(iharmonics)
     {
-        logPrintI("EEGSub::EEGSub frequency: %f harmonics: %u samplerate: %f\n",ifrequency, iharmonics, isamplerate);
+        logPrintI("EEGSub::EEGSub frequency: %f harmonics: %u smplrate: %f\n",ifrequency, iharmonics, isamplerate);
 
         las.clear();
         unsigned int i;
@@ -78,11 +78,15 @@ namespace ot {
         std::vector<EEGLas>::iterator it;
         double retval = 0.0;
 
+        //logPrintI("EEGSub(%lf)::filter(%lf)", frequency, value); 
+
         for (it = las.begin(); it!= las.end(); it++)
         {
             retval += it->filter(value);
         }
-               
+        
+        //printf(" ... done (%lf)\n",  retval);
+
         return retval;
     }
 } // namespace ot

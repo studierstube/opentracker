@@ -64,10 +64,13 @@ namespace ot {
           samplerate(isamplerate),
           step(0)
     {
+        logPrintI("EEGLas::EEGLas frequency: %lf smplrate: %lf \n", 
+                  frequency, samplerate);
     }
 
     double EEGLas::filter(const double &value)
     {
+        //logPrintI("EEGLas::filter(%lf), f %lf, step %li", value, frequency, step); 
 
         double stepval = 2.0*M_PI*step*frequency/samplerate;
         ++step;
@@ -75,7 +78,9 @@ namespace ot {
         double multcosval = bw[1].filter((cos(stepval)*value)) ;
         multsinval *= multsinval;
         multcosval *= multcosval;
-               
+
+        //printf(" ... done(%lf)\n",sqrt(multsinval + multcosval));
+
         return sqrt(multsinval + multcosval);
     }
 } // namespace ot

@@ -589,6 +589,7 @@ namespace ot {
             std::vector<double> freqs;
             std::string inattrname;
             std::string outattrname;
+            std::string triggerattrname;
             int codelength;
             int harmonics;
             bool consume;
@@ -604,6 +605,9 @@ namespace ot {
             outattrname = attributes.get("outattrname");
             if (outattrname == "" )
                 outattrname = "eegout";
+            triggerattrname = attributes.get("triggerattrname");
+            if (triggerattrname == "" )
+                triggerattrname = "eegtrigger";
             if( attributes.get("samplerate", &samplerate) != 1 )
                 samplerate = 256.0;
             if( attributes.get("codelength", &codelength) != 1 )
@@ -642,6 +646,7 @@ namespace ot {
                                        codeduration,
                                        threshold, hitpercentage,
                                        inattrname, outattrname,
+                                       triggerattrname,
                                        consume);
 
         }
