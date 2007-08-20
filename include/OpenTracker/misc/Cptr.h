@@ -46,7 +46,9 @@
 #ifndef OT_MISC_CPTR_H_INCLUDED
 #define OT_MISC_CPTR_H_INCLUDED
 
+#ifndef SWIG
 #include <cassert>
+#endif
 
 /// counting pointer
 
