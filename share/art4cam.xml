@@ -29,7 +29,7 @@
 			</EventTransform>
 		</MergeDefault>
 		<MergeButton>
-		  <ButtonHoldFilter offDuration="13">
+		  <ButtonHoldFilter onDuration="13">
               <ButtonFilter
                  validtrans="_1______"
                radiobuttons="1_______"
@@ -44,7 +44,7 @@
   </ConsoleSink> -->
 
   <!-- Pip -->
-  <ConsoleSink comment="2" active="off">
+  <ConsoleSink comment="2" active="on">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform2">
 		<ARTDataTrackerSource number="2"/>    
 	</EventTransform>
@@ -58,7 +58,7 @@
   </ConsoleSink>
 
   <!-- Shutterglas -->
-  <ConsoleSink comment="4" active="off">
+  <ConsoleSink comment="4" active="on">
 	<EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform4">
 		<ARTDataTrackerSource number="4"/>    
 	</EventTransform>
@@ -86,7 +86,7 @@
   </ConsoleSink>
 
   <!-- Haptic workstation -->
-  <ConsoleSink comment="8" active="off">
+  <ConsoleSink comment="8" active="on">
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform8" >
 		<ARTDataTrackerSource number="8"/>    
 	   </EventTransform>
@@ -102,7 +102,7 @@
   </ConsoleSink>
 
   <!-- Eye of Ra (right handed) -->
-  <ConsoleSink comment="10" active="off">
+  <ConsoleSink comment="10" active="on">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform10" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource type="pen" number="1"/>    
@@ -111,7 +111,7 @@
   </ConsoleSink>
 
   <!-- Eye of Ra (right handed) -->
-  <ConsoleSink comment="11" active="off">
+  <ConsoleSink comment="11" active="on">
 	<EventVirtualOrientationTransform rotation="1.57 0.0 0.0" rotationtype="euler" DEF="transform11" >
 	   <EventTransform translation="0 0.00001 0" rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" >
 		<ARTDataTrackerSource type="pen" number="2"/>    
@@ -120,14 +120,14 @@
   </ConsoleSink>
 
   <!-- Tablet PC -->
-   <ConsoleSink comment="12" active="off">
+   <ConsoleSink comment="12" active="on">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform12">
 		<ARTDataTrackerSource number="10"/>    
 	</EventTransform>
   </ConsoleSink>
 
   <!-- Leber -->
-  <ConsoleSink comment="13" active="off">
+  <ConsoleSink comment="13" active="on">
 	<EventTransform translation="0 0.00001 0"  rotation="-1.57 0 0" rotationtype="euler"  scale="0.001 0.001 0.001" DEF="transform13">
 		<ARTDataTrackerSource number="12"/>    
 	</EventTransform>

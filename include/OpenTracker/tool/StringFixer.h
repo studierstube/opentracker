@@ -45,7 +45,7 @@
 #ifndef __STRINGFIXER_HEADERFILE__
 #define __STRINGFIXER_HEADERFILE__
 
-#include <string.h>
+#include <cstring>
 
 class StringFixer
 {

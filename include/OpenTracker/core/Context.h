@@ -51,12 +51,14 @@
 #include "Module.h"
 #include "NodeFactoryContainer.h"
 #include "VideoUser.h"
+
+#ifndef SWIG
 #include <sys/types.h>
 #include <sys/timeb.h>
 #ifdef WIN32
 #include <sys/utime.h>
 #endif
-//#include <pthread.h>
+#endif
 
 class ACE_Thread_Mutex;
 class ACE_Condition_Thread_Mutex;

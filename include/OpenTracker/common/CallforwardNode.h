@@ -62,7 +62,9 @@
 
 #ifndef OT_NO_CALLFORWARDMODULE_SUPPORT
 
+#ifndef SWIG
 #include <ace/Synch.h>
+#endif
 
 namespace ot {
 
@@ -80,6 +82,7 @@ namespace ot {
     {
         // Members
     public:
+    protected:
         /** name of the CallforwardNode for retrieving it from the module.
          * Note that this is not the name returned by getName(), rather the 
          * value set by the attribute name.
@@ -95,8 +98,10 @@ namespace ot {
         /// pointer to creating module CallforwardModule
         CallforwardModule * cfmodule;
 
+
         /// used for mutual exclusive access to the pending events
         mutex_type cfmutex;
+    public:
 
         // Methods
     protected:

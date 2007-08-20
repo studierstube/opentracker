@@ -44,9 +44,11 @@
 #ifndef _THREADCONTEXT_H
 #define _THREADCONTEXT_H
 
+#ifndef SWIG
 #include <ace/Condition_Thread_Mutex.h>
 #include <ace/Thread_Mutex.h>
 #include <ace/Synch.h>
+#endif
 
 #include "../dllinclude.h"
 

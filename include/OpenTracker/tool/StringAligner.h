@@ -45,7 +45,7 @@
 #ifndef __STRINGALIGNER_HEADERFILE__
 #define __STRINGALIGNER_HEADERFILE__
 
-#include <string.h>
+#include <cstring>
 
 class StringAligner
 {

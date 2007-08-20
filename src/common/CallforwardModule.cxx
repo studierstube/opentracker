@@ -94,7 +94,12 @@ namespace ot {
                 cfnode->setEvent(event);
                 if (context != NULL)
                 {
-                    context->dataSignal();
+                    // notify main loop
+		    if (context->doSynchronization())
+		    {
+                        context->dataSignal();
+                        context->consumedWait();
+		    }
                 }
             }
             else

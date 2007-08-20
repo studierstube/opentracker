@@ -61,7 +61,10 @@
 #define _CALLBACKNODE_H
 
 #include "../OpenTracker.h"
+
+#ifndef SWIG
 #include <ace/Synch.h>
+#endif
 
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
 
@@ -87,10 +90,10 @@ namespace ot {
      */
     class OPENTRACKER_API CallbackNode : public Node
     {
-        typedef ACE_Mutex mutex_type;
-
         // Members
     public:
+    protected:
+        typedef ACE_Mutex mutex_type;
         /** name of the CallbackNode for retrieving it from the module.
          * Note that this is not the name returned by getName(), rather the value
          * set by the attribute name.
