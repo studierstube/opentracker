@@ -44,9 +44,11 @@
 #ifndef EVENT_HEADER
 #define EVENT_HEADER
 
+#ifndef SWIG
 #include <string>
 #include <vector>
 #include <stdexcept>
+#endif
 
 #include "../dllinclude.h"
 #include "EventAttribute.h"

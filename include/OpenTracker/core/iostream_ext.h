@@ -44,10 +44,12 @@
 #ifndef IOSTREAM_EXT_HEADER
 #define IOSTREAM_EXT_HEADER
 
+#ifndef SWIG
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <list>
+#endif
 
 namespace ot
 {

@@ -45,7 +45,9 @@
 #ifndef _OTLOGGER_H_
 #define _OTLOGGER_H_
 
+#ifndef SWIG
 #include <cassert>
+#endif
 
 #include "../OpenTracker.h"
 

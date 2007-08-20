@@ -45,9 +45,9 @@
 #ifndef _OT_VIDEOUSER_H
 #define _OT_VIDEOUSER_H
 
-
+#ifndef SWIG
 #include <vector>
-
+#endif
 
 namespace ot 
 {

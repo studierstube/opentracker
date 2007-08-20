@@ -44,8 +44,12 @@
 
 #ifndef CONFIGURATOR_HH
 #define CONFIGURATOR_HH
-#include <string>
+
 #include "../dllinclude.h"
+
+#ifndef SWIG
+#include <string>
+#endif
 
 namespace ot 
 {

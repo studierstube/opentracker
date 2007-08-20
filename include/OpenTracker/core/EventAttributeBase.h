@@ -44,10 +44,12 @@
 #ifndef EVENTATTRIBUTEBASE_HEADER
 #define EVENTATTRIBUTEBASE_HEADER
 
+#ifndef SWIG
 #include <map>
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#endif
 
 #include "../dllinclude.h"
 #include "Translator.h"

@@ -44,9 +44,11 @@
 #ifndef OT_CORE_GRAPH_HH_INCLUDED
 #define OT_CORE_GRAPH_HH_INCLUDED
 
+#ifndef SWIG
 #include <vector>
 #include <map>
 #include <string>
+#endif
 #include <OpenTracker/misc/Cptr.h>
 #include "IRefCounted.h"
 

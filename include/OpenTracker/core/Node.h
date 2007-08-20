@@ -56,8 +56,10 @@
  * in widespread changes throughout the library.
  */
 
+#ifndef SWIG
 #include <string>
 #include <vector>
+#endif
 
 class ACE_Thread_Mutex;
 

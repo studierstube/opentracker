@@ -47,9 +47,11 @@
 #include "../dllinclude.h"
 #include "Event.h"
 
+#ifndef SWIG
 #include<string>
 #include<vector>
 #include<map>
+#endif
 
 #ifdef USE_LIVE
 #include <OpenTracker/skeletons/OTGraph.hh>

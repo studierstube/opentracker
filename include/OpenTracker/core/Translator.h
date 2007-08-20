@@ -45,9 +45,12 @@
 #define TRANSLATOR_HEADER
 
 #include "../dllinclude.h"
+
+#ifndef SWIG
 #include <stdexcept>
 #include <string>
 #include <map>
+#endif
 
 namespace ot
 {

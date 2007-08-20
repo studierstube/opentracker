@@ -44,7 +44,9 @@
 #ifndef _MATHUTILS_H
 #define _MATHUTILS_H
 
+#ifndef SWIG
 #include <vector>
+#endif
 
 #include "../dllinclude.h"
 

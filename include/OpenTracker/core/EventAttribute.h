@@ -44,8 +44,10 @@
 #ifndef EVENTATTRIBUTE_HEADER
 #define EVENTATTRIBUTE_HEADER
 
+#ifndef SWIG
 #include <iostream>
 #include <string>
+#endif
 
 #include "EventAttributeBase.h"
 #include "iostream_ext.h"
