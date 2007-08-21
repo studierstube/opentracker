@@ -46,7 +46,9 @@
 
 #include "../dllinclude.h"
 
+#ifndef SWIG
 #include <deque>
+#endif
 
 #include "Event.h"
 

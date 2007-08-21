@@ -101,8 +101,10 @@
 #include "../OpenTracker.h"
 #include "GroupGateModule.h"
 
+#ifndef SWIG
 #include <string>
 #include <vector>
+#endif
 
 
 #ifndef OT_NO_GROUPGATE_SUPPORT

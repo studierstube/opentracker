@@ -46,8 +46,9 @@
 
 #include "../OpenTracker.h"
 
+#ifndef SWIG
 #include <string>
-
+#endif
 
 
 /**

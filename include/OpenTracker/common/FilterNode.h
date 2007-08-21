@@ -78,7 +78,9 @@
 
 #include "../OpenTracker.h"
 
+#ifndef SWIG
 #include <vector>
+#endif
 
 /**
  * The Filter node generates a new event event by combining several past 

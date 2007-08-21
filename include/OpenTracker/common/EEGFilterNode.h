@@ -64,7 +64,9 @@
 
 #include <OpenTracker/OpenTracker.h>
 
+#ifndef SWIG
 #include <deque>
+#endif
 
 #include <OpenTracker/misc/EEGSub.h>
 

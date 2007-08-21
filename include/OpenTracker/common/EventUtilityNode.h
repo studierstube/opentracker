@@ -62,7 +62,9 @@
 #ifndef _EVENTUTILITYNODE_H
 #define _EVENTUTILITYNODE_H
 
+#ifndef SWIG
 #include <string>
+#endif
 
 #include "../OpenTracker.h"
 

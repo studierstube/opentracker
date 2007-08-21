@@ -96,7 +96,10 @@
 #define _MERGENODE_H
 
 #include "../OpenTracker.h"
+
+#ifndef SWIG
 #include <map>
+#endif
 
 /**
  * A MergeNode is an EventGenerator node that observes several marked input

@@ -54,7 +54,9 @@
 
 #include "../dllinclude.h"
 
+#ifndef SWIG
 #include <vector>
+#endif
 
 #include "../core/Module.h"
 #include "../core/NodeFactory.h"

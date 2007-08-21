@@ -64,7 +64,9 @@
 #define _FILESINK_H
 
 #include "../OpenTracker.h"
+#ifndef SWIG
 #include "File.h"
+#endif
 
 /**
  * This class implements a simple EventGenerator that writes any incoming events

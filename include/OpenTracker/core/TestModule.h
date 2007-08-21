@@ -58,14 +58,17 @@
 
 #ifndef OT_NO_TESTMODULE_SUPPORT
 
-
+#ifndef SWIG
 #include <vector>
 #include <queue>
+#endif
 
 #include "Module.h"
 #include "NodeFactory.h"
 
+#ifndef SWIG
 #include <ace/Time_Value.h>
+#endif
 
 namespace ot {
 

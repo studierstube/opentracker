@@ -76,8 +76,8 @@ class OPENTRACKER_API IRefCounted{
 #define OT_DECLARE_IREFCOUNTED protected:\
      int _rcount;\
   public:\
-  virtual int _ref();\
-  virtual int _deref();\
+  virtual int _ref();                     \
+  virtual int _deref();                   \
   virtual int getRefCount()
 
 #define OT_INITIALIZE_IREFCOUNTED _rcount = 0

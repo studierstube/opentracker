@@ -44,7 +44,9 @@
 #ifndef __DESP_H__
 #define __DESP_H__
 
+#ifndef SWIG
 #include <vector>
+#endif
 
 namespace ot {
 

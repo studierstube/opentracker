@@ -71,8 +71,10 @@
 #define _FILESOURCE_H
 
 #include "../OpenTracker.h"
-#include "File.h"
 
+#ifndef SWIG
+#include "File.h"
+#endif
 /**
  * This class implements a simple EventGenerator source node. It is driven by the
  * FileModule class which reads the data from the file and passes it to the
