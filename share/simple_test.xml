@@ -9,7 +9,7 @@
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
       
-	<TestSource frequency="100000.0" noise="0.1" />
+	<TestSource frequency="10.0" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
 
