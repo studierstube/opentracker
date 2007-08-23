@@ -169,8 +169,8 @@ namespace ot {
 
     public:
         ///shortcut to stop the main loop by acquiring the mutex
-        void lock();
-        void unlock();
+        virtual void lock();
+        virtual void unlock();
         /// methods for data driven traversal
         void waitDataSignal();
         void dataSignal();
@@ -362,6 +362,10 @@ namespace ot {
          * @param name the element name
          * @returns pointer to the module or NULL, if name does not exist */
         Module * getModule(const std::string & name);
+
+        /** returns a list of module names present in the context
+         * @returns vector of strings containing the names */
+        int getModuleNames( std::vector<std::string> &names) const;
 	
 	bool isConfigured();
 
@@ -373,8 +377,6 @@ namespace ot {
     {
         return rootNamespace;
     }
-
-
 
 } // namespace ot
 

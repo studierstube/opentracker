@@ -135,13 +135,7 @@ namespace ot {
         delete _mutex;
     }
 
-#ifndef USE_LIVE
-     inline 
-#endif
      void Context::lock() { _mutex->acquire(); };
-#ifndef USE_LIVE
-     inline 
-#endif
      void Context::unlock() { _mutex->release(); };
 
     // adds a new factory to the NodeFactoryContainer
@@ -191,6 +185,26 @@ namespace ot {
         }
 
         return result;
+    }
+
+    // returns a list of module names
+
+    int Context::getModuleNames(std::vector<std::string> &names) const
+    {	
+        int retval = 0;
+        names.clear();
+
+        ModuleMap::const_iterator it;
+
+        retval = modules.size();
+        names.reserve(retval);
+
+        for (it=modules.begin(); it != modules.end(); it++)
+        {
+            names.push_back(it->first);
+        }
+
+        return retval;
     }
 
     // removes a module
