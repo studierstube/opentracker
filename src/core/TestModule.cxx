@@ -167,18 +167,18 @@ namespace ot {
 
 
             perturbed.timeStamp();
+            changed = true;
             unlock();
         }
         else
         {
             lock();
             perturbed.timeStamp();
+            changed = true;
             unlock();
         }
 
     }
-
-    // pushes events into the tracker tree.
 
     void TestModule::start()
     {
@@ -369,10 +369,15 @@ namespace ot {
 
     void TestSource::pushEvent(void)
     {
-        //lock();
-        //event = perturbed;
-        //unlock();
-        updateObservers( perturbed );
+        bool xchanged;
+
+        lock();
+        outevent = perturbed;
+        xchanged = changed;
+        changed = false;
+        unlock();
+
+        if (xchanged) updateObservers( outevent );
     }
 
 

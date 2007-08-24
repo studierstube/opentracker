@@ -96,7 +96,7 @@ namespace ot {
     class OPENTRACKER_API TestSource : public Node
     {
         // Members
-    public:
+    protected:
         /// per node cycle counter
         unsigned long cycle;
         /// Time to sleep between executions
@@ -107,9 +107,13 @@ namespace ot {
         double noise;
         /// the original event
         Event event;
-        /// the perturbed event posted to the observers
+        /// the perturbed event 
         Event perturbed;
-
+        /// the event posted to observers
+        Event outevent;
+        /// flag whether an event should be posted
+        bool changed;
+        
         // Methods
     protected:
         /** simple constructor, sets members to initial values

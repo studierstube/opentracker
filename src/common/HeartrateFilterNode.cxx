@@ -114,7 +114,7 @@ namespace ot {
         if (event.hasAttribute(attrname))
         {
 
-            double attval;
+            double attval=0.0;
             if (event.getAttributeTypeName(attrname) == "double")
                 attval = event.getAttribute(attrname, (double)0);
             else if (event.getAttributeTypeName(attrname) == "float")
