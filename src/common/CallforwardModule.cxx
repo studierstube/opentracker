@@ -83,28 +83,31 @@ namespace ot {
         using namespace std;
        
         NodeMap::iterator it = nodes.find( name );
-       
+        //logPrintI(" CallforwardModule::callForward('%s')\n", name.c_str());
+
         if( it != nodes.end())
         {
+            //logPrintI(" found '(%s):'", name.c_str());
             CallforwardNode * cfnode =
                 dynamic_cast<CallforwardNode*>((*it).second);
             
             if (cfnode)
             {
+                //event.printout();
                 cfnode->setEvent(event);
                 if (context != NULL)
                 {
                     // notify main loop
 		    if (context->doSynchronization())
 		    {
-                        context->dataSignal();
+                        context->dataBroadcast();
                         context->consumedWait();
 		    }
                 }
             }
             else
             {
-                //cout << " not a callforward node" << endl;
+                //logPrintI(" could not find '(%s):'", name.c_str());
                 return false;
             }
         }
@@ -122,6 +125,7 @@ namespace ot {
     {
         /// nothing to do here
     }
+
 } // namespace ot
 
 

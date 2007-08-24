@@ -60,6 +60,24 @@ namespace ot {
 
     void CallforwardNode::pushEvent()
     {
+        //logPrintI("CallforwardNode::pushEvent()\n");
+        lock();
+        bool evflag = pendingevent;
+        pendingevent = false;
+
+        if (evflag)
+        {
+            outevent = event;
+        }
+
+        unlock();
+
+        if (evflag)
+        {
+            updateObservers(outevent);
+        }
+
+
     }
 
     void CallforwardNode::pullEvent()

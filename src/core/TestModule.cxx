@@ -207,14 +207,14 @@ namespace ot {
         sleepoffset = ACE_Time_Value(offset_/1000000, offset_);
         if (taus == 0 && tauu == 0)
         {
-            cerr << "frequency: " << frequency_ << endl;
-            cerr << "tau: " << tau << endl;
-            cerr << "taus: " << taus << endl;
-            cerr << "tauu: " << tauu << endl;
-            cerr << "sleeptime.sec : "<< sleeptime.sec() << endl;
-            cerr << "sleeptime.usec: "<< sleeptime.usec() << endl;
-            cerr << "sleepoffs.sec : "<< sleepoffset.sec() << endl;
-            cerr << "sleepoffs.usec: "<< sleepoffset.usec() << endl;  
+            logPrintI("frequency: %f\n", frequency_);
+            logPrintI("tau: %ld", tau);
+            logPrintI("taus: %ld",taus);
+            logPrintI("tauu: %ld", tauu);
+            logPrintI("sleeptime.sec %lu: ", sleeptime.sec());
+            logPrintI("sleeptime.usec: %lu", sleeptime.usec());
+            logPrintI("sleepoffs.sec : %lu", sleepoffset.sec());
+            logPrintI("sleepoffs.usec: %lu", sleepoffset.usec());  
             exit(1);
         }
     }
@@ -223,7 +223,6 @@ namespace ot {
     {
         using namespace std;
         logPrintD("TestModule::run()\n");
-#pragma message("Erick2everybody: Please do not use cout!. Use the logPrint primitives. And use Debug (logPrintD) where appropriate.")
         starttime = ACE_OS::gettimeofday();
         
         // trigger all nodes
@@ -299,7 +298,11 @@ namespace ot {
                 
                 if (context != NULL)
                 {
-                    context->dataBroadcast();
+                    if (context->doSynchronization())
+                    {
+                        context->dataBroadcast();
+                        context->consumedWait();
+                    }
                 }
             }
             else if ( (sleeptime - looptime).sec() == 0 &&
@@ -316,7 +319,12 @@ namespace ot {
                 
                 if (context != NULL)
                 {
-                    context->dataSignal();
+                    // notify main loop
+		    if (context->doSynchronization())
+		    {
+                        context->dataSignal();
+                        context->consumedWait();
+                    }
                 }
             }
             else
@@ -331,30 +339,12 @@ namespace ot {
                     ++(tsrc->cycle);
                 }
                 
-                /*
-                  cerr << "jumping to cycle " << tsrc->cycle << endl;
-                */
-
                 pqueue.push(make_pair(starttime + 
                                       (tsrc->cycle * tsrc->sleeptime) +
                                       tsrc->sleepoffset,
                                       pqueue.top().second));
-                /*
-                  cerr << "cycle:        : " << tsrc->cycle << endl;
-                  cerr << "ssleep.sec:   : " << tsrc->sleeptime.sec() << endl;
-                  cerr << "ssleep.usec:  : " << tsrc->sleeptime.usec() << endl;
-                  cerr << "starttime.sec : " << starttime.sec() << endl;
-                  cerr << "starttime.usec: " << starttime.usec() << endl;
-                  cerr << "looptime.sec  : " << looptime.sec() << endl;
-                  cerr << "looptime.usec : " << looptime.usec() << endl;
-                  cerr << "sleeptime.sec : " << sleeptime.sec() << endl;
-                  cerr << "sleeptime.usec: " << sleeptime.usec() << endl;
-                  exit (1);
-                */
                 pqueue.pop(); 
             }
-
-            //if (tsrc->cycle > 5) exit(1);
         }
     }   
     void TestModule::pushEvent()

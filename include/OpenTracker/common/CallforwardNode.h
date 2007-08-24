@@ -70,7 +70,7 @@ namespace ot {
 
     typedef ACE_Mutex mutex_type;
     class CallforwardModule;
-    class CallforwardNode;
+    //class CallforwardNode;
 
     /**
      * This class implements a simple node that stores an event and passes
@@ -93,14 +93,11 @@ namespace ot {
         bool pendingevent;
 
         /// the event set by the uses
-        Event event;
+        Event event, outevent;
 
         /// pointer to creating module CallforwardModule
         CallforwardModule * cfmodule;
 
-
-        /// used for mutual exclusive access to the pending events
-        mutex_type cfmutex;
     public:
 
         // Methods
@@ -123,21 +120,6 @@ namespace ot {
             return 1;
 	}
         
-        /** overridden from node
-         * only updates the observers in case of a new event
-         * ensures mutual exclusive acces to the event
-         */
-        virtual void updateObservers( Event &data)
-        {
-            cfmutex.acquire();
-
-            if (pendingevent)
-            {
-                Node::updateObservers(data);
-                pendingevent = false;
-            }
-            cfmutex.release();
-        }
         /**
          * This method returns the value set by the name attribute of the 
          * Callforward node.
@@ -158,12 +140,12 @@ namespace ot {
 
         void setEvent(const Event& inevent)
         {
-            cfmutex.acquire();
+            lock();
 
             event = inevent;
             pendingevent = true;
 
-            cfmutex.release();
+            unlock();
         }
 
         void pushEvent();
