@@ -45,6 +45,10 @@
 #ifndef __STRINGALIGNER_HEADERFILE__
 #define __STRINGALIGNER_HEADERFILE__
 
+#ifdef WIN32
+#pragma warning(disable:4311)
+#endif
+
 #include <cstring>
 
 class StringAligner

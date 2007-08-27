@@ -67,8 +67,7 @@
 namespace ot {
 
     struct NetworkReceiver;
-    class MulticastReceiver;
-    class UnicastReceiver;
+    struct MulticastReceiver;
 
     typedef std::vector<MulticastReceiver *> MulticastReceiverVector;
     typedef std::vector<UnicastReceiver *> UnicastReceiverVector;

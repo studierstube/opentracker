@@ -44,6 +44,7 @@
 // a trick to avoid warnings when ace includes the STL headers
 #ifdef WIN32
 #pragma warning(disable:4786)
+#pragma warning(disable:4244)
 #endif
 #include <cstdlib>
 #include <string>

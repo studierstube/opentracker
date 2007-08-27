@@ -43,6 +43,9 @@
 
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
+#ifdef WIN32
+#pragma warning(disable:4244)
+#endif
 
 #include <cstdlib>
 #include <string>

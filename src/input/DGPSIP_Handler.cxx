@@ -45,6 +45,7 @@
 #define ACE_NLOGGING
 
 #ifdef WIN32
+#pragma warning(disable:4244)
 #pragma warning(disable:4786)
 #endif
 

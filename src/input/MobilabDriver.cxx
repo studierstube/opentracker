@@ -43,6 +43,10 @@
 /* ======================================================================= */
 #ifndef OT_NO_MOBILAB_SUPPORT
 
+#ifdef WIN32
+#pragma warning(disable:4244)
+#endif
+
 #include <cstdlib>
 
 // this will remove the warning 4786

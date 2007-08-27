@@ -42,6 +42,10 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#ifdef WIN32
+#pragma warning(disable:4244)
+#endif
+
 #include <ace/SString.h>
 
 const int NMEABUFSZ = 1024;

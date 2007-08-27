@@ -51,6 +51,9 @@
 #include <list>
 #endif
 
+#ifdef WIN32
+#pragma warning(disable:4267)
+#endif
 namespace ot
 {
     /**

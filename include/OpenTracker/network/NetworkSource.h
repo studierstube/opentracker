@@ -69,9 +69,9 @@
 
 namespace ot {
 
-  class MulticastReceiver;
-  class UnicastReceiver;
-  class Station;
+  struct MulticastReceiver;
+  struct UnicastReceiver;
+  struct Station;
 
 /**
  * This class implements a simple node that inserts new events from the network

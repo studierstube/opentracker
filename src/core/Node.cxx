@@ -42,7 +42,11 @@
  *
  * @file                                                                   */
 /* ======================================================================= */
- 
+
+#ifdef WIN32 
+#pragma warning(disable:4244)
+#endif
+
 #include <cstdio>
 #include <iostream>
 

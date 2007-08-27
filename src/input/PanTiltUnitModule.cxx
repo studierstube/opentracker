@@ -41,6 +41,9 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#ifdef WIN32
+#pragma warning(disable:4244)
+#endif
 
 #include <OpenTracker/tool/disable4786.h>
 #include <ace/OS.h>
