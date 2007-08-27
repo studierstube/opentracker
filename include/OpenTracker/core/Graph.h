@@ -44,6 +44,8 @@
 #ifndef OT_CORE_GRAPH_HH_INCLUDED
 #define OT_CORE_GRAPH_HH_INCLUDED
 
+#include "../dllinclude.h"
+
 #ifndef SWIG
 #include <vector>
 #include <map>
@@ -55,7 +57,7 @@
 namespace ot{
     class Node;
 
-    class Graph{    
+    class OPENTRACKER_API Graph{    
     protected:
         //  typedef std::map<std::string, Node::Ptr> NodeVector;
         typedef std::vector<Node::Ptr> NodeVector;
@@ -88,7 +90,7 @@ namespace ot{
         void writeGraph(const char * filename);
     };
 
-    bool traversalCompare(const Node::Ptr &ptr1, const Node::Ptr &ptr2);
+    OPENTRACKER_API bool traversalCompare(const Node::Ptr &ptr1, const Node::Ptr &ptr2);
 
 };
 

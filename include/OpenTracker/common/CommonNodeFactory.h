@@ -44,6 +44,7 @@
 #ifndef _COMMONNODEFACTORY_H
 #define _COMMONNODEFACTORY_H
 
+#include "../dllinclude.h"
 #include "../OpenTracker.h"
 #include "EventQueueNode.h"
 
@@ -72,7 +73,7 @@
 
 namespace ot {
 
-    class CommonNodeFactory : public NodeFactory
+    class OPENTRACKER_API CommonNodeFactory : public NodeFactory
     {
 
         // members 

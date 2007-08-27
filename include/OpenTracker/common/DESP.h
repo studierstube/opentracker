@@ -44,6 +44,8 @@
 #ifndef __DESP_H__
 #define __DESP_H__
 
+#include "../dllinclude.h"
+
 #ifndef SWIG
 #include <vector>
 #endif
@@ -55,7 +57,7 @@ namespace ot {
     /**
      *  Filtering similar to Kalman but a lot simpler and faster.
      */
-    class DESP
+    class OPENTRACKER_API DESP
     {
     public:
         DESP(float nAlpha=0.5f);
@@ -82,7 +84,7 @@ namespace ot {
      *  which are each filtered using scalar DESP (component-wise).
      *  Then rebuilds the matrix.
      */
-    class PoseDESP
+    class OPENTRACKER_API PoseDESP
     {
     public:
         PoseDESP();

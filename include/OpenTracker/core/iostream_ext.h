@@ -105,7 +105,7 @@ namespace ot
      * @return the input stream
      */
     template <typename T>
-    std::istream& operator>>(std::istream& is, std::vector<T>& object)
+    std::istream&  operator>>(std::istream& is, std::vector<T>& object)
     {
         typename std::vector<T>::size_type n;
         typename std::vector<T>::size_type i;

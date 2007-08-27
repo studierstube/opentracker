@@ -167,10 +167,10 @@ namespace ot {
 
 
 /*
-#define OT_MODULE(MODNAME) static void registerModule (Context * context, void * data)
+#define OT_MODULE(MODNAME) OPENTRACKER_API static void registerModule (Context * context, void * data)
 
 #define OT_MODULE_REGISTER_FUNC(MODNAME) \
-	void MODNAME::registerModule( Context * context , void * data) 
+	OPENTRACKER_API void MODNAME::registerModule( Context * context , void * data) 
 
 #define OT_MODULE_REGISTRATION_DEFAULT(MODNAME, REGISTRATIONSTRING) \
 		MODNAME * mod = new MODNAME();\
@@ -186,10 +186,10 @@ namespace ot {
 class Context;
 
 
-#define OT_MODULE(MODNAME) void registerModule##MODNAME (Context * context, void * data)
+#define OT_MODULE(MODNAME) OPENTRACKER_API void registerModule##MODNAME (Context * context, void * data)
 
 #define OT_MODULE_REGISTER_FUNC(MODNAME) \
-	void registerModule##MODNAME( Context * context , void * data) 
+	OPENTRACKER_API void registerModule##MODNAME( Context * context , void * data) 
 
 #define OT_MODULE_REGISTRATION_DEFAULT(MODNAME, REGISTRATIONSTRING) \
 		MODNAME * mod = new MODNAME();\

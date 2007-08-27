@@ -632,7 +632,7 @@
 				RelativePath="..\..\include\OpenTracker\common\CallforwardNode.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\CommonNodeFactory.h">
+				RelativePath="..\..\include\OpenTracker\common\CommonNodeFactory.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\ConfidenceFilterNode.h">
@@ -647,7 +647,7 @@
 				RelativePath="..\..\src\core\ConfigNode.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigurationParser.h">
+				RelativePath="..\..\include\OpenTracker\core\ConfigurationParser.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\ConsoleModule.h">
@@ -659,7 +659,7 @@
 				RelativePath="..\..\src\common\ConsoleSource.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\Context.h">
+				RelativePath="..\..\include\OpenTracker\core\Context.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\CyberMouseModule.h">
@@ -668,10 +668,10 @@
 				RelativePath="..\..\src\input\CyberMouseSource.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESP.h">
+				RelativePath="..\..\include\OpenTracker\common\DESP.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESPFilterNode.h">
+				RelativePath="..\..\include\OpenTracker\common\DESPFilterNode.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\DGPSIP_Handler.h">
@@ -809,6 +809,9 @@
 				RelativePath="..\..\src\input\GPSSource.h">
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\core\Graph.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\GroupGateModule.h">
 			</File>
 			<File
@@ -830,7 +833,7 @@
 				RelativePath="..\..\src\common\InvertTransformation.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\iostream_ext.h">
+				RelativePath="..\..\include\OpenTracker\core\iostream_ext.h">
 			</File>
 			<File
 				RelativePath="..\..\extras\intersense\isense.h">
@@ -881,7 +884,7 @@
 				RelativePath="..\..\include\OpenTracker\tool\midiw32.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\Module.h">
+				RelativePath="..\..\include\OpenTracker\core\Module.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\MulticastInputModule.h">
@@ -902,22 +905,25 @@
 				RelativePath="..\..\src\network\NetworkSource.h">
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSourceModule.h">
-			</File>
-			<File
 				RelativePath="..\..\include\OpenTracker\network\NetworkSourceModule.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\Node.h">
+				RelativePath="..\..\src\network\NetworkSourceModule.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactory.h">
+				RelativePath="..\..\include\OpenTracker\core\Node.h">
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactoryContainer.h">
+				RelativePath="..\..\include\OpenTracker\core\NodeFactory.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\core\NodeFactoryContainer.h">
 			</File>
 			<File
 				RelativePath="..\..\src\core\NodePort.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\OpenTracker.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\OpenVideoModule.h">
@@ -1080,9 +1086,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimeGateNode.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\TimeModule.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\TimestampGeneratorModule.h">

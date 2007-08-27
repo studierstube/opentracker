@@ -87,7 +87,7 @@ namespace ot {
 
     };
 
-    ConfigurationParser * getConfigurationParser(Context & context_);
+    OPENTRACKER_API ConfigurationParser * getConfigurationParser(Context & context_);
 
 }  // namespace ot
 
