@@ -57,7 +57,7 @@
 namespace ot
 {
 
-    class EventAttributeBase;
+    class OPENTRACKER_API EventAttributeBase;
 
     /**
      * A function pointer matching the declaration of creator functions.
@@ -84,18 +84,18 @@ namespace ot
      * @author Jochen von Spiczak
      * @ingroup core
      */
-    class EventAttributeBase
+    class OPENTRACKER_API EventAttributeBase
     {
         friend class Event;
-        friend std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
-        friend std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
+        friend OPENTRACKER_API std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
+        friend OPENTRACKER_API std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
 
     protected:
         /**
          * Virtual destructor. Must provide empty implementation for creation of RTTI type
          * information.
          */
-        virtual OPENTRACKER_API ~EventAttributeBase();
+        virtual ~EventAttributeBase();
         /**
          * Abstract assignment operator.
          * @param rv the right-value, which is the attribute to copy from
@@ -128,14 +128,14 @@ namespace ot
          * @param genericTypeName generic type name
          * @return pointer to the newly created attribute
          */
-        static OPENTRACKER_API EventAttributeBase* create(const std::string &genericTypeName); //throw (std::runtime_error);
+        static EventAttributeBase* create(const std::string &genericTypeName); //throw (std::runtime_error);
         /**
          * Creates an EventAttribute according to @p typeInfo. Throws an exception if this type
          * is not known by the system.
          * @param typeInfo RTTI type info
          * @return pointer to the newly created attribute
          */
-        static OPENTRACKER_API EventAttributeBase* create(const std::type_info &typeInfo); //throw (std::runtime_error);
+        static EventAttributeBase* create(const std::type_info &typeInfo); //throw (std::runtime_error);
         /**
          * Registers a new generic type name. Type names are arbitrary but must be unique. In this
          * function, the generic type name is matched to the according creator function and the
@@ -145,18 +145,18 @@ namespace ot
          * @param create creator function for attributes of the new type
          * @return
          */
-        static OPENTRACKER_API void registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create);
+        static void registerType(const std::string &genericTypeName, const std::type_info &typeInfo, CreateFunction create);
         /**
          * Static map matching generic type names to according creator functions.
          * @param
          * @return
          */
-        static OPENTRACKER_API CreatorMap creators;
+        static CreatorMap creators;
         /**
          * Static Translator to translate compiler dependent RTTI names to generic type names. Such
          * translations are used to create attributes by RTTI type information.
          */
-        static OPENTRACKER_API Translator translator;
+        static Translator translator;
     };
 
     /**
@@ -165,14 +165,14 @@ namespace ot
      * @param att the attribute
      * @return the input stream
      */
-    std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
+    OPENTRACKER_API std::istream& operator>>(std::istream &in, ot::EventAttributeBase &att);
     /**
      * Output streaming operator. Streams the attribute into the output stream.
      * @param out the output stream
      * @param att the attribute
      * @return the output stream
      */
-    std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
+    OPENTRACKER_API std::ostream& operator<<(std::ostream &out, ot::EventAttributeBase &att);
 
 } // namespace ot
 
