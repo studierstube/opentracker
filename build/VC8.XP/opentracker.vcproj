@@ -65,7 +65,7 @@
 				AdditionalDependencies="aced.lib newmatd.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;;C:\stb_repository\opentracker\extras\hid\xp"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="../../bin/Win32/opentrackerd.pdb"
 				SubSystem="2"
@@ -421,6 +421,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\HeartrateFilterNode.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hiddevice.cpp"
 				>
 			</File>
 			<File
@@ -893,6 +897,36 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\WacomGraphireModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiHandler.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiSource.cxx"
 				>
 			</File>
 			<File
@@ -2400,6 +2434,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\extras\hid\xp\hiddevice.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\common\InterpolatorModule.h"
 				>
 				<FileConfiguration
@@ -3597,6 +3635,18 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\WacomGraphireSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiSource.h"
 				>
 			</File>
 			<File
