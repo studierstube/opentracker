@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -2718,6 +2718,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\input\MobilabDriver.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\core\Module.h"
 				>
 				<FileConfiguration
@@ -3141,10 +3145,6 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\RawInputSource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\OpenTracker\core\RefNode.h"
 				>
 			</File>
 			<File
