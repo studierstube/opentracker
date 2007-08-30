@@ -220,6 +220,19 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 		</Filter>
+		<Filter
+			Name="configurations"
+			Filter="xml"
+			>
+			<File
+				RelativePath="..\..\share\simple_test.xml"
+				>
+			</File>
+			<File
+				RelativePath="..\..\share\wii_test.xml"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
