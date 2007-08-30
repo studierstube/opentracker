@@ -346,6 +346,10 @@ namespace ot {
                 pqueue.pop(); 
             }
         }
+
+        lockLoop();
+        stop = 0;
+        unlockLoop();
     }   
     void TestModule::pushEvent()
     {

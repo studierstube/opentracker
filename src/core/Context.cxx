@@ -416,6 +416,17 @@ namespace ot {
         logPrintI("Context::runOnDemand()\n");
 
         start();
+
+        _consumeddatamutex->acquire();
+        dataconsumed = true;
+        _consumeddatacondition->broadcast();        
+        _consumeddatamutex->release();
+
+        _havedatamutex->acquire();	
+        pendingdata = true;
+        _havedatacondition->broadcast();
+        _havedatamutex->release();	
+
         int stopflag = stop();
         while ( stoploopflag ==0 && stopflag == 0 )
         {
@@ -448,6 +459,8 @@ namespace ot {
             //logPrintI("Context:  telling drivers done\n");
             _consumeddatamutex->release();
         }
+
+        stoploopflag = 0;
 
         logPrintI("closing loop\n");
         close();
