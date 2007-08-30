@@ -111,6 +111,7 @@
 #include <OpenTracker/input/ICubeXModule.h>
 #endif
 #include <OpenTracker/input/WacomGraphireModule.h>
+#include <OpenTracker/input/WiiModule.h>
 #include <OpenTracker/input/JoystickModule.h>
 #include <OpenTracker/input/SpaceDeviceModule.h>
 #include <OpenTracker/input/GoGoModule.h>
@@ -252,6 +253,10 @@ namespace ot {
 #ifdef USE_CYBERMOUSE
         OT_REGISTER_MODULE(CyberMouseModule, NULL);
 #endif	
+
+#ifndef NO_USE_WII
+        OT_REGISTER_MODULE(WiiModule, NULL);
+#endif
 
 //#ifdef USE_LINMOUSEMODULE
 #ifndef WIN32
