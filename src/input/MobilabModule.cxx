@@ -79,11 +79,13 @@ namespace ot {
         logHost ( NULL ),
         logsamplenr(0)
     {
+        logPrintI("MobilabModule::MobilabModule()\n");
         mobilab_reactor = (void *)new ACE_Reactor;
     }
 
     MobilabModule::~MobilabModule()
     {
+        logPrintI("MobilabModule::~MobilabModule()\n");
         // delete sources
         SourceVector::iterator it;
         for (it = sources.begin(); it!=sources.end(); it++)
@@ -105,6 +107,8 @@ namespace ot {
     void MobilabModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
 	device = attributes.get("dev");
+
+        logPrintI("MobilabModule::init(%s)\n", device.c_str());
 
         if( attributes.containsKey("logfile") )
         {
@@ -261,6 +265,7 @@ namespace ot {
 
     void MobilabModule::close()
     {
+        logPrintI("MobilabModule::close()\n");
         if (debug)
         {
             logPrintD("MobilabModule::close()\n");
@@ -281,9 +286,11 @@ namespace ot {
 
     void MobilabModule::run()
     {
-	driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
-	driver->setDebug( debug ); // only for debug purposes ...
-        
+        logPrintI("MobilabModule::run(%s)\n", device.c_str());
+        if (driver == NULL)
+            driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
+        driver->setDebug( debug ); // only for debug purposes ...
+            
         SourceVector::iterator it;
         for (it = sources.begin(); it != sources.end(); it++)
         {
@@ -296,48 +303,48 @@ namespace ot {
                 logPrintW("ot::MobilabModule source vector contains NULL element!\n");
             }
         }    
-
+            
         if( logFile != NULL || logHost != NULL)
         {
             if (logFile != NULL)
                 logPrintI("ot::MobilabModule running with logfile support!\n");
             else
                 logPrintI("ot::MobilabModule running with loghost support!\n");
-
+                
             driver->addListener( this );
         }
-
-        
-	driver->getReactor()->owner(ACE_Thread::self());
+            
+            
+        driver->getReactor()->owner(ACE_Thread::self());
         /*
-        ACE_Sig_Adapter sa( );
-        if (driver->getReactor()->register_handler(SIGINT, &sa) == -1)
-        {
-            logPrintW("MobilabModule: could not register SIGINT handler!\n");
-        }
+          ACE_Sig_Adapter sa( );
+          if (driver->getReactor()->register_handler(SIGINT, &sa) == -1)
+          {
+          logPrintW("MobilabModule: could not register SIGINT handler!\n");
+          }
         */
-
+            
         /// start device communication
-	if( driver->open( device ) )
-	{
+        if( driver->open( device ) )
+        {
             logPrintE("MobilabModule could not start MobilabDriver !\n");
             return;
-	}
-
+        }
+            
         if( debug )          
         {
             logPrintI("MobilabModule::run started MobilabDriver !\n");
-	}
-
-	driver->getReactor()->run_reactor_event_loop();
-
+        }
+            
+        driver->getReactor()->run_reactor_event_loop();
+            
         if (debug)
         {
             logPrintI("MobilabModule::run reactor event loop exited ...\n");
         }
-
-	driver->close();
-	delete driver;
+            
+        driver->close();
+        if (driver != NULL) delete driver;
     }
 
     void MobilabModule::newData(short sampleValue, double timev)

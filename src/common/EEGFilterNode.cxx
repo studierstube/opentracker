@@ -124,12 +124,14 @@ namespace ot {
 
         int eegoutval = -1;
 
-        if (currentEvent.hasAttribute(triggeratt))
+        if (currentEvent.hasAttribute(triggeratt)
+            && currentEvent.getAttributeValueString(triggeratt) == "1")
         {
-            logPrintI("EEGFilter: restarting calibration\n");
+            //logPrintI("EEGFilter: restarting calibration\n");
             evmode = CALIB;
             calibcount = 0;
         }
+
         //logPrintI("EEGFilter ...\n");
         //event.printout();
 

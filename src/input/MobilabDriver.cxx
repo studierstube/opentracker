@@ -443,12 +443,14 @@ namespace ot {
 
         if (module && module->getContext())
         {            
-
-            //logPrintI("MobilabDriver: have new data -> telling context\n");
-            module->getContext()->dataSignal();
-            //logPrintI("MobilabDriver: wait for processing ...\n");
-            module->getContext()->consumedWait();
-            //logPrintI("MobilabDriver: context finished processing\n");
+            if (module->getContext()->doSynchronization())
+            {
+                //logPrintI("MobilabDriver: have new data -> tell context\n");
+                module->getContext()->dataSignal();
+                //logPrintI("MobilabDriver: wait for processing ...\n");
+                module->getContext()->consumedWait();
+                //logPrintI("MobilabDriver: context finished processing\n");
+            }
         }
     }
 

@@ -100,8 +100,9 @@ namespace ot {
                     // notify main loop
 		    if (context->doSynchronization())
 		    {
-                        context->dataBroadcast();
+                        context->dataSignal();
                         context->consumedWait();
+                        logPrintI("CallforwardModule::event processed!\n");
 		    }
                 }
             }
