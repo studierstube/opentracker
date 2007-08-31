@@ -413,7 +413,7 @@ namespace ot {
 
 	setSynchronization(true);
 
-        logPrintI("Context::runOnDemand()\n");
+        //logPrintD("Context::runOnDemand()\n");
 
         start();
 

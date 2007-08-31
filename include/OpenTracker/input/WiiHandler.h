@@ -18,24 +18,28 @@
 #ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
 #endif						
-
+#include <tchar.h>
 #endif //end win code
 
-#include <stdio.h>
-#include <tchar.h>
+#include <cstdio>
+
 
 namespace ot {
 
-class WiiHandler
-{
-public:
+    class WiiHandler
+    {
+    public:
 	WiiHandler();
 	~WiiHandler();
 	
 	//connection management
 	bool ConnectToDevice(int index = 0);
 	bool Disconnect();	
+#ifdef WIN32
 	bool IsConnected() const {return mHIDDevice.IsConnected();}
+#else
+        bool IsConnected() const {return false; }
+#endif
 		
 	bool StartDataStream();
 	bool StopDataStream();
@@ -55,99 +59,99 @@ public:
 
 	struct tExpansionReport
 	{
-		bool mAttachmentPluggedIn;
-		bool mIREnabled;
-		bool mSpeakerEnabled;
-		bool mLED1On;
-		bool mLED2On;
-		bool mLED3On;
-		bool mLED4On;
-		unsigned char mBatteryLevel;
+            bool mAttachmentPluggedIn;
+            bool mIREnabled;
+            bool mSpeakerEnabled;
+            bool mLED1On;
+            bool mLED2On;
+            bool mLED3On;
+            bool mLED4On;
+            unsigned char mBatteryLevel;
 
-		void Init()
-		{
-			mAttachmentPluggedIn = false;
-			mIREnabled = false;
-			mSpeakerEnabled = false;
-			mLED1On = false;
-			mLED2On = false;
-			mLED3On = false;
-			mLED4On = false;
-			mBatteryLevel = 0;
-		}
+            void Init()
+            {
+                mAttachmentPluggedIn = false;
+                mIREnabled = false;
+                mSpeakerEnabled = false;
+                mLED1On = false;
+                mLED2On = false;
+                mLED3On = false;
+                mLED4On = false;
+                mBatteryLevel = 0;
+            }
 	};
 	struct tButtonStatus
 	{
-		bool mA;
-		bool mB;
-		bool m1;
-		bool m2;
-		bool mPlus;
-		bool mMinus;
-		bool mHome;
-		bool mUp;
-		bool mDown;
-		bool mLeft;
-		bool mRight;
-	   unsigned short outdata;
-		void Init()
-		{
-			mA = mB = m1 = m2 = mPlus = mMinus = mHome = mUp = mDown = mLeft = mRight = false;
-         outdata=0x0000;
-		}
+            bool mA;
+            bool mB;
+            bool m1;
+            bool m2;
+            bool mPlus;
+            bool mMinus;
+            bool mHome;
+            bool mUp;
+            bool mDown;
+            bool mLeft;
+            bool mRight;
+            unsigned short outdata;
+            void Init()
+            {
+                mA = mB = m1 = m2 = mPlus = mMinus = mHome = mUp = mDown = mLeft = mRight = false;
+                outdata=0x0000;
+            }
 	};
 	struct tMotionReport
 	{
-		unsigned char mX;
-		unsigned char mY;
-		unsigned char mZ;
+            unsigned char mX;
+            unsigned char mY;
+            unsigned char mZ;
 		
-		void Init()
-		{
-			mX = mY = mZ = 0;
-		}
+            void Init()
+            {
+                mX = mY = mZ = 0;
+            }
 	};
 
 	struct tChuckReport
 	{
-		unsigned char mStickX;
-		unsigned char mStickY;
-		unsigned char mAccelX;
-		unsigned char mAccelY;
-		unsigned char mAccelZ;
-		bool	mButtonC;
-		bool	mButtonZ;
-		void Init()
-		{
-			mStickX=mStickY=mAccelX=mAccelY=mAccelZ=0;
-			mButtonC = mButtonZ = false;
-		};
+            unsigned char mStickX;
+            unsigned char mStickY;
+            unsigned char mAccelX;
+            unsigned char mAccelY;
+            unsigned char mAccelZ;
+            bool	mButtonC;
+            bool	mButtonZ;
+            void Init()
+            {
+                mStickX=mStickY=mAccelX=mAccelY=mAccelZ=0;
+                mButtonC = mButtonZ = false;
+            };
 	};
 
 	struct tIRReport
 	{
-		unsigned short mP1X;
-		unsigned short mP1Y;
+            unsigned short mP1X;
+            unsigned short mP1Y;
 		
-		unsigned short mP2X;
-		unsigned short mP2Y;
+            unsigned short mP2X;
+            unsigned short mP2Y;
 
-		unsigned char mP1Size;
-		unsigned char mP2Size;
+            unsigned char mP1Size;
+            unsigned char mP2Size;
 
-		bool mP1Found;
-		bool mP2Found;
+            bool mP1Found;
+            bool mP2Found;
 
-		void Init()
-		{
-			mP1X = mP1Y = mP2X = mP2Y = mP1Size = mP2Size = 0;
-			mP1Found = mP2Found = false;
-		}
+            void Init()
+            {
+                mP1X = mP1Y = mP2X = mP2Y = mP1Size = mP2Size = 0;
+                mP1Found = mP2Found = false;
+            }
 
 
 	};
 	const tButtonStatus & GetLastButtonStatus() const {return mLastButtonStatus;}
-   const unsigned short GetLastButtonDataStatus() const {return mLastButtonStatus.outdata;}
+        const unsigned short GetLastButtonDataStatus() const {return mLastButtonStatus.outdata;}
 	const tChuckReport & GetLastChuckReport() const {return mLastChuckReport;}
 	const tMotionReport & GetLastMotionReport() const { return mLastMotionReport;}
 	const tExpansionReport & GetLastExpansionReport() const { return mLastExpansionReport;}
@@ -157,10 +161,10 @@ public:
 	//debugging functions:
 	void PrintStatus() const;
 
-   bool mNunchuckAttached;
-   bool mIRRunning;
+        bool mNunchuckAttached;
+        bool mIRRunning;
 
-private:
+    private:
 	
 	//parsing functions for input reports
 	void ParseExpansionReport(const unsigned char * data);
@@ -173,13 +177,13 @@ private:
 
 	//tell the wiimote how to send data
 	enum eReportMode
-	{
+            {
 		REPORT_MODE_EVENT_BUTTONS,
 		REPORT_MODE_MOTION, 
 		REPORT_MODE_MOTION_CHUCK,
 		REPORT_MODE_MOTION_IR,
 		REPORT_MODE_MOTION_CHUCK_IR
-	};
+            };
 	bool SetReportMode(eReportMode mode);
 
 
@@ -206,56 +210,56 @@ private:
 	//flash reading vars
 	struct tMemReadInfo
 	{
-		enum eReadStatus
+            enum eReadStatus
 		{
-			READ_PENDING,
-			READ_NONE,
-			READ_COMPLETE,
-			READ_ERROR
+                    READ_PENDING,
+                    READ_NONE,
+                    READ_COMPLETE,
+                    READ_ERROR
 		} mReadStatus;
 
-		unsigned char * mReadBuffer;
-		unsigned short mTotalBytesToRead;
-		unsigned short mBytesRead;
-		unsigned short mBaseAddress;
-		void Init()
-		{
-			mReadStatus = READ_NONE;
-			mReadBuffer = NULL;
-			mTotalBytesToRead = 0;
-			mBytesRead = 0;
-			mBaseAddress = 0;
-		}
+            unsigned char * mReadBuffer;
+            unsigned short mTotalBytesToRead;
+            unsigned short mBytesRead;
+            unsigned short mBaseAddress;
+            void Init()
+            {
+                mReadStatus = READ_NONE;
+                mReadBuffer = NULL;
+                mTotalBytesToRead = 0;
+                mBytesRead = 0;
+                mBaseAddress = 0;
+            }
 	} mReadInfo;
 
 	//calibration data for the wiimote
 	struct tAccelCalibrationData
 	{
-		unsigned char mXZero;
-		unsigned char mYZero;
-		unsigned char mZZero;
-		unsigned char mXG;
-		unsigned char mYG;
-		unsigned char mZG;
-		void Init()
-		{
-			mXZero = mYZero = mZZero = mXG = mYG = mZG= 0;
-		}
+            unsigned char mXZero;
+            unsigned char mYZero;
+            unsigned char mZZero;
+            unsigned char mXG;
+            unsigned char mYG;
+            unsigned char mZG;
+            void Init()
+            {
+                mXZero = mYZero = mZZero = mXG = mYG = mZG= 0;
+            }
 	} ;
 
 	struct tStickCalibrationData
 	{
-		unsigned char mXmin;
-		unsigned char mXmid;
-		unsigned char mXmax;
-		unsigned char mYmin;
-		unsigned char mYmid;
-		unsigned char mYmax;
+            unsigned char mXmin;
+            unsigned char mXmid;
+            unsigned char mXmax;
+            unsigned char mYmin;
+            unsigned char mYmid;
+            unsigned char mYmax;
 
-		void Init()
-		{
-			mXmax = mYmax = mXmin = mYmin = mXmid = mYmid =0;
-		}
+            void Init()
+            {
+                mXmax = mYmax = mXmin = mYmin = mXmid = mYmid =0;
+            }
 	};
 	
 	tAccelCalibrationData mAccelCalibrationData;
@@ -265,16 +269,16 @@ private:
 	//output requests
 	struct tOutputControls
 	{
-		bool mVibration;
-		bool mLED1;
-		bool mLED2;
-		bool mLED3;
-		bool mLED4;
+            bool mVibration;
+            bool mLED1;
+            bool mLED2;
+            bool mLED3;
+            bool mLED4;
 
-		void Init()
-		{
-			mVibration = mLED1 = mLED2= mLED3= mLED4 = false;
-		}
+            void Init()
+            {
+                mVibration = mLED1 = mLED2= mLED3= mLED4 = false;
+            }
 	};
 	
 	
@@ -290,8 +294,9 @@ private:
 	eReportMode	mReportMode;
 
 	//our communications device
+#ifdef WIN32
 	cHIDDevice mHIDDevice;
-	
+#endif       
 
 	bool mDataStreamRunning;
 
@@ -300,7 +305,23 @@ private:
 	unsigned char mOutputBuffer[mOutputBufferSize];
 	static const int mInputBufferSize = 22;
 	unsigned char mInputBuffer[mInputBufferSize];
-};
+    };
 
 } // end namespace ot 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of WiiHandler.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
