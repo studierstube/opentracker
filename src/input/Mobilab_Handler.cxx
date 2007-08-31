@@ -117,9 +117,6 @@ namespace ot {
             if (parent)
             {
                 parent->sendStopTransferCommand();
-                
-                //reactor()->end_reactor_event_loop();
-                //parent->close();
             }
             return 0;
         }
