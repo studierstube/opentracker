@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="standalone"
 	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
 	>
@@ -168,7 +168,8 @@
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;../../lib/win32"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/opentrackerd.pdb"
+				AssemblyDebug="0"
+				ProgramDatabaseFile="../../bin/win32/opentrackerd.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>

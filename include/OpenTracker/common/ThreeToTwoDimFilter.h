@@ -112,6 +112,7 @@ public:
     /** pushes event down the line. */
     void push();
 
+	virtual void pushEvent();
 
 	/** simple constructor, sets members to initial values */
 	ThreeToTwoDimFilter() : Node(), 

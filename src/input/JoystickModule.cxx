@@ -181,7 +181,7 @@ namespace ot {
                 break;
 
             pollJoysticks();
-            OSUtils::sleep(10);
+            OSUtils::sleep(20);
         }
     }
 

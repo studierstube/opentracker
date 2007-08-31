@@ -44,6 +44,8 @@
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
 
+#include <ace/OS.h>
+
 #include <OpenTracker/input/SpaceDeviceSource.h>
 #include <OpenTracker/input/SpaceDeviceModule.h>
 

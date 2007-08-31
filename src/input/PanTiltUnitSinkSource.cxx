@@ -189,9 +189,10 @@ namespace ot {
 					set_desired(TILT, SPEED, (PTU_PARM_PTR *) &val, ABSOLUTE);
 					movingTilt = true;
 				}
+				////////////////////////////////////////////
 				// handle button events
 				// button 1-4 pressed simultainiously
-				if (relativeInput.getButton()>14) // reset and recalibrate ptu
+				if (relativeInput.getButton()== 15) // reset and recalibrate ptu
 					SerialOut(UNIT_RESET);
 			}
 			// handle lanc control
@@ -211,6 +212,38 @@ namespace ot {
 		long pos = get_current(PAN,POSITION);
 		printf("panPos: %f \n", pos);
 		return (panResolution*pos);
+	}
+
+	void PanTiltUnitSinkSource::pushEvent()
+	{
+		lock();
+		if (process||movingPan||movingTilt)
+		{
+			//source->delay = source->delayEvent;
+
+			//if((cycle + source->offset) % source->frequency == 0 )
+			//{
+			//	source->push();
+			//}
+				
+			//source->publishEvent = false;
+
+			process = false;
+			//OSUtils::sleep(source->delayEvent);
+					
+			push();
+			unlock();
+			updateObservers(event);
+		}
+		else
+		{
+			unlock();
+		}
+		
+	}
+    
+	void PanTiltUnitSinkSource::pullEvent()
+	{
 	}
 
 	void PanTiltUnitSinkSource::push()
@@ -287,9 +320,7 @@ namespace ot {
 		float zf = (float)lanc->zoomFactor;
 		event.setAttribute<float>("zoomFactor", zf );
 		event.timeStamp();
-
-		updateObservers( event );
-
+		
 		// this queue is meant as delay mechanism
 		
 		// push result event into queue

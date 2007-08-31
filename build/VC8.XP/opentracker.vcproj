@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -67,7 +67,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;;C:\stb_repository\opentracker\extras\hid\xp"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="../../bin/Win32/opentrackerd.pdb"
+				ProgramDatabaseFile="../../bin/Win32/opentrackerddll.pdb"
 				SubSystem="2"
 				ImportLibrary="../../lib/Win32/opentrackerd.lib"
 				TargetMachine="1"
@@ -145,8 +145,8 @@
 				OutputFile="../../bin/Win32/opentracker.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
+				GenerateDebugInformation="false"
+				ProgramDatabaseFile="../../lib/Win32/opentrackerdll.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -877,6 +877,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\UltraTrakModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\common\VirtualKeyModule.cxx"
 				>
 			</File>
 			<File
@@ -3611,6 +3615,14 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\UltraTrakSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\VirtualKeyModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\VirtualKeySource.h"
 				>
 			</File>
 			<File

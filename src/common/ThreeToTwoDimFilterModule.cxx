@@ -115,20 +115,7 @@ namespace ot {
 
 	void ThreeToTwoDimFilterModule::pushEvent()
 	{
-		ThreeToTwoDimFilter *source;
-
-		if( isInitialized() == 1 )
-		{   
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			{
-				source = (ThreeToTwoDimFilter *) ((Node*)*it);     
-				if (source->newInput)
-				{
-					source->newInput = false;
-					source->push();
-				}
-			}
-		}
+		
 	}
 } // namespace ot
 

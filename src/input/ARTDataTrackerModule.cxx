@@ -368,17 +368,18 @@ namespace ot {
                         }
                     }
                 }
-
-                if (source->changed && context != NULL)
+				bool chgflag = source->changed;
+				source->unlock();
+                if ( chgflag && context != NULL)
                 {
                     // notify main loop
 		    if (context->doSynchronization())
 		    {
                         context->dataSignal();
-                        context->consumedWait();
+                      //  context->consumedWait();
 		    }
                 }
-                source->unlock();
+                
             } // for ...
 
         } // while(1)

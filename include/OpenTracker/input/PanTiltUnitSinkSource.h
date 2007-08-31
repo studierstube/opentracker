@@ -97,6 +97,8 @@ public:
 
     /** pushes event down the line. */
     void push();
+	void pushEvent( );
+    void pullEvent( );
 
 	// The COM port where the PTU is connected
 	bool initComPort(int comPort);

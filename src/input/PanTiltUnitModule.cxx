@@ -155,61 +155,59 @@ namespace ot {
 			initialized = 1;
 			init = 1;
 		}
-		while(stop == 0)
+		while(1)
 		{
+			lockLoop();
+			if (stop == true) 
+			{
+				unlockLoop();
+				break;
+			}
+			else
+			{
+				unlockLoop();
+			}
+
 			processLoop();
 		}
+
+		lockLoop();
+		stop = 0;
+		unlockLoop();
 	}
 
 
 	void PanTiltUnitModule::pushEvent()
 	{
-		PanTiltUnitSinkSource *source;
-
-		if( isInitialized() == 1 )
-		{   
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			{
-				source = (PanTiltUnitSinkSource *) ((Node*)*it);     
-				//source->delay--;
-				//if ((source->process||source->movingPan||source->movingTilt) && source->delay<1)
-				if (source->process||source->movingPan||source->movingTilt)
-				{
-					//source->delay = source->delayEvent;
-
-					//if((cycle + source->offset) % source->frequency == 0 )
-					//{
-					//	source->push();
-					//}
-				
-					//source->publishEvent = false;
-
-					source->process = false;
-					//OSUtils::sleep(source->delayEvent);
-					
-					source->push();
-				}
-			}
-		}
+		
 	}
 
 	void PanTiltUnitModule::processLoop()
 	{
 		if( isInitialized() == 1 )
 		{
+			bool newdata = false;
 			PanTiltUnitSinkSource *source;
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				source = (PanTiltUnitSinkSource *) ((Node*)*it);
+				source->lock();
 				if( source->lanc->isZooming() )
 				{
 					source->lanc->updateTimePos();
 					source->process = true;
+					newdata = true;
 				}
+				source->unlock();
 			}	
-			if (context != NULL)
+
+			if (newdata && context != NULL)
 			  {
-			    context->dataSignal();
+				if (context->doSynchronization())
+				{
+			       context->dataSignal();
+				   context->consumedWait();
+				}
 			  }
 		}
 		ACE_OS::sleep(ACE_Time_Value(0, 500));

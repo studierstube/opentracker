@@ -89,11 +89,26 @@ namespace ot {
 			//source->event.getPosition()[3]= mousewheel;
 			event.getButton() = pointingDeviceInput.getButton();
 			event.timeStamp();
+			
+		}
+	}
+
+void ThreeToTwoDimFilter::pushEvent()
+	{
+		lock();  
+		if (newInput)
+		{
+			newInput = false;
+			push();
+			unlock();
 			updateObservers( event );
+		}
+		else
+		{
+			unlock();
 		}
 		
 	}
-
 	
 	ThreeToTwoDimFilter::~ThreeToTwoDimFilter()
 	{

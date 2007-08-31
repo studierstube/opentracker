@@ -167,15 +167,19 @@
 
 /** uncomment the following line to compile support for 3Dconnexion.
  * Support for this is only available on windows. */
-//#define USE_SPACEDEVICE 1
+#define USE_SPACEDEVICE 1
 
 
 /** uncomment the following line to compile support for GoGo interaction support. */
-//#define USE_GOGO 1
+#define USE_GOGO 1
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
-//#define USE_PANTILTUNIT 1
+#define USE_PANTILTUNIT 1
+
+#define USE_THREETOTWODIMFILTER 1
+
+#define USE_VIRTUALKEYSOURCE 1
 
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
@@ -208,7 +212,7 @@
 
 /** uncomment the following line to compile support for raw input.
  * Support for this is only available on windows. */
-//#define USE_RAWINPUT 1
+#define USE_RAWINPUT 1
 
 /** uncomment the following line to compile support for the ARToolKit library */
 //#define USE_MIDI 1

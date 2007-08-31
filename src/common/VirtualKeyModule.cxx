@@ -100,9 +100,11 @@ namespace ot {
 	void VirtualKeyModule::close()
 	{
 		// stop thread
+		logPrintD("ARTDataTrackerModule::close() ... \n");
 		lockLoop();
 		stop = 1;
 		unlockLoop();
+        logPrintD("ARTDataTrackerModule::close() done. \n");
 	}
 
 
@@ -115,10 +117,20 @@ namespace ot {
 			initialized = 1;
 			init = 1;
 		}
-		while(stop == 0)
+		while(1)
 		{
+			lockLoop();
+            if( stop)
+            {
+                unlockLoop();
+                break;
+            }
+           
 			processLoop();
 		}
+		lockLoop();
+		stop = 0;
+		unlockLoop();
 	}
 
 
@@ -131,13 +143,18 @@ namespace ot {
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				source = (VirtualKeySource *) ((Node*)*it);     
-				source->push();
+				if( source->process )
+				{
+					source->push();
+					source->process = false;
+				}
 			}
 		}
 	}
 
 	void VirtualKeyModule::processLoop()
 	{
+		bool havekey = false;
 		if( isInitialized() == 1 )
 		{
 			VirtualKeySource *source;
@@ -145,18 +162,40 @@ namespace ot {
 			{
 				source = (VirtualKeySource *) ((Node*)*it);
 #ifdef WIN32
+				source->lock();
 				if( GetAsyncKeyState(source->virtualKeyCode) )	// default pgup
 				{
-					logPrintD("ButtonDown of: %i\n", source->virtualKeyCode);
-					source->event.getButton() = 1;
+					//logPrintD("ButtonDown of: %i\n", source->virtualKeyCode);
+					if( source->event.getButton() == 0 )
+					{
+						source->event.getButton() = 1;
+						source->process = true;
+						havekey = true;
+					}
 				}else{
-					source->event.getButton() = 0;
+					int buttonState = source->event.getButton();
+					//printf("Button %i\n", buttonState);
+					if( buttonState != 0 )
+					{
+						source->event.getButton() = 0;
+						source->process = true;
+						havekey = true;
+					}
 				}
+				source->unlock();
 #endif
 			}
 		}
-		// wait 10msec for now - this sets the update intervall to the system
-		ACE_OS::sleep( ACE_Time_Value(0, 10000) );
+		if (havekey && context != NULL)
+		{
+			if (context->doSynchronization())
+			{
+				context->dataSignal();
+				context->consumedWait();
+			}
+		}
+		// wait 1msec for now - this sets the update intervall to the system
+		ACE_OS::sleep( ACE_Time_Value(0, 20000) );
 	}
 } // namespace ot
 

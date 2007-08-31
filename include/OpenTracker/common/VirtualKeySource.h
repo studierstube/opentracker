@@ -76,6 +76,9 @@ class OPENTRACKER_API VirtualKeySource : public Node
 public:
     /// the event that is published
     Event event;
+	Event outevent;
+
+	bool process;
          
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -102,9 +105,11 @@ protected:
 
 	virtual void push()
 	{
-		virtualKeyModule->lockLoop();
+		lock();
+		outevent = event;
+		unlock();
+
 		updateObservers( event );
-		virtualKeyModule->unlockLoop();
 	}
 
 	int virtualKeyCode;
