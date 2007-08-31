@@ -139,7 +139,7 @@ namespace ot {
     bool WiiHandler::ConnectToDevice(int index)
     {
 	Init();
-	const bool retval = false;
+	bool retval = false;
 #ifdef WIN32
 	retval = mHIDDevice.Connect(mDeviceID,mVendorID,index) && 
             SetReportMode(REPORT_MODE_EVENT_BUTTONS) && 
@@ -213,7 +213,7 @@ namespace ot {
             (mOutputControls.mLED2 ? 0x1 : 0x0) << 5 | 
             (mOutputControls.mLED3 ? 0x1 : 0x0) << 6 | 
             (mOutputControls.mLED4 ? 0x1 : 0x0) << 7; 
-	const bool retval = false;
+	bool retval = false;
 #ifdef WIN32	
 	retval = mHIDDevice.WriteToDevice(mOutputBuffer,mOutputBufferSize);
 #else
@@ -305,7 +305,6 @@ namespace ot {
                     retval = false;
                     //unknown report
                     break;
-
 
             }
 		
@@ -449,7 +448,7 @@ namespace ot {
 	mOutputBuffer[0] = OUTPUT_CHANNEL_REPORT;
 	mOutputBuffer[1] = (continuous ? REQUEST_CONTINUOUS_REPORTS : REQUEST_SINGLE_REPORTS) | (mOutputControls.mVibration ? 0x1 : 0x0);
 	mOutputBuffer[2] = channel;
-	const bool retval = false;
+	bool retval = false;
 #ifdef WIN32
 	retval = mHIDDevice.WriteToDevice(mOutputBuffer,mOutputBufferSize);
 #else
