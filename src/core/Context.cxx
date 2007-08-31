@@ -95,9 +95,13 @@ namespace ot {
         _havedatamutex = new ACE_Thread_Mutex("context_havedatamutex");
         _consumeddatamutex = new ACE_Thread_Mutex("context_consumeddatamutex");
         _havedatacondition = new ACE_Condition_Thread_Mutex((*_havedatamutex));//, "context_havedatacondition");
+        _waitingpendingcondition = new ACE_Condition_Thread_Mutex((*_havedatamutex));//, "context_havedatacondition");
         _consumeddatacondition = new ACE_Condition_Thread_Mutex((*_consumeddatamutex));//, "context_havedatacondition");
+        _waitingconsumedcondition = new ACE_Condition_Thread_Mutex((*_consumeddatamutex));//, "context_havedatacondition");
         pendingdata = false;
+        waitingpending = false;
         dataconsumed = false;
+        waitingconsumed = false;
         //#else
         //        _havedatamutex = new pthread_mutex_t;
         //        _havedatacondition = new pthread_cond_t;
@@ -128,9 +132,12 @@ namespace ot {
 
         //#ifdef WIN32
         delete _havedatacondition;
+        delete _waitingpendingcondition;
         delete _consumeddatacondition;
+        delete _waitingconsumedcondition;
         delete _havedatamutex;
         delete _consumeddatamutex;
+
         //#else
         //        pthread_cond_destroy(_havedatacondition);
         //        pthread_mutex_destroy(_havedatamutex);
@@ -435,7 +442,9 @@ namespace ot {
             _havedatamutex->acquire();	
 
             //logPrintI("Context: Waiting for new data\n");
-
+            waitingpending = true;
+            _waitingpendingcondition->broadcast();
+            
             while (!pendingdata)
             {
                 _havedatacondition->wait(); 
@@ -453,6 +462,12 @@ namespace ot {
             _havedatamutex->release();
 
             _consumeddatamutex->acquire();
+            while (!waitingconsumed)
+            {
+                _waitingconsumedcondition->wait();
+            }
+            waitingconsumed = false;
+
             //logPrintI("Context: data processing finished -> telling drivers\n");
             dataconsumed = true;
             _consumeddatacondition->broadcast();
@@ -460,10 +475,23 @@ namespace ot {
             _consumeddatamutex->release();
         }
 
+        _havedatamutex->acquire();	
+        waitingpending = true;
+        _waitingpendingcondition->broadcast();
+        
+        while (!pendingdata)
+        {
+            _havedatacondition->wait(); 
+        }
+        pendingdata = false;
+        _havedatamutex->release();
+	
         stoploopflag = 0;
 
         logPrintI("closing loop\n");
         close();
+
+	setSynchronization(true);
     }
 
     void Context::waitDataSignal() 
@@ -487,6 +515,15 @@ namespace ot {
          
         _havedatamutex->acquire();
 
+        if (!stoploopflag)
+        {
+            while (!waitingpending)
+            {
+                _waitingpendingcondition->wait();
+            }
+            waitingpending = false;
+        }
+
          pendingdata = true;
          _havedatacondition->signal();
  
@@ -495,24 +532,21 @@ namespace ot {
    
     void Context::dataBroadcast() 
      { 
-         //#ifdef WIN32
-         //_havedatamutex->acquire();
-         //#else
-         //         pthread_mutex_lock(_havedatamutex);
-         //#endif
+         _havedatamutex->acquire();
 
-         //#ifdef WIN32
-         pendingdata = true;
-         _havedatacondition->broadcast(); 
-         //#else
-         //         pthread_cond_broadcast(_havedatacondition);
-         //#endif
-         //#ifdef WIN32
-         //_havedatamutex->release();
-         //#else
-         //         pthread_mutex_unlock(_havedatamutex);
-         //#endif
+        if (!stoploopflag)
+        {
+            while (!waitingpending)
+            {
+                _waitingpendingcondition->wait();
+            }
+            waitingpending = false;
+        }
 
+        pendingdata = true;
+        _havedatacondition->broadcast(); 
+        
+        _havedatamutex->release();
      };
 
     void Context::dataLock()
@@ -531,6 +565,8 @@ namespace ot {
 #endif
     {
         _consumeddatamutex->acquire();
+        waitingconsumed = true;
+        _waitingconsumedcondition->broadcast();
 
         while (!dataconsumed)
         { 

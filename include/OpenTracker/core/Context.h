@@ -156,9 +156,13 @@ namespace ot {
         ACE_Thread_Mutex* _havedatamutex;
         ACE_Thread_Mutex* _consumeddatamutex;
         ACE_Condition_Thread_Mutex* _havedatacondition;
+        ACE_Condition_Thread_Mutex* _waitingpendingcondition;
         ACE_Condition_Thread_Mutex* _consumeddatacondition;
+        ACE_Condition_Thread_Mutex* _waitingconsumedcondition;
         bool pendingdata;
+        bool waitingpending;
         bool dataconsumed;
+        bool waitingconsumed;
 
         //#else
         //        pthread_mutex_t* _havedatamutex;
