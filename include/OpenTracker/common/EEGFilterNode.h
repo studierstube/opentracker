@@ -108,6 +108,7 @@ namespace ot {
 
         Event currentEvent;  ///< The event we're currently working with
         Event targetEvent;   ///< The one we will be forwarding
+        int eegoutval, lasteegoutval;
 
     public:
         /** constructor method. It sets initial values for the treshhold and type */

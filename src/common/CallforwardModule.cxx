@@ -102,7 +102,7 @@ namespace ot {
 		    {
                         context->dataSignal();
                         context->consumedWait();
-                        logPrintI("CallforwardModule::event processed!\n");
+                        //logPrintI("CallforwardModule::event processed!\n");
 		    }
                 }
             }

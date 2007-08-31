@@ -82,7 +82,9 @@ namespace ot {
           triggeratt(itriggeratt),
           consume(iconsume),
           evmode(CALIB),
-          calibcount(0)
+          calibcount(0),
+          eegoutval(0),
+          lasteegoutval(0)
     {
         using namespace std;
         eegsubs.clear();
@@ -122,7 +124,8 @@ namespace ot {
         // The event we will be passing
         targetEvent = event;
 
-        int eegoutval = -1;
+        lasteegoutval = eegoutval;
+        eegoutval = -1;
 
         if (currentEvent.hasAttribute(triggeratt)
             && currentEvent.getAttributeValueString(triggeratt) == "1")
@@ -330,7 +333,10 @@ namespace ot {
         //targetEvent.printout();
 
         // Update the observers
-        updateObservers( targetEvent );
+        if (!consume || lasteegoutval != eegoutval)
+        {
+            updateObservers( targetEvent );
+        }
     }
 
     void EEGFilterNode::pushEvent()
