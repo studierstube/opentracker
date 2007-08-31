@@ -126,6 +126,7 @@ namespace ot {
 
         if (currentEvent.hasAttribute(triggeratt))
         {
+            logPrintI("EEGFilter: restarting calibration\n");
             evmode = CALIB;
             calibcount = 0;
         }
