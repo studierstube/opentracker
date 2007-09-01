@@ -54,6 +54,7 @@
 #include <ace/Thread.h>
 #include <ace/Synch.h>
 
+#include <Opentracker/core/OtLogger.h>
 #include <OpenTracker/core/ThreadModule.h>
 
 namespace ot {
@@ -103,6 +104,7 @@ namespace ot {
 
     void ThreadModule::close()
     {
+        logPrintI("ThreadModule::close()\n");
         #ifdef WIN32
             ACE_Thread::join( ((ACE_thread_t*)thread) );
         #else

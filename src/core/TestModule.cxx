@@ -193,6 +193,7 @@ namespace ot {
 	stop = 1;
 	unlockLoop();
         logPrintD("TestModule::close() done. \n");
+        ThreadModule::close();
     }
 
     TestSource::TestSource( double frequency_, int offset_ ) :
