@@ -233,10 +233,10 @@ else:
                  }
 
         targetList.append(ot)
-        targetList.append(middleware)
         targetList.append(otcon)
         targetList.append(otcondemand)
         targetList.append(otcon2)
+        targetList.append(middleware)
     if ARGUMENTS.has_key("ENABLE_OMNIORBPY") or ARGUMENTS.has_key("ENABLE_CORBA"):
         print "Currently it is not possible to run 'scons install' in one single step"
         print "It is necessary to first run 'scons' in order to generate stubs, "

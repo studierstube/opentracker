@@ -62,7 +62,7 @@
 #include <cstdio>
 
 #ifndef WIN32 // linux
-
+#ifndef __APPLE__
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -71,7 +71,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <linux/input.h>
-
+#endif
 #else // win code
 
 
