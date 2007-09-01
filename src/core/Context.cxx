@@ -369,8 +369,7 @@ namespace ot {
         while ( stoploopflag == 0 && stopflag == 0 )
         {
             //logPrintI("running\n");
-            stopflag=loopOnce();
-	    consumedBroadcast();
+            stopflag=loopOnce();	    
         }
 
         stoploopflag = 0;
@@ -485,11 +484,11 @@ namespace ot {
         }
         pendingdata = false;
         _havedatamutex->release();
-	
-        stoploopflag = 0;
-
+        
         logPrintI("closing loop\n");
         close();
+
+        stoploopflag = 0;
 
 	setSynchronization(true);
     }
@@ -515,7 +514,7 @@ namespace ot {
          
         _havedatamutex->acquire();
 
-        if (!stoploopflag)
+        if (stoploopflag == 0)
         {
             while (!waitingpending)
             {
@@ -534,7 +533,7 @@ namespace ot {
      { 
          _havedatamutex->acquire();
 
-        if (!stoploopflag)
+        if (stoploopflag == 0)
         {
             while (!waitingpending)
             {
@@ -567,21 +566,24 @@ namespace ot {
         _consumeddatamutex->acquire();
         waitingconsumed = true;
         _waitingconsumedcondition->broadcast();
-
-        while (!dataconsumed)
-        { 
-            if (usecs != 0)
-            {
-                ACE_Time_Value tv(0, usecs);                
-                if (_consumeddatacondition->wait(&tv) == -1)
+        
+        if (stoploopflag == 0)
+        {
+            while (!dataconsumed)
+            { 
+                if (usecs != 0)
                 {
-                    //logPrintW("main loop processing events too slow!\n");
-                    break;
+                    ACE_Time_Value tv(0, usecs);                
+                    if (_consumeddatacondition->wait(&tv) == -1)
+                    {
+                        //logPrintW("main loop processing events too slow!\n");
+                        break;
+                    }
                 }
-            }
-            else
-            {
-                _consumeddatacondition->wait();
+                else
+                {
+                    _consumeddatacondition->wait();
+                }
             }
             
         }
