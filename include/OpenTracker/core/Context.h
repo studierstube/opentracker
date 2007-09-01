@@ -214,6 +214,11 @@ namespace ot {
          * @param module reference to the module */
         void addModule(const std::string & name, Module & module);
 
+        /** updates the context member of all modules.
+         * This can be necessary if modules are copied from another context.
+         */
+        void updateModuleContexts(); 
+
         /** removes a module from the map
          * @param reference to the module */
         void removeModule(Module & module);

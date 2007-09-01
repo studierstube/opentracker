@@ -80,7 +80,8 @@ namespace ot {
         logsamplenr(0)
     {
         logPrintI("MobilabModule::MobilabModule()\n");
-        mobilab_reactor = (void *)new ACE_Reactor;
+        //mobilab_reactor = (void *)new ACE_Reactor;
+        mobilab_reactor = ACE_Reactor::instance();
     }
 
     MobilabModule::~MobilabModule()
@@ -88,10 +89,10 @@ namespace ot {
         logPrintI("MobilabModule::~MobilabModule()\n");
         // delete sources
         SourceVector::iterator it;
-        for (it = sources.begin(); it!=sources.end(); it++)
+        /*for (it = sources.begin(); it!=sources.end(); it++)
         {
             if ((*it)) delete (*it);
-        }
+            }*/
 
         sources.clear();
 
@@ -100,8 +101,9 @@ namespace ot {
             delete logFile;
 
         // delete reactor
-        if ( mobilab_reactor != NULL)
-            delete (ACE_Reactor *)mobilab_reactor;
+        //if ( mobilab_reactor != NULL)
+        //    delete (ACE_Reactor *)mobilab_reactor;
+        ACE_Reactor::close_singleton();
     }
 
     void MobilabModule::init(StringTable& attributes,  ConfigNode * localTree)
@@ -287,8 +289,9 @@ namespace ot {
     void MobilabModule::run()
     {
         logPrintI("MobilabModule::run(%s)\n", device.c_str());
-        if (driver == NULL)
-            driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
+        //if (driver == NULL)
+        //driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
+        driver = new MobilabDriver( ACE_Reactor::instance() , this );
         driver->setDebug( debug ); // only for debug purposes ...
             
         SourceVector::iterator it;

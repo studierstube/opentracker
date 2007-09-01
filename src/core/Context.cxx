@@ -170,6 +170,14 @@ namespace ot {
         module.context = this;
     }
 
+    void Context::updateModuleContexts()
+    {
+        ModuleMap::iterator it;
+        for (it=modules.begin(); it != modules.end(); it++)
+        {
+            it->second->context = this;
+        }
+    }
     // returns a module indexed by its configuration elements name
 
     Module * Context::getModule(const std::string & name)
@@ -429,7 +437,7 @@ namespace ot {
         _consumeddatamutex->release();
 
         _havedatamutex->acquire();	
-        pendingdata = true;
+        pendingdata = false;
         _havedatacondition->broadcast();
         _havedatamutex->release();	
 
@@ -1029,6 +1037,9 @@ namespace ot {
 
         // copy the modules from other
         modules = other.modules;
+        // update their context information
+        updateModuleContexts();
+
         /*        // copy the rootNode from other
 	Node::Ptr tmp = rootNode;
         rootNode = other.rootNode;
@@ -1046,6 +1057,10 @@ namespace ot {
 
 	// copy the videouser vector
 	videoUsers = other.videoUsers;
+
+        // copy synchronization settings
+        //dosync = other.dosync;
+        logPrintI("sync setting: %d\n",dosync );
 
         // change the cleanUp flag so the other won't destroy the modules when its gone
         this->cleanUp = other.cleanUp;

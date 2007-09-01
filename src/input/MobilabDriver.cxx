@@ -115,7 +115,9 @@ namespace ot {
 
 	int result=0;
 	// open the serial port the the mobilab device
-	receiver = new Mobilab_Handler( this );
+
+        receiver = new Mobilab_Handler( this );
+
 	Mobilab_Connector mobilabconnect( reactor );
 #ifndef WIN32
 	result = mobilabconnect.connect( receiver, 
@@ -168,7 +170,8 @@ namespace ot {
 
             if( result != 0 )
             {
-                receiver = NULL;
+                //receiver->destroy();
+                //receiver = NULL;
                 logPrintE("MobilabDriver port open failed: %s\n", 
                           device.c_str());
                 return -1;
@@ -199,6 +202,8 @@ namespace ot {
         {
             logPrintE("MobilabDriver connect to port %s failed (%d)!\n", 
                       device.c_str(), result);
+            //receiver->destroy();
+            return -1;
         }
 
 
@@ -249,6 +254,7 @@ namespace ot {
         {
             logPrintE("MobilabDriver device initialization failed (%d)\n",
                       result);
+            //receiver->destroy();
             return -1;
         }
         
@@ -259,6 +265,7 @@ namespace ot {
         {
             logPrintE("MobilabDriver got no response from device (%d)\n", 
                       result);
+            //receiver->destroy();
             return -1;
         }
 
@@ -284,6 +291,7 @@ namespace ot {
             if (response != 0x63)
             {
                 logPrintE("received unexpected response '%x' even trying to setup %d times\n", response, trials);
+                //receiver->destroy();
                 return -1;
             }
             else
@@ -312,6 +320,7 @@ namespace ot {
         {
             logPrintE("MobilabDriver device invocation failed (%d)\n",
                       result);
+            //receiver->destroy();
             return -1;
         }
         else
@@ -339,7 +348,7 @@ namespace ot {
 	if( receiver != NULL )
 	{		                       
             receiver->destroy();
-            receiver = NULL;
+            //receiver = NULL;
 	}
 
         /*if ( reactor != NULL)
