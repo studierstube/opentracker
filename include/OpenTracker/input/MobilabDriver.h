@@ -91,7 +91,7 @@ namespace ot {
 	MobilabDriver( ACE_Reactor * reactor_ = NULL, MobilabModule * module_ = NULL);
 	virtual ~MobilabDriver();
 
-	int open( const std::string & device );
+	int open(std::string device );
 	void close();
 
 	void setDebug( bool debug );

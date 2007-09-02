@@ -108,9 +108,10 @@ namespace ot {
 
     void MobilabModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
-	device = attributes.get("dev");
+	devicename = attributes.get("dev");
+        devicenamet = devicename;
 
-        logPrintI("MobilabModule::init(%s)\n", device.c_str());
+        logPrintI("MobilabModule::init(%s)\n", devicename.c_str());
 
         if( attributes.containsKey("logfile") )
         {
@@ -168,7 +169,7 @@ namespace ot {
 
         if (debug)
         {
-            logPrintI("MobilabModule initialized for port %s.\n", device.c_str());
+            logPrintI("MobilabModule initialized for port %s.\n", devicename.c_str());
         }
     }
 
@@ -268,6 +269,7 @@ namespace ot {
     void MobilabModule::close()
     {
         logPrintI("MobilabModule::close()\n");
+
         if (debug)
         {
             logPrintD("MobilabModule::close()\n");
@@ -279,16 +281,20 @@ namespace ot {
             if( driver->getReactor() != NULL )
             {
                 driver->getReactor()->end_reactor_event_loop();
-            }
-            ThreadModule::close();
+            }            
 	}
         if( logFile != NULL )
             logFile->close();
+
+        ThreadModule::close();
+
     }
 
     void MobilabModule::run()
     {
-        logPrintI("MobilabModule::run(%s)\n", device.c_str());
+        std::string devstr(devicenamet);
+
+        logPrintI("MobilabModule::run(%s)\n", devstr.c_str());
         //if (driver == NULL)
         //driver = new MobilabDriver( (ACE_Reactor *)mobilab_reactor , this );
         driver = new MobilabDriver( ACE_Reactor::instance() , this );
@@ -328,7 +334,7 @@ namespace ot {
         */
             
         /// start device communication
-        if( driver->open( device ) )
+        if( driver->open( devstr ) )
         {
             logPrintE("MobilabModule could not start MobilabDriver !\n");
             return;
@@ -338,16 +344,21 @@ namespace ot {
         {
             logPrintI("MobilabModule::run started MobilabDriver !\n");
         }
-            
+
+        //logPrintI("devicestring ra: %s\n", devstr.c_str());
+        
+        driver->getReactor()->reset_reactor_event_loop();
         driver->getReactor()->run_reactor_event_loop();
-            
+        
+        //logPrintI("devicestring rb: %s\n", devstr.c_str());
+
         if (debug)
         {
             logPrintI("MobilabModule::run reactor event loop exited ...\n");
         }
             
         driver->close();
-        if (driver != NULL) delete driver;
+        //if (driver != NULL) delete driver;
     }
 
     void MobilabModule::newData(short sampleValue, double timev)

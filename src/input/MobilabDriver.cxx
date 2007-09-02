@@ -99,14 +99,14 @@ namespace ot {
             logPrintI("MobilabDriver::~MobilabDriver()\n");
         }
 
-	if( receiver != NULL )
-            close();
+	//if( receiver != NULL )
+        //    close();
 
 	listeners.clear();
 
     }
 
-    int MobilabDriver::open( const std::string & device)
+    int MobilabDriver::open(std::string device)
     {
         if (getDebug())
         {
@@ -126,7 +126,7 @@ namespace ot {
                                          (Mobilab_Connector::peer_addr_type&)Mobilab_Connector::ACE_PEER_CONNECTOR_ADDR_ANY,
                                          1 /*reuse*/,
                                          O_RDWR|O_NOCTTY|O_NONBLOCK);
-#endif
+#endif        
 	if( result == 0)
 	{
             // set the appropriate parameters
@@ -370,6 +370,10 @@ namespace ot {
             logPrintW("MobilabDriver device stopping failed(%d)\n",
                       result);
         } 
+        else
+        {
+            logPrintI("MobilabDriver successfully stoppend device!\n");
+        }
         return result;
     }
 
@@ -443,6 +447,7 @@ namespace ot {
                 MobilabModule *mm = dynamic_cast<MobilabModule*>(it->first);
                 if (mm)
                 {
+                    //logPrintI("devstr: %s\n", mm->device.c_str());
                     mm->newData(sample, 8);  
                 }
             }

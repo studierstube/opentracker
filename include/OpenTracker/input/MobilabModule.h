@@ -120,7 +120,8 @@ namespace ot {
         virtual void run();
         
         bool debug;
-        std::string device;
+        std::string devicename;
+	std::string devicenamet;
     
         SourceVector sources;
         MobilabDriver * driver;
