@@ -130,9 +130,12 @@ namespace ot {
         if (currentEvent.hasAttribute(triggeratt)
             && currentEvent.getAttributeValueString(triggeratt) == "1")
         {
-            //logPrintI("EEGFilter: restarting calibration\n");
-            evmode = CALIB;
-            calibcount = 0;
+            if (evmode != CALIB)
+            {
+                //logPrintI("EEGFilter: restarting calibration\n");
+                evmode = CALIB;
+                calibcount = 0;
+            }
         }
 
         //logPrintI("EEGFilter ...\n");
