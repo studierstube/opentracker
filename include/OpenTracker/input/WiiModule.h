@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for LinmouseModule.
  *
- * @authors Michele Fiorentino Alexander Bornik
+ * @authors Michele Fiorentino and Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
  *
  * $Id$
@@ -96,11 +96,8 @@ namespace ot {
         /// list of WiiSource nodes in the tree
         NodeVector sources;
         NodeVector sinks;
+        
 
-        WiiHandler wiimote;
-      
-        // file descriptor
-        int fd;
         // flag whether the thread should stop
         int stop;
 
@@ -111,6 +108,7 @@ namespace ot {
         void run(); 
 
     public:
+        WiiHandler* wiimote; // as implemented now it supports just one device
         /** constructor method. */
         WiiModule();
 

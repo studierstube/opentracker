@@ -33,76 +33,126 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for LinmouseSource.
+/** header file for WiiSink node.
  *
- * @authors Michele Fiorentino Alexander Bornik
+ * @authors Michele Fiorentino and Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
  *
- * $Id$
+ * $Id: WiiSink.h 1846 2007-05-23 08:16:47Z jfn $
  * @file                                                                   */
 /* ======================================================================= */
 
 /**
  * @page Nodes Node Reference
- * @section linmousesource Linmousesource
- * The Linmouse node is a simple EventGenerator that outputs the
- * current position and button event of the LinmouseModule. It is driven by
- * the @ref linmousemodule. 
+ * @section vrpnsink WiiSink
+ *
+ * The WiiSink node acts as a single tracking server device using VRPN. It 
+ * provides its data via a single connection setup by the @ref vrpnmodule.
+ * Therefore a single WiiSink node is identifyable by the @c name attribute
+ * that specifies the device name of the node. The @c type field selects the type
+ * of device to be, either a tracker for 6DOF information or a button with up to 
+ * 8 buttons. The values correspond to the OpenTracker event type. See 
+ * http://www.vrpn.org/ for details on VRPN.
+ * 
+ * It has the following attributes :
+ * @li @c name the VRPN device name to distinguish it from other devices on the server
+ * @li @type @c (tracker|button) to configure the type of device to be
+ * @li @station the station number to report on for a tracker device
  *
  * An example element looks like this :
- * @verbatim
- <Linmousesource/>@endverbatim
+ * @verbatim<WiiSink name="tracker3" type="tracker" station="2">
+ <Any EventGenerator element type>
+ </WiiSink>@endverbatim
 */
 
-#ifndef _WIISOURCE_H
-#define _WIISOURCE_H
+#ifndef _WIISINK_H
+#define _WIISINK_H
 
-#include <OpenTracker/OpenTracker.h>
+#include "../OpenTracker.h"
 #include<OpenTracker/input/WiiHandler.h>
+#include <OpenTracker/core/OSUtils.h>
+
+#include <ace/Thread.h>
 
 namespace ot {
 
-    /**
-     * This class implements a simple source that sets its valid flag in
-     * regular intervals and updates any EventObservers. 
-     * @author Alexander Bornik
-     * @ingroup input
+    /** 
+     * The node representing a VRPN server device. 
+     * @author Gerhard Reitmayr
+     * @ingroup network
      */
-    class OPENTRACKER_API WiiSource : public Node {
-
+    class OPENTRACKER_API WiiSink : public Node
+    {
         // Members
-    public:   
-        /// source device name
-        std::string devname;
-        /// the event that is posted to the EventObservers
-        Event event;
-        /// a flag to indicate whether it was changed during processing
-        int changed;
+    public:
+        /// name
+        std::string name;
+        /// station number
+        int station;
+        /// type of connection
+        enum Type { TRACKER, BUTTON } type;    
+
+        /** constructor method */
+        WiiSink (WiiHandler* wiimote_);
 
         // Methods
-        /** simple constructor, sets members to initial values */
-        WiiSource( WiiHandler* wiimote, std::string devname_ ="wii") : Node(), devname(devname_), changed(1)
-        {}
+    protected:
+    
+        /// the VRPN server object
+        WiiHandler* wiimote;
+
+        static void thread_func( void * data )
+        {
+           ((WiiSink *)data)->runVibro();
+        };
+
+        /// handle to module specific thread. This is a little bit tricky as we
+        /// don't use the ACE definition but the same type.
+        ACE_thread_t * thread;
+
+        void runVibro();
+
+        int duration;
+        int frequency;
+
+    public:       
+    
+        /// destructor
+        virtual ~WiiSink();
 
         /** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
          * @return always 1 */
         virtual int isEventGenerator()
         {
-            return 1;
+            return FALSE;
         }
+    
+        /**
+         * this method notifies the object that a new event was generated.
+         * It stores a copy of the received event and passes the event on
+         * to its observers.
+         * @param event reference to the new event. Do not change the
+         *        event values, make a copy and change that !
+         * @param generator reference to the EventGenerator object that
+         *        notified the EventObserver.
+         */
+        virtual void onEventGenerated( Event& event, Node& generator);
 
-        void pushEvent( );
-        void pullEvent( );
+        void pushEvent() {};
+        void pullEvent() {};
+
     };
-   
-}  // namespace ot
 
-#endif //_WIISOURCE_H
+} // namespace ot
+
+
+
+#endif
 
 /* 
  * ------------------------------------------------------------
- *   End of LinMouseSource.h
+ *   End of WiiSink.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:
