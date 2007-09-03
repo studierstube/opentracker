@@ -229,7 +229,7 @@ namespace ot {
     XercesConfigurationParser::~XercesConfigurationParser()
     {
         references.clear();
-#ifdef fish
+
         // Deinitialize the XercesC system
         try {
             XMLPlatformUtils::Terminate();
@@ -240,7 +240,6 @@ namespace ot {
             XMLString::release( &message );
             exit(1);
         }
-#endif //USE_XERCES
     }
 
     // builds a tree of configuration nodes.

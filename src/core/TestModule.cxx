@@ -193,11 +193,12 @@ namespace ot {
 	stop = 1;
 	unlockLoop();
         logPrintD("TestModule::close() done. \n");
-        ThreadModule::close();
+        //ThreadModule::close();
     }
 
     TestSource::TestSource( double frequency_, int offset_ ) :
-        Node(), cycle( 1 )
+        Node(), cycle( 1 ),
+        changed(false)
     {
         type = "TestSource";
         using namespace std;

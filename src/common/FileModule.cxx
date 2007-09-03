@@ -79,6 +79,7 @@ namespace ot {
     void FileModule::init(StringTable& attributes,  ConfigNode * localTree)
     {
         firstSavedEventTime = OSUtils::currentTime();
+        lastTime = OSUtils::currentTime();
 
         Module::init(  attributes, localTree );
         if( attributes.get("append").compare("true") == 0 )

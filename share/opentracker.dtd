@@ -997,6 +997,7 @@ $Id$
 	channel CDATA #REQUIRED
 	datatype ( USHORT | FLOAT | DOUBLE ) "USHORT"
 	attname CDATA "bcidata"
+	fullfreq (on | off) "on"
 >
 <!--DynaSight receiver acting as sources-->
 <!ELEMENT DynaSightConfig EMPTY>

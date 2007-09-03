@@ -78,7 +78,9 @@ namespace ot {
         reactor( reactor_ ),        
         receiver( NULL ),
         module (module_),
+        debugOn(true),
 	samplecounter(0)
+
     {
         if (getDebug())
         {

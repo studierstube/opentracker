@@ -106,13 +106,17 @@ namespace ot {
     void ThreadModule::close()
     {
         logPrintI("ThreadModule::close()\n");
-        #ifdef WIN32
-            ACE_Thread::join( ((ACE_thread_t*)thread) );
-        #else
-            ACE_Thread::join( (*(ACE_thread_t*)thread) );
-        #endif
+#ifdef WIN32
+        ACE_Thread::join( ((ACE_thread_t*)thread) );
+#else
+        ACE_Thread::join( (*(ACE_thread_t*)thread) );
+#endif
 	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
-        delete ((ACE_thread_t *)thread);
+        
+        if (thread)
+        {
+            delete ((ACE_thread_t *)thread);
+        }
     }
 
 } // namespace ot

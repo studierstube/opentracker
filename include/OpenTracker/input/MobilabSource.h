@@ -93,6 +93,7 @@ namespace ot {
         unsigned int channel;
         int datatype;
         std::string attname;
+        bool fullfreq;
         bool changed;
     
 	/** tests for EventGenerator interface being present. Is overriden to
@@ -119,6 +120,7 @@ namespace ot {
             channel = 0; 
             datatype = USHORT_TYPE; 
             attname="bcidata"; 
+            fullfreq=true;
             lastpushtime = 0.0;
             pushcount = 0;
             rpushcount = 0;
@@ -138,9 +140,12 @@ namespace ot {
 	    else if (pushtime - lastpushtime > 10000.0)
 	    {
 	        pushcount++;
-	        logPrintI("MobilabSource push rate (%d): %f Hz\n", 
-                          channel,
-                          pushcount/10.0);
+                if (!fullfreq)
+                {
+                    logPrintI("MobilabSource push rate (%d): %f Hz\n", 
+                              channel,
+                              pushcount/10.0);
+                }
 	        pushcount = 0;
 	  
 	    }
@@ -157,7 +162,7 @@ namespace ot {
                           << std::endl;
             }
             */
-            if( changed )
+            if( changed || fullfreq)
             {
                 double rpushtime = OSUtils::currentTime();                
                 if (rpushcount == 0)
@@ -168,9 +173,12 @@ namespace ot {
                 else if (rpushtime - rlastpushtime > 10000.0)
                 {
                     rpushcount++;
-                    logPrintI("MobilabSource real push rate (%d): %f Hz\n", 
-                              channel,
-                              rpushcount/10.0);
+                    if (!fullfreq)
+                    {
+                        logPrintI("MobilabSource real push rate (%d): %f Hz\n", 
+                                  channel,
+                                  rpushcount/10.0);
+                    }
                     rpushcount = 0;
 	  
                 }

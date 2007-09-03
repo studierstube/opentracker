@@ -120,7 +120,10 @@ namespace ot {
     public:
         /** constructor method. initializes internal and static data
          * such as the functionMap and keyMap tables. */
-        FileModule()
+        FileModule() :
+            interval(1000.0),
+            realtime(false),
+            lastTime(0.0)       
 	{}
         /** Destructor method, clears nodes member. */
         virtual ~FileModule();

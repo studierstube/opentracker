@@ -219,10 +219,24 @@ namespace ot {
                 attname = attributes.get("attname");
             }
 
+            bool fullfreq = true;
+            if (attributes.containsKey("fullfreq"))
+            {
+                if (attributes.get("debug") != "off")
+                {
+                    fullfreq  = true;
+                }
+                else
+                {
+                    fullfreq = false;
+                }                
+            }
+
             MobilabSource *source = new MobilabSource;
             source->channel = channelnum;
             source->datatype = datat;
             source->attname = attname;
+            source->fullfreq = fullfreq;
             sources.push_back(source);
             if (debug)
             {

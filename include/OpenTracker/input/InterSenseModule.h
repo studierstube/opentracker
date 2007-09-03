@@ -113,7 +113,9 @@ namespace ot {
         /** constructor method. */
         InterSenseModule() : 
             Module(), 
-            NodeFactory()        
+            NodeFactory(),            
+            resetheading(true),
+            headtracking(false)
         { 
         };
         /** Destructor method, clears nodes member. */
