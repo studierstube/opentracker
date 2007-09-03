@@ -44,7 +44,6 @@ namespace ot {
 	bool StartDataStream();
 	bool StopDataStream();
 
-
 	//this is the wiimote message pump. It should probably be called in loop from a thread
 	bool HeartBeat(int timeout = 1);
 	bool SetVibration(bool vib_on);
@@ -151,18 +150,26 @@ namespace ot {
 
 	};
 	const tButtonStatus & GetLastButtonStatus() const {return mLastButtonStatus;}
-        const unsigned short GetLastButtonDataStatus() const {return mLastButtonStatus.outdata;}
+   const unsigned short GetLastButtonDataStatus() const ;
 	const tChuckReport & GetLastChuckReport() const {return mLastChuckReport;}
 	const tMotionReport & GetLastMotionReport() const { return mLastMotionReport;}
 	const tExpansionReport & GetLastExpansionReport() const { return mLastExpansionReport;}
 	const tIRReport & GetLastIRReport() const { return mLastIRReport;}
 	
-	
+   //input states mf: to put in private
+   tExpansionReport mLastExpansionReport;
+   tButtonStatus mLastButtonStatus;
+   tMotionReport mLastMotionReport;
+   tChuckReport mLastChuckReport;
+   tIRReport mLastIRReport;
+
 	//debugging functions:
 	void PrintStatus() const;
 
         bool mNunchuckAttached;
         bool mIRRunning;
+
+
 
     private:
 	
@@ -282,12 +289,6 @@ namespace ot {
 	};
 	
 	
-	//input states
-	tExpansionReport mLastExpansionReport;
-	tButtonStatus mLastButtonStatus;
-	tMotionReport mLastMotionReport;
-	tChuckReport mLastChuckReport;
-	tIRReport mLastIRReport;
 
 	//output states
 	tOutputControls mOutputControls;
