@@ -54,7 +54,7 @@ void LOG_ACE_INFO(const char* nString, ...)
     vsprintf(str, nString, marker);
 
     ACE_DEBUG((LM_INFO, str ));
-    delete str;
+    delete [] str;
 }
 
 
@@ -67,7 +67,7 @@ void LOG_ACE_ERROR(const char* nString, ...)
     vsprintf(str, nString, marker);
 
     ACE_DEBUG((LM_ERROR, str ));
-    delete str;
+    delete [] str;
 }
 
 /* 
