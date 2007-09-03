@@ -33,43 +33,127 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for LinmouseSource.
+/** source file for WiiSink node.
  *
- * @authors Michele Fiorentino Alexander Bornik
+ * @authors Michele Fiorentino and Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
- * $Id$
+ *
+ * $Id: WiiSink.cxx 1846 2007-05-23 08:16:47Z jfn $
  * @file                                                                   */
 /* ======================================================================= */
 
-// this is a linux implementation
+#include <OpenTracker/input/WiiSink.h>
 
 
-#include <OpenTracker/OpenTracker.h>
-#include <OpenTracker/input/WiiSource.h>
+#include <cassert>
+
 
 namespace ot {
 
-    void WiiSource::pushEvent() 
-    {
-        using namespace std;
-        lock();
-        if( changed == 1 )
-        {			
-            updateObservers( event );
-            changed = 0;
-        }
-        unlock();
-    }
 
-    void WiiSource::pullEvent() 
-    {
-        ///in future put code to manage more than one wii in a row
-    }
+WiiSink::WiiSink( WiiHandler* wiimote_):
+    Node(), 
+    wiimote( wiimote_ ),
+    name( ""),
+    type( TRACKER ),
+    station( 0 )
+{
+   if ( wiimote == NULL) 
+   {
+      logPrintE("Wii Sink has null pointer\n");
+      exit (1);
+   }
+   // Initialization
+   thread = NULL;
+   wiimote->SetLEDs(0,0,0,0);
+   wiimote->SetVibration(FALSE);
 }
+
+WiiSink::~WiiSink()
+{
+
+   if (thread != NULL) 
+   {
+      ACE_Thread::kill(*thread,0);
+      delete thread;
+   }
+   
+    if( wiimote != NULL )
+    {
+        wiimote = NULL;
+    }        
+}
+
+
+
+void WiiSink::onEventGenerated( Event& event, Node& generator)
+{
+   const int defval = 0;
+   int val = 0;
+   val = event.getAttribute((int*)NULL,"Led");
+   if (val != 0)
+   { 
+      wiimote->SetLEDs(val &0x0002,val &0x0004,val &0x0008,val &0x0010);
+   }
+   else wiimote->SetLEDs(0,0,0,0);
+
+   val = event.getAttribute((int*)NULL,"Vibro");
+   if (val != 0)
+   { 
+      duration = val;
+      frequency= 1000;
+       
+         if (thread != NULL) ACE_Thread::kill(*thread,0);
+
+         thread= new ACE_thread_t;
+         ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
+            this, 
+            THR_NEW_LWP | THR_JOINABLE,
+            thread );
+      
+   }
+   else wiimote->SetLEDs(0,0,0,0);
+
+    updateObservers( event );
+}
+
+
+
+void WiiSink::runVibro()
+{
+   // Modulates vibro
+   for (int i = 0 ; i< 5; i++ ) 
+   {
+   wiimote->SetVibration(TRUE);
+   OSUtils::sleep (20);
+   logPrintI("endsleep\n");
+   wiimote->SetVibration(FALSE);
+   OSUtils::sleep (20);
+   }
+
+   ACE_Thread::kill ( *thread, 0);
+   logPrintI("KILL thread\n");
+   delete thread;
+   thread = NULL;
+}
+
+
+}
+
 
 
 /* 
  * ------------------------------------------------------------
- *   End of wiiSource.cxx
+ *   End of WiiSink.cxx
  * ------------------------------------------------------------
-  */
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

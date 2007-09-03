@@ -45,6 +45,12 @@
 #include <OpenTracker/core/Configurator.h>
 #include <ace/Signal.h>
 #include <iostream>
+#include <string>
+#include <OpenTracker/core/ThreadContext.h>
+
+#include <OpenTracker/common/CallforwardModule.h>
+#include <OpenTracker/common/CallforwardNode.h>
+#include <OpenTracker/input/WiiModule.h>
 
 using namespace std;
 using namespace ot;
@@ -52,7 +58,7 @@ using namespace ot;
 extern "C" void
 SIGINThandler (int signum, siginfo_t*, ucontext_t*)
 { 
-    Configurator::instance()->getContext()->stopLoop();
+   Configurator::instance(ot::THREAD)->getContext()->stopLoop();
     logPrintI("Received SIGINT -> gracefully shutting down!\n");
 }
 
@@ -80,7 +86,7 @@ int main(int argc, char **argv)
 	// important parts of the system
 	// get a context, the default modules and factories are
 	// added allready ( because of the parameter 1 )
-	Context & context = (*(Configurator::instance() ->getContext()));
+   ThreadContext & context = (*dynamic_cast<ThreadContext*>((Configurator::instance(ot::THREAD) ->getContext())));
 
 	cout << "Context established." << endl;
 
@@ -88,7 +94,7 @@ int main(int argc, char **argv)
 
         ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
 
-	Configurator::instance() ->runConfigurationThread( filename );
+	Configurator::instance(ot::THREAD) ->runConfigurationThread( filename );
 
 	// parse the configuration file, builds the tracker tree
 	context.parseConfiguration( argv[1] );
@@ -101,8 +107,53 @@ int main(int argc, char **argv)
 
     // initializes the modules and starts the tracker main loop
     context.runOnDemand();
+    CallforwardModule * cfm = (CallforwardModule * )context.getModule("CallforwardConfig");
+    WiiModule* wii = (WiiModule*) context.getModule("WiiConfig");
+    if (wii) printf("OT |INFO : Wii founded\n");
+
+    Event ev; 
+    char command;
+    while (1)
+    {
+
+       if (wii->wiimote->mLastButtonStatus.mA) printf("Pressed AAAA\n");
+       printf(">>> ");
+      cin >> command;
+      cout << "command: " <<  command << endl; 
+      
+      switch(command)
+      {
+
+      case ('1'):
+         {
+   //         context.stopLoop();
+            ev.setAttribute("int","Led","2");
+            ev.setAttribute("int","Vibro","50");
+            ev.setAttribute("int","VibroFreqency","50");
+      break;   
+      }
+
+      case ('2'):
+         {
+   //         context.stopLoop();
+            ev.setAttribute("int","Led","10");
+            ev.setAttribute("int","VibroFreqency","100");
+            ev.setAttribute("int","Vibro","100");
+break;
+         }
+
+      default:
+         {
+            Event ev;
+            ev.setAttribute("int","Led","4");
+
+         }
+      } // end switch
+
+         cfm->callForward("cf1", ev);
+    }
     printf("OT |INFO : Context closed\n");
-    OSUtils::sleep(1000);
+    
     return 0;
 }
 

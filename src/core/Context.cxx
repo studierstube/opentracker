@@ -427,7 +427,7 @@ namespace ot {
 
 	setSynchronization(true);
 
-        //logPrintD("Context::runOnDemand()\n");
+        logPrintI("Context::runOnDemand()\n");
 
         start();
 

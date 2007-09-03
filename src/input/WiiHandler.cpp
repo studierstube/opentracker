@@ -1,6 +1,17 @@
 //WiiHandler 0.2 by Kevin Forbes (http://simulatedcomicproduct.com)
 //This code is public domain, and comes with no warranty. The user takes full responsibility for anything that happens as a result from using this code.
 
+
+// other important info on Wii remote http://www.wiili.org/index.php/Wiimote
+// The Wiimote sends reports to the host with a maximum frequency of 100 reports per second. 
+
+//The Wiimote does not require any of the authentication or encryption features of the Bluetooth standard. 
+//In order to interface with it, one must first put the controller into discoverable mode by either pressing the 1 and 2 buttons at the same time, or by pressing the red sync button under the battery cover. 
+//Once in this mode, the Wiimote can be queried by the Bluetooth HID driver on the host.
+//If the HID driver on the host does not connect to the Wiimote within 20 seconds, the Wiimote will turn itself off. Holding down the 1 and 2 buttons continuously will force the Wiimote to stay in discoverable mode without turning off. This does not work with the sync button, however. When in discoverable mode, the Player LEDs will blink.
+//The number that blink will correspond to the remaining battery life, similar to the meter on the Wii home menu where # of bars = # of lights. 
+
+
 #include "OpenTracker/input/WiiHandler.h"
 
 #include <cstring>
@@ -10,6 +21,12 @@
 
 namespace ot {
     //output channels
+    
+    //the ID values for a wiimote
+    // Name  Nintendo RVL-CNT-01  
+    const unsigned short mVendorID = 0x057e;
+    const unsigned short mDeviceID = 0x0306;
+
     const unsigned char OUTPUT_CHANNEL_FORCE_FEEDBACK = 0x13;
     const unsigned char OUTPUT_CHANNEL_LED = 0x11;
     const unsigned char OUTPUT_CHANNEL_REPORT = 0x12;
@@ -32,11 +49,7 @@ namespace ot {
     const unsigned char INPUT_CHANNEL_MOTION_IR = 0x33;
     const unsigned char INPUT_CHANNEL_MOTION_CHUCK_IR = 0x37;
     const unsigned char INPUT_CHANNEL_MOTION_CHUCK = 0x35;
-
-    //the ID values for a wiimote
-    const unsigned short mVendorID = 0x057e;
-    const unsigned short mDeviceID = 0x0306;
-
+ 
     //how to find the calibration data for the wiimote
     const unsigned short CALIBRATION_ADDRESS = 0x16;
     const unsigned short CALIBRATION_DATA_LENGTH = 7;
@@ -75,19 +88,19 @@ namespace ot {
 
     void WiiHandler::Init()
     {
-	mReportMode = REPORT_MODE_EVENT_BUTTONS;
-	mLastButtonStatus.Init();
-	mLastExpansionReport.Init();
-	mLastMotionReport.Init();
-	mOutputControls.Init();
-	mReadInfo.Init();
-	mAccelCalibrationData.Init();
-	mNunchuckAccelCalibrationData.Init();
-	mNunchuckStickCalibrationData.Init();
-	mLastIRReport.Init();
-	mNunchuckAttached = false;
-	mIRRunning = false;
-	mDataStreamRunning = false;
+	 mReportMode = REPORT_MODE_EVENT_BUTTONS;
+	 mLastButtonStatus.Init();
+	 mLastExpansionReport.Init();
+	 mLastMotionReport.Init();
+	 mOutputControls.Init();
+	 mReadInfo.Init();
+	 mAccelCalibrationData.Init();
+	 mNunchuckAccelCalibrationData.Init();
+	 mNunchuckStickCalibrationData.Init();
+	 mLastIRReport.Init();
+	 mNunchuckAttached = false;
+	 mIRRunning = false;
+	 mDataStreamRunning = false;
     }
 
     bool WiiHandler::SetReportMode(eReportMode mode)
@@ -345,24 +358,21 @@ namespace ot {
  	mLastButtonStatus.mLeft = (data[0] & 0x01) != 0;
  	mLastButtonStatus.mRight = (data[0] & 0x02) != 0;
 
-        unsigned short* caster = (unsigned short*)data; //mot working
-        mLastButtonStatus.outdata = *caster;
-        /*
+ 	//two bytes long
+   mLastButtonStatus.outdata = 0x0000;
 
-	//two bytes long
-        (data[1] & 0x08) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0001;  //mA
-        (data[1] & 0x04) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0002;  //mB
-        (data[1] & 0x02) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0004;  //m1
-        (data[1] & 0x01) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0008;  //m2
-        (data[0] & 0x10) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0010;  //mPlus
-        (data[1] & 0x10) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0020;  //mMinus
-        (data[1] & 0x80) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0040;  //mHome
-        (data[0] & 0x08) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0080;  //mUp
-        (data[0] & 0x04) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0100;  //mDown
-        (data[0] & 0x01) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0200;  //mLeft
-        (data[0] & 0x02) != 0 ? mLastButtonStatus.outdata : mLastButtonStatus.outdata |= 0x0400;  //mRight
-        */
-    }
+   (mLastButtonStatus.mA) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0002;  //mA
+   (mLastButtonStatus.mB) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0004;  //mB
+   (mLastButtonStatus.m1) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0008;  //m1
+   (mLastButtonStatus.m2) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0010;  //m1
+   (mLastButtonStatus.mPlus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0020;  //mPlus
+   (mLastButtonStatus.mMinus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0040;  //mMinus
+   (mLastButtonStatus.mHome) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0080;  //mHome
+   (mLastButtonStatus.mUp) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0100;  //mUp
+   (mLastButtonStatus.mDown) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0200;  //mDown
+   (mLastButtonStatus.mRight) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0400;  //mRight
+   (mLastButtonStatus.mLeft) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0800;  //mLeft
+       }
     void WiiHandler::ParseMotionReport(const unsigned char * data)
     {
 	//three bytes long
@@ -900,8 +910,61 @@ namespace ot {
 	}
 	return true;;
     }
+ 
+    
+   const unsigned short WiiHandler::GetLastButtonDataStatus() const
+    {
+
+      return mLastButtonStatus.outdata;
+    }
 
 } // end namespace ot {
+
+/*
+Anonymous said... 
+Hey, I dont know if you or anyone else is still messing around with this stuff, but I have been recently and have a few bug fixes I wanted to throw your way.
+
+First thing, with IR - I noticed (also suggested somewhere) that if I put in a few Sleep(10)s into the EnableIR function it would enable the ir more successfully (ie not fail for me any more)
+
+Next you were extracting the ir numbers somewhat incorrectly: instead of (for x1):
+
+data[0] << 2 | (data[2] & 0x30) >> 4
+
+it should be:
+
+(data[2] & 0x30) << 4 | data[0]
+
+so ParseIRReport should end up looking like:
+
+mLastIRReport.mP1X = ((int)data[2] & 0x30) << 4 | (int)data[0];
+mLastIRReport.mP1Y = ((int)data[2] & 0xC0) << 2 | (int)data[1];
+mLastIRReport.mP1Size = data[2] & 0xf;
+
+mLastIRReport.mP2X = ((int)data[5] & 0x30) << 4 | (int)data[3];
+mLastIRReport.mP2Y = ((int)data[5] & 0xC0) << 2 | (int)data[4];
+mLastIRReport.mP2Size = data[5] & 0xf;
+
+Another, little hack, my nunchuck was reading action on the joystick even in its resting state so I threw on
+
+if (fabs(x) < delta) x = 0.0f;
+if (fabs(y) < delta) y = 0.0f;
+
+just so it is disregarded if the absolute value of the read input is less than a set delta value.
+
+Finally, and this is just my current understanding of it, (if I am off base or whatever please let me know) in order to poll for buttons, motion, ir, and nunchuck (0x37) it is expecting 2 bytes for the buttons, 3 for the accelerometers, 10 bytes for ir and 6 for extension (nunchuck)
+
+With the current coding of cWiiMote parseirreport is expecting 12 bytes for the ir input. It needs to go back to standard/basic mode instead of extended. Thus it (ParseIrReport) should end up looking like this:
+
+mLastIRReport.mP1X = (data[2] & 0x30) << 4 | data[0];
+mLastIRReport.mP1Y = (data[2] & 0xC0) << 2 | data[1];
+
+mLastIRReport.mP2X = (data[2] & 0x03) << 4 | data[3];
+mLastIRReport.mP2Y = (data[2] & 0x0C) << 2 | data[4];
+
+Hopefully this message comes through ok.
+
+Thank you so much for releasing this to the public and giving me something to get going with!
+*/
 
 /* 
  * ------------------------------------------------------------

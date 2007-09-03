@@ -114,11 +114,13 @@ namespace ot {
 
         if (inloop)
         { 
+            loopend_mutex->acquire();
             while (!loopend_cond_val)
             {
                 loopend_cond->wait();                
             }
             loopend_cond_val = false;
+            loopend_mutex->release();
         }
 
         /// send action signal
@@ -165,12 +167,15 @@ namespace ot {
         while (!havetoquit)
         {
             logPrintI(" waiting for action command ...\n");
+            
+            action_mutex->acquire();
 
             while (!action_cond_val)
             {
                 action_cond->wait();            
             }
             action_cond_val = false;
+            action_mutex->release();
 
             thlock();
             int locactiontype = action_type;
@@ -203,8 +208,10 @@ namespace ot {
 
             inloop = false;
 
+            loopend_mutex->acquire();
             loopend_cond_val = true;
             loopend_cond->signal();
+            loopend_mutex->release();
         }
 
         logPrintI(" thread finished.\n");
@@ -222,8 +229,11 @@ namespace ot {
 
         thunlock();
 
+        action_mutex->acquire();
         action_cond_val = true;
         action_cond->signal();
+        action_mutex->release();
+
     }
 
     void ThreadContext::runAtRate(double rate)
@@ -238,8 +248,11 @@ namespace ot {
 
         thunlock();
 
+        action_mutex->acquire();
         action_cond_val = true;
         action_cond->signal();
+        action_mutex->release();
+
     }
 
     void ThreadContext::runOnDemand()
@@ -253,8 +266,10 @@ namespace ot {
 
         thunlock();
 
+        action_mutex->acquire();
         action_cond_val = true;
         action_cond->signal();
+        action_mutex->release();
     }
 
     void ThreadContext::stopLoop()
@@ -269,9 +284,10 @@ namespace ot {
 
         thunlock();
 
+        action_mutex->acquire();
         action_cond_val = true;
         action_cond->signal();
-        
+        action_mutex->release();
     }
     
 } // namespace ot
