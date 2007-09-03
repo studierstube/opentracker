@@ -54,7 +54,8 @@
 #include <ace/Thread.h>
 #include <ace/Synch.h>
 
-#include <Opentracker/core/OtLogger.h>
+#include <OpenTracker/OpenTracker.h>
+#include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/core/ThreadModule.h>
 
 namespace ot {
