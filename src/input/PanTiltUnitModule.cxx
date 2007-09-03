@@ -206,7 +206,7 @@ namespace ot {
 				if (context->doSynchronization())
 				{
 			       context->dataSignal();
-				   context->consumedWait();
+				   //context->consumedWait();
 				}
 			  }
 		}

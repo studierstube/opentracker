@@ -66,7 +66,7 @@ namespace ot {
 		if (generator.getName().compare("AspdInput") == 0) {
 			// store input event from sink	
 			aspdInput=event;			
-			newInput=true;	
+			//newInput=true;	
 			return;
 		}
 		

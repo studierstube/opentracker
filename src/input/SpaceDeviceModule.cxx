@@ -315,6 +315,11 @@ namespace ot {
 						{
 							/* process SpaceDevice button event */
 							newBut = (unsigned short)pow(2.f, num - 1.f);
+							if(newBut>265) 
+							{
+								newBut =0;
+								continue;
+							}
 							for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 							{
 								lockLoop();
@@ -354,6 +359,7 @@ namespace ot {
 					DispatchMessage( &msg );
 				}
 			}
+			ACE_OS::sleep(ACE_Time_Value(0, 500));
 		}
 	}
 

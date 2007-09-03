@@ -394,7 +394,7 @@ namespace ot {
     void Context::runAtRate(double rate)
     {
         using namespace std;
-        logPrintI( "Context::runAtRate()\n" );
+		logPrintI( "Context::runAtRate: %f Hz\n", rate );
 
         setSynchronization(false);
    

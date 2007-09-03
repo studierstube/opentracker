@@ -49,6 +49,8 @@
 //#include <Qt/qapplication.h>
 //#include <Qt/qrect.h>
 //#include <Qt/qdesktopwidget.h>
+
+#include <ace/OS.h>
 #include <cmath>
 
 namespace ot {
@@ -264,8 +266,10 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
 
   // base vector "z-axis" as cross product width x height
   RowVector depth = - OTQtMath::crossProductR3(width, height);
-  //OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = width x height = %f %f %f\n",
-  //           depth(1), depth(2), depth(3));
+#if 0
+  printf("ThreeToTwoDimCalc::updateMPD(): depth = width x height = %f %f %f\n",
+             depth(1), depth(2), depth(3));
+#endif
   RowVector depth1 = depth / depth.NormFrobenius();
   // add negative depth (back side of screen depth)
   depth = depth1 * (as_data_.as_depth_scalar_front + as_data_.as_depth_scalar_back);
@@ -278,31 +282,41 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
   // given MPD position
   RowVector mpos(3);
   mpos << ot::copyV2A(mpd_pos.getPosition(), tmp3);
-
+#if 0
+  printf("ThreeToTwoDimCalc::updateMPD(): mpos = %f %f %f\n",
+	  mpos(1), mpos(2), mpos(3));
+#endif
   ///// check position within screen cuboid
 
   RowVector distances_width(2);
   RowVector distances_height(2);
   RowVector distances_depth(2);
-  if (!OTQtMath::isWithinPlaneBorders(mpos, width, screen_root, distances_width) ||
-      !OTQtMath::isWithinPlaneBorders(mpos, height, screen_root, distances_height) ||
-      !OTQtMath::isWithinPlaneBorders(mpos, depth, depth_screen_root, distances_depth))
+
+  bool isInside = true;
+  isInside &= OTQtMath::isWithinPlaneBorders(mpos, width, screen_root, distances_width);
+  isInside &= OTQtMath::isWithinPlaneBorders(mpos, height, screen_root, distances_height);
+  isInside &= OTQtMath::isWithinPlaneBorders(mpos, depth, depth_screen_root, distances_depth);
+
+#if 0
+  printf("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",
+	  depth(1), depth(2), depth(3));
+  printf("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
+	  width.NormFrobenius(), distances_width(1), distances_width(2));
+  printf("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
+	  height.NormFrobenius(), distances_height(1), distances_height(2));
+  printf("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+	  depth.NormFrobenius(), distances_depth(1), distances_depth(2));
+  ACE_OS::sleep(ACE_Time_Value(1, 0));
+#endif
+
+
+  if (!isInside)
   {
     // transition inside -> outside: MPD location changed
     bool mpd_loc_changed_this_cycle = (mp_data_.mpd_loc_inside_screen_cuboid);
     // MPD is located outside SC
     mp_data_.mpd_loc_inside_screen_cuboid = false;
 
-    //if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",
-		  //depth(1), depth(2), depth(3));
-    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
-		  //width.NormFrobenius(), distances_width(1), distances_width(2));
-    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
-		  //height.NormFrobenius(), distances_height(1), distances_height(2));
-    //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
-		  //depth.NormFrobenius(), distances_depth(1), distances_depth(2));
-    //}
     return;
   }
 
@@ -331,15 +345,6 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
   mp_data_.mpd_loc_inside_screen_cuboid = true;
   // desktop mouse cursor coordinates
   mp_data_.desktop_coords = desktop_coords_new;
-
-  //if (OTQT_DEBUG_ON && mpd_loc_changed_this_cycle) {
-  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
-  //            width.NormFrobenius(), distances_width(1), distances_width(2));
-  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
-  //            height.NormFrobenius(), distances_height(1), distances_height(2));
-  //  OTQT_DEBUG("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
-  //            depth.NormFrobenius(), distances_depth(1), distances_depth(2));
-  //}
 
   return;
 }
