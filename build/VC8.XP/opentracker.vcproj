@@ -930,6 +930,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\WiiSink.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\WiiSource.cxx"
 				>
 			</File>
@@ -3655,6 +3659,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\WiiModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiSink.h"
 				>
 			</File>
 			<File
