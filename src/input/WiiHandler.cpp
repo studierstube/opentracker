@@ -238,11 +238,12 @@ namespace ot {
     bool WiiHandler::HeartBeat(int timeout)
     {
 	bool retval = true;
-	//int bytes_read = 0;
+	
 	
 
 	//most of these reports aren't implemented yet. I don't have a sensor bar or a nunchuck :)
 #ifdef WIN32
+	int bytes_read = 0;
 	if (mHIDDevice.ReadFromDevice(mInputBuffer,mInputBufferSize,bytes_read) && bytes_read > 0,timeout)
 	{
             const int channel = mInputBuffer[0];
