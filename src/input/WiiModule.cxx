@@ -59,31 +59,31 @@
 
 OT_NAMESPACE_BEGIN
 
-	OT_MODULE_REGISTER_FUNC(WiiModule){
-			OT_MODULE_REGISTRATION_DEFAULT(WiiModule, "WiiConfig");
-	}
+OT_MODULE_REGISTER_FUNC(WiiModule){
+    OT_MODULE_REGISTRATION_DEFAULT(WiiModule, "WiiConfig");
+}
 
 // -------------------------------------------------------------------------------------------------------
 // constructor initializing the thread manager
 WiiModule::WiiModule() : ThreadModule(), NodeFactory(), stop(0)
 {
-   wiimote = new WiiHandler;
-	if (wiimote->ConnectToDevice() &&
-      wiimote->StartDataStream())
-   {
-   logPrintI("Wii Cannection: OK\n");
-   }
-   else
-   {
-   logPrintE("Wii Cannection Failed: OK\n");
-   } 
+    wiimote = new WiiHandler;
+    if (wiimote->ConnectToDevice() &&
+        wiimote->StartDataStream())
+    {
+        logPrintI("Wii Cannection: OK\n");
+    }
+    else
+    {
+        logPrintE("Wii Cannection Failed: OK\n");
+    } 
 }
 
 // ------
 // Destructor method
 WiiModule::~WiiModule() {
     sources.clear();
-//    sinks.clear();
+    //    sinks.clear();
     delete wiimote;
 }
 
@@ -110,17 +110,17 @@ Node * WiiModule::createNode( const std::string& name, StringTable& attributes)
         return source;
     }
     if( name.compare("WiiSink") == 0 ) {       
-       stop = 0;
-       if ( sinks.size() > 0) {
-          ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Can only have one WiiSink!\n")));
-          return NULL;
-       }
+        stop = 0;
+        if ( sinks.size() > 0) {
+            ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Can only have one WiiSink!\n")));
+            return NULL;
+        }
 
-       WiiSink * mysink = new WiiSink( wiimote );
-       sinks.push_back( mysink );
+        WiiSink * mysink = new WiiSink( wiimote );
+        sinks.push_back( mysink );
 
-       initialized = 1; // this is still to be explained mf
-       return mysink;
+        initialized = 1; // this is still to be explained mf
+        return mysink;
     } 
 
     return NULL;
@@ -142,75 +142,75 @@ void WiiModule::close() {
 }
 void WiiModule::run()
 {
-   ACE_DEBUG((LM_INFO, ACE_TEXT("WiiModule::run() \n")));
+    ACE_DEBUG((LM_INFO, ACE_TEXT("WiiModule::run() \n")));
 
-   while(1) {
-      lockLoop();
-      if (stop == TRUE) 
-      {
-         unlockLoop();
-         break;
-      }
-      else
-      {
-         unlockLoop();
-      }
-      wiimote->HeartBeat(); // retrives data s from the device
+    while(1) {
+        lockLoop();
+        if (stop == true) 
+        {
+            unlockLoop();
+            break;
+        }
+        else
+        {
+            unlockLoop();
+        }
+        wiimote->HeartBeat(); // retrives data s from the device
 
-      NodeVector::iterator it;
-      for( it = sources.begin(); it != sources.end(); it++) 
-         {
-         WiiSource * source = (WiiSource*)((Node*) *it);
-         source->lock();
+        NodeVector::iterator it;
+        for( it = sources.begin(); it != sources.end(); it++) 
+        {
+            WiiSource * source = (WiiSource*)((Node*) *it);
+            source->lock();
 
-         float wX,wY,wZ;
-         float cX,cY,cZ;
-         float sX,sY;
-         float irX,irY;
-         wX =wY=wZ=cX=cY=cZ=sX=sY=irX=irY=0.f;
+            float wX,wY,wZ;
+            float cX,cY,cZ;
+            float sX,sY;
+            float irX,irY;
+            wX =wY=wZ=cX=cY=cZ=sX=sY=irX=irY=0.f;
 
-         wiimote->GetCalibratedAcceleration(wX,wY,wZ);
-//         printf("W:[%+1.2f %+1.2f %+1.2f] ",wX,wY,wZ);
+            wiimote->GetCalibratedAcceleration(wX,wY,wZ);
+            //         printf("W:[%+1.2f %+1.2f %+1.2f] ",wX,wY,wZ);
 
-         if (wiimote->mNunchuckAttached)
-         {
-            wiimote->GetCalibratedChuckAcceleration(cX,cY,cZ);
-//            printf("N:[%+1.2f %+1.2f %+1.2f] ",cX,cY,cZ);
-
-            wiimote->GetCalibratedChuckStick(sX,sY);
-//            printf("S:[%+1.2f %+1.2f] ",sX,sY);
-         }
-
-         if (wiimote->mIRRunning)
-         {
-            if (wiimote->GetIRP1(irX,irY))
+            if (wiimote->mNunchuckAttached)
             {
-               //printf("P1:[%+1.2f %+1.2f]",irX,irY);
+                wiimote->GetCalibratedChuckAcceleration(cX,cY,cZ);
+                //            printf("N:[%+1.2f %+1.2f %+1.2f] ",cX,cY,cZ);
+
+                wiimote->GetCalibratedChuckStick(sX,sY);
+                //            printf("S:[%+1.2f %+1.2f] ",sX,sY);
             }
-            if (wiimote->GetIRP2(irX,irY))
+
+            if (wiimote->mIRRunning)
             {
-               //printf("P2:[%+1.2f %+1.2f]",irX,irY);
+                if (wiimote->GetIRP1(irX,irY))
+                {
+                    //printf("P1:[%+1.2f %+1.2f]",irX,irY);
+                }
+                if (wiimote->GetIRP2(irX,irY))
+                {
+                    //printf("P2:[%+1.2f %+1.2f]",irX,irY);
+                }
             }
-         }
-         source->event.getPosition()[0] = irX;
-         source->event.getPosition()[1] = irY;
-         source->event.getPosition()[2] = 0.0f;
+            source->event.getPosition()[0] = irX;
+            source->event.getPosition()[1] = irY;
+            source->event.getPosition()[2] = 0.0f;
 
-         float rotationQuaternion[4];
-         MathUtils::eulerToQuaternion (wX, wY, wZ, rotationQuaternion);
-         source->event.setOrientation(rotationQuaternion);
+            float rotationQuaternion[4];
+            MathUtils::eulerToQuaternion (wX, wY, wZ, rotationQuaternion);
+            source->event.setOrientation(rotationQuaternion);
 
-         // buttons
-         source->event.getButton() = wiimote->GetLastButtonDataStatus();
-         source->event.timeStamp();
-         source->event.getConfidence() = 1.0;
-         source->changed = 1;
+            // buttons
+            source->event.getButton() = wiimote->GetLastButtonDataStatus();
+            source->event.timeStamp();
+            source->event.getConfidence() = 1.0;
+            source->changed = 1;
 
-         source->unlock();
+            source->unlock();
 
-         if (context != NULL)   {  context->dataSignal(); } 
-      }
-   } // end while
+            if (context != NULL)   {  context->dataSignal(); } 
+        }
+    } // end while
 
 }
 void WiiModule::pushEvent() 
@@ -237,7 +237,7 @@ OT_NAMESPACE_END
 
 /* 
  * ------------------------------------------------------------
- *   End of LinMouseModule.cxx
+ *   End of WiiModule.cxx
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

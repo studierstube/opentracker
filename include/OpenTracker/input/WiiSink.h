@@ -103,7 +103,7 @@ namespace ot {
 
         static void thread_func( void * data )
         {
-           ((WiiSink *)data)->runVibro();
+            ((WiiSink *)data)->runVibro();
         };
 
         /// handle to module specific thread. This is a little bit tricky as we
@@ -125,7 +125,7 @@ namespace ot {
          * @return always 1 */
         virtual int isEventGenerator()
         {
-            return FALSE;
+            return false;
         }
     
         /**

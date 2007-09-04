@@ -150,7 +150,7 @@ namespace ot {
 
     };
 
-	OT_MODULE(WiiModule);
+    OT_MODULE(WiiModule);
 } // _WIIMODULE_H
 
 
@@ -158,7 +158,7 @@ namespace ot {
 
 /* 
  * ------------------------------------------------------------
- *   End of LinMouseModule.h
+ *   End of WiiModule.h
  * ------------------------------------------------------------
  *   Automatic Emacs configuration follows.
  *   Local Variables:

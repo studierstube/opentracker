@@ -88,19 +88,19 @@ namespace ot {
 
     void WiiHandler::Init()
     {
-	 mReportMode = REPORT_MODE_EVENT_BUTTONS;
-	 mLastButtonStatus.Init();
-	 mLastExpansionReport.Init();
-	 mLastMotionReport.Init();
-	 mOutputControls.Init();
-	 mReadInfo.Init();
-	 mAccelCalibrationData.Init();
-	 mNunchuckAccelCalibrationData.Init();
-	 mNunchuckStickCalibrationData.Init();
-	 mLastIRReport.Init();
-	 mNunchuckAttached = false;
-	 mIRRunning = false;
-	 mDataStreamRunning = false;
+        mReportMode = REPORT_MODE_EVENT_BUTTONS;
+        mLastButtonStatus.Init();
+        mLastExpansionReport.Init();
+        mLastMotionReport.Init();
+        mOutputControls.Init();
+        mReadInfo.Init();
+        mAccelCalibrationData.Init();
+        mNunchuckAccelCalibrationData.Init();
+        mNunchuckStickCalibrationData.Init();
+        mLastIRReport.Init();
+        mNunchuckAttached = false;
+        mIRRunning = false;
+        mDataStreamRunning = false;
     }
 
     bool WiiHandler::SetReportMode(eReportMode mode)
@@ -238,7 +238,7 @@ namespace ot {
     bool WiiHandler::HeartBeat(int timeout)
     {
 	bool retval = true;
-	int bytes_read = 0;
+	//int bytes_read = 0;
 	
 
 	//most of these reports aren't implemented yet. I don't have a sensor bar or a nunchuck :)
@@ -359,20 +359,20 @@ namespace ot {
  	mLastButtonStatus.mRight = (data[0] & 0x02) != 0;
 
  	//two bytes long
-   mLastButtonStatus.outdata = 0x0000;
+        mLastButtonStatus.outdata = 0x0000;
 
-   (mLastButtonStatus.mA) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0002;  //mA
-   (mLastButtonStatus.mB) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0004;  //mB
-   (mLastButtonStatus.m1) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0008;  //m1
-   (mLastButtonStatus.m2) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0010;  //m1
-   (mLastButtonStatus.mPlus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0020;  //mPlus
-   (mLastButtonStatus.mMinus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0040;  //mMinus
-   (mLastButtonStatus.mHome) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0080;  //mHome
-   (mLastButtonStatus.mUp) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0100;  //mUp
-   (mLastButtonStatus.mDown) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0200;  //mDown
-   (mLastButtonStatus.mRight) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0400;  //mRight
-   (mLastButtonStatus.mLeft) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0800;  //mLeft
-       }
+        (mLastButtonStatus.mA) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0002;  //mA
+        (mLastButtonStatus.mB) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0004;  //mB
+        (mLastButtonStatus.m1) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0008;  //m1
+        (mLastButtonStatus.m2) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0010;  //m1
+        (mLastButtonStatus.mPlus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0020;  //mPlus
+        (mLastButtonStatus.mMinus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0040;  //mMinus
+        (mLastButtonStatus.mHome) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0080;  //mHome
+        (mLastButtonStatus.mUp) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0100;  //mUp
+        (mLastButtonStatus.mDown) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0200;  //mDown
+        (mLastButtonStatus.mRight) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0400;  //mRight
+        (mLastButtonStatus.mLeft) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0800;  //mLeft
+    }
     void WiiHandler::ParseMotionReport(const unsigned char * data)
     {
 	//three bytes long
@@ -912,58 +912,58 @@ namespace ot {
     }
  
     
-   const unsigned short WiiHandler::GetLastButtonDataStatus() const
+    const unsigned short WiiHandler::GetLastButtonDataStatus() const
     {
 
-      return mLastButtonStatus.outdata;
+        return mLastButtonStatus.outdata;
     }
 
 } // end namespace ot {
 
 /*
-Anonymous said... 
-Hey, I dont know if you or anyone else is still messing around with this stuff, but I have been recently and have a few bug fixes I wanted to throw your way.
+  Anonymous said... 
+  Hey, I dont know if you or anyone else is still messing around with this stuff, but I have been recently and have a few bug fixes I wanted to throw your way.
 
-First thing, with IR - I noticed (also suggested somewhere) that if I put in a few Sleep(10)s into the EnableIR function it would enable the ir more successfully (ie not fail for me any more)
+  First thing, with IR - I noticed (also suggested somewhere) that if I put in a few Sleep(10)s into the EnableIR function it would enable the ir more successfully (ie not fail for me any more)
 
-Next you were extracting the ir numbers somewhat incorrectly: instead of (for x1):
+  Next you were extracting the ir numbers somewhat incorrectly: instead of (for x1):
 
-data[0] << 2 | (data[2] & 0x30) >> 4
+  data[0] << 2 | (data[2] & 0x30) >> 4
 
-it should be:
+  it should be:
 
-(data[2] & 0x30) << 4 | data[0]
+  (data[2] & 0x30) << 4 | data[0]
 
-so ParseIRReport should end up looking like:
+  so ParseIRReport should end up looking like:
 
-mLastIRReport.mP1X = ((int)data[2] & 0x30) << 4 | (int)data[0];
-mLastIRReport.mP1Y = ((int)data[2] & 0xC0) << 2 | (int)data[1];
-mLastIRReport.mP1Size = data[2] & 0xf;
+  mLastIRReport.mP1X = ((int)data[2] & 0x30) << 4 | (int)data[0];
+  mLastIRReport.mP1Y = ((int)data[2] & 0xC0) << 2 | (int)data[1];
+  mLastIRReport.mP1Size = data[2] & 0xf;
 
-mLastIRReport.mP2X = ((int)data[5] & 0x30) << 4 | (int)data[3];
-mLastIRReport.mP2Y = ((int)data[5] & 0xC0) << 2 | (int)data[4];
-mLastIRReport.mP2Size = data[5] & 0xf;
+  mLastIRReport.mP2X = ((int)data[5] & 0x30) << 4 | (int)data[3];
+  mLastIRReport.mP2Y = ((int)data[5] & 0xC0) << 2 | (int)data[4];
+  mLastIRReport.mP2Size = data[5] & 0xf;
 
-Another, little hack, my nunchuck was reading action on the joystick even in its resting state so I threw on
+  Another, little hack, my nunchuck was reading action on the joystick even in its resting state so I threw on
 
-if (fabs(x) < delta) x = 0.0f;
-if (fabs(y) < delta) y = 0.0f;
+  if (fabs(x) < delta) x = 0.0f;
+  if (fabs(y) < delta) y = 0.0f;
 
-just so it is disregarded if the absolute value of the read input is less than a set delta value.
+  just so it is disregarded if the absolute value of the read input is less than a set delta value.
 
-Finally, and this is just my current understanding of it, (if I am off base or whatever please let me know) in order to poll for buttons, motion, ir, and nunchuck (0x37) it is expecting 2 bytes for the buttons, 3 for the accelerometers, 10 bytes for ir and 6 for extension (nunchuck)
+  Finally, and this is just my current understanding of it, (if I am off base or whatever please let me know) in order to poll for buttons, motion, ir, and nunchuck (0x37) it is expecting 2 bytes for the buttons, 3 for the accelerometers, 10 bytes for ir and 6 for extension (nunchuck)
 
-With the current coding of cWiiMote parseirreport is expecting 12 bytes for the ir input. It needs to go back to standard/basic mode instead of extended. Thus it (ParseIrReport) should end up looking like this:
+  With the current coding of cWiiMote parseirreport is expecting 12 bytes for the ir input. It needs to go back to standard/basic mode instead of extended. Thus it (ParseIrReport) should end up looking like this:
 
-mLastIRReport.mP1X = (data[2] & 0x30) << 4 | data[0];
-mLastIRReport.mP1Y = (data[2] & 0xC0) << 2 | data[1];
+  mLastIRReport.mP1X = (data[2] & 0x30) << 4 | data[0];
+  mLastIRReport.mP1Y = (data[2] & 0xC0) << 2 | data[1];
 
-mLastIRReport.mP2X = (data[2] & 0x03) << 4 | data[3];
-mLastIRReport.mP2Y = (data[2] & 0x0C) << 2 | data[4];
+  mLastIRReport.mP2X = (data[2] & 0x03) << 4 | data[3];
+  mLastIRReport.mP2Y = (data[2] & 0x0C) << 2 | data[4];
 
-Hopefully this message comes through ok.
+  Hopefully this message comes through ok.
 
-Thank you so much for releasing this to the public and giving me something to get going with!
+  Thank you so much for releasing this to the public and giving me something to get going with!
 */
 
 /* 
