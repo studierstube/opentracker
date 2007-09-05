@@ -364,7 +364,11 @@ namespace ot {
                         unlockLoop();
                         if (context != NULL)
                         {
-                            context->dataSignal();
+			    if (context->doSynchronization())
+			    {
+                              context->dataSignal();
+			      context->consumedBroadcast();
+			    }
                         }
                     }
                 }
