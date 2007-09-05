@@ -369,6 +369,7 @@ $Id$
 	  threshold CDATA "1.0"
 	  hitpercentage CDATA "80.0"
 	  consume (true | false) "false"
+	  codelength CDATA "2"
 >
 <!-- threshold filter that allows only events that are within a certain interval within the last passed event -->
 <!ELEMENT ThresholdFilter (%EventNodes;)>

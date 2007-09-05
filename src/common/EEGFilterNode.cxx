@@ -151,8 +151,10 @@ namespace ot {
                 std::vector<std::pair<EEGSub, double> >::iterator it;
                 double actval;
                 double maxval = 0.0;
+				double maxval2 = 0.0;
                 int i;
                 int maxi = -1;
+				int maxi2 = -1;
                 
                 // new value into filter and calculate maximum response frequency
                 // index
@@ -160,15 +162,29 @@ namespace ot {
                 for (it=eegsubs.begin(),i=0; it != eegsubs.end(); it++, i++)
                 {
                     actval = it->first.filter(currentEvent.getAttribute(inatt,(double)0));
+                    //printf("EEGSubs %i: %lf\n", i, actval);
                     actval *= it->second;
                     
-                    if (actval > threshold && actval > maxval)
+                    if ( actval > maxval)
                     {
+						maxval2 = maxval;
+						maxi2 = maxi;
                         maxval = actval;
                         maxi = i;
                     }
+					else if (actval > maxval2)
+					{
+						maxval2 = actval;
+						maxi2 = i;
+					}
                 }
-
+				
+				if (maxval <= maxval2*threshold)
+				{
+					maxi = -1;
+				}
+				//printf(" maxval(%d): %lf  maxval(%d): %lf \n", maxi, maxval, maxi2, maxval2);
+				
                 // update event buffer
                 
                 if (evbuffer.size() < evbuffertargetsize)
@@ -249,9 +265,11 @@ namespace ot {
                                 /// frequencies.size() - ary number system
                                 tempoutval *= frequencies.size();
                                 tempoutval += maxval;
+                                //printf("+percentage: %d/%d\n",maxcount, (int)(((evbufferpoststart-evbuffercodestart)/codelength)*hitpercentage/100.0));
                             }
                             else
                             {
+                                //printf("-percentage: %d/%d\n",maxcount, (int)(((evbufferpoststart-evbuffercodestart)/codelength)*hitpercentage/100.0));
                                 /// don't continue if sequence part does
                                 /// not meet hit percentage
                                 break;
@@ -259,6 +277,7 @@ namespace ot {
                         }
                         else
                         {
+                            //printf("no response\n");
                             /// if one code sequence part is not responding to 
                             /// a certain frequency we may skip the other parts
                             /// as well
@@ -266,7 +285,9 @@ namespace ot {
                         }
                     
                     }
+                    eegoutval = tempoutval;
                 }
+                
             }
             else // perform factor calibration
             {            
