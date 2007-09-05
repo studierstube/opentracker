@@ -347,7 +347,11 @@ namespace ot {
 					handled = SPW_TRUE;              /* spacedevice event handled */                 
 					if (context != NULL)
 					  {
-					    context->dataSignal();
+					    if (context->doSynchronization())
+					    {
+					      context->dataSignal();
+					      context->consumedBroadcast();
+					    }
 					  }
 
 				}
