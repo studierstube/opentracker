@@ -272,6 +272,7 @@ namespace ot {
                                 //printf("-percentage: %d/%d\n",maxcount, (int)(((evbufferpoststart-evbuffercodestart)/codelength)*hitpercentage/100.0));
                                 /// don't continue if sequence part does
                                 /// not meet hit percentage
+                                tempoutval = -1;
                                 break;
                             }
                         }
@@ -281,10 +282,15 @@ namespace ot {
                             /// if one code sequence part is not responding to 
                             /// a certain frequency we may skip the other parts
                             /// as well
+                            tempoutval = -1;
                             break;
                         }
                     
                     }
+                    // should only arrive here, if the sequence is detected
+                    // clear buffer
+                    if (tempoutval != -1)
+                        evbuffer.clear();
                     eegoutval = tempoutval;
                 }
                 
