@@ -38,7 +38,7 @@
 				AdditionalDependencies="aced.lib newmatd.lib"
 				OutputFile="../../bin/Win32/opentrackerd.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/Build/Win32\VC7.1/$(ConfigurationName)&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;"
+				AdditionalLibraryDirectories="../../extras/hid/xp;../../lib/win32;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/Build/Win32\VC7.1/$(ConfigurationName)&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;;&quot;$(OPENVIDEOROOT)/lib/Win32&quot;;&quot;$(3DCONNEXIONROOT)/lib/release&quot;;&quot;$(VRPNROOT)/lib/win32&quot;;&quot;$(PTUROOT)/lib&quot;;&quot;$(OTROOT)/lib/Win32&quot;;&quot;$(QTDIR)/lib&quot;;&quot;$(PYTHONROOT)/libs&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="../../lib/Win32/opentrackerd.pdb"
 				SubSystem="2"
@@ -91,7 +91,7 @@
 				AdditionalDependencies="ace.lib newmat.lib"
 				OutputFile="../../bin/Win32/opentracker.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/Build/Win32\VC7.1/$(ConfigurationName)&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib/win32&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
+				AdditionalLibraryDirectories="../../extras/hid/xp;../../lib/win32;&quot;$(ACEROOT)/lib&quot;;&quot;$(TINYXMLROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;;&quot;$(XERCESCROOT)/Build/Win32\VC7.1/$(ConfigurationName)&quot;;&quot;$(XERCESCROOT)/lib&quot;;&quot;$(ARTOOLKITROOT)/lib.vc70&quot;;&quot;$(OPENVIDEOROOT)/lib/win32&quot;;&quot;$(ARTOOLKITPLUSROOT)/lib/Win32&quot;"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="../../lib/Win32/opentracker.pdb"
 				SubSystem="2"
@@ -304,6 +304,21 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\HeartrateFilterNode.cxx">
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hiddevice.cpp">
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hiddevice.h">
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hidpi.h">
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hidsdi.h">
+			</File>
+			<File
+				RelativePath="..\..\extras\hid\xp\hidusage.h">
 			</File>
 			<File
 				RelativePath="..\..\src\input\ICubeXModule.cxx">
@@ -549,6 +564,9 @@
 				RelativePath="..\..\src\input\UltraTrakModule.cxx">
 			</File>
 			<File
+				RelativePath="..\..\src\common\VirtualKeyModule.cxx">
+			</File>
+			<File
 				RelativePath="..\..\src\common\VirtualTransformation.cxx">
 			</File>
 			<File
@@ -562,6 +580,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\WacomGraphireModule.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiHandler.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiModule.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiSink.cxx">
+			</File>
+			<File
+				RelativePath="..\..\src\input\WiiSource.cxx">
 			</File>
 			<File
 				RelativePath="..\..\src\core\XercesConfigurationParser.cxx">
@@ -905,10 +935,10 @@
 				RelativePath="..\..\src\network\NetworkSource.h">
 			</File>
 			<File
-				RelativePath="..\..\include\OpenTracker\network\NetworkSourceModule.h">
+				RelativePath="..\..\src\network\NetworkSourceModule.h">
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSourceModule.h">
+				RelativePath="..\..\include\OpenTracker\network\NetworkSourceModule.h">
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\core\Node.h">
@@ -1127,6 +1157,12 @@
 				RelativePath="..\..\src\input\UltraTrakSource.h">
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\common\VirtualKeyModule.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\VirtualKeySource.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\VirtualTransformation.h">
 			</File>
 			<File
@@ -1143,6 +1179,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\WacomGraphireSource.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiHandler.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiModule.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiSink.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\WiiSource.h">
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\tool\XMLSelection.h">
