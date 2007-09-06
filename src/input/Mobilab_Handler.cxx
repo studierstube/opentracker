@@ -96,7 +96,7 @@ namespace ot {
                 mobilabind  = 0;
             }  
 	}
-#ifdef WIN32
+#ifdef WIN32        
         else
         { 
             // this is a hack to avoid high resource consumption on windows !

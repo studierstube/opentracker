@@ -121,14 +121,17 @@ namespace ot {
         receiver = new Mobilab_Handler( this );
 
 	Mobilab_Connector mobilabconnect( reactor );
-#ifndef WIN32
 	result = mobilabconnect.connect( receiver, 
                                          ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())), 
                                          ACE_Synch_Options::defaults,
                                          (Mobilab_Connector::peer_addr_type&)Mobilab_Connector::ACE_PEER_CONNECTOR_ADDR_ANY,
                                          1 /*reuse*/,
-                                         O_RDWR|O_NOCTTY|O_NONBLOCK);
-#endif        
+                                         O_RDWR|
+#ifndef WIN32
+                                         O_NOCTTY|
+#endif
+                                         O_NONBLOCK);
+
 	if( result == 0)
 	{
             // set the appropriate parameters
