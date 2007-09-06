@@ -914,6 +914,18 @@
 				RelativePath="..\..\include\OpenTracker\tool\midiw32.h">
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\input\Mobilab_Handler.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\MobilabDriver.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\MobilabModule.h">
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\MobilabSource.h">
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\core\Module.h">
 			</File>
 			<File
