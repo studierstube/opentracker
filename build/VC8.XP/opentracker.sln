@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "otpy", "otpy.vcproj", "{9DA
 		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "documentation compiler", "documentation compiler.vcproj", "{4FE68F22-9175-41DB-8A89-18B127F3E121}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -51,6 +53,10 @@ Global
 		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Debug|Win32.Build.0 = Debug|Win32
 		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Release|Win32.ActiveCfg = Release|Win32
 		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Release|Win32.Build.0 = Release|Win32
+		{4FE68F22-9175-41DB-8A89-18B127F3E121}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4FE68F22-9175-41DB-8A89-18B127F3E121}.Debug|Win32.Build.0 = Debug|Win32
+		{4FE68F22-9175-41DB-8A89-18B127F3E121}.Release|Win32.ActiveCfg = Release|Win32
+		{4FE68F22-9175-41DB-8A89-18B127F3E121}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
