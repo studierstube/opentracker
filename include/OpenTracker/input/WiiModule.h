@@ -33,20 +33,22 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** header file for LinmouseModule.
+/** header file for WiiModule.
  *
  * @authors Michele Fiorentino and Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
  *
- * $Id$
+ * $Id$ WiiModule.h
  * @file                                                                   */
 /* ======================================================================= */
 
 /**
  * @page module_ref Module Reference
- * @section targusmodule LinmouseModule
- * The LinmouseModule provides the @ref linmousesource nodes that 
- * generate button press events for mouse type devices device. This
+ * @section wiiModule WiiModule
+ * The WiiModule provides the @ref WiiSource nodes that 
+ * generate button press events @ref WiiSink
+ * @authors Michele Fiorentino and Alexander Bornik
+ * starting from cWiimote 0.2 by Kevin Forbes 
  */
 
 #ifndef _WIIMODULE_H
@@ -82,9 +84,12 @@
 
 #include<OpenTracker/input/WiiHandler.h>
 /**
- * The module and factory to drive the TargusSource node.
- * @author Bernhard Reitinger
- * @ingroup input
+ * An example configuration element looks like this:
+ * @verbatim
+ <WiiSink 
+ Led="1 0 2"	
+ Vibro ="1"
+ />@endverbatim
  */
 
 namespace ot {
@@ -93,22 +98,22 @@ namespace ot {
     {
         // Members
     protected:
-        /// list of WiiSource nodes in the tree
-        NodeVector sources;
-        NodeVector sinks;
+        
+        NodeVector sources; ///< list of WiiSource nodes in the tree
+        NodeVector sinks;   ///< list of WiiSink nodes in the tree
         
 
-        // flag whether the thread should stop
-        int stop;
+        
+        int stop; ///< flag whether the thread should stop
 
         // Methods
       
         /**
          * Mainlopp */
-        void run(); 
+        void run();  ///< mainloop
 
     public:
-        WiiHandler* wiimote; // as implemented now it supports just one device
+        WiiHandler* wiimote; ///< as it is implemented now it supports just one device
         /** constructor method. */
         WiiModule();
 
@@ -129,7 +134,7 @@ namespace ot {
         virtual void close();
 
         /**
-         * opens the X keyboard source
+         * start function
          */
         virtual void start();
 
@@ -139,11 +144,9 @@ namespace ot {
          * structure with position and status of the buttons.
          */
         virtual void pushEvent();
+
         /**
-         * initializes the LinmouseModule. 
-         * @param attributes StringMap of elements attribute values. Should be
-         *        possibly , but is not for convenience.
-         * @param localTree pointer to root of configuration nodes tree
+         * initializes the Wii. 
          */
         virtual void init(StringTable& attributes, ConfigNode * localTree);
 

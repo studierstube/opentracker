@@ -44,7 +44,7 @@
 
 /**
  * @page Nodes Node Reference
- * @section vrpnsink WiiSink
+ * @section WiiSink WiiSink
  *
  * The WiiSink node acts as a single tracking server device using VRPN. It 
  * provides its data via a single connection setup by the @ref vrpnmodule.

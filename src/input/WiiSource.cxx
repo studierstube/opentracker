@@ -38,7 +38,7 @@
  * @authors Michele Fiorentino Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
  * $Id$
- * @file                                                                   */
+ * @file input/WiiSource.cxx                                                    */
 /* ======================================================================= */
 
 // this is a linux implementation

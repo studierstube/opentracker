@@ -44,14 +44,15 @@
 
 /**
  * @page Nodes Node Reference
- * @section linmousesource Linmousesource
- * The Linmouse node is a simple EventGenerator that outputs the
- * current position and button event of the LinmouseModule. It is driven by
- * the @ref linmousemodule. 
+ * @section WiiSource WiiSource
+ * The WiiSource node is a simple EventGenerator that outputs the
+ * current position and button event of the Wii. It is driven by
+ * the @ref WiiModule. 
  *
  * An example element looks like this :
  * @verbatim
- <Linmousesource/>@endverbatim
+ <WiiSource/>
+ @endverbatim
 */
 
 #ifndef _WIISOURCE_H

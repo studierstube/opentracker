@@ -1,14 +1,7 @@
 # Doxyfile 1.4.7
 
-# This file describes the settings to be used by the documentation system
-# doxygen (www.doxygen.org) for a project
-#
-# All text after a hash (#) is considered a comment and will be ignored
-# The format is:
-#       TAG = value [value, ...]
-# For lists items can also be appended using:
-#       TAG += value [value, ...]
-# Values that contain spaces should be placed between quotes (" ")
+# This configuration is for Local Computer Documentation Creation
+# Author Michele Fiorenitno
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -475,7 +468,9 @@ INPUT                  = ../src \
 # *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.py
 
 FILE_PATTERNS          = *.h \
-                         *.cxx
+						 *.hpp \
+                         *.cxx \
+                         *.cpp
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories 
 # should be searched for input files as well. Possible values are YES and NO. 

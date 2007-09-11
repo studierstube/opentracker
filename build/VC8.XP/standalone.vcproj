@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="standalone"
-	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07066AAB6FE1}"
+	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}"
 	>
 	<Platforms>
 		<Platform
@@ -227,10 +227,6 @@
 			>
 			<File
 				RelativePath="..\..\share\simple_test.xml"
-				>
-			</File>
-			<File
-				RelativePath="..\..\share\wii_test.xml"
 				>
 			</File>
 		</Filter>
