@@ -167,7 +167,7 @@
 
 /** uncomment the following line to compile support for 3Dconnexion.
  * Support for this is only available on windows. */
-#define USE_SPACEDEVICE 1
+//#define USE_SPACEDEVICE 1
 
 
 /** uncomment the following line to compile support for GoGo interaction support. */
@@ -175,7 +175,7 @@
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
-#define USE_PANTILTUNIT 1
+//#define USE_PANTILTUNIT 1
 
 #define USE_THREETOTWODIMFILTER 1
 
