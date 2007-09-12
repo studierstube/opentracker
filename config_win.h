@@ -134,7 +134,7 @@
 
 /** We use TinyXML as standard library */
 /** umcomment the following line to compile against TinyXML instead of XERCES */
-//#define USE_TINYXML 1
+#define USE_TINYXML 1
 
 
 /** umcomment the following line to to direct console output to the MSDev debug console */

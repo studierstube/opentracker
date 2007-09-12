@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="standalone"
-	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}"
-	RootNamespace="standalone"
+	Name="wiitest"
+	ProjectGUID="{9ED363E2-1473-4CDA-BCFE-07066BAB6FE1}"
+	RootNamespace="wiitest"
 	>
 	<Platforms>
 		<Platform
@@ -136,7 +136,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src;../../src/misc;../../include;&quot;$(ACEROOT)&quot;"
+				AdditionalIncludeDirectories="../;../../src;../../src/misc;../../include;&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -163,11 +163,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib aced.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib aced.lib opentrackerd.lib"
 				OutputFile="../../bin/win32/opentrackerd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;../../lib/win32"
+				AdditionalLibraryDirectories="&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;;&quot;$(OTROOT)/lib&quot;;../../lib/win32;&quot;$(OTROOT)/lib/win32&quot;"
 				GenerateDebugInformation="true"
 				AssemblyDebug="0"
 				ProgramDatabaseFile="../../bin/win32/opentrackerd.pdb"
@@ -208,26 +208,16 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\src\standalones\main_ondemand.cxx"
+				RelativePath="..\..\src\standalones\wii_test.cxx"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl"
-			>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
 		</Filter>
 		<Filter
 			Name="configurations"
 			Filter="xml"
 			>
 			<File
-				RelativePath="..\..\share\simple_test.xml"
+				RelativePath="..\..\share\wii_test.xml"
 				>
 			</File>
 		</Filter>

@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** source file for LinmouseModule.
  *
- * @authors Michele Fiorentino Alexander Bornik
+ * @authors Michele Fiorentino and Alexander Bornik
  * starting from cWiimote 0.2 by Kevin Forbes 
  *
  * $Id$
@@ -133,9 +133,9 @@ void WiiModule::start()
         ThreadModule::start();    
 }
 
-// closes CyberMouse library
+// closes 
 void WiiModule::close() {
-    //ACE_DEBUG((LM_INFO, ACE_TEXT("LinmouseModule::close() \n")));
+    //ACE_DEBUG((LM_INFO, ACE_TEXT("WiiModule::close() \n")));
     lockLoop();
     stop = 1;
     unlockLoop();
@@ -209,6 +209,8 @@ void WiiModule::run()
             source->unlock();
 
             if (context != NULL)   {  context->dataSignal(); } 
+
+            // the sink will update the observers
         }
     } // end while
 

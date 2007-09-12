@@ -5,23 +5,19 @@
     <ConsoleConfig headerline="My Output" interval="1"/>
   </configuration>
 
-  <WiiSink>
-    <Callforward name="cf1"/>
-   </WiiSink>
-    
-  <ConsoleSink comment="WiiSource 1" active="off">
+  <ConsoleSink comment="Test Source 2" active="on">
+    <EventTransform translation="1 1 1" scale="1 1 1"
+    rotationtype="euler" rotation="0 0 0">
+
+      <TestSource frequency="1" offset="50" noise="0.1" />
+    </EventTransform>
+  </ConsoleSink>
+  
+  <ConsoleSink comment="WiiSource 1" active="on">
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
       
 	<WiiSource  />
-    </EventTransform>
-  </ConsoleSink>
-
-  <ConsoleSink comment="Test Source 2" active="off">
-    <EventTransform translation="1 1 1" scale="1 1 1"
-    rotationtype="euler" rotation="0 0 0"> 
-      
-	<TestSource frequency="0.2" offset="500000" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
 

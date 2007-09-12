@@ -55,7 +55,8 @@ namespace ot {
         Node(), 
         name( ""),
         station( 0 ),
-        type( TRACKER ),
+        duration( 0 ),
+        frequency ( 50 ),
         wiimote( wiimote_ )
     {
         if ( wiimote == NULL) 
@@ -63,15 +64,22 @@ namespace ot {
             logPrintE("Wii Sink has null pointer\n");
             exit (1);
         }
+        
         // Initialization
-        thread = NULL;
         wiimote->SetLEDs(0,0,0,0);
         wiimote->SetVibration(false);
+
+//        if (thread != NULL) ACE_Thread::kill(*thread,0);
+
+        thread= new ACE_thread_t;
+        ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
+           this, 
+           THR_NEW_LWP,
+           thread );
     }
 
     WiiSink::~WiiSink()
     {
-
         if (thread != NULL) 
         {
             ACE_Thread::kill(*thread,0);
@@ -82,6 +90,7 @@ namespace ot {
         {
             wiimote = NULL;
         }        
+         logPrintI("WiiSink Destructor\n");
     }
 
 
@@ -89,30 +98,17 @@ namespace ot {
     void WiiSink::onEventGenerated( Event& event, Node& generator)
     {
         int val = 0;
-        val = event.getAttribute((int*)NULL,"Led");
-        if (val != 0)
+        if (event.hasAttribute("Led"))
         { 
-            wiimote->SetLEDs(val &0x0002,val &0x0004,val &0x0008,val &0x0010);
-        }
-        else wiimote->SetLEDs(0,0,0,0);
 
-        val = event.getAttribute((int*)NULL,"Vibro");
-        if (val != 0)
+           val = event.getAttribute((int*)NULL,"Led");
+           wiimote->SetLEDs(val &0x0002,val &0x0004,val &0x0008,val &0x0010);
+        }
+        
+        if (event.hasAttribute("Vibro"))
         { 
-            duration = val;
-            frequency= 1000;
-       
-            if (thread != NULL) ACE_Thread::kill(*thread,0);
-
-            thread= new ACE_thread_t;
-            ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
-                              this, 
-                              THR_NEW_LWP | THR_JOINABLE,
-                              thread );
-      
+           duration = event.getAttribute((int*)NULL,"Vibro");
         }
-        else wiimote->SetLEDs(0,0,0,0);
-
         updateObservers( event );
     }
 
@@ -120,20 +116,24 @@ namespace ot {
 
     void WiiSink::runVibro()
     {
-        // Modulates vibro
-        for (int i = 0 ; i< 5; i++ ) 
-        {
-            wiimote->SetVibration(true);
-            OSUtils::sleep (20);
-            logPrintI("endsleep\n");
-            wiimote->SetVibration(false);
-            OSUtils::sleep (20);
-        }
 
-        ACE_Thread::kill ( *thread, 0);
-        logPrintI("KILL thread\n");
-        delete thread;
-        thread = NULL;
+       if (duration-- > 0)
+        {
+            OSUtils::sleep (frequency);
+            wiimote->SetVibration(TRUE);
+            logPrintI("endsleep\n");
+            duration--;
+        }else wiimote->SetVibration(FALSE);
+/*
+        if (thread){
+           // kills existing threads
+           ACE_Thread::kill ( *thread, 0);
+           logPrintI("KILL thread\n");
+           delete thread;
+           thread = NULL;
+        }
+*/
+
     }
 
 

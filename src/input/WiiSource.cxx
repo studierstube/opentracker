@@ -47,18 +47,22 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/input/WiiSource.h>
 
+
 namespace ot {
 
     void WiiSource::pushEvent() 
     {
-        using namespace std;
+      Event outevent;
+       using namespace std;
         lock();
         if( changed == 1 )
-        {			
-            updateObservers( event );
+        {	
+           outevent = event;
             changed = 0;
         }
         unlock();
+        updateObservers( outevent );
+
     }
 
     void WiiSource::pullEvent() 
