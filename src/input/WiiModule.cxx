@@ -208,7 +208,7 @@ void WiiModule::run()
 
             source->unlock();
 
-            if (context != NULL)   {  context->dataSignal(); } 
+            //if (context != NULL)   {  context->dataSignal(); } 
 
             // the sink will update the observers
         }

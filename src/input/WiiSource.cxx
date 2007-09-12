@@ -52,16 +52,13 @@ namespace ot {
 
     void WiiSource::pushEvent() 
     {
-      Event outevent;
-       using namespace std;
         lock();
         if( changed == 1 )
         {	
-           outevent = event;
+         updateObservers( event );
             changed = 0;
         }
         unlock();
-        updateObservers( outevent );
 
     }
 

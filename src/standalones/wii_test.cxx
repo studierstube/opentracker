@@ -108,6 +108,7 @@ int main(int argc, char **argv)
 
     while (1)
     {
+       Sleep(2000);
     //kbhit() 
 //     printf(">");
  /*
