@@ -1095,11 +1095,11 @@ namespace ot {
 		// gcc does not allow doing this
 		// char * nodeTypes[3] = {{"Source"},{"Node"},{"Sink"}};
 		Module * result= NULL;
-		char * source = "Source";
-		char * node = "Node";
-		char * sink = "Sink";
-		char * sinksource = "SinkSource";
-		char * nodeTypes[4];
+		const char * source = "Source";
+		const char * node = "Node";
+		const char * sink = "Sink";
+		const char * sinksource = "SinkSource";
+		const char * nodeTypes[4];
                 nodeTypes[1] = source;
                 nodeTypes[2] = node;
                 nodeTypes[3] = sink;

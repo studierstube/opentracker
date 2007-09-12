@@ -186,7 +186,7 @@ namespace ot {
         //setRTSSerialPort( &port, 0);    
 
         // ping 
-        static char *PingString;
+        static const char *PingString;
         if (trackerType == FASTTRAK)
             PingString = "\rP";
         else if (trackerType == ISOTRAK)

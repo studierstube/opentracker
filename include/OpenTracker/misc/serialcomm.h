@@ -98,7 +98,7 @@ int waitforallSerialPorts(SerialPort **ports, int count, int *setofports, long t
 
 int readfromSerialPort(SerialPort *port, char *buf, int count);
 
-int writetoSerialPort(SerialPort *port, char *buf, int count);
+int writetoSerialPort(SerialPort *port, const char *buf, int count);
 
 #endif
 

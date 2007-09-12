@@ -360,7 +360,7 @@ int readfromSerialPort(SerialPort *port, char *buf, int count)
     }
 }
 
-int writetoSerialPort(SerialPort *port, char *buf, int count)
+int writetoSerialPort(SerialPort *port, const char *buf, int count)
 {
     DWORD numwritten;
 
@@ -624,7 +624,7 @@ int readfromSerialPort(SerialPort *port, char *buf, int count)
     return read(port->fd, buf, count);
 }
 
-int writetoSerialPort(SerialPort *port, char *buf, int count)
+int writetoSerialPort(SerialPort *port, const char *buf, int count)
 {
     return write(port->fd, buf, count);
 }
