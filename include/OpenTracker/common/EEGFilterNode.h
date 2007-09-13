@@ -95,6 +95,7 @@ namespace ot {
         std::string outatt;
         std::string triggeratt;
         bool consume;
+        std::string logfile;
         std::vector<std::pair<EEGSub, double> > eegsubs;
         std::deque<int> evbuffer;
         unsigned int evbuffertargetsize;
@@ -125,7 +126,8 @@ namespace ot {
                        const std::string &iinatt,
                        const std::string &ioutatt,
                        const std::string &itriggeratt,
-                       bool iconsume);
+                       bool iconsume,
+                       std::string logfile);
 
         /** tests for EventGenerator interface being present and returns
          * 1, if present.

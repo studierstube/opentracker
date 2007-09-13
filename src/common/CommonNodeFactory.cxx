@@ -598,7 +598,8 @@ namespace ot {
             double codeduration;
             double threshold;
             double hitpercentage;
-            
+            std::string logfile;
+
             inattrname = attributes.get("inattrname");
             if (inattrname == "" )
                 inattrname = "eeg";
@@ -641,13 +642,15 @@ namespace ot {
             {             
                 consume = true;
             }
+            logfile = attributes.get("logfile"); 
             result = new EEGFilterNode(freqs, codelength, samplerate, harmonics,
                                        prepause, postpause, interpause,
                                        codeduration,
                                        threshold, hitpercentage,
                                        inattrname, outattrname,
                                        triggerattrname,
-                                       consume);
+                                       consume,
+                                       logfile);
 
         }
         else if( name.compare("HeartrateFilter") == 0 )

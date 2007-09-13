@@ -46,7 +46,7 @@
 
 #include <map>
 #include <cmath>
-
+#include <fstream>
 
 #include <OpenTracker/common/EEGFilterNode.h>
 
@@ -66,7 +66,8 @@ namespace ot {
                                   const std::string &iinatt,
                                   const std::string &ioutatt,
                                   const std::string &itriggeratt,
-                                  bool iconsume)
+                                  bool iconsume,
+                                  const std::string logfile)
         : frequencies(ifreqs),
           codelength(icodelength),
           samplerate(isamplerate),
@@ -81,6 +82,7 @@ namespace ot {
           outatt(ioutatt),
           triggeratt(itriggeratt),
           consume(iconsume),
+          logfile(""),
           evmode(CALIB),
           calibcount(0),
           eegoutval(0),
@@ -292,6 +294,7 @@ namespace ot {
                     if (tempoutval != -1)
                         evbuffer.clear();
                     eegoutval = tempoutval;
+
                 }
                 
             }
@@ -361,6 +364,19 @@ namespace ot {
 
         targetEvent.setAttribute<int>(outatt, eegoutval);
         //targetEvent.printout();
+        
+        if (lasteegoutval != eegoutval)
+        {
+            // write to logfile
+            if (logfile != "")
+            {
+                std::ofstream ofile;
+                ofile.open(logfile.c_str(), 
+                    std::ios::out | std::ios::app);
+                ofile << targetEvent.getPrintOut() << std::endl;
+                ofile.close();
+             }
+        }
 
         // Update the observers
         if (!consume || lasteegoutval != eegoutval)

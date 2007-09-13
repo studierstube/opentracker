@@ -459,8 +459,7 @@ namespace ot {
             pendingdata = false;
 
             //logPrintI("Context: got data -> processing\n");
-
-            //waitDataSignal();            
+            
             //double loopetime = OSUtils::currentTime();
             //logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
 
@@ -469,9 +468,12 @@ namespace ot {
             _havedatamutex->release();
 
             _consumeddatamutex->acquire();
-            while (!waitingconsumed)
+            if (stoploopflag == 0)
             {
-                _waitingconsumedcondition->wait();
+                while (!waitingconsumed)
+                {
+                    _waitingconsumedcondition->wait();
+                }
             }
             waitingconsumed = false;
 
@@ -480,7 +482,7 @@ namespace ot {
             _consumeddatacondition->broadcast();
             //logPrintI("Context:  telling drivers done\n");
             _consumeddatamutex->release();
-        }
+        } // loop
 
         _havedatamutex->acquire();	
         waitingpending = true;
