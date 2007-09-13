@@ -82,7 +82,7 @@ namespace ot {
           outatt(ioutatt),
           triggeratt(itriggeratt),
           consume(iconsume),
-          logfile(""),
+          logfile(logfile),
           evmode(CALIB),
           calibcount(0),
           eegoutval(0),
