@@ -146,7 +146,7 @@ void WiiModule::run()
 
     while(1) {
         lockLoop();
-        if (stop == true) 
+        if (stop == 1) 
         {
             unlockLoop();
             break;
@@ -208,8 +208,14 @@ void WiiModule::run()
 
             source->unlock();
 
-            //if (context != NULL)   {  context->dataSignal(); } 
-
+            if (context != NULL)   
+            {  
+               if (context->doSynchronization())
+               {
+                  context->dataBroadcast();
+                  context->consumedWait();    
+               } 
+            }
             // the sink will update the observers
         }
     } // end while
