@@ -73,7 +73,8 @@ namespace ot {
     protected:
         /// handle to module specific thread. This is a little bit tricky as we
         /// don't use the ACE definition but the same type.
-        void * thread;
+        void * threadID;
+		void * threadHandle;
 
         /// Mutex to implement lock, unlock behavior
         ACE_Thread_Mutex * mutex;

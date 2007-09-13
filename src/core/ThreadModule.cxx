@@ -78,9 +78,11 @@ namespace ot {
 
     // constructor
         
-    ThreadModule::ThreadModule()
+    ThreadModule::ThreadModule() :
+        threadID(NULL),
+        threadHandle(NULL)
     {
-	mutex = new ACE_Thread_Mutex;
+	    mutex = new ACE_Thread_Mutex;
     }
 
     // destructor clears everything 
@@ -94,11 +96,16 @@ namespace ot {
 
     void ThreadModule::start()
     {
-	thread = new ACE_thread_t;
+	threadID = new ACE_thread_t;
+	threadHandle = new ACE_hthread_t;
 	ACE_Thread::spawn((ACE_THR_FUNC)thread_func, 
                           this, 
                           THR_NEW_LWP | THR_JOINABLE,
-                          (ACE_thread_t *)thread );
+                          (ACE_thread_t *)threadID,
+						  (ACE_hthread_t *)threadHandle);
+    logPrintI("ThreadID: %d, ThreadHandle: %d\n", 
+            (*(ACE_thread_t*)threadID), 
+            (*(ACE_hthread_t*)(threadHandle)));
     }    
 
     // stops the thread and closes the module
@@ -107,15 +114,33 @@ namespace ot {
     {
         logPrintI("ThreadModule::close()\n");
 #ifdef WIN32
-        ACE_Thread::join( ((ACE_thread_t*)thread) );
+		//ACE_thread_t *departed;
+        if (threadHandle)
+        {
+            ACE_Thread::join( (*((ACE_hthread_t*)threadHandle)));
+        }
 #else
-        ACE_Thread::join( (*(ACE_thread_t*)thread) );
+        if (threadID)
+        {
+            if (threadID)
+            {
+                ACE_Thread::join( (*(ACE_thread_t*)threadID) );
+            }
+        }
 #endif
 	// ACE_Thread::cancel( *(ACE_thread_t *)thread );
         
-        if (thread)
+        if (threadID)
         {
-            delete ((ACE_thread_t *)thread);
+#ifndef WIN32
+            delete ((ACE_thread_t *)threadID);            
+#endif
+        }
+        if (threadHandle)
+        {
+#ifndef WIN32            
+            delete ((ACE_hthread_t *)threadHandle);
+#endif
         }
     }
 
