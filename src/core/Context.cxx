@@ -488,9 +488,12 @@ namespace ot {
         waitingpending = true;
         _waitingpendingcondition->broadcast();
         
-        while (!pendingdata)
+        if (stoploopflag == 0)
         {
-            _havedatacondition->wait(); 
+            while (!pendingdata)
+            {
+                _havedatacondition->wait(); 
+            }
         }
         pendingdata = false;
         _havedatamutex->release();
