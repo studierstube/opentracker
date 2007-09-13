@@ -300,7 +300,7 @@ namespace ot {
         if( logFile != NULL )
             logFile->close();
 
-        //ThreadModule::close();
+        ThreadModule::close();
 
     }
 
