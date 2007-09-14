@@ -17,7 +17,14 @@
 
 #include "OpenTracker/input/WiiHandler.h"
 #include <math.h>
-
+#include <cstdio>
+#include <iostream>
+#include <sstream>
+#include <cassert>
+#include <ace/Log_Msg.h>
+#include <string>
+#include <iostream>
+#include <math.h>
 #include <cstring>
 #ifndef WIN32
 #include <unistd.h>
@@ -420,41 +427,43 @@ namespace ot {
             printf("P2:[%+1.2f %+1.2f]",irX,irY);
          }
       }
+ printf(GetbuttonstStatusString().c_str());
 
-
-      //print the button status
-      if (mLastButtonStatus.m1)
-         printf("1");
-      if (mLastButtonStatus.m2)
-         printf("2");
-      if (mLastButtonStatus.mA)
-         printf("A");
-      if (mLastButtonStatus.mB)
-         printf("B");
-      if (mLastButtonStatus.mPlus)
-         printf("+");
-      if (mLastButtonStatus.mMinus)
-         printf("-");
-      if (mLastButtonStatus.mUp)
-         printf("U");
-      if (mLastButtonStatus.mDown)
-         printf("D");
-      if (mLastButtonStatus.mLeft)
-         printf("L");
-      if (mLastButtonStatus.mRight)
-         printf("R");
-      if (mLastButtonStatus.mHome)
-         printf("H");
-
-      if (mNunchuckAttached)
-      {
-         if (mLastChuckReport.mButtonZ)
-            printf("Z");
-         if (mLastChuckReport.mButtonC)
-            printf("C");
-      }
-
-      printf("\n");
+/*
+            //print the button status
+            if (mLastButtonStatus.m1)
+               printf("1");
+            if (mLastButtonStatus.m2)
+               printf("2");
+            if (mLastButtonStatus.mA)
+               printf("A");
+            if (mLastButtonStatus.mB)
+               printf("B");
+            if (mLastButtonStatus.mPlus)
+               printf("+");
+            if (mLastButtonStatus.mMinus)
+               printf("-");
+            if (mLastButtonStatus.mUp)
+               printf("U");
+            if (mLastButtonStatus.mDown)
+               printf("D");
+            if (mLastButtonStatus.mLeft)
+               printf("L");
+            if (mLastButtonStatus.mRight)
+               printf("R");
+            if (mLastButtonStatus.mHome)
+               printf("H");
+      
+            if (mNunchuckAttached)
+            {
+               if (mLastChuckReport.mButtonZ)
+                  printf("Z");
+               if (mLastChuckReport.mButtonC)
+                  printf("C");
+            }
+      */
+            printf("\n");
+      
 
    }
 
@@ -852,8 +861,10 @@ namespace ot {
       mLastIRReport.mP2Y = ((int)data[5] & 0xC0) << 2 | (int)data[4];
       mLastIRReport.mP2Size = data[5] & 0xf;
       */
+
       mLastIRReport.mP1X = (data[2] & 0x30) << 4 | data[0];
       mLastIRReport.mP1Y = (data[2] & 0xC0) << 2 | data[1];
+      mLastIRReport.mP1Size = data[2] & 0xf;
 
       mLastIRReport.mP2X = (data[2] & 0x03) << 4 | data[3];
       mLastIRReport.mP2Y = (data[2] & 0x0C) << 2 | data[4];
@@ -927,6 +938,47 @@ namespace ot {
 
       return mLastButtonStatus.outdata;
    }
+
+
+const std::string WiiHandler::GetbuttonstStatusString() const
+{
+   std::stringstream os;
+   //print the button status
+   if (mLastButtonStatus.m1) os<< "1";
+   if (mLastButtonStatus.m2) os<< "2";
+   if (mLastButtonStatus.mA) os<< "A";
+   if (mLastButtonStatus.mB) os<< "B";
+   if (mLastButtonStatus.mPlus) os<< "+";
+   if (mLastButtonStatus.mMinus) os<< "-";
+   if (mLastButtonStatus.mUp) os<< "U";
+   if (mLastButtonStatus.mDown) os<< "D";
+   if (mLastButtonStatus.mLeft) os<< "L";
+   if (mLastButtonStatus.mRight) os<< "R";
+   if (mLastButtonStatus.mHome) os<< "H";
+
+   if (mNunchuckAttached)
+   {
+      if (mLastChuckReport.mButtonZ) os<< "Z";
+      if (mLastChuckReport.mButtonC) os<< "C";
+   }
+
+return os.str();
+}
+
+const std::string WiiHandler::GetIRStatusString() const
+{
+   std::stringstream os;
+   float irX,irY;
+   if (GetIRP1(irX,irY))
+   {
+      os<<"P1:"<<irX<<","<<irY<<" ";
+   }
+   if (GetIRP2(irX,irY))
+   {
+      os<<"P2:"<<irX<<","<<irY<<" ";
+   }
+return os.str();
+}
 
 } // end namespace ot {
 

@@ -13,7 +13,7 @@
 #else // win code
 
 #include <../extras/hid/xp/hiddevice.h>
-
+#include <string>
 
 #ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
@@ -53,8 +53,12 @@ namespace ot {
       void GetCalibratedAcceleration(float & x, float & y, float &z) const;
       void GetCalibratedChuckAcceleration(float & x, float & y, float &z) const;
       void GetCalibratedChuckStick(float & x, float & y) const;
-      bool GetIRP1(float &x, float &y) const;
+      bool GetIRP1(float &x, float &y) const; ///< return normalized position form IR; 0,0 =top left 
       bool GetIRP2(float &x, float &y) const;
+
+      // Reports
+      const std::string GetbuttonstStatusString() const;
+      const std::string GetIRStatusString() const;
 
       float deltajoy; ///<thresold for nunchuck Joystick
       struct tExpansionReport

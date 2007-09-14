@@ -104,8 +104,10 @@ namespace ot {
         NodeVector sources; ///< list of WiiSource nodes in the tree
         NodeVector sinks;   ///< list of WiiSink nodes in the tree
         
+        enum IrMode{ NOINFRARED =0 ,INFRARED1,  INFRARED2};
 
-        
+        int irmode;
+        bool sendAttribites;
         int stop; ///< flag whether the thread should stop
 
         // Methods
@@ -126,7 +128,7 @@ namespace ot {
          * name to the TargusSource element name, and if it matches
          * creates a new TargusSource node.
          * @param name reference to string containing element name
-         * @attributes refenrence to StringTable containing attribute values
+         * @attributes reference to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  StringTable& attributes);
