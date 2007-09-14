@@ -84,6 +84,8 @@
 
 #include<OpenTracker/input/WiiHandler.h>
 /**
+ * Wiimote is auto-calibrated.Please put it on a flat surface with A button up at the starting.
+ * Inital data are stored aund used  
  * An example configuration element looks like this:
  * @verbatim
  <WiiSink 
