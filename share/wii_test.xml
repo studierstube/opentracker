@@ -9,14 +9,14 @@
     <EventTransform translation="1 1 1" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0">
 
-      <TestSource frequency="1" offset="50" noise="0.1" />
+      <TestSource frequency="1" offset="10" noise="0.1" />
     </EventTransform>
   </ConsoleSink>
   
   <ConsoleSink comment="WiiSource 1" active="on">
-    <EventTransform translation="1 1 1" scale="1 1 1"
+    <EventTransform translation="0 0 0" scale="1 1 1"
     rotationtype="euler" rotation="0 0 0"> 
-      
+   
 	<WiiSource  />
     </EventTransform>
   </ConsoleSink>

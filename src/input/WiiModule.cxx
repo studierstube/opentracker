@@ -59,6 +59,12 @@
 
 OT_NAMESPACE_BEGIN
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+#include <math.h>
+
 OT_MODULE_REGISTER_FUNC(WiiModule){
     OT_MODULE_REGISTRATION_DEFAULT(WiiModule, "WiiConfig");
 }
@@ -192,12 +198,66 @@ void WiiModule::run()
                     //printf("P2:[%+1.2f %+1.2f]",irX,irY);
                 }
             }
+/*
             source->event.getPosition()[0] = irX;
             source->event.getPosition()[1] = irY;
             source->event.getPosition()[2] = 0.0f;
+*/
+            source->event.getPosition()[0] = wX;
+            source->event.getPosition()[1] = wY;
+            source->event.getPosition()[2] = wZ;
+
+
+            #define NEW_AMOUNT 0.1
+            #define OLD_AMOUNT (1.0-NEW_AMOUNT)
+
+            double a_x = wX, a_y = wY, a_z = wZ;
+
+/* this smooths a bit
+            a_x = (wX)*NEW_AMOUNT + a_x*OLD_AMOUNT;
+            a_y = (((double)mesg->acc[CWIID_Y] - acc_cal.zero[CWIID_Y]) /
+               (acc_cal.one[CWIID_Y] - acc_cal.zero[CWIID_Y]))*NEW_AMOUNT +
+               a_y*OLD_AMOUNT;
+            a_z = (((double)mesg->acc[CWIID_Z] - acc_cal.zero[CWIID_Z]) /
+               (acc_cal.one[CWIID_Z] - acc_cal.zero[CWIID_Z]))*NEW_AMOUNT +
+               a_z*OLD_AMOUNT;
+*/
+
+            double a;
+            double roll, pitch, jaw;
+	         a = sqrt(pow(a_x,2)+pow(a_y,2)+pow(a_z,2));
+	         roll = atan(a_x/a_z);
+	         if (a_z <= 0.0) {
+		         roll += M_PI * ((a_x > 0.0) ? 1 : -1);
+	         }
+         	pitch = atan(a_y/a_z*cos(roll));
+
+ /*
+           if ((a > 0.85) && (a < 1.15)) {
+               if ((fabs(roll)*(180/PI) > 10) && (fabs(pitch)*(180/PI) < 80)) {
+                  //data.axes[2].valid = 1;
+                  data.axes[2].value = roll * 5 ;
+               }
+               else {
+                  //data.axes[2].valid = 0;
+               }
+               if (fabs(pitch)*(180/PI) > 10) {
+                  //data.axes[3].valid = 1;
+                  data.axes[3].value = pitch * 10 ;
+               }
+               else {
+                  //data.axes[3].valid = 0;
+               }
+            }
+            else {
+               //data.axes[2].valid = 0;
+               //data.axes[3].valid = 0;
+            }
+*/
+
 
             float rotationQuaternion[4];
-            MathUtils::eulerToQuaternion (wX, wY, wZ, rotationQuaternion);
+            MathUtils::eulerToQuaternion (roll, pitch, 0.001, rotationQuaternion);
             source->event.setOrientation(rotationQuaternion);
 
             // buttons
@@ -237,6 +297,15 @@ void WiiModule::init(StringTable& attributes, ConfigNode * localTree)
    
     initialized = 1;
 }
+
+/*
+
+void WiiModule::ir2mode(WiiSource * source )
+{
+
+
+}*/
+
 
 OT_NAMESPACE_END
 
