@@ -168,6 +168,10 @@ void WiiModule::run()
       }
       wiimote->HeartBeat(); // retrives data s from the device
       
+      //if( modeOption.compare("laserpointer") ==0) {interactionmode = LASERPOINTER;}
+      //else if( modeOption.compare("navigator")==0) {interactionmode = NAVIGATOR;}
+      //else if( modeOption.compare("rotator") ==0) {interactionmode = ROTATOR;}
+      //else interactionmode = NAVIGATOR; // default
 
       NodeVector::iterator it;
       for( it = sources.begin(); it != sources.end(); it++) 
@@ -236,11 +240,11 @@ void WiiModule::run()
          source->event.getPosition()[2] = irZ;
 
          // consider accelerations
-         double roll = 0.0;
-         double pitch= 0.0;  
-         double jaw =0.0;
-         double a_x = wX, a_y = wY, a_z = wZ;
-         double acellerationModule = sqrt(pow(a_x,2)+pow(a_y,2)+pow(a_z,2));
+         float roll = 0.0;
+         float pitch= 0.0;  
+         float jaw =0.0;
+         float a_x = wX, a_y = wY, a_z = wZ;
+         float acellerationModule = sqrt(pow(a_x,2)+pow(a_y,2)+pow(a_z,2));
 
          if (irmode == INFRARED2 ) // using roll from ir -seems imprecise
          {
@@ -288,7 +292,7 @@ void WiiModule::run()
 
 
          float rotationQuaternion[4];
-         MathUtils::eulerToQuaternion (roll, pitch, 0.001, rotationQuaternion);
+         MathUtils::eulerToQuaternion (roll, pitch, 0.001f, rotationQuaternion);
          source->event.setOrientation(rotationQuaternion);
 
          // buttons
@@ -312,14 +316,13 @@ void WiiModule::run()
             irModeStr = "NOINFRARED";
                         }
             source->event.setAttribute("IrMode:", irModeStr);
-
             std::string k_str = wiimote->GetbuttonstStatusString(); //retrieve as a string
             source->event.setAttribute("Buttons:", k_str);
             std::string k_str2 = wiimote->GetIRStatusString(); //retrieve as a string
             source->event.setAttribute("IR:", k_str2);
          }
 
-
+         // Release lock
          source->unlock();
 
          if (context != NULL)   
@@ -349,7 +352,19 @@ void WiiModule::init(StringTable& attributes, ConfigNode * localTree)
 
    ThreadModule::init( attributes, localTree );      
 
-   irmode = INFRARED2;
+   irmode = NOINFRARED; // this is a sityem variable
+
+   StringTable & localAttrib = localTree->getAttributes();
+   const std::string & modeOption =localAttrib.get("mode");
+   if( modeOption.compare("laserpointer") ==0) {interactionmode = LASERPOINTER;}
+   else if( modeOption.compare("navigator")==0) {interactionmode = NAVIGATOR;}
+   else if( modeOption.compare("rotator") ==0) {interactionmode = ROTATOR;}
+   else interactionmode = NAVIGATOR; // default
+
+   //enum IrMode{ NOINFRARED =0 ,INFRARED1,  INFRARED2};
+   //enum InteractionMode{ LASERPOINTER =0 ,NAVIGATOR,  ROTATOR};
+
+
    initialized = 1;
 
    sendAttribites = TRUE; // this could be to be into the setup

@@ -3,6 +3,7 @@
 <OpenTracker>
   <configuration>
     <ConsoleConfig headerline="My Output" interval="1"/>
+    <WiiConfig  mode="navigator"/>
   </configuration>
 
   <ConsoleSink comment="Test Source 2" active="on">

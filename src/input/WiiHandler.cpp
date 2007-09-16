@@ -16,6 +16,7 @@
 
 
 #include "OpenTracker/input/WiiHandler.h"
+#include <bitset>
 #include <math.h>
 #include <cstdio>
 #include <iostream>
@@ -113,7 +114,7 @@ namespace ot {
       mIRRunning = false;
       mDataStreamRunning = false;
 
-      deltajoy =0.01; // mf add
+      deltajoy =0.01f; // mf add
    }
 
    bool WiiHandler::SetReportMode(eReportMode mode)
@@ -372,21 +373,22 @@ namespace ot {
       mLastButtonStatus.mLeft = (data[0] & 0x01) != 0;
       mLastButtonStatus.mRight = (data[0] & 0x02) != 0;
 
-      //two bytes long
-      mLastButtonStatus.outdata = 0x0000;
-
-      (mLastButtonStatus.mA) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0002;  //mA
-      (mLastButtonStatus.mB) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0004;  //mB
-      (mLastButtonStatus.m1) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0008;  //m1
-      (mLastButtonStatus.m2) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0010;  //m1
-      (mLastButtonStatus.mPlus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0020;  //mPlus
-      (mLastButtonStatus.mMinus) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0040;  //mMinus
-      (mLastButtonStatus.mHome) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0080;  //mHome
-      (mLastButtonStatus.mUp) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0100;  //mUp
-      (mLastButtonStatus.mDown) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0200;  //mDown
-      (mLastButtonStatus.mRight) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0400;  //mRight
-      (mLastButtonStatus.mLeft) == 0 ? mLastButtonStatus.outdata &= ~0x0001 : mLastButtonStatus.outdata |= 0x0800;  //mLeft
-   }
+      static const int bitBufferlenght = sizeof(unsigned short)*8;
+      static std::bitset<bitBufferlenght> buttonstateBitset;
+      buttonstateBitset.set(0, mLastButtonStatus.mA);
+      buttonstateBitset.set(1, mLastButtonStatus.mB);
+      buttonstateBitset.set(2, mLastButtonStatus.m1);
+      buttonstateBitset.set(3, mLastButtonStatus.m2);
+      buttonstateBitset.set(4, mLastButtonStatus.mPlus);
+      buttonstateBitset.set(5, mLastButtonStatus.mMinus);
+      buttonstateBitset.set(6, mLastButtonStatus.mHome);
+      buttonstateBitset.set(7, mLastButtonStatus.mUp);
+      buttonstateBitset.set(8, mLastButtonStatus.mDown);
+      buttonstateBitset.set(9, mLastButtonStatus.mRight);
+      buttonstateBitset.set(10, mLastButtonStatus.mLeft);
+      mLastButtonStatus.outdata = buttonstateBitset.to_ulong();
+  
+  }
    void WiiHandler::ParseMotionReport(const unsigned char * data)
    {
       //three bytes long

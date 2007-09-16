@@ -105,8 +105,11 @@ namespace ot {
         NodeVector sinks;   ///< list of WiiSink nodes in the tree
         
         enum IrMode{ NOINFRARED =0 ,INFRARED1,  INFRARED2};
+        enum InteractionMode{ LASERPOINTER =0 ,NAVIGATOR,  ROTATOR};
 
         int irmode;
+        int interactionmode;
+
         bool sendAttribites;
         int stop; ///< flag whether the thread should stop
 
