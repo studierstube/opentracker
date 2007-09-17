@@ -367,7 +367,7 @@ void WiiModule::init(StringTable& attributes, ConfigNode * localTree)
 
    initialized = 1;
 
-   sendAttribites = TRUE; // this could be to be into the setup
+   sendAttribites = true; // this could be to be into the setup
 }
 
 /*

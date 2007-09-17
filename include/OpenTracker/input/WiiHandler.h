@@ -10,10 +10,10 @@
 
 //put linux specific code here
 
+#include <string>
 #else // win code
 
 #include <../extras/hid/xp/hiddevice.h>
-#include <string>
 
 #ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
 #define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.

@@ -139,10 +139,10 @@ void WiiSink::runVibro()
    if (duration-- > 0)
    {
       OSUtils::sleep (frequency);
-      wiimote->SetVibration(TRUE);
+      wiimote->SetVibration(true);
       logPrintI("endsleep\n");
       duration--;
-   }else wiimote->SetVibration(FALSE);
+   }else wiimote->SetVibration(false);
    /*
    if (thread){
    // kills existing threads
