@@ -82,8 +82,7 @@ namespace ot {
         threadID(NULL),
         threadHandle(NULL)
     {
-	    mutex = new ACE_Thread_Mutex;
-	thread = 0;
+        mutex = new ACE_Thread_Mutex;
     }
 
     // destructor clears everything 
