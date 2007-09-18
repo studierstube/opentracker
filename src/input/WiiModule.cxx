@@ -242,28 +242,26 @@ void WiiModule::run()
          // consider accelerations
          float roll = 0.0;
          float pitch= 0.0;  
-         float jaw =0.0;
+         float jaw =  0.0;
          float a_x = wX, a_y = wY, a_z = wZ;
          float acellerationModule = sqrt(pow(a_x,2)+pow(a_y,2)+pow(a_z,2));
 
          if (irmode == INFRARED2 ) // using roll from ir -seems imprecise
          {
             roll = atan2((ir1Y-ir2Y),(ir1X-ir2X)) * 180 / M_PI;
-            source->event.getPosition()[0] = roll;
+            //source->event.getPosition()[0] = roll;
 
          }
          else // using roll from accellerometers
          {
             roll = atan(a_x/a_z) * 180 / M_PI ;
-            source->event.getPosition()[1] = roll ;
             if (a_z <= 0.0) // invert roll if wii faces down
             {
                roll += M_PI * ((a_x > 0.0) ? 1 : -1);
             }
-            source->event.getPosition()[1] = roll;
          }
          pitch = atan(a_y/a_z*cos(roll))* 180 / M_PI;
-         source->event.getPosition()[2] = pitch;
+         //source->event.getPosition()[2] = pitch;
 
 /*
          if ((acellerationModule > 0.85) && (acellerationModule < 1.15)) 

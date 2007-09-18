@@ -22,6 +22,7 @@
 #endif //end win code
 
 #include <cstdio>
+#include <string>
 
 
 namespace ot {

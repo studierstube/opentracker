@@ -82,7 +82,11 @@ namespace ot {
         threadID(NULL),
         threadHandle(NULL)
     {
+<<<<<<< .mine
+	    mutex = new ACE_Thread_Mutex;
+=======
         mutex = new ACE_Thread_Mutex;
+>>>>>>> .r2047
     }
 
     // destructor clears everything 
