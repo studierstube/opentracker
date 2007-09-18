@@ -166,7 +166,7 @@ namespace ot {
 
         while (!havetoquit)
         {
-            logPrintI(" waiting for action command ...\n");
+            logPrintI("Waiting for action command ...\n");
             
             action_mutex->acquire();
 
