@@ -81,7 +81,7 @@ WiiModule::WiiModule() : ThreadModule(), NodeFactory(), stop(0)
    if (wiimote->ConnectToDevice() &&
       wiimote->StartDataStream())
    {
-      logPrintI("Wii Cannection: OK\n");
+      logPrintI("Wii Connection: OK\n");
    }
    else
    {
