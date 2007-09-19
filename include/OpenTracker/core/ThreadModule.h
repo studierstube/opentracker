@@ -74,11 +74,7 @@ namespace ot {
         /// handle to module specific thread. This is a little bit tricky as we
         /// don't use the ACE definition but the same type.
         void * threadID;
-<<<<<<< .mine
-		  void * threadHandle;
-=======
 	void * threadHandle;
->>>>>>> .r2047
 
         /// Mutex to implement lock, unlock behavior
         ACE_Thread_Mutex * mutex;

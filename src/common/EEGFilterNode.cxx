@@ -169,23 +169,24 @@ namespace ot {
                     
                     if ( actval > maxval)
                     {
-						maxval2 = maxval;
-						maxi2 = maxi;
+                        maxval2 = maxval;
+                        maxi2 = maxi;
                         maxval = actval;
                         maxi = i;
                     }
-					else if (actval > maxval2)
-					{
-						maxval2 = actval;
-						maxi2 = i;
-					}
+                    else if (actval > maxval2)
+                    {
+                        maxval2 = actval;
+                        maxi2 = i;
+                    }
                 }
 				
-				if (maxval <= maxval2*threshold)
-				{
-					maxi = -1;
-				}
-				//printf(" maxval(%d): %lf  maxval(%d): %lf \n", maxi, maxval, maxi2, maxval2);
+                if (maxval <= maxval2*threshold)
+                {
+                    maxi = -1;
+                    maxval = 0;
+                }
+                //printf(" maxval(%d): %lf  maxval(%d): %lf \n", maxi, maxval, maxi2, maxval2);
 				
                 // update event buffer
                 
