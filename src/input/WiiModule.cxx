@@ -182,10 +182,10 @@ void WiiModule::run()
          float wX,wY,wZ;
          float cX,cY,cZ;
          float sX,sY;
-         float irX,irY,irZ;
+         static float irX,irY,irZ;
          float ir1X,ir1Y;
          float ir2X,ir2Y;
-         wX =wY=wZ=cX=cY=cZ=sX=sY=irX=irY=irZ=ir1X=ir1Y=ir2X=ir2Y=0.f; // inizialization
+         wX =wY=wZ=cX=cY=cZ=sX=sY=ir1X=ir1Y=ir2X=ir2Y=0.f; // inizialization
 
          wiimote->GetCalibratedAcceleration(wX,wY,wZ);
          //         printf("W:[%+1.2f %+1.2f %+1.2f] ",wX,wY,wZ);
@@ -201,7 +201,7 @@ void WiiModule::run()
 
          // Starting to Reason about position: best data are absolute from Ir tracking
 
-         irmode = NOINFRARED; // default, we can count only on accelerations 
+         irmode = NOINFRARED;
          if (wiimote->mIRRunning)
          {
             if (wiimote->GetIRP1(ir1X,ir1Y))
@@ -233,11 +233,12 @@ void WiiModule::run()
                }
             }
          }
-         // Node attributes
+         //else irmode = NOINFRARED; // default, we can count only on accelerations 
 
-         source->event.getPosition()[0] = irX;
-         source->event.getPosition()[1] = irY;
-         source->event.getPosition()[2] = irZ;
+         // Populates the event 
+         source->event.getPosition()[0] = 1.0-irX;
+         source->event.getPosition()[1] = 1.0-irY;
+         source->event.getPosition()[2] = 0;
 
          // consider accelerations
          float roll = 0.0;
