@@ -142,11 +142,18 @@ namespace ot {
     OtLogger::OtLogger()
     {
         logMode = MODE_CONSOLE;
-        logFileName = "ot_log.txt";
+        logFileOwner = true;
+        logFileName = new char[11];
+        strcpy(logFileName,"ot_log.txt");        
     }
 
     OtLogger::~OtLogger()
     {
+        if (logFileName && logFileOwner)
+        {
+            delete [] logFileName;
+            logFileOwner = false;
+        }
     }
 
     OtLogger *OtLogger::getInstance()
@@ -163,6 +170,12 @@ namespace ot {
 
     void OtLogger::setLogFileName(char * filename)
     {
+        if (logFileName && logFileOwner) 
+        {
+            delete [] logFileName;
+            logFileOwner = false;
+        }
+
         logFileName = filename;
     }
 

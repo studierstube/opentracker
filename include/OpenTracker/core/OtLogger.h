@@ -113,6 +113,7 @@ namespace ot {
         static OtLogger *instance;
                                                                              
         char * logFileName;
+        bool logFileOwner;
                                                                                  
         /// The constructor
         OtLogger();
