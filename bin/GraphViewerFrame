@@ -1,0 +1,2 @@
+#!/bin/bash
+java -Djava.net.preferIPv4Stack=true -cp src_java/OpenTrackerStubs.jar:src_java/java-getopt-1.0.12.jar:src_java/vecmath1.2.jar:src_java/grappa1_2.jar:src_java/Viewer.jar org.studierstube.opentracker.viewer.GraphViewerFrame $*
