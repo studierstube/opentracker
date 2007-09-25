@@ -55,11 +55,17 @@ namespace ot
 {
 
     class Context;
+#ifdef USE_LIVE
+    class LiveContext;
+#endif
     class ThreadContext;
     class ConfigurationThread;
     enum ContextType {
         NORMAL = 0,
         THREAD = 1
+#ifdef USE_LIVE
+        ,  LIVE =2
+#endif
     };
 
     class OPENTRACKER_API Configurator {
@@ -85,6 +91,10 @@ namespace ot
 	static void doInitialization(Context & newctx);
       
 	Configurator(int ctx_type = NORMAL);
+#ifdef USE_LIVE
+               LiveContext* createLiveContext();
+#endif       
+
     public:
 	
 
@@ -92,7 +102,6 @@ namespace ot
 	virtual ~Configurator();
 
 	Context * getContext();
-	
 	void parseConfigurationString(std::string configString);
 	void changeConfiguration(std::string configString);
 	void changeConfigurationFile(const char* xmlstring);

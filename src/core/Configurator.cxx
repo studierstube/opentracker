@@ -44,6 +44,9 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/core/Configurator.h>
 #include <OpenTracker/core/Context.h>
+#ifdef USE_LIVE
+#include <OpenTracker/core/LiveContext.h>
+#endif
 #include <OpenTracker/core/ThreadContext.h>
 #include <OpenTracker/misc/FileConfigurationThread.h>
 #include <iostream>
@@ -64,6 +67,11 @@ namespace ot{
             case THREAD:
                 ctx = new ThreadContext(0);
                 break;
+#ifdef USE_LIVE
+            case LIVE:
+                ctx = createLiveContext();
+                break;
+#endif
             default:
                 ctx = new Context(0);
                 break;
@@ -82,6 +90,68 @@ namespace ot{
 	}
 	return self;
     }
+
+#ifdef USE_LIVE
+    LiveContext* Configurator::createLiveContext() 
+    {
+        LiveContext* context_impl = NULL;
+        try
+        {
+            context_impl = new LiveContext();
+            cerr << "got LiveContext instance" << endl;
+            ModuleMap modules = context_impl->getModules();
+            ModuleMap::iterator module_iterator  = modules.find("CORBAConfig");
+            if ( module_iterator == modules.end() ) {
+                exit(-1);
+            } 
+            cerr << "found CORBA module" << endl;
+            CORBAModule *corba_module = (CORBAModule*) module_iterator->second.item();
+            if (corba_module == NULL) {
+                cerr << "cast from iterator failed. Exiting...";
+                exit(-1);
+            }
+            CORBA::ORB_var orb = corba_module->getORB();
+            if (CORBA::is_nil(orb)) {
+                cerr << "Unable to obtain orb reference. Exiting...";
+                exit(-1);
+            }
+            cerr << "got reference to ORB" << endl;
+            PortableServer::POA_var poa = corba_module->getPOA();
+            if (CORBA::is_nil(poa)) {
+                cerr << "got nil reference to POA. Exiting...." << endl;
+                exit(-1);
+            }
+            POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
+             
+            PortableServer::ObjectId_var id = corba_module->getRootPOA()->activate_object(context);
+             
+            // Obtain a reference to the object, and register it in
+            // the naming service.
+            CORBA::Object_var obj = corba_module->getRootPOA()-> id_to_reference(id);
+             
+            CosNaming::NamingContextExt::StringName_var string_name = "Stb.Context";
+            CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);  
+        }
+        catch(CORBA::SystemException&) {
+            logPrintE("Caught CORBA::SystemException.\n");
+        }
+        catch(CORBA::Exception&) {
+            logPrintE("Caught CORBA::Exception.\n");
+        }
+        catch(omniORB::fatalException& fe) {
+            logPrintE("Caught omniORB::fatalException:\n");
+            logPrintE("  file: %s\n", fe.file());
+            logPrintE("  line: %s \n", fe.line());
+            logPrintE("  mesg: %s \n", fe.errmsg());
+        }
+        catch(...) {
+            logPrintE("Caught unknown exception.\n");
+        }
+        
+        // return the context obtained
+        return context_impl;
+    }
+#endif
 
     Configurator::~Configurator()
     {
