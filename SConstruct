@@ -368,7 +368,7 @@ else:
             otqtcalib['defines'] += ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
         except KeyError:
             otqtcalib['defines'] = ['QT_NO_DEBUG', 'QT_THREAD_SUPPORT', 'USE_OTQT']
-        mocaction='moc $SOURCE -o $TARGET'
+        mocaction='moc-qt3 $SOURCE -o $TARGET'
         bld = Builder(action=mocaction)
         env = Environment(ENV=os.environ, tools=['default','qt'])
         env['QT_LIB'] = 'qt-mt'
