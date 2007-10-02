@@ -31,7 +31,7 @@ endif
 build: build-stamp
 build-stamp:
 	dh_testdir
-	scons --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT4=yes
+	scons --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT3=yes
 	touch build-stamp
 
 clean:
@@ -39,7 +39,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp
 	rm -f config.opts
-	scons -c --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT4=yes
+	scons -c --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT3=yes
 	dh_clean
 
 # didn't see any debhelper script for this one...  larsa 20010829
@@ -52,8 +52,8 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	scons --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT4=yes
-	scons --no-cache install PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT4=yes
+	scons --no-cache PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT3=yes
+	scons --no-cache install PREFIX=`pwd`/debian/tmp/usr ENABLE_OTQT_QT3=yes
 	sed s:\/home.*.\/debian\/tmp:: debian/tmp/usr/lib/pkgconfig/opentracker.pc -ibak
 	mkdir -p debian/tmp/usr/include/OpenTracker/extras/newmat10
 	cp extras/newmat10/*.h* debian/tmp/usr/include/OpenTracker/extras/newmat10

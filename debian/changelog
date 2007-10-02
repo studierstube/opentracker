@@ -1,3 +1,33 @@
+libopentracker (2.0a-24) unstable; urgency=low
+
+  * using Qt 3.x again 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Tue, 02 Oct 2007 12:36:36 +0200
+
+libopentracker (2.0a-23) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Tue, 14 Aug 2007 09:56:39 +0200
+
+libopentracker (2.0a-22) unstable; urgency=low
+
+  * new version using Qt 4.x 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Wed, 20 Jun 2007 12:00:15 +0200
+
+libopentracker (2.0a-21) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Thu, 14 Jun 2007 12:32:41 +0200
+
+libopentracker (2.0a-20) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Fri, 01 Jun 2007 14:29:49 +0200
+
 libopentracker (2.0a-19) unstable; urgency=low
 
   * new version with g.Mobilab support 
