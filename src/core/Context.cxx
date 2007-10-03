@@ -362,6 +362,59 @@ namespace ot {
         //logPrintI("looptime : %lf\n", loopetime - looptime);
         return stopflag;
     }
+   
+    int Context::syncLoopOnce()
+    {
+        // store synchronization settings
+        bool syncsetting = dosync;
+        dosync = true;
+       
+        //double looptime = OSUtils::currentTime();
+       
+        _havedatamutex->acquire();	
+       
+        //logPrintI("Context: Waiting for new data\n");
+        waitingpending = true;
+        _waitingpendingcondition->broadcast();
+            
+        while (!pendingdata)
+	{
+	    _havedatacondition->wait(); 
+	}
+        pendingdata = false;
+
+        //logPrintI("Context: got data -> processing\n");
+            
+        //double loopetime = OSUtils::currentTime();
+        //logPrintI("lock acquisition time : %lf\n", loopetime - looptime);
+
+        bool stopflag = loopOnce();
+
+        _havedatamutex->release();
+
+        _consumeddatamutex->acquire();
+        if (stoploopflag == 0)
+	 {
+	    while (!waitingconsumed)
+	      {
+		 _waitingconsumedcondition->wait();
+	      }
+	 }
+        waitingconsumed = false;
+
+        //logPrintI("Context: data processing finished -> telling drivers\n");
+        dataconsumed = true;
+        _consumeddatacondition->broadcast();
+        //logPrintI("Context:  telling drivers done\n");
+        _consumeddatamutex->release();
+       
+        // restore synchronization settings
+        dosync = syncsetting;
+       
+       logPrintI("Context::syncLoopOnce returning ...\n");
+        return stopflag;
+    }
+   
     // This method implements the main loop and runs until it is stopped somehow.
 
     void Context::run()
@@ -510,15 +563,13 @@ namespace ot {
     {
         //logPrintI(" Context::waitDataSignal()\n");
         _havedatamutex->acquire();	
-        //#ifdef WIN32
+
         while (!pendingdata)
         {
             _havedatacondition->wait(); 
         }
         pendingdata = false;
-        //#else
-        //pthread_cond_wait(_havedatacondition, _havedatamutex);
-        //#endif
+
         _havedatamutex->release();
     };
     void Context::dataSignal() 

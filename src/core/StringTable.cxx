@@ -267,10 +267,11 @@ namespace ot {
         try
         {
             double inval;
+	    vector.resize(len);
             while (!is.eof() && count < len)
             {
                 is >> inval;
-                vector.push_back(inval);
+                vector[count] = inval;
                 count++;
             }
            
@@ -313,10 +314,11 @@ namespace ot {
         try
         {
             double inval;
+	    vector.resize(len);
             while (!is.eof() && count < len)
             {
                 is >> inval;
-                vector.push_back(inval);
+                vector[count] = inval;
                 count++;
             }
            

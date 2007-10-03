@@ -117,6 +117,8 @@ namespace ot {
         // PARSE OpenTracker configuration file
         context_.parseConfiguration(cfg_filename_);
         // START OpenTracker
+	//context_.setSynchronization(true);
+	context_.setSynchronization(false);
         context_.start();
         // connect timer to callback function
         QObject::connect(timer_, SIGNAL(timeout()), this, SLOT(driveOT()));
@@ -169,13 +171,18 @@ namespace ot {
             me_mod_->resetPendingEventBitAllSinks();
             mec_mod_->resetPendingEventBitAllSinks();
 
-			/// todo improve this strategy for optimal cpu usage
+            /// todo improve this strategy for optimal cpu usage
             //context_.waitDataSignal();
+            //context_.loopOnce();
+	    
+	    //logPrintI("OTQTloop\n");
+	   
             // receive states from sources
-            context_.pushEvents();
+            //context_.pushEvents();
             // process new states in modules
-            context_.pullEvents();
-
+            //context_.pullEvents();
+            //context_.syncLoopOnce();
+            context_.loopOnce();
         }
 #ifndef WIN32
         // exception from newmat lib

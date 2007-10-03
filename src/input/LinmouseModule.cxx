@@ -299,7 +299,11 @@ void LinmouseModule::run()
 
             if (context != NULL)
 	    { 
-                context->dataSignal();
+                if (context->doSynchronization())
+                {
+                    context->dataBroadcast();
+                    context->consumedWait();
+                }
 	    } 
         }
     }

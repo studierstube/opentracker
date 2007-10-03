@@ -277,13 +277,16 @@ namespace ot {
         /** calls pullSEvent on all modules to get data out again.*/
         void pullEvents();
 
-		/** do one atomic cycle of the OpenTracker loop, returns the value of
-		  * of stop(), to indicate whether the main loop needs to be stopped.
-		  * Introduced for reconfiguration purposes, it is not safe to call
-		  * pushEvent(), pullEvent(), and stop() separatelly, since the configuration
-		  * may change between calls. For safety use loopOnce() and test the return.*/
-		int loopOnce();
+        /** do one atomic cycle of the OpenTracker loop, returns the value of
+	 * of stop(), to indicate whether the main loop needs to be stopped.
+	 * Introduced for reconfiguration purposes, it is not safe to call
+	 * pushEvent(), pullEvent(), and stop() separatelly, since the configuration
+	 * may change between calls. For safety use loopOnce() and test the return.*/
+        int loopOnce();
 
+        /* blocking loop traversal -> needs at least one event from some source to finish */
+        int syncLoopOnce();
+       
         /** This method implements the main loop and runs until it is stopped
          * somehow. Then it calls close() on all modules. */
         void run();
