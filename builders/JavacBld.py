@@ -62,10 +62,8 @@ def generate_javac_actions(source, target, env, for_signature):
     sources   = stringify_list([file.get_string(for_signature) for file in source], ' ')
     classpath = stringify_list(env['CLASSPATH'],':')
     try:
-        command = 'javac -d %s -classpath %s -sourcepath %s %s' % (env['CLASSINSTALLDIR'],
-                                                                   classpath,
-                                                                   env['SOURCEDIR'],
-                                                                   sources)
+        command = 'javac -d %s -classpath %s -sourcepath %s %s' % \
+            (env['CLASSINSTALLDIR'], classpath, env['SOURCEDIR'], sources)
     except KeyError:
         command = 'javac -d %s -classpath %s %s' % (env['CLASSINSTALLDIR'], classpath, sources)
     listCmd += [command]

@@ -2,6 +2,7 @@ import sys, os
 from glob import glob
 from os.path import join, basename, dirname, isfile, walk
 from sets import Set as set
+from itertools import izip
 ################################################################################
 #     extend path to include SCons builders                                    #
 ################################################################################
@@ -287,12 +288,135 @@ if env['ENABLE_OTQT']:
 #********************************#
 # Enable or disable java support #
 #********************************#
+def classname(path):
+    """Turn a string (path name) into a Java class name."""
+    return string.replace(os.path.normpath(path), os.sep, '.')
+
+def emit_java_classes(target, source, env):
+
+    """Create and return lists of source java files
+    and their corresponding target class files.
+    """
+    java_suffix = env.get('JAVASUFFIX', '.java')
+    class_suffix = env.get('JAVACLASSSUFFIX', '.class')
+
+    target[0].must_be_same(SCons.Node.FS.Dir)
+    classdir = target[0]
+
+    s = source[0].rentry().disambiguate()
+    if isinstance(s, SCons.Node.FS.File):
+        sourcedir = s.dir.rdir()
+    elif isinstance(s, SCons.Node.FS.Dir):
+        sourcedir = s.rdir()
+    else:
+        raise SCons.Errors.UserError("Java source must be File or Dir, not '%s'" % s.__class__)
+
+    slist = []
+    js = _my_normcase(java_suffix)
+    find_java = lambda n, js=js, ljs=len(js): _my_normcase(n[-ljs:]) == js
+    for entry in source:
+        entry = entry.rentry().disambiguate()
+        if isinstance(entry, SCons.Node.FS.File):
+            slist.append(entry)
+        elif isinstance(entry, SCons.Node.FS.Dir):
+            result = SCons.Util.OrderedDict()
+            def visit(arg, dirname, names, fj=find_java, dirnode=entry.rdir()):
+                java_files = filter(fj, names)
+                # The on-disk entries come back in arbitrary order.  Sort
+                # them so our target and source lists are determinate.
+                java_files.sort()
+                mydir = dirnode.Dir(dirname)
+                java_paths = map(lambda f, d=mydir: d.File(f), java_files)
+                for jp in java_paths:
+                     arg[jp] = True
+
+            os.path.walk(entry.rdir().get_abspath(), visit, result)
+            entry.walk(visit, result)
+
+            slist.extend(result.keys())
+        else:
+            raise SCons.Errors.UserError("Java source must be File or Dir, not '%s'" % entry.__class__)
+
+    version = env.get('JAVAVERSION', '1.4')
+    tlist = []
+    for f in slist:
+        source_file_based = True
+        pkg_dir = None
+        if not f.is_derived():
+            pkg_dir, classes = parse_java_file(f.rfile().get_abspath(), version)
+            if classes:
+                source_file_based = False
+                if pkg_dir:
+                    d = target[0].Dir(pkg_dir)
+                    p = pkg_dir + os.sep
+                else:
+                    d = target[0]
+                    p = ''
+                for c in classes:
+                    t = d.File(c + class_suffix)
+                    t.attributes.java_classdir = classdir
+                    t.attributes.java_sourcedir = sourcedir
+                    t.attributes.java_classname = classname(p + c)
+                    tlist.append(t)
+
+        if source_file_based:
+            pkg_dir, classes = parse_java_file(f.rfile().get_abspath(), version)
+            base = f.name[:-len(java_suffix)]
+            if pkg_dir:
+                t = target[0].Dir(pkg_dir).File(base + class_suffix)
+            else:
+                t = target[0].File(base + class_suffix)
+            t.attributes.java_classdir = classdir
+            t.attributes.java_sourcedir = f.dir
+            t.attributes.java_classname = classname(base)
+            tlist.append(t)
+
+    return tlist, slist
+
 if env['ENABLE_JAVA']:
+    #env['_JAVASOURCEPATH'] = '${_javapathopt("-sourcepath", "JAVASOURCEPATH", "")} '
+    import SCons
+    from SCons.Node.FS import _my_normcase
+    from SCons.Tool.JavaCommon import parse_java_file
+    import string
+    env['BUILDERS']['JavaClassFile'].emitter[env.subst('$JAVASUFFIX')] = emit_java_classes
+    stub_classes = env.Java(target=join('build', 'corba_stubs'), source = stub_generator.java, JAVASOURCEPATH='src_java')
+    opentracker_stubs_jar = \
+        env.Jar(target=join('src_java', 'OpenTrackerStubs.jar'), 
+                source = stub_classes, 
+                JARCHDIR=join('build', 'corba_stubs'))
+    if env['ENABLE_OMNIEVENTS']:
+	test_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', _file) for _file in ['OTSinkExample.java', 'OTSourceExample.java', 'OTPushCons.java', 'OpenTrackerEventConsumer.java', 'EventChannelSinkObject.java', 'CorbaApp.java', 'OTEventChannelSourceObject.java', 'OTPushSupp.java']] + \
+	    [join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
+        other_jars = [join('src_java', _jar) for _jar in ['java-getopt-1.0.12.jar', 'vecmath1.2.jar', 'grappa1_2.jar']] + \
+            [str(_jar) for _jar in opentracker_stubs_jar]
+	test_classes = env.Java(target=join('build', 'Java'),
+                                source=test_sources, 
+                                JAVASOURCEPATH='src_java',
+                                JAVACLASSPATH=other_jars)
+	test_jar = env.Jar(target=join('src_java', 'Tests.jar'), 
+			      source = test_classes, 
+                              JARCHDIR=join('build', 'Java'))
+        viewer_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'viewer', _file) for _file in ['DotPane.java', 'GraphViewerFrame.java', 'GraphStatusBar.java', 'UriPanel.java']]
+        viewer_classes = env.Java(source=viewer_sources,
+                                  target=join('build', 'Java'),
+                                  JAVASOURCEPATH='src_java',
+                                  JAVACLASSPATH=other_jars)
+        viewer_manifest = [join('src_java', 'org', 'studierstube', 'opentracker', 'viewer', 'viewer_manifest')]
+        viewer_jar = env.Jar(target=join('src_java', 'Viewer.jar'), 
+                             source=viewer_classes + viewer_manifest, 
+                             JARCHDIR=join('build', 'Java'))
+        push_cons_manifest = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', 'push_cons_manifest')]
+        push_cons_jar = env.Jar(target=join('src_java', 'push_cons.jar'),
+                                source=push_cons_manifest,
+                                JARCHDIR=join('build', 'Java'))
+if False:
+#if env['ENABLE_JAVA']:
     print "Java support enabled"
-    import JavacBld, JarBuilder, JavaShellScript
-    JavacBld.generate(env)
-    JarBuilder.generate(env)
-    JavaShellScript.generate(env)
+    #import JavacBld, JarBuilder, JavaShellScript
+    #JavacBld.generate(env)
+    #JarBuilder.generate(env)
+    #JavaShellScript.generate(env)
     stub_classes = env.JavacBld(stub_generator.java, 
                                 CLASSINSTALLDIR='build')
     opentracker_stubs_jar = env.JarBld(target=join('src_java', 'OpenTrackerStubs.jar'), source = stub_classes, JARCHDIR='build')
@@ -302,8 +426,8 @@ if env['ENABLE_JAVA']:
 	    [join('src_java', 'org', 'studierstube', 'opentracker', _file) for _file in ['OTEvent.java']]
         other_jars = [join('src_java', _jar) for _jar in ['java-getopt-1.0.12.jar', 'vecmath1.2.jar', 'grappa1_2.jar']]
 	test_classes = env.JavacBld(test_sources,
-				       CLASSPATH=other_jars,
-				       CLASSINSTALLDIR='build')
+                                    CLASSPATH=other_jars,
+                                    CLASSINSTALLDIR='build')
 	test_jar = env.JarBld(target=join('src_java', 'Tests.jar'), 
 			      source = test_classes, JARCHDIR='build')
         viewer_sources = [join('src_java', 'org', 'studierstube', 'opentracker', 'viewer', _file) for _file in ['DotPane.java', 'GraphViewerFrame.java', 'GraphStatusBar.java', 'UriPanel.java']]
