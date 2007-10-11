@@ -189,7 +189,7 @@ env.Append(CPPDEFINES=['PRESENCCIA_BUILD', 'USING_SCONS',
                           'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 
                           'OT_NO_CALLFORWARDMODULE_SUPPORT', 
                           'OT_BACKUP_ON_RECONFIG', 
-                          'OT_NO_MOBILAB_SUPPORT'])
+                          'OT_NO_MOBILAB_SUPPORT', 'NO_USE_WII'])
 env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
                           ,'__x86__','_CRT_SECURE_NO_DEPRECATE', '_WINDLL', 
                           '_MBCS'])
@@ -239,7 +239,6 @@ if env['ENABLE_CORBA']:
     omniidl_pys  = installRelativeToDirectory(env, omniorb_root_dir, 'lib', join(prefix, 'bin', 'omniidl'), 'omniidl-pys', ['.py', '.pyc'])
     env.Depends(omniidl_tool, omniidl_pys + python_dll + omnicpp_exe)
     # Install the makedeffile.py tool
-    #makedeffile_py = env.Install(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'scripts', 'makedeffile.py'))
     makedeffile_py = env.Command(join(prefix, 'bin', 'makedeffile.py'), join(omniorb_root_dir, 'bin', 'scripts', 'makedeffile.py'), [Copy("$TARGET", "$SOURCE"), Chmod("$TARGET", 0755)])
     env.AppendENVPath('PATH', join(prefix, 'bin', 'omniidl', 'bin', 'x86_win32'))
     env.AppendENVPath('PATH', join(prefix, 'bin'))
