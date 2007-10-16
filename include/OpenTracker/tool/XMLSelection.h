@@ -76,7 +76,9 @@
 #if defined (WIN32)
 #pragma message("compiling against XERCESC")
 #endif
+#ifndef SWIG
 #include <xercesc/dom/DOM.hpp>
+#endif
 #define OT_DOMDOCUMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument
 #define OT_DOMELEMENT XERCES_CPP_NAMESPACE_QUALIFIER DOMElement
 #ifndef USE_XERCES
