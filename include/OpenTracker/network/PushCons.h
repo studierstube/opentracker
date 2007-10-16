@@ -116,9 +116,9 @@ public:
     //    void push();
 
     void push(const CORBA::Any& data);
-    
+#ifndef SWIG
     void setEvent(const OT_CORBA::Event& new_event);
-    
+#endif
     friend class CORBAModule;
     
  private:

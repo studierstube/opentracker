@@ -123,8 +123,9 @@ public:
     static void initializeORB(int& argc, char**& argv);
 
     /** block waiting for orb to be destroyed */
+#ifndef SWIG
     void runORB();
-
+#endif
     /** initializes CORBA orb */
     void destroyORB();
 

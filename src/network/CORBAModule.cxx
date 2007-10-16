@@ -245,7 +245,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
     }
     //argv[argc] = (char *) malloc(1);
     argv[argc] = new char [1];
-    argv[argc] = "\0";
+    argv[argc] = '\0';
     initializeORB(argc, argv);
     // Now free the memory
     //#ifdef fish
