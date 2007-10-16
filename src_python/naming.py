@@ -22,7 +22,7 @@
 #
 
 import string
-import CORBA
+from omniORB import CORBA
 import CosNaming
 
 def str2name(str):

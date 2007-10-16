@@ -1,5 +1,5 @@
 import sys
-import CORBA
+from omniORB import CORBA
 import CosNaming
 from naming import str2name
 from copy import deepcopy
