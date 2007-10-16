@@ -52,6 +52,9 @@
 class ACE_Reactor;
 class ACE_TTY_IO;
 
+
+#ifdef USE_MOBILAB_SUPPORT
+
 namespace ot {
 
     class Mobilab_Handler;
@@ -130,7 +133,7 @@ namespace ot {
 
 } // namespace ot
 
-
+#endif //#ifdef USE_MOBILAB_SUPPORT
 #endif // !defined(_MOBILABDRIVER_H)
 
 /* 
