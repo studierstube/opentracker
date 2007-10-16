@@ -68,18 +68,19 @@ def excludeDuplicates(_list):
 ################################################################################
 #     libraries, defines and source files required for minimal build           #
 ################################################################################
-_libs = ['xerces-c', 'ACE']
-_defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT','OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 'OT_NO_INTERPORLATORMODULE_SUPPORT', 'OT_NO_ARTDATATRACKER_SUPPORT', 'OT_NO_BUTTON_SUPPORT', 'OT_NO_CONFIDENCE_SUPPORT', 'OT_NO_TIMEGATE_SUPPORT', 'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 'OT_NO_CALLFORWARDMODULE_SUPPORT', 'OT_BACKUP_ON_RECONFIG', 'OT_NO_MOBILAB_SUPPORT', 'NO_USE_WII']
+_libs = ['xerces-c', 'ACE', 'curses']
+_defines = []
 
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
     [join('src', 'tool', 'OT_ACE_Log.cxx')]
 #essential_core_files.remove(join('src', 'core', 'LiveContext.cxx'))
-common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'EEGFilterNode.cxx', 'DynamicVirtualTransformation.cxx']
+common = ['ButtonFilterNode.cxx','ButtonHoldFilterModule.cxx','ButtonHoldFilterNode.cxx','ButtonOpNode.cxx', 'CallbackModule.cxx','CallbackNode.cxx','CallforwardModule.cxx','CallforwardNode.cxx','CommonNodeFactory.cxx', 'ConfidenceFilterNode.cxx','ConfidenceSelectNode.cxx','ConsoleModule.cxx','DESP.cxx','DESPFilterNode.cxx','DifferenceNode.cxx','DynamicTransformation.cxx','DynamicVirtualTransformation.cxx','EEGFilterNode.cxx','ElasticFilterNode.cxx','EllipsoidTransformNode.cxx','EventQueueNode.cxx','EventUtilityNode.cxx','File.cxx','FileModule.cxx','FileSource.cxx', 'FilterNode.cxx', 'GKTransformNode.cxx', 'GroupGateModule.cxx', 'GroupGateNode.cxx','HeartrateFilterNode.cxx','InterpolatorModule.cxx','InvertTransformation.cxx','LogModule.cxx','MatrixTransformation.cxx','MergeNode.cxx', 'PositionFilterNode.cxx', 'RangeFilterNode.cxx', 'SelectionNode.cxx', 'StaticTransformation.cxx', 'ThreeToTwoDimCalc.cxx', 'ThreeToTwoDimFilter.cxx', 'ThreeToTwoDimFilterModule.cxx', 'ThresholdFilterNode.cxx', 'TimeGateNode.cxx', 'TimeModule.cxx', 'TimestampGeneratorModule.cxx', 'TimestampGeneratorNode.cxx', 'Transformation.cxx' , 'TriangulateOrientationNode.cxx', 'VirtualKeyModule.cxx', 'VirtualTransformation.cxx']
 common_files = [join('src', 'common', file) for file in common]
-misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGLas.cxx', 'EEGSub.cxx','ButterworthFive.cxx']
+misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGLas.cxx', 'EEGSub.cxx','ButterworthFive.cxx','serialcomm.cxx']
 misc_files = [join('src', 'misc', file) for file in misc]
-input_files = [join('src', 'input', file) for file in ['WiiModule.cxx', 'WiiSink.cxx', 'WiiSource.cxx', 'WiiHandler.cpp']]
+input_files = [join('src', 'input', file) for file in ['ARTDataTrackerChomp.cxx', 'ARTDataTrackerModule.cxx', 'ARTDataTrackerSource.cxx', 'ARToolKitModule.cxx', 'ARToolKitPlusModule.cxx', 'CyberMouseModule.cxx', 'DGPSIP_Handler.cxx', 'DGPSMirror_Handler.cxx', 'DynaSightModule.cxx', 'FastTrakModule.cxx', 'FOBModule.cxx', 'GoGoModule.cxx', 'GoGoSinkSource.cxx', 'GPSDriver.cxx', 'GPSGarminCompass.cxx', 'GPS_Handler.cxx', 'GPSModule.cxx', 'GPSParser.cxx', 'ICubeXModule.cxx', 'InterSenseModule.cxx', 'JoystickModule.cxx', 'Lanc.cxx', 'MagicYModule.cxx', 'MidiModule.cxx', 'MidiSink.cxx', 'MidiSource.cxx', 'MobilabDriver.cxx', 'Mobilab_Handler.cxx', 'MobilabModule.cxx', 'MulticastInputModule.cxx', 'OpenVideoModule.cxx', 'OrientationModule.cxx', 'P5GloveModule.cxx', 'PanTiltUnitModule.cxx', 'PanTiltUnitSinkSource.cxx', 'PhantomModule.cxx', 'PhantomSinkModule.cxx', 'PhantomSourceModule.cxx', 'PtuCallback.cxx', 'RawInputModule.cxx', 'RawInputSource.cxx', 'SpaceDeviceModule.cxx', 'SpeechCore.cxx', 'SpeechModule.cxx', 'SpeechSet.cxx', 'SpeechSource.cxx', 'SpeechVoice.cxx', 'SpeechVoiceModule.cxx', 'SysMouseModule.cxx', 'UbisenseModule.cxx', 'UbisenseSource.cxx', 'UltraTrakModule.cxx', 'WacomGraphireModule.cxx', 'WiiHandler.cpp', 'WiiModule.cxx', 'WiiSink.cxx', 'WiiSource.cxx', 'XSensModule.cxx','XSensSource.cxx']]
+input_files.append(join('extras','intersense','isense.c'))
 python_files = []
 jars = []
 
@@ -96,12 +97,7 @@ opts.Add(BoolOption('ENABLE_PYDOC', 'Set to build python API documentation', 0))
 opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middleware ', 0))
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
-opts.Add(BoolOption('ENABLE_INTERPOLATION', 'Set to enable interpolation support', 0))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
-opts.Add(BoolOption('ENABLE_FILE', 'Set to enable support for file sources and file sinks', 0))
-opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
-opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
-opts.Add(BoolOption('ENABLE_VRPN', 'Set to enable support for VRPN', 0))
 opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
@@ -109,7 +105,7 @@ opts.Add('PREFIX', 'Set installation prefix', '')
 #     Configure general environment                                            #
 ################################################################################
 env = Environment (ENV = os.environ, options=opts)
-env.Append(CPPPATH=['include'])
+env.Append(CPPPATH=['include',join('extras', 'intersense'), 'extras'])
 env.Append(LIBPATH=['lib'])
 env.Append(LIBS=_libs)
 env.Append(CPPDEFINES=_defines)
@@ -134,6 +130,7 @@ elif sys.platform.startswith('linux'):
 	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
     env.Append(CPPDEFINES='_REENTRANT') # ACE specific issue on linux
     env.Append(CPPPATH='/usr/include/COS') # pick up COS headers
+    env.Append(CXXFLAGS='-O2')
 elif sys.platform == 'win32':
     print "Windows not supported at this time"
     sys.exit(-1)
@@ -149,18 +146,6 @@ if env['DEBUG']:
     env.Append(CXXFLAGS='-g')
 else:
     env.Append(CXXFLAGS='-O2')
-if env['ENABLE_CALLFORWARD']:
-    env['CPPDEFINES'].remove('OT_NO_CALLFORWARDMODULE_SUPPORT')
-    extra_files += [join('src', 'common', _file) for _file in ['CallforwardModule.cxx', 'CallforwardNode.cxx']]
-if env['ENABLE_CALLBACK']:
-    env['CPPDEFINES'].remove('OT_NO_CALLBACKMODULE_SUPPORT')
-    extra_files += [join('src', 'common', _file) for _file in ['CallbackModule.cxx', 'CallbackNode.cxx']]
-if env['ENABLE_INTERPOLATION']:
-    env['CPPDEFINES'].remove('OT_NO_INTERPORLATORMODULE_SUPPORT')
-    extra_files += [join('src', 'common', 'InterpolatorModule.cxx'), join('src', 'common', 'ElasticFilterNode.cxx')]
-if env['ENABLE_FILE']:
-    env['CPPDEFINES'].remove('OT_NO_FILEMODULE_SUPPORT')
-    extra_files += [join('src', 'common', file) for file in ['FileModule.cxx', 'File.cxx']]
 
 #*********************************#
 # Enable or disable CORBA support #
@@ -174,7 +159,7 @@ if env['ENABLE_CORBA']:
     env.Append(CPPDEFINES='USE_CORBA')
     env.Append(LIBS=['omniORB4', 'COSDynamic4', 'COS4', 'omniDynamic4', 'omnithread'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
-    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
+    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx', 'DwarfModule.cxx', 'NetworkSinkModule.cxx', 'NetworkSourceModule.cxx','OldOTNetworkSourceModule.cxx', 'TCPModule.cxx', 'VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
     if env['ENABLE_JAVA']:
 	import IDLJBuilder
 	IDLJBuilder.generate(env)
@@ -234,13 +219,6 @@ if env['ENABLE_SHARED']:
     stub_generator.addStubsAndSkeletons(join('idl', 'Shared.idl'), pkgprefix='org.studierstube.opentracker')
     #stub_generator.addStubsAndSkeletons(join('idl', 'Shared.idl'))
 
-#************************************#
-# Enable or disable support for VRPN #
-#************************************#
-if env['ENABLE_VRPN']:
-    env.Append(CPPDEFINES='USE_VRPN')
-    env.Append(LIBS=['vrpn', 'vrpnserver'])
-    extra_files += [join('src', 'network', file) for file in ['VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
 #********************************************************************#
 # Enable or disable support for fine-grained dynamic reconfiguration #
 #********************************************************************#
@@ -478,9 +456,6 @@ if env['ENABLE_CORBA']:
     executables += prgenv.Program(join('bin','opentracker2con'), join('src','standalones','corba_configurable.cxx'))
 if env['ENABLE_LIVE']:
     executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
-if env['ENABLE_CALLFORWARD'] and env['ENABLE_CALLBACK']:
-    pass
-    #executables += prgenv.Program(join('bin','cbcfexample'), [join('examples', 'CallbackCallforwardExampleConsole', 'cbcfexample.cxx')])
 ################################################################################
 # install everything into prefix, if there is such a thing                     #
 ################################################################################
