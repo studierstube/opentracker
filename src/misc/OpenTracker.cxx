@@ -372,7 +372,7 @@ namespace ot {
         OT_REGISTER_MODULE(GPSModule, NULL);
 #endif
 
-#ifdef USE_MOBILAB_SUPPORT
+#ifndef EXCLUDE_MOBILAB_SUPPORT
         OT_REGISTER_MODULE(MobilabModule, NULL);
 #endif
 

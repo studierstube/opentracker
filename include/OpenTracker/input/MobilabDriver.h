@@ -53,7 +53,7 @@ class ACE_Reactor;
 class ACE_TTY_IO;
 
 
-#ifdef USE_MOBILAB_SUPPORT
+#ifndef EXCLUDE_MOBILAB_SUPPORT
 
 namespace ot {
 
@@ -133,7 +133,7 @@ namespace ot {
 
 } // namespace ot
 
-#endif //#ifdef USE_MOBILAB_SUPPORT
+#endif //#ifdef EXCLUDE_MOBILAB_SUPPORT
 #endif // !defined(_MOBILABDRIVER_H)
 
 /* 

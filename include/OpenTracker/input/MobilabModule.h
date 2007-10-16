@@ -68,15 +68,13 @@
 #include "MobilabDriver.h"
 //#include "MobilabSource.h"
 
-#ifdef USE_MOBILAB_SUPPORT
+#ifndef EXCLUDE_MOBILAB_SUPPORT
 
 #include <string>
 #include <ace/INET_Addr.h>
 
 class ACE_FILE_IO;
 class ACE_SOCK_Dgram;
-
-#ifndef OT_NO_MOBILAB_SUPPORT
 
 namespace ot {
 
@@ -142,8 +140,7 @@ namespace ot {
 
 }  // namespace ot
 
-#endif //USE_MOBILAB_SUPPORT
-#endif // OT_NO_SUPPORT
+#endif //EXCLUDE_MOBILAB_SUPPORT
 #endif // !defined(_MOBILABMODULE_H)
 
 /* 

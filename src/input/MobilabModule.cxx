@@ -42,7 +42,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#ifdef USE_MOBILAB_SUPPORT
+#ifndef EXCLUDE_MOBILAB_SUPPORT
 
 #ifdef WIN32
 #pragma warning(disable:4244)
@@ -414,7 +414,7 @@ namespace ot {
 
 } // namespace ot
 
-#endif //USE_MOBILAB_SUPPORT
+#endif //EXCLUDE_MOBILAB_SUPPORT
 /* 
  * ------------------------------------------------------------
  *   End of MobilabModule.cxx

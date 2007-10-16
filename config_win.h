@@ -136,6 +136,14 @@
 /** umcomment the following line to compile against TinyXML instead of XERCES */
 #define USE_TINYXML 1
 
+/**  
+   uncomment the following line in order not to compile support for the 
+   driver g.Tec mobilab device
+   (it requires ACE >= 5.5.6, Windows people love their old 5.5.1, that's
+    why it is disabled by default)
+ */
+
+#define EXCLUDE_MOBILAB_SUPPORT 1
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1

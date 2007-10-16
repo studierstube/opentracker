@@ -52,7 +52,7 @@
 #include <ace/Svc_Handler.h>
 #include "../OpenTracker.h"
 
-#ifdef USE_MOBILAB_SUPPORT
+#ifndef EXCLUDE_MOBILAB_SUPPORT
 
 namespace ot {
 
@@ -93,7 +93,7 @@ namespace ot {
 
 
 
-#endif //#ifdef USE_MOBILAB_SUPPORT
+#endif //#ifdef EXCLUDE_MOBILAB_SUPPORT
 #endif // !defined(_MOBILAB_HANDLER_H)
 
 /* 
