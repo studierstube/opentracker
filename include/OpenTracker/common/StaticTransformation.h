@@ -191,20 +191,26 @@ namespace ot {
 
 #ifdef USE_LIVE
         virtual void set_attribute(const char* _key, const char* _value);
+
         virtual void set_translationXYZ(CORBA::Float x, CORBA::Float y, CORBA::Float z);
+#ifndef SWIG
         virtual void set_translation(const OTGraph::Position3f pos);        
+#endif
         virtual void get_translationXYZ(CORBA::Float& x, CORBA::Float& y, CORBA::Float& z);
         virtual OTGraph::Position3f_slice* get_translation();
+#ifndef SWIG
         virtual void set_quaternion(const OTGraph::Quaternion4f ori);
+#endif
         virtual void set_quaternionXYZW(CORBA::Float qx, CORBA::Float qy, CORBA::Float qz, CORBA::Float qw);
         virtual OTGraph::Quaternion4f_slice* get_quaternion();
         virtual void get_quaternionXYZW(CORBA::Float& qx, CORBA::Float& qy, CORBA::Float& qz, CORBA::Float& qw);
         virtual OTGraph::Position3f_slice* get_scale();
         virtual void get_scaleXYZ(CORBA::Float& sx, CORBA::Float& sy, CORBA::Float& sz);
         virtual void set_scaleXYZ(CORBA::Float sx, CORBA::Float sy, CORBA::Float sz);
+#ifndef SWIG
         virtual void set_scale(const OTGraph::Position3f s);
+#endif // SWIG
 #endif
-
         friend class CommonNodeFactory;
     };
 

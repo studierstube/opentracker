@@ -64,10 +64,12 @@
 #include "../dllinclude.h"
 
 #include <OpenTracker/core/Node.h>
+#ifndef SWIG
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <ace/Thread_Mutex.h>
 #include <stdio.h>
 #include <iostream>
+#endif
 /**
  * This class implements a CORBA source that has its Event set by remote
  * invocation and updates any EventObservers.

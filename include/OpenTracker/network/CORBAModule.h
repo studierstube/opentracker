@@ -48,9 +48,14 @@
 
 #include "../dllinclude.h"
 
+#ifndef SWIG
 #include <vector>
+#endif
 
+#ifndef SWIG
 #include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif
+
 #include <OpenTracker/core/Module.h>
 #include <OpenTracker/core/NodeFactory.h>
 #include <OpenTracker/network/CORBASink.h>

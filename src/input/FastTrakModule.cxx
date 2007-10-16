@@ -619,7 +619,11 @@ namespace ot {
 
     void FastTrakModule::setButtonIT(int stationNr, int button)
     {
+#ifndef USE_LIVE
         FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr].item());
+#else
+        FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr]);
+#endif
         if (node)
         {
             if (node->event.getButton() != button)
@@ -636,7 +640,11 @@ namespace ot {
 
     void FastTrakModule::convert(int stationNr, char *inputBuffer)
     {
+#ifndef USE_LIVE
         FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr].item()); 
+#else
+        FastTrakSource *node = dynamic_cast<FastTrakSource*>(nodes[stationNr]);
+#endif
         if (node)
         {
             node->lock();

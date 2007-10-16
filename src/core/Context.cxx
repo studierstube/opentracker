@@ -281,8 +281,23 @@ namespace ot {
         graph-> writeGraph("graph.txt");
 
         delete parser;
-        
+#ifdef USE_LIVE
+        liveContextConsistencyCheck();
+#endif        
     }
+
+#ifdef USE_LIVE
+    void Context::liveContextConsistencyCheck() {
+        edges.clear();
+        for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
+        {
+            Node* node = it->first;
+            for (NodeVector::const_iterator n_it=node->parents.begin(); n_it != node->parents.end(); ++n_it) {
+                edges.push_back(Edge( it->first, (*n_it)));
+            }
+        }
+    }
+#endif
 
     void Context::parseConfigurationString(const char* xmlstring)
     {
@@ -292,6 +307,10 @@ namespace ot {
 
         rootNamespace = "";
         delete parser;
+#ifdef USE_LIVE
+        liveContextConsistencyCheck();
+#endif        
+
     }
 
 
@@ -770,11 +789,13 @@ namespace ot {
         }
         NodeIDMapIterator result2 = node_id_map.find(node);
         if (result2 != node_id_map.end()) {
-            node_id_map.erase(result2);
+           node_id_map.erase(result2);
         }
     }
 
     void Context::appendNode(Node* node, const std::string& id) {
+        logPrintI("appended Node\n");
+        logPrintI("size of node_id_map is %d\n", node_id_map.size());
         node_id_map[node] = id;
         id_node_map[id] = node;
     }
@@ -860,6 +881,7 @@ namespace ot {
             POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
                 new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation);//, (CORBA::Boolean) 1);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
+            logPrintI("About to activate StaticTransformation object with id\n");
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
         } 
@@ -883,6 +905,7 @@ namespace ot {
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
         }
+        logPrintI("About to append Node\n");
         appendNode(node, stringid);
         
     }
@@ -899,9 +922,11 @@ namespace ot {
                 attributes.put("DEF", CORBAUtils::generateUniqueId());
             }
             if (name.compare("PushCons") != 0) { // PushCons node is already activated!
+                logPrintI("About to activate node#1\n");
                 activateNode(value, attributes.get("DEF").c_str());
             }
         } else {
+                logPrintI("About to activate node#2\n");
             if (name.compare("PushCons") != 0) { // PushCons node is already activated!
                 activateNode(value);
             }
@@ -1121,7 +1146,12 @@ namespace ot {
         // change the cleanUp flag so the other won't destroy the modules when its gone
         this->cleanUp = other.cleanUp;
         other.cleanUp = false;
-        
+
+#ifdef USE_LIVE
+        node_id_map = other.node_id_map;
+        id_node_map = other.id_node_map;
+        edges            = other.edges;
+#endif
         this->start();
         unlock();
     }

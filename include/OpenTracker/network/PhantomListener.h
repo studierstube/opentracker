@@ -1,4 +1,6 @@
+#ifndef SWIG
 #include <ace/Task.h>
+#endif
 
 #ifndef _PHANTOMLISTENER_H
 #define _PHANTOMLISTENER_H

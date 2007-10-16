@@ -63,10 +63,13 @@
 
 #include <OpenTracker/dllinclude.h>
 #include <OpenTracker/core/Node.h>
+#ifndef SWIG
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <ace/Thread_Mutex.h>
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
+#endif
+
 /**
  * This class implements a PushCons source that has its Event set by a CORBA event channel
  * invocation and updates any EventObservers.

@@ -5,7 +5,9 @@
 
 #include "../dllinclude.h"
 
+#ifndef SWIG
 #include <omniORB4/poa.h>
+#endif
 
 #include <OpenTracker/common/CommonNodeFactory.h>
 #include <OpenTracker/OpenTracker.h>
@@ -14,37 +16,39 @@
 #include <OpenTracker/core/NodeFactoryContainer.h>
 #include <OpenTracker/network/CORBAModule.h>
 
+#ifndef SWIG
 #include <OpenTracker/skeletons/OTGraph.hh>
+#endif
 
 #include <OpenTracker/core/OtLogger.h>
 
+#ifndef SWIG
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMWriter.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/util/PlatformUtils.hpp>
+#endif
 
+#ifndef SWIG
 #if defined(XERCES_NEW_IOSTREAMS)
 #include <iostream>
 #else
 #include <iostream.h>
 #endif
+#endif
 
+#ifndef SWIG
 XERCES_CPP_NAMESPACE_USE
-    
+#endif
+
 using namespace std;
 
 namespace ot {
-
-  typedef std::pair<Node *, Node *> Edge;
-  typedef std::vector<Edge> EdgeVector;
   
  class OPENTRACKER_API LiveContext : public Context, 
     public PortableServer::RefCountServantBase {
   private:
     CORBAModule* corba_module;
-    int no_nodes;
-    EdgeVector edges;
-
   public:
     LiveContext();
     LiveContext(const std::string& endPoint);

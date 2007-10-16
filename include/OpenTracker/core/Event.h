@@ -57,7 +57,9 @@
 #include "OSUtils.h"
 
 #ifdef USE_CORBA
+#ifndef SWIG
 #include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif
 #endif //USE_CORBA
 
 namespace ot

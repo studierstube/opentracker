@@ -52,12 +52,16 @@
 #ifndef _PHANTOMMIDDLEWARESINK_H
 #define _PHANTOMMIDDLEWARESINK_H
 
+#ifndef SWIG
 #include <cmath>
+#endif
 
 #include <OpenTracker/OpenTracker.h>
+#ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
 #include <phantom/MulticastSocket.hh>
 #include <phantom/PhantomMessageV1.hh>
+#endif
 
 /**
  * This class implements a simple EventGenerator that passes any incoming events

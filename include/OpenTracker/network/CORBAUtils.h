@@ -46,12 +46,16 @@
 
 #include <OpenTracker/dllinclude.h>
 
+#ifndef SWIG
 #include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif
 #include <OpenTracker/core/Event.h>
 #ifdef USE_OMNIEVENTS
+#ifndef SWIG
 #include <COS/CosEventComm.hh>
 #include <COS/CosEventChannelAdmin.hh>
 #include <OpenTracker/skeletons/OT_EventChannel.hh>
+#endif
 #endif //ENABLE_OMNIEVENTS
 
 /**

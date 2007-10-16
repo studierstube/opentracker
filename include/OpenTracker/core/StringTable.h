@@ -54,7 +54,9 @@
 #endif
 
 #ifdef USE_LIVE
+#ifndef SWIG
 #include <OpenTracker/skeletons/OTGraph.hh>
+#endif
 #endif
 
 typedef std::map<std::string,std::string> StringMap;

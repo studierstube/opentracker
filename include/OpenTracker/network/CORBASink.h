@@ -50,19 +50,25 @@
 #define _CORBASINK_H
 
 #include <OpenTracker/OpenTracker.h>
+#ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif
 #include <OpenTracker/network/CORBAUtils.h>
 #include <OpenTracker/core/Context.h>
 
 #ifdef USE_LIVE
 //#include <OpenTracker/core/Module.h>
 //#include <OpenTracker/network/CORBAModule.h>
+#ifndef SWIG
 #include <OpenTracker/skeletons/OTGraph.hh>
 #include <ace/Thread_Mutex.h>
 #endif
+#endif
 
+#ifndef SWIG
 #include <ace/Guard_T.h>
+#endif
 /**
  * This class implements a simple EventGenerator that passes any incoming events
  * on to the associated CORBA object.

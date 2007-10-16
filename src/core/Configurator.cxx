@@ -97,7 +97,7 @@ namespace ot{
         LiveContext* context_impl = NULL;
         try
         {
-            context_impl = new LiveContext();
+            context_impl = new LiveContext("giop:tcp::12090");
             cerr << "got LiveContext instance" << endl;
             ModuleMap modules = context_impl->getModules();
             ModuleMap::iterator module_iterator  = modules.find("CORBAConfig");
@@ -116,18 +116,25 @@ namespace ot{
                 exit(-1);
             }
             cerr << "got reference to ORB" << endl;
-            PortableServer::POA_var poa = corba_module->getPOA();
+            //PortableServer::POA_var poa = corba_module->getPOA();
+            PortableServer::POA_var poa = corba_module->getINSPOA();
+            PortableServer::POAManager_var poa_manager = corba_module->getINSPOAManager();
+            poa_manager->activate();
+
             if (CORBA::is_nil(poa)) {
                 cerr << "got nil reference to POA. Exiting...." << endl;
                 exit(-1);
             }
             POA_OTGraph::DataFlowGraph_tie<LiveContext>* context = new POA_OTGraph::DataFlowGraph_tie<LiveContext>(context_impl);
              
-            PortableServer::ObjectId_var id = corba_module->getRootPOA()->activate_object(context);
+            //PortableServer::ObjectId_var id = corba_module->getRootPOA()->activate_object(context);
+            PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId("DFG");
+            poa->activate_object_with_id(corba_id, context);
+            CORBA::Object_var obj = poa->id_to_reference(corba_id);
              
             // Obtain a reference to the object, and register it in
             // the naming service.
-            CORBA::Object_var obj = corba_module->getRootPOA()-> id_to_reference(id);
+            //CORBA::Object_var obj = corba_module->getRootPOA()-> id_to_reference(corba_id);
              
             CosNaming::NamingContextExt::StringName_var string_name = "Stb.Context";
             CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);  
@@ -224,6 +231,7 @@ namespace ot{
         // check whether the runtime context is already configured
         if (ctx->isConfigured())
         {
+            logPrintI("Configurator::changeConfigurationFile using updating a initialized context\n");
             //if it is, we want to change its configuration
         
             //create a new context object
@@ -237,6 +245,7 @@ namespace ot{
         } 
         else 
         {
+            logPrintI("Configurator::changeConfigurationString using a virgin context\n");
             // if it has not been configured for the first time, do it now
             ctx->parseConfiguration(file);
         }
@@ -249,6 +258,7 @@ namespace ot{
     void Configurator::changeConfigurationString(const char* xmlstring) 
     {
         if(ctx->isConfigured()){
+            logPrintI("Configurator::changeConfigurationString using updating a initialized context\n");
             //create a new context object
             Context newContext(0);
             
@@ -262,6 +272,7 @@ namespace ot{
             
             this->ctx->copyFrom(newContext);
         } else {
+            logPrintI("Configurator::changeConfigurationString using a virgin context\n");
             this->ctx->parseConfigurationString(xmlstring);
         }
     }

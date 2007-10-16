@@ -46,9 +46,13 @@
 
 #include "../dllinclude.h"
 
+#ifndef SWIG
 #include <vector>
+#endif
 
+#ifndef SWIG
 #include <phantom/Exceptions.hh>
+#endif
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/network/PhantomMiddlewareSink.h>

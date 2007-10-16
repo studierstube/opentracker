@@ -75,6 +75,9 @@ namespace ot {
     typedef NodeIDMap::iterator NodeIDMapIterator;
     typedef std::map<std::string, Node*> IDNodeMap;
     typedef IDNodeMap::iterator IDNodeMapIterator;
+    typedef std::pair<Node *, Node *> Edge;
+    typedef std::vector<Edge> EdgeVector;
+
     //typedef std::map<std::string, PortableServer::ServantBase*> IDServantMap;
     //typedef IDServantMap::iterator IDServantMapIterator;
 #endif
@@ -120,6 +123,8 @@ namespace ot {
 #ifdef USE_LIVE
         NodeIDMap  node_id_map;
         IDNodeMap  id_node_map;
+        EdgeVector edges;
+        void liveContextConsistencyCheck();
         //IDServantMap id_servant_map;
 #endif
         /// Pointer to the root node of the local tracker tree

@@ -50,12 +50,16 @@
 #define _SHAREDENGINENODE_H
 
 #include <OpenTracker/OpenTracker.h>
+#ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
+#endif
 #include <OpenTracker/network/CORBAUtils.h>
+#ifndef SWIG
 #include <COS/CosEventComm.hh>
 #include <COS/CosEventChannelAdmin.hh>
 #include <OpenTracker/skeletons/Shared.hh>
+#endif
 
 /**
  * This class implements a simple EventGenerator that passes any incoming events

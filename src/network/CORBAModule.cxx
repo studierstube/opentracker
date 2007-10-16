@@ -218,7 +218,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
 	CORBAModule::persistent = false;
       }
     } else {
-      CORBAModule::persistent = false;
+      CORBAModule::persistent = true;
     }
     std::vector<std::string> args;
     args.push_back("opentracker");
@@ -250,9 +250,13 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
     // Now free the memory
     //#ifdef fish
     for (int i=0; i<=argc; i++) {
-      delete argv[i];
+      //if (argv[i] != NULL)
+      // delete [] argv[i];
     }
-    delete argv;
+    if (argv)
+      {
+	//delete [] argv;
+      }
     //#endif
   }
     

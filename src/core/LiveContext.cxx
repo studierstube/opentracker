@@ -46,10 +46,12 @@
 #include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/core/LiveContext.h>
 #include <OpenTracker/core/Context.h>
+
+#ifndef SWIG
 #include <omniORB4/poa.h>
 #include <OpenTracker/skeletons/OTGraph.hh>
-
 #include <algorithm>
+#endif
 #endif //USE_LIVE
 
 using namespace std;
@@ -57,7 +59,7 @@ using namespace std;
 namespace ot {
 
 #ifdef USE_LIVE
-  LiveContext::LiveContext() : Context(1), no_nodes(0) {
+  LiveContext::LiveContext() : Context(1) {
       cerr << "LiveContext:: Constructor" << endl;
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
       StringTable st;
@@ -67,7 +69,7 @@ namespace ot {
       corba_module->init(st, NULL);
     }
 
-    LiveContext::LiveContext(const std::string& endPoint) : Context(1), no_nodes(0) {
+    LiveContext::LiveContext(const std::string& endPoint) : Context(1) {
       cerr << "LiveContext:: Constructor" << endl;
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
       StringTable st;
@@ -169,6 +171,7 @@ namespace ot {
     char* LiveContext::getDot() {
         std::string dot = "digraph DataFlowGraph {\n";
         ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
+        logPrintE("size is %d\n", node_id_map.size());
         for (EdgeVector::iterator it=edges.begin(); it != edges.end(); ++it) {
             Node* upstreamNode =   it->first;
             Node* downstreamNode = it->second;

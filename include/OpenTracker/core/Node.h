@@ -83,7 +83,9 @@ namespace ot {
 
 #include "Event.h"
 #ifdef USE_LIVE
+#ifndef SWIG
 #include <OpenTracker/skeletons/OTGraph.hh>
+#endif
 #endif
 
 namespace ot {
