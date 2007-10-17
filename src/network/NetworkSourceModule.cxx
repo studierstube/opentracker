@@ -242,12 +242,14 @@ namespace ot {
                 bytesRead = rec->socket.recv(&io_vec, remoteAddr, 0, &timeOut);
                 rec->dataRec = (FlexibleTrackerDataRecord*)io_vec.iov_base;
 
-                if (errno == EINTR)
+                if (errno == EINTR || errno == EAGAIN)
                 {
-                    ACE_Sig_Action asa;
-                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule: Signal Flags: %d!\n"), errno, asa.flags()));
-                    asa.flags(asa.flags()|SA_RESTART);
+		    continue;
+                    //ACE_Sig_Action asa;
+                    //ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule: Signal Flags: %d!\n"), errno, asa.flags()));
+                    //asa.flags(asa.flags()|SA_RESTART);
                 }
+		
                 else if (bytesRead == -1 && errno != ETIME && errno != 0 )
                 {
                     ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error %d receiving data in NetworkSourceModule!\n"), errno));

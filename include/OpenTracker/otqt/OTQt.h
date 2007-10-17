@@ -148,7 +148,7 @@ namespace ot {
          * @param cfg_filename XML configuration filename
          * @return true if OTQt startup successful
          */
-        static bool triggerMEM(std::string cfg_filename);
+        static bool triggerMEM(std::string cfg_filename, bool dosync = false);
 
     private:
         /// the singleton instance
@@ -180,7 +180,7 @@ namespace ot {
          *
          * @param cfg_filename XML configuration filename
          */
-        void init(std::string & cfg_filename);
+        void init(std::string & cfg_filename, bool dosync = false);
 
         /**
          * Returns true if object state is @e initialized. Otherwise returns false.
@@ -268,6 +268,8 @@ void driveOT();
         QtMouseEventCalibModule * mec_mod_;
         /// name of XML configuration file
         std::string cfg_filename_;
+	/// whether or not to use synchroneous traversals
+	bool sync_trav_;
         /// mutex lock employed in the driveOT() method
         QMutex * mutex_;
         /// operation mode timer thread

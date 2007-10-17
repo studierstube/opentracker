@@ -91,10 +91,11 @@ namespace ot {
     }
 
     //-------------------------------------------------------------------------
-    void OTQt::init(std::string & cfg_filename) {
+    void OTQt::init(std::string & cfg_filename, bool synctrav) {
 
         // store OT config filename
         cfg_filename_ = cfg_filename;
+	sync_trav_ = synctrav;
 
         ACE_Sig_Action asa;
         
@@ -116,9 +117,12 @@ namespace ot {
 
         // PARSE OpenTracker configuration file
         context_.parseConfiguration(cfg_filename_);
-        // START OpenTracker
-	//context_.setSynchronization(true);
-	context_.setSynchronization(false);
+
+	// Pass over synchronization settings
+	context_.setSynchronization(sync_trav_);
+        
+	// START OpenTracker
+	
         context_.start();
         // connect timer to callback function
         QObject::connect(timer_, SIGNAL(timeout()), this, SLOT(driveOT()));
@@ -173,7 +177,6 @@ namespace ot {
 
             /// todo improve this strategy for optimal cpu usage
             //context_.waitDataSignal();
-            //context_.loopOnce();
 	    
 	    //logPrintI("OTQTloop\n");
 	   
@@ -181,8 +184,14 @@ namespace ot {
             //context_.pushEvents();
             // process new states in modules
             //context_.pullEvents();
-            //context_.syncLoopOnce();
-            context_.loopOnce();
+            if (sync_trav_) 
+	    {  
+	        context_.syncLoopOnce();
+	    }
+	    else
+	    {
+                context_.loopOnce();
+            }
         }
 #ifndef WIN32
         // exception from newmat lib
@@ -207,10 +216,10 @@ namespace ot {
     }
 
     //-------------------------------------------------------------------------
-    bool OTQt::triggerMEM(std::string cfg_filename)
+    bool OTQt::triggerMEM(std::string cfg_filename, bool dosync)
     {
         try {
-            OTQt::getInstance().init(cfg_filename);
+            OTQt::getInstance().init(cfg_filename, dosync);
             OTQt::getInstance().enableMouseEvents(true);
             OTQt::getInstance().startTimer();
         } catch(std::exception & ex) {

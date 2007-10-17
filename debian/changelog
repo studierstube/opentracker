@@ -1,3 +1,9 @@
+libopentracker (2.0a-25) unstable; urgency=low
+
+  * new version 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Wed, 17 Oct 2007 13:31:58 +0200
+
 libopentracker (2.0a-24) unstable; urgency=low
 
   * using Qt 3.x again 
