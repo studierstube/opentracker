@@ -59,6 +59,9 @@
 #define _WIISOURCE_H
 
 #include <OpenTracker/OpenTracker.h>
+
+#ifdef USE_WII_SUPPORT
+
 #include<OpenTracker/input/WiiHandler.h>
 
 namespace ot {
@@ -99,6 +102,7 @@ namespace ot {
 
 }  // namespace ot
 
+#endif //#ifdef USE_WII_SUPPORT
 #endif //_WIISOURCE_H
 
 /* 

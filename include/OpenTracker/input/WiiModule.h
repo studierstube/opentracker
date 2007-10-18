@@ -57,6 +57,9 @@
 // this is a linux implementation !!!
 
 #include "../OpenTracker.h"
+
+#ifdef USE_WII_SUPPORT
+
 #include "../core/StringTable.h"
 
 
@@ -163,7 +166,7 @@ namespace ot {
     OT_MODULE(WiiModule);
 } // _WIIMODULE_H
 
-
+#endif //#ifdef USE_WII_SUPPORT
 #endif
 
 /* 

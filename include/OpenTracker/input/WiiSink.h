@@ -69,6 +69,9 @@
 #define _WIISINK_H
 
 #include "../OpenTracker.h"
+
+#ifdef USE_WII_SUPPORT
+
 #include<OpenTracker/input/WiiHandler.h>
 #include <OpenTracker/core/OSUtils.h>
 
@@ -146,7 +149,7 @@ namespace ot {
 
 } // namespace ot
 
-
+#endif //#ifdef USE_WII_SUPPORT
 
 #endif
 

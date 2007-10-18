@@ -4,7 +4,7 @@
 #ifndef WII_HANDLER_H
 #define WII_HANDLER_H
 
-
+#ifdef USE_WII_SUPPORT
 
 #ifndef WIN32 // linux
 
@@ -315,6 +315,9 @@ namespace ot {
    };
 
 } // end namespace ot 
+
+#endif //#ifdef USE_WII_SUPPORT
+
 #endif
 
 /* 

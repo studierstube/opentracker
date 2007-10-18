@@ -47,6 +47,7 @@
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/input/WiiSource.h>
 
+#ifdef USE_WII_SUPPORT
 
 namespace ot {
 
@@ -68,6 +69,7 @@ namespace ot {
    }
 }
 
+#endif //#ifdef USE_WII_SUPPORT
 
 /* 
 * ------------------------------------------------------------

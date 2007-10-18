@@ -16,6 +16,9 @@
 
 
 #include "OpenTracker/input/WiiHandler.h"
+
+#ifdef USE_WII_SUPPORT
+
 #include <bitset>
 #include <math.h>
 #include <cstdio>
@@ -983,6 +986,8 @@ return os.str();
 }
 
 } // end namespace ot {
+
+#endif //#ifdef USE_WII_SUPPORT
 
 /*
 Anonymous said... 

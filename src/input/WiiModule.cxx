@@ -48,6 +48,7 @@
 #include <OpenTracker/input/WiiSource.h>
 #include <OpenTracker/input/WiiSink.h>
 
+#ifdef USE_WII_SUPPORT
 
 #include <cstdio>
 #include <iostream>
@@ -377,8 +378,9 @@ void WiiModule::ir2mode(WiiSource * source )
 
 }*/
 
-
 OT_NAMESPACE_END
+
+#endif //#ifdef USE_WII_SUPPORT
 
 //#endif
 

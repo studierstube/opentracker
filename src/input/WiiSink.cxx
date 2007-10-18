@@ -44,6 +44,7 @@
 
 #include <OpenTracker/input/WiiSink.h>
 
+#ifdef USE_WII_SUPPORT
 
 #include <cassert>
 
@@ -158,7 +159,7 @@ void WiiSink::runVibro()
 
 }
 
-
+#endif //#ifdef USE_WII_SUPPORT
 
 /* 
 * ------------------------------------------------------------

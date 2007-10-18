@@ -254,7 +254,7 @@ namespace ot {
         OT_REGISTER_MODULE(CyberMouseModule, NULL);
 #endif	
 
-#ifndef NO_USE_WII
+#ifdef USE_WII_SUPPORT
         OT_REGISTER_MODULE(WiiModule, NULL);
 #endif
 
