@@ -59,6 +59,18 @@ using namespace std;
 namespace ot {
 
 #ifdef USE_LIVE
+   LiveContext::LiveContext(bool init) : Context(1) {
+        cerr << "LiveContext:: Constructor" << endl;
+        if (init) {
+            corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+            StringTable st;
+            //st.put("endPoint", "giop:tcp:localhost:9999");
+            st.put("persistent", "true");
+            
+            corba_module->init(st, NULL);
+        }
+    }
+
   LiveContext::LiveContext() : Context(1) {
       cerr << "LiveContext:: Constructor" << endl;
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
@@ -168,11 +180,26 @@ namespace ot {
 	}
     }
 
+    void LiveContext::collectEdges(EdgeVector& _edges) {
+        for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
+        {
+            Node* node = it->first;
+            // get all the parent (i.e. downstream nodes)
+            for (NodeVector::iterator downstream_it=node->parents.begin(); downstream_it != node->parents.end(); ++downstream_it) {
+                //Node* downstream_node = &(*downstream_it);
+                Node* downstream_node = (Node*) *downstream_it;
+                _edges.push_back(Edge(node, downstream_node));
+            }
+        } 
+    }
+
+
     char* LiveContext::getDot() {
         std::string dot = "digraph DataFlowGraph {\n";
         ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
-        logPrintE("size is %d\n", node_id_map.size());
-        for (EdgeVector::iterator it=edges.begin(); it != edges.end(); ++it) {
+        EdgeVector _edges;
+        collectEdges(_edges);
+        for (EdgeVector::iterator it=_edges.begin(); it != _edges.end(); ++it) {
             Node* upstreamNode =   it->first;
             Node* downstreamNode = it->second;
             std::string upstream_id = getIDFromNode(upstreamNode);
@@ -183,11 +210,11 @@ namespace ot {
         {
             Node* node = it->first;
             std::string id = it->second;
-            std::string type = node->getType();
+            //std::string type = node->getType();
             //dot += std::string("\t") + id + std::string(" [label=\"") + 
             //    node->getType() + std::string("\\n") + id + std::string("\"];\n");
             dot += std::string("\t") + id + std::string(" [label=\"") + 
-                type + std::string("\\n") + id + std::string("\"];\n");
+                node->getType() + std::string("\\n") + id + std::string("\"];\n");
             //node_refs[i] = getNodeRefFromID(it->second);	
             //i++;
         } 
@@ -210,13 +237,16 @@ namespace ot {
     };
 
   OTGraph::EdgeVector* LiveContext::get_edges() {
+      ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
+      EdgeVector edge_collection;
+      collectEdges(edge_collection);
       OTGraph::EdgeVector_var _edges = new OTGraph::EdgeVector;
-      int len = edges.size();
+      int len = edge_collection.size();
       _edges->length(len);
-      for (int i=0; i < edges.size(); i++) {
+      for (int i=0; i < len; i++) {
 	OTGraph::Edge _edge;
-	_edge.sender   = getNode(edges[i].first);
-	_edge.receiver = getNode(edges[i].second);
+	_edge.sender   = getNode(edge_collection[i].first);
+	_edge.receiver = getNode(edge_collection[i].second);
 	_edges[i] = _edge;
       }
       return _edges._retn();

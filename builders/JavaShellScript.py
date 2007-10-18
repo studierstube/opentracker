@@ -5,7 +5,7 @@ from SCons.Builder import Builder
 def generateShellScript(filename, class_name, jars, env):
     f=open(filename, 'w')
     f.write("#!/bin/bash\n")
-    classpath = "-cp " + ("%s:"*len(jars))[:-1] % tuple([str(jar.abspath) for jar in jars])
+    classpath = "-cp " + ("%s:"*len(jars))[:-1] % tuple([str(jar) for jar in jars])
     java_command = "java -Djava.net.preferIPv4Stack=true"
     try:
 	f.write(java_command + " " + classpath + " " + env['PKGPREFIX'] + "." + class_name + " $*" + "\n")

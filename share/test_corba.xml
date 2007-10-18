@@ -5,7 +5,7 @@
   <CORBAConfig persistent="true" endPoint="giop:tcp::9999"/>
   </configuration>
   <CORBASink name="CORBA.Sink01" DEF="foo" nameBinding="Node.foo">
-    <EventTransform scale="2 15 5" nameBinding="Node.transform">
+    <EventTransform scale="2 15 5" nameBinding="Node.transform" DEF="transform">
       <CORBASource nameBinding="Node.bar" DEF="bar"/>
     </EventTransform>
   </CORBASink>

@@ -51,6 +51,7 @@ namespace ot {
     CORBAModule* corba_module;
   public:
     LiveContext();
+    LiveContext(bool init);
     LiveContext(const std::string& endPoint);
     virtual ~LiveContext() {
       cerr << "LiveContext:: Destructor" << endl;
@@ -71,6 +72,8 @@ namespace ot {
     OTGraph::NodeVector* get_nodes();
 
     OTGraph::EdgeVector* get_edges();
+
+    void collectEdges(EdgeVector& _edges);
 
     void remove_node(const OTGraph::Node_var& target_ref);
     void remove_edge(const OTGraph::Edge& edge);

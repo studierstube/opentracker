@@ -98,6 +98,8 @@ opts.Add(BoolOption('ENABLE_PHANTOM_MIDDLEWARE', 'Set to enable Phantom Middlewa
 opts.Add(BoolOption('ENABLE_OTQT', 'Set to enable OT Qt support', 0))
 opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
+opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
+opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
 opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
@@ -384,10 +386,10 @@ if env['ENABLE_JAVA']:
         viewer_jar = env.Jar(target=join('src_java', 'Viewer.jar'), 
                              source=viewer_classes + viewer_manifest, 
                              JARCHDIR=join('build', 'Java'))
-        push_cons_manifest = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', 'push_cons_manifest')]
-        push_cons_jar = env.Jar(target=join('src_java', 'push_cons.jar'),
-                                source=push_cons_manifest,
-                                JARCHDIR=join('build', 'Java'))
+        #push_cons_manifest = [join('src_java', 'org', 'studierstube', 'opentracker', 'tests', 'push_cons_manifest')]
+        #push_cons_jar = env.Jar(target=join('src_java', 'push_cons.jar'),
+        #                        source=push_cons_manifest,
+        #                        JARCHDIR=join('build', 'Java'))
 if False:
 #if env['ENABLE_JAVA']:
     print "Java support enabled"
@@ -456,6 +458,10 @@ if env['ENABLE_CORBA']:
     executables += prgenv.Program(join('bin','opentracker2con'), join('src','standalones','corba_configurable.cxx'))
 if env['ENABLE_LIVE']:
     executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
+    executables += prgenv.Program(join('bin','xmlconfigurable_live'), [join('src','standalones','xmlConfigurableLive.cxx')])
+if env['ENABLE_CALLFORWARD'] and env['ENABLE_CALLBACK']:
+    pass
+    #executables += prgenv.Program(join('bin','cbcfexample'), [join('examples', 'CallbackCallforwardExampleConsole', 'cbcfexample.cxx')])
 ################################################################################
 # install everything into prefix, if there is such a thing                     #
 ################################################################################

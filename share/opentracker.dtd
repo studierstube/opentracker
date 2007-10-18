@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2005 beta 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ponder (Vienna University of Technology) -->
 <!--
@@ -67,6 +67,7 @@ $Id$
 <!ELEMENT EventPositionTransform (%EventNodes;)>
 <!ATTLIST EventPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -75,12 +76,14 @@ $Id$
 <!ELEMENT EventOrientationTransform (%EventNodes;)>
 <!ATTLIST EventOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT EventTransform (%EventNodes;)>
 <!ATTLIST EventTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -89,17 +92,20 @@ $Id$
 <!ELEMENT EventVirtualPositionTransform (%EventNodes;)>
 <!ATTLIST EventVirtualPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 >
 <!ELEMENT EventVirtualOrientationTransform (%EventNodes;)>
 <!ATTLIST EventVirtualOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT EventVirtualTransform (%EventNodes;)>
 <!ATTLIST EventVirtualTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
@@ -107,6 +113,7 @@ $Id$
 <!ELEMENT EventUtility (%EventNodes;)>
 <!ATTLIST EventUtility
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rename CDATA ""
 	create CDATA ""
 	discard CDATA ""
@@ -115,6 +122,7 @@ $Id$
 <!ELEMENT QueuePositionTransform (%QueueNodes;)>
 <!ATTLIST QueuePositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -123,12 +131,14 @@ $Id$
 <!ELEMENT QueueOrientationTransform (%QueueNodes;)>
 <!ATTLIST QueueOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT QueueTransform (%QueueNodes;)>
 <!ATTLIST QueueTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -137,17 +147,20 @@ $Id$
 <!ELEMENT QueueVirtualPositionTransform (%QueueNodes;)>
 <!ATTLIST QueueVirtualPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 >
 <!ELEMENT QueueVirtualOrientationTransform (%QueueNodes;)>
 <!ATTLIST QueueVirtualOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT QueueVirtualTransform (%QueueNodes;)>
 <!ATTLIST QueueVirtualTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
@@ -156,6 +169,7 @@ $Id$
 <!ELEMENT TimePositionTransform (%TimeNodes;)>
 <!ATTLIST TimePositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -164,12 +178,14 @@ $Id$
 <!ELEMENT TimeOrientationTransform (%TimeNodes;)>
 <!ATTLIST TimeOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT TimeTransform (%TimeNodes;)>
 <!ATTLIST TimeTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	scale CDATA "1 1 1"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
@@ -178,17 +194,20 @@ $Id$
 <!ELEMENT TimeVirtualPositionTransform (%TimeNodes;)>
 <!ATTLIST TimeVirtualPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 >
 <!ELEMENT TimeVirtualOrientationTransform (%TimeNodes;)>
 <!ATTLIST TimeVirtualOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
 >
 <!ELEMENT TimeVirtualTransform (%TimeNodes;)>
 <!ATTLIST TimeVirtualTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	translation CDATA "0 0 0"
 	rotationtype (quaternion | matrix | euler | axisangle) "quaternion"
 	rotation CDATA "0 0 0 1"
@@ -198,75 +217,90 @@ $Id$
 <!ELEMENT EventDynamicTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
 <!ATTLIST EventDynamicTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT EventDynamicPositionTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
 <!ATTLIST EventDynamicPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT EventDynamicOrientationTransform ((TransformBase, (%EventNodes;)) | ((%EventNodes;), TransformBase))>
 <!ATTLIST EventDynamicOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT QueueDynamicTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT QueueDynamicPositionTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT QueueDynamicOrientationTransform ((TransformBase, (%QueueNodes;)) | ((%QueueNodes;), TransformBase))>
 <!ATTLIST QueueDynamicOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT TimeDynamicTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT TimeDynamicPositionTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicPositionTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!ELEMENT TimeDynamicOrientationTransform ((TransformBase, (%TimeNodes;)) | ((%TimeNodes;), TransformBase))>
 <!ATTLIST TimeDynamicOrientationTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	baseevent (true | false) "true"
 >
 <!-- inverting the described space -->
 <!ELEMENT EventInvertTransform (%EventNodes;)>
 <!ATTLIST EventInvertTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT QueueInvertTransform (%QueueNodes;)>
 <!ATTLIST QueueInvertTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT TimeInvertTransform (%TimeNodes;)>
 <!ATTLIST TimeInvertTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- general affine transformations for the points -->
 <!ELEMENT EventMatrixTransform (%EventNodes;)>
 <!ATTLIST EventMatrixTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
 >
 <!ELEMENT QueueMatrixTransform (%QueueNodes;)>
 <!ATTLIST QueueMatrixTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
 >
 <!ELEMENT TimeMatrixTransform (%TimeNodes;)>
 <!ATTLIST TimeMatrixTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	matrix CDATA " 1 0 0 0 0 1 0 0 0 0 1 0"
 >
 <!-- EventQueue stores a queue of size length of the last received events.
@@ -274,6 +308,7 @@ $Id$
 <!ELEMENT EventQueue (%EventNodes;)>
 <!ATTLIST EventQueue
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	length CDATA "1"
 >
 <!--Merge Node and associated Wrapper nodes definitions-->
@@ -288,6 +323,7 @@ $Id$
 <!ELEMENT Merge (MergeDefault?, MergeTime?, MergeTrigger?, MergeAttribute*)>
 <!ATTLIST Merge
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	agingFactor CDATA "1"
 	confidenceCalculation (min | max | multiply) "min"
 >
@@ -300,6 +336,7 @@ $Id$
 <!ELEMENT ConfidenceFilter (%EventNodes;)>
 <!ATTLIST ConfidenceFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	treshhold CDATA #REQUIRED
 	type (high | low) "high"
 >
@@ -307,6 +344,7 @@ $Id$
 <!ELEMENT ConfidenceSelect ((%EventNodes;)+)>
 <!ATTLIST ConfidenceSelect
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	timeout CDATA "100"
 	type (high | low) "high"
 >
@@ -314,6 +352,7 @@ $Id$
 <!ELEMENT Filter (EventQueue)>
 <!ATTLIST Filter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	weight CDATA #REQUIRED
 	type (all | position | orientation) "all"
 >
@@ -321,6 +360,7 @@ $Id$
 <!ELEMENT ButtonFilter (%EventNodes;)>
 <!ATTLIST ButtonFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	buttonmask CDATA "11111111"
 	buttonmap CDATA "01234567"
 	invert CDATA "00000000"
@@ -332,6 +372,7 @@ $Id$
 <!ELEMENT ButtonHoldFilter (%EventNodes;)>
 <!ATTLIST ButtonHoldFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	offDuration CDATA "2"
 >
 <!ELEMENT Arg1 (%EventNodes;)>
@@ -340,11 +381,13 @@ $Id$
 <!ELEMENT ButtonOp (Arg1, Arg2)>
 <!ATTLIST ButtonOp
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	op (OR | AND) "OR"
 >
 <!ELEMENT HeartrateFilter (%EventNodes;)>
 <!ATTLIST HeartrateFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	attrname CDATA #REQUIRED
 	threshold CDATA "0.03"
 	toomuch CDATA "0.2"
@@ -375,6 +418,7 @@ $Id$
 <!ELEMENT ThresholdFilter (%EventNodes;)>
 <!ATTLIST ThresholdFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	positionmin CDATA "0"
 	positionmax CDATA "inf"
 	rotationmin CDATA "0"
@@ -385,6 +429,7 @@ $Id$
 <!ELEMENT TimeGate ((Gate, (%EventNodes;)) | ((%EventNodes;), Gate))>
 <!ATTLIST TimeGate
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	timeframe CDATA "100"
 	mode (pass | block) "pass"
 >
@@ -392,6 +437,7 @@ $Id$
 <!ELEMENT ElasticFilter (%EventNodes;)>
 <!ATTLIST ElasticFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	force CDATA "0.1"
 	damp CDATA "0.1"
 >
@@ -399,6 +445,7 @@ $Id$
 <!ELEMENT EventEllipsoidTransform (%EventNodes;)>
 <!ATTLIST EventEllipsoidTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	mode (toEllipsoid | toCartesian) "toCartesian"
@@ -406,6 +453,7 @@ $Id$
 <!ELEMENT QueueEllipsoidTransform (%QueueNodes;)>
 <!ATTLIST QueueEllipsoidTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	mode (toEllipsoid | toCartesian) "toCartesian"
@@ -413,6 +461,7 @@ $Id$
 <!ELEMENT TimeEllipsoidTransform (%TimeNodes;)>
 <!ATTLIST TimeEllipsoidTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	mode (toEllipsoid | toCartesian) "toCartesian"
@@ -420,6 +469,7 @@ $Id$
 <!ELEMENT EventGKTransform (%EventNodes;)>
 <!ATTLIST EventGKTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	alpha CDATA #REQUIRED
@@ -432,6 +482,7 @@ $Id$
 <!ELEMENT QueueGKTransform (%QueueNodes;)>
 <!ATTLIST QueueGKTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	alpha CDATA #REQUIRED
@@ -444,6 +495,7 @@ $Id$
 <!ELEMENT TimeGKTransform (%TimeNodes;)>
 <!ATTLIST TimeGKTransform
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	a CDATA #REQUIRED
 	b CDATA #IMPLIED
 	alpha CDATA #REQUIRED
@@ -457,6 +509,7 @@ $Id$
 <!ELEMENT RangeFilter (%EventNodes;)>
 <!ATTLIST RangeFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	min CDATA #IMPLIED
 	max CDATA #IMPLIED
 >
@@ -464,6 +517,7 @@ $Id$
 <!ELEMENT PositionFilter (%EventNodes;)>
 <!ATTLIST PositionFilter
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	min CDATA #IMPLIED
 	max CDATA #IMPLIED
 >
@@ -472,12 +526,14 @@ $Id$
 <!ELEMENT NetworkSinkConfig EMPTY>
 <!ATTLIST NetworkSinkConfig
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #IMPLIED
 	blockMode (none | multicast) "none"
 >
 <!ELEMENT NetworkSink (%EventNodes;)>
 <!ATTLIST NetworkSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 	number CDATA #REQUIRED
 	multicast-address CDATA #IMPLIED
@@ -490,6 +546,7 @@ $Id$
 <!ELEMENT NetworkSource EMPTY>
 <!ATTLIST NetworkSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
 	multicast-address CDATA #IMPLIED
 	port CDATA #REQUIRED
@@ -511,6 +568,7 @@ $Id$
 <!ELEMENT ARToolKitSource EMPTY>
 <!ATTLIST ARToolKitSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	tag-file CDATA #REQUIRED
 	center CDATA #REQUIRED
 	size CDATA #REQUIRED
@@ -533,6 +591,7 @@ $Id$
 <!ELEMENT ARToolKitPlusSource EMPTY>
 <!ATTLIST ARToolKitPlusSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	tag-id CDATA #IMPLIED
 	tag-file CDATA #IMPLIED
 	undist-mode CDATA #IMPLIED
@@ -543,12 +602,14 @@ $Id$
 <!ELEMENT ARToolKitPlusMultiMarkerSource EMPTY>
 <!ATTLIST ARToolKitPlusMultiMarkerSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	cfg-file CDATA #REQUIRED
 >
 <!-- test source elements -->
 <!ELEMENT TestSource EMPTY>
 <!ATTLIST TestSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	frequency CDATA "1.0"
 	offset CDATA "0"
 	position CDATA #IMPLIED
@@ -612,12 +673,14 @@ $Id$
 <!ELEMENT ConsoleSink (%EventNodes;)>
 <!ATTLIST ConsoleSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	comment CDATA ""
 	active (on | off) "on"
 >
 <!ELEMENT ConsoleSource EMPTY>
 <!ATTLIST ConsoleSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
         pen CDATA "1"
 >
@@ -626,6 +689,7 @@ $Id$
 <!ELEMENT JoystickSource EMPTY>
 <!ATTLIST JoystickSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	id CDATA "1"
 >
 <!-- FastTrak -->
@@ -641,28 +705,33 @@ $Id$
 <!ELEMENT FastTrakSource EMPTY>
 <!ATTLIST FastTrakSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
 >
 <!-- CyberMouse source elements -->
 <!ELEMENT CyberMouseSource EMPTY>
 <!ATTLIST CyberMouseSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Linux Mouse source elements -->
 <!ELEMENT LinmouseSource EMPTY>
 <!ATTLIST LinmouseSource
 	dev CDATA ""
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Targus Wireless Mouse source elements -->
 <!ELEMENT TargusSource EMPTY>
 <!ATTLIST TargusSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Wacom Graphire tablet source elements -->
 <!ELEMENT WacomGraphireSource EMPTY>
 <!ATTLIST WacomGraphireSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	device CDATA "1"
 >
 <!-- General InterSense source module, will also include InterTrax soon -->
@@ -675,6 +744,7 @@ $Id$
 <!ELEMENT InterSenseSource EMPTY>
 <!ATTLIST InterSenseSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	id CDATA #REQUIRED
 	station CDATA "0"
 >
@@ -683,6 +753,7 @@ $Id$
 <!ATTLIST Callback
 	name CDATA #REQUIRED
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Time Module configuration element, manages timing of the main loop -->
 <!ELEMENT TimeConfig EMPTY>
@@ -696,12 +767,14 @@ $Id$
 <!ELEMENT Selection ((Select, (%EventNodes;)) | ((%EventNodes;), Select))>
 <!ATTLIST Selection
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	timeout CDATA "100"
 >
 <!-- CORBA Input / Output Module and node. -->
 <!-- File Input / Output Module and node. -->
 <!ELEMENT CORBAConfig EMPTY>
 <!ATTLIST CORBAConfig
+	persistent (true | false) "false"
 	endPoint CDATA #IMPLIED
         InitRef  CDATA #IMPLIED
 >
@@ -732,11 +805,13 @@ $Id$
         uri  CDATA #IMPLIED
 	frequency CDATA "0"
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT CORBASource EMPTY>
 <!ATTLIST CORBASource
 	name CDATA #IMPLIED
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT PhantomLocationSource EMPTY>
 <!ATTLIST PhantomLocationSource
@@ -778,6 +853,7 @@ $Id$
 	file CDATA #REQUIRED
 	station CDATA "0"
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT FileSource EMPTY>
 <!ATTLIST FileSource
@@ -785,6 +861,7 @@ $Id$
 	station CDATA "0"
 	localtime (true | false) "false"
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Flock of Birds Tracker -->
 <!ELEMENT Bird EMPTY>
@@ -807,6 +884,7 @@ $Id$
 <!ATTLIST FOBSource
 	number CDATA #REQUIRED
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Parallel Button Interface -->
 <!ELEMENT ParButtonSource EMPTY>
@@ -814,12 +892,14 @@ $Id$
 	dev CDATA ""
 	port CDATA ""
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Callforward node for a simple way to use the OpenTracker library -->
 <!ELEMENT Callforward EMPTY>
 <!ATTLIST Callforward
 	name CDATA #REQUIRED
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!--TCP Network module for the virtual show case project. This was developed with Oliver Bimber <obimber@crcg.edu>.-->
 <!ELEMENT TCPConfig EMPTY>
@@ -829,6 +909,7 @@ $Id$
 <!ELEMENT TCPSink (%EventNodes;)>
 <!ATTLIST TCPSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	station CDATA "0"
 	position (on | off) "on"
 	orientation (on | off) "on"
@@ -845,6 +926,7 @@ $Id$
 	number CDATA #REQUIRED
 	type (6d | 3d | fly | pen) "6d"
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Studierstube Input/ Output modules and nodes, necessary for interfacing to the Studierstube.
      These elements are only supported by the Studierstube runtime. -->
@@ -857,11 +939,13 @@ $Id$
 <!ELEMENT StbKeyboardSource EMPTY>
 <!ATTLIST StbKeyboardSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
 >
 <!ELEMENT StbMouseSource EMPTY>
 <!ATTLIST StbMouseSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	mode (absolute | relative) "relative"
 	window CDATA "-1"
 >
@@ -869,6 +953,7 @@ $Id$
 <!ELEMENT StbSink (%EventNodes;)>
 <!ATTLIST StbSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	station CDATA #REQUIRED
 	event (on | off) "off"
 >
@@ -876,6 +961,7 @@ $Id$
 <!ELEMENT StbSource EMPTY>
 <!ATTLIST StbSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	node CDATA #IMPLIED
 	position CDATA #IMPLIED
 	orientation CDATA #IMPLIED
@@ -886,11 +972,13 @@ $Id$
 <!ELEMENT SpaceMouseSource EMPTY>
 <!ATTLIST SpaceMouseSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!--ultratrak receiver acting as sources-->
 <!ELEMENT UltraTrakConfig EMPTY>
 <!ATTLIST UltraTrakConfig
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	port CDATA #REQUIRED
 	positionMapping CDATA "0 1 2"
 	invertPosition CDATA "0 0 0"
@@ -900,6 +988,7 @@ $Id$
 <!ELEMENT UltraTrakSource EMPTY>
 <!ATTLIST UltraTrakSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
 >
 <!-- Group gate nodes. It will only open one or more members of a set of nodes to let data pass through. The ActiveGate node
@@ -935,6 +1024,7 @@ $Id$
 <!ELEMENT SpeechRecoSource EMPTY>
 <!ATTLIST SpeechRecoSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 	set CDATA #REQUIRED
 >
@@ -946,6 +1036,7 @@ $Id$
 <!ELEMENT P5GloveSource EMPTY>
 <!ATTLIST P5GloveSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	finger CDATA #REQUIRED
 >
 <!ELEMENT LinmouseConfig EMPTY>
@@ -967,22 +1058,27 @@ $Id$
 <!ELEMENT GPSSource EMPTY>
 <!ATTLIST GPSSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT GPSDirectionSource EMPTY>
 <!ATTLIST GPSDirectionSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT GPSGarminCompass EMPTY>
 <!ATTLIST GPSGarminCompass
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT GPSGarminAltitude EMPTY>
 <!ATTLIST GPSGarminAltitude
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT GPSInfoSource EMPTY>
 <!ATTLIST GPSInfoSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT MobilabConfig EMPTY>
 <!ATTLIST MobilabConfig
@@ -995,6 +1091,7 @@ $Id$
 <!ELEMENT MobilabSource EMPTY>
 <!ATTLIST MobilabSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	channel CDATA #REQUIRED
 	datatype ( USHORT | FLOAT | DOUBLE ) "USHORT"
 	attname CDATA "bcidata"
@@ -1009,6 +1106,7 @@ $Id$
 <!ELEMENT DynaSightSource EMPTY>
 <!ATTLIST DynaSightSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	target CDATA #REQUIRED
 >
 <!--MagicY Module and acting as source node-->
@@ -1024,6 +1122,7 @@ $Id$
 <!ELEMENT MagicYSource EMPTY>
 <!ATTLIST MagicYSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA #REQUIRED
 	average (true | false) "false"
 >
@@ -1036,6 +1135,7 @@ $Id$
 <!ATTLIST MulticastInputSource
 	number CDATA #REQUIRED
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!-- Dwarf service configuration elements -->
 <!ELEMENT DwarfConfig (attribute*, (need | ability)*)>
@@ -1072,11 +1172,13 @@ $Id$
 <!ELEMENT DwarfSink (%EventNodes;)>
 <!ATTLIST DwarfSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 >
 <!ELEMENT DwarfSource EMPTY>
 <!ATTLIST DwarfSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 >
 <!-- VRPN Source and sink nodes -->
@@ -1088,6 +1190,7 @@ $Id$
 <!ELEMENT VRPNSink (%EventNodes;)>
 <!ATTLIST VRPNSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 	type (tracker | button) "tracker"
 	station CDATA "0"
@@ -1095,6 +1198,7 @@ $Id$
 <!ELEMENT VRPNSource EMPTY>
 <!ATTLIST VRPNSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	name CDATA #REQUIRED
 	type (tracker | button) "tracker"
 	station CDATA "0"
@@ -1104,6 +1208,7 @@ $Id$
 <!ELEMENT XSensSource EMPTY>
 <!ATTLIST XSensSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	comport CDATA "1"
 	amd (true | false) "false"
 >
@@ -1126,6 +1231,7 @@ $Id$
 <!ELEMENT UbisenseSource EMPTY>
 <!ATTLIST UbisenseSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	object CDATA #REQUIRED
 >
 <!-- RawInput Module -->
@@ -1133,12 +1239,14 @@ $Id$
 <!ELEMENT RawInputSource EMPTY>
 <!ATTLIST RawInputSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	deviceName CDATA #REQUIRED
 >
 <!-- Difference calculates the difference of two event attributes occured in a timeout interval. -->
 <!ELEMENT Difference (%EventNodes;)>
 <!ATTLIST Difference
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	timeframe CDATA #REQUIRED
 	attributeName CDATA #REQUIRED
 >
@@ -1147,21 +1255,25 @@ $Id$
 <!ELEMENT TimestampGenerator (%EventNodes;)>
 <!ATTLIST TimestampGenerator
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	timeout CDATA #REQUIRED
 >
 <!-- Wii Source and sink nodes -->
 <!ELEMENT WiiConfig EMPTY>
 <!ATTLIST WiiConfig
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 >
 <!ELEMENT WiiSink (%EventNodes;)>
 <!ATTLIST WiiSink
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA "0"
 >
 <!ELEMENT WiiSource EMPTY>
 <!ATTLIST WiiSource
 	DEF ID #IMPLIED
+	nameBinding CDATA #IMPLIED
 	number CDATA "0"
 	type (rawbuttons | textButtons) "rawbuttons"
 >
