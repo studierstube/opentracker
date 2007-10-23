@@ -42,6 +42,8 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#include <OpenTracker/OpenTracker.h>
+
 #ifndef EXCLUDE_MOBILAB_SUPPORT
 
 #ifdef WIN32

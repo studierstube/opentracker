@@ -65,6 +65,9 @@
 #include <cassert>
 
 #include "../OpenTracker.h"
+
+#ifndef EXCLUDE_MOBILAB_SUPPORT
+
 #include "MobilabDriver.h"
 #include "MobilabModule.h"
 
@@ -268,6 +271,8 @@ namespace ot {
     }
     
 } // namespace ot
+
+#endif // !ifndef(EXCLUDE_MOBILAB_SUPPORT)
 
 #endif // !defined(_MOBILABSOURCE_H)
 
