@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     }
     const char * filename = argv[1];
     try {
-      LiveContext* context_impl = new LiveContext(FALSE);
+      LiveContext* context_impl = new LiveContext(false);
       context_impl->parseConfiguration(filename);
       cerr << "got LiveContext instance" << endl;
       ModuleMap modules = context_impl->getModules();
