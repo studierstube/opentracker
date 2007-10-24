@@ -100,6 +100,7 @@ opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
 opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
 opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
+opts.Add(BoolOption('ENABLE_MOBILAB', 'Set to enable support for Mobilab', 0))
 opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
@@ -148,7 +149,15 @@ if env['DEBUG']:
     env.Append(CXXFLAGS='-g')
 else:
     env.Append(CXXFLAGS='-O2')
-
+#***********************************#
+# Enable or disable Mobilab support #
+#***********************************#
+if env['ENABLE_MOBILAB']:
+    pass # do nothing
+else:
+    env.Append(CPPDEFINES='EXCLUDE_MOBILAB_SUPPORT')
+    for _file in [join('src', 'input', file) for file in ['MobilabDriver.cxx', 'Mobilab_Handler.cxx', 'MobilabModule.cxx']]:
+        input_files.remove(_file)
 #*********************************#
 # Enable or disable CORBA support #
 #*********************************#
@@ -174,7 +183,7 @@ if env['ENABLE_CORBA']:
     if env['ENABLE_OMNIORBPY']:
 	import OmniIdlPy
 	OmniIdlPy.generate(env)
-    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl', 'UTS.idl']]:
+    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
 	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
 
 #*********************************#
@@ -350,7 +359,6 @@ def emit_java_classes(target, source, env):
             t.attributes.java_sourcedir = f.dir
             t.attributes.java_classname = classname(base)
             tlist.append(t)
-
     return tlist, slist
 
 if env['ENABLE_JAVA']:
@@ -362,7 +370,7 @@ if env['ENABLE_JAVA']:
     env['BUILDERS']['JavaClassFile'].emitter[env.subst('$JAVASUFFIX')] = emit_java_classes
     stub_classes = env.Java(target=join('build', 'corba_stubs'), source = stub_generator.java, JAVASOURCEPATH='src_java')
     opentracker_stubs_jar = \
-        env.Jar(target=join('src_java', 'OpenTrackerStubs.jar'), 
+        env.Jar](target=join('src_java', 'OpenTrackerStubs.jar'), 
                 source = stub_classes, 
                 JARCHDIR=join('build', 'corba_stubs'))
     if env['ENABLE_OMNIEVENTS']:
