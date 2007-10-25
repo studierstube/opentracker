@@ -349,16 +349,26 @@ def emit_java_classes(target, source, env):
                     tlist.append(t)
 
         if source_file_based:
-            pkg_dir, classes = parse_java_file(f.rfile().get_abspath(), version)
-            base = f.name[:-len(java_suffix)]
-            if pkg_dir:
-                t = target[0].Dir(pkg_dir).File(base + class_suffix)
-            else:
+            try:
+                pkg_dir, classes = parse_java_file(f.rfile().get_abspath(), version)
+                base = f.name[:-len(java_suffix)]
+                if pkg_dir:
+                    t = target[0].Dir(pkg_dir).File(base + class_suffix)
+                else:
+                    t = target[0].File(base + class_suffix)
+                t.attributes.java_classdir = classdir
+                t.attributes.java_sourcedir = f.dir
+                t.attributes.java_classname = classname(base)
+                tlist.append(t)
+            except IOError:
+                # File doesn't exist and therefore can't be parsed. F**k!
+                # Make an educated guess
+                base = f.name[:-len(java_suffix)]
                 t = target[0].File(base + class_suffix)
-            t.attributes.java_classdir = classdir
-            t.attributes.java_sourcedir = f.dir
-            t.attributes.java_classname = classname(base)
-            tlist.append(t)
+                t.attributes.java_classdir = classdir
+                t.attributes.java_sourcedir = f.dir
+                t.attributes.java_classname = classname(base)
+                tlist.append(t)
     return tlist, slist
 
 if env['ENABLE_JAVA']:
@@ -370,7 +380,7 @@ if env['ENABLE_JAVA']:
     env['BUILDERS']['JavaClassFile'].emitter[env.subst('$JAVASUFFIX')] = emit_java_classes
     stub_classes = env.Java(target=join('build', 'corba_stubs'), source = stub_generator.java, JAVASOURCEPATH='src_java')
     opentracker_stubs_jar = \
-        env.Jar](target=join('src_java', 'OpenTrackerStubs.jar'), 
+        env.Jar(target=join('src_java', 'OpenTrackerStubs.jar'), 
                 source = stub_classes, 
                 JARCHDIR=join('build', 'corba_stubs'))
     if env['ENABLE_OMNIEVENTS']:
@@ -462,8 +472,6 @@ prgenv.Append(LIBS='opentracker')
 executables  =  prgenv.Program(join('bin','opentracker'), join('src','standalones','main.cxx'))
 executables += prgenv.Program(join('bin','middleware'), join('src','standalones','middleware.cxx'))
 executables += prgenv.Program(join('bin','opentracker2c'), join('src','standalones','configurable.cxx'))
-if env['ENABLE_CORBA']:
-    executables += prgenv.Program(join('bin','opentracker2con'), join('src','standalones','corba_configurable.cxx'))
 if env['ENABLE_LIVE']:
     executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
     executables += prgenv.Program(join('bin','xmlconfigurable_live'), [join('src','standalones','xmlConfigurableLive.cxx')])

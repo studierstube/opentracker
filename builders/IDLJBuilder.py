@@ -75,7 +75,7 @@ def idlj_emitter(target, source, env):
         except KeyError:
             trgs = [os.path.join(env['IDL_INSTALL_DIRECTORY'], file) for file in trgs]
         tlist += trgs
-    #print 'target:', tlist, '\nsource:', [str(file) for file in source]
+    print 'target:', tlist, '\nsource:', [str(file) for file in source]
 #    return tlist, slist
     return tlist, source
 
@@ -253,6 +253,7 @@ def generate_idlj_actions(source, target, env, for_signature):
 	    command = 'idlj %s %s' % (defines, command)
         except KeyError:
             command = 'idlj %s -td %s %s -fallTie %s' % (defines, env['IDL_INSTALL_DIRECTORY'], include_args, idl_file)
+        print "command = ", command
         listCmd.append(command)
     return listCmd
 
