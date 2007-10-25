@@ -398,7 +398,11 @@ namespace ot {
                             birds[num]->source->unlock();
                             if (context != NULL)
                             {
-                                context->dataSignal();
+			       if (context->doSynchronization())
+			       {
+			           context->dataSignal();
+				   //context->consumedWait();
+			       }
                             }
                         }
                     }
