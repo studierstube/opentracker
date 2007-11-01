@@ -1,4 +1,5 @@
 import sys, os
+import re
 from glob import glob
 from os.path import join, basename, dirname, isfile, walk
 from sets import Set as set
@@ -470,9 +471,45 @@ if env['ENABLE_PYDOC']:
     PyDocBuilder.generate(env)
     pydocs = env.EPyDoc(glob(join('src_python', '*.py')))
     print "pydocs = ", pydocs
+
+
+
+#********************************************#
+# packageconfig                              #
+#############################################
+def pkgconfigaction(target, source, env):
+    f = open(str(target[0]), 'w')
+    fi = open(str(source[0]), 'r')
+    lines = fi.readlines()
+    fi.close()
+    pkprefix = ARGUMENTS.get('PREFIX')
+    if not pkprefix:
+        pkprefix = os.getcwd()
+    libdir = join(pkprefix, 'lib')
+    
+    for line in lines:
+        #print line[:-1]
+	outline = line.replace("@@OPENTRACKER_PREFIX@@",pkprefix)
+	outline = outline.replace("@@OPENTRACKER_LIBDIR@@",libdir)
+	outline = outline.replace("@@OPENTRACKER_PROJECT_NAME@@","opentracker")
+	outline = outline.replace("@@OPENTRACKER_PROJECT_DESCRIPTION@@","opentracker is a modified \"small\" library for handling tracking")
+	outline = outline.replace("@@OPENTRACKER_PROJECT_VERSION@@","2.0.0")
+	outline = outline.replace("l@@OPENTRACKER_PROJECT_LIBNAME@@","opentracker")
+	outline = outline.replace("@@OPENTRACKER_PROJECT_DEFINES@@", "-D"+" -D".join(env['CPPDEFINES']))
+	
+	#print outline[:-1]
+	f.write(outline)
+
+    f.close()
+    
+
+pkgconfigbld = Builder(action = pkgconfigaction)
+env.Append(BUILDERS = {'PackageConfig': pkgconfigbld})
+
 ################################################################################
 #     set targets                                                              #
 ################################################################################
+pkgcfg = env.PackageConfig('opentracker.pc','opentracker.pc.in')
 otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
 # Copy otlib sources
 #env.Install( join('build', 'src'), essential_core_files + common_files + input_files + extra_files )
@@ -498,6 +535,7 @@ prefix = ARGUMENTS.get('PREFIX')
 if prefix:
     bin_inst = env.Install(join(prefix, 'bin'), executables)
     lib_inst = env.Install(join(prefix, 'lib'), [otlib])
+    pkg_inst = env.Install(join(prefix, 'lib', 'pkgconfig'), pkgcfg)
     header_files = []
     walk('include', gatherHeaders, header_files)
     inc_inst = []
@@ -520,5 +558,9 @@ if prefix:
     # jar files to install
     jar_inst = env.Install(join(prefix, 'lib'), jars)
     # all files to be installed
-    install_files = [bin_inst, inc_inst, lib_inst, py_inst, jar_inst, idl_inst]
+    install_files = [bin_inst, inc_inst, lib_inst, py_inst, jar_inst, idl_inst, pkg_inst]
+    env.Alias('install', install_files)
+else:
+    pkg_inst = env.Install(join(os.getcwd(), 'lib', 'pkgconfig'), pkgcfg)
+    install_files = [pkg_inst]
     env.Alias('install', install_files)
