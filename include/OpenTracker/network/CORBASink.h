@@ -79,7 +79,7 @@
 
 namespace ot {
 
-class CORBAModule;
+  class CORBAModule;
 
 class OPENTRACKER_API CORBASink : public Node
 {
@@ -119,23 +119,15 @@ protected:
     /** constructor method,sets commend member
      * @param corba_sink_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
-    CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_) :
-        Node(), 
-        frequency( frequency_ ),
-        cycle ( 0 )
-	  {
-	    refmutex = new ACE_Thread_Mutex;
-	    entity = entity_;
-	    type = "CORBASink";
-	  }
-public:
-    virtual ~CORBASink() {
-      // CORBASink destructor
-
-      std::cout << "CORBASink destructor" << std::endl;
-      //need to make sure that all node activities have ended before deleting!
-      delete refmutex;
-    }
+      CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_);
+ public:
+      virtual ~CORBASink() {
+	// CORBASink destructor
+	
+	std::cout << "CORBASink destructor" << std::endl;
+	//need to make sure that all node activities have ended before deleting!
+	delete refmutex;
+      }
 
     /** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
@@ -186,10 +178,7 @@ public:
       return OT_CORBA::OTEntity::_duplicate(entity);
     }
 
-    virtual void setEntity(OT_CORBA::OTEntity_ptr entity_) {
-	ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
-	entity = OT_CORBA::OTEntity::_duplicate(entity_);
-    }
+    virtual void setEntity(OT_CORBA::OTEntity_ptr entity_);
 #endif    // USE_LIVE
     friend class CORBAModule;
 };

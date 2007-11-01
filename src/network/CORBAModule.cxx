@@ -111,7 +111,6 @@ void CORBAModule::destroyORB()
 
   CORBA::ORB_var CORBAModule::getORB() { 
     CORBA::ORB_var _orb = orb;
-    //return CORBA::ORB::_duplicate(orb);
     return CORBA::ORB::_duplicate(_orb);
   }
 

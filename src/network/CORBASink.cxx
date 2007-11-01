@@ -2,7 +2,33 @@
 #include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/skeletons/OT_CORBA.hh>
 
+#ifdef WIN32
+#define TIMEOUT 50
+#endif
+
 namespace ot {
+
+  void CORBASink::setEntity(OT_CORBA::OTEntity_ptr entity_) {
+	ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
+	entity = OT_CORBA::OTEntity::_duplicate(entity_);
+#ifdef WIN32
+	omniORB::setClientCallTimeout(entity, TIMEOUT); 
+#endif
+    }
+
+
+  CORBASink::CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_) :
+        Node(), 
+        frequency( frequency_ ),
+        cycle ( 0 ) {
+    refmutex = new ACE_Thread_Mutex;
+    entity = entity_;
+#ifdef WIN32	    
+    omniORB::setClientCallTimeout(entity, TIMEOUT); 
+#endif
+    type = "CORBASink";
+  }
+
 
   char* CORBASink::get_attribute(const char* _key) {
     if (strcmp(_key, "uri") == 0) {
@@ -28,6 +54,9 @@ namespace ot {
 	  ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
 	  //CORBA::release(corba_sink);
 	  entity = OT_CORBA::OTEntity::_duplicate(entity_);
+#ifdef WIN32
+	  omniORB::setClientCallTimeout(entity, TIMEOUT);
+#endif
 	}
       } else {
 	throw OTGraph::UnsupportedAttribute();

@@ -188,7 +188,7 @@ env.Append(CPPDEFINES=['PRESENCCIA_BUILD', 'USING_SCONS',
                           'OT_NO_TIMEGATE_SUPPORT', 
                           'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 
                           'OT_NO_CALLFORWARDMODULE_SUPPORT', 
-                          'OT_BACKUP_ON_RECONFIG', 
+                          'OT_BACKUP_ON_RECONFIG', 'EXCLUDE_MOBILAB_SUPPORT',
                           'OT_NO_MOBILAB_SUPPORT', 'NO_USE_WII'])
 env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
                           ,'__x86__','_CRT_SECURE_NO_DEPRECATE', '_WINDLL', 
