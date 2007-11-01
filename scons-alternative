@@ -102,6 +102,7 @@ opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward
 opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
 opts.Add(BoolOption('ENABLE_MOBILAB', 'Set to enable support for Mobilab', 0))
 opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
+opts.Add(BoolOption('ENABLE_ARTOOLKITPLUS','Set to enable ARToolkitPlus support', 0))
 opts.Add('PREFIX', 'Set installation prefix', '')
 
 ################################################################################
@@ -131,7 +132,7 @@ elif sys.platform.startswith('linux'):
                     join('src', 'input', 'LinmouseSource.cxx')]
     if env['ENABLE_CORBA']:
 	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
-    env.Append(CPPDEFINES='_REENTRANT') # ACE specific issue on linux
+    env.Append(CPPDEFINES=['_REENTRANT']) # ACE specific issue on linux
     env.Append(CPPPATH='/usr/include/COS') # pick up COS headers
     env.Append(CXXFLAGS='-O2')
 elif sys.platform == 'win32':
@@ -158,6 +159,17 @@ else:
     env.Append(CPPDEFINES='EXCLUDE_MOBILAB_SUPPORT')
     for _file in [join('src', 'input', file) for file in ['MobilabDriver.cxx', 'Mobilab_Handler.cxx', 'MobilabModule.cxx']]:
         input_files.remove(_file)
+#*********************************#
+# Enable or disable ARTK support  #
+#*********************************#
+if env['ENABLE_ARTOOLKITPLUS']:
+    if os.getenv('ARTOOLKITPLUSROOT') != '':
+        env.Append(CPPPATH=[join(os.getenv('ARTOOLKITPLUSROOT'), 'include')])
+	env.Append(LIBPATH=[join(os.getenv('ARTOOLKITPLUSROOT'), 'lib')])
+    env.Append(CPPDEFINES='USE_ARTOOLKITPLUS')
+    env.Append(LIBS='ARToolKitPlus')
+else:
+    pass
 #*********************************#
 # Enable or disable CORBA support #
 #*********************************#
@@ -472,6 +484,7 @@ prgenv.Append(LIBS='opentracker')
 executables  =  prgenv.Program(join('bin','opentracker'), join('src','standalones','main.cxx'))
 executables += prgenv.Program(join('bin','middleware'), join('src','standalones','middleware.cxx'))
 executables += prgenv.Program(join('bin','opentracker2c'), join('src','standalones','configurable.cxx'))
+executables += prgenv.Program(join('bin','opentrackerdemand'), join('src','standalones','main_ondemand.cxx'))
 if env['ENABLE_LIVE']:
     executables += prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
     executables += prgenv.Program(join('bin','xmlconfigurable_live'), [join('src','standalones','xmlConfigurableLive.cxx')])
