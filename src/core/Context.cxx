@@ -79,7 +79,9 @@ namespace ot {
 	lastlooptime(0.0),
 	loopcount(0)
     {
-		
+#ifdef USE_LIVE
+        activatelive = true;
+#endif
 		
         if( init != 0 )
         {
@@ -916,19 +918,22 @@ namespace ot {
     {
         Node * value = factory.createNode( name , attributes );
 #ifdef USE_LIVE
-        CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
-        if (CORBAModule::persistent) {
-            if (!attributes.containsKey("DEF")) {
-                attributes.put("DEF", CORBAUtils::generateUniqueId());
-            }
-            if (name.compare("PushCons") != 0) { // PushCons node is already activated!
-                logPrintI("About to activate node#1\n");
-                activateNode(value, attributes.get("DEF").c_str());
-            }
-        } else {
+        if (activatelive)
+        {
+            CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
+            if (CORBAModule::persistent) {
+                if (!attributes.containsKey("DEF")) {
+                    attributes.put("DEF", CORBAUtils::generateUniqueId());
+                }
+                if (name.compare("PushCons") != 0) { // PushCons node is already activated!
+                    logPrintI("About to activate node#1\n");
+                    activateNode(value, attributes.get("DEF").c_str());
+                }
+            } else {
                 logPrintI("About to activate node#2\n");
-            if (name.compare("PushCons") != 0) { // PushCons node is already activated!
-                activateNode(value);
+                if (name.compare("PushCons") != 0) { // PushCons node is already activated!
+                    activateNode(value);
+                }
             }
         }
 #endif
@@ -945,15 +950,18 @@ namespace ot {
 
             }
 #ifdef USE_LIVE
-        // If there is a nameBinding attribute, then bind the node to the NamingService
-        if (value->get("nameBinding").compare("") != 0) {
-            std::cerr << "nameBinding: " << value->get("nameBinding") << std::endl;
-            // bind the node to the Naming Service
-            CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) value->get("nameBinding").c_str());
-            CORBA::Object_var obj = CORBA::Object::_narrow(getNode(value));
-            CORBA::ORB_var orb = CORBAModule::getORB();
-            CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-        }
+            if (activatelive)
+            {
+                // If there is a nameBinding attribute, then bind the node to the NamingService
+                if (value->get("nameBinding").compare("") != 0) {
+                    std::cerr << "nameBinding: " << value->get("nameBinding") << std::endl;
+                    // bind the node to the Naming Service
+                    CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) value->get("nameBinding").c_str());
+                    CORBA::Object_var obj = CORBA::Object::_narrow(getNode(value));
+                    CORBA::ORB_var orb = CORBAModule::getORB();
+                    CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
+                }
+            }
 #endif
 
         }

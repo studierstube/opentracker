@@ -133,6 +133,7 @@ namespace ot {
         Graph::Ptr graph;
 #else
         Graph* graph;
+        bool activatelive;
 #endif
         /// A NodeFactoryContainer used by the ConfigurationParser to create new nodes.
         NodeFactoryContainer factory;
@@ -265,6 +266,8 @@ namespace ot {
         void activateNode(Node* node, const char* id);
         void activateNode(Node* node);
         void deactivateNode(Node* node);
+        bool getActivateLive() const { return activatelive; };
+        void setActivateLive(const bool val) { activatelive = val; };
 #endif
         /** This method initialies the context with a tracker tree described by
          * a configuration file. It parses the file and builds the tree.
