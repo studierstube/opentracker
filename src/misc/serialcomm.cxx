@@ -512,25 +512,29 @@ void initSerialParams(SerialParams *params)
 	params->canon = 0;
 }
 
-void setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake)
-{
+////////////////////!!!!!! PROBLEM HERE !!!!!!!!!!!!!!!!//////////////////
+/////// This function is not declared in serialcomm.h ////////////////////
+/////// and is indentical in its arguments to int setIOParams ////////////
+//////////////////////////////////////////////////////////////////////////
+// void setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake)
+// {
 
-      SerialParams params;
-      //      initSerialParams(&params);
-      params.baudrate = baud;
-      params.parity = parity;
-      params.bits = databits;
-      params.sbit = stopbits;
-      params.hwflow = handshake;
-      params.swflow = 0;
-      params.blocking = 1;
-      params.mapCR = 1;
-      params.canon = 1;
+//       SerialParams params;
+//       //      initSerialParams(&params);
+//       params.baudrate = baud;
+//       params.parity = parity;
+//       params.bits = databits;
+//       params.sbit = stopbits;
+//       params.hwflow = handshake;
+//       params.swflow = 0;
+//       params.blocking = 1;
+//       params.mapCR = 1;
+//       params.canon = 1;
 
-      settermio(&params, port);
-      usleep(100000);
+//       settermio(&params, port);
+//       usleep(100000);
 
-}
+// }
 
 int settermio(SerialParams *params, SerialPort *port )
 {

@@ -114,6 +114,7 @@ int writetoSerialPort(SerialPort *port, const char *buf, int count);
 int sendBreakSerialPort(SerialPort *port);
 
 int setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake);
+
 #endif
 /* 
  * ------------------------------------------------------------
