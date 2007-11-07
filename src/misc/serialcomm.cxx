@@ -73,61 +73,56 @@ void initSerialParams(SerialParams *params)
     params->sbit = 1;
     params->hwflow = 1;
     params->swflow = 0;
+	params->mapCR = 0;
+	params->canon = 0;
 }
 
-int openSerialPort(SerialPort *port, SerialParams *params)
-{
-    COMMTIMEOUTS timeout;
-    DCB dcb;
-    DWORD baud;
-
-    port->handle = CreateFileA(params->pathname,
-                               GENERIC_READ | GENERIC_WRITE,
-                               0, 0, OPEN_EXISTING, 0, 0);
-
-    if (port->handle == INVALID_HANDLE_VALUE)
+int setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake)
     {
-        DEBUG("Error: CreateFile failed")
-            return -1;
+      DCB dcb;
+      SerialParams params;
+      //      initSerialParams(&params);
+      params.baudrate = baud;
+      params.parity = parity;
+      params.bits = databits;
+      params.sbit = stopbits;
+      params.hwflow = handshake;
+      params.swflow = 0;
+      params.blocking = 1;
+      params.mapCR = 1;
+      params.canon = 1;
+    FillMemory(&dcb, sizeof(dcb), 0);
+
+    if (!GetCommState(port->handle, &dcb))
+    {
+        DEBUG("ERROR: GetCommEvent failed")
+        return -1;
     }
 
-    SetupComm(port->handle, 4096, 1024);
-    /* nonblocking not implemented yet
-       if (!params->blocking)
-       {
-       }
-    */
+    dcb.DCBlength = sizeof(dcb);
+    
+    setDCB(&dcb,&params);
 
-    strcpy(port->pathname, params->pathname);
-
-    if (!GetCommTimeouts(port->handle, &timeout))
+          if (!PurgeComm(port->handle, PURGE_TXABORT | PURGE_RXABORT |
+        PURGE_TXCLEAR | PURGE_RXCLEAR))
     {
-        DEBUG("Error: GetCommTimeouts failed")
-            return -1;
+        DEBUG("Error: PurgeComm failed")
+        return -1;
     }
 
-    /* all timeouts in millisec */
-    timeout.ReadIntervalTimeout = MAXDWORD;
-    timeout.ReadTotalTimeoutMultiplier = 0;
-    timeout.ReadTotalTimeoutConstant = 0;
-    timeout.WriteTotalTimeoutMultiplier = 0;
-    timeout.WriteTotalTimeoutConstant = 500;
-
-    if (!SetCommTimeouts(port->handle, &timeout))
+    if (!SetCommState(port->handle, &dcb))
     {
         DEBUG("Error: SetCommTimeouts failed")
             return -1;
     }
 
-    FillMemory(&dcb, sizeof(dcb), 0);
 
-    if (!GetCommState(port->handle, &dcb))
-    {
-        DEBUG("ERROR: GetCommState failed")
-            return -1;
+
     }
 
-    dcb.DCBlength = sizeof(dcb);
+int setDCB(DCB *dcb, SerialParams *params)
+{
+int baud;
 
     switch (params->baudrate)
     {
@@ -146,11 +141,11 @@ int openSerialPort(SerialPort *port, SerialParams *params)
                 return -1;
     }
 
-    dcb.BaudRate = baud;
+	dcb->BaudRate = baud;
 
     if ((params->bits >= 5) && (params->bits <= 8))
     {
-        dcb.ByteSize = params->bits;
+        dcb->ByteSize = params->bits;
     } else
     {
         DEBUG("Error: only 5-8 databits")
@@ -160,16 +155,16 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     switch (params->parity)
     {
         case 0:
-            dcb.fParity = FALSE;
-            dcb.Parity = NOPARITY;
+            dcb->fParity = FALSE;
+            dcb->Parity = NOPARITY;
             break;
         case 1:
-            dcb.fParity = TRUE;
-            dcb.Parity = ODDPARITY;
+            dcb->fParity = TRUE;
+            dcb->Parity = ODDPARITY;
             break;
         case 2:
-            dcb.fParity = TRUE;
-            dcb.Parity = EVENPARITY;
+            dcb->fParity = TRUE;
+            dcb->Parity = EVENPARITY;
             break;
         default:
             DEBUG("Error: parity 0 for none 1 for odd or 2 for even")
@@ -179,10 +174,10 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     switch (params->sbit)
     {
         case 1:
-            dcb.StopBits = ONESTOPBIT;
+            dcb->StopBits = ONESTOPBIT;
             break;
         case 2:
-            dcb.StopBits = TWOSTOPBITS;
+            dcb->StopBits = TWOSTOPBITS;
             break;
         default:
             DEBUG("Error: 1 or 2 stop bits")
@@ -192,34 +187,97 @@ int openSerialPort(SerialPort *port, SerialParams *params)
     /* not really sure how to set */
     if (params->hwflow)
     {
-        dcb.fOutxCtsFlow = TRUE;
-        dcb.fOutxDsrFlow = FALSE;
-        dcb.fDtrControl = DTR_CONTROL_ENABLE;
-        dcb.fRtsControl = RTS_CONTROL_HANDSHAKE;
-        dcb.XonLim = 0;
-        dcb.XoffLim = 0;
+        dcb->fOutxCtsFlow = TRUE;
+        dcb->fOutxDsrFlow = FALSE;
+        dcb->fDtrControl = DTR_CONTROL_ENABLE;
+        dcb->fRtsControl = RTS_CONTROL_HANDSHAKE;
+        dcb->XonLim = 0;
+        dcb->XoffLim = 0;
     } else
     {
-        dcb.fOutxCtsFlow = FALSE;
-        dcb.fOutxDsrFlow = FALSE;
-        dcb.fDtrControl = DTR_CONTROL_DISABLE;
-        dcb.fRtsControl = RTS_CONTROL_DISABLE;
+        dcb->fOutxCtsFlow = FALSE;
+        dcb->fOutxDsrFlow = FALSE;
+        dcb->fDtrControl = DTR_CONTROL_DISABLE;
+        dcb->fRtsControl = RTS_CONTROL_DISABLE;
     }
 
     if (params->swflow)
     {
-        dcb.fInX = TRUE;
-        dcb.fOutX = TRUE;
+        dcb->fInX = TRUE;
+        dcb->fOutX = TRUE;
     } else
     {
-        dcb.fInX = FALSE;
-        dcb.fOutX = FALSE;
+        dcb->fInX = FALSE;
+        dcb->fOutX = FALSE;
     }
 
-    dcb.fBinary = TRUE;
-    dcb.fErrorChar = FALSE;
-    dcb.fNull = FALSE;
-    dcb.fAbortOnError = FALSE;
+	// TODO support for windows on the parameters mapCR and canon needs to be implemented
+	// see linux section (SPL)
+
+    dcb->fBinary = TRUE;
+    dcb->fErrorChar = FALSE;
+    dcb->fNull = FALSE;
+    dcb->fAbortOnError = FALSE;
+
+
+}
+
+int openSerialPort(SerialPort *port, SerialParams *params)
+{
+    COMMTIMEOUTS timeout;
+    DCB dcb;
+    DWORD baud;
+
+    port->handle = CreateFileA(params->pathname,
+        GENERIC_READ | GENERIC_WRITE,
+        0, 0, OPEN_EXISTING, 0, 0);
+
+    if (port->handle == INVALID_HANDLE_VALUE)
+    {
+        DEBUG("Error: CreateFile failed")
+        return -1;
+    }
+
+    SetupComm(port->handle, 4096, 1024);
+    /* nonblocking not implemented yet
+    if (!params->blocking)
+    {
+    }
+                                      */
+    memcpy(&(port->params),params,sizeof(params));
+
+    strcpy(port->pathname, params->pathname);
+
+    if (!GetCommTimeouts(port->handle, &timeout))
+    {
+        DEBUG("Error: GetCommTimeouts failed")
+        return -1;
+    }
+
+    /* all timeouts in millisec */
+    timeout.ReadIntervalTimeout = MAXDWORD;
+    timeout.ReadTotalTimeoutMultiplier = 0;
+    timeout.ReadTotalTimeoutConstant = 0;
+    timeout.WriteTotalTimeoutMultiplier = 0;
+    timeout.WriteTotalTimeoutConstant = 500;
+
+    if (!SetCommTimeouts(port->handle, &timeout))
+    {
+        DEBUG("Error: SetCommTimeouts failed")
+        return -1;
+    }
+
+    FillMemory(&dcb, sizeof(dcb), 0);
+
+    if (!GetCommState(port->handle, &dcb))
+    {
+        DEBUG("ERROR: GetCommEvent failed")
+        return -1;
+    }
+
+    dcb.DCBlength = sizeof(dcb);
+    
+    setDCB(&dcb,params);
 
     if (!PurgeComm(port->handle, PURGE_TXABORT | PURGE_RXABORT |
                    PURGE_TXCLEAR | PURGE_RXCLEAR))
@@ -352,12 +410,50 @@ int waitforoneSerialPort(SerialPort *port, long time)
 int readfromSerialPort(SerialPort *port, char *buf, int count)
 {
     DWORD numread;
-    if (!ReadFile(port->handle, buf, count, &numread, NULL))
-    {
-        return -1;
-    } else {
-        return numread;
-    }
+    // added by Eigil to accomodate for canonical mode and cr2nl + nl2cr mapping
+    if(port->params.canon)
+	{
+		char *tmpbuf=buf;
+		char tmpchar=0;
+		int charsread=0;
+		*tmpbuf=0;
+		// stop on <cr> or count bytes read
+		while(tmpchar!=10 && charsread<count)
+		{
+			if(!ReadFile(port->handle,tmpbuf,1,&numread,NULL))
+			{
+				printf("error reading from file\n");
+				return -1;
+			}
+			// swap <nl> and <cr>
+
+			if(numread>0)
+			{
+
+				if(port->params.mapCR)
+				{
+					if(*tmpbuf==10)
+						*tmpbuf=13;
+					else
+					  if(*tmpbuf==13)
+					    *tmpbuf=10;
+				}
+				tmpchar=*tmpbuf;
+				tmpbuf+=numread;
+				charsread+=numread;
+			}
+		}
+		*tmpbuf=0;
+		return charsread;
+	}
+    // end Eigil
+    else
+		if (!ReadFile(port->handle, buf, count, &numread, NULL))
+		{
+			return -1;
+		} else {
+			return numread;
+		}
 }
 
 int writetoSerialPort(SerialPort *port, const char *buf, int count)
@@ -372,6 +468,16 @@ int writetoSerialPort(SerialPort *port, const char *buf, int count)
     }
     FlushFileBuffers(port->handle);
 }
+
+int sendBreakSerialPort(SerialPort *port)
+{
+  SetCommBreak(port->handle);
+  Sleep(250);
+	ClearCommBreak(port->handle);
+  // TODO: Make win implementation of this function
+  return 0;
+}
+
 
 #else  // UNIX implementation
 
@@ -402,38 +508,37 @@ void initSerialParams(SerialParams *params)
     params->sbit = 1;
     params->hwflow = 1;
     params->swflow = 0;
+	params->mapCR = 0;
+	params->canon = 0;
 }
 
-int openSerialPort(SerialPort *port, SerialParams *params)
+void setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake)
 {
+
+      SerialParams params;
+      //      initSerialParams(&params);
+      params.baudrate = baud;
+      params.parity = parity;
+      params.bits = databits;
+      params.sbit = stopbits;
+      params.hwflow = handshake;
+      params.swflow = 0;
+      params.blocking = 1;
+      params.mapCR = 1;
+      params.canon = 1;
+
+      settermio(&params, port);
+      usleep(100000);
+
+}
+
+int settermio(SerialParams *params, SerialPort *port )
+{
+
     struct termios portinfo;
-    int n;
     speed_t baud;
 
-    port->fd = open(params->pathname,
-                    O_RDWR | O_NOCTTY | O_NONBLOCK);
-
-    /* need nonblocking open cause sometimes the device may be in
-     * canonical mode.
-     * O_NDELAY (System V) vs O_NONBLOCK (POSIX.1)
-     * on linux the same, irix there is a different value of the
-     * macros but i think the same behavior. */
-
-    if (port->fd == -1)
-    {
-        DEBUG("Error: sorry open failed")
-            return -1;
-    }
-
-    if (params->blocking)
-    {
-        n = fcntl(port->fd, F_GETFL, 0);
-        fcntl(port->fd, F_SETFL, n & ~O_NONBLOCK);   /* disabling nonblocking */
-    }
-
-    strcpy(port->pathname, params->pathname);
-
-    bzero(&portinfo, sizeof(portinfo));
+    memset(&portinfo, 0, sizeof(portinfo));
 
     switch (params->baudrate)
     {
@@ -506,12 +611,26 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         portinfo.c_iflag |= IXON | IXOFF;
     }
 
+	// SPL patched support for mapping CR and NL as well as canonical mode comm
 
-    portinfo.c_iflag |= IGNBRK | IXANY;
+	if (params->mapCR)
+	{
+		portinfo.c_iflag |= ICRNL | INLCR;
+	}
+
+	if (params->canon)
+	{
+		// Enable canonical input (read lines)
+        portinfo.c_lflag = ICANON;
+	}
+	// end SPL patch
+
+
+	// portinfo.c_iflag |= IGNBRK | IXANY;
     portinfo.c_cflag |= CLOCAL | CREAD;
 
     portinfo.c_oflag = 0;
-    portinfo.c_lflag = 0;
+    //    portinfo.c_lflag = 0;
     portinfo.c_cc[VTIME] = 0;
     portinfo.c_cc[VMIN] = 1;
 
@@ -532,6 +651,40 @@ int openSerialPort(SerialPort *port, SerialParams *params)
         DEBUG("Error: tcsetattr failed")
             return -1;
     }
+        DEBUG("Terminal parameters set")
+}
+
+
+int openSerialPort(SerialPort *port, SerialParams *params)
+{
+
+    int n;
+
+
+    port->fd = open(params->pathname,
+        O_RDWR | O_NOCTTY | O_NONBLOCK);
+
+       /* need nonblocking open cause sometimes the device may be in
+        * canonical mode.
+        * O_NDELAY (System V) vs O_NONBLOCK (POSIX.1)
+        * on linux the same, irix there is a different value of the
+        * macros but i think the same behavior. */
+
+    if (port->fd == -1)
+    {
+        DEBUG("Error: sorry open failed")
+        return -1;
+    }
+
+    if (params->blocking)
+    {
+        n = fcntl(port->fd, F_GETFL, 0);
+        fcntl(port->fd, F_SETFL, n & ~O_NONBLOCK);   /* disabling nonblocking */
+    }
+
+    strcpy(port->pathname, params->pathname);
+
+    settermio(params,port);
 
     return 0;
 }
@@ -629,8 +782,12 @@ int writetoSerialPort(SerialPort *port, const char *buf, int count)
     return write(port->fd, buf, count);
 }
 
+int sendBreakSerialPort(SerialPort *port)
+{
+  tcsendbreak(port->fd,0);
+  return 0;
+}
 #endif
-
 /* 
  * ------------------------------------------------------------
  *   End of serialcomm.cxx
