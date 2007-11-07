@@ -70,6 +70,10 @@ typedef struct
     int swflow;  
     /// yes (!=0) or no (0)                  
     int blocking;
+	// map CR and NL
+	int mapCR;
+	// canonical mode
+	int canon;
 } SerialParams;
 
 /** describes a port, via its name and handle. This struct encapsulates 
@@ -82,7 +86,14 @@ typedef struct
 #else
     HANDLE handle;
 #endif
+  SerialParams params;
 } SerialPort;
+
+#ifdef WIN32
+  int setDCB(DCB *dcb, SerialParams *params);
+#else
+  int settermio(SerialParams *params, SerialPort* port);
+#endif
 
 void initSerialParams(SerialParams *params);
 
@@ -100,8 +111,10 @@ int readfromSerialPort(SerialPort *port, char *buf, int count);
 
 int writetoSerialPort(SerialPort *port, const char *buf, int count);
 
-#endif
+int sendBreakSerialPort(SerialPort *port);
 
+int setIOParams(SerialPort *port, int baud, int databits, char parity, int stopbits, bool handshake);
+#endif
 /* 
  * ------------------------------------------------------------
  *   End of serialcomm.h
