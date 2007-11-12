@@ -1,5 +1,5 @@
 # This build script is targeted specifically towards Windows XP, 
-# using Microsoft Visual Studio 7.1 (2003)
+# using Microsoft Visual Studio 2005
 # Dependencies are copied from their source directories to
 # the project directory
 
@@ -117,10 +117,10 @@ def installStaticLibraries(env, lib_dir, _prefix, _alias):
 ########################
 opts = Options('custom.py')
 opts.Add(BoolOption('DEBUG', 'Set to build for debug', 0))
-opts.Add(BoolOption('ENABLE_CORBA', 'Set to enable support for CORBA', 0))
-opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
-opts.Add(BoolOption('ENABLE_OMNIEVENTS', 'Set to enable support for OmniEvents', 0))
-opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for Gerhard Reitmayr\'s shared library', 0))
+opts.Add(BoolOption('ENABLE_CORBA', 'Set to enable support for CORBA', 1))
+opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 1))
+opts.Add(BoolOption('ENABLE_OMNIEVENTS', 'Set to enable support for OmniEvents', 1))
+opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for Gerhard Reitmayr\'s shared library', 1))
 opts.Add(BoolOption('ENABLE_NETWORKING', 'Set to enable support for ACE networking', 0))
 
 env = Environment (ENV = os.environ, options=opts)
@@ -157,10 +157,10 @@ try:
 except KeyError:
     print "No XERCESCROOT has been specified"
 
-xercesc_headers = installRelativeToDirectory(env, join(xercesc_root_dir, 'src'), 'xercesc', join(prefix, 'include'), 'xercesc-headers', ['.hpp', '.c'])
-xercesc_debug_libs    = installLibraries(env, join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Debug'), prefix, 'xercesc-debug-libs')
-xercesc_release_libs = installLibraries(env, join(xercesc_root_dir, 'Build','Win32','VC7.1', 'Release'), prefix, 'xercesc-release-libs')
-env.Alias('xercesc-libs', xercesc_debug_libs+xercesc_release_libs)
+xercesc_headers = installRelativeToDirectory(env, join(xercesc_root_dir, 'include'), 'xercesc', join(prefix, 'include'), 'xercesc-headers', ['.hpp', '.c'])
+xercesc_libs    = installLibraries(env, join(xercesc_root_dir, 'lib'), prefix, 'xercesc-debug-libs')
+xercesc_libs   += installLibraries(env, join(xercesc_root_dir, 'bin'), prefix, 'xercesc-debug-dlls')
+env.Alias('xercesc-libs', xercesc_libs)
 
 ############################################
 #            Build OpenTracker             #
@@ -257,7 +257,7 @@ if env['ENABLE_CORBA']:
     env.Append(CPPDEFINES=['USE_CORBA'])
     env.Append(CPPDEFINES=['__x86__', '__NT__', '__OSVERSION__=4', '__WIN32__', '_WIN32_WINNT=0x0400'])
     
-    env.Append(LIBS=['ws2_32', 'mswsock', 'advapi32', 'omniORB410_rt', 'omniDynamic410_rt', 'omnithread33_rt'])
+    env.Append(LIBS=['ws2_32', 'mswsock', 'advapi32', 'omniORB411_rt', 'omniDynamic411_rt', 'omnithread33_rt'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
     for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
 	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
@@ -320,7 +320,12 @@ dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG',
                          '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
                          '/MACHINE:X86'])
 dllenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+dllenv.Append(CPPDEFINES=['"WIN32"', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL_',
+                          '__x86__','_CRT_SECURE_NO_DEPRECATE', "_WINDLL", "_MBCS"])
 libenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+libenv.Append(CPPDEFINES=['"WIN32"', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL_',
+                          '__x86__','_CRT_SECURE_NO_DEPRECATE', "_WINDLL", "_MBCS"])
+
 #prgenv.Append(CPPDEFINES=['_OT_LIBRARY'])
 
 ############################################
@@ -344,20 +349,27 @@ dllenv.Install(join(prefix,'lib'), [_dll for _dll in filterStaticLibraries(otlib
 #           Build executables              #
 ############################################
 prgenv.Append(LIBS='opentracker')
-prgenv.Append(CCFLAGS=['/O2','/Ob1', '/GF', '/Gy', '/W3', '/FD', '/EHsc', '/MD', '/GR'])
+prgenv.Append(CCFLAGS=['/O2','/Ob1', '/GF', '/Gy', '/W3', '/FD', '/EHsc', '/MD'])
 prgenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO',
                          '/SUBSYSTEM:CONSOLE', '/MACHINE:X86'])
+prgenv.Append(CPPDEFINES=['"WIN32"', '__WIN32__','NDEBUG','"_VC80_UPGRADE=0x0710"', "_MBCS"])
 otcon = prgenv.Program(join('bin', 'win32', 'opentracker'), join('src', 'standalones', 'main.cxx'))
 otlive = prgenv.Program(join('bin','otlive'), [join('src','standalones','live_opentracker.cxx')])
+
+####################################
+# Make sure manifests get embedded #
+####################################
+for binary in [otlib, otcon, otlive]:
+    dllenv.AddPostAction(binary, 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2')
 
 ################################################
 # Install binaries and additional dependencies #
 ################################################
-dlls = ['ACE.dll', 'xerces-c_2_7.dll', 'opentracker.dll']
+dlls = ['ACE.dll', 'xerces-c_2_8.dll', 'opentracker.dll']
 if env['ENABLE_CORBA']:
-    dlls += ['omniORB410_vc7_rt.dll', 'omniDynamic410_vc7_rt.dll', 'omnithread33_vc7_rt.dll']
+    dlls += ['omniORB411_vc8_rt.dll', 'omniDynamic411_vc8_rt.dll', 'omnithread33_vc8_rt.dll']
 if env['ENABLE_OMNIEVENTS']:
-    dlls += ['COS410_vc7_rt.dll']
+    dlls += ['COS411_vc8_rt.dll']
 ot_install = env.Install(join(prefix, 'bin'), [otcon, otlive])
 executables = env.Alias('executables', [ot_install])
 prgenv.Depends(executables, [join(prefix, 'bin', _lib) for _lib in dlls])
