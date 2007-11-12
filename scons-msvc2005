@@ -120,8 +120,8 @@ opts.Add(BoolOption('DEBUG', 'Set to build for debug', 0))
 opts.Add(BoolOption('ENABLE_CORBA', 'Set to enable support for CORBA', 1))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 1))
 opts.Add(BoolOption('ENABLE_OMNIEVENTS', 'Set to enable support for OmniEvents', 1))
-opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for Gerhard Reitmayr\'s shared library', 1))
-opts.Add(BoolOption('ENABLE_NETWORKING', 'Set to enable support for ACE networking', 0))
+#opts.Add(BoolOption('ENABLE_SHARED', 'Set to enable support for Gerhard Reitmayr\'s shared library', 1))
+#opts.Add(BoolOption('ENABLE_NETWORKING', 'Set to enable support for ACE networking', 0))
 
 env = Environment (ENV = os.environ, options=opts)
 # This is the project directory to install everything in
@@ -165,7 +165,8 @@ env.Alias('xercesc-libs', xercesc_libs)
 ############################################
 #            Build OpenTracker             #
 ############################################
-env.Append(CPPPATH=['include', join(prefix,'include')])
+env.Append(CPPPATH=['include', join(prefix,'include')]) 
+env.Append(CPPPATH=[join('extras', _dir) for _dir in ['intersense', '.']])
 env.Append(LIBPATH=[join(prefix,'lib')])
 env.Append(LIBS = ['xerces-c_2', 'ACE'])
 env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
@@ -173,23 +174,8 @@ env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
                    , 'oleaut32', 'uuid','odbc32', 'odbccp32'])
 #env.Append(CPPDEFINES=['OPENTRACKER_EXPORTS', 'USING_SCONS', 
 env.Append(CPPDEFINES=['PRESENCCIA_BUILD', 'USING_SCONS', 
-                          'OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 
-                          'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 
-                          'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT',
-                          'OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 
-                          'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 
-                          'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 
-                          'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 
-                          'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 
-                          'OT_NO_INTERPORLATORMODULE_SUPPORT', 
-                          'OT_NO_ARTDATATRACKER_SUPPORT', 
-                          'OT_NO_BUTTON_SUPPORT', 'OT_NO_PARBUTTON_SUPPORT',
-                          'OT_NO_CONFIDENCE_SUPPORT', 
-                          'OT_NO_TIMEGATE_SUPPORT', 
-                          'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 
-                          'OT_NO_CALLFORWARDMODULE_SUPPORT', 
-                          'OT_BACKUP_ON_RECONFIG', 'EXCLUDE_MOBILAB_SUPPORT',
-                          'OT_NO_MOBILAB_SUPPORT', 'NO_USE_WII'])
+                       'EXCLUDE_MOBILAB_SUPPORT', 'OT_NO_MOBILAB_SUPPORT', 
+                       'OT_NO_GPS_SUPPORT'])
 env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
                           ,'__x86__','_CRT_SECURE_NO_DEPRECATE', '_WINDLL', 
                           '_MBCS'])
@@ -199,20 +185,20 @@ env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
     [join('src', 'tool', 'OT_ACE_Log.cxx')]
-common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'DynamicVirtualTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx', 'EEGFilterNode.cxx']
-common_files = [join('src', 'common', file) for file in common]
-input_files  = []
+common_files = glob(join('src', 'common', '*.cxx'))
+input_files  = glob(join('src', 'input', '*.cxx'))
 misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGSub.cxx', 'EEGLas.cxx', 'ButterworthFive.cxx']
-misc_files = [join('src', 'misc', file) for file in misc]
+misc_files = glob(join('src', 'misc', '*.cxx')) + glob(join('src', 'misc', 'xml', '*.cxx'))
 extra_files = [join('extras','intersense','isense.c')]
+extra_files += glob(join('src', 'network', '*.cxx'))
 
 #**************************************#
 # Enable or disable networking support #
 #**************************************#
-if env['ENABLE_NETWORKING']:
-    print "*************** ACE-based networking enabled ***************"
-    extra_files += [join('src','network',_file) for _file in ['NetworkSourceModule.cxx', 'NetworkSinkModule.cxx']]
-    env['CPPDEFINES'].remove('OT_NO_NETWORK_SUPPORT')
+#if env['ENABLE_NETWORKING']:
+#    print "*************** ACE-based networking enabled ***************"
+#    extra_files += [join('src','network',_file) for _file in ['NetworkSourceModule.cxx', 'NetworkSinkModule.cxx']]
+#    env['CPPDEFINES'].remove('OT_NO_NETWORK_SUPPORT')
 
 #*********************************#
 # Enable or disable CORBA support #
@@ -262,7 +248,7 @@ if env['ENABLE_CORBA']:
     for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
 	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
 
-    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
+    #extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
 #**************************************#
 # Enable or disable OmniEvents support #
 #**************************************#
@@ -367,9 +353,9 @@ for binary in [otlib, otcon, otlive]:
 ################################################
 dlls = ['ACE.dll', 'xerces-c_2_8.dll', 'opentracker.dll']
 if env['ENABLE_CORBA']:
-    dlls += ['omniORB411_vc8_rt.dll', 'omniDynamic411_vc8_rt.dll', 'omnithread33_vc8_rt.dll']
+    dlls += ['omniORB411_rt.dll', 'omniDynamic411_rt.dll', 'omnithread33_rt.dll']
 if env['ENABLE_OMNIEVENTS']:
-    dlls += ['COS411_vc8_rt.dll']
+    dlls += ['COS411_rt.dll']
 ot_install = env.Install(join(prefix, 'bin'), [otcon, otlive])
 executables = env.Alias('executables', [ot_install])
 prgenv.Depends(executables, [join(prefix, 'bin', _lib) for _lib in dlls])
