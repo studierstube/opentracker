@@ -183,7 +183,7 @@ namespace ot {
                     ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Already another FileSource node for station %d\n"), station));
                     return NULL;
                 }
-                FileSource * source = new FileSource( station, localTime );
+                FileSource * source = new FileSource( station, localTime, this );
                 vector.push_back( source );
                 logPrintI("Built FileSource node reading from %s with station %d and localtime %s\n", id.c_str(), station, localTime ? "'true'" : "'false'");
 

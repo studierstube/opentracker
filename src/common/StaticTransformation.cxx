@@ -103,11 +103,19 @@ namespace ot {
             localEvent.getPosition()[2] = localEvent.getPosition()[2]*scale[2] + translation[2];
             //logPrintI("position transformed\n");            
         }
+		        else {
+            localEvent.getPosition()[0] = event->getPosition()[0]*scale[0];
+            localEvent.getPosition()[1] = event->getPosition()[1]*scale[1];
+            localEvent.getPosition()[2] = event->getPosition()[2]*scale[2];
+        }
         // transform the orientation of the event
         if( useOrient )
         {
             MathUtils::multiplyQuaternion( copyA2V(rotation, 4), event->getOrientation(), localEvent.getOrientation() );
             //logPrintI("orientation transformed\n");            
+        }
+		        else {
+            localEvent.getOrientation() = event->getOrientation();
         }
         try {
             localEvent.getConfidence() = event->getConfidence() * confidence;
