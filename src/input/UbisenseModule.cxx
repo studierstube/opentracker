@@ -51,7 +51,6 @@
 #ifdef USE_UBISENSE
 #ifdef WIN32
 
-#include "UbisenseSource.h"
 #include <ace/Log_Msg.h>
 
 #include "UClientAPI/name_client.h"
@@ -115,7 +114,7 @@ namespace ot {
     {
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
         {
-            UbisenseSource* pSource = reinterpret_cast<UbisenseSource*>(*it);
+            UbisenseSource* pSource = static_cast<UbisenseSource*>((Node*)*it);
             if (pSource->calcEvent())
                 pSource->updateObservers(pSource->getEvent());
         }
@@ -129,7 +128,7 @@ namespace ot {
 		cells.clear();
 		for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
 		{
-            ConfigNode* pNode = reinterpret_cast<ConfigNode*>(pLocalTree->getChild(i));
+            ConfigNode* pNode = static_cast<ConfigNode*>(pLocalTree->getChild(i));
             if (! pNode->getType().compare("UbisenseCell"))
             {
                 ot::StringTable& attributes = pNode->getAttributes();
@@ -159,7 +158,7 @@ namespace ot {
 		get_tag_owner(tag,owner);
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
         {
-            UbisenseSource* pSource = reinterpret_cast<UbisenseSource*>(*it);
+            UbisenseSource* pSource = static_cast<UbisenseSource*>((Node*)*it);
             const Object &object = pSource->getObject();
             if (tag == object || owner == object)
                 pSource->setButtonEvent(button == Orange ? 0x0001: button == Blue ? 0x0002: 0x0000,time);

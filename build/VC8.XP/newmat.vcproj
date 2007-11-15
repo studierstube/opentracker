@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OTROOT)/lib/Win32/$(ProjectName)d.lib"
+				OutputFile="../../lib/Win32/$(ProjectName)d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OTROOT)/lib/Win32/$(ProjectName).lib"
+				OutputFile="../../lib/Win32/$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
