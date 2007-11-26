@@ -32,11 +32,12 @@
   * @file                                                                   */
  /* ======================================================================= */
 
+#include <OpenTracker/network/CORBAModule.h>
+
 #ifdef USE_CORBA
 
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
-#include <OpenTracker/network/CORBAModule.h>
 #include <OpenTracker/network/CORBASource.h>
 #include <OpenTracker/network/CORBASink.h>
 #include <OpenTracker/network/CORBATransform.h>

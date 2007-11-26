@@ -5,9 +5,7 @@
 // OpenTracker specific pragma to insert extra includes into the stub header.
 #pragma hh #include <OpenTracker/skeletons/OT_sysdep.h>
 
-#ifdef USE_LIVE
 #include "OTGraph.idl"
-#endif
 
 module OT_CORBA {
   struct EventAttribute {
@@ -18,11 +16,7 @@ module OT_CORBA {
   typedef sequence<EventAttribute> Event;
   typedef sequence<float> FloatVector;
 
-#ifdef USE_LIVE
   interface OTNode: OTGraph::Node {
-#else
-  interface OTNode {
-#endif
   };
 
   interface TransformNode : OTNode {

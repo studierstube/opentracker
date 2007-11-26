@@ -44,6 +44,8 @@
 #ifndef _CORBAMODULE_H
 #define _CORBAMODULE_H
 
+#include "../OpenTracker.h"
+
 #ifdef USE_CORBA
 
 #include "../dllinclude.h"
