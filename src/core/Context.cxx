@@ -79,10 +79,14 @@ namespace ot {
 	lastlooptime(0.0),
 	loopcount(0)
     {
+
 #ifdef USE_LIVE
         activatelive = true;
+#else
+        // initialize graph
+	graph = new Graph();
 #endif
-		
+
         if( init != 0 )
         {
             logPrintS("Context::Constructor initializing self with %p\n", this);
@@ -115,7 +119,7 @@ namespace ot {
     Context::~Context()
     {
         using namespace std;
-
+        logPrintI("Context::~Context()\n");
 
         // stop the loop, if it is running
         stopLoop();
@@ -332,11 +336,13 @@ namespace ot {
 
     void Context::pushEvents()
     {
-        for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
+        //logPrintI("modulessize: %d", modules.size());
+        for( ModuleMap::iterator it = modules.begin(); 
+             it != modules.end(); it++ )
         {
+        
             (*it).second->pushEvent();
         }
-        
         graph->pushEvents();
     }
 
@@ -732,6 +738,7 @@ namespace ot {
     {
         lock();
         stoploopflag = 1;
+        dataSignal();
         dataSignal();
         unlock();
     }

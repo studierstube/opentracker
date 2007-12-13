@@ -111,6 +111,12 @@ else:
                 'libs':['opentracker'],
                 'src_use': ['standalones/main_ondemand.cxx']
                 }
+	
+	otconubitrack ={'name':'opentrackerubitrack',
+                'type':'PRG',
+                'libs':['opentracker'],
+                'src_use': ['standalones/main_ubitrack.cxx']
+                }
 
         middleware ={'name':'middleware',
                 'type':'PRG',
@@ -128,6 +134,7 @@ else:
         targetList.append(otlib)
         targetList.append(otcon)
 	targetList.append(otcondemand)
+	targetList.append(otconubitrack)
         targetList.append(middleware)
         targetList.append(otcon2)
     elif sys.platform == 'linux' or sys.platform == 'linux2':
@@ -161,6 +168,12 @@ else:
                 'libs':['opentracker','ACE'],
                 'src_use': ['standalones/main_ondemand.cxx']
                 }
+	
+	otconubitrack ={'name':'opentrackerubitrack',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main_ubitrack.cxx']
+                }
     
         middleware ={'name':'middleware',
                 'type':'PRG',
@@ -186,6 +199,7 @@ else:
         targetList.append(middleware)        
         targetList.append(otcon)
         targetList.append(otcondemand)
+	targetList.append(otconubitrack)
         targetList.append(otcon2)
 
     elif sys.platform =='darwin':
@@ -225,6 +239,11 @@ else:
                 'libs':['opentracker','ACE'],
                 'src_use': ['standalones/main_ondemand.cxx']
                 }
+	otconubitrack ={'name':'opentrackerubitrack',
+                'type':'PRG',
+                'libs':['opentracker','ACE'],
+                'src_use': ['standalones/main_ubitrack.cxx']
+                }
 
         otcon2 ={'name':'opentracker2c',
                  'type':'PRG',
@@ -235,6 +254,7 @@ else:
         targetList.append(ot)
         targetList.append(otcon)
         targetList.append(otcondemand)
+	targetList.append(otconubitrack)
         targetList.append(otcon2)
         targetList.append(middleware)
     if ARGUMENTS.has_key("ENABLE_OMNIORBPY") or ARGUMENTS.has_key("ENABLE_CORBA"):
@@ -357,6 +377,7 @@ else:
         #use['otqt'] = 'true'
         otcon['libs'].append('qt-mt')
         otcondemand['libs'].append('qt-mt')
+        otconubitrack['libs'].append('qt-mt')
         otcon2['libs'].append('qt-mt')
         
         otqtcalib = {'name':'otqt_calib',
@@ -407,6 +428,8 @@ else:
         otcon['libs'].append('QtGui')
         otcondemand['libs'].append('QtCore')
         otcondemand['libs'].append('QtGui')
+        otconubitrack['libs'].append('QtCore')
+        otconubitrack['libs'].append('QtGui')
         otcon2['libs'].append('QtCore')
         otcon2['libs'].append('QtGui')
         
@@ -516,8 +539,7 @@ envvars = os.environ
 
 targets = []
 # create the builder with an empty target list
-buildConfig = icgbuilder.ConfigBuilder(project, scannerType, envvars,
-				       ARGUMENTS , libraryList)
+buildConfig = icgbuilder.ConfigBuilder(project, scannerType, envvars, ARGUMENTS , libraryList)
 
 # add extra configuration flags
 buildConfig.desc     = description
