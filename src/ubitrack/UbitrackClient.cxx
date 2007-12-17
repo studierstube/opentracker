@@ -56,9 +56,11 @@ namespace ot{
     UbitrackClient * UbitrackClient::self = NULL;
     UbitrackClient::Registry UbitrackClient::initFunctions;
 
-    UbitrackClient::UbitrackClient(int ctx_type) 
+    UbitrackClient::UbitrackClient(ACE_INET_Addr nServerAddr, int ctx_type) 
         :
-        ctx(NULL)
+        ctx(NULL),
+        server_addr(nServerAddr)
+
     {
         switch (ctx_type)
         {
@@ -74,22 +76,101 @@ namespace ot{
         }
 
         this->doInitialization(*ctx);
+
+        // start up connection
+        start();
     }
 
+
+    UbitrackClient * UbitrackClient::instance(ACE_INET_Addr nServerAddr, int ctx_type)
+    {
+	if (self == NULL)
+        {
+            initializeOpenTracker();            
+            self = new UbitrackClient(nServerAddr, ctx_type);
+	}
+        else if (self->server_addr !=nServerAddr)
+        {
+            delete self;
+            self = new UbitrackClient(nServerAddr, ctx_type); 
+        }
+
+	return self;
+    }
 
     UbitrackClient * UbitrackClient::instance(int ctx_type)
     {
 	if (self == NULL)
         {
-            initializeOpenTracker();            
-            self = new UbitrackClient(ctx_type);
+            initializeOpenTracker();  
+            ACE_INET_Addr localhost(3000, "localhost");
+            self = new UbitrackClient(localhost, ctx_type);
 	}
+
 	return self;
     }
 
+    int
+    UbitrackClient::start()
+    {
+        
+        int ret = activate();
+        
+        if(ret==-1)
+        {
+            logPrintI("UbitrackClient: failed to activate server daemon\n");
+        }
+        else
+        {
+            logPrintI("UbitrackClient: daemon activated\n");
+        }
+        
+        return ret;
+    }
+
+    int
+    UbitrackClient::stop()
+    {     
+        logPrintI("UbitrackClient: stop called\n");
+        
+        ACE_Reactor::end_event_loop () ;
+        
+        wait();
+        return 0;
+    }
+
+    int UbitrackClient::svc (void)
+    {
+        UbitrackClientRequestHandler *request_handler = &requestHandler;
+    
+        if (requestConnector.connect (request_handler, server_addr) == -1)
+        {  
+            logPrintI("UbitrackClient: could not connect to server\n");
+        }
+
+        logPrintI("UbitrackClient: starting service\n");
+
+        ACE_Reactor::instance()->owner (ACE_OS::thr_self ());
+
+        ACE_Reactor::run_event_loop();
+
+        logPrintI("UbitrackClient: service finished\n");
+
+        return 0;
+    }
+
+    int UbitrackClient::sendMessage(UbitrackMessage & inMsg)
+    {
+        // send message
+        requestHandler.sendMessage(inMsg);
+        return 0;
+    }
 
     UbitrackClient::~UbitrackClient()
     {
+
+        stop();
+
         if (ctx) 
         {
             delete ctx;
@@ -132,9 +213,12 @@ namespace ot{
     {
         using namespace std;
         logPrintI("UbitrackClient::sendUTQL\n");
-
-        cout << "UTQL string: \"" 
-             << utql << "\"" << endl;            
+        
+        UbitrackMessage um;
+        um.setXMLString(utql);
+        sendMessage(um);
+        //cout << "UTQL string: \"" 
+        //     << utql << "\"" << endl;            
     }
 
     void UbitrackClient::sendUTQLFile(std::string utqlfilename)

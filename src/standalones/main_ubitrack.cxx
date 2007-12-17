@@ -67,22 +67,21 @@ SIGINThandler (int signum, siginfo_t*, ucontext_t*)
 int main(int argc, char **argv)
 {
     const char * filename;
-    if( argc != 2 )
+    const char * servername;
+    if( argc != 3 )
     {
-        cout << "Usage : " << argv[0] << " configfile" << endl;
+        cout << "Usage : " << argv[0] << " server configfile" << endl;
         return 1;
     }
-    if (argc > 2)
-    {
-        filename = argv[2];
-    } else {
-        filename = argv[1];
-    }
+    servername = argv[1];
+    filename  = argv[2];
 
     // important parts of the system
     // get a context, the default modules and factories are
     // added allready ( because of the parameter 1 )
-    Context & context = (*(UbitrackClient::instance() ->getContext()));
+    Context & context = (*(UbitrackClient::
+                           instance(ACE_INET_Addr(3000,servername))
+                           ->getContext()));
 
     cout << "Context established." << endl;
 
@@ -90,7 +89,7 @@ int main(int argc, char **argv)
     ACE_Sig_Action sa((ACE_SignalHandler)SIGINThandler, SIGINT);
 
     // parse the configuration file, builds the tracker tree
-    UbitrackClient::instance()->sendUTQLFile(argv[1]);
+    UbitrackClient::instance()->sendUTQLFile(filename);
   
     printf("OT |SETUP : Parsing Complete\n");
     printf("OT |INFO : Starting Mainloop\n");

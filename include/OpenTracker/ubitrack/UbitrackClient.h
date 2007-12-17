@@ -47,9 +47,14 @@
 
 #include "../dllinclude.h"
 
+#include <OpenTracker/ubitrack/UbitrackClientRequestConnector.h>
 #ifndef SWIG
 #include <string>
+#include <map>
 #endif
+
+#include <ace/Task.h>
+#include <ace/INET_Addr.h>
 
 namespace ot 
 {
@@ -62,7 +67,9 @@ namespace ot
         THREAD = 1
     };
 
-    class OPENTRACKER_API UbitrackClient {
+    class OPENTRACKER_API UbitrackClient : public ACE_Task<ACE_MT_SYNCH> {
+
+        // definitions
     public:
         typedef void (*ModuleInitFunc) (Context *, void * data);
 	 
@@ -72,6 +79,8 @@ namespace ot
             void * data;
             //MIFunctor(ModuleInitFunc f, void * d):function(f), data(d){};
         };
+
+        // member variables
     public:
         typedef std::map<std::string, MIFunctor> Registry;
     protected:
@@ -80,15 +89,27 @@ namespace ot
         Context * ctx;
 	bool isDefaultContext;
 
-	static void doInitialization(Context & newctx);
-      
-	UbitrackClient(int ctx_type = NORMAL);
+        ACE_INET_Addr server_addr;
 
+        UbitrackClientRequestConnector requestConnector;
+        UbitrackClientRequestHandler requestHandler;
+        // member functions
     public:
 	
-
 	static UbitrackClient * instance(int ctx_type = NORMAL);
+	static UbitrackClient * instance(ACE_INET_Addr nServerAddr, int ctx_type = NORMAL);
 	virtual ~UbitrackClient();
+        
+        /// Starts the client daemon
+        virtual int start();
+        
+        /// Shuts down the server daemon
+        virtual int stop();
+        
+        /// Main loop - does not return until fini() was called
+        virtual int svc(void);
+        
+        virtual int sendMessage(UbitrackMessage & inMsg);
 
 	Context * getContext();
 	void sendUTQL(std::string utqlString);
@@ -97,6 +118,11 @@ namespace ot
 	static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
 	static void loadModule(Context & newctx, const char * module);
 	friend OPENTRACKER_API void initializeContext(Context *, void *);
+
+    protected:
+	static void doInitialization(Context & newctx);      
+	UbitrackClient(ACE_INET_Addr nServerAddr, int ctx_type = NORMAL);
+
     };
 
 }
