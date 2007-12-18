@@ -110,6 +110,7 @@ namespace ot
         virtual int svc(void);
         
         virtual int sendMessage(UbitrackMessage & inMsg);
+        virtual bool handleMessage(UbitrackMessage & retMsg);
 
 	Context * getContext();
 	void sendUTQL(std::string utqlString);

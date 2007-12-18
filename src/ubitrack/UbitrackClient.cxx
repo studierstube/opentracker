@@ -46,6 +46,8 @@
 #include <OpenTracker/core/Context.h>
 #include <OpenTracker/core/ThreadContext.h>
 
+#include <TinyXML/tinyxml.h>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -59,7 +61,8 @@ namespace ot{
     UbitrackClient::UbitrackClient(ACE_INET_Addr nServerAddr, int ctx_type) 
         :
         ctx(NULL),
-        server_addr(nServerAddr)
+        server_addr(nServerAddr),
+        requestHandler(this)
 
     {
         switch (ctx_type)
@@ -250,7 +253,178 @@ namespace ot{
 	return ctx;
     }
 
+    bool UbitrackClient::handleMessage(UbitrackMessage &retMsg)
+    {
+        using namespace std;
+        logPrintI("UbitrackClient::handleMessage()\n");
 
+        TiXmlDocument document;
+
+        if  (!document.Parse(retMsg.XMLString().c_str()))
+        {
+            logPrintE("UbitrackClient::handleMessage:\n Parsing Error:\n Message: %s\n", document.ErrorDesc());
+            return false;
+        }
+        else
+        {
+            TiXmlElement* root = document.RootElement();  
+            const string patternString("Pattern");
+            const string inputString("Input");
+            const string outputString("Output");
+            const string dfgString("DataflowConfiguration");
+            const string otNodeString("UbitrackLib");
+            const string edgeString("Edge");
+            const string attrString("Attribute");
+            //const string otNodeString("OpenTracker");
+            
+            TiXmlElement* pattern = 
+                root->FirstChildElement(patternString.c_str());
+            while (pattern)
+            {
+                // read pattern's attributes
+
+                auto_ptr<StringTable> attributes(new StringTable());
+                TiXmlAttribute* attribute = pattern->FirstAttribute();
+                while (attribute)
+                {
+                    if (string(attribute->Name()) == "id")
+                    {
+                        cerr << attribute->Value() << endl;
+                        attributes->put(attribute->Name(), attribute->Value());
+                    }
+                    attribute = attribute->Next();
+                }
+
+                // obtain input child
+                TiXmlElement *cinput = 
+                    pattern->FirstChildElement(inputString.c_str());
+                if (cinput)
+                {
+                    cerr << " input:" << cinput->Value() << endl;
+                    // search for references
+                    TiXmlElement *inode = cinput->FirstChildElement();
+                    while (inode)
+                    {
+                        TiXmlAttribute *inattr = inode->FirstAttribute();
+                        while (inattr)
+                        {
+                            if (string(inattr->Name()) == "pattern-ref")
+                            {
+                                cerr << "    " 
+                                     << inattr->Name() 
+                                     << " -> " << inattr->Value() << endl;
+                            }
+                            inattr = inattr->Next();
+                        }
+
+                        inode = inode->NextSiblingElement();
+                    }
+                }
+                
+                // obtain output child
+                TiXmlElement *coutput = 
+                    pattern->FirstChildElement(outputString.c_str());
+                if (coutput)
+                {
+                    cerr << " output:" << coutput->Value() << endl;
+                    // search for the edge 
+                    TiXmlElement *oedge = 
+                        coutput->FirstChildElement(edgeString.c_str());
+                    if (!oedge)
+                    {
+                         // No edge specification -> strange dataflow
+                         logPrintW("No edge in output - strange dataflow!\n");
+                    }
+                    else
+                    {
+                        // find OT relevant attributes
+                        TiXmlElement * outattrel = oedge->FirstChildElement(attrString.c_str());
+                        while (outattrel)
+                        {
+                            const char *oattrname = outattrel->Attribute("name");
+                            const char *oattrval = outattrel->Attribute("value");
+                            if (oattrname && oattrval)
+                            {
+                                string oattrns(oattrname);
+                                if (oattrns.find_first_of("OT") == 0)
+                                {
+                                    oattrns = oattrns.erase(0,2);
+                                    attributes->put(oattrns, oattrval);
+                                    //cerr << "    " << oattrname 
+                                    //     << " -> " << oattrval << endl;
+                                }
+                                
+                            }
+                            else
+                            {
+                                logPrintW("Attribute element is missing name and  value attributes!\n");
+                            }
+
+                            outattrel = outattrel->NextSiblingElement(attrString.c_str());
+                        }
+                        oedge = oedge->NextSiblingElement(edgeString.c_str());
+                        if (oedge)
+                        {
+                            logPrintW("found multiple edge output for one pattern!\n");
+                        }
+                    }
+                }
+
+                // obtain dataflow configuration child
+                TiXmlElement *cdfg = 
+                    pattern->FirstChildElement(dfgString.c_str());
+                if (cdfg)
+                {
+                    cerr << " dfg:" << cdfg->Value() << endl;
+
+                    // search for OpenTracker configuration stuff
+
+                    TiXmlElement *dfgnode = 
+                        cdfg->FirstChildElement(otNodeString.c_str());
+                     if (!dfgnode)
+                     {
+                         // No OT configuration -> DFG will be incomplete!
+                         logPrintW("No OpenTracker configuration for pattern available!\n");
+                     }
+                     else
+                     {
+                         
+                         TiXmlAttribute *dfgattr = dfgnode->FirstAttribute();
+                         while (dfgattr)
+                         {
+                             if (string(dfgattr->Name()) == "class")
+                             {
+                                 cerr << "    " 
+                                      << dfgattr->Name() 
+                                      << " -> " << dfgattr->Value() << endl;
+                                 KeyIterator it(*attributes);
+                                 while (it.hasMoreKeys())
+                                 {
+                                     string akey(it.nextElement());
+                                     cerr << "      "
+                                          << akey << " -> " 
+                                          << attributes->get(akey) << endl;
+                                 }
+                             }
+                             dfgattr = dfgattr->Next();
+                         }
+                                                  
+                         dfgnode = dfgnode->NextSiblingElement(otNodeString.c_str());
+                         // Each Ubitrack pattern should have a unique node 
+                         // representation in OpenTracker!
+                         if (dfgnode)
+                         {
+                             logPrintW("Multiple OpenTracker representations for pattern found! Ignoring all but the first.\n");
+                         }
+                     }
+                }
+
+                cerr << endl;
+                pattern = pattern->NextSiblingElement(patternString.c_str());
+            }
+        }
+        return true;
+    }
     
 } //namespace ot
 

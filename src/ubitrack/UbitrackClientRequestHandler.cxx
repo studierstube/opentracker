@@ -277,7 +277,16 @@ namespace ot {
         logPrintI("UbitrackClientRequestHandler::handleReceivedMessage\n");
         cerr << "message content: " << endl;
         cerr << nInMsg.XMLString() << endl;
-        return true;
+
+        if (daemon_)
+        {
+            return daemon_->handleMessage(nInMsg);
+        }
+        else
+        {
+            logPrintW("UbitrackClientRequestHandler::handleReceivedMessage: UbitrackClient is NULL\n");            
+            return false;
+        }
     }
 
 } // namespace ot

@@ -149,7 +149,7 @@ else:
         ot ={'name': 'opentracker',
              'type': 'DL',
 	     'defines' : ['USE_ARTOOLKITPLUS'],
-             'libs': ['ACE','xerces-c','curses','artoolkitplus'],
+             'libs': ['ACE','xerces-c','curses','artoolkitplus','tinyxmlmod'],
              'use' : use,
              'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBASink.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx'],
 
