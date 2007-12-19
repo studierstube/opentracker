@@ -79,7 +79,7 @@ LinmouseModule::~LinmouseModule() {
 }
 
 // This method is called to construct a new Node.
-Node * LinmouseModule::createNode( const std::string& name, StringTable& attributes) {
+Node * LinmouseModule::createNode( const std::string& name, const StringTable& attributes) {
    
     if( name.compare("LinmouseSource") == 0 ) {       
         stop = 0;

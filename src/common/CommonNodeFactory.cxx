@@ -227,7 +227,7 @@ namespace ot {
 
     // constructs a new Node.
 
-    Node * CommonNodeFactory::createNode( const std::string& name, StringTable& attributes)
+    Node * CommonNodeFactory::createNode( const std::string& name, const StringTable& attributes)
     {
         float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
         Node * result = NULL;

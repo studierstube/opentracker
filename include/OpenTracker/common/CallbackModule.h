@@ -110,7 +110,8 @@ namespace ot {
          * @attributes refenrence to StringMap containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name, 
+                                   const StringTable& attributes);
         /** This method can be used to setup a map of the existing per node
          * callback functions and data registered in all nodes of the module
          * regardless of their current existance.

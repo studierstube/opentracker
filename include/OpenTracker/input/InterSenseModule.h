@@ -135,7 +135,7 @@ namespace ot {
          * @attributes reference to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name, const StringTable& attributes);
 
         /**
          * starts the module. Here we will reset the heading of any pure orientation

@@ -150,7 +150,7 @@ namespace ot {
 	logPrintI("GPSModule initialized for port %s and server %s\n", device.c_str(), dgpsServer.c_str());
     }
 
-    Node * GPSModule::createNode( const std::string & name, StringTable & attributes )
+    Node * GPSModule::createNode( const std::string & name, const StringTable & attributes )
     {
 	if( name.compare("GPSSource") == 0 )
 	{

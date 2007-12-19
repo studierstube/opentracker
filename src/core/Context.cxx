@@ -921,7 +921,7 @@ namespace ot {
 #endif
     // creates a new node from a given element name and an attribute table
     
-    Node * Context::createNode( const std::string & name, StringTable & attributes)
+    Node * Context::createNode( const std::string & name, const StringTable & attributes)
     {
         Node * value = factory.createNode( name , attributes );
 #ifdef USE_LIVE

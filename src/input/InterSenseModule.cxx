@@ -169,7 +169,7 @@ namespace ot {
     }
 
     // This method is called to construct a new Node.
-    Node * InterSenseModule::createNode( const std::string& name, StringTable& attributes)
+    Node * InterSenseModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("InterSenseSource") == 0 )
         {       

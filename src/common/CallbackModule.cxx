@@ -69,7 +69,8 @@ namespace ot {
 	}
 
 
-    Node * CallbackModule::createNode( const std::string& name, StringTable& attributes)
+    Node * CallbackModule::createNode( const std::string& name, 
+                                       const StringTable& attributes)
     {
         if( name.compare("Callback") == 0 )
         {

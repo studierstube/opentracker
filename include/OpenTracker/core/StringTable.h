@@ -94,7 +94,7 @@ namespace ot {
 #ifdef USE_LIVE
         OTGraph::StringTable* getStringTable();
 #endif
-        const std::string & get( const std::string & key );
+        const std::string & get( const std::string & key ) const;
         /** stores a key value pair in the table, overwritting a possible prior 
          * value
          * @param key the key to store it under
@@ -107,10 +107,10 @@ namespace ot {
         /**
          * tests, whether the table contains a certain key
          * @param the key to test for */
-        int containsKey( const std::string & );
+        int containsKey( const std::string & ) const;
         /** returns the number of pairs stored 
          * @returns unsigned with the number of pairs */
-        unsigned size();
+        unsigned size() const;
  
         /** 
          * sets an int value, the value is converted to a string and stored
@@ -171,7 +171,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single int only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, int * value, int len = 1 );
+        int get(const std::string & key, int * value, int len = 1 ) const;
         /**
          * parses a stored entry into an array of floats. It assumes that the
          * floats are separated by spaces. It returns the number of actually
@@ -181,7 +181,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single float only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, float * value, int len = 1 );
+        int get(const std::string & key, float * value, int len = 1 ) const;
         /**
          * parses a stored entry into a vector of floats. It assumes that the
          * floats are separated by spaces. It returns the number of actually
@@ -191,7 +191,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single float only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, std::vector<float> & vector, int len = 1 );
+        int get(const std::string & key, std::vector<float> & vector, int len = 1 ) const;
         /**
          * parses a stored entry into an array of doubles. It assumes that the
          * doubles are separated by spaces. It returns the number of actually
@@ -201,7 +201,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single double only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, double * value, int len = 1 );
+        int get(const std::string & key, double * value, int len = 1 ) const;
         /**
          * parses a stored entry into a vector of doubles. It assumes that the
          * doubles are separated by spaces. It returns the number of actually
@@ -211,7 +211,7 @@ namespace ot {
          * @param len the length of the array, default 1 to use it for a single double only
          * @return number of actually parsed values
          */
-        int get(const std::string & key, std::vector<double> & vector, int len = 1 );
+        int get(const std::string & key, std::vector<double> & vector, int len = 1 ) const;
 
         friend class KeyIterator;
     };
@@ -228,14 +228,14 @@ namespace ot {
         /// iterator to keep track of the KeyIterator
         StringMap::const_iterator it;
         /// the actual StringMap we are working with
-        StringMap & map;
+        const StringMap & map;
     public:
         /**
          * constructor to create a new KeyIterator for a given StringTable. It 
          * initializes the iterator and sets it to the first key.
          * @param table the StringTable to iterate through
          */
-        KeyIterator( StringTable & table ) :
+        KeyIterator( const StringTable & table ) :
             it( table.map.begin()), map( table.map )
         {
         }

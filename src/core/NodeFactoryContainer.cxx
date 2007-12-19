@@ -70,7 +70,7 @@ namespace ot {
 
     // constructs a new Node.
 
-    Node * NodeFactoryContainer::createNode( const std::string& name, StringTable& attributes)
+    Node * NodeFactoryContainer::createNode( const std::string& name, const StringTable& attributes)
     {
         Node * value = NULL;
         NodeFactoryVector::iterator it = factories.begin();
@@ -83,7 +83,7 @@ namespace ot {
     }
 
 #ifdef USE_LIVE
-    std::pair<Node*, NodeFactory*> NodeFactoryContainer::createNodeUsingFactory( const std::string& name, StringTable& attributes)
+    std::pair<Node*, NodeFactory*> NodeFactoryContainer::createNodeUsingFactory( const std::string& name, const StringTable& attributes)
     {
         Node * value = NULL;
         NodeFactory * factory;

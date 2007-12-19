@@ -175,7 +175,7 @@ namespace ot {
         }
     }
 
-    Node * MobilabModule::createNode( const std::string & name, StringTable & attributes )
+    Node * MobilabModule::createNode( const std::string & name, const StringTable & attributes )
     {
 	if( name.compare("MobilabSource") == 0 )
 	{

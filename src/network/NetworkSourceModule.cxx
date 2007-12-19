@@ -414,7 +414,7 @@ namespace ot {
     }
 
     //  constructs a new Node
-    Node * NetworkSourceModule::createNode( const std::string& name,  StringTable& attributes)
+    Node * NetworkSourceModule::createNode( const std::string& name,  const StringTable& attributes)
     {
         if( name.compare("NetworkSource") == 0 )
         {

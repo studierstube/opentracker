@@ -197,7 +197,7 @@ namespace ot {
 
 
     //  constructs a new Node
-    Node * UltraTrakModule::createNode( const std::string& name,  StringTable& attributes)
+    Node * UltraTrakModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("UltraTrakSource") == 0 )
         {

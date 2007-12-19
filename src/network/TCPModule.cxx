@@ -87,7 +87,7 @@ namespace ot {
 
     // creates new nodes for the parser
 
-    Node * TCPModule::createNode( const std::string& name,  StringTable& attributes){
+    Node * TCPModule::createNode( const std::string& name,  const StringTable& attributes){
         if( name.compare("TCPSink") == 0 ){
             int station, posFlag, rotFlag, buttonFlag,timeFlag;
             int num = sscanf( attributes.get("station").c_str()," %i", 

@@ -110,7 +110,7 @@ namespace ot {
 
     // This method is called to construct a new Node
 
-    Node * FileModule::createNode( const std::string& name, StringTable& attributes)
+    Node * FileModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("FileSink") == 0 )
         {

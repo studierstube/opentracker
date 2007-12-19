@@ -95,7 +95,7 @@ namespace ot {
 
     // This method is called to construct a new Node.
 
-    Node * ARTDataTrackerModule::createNode( const std::string& name, StringTable& attributes)
+    Node * ARTDataTrackerModule::createNode( const std::string& name, const StringTable& attributes)
     {
 	if( name.compare("ARTDataTrackerSource") == 0 )
         {

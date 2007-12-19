@@ -139,7 +139,7 @@ namespace ot {
          * @attributes refenrence to StringMap containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name,  const StringTable& attributes);
         /**
          * This method is called after initialisation is finished and before the
          * main loop is started. It opens the sockets needed for communication. */

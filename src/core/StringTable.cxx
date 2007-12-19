@@ -107,9 +107,9 @@ namespace ot {
 
     // returns a value to a given key
 
-    const std::string & StringTable::get( const std::string & key )
+    const std::string & StringTable::get( const std::string & key ) const
     {
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return empty;
         return (*it).second;
@@ -134,9 +134,9 @@ namespace ot {
 
     // tests for a given key
 
-    int StringTable::containsKey( const std::string & key )
+    int StringTable::containsKey( const std::string & key ) const
     {
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
         return 1;
@@ -144,7 +144,7 @@ namespace ot {
 
     // returns the size of the table
 
-    unsigned StringTable::size()
+    unsigned StringTable::size() const
     {
         return map.size();
     }
@@ -220,9 +220,9 @@ namespace ot {
         map[key] = strvalue;
     }
 
-    int StringTable::get(const std::string & key, int * value, int len )
+    int StringTable::get(const std::string & key, int * value, int len ) const
     {
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
 
@@ -237,9 +237,9 @@ namespace ot {
         return count;
     }
 
-    int StringTable::get(const std::string & key, float * value, int len )
+    int StringTable::get(const std::string & key, float * value, int len ) const
     {
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
 
@@ -254,10 +254,10 @@ namespace ot {
         return count;
     }
 
-    int StringTable::get(const std::string & key, std::vector<float> & vector, int len )
+    int StringTable::get(const std::string & key, std::vector<float> & vector, int len ) const
     {
         using namespace std;
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
 
@@ -284,9 +284,9 @@ namespace ot {
         return count;
     }
 
-    int StringTable::get(const std::string & key, double * value, int len )
+    int StringTable::get(const std::string & key, double * value, int len ) const
     {
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
 
@@ -301,10 +301,10 @@ namespace ot {
 
         return count;
     }
-    int StringTable::get(const std::string & key, std::vector<double> & vector, int len )
+    int StringTable::get(const std::string & key, std::vector<double> & vector, int len ) const
     {
         using namespace std;
-        StringMap::iterator it = map.find( key );
+        StringMap::const_iterator it = map.find( key );
         if( it == map.end())
             return 0;
 

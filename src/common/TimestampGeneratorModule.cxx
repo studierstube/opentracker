@@ -55,7 +55,8 @@ namespace ot {
         OT_MODULE_REGISTRATION_DEFAULT(TimestampGeneratorModule, "TimestampGeneratorConfig");
     }	
 
-    Node* TimestampGeneratorModule::createNode(const std::string &name,StringTable &attributes)
+    Node* TimestampGeneratorModule::createNode(const std::string &name,
+                                               const StringTable &attributes)
     {
         if (name.compare("TimestampGenerator") == 0)
         {

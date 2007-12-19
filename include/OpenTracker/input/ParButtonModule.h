@@ -98,7 +98,7 @@ namespace ot {
          * @attributes refenrence to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);    
+        virtual Node * createNode( const std::string& name, const StringTable& attributes);    
         /**
          * opens the ports needed and starts the receive thread
          * It is called after initialisation is done.

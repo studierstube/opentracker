@@ -109,7 +109,7 @@ namespace ot {
          * @param name reference to string containing element name
          * @param attributes reference to StringMap of elements attribute values
          * @return new Node or NULL, if element name was not recognized */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 		static bool isKnownNode(std::string nodeName);
         friend class StaticTransformation;
     };

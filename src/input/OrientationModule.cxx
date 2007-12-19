@@ -131,7 +131,7 @@ namespace ot {
 
 
 
-    Node * OrientationModule::createNode( const std::string & name, StringTable & attributes )
+    Node * OrientationModule::createNode( const std::string & name, const StringTable & attributes )
     {
         
 	if( name.compare("OrientationSource") == 0 ) {

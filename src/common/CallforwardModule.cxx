@@ -61,7 +61,8 @@ namespace ot {
 	}
 
 
-    Node * CallforwardModule::createNode( const std::string& name, StringTable& attributes)
+    Node * CallforwardModule::createNode( const std::string& name,
+                                          const StringTable& attributes)
     {
         if( name.compare("Callforward") == 0 )
         {

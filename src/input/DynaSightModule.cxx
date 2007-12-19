@@ -135,7 +135,7 @@ namespace ot {
     } // init
 
     //  constructs a new DynaSightSource node
-    Node * DynaSightModule::createNode(const std::string& name,  StringTable& attributes)
+    Node * DynaSightModule::createNode(const std::string& name,  const StringTable& attributes)
     {
         int number = 0;
     

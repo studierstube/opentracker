@@ -140,7 +140,7 @@ namespace ot {
 
     // This method is called to construct a new Node.
     Node *
-    GroupGateModule::createNode(const std::string &name, StringTable &attributes)
+    GroupGateModule::createNode(const std::string &name, const StringTable &attributes)
     {
         if(name.compare("GroupGate") == 0)
         {

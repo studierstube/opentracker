@@ -95,7 +95,7 @@ namespace ot {
 #endif
     }
 
-    Node * XSensModule::createNode( const std::string & name, StringTable & attributes )
+    Node * XSensModule::createNode( const std::string & name, const StringTable & attributes )
     {
 	if( name.compare("XSensSource") == 0 )
 	{

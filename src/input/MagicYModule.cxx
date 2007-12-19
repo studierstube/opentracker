@@ -369,7 +369,7 @@ namespace ot {
 
 
     //  constructs a new Node
-    Node * MagicYModule::createNode( const std::string& name,  StringTable& attributes)
+    Node * MagicYModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("MagicYSource") == 0 )
         {

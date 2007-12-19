@@ -173,7 +173,7 @@ namespace ot {
     }
 
     // This method is called to construct a new Node 
-    Node * FOBModule::createNode( const std::string& name,  StringTable& attributes)
+    Node * FOBModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("FOBSource") == 0 )
         {

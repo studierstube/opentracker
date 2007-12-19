@@ -239,7 +239,7 @@ namespace ot {
          * @param attributes a StringTable containing the attributes of the element
          * @return pointer to the new node or NULL
          */
-        Node * createNode(const std::string & name, StringTable & attributes);
+        Node * createNode(const std::string & name, const StringTable & attributes);
 
         /** returns the root node, that contains the tracker tree. This node
          * is an instance of the generic node class and only deal with the

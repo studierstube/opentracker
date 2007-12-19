@@ -104,7 +104,7 @@ namespace ot {
         virtual void init(StringTable& attributes,  ConfigNode * localTree);
     
         virtual Node * createNode( const std::string & name, 
-                                   StringTable & attributes );
+                                   const StringTable & attributes );
     
         virtual void pushEvent();
     

@@ -75,7 +75,7 @@ namespace ot {
          * @param attributes refenrence to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes) = 0;
+        virtual Node * createNode( const std::string& name,  const StringTable& attributes) = 0;
 
         virtual ~NodeFactory() {};
     };

@@ -51,12 +51,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <set>
 
 using namespace std;
 namespace ot{
 
     UbitrackClient * UbitrackClient::self = NULL;
-    UbitrackClient::Registry UbitrackClient::initFunctions;
 
     UbitrackClient::UbitrackClient(ACE_INET_Addr nServerAddr, int ctx_type) 
         :
@@ -68,17 +68,17 @@ namespace ot{
         switch (ctx_type)
         {
             case NORMAL:
-                ctx = new Context(0);
+                ctx = new Context(1);
                 break;
             case THREAD:
-                ctx = new ThreadContext(0);
+                ctx = new ThreadContext(1);
                 break;
             default:
-                ctx = new Context(0);
+                ctx = new Context(1);
                 break;
         }
 
-        this->doInitialization(*ctx);
+        //this->doInitialization(*ctx);
 
         // start up connection
         start();
@@ -179,7 +179,7 @@ namespace ot{
             delete ctx;
         }
     }
-    
+    /*    
     void UbitrackClient::doInitialization(Context & newctx){
         for (Registry::iterator i = initFunctions.begin(); 
              i != initFunctions.end(); i++)
@@ -209,7 +209,7 @@ namespace ot{
     
         initFunctions[name]=(functor);
     }
-    
+    */
     
     
     void UbitrackClient::sendUTQL(std::string utql)
@@ -272,17 +272,25 @@ namespace ot{
             const string inputString("Input");
             const string outputString("Output");
             const string dfgString("DataflowConfiguration");
-            const string otNodeString("UbitrackLib");
+            //const string otNodeString("UbitrackLib");
+            const string otNodeString("OpenTracker");
             const string edgeString("Edge");
             const string attrString("Attribute");
-            //const string otNodeString("OpenTracker");
+            
+            ConnectionDescription connections;
+            NodeDescription nodedescs;
+
+            string actname;
             
             TiXmlElement* pattern = 
                 root->FirstChildElement(patternString.c_str());
             while (pattern)
             {
+                actname = "";
+
                 // read pattern's attributes
 
+                auto_ptr<StringTable> lookupattributes(new StringTable());
                 auto_ptr<StringTable> attributes(new StringTable());
                 TiXmlAttribute* attribute = pattern->FirstAttribute();
                 while (attribute)
@@ -290,7 +298,9 @@ namespace ot{
                     if (string(attribute->Name()) == "id")
                     {
                         cerr << attribute->Value() << endl;
-                        attributes->put(attribute->Name(), attribute->Value());
+                        //attributes->put(attribute->Name(), attribute->Value());
+                        attributes->put("UTID", attribute->Value());
+                        actname = attribute->Value();
                     }
                     attribute = attribute->Next();
                 }
@@ -313,6 +323,7 @@ namespace ot{
                                 cerr << "    " 
                                      << inattr->Name() 
                                      << " -> " << inattr->Value() << endl;
+                                connections.insert(make_pair(actname,inattr->Value()));
                             }
                             inattr = inattr->Next();
                         }
@@ -345,15 +356,7 @@ namespace ot{
                             const char *oattrval = outattrel->Attribute("value");
                             if (oattrname && oattrval)
                             {
-                                string oattrns(oattrname);
-                                if (oattrns.find_first_of("OT") == 0)
-                                {
-                                    oattrns = oattrns.erase(0,2);
-                                    attributes->put(oattrns, oattrval);
-                                    //cerr << "    " << oattrname 
-                                    //     << " -> " << oattrval << endl;
-                                }
-                                
+                                lookupattributes->put(oattrname, oattrval);
                             }
                             else
                             {
@@ -390,25 +393,50 @@ namespace ot{
                      {
                          
                          TiXmlAttribute *dfgattr = dfgnode->FirstAttribute();
+                         string otnodename("");
+                         // find out node name, static attributes and
+                         // dynamic attributes -> these are read from
+                         // the output section
                          while (dfgattr)
                          {
-                             if (string(dfgattr->Name()) == "class")
+                             string attname(dfgattr->Name());
+                             string attval(dfgattr->Value());
+
+                             if (attname == "class")
                              {
-                                 cerr << "    " 
-                                      << dfgattr->Name() 
-                                      << " -> " << dfgattr->Value() << endl;
-                                 KeyIterator it(*attributes);
-                                 while (it.hasMoreKeys())
+                                 otnodename = attval;
+                             }
+                             else
+                             {
+                                
+                                 if (attval.find("$") != 0)
                                  {
-                                     string akey(it.nextElement());
-                                     cerr << "      "
-                                          << akey << " -> " 
-                                          << attributes->get(akey) << endl;
+                                     attributes->put(attname,attval);
                                  }
+                                 else
+                                 {
+                                     string lookattr = attval.erase(0,1);
+                                     string lookval = lookupattributes
+                                         ->get(lookattr);
+                                     if (lookval != "")
+                                     {
+                                         attributes->put(attname, lookval);
+                                     }
+                                     else
+                                     {
+                                         logPrintW("Lookup attribute %s for attribute not found.\n", lookattr.c_str(), attname.c_str());
+                                     }
+                                 }                                     
                              }
                              dfgattr = dfgattr->Next();
                          }
-                                                  
+
+                         if (otnodename != "")
+                         {
+                             attributes->put("OtNodeType",  otnodename);
+                             nodedescs.push_back(*attributes);
+                         }
+                         
                          dfgnode = dfgnode->NextSiblingElement(otNodeString.c_str());
                          // Each Ubitrack pattern should have a unique node 
                          // representation in OpenTracker!
@@ -422,7 +450,107 @@ namespace ot{
                 cerr << endl;
                 pattern = pattern->NextSiblingElement(patternString.c_str());
             }
+
+            // update graph
+            
+            updateDFG(nodedescs, connections);
+            
+            // finally write out graph
+            ctx->getRootNode()->writeGraph("tmpgraph.txt");
+
         }
+
+        return true;
+    }
+    
+    //bool UbitrackClient::updateDFG(const std::string &nodetype, 
+    //                               const std::auto_ptr<StringTable> &attributes)
+
+    bool UbitrackClient::updateDFG(const NodeDescription &ndescs, 
+                                   const ConnectionDescription &cdescs)    
+    {
+        using namespace std;
+        logPrintI("UbitrackClient::updateDFG\n");
+
+        ctx->lock();
+
+        Graph *graph = ctx->getRootNode();
+
+        NodeDescription::const_iterator nit;
+        ConnectionDescription::const_iterator cit;
+
+        for (nit = ndescs.begin(); nit != ndescs.end(); nit++)
+        {
+            cerr << "node type: " << nit->get("OtNodeType") << endl;
+            KeyIterator it(*nit);
+            while (it.hasMoreKeys())
+            {
+                string akey(it.nextElement());
+                cerr << "  "
+                     << akey << " -> " 
+                     << nit->get(akey) << endl;
+            }
+            // search if node is already there
+            Node* node = graph->findNode("UTID", nit->get("UTID"));
+            if (node)
+            {
+                logPrintI("Node %s already found\n", 
+                          nit->get("UTID").c_str());
+                // found -> remove node
+                graph->remNode(node);
+            }
+            else
+            {
+                logPrintI("Creating node %s ... \n", 
+                          nit->get("UTID").c_str());
+                node = ctx->createNode(nit->get("OtNodeType").c_str(), *nit);
+                if (node == NULL)
+                {
+                    logPrintI("Trying to load module first\n");
+                    if (ctx->getModuleFromNodeType(nit->get("OtNodeType")) != NULL)
+                    {
+                        node = ctx->createNode(nit->get("OtNodeType").c_str() , 
+                                               *nit);
+                    }
+                }
+                if (node)
+                {
+                    logPrintI("Adding node to graph.\n");
+                    graph->addNode(node);
+                }
+                else
+                {
+                    logPrintE("Node creation failed!\n");
+                }
+            }            
+        } // for nit
+        
+        for (cit=cdescs.begin(); cit != cdescs.end(); cit++)
+        {
+            Node* src = graph->findNode("UTID", cit->first);
+            Node* dst = graph->findNode("UTID", cit->second);
+            if (!src)
+            {
+                logPrintW("Source node %s not found\n", 
+                          cit->first.c_str());
+            }
+            else if (!dst)
+            {
+                logPrintW("Destination node %s not found\n", 
+                          cit->second.c_str());
+            }
+            else
+            {
+                logPrintI("connecting %s -> %s \n", 
+                          cit->first.c_str(),
+                          cit->second.c_str());
+                graph->connectNodes(src, dst);
+            }
+        }
+        
+
+        ctx->unlock();
+
         return true;
     }
     

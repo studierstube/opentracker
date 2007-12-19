@@ -173,7 +173,7 @@ namespace ot {
          * @attributes refenrence to StringTable containing attribute values
          * @return pointer to new Node or NULL. 
 	 */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);        
+        virtual Node * createNode( const std::string& name, const StringTable& attributes);        
         /**
          * starts the receive thread. It is called after initialisation is done.
 	 */

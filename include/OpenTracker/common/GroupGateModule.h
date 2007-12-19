@@ -114,7 +114,8 @@ namespace ot {
     public:
         GroupGateModule() : Module(), NodeFactory() { };
         virtual ~GroupGateModule();
-        virtual Node *createNode(const std::string &name, StringTable &attributes);
+        virtual Node *createNode(const std::string &name, 
+                                 const StringTable &attributes);
 
         const char *getGroupGateName(int groupgatenum);
         void activateGroupGate(const char *groupname, const char *groupgatename);

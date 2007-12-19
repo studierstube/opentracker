@@ -115,7 +115,7 @@ namespace ot {
 
 	~TCPModule();
 
-        Node * createNode( const std::string& name,  StringTable& attributes);
+        Node * createNode( const std::string& name,  const StringTable& attributes);
  
 	void pullEvent();
 	

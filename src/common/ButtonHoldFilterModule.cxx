@@ -77,7 +77,7 @@ namespace ot {
 
     // This method is called to construct a new Node.
 
-    Node * ButtonHoldFilterModule::createNode( const std::string& name, StringTable& attributes)
+    Node * ButtonHoldFilterModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("ButtonHoldFilter") == 0 )
         {

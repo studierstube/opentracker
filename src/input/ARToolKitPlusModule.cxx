@@ -246,7 +246,7 @@ namespace ot {
 
     // This method is called to construct a new Node.
 
-    Node* ARToolKitPlusModule::createNode( const std::string& name, StringTable& attributes)
+    Node* ARToolKitPlusModule::createNode( const std::string& name, const StringTable& attributes)
     {
         // ARToolKitPlusSource Deprecated. Mendez 20070716
         bool tmpFlag=false;

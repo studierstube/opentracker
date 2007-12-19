@@ -51,6 +51,9 @@
 #ifndef SWIG
 #include <string>
 #include <map>
+#include <list>
+#include <vector>
+#include <set>
 #endif
 
 #include <ace/Task.h>
@@ -82,9 +85,11 @@ namespace ot
 
         // member variables
     public:
-        typedef std::map<std::string, MIFunctor> Registry;
+        typedef StringTable NodeDescriptionElement;
+        typedef std::vector<NodeDescriptionElement> NodeDescription;
+       
+        typedef std::set<std::pair<std::string, std::string> > ConnectionDescription;
     protected:
-	static Registry initFunctions;
 	static UbitrackClient * self;
         Context * ctx;
 	bool isDefaultContext;
@@ -116,13 +121,16 @@ namespace ot
 	void sendUTQL(std::string utqlString);
 	void sendUTQLFile(std::string utqlFileName);
 
-	static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
-	static void loadModule(Context & newctx, const char * module);
+	//static void addModuleInit(const char * name, ModuleInitFunc func, void * data);
+	//static void loadModule(Context & newctx, const char * module);
 	friend OPENTRACKER_API void initializeContext(Context *, void *);
 
     protected:
-	static void doInitialization(Context & newctx);      
+	//static void doInitialization(Context & newctx);      
 	UbitrackClient(ACE_INET_Addr nServerAddr, int ctx_type = NORMAL);
+        /// DFG update routine based on Ubitrack server reply
+        bool updateDFG(const NodeDescription &ndescs, 
+                       const ConnectionDescription &cdescs);
 
     };
 

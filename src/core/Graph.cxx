@@ -229,6 +229,20 @@ namespace ot{
                           << (*ndit)->getTraversalOrder() 
                           << "\" "; 
                 }
+                else if ((*ndit)->getType() != "configuration")
+                {
+                    if ((*ndit)->getTraversalOrder() != acttravorder)
+                    {
+                        if (acttravorder != -1) ofile << ";}" << endl;
+                        ofile << "{rank=same; ";
+                        acttravorder = (*ndit)->getTraversalOrder();
+                    }
+                    ofile << "\"" << (*ndit)->getType() << "("
+                          << (*ndit) << ")"
+                          << ": "
+                          << (*ndit)->getTraversalOrder() 
+                          << "\" "; 
+                }
             }
             if (needclose) ofile << ";}" << endl;
 
