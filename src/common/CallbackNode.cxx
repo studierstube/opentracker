@@ -78,6 +78,7 @@ namespace ot {
         OTGlobalCallbackFunction *gcbfunc = NULL;
         void * gcbdata;
 
+        logPrintI("CallbackNode::onEventGenerated: \n");
         // call to global callback function
       
         if (cbmodule != NULL) 

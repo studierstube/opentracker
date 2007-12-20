@@ -78,9 +78,10 @@ namespace ot{
                 break;
         }
 
-        //this->doInitialization(*ctx);
+        // start context
+        ctx->start();
 
-        // start up connection
+        // start internal communication thread
         start();
     }
 
@@ -478,6 +479,7 @@ namespace ot{
 
         NodeDescription::const_iterator nit;
         ConnectionDescription::const_iterator cit;
+        vector<pair<string,Module*> > newmodules;
 
         for (nit = ndescs.begin(); nit != ndescs.end(); nit++)
         {
@@ -507,10 +509,15 @@ namespace ot{
                 if (node == NULL)
                 {
                     logPrintI("Trying to load module first\n");
-                    if (ctx->getModuleFromNodeType(nit->get("OtNodeType")) != NULL)
+
+                    Module* newmodule = 
+                        ctx->getModuleFromNodeType(nit->get("OtNodeType"));
+
+                    if (newmodule != NULL)
                     {
                         node = ctx->createNode(nit->get("OtNodeType").c_str() , 
                                                *nit);
+                        newmodules.push_back(make_pair(nit->get("OtNodeType"),newmodule));
                     }
                 }
                 if (node)
@@ -548,8 +555,27 @@ namespace ot{
             }
         }
         
+        // start all new modules
+        logPrintI("# of loaded modules: %d \n", ctx->getModuleCount());
+        if (newmodules.size() > 0) 
+        {
+            logPrintI("Starting new modules:\n");
+            vector<pair<string,Module*> >::const_iterator mit;
+            for (mit = newmodules.begin(); mit != newmodules.end(); mit++)
+            {
+                cerr << "  " << mit->first << endl;
+                mit->second->start();
+            }
+        }
 
         ctx->unlock();
+
+        // start all modules
+        // FIXXXME: this is really ugly, there should be a method, which
+        // updates all modules newly created, or where the configuration 
+        // has changed ...
+
+        ctx->start();
 
         return true;
     }

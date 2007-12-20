@@ -382,6 +382,9 @@ namespace ot {
          * @param name the element name
          * @returns pointer to the module or NULL, if name does not exist */
         Module * getModule(const std::string & name);
+        /** returns the number of modules available in the context
+         * @returns module number */
+        int getModuleCount() const { return modules.size(); };
 
         /** returns a list of module names present in the context
          * @returns vector of strings containing the names */

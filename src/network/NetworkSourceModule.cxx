@@ -111,9 +111,11 @@ namespace ot {
         FlexibleTrackerDataRecord *dataRec;
         StationVector sources;
         int stop;
+        bool running;
+        Context* context;
 
         NetworkReceiver( ) :
-            dataRec(NULL), stop(0)
+            dataRec(NULL), stop(0), running(false), context(NULL)
         {}
     };
 
@@ -258,13 +260,15 @@ namespace ot {
             } while( bytesRead < 0 && rec->stop == 0);
             if( rec->stop != 0 )
                 break;
+
+            //logPrintI("(mc) procrec\n");
             processRecord( rec );
-            
-	    if (Configurator::instance()->getContext()->doSynchronization())
+
+	    if (rec->context->doSynchronization())
 	    {
 	        //logPrintI("before locks (mc)...\n");
-                Configurator::instance()->getContext()->dataSignal();
-                Configurator::instance()->getContext()->consumedWait();	
+                rec->context->dataSignal();
+                rec->context->consumedWait();	
 	        //logPrintI("after locks (mc)\n");
 	    }
         }
@@ -272,6 +276,9 @@ namespace ot {
         {
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSourceModule !\n")));
         }
+
+        rec->running = false;
+
         ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
     }
 
@@ -328,14 +335,14 @@ namespace ot {
             if( rec->stop != 0 )
                 break;
 
-            //logPrintI("procrec\n");
+            //logPrintI("(uc) procrec\n");
             processRecord( rec );
 
-	    if (Configurator::instance()->getContext()->doSynchronization())
+	    if (rec->context->doSynchronization())
 	    {
 	        //logPrintI("before locks (uc)...\n");
-                Configurator::instance()->getContext()->dataSignal();
-                Configurator::instance()->getContext()->consumedWait();
+                rec->context->dataSignal();
+                rec->context->consumedWait();
                 //logPrintI("after locks (uc)");
 	    }
         }
@@ -344,6 +351,9 @@ namespace ot {
         {
             ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error closing socket in NetworkSourceModule !\n")));
         }
+
+        rec->running = false;
+
         ACE_DEBUG((LM_INFO, ACE_TEXT("ot:Stopping thread\n")));
     }
 
@@ -513,19 +523,32 @@ namespace ot {
     // opens the sockets needed for communication and starts the receive thread
     void NetworkSourceModule::start()
     {
+        // start multicast receivers
         for( MulticastReceiverVector::iterator mc_it = multicasts.begin(); mc_it != multicasts.end(); ++mc_it )
         {
-            (*mc_it)->socket.subscribe( ACE_INET_Addr((*mc_it)->port, (*mc_it)->group.c_str()));
-            ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runMulticastReceiver, *mc_it );
+            if (!(*mc_it)->running)
+            {
+                (*mc_it)->context = context;
+                (*mc_it)->socket.subscribe( ACE_INET_Addr((*mc_it)->port, (*mc_it)->group.c_str()));
+                ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runMulticastReceiver, *mc_it );
+                (*mc_it)->running = true;
+            }
         }
+
+        // start unicast receivers
         for( UnicastReceiverVector::iterator uc_it = unicasts.begin(); uc_it != unicasts.end(); ++uc_it )
         {
-            if( (*uc_it)->socket.open(ACE_Addr::sap_any) == -1 )
+            if (!(*uc_it)->running)
             {
-                ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSourceModule !\n")));
-                exit(1);
+                (*uc_it)->context = context;
+                if( (*uc_it)->socket.open(ACE_Addr::sap_any) == -1 )
+                {
+                    ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSourceModule !\n")));
+                    exit(1);
+                }
+                ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runUnicastTransceiver, *uc_it );
+                (*uc_it)->running = true;
             }
-            ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runUnicastTransceiver, *uc_it );
         }
     }
 
@@ -547,49 +570,7 @@ namespace ot {
     // pushes event information into the tree
     void NetworkSourceModule::pushEvent()
     {
-        // old source for per module traversal
-        /*
-        for(MulticastReceiverVector::iterator mc_it = multicasts.begin();mc_it != multicasts.end();++mc_it)
-        {
-            for(StationVector::iterator it =(*mc_it)->sources.begin();
-                it != (*mc_it)->sources.end(); ++it )
-            {
-                bool updateObservers = false;
-                // critical section
-                {
-                    ACE_Guard<ACE_Thread_Mutex> guard( (*mc_it)->mutex );
-                    if((*it)->modified == 1 )
-                    {
-                        (*it)->source->event = (*it)->event;
-                        (*it)->modified = 0;
-                        updateObservers = true;
-                    }
-                }
-                if (updateObservers)
-                    (*it)->source->updateObservers( (*it)->source->event );
-            }
-        }
-        for(UnicastReceiverVector::iterator uc_it = unicasts.begin();uc_it != unicasts.end();++uc_it)
-        {
-            for(StationVector::iterator it =(*uc_it)->sources.begin();
-                it != (*uc_it)->sources.end(); ++it )
-            {
-                bool updateObservers = false;
-                // critical section
-                {
-                    ACE_Guard<ACE_Thread_Mutex> guard( (*uc_it)->mutex );
-                    if((*it)->modified == 1 )
-                    {
-                        (*it)->source->event = (*it)->event;
-                        (*it)->modified = 0;
-                        updateObservers = true;
-                    }
-                }
-                if (updateObservers)
-                    (*it)->source->updateObservers( (*it)->source->event );
-            }
-        }
-        */
+        // is done per node
     }
 
     void NetworkSource::setMulticastReceiver(MulticastReceiver * recv)
