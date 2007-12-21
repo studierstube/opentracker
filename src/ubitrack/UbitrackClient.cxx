@@ -395,6 +395,7 @@ namespace ot{
                          
                          TiXmlAttribute *dfgattr = dfgnode->FirstAttribute();
                          string otnodename("");
+                         vector<string> ports;
                          // find out node name, static attributes and
                          // dynamic attributes -> these are read from
                          // the output section
@@ -409,7 +410,29 @@ namespace ot{
                              }
                              else
                              {
-                                
+                                 if (attname.find("classport") == 0)
+                                 {
+                                     logPrintI("port found: %s\n", attval.c_str());
+                                     // replace n-th direct connection by
+                                     // connections via port
+                                     string portname(getPortNodeName(actname, attname));
+                                     int i=0;
+                                     int n=getPortNumber(attname);
+                                     set<pair<string, string> >::iterator sit;
+                                     for (sit = connections.begin();
+                                          sit != connections.end(); sit++)
+                                     {
+                                         if (sit->first == actname)
+                                         {
+                                             if (i<n) { i++; continue; }
+                                             connections.insert(make_pair(sit->first, portname));
+                                             connections.insert(make_pair(portname, sit->second));
+                                             connections.erase(sit);
+                                             break;
+                                         }
+                                     }
+                                 }
+
                                  if (attval.find("$") != 0)
                                  {
                                      attributes->put(attname,attval);
@@ -484,52 +507,51 @@ namespace ot{
         for (nit = ndescs.begin(); nit != ndescs.end(); nit++)
         {
             cerr << "node type: " << nit->get("OtNodeType") << endl;
+            string utid(nit->get("UTID"));
             KeyIterator it(*nit);
+            StringTable rnode;
+            map<int, StringTable> pnodes;
+            map<int, StringTable>::const_iterator pit;
+
             while (it.hasMoreKeys())
             {
                 string akey(it.nextElement());
+                string aval(nit->get(akey));
+
+                if (akey.find("classport") == 0) // port
+                {                    
+                    int pnum = getPortNumber(akey);                    
+                    pnodes[pnum] = StringTable();
+                    ostringstream oss;
+                    oss << utid << pnum;
+                    pnodes[pnum].put("OtNodeType",aval);
+                    pnodes[pnum].put("UTID", oss.str());                    
+                }
+                else if (akey.find("port") == 0) // port parameter
+                {
+                    pair<int, string> attdecomp = 
+                        getPortAttributeNameAndNumber(akey);
+                    pnodes[attdecomp.first].put(attdecomp.second, aval);
+                }
+                else // normal attributes
+                {
+                    rnode.put(akey,aval);
+                }
+
                 cerr << "  "
                      << akey << " -> " 
                      << nit->get(akey) << endl;
             }
-            // search if node is already there
-            Node* node = graph->findNode("UTID", nit->get("UTID"));
-            if (node)
+            
+            // create node
+            createNode(rnode, newmodules);
+
+            // create node ports, if any
+            for (pit = pnodes.begin(); pit !=pnodes.end(); pit++)
             {
-                logPrintI("Node %s already found\n", 
-                          nit->get("UTID").c_str());
-                // found -> remove node
-                graph->remNode(node);
+                createNode(pit->second, newmodules);
             }
-            else
-            {
-                logPrintI("Creating node %s ... \n", 
-                          nit->get("UTID").c_str());
-                node = ctx->createNode(nit->get("OtNodeType").c_str(), *nit);
-                if (node == NULL)
-                {
-                    logPrintI("Trying to load module first\n");
-
-                    Module* newmodule = 
-                        ctx->getModuleFromNodeType(nit->get("OtNodeType"));
-
-                    if (newmodule != NULL)
-                    {
-                        node = ctx->createNode(nit->get("OtNodeType").c_str() , 
-                                               *nit);
-                        newmodules.push_back(make_pair(nit->get("OtNodeType"),newmodule));
-                    }
-                }
-                if (node)
-                {
-                    logPrintI("Adding node to graph.\n");
-                    graph->addNode(node);
-                }
-                else
-                {
-                    logPrintE("Node creation failed!\n");
-                }
-            }            
+                                                          
         } // for nit
         
         for (cit=cdescs.begin(); cit != cdescs.end(); cit++)
@@ -579,19 +601,124 @@ namespace ot{
 
         return true;
     }
-    
+
+    std::string UbitrackClient::getPortNodeName(const std::string &nodename, 
+                                string portatt) const
+    {
+        portatt.erase(0, 9);
+        istringstream iss(portatt);
+        int n;
+        try
+        {
+            iss >> n;
+        }
+        catch (exception &e)
+        {
+            n = 0;
+        }
+        ostringstream oss;
+        oss << nodename << n;
+
+        return oss.str();
+    }
+
+    int UbitrackClient::getPortNumber(std::string portatt) const
+    {
+        portatt.erase(0, 9);
+        istringstream iss(portatt);
+        int n;
+        try
+        {
+            iss >> n;
+        }
+        catch (exception &e)
+        {
+            n = 0;
+        }
+        return n;
+    }
+    std::pair<int, std::string> UbitrackClient::getPortAttributeNameAndNumber(std::string portattr) const
+    {
+        portattr.erase(0,4);
+        istringstream iss(portattr);
+        int n;
+        string attname;
+        try
+        {
+            iss >> n;
+        }
+        catch (exception &e)
+        {
+            n = 0;
+        } 
+        try
+        {
+            iss >> attname;
+        }
+        catch (exception &e)
+        {
+            attname = "dummy";
+        }
+        return make_pair(n,attname);
+    }
+
+    bool UbitrackClient::createNode(const StringTable &rnode,
+                                    std::vector<std::pair<std::string, Module*> > &newmodules)
+    {
+        Graph *graph = ctx->getRootNode();
+        // search if node is already there
+        Node* node = graph->findNode("UTID", rnode.get("UTID"));
+        if (node)
+        {
+            logPrintI("Node %s already found -> removing first\n", 
+                      rnode.get("UTID").c_str());
+            // found -> remove node
+            graph->remNode(node);
+        }
+
+        logPrintI("Creating node %s ... \n", 
+                  rnode.get("UTID").c_str());           
+        
+        node = ctx->createNode(rnode.get("OtNodeType").c_str(), rnode);
+        if (node == NULL)
+        {
+            logPrintI("Trying to load module first\n");
+
+            Module* newmodule = 
+                ctx->getModuleFromNodeType(rnode.get("OtNodeType"));
+
+            if (newmodule != NULL)
+            {
+                node = ctx->createNode(rnode.get("OtNodeType").c_str() ,
+                                       rnode);
+                newmodules.push_back(make_pair(rnode.get("OtNodeType"),newmodule));
+            }
+        }
+        if (node)
+        {
+            logPrintI("Adding node to graph.\n");
+            graph->addNode(node);
+        }
+        else
+        {
+            logPrintE("Node creation failed!\n");
+            return false;
+        }
+        return true;
+    }
+
 } //namespace ot
 
-/* 
- * ------------------------------------------------------------
- *   End of UbitrackClient.cxx
- * ------------------------------------------------------------
- *   Automatic Emacs configuration follows.
- *   Local Variables:
- *   mode:c++
- *   c-basic-offset: 4
- *   eval: (c-set-offset 'substatement-open 0)
- *   eval: (c-set-offset 'case-label '+)
+    /* 
+     * ------------------------------------------------------------
+     *   End of UbitrackClient.cxx
+     * ------------------------------------------------------------
+     *   Automatic Emacs configuration follows.
+     *   Local Variables:
+     *   mode:c++
+     *   c-basic-offset: 4
+     *   eval: (c-set-offset 'substatement-open 0)
+     *   eval: (c-set-offset 'case-label '+)
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:

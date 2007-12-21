@@ -82,6 +82,12 @@ namespace ot
             void * data;
             //MIFunctor(ModuleInitFunc f, void * d):function(f), data(d){};
         };
+        std::string getPortNodeName(const std::string &nodename, 
+                                    std::string portatt) const;
+        int getPortNumber(std::string portatt) const;
+        std::pair<int, std::string> getPortAttributeNameAndNumber(std::string portattr) const;
+        bool createNode(const StringTable &rnode,
+                        std::vector<std::pair<std::string, Module*> > &newmodules);
 
         // member variables
     public:
