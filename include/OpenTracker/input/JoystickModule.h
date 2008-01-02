@@ -129,7 +129,7 @@ namespace ot {
          * @attributes refenrence to StringMap containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name,  const StringTable& attributes);
         /**
          * Pushes events into the tracker tree. Checks all JoystickSource nodes and
          * pushes new events, if a JoystickSource node fires.
