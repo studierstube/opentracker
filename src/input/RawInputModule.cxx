@@ -72,7 +72,7 @@ namespace ot {
         pSources.clear();
     }
 
-    Node* RawInputModule::createNode(const std::string &name,StringTable &attributes)
+    Node* RawInputModule::createNode(const std::string &name,const StringTable &attributes)
     {
         if (name.compare("RawInputSource") == 0)
             for (UINT device = 0;device < numDevices;device ++)

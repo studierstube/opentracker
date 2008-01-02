@@ -85,7 +85,7 @@ namespace ot {
 
 
     // This methode is called to construct a new Node.
-    Node* SpeechModule::createNode(const std::string& name, StringTable& attributes)
+    Node* SpeechModule::createNode(const std::string& name, const StringTable& attributes)
     {
         if(name.compare("SpeechRecoSource") == 0)
         {

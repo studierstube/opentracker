@@ -77,7 +77,7 @@ namespace ot {
     }
 
     // This method is called to construct a new Node.
-    Node * JoystickModule::createNode(const std::string& name, StringTable& attributes)
+    Node * JoystickModule::createNode(const std::string& name, const StringTable& attributes)
     {
         if( name.compare("JoystickSource") == 0 )
         {
