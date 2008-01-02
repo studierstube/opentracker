@@ -70,7 +70,7 @@ namespace ot {
 	}
 
 	// This method is called to construct a new Node.
-	Node * VirtualKeyModule::createNode( const std::string& name, StringTable& attributes)
+	Node * VirtualKeyModule::createNode( const std::string& name, const StringTable& attributes)
 	{
 		if( name.compare("VirtualKeySource") == 0 )
 		{       
