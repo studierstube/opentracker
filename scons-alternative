@@ -135,7 +135,6 @@ elif sys.platform.startswith('linux'):
 	env.Append(CPPDEFINES=["__x86__", "__linux__", "__OSVERSION__=2"])
     env.Append(CPPDEFINES=['_REENTRANT']) # ACE specific issue on linux
     env.Append(CPPPATH='/usr/include/COS') # pick up COS headers
-    env.Append(CXXFLAGS='-O2')
 elif sys.platform == 'win32':
     print "Windows not supported at this time"
     sys.exit(-1)
@@ -150,7 +149,7 @@ python_local_dir = join('lib','python')
 if env['DEBUG']:
     env.Append(CXXFLAGS='-g')
 else:
-    env.Append(CXXFLAGS='-O2')
+    env.Append(CXXFLAGS='-O2 -g')
 #***********************************#
 # Enable or disable Mobilab support #
 #***********************************#

@@ -95,7 +95,7 @@ namespace ot {
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 #ifdef USE_LIVE
-        NodeFactoryPair createNodeUsingFactory( const std::string& name,  StringTable& attributes);
+        NodeFactoryPair createNodeUsingFactory( const std::string& name,  const StringTable& attributes);
 #endif
 		void removeAll();
 		void copyFrom(const NodeFactoryContainer & other);

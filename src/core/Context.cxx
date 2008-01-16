@@ -923,18 +923,19 @@ namespace ot {
     
     Node * Context::createNode( const std::string & name, const StringTable & attributes)
     {
-        Node * value = factory.createNode( name , attributes );
 #ifdef USE_LIVE
+	StringTable xattributes(attributes);
+        Node * value = factory.createNode( name , xattributes );
         if (activatelive)
         {
             CORBAModule* corba_module = (CORBAModule*) modules["CORBAConfig"].item();
             if (CORBAModule::persistent) {
-                if (!attributes.containsKey("DEF")) {
-                    attributes.put("DEF", CORBAUtils::generateUniqueId());
+                if (!xattributes.containsKey("DEF")) {
+                    xattributes.put("DEF", CORBAUtils::generateUniqueId());
                 }
                 if (name.compare("PushCons") != 0) { // PushCons node is already activated!
                     logPrintI("About to activate node#1\n");
-                    activateNode(value, attributes.get("DEF").c_str());
+                    activateNode(value, xattributes.get("DEF").c_str());
                 }
             } else {
                 logPrintI("About to activate node#2\n");
@@ -943,6 +944,8 @@ namespace ot {
                 }
             }
         }
+#else	
+        Node * value = factory.createNode( name , attributes );
 #endif
         // add all the attributes to the node
         if( value != NULL )

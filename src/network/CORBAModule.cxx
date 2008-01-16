@@ -364,18 +364,20 @@ void CORBAModule::clear()
 }
 
 // This method is called to construct a new Node.
-  Node * CORBAModule::createNode( const std::string& name, StringTable& attributes) {
+  Node * CORBAModule::createNode( const std::string& name, const StringTable& attributes) {
+    StringTable xattributes(attributes);
+    
     CORBA::Object_var obj = CORBA::Object::_nil();
-    if (attributes.containsKey("name")) {
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+    if (xattributes.containsKey("name")) {
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       obj = CORBAUtils::getObjectReference(orb, string_name);
     }
-    if (attributes.containsKey("uri")) {
-      obj = orb->string_to_object(attributes.get("uri").c_str());
+    if (xattributes.containsKey("uri")) {
+      obj = orb->string_to_object(xattributes.get("uri").c_str());
     }
     if( name.compare("CORBASink") == 0 )     {
       int frequency;
-      int num = sscanf(attributes.get("frequency").c_str(), " %i", &frequency );
+      int num = sscanf(xattributes.get("frequency").c_str(), " %i", &frequency );
       if( num <= 0 ) {
 	frequency = 1;
       } else {
@@ -403,7 +405,7 @@ void CORBAModule::clear()
     } 
     else if( name.compare("CORBATransform") == 0 ) 
       {
-	CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+	CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
 	CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
 	if (CORBA::is_nil(obj)) {
 	  logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
@@ -416,7 +418,7 @@ void CORBAModule::clear()
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBATransform node\n")));
       return transform;
     } else if (name.compare("CORBASource") == 0 ) {
-      CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBASource * source_impl = new CORBASource( );    
       sources.push_back(source_impl);
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASource node\n")));
@@ -426,7 +428,7 @@ void CORBAModule::clear()
   else if (name.compare("PushCons") == 0 ) 
     {
       logPrintI("creating PushCons node\n");
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
 	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
@@ -444,11 +446,11 @@ void CORBAModule::clear()
       }
       // Now activate object
       if (persistent) {
-	if (!attributes.containsKey("DEF")) {
+	if (!xattributes.containsKey("DEF")) {
 	  // need to generate a unique ID
-	  attributes.put("DEF", CORBAUtils::generateUniqueId());
+	  xattributes.put("DEF", CORBAUtils::generateUniqueId());
 	}
-	context->activateNode(pushcons_impl, attributes.get("DEF").c_str());
+	context->activateNode(pushcons_impl, xattributes.get("DEF").c_str());
       } else {
 	context->activateNode(pushcons_impl);
       }
@@ -461,7 +463,7 @@ void CORBAModule::clear()
       // get Proxy Supplier
       CosEventChannelAdmin::ProxyPushSupplier_var proxy_supplier = CORBAUtils::getProxyPushSupplier(consumer_admin);
 
-      //      CORBA::String_var string_id = CORBA::string_dup( attributes.get("name").c_str() );
+      //      CORBA::String_var string_id = CORBA::string_dup( xattributes.get("name").c_str() );
       //      logPrintI("got string id\n");
       //      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
       //      logPrintI("got object id");
@@ -484,7 +486,7 @@ void CORBAModule::clear()
     }
   else if (name.compare("PushSupp") == 0 ) 
     {
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
 	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
@@ -500,7 +502,7 @@ void CORBAModule::clear()
 #ifdef USE_SHARED
   else if (name.compare("SharedEngineNode") == 0 ) 
     {
-      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) attributes.get("name").c_str());
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
       if (CORBA::is_nil(obj)) {
 	logPrintI("Could not obtain a reference to event channel supposedly bound to %s.\nExiting....\n", (const char*) string_name);
