@@ -72,7 +72,7 @@ namespace ot {
 		}
 	}
 
-    Node* PythonModule::createNode(const std::string &name,StringTable &attributes)
+    Node* PythonModule::createNode(const std::string &name,const StringTable &attributes)
     {
         if (name.compare("Python") == 0 && pPyOtModule && pPyModule)
 		{

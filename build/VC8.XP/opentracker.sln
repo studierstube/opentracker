@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentrackerlib", "opentrackerlib.vcproj", "{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "configurable", "configurable.vcproj", "{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "newmat", "newmat.vcproj", "{F801C564-768B-4767-BD06-80BC19DF0867}"
 EndProject
