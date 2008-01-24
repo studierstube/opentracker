@@ -43,7 +43,7 @@
  */
 
 #include <OpenTracker/dllinclude.h>
-#if USE_THREETOTWODIMFILTER
+#ifdef USE_THREETOTWODIMFILTER
 
 #include <OpenTracker/common/ThreeToTwoDimCalc.h>
 //#include <Qt/qapplication.h>
@@ -312,11 +312,20 @@ void ThreeToTwoDimCalc::updateMPD(Event const & mpd_pos)
 
   if (!isInside)
   {
+	  
     // transition inside -> outside: MPD location changed
     bool mpd_loc_changed_this_cycle = (mp_data_.mpd_loc_inside_screen_cuboid);
     // MPD is located outside SC
     mp_data_.mpd_loc_inside_screen_cuboid = false;
 
+
+	//printf("ThreeToTwoDimCalc::updateMPD(): depth = %f %f %f\n",depth(1), depth(2), depth(3));
+	printf("ThreeToTwoDimCalc::updateMPD(): width = %f, distances_width() = %f %f\n",
+		width.NormFrobenius(), distances_width(1), distances_width(2));
+	printf("ThreeToTwoDimCalc::updateMPD(): height = %f, distances_height() = %f %f\n",
+		height.NormFrobenius(), distances_height(1), distances_height(2));
+	printf("ThreeToTwoDimCalc::updateMPD(): depth = %f, distances_depth() = %f %f\n",
+		depth.NormFrobenius(), distances_depth(1), distances_depth(2));
     return;
   }
 

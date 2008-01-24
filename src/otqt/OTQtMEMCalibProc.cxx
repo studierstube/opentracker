@@ -374,7 +374,7 @@ bool OTQtMEMCalibProc::trackASCorner(QtAppScreen::ASCorner & as_corner) {
   float tracking_one_meter;
   getMECM().getXMLAttribTable().get("TrackingSystemScaleOneMeter", &tracking_one_meter);
   // converted to 3mm radius
-  float THRESH_SPHERE_RADIUS = tracking_one_meter * 0.003;
+  float THRESH_SPHERE_RADIUS = tracking_one_meter * 0.03;
 
   while (true) {
 

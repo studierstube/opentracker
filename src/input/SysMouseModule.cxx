@@ -87,7 +87,8 @@ namespace ot {
 	}
 
 	// This method is called to construct a new Node.
-	Node * SysMouseModule::createNode( const std::string& name, StringTable& attributes)
+	Node * SysMouseModule::createNode( const std::string& name, 
+									   const StringTable& attributes)
 	{
 		if( name.compare("SysMouseSink") == 0 )
 		{       
@@ -158,8 +159,7 @@ namespace ot {
 		while(stop == 0)
 		{
 			processLoop();
-			// wait a msec
-			ACE_OS::sleep( ACE_Time_Value(0, 1000) );
+
 		}
 	}
 

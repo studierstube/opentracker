@@ -84,6 +84,7 @@ namespace ot {
 		dimCalc->updateMPD(pointingDeviceInput);
 		if( dimCalc->isMPDInsideScreenCuboid() )
 		{
+			printf("**************************push event inside !!!!\n");
 			event.getPosition()[0]= dimCalc->getMPD2DCoords().x;
 			event.getPosition()[1]= dimCalc->getMPD2DCoords().y;
 			//source->event.getPosition()[3]= mousewheel;

@@ -143,7 +143,7 @@ public:
    * @return NULL if given name does not match any dedicated sink name, otherwise the
    * created sink object
    */
-  virtual Node * createNode(const std::string& name, StringTable& attributes);
+  virtual Node * createNode(const std::string& name, const StringTable& attributes);
 
 
   ///// class Module interface

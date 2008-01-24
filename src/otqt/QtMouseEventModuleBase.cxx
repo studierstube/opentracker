@@ -137,7 +137,7 @@ void QtMouseEventModuleBase::close()
 
 //--------------------------------------------------------------------------------
 Node *
-QtMouseEventModuleBase::createNode(const std::string& name, StringTable& attributes)
+QtMouseEventModuleBase::createNode(const std::string& name, const StringTable& attributes)
 {
   OTQT_DEBUG("QtMouseEventModuleBase()::createNode(): *** START with name = %s.\n", name.c_str());
 
