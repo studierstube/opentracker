@@ -322,9 +322,10 @@ namespace ot {
                                         pSource->setButtonEvent(button,buttonMask);
                                     unlockLoop();
                                 }
-                            if (context != NULL)
+                            if (context != NULL && context->doSynchronization())
                                 {
                                     context->dataSignal();
+				    context->consumedWait();
                                 }      
                         }
 

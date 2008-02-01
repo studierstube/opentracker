@@ -224,12 +224,14 @@ namespace ot {
             bool fullfreq = true;
             if (attributes.containsKey("fullfreq"))
             {
-                if (attributes.get("debug") != "off")
+                if (attributes.get("fullfreq") != "off")
                 {
                     fullfreq  = true;
+                    logPrintI(" full frequency mode\n");
                 }
                 else
                 {
+                    logPrintI(" NOT full frequency mode\n");
                     fullfreq = false;
                 }                
             }
