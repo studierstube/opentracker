@@ -78,14 +78,15 @@ namespace ot{
   
         void connectNodes(Node * parent, Node * child);
         void disconnectNodes(Node * parent, Node * child);
-
+        void touch();
+        
         unsigned int countNodes();
         Node * getNode(unsigned int idx);
 
         Node * findNode(const std::string & key, const std::string & val);
 
         void pushEvents();
-        void pullEvents();
+        void pullEvents();        
 
         void writeGraph(const char * filename);
     };

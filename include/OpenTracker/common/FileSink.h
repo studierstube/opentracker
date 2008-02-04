@@ -104,7 +104,7 @@ namespace ot {
 	    lastwritetime(0.0),
 	    writecount(0),
             needwrite(false)
-	{}
+            { type="FileSink"; }
 
     public:
         /** tests for EventGenerator interface being present. Is overriden to

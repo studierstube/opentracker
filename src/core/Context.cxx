@@ -181,7 +181,7 @@ namespace ot {
         ModuleMap::iterator it;
         for (it=modules.begin(); it != modules.end(); it++)
         {
-            it->second->context = this;
+            it->second->setContext(this);
         }
     }
     // returns a module indexed by its configuration elements name

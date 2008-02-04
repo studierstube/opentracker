@@ -420,6 +420,7 @@ void CORBAModule::clear()
     } else if (name.compare("CORBASource") == 0 ) {
       CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBASource * source_impl = new CORBASource( );    
+      source_impl->setContext(context);
       sources.push_back(source_impl);
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASource node\n")));
       return source_impl;
@@ -521,15 +522,64 @@ void CORBAModule::clear()
 }
 // pushes events into the tracker tree.
 
+  void CORBASource::pushEvent()
+  {
+    //logPrintI("CORBASource::pushEvent\n");
+    Event updevent;
+    bool update = false;
+
+    lock();
+
+    update=newevent;
+    if (update) 
+      {
+	updevent = event;
+	newevent = false;
+      }
+
+    unlock();
+
+    if (update)
+      {
+	//logPrintI("CORBASource::pushEvent() updateobservers\n");
+	updateObservers( updevent );
+      }
+  }
+
   void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
   {
-    Event new_event(corba_event);
+
     //_lock();
     //logPrintI("CORBASource::setEvent\n");
-    ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
-    event = new_event;
-    updateObservers( event );
+    lock();
+
+    event = corba_event;
+    event.timeStamp();
+    newevent = true;
+
+    unlock();
+
+    if (context != NULL)
+      { 
+	if (context->doSynchronization())
+	  {
+	    context->dataSignal();
+	    context->consumedWait();
+	  }
+      } 
+
+    //updateObservers( event );
     //_unlock();
+  }
+  void CORBAModule::setContext(Context* ctx)
+  {
+    context = ctx;
+    CORBASourceVector::iterator it;
+    for (it=sources.begin(); it!=sources.end();it++)
+      {
+	(*it)->setContext(context);
+      }
+
   }
 
 #ifdef USE_OMNIEVENTS
@@ -556,3 +606,19 @@ void CORBAModule::clear()
 
 } //namespace ot
 #endif //USE_CORBA
+
+/* 
+ * ------------------------------------------------------------
+ *   End of CORBAModule.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */

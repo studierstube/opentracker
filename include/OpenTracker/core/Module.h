@@ -91,8 +91,8 @@ namespace ot {
 
 	/// virtual destructor (as it befits any true class hierarchy)
         virtual ~Module();
-		void setContext(Context * c){  context = c; };
-		Context * getContext() const {return context;}; 
+        virtual void setContext(Context * c){  context = c; };
+        Context * getContext() const {return context;}; 
         /**
          * closes the module. A place for cleanup code etc.
          * This class provides an empty implementation for subclasses not doing

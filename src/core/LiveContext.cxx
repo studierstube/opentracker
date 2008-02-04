@@ -108,6 +108,8 @@ namespace ot {
       logPrintI("just about to getNode(value)\n");
 
       OTGraph::Node_var node_ref = getNode(value);
+      graph->addNode(value); // also add it to the CORBA independent graph representation;
+
       logPrintI("just did getNode(value)\n");
       unlock();
       logPrintI("unlocked create_node\n");
@@ -136,6 +138,9 @@ namespace ot {
       OTGraph::Edge* _edge = new OTGraph::Edge;
       _edge->sender   = upstreamNode;
       _edge->receiver = downstreamNode;
+
+      graph->touch(); // mark graph as changed;
+
       // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
       downstream_node->unlock();
       upstream_node->unlock();
@@ -178,6 +183,7 @@ namespace ot {
 	{
 	  edges.erase( result );
 	}
+      graph->touch();
     }
 
     void LiveContext::collectEdges(EdgeVector& _edges) {
@@ -288,6 +294,8 @@ namespace ot {
       // Having removed all references to Node it can now be deactivated
       logPrintI("about to deactivateNode\n");
       deactivateNode( target );
+
+      graph->touch(); // mark graph as changed;
     }
 
   void LiveContext::run()

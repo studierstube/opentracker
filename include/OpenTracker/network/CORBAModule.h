@@ -120,7 +120,7 @@ public:
     virtual ~CORBAModule();
 
     virtual void init(StringTable& attributes,  ConfigNode * localTree);
-
+    virtual void setContext(Context * c);
     /** initializes CORBA orb */
     static void initializeORB(int& argc, char**& argv);
 

@@ -114,10 +114,14 @@ namespace ot {
     {
         if( name.compare("FileSink") == 0 )
         {
+            bool havestationparm=true;
             std::string id = attributes.get("file");
             int station;
             if( attributes.get("station", &station) != 1 )
+            {
                 station = 0;
+                havestationparm=false;
+            }
             // search for File
             std::map<std::string,File *>::iterator it = files.find( id );
             File * file;
@@ -134,6 +138,7 @@ namespace ot {
             {
                 NodeVector & vector = nodes[id];
                 NodeVector::iterator nodeIt = vector.begin();
+                if (!havestationparm) station = vector.size();
                 FileSink * sink = new FileSink(*file, station );
                 vector.push_back( sink );
                 logPrintI("Built FileSink node writing into %s with station %d station\n", id.c_str(), station);

@@ -117,6 +117,10 @@ namespace ot{
         changed = true;
     };
 
+    void Graph::touch()
+    {
+        changed = true;
+    }
 
     void Graph::disconnectNodes(Node * parent, Node * child){
         if (!parent || ((parent->getGraph()) == this)){

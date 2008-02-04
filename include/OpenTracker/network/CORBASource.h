@@ -79,48 +79,70 @@
 
 namespace ot {
 
-class OPENTRACKER_API CORBASource : public Node
-{
-// Members
-public:
-
-// Methods
-protected:
-    /** simple constructor, sets members to initial values
-     */
-  // CORBASource( ) : Node(), modified(false)
- CORBASource( ) : Node()
+    class OPENTRACKER_API CORBASource : public Node
     {
+        // Members
+    public:
+
+        // Methods
+    protected:
+        /** simple constructor, sets members to initial values
+         */
+        // CORBASource( ) : Node(), modified(false)
+        CORBASource( ) : Node()
+        {
+            newevent=false;
+            context = NULL;
             mu = new ACE_Thread_Mutex("corbasource");
-	    type = "CORBASource";
-    }
+            type = "CORBASource";
+        }
 
-public:            
-    virtual ~CORBASource( ) {
-      //delete mu;
-    }
+    public:            
+        virtual ~CORBASource( ) {
+            //delete mu;
+        }
 
-    /** tests for EventGenerator interface being present. Is overriden to
-     * return 1 always.
-     * @return always 1 */
-    int isEventGenerator()
-    {
-        return 1;
-    }
+        /** tests for EventGenerator interface being present. Is overriden to
+         * return 1 always.
+         * @return always 1 */
+        int isEventGenerator()
+        {
+            return 1;
+        }
 
-    void setEvent(const OT_CORBA::Event& new_event);
+        void setEvent(const OT_CORBA::Event& new_event);
+        void setContext(Context *ctx) { context = ctx; };
+        void pushEvent( );
+
+        friend class CORBAModule;
     
-    friend class CORBAModule;
-    
- private:
-    ACE_Thread_Mutex* mu;
-    //    bool modified;
-    Event event;
-    // public:
-    //void _lock() { mu->acquire(); };
-    //void _unlock() { mu->release(); };
-};
+    private:
+        ACE_Thread_Mutex* mu;
+        Context *context;
+        //    bool modified;
+        Event event;
+        bool newevent;
+        // public:
+        //void _lock() { mu->acquire(); };
+        //void _unlock() { mu->release(); };
+    };
 
 } // namespace ot
 
 #endif
+
+/* 
+ * ------------------------------------------------------------
+ *   End of CORBASource.h
+ * ------------------------------------------------------------
+ *   Automatic Emacs configuration follows.
+ *   Local Variables:
+ *   mode:c++
+ *   c-basic-offset: 4
+ *   eval: (c-set-offset 'substatement-open 0)
+ *   eval: (c-set-offset 'case-label '+)
+ *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
+ *   eval: (setq indent-tabs-mode nil)
+ *   End:
+ * ------------------------------------------------------------ 
+ */
