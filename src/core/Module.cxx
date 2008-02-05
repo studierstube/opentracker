@@ -6,7 +6,7 @@ namespace ot {
   Context*  context = NULL;
 
   Module::~Module() {
-    ot::logPrintW("Deleting Module\n");
+    //ot::logPrintW("Deleting Module\n");
   };
 
   OT_IMPLEMENT_IREFCOUNTED(Module);

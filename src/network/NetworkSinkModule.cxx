@@ -298,7 +298,7 @@ namespace ot {
             }
             for( UnicastSenderVector::iterator uc_it = unicasts.begin() ; uc_it != unicasts.end(); ++uc_it )
             {
-                if( (*uc_it)->socket.open(ACE_INET_Addr((*uc_it)->port)) == -1 )
+                if( (*uc_it)->socket.open(ACE_INET_Addr((*uc_it)->port), ACE_PROTOCOL_FAMILY_INET,0,0) == -1 )
                 {
                     ACE_DEBUG((LM_ERROR, ACE_TEXT("ot:Error opening socket in NetworkSinkModule !\n")));
                     exit(1);

@@ -116,6 +116,8 @@ namespace ot {
 
     class OPENTRACKER_API Context
     {
+	private:
+		bool isStarted;
 
     protected:
         /// A map of the modules this context works with

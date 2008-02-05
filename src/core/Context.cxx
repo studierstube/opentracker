@@ -74,10 +74,11 @@ namespace ot {
         //        rootNode( NULL ),
         cleanUp( false ),
         stoploopflag(false),
-	dosync(false),
+        dosync(false),
         rootNamespace( "" ),
-	lastlooptime(0.0),
-	loopcount(0)
+        lastlooptime(0.0),
+        loopcount(0),
+        isStarted(false)
     {
 
 #ifdef USE_LIVE
@@ -248,10 +249,12 @@ namespace ot {
 
     void Context::start()
     {
+        if(isStarted) logPrintW("Conmtext is already started\n");
         for( ModuleMap::iterator it = modules.begin(); it != modules.end(); it++ )
         {
             (*it).second->start();
         }
+		isStarted = true;
     }
 
     // calls close on all modules to close any resources.
@@ -268,7 +271,7 @@ namespace ot {
         logPrintI("Closing Opentracker Context done.\n");
         // HACK: give some threads time to close down
         OSUtils::sleep(1000);
-
+        isStarted = false;
     }
 
     // parses the file and builds the tree.
@@ -1088,8 +1091,12 @@ namespace ot {
     void Context::copyFrom(Context & other){
         // lock the loop, so that we can destroy all datastructures
         lock();
+        
         // safely stop all the modules
-        close();
+        bool stoppedHere = false;
+        if(isStarted) { stoppedHere = true; close(); }
+        
+        
 #ifndef OT_NO_CALLBACKMODULE_SUPPORT
         // copy Callbacks from old context
         CallbackModule *cbmodule = dynamic_cast<CallbackModule*>
@@ -1170,7 +1177,7 @@ namespace ot {
         id_node_map = other.id_node_map;
         edges            = other.edges;
 #endif
-        this->start();
+        if(stoppedHere) this->start();
         unlock();
     }
 

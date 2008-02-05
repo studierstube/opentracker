@@ -87,9 +87,10 @@ namespace ot {
      * @author Gerhard Reitmayr, Mathis Csisinko, Jochen von Spiczak
      * @ingroup network
      */
+	
     class OPENTRACKER_API NetworkSinkModule : public Module, public NodeFactory
     {
-        // members
+		// members
     protected:
         /// list of NetworkSink nodes
         SinkVector nodes;
@@ -154,6 +155,7 @@ namespace ot {
          * any non-empty data buffers to the network.
          */
         virtual void pullEvent();
+
     };
    OT_MODULE(NetworkSinkModule);
 
