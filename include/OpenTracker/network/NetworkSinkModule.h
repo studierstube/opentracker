@@ -100,7 +100,7 @@ namespace ot {
         /// server name
         std::string serverName;
 
-		bool blockMulticast;
+        bool blockMulticast;
 
         //methods
     protected:

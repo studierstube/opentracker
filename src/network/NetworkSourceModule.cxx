@@ -529,7 +529,7 @@ namespace ot {
             if (!(*mc_it)->running)
             {
                 (*mc_it)->context = context;
-                (*mc_it)->socket.subscribe( ACE_INET_Addr((*mc_it)->port, (*mc_it)->group.c_str()));
+                (*mc_it)->socket.join( ACE_INET_Addr((*mc_it)->port, (*mc_it)->group.c_str()));
                 ACE_Thread::spawn((ACE_THR_FUNC)NetworkSourceModule::runMulticastReceiver, *mc_it );
                 (*mc_it)->running = true;
             }
