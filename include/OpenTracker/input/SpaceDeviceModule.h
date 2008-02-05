@@ -100,7 +100,7 @@ public:
      * @return pointer to new Node or NULL. The new Node must be
      * allocated with new ! 
 	 */
-    virtual Node * createNode( const std::string& name,  StringTable& attributes);
+    virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 
 	/**
      * closes SpaceMouse dynamic library 
