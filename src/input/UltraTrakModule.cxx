@@ -182,9 +182,10 @@ namespace ot {
 
                         // end of critical section
                         (*station)->unlock();
-                        if (context != NULL)
+                        if (context != NULL && context->doSynchronization())
                         {
                             context->dataSignal();
+                            context->consumedWait();
                         }
                     }
                 }

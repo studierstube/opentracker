@@ -355,9 +355,10 @@ namespace ot {
 
                     }// for all MagicY sources
 
-                    if (context != NULL)
+                    if (context != NULL && context->doSynchronization())
                     {
                         context->dataSignal();
+                        context->consumedWait();
                     }
 
                 }// while no error

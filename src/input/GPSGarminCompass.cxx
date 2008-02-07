@@ -87,9 +87,10 @@ namespace ot {
             buffer.getConfidence() = (float)(1 / module->driver->getHdop());
             module->unlockLoop();
 
-            if (module->context != NULL)
+            if (module->context != NULL && module->context->doSynchronization())
             {
                 module->context->dataSignal();
+                module->context->consumedWait();
             }       
         }
     }

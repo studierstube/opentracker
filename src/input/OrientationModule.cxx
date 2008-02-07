@@ -417,9 +417,10 @@ namespace ot {
                                 
                     (*source)->unlock();
 
-                    if (context != NULL)
+                    if (context != NULL && context->doSynchronization())
                     {
                         context->dataSignal();
+                        context->consumedWait();
                     }
 
                     // end of critical section

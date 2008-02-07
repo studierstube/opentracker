@@ -532,9 +532,10 @@ namespace ot {
                                 myEvent.timeStamp();
                                 (*target)->unlock();
                                 // end of critical section
-                                if (context != NULL)
+                                if (context != NULL && context->doSynchronization())
                                 {
                                     context->dataSignal();
+                                    context->consumedWait();
                                 }
                             }
                         }
