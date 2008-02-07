@@ -401,7 +401,7 @@ namespace ot {
 			       if (context->doSynchronization())
 			       {
 			           context->dataSignal();
-				   //context->consumedWait();
+				   context->consumedWait();
 			       }
                             }
                         }
@@ -458,9 +458,10 @@ namespace ot {
                             bird->newVal = true;
                             bird->source->unlock();
 
-                            if (context != NULL)
+                            if (context != NULL && context->doSynchronization())
                             {
                                 context->dataSignal();
+				context->consumedWait();
                             }
                         }
                     }

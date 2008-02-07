@@ -399,7 +399,7 @@ namespace ot {
             name = extContext->to_name(string_name);
         } catch(CosNaming::NamingContext::InvalidName) {
             // This exception is thrown if the name is not valid
-            logPrintE("Name is not valid");
+            logPrintE("Naming context name is not valid");
             return CORBA::Object::_nil();
         }
         
@@ -409,7 +409,7 @@ namespace ot {
         } catch(CosNaming::NamingContext::NotFound& ex) {
             // This exception is thrown if any of the components of the
             // path [contexts or the object] aren't found:
-            logPrintE("Context not found.");
+            logPrintE("Naming context not found.");
         } catch(CORBA::COMM_FAILURE& ex) {
             logPrintE("Caught system exception COMM_FAILURE -- unable to contact the naming service.");
         } catch(CORBA::SystemException&) {
