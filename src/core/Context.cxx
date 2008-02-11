@@ -83,10 +83,10 @@ namespace ot {
 
 #ifdef USE_LIVE
         activatelive = true;
-#else
+#endif
         // initialize graph
 	graph = new Graph();
-#endif
+
 
         if( init != 0 )
         {
