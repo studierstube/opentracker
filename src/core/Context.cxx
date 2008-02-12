@@ -862,10 +862,14 @@ namespace ot {
                 new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
-        } else {
+        } else if (node != NULL) {
             POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
+        }
+        else
+        {
+            logPrintE("Context::activateNode(): Node is null !\n");
         }
         id = PortableServer::ObjectId_to_string(corba_id);
         appendNode(node, id);
