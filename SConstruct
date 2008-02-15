@@ -88,7 +88,7 @@ else:
              'use' : use,
              'src_ignore': ['standalones','otqt', 'tool\\tool.cxx', 'tool\\ToolAppWin.cxx', 'tool\\ToolIOModule.cxx', 'network\\CORBAModule.cxx', 'network\\CORBASink.cxx', 'network\\CORBAUtils.cxx', 'misc\\wince'],
              'src_use' : ['ALL', os.environ['OTROOT']+'\\extras\\intersense\\isense.c'],
-             'defines' : ['"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS', 'USING_SCONS']
+             'defines' : ['"USE_ARTOOLKITPLUS=1"','"TINYXML_MOD_DLL=1"', '"ARTOOLKITPLUS_DLL=1"', 'OPENTRACKER_EXPORTS', 'USING_SCONS']
              }
 
         otlib ={'name':'opentrackerlib',
@@ -148,7 +148,7 @@ else:
 
         ot ={'name': 'opentracker',
              'type': 'DL',
-	     'defines' : ['USE_ARTOOLKITPLUS'],
+	     'defines' : ['USE_ARTOOLKITPLUS=1', 'USE_ARTOOLKITPLUS'],
              'libs': ['ACE','xerces-c','curses','artoolkitplus','tinyxmlmod'],
              'use' : use,
              'src_ignore': ['standalones','otqt', 'tool/tool.cxx', 'tool/ToolAppWin.cxx', 'tool/ToolIOModule.cxx', 'network/CORBAModule.cxx', 'network/CORBASink.cxx', 'network/CORBAUtils.cxx', 'misc/wince', 'misc/portio.cxx'],
@@ -191,7 +191,7 @@ else:
                           'type':'PRG',
                           'libs':['opentracker','ACE','omniORB4', 'COS4',
                                   'omniDynamic4', 'omnithread'],
-                          'src_use': ['standalones/corba_configurable.cxx']
+                          'src_use': ['standalxfones/corba_configurable.cxx']
                           }
             targetList.append(otcon2corba)
             

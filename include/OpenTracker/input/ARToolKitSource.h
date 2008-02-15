@@ -80,7 +80,9 @@ namespace ot {
 
      protected:
       ARToolKitSource() : Node(), modified(0)
-      {}
+      {
+
+      }
   
 
   };

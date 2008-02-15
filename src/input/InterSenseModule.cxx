@@ -57,7 +57,9 @@
 
 
 #ifndef OT_NO_INTERSENSE_SUPPORT
-
+#ifndef WIN32
+#   warning "Compiling Intersense Support"
+#endif  //win32
 
 namespace ot {
 

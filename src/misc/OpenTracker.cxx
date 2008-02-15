@@ -189,6 +189,7 @@ namespace ot {
     void OPENTRACKER_API initializeOpenTracker(){
         // one time initializations
         // register the creator functions and generic names of all known types
+        logPrintI("INITIALIZING OPENTRACKER\n");
         Event::registerAllKnownTypes();
 
         //register Modules and Factories
@@ -231,6 +232,7 @@ namespace ot {
 #endif
 
 #ifdef USE_ARTOOLKIT
+        logPrintW("REGISTERING ARTOOLKIT MODULE\n");
         OT_REGISTER_MODULE(ARToolKitModule, NULL);
 #endif
 
@@ -437,10 +439,11 @@ namespace ot {
         OT_REGISTER_MODULE(PhantomSinkModule, NULL);
 #endif
 
+
 #ifdef USE_PYTHON
         OT_REGISTER_MODULE(PythonModule, NULL);
 #endif
-
+        logPrintI("INITIALIZING DONE\n");
 	}
 
     void OPENTRACKER_API initializeContext( Context * context , void *)

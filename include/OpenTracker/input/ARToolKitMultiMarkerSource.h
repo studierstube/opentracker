@@ -81,10 +81,12 @@ namespace ot {
          * @param vertex_ vertex coordinates of the marker
          */
         ARToolKitMultiMarkerSource(std::string& cfgfile_, void* mmConfig_) : 
-            cfgfile( cfgfile ),
+            cfgfile( cfgfile_ ),
             mmConfig(mmConfig_)
         {
+
            type = "ARToolKitPlusMultiMarkerSource";
+
         }
 
     };

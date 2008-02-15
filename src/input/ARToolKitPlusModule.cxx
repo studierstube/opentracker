@@ -59,6 +59,7 @@
 #include <OpenTracker/input/ARToolKitSingleMarkerSource.h>
 #include <OpenTracker/input/ARToolKitMultiMarkerSource.h>
 
+
 #ifdef USE_ARTOOLKITPLUS
 
 #include <OpenTracker/core/Context.h>
@@ -353,11 +354,14 @@ namespace ot {
                 return NULL;
             }
 
+
             ARToolKitPlus::ARMultiMarkerInfoT* mmConfig = tracker->arMultiReadConfigFile(filename.c_str());
 
             if(mmConfig)
             {
+
                 ARToolKitMultiMarkerSource * source = new ARToolKitMultiMarkerSource( filename, mmConfig );
+
                 //source->type = "ARToolKitMultiMarkerSource";
                 sources.push_back( source );
 
