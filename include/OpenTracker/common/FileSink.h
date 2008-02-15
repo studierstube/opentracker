@@ -66,6 +66,8 @@
 #include "../OpenTracker.h"
 #ifndef SWIG
 #include "File.h"
+#include <ace/Thread_Mutex.h>
+#include <ace/Guard_T.h>
 #endif
 
 /**
@@ -88,10 +90,6 @@ namespace ot {
 
         // Methods
     protected:
-        Event localevent;
-        double lastwritetime;
-	int writecount;
-        bool needwrite;
 
         /** constructor method,sets commend member
          * @param file_ the File object to write to
@@ -99,11 +97,7 @@ namespace ot {
         FileSink( File & file_, int station_ = 0 ) :
             Node(), 
             file( file_ ),
-            station( station_ ),
-            localevent(),
-	    lastwritetime(0.0),
-	    writecount(0),
-            needwrite(false)
+            station( station_ )
             { type="FileSink"; }
 
     public:
@@ -128,39 +122,13 @@ namespace ot {
 	{
             // file.write( event, station );
             //logPrintI("FileSink::onEventGenerated\n");
-            localevent = event;
             updateObservers( event );
-            needwrite = true;
+            ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+	    file.write(event, station);
 	}
 
-        void pushEvent() 
-        {          
-            //logPrintI("FileSink::pushEvent\n");
-            if (needwrite)
-            {
-                double writetime = OSUtils::currentTime();
-                if (writecount == 0)
-                {
-                    lastwritetime = writetime;
-                    writecount = 1;
-                }
-                else if (writetime - lastwritetime > 10000.0)
-                {
-                    writecount++;
-                    logPrintI("File write rate: %f \n", writecount / 10.0);
-                    writecount = 0;
-                }
-                else
-                {
-                    writecount++;
-                }
-
-                needwrite = false;
-                file.write(localevent, station);
-            }
-            
-        };
-        void pullEvent() {};
+        void pushEvent() {};
+	void pullEvent() {};
 
         friend class FileModule;
     };

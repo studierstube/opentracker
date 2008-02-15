@@ -63,6 +63,7 @@
 #define _MOBILABSOURCE_H
 
 #include <cassert>
+#include <deque>
 
 #include "../OpenTracker.h"
 
@@ -90,9 +91,9 @@ namespace ot {
     public:
 
         /// the event that is posted to the EventObservers
-        Event event;
-        /// the buffer event for data from the g.Mobilab device
-        Event buffer;
+        std::deque<Event> eventqo;
+        /// the  eventq queuefor data from the g.Mobilab device
+        std::deque<Event> eventq;
         unsigned int channel;
         int datatype;
         std::string attname;
@@ -171,11 +172,11 @@ namespace ot {
                 if (rpushcount == 0)
                 {
                     rlastpushtime = rpushtime;
-                    rpushcount = 1;
+                    rpushcount += eventq.size();
                 }
                 else if (rpushtime - rlastpushtime > 10000.0)
                 {
-                    rpushcount++;
+                    rpushcount += eventq.size();
                     if (!fullfreq)
                     {
                         logPrintI("MobilabSource real push rate (%d): %f Hz\n", 
@@ -187,14 +188,20 @@ namespace ot {
                 }
                 else
                 {
-                    rpushcount++;
+                    rpushcount += eventq.size();
                 }
 
-                event = buffer;
+
+                eventqo = eventq;
+                eventq.clear();
                 changed = false;
                 
                 unlock();
-                updateObservers( event );
+                while (!eventqo.empty())
+                {
+                    updateObservers( eventqo.front());
+                    eventqo.pop_front();
+                }
             }
             else
             {
@@ -230,10 +237,11 @@ namespace ot {
         }
         */
         lock();
-
-        buffer.time = timev;
+        eventq.push_back(Event());
+        Event &backelem = eventq.back();
+        backelem.time = timev;
         
-        buffer.getConfidence() = 1.0;
+        backelem.getConfidence() = 1.0;
 
         switch (datatype)
         {
@@ -241,21 +249,21 @@ namespace ot {
                 {
                     float fltval = sampleValue;
                     fltval /= 32768.0f;
-                    buffer.setAttribute<float>(attname, fltval); 
+                    backelem.setAttribute<float>(attname, fltval); 
                 }
                 break;
             case DOUBLE_TYPE:
                 {
                     double dblval = sampleValue;                    
                     dblval /= 32768.0F;
-                    buffer.setAttribute<double>(attname, dblval); 
+                    backelem.setAttribute<double>(attname, dblval); 
                 }
                 break;
             case USHORT_TYPE:
-                buffer.setAttribute<unsigned short>(attname, sampleValue); 
+                backelem.setAttribute<unsigned short>(attname, sampleValue); 
                 break;
             default:                
-                buffer.setAttribute<unsigned short>(attname, 0); 
+                backelem.setAttribute<unsigned short>(attname, 0); 
                 break;
         }
         changed = true;

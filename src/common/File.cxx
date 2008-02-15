@@ -43,6 +43,7 @@
 
 #include <OpenTracker/common/File.h>
 
+
 #include <cstdio>
 #include <string>
 
@@ -61,10 +62,18 @@ namespace ot {
         //std::cout << "FILE constructed" << std::endl;
         if( mode == FILE_OUT ) // output mode
         {
+            //outputbuf = new char[1024*1024*4];
+            output = new std::ofstream();
+            //output->rdbuf()-setbuf(outputbuf, 1024*1024*4);
+                
             if( append )
-                output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::app );
+            {
+                output->open( filename.c_str(), std::ios_base::out | std::ios_base::app);
+            }
             else
-                output = new std::ofstream( filename.c_str(), std::ios_base::out | std::ios_base::trunc );
+            {
+                output->open( filename.c_str(), std::ios_base::out | std::ios_base::trunc);
+            }
             input = NULL;
         }
         else {          // otherwise input mode
@@ -81,11 +90,13 @@ namespace ot {
         {
             input->close();
             delete input;
+            //delete [] outputbuf;
         }
         if( output != NULL )
         {
             output->close();
             delete output;
+            //delete [] outputbuf;
         }
     }
 

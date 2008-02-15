@@ -78,6 +78,8 @@ namespace ot {
 
         // Members
     protected :
+        /// Output buffer used by stream object
+        // char *outputbuf;
 	/// Output stream for output mode
 	std::ofstream * output;
         /// Input stream for input mode
