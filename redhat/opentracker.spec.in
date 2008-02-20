@@ -1,6 +1,8 @@
+%define build_type MinSizeRel
+
 Summary:	An open architecture for reconfigurable tracking based on XML
-Name:		opentracker
-Version:	2.0.0
+Name:		${CPACK_PACKAGE_NAME}
+Version:	${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}
 Release:	%(date '+%Y%m%d')
 License:	LGPL
 Group:		Development/Tools
@@ -25,23 +27,33 @@ development.
 %prep
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 %setup
-sed -i 's/curses/ncurses/' SConstruct
+#sed -i 's/curses/ncurses/' SConstruct
+sed -i 's/\@\@/\@/g' opentracker.pc.in
 
 %build
-%ifarch x86_64
-export CFLAGS=-DUSE_64_BIT
-export CXXFLAGS=-DUSE_64_BIT
-%endif
-scons
+#%ifarch x86_64
+#export CFLAGS=-DUSE_64_BIT
+#export CXXFLAGS=-DUSE_64_BIT
+#%endif
+#scons
+cmake \
+-DCMAKE_BUILD_TYPE:STRING=%{build_type} \
+-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
+-DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir} \
+.
+make
+#make doc
 
 %install
-scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
-# this should better be handled by the scons install procedure:
-mkdir -p $RPM_BUILD_ROOT/%{_datadir}
-cp -a share $RPM_BUILD_ROOT/%{_datadir}/%{name}
+#scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
+## this should better be handled by the scons install procedure:
+#mkdir -p $RPM_BUILD_ROOT/%{_datadir}
+#cp -a share $RPM_BUILD_ROOT/%{_datadir}/%{name}
+DESTDIR=$RPM_BUILD_ROOT make install
 
 %clean
-scons -c
+#scons -c
+make clean
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files

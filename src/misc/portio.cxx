@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <Windows.h>
 
 BYTE inportb(UINT portid)
@@ -15,6 +17,8 @@ void outportb(UINT portid, BYTE value)
     __asm mov al,value
     __asm out dx,al
 }
+
+#endif
 
 /* 
  * ------------------------------------------------------------
