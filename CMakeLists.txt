@@ -57,13 +57,17 @@ ADD_SUBDIRECTORY(share)
 
 INSTALL(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX} PATTERN ".svn" EXCLUDE)
 
+IF(UNIX)
+  INSTALL(FILES FindOpenTracker.cmake DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules)
+ENDIF(UNIX)
+
+IF(WIN32)
+  INSTALL(FILES FindOpenTracker.cmake DESTINATION $ENV{CMAKE_MODULE_PATH})
+ENDIF(WIN32)
+
 # packaging:
 
 SET(CPACK_IGNORE_FILES
-  "*m4*"
-  ".depend"
-  ".deps*"
-  ".scon*"
   "/#.*#$"
   "/log"
   "/trunk/build/"
@@ -77,12 +81,19 @@ SET(CPACK_IGNORE_FILES
   "\\\\.a$"
   "\\\\.aux$"
   "\\\\.bz2$"
+  "\\\\.depend"
+  "\\\\.deps*"
+  "\\\\.dll$"
   "\\\\.dsp$"
   "\\\\.dvi$"
   "\\\\.eps$"
   "\\\\.gz$"
   "\\\\.iv$"
-  "\\\\.loT"
+  "\\\\.la$"
+  "\\\\.lib$"
+  "\\\\.libs$"
+  "\\\\.lo$"
+  "\\\\.loT$"
   "\\\\.log$"
   "\\\\.o$"
   "\\\\.out"
@@ -90,6 +101,7 @@ SET(CPACK_IGNORE_FILES
   "\\\\.pro$"
   "\\\\.ps$"
   "\\\\.save"
+  "\\\\.scon.*"
   "\\\\.so"
   "\\\\.svn"
   "\\\\.swp$"
@@ -100,6 +112,8 @@ SET(CPACK_IGNORE_FILES
   "^/box.cpp"
   "_CPack_Packages"
   "a.out"
+  "autom4te.cache"
+  "bin"
   "cfg*"
   "cgparams$"
   "cmake_install.cmake"
