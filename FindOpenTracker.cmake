@@ -1,10 +1,11 @@
 # - Try to find the opentracker library
 # Once done this will define
 #
-#  OPENTRACKER_FOUND - system has OPENTRACKER
-#  OPENTRACKER_INCLUDE_DIR - the OPENTRACKER include directory
-#  OPENTRACKER_LIBRARIES - Link these to use OPENTRACKER
+#  OPENTRACKER_FOUND - system has opentracker
+#  OPENTRACKER_INCLUDE_DIR - the opentracker include directory
+#  OPENTRACKER_LIBRARIES - Link these to use opentracker
 #  OPENTRACKER_LINK_DIRECTORIES - link directories, useful for rpath
+#  OPENTRACKER_DEFINITIONS - Compiler switches required for using opentracker
 #
 
 if (OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
@@ -37,7 +38,7 @@ else (OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
     FIND_PATH(OPENTRACKER_INCLUDE_DIR OpenTracker/OpenTracker.h
       /usr/include)
 
-    FIND_LIBRARY(OPENTRACKER_LIBRARIES NAMES OpenTracker PATHS
+    FIND_LIBRARY(OPENTRACKER_LIBRARIES NAMES opentracker PATHS
       /usr/lib
       /usr/lib64)
     
@@ -46,16 +47,15 @@ else (OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
     endif(OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
 
   endif (WIN32)
-  
-  if (OPENTRACKER_FOUND)
-    if (NOT OpenTracker_FIND_QUIETLY)
-      message(STATUS "Found OPENTRACKER: ${OPENTRACKER_LIBRARIES}")
-    endif (NOT OpenTracker_FIND_QUIETLY)
-  else (OPENTRACKER_FOUND)
-    if (OpenTracker_FIND_REQUIRED)
-      message(FATAL_ERROR "Could NOT find OPENTRACKER")
-    endif (OpenTracker_FIND_REQUIRED)
-  endif (OPENTRACKER_FOUND)
-
-  
 endif (OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
+  
+if (OPENTRACKER_FOUND)
+  set (OPENTRACKER_DEFINITIONS -DUSE_OT_2_0)
+  if (NOT OpenTracker_FIND_QUIETLY)
+    message(STATUS "Found OPENTRACKER: ${OPENTRACKER_LIBRARIES}")
+  endif (NOT OpenTracker_FIND_QUIETLY)
+else (OPENTRACKER_FOUND)
+  if (OpenTracker_FIND_REQUIRED)
+    message(FATAL_ERROR "Could NOT find OPENTRACKER")
+  endif (OpenTracker_FIND_REQUIRED)
+endif (OPENTRACKER_FOUND)
