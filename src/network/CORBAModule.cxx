@@ -232,6 +232,17 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
       std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
       args.push_back("-ORBendPoint");
       args.push_back(endpoint);
+      args.push_back("-ORBendPoint");
+
+      int lastpos = endpoint.rfind(':');
+      if (lastpos != std::string::npos)
+      {
+        std::string epport = endpoint.substr(lastpos+1);
+        std::ostringstream oss;
+        oss << "giop:tcp::" << epport;
+        logPrintI("Creating second CORBA endpoint: %s\n", oss.str().c_str());
+        args.push_back(oss.str());
+      }
     }
     args.push_back("-ORBabortOnInternalError");
     args.push_back("1");
