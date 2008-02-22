@@ -373,8 +373,8 @@ python_install_files += installFiles(env, join(omniorbpy_root_dir, 'lib', 'x86_w
 # Install IDL files #
 #####################
 installed_idl_files = []
-other_idl_files  = [join('idl','EventChannelAdmin.idl')]
-other_idl_files += [join('idl','COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
+#other_idl_files  = [join('idl','EventChannelAdmin.idl')]
+other_idl_files = [join('idl','COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
 for idl_file in stub_generator.idl_files + other_idl_files:
     installed_idl_files += env.Command(join(prefix, str(idl_file)), idl_file, Copy("$TARGET", "$SOURCE"))
 

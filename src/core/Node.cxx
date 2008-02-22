@@ -99,11 +99,16 @@ namespace ot {
         logPrintW("Destructor of node %s\n",getType().c_str());
         std::cerr << "Destructor of node" << std::endl;
         // this one will call disconnect indirectly!
+#ifndef USE_LIVE
         disconnect();
+        std::cerr <<"remnode"<<std::endl;
         if (graph) graph->remNode(this);
         //        setGraph(0);
-
+#endif
+        std::cerr <<"delete mutex"<<std::endl;
         delete mutex;
+        std::cerr <<"finishede"<<std::endl;
+
     }
 
     void Node::disconnect()

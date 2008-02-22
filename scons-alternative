@@ -122,6 +122,12 @@ if sys.platform == 'darwin':
     # Add default directories used by Darwin Ports
     env.Append(CPPPATH=['/opt/local/include']) 
     env.Append(LIBPATH=['/opt/local/lib'])
+    if os.getenv("ACEROOT"):
+        env.Append(CPPPATH=[os.path.join(os.getenv("ACEROOT"),'include')])	
+        env.Append(LIBPATH=[os.path.join(os.getenv("ACEROOT"),'lib')])	
+    if os.getenv("XERCESCROOT"):
+        env.Append(CPPPATH=[os.path.join(os.getenv("XERCESCROOT"),'include')])	
+        env.Append(LIBPATH=[os.path.join(os.getenv("XERCESCROOT"),'lib')])	
     #if env['DEBUG']:
 	#env.Append(LIBS=['MallocDebug'])
     if env['ENABLE_CORBA']:
@@ -544,8 +550,8 @@ if prefix:
     # install IDL files in PREFIX/share/idl
     idl_inst = []
     if env['ENABLE_CORBA']:
-        additional_idl_files  = [join('idl', 'EventChannelAdmin.idl')]
-        additional_idl_files += [join('idl', 'COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
+        #additional_idl_files  = [join('idl', 'EventChannelAdmin.idl')]
+        additional_idl_files = [join('idl', 'COS', _file) for _file in ['CosEventChannelAdmin.idl', 'CosEventComm.idl', 'CosLifeCycle.idl', 'CosNaming.idl']]
         for idl_file in additional_idl_files + stub_generator.idl_files:
             print (join(prefix,'share', dirname(idl_file)), idl_file)
             idl_inst.append(env.Install(join(prefix,'share', dirname(idl_file)), idl_file))
