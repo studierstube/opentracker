@@ -142,6 +142,7 @@ namespace ot {
         RAWINPUTDEVICELIST* rawInputDeviceList;
         static bool filterButtons;
         static RawInputModule* pRawInputModule;
+		DWORD threadId;
     };
 
 	OT_MODULE(RawInputModule);

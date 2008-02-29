@@ -61,14 +61,16 @@ namespace ot {
         OT_MODULE_REGISTRATION_DEFAULT(RawInputModule, "RawInputConfig");
     }	
 
-    RawInputModule::RawInputModule(): ThreadModule(),NodeFactory(),pSources(),numDevices(0),deviceNames(0),rawInputDeviceList(0)
+    RawInputModule::RawInputModule(): ThreadModule(),NodeFactory(),pSources(),numDevices(0),deviceNames(0),rawInputDeviceList(0),threadId(0)
     {
     }
 
     RawInputModule::~RawInputModule()
     {
+#ifdef USE_LIVE
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
             delete *it;
+#endif
         pSources.clear();
     }
 
@@ -98,8 +100,8 @@ namespace ot {
 
     void RawInputModule::close()
     {
+        PostThreadMessage(threadId,WM_QUIT,0,0x00000000);
         ThreadModule::close();
-        //PostQuitMessage(0);
         if (deviceNames)
             {
                 for (UINT device = 0;device < numDevices;device ++)
@@ -155,6 +157,7 @@ namespace ot {
 
     void RawInputModule::run()
     {
+		threadId = GetCurrentThreadId();
         if (pSources.size() > 0)
             {
                 WNDCLASSEX wndClassEx;
@@ -208,6 +211,7 @@ namespace ot {
                                 DestroyWindow(hWnd);
                             }
                         pRawInputModule = 0;
+						UnregisterClass(wndClassEx.lpszClassName,NULL);
                     }
             }
     }

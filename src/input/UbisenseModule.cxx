@@ -73,8 +73,10 @@ namespace ot {
 
     UbisenseModule::~UbisenseModule()
     {
+#ifdef USE_LIVE
         for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
             delete *it;
+#endif
         pSources.clear();
     }
 
