@@ -102,6 +102,8 @@
 #include <OpenTracker/common/LogModule.h>
 
 // these modules depend on compile options
+#include <OpenTracker/input/StbTrackerModule.h>
+
 #include <OpenTracker/input/ARToolKitModule.h>
 #include <OpenTracker/input/ARToolKitPlusModule.h>
 #include <OpenTracker/input/CyberMouseModule.h>
@@ -189,7 +191,7 @@ namespace ot {
     void OPENTRACKER_API initializeOpenTracker(){
         // one time initializations
         // register the creator functions and generic names of all known types
-        logPrintI("INITIALIZING OPENTRACKER\n");
+        logPrintI("Initializing Opentracker\n");
         Event::registerAllKnownTypes();
 
         //register Modules and Factories
@@ -232,12 +234,16 @@ namespace ot {
 #endif
 
 #ifdef USE_ARTOOLKIT
-        logPrintW("REGISTERING ARTOOLKIT MODULE\n");
+        logPrintW("Registering ARToolkit Module\n");
         OT_REGISTER_MODULE(ARToolKitModule, NULL);
 #endif
 
 #ifdef USE_ARTOOLKITPLUS
         OT_REGISTER_MODULE(ARToolKitPlusModule, NULL);
+#endif
+
+#ifdef USE_STBTRACKER
+        OT_REGISTER_MODULE(StbTrackerModule, NULL);
 #endif
 
 #ifdef OT_OLD_NETWORK_SUPPORT
@@ -443,7 +449,7 @@ namespace ot {
 #ifdef USE_PYTHON
         OT_REGISTER_MODULE(PythonModule, NULL);
 #endif
-        logPrintI("INITIALIZING DONE\n");
+        logPrintI("Initializing Done\n");
 	}
 
     void OPENTRACKER_API initializeContext( Context * context , void *)

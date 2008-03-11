@@ -1393,7 +1393,11 @@ namespace ot {
 	}
 
     bool Context::isConfigured(){
-        return (graph != NULL);
+		// WARNING: For some reason this always returned true. 
+		// So I set it to always return false and allow me to create my nodes (otherwise they were deleted)
+		// Please, those working on reconfigurability fix this. Mendez 20080311.
+        //return (graph != NULL);
+		return false;
     }
     
 } // namespace ot

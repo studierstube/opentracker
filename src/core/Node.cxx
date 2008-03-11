@@ -82,14 +82,14 @@ namespace ot {
     // constructor
     Node::Node() : name("")
     {
-        logPrintI("creating Node\n");
+        logPrintD("creating Node\n");
 #ifndef USE_LIVE
         OT_INITIALIZE_IREFCOUNTED;
 #endif
         graph=0;
         traversalorder = 0;
 	mutex = new ACE_Thread_Mutex;
-        logPrintI("created\n");
+        logPrintD("created\n");
     }
 
     // destructor
