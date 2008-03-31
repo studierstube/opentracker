@@ -102,7 +102,10 @@
 #include <OpenTracker/common/LogModule.h>
 
 // these modules depend on compile options
+#ifdef USE_STBTRACKER
+// This header file does not exist in the repository
 #include <OpenTracker/input/StbTrackerModule.h>
+#endif
 
 #include <OpenTracker/input/ARToolKitModule.h>
 #include <OpenTracker/input/ARToolKitPlusModule.h>
