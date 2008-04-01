@@ -172,10 +172,10 @@ namespace ot {
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				sink = (SysMouseSink *) ((Node*)*it);
-				
+#ifdef DONTUSE				
 				if( sink->changedRelative )
 				{
-					if(!resetAbs)
+                    if(!resetAbs)
 					{
 						buttonInput = sink->relativeEvent.getButton();
 						resetAbs = false;
@@ -187,11 +187,14 @@ namespace ot {
 					#endif
 					sink->changedRelative = 0;
 				}
+ 
 				if( sink->changedAbsolute )
 				{
-					buttonInput = sink->absoluteEvent.getButton();
-					int xRaw = (int)(sink->absoluteEvent.getPosition()[0]*65535.f*sink->xFactor);
-					int yRaw = (int)(sink->absoluteEvent.getPosition()[1]*65535.f*sink->yFactor);
+                    buttonInput = sink->absoluteEvent.getButton();
+                    float xFloat = sink->absoluteEvent.getPosition()[0];
+                    float yFloat = sink->absoluteEvent.getPosition()[1];
+					int xRaw = (int) (xFloat*65535.f*sink->xFactor);
+					int yRaw = (int) (yFloat*65535.f*sink->yFactor);
 					if( xRaw > 65635 )  xRaw = 65635;
 					if( xRaw < 0 )		xRaw = 0;
 					if( yRaw > 65635 )  yRaw = 65635;
@@ -206,7 +209,8 @@ namespace ot {
 					sink->changedRelative = 1;
 					resetAbs = true;
 				}				
-#ifdef WIN32
+//#ifdef WIN32
+
 				mouseInputPtr->dx = mouseX;
 				mouseInputPtr->dy = mouseY;
 				mouseInputPtr->mouseData = 0;
@@ -240,8 +244,8 @@ namespace ot {
 #endif
 			}
 		}
-		// wait 10msec - this sets the update intervall to the system
-		ACE_OS::sleep( ACE_Time_Value(0, 10000) );
+		// wait 50msec - this sets the update intervall to the system
+		ACE_OS::sleep( ACE_Time_Value(0, 50000) );
 	}
 } // namespace ot
 
