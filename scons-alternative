@@ -101,6 +101,7 @@ opts.Add(BoolOption('ENABLE_JAVA', 'Set to enable OT Java support', 0))
 opts.Add(BoolOption('ENABLE_LIVE', 'Set to enable support for fine-grained dynamic reconfiguration', 0))
 opts.Add(BoolOption('ENABLE_CALLFORWARD', 'Set to enable support for Callforward nodes', 0))
 opts.Add(BoolOption('ENABLE_CALLBACK', 'Set to enable support for Callback nodes', 0))
+opts.Add(BoolOption('ENABLE_VRPN', 'Set to enable support for VRPN', 0))
 opts.Add(BoolOption('ENABLE_MOBILAB', 'Set to enable support for Mobilab', 0))
 opts.Add(BoolOption('ENABLE_MONO', 'Set to enable support for Mono', 0))
 opts.Add(BoolOption('ENABLE_ARTOOLKITPLUS','Set to enable ARToolkitPlus support', 0))
@@ -176,6 +177,14 @@ if env['ENABLE_ARTOOLKITPLUS']:
     env.Append(LIBS='ARToolKitPlus')
 else:
     pass
+#*********************************#
+# Enable or disable VRPN support  #
+#*********************************#
+if env['ENABLE_VRPN']:
+    env.Append(CPPDEFINES='USE_VRPN')
+    env.Append(LIBS=['vrpnserver'])
+else:
+    pass # do nothing
 #*********************************#
 # Enable or disable CORBA support #
 #*********************************#

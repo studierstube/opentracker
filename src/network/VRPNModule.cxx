@@ -61,7 +61,6 @@ using namespace std;
 
 namespace ot {
 
-
 	OT_MODULE_REGISTER_FUNC(VRPNModule){
 		OT_MODULE_REGISTRATION_DEFAULT(VRPNModule , "VRPNConfig" );
 	}
@@ -98,7 +97,7 @@ void VRPNModule::init(StringTable & attributes,  ConfigNode * localTree)
 
 // called to construct a new Node.
 
-ot::Node * VRPNModule::createNode( const std::string& name, StringTable& attributes)
+Node * VRPNModule::createNode( const std::string& name, const StringTable& attributes)
 {
     ACE_TRACE(ACE_TEXT("VRPNModule::createNode"));
     if( name.compare("VRPNSource") == 0 )
