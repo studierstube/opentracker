@@ -213,6 +213,9 @@ namespace ot {
          */
         int get(const std::string & key, std::vector<double> & vector, int len = 1 ) const;
 
+        void emptyTable();
+            
+       
         friend class KeyIterator;
     };
 

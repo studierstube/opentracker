@@ -331,6 +331,10 @@ namespace ot {
         return count;
     }
 
+    void StringTable::emptyTable(){
+        map.clear();
+    };
+
     int KeyIterator::hasMoreKeys() const
     {
         return((int)(it != map.end()));
@@ -345,6 +349,8 @@ namespace ot {
         }
         return empty;
     }
+
+
 
 } // namespace ot
 
