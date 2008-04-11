@@ -72,6 +72,7 @@
 #include <OpenTracker/common/EEGFilterNode.h>
 #include <OpenTracker/common/HeartrateFilterNode.h>
 #include <OpenTracker/common/DifferenceNode.h>
+#include <OpenTracker/common/ExchangeAxisTransformation.h>
 
 #include <cmath>
 #include <cfloat>
@@ -230,6 +231,7 @@ namespace ot {
     Node * CommonNodeFactory::createNode( const std::string& name, const StringTable& attributes)
     {
         float translation[3] = {0,0,0}, scale[3] = {1,1,1}, rot[4]={0,0,0,1};
+        std::string axis;
         Node * result = NULL;
         if( name.compare("EventPositionTransform") == 0 ||
             name.compare("QueuePositionTransform") == 0 ||
@@ -279,6 +281,15 @@ namespace ot {
                 logPrintE("Error parsing rotation !\n");
             }
             result = new StaticTransformation( translation, scale, rot, true, true );
+        }
+        else if( name.compare("EventTransformExchangeAxis") == 0 )
+        {
+            
+            if( !attributes.get("axis").empty() )
+            {
+                logPrintE("Error parsing axis !\n");
+            }
+            result = new ExchangeAxisTransformation( attributes.get("axis"), true, true );
         }
         else if( name.compare("EventVirtualTransform") == 0 ||
                  name.compare("QueueVirtualTransform") == 0 ||
