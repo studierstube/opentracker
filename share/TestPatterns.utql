@@ -1,0 +1,116 @@
+<UTQLRequest>
+
+<Pattern name="Snowman">
+	<Output>
+		<Node name="Object" id="Object">
+			<Attribute name="virtualObjectX3DPath" value="snowman.x3d"/>
+		</Node>
+	</Output>
+</Pattern>
+
+<Pattern name="Art6DHmd">
+	<Output>
+		<Node name="Art" id="Art">
+			<Attribute name="artPort" value="5000"/>
+		</Node>
+		<Node name="Body" id="HMD"/>
+		<Edge name="ArtToTarget" source="Art" destination="Body">
+			<Attribute name="artBodyId" value="20"/>
+			<Attribute name="artType" value="6d"/>
+			<Attribute name="type" value="6D"/>
+			<Attribute name="mode" value="push"/>
+		</Edge>
+	</Output>
+
+	<DataflowConfiguration>
+		<UbitrackLib class="ArtTracker"/>
+		<!--<OpenTracker class="ARTDataTrackerSource" type="$artType" number="$artBodyId"/>-->
+		<OpenTracker class="NetworkSource" number="1" mode="multicast" multicast-address="224.0.0.10" port="12345" />
+	</DataflowConfiguration>
+</Pattern>
+
+<Pattern name="Art6DObject">
+	<Output>
+		<Node name="Art" id="Art">
+			<Attribute name="artPort" value="5000"/>
+		</Node>
+		<Node name="Body" id="Object"/>
+		<Edge name="ArtToTarget" source="Art" destination="Body">
+			<Attribute name="artBodyId" value="1"/>
+			<Attribute name="artType" value="6d"/>
+			<Attribute name="type" value="6D"/>
+			<Attribute name="mode" value="push"/>
+		</Edge>
+	</Output>
+
+	<DataflowConfiguration>
+		<UbitrackLib class="ArtTracker"/>
+		<!--<OpenTracker class="ARTDataTrackerSource" type="$artType" number="$artBodyId"/>-->
+		<OpenTracker class="NetworkSource" number="2" mode="multicast" multicast-address="224.0.0.10" port="12345" />
+	</DataflowConfiguration>
+</Pattern>
+
+<Pattern name="Renderer">
+	<Input>
+		<Node name="Camera">
+			<Predicate>id=='HMD'</Predicate>
+		</Node>
+		<Node name="Object">
+			<Predicate>id=='Object'</Predicate>
+		</Node>
+		<Edge name="PushInput" source="Camera" destination="Object">
+			<Predicate>type=='6D'&amp;&amp;mode=='push'</Predicate>
+		</Edge>
+	</Input>
+	<DataflowConfiguration>
+		<UbitrackLib class="X3DObject"/>
+		<OpenTracker class="Callback" name="Renderer" />
+	</DataflowConfiguration>
+</Pattern> 
+
+
+<Pattern name="Inversion">
+	<Input>
+		<Node name="A"/>
+		<Node name="B"/>
+		<Edge name="AB" source="A" destination="B">
+			<Predicate>type=='6D'&amp;&amp;mode=='push'</Predicate>
+		</Edge>
+	</Input>
+	<Output>
+		<Edge name="BA" source="B" destination="A">
+			<Attribute name="type" value="6D"/>
+			<Attribute name="mode" value="push"/>
+		</Edge>
+	</Output>
+	<DataflowConfiguration>
+		<UbitrackLib class="PosePushInversion"/>
+		<OpenTracker class="EventInvertTransform"/>
+	</DataflowConfiguration>
+</Pattern>
+
+<Pattern name="Multiplication">
+	<Input>
+		<Node name="A"/>
+		<Node name="B"/>
+		<Node name="C"/>
+		<Edge name="AB" source="A" destination="B">
+			<Predicate>type=='6D'&amp;&amp;mode=='push'</Predicate>
+		</Edge>
+		<Edge name="BC" source="B" destination="C">
+			<Predicate>type=='6D'&amp;&amp;mode=='push'</Predicate>
+		</Edge>
+	</Input>
+	<Output>
+		<Edge name="AC" source="A" destination="C">
+			<Attribute name="type" value="6D"/>
+			<Attribute name="mode" value="push"/>
+		</Edge>
+	</Output>
+	<DataflowConfiguration>
+		<UbitrackLib class="PosePushMultiplication"/>
+		<OpenTracker class="EventDynamicVirtualTransform" classport0="TransformBase"/>
+	</DataflowConfiguration>
+</Pattern>
+
+</UTQLRequest>
