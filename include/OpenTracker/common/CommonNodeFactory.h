@@ -112,6 +112,7 @@ namespace ot {
         virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 		static bool isKnownNode(std::string nodeName);
         friend class StaticTransformation;
+        friend class ExchangeAxisTransformation;
     };
 
 } // namespace ot
