@@ -10,13 +10,13 @@ from omniORBUtils import *
 import CosNaming
 
 # Import the stubs and skeletons for the Example module
-import OT_CORBA, OT_CORBA__POA
+import OTGraph, OTGraph__POA
 
 # Define an implementation of the Echo interface
-class SimpleSink_i (OT_CORBA__POA.OTEntity):
-    def setEvent(self, event):
+class SimpleSink_i (OTGraph__POA.Network.OTEntity):
+    def setEvent(self, event, generator):
 	print "**************************"
-	print event
+	print "generator = ", generator
 	for att in event:
 	    print "%s:\t%s" % (att.name, str(any.from_any(att.value)))
 
@@ -27,6 +27,7 @@ if __name__ == '__main__':
 	endpoint_port = sys.argv[2]
 	sys.argv.extend(["-ORBendPoint", "giop:tcp:localhost:" + endpoint_port])
     orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
+    injectNewMethods(orb, [OTGraph, OTGraph.Network])
 
     # Find the root POA
     poa = orb.resolve_initial_references("RootPOA")
@@ -41,14 +42,8 @@ if __name__ == '__main__':
     # Create an instance of SimpleSink_i
     servant = SimpleSink_i()
 
-    # don't implicitly activate the object
-    #sinkref = servant._this()
-    #oid = PortableServer.string_to_ObjectId("my object");
-    #persistentPOA.activate_object(servant)
     persistentPOA.activate_object_with_id("test", servant);
     sinkref = servant._this()
-    
-    print orb.object_to_string(sinkref)
     
     # Obtain a reference to the root naming context
     obj         = orb.resolve_initial_references("NameService")

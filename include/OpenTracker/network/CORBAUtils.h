@@ -47,7 +47,6 @@
 #include <OpenTracker/dllinclude.h>
 
 #ifndef SWIG
-#include <OpenTracker/skeletons/OT_CORBA.hh>
 #endif
 #include <OpenTracker/core/Event.h>
 #ifdef USE_OMNIEVENTS
@@ -89,11 +88,7 @@ namespace ot {
 
         static void disconnectPushSupplier(const CosEventChannelAdmin::ProxyPushConsumer_var& proxy_consumer);
 #endif //USE_OMNIEVENTS
-        
-        //        static void convertToCORBAEvent(Event& ot_event, OT_CORBA::Event& corba_event);
-
-        //        static void convertFromCORBAEvent(Event& ot_event, const OT_CORBA::Event& corba_event);
-        
+                
         static CORBA::Object_ptr getObjectReference(const CORBA::ORB_var& orb, const CosNaming::NamingContextExt::StringName_var& string_name);
         
         static void bindObjectReferenceToName(const CORBA::ORB_var& orb, const CORBA::Object_var& obj, const CosNaming::NamingContextExt::StringName_var& string_name);

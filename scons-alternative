@@ -203,15 +203,15 @@ if env['ENABLE_CORBA']:
 	IDLJBuilder.generate(env)
 	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
-	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'OT_CORBA', 'Shared']])
+	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'Shared']])
 	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
 	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
 	env.Append(SOURCEDIR='src_java')
     if env['ENABLE_OMNIORBPY']:
 	import OmniIdlPy
 	OmniIdlPy.generate(env)
-    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
-	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
+    #for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
+	#stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
 
 #*********************************#
 # Enable or disable CORBA support #
@@ -262,11 +262,12 @@ if env['ENABLE_SHARED']:
 #********************************************************************#
 if env['ENABLE_LIVE']:
     if not env['ENABLE_CORBA']:
-	print "Cannot have support for fine-grained dynamic reconfigurationwithout also enabling CORBA support. Exiting..."
+	print "Cannot have support for fine-grained dynamic reconfiguration without also enabling CORBA support. Exiting..."
 	sys.exit(-1)
     print "Fine-grained dynamic reconfiguration support enabled"
     env.Append(CPPDEFINES='USE_LIVE')
     env.Append(CPPPATH=join('include', 'OpenTracker', 'skeletons'))
+    stub_generator.addStubsAndSkeletons(join('idl', 'Graph.idl'), pkgprefix='org.studierstube.opentracker')
     stub_generator.addStubsAndSkeletons(join('idl', 'OTGraph.idl'), pkgprefix='org.studierstube.opentracker')
 
 #********************************************************************#

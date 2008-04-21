@@ -108,7 +108,9 @@ namespace ot {
       logPrintI("just about to getNode(value)\n");
 
       OTGraph::Node_var node_ref = getNode(value);
+#ifdef USE_THREAD_UNSAFE
       graph->addNode(value); // also add it to the CORBA independent graph representation;
+#endif
 
       logPrintI("just did getNode(value)\n");
       unlock();
@@ -139,7 +141,9 @@ namespace ot {
       _edge->sender   = upstreamNode;
       _edge->receiver = downstreamNode;
 
+#ifdef USE_THREAD_UNSAFE
       graph->touch(); // mark graph as changed;
+#endif
 
       // ********* SORT OUT THE THREAD SAFETY OF THIS!!!! ******
       downstream_node->unlock();
@@ -183,7 +187,9 @@ namespace ot {
 	{
 	  edges.erase( result );
 	}
+#ifdef USE_THREAD_UNSAFE
       graph->touch();
+#endif
     }
 
     void LiveContext::collectEdges(EdgeVector& _edges) {
@@ -294,8 +300,9 @@ namespace ot {
       // Having removed all references to Node it can now be deactivated
       logPrintI("about to deactivateNode\n");
       deactivateNode( target );
-
+#ifdef USE_THREAD_UNSAFE
       graph->touch(); // mark graph as changed;
+#endif
     }
 
   void LiveContext::run()

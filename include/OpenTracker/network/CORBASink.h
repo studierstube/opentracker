@@ -52,7 +52,7 @@
 #include <OpenTracker/OpenTracker.h>
 #ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 #endif
 #include <OpenTracker/network/CORBAUtils.h>
 #include <OpenTracker/core/Context.h>
@@ -92,7 +92,9 @@ public:
     int cycle;
 private:
     ACE_Thread_Mutex * refmutex;
-    OT_CORBA::OTEntity_ptr entity;
+    OTGraph::Network::OTEntity_ptr entity;
+protected:
+    OTGraph::Network::OTSink_ptr _ref;
 
 // Methods
 protected:
@@ -101,7 +103,8 @@ protected:
       cycle( 0 ) 
 	{
 	  type = "CORBASink";
-	  entity = OT_CORBA::OTEntity::_nil();
+	  entity = OTGraph::Network::OTEntity::_nil();
+	  _ref = OTGraph::Network::OTSink::_nil();
 	  refmutex = new ACE_Thread_Mutex; 
 	};
 
@@ -113,13 +116,14 @@ protected:
 	  {
 	    refmutex = new ACE_Thread_Mutex;	    
 	    type = "CORBASink";
-	    entity = OT_CORBA::OTEntity::_nil();
+	    entity = OTGraph::Network::OTEntity::_nil();
+	    _ref = OTGraph::Network::OTSink::_nil();
 	  }
       
     /** constructor method,sets commend member
      * @param corba_sink_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
-      CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_);
+      CORBASink(OTGraph::Network::OTEntity_ptr entity_, int frequency_);
  public:
       virtual ~CORBASink() {
 	// CORBASink destructor
@@ -151,12 +155,12 @@ protected:
       //logPrintI("CORBASink::onEventGenerated %d %d\n", cycle, frequency);
       //ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
 	if ((cycle++ % frequency) == 0) {
-	  OT_CORBA::Event corba_event = event.getCORBAEvent();
+	  const OTGraph::Event corba_event = event.getCORBAEvent();
 	  //CORBAUtils::convertToCORBAEvent(event, corba_event);
 	  try {
 	    ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
 	    if (!CORBA::is_nil(entity)) {
-	      entity->setEvent(corba_event);
+		entity->setEvent(corba_event, _ref);
 	    }
 	  }
 	  catch (CORBA::COMM_FAILURE) {
@@ -173,14 +177,15 @@ protected:
     virtual char* get_attribute(const char* _key);
     virtual void set_attribute(const char* _key, const char* _value);
 
-    virtual OT_CORBA::OTEntity_ptr getEntity() {
+    virtual OTGraph::Network::OTEntity_ptr getEntity() {
       ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
-      return OT_CORBA::OTEntity::_duplicate(entity);
+      return OTGraph::Network::OTEntity::_duplicate(entity);
     }
 
-    virtual void setEntity(OT_CORBA::OTEntity_ptr entity_);
+    virtual void setEntity(OTGraph::Network::OTEntity_ptr entity_);
 #endif    // USE_LIVE
     friend class CORBAModule;
+    friend class Context;
 };
 
 }

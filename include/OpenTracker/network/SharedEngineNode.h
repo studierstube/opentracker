@@ -52,7 +52,6 @@
 #include <OpenTracker/OpenTracker.h>
 #ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
 #endif
 #include <OpenTracker/network/CORBAUtils.h>
 #ifndef SWIG

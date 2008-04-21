@@ -8,7 +8,7 @@ from omniORB import CORBA, any
 import CosNaming
 
 # Import the stubs and skeletons for the Example module
-import OT_CORBA, OT_CORBA__POA
+import OTGraph
 
 if __name__ == '__main__':
     # Initialise the ORB
@@ -38,21 +38,22 @@ if __name__ == '__main__':
     except CosNaming.NamingContext.NotFound, ex:
 	print "Name not found"
 	sys.exit(-1)
-    source_ref = obj._narrow(OT_CORBA.OTSource)
+    source_ref = obj._narrow(OTGraph.Network.OTEntity)
     if source_ref is None:
-        print "Object found in NamingService is not of type OTSource"
+        print "Object found in NamingService is not of type OTEntity"
         sys.exit(-1)
     previous_time = time.time()
     period = 1.0/rate;
     while True:
-	#ev = OT_CORBA.Event([0.1, 0.2, 0.3],[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
-	ev = [OT_CORBA.EventAttribute("position", CORBA.Any(CORBA.TypeCode("IDL:OT_CORBA/FloatVector:1.0"), [0.1,0.2,0.3])),
-              OT_CORBA.EventAttribute("foo", any.to_any("bar")),
-              OT_CORBA.EventAttribute("confidence", CORBA.Any(CORBA.TC_float, 0.053)),
-              OT_CORBA.EventAttribute("timestamp", CORBA.Any(CORBA.TC_float, 1001.323)),
-              OT_CORBA.EventAttribute("button", CORBA.Any(CORBA.TC_ushort, 6))]#,[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
+	#ev = OTGraph.Event([0.1, 0.2, 0.3],[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
+	ev = [OTGraph.EventAttribute("position", CORBA.Any(CORBA.TypeCode("IDL:OTGraph/FloatVector:1.0"), [0.1,0.2,0.3])),
+              OTGraph.EventAttribute("foo", any.to_any("bar")),
+              OTGraph.EventAttribute("confidence", CORBA.Any(CORBA.TC_float, 0.053)),
+              OTGraph.EventAttribute("timestamp", CORBA.Any(CORBA.TC_float, 1001.323)),
+              OTGraph.EventAttribute("button", CORBA.Any(CORBA.TC_ushort, 6))]#,[math.cos(math.pi/4), 0.0, math.sin(math.pi/4), 0.0], time.time()*1000.0, 0, 0.2)
 	try:
-	    source_ref.setEvent(ev)
+            print ".", 
+	    source_ref.setEvent(ev, None)
 	except CORBA.COMM_FAILURE:
 	    print "caught COMM_FAILURE"
 	except CORBA.TRANSIENT:

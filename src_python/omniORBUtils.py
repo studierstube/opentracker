@@ -1,5 +1,9 @@
-import sys
-from omniORB import CORBA
+from omniORB import CORBA, _omnipy
+
+import re, sys, socket
+ipaddress_re = re.compile(r'IIOP\s\d.\d\s([\w]*.[\w]*.[\w]*.[\w]*)\s[\d]*', re.M)
+from popen2 import popen4
+
 import CosNaming
 from naming import str2name
 from copy import deepcopy
@@ -87,4 +91,58 @@ def getActivePOAManager(poa):
     poaManager=poa._get_the_POAManager()
     poaManager.activate()
     return poaManager
+
+class injector:
+    def __init__(self, obj, attr):
+        self.obj = obj
+        self.attr = attr
+        
+    def __call__(self, attr_obj):
+        setattr(self.obj, self.attr, attr_obj)
+
+def injectClassWithMethods(orb, klass):
+    @injector(klass, "__str__")
+    def stringify_obj(self):
+        return orb.object_to_string(self)
+
+    @injector(klass, "__hash__")
+    def hash_obj(self):
+        return _omnipy.hash(self, 10000)
+
+    @injector(klass, "__cmp__")
+    def cmp_obj(self, other):
+        if _omnipy.isEquivalent(self, other):
+            return 0
+        else:
+            return 1
+
+    @injector(klass, "host")
+    def ipaddress_obj(self):
+        (output, input) = popen4('catior %s' % self.__str__())
+        ipaddress = ipaddress_re.findall(output.read())[0]
+        output.close()
+        input.close()
+        return ipaddress
+
+    @injector(klass, "ipaddress")
+    def ipaddress_obj(self):
+        (output, input) = popen4('catior %s' % self.__str__())
+        hostname = ipaddress_re.findall(output.read())[0]
+        output.close()
+        input.close()
+        host, aliases, ips = socket.gethostbyname_ex(hostname)
+        ip = ips[0]
+        return ip
+
+
+def getObjRefClasses(module):
+    for d in dir(module):
+        if 'objref' in d:
+            yield module.__getattribute__(d)
+
+def injectNewMethods(orb, modules):
+    for module in modules:
+        for klass in getObjRefClasses(module):
+            injectClassWithMethods(orb, klass)
+
 

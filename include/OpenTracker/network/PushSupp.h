@@ -53,7 +53,7 @@
 
 #ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 #endif
 
 #include <OpenTracker/network/CORBAUtils.h>
@@ -142,9 +142,7 @@ public:
     virtual void onEventGenerated( Event& event, Node& generator)
     {
       cycle++;
-      //OT_CORBA::Event* corba_event = new OT_CORBA::Event;
-      //CORBAUtils::convertToCORBAEvent(event, *corba_event);
-      OT_CORBA::Event corba_event = event.getCORBAEvent();
+      OTGraph::Event corba_event = event.getCORBAEvent();
       try {
         CORBA::Any any;
 	any <<= corba_event;

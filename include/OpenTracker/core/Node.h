@@ -412,6 +412,9 @@ namespace ot {
         }
         OTGraph::StringTable* get_attributes();
         ACE_Thread_Mutex * getMutex() { return mutex; };
+        virtual OTGraph::Event* get_event() {
+            throw OTGraph::Unimplemented();
+        }
 #endif
         
 

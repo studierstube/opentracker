@@ -65,7 +65,7 @@
 
 #include <OpenTracker/core/Node.h>
 #ifndef SWIG
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+//#include <OpenTracker/skeletons/OT_CORBA.hh>
 #include <ace/Thread_Mutex.h>
 #include <stdio.h>
 #include <iostream>
@@ -99,6 +99,7 @@ namespace ot {
 
     public:            
         virtual ~CORBASource( ) {
+            logPrintI("CORBASource destructor");
             //delete mu;
         }
 
@@ -110,7 +111,8 @@ namespace ot {
             return 1;
         }
 
-        void setEvent(const OT_CORBA::Event& new_event);
+        void setEvent(const OTGraph::Event& new_event, const OTGraph::Network::OTEventSource_var& generator);
+
         void setContext(Context *ctx) { context = ctx; };
         void pushEvent( );
 

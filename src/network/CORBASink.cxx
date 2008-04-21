@@ -1,6 +1,6 @@
 #include <OpenTracker/network/CORBASink.h>
 #include <OpenTracker/network/CORBAModule.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 
 #ifdef WIN32
 #define TIMEOUT 50
@@ -8,16 +8,16 @@
 
 namespace ot {
 
-  void CORBASink::setEntity(OT_CORBA::OTEntity_ptr entity_) {
+  void CORBASink::setEntity(OTGraph::Network::OTEntity_ptr entity_) {
 	ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
-	entity = OT_CORBA::OTEntity::_duplicate(entity_);
+	entity = OTGraph::Network::OTEntity::_duplicate(entity_);
 #ifdef WIN32
 	omniORB::setClientCallTimeout(entity, TIMEOUT); 
 #endif
     }
 
 
-  CORBASink::CORBASink(OT_CORBA::OTEntity_ptr entity_, int frequency_) :
+  CORBASink::CORBASink(OTGraph::Network::OTEntity_ptr entity_, int frequency_) :
         Node(), 
         frequency( frequency_ ),
         cycle ( 0 ) {
@@ -44,16 +44,16 @@ namespace ot {
     }
   }
 
-  void CORBASink::set_attribute(const char* _key, const char* _value) {
+ void CORBASink::set_attribute(const char* _key, const char* _value) {
       if (strcmp(_key, "uri") == 0) {
 	CORBA::Object_var obj = CORBAModule::getORB()->string_to_object(_value);
-	OT_CORBA::OTEntity_var entity_ = OT_CORBA::OTEntity::_narrow(obj);
+	OTGraph::Network::OTEntity_var entity_ = OTGraph::Network::OTEntity::_narrow(obj);
 	if (CORBA::is_nil(entity)) {
 	    throw OTGraph::InvalidAttribute();	    
 	} else {
 	  ACE_Guard<ACE_Thread_Mutex> mutexlock(*refmutex);
 	  //CORBA::release(corba_sink);
-	  entity = OT_CORBA::OTEntity::_duplicate(entity_);
+	  entity = OTGraph::Network::OTEntity::_duplicate(entity_);
 #ifdef WIN32
 	  omniORB::setClientCallTimeout(entity, TIMEOUT);
 #endif

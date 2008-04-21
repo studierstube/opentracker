@@ -55,7 +55,7 @@
 #endif
 
 #ifndef SWIG
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+//#include <OpenTracker/skeletons/OT_CORBA.hh>
 #endif
 
 #include <OpenTracker/core/Module.h>

@@ -68,7 +68,7 @@ namespace ot {
     }
 #ifdef USE_CORBA
     // copy constructor, copying all attributes
-    Event::Event(const OT_CORBA::Event &ev)
+    Event::Event(const OTGraph::Event &ev)
     {
         CORBA::ULong l = ev.length();
         for (CORBA::ULong i=0; i<l; i++) {
@@ -135,8 +135,8 @@ namespace ot {
             
             }
             // More complex types should be extracted here
-            if (tc->equal(OT_CORBA::_tc_FloatVector)) {
-                OT_CORBA::FloatVector* fv;
+            if (tc->equal(OTGraph::_tc_FloatVector)) {
+                OTGraph::FloatVector* fv;
                 if (ev[i].value >>= fv) {
                     CORBA::ULong l = fv->length();
                     std::vector<float> vecF = std::vector<float>(l);
@@ -162,14 +162,14 @@ namespace ot {
 
 #ifdef USE_CORBA
     // convert Event to OpenTracker Event type
-    OT_CORBA::Event Event::getCORBAEvent() {
+    OTGraph::Event Event::getCORBAEvent() {
         // code to convert
         int i = 0;
-        OT_CORBA::Event ev;
+        OTGraph::Event ev;
         ev.length(attributes.size());
         for (AttributeMap::const_iterator it = attributes.begin(); it != attributes.end(); ++it)
         {
-            OT_CORBA::EventAttribute att;
+            OTGraph::EventAttribute att;
             std::string name = (*it).first;
             EventAttributeBase *Att = (*it).second;
             std::string type_name = Att->getGenericTypeName();
@@ -201,7 +201,7 @@ namespace ot {
                 std::vector<float> dummy;
                 std::vector<float> val = getAttribute(&dummy, name);
                 int l = val.size();
-                OT_CORBA::FloatVector fv;
+                OTGraph::FloatVector fv;
                 fv.length(l);
                 for (CORBA::ULong i=0; i < l; i++) {
                     fv[i] = (CORBA::Float) val[i];

@@ -659,7 +659,8 @@ namespace ot {
 
 #ifdef USE_LIVE
     char* Node::get_type() {
-        return CORBA::string_dup(getType().c_str());
+        //return CORBA::string_dup(getType().c_str());
+        return CORBA::string_dup(get("name").c_str());
     }
 
     char* Node::get_name() {

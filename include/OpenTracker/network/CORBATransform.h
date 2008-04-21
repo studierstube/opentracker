@@ -52,7 +52,7 @@
 #include <OpenTracker/OpenTracker.h>
 #ifndef SWIG
 #include <OpenTracker/tool/OT_ACE_Log.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 #endif
 #include <OpenTracker/network/CORBAUtils.h>
 /**
@@ -73,7 +73,7 @@ class OPENTRACKER_API CORBATransform : public CORBASink
 // Members
 public:
   /// CORBA Node (sink) object associated with this node.
-  OT_CORBA::TransformNode_var corba_transform;
+  OTGraph::Network::TransformNode_var corba_transform;
   /// frequency of updates
     //    int frequency;
     //int cycle;
@@ -84,7 +84,7 @@ protected:
     /** constructor method,sets commend member
      * @param corba_transform_ the corba sink object to call setEvent method on
      * @param frequency_ the frequency at which setEvent should be called */
-    CORBATransform( OT_CORBA::TransformNode_var corba_transform_) :
+ CORBATransform( OTGraph::Network::TransformNode_var corba_transform_) :
       CORBASink(), 
       corba_transform( corba_transform_ )
 	{
@@ -111,9 +111,12 @@ public:
       //if ((cycle % frequency) == 0) {
       //Event new_event;
       //CORBAUtils::convertToCORBAEvent(event, corba_event);
-      OT_CORBA::Event corba_event = event.getCORBAEvent();
+      OTGraph::Event corba_event = event.getCORBAEvent();
       try {
-	OT_CORBA::Event* new_corba_event = corba_transform->transformEvent(corba_event);
+	OTGraph::Node_var this_node = getContext()->getNode(this);
+	OTGraph::Network::OTEventSource_var generator_ref = OTGraph::Network::OTEventSource::_narrow(this_node);
+	
+	OTGraph::Event* new_corba_event = corba_transform->transformEvent(corba_event, generator_ref);
 	//CORBAUtils::convertFromCORBAEvent(new_event, new_corba_event);
 	Event new_event(*new_corba_event);
 	updateObservers( new_event );

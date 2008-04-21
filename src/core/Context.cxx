@@ -771,6 +771,7 @@ namespace ot {
     OTGraph::Node_var Context::getNode(Node* node) {
         NodeIDMapIterator result = node_id_map.find(node);
         if (result == node_id_map.end()) {
+            std::cerr << "failed to getNode" << std::endl;
             return OTGraph::Node::_nil();
         }
         return getNodeRefFromID(result->second);
@@ -806,10 +807,12 @@ namespace ot {
     }
 
     void Context::appendNode(Node* node, const std::string& id) {
-        logPrintI("appended Node\n");
+        logPrintI("appending Node %s\n", id.c_str());
         logPrintI("size of node_id_map is %d\n", node_id_map.size());
         node_id_map[node] = id;
         id_node_map[id] = node;
+        OTGraph::Node_var node_ref = getNode(node);
+        std::cerr << "using node reference " << node_ref->get_name() << std::endl;
     }
 
     void Context::deactivateNode(Node* node) {
@@ -838,14 +841,14 @@ namespace ot {
 #endif // USE_OMNIEVENTS
         CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
-            POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
-                new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source, (CORBA::Boolean) 1);
+            POA_OTGraph::Network::OTSource_tie<CORBASource>* tie_node = 
+                new POA_OTGraph::Network::OTSource_tie<CORBASource>(corba_source, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
 	}
         else if (static_transformation != NULL) {
-            POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
-                new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation, (CORBA::Boolean) 1);
+            POA_OTGraph::Common::StaticTransformation_tie<StaticTransformation>* tie_node = 
+                new POA_OTGraph::Common::StaticTransformation_tie<StaticTransformation>(static_transformation, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
         } 
@@ -858,18 +861,15 @@ namespace ot {
         }
 #endif //USE_OMNIEVENTS
         else if (corba_sink != NULL) {
-            POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
-                new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
+            POA_OTGraph::Network::OTSink_tie<CORBASink>* tie_node = 
+                new POA_OTGraph::Network::OTSink_tie<CORBASink> (corba_sink);
             corba_id = poa->activate_object(tie_node);
+            corba_sink->_ref = OTGraph::Network::OTSink::_narrow(poa->id_to_reference(corba_id));
             tie_node->_remove_ref();
-        } else if (node != NULL) {
+        } else {
             POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
-        }
-        else
-        {
-            logPrintE("Context::activateNode(): Node is null !\n");
         }
         id = PortableServer::ObjectId_to_string(corba_id);
         appendNode(node, id);
@@ -888,14 +888,14 @@ namespace ot {
 #endif //USE_OMNIEVENTS
         CORBASink* corba_sink = dynamic_cast<CORBASink*>(node);
 	if (corba_source != NULL) {
-            POA_OT_CORBA::OTSource_tie<CORBASource>* tie_node = 
-                new POA_OT_CORBA::OTSource_tie<CORBASource>(corba_source);//, (CORBA::Boolean) 1);
+            POA_OTGraph::Network::OTSource_tie<CORBASource>* tie_node = 
+                new POA_OTGraph::Network::OTSource_tie<CORBASource>(corba_source);//, (CORBA::Boolean) 1);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);
             tie_node->_remove_ref();
 	} else if (static_transformation != NULL) {
-            POA_OTGraph::StaticTransformation_tie<StaticTransformation>* tie_node = 
-                new POA_OTGraph::StaticTransformation_tie<StaticTransformation>(static_transformation);//, (CORBA::Boolean) 1);
+            POA_OTGraph::Common::StaticTransformation_tie<StaticTransformation>* tie_node = 
+                new POA_OTGraph::Common::StaticTransformation_tie<StaticTransformation>(static_transformation);//, (CORBA::Boolean) 1);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             logPrintI("About to activate StaticTransformation object with id\n");
             poa->activate_object_with_id(corba_id, tie_node);
@@ -910,10 +910,11 @@ namespace ot {
         } 
 #endif //USE_OMNIEVENTS
         else if (corba_sink != NULL) {
-            POA_OT_CORBA::OTSink_tie<CORBASink>* tie_node = 
-                new POA_OT_CORBA::OTSink_tie<CORBASink> (corba_sink);
+            POA_OTGraph::Network::OTSink_tie<CORBASink>* tie_node = 
+                new POA_OTGraph::Network::OTSink_tie<CORBASink> (corba_sink);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);
+            corba_sink->_ref = OTGraph::Network::OTSink::_narrow(poa->id_to_reference(corba_id));
             tie_node->_remove_ref();
         } else {
             POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node);//, (CORBA::Boolean) 1);
@@ -926,8 +927,9 @@ namespace ot {
         
     }
 #endif
+
+
     // creates a new node from a given element name and an attribute table
-    
     Node * Context::createNode( const std::string & name, const StringTable & attributes)
     {
 #ifdef USE_LIVE

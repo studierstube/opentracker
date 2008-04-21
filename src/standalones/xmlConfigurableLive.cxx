@@ -108,10 +108,11 @@ int main(int argc, char **argv)
       // the naming service.
       CORBA::Object_var obj = corba_module->getRootPOA()-> id_to_reference(id);
 
-      CosNaming::NamingContextExt::StringName_var string_name = argv[2];
+      CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[2]);
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-      //context_impl->runAtRate(30);
-      context_impl->runOnDemand();
+      //context_impl->runAtRate(100);
+      //context_impl->runOnDemand();
+      orb->run();
 
     }
     catch(CORBA::SystemException&) {

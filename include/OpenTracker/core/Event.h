@@ -58,7 +58,7 @@
 
 #ifdef USE_CORBA
 #ifndef SWIG
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 #endif
 #endif //USE_CORBA
 
@@ -144,11 +144,11 @@ namespace ot
         Event(const Event &rv);
 
         /**
-         * Copy constructor. Copies all attributes from the CORBA OT_CORBA::Event event type into the new one.
+         * Copy constructor. Copies all attributes from the CORBA OTGraph::Event event type into the new one.
          * @param ev the corba event, which is the event to copy from
          */
 #ifdef USE_CORBA
-        Event(const OT_CORBA::Event &ev);
+        Event(const OTGraph::Event &ev);
 #endif
 
         /**
@@ -427,7 +427,7 @@ namespace ot
          * @return the CORBA Event sequence
          */
 #ifdef USE_CORBA
-        OT_CORBA::Event getCORBAEvent();
+        OTGraph::Event getCORBAEvent();
 #endif
 
         template <typename T>

@@ -43,7 +43,7 @@
 #include <OpenTracker/network/CORBATransform.h>
 
 #include <OpenTracker/tool/OT_ACE_Log.h>
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 
 #ifdef USE_OMNIEVENTS
 #include <COS/CosEventComm.hh>
@@ -227,21 +227,22 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
       args.push_back("-ORBInitRef");
       args.push_back(InitRef);
     }
-    if( attributes.containsKey("endPoint")) {
+    if( attributes.containsKey("endPoints")) {
       CORBAModule::persistent = true;
-      std::string endpoint = attributes.get("endPoint"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
-      args.push_back("-ORBendPoint");
-      args.push_back(endpoint);
-      args.push_back("-ORBendPoint");
+      std::string endpoint_str = attributes.get("endPoints"); //"giop:tcp:scumble.lce.cl.cam.ac.uk:9999";
+      std::string buf; // Have a buffer string
+      std::stringstream ss(endpoint_str); // Insert the string into a stream
 
-      int lastpos = endpoint.rfind(':');
-      if (lastpos != std::string::npos)
+      std::vector<std::string> endpoints; // Create vector to hold our words
+
+      while (ss >> buf)
+          endpoints.push_back(buf);
+
+      std::vector<std::string>::const_iterator cii;
+      for(cii=endpoints.begin(); cii!=endpoints.end(); cii++)
       {
-        std::string epport = endpoint.substr(lastpos+1);
-        std::ostringstream oss;
-        oss << "giop:tcp::" << epport;
-        logPrintI("Creating second CORBA endpoint: %s\n", oss.str().c_str());
-        args.push_back(oss.str());
+          args.push_back("-ORBendPoint");
+          args.push_back(*cii);
       }
     }
     args.push_back("-ORBabortOnInternalError");
@@ -399,7 +400,7 @@ void CORBAModule::clear()
 	std::cerr << "no name or uri yielded a suitable reference" << std::endl;
 	sink = new CORBASink(frequency);
       } else {
-	OT_CORBA::OTEntity_ptr sink_ref = OT_CORBA::OTEntity::_narrow(obj);
+          OTGraph::Network::OTEntity_ptr sink_ref = OTGraph::Network::OTEntity::_narrow(obj);
 	if (CORBA::is_nil(sink_ref)) {
 	  std::cerr << "name or uri could not be narrowed to OTEntity" << std::endl;
 	  CORBA::release(sink_ref);
@@ -422,7 +423,7 @@ void CORBAModule::clear()
 	  logPrintI("Could not obtain a reference to object supposedly bound to %s.\nExiting....\n", (const char*) string_name);
 	exit(-1);
       }
-      OT_CORBA::TransformNode_var sink_ref = OT_CORBA::TransformNode::_narrow(obj);
+        OTGraph::Network::TransformNode_var sink_ref = OTGraph::Network::TransformNode::_narrow(obj);
       
       CORBATransform * transform = new CORBATransform( sink_ref );
       sinks.push_back( transform );
@@ -557,11 +558,12 @@ void CORBAModule::clear()
       }
   }
 
-  void CORBASource::setEvent(const OT_CORBA::Event& corba_event) 
+  void CORBASource::setEvent(const OTGraph::Event& corba_event, const OTGraph::Network::OTEventSource_var& generator) 
   {
 
     //_lock();
     //logPrintI("CORBASource::setEvent\n");
+#ifdef USE_THREAD_UNSAFE // i.e. broken
     lock();
 
     event = corba_event;
@@ -581,7 +583,16 @@ void CORBAModule::clear()
 
     //updateObservers( event );
     //_unlock();
+#else
+    Event new_event(corba_event);
+    //_lock();
+    //logPrintI("CORBASource::setEvent\n");
+    ACE_Guard<ACE_Thread_Mutex> mutexlock(*mutex);
+    event = new_event;
+    updateObservers( event );
+#endif
   }
+
   void CORBAModule::setContext(Context* ctx)
   {
     context = ctx;
@@ -602,7 +613,7 @@ void CORBAModule::clear()
   void PushCons::push(const CORBA::Any& data) 
   {
     //logPrintI("data received\n");
-    const OT_CORBA::Event* new_event;
+    const OTGraph::Event* new_event;
     if (data >>= new_event) {
       Event event(*new_event);
       //      OT_CORBA::Event copy_of_new_event = OT_CORBA::Event(*new_event);

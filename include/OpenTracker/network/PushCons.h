@@ -64,7 +64,7 @@
 #include <OpenTracker/dllinclude.h>
 #include <OpenTracker/core/Node.h>
 #ifndef SWIG
-#include <OpenTracker/skeletons/OT_CORBA.hh>
+#include <OpenTracker/skeletons/OTGraph.hh>
 #include <ace/Thread_Mutex.h>
 #include <cstdio>
 #include <iostream>
@@ -117,7 +117,7 @@ public:
 
     void push(const CORBA::Any& data);
 #ifndef SWIG
-    void setEvent(const OT_CORBA::Event& new_event);
+    void setEvent(const OTGraph::Event& new_event);
 #endif
     friend class CORBAModule;
     
