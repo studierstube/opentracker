@@ -1,0 +1,12 @@
+#ifndef _DOTGRAPH_IDL
+#define _DOTGRAPH_IDL
+
+module Graph {
+
+  interface Dottable {
+    string getDot();
+  };
+
+};
+
+#endif
