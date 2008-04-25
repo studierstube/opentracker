@@ -558,7 +558,8 @@ void CORBAModule::clear()
       }
   }
 
-  void CORBASource::setEvent(const OTGraph::Event& corba_event, const OTGraph::Network::OTEventSource_var& generator) 
+    //  void CORBASource::setEvent(const OTGraph::Event& corba_event, const OTGraph::Network::OTEventSource_var& generator) 
+  void CORBASource::setEvent(const OTGraph::Event& corba_event, OTGraph::Network::OTEventSource_ptr generator) 
   {
 
     //_lock();

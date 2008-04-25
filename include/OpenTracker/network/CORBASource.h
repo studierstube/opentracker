@@ -111,7 +111,7 @@ namespace ot {
             return 1;
         }
 
-        void setEvent(const OTGraph::Event& new_event, const OTGraph::Network::OTEventSource_var& generator);
+        void setEvent(const OTGraph::Event& new_event, OTGraph::Network::OTEventSource_ptr generator);
 
         void setContext(Context *ctx) { context = ctx; };
         void pushEvent( );
