@@ -132,6 +132,7 @@
 #include <OpenTracker/network/PhantomMiddlewareModule.h>
 #include <OpenTracker/common/TimestampGeneratorModule.h>
 #include <OpenTracker/network/OldOTNetworkSourceModule.h>
+#include <OpenTracker/network/PackedOTNetworkSourceModule.h>
 #include <OpenTracker/otpy/PythonModule.h>
 
 #include <OpenTracker/input/PhantomModule.h>
@@ -248,6 +249,10 @@ namespace ot {
 
 #ifdef OT_OLD_NETWORK_SUPPORT
         OT_REGISTER_MODULE(OldOTNetworkSourceModule, NULL );
+#endif
+
+#ifdef OT_PACKED_NETWORK_SUPPORT
+        OT_REGISTER_MODULE(PackedOTNetworkSourceModule, NULL );
 #endif
 
 #ifdef USE_OPENVIDEO

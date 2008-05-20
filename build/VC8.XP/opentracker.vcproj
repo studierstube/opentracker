@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include\tinyxml&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -577,6 +577,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\P5GloveModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\network\PackedOTNetworkSourceModule.cxx"
 				>
 			</File>
 			<File
@@ -2997,6 +3001,18 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\P5GloveModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\PackedOTNetwork.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\PackedOTNetworkSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\network\PackedOTNetworkSourceModule.h"
 				>
 			</File>
 			<File
