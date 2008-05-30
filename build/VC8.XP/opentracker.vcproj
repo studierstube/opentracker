@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;C:\dev\Ubisense\include;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG;USE_QT4;TINYXML_MOD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -122,8 +122,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLMODROOT)/src&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include\tinyxml&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/src&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include\tinyxml&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENTRACKER_EXPORTS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;OT_LOCAL_GRAPH;OT_BACKUP_ON_RECONFIG;USE_QT4;TINYXML_MOD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -352,6 +352,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\common\ExchangeAxisTransformation.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\FastTrakModule.cxx"
 				>
 			</File>
@@ -457,6 +461,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\LinmouseModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\LinmouseSource.cxx"
 				>
 			</File>
 			<File
@@ -1902,6 +1910,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\common\ExchangeAxisTransformation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\input\FastTrakModule.h"
 				>
 				<FileConfiguration
@@ -2982,6 +2994,28 @@
 			<File
 				RelativePath="..\..\include\OpenTracker\otqt\OTQt.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing OTQt.h..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DWIN32 -D_DEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -DOT_LOCAL_GRAPH -DOT_BACKUP_ON_RECONFIG -DUSE_QT4 -DTINYXML_MOD -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(XERCESCROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;C:\dev\Ubisense\include&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(PYTHONROOT)\include&quot; -I&quot;$(STBTRACKERROOT)\include&quot; -I&quot;$(STBMATHROOT)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
+						Outputs="&quot;GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing OTQt.h..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DWIN32 -DNDEBUG -D_WINDOWS -D_USRDLL -DOPENTRACKER_EXPORTS -D__WIN32__ -D__x86__ -D_CRT_SECURE_NO_DEPRECATE -DTINYXML_MOD_DLL -DOT_LOCAL_GRAPH -DOT_BACKUP_ON_RECONFIG -DUSE_QT4 -DTINYXML_MOD -I&quot;.\..\..\include&quot; -I&quot;$(ACEROOT)&quot; -I&quot;$(XERCESCROOT)\src&quot; -I&quot;$(TINYXMLMODROOT)\include&quot; -I&quot;$(TINYXMLROOT)&quot; -I&quot;$(TINYXMLROOT)\include\tinyxml&quot; -I&quot;$(TINYXMLROOT)\include&quot; -I&quot;.\..\..\extras&quot; -I&quot;.\..\..\extras\intersense&quot; -I&quot;$(ARTOOLKITROOT)\include&quot; -I&quot;$(ARTOOLKITPLUSROOT)\include&quot; -I&quot;$(OPENVIDEOROOT)\include&quot; -I&quot;$(3DCONNEXIONROOT)\include&quot; -I&quot;$(PTUROOT)\include&quot; -I&quot;$(VRPNROOT)\vrpn&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(PYTHONROOT)\include&quot; -I&quot;$(STBTRACKERROOT)\include&quot; -I&quot;$(STBMATHROOT)\include&quot; &quot;..\..\include\OpenTracker\otqt\OTQt.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\..\include\OpenTracker\otqt\OTQt.h"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_OTQt.cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\otqt\OTQtConfigFileEditor.h"
@@ -3727,19 +3761,44 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="tmp"
+			Name="Generated Files"
+			Filter="moc;h;cpp"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\include\OpenTracker\input\StbTrackerMarkerSource.h"
+				RelativePath=".\GeneratedFiles\Release\moc_OTQt.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\StbTrackerModule.cxx"
+				RelativePath=".\GeneratedFiles\Debug\moc_OTQt.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\include\OpenTracker\input\StbTrackerModule.h"
-				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
