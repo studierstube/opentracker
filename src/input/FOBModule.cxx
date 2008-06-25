@@ -364,6 +364,7 @@ namespace ot {
 				{
 					initFoB();
 					lastDataTime = OSUtils::currentTime();
+                                        nophaseBytes = 0;
 				}
 
 				// read in data and parse it 
