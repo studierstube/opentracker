@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for FOBModule module.
  *
- * @author Thomas Peterseil, Gerhard Reitmayr
+ * @author Yngve Devik Hammersland, Thomas Peterseil, Gerhard Reitmayr
  *
  * $Id$
  * @file                                                                   */
@@ -268,6 +268,9 @@ namespace ot {
 
         /// reference frame values
         float referenceframe[3];
+
+		/// Indicates whether or not the worker thread is running
+		bool isRunning;
 
         /// xyzframe flag
         bool useXYZFrame;
