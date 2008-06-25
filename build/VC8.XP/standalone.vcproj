@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="standalone"
 	ProjectGUID="{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}"
 	RootNamespace="standalone"
@@ -163,7 +163,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib aced.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib aced.lib opentrackerd.lib"
 				OutputFile="../../bin/win32/opentrackerd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

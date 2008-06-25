@@ -94,6 +94,7 @@ namespace ot {
         friend class CommonNodeFactory;
 		friend class SpaceDeviceModule;
 		friend class PanTiltUnitModule;
+        friend class LaserPointerModule;
 		friend class GoGoModule;
 		friend class SysMouseModule;
 		friend class ThreeToTwoDimFilterModule;

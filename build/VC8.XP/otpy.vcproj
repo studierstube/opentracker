@@ -18,7 +18,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(PYTHONROOT)/include&quot;"
+				AdditionalIncludeDirectories="../../include;&quot;$(PYTHONROOT)/include&quot;;&quot;$(PYTHONROOT)/PC&quot;"
 				PreprocessorDefinitions="__WIN32__,SWIG_NO_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
 			/>
@@ -52,8 +52,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="opentrackerd.lib"
 				OutputFile="../../bin/Win32/_ot_d.pyd"
-				AdditionalLibraryDirectories="&quot;$(PYTHONROOT)/libs&quot;"
+				AdditionalLibraryDirectories="&quot;$(PYTHONROOT)/libs&quot;;&quot;$(PYTHONROOT)/libs/PCbuild&quot;;&quot;$(OTROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -103,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(PYTHONROOT)/include&quot;"
+				AdditionalIncludeDirectories="../../include;&quot;$(PYTHONROOT)/include&quot;;&quot;$(PYTHONROOT)/PC&quot;"
 				PreprocessorDefinitions="__WIN32__,SWIG_NO_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 			/>
@@ -118,8 +119,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="opentracker.lib"
 				OutputFile="../../bin/Win32/_ot.pyd"
-				AdditionalLibraryDirectories="&quot;$(PYTHONROOT)/libs&quot;"
+				AdditionalLibraryDirectories="&quot;$(PYTHONROOT)/libs&quot;;&quot;$(PYTHONROOT)/libs/PCbuild&quot;;&quot;$(OTROOT)/lib/win32&quot;;&quot;$(TINYXMLMODROOT)/lib/Win32&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"

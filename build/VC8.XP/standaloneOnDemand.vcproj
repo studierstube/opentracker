@@ -2,9 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="standaloneConfigurable"
-	ProjectGUID="{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}"
-	RootNamespace="configurable"
+	Name="standaloneOnDemand"
+	ProjectGUID="{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}"
 	>
 	<Platforms>
 		<Platform
@@ -45,8 +44,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../;../../src;../../src/misc;$(ACEROOT);../../include"
-				PreprocessorDefinitions="WIN32;__WIN32__;NDEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../;../../src;../../src/misc;../../include;&quot;$(ACEROOT)&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -72,12 +71,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ace.lib odbc32.lib odbccp32.lib"
-				OutputFile="../../bin/win32/opentracker2.exe"
+				AdditionalDependencies="odbc32.lib odbccp32.lib  opentracker.lib ace.lib"
+				OutputFile="../../bin/win32/opentrackerOD.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"
-				ProgramDatabaseFile=".\Release/opentracker.pdb"
+				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"
+				ProgramDatabaseFile=".\Release/opentrackerOD.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -136,8 +135,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../../src;../../src/misc;$(ACEROOT);../../include"
-				PreprocessorDefinitions="WIN32;__WIN32__;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../;../../src;../../src/misc;../../include;&quot;$(ACEROOT)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -163,13 +162,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="aced.lib odbc32.lib odbccp32.lib"
-				OutputFile="../../bin/win32/opentracker2d.exe"
+				AdditionalDependencies="odbc32.lib odbccp32.lib  opentrackerd.lib aced.lib"
+				OutputFile="../../bin/win32/opentrackerODd.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/Win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"
+				AdditionalLibraryDirectories="../../lib/win32;&quot;$(ACEROOT)/lib/win32&quot;;&quot;$(ACEROOT)/lib&quot;;&quot;$(ACEROOT)&quot;"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="../../bin/win32/opentracker2d.pdb"
+				ProgramDatabaseFile=".\Debug/opentrackerODd.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -203,23 +202,13 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl"
+			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
-			<Filter
-				Name="Source Files"
-				Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			<File
+				RelativePath="..\..\src\standalones\main_ondemand.cxx"
 				>
-				<File
-					RelativePath="..\..\src\standalones\configurable.cxx"
-					>
-				</File>
-			</Filter>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
