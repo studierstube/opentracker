@@ -93,8 +93,6 @@ class OPENTRACKER_API LaserPointerSource : public Node
 // Members
 public: 
 
-    bool initializeCamera(int exposure);
-
     /// the state that is posted to the EventObservers
     Event event;
         
@@ -132,7 +130,12 @@ virtual void onEventGenerated( Event& event, Node& generator);
 protected:
 
 	friend class LaserPointerModule;
+   
+    bool initializeCamera();
+    int exposure;
     float threshold;
+    int width;
+    int height;
     
     void captureFrame();
     void processFrame();

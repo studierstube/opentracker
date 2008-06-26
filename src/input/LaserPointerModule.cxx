@@ -82,15 +82,20 @@ namespace ot {
         {       
             LaserPointerSource * source = new LaserPointerSource;
             // read values from xml config file and initialize PTU
-            if ( !attributes.get("exposure").empty() ) {
-                int exposure = atoi(attributes.get("exposure").c_str());
-                if (!source->initializeCamera(exposure)) 
+            if ( !attributes.get("exposure").empty() ) 
+                source->exposure = atoi(attributes.get("exposure").c_str());
+            if ( !attributes.get("threshold").empty() ) 
+                source->threshold = atof(attributes.get("threshold").c_str());
+            if ( !attributes.get("width").empty() ) 
+                source->width = atoi(attributes.get("width").c_str()); 
+            if ( !attributes.get("height").empty() ) 
+                source->height = atoi(attributes.get("height").c_str()); 
+            if(source->threshold&&source->width&&source->height&&source->exposure&&!source->initCamera)
+            {
+                if (!source->initializeCamera()) 
                     std::cerr << "init prosilica failed.\n" << std::endl;
                 else std::cerr << "initialized prosilica "<<std::endl;
             }
-            if ( !attributes.get("threshold").empty() ) 
-                source->threshold = atof(attributes.get("threshold").c_str()); 
- 
             
             source->event.setConfidence( 1.0f );
             nodes.push_back( source );

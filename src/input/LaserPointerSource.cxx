@@ -68,7 +68,10 @@ namespace ot {
         initCamera = false;
         initTracker = false;
         initScreen = false;
+        exposure=0;
         threshold=0;
+        width=0;
+        height=0;
     }
 
 
@@ -81,11 +84,10 @@ namespace ot {
 
 
     bool
-    LaserPointerSource::initializeCamera(int exposure)
+    LaserPointerSource::initializeCamera()
     { 
         PvInitialize();
-        int width=1024;
-        int height=768;
+        
         imgBuffer=new LaserPointerBuffer(width, height, this);
 
         memset(&GCamera, 0, sizeof(tCamera));
@@ -393,6 +395,7 @@ namespace ot {
             GCamera.Stop = true;
         }
         memcpy(const_cast<unsigned char*>(imgBuffer->buffer),GCamera.Frame[0].ImageBuffer,imgBuffer->width*imgBuffer->height*3);
+        //newFrame=true;
     }
 
 
