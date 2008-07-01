@@ -49,6 +49,8 @@
 #include <string>
 #endif
 
+#include <typeinfo>
+
 #include "EventAttributeBase.h"
 #include "iostream_ext.h"
 

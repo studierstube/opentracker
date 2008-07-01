@@ -43,6 +43,8 @@
 
 #include <cassert>
 #include <cstdarg>
+#include <cstdlib>
+#include <cstring>
 #include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 

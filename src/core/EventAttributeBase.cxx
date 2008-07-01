@@ -43,6 +43,7 @@
 
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 #include <OpenTracker/core/EventAttributeBase.h>
 

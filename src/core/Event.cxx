@@ -41,6 +41,7 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+#include <cstdlib>
 #include <string>
 #include <sstream>
 #include <vector>

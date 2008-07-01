@@ -41,11 +41,12 @@
  * @file                                                                   */
 /* ======================================================================= */
 
-#include <OpenTracker/core/MathUtils.h>
-#include <OpenTracker/core/Event.h>
+#include <cassert>
 #include <cmath>
 #include <cstdio>
-#include <cassert>
+#include <cstdlib>
+#include <OpenTracker/core/MathUtils.h>
+#include <OpenTracker/core/Event.h>
 
 /* tolerance for quaternion operations */
 const double Q_EPSILON = (1e-10);

@@ -42,6 +42,7 @@
 /* ======================================================================= */
 
 #include <iostream>
+#include <typeinfo>
 
 #include <OpenTracker/core/Translator.h>
 

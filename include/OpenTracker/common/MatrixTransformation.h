@@ -66,6 +66,8 @@
 #ifndef _MATRIXTRANSFORMATION_H
 #define _MATRIXTRANSFORMATION_H
 
+#include <cstring>
+
 #include "Transformation.h"
 
 /**

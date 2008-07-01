@@ -76,6 +76,8 @@
 #ifndef _EXCHANGEAXISTRANSFORMATION_H
 #define _EXCHANGEAXISTRANSFORMATION_H
 
+#include <cstring>
+
 #include "Transformation.h"
 
 /**

@@ -76,6 +76,8 @@
 #ifndef _STATICTRANSFORMATION_H
 #define _STATICTRANSFORMATION_H
 
+#include <cstring>
+
 #include "Transformation.h"
 
 /**

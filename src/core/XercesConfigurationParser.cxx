@@ -47,6 +47,7 @@
 #endif
 
 #include <cstdlib>
+#include <memory>
 #include <OpenTracker/tool/FixWinCE.h>
 #include <ace/Log_Msg.h>
 #include <ace/Env_Value_T.h>
