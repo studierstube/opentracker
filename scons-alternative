@@ -14,8 +14,8 @@ sys.path.append('builders')
 ################################################################################
 class CORBAStubs:
     def __init__(self, env, 
-		 cxx_install_directory=join('idl', 'skeletons'), 
-		 python_install_directory=join('lib','python')):
+		 cxx_install_directory=join(os.getcwd(), 'idl', 'skeletons'), 
+		 python_install_directory=join(os.getcwd(),'lib','python')):
 	self.env = env
 	self.cxx_install_directory = cxx_install_directory
 	self.python_install_directory = python_install_directory
@@ -135,6 +135,12 @@ if sys.platform == 'darwin':
 	env.Append(CPPDEFINES=["__x86__", "__darwin__", "__OSVERSION__=1"])
 elif sys.platform.startswith('linux'):
     print "Linux specific configuration"
+    if os.getenv("ACEROOT"):
+        env.Append(CPPPATH=[os.path.join(os.getenv("ACEROOT"),'include')])	
+        env.Append(LIBPATH=[os.path.join(os.getenv("ACEROOT"),'lib')])	
+    if os.getenv("XERCESCROOT"):
+        env.Append(CPPPATH=[os.path.join(os.getenv("XERCESCROOT"),'include')])	
+        env.Append(LIBPATH=[os.path.join(os.getenv("XERCESCROOT"),'lib')])	
     input_files += [join('src', 'input', 'ParButtonModule.cxx'),
 		    join('src', 'input', 'LinmouseModule.cxx'),
                     join('src', 'input', 'LinmouseSource.cxx')]
@@ -196,15 +202,15 @@ if env['ENABLE_CORBA']:
     OmniIdlCxx.generate(env)
     env.Append(CPPDEFINES='USE_CORBA')
     env.Append(LIBS=['omniORB4', 'COSDynamic4', 'COS4', 'omniDynamic4', 'omnithread'])
-    env.Append(CPPPATH=['idl', join('idl', 'COS')])
-    extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx', 'DwarfModule.cxx', 'NetworkSinkModule.cxx', 'NetworkSourceModule.cxx','OldOTNetworkSourceModule.cxx', 'TCPModule.cxx', 'VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
+    env.Append(CPPPATH=[join(os.getcwd(),'idl'), join(os.getcwd(),'idl', 'COS')])
+    extra_files += [join(os.getcwd(),'src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx', 'DwarfModule.cxx', 'NetworkSinkModule.cxx', 'NetworkSourceModule.cxx','OldOTNetworkSourceModule.cxx', 'TCPModule.cxx', 'VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
     if env['ENABLE_JAVA']:
 	import IDLJBuilder
 	IDLJBuilder.generate(env)
 	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
 	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'Shared']])
-	env.Append(IDL_INCLUDE_PATH=['idl', join('idl', 'COS')])
+	env.Append(IDL_INCLUDE_PATH=[join(os.getcwd(),'idl'), join(os.getcwd(),'idl', 'COS')])
 	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
 	env.Append(SOURCEDIR='src_java')
     if env['ENABLE_OMNIORBPY']:
