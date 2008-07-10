@@ -6,7 +6,9 @@
 #include <string>
 #include <fstream>
 
-
+#ifdef WIN32
+#define __WIN32__ //__WIN32__ is not standart!
+#endif
 
 #ifdef __WIN32__
 #   define WIN32_LEAN_AND_MEAN
