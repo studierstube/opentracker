@@ -185,7 +185,7 @@
  * Support for this is only available on windows at the moment. */
 //#define USE_PANTILTUNIT 1
 
-#define USE_THREETOTWODIMFILTER 1
+//#define USE_THREETOTWODIMFILTER 1
 
 #define USE_VIRTUALKEYSOURCE 1
 
