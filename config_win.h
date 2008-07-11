@@ -117,6 +117,23 @@
  *      system.
  */
 
+#define USE_VIRTUALKEYSOURCE 1
+
+
+/**
+* This define enables the correction of ARToolkit transformation matrices
+* on systems that provide camera images the right way around. ARToolkit seems
+* to expect image buffers up side down. Therefore it will compute mirrored
+* transformation matrices on normal image buffers. The correction avoids
+* the flipping of the image itself. This define must be enabled on virtually
+* any system as we do not use flipping anymore. Currently this is true only on
+* the Windows platform.
+*/
+#ifdef WIN32
+#define ARTOOLKIT_UNFLIP_V
+#endif
+
+#ifndef CMAKE_BUILD
 /** uncomment the following line to compile support for the ARToolKit library */
 //#define USE_ARTOOLKIT 1
 
@@ -148,19 +165,6 @@
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1
 
-/**
- * This define enables the correction of ARToolkit transformation matrices
- * on systems that provide camera images the right way around. ARToolkit seems
- * to expect image buffers up side down. Therefore it will compute mirrored
- * transformation matrices on normal image buffers. The correction avoids
- * the flipping of the image itself. This define must be enabled on virtually
- * any system as we do not use flipping anymore. Currently this is true only on
- * the Windows platform.
- */
-#ifdef WIN32
-#define ARTOOLKIT_UNFLIP_V
-#endif
-
 /** uncomment the following line to compile support for CyberMouse device.
  * Support for this is only available on windows. */
 // #define USE_CYBERMOUSE 1
@@ -186,9 +190,6 @@
 //#define USE_PANTILTUNIT 1
 
 //#define USE_THREETOTWODIMFILTER 1
-
-#define USE_VIRTUALKEYSOURCE 1
-
 
 /** uncomment the following line to compile support for SAPI Speech Recognition and Text to Speech.
  * Support for this is only available on windows. Otherwise an empty implementation
@@ -231,6 +232,8 @@
 /** uncomment the following line to compile support for Python.
  */
 //#define USE_PYTHON 1
+
+#endif // CMAKE_BUILD
 
 #ifdef _WIN32_WCE
 #  define OT_NO_BUTTON_SUPPORT
