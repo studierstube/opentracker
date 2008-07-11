@@ -7,7 +7,7 @@
 #include <fstream>
 
 #ifdef WIN32
-#define __WIN32__ //__WIN32__ is not standart!
+#define __WIN32__ //__WIN32__ is not standard!
 #endif
 
 #ifdef __WIN32__

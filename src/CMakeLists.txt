@@ -8,6 +8,8 @@ FILE(GLOB_RECURSE SOURCES
   #otqt/*.cxx
   tool/*.cxx
   ubitrack/*.cxx
+  prop/*.cxx
+  prop/rigidTransform/*.cxx
 )
 
 
