@@ -7,6 +7,7 @@
 #ifndef _STYLUSSINK_H
 #define _STYLUSSINK_H
 
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 #include "../OpenTracker.h"
 #include "StylusCalibration.h"
 
@@ -53,7 +54,7 @@ namespace ot {
     };
 
 } //namespace ot
-
+#endif //OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 #endif //_STYLUSSINK_H
 
 

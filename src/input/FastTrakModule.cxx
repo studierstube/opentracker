@@ -54,6 +54,7 @@
 #include <OpenTracker/misc/serialcomm.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <string.h>
 #include <iostream>
 

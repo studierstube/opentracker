@@ -82,9 +82,6 @@
 #include <OpenTracker/input/ARTDataTrackerModule.h>
 #endif //_WIN32_WCE
 
-#include <OpenTracker/prop/PropRegistrationModule.h>
-#include <OpenTracker/prop/StylusModule.h>
-
 #include <OpenTracker/input/OrientationModule.h>
 #include <OpenTracker/network/NetworkSinkModule.h>
 #include <OpenTracker/network/NetworkSourceModule.h>
@@ -142,8 +139,13 @@
 #include <OpenTracker/input/PhantomSourceModule.h>
 #include <OpenTracker/input/PhantomSinkModule.h>
 
-#include <OpenTracker/prop/PropRegistrationModule.h>
+#ifndef OT_NO_STYLUSMODULE_SUPPORT
 #include <OpenTracker/prop/StylusModule.h>
+#endif
+
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
+#include <OpenTracker/prop/PropRegistrationModule.h>
+#endif
 
 // DLL main function
 

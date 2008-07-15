@@ -9,7 +9,7 @@
 // time needed to calibrate, and writes it
 // to result.txt.
 //#define TEST_AND_EVALUATE_STYLUS_CALIBRATION
-
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 #include <OpenTracker/prop/StylusCalibration.h>
 #include <OpenTracker/prop/tnt/tnt.h>
 #include <OpenTracker/prop/tnt/jama_svd.h>
@@ -707,3 +707,4 @@ namespace ot {
    //###########################################################################
 
 } // namespace ot
+#endif
