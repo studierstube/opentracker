@@ -198,7 +198,7 @@ namespace ot{
         MIFunctor functor;
         functor.function = function;
         functor.data = data;
-        //logPrintS("Configurator adding %s = %p \n", name, function);
+        logPrintS("Configurator adding %s = %p \n", name, function);
     
         initFunctions[name]=(functor);
     }

@@ -206,6 +206,11 @@ namespace ot {
         //register Modules and Factories
         OT_REGISTER_MODULE(OpenTracker, NULL);
 
+
+#ifndef OT_NO_STYLUSMODULE_SUPPORT
+		OT_REGISTER_MODULE(StylusModule, NULL);
+#endif
+
 #ifndef OT_NO_TESTMODULE_SUPPORT
         OT_REGISTER_MODULE(TestModule, NULL);
 #endif
@@ -226,11 +231,6 @@ namespace ot {
 
 #ifndef OT_NO_NETWORK_SUPPORT
         OT_REGISTER_MODULE(NetworkSourceModule, NULL);
-#endif
-
-
-#ifndef OT_NO_STYLUSMODULE_SUPPORT
-		OT_REGISTER_MODULE(StylusModule, NULL);
 #endif
 
 #ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
