@@ -88,6 +88,7 @@ namespace ot {
         bool verbose = FALSE;
         resetheading = TRUE;
         headtracking = FALSE;
+        eulerAngle = FALSE;
 
         StringTable & localAttrib= localTree->getAttributes();
         if( localAttrib.get("verbose").compare("true") == 0 )
@@ -96,6 +97,8 @@ namespace ot {
             resetheading=FALSE;
         if( localAttrib.get("headtracking").compare("true") == 0 )
             headtracking=TRUE;
+        if( localAttrib.get("euler").compare("true") == 0 )
+            eulerAngle=TRUE;
 
         for( unsigned i = 0; i < localTree->countChildren(); i++ )
         {
@@ -250,7 +253,7 @@ namespace ot {
                 {
                     InterSenseSource * source = ( InterSenseSource * ) ((Node*)*si);
                     ISD_STATION_STATE_TYPE * data = &tracker->data.Station[source->station];
-                    if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES )
+                    if( tracker->info.TrackerType == ISD_INTERTRAX_SERIES || eulerAngle)
                     {
                         float quat[4];
                         MathUtils::eulerToQuaternion(- data->Orientation[0] * MathUtils::GradToRad,

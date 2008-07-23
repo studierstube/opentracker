@@ -108,6 +108,9 @@ namespace ot {
         /// Indicates whether the tracker is used for head tracking
         bool headtracking;
 
+        
+        bool eulerAngle;
+
         // Methods
     public:
         /** constructor method. */
@@ -115,7 +118,8 @@ namespace ot {
             Module(), 
             NodeFactory(),            
             resetheading(true),
-            headtracking(false)
+            headtracking(false),
+            eulerAngle(false)
         { 
         };
         /** Destructor method, clears nodes member. */
