@@ -217,7 +217,7 @@
 
 /** uncomment the following line to compile support for the OTQt.
  */
-//#define USE_OTQT 1
+#define USE_OTQT 1
 
 /** uncomment the following line to compile support for raw input.
  * Support for this is only available on windows. */
