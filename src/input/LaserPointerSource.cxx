@@ -69,7 +69,11 @@ namespace ot {
         initTracker = false;
         initScreen = false;
         exposure=0;
+		filter=0;
         threshold=0;
+		thresholdR=0;
+		thresholdG=0;
+		thresholdB=0;
         width=0;
         height=0;
     }
@@ -323,14 +327,74 @@ namespace ot {
             float strength =((float)imgBuffer->buffer[i]+
                 (float)imgBuffer->buffer[i+1]+
                 (float)imgBuffer->buffer[i+2])/3;
-            //float strength =((float)GCamera.Frame[0].ImageBuffer[i]+
-            //                (float)GCamera.Frame[0].ImageBuffer[i+1]+
-            //                (float)GCamera.Frame[0].ImageBuffer[i+2])/3;
-            if(strength>threshold)
+			switch(filter)
             {
-                rx+= p%imgBuffer->width;
-                ry+= p/imgBuffer->width;
-                n++;
+			// threshold only
+            case 0:
+                {
+					if( strength>threshold )
+					{
+						rx+= p%imgBuffer->width;
+						ry+= p/imgBuffer->width;
+						n++;
+					}
+                    break;
+                }
+			// threshold & red channel dominant
+            case 1:
+                {
+					if( strength>threshold && 
+						((float)imgBuffer->buffer[i]>(float)imgBuffer->buffer[i+1]) &&
+						((float)imgBuffer->buffer[i]>(float)imgBuffer->buffer[i+2]) )
+					{
+						rx+= p%imgBuffer->width;
+						ry+= p/imgBuffer->width;
+						n++;
+					}
+                    break;
+                }
+			// threshold & green channel dominant
+            case 2:
+                {
+					if( strength>threshold && 
+						((float)imgBuffer->buffer[i+1]>(float)imgBuffer->buffer[i]) &&
+						((float)imgBuffer->buffer[i+1]>(float)imgBuffer->buffer[i+2]) )
+					{
+						rx+= p%imgBuffer->width;
+						ry+= p/imgBuffer->width;
+						n++;
+					}
+                    break;
+                }
+			// threshold & blue channel dominant
+			case 3:
+			{
+				if( strength>threshold && 
+					((float)imgBuffer->buffer[i+2]>(float)imgBuffer->buffer[i+1]) &&
+					((float)imgBuffer->buffer[i+2]>(float)imgBuffer->buffer[i]) )
+				{
+					rx+= p%imgBuffer->width;
+					ry+= p/imgBuffer->width;
+					n++;
+				}
+				break;
+			}
+			// threshold RGB
+			case 4:
+			{
+				if( strength>threshold && 
+					((float)imgBuffer->buffer[i]>thresholdR) &&
+					((float)imgBuffer->buffer[i+1]>thresholdG) &&
+					((float)imgBuffer->buffer[i+2]>thresholdB) )
+				{
+					rx+= p%imgBuffer->width;
+					ry+= p/imgBuffer->width;
+					n++;
+				}
+				break;
+			}
+            default:
+                break;
             }
         }
         if(rx||ry)
@@ -352,7 +416,7 @@ namespace ot {
         if(diffTime>1000 && frameRateCtr>0)	// update every second
         {
             frameRate = frameRateCtr*1000.0f/diffTime;
-            logPrint("FPS: %.f \n", frameRate);
+            logPrintD("FPS: %.f \n", frameRate);
             frameRateLastTime = timeNow;
             frameRateCtr = 0;
         }

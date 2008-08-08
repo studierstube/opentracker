@@ -84,8 +84,21 @@ namespace ot {
             // read values from xml config file and initialize PTU
             if ( !attributes.get("exposure").empty() ) 
                 source->exposure = atoi(attributes.get("exposure").c_str());
+			if ( !attributes.get("filter").empty() ) 
+			{
+				if( attributes.get("filter").compare("R") == 0 ) source->filter = 1;
+				if( attributes.get("filter").compare("G") == 0 ) source->filter = 2;
+				if( attributes.get("filter").compare("B") == 0 ) source->filter = 3;
+				if( attributes.get("filter").compare("TRGB") == 0 ) source->filter = 4;
+			}
             if ( !attributes.get("threshold").empty() ) 
                 source->threshold = atof(attributes.get("threshold").c_str());
+			if ( !attributes.get("thresholdR").empty() ) 
+                source->thresholdR = atof(attributes.get("thresholdR").c_str());
+			if ( !attributes.get("thresholdG").empty() ) 
+                source->thresholdG = atof(attributes.get("thresholdG").c_str());
+			if ( !attributes.get("thresholdB").empty() ) 
+                source->thresholdB = atof(attributes.get("thresholdB").c_str());
             if ( !attributes.get("width").empty() ) 
                 source->width = atoi(attributes.get("width").c_str()); 
             if ( !attributes.get("height").empty() ) 

@@ -367,7 +367,7 @@ namespace ot {
 			    if (context->doSynchronization())
 			    {
                               context->dataSignal();
-			      context->consumedBroadcast();
+							  context->consumedWait();
 			    }
                         }
                     }

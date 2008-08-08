@@ -132,8 +132,8 @@ protected:
 	friend class LaserPointerModule;
    
     bool initializeCamera();
-    int exposure;
-    float threshold;
+    int exposure, filter;
+    float threshold, thresholdR, thresholdG, thresholdB;
     int width;
     int height;
     
