@@ -134,6 +134,9 @@
 #endif
 
 #ifndef CMAKE_BUILD
+
+#define OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
+#define OT_NO_STYLUSMODULE_SUPPORT
 /** uncomment the following line to compile support for the ARToolKit library */
 //#define USE_ARTOOLKIT 1
 
