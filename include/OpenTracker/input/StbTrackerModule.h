@@ -200,7 +200,7 @@ namespace ot
 
       StbTracker::TrackerMain* getStbTracker()  {  return tracker;  }
 
-      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData=NULL);
     };
 
 	OT_MODULE(StbTrackerModule);

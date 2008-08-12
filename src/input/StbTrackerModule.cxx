@@ -352,7 +352,7 @@ void StbTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 }
 
 
-void StbTrackerModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
+void StbTrackerModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* /*usrData*/)
 {
     if(!initialized) return;
 
@@ -466,7 +466,7 @@ void StbTrackerModule::updateMarkerSource(StbTrackerMarkerSource *source, float 
 }
 
 
-bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+bool newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData=NULL);
 
 
 } //namespace ot

@@ -206,7 +206,7 @@ namespace ot
 
       NodeVector& getVisibleMarkers()  {  return visibleMarkers;  }
 
-      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData=NULL);
 
       bool doBench;
     };

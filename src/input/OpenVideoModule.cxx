@@ -87,7 +87,7 @@ namespace ot {
                 if(openvideo::Buffer* buffer = bufferSynchronizer.getLocked())
                 {
                     assert(context);
-                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()));
+                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()), buffer->getUserData());
                     buffer->unlock();
                     firstFrame = false;
                 }
@@ -97,7 +97,7 @@ namespace ot {
                 if(openvideo::Buffer* buffer = bufferSynchronizer.getLocked())
                 {
                     assert(context);
-                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()));
+                    context->newVideoFrame(buffer->getPixels(), buffer->getWidth(), buffer->getHeight(), static_cast<ot::PIXEL_FORMAT>(buffer->getFormat()), buffer->getUserData());
                     buffer->unlock();
                 }
             }
