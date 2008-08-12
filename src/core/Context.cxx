@@ -1058,7 +1058,7 @@ namespace ot {
     }
 
 
-    void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, bool forceTraversal, void *usrData) 
+    void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData, bool forceTraversal) 
     {
         for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
             (*it)->newVideoFrame(image, width, height, format, usrData);
