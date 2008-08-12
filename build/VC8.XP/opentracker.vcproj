@@ -804,6 +804,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\VideoLocationModule.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\common\VirtualKeyModule.cxx"
 				>
 			</File>
@@ -3611,6 +3615,14 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\UltraTrakSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\VideoLocationModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\VideoLocationSource.h"
 				>
 			</File>
 			<File
