@@ -1058,12 +1058,15 @@ namespace ot {
     }
 
 
-    void Context::newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData, bool forceTraversal) 
+    void Context::newVideoFrame(std::string *openVideoSinkName, const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData, bool forceTraversal) 
     {
         for(VideoUserVector::iterator it=videoUsers.begin(); it!=videoUsers.end(); it++)
-            (*it)->newVideoFrame(image, width, height, format, usrData);
+        {
+            if( (*it)->openVideoSinkName.compare(*openVideoSinkName) == 0 )
+                (*it)->newVideoFrame(image, width, height, format, usrData);
+        }
 
-        // after each camera frame we to an opentracker graph traversal
+        // after each camera frame we do an opentracker graph traversal
         if (forceTraversal)
             dataSignal();
     }

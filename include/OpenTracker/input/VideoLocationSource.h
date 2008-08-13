@@ -43,12 +43,14 @@
 
 /**
  * @page Nodes Node Reference
- * @section Video LocationSource
- * An example element looks like this :
+ * @section VideoLocationSource
+ * @li @c ovSink: name of the video sink which provides the tracking image
+ * An example configuration element looks like this :
  * @verbatim
- <VideoLocationSource/>@endverbatim
- *
+ <VideoLocationConfig /> 
+ <VideoLocationSource ovSink="VideoStream"/> @endverbatim
  */
+
 
 #ifndef _VIDEOLOCATIONSOURCE_H
 #define _VIDEOLOCATIONSOURCE_H

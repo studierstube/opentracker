@@ -60,10 +60,11 @@
  * @li @c pattern-dir an optional string that is prefixed to any pattern filename or
  *        the camera data filename. It tries to find the file under the original as
  *        well the prefixed name, in that order.
+ * @li @c ovSink: name of the video sink which provides the tracking image
  *
  * An example configuration element looks like this :
  * @verbatim
- <StbTrackerConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" /> @endverbatim
+ <StbTrackerConfig camera-parameter="quickcampro400.dat" marker-mode="idbased" border-width="0.125" treshold="auto" pose-estimator="cont" ovSink="VideoStream"/> @endverbatim
 */
 
 

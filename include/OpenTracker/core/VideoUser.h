@@ -70,12 +70,13 @@ class VideoUser
 {
 public:
 
-virtual ~VideoUser() {
-}
+    virtual ~VideoUser() {}
 
     /// provides a module with a new video frame. image is only valid for this function call!
     virtual void newVideoFrame(const unsigned char* image, int width, int height, 
                                PIXEL_FORMAT format, void *usrData=NULL) = 0;
+                               
+    std::string openVideoSinkName;
 };
 
 

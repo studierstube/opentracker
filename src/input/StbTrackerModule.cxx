@@ -259,6 +259,7 @@ void StbTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	std::string posemode = attributes.get("pose-estimator");
 	std::string threshold = attributes.get("threshold");
 	std::string markermode = attributes.get("marker-mode");
+    openVideoSinkName = attributes.get("ovSink");
 
 	MAKE_STRING_LOWER(undistmode);
 	MAKE_STRING_LOWER(detectmode);

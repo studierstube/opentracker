@@ -41,6 +41,16 @@
  * @file                                                                   */
 /* ======================================================================= */
 
+/**
+* @page module_ref Module Reference
+* @section videolocationmodule VideoLocationModule
+* make shure to provide the ovSink attribute in the source node
+* @li @c ovSink: name of the video sink which provides the tracking image
+* An example configuration element looks like this :
+* @verbatim
+<VideoLocationConfig /> 
+<VideoLocationSource ovSink="VideoStream"/> @endverbatim
+*/
 
 #ifndef _VIDEOLOCATIONMODULE_H
 #define _VIDEOLOCATIONMODULE_H
@@ -94,7 +104,7 @@ namespace ot
        */
       virtual void pushEvent(); 
 
-      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format);
+      void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void* trackingData);
 
     };
 

@@ -355,7 +355,7 @@ namespace ot {
 
 		const std::string& getConfigFile();
 	/// Called by a video providing instance to pass a new video frame into OpenTracker
-	void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData=NULL, bool forceTraversal=false);
+	void newVideoFrame(std::string *openVideoSinkName, const unsigned char* image, int width, int height, PIXEL_FORMAT format, void *usrData=NULL, bool forceTraversal=false);
 
 
 	/// Called by a module to register itself as a video user

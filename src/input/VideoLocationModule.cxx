@@ -85,6 +85,9 @@ namespace ot {
     {
         if(name.compare("VideoLocationSource") == 0 )
         {
+            if ( !attributes.get("ovSink").empty() )
+                openVideoSinkName = attributes.get("ovSink").c_str();
+            
             VideoLocationSource* source = new VideoLocationSource();
             
             sources.push_back( source );
@@ -95,18 +98,16 @@ namespace ot {
     }
 
     void
-    VideoLocationModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat)
+    VideoLocationModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* trackingData)
     {
-	    if(!initialized) return;
+	    if(!initialized || trackingData==NULL) return;
         
         for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
         {
             VideoLocationSource * source = (VideoLocationSource *)((Node *)*it);
             
-            source->event.getPosition()[0]=1.f;
-            //for (int i(0);i<3;i++) source->event.getPosition()[i]=(float)mPosRes[i][3];
-            //double qOriRes[4];
-            //for (int i(0);i<4;i++) event.getOrientation()[i]=(float)qOriRes[i];
+            for (int i(0);i<3;i++) source->event.getPosition()[i]=((float*)trackingData)[i];
+            for (int i(0);i<4;i++) source->event.getOrientation()[i]=((float*)trackingData)[i+3];
             
             source->event.timeStamp();
             source->modified = 1;
