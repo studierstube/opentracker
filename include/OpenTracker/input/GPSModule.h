@@ -153,6 +153,7 @@ namespace ot {
         */
     
         bool debug;
+        bool initPos, useXZplane;
         std::string device;
         int baudRate;
         std::string dgpsServer;

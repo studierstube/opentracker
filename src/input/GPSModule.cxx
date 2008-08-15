@@ -86,7 +86,9 @@ namespace ot {
         altitudeSource( NULL ),
         infoSource( NULL ),
         driver( NULL ),
-        logFile( NULL )
+        logFile( NULL ),
+        initPos( false ),
+        useXZplane(false)
     {
 		gps_reactor = (void *)new ACE_Reactor;
     }
@@ -115,6 +117,8 @@ namespace ot {
 	dgpsServer = attributes.get("DGPSserver");
         rtcmdev = attributes.get("rtcmdev");
         position_mode = attributes.get("position_mode");
+    if( attributes.get("initPos").compare("true") == 0 ) initPos=true;
+    if( attributes.get("useXZplane").compare("true") == 0 ) useXZplane=true;
 	if( attributes.get( "baudrate", &baudRate ) != 1 )
 	{
             baudRate = 9600;		// default GPS receiver baud rate
@@ -165,6 +169,8 @@ namespace ot {
                 return NULL;
             }
             source = new GPSSource;
+            if(initPos) source->initPos=true;
+            if(useXZplane) source->useXZplane=true;
             logPrintI("Built GPSSource node.\n");
             return source;
 	}

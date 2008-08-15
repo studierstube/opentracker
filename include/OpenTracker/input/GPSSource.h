@@ -84,6 +84,8 @@ namespace ot {
         Event event;
         /// the buffer event for data from the GPS receiver
         Event buffer;
+
+        Event initialPos;
     
 	/** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
@@ -97,7 +99,8 @@ namespace ot {
 
     protected:
 	/// protected constructor so it is only accessible by the module
-	GPSSource() {};
+    bool initPos, iniPos, useXZplane;
+    GPSSource():initPos(false), iniPos(false), useXZplane(false){};
 
         void pushEvent()
         {
@@ -131,10 +134,6 @@ namespace ot {
             GPSModule * module = (GPSModule *)userData;
             module->lockLoop();
             buffer.timeStamp();
-
-          
-            
-            
             
            if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("ecef")))
             {
@@ -144,11 +143,28 @@ namespace ot {
             } else
 	    if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("utm_33n")))
             {
-		
-            buffer.getPosition()[0] = (float)(point->lon_utm_33n);
-            buffer.getPosition()[1] = (float)(point->lat_utm_33n);
-            buffer.getPosition()[2] = (float)(1.0f);
-
+		    if(!initPos)
+            {
+                buffer.getPosition()[0] = (float)(point->lon_utm_33n);
+                buffer.getPosition()[1] = (float)(point->lat_utm_33n);
+                buffer.getPosition()[2] = (float)(1.0f);
+            }else{
+                if(!iniPos && (point->lon_utm_33n!=0 || point->lat_utm_33n!=0))
+                {
+                    initialPos.getPosition()[0] = (float)(point->lon_utm_33n);
+                    initialPos.getPosition()[1] = (float)(point->lat_utm_33n);
+                    iniPos=true;
+                }
+                buffer.getPosition()[0] = (float)(point->lon_utm_33n)-initialPos.getPosition()[0]; 
+                buffer.getPosition()[1] = (float)(point->lat_utm_33n)-initialPos.getPosition()[1];
+                buffer.getPosition()[2] = (float)(1.0f);
+            }
+            if(useXZplane)
+            {
+                float newAxis = buffer.getPosition()[1];
+                buffer.getPosition()[1] = buffer.getPosition()[2];
+                buffer.getPosition()[2] = newAxis;
+            }
             } else
 	    if (!ACE_OS::strcmp(module->position_mode.c_str(), ACE_TEXT_CHAR_TO_TCHAR("gk_m34")))
             {
@@ -168,13 +184,7 @@ namespace ot {
                           
 
             } 
-
-            
-            
-            
-            
-     
-            
+ 
             
             buffer.getConfidence() = (float)(1 / point->hdop);
 
