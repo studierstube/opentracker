@@ -189,6 +189,9 @@ namespace ot {
       /** Stopps the  program. */
       void allFinished();
 
+	  /* show recorded points in iv for debug purposes */
+	  void showPoints (int & number_of_points, TNT::Matrix<double> & points, const char *text);
+
 // methods for stylus node: 
       /** Loads the point from 'prop_file' and stores them to virtual_prop_point_list. 
        *  \n(Method just used by stylus-node.) */ 
