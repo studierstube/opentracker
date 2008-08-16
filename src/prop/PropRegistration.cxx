@@ -246,6 +246,7 @@ namespace ot {
 
    //---------------------------------------------------------------------------
    //
+ 
    void PropRegistration::calculateResult()      
    {
       if (real_prop_point_list.num_cols() != number_of_prop_points)
@@ -292,13 +293,14 @@ namespace ot {
       calculateMeanError();
       allFinished();
    }
-
+ 
    //---------------------------------------------------------------------------
    //
    void PropRegistration::storePoint(Event & event)
    {    
       if (antagonist ==  0)
       {
+		  // should probably be 'comparison' not 'competition'
          logPrintE("PropRegistration::storePoint() - No antagonist -> No competition\n");
          return;
       }
@@ -308,6 +310,7 @@ namespace ot {
          logPrintW("You already stored all needed points.\n");
          logPrintI("Use 'Backslash' to delete points or 'c' to\n");
          logPrintI("calculate the result.\n");
+ 		 showPoints(number_of_prop_points,real_prop_point_list,"debug.iv");
          return;
       }         
 
@@ -321,16 +324,75 @@ namespace ot {
       }
 
       TNT::Matrix<double> diff_pos(3,1);
-      TNT::Matrix<double> inverted_orient(1,4);
-      TNT::Matrix<double> translated_pos(3,1);
+      //TNT::Matrix<double> inverted_orient(1,4);
+	  TNT::Matrix<double> translated_pos(3,1);
+	  TNT::Matrix<double> rotated_pos(3,1);
 
-      diff_pos[0][0] = event.getPosition()[0]-antagonist->prop_event_pos[0][0];
-      diff_pos[1][0] = event.getPosition()[1]-antagonist->prop_event_pos[1][0];
-      diff_pos[2][0] = event.getPosition()[2]-antagonist->prop_event_pos[2][0];
+	  diff_pos[0][0] = event.getPosition()[0];
+      diff_pos[1][0] = event.getPosition()[1];
+      diff_pos[2][0] = event.getPosition()[2];
 
-      inverted_orient = invertOrientation(antagonist->prop_event_orient);
-      translated_pos = calcRotationWithQuarternion(diff_pos, inverted_orient);
+	  // what needs to be done is putting the positions into the prop coordinate system
+	  // this is an operation of type 'coordinate system transformation'
+	  // so there exists a coordinate system which is fixed to the prop and which can be calculated by the actual
+	  // position and orientation of the target in the ART (= open tracker) coordinate system
 
+	  // as we are recording dots we are in stylus mode and the antagonist is the prop. To get coordinates in the prop 
+	  // coordinate system: move the prop into the ot space and do the same to the recorded point. So that means 
+	  // subtract the props position (so for the prop it will be a 0 position and for the stylus something close to the
+	  // origin. Then rotate the opposite way the prop is rotated, so the prop will sit in perfect allignment and the 
+	  // stylus point will sit in some digitized spot reffering to the coordinate system which holds the prop in perfect 
+	  // alignment. 
+
+	  // so we subtract the position of the antagonists
+	  translated_pos [0][0]= event.getPosition()[0] - antagonist->prop_event_pos[0][0]; 
+	  translated_pos [1][0]= event.getPosition()[1] - antagonist->prop_event_pos[1][0]; 
+	  translated_pos [2][0]= event.getPosition()[2] - antagonist->prop_event_pos[2][0]; 
+	
+	  // get the antagonists rotation and create a unit quaternion from it
+	  TNT::Matrix<double> quaternion (1,4);
+	  quaternion[0][0]=antagonist->prop_event_orient[0][0];
+	  quaternion[0][1]=antagonist->prop_event_orient[0][1];
+	  quaternion[0][2]=antagonist->prop_event_orient[0][2];
+	  quaternion[0][3]=antagonist->prop_event_orient[0][3];
+
+	  double quaternion_length =   quaternion[0][0]*quaternion[0][0] 
+                                 + quaternion[0][1]*quaternion[0][1]
+                                 + quaternion[0][2]*quaternion[0][2]
+                                 + quaternion[0][3]*quaternion[0][3];
+
+      quaternion[0][0]/=quaternion_length;
+	  quaternion[0][1]/=quaternion_length;
+	  quaternion[0][2]/=quaternion_length;
+	  quaternion[0][3]/=quaternion_length;
+
+	  // calculate the rotation matrix fitting the quaternion
+	  // the rotation matrix expects to have a vector multiplied from the right (as in math, not in computer graphics)
+	  TNT::Matrix<double> rot (3,3);
+	  rot[0][0] =  quaternion[0][0]*quaternion[0][0] + quaternion[0][1]*quaternion[0][1]
+	        	 - quaternion[0][2]*quaternion[0][2] - quaternion[0][3]*quaternion[0][3];
+      rot[1][0] =  2 * quaternion[0][0]*quaternion[0][3] + 2 * quaternion[0][1]*quaternion[0][2];
+      rot[2][0] =  2 * quaternion[0][1]*quaternion[0][3] - 2 * quaternion[0][0]*quaternion[0][2];
+	  rot[0][1] =  2 * quaternion[0][1]*quaternion[0][2] - 2 * quaternion[0][0]*quaternion[0][3];
+	  rot[1][1] =  quaternion[0][0]*quaternion[0][0] - quaternion[0][1]*quaternion[0][1]
+                 + quaternion[0][2]*quaternion[0][2] - quaternion[0][3]*quaternion[0][3];
+	  rot[2][1] =  2 * quaternion[0][0]*quaternion[0][1] + 2 * quaternion[0][2]*quaternion[0][3];
+	  rot[0][2] =  2 * quaternion[0][0]*quaternion[0][2] + 2 * quaternion[0][1]*quaternion[0][3];
+	  rot[1][2] =  2 * quaternion[0][2]*quaternion[0][3] - 2 * quaternion[0][0]*quaternion[0][1];
+	  rot[2][2] =  quaternion[0][0]*quaternion[0][0] - quaternion[0][1]*quaternion[0][1]
+                 - quaternion[0][2]*quaternion[0][2] + quaternion[0][3]*quaternion[0][3];
+
+	  // multiply the above rotation matrix with the vector to rotate
+      rotated_pos [0][0] = rot[0][0]*translated_pos[0][0]+rot[1][0]*translated_pos[1][0]+rot[2][0]*translated_pos[2][0];
+	  rotated_pos [1][0] = rot[0][1]*translated_pos[0][0]+rot[1][1]*translated_pos[1][0]+rot[2][1]*translated_pos[2][0];
+	  rotated_pos [2][0] = rot[0][2]*translated_pos[0][0]+rot[1][2]*translated_pos[1][0]+rot[2][2]*translated_pos[2][0];
+
+	  // old: judith is pretty sure that this is the wrong order. do translate first and rotate later and the plot looks
+	  // really not so good
+      //inverted_orient = invertOrientation(antagonist->prop_event_orient);
+      //translated_pos = calcRotationWithQuarternion(diff_pos, inverted_orient);
+
+	  // make space for one more point stored
       TNT::Matrix<double> tmp(3,real_prop_point_list.num_cols()+1);
       for (int i=0; i<real_prop_point_list.num_cols();++i)
       {
@@ -339,13 +401,14 @@ namespace ot {
          tmp[2][i] = real_prop_point_list[2][i];
       }
 
-      tmp[0][real_prop_point_list.num_cols()] = translated_pos[0][0];
-      tmp[1][real_prop_point_list.num_cols()] = translated_pos[1][0];
-      tmp[2][real_prop_point_list.num_cols()] = translated_pos[2][0];
+      tmp[0][real_prop_point_list.num_cols()] = rotated_pos[0][0]; 
+      tmp[1][real_prop_point_list.num_cols()] = rotated_pos[1][0]; 
+      tmp[2][real_prop_point_list.num_cols()] = rotated_pos[2][0]; 
       real_prop_point_list = tmp;
 
       logPrintI("Point #%d stored.\n", real_prop_point_list.num_cols());
       if (real_prop_point_list.num_cols() >1)
+		  // compute the distance between two subsequent recordings
       {
          int cols = real_prop_point_list.num_cols();
          TNT::Matrix<double> tmp(3,1);
@@ -624,6 +687,24 @@ namespace ot {
       return (rotated);
    }
 
+	  
+void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> & points, const char *text)
+{
+	std::ofstream file;
+	
+	file.open(text);
+	file << "#Inventor V2.0 ascii\n\nSeparator {\n";
+	file << "Separator { SoMaterial { diffuseColor 1 1 1 } Sphere {radius 5} } # origin\n";
+	file << "Separator { Transform { translation 10 0 0 } SoMaterial { diffuseColor 1 0 0 } Sphere {radius 5} } # origin\n";
+	file << "Separator { Transform { translation 0 10 0 } SoMaterial { diffuseColor 0 1 0 } Sphere {radius 5} } # origin\n";
+	file << "Separator { Transform { translation 0 0 10 } SoMaterial { diffuseColor 0 0 1 } Sphere {radius 5} } # origin\n";
+
+	for (int i=0;i<number_of_points; i++)
+	  file << "Separator { Transform { translation " << points[0][i] << " " << points[1][i] << " " << points[2][i]
+           << "} Sphere { radius 2 } }\n";
+    file << "}\n";
+	file.close();
+}
 
 } // namespace ot
 
