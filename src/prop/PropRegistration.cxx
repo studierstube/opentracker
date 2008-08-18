@@ -249,6 +249,14 @@ namespace ot {
  
    void PropRegistration::calculateResult()      
    {
+      TNT::Matrix<double> aMatrix(real_prop_point_list.num_cols(),real_prop_point_list.num_rows());
+	  TNT::Matrix<double> bMatrix(real_prop_point_list.num_cols(),real_prop_point_list.num_rows());
+	  TNT::Matrix<double> qMatrix(real_prop_point_list.num_rows(),real_prop_point_list.num_cols());
+	  TNT::Matrix<double> rMatrix(real_prop_point_list.num_rows(),real_prop_point_list.num_rows());
+	  TNT::Matrix<double> rInvert(rMatrix.num_rows(),rMatrix.num_cols());
+	  TNT::Matrix<double> transposedMa(qMatrix.num_cols(),qMatrix.num_rows());
+	  TNT::Matrix<double> resultMa(transposedMa.num_cols(),virtual_prop_point_list.num_rows());
+
       if (real_prop_point_list.num_cols() != number_of_prop_points)
       {
          logPrintW("The number of stored points differs to the number of needed points.\n");
@@ -256,6 +264,55 @@ namespace ot {
          return;
       }
 
+/* begin test */
+	  TNT::Matrix<double> blubbMatrix(3,3);
+
+	  blubbMatrix[0][0]=1;
+	  blubbMatrix[0][1]=0;
+	  blubbMatrix[0][2]=1;
+	  blubbMatrix[1][0]=1;
+	  blubbMatrix[1][1]=0;
+	  blubbMatrix[1][2]=0;
+	  blubbMatrix[2][0]=2;
+	  blubbMatrix[2][1]=1;
+	  blubbMatrix[2][2]=0;
+/*
+ end test
+*/
+
+	  //transpose(real_prop_point_list,aMatrix);
+	  transpose(blubbMatrix,aMatrix);
+	  transpose(virtual_prop_point_list,bMatrix);
+
+	  writeEquation(aMatrix,bMatrix,"Equationfile.txt");
+	  
+	  // diagonalize the real prop matrix and create a QR factorization
+	  // here we use Gram-Schmidt-Orthogonalization
+
+	  //ab jetzt transponiert !!!
+
+	  gramSchmidt(aMatrix, qMatrix, rMatrix, aMatrix.num_rows(), aMatrix.num_cols());
+//	  gramSchmidt(real_prop_point_list, qMatrix, rMatrix, real_prop_point_list.num_rows(), real_prop_point_list.num_cols());
+	  writeMatrix (rMatrix,"rMatrix.txt");
+
+	  gaussJordan(rMatrix,rInvert);
+
+	  writeMatrix (rInvert,"rInvert.txt");
+	 
+	  transpose (qMatrix, transposedMa);
+
+	  writeEquation(qMatrix,transposedMa,"qTransposed.txt");
+
+	  writeMatrix(transposedMa,"rTransposed.txt");
+
+	  multiplyMxN(transposedMa,bMatrix,resultMa);
+
+	  //      multiply QT * virtual = result
+	  //      multiply Rinvert * result; 
+		
+	  writeMatrix(transposedMa,"rTransposed.txt");
+
+	  /*
       RigidTransform rigid_transform(real_prop_point_list,virtual_prop_point_list);
 
       rotation = rigid_transform.getR();
@@ -292,6 +349,7 @@ namespace ot {
 
       calculateMeanError();
       allFinished();
+	  */
    }
  
    //---------------------------------------------------------------------------
@@ -340,8 +398,8 @@ namespace ot {
 	  // as we are recording dots we are in stylus mode and the antagonist is the prop. To get coordinates in the prop 
 	  // coordinate system: move the prop into the ot space and do the same to the recorded point. So that means 
 	  // subtract the props position (so for the prop it will be a 0 position and for the stylus something close to the
-	  // origin. Then rotate the opposite way the prop is rotated, so the prop will sit in perfect allignment and the 
-	  // stylus point will sit in some digitized spot reffering to the coordinate system which holds the prop in perfect 
+	  // origin. Then rotate the opposite way the prop is rotated, so the prop will sit in perfect alignment and the 
+	  // stylus point will sit in some digitized spot referring to the coordinate system which holds the prop in perfect 
 	  // alignment. 
 
 	  // so we subtract the position of the antagonists
@@ -704,7 +762,183 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
            << "} Sphere { radius 2 } }\n";
     file << "}\n";
 	file.close();
+	return;
 }
+
+void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double> &blubb, 
+									 const char *filename)
+{
+	std::ofstream file;
+	int i;
+	int j;
+
+	file.open(filename);
+	file << "First: \n";
+	for(j=0;j<bla.num_rows();j++)
+	{
+		for (i=0;i<bla.num_cols(); i++)
+			file << bla[j][i] << "     ";
+		file << "\n";
+	}
+
+	file << "\n\nSecond: \n";
+	for(j=0;j<blubb.num_rows();j++)
+	{	
+		for (i=0;i<blubb.num_cols(); i++)
+			file << blubb[j][i] << "     ";
+		file << "\n";	
+	}
+
+	file << "\n\nEquation: \n realPoints * x = virtualPoints";
+	file.close();
+	return;
+}
+
+void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filename)
+{
+	std::ofstream file;
+	int i;
+
+	file.open(filename);
+	file << "Matrix: \n";
+
+	for (i=0;i<3; i++)
+		file << mat[i][0] << " " << mat[i][1] << " " << mat[i][2] << "\n";
+	
+	file.close();
+	return;
+}
+
+void PropRegistration::gramSchmidt(TNT::Matrix<double> &a,TNT::Matrix<double> &q,TNT::Matrix<double> &r, 
+								   int n, int m)
+{
+	int i,j,k; 
+	double	proj_len;
+    char str[100];
+
+	sprintf(str,"Cols: %d, Rows: %d\n",n,m);
+	logPrintI(str);
+ 
+	writeEquation (a,q, "beforeGramSchmidt.txt");
+
+	// for all column vectors computer q_j
+	for (j=0;j<n;j++)
+	{
+
+        // copy q_j from a_j and modify it in the following computations
+		for (i=0;i<m;i++)
+			q[j][i]=a[j][i];
+
+	//	sprintf(str,"Orig Q_j: %f %f %f, j: %d\n",q[j][0],q[j][1],q[j][2],j);
+	//	logPrintI(str);
+
+		// subtract component parallel to previous q from a_j (q from j-1 down to 0)  
+		for (k=j-1;k>=0;k--)
+		{
+			proj_len = 0;
+			// compute dot product of q_k and a_j 
+			for( i = 0; i <m; i++ )
+				proj_len += q[k][i] * a[j][i];
+	//		sprintf(str,"A_j: %f %f %f, j: %d\n",a[j][0],a[j][1],a[j][2],j);
+	//		logPrintI(str);
+	//		sprintf(str,"Q_k: %f %f %f, k: %d\nproj_len%f\n",q[k][0],q[k][1],q[k][2],k,proj_len);
+	//		logPrintI(str);
+
+			
+			// subtract the component parallel to q[k] from q[j]
+			for (i=0;i<m;i++)
+				q[j][i]-=q[k][i]*proj_len;
+		}
+
+		// normalize q_j 
+		
+		// compute length of q_j
+		proj_len = 0;
+		for( i = 0; i <m; i++ )
+			proj_len += (q[j][i] * q[j][i]);
+		proj_len=sqrt(proj_len);
+		// divide all components of q_j by the length of q_j
+		for (i=0;i<m;i++)
+			q[j][i]/=proj_len;
+
+//		sprintf(str,"Q_j: %f %f %f, j: %d\n",q[j][0],q[j][1],q[j][2],j);
+//		logPrintI(str);
+
+	}
+
+	// now compute r
+
+	// initialize r to hold only 0s //
+	for (j=0;j<n;j++)
+		for (i=0;i<n;i++)
+			r[i][j]=0;
+
+	// r_ij = q_j*a_i
+	
+		
+		for (j=0;j<n;j++) // for one row of r
+		    for (i=j;i<n;i++) // multiply respective a_i
+				for (k=0;k<m;k++) //(this is a vector multiplication 
+					r[j][i]+=q[j][k]*a[i][k];
+
+//	writeMatrix(r,"rMatrix.txt");
+
+	return;
+}
+
+void PropRegistration::gaussJordan(TNT::Matrix<double> &a,TNT::Matrix<double> &inverted)
+{
+	// compare p43./p44.
+
+	// initialize inverted to be identity matrix
+	inverted[0][0]=1;
+	inverted[0][1]=0;
+	inverted[0][2]=0;
+	inverted[1][0]=0;
+	inverted[1][1]=1;
+	inverted[1][2]=0;
+	inverted[2][0]=0;
+	inverted[2][1]=0;
+	inverted[2][2]=1;
+
+	//   
+	inverted[2][2]= 1/a[2][2];
+	inverted[1][2]= -a[1][2]/(a[1][1]*a[2][2]);
+	inverted[1][1]= 1/a[1][1];
+	inverted[0][2]= -a[0][2]/(a[2][2]*a[0][0])+a[0][1]*a[1][2]/(a[0][0]*a[1][1]*a[2][2]);
+	inverted[0][1]= -a[0][1]/(a[1][1]*a[0][0]);
+    inverted[0][0]= 1/a[0][0];
+	
+return;
+}
+
+void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out)
+{
+	int i,j;
+
+	for (i=0;i<in.num_cols();i++)
+		for (j=0;j<in.num_rows();j++)
+			out[i][j]=in[j][i];
+	
+	return;
+
+}
+
+void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa)
+{
+	int i,j,k;
+
+	for (i=0;i<resultMa.num_rows();i++)
+		for (j=0;j<resultMa.num_cols();j++)
+		{
+			resultMa[i][j]=0;
+			for (k=0;k<leftMa.num_cols();k++)
+				resultMa[i][j]+=leftMa[i][k]*rightMa[k][j];
+		}
+
+	return;
+}
+
 
 } // namespace ot
 
